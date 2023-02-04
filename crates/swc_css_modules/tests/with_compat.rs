@@ -76,6 +76,11 @@ fn test_without_env(input: PathBuf) {
     test_full(input, None)
 }
 
+#[test]
+fn t() {
+    test_without_env("/Users/bytedance/Codes/swc/crates/swc_css_modules/tests/with-compat/basic/issue-6897/input.css".into());
+}
+
 struct TestConfig {}
 
 impl swc_css_modules::TransformConfig for TestConfig {

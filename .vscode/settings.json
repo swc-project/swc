@@ -24,16 +24,16 @@
     ],
     "eslint.enable": false,
     "rust-analyzer.check.command": "clippy",
-    "rust-analyzer.check.features": [
-        // We use this to make IDE faster
-        "rust-analyzer",
-        "rkyv-impl",
-        "debug"
-    ],
-    "rust-analyzer.cargo.features": [
-        // We use this to make IDE faster
-        "rust-analyzer",
-        "rkyv-impl",
-        "debug"
-    ]
+    // "rust-analyzer.check.features": [
+    //     // We use this to make IDE faster
+    //     "rust-analyzer",
+    //     "rkyv-impl",
+    //     "debug"
+    // ],
+    // "rust-analyzer.cargo.features": [
+    //     // We use this to make IDE faster
+    //     "rust-analyzer",
+    //     "rkyv-impl",
+    //     "debug"
+    // ]
 }

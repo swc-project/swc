@@ -170,12 +170,12 @@ impl Compiler {
                     complex_selector
                         .children
                         .extend(base_complex.children.clone());
-                    complex_selector
-                        .children
-                        .push(ComplexSelectorChildren::Combinator(Combinator {
-                            span: DUMMY_SP,
-                            value: CombinatorValue::Descendant,
-                        }))
+                    // complex_selector
+                    //     .children
+                    //     .push(ComplexSelectorChildren::Combinator(Combinator {
+                    //         span: DUMMY_SP,
+                    //         value: CombinatorValue::Descendant,
+                    //     }))
                 }
 
                 for relative_complex_selector_children in &relative_selector.selector.children {

@@ -1,0 +1,16 @@
+/* .a:global(.b) {}
+.a {
+  &:global(.b) {}
+}
+.a:global(.b .c) {}
+.a {
+  &:global(.b .c) {}
+}
+.a:local(.b) {}
+.a {
+  &:local(.b) {}
+}
+.a:local(.b .c) {} */
+.a {
+  &:local(.b .c) {}
+}

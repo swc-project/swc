@@ -5,9 +5,9 @@ use serde::Serialize;
 use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    ComplexSelector, ComplexSelectorChildren, ComponentValue, Declaration, DeclarationName,
-    Delimiter, DelimiterValue, Ident, KeyframesName, PseudoClassSelectorChildren, QualifiedRule,
-    QualifiedRulePrelude, Stylesheet, SubclassSelector,
+    ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector, Declaration,
+    DeclarationName, Delimiter, DelimiterValue, Ident, KeyframesName, PseudoClassSelectorChildren,
+    QualifiedRule, QualifiedRulePrelude, Stylesheet, SubclassSelector,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -374,7 +374,7 @@ where
 
         'complex: for mut n in n.children.take() {
             if let ComplexSelectorChildren::CompoundSelector(selector) = &mut n {
-                for sel in &mut selector.subclass_selectors {
+                for (sel_index, sel) in selector.subclass_selectors.iter_mut().enumerate() {
                     match sel {
                         SubclassSelector::Class(..) | SubclassSelector::Id(..) => {
                             if !self.data.is_global_mode {
@@ -402,7 +402,17 @@ where
 
                                         complex_selector.visit_mut_with(self);
 
-                                        new_children.extend(complex_selector.children.clone());
+                                        let mut complex_selector_children =
+                                            complex_selector.children.clone();
+                                        prepend_left_subclass_selectors(
+                                            &mut complex_selector_children,
+                                            selector
+                                                .subclass_selectors
+                                                .split_at(sel_index)
+                                                .0
+                                                .to_vec(),
+                                        );
+                                        new_children.extend(complex_selector_children);
 
                                         self.data.is_global_mode = old_is_global_mode;
                                         self.data.is_in_local_pseudo_class = old_inside;
@@ -419,7 +429,17 @@ where
                                         complex_selector,
                                     )) = children.get_mut(0)
                                     {
-                                        new_children.extend(complex_selector.children.clone());
+                                        let mut complex_selector_children =
+                                            complex_selector.children.clone();
+                                        prepend_left_subclass_selectors(
+                                            &mut complex_selector_children,
+                                            selector
+                                                .subclass_selectors
+                                                .split_at(sel_index)
+                                                .0
+                                                .to_vec(),
+                                        );
+                                        new_children.extend(complex_selector_children);
                                     }
                                 } else {
                                     self.data.is_global_mode = true;
@@ -521,5 +541,17 @@ fn process_local<C>(
         SubclassSelector::Attribute(_) => {}
         SubclassSelector::PseudoClass(_) => {}
         SubclassSelector::PseudoElement(_) => {}
+    }
+}
+
+fn prepend_left_subclass_selectors(
+    complex_selector_children: &mut [ComplexSelectorChildren],
+    left_sels: Vec<SubclassSelector>,
+) {
+    if let Some(ComplexSelectorChildren::CompoundSelector(first)) =
+        complex_selector_children.get_mut(0)
+    {
+        // first.nesting_selector
+        first.subclass_selectors = [left_sels, first.subclass_selectors.take()].concat();
     }
 }
