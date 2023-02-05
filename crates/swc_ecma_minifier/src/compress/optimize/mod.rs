@@ -2408,7 +2408,7 @@ where
         let old_append = self.append_stmts.take();
 
         #[cfg(feature = "debug")]
-        let _tracing = if self.debug_infinite_loop {
+        let _tracing = {
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
@@ -2416,8 +2416,6 @@ where
             } else {
                 None
             }
-        } else {
-            None
         };
 
         let ctx = Ctx {
@@ -2644,6 +2642,9 @@ where
         debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
         debug_assert_eq!(self.append_stmts.len(), append_len);
         debug_assert_valid(s);
+
+        #[cfg(feature = "debug")]
+        tracing::trace!("visit_mut_stmt: {}", dump(&*s, true));
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
