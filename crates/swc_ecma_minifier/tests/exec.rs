@@ -10790,7 +10790,8 @@ fn issue_6903_2() {
         {
             "if_return": true,
             "join_vars": true,
-            "side_effects": true
+            "side_effects": true,
+            "conditionals": true
         }"###,
         false,
     );
