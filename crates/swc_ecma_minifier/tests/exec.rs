@@ -10730,7 +10730,8 @@ fn issue_6899_4() {
             "hoist_props": false,
             "hoist_vars": false,
             "if_return": false,
-            "join_vars": false
+            "sequences": false,
+            "reduce_vars": false
         }
         "###,
         false,
