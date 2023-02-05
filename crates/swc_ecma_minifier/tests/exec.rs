@@ -10498,7 +10498,7 @@ fn issue_6750_2() {
 }
 
 #[test]
-fn issue_6896_1() {
+fn issue_6899_1() {
     run_exec_test(
         r###"
         // this the original code, just for comparison
@@ -10594,7 +10594,7 @@ fn issue_6896_1() {
 }
 
 #[test]
-fn issue_6896_2() {
+fn issue_6899_2() {
     run_default_exec_test(
         r###"
         // this the original code, just for comparison
