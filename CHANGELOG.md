@@ -5,6 +5,9 @@
 
 
 
+- **(bindings)** Don't require unnecessary package (#6902) ([964dfba](https://github.com/swc-project/swc/commit/964dfbaf1ab018d26d4acc574bd4fce5272bf890))
+
+
 - **(es/resolver)** Resolve parameters correctly (#6890) ([861d87c](https://github.com/swc-project/swc/commit/861d87cae622f371ea697b1cb07ed79d32579b74))
 
 ### Miscellaneous Tasks
