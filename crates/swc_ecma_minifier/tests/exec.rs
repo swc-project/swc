@@ -10715,7 +10715,8 @@ fn issue_6899_4() {
         "###,
         r###"
         {
-            "inline": true
+            "inline": true,
+            "passes": 2
         }
         "###,
         false,
