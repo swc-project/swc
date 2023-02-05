@@ -10795,3 +10795,24 @@ fn issue_6903_2() {
         false,
     );
 }
+
+#[test]
+fn issue_6903_3() {
+    run_exec_test(
+        r###"
+        function test(a, b) {
+            let wrapper = (e)=>e;
+            return ((wrapper = (e)=>[
+                    "not",
+                    e
+                ]), a) ? wrapper(b) : wrapper(1);
+        }
+        console.log(test(true, "bad"));
+        "###,
+        r###"
+        {
+            "conditionals": true
+        }"###,
+        false,
+    );
+}
