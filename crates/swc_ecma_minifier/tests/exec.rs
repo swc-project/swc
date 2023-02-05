@@ -10768,6 +10768,6 @@ fn issue_6903_1() {
             return wrapper(1)
         }
         console.log(test(true, "bad"))
-    "###,
+        "###,
     );
 }
