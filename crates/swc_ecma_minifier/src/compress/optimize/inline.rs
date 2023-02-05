@@ -77,7 +77,7 @@ where
                 return;
             }
 
-            if usage.cond_init || usage.used_above_decl {
+            if usage.used_above_decl {
                 log_abort!("inline: [x] It's cond init or used before decl",);
                 return;
             }
@@ -188,7 +188,7 @@ where
                         .vars
                         .get(&id.to_id())
                         .filter(|a| {
-                            !a.reassigned() && a.declared && !a.cond_init && {
+                            !a.reassigned() && a.declared && {
                                 // Function declarations are hoisted
                                 //
                                 // As we copy expressions, this can cause a problem.
@@ -360,10 +360,7 @@ where
 
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
                         if let Some(init_usage) = self.data.vars.get(&id.to_id()) {
-                            if init_usage.reassigned()
-                                || !init_usage.declared
-                                || init_usage.cond_init
-                            {
+                            if init_usage.reassigned() || !init_usage.declared {
                                 return;
                             }
                         }

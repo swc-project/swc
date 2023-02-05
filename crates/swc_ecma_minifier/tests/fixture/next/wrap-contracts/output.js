@@ -3034,7 +3034,7 @@
                     if (this.isComplete) throw Error("Upload is already complete");
                     if ("" !== this.lastResponseError ? this.totalErrors++ : this.totalErrors = 0, 100 === this.totalErrors) throw Error(`Unable to complete upload: ${this.lastResponseStatus}: ${this.lastResponseError}`);
                     let delay = "" === this.lastResponseError ? 0 : Math.max(this.lastRequestTimeEnd + ERROR_DELAY - Date.now(), ERROR_DELAY);
-                    if (delay > 0 && await new Promise((res)=>setTimeout(res, delay -= delay * Math.random() * 0.3)), this.lastResponseError = "", !this.txPosted) {
+                    if (delay > 0 && (delay -= delay * Math.random() * 0.3, await new Promise((res)=>setTimeout(res, delay))), this.lastResponseError = "", !this.txPosted) {
                         await this.postTransaction();
                         return;
                     }
@@ -3619,7 +3619,7 @@
                     if (jwk || "undefined" != typeof window && window.arweaveWallet) {
                         if (jwk && "use_wallet" !== jwk) {
                             transaction.setOwner(jwk.n);
-                            let rawSignature = await this.crypto.sign(jwk, await transaction.getSignatureData(), options), id = await this.crypto.hash(rawSignature);
+                            let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
                             transaction.setSignature({
                                 id: ArweaveUtils.bufferTob64Url(id),
                                 owner: jwk.n,
@@ -4059,7 +4059,7 @@
                     this.driver = crypto.subtle;
                 }
                 async generateJWK() {
-                    let jwk = await this.driver.exportKey("jwk", (await this.driver.generateKey({
+                    let cryptoKey = await this.driver.generateKey({
                         name: "RSA-PSS",
                         modulusLength: 4096,
                         publicExponent: new Uint8Array([
@@ -4072,7 +4072,7 @@
                         }
                     }, !0, [
                         "sign"
-                    ])).privateKey);
+                    ]), jwk = await this.driver.exportKey("jwk", cryptoKey.privateKey);
                     return {
                         kty: jwk.kty,
                         e: jwk.e,
@@ -4460,7 +4460,7 @@
                     if (this.isComplete) throw Error("Upload is already complete");
                     if ("" !== this.lastResponseError ? this.totalErrors++ : this.totalErrors = 0, 100 === this.totalErrors) throw Error(`Unable to complete upload: ${this.lastResponseStatus}: ${this.lastResponseError}`);
                     let delay = "" === this.lastResponseError ? 0 : Math.max(this.lastRequestTimeEnd + ERROR_DELAY - Date.now(), ERROR_DELAY);
-                    if (delay > 0 && await new Promise((res)=>setTimeout(res, delay -= delay * Math.random() * 0.3)), this.lastResponseError = "", !this.txPosted) {
+                    if (delay > 0 && (delay -= delay * Math.random() * 0.3, await new Promise((res)=>setTimeout(res, delay))), this.lastResponseError = "", !this.txPosted) {
                         await this.postTransaction();
                         return;
                     }
@@ -4942,7 +4942,7 @@
                     if (jwk || "undefined" != typeof window && window.arweaveWallet) {
                         if (jwk && "use_wallet" !== jwk) {
                             transaction.setOwner(jwk.n);
-                            let rawSignature = await this.crypto.sign(jwk, await transaction.getSignatureData(), options), id = await this.crypto.hash(rawSignature);
+                            let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
                             transaction.setSignature({
                                 id: ArweaveUtils.bufferTob64Url(id),
                                 owner: jwk.n,
@@ -20975,7 +20975,7 @@
                     const { definitionLoader , interactionsLoader , executorFactory , stateEvaluator  } = this.warp, benchmark = Benchmark_1.Benchmark.measure(), cachedState = await stateEvaluator.latestAvailableState(contractTxId, upToSortKey);
                     this.logger.debug('cache lookup', benchmark.elapsed()), benchmark.reset();
                     const evolvedSrcTxId = Evolve_1.Evolve.evolvedSrcTxId(null === (_a = null == cachedState ? void 0 : cachedState.cachedValue) || void 0 === _a ? void 0 : _a.state);
-                    return this.logger.debug('Cached state', cachedState, upToSortKey), cachedState && cachedState.sortKey == upToSortKey ? (this.logger.debug('State fully cached, not loading interactions.'), (forceDefinitionLoad || evolvedSrcTxId) && (handler = await executorFactory.create(contractDefinition = await definitionLoader.load(contractTxId, evolvedSrcTxId), this._evaluationOptions))) : ([contractDefinition, sortedInteractions] = await Promise.all([
+                    return this.logger.debug('Cached state', cachedState, upToSortKey), cachedState && cachedState.sortKey == upToSortKey ? (this.logger.debug('State fully cached, not loading interactions.'), (forceDefinitionLoad || evolvedSrcTxId) && (contractDefinition = await definitionLoader.load(contractTxId, evolvedSrcTxId), handler = await executorFactory.create(contractDefinition, this._evaluationOptions))) : ([contractDefinition, sortedInteractions] = await Promise.all([
                         definitionLoader.load(contractTxId, evolvedSrcTxId),
                         interactions ? Promise.resolve(interactions) : await interactionsLoader.load(contractTxId, null == cachedState ? void 0 : cachedState.sortKey, this.getToSortKey(upToSortKey), this._evaluationOptions)
                     ]), (null == cachedState ? void 0 : cachedState.sortKey) && (sortedInteractions = sortedInteractions.filter((i)=>i.sortKey.localeCompare(null == cachedState ? void 0 : cachedState.sortKey) > 0)), upToSortKey && (sortedInteractions = sortedInteractions.filter((i)=>0 >= i.sortKey.localeCompare(upToSortKey))), this.logger.debug('contract and interactions load', benchmark.elapsed()), null == this._parentContract && sortedInteractions.length && (this._rootSortKey = sortedInteractions[sortedInteractions.length - 1].sortKey), handler = await executorFactory.create(contractDefinition, this._evaluationOptions)), {
@@ -21737,7 +21737,8 @@
                         }, innerWritesInteractions = await this.loadPages(innerWritesVariables);
                         this.logger.debug('Inner writes interactions length:', innerWritesInteractions.length), interactions = interactions.concat(innerWritesInteractions);
                     }
-                    let sortedInteractions = await this.sorter.sort(interactions = interactions.filter((i)=>i.node.block && i.node.block.id && i.node.block.height));
+                    interactions = interactions.filter((i)=>i.node.block && i.node.block.id && i.node.block.height);
+                    let sortedInteractions = await this.sorter.sort(interactions);
                     return fromSortKey && toSortKey ? sortedInteractions = sortedInteractions.filter((i)=>i.node.sortKey.localeCompare(fromSortKey) > 0 && 0 >= i.node.sortKey.localeCompare(toSortKey)) : fromSortKey && !toSortKey ? sortedInteractions = sortedInteractions.filter((i)=>i.node.sortKey.localeCompare(fromSortKey) > 0) : !fromSortKey && toSortKey && (sortedInteractions = sortedInteractions.filter((i)=>0 >= i.node.sortKey.localeCompare(toSortKey))), this.logger.debug('All loaded interactions:', {
                         from: fromSortKey,
                         to: toSortKey,
@@ -21750,10 +21751,10 @@
                     const txInfos = transactions.edges.filter((tx)=>bundledTxsFilter(tx));
                     for(; transactions.pageInfo.hasNextPage;){
                         const cursor = transactions.edges[MAX_REQUEST - 1].cursor;
-                        transactions = await this.getNextPage(variables = {
+                        variables = {
                             ...variables,
                             after: cursor
-                        }), txInfos.push(...transactions.edges.filter((tx)=>bundledTxsFilter(tx)));
+                        }, transactions = await this.getNextPage(variables), txInfos.push(...transactions.edges.filter((tx)=>bundledTxsFilter(tx)));
                     }
                     return txInfos;
                 }

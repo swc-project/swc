@@ -1,14 +1,129 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(bindings)** Don't require unnecessary package (#6902) ([964dfba](https://github.com/swc-project/swc/commit/964dfbaf1ab018d26d4acc574bd4fce5272bf890))
+
+
+- **(es/resolver)** Resolve parameters correctly (#6890) ([861d87c](https://github.com/swc-project/swc/commit/861d87cae622f371ea697b1cb07ed79d32579b74))
+
+### Miscellaneous Tasks
+- **general**: Make issue templates mention `no +1` (#6894) ([5d5140f](https://github.com/swc-project/swc/commit/5d5140f0a50696d747ee62e72866b9b03e52cde3))
+
+## [1.3.32] - 2023-02-01
+
+### Bug Fixes
+
+
+
+- **(es)** Remove useless message (#6882) ([9301703](https://github.com/swc-project/swc/commit/93017033117ff0c89d9a7a992d7a8834ee030227))
+
+
+- **(es/compat)** Make optional chaining pass less permissive (#6885) ([57781e9](https://github.com/swc-project/swc/commit/57781e90d39915e3772757162f70767ff57bfbdd))
+
+### Testing
+
+
+
+- **(es/compat)** Add a test for a fixed issue (#6887) ([e79d466](https://github.com/swc-project/swc/commit/e79d46697c9ffb6f93976457f949a5168a59327a))
+
+### Build
+
+
+
+- **(cargo)** Drop dependencies on `retain_mut` (#6884) ([d6a24a2](https://github.com/swc-project/swc/commit/d6a24a28e88ff22f6aea8169927c64d8cbe7fb95))
+
+## [1.3.31] - 2023-01-30
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Fix optional chaining pass (#6875) ([d808864](https://github.com/swc-project/swc/commit/d8088646df1e8ebc7d1fd8b0b0e4822bc604a986))
+
+
+- **(visit)** Fix detection of `Option<Vec<T>>` (#6872) ([508267d](https://github.com/swc-project/swc/commit/508267dccf479f114234f01f8d77db74b91bdb85))
+
+### Features
+
+
+
+- **(bindings/cli)** Append `sourceMappingURL=` to the output (#6873) ([c4db8e4](https://github.com/swc-project/swc/commit/c4db8e42a154bd41b54354fc8c2891764fbb724f))
+
+
+- **(es/loader)** Support `node:` prefix from `NodeModulesResolver` (#6868) ([6b7249d](https://github.com/swc-project/swc/commit/6b7249dcde964d4cefba8531515c93b07d6dbcd9))
+
+## [1.3.30] - 2023-01-28
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Track reassign in parent scope (#6865) ([c0e72ef](https://github.com/swc-project/swc/commit/c0e72ef64ad9925c9dffda3b0ff261682f6054ed))
+
+
+- **(es/module)** Fix handling of `this` for `systemjs` (#6857) ([39c75fd](https://github.com/swc-project/swc/commit/39c75fdcce4ae63a2320bfaac4c2369799729051))
+
+
+- **(es/parser)** Fix parsing of generics (#6859) ([60d9403](https://github.com/swc-project/swc/commit/60d9403073f2d24df275325e854a0ab2dc1bf448))
+
+### Features
+
+
+
+- **(es/minifier)** Improve compatibility of `arrows` with `terser` (#6862) ([d1687d8](https://github.com/swc-project/swc/commit/d1687d8e0128ad534b551ebbb7f8445abe3144c2))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** FIx CI (#6861) ([45cdfed](https://github.com/swc-project/swc/commit/45cdfed6c818ad7da2cf202a46abfbd06dda95eb))
+
+## [1.3.29] - 2023-01-26
+
+### Bug Fixes
+
+
+
+- **(plugin)** Make `span_to_source` use dedicated function (#6853) ([99d48e3](https://github.com/swc-project/swc/commit/99d48e305ef73352efc41bc134a10750b1d724bc))
+
+### Refactor
+
+
+
+- **(es/minifier)** Merge `cond_init` with `reassigned` (#6850) ([55225cb](https://github.com/swc-project/swc/commit/55225cb994d6cb0cfaae4cee77905f17ec6e37c7))
+
+## [1.3.28] - 2023-01-24
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Fix codegen of string literals with `\x000` (#6838) ([df70261](https://github.com/swc-project/swc/commit/df702614e1c23ee119d26beeb1b3abd454d7add0))
+
+
+- **(es/minifier)** Don't inline into `await` from sequential inliner (#6839) ([21e1478](https://github.com/swc-project/swc/commit/21e14787c521cc1f808c9b71e8671820a79bd12f))
+
 ### Miscellaneous Tasks
 
 
 
 - **(ci)** Make stale action to wait 30 days (#6828) ([1ef2347](https://github.com/swc-project/swc/commit/1ef2347bdf6901ea6d1e8629ba08611421d19c3e))
 
+### Performance
+
+
+
+- **(es/minifier)** Make pure function check `O(1)` (#6840) ([58208ef](https://github.com/swc-project/swc/commit/58208ef8aee994591f05d996a8b660da6e96d681))
+
 ### Refactor
 
+
+
+- **(es/preset-env)** Use a const fn instead of a macro (#6844) ([2fcab36](https://github.com/swc-project/swc/commit/2fcab36418b7cf0869a1a256dc927d3ccdbe35cd))
 
 
 - **(es/typescript)** Remove unused code (#6830) ([7205543](https://github.com/swc-project/swc/commit/7205543d5f58e2aaa8ef8ba0820c2f05726001d1))
