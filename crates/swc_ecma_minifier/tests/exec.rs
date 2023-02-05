@@ -10715,23 +10715,7 @@ fn issue_6899_4() {
         "###,
         r###"
         {
-            "defaults": true,
-            "booleans": false,
-            "collapse_vars": false,
-            "comparisons": false,
-            "conditionals": false,
-            "dead_code": false,
-            "directives": false,
-            "drop_console": false,
-            "drop_debugger": false,
-            "evaluate": false,
-            "expression": false,
-            "hoist_funs": false,
-            "hoist_props": false,
-            "hoist_vars": false,
-            "if_return": false,
-            "sequences": false,
-            "reduce_vars": false
+            "inline": true
         }
         "###,
         false,
