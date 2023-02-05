@@ -1,4 +1,58 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/resolver)** Resolve parameters correctly (#6890) ([861d87c](https://github.com/swc-project/swc/commit/861d87cae622f371ea697b1cb07ed79d32579b74))
+
+### Miscellaneous Tasks
+- **general**: Make issue templates mention `no +1` (#6894) ([5d5140f](https://github.com/swc-project/swc/commit/5d5140f0a50696d747ee62e72866b9b03e52cde3))
+
+## [1.3.32] - 2023-02-01
+
+### Bug Fixes
+
+
+
+- **(es)** Remove useless message (#6882) ([9301703](https://github.com/swc-project/swc/commit/93017033117ff0c89d9a7a992d7a8834ee030227))
+
+
+- **(es/compat)** Make optional chaining pass less permissive (#6885) ([57781e9](https://github.com/swc-project/swc/commit/57781e90d39915e3772757162f70767ff57bfbdd))
+
+### Testing
+
+
+
+- **(es/compat)** Add a test for a fixed issue (#6887) ([e79d466](https://github.com/swc-project/swc/commit/e79d46697c9ffb6f93976457f949a5168a59327a))
+
+### Build
+
+
+
+- **(cargo)** Drop dependencies on `retain_mut` (#6884) ([d6a24a2](https://github.com/swc-project/swc/commit/d6a24a28e88ff22f6aea8169927c64d8cbe7fb95))
+
+## [1.3.31] - 2023-01-30
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Fix optional chaining pass (#6875) ([d808864](https://github.com/swc-project/swc/commit/d8088646df1e8ebc7d1fd8b0b0e4822bc604a986))
+
+
+- **(visit)** Fix detection of `Option<Vec<T>>` (#6872) ([508267d](https://github.com/swc-project/swc/commit/508267dccf479f114234f01f8d77db74b91bdb85))
+
+### Features
+
+
+
+- **(bindings/cli)** Append `sourceMappingURL=` to the output (#6873) ([c4db8e4](https://github.com/swc-project/swc/commit/c4db8e42a154bd41b54354fc8c2891764fbb724f))
+
+
+- **(es/loader)** Support `node:` prefix from `NodeModulesResolver` (#6868) ([6b7249d](https://github.com/swc-project/swc/commit/6b7249dcde964d4cefba8531515c93b07d6dbcd9))
+
 ## [1.3.30] - 2023-01-28
 
 ### Bug Fixes

@@ -6,15 +6,15 @@ function left(a) {
     b1;
 }
 function right() {
-    var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, _$b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a;
+    var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b1, b1 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a;
     a;
-    _$b;
+    b1;
 }
 function right2() {
-    var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, _$b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : c, _$c = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a;
+    var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b1, b1 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : c1, c1 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a;
     a;
-    _$b;
-    _$c;
+    b1;
+    c1;
 }
 function inside() {
     var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b;
@@ -29,13 +29,13 @@ function outside() {
 }
 function defaultArgFunction() {
     var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function() {
-        return b;
+        return b1;
     }, b1 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
 }
 function defaultArgArrow() {
     var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function() {
         return function() {
-            return b;
+            return b1;
         };
     }, b1 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 3;
 }
@@ -47,7 +47,7 @@ var C = /*#__PURE__*/ function() {
     }
     var _proto = C.prototype;
     _proto.method = function method() {
-        var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, _$b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
+        var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b1, b1 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
     };
     return C;
 }();
@@ -59,6 +59,6 @@ var x = function() {
 // Should not produce errors - can reference later parameters if they occur within a function expression initializer.
 function f(a) {
     var b1 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : function() {
-        return c;
+        return c1;
     }, c1 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : b1();
 }
