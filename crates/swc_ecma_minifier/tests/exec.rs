@@ -10677,3 +10677,47 @@ fn issue_6899_3() {
         "###,
     );
 }
+
+#[test]
+fn issue_6899_4() {
+    run_exec_test(
+        r###"
+        console.log("The result should be 0. And it is:", function(n, e) {
+            var r = Math.abs(n - e);
+        
+            function t(e) {
+                return e < n
+            }
+        
+            function u(n) {
+                return n > e
+            }
+        
+            function c(n) {
+                return t(n) || u(n)
+            }
+            return {
+                length: r,
+                max: e,
+                min: n,
+                constrain: function(r) {
+                    return c(r) ? t(r) ? n : e : r
+                },
+                reachedAny: c,
+                reachedMax: u,
+                reachedMin: t,
+                removeOffset: function(n) {
+                    return r ? n - r * Math.ceil((n - e) / r) : n
+                }
+            }
+        }(0, 3).constrain(-1));
+
+        "###,
+        r###"
+        {
+            "defaults": true
+        }
+        "###,
+        false,
+    );
+}
