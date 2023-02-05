@@ -10771,3 +10771,27 @@ fn issue_6903_1() {
         "###,
     );
 }
+
+#[test]
+fn issue_6903_2() {
+    run_exec_test(
+        r###"
+        function test(a, b) {
+            let wrapper = (e) => e
+            wrapper = (e) => (["not", e])
+            if (a) {
+                return wrapper(b)
+            }
+            return wrapper(1)
+        }
+        console.log(test(true, "bad"))
+        "###,
+        r###"
+        {
+            "if_return": true,
+            "join_vars": true,
+            "side_effects": true
+        }"###,
+        false,
+    );
+}
