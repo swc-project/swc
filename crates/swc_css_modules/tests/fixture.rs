@@ -103,11 +103,6 @@ fn compile(input: PathBuf) {
     .unwrap();
 }
 
-#[test]
-fn t() {
-    compile("/Users/bytedance/Codes/swc/crates/swc_css_modules/tests/fixture/simple.css".into());
-}
-
 struct TestConfig {}
 
 impl swc_css_modules::TransformConfig for TestConfig {

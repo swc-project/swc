@@ -5,9 +5,9 @@ use serde::Serialize;
 use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector, Declaration,
-    DeclarationName, Delimiter, DelimiterValue, Ident, KeyframesName, PseudoClassSelectorChildren,
-    QualifiedRule, QualifiedRulePrelude, Stylesheet, SubclassSelector,
+    ComplexSelector, ComplexSelectorChildren, ComponentValue, Declaration, DeclarationName,
+    Delimiter, DelimiterValue, Ident, KeyframesName, PseudoClassSelectorChildren, QualifiedRule,
+    QualifiedRulePrelude, Stylesheet, SubclassSelector,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -551,7 +551,6 @@ fn prepend_left_subclass_selectors(
     if let Some(ComplexSelectorChildren::CompoundSelector(first)) =
         complex_selector_children.get_mut(0)
     {
-        // first.nesting_selector
         first.subclass_selectors = [left_sels, first.subclass_selectors.take()].concat();
     }
 }
