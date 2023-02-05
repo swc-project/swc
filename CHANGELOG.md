@@ -10,6 +10,12 @@
 
 - **(es/resolver)** Resolve parameters correctly (#6890) ([861d87c](https://github.com/swc-project/swc/commit/861d87cae622f371ea697b1cb07ed79d32579b74))
 
+### Features
+
+
+
+- **(bindings/cli)** Add `--config` (#6835) ([d993c4d](https://github.com/swc-project/swc/commit/d993c4def65b0bf900a6b8b8f0d0dee44ba8e0c8))
+
 ### Miscellaneous Tasks
 - **general**: Make issue templates mention `no +1` (#6894) ([5d5140f](https://github.com/swc-project/swc/commit/5d5140f0a50696d747ee62e72866b9b03e52cde3))
 
