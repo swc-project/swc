@@ -44,7 +44,7 @@ pub fn load_plugin(
 
         // Implicitly enable filesystem access for the wasi plugin to cwd.
         //
-        // This allows wasi plugin can read arbitary data (i.e node_modules) or produce
+        // This allows wasi plugin can read arbitrary data (i.e node_modules) or produce
         // output for post process (i.e .lcov coverage data) directly.
         //
         // TODO: this is not finalized decision
