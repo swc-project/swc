@@ -2651,16 +2651,6 @@ impl<I: Tokens> Parser<I> {
             None => return Ok(None),
         };
 
-        if self.syntax().disallow_ambiguous_jsx_like()
-            && self
-                .state
-                .trailing_commas
-                .get(&type_params.span.lo)
-                .is_none()
-        {
-            self.emit_err(type_params.span, SyntaxError::ReservedArrowTypeParam);
-        }
-
         let ctx = Context {
             in_async: true,
             in_generator: false,
