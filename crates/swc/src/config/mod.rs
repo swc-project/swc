@@ -70,9 +70,9 @@ use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
 use swc_ecma_visit::{Fold, VisitMutWith};
 
+pub use crate::plugin::PluginConfig;
 use crate::{
-    builder::PassBuilder, dropped_comments_preserver::dropped_comments_preserver,
-    plugin::PluginConfig, SwcImportResolver,
+    builder::PassBuilder, dropped_comments_preserver::dropped_comments_preserver, SwcImportResolver,
 };
 
 #[cfg(test)]

@@ -52,3 +52,17 @@ body:
     attributes:
       label: Additional context
       placeholder: Add any other context about the problem here.
+
+  - type: markdown
+    attributes:
+      value: |
+        <!--
+          Thanks for taking the time to fill out this bug report!
+          Please do not remove this, or your issue will be closed.
+        -->
+
+        ---
+
+        _This is message for readers, not the author of ths issue._
+
+        Please read [no +1](https://github.com/golang/go/wiki/NoPlusOne) before lefting a comment, or your comment will be deleted and you will be blocked.

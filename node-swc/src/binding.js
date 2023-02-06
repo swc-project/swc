@@ -102,15 +102,6 @@ switch (platform) {
     }
     break
   case 'darwin':
-    localFileExisted = existsSync(join(__dirname, 'swc.darwin-universal.node'))
-    try {
-      if (localFileExisted) {
-        nativeBinding = require('./swc.darwin-universal.node')
-      } else {
-        nativeBinding = require('@swc/core-darwin-universal')
-      }
-      break
-    } catch {}
     switch (arch) {
       case 'x64':
         localFileExisted = existsSync(join(__dirname, 'swc.darwin-x64.node'))

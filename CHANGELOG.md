@@ -1,4 +1,47 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(bindings)** Don't require unnecessary package (#6902) ([964dfba](https://github.com/swc-project/swc/commit/964dfbaf1ab018d26d4acc574bd4fce5272bf890))
+
+
+- **(es/resolver)** Resolve parameters correctly (#6890) ([861d87c](https://github.com/swc-project/swc/commit/861d87cae622f371ea697b1cb07ed79d32579b74))
+
+### Features
+
+
+
+- **(bindings/cli)** Add `--config` (#6835) ([d993c4d](https://github.com/swc-project/swc/commit/d993c4def65b0bf900a6b8b8f0d0dee44ba8e0c8))
+
+### Miscellaneous Tasks
+- **general**: Make issue templates mention `no +1` (#6894) ([5d5140f](https://github.com/swc-project/swc/commit/5d5140f0a50696d747ee62e72866b9b03e52cde3))
+
+## [1.3.32] - 2023-02-01
+
+### Bug Fixes
+
+
+
+- **(es)** Remove useless message (#6882) ([9301703](https://github.com/swc-project/swc/commit/93017033117ff0c89d9a7a992d7a8834ee030227))
+
+
+- **(es/compat)** Make optional chaining pass less permissive (#6885) ([57781e9](https://github.com/swc-project/swc/commit/57781e90d39915e3772757162f70767ff57bfbdd))
+
+### Testing
+
+
+
+- **(es/compat)** Add a test for a fixed issue (#6887) ([e79d466](https://github.com/swc-project/swc/commit/e79d46697c9ffb6f93976457f949a5168a59327a))
+
+### Build
+
+
+
+- **(cargo)** Drop dependencies on `retain_mut` (#6884) ([d6a24a2](https://github.com/swc-project/swc/commit/d6a24a28e88ff22f6aea8169927c64d8cbe7fb95))
+
 ## [1.3.31] - 2023-01-30
 
 ### Bug Fixes
