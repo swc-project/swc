@@ -994,6 +994,10 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_ts_type_assertion(&mut self, start: BytePos) -> PResult<TsTypeAssertion> {
         debug_assert!(self.input.syntax().typescript());
 
+        if self.input.syntax().disallow_ambiguous_jsx_like() {
+            self.emit_err(span!(self, start), SyntaxError::ReservedTypeAssertion);
+        }
+
         // Not actually necessary to set state.inType because we never reach here if JSX
         // plugin is enabled, but need `tsInType` to satisfy the assertion in
         // `tsParseType`.
@@ -2624,6 +2628,7 @@ impl<I: Tokens> Parser<I> {
         let res = if is_one_of!(self, '<', JSXTagStart) {
             self.try_parse_ts(|p| {
                 let type_params = p.parse_ts_type_params(false, false)?;
+
                 // Don't use overloaded parseFunctionParams which would look for "<" again.
                 expect!(p, '(');
                 let params: Vec<Pat> = p
@@ -2645,6 +2650,16 @@ impl<I: Tokens> Parser<I> {
             Some(v) => v,
             None => return Ok(None),
         };
+
+        if self.syntax().disallow_ambiguous_jsx_like()
+            && self
+                .state
+                .trailing_commas
+                .get(&type_params.span.lo)
+                .is_none()
+        {
+            self.emit_err(type_params.span, SyntaxError::ReservedArrowTypeParam);
+        }
 
         let ctx = Context {
             in_async: true,

@@ -770,6 +770,20 @@ impl Default for Rc {
             },
             Config {
                 env: None,
+                test: Some(FileMatcher::Regex("\\.(cts|mts)$".into())),
+                exclude: None,
+                jsc: JscConfig {
+                    syntax: Some(Syntax::Typescript(TsConfig {
+                        tsx: false,
+                        disallow_ambiguous_jsx_like: true,
+                        ..Default::default()
+                    })),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            Config {
+                env: None,
                 test: Some(FileMatcher::Regex("\\.ts$".into())),
                 exclude: None,
                 jsc: JscConfig {

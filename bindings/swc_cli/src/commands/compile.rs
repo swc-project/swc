@@ -114,7 +114,7 @@ static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
 });
 
 /// List of file extensions supported by default.
-static DEFAULT_EXTENSIONS: &[&str] = &["js", "jsx", "es6", "es", "mjs", "ts", "tsx"];
+static DEFAULT_EXTENSIONS: &[&str] = &["js", "jsx", "es6", "es", "mjs", "ts", "tsx", "cts", "mts"];
 
 /// Infer list of files to be transformed from cli arguments.
 /// If given input is a directory, it'll traverse it and collect all supported

@@ -1,0 +1,137 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 61,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 30,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 7,
+            "end": 29,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 7,
+              "end": 11,
+              "ctxt": 0
+            },
+            "value": "path",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 14,
+              "end": 29,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 14,
+                "end": 21,
+                "ctxt": 0
+              },
+              "value": "require",
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 22,
+                    "end": 28,
+                    "ctxt": 0
+                  },
+                  "value": "path",
+                  "raw": "'path'"
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 32,
+        "end": 61,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 32,
+          "end": 60,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 32,
+            "end": 43,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 32,
+              "end": 39,
+              "ctxt": 0
+            },
+            "value": "console",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 40,
+              "end": 43,
+              "ctxt": 0
+            },
+            "value": "log",
+            "optional": false
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 44,
+                "end": 59,
+                "ctxt": 0
+              },
+              "value": "hello, world!",
+              "raw": "\"hello, world!\""
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -67,6 +67,8 @@ fn shifted(file: PathBuf) {
 }
 
 #[testing::fixture("tests/typescript/**/*.ts")]
+#[testing::fixture("tests/typescript/**/*.mts")]
+#[testing::fixture("tests/typescript/**/*.cts")]
 #[testing::fixture("tests/typescript/**/*.tsx")]
 fn spec(file: PathBuf) {
     let output = file.parent().unwrap().join(format!(
@@ -240,6 +242,7 @@ where
                 tsx: fname.contains("tsx"),
                 decorators: true,
                 no_early_errors,
+                disallow_ambiguous_jsx_like: fname.contains("cts") || fname.contains("mts"),
                 ..Default::default()
             }),
             EsVersion::Es2015,
@@ -264,6 +267,8 @@ where
 }
 
 #[testing::fixture("tests/typescript-errors/**/*.ts")]
+#[testing::fixture("tests/typescript-errors/**/*.mts")]
+#[testing::fixture("tests/typescript-errors/**/*.cts")]
 #[testing::fixture("tests/typescript-errors/**/*.tsx")]
 fn errors(file: PathBuf) {
     let file_name = file.display().to_string();
