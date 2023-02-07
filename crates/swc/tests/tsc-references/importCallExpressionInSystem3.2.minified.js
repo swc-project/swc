@@ -15,7 +15,7 @@ System.register([], function(_export, _context) {
 System.register([], function(_export, _context) {
     "use strict";
     async function foo() {
-        class C extends (await import("./0")).B {
+        class C extends (await _context.import("./0")).B {
         }
         new C().print();
     }

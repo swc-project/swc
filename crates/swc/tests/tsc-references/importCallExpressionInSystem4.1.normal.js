@@ -56,7 +56,7 @@ System.register([], function(_export, _context) {
                         console.log(Zero.foo());
                     }, async (err)=>{
                         console.log(err);
-                        let one = await import("./1");
+                        let one = await _context.import("./1");
                         console.log(one.backup());
                     });
                 }
@@ -69,7 +69,7 @@ System.register([], function(_export, _context) {
                         console.log(Zero.foo());
                     }, async (err)=>{
                         console.log(err);
-                        let one = await import("./1");
+                        let one = await _context.import("./1");
                         console.log(one.backup());
                     });
                 }
