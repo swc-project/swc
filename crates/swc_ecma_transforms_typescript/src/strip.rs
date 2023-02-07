@@ -1517,6 +1517,12 @@ where
         }
     }
 
+    fn visit_class(&mut self, c: &Class) {
+        c.decorators.visit_with(self);
+        c.super_class.visit_with(self);
+        c.body.visit_with(self);
+    }
+
     fn visit_decl(&mut self, n: &Decl) {
         self.handle_decl(n);
 
@@ -1571,6 +1577,13 @@ where
         self.non_top_level = old;
     }
 
+    fn visit_expr(&mut self, n: &Expr) {
+        let old = self.in_var_pat;
+        self.in_var_pat = false;
+        n.visit_children_with(self);
+        self.in_var_pat = old;
+    }
+
     fn visit_ident(&mut self, n: &Ident) {
         let entry = self.scope.referenced_idents.entry(n.to_id()).or_default();
         if !self.is_type_only_export {
@@ -1613,6 +1626,19 @@ where
         }
     }
 
+    fn visit_jsx_element_name(&mut self, n: &JSXElementName) {
+        match n {
+            JSXElementName::Ident(i) => {
+                if i.sym.starts_with(|c: char| c.is_ascii_uppercase()) {
+                    n.visit_children_with(self);
+                }
+            }
+            _ => {
+                n.visit_children_with(self);
+            }
+        }
+    }
+
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         let old = self.non_top_level;
         self.non_top_level = false;
@@ -1642,25 +1668,10 @@ where
         self.non_top_level = old;
     }
 
-    fn visit_expr(&mut self, n: &Expr) {
-        let old = self.in_var_pat;
-        self.in_var_pat = false;
-        n.visit_children_with(self);
-        self.in_var_pat = old;
-    }
-
     fn visit_ts_entity_name(&mut self, _: &TsEntityName) {}
 
     // these may contain expr
     fn visit_ts_expr_with_type_args(&mut self, _: &TsExprWithTypeArgs) {}
-
-    fn visit_ts_type_element(&mut self, _: &TsTypeElement) {}
-
-    fn visit_class(&mut self, c: &Class) {
-        c.decorators.visit_with(self);
-        c.super_class.visit_with(self);
-        c.body.visit_with(self);
-    }
 
     fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
         match &n.module_ref {
@@ -1697,6 +1708,8 @@ where
             }
         }
     }
+
+    fn visit_ts_type_element(&mut self, _: &TsTypeElement) {}
 }
 
 fn is_decl_concrete(d: &Decl) -> bool {
