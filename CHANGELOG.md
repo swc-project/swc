@@ -11,6 +11,9 @@
 - **(bindings/node)** Add `esnext` to `JscTarget` (#6908) ([82128e3](https://github.com/swc-project/swc/commit/82128e3734f8f5a92e85ed748e92f4f62bb4c63f))
 
 
+- **(es/minifier)** Respect span hygiene from expr simplifier (#6899) ([432dca6](https://github.com/swc-project/swc/commit/432dca647b5ab6d083d1cedbf68d6afc511f84fe))
+
+
 - **(es/resolver)** Resolve parameters correctly (#6890) ([861d87c](https://github.com/swc-project/swc/commit/861d87cae622f371ea697b1cb07ed79d32579b74))
 
 ### Features
