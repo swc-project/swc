@@ -16,6 +16,9 @@
 
 - **(es/resolver)** Resolve parameters correctly (#6890) ([861d87c](https://github.com/swc-project/swc/commit/861d87cae622f371ea697b1cb07ed79d32579b74))
 
+
+- **(es/typescript)** Ignore jsx element names (#6911) ([ee3a107](https://github.com/swc-project/swc/commit/ee3a1071a5dbe0f2b718dd4f2e9959076cfa337c))
+
 ### Features
 
 
