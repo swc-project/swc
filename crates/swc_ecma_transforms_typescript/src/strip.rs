@@ -2067,6 +2067,19 @@ where
         }
     }
 
+    fn visit_mut_jsx_element_name(&mut self, n: &mut JSXElementName) {
+        match n {
+            JSXElementName::Ident(i) => {
+                if i.sym.starts_with(|c: char| c.is_ascii_uppercase()) {
+                    n.visit_mut_children_with(self);
+                }
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
+
     fn visit_mut_module(&mut self, module: &mut Module) {
         let was_module = module
             .body
