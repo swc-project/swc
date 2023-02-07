@@ -451,6 +451,6 @@ expose!(parse_file_as_program, Program, |p| { p.parse_program() });
 fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callback: F) -> R {
     #[cfg(target_arch = "wasm32")]
     return callback();
-    #[cfg(target_arch = "wasm32")]
+    #[cfg(not(target_arch = "wasm32"))]
     return stacker::maybe_grow(red_zone, stack_size, callback);
 }
