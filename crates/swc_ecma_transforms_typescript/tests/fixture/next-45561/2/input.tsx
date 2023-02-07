@@ -1,4 +1,4 @@
-import path from "node:path";
+import path, { dirname } from "node:path";
 
 export default function IndexPage(props: { abc: string }) {
     return (
@@ -13,4 +13,12 @@ export default function IndexPage(props: { abc: string }) {
             </svg>
         </div>
     );
+}
+
+export function getServerSideProps() {
+    return {
+        props: {
+            abc: dirname("/abc/def"),
+        },
+    };
 }
