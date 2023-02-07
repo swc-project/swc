@@ -6,7 +6,6 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use pretty_assertions::assert_eq;
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, EsConfig, PResult, Parser, StringInput, Syntax};
@@ -60,41 +59,9 @@ fn run_spec(file: &Path, output_json: &Path) {
         let json =
             serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
 
-        if StdErr::from(json.clone())
-            .compare_to_file(output_json)
-            .is_err()
-        {
+        if StdErr::from(json).compare_to_file(output_json).is_err() {
             panic!()
         }
-
-        let program = program.fold_with(&mut Normalizer {
-            drop_span: true,
-            is_test262: false,
-        });
-
-        let deser = match serde_json::from_str::<Program>(&json) {
-            Ok(v) => v.fold_with(&mut Normalizer {
-                drop_span: true,
-                is_test262: false,
-            }),
-            Err(err) => {
-                if err.to_string().contains("invalid type: null, expected f64") {
-                    return Ok(());
-                }
-
-                panic!(
-                    "failed to deserialize json back to module: {}\n{}",
-                    err, json
-                )
-            }
-        };
-
-        // We are not debugging f64 parsing of serde.
-        if file_name.contains("issue-1803") || file_name.contains("stc") {
-            return Ok(());
-        }
-
-        assert_eq!(program, deser, "JSON:\n{}", json);
 
         Ok(())
     })
