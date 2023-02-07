@@ -217,7 +217,8 @@ build-wasm32 = "build --target wasm32-unknown-unknown"
     "scripts": {{
         "prepublishOnly": "cargo {} --release"
     }},
-    "files": []
+    "files": [],
+    "preferUnplugged": true
 }}
 "#,
                 name, dist_output_path, build_alias
