@@ -446,3 +446,11 @@ expose!(parse_file_as_expr, Box<Expr>, |p| {
 expose!(parse_file_as_module, Module, |p| { p.parse_module() });
 expose!(parse_file_as_script, Script, |p| { p.parse_script() });
 expose!(parse_file_as_program, Program, |p| { p.parse_program() });
+
+#[inline(always)]
+fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callback: F) -> R {
+    #[cfg(target_arch = "wasm32")]
+    return callback();
+    #[cfg(target_arch = "wasm32")]
+    return stacker::maybe_grow(red_zone, stack_size, callback);
+}
