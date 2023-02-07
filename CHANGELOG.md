@@ -1,4 +1,65 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(bindings)** Don't require unnecessary package (#6902) ([964dfba](https://github.com/swc-project/swc/commit/964dfbaf1ab018d26d4acc574bd4fce5272bf890))
+
+
+- **(bindings/node)** Add `esnext` to `JscTarget` (#6908) ([82128e3](https://github.com/swc-project/swc/commit/82128e3734f8f5a92e85ed748e92f4f62bb4c63f))
+
+
+- **(es/minifier)** Respect span hygiene from expr simplifier (#6899) ([432dca6](https://github.com/swc-project/swc/commit/432dca647b5ab6d083d1cedbf68d6afc511f84fe))
+
+
+- **(es/parser)** Fix stack overflow due to deeply nested if (#6910) ([f36d945](https://github.com/swc-project/swc/commit/f36d945a33418e991d3ebee27956976ffd5ef446))
+
+
+- **(es/resolver)** Resolve parameters correctly (#6890) ([861d87c](https://github.com/swc-project/swc/commit/861d87cae622f371ea697b1cb07ed79d32579b74))
+
+
+- **(es/typescript)** Ignore jsx element names (#6911) ([ee3a107](https://github.com/swc-project/swc/commit/ee3a1071a5dbe0f2b718dd4f2e9959076cfa337c))
+
+### Features
+
+
+
+- **(bindings/cli)** Add `--config` (#6835) ([d993c4d](https://github.com/swc-project/swc/commit/d993c4def65b0bf900a6b8b8f0d0dee44ba8e0c8))
+
+
+- **(bindings/cli)** Support for *.mts/*.cts files (#6909) ([76bc8a2](https://github.com/swc-project/swc/commit/76bc8a29743edf397c59f5283aaa74a08e8fba57))
+
+### Miscellaneous Tasks
+
+
+
+- **(bindings/cli)** Enable `preferUnplugged` by default for the plugins (#6912) ([17f1c50](https://github.com/swc-project/swc/commit/17f1c50287c798b57a0d2ac2a95ba6c864b1c2d7))- **general**: Make issue templates mention `no +1` (#6894) ([5d5140f](https://github.com/swc-project/swc/commit/5d5140f0a50696d747ee62e72866b9b03e52cde3))
+
+## [1.3.32] - 2023-02-01
+
+### Bug Fixes
+
+
+
+- **(es)** Remove useless message (#6882) ([9301703](https://github.com/swc-project/swc/commit/93017033117ff0c89d9a7a992d7a8834ee030227))
+
+
+- **(es/compat)** Make optional chaining pass less permissive (#6885) ([57781e9](https://github.com/swc-project/swc/commit/57781e90d39915e3772757162f70767ff57bfbdd))
+
+### Testing
+
+
+
+- **(es/compat)** Add a test for a fixed issue (#6887) ([e79d466](https://github.com/swc-project/swc/commit/e79d46697c9ffb6f93976457f949a5168a59327a))
+
+### Build
+
+
+
+- **(cargo)** Drop dependencies on `retain_mut` (#6884) ([d6a24a2](https://github.com/swc-project/swc/commit/d6a24a28e88ff22f6aea8169927c64d8cbe7fb95))
+
 ## [1.3.31] - 2023-01-30
 
 ### Bug Fixes

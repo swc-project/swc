@@ -1,2 +1,2 @@
-const Global = globalThis.Global;
-const value = Global?.property.method?.()
+const a = globalThis.Global;
+const value = a?.b.c?.()

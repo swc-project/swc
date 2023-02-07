@@ -8,7 +8,7 @@ function f2(bar = (baz = foo)=>baz) {
     var foo1 = 2;
     return bar(); // returns 1
 }
-function f3(bar = foo, foo1 = 2) {
+function f3(bar = foo, foo = 2) {
     return bar;
 }
 function f4(foo, bar = foo) {

@@ -15,7 +15,7 @@ function f2() {
     return bar(); // returns 1
 }
 function f3() {
-    var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo, foo1 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 2;
+    var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo, foo = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 2;
     return bar;
 }
 function f4(foo) {
