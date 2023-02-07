@@ -28,6 +28,9 @@
 
 - **(bindings/cli)** Add `--config` (#6835) ([d993c4d](https://github.com/swc-project/swc/commit/d993c4def65b0bf900a6b8b8f0d0dee44ba8e0c8))
 
+
+- **(bindings/cli)** Support for *.mts/*.cts files (#6909) ([76bc8a2](https://github.com/swc-project/swc/commit/76bc8a29743edf397c59f5283aaa74a08e8fba57))
+
 ### Miscellaneous Tasks
 
 
