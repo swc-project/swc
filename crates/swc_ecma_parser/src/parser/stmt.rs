@@ -519,13 +519,15 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 if !is!(self, "if") {
-                    let ctx = Context {
-                        ignore_else_clause: false,
-                        ..self.ctx()
-                    };
-
                     // As we eat `else` above, we need to parse statement once.
-                    let last = self.with_ctx(ctx).parse_stmt(false)?;
+                    let last = stacker::maybe_grow(512 * 1024, 2 * 1024 * 1024, || {
+                        let ctx = Context {
+                            ignore_else_clause: false,
+                            ..self.ctx()
+                        };
+
+                        self.with_ctx(ctx).parse_stmt(false)
+                    })?;
                     break Some(last);
                 }
 
