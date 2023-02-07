@@ -2628,7 +2628,6 @@ impl<I: Tokens> Parser<I> {
         let res = if is_one_of!(self, '<', JSXTagStart) {
             self.try_parse_ts(|p| {
                 let type_params = p.parse_ts_type_params(false, false)?;
-
                 // Don't use overloaded parseFunctionParams which would look for "<" again.
                 expect!(p, '(');
                 let params: Vec<Pat> = p
