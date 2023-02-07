@@ -2408,7 +2408,7 @@ where
         let old_append = self.append_stmts.take();
 
         #[cfg(feature = "debug")]
-        let _tracing = if self.debug_infinite_loop {
+        let _tracing = {
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
@@ -2416,8 +2416,6 @@ where
             } else {
                 None
             }
-        } else {
-            None
         };
 
         let ctx = Ctx {

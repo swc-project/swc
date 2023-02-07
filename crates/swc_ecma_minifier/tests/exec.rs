@@ -10496,3 +10496,265 @@ fn issue_6750_2() {
         false,
     )
 }
+
+#[test]
+fn issue_6899_1() {
+    run_exec_test(
+        r###"
+        // this the original code, just for comparison
+        function Limit(min, max) {
+        var length = Math.abs(min - max);
+
+        function reachedMin(n) {
+            return n < min;
+        }
+
+        function reachedMax(n) {
+            return n > max;
+        }
+
+        function reachedAny(n) {
+            return reachedMin(n) || reachedMax(n);
+        }
+
+        function constrain(n) {
+            if (!reachedAny(n)) return n;
+            return reachedMin(n) ? min : max;
+        }
+
+        function removeOffset(n) {
+            if (!length) return n;
+            return n - length * Math.ceil((n - max) / length);
+        }
+
+        var self = {
+            length: length,
+            max: max,
+            min: min,
+            constrain: constrain,
+            reachedAny: reachedAny,
+            reachedMax: reachedMax,
+            reachedMin: reachedMin,
+            removeOffset: removeOffset
+        };
+        return self;
+        }
+        console.log("The result should be 0. And it is:", Limit(0,3).constrain(-1))
+        "###,
+        r###"
+        {
+            "arguments": false,
+            "arrows": true,
+            "booleans": true,
+            "booleans_as_integers": false,
+            "collapse_vars": true,
+            "comparisons": true,
+            "computed_props": true,
+            "conditionals": true,
+            "dead_code": true,
+            "directives": true,
+            "drop_console": false,
+            "drop_debugger": true,
+            "evaluate": true,
+            "expression": false,
+            "hoist_funs": false,
+            "hoist_props": true,
+            "hoist_vars": false,
+            "if_return": true,
+            "join_vars": true,
+            "keep_classnames": false,
+            "keep_fargs": true,
+            "keep_fnames": false,
+            "keep_infinity": false,
+            "loops": true,
+            "negate_iife": true,
+            "properties": true,
+            "reduce_funcs": false,
+            "reduce_vars": false,
+            "side_effects": true,
+            "switches": true,
+            "typeofs": true,
+            "unsafe": false,
+            "unsafe_arrows": false,
+            "unsafe_comps": false,
+            "unsafe_Function": false,
+            "unsafe_math": false,
+            "unsafe_symbols": false,
+            "unsafe_methods": false,
+            "unsafe_proto": false,
+            "unsafe_regexp": false,
+            "unsafe_undefined": false,
+            "unused": true,
+            "const_to_let": true,
+            "pristine_globals": true
+        }
+        "###,
+        false,
+    )
+}
+
+#[test]
+fn issue_6899_2() {
+    run_default_exec_test(
+        r###"
+        // this the original code, just for comparison
+        function Limit(min, max) {
+        var length = Math.abs(min - max);
+
+        function reachedMin(n) {
+            return n < min;
+        }
+
+        function reachedMax(n) {
+            return n > max;
+        }
+
+        function reachedAny(n) {
+            return reachedMin(n) || reachedMax(n);
+        }
+
+        function constrain(n) {
+            if (!reachedAny(n)) return n;
+            return reachedMin(n) ? min : max;
+        }
+
+        function removeOffset(n) {
+            if (!length) return n;
+            return n - length * Math.ceil((n - max) / length);
+        }
+
+        var self = {
+            length: length,
+            max: max,
+            min: min,
+            constrain: constrain,
+            reachedAny: reachedAny,
+            reachedMax: reachedMax,
+            reachedMin: reachedMin,
+            removeOffset: removeOffset
+        };
+        return self;
+        }
+        console.log("The result should be 0. And it is:", Limit(0,3).constrain(-1))
+        "###,
+    );
+}
+
+#[test]
+fn issue_6899_3() {
+    run_default_exec_test(
+        r###"
+        console.log("The result should be 0. And it is:", function(n, e) {
+            var r = Math.abs(n - e);
+        
+            function t(e) {
+                return e < n
+            }
+        
+            function u(n) {
+                return n > e
+            }
+        
+            function c(n) {
+                return t(n) || u(n)
+            }
+            return {
+                length: r,
+                max: e,
+                min: n,
+                constrain: function(r) {
+                    return c(r) ? t(r) ? n : e : r
+                },
+                reachedAny: c,
+                reachedMax: u,
+                reachedMin: t,
+                removeOffset: function(n) {
+                    return r ? n - r * Math.ceil((n - e) / r) : n
+                }
+            }
+        }(0, 3).constrain(-1));
+
+        "###,
+    );
+}
+
+#[test]
+fn issue_6899_4() {
+    run_exec_test(
+        r###"
+        console.log("The result should be 0. And it is:", function(n, e) {
+            var r = Math.abs(n - e);
+        
+            function t(e) {
+                return e < n
+            }
+        
+            function u(n) {
+                return n > e
+            }
+        
+            function c(n) {
+                return t(n) || u(n)
+            }
+            return {
+                length: r,
+                max: e,
+                min: n,
+                constrain: function(r) {
+                    return c(r) ? t(r) ? n : e : r
+                },
+                reachedAny: c,
+                reachedMax: u,
+                reachedMin: t,
+                removeOffset: function(n) {
+                    return r ? n - r * Math.ceil((n - e) / r) : n
+                }
+            }
+        }(0, 3).constrain(-1));
+
+        "###,
+        r###"
+        {
+            "inline": true,
+            "passes": 2
+        }
+        "###,
+        false,
+    );
+}
+
+#[test]
+fn issue_6899_5() {
+    run_exec_test(
+        r###"
+        console.log("The result should be 0. And it is:", function(n, e) {
+            var r = Math.abs(n - e);
+        
+            function t(e) {
+                return e < n
+            }
+        
+            function u(n) {
+                return n > e
+            }
+        
+            function c(n) {
+                return t(n) || u(n)
+            }
+            return {
+                constrain: function(r) {
+                    return c(r) ? (t(r) ? n : e) : r
+                },
+                
+            }
+        }(0, 3).constrain(-1));
+        "###,
+        r###"
+        {
+            "inline": true,
+            "passes": 2
+        }
+        "###,
+        false,
+    );
+}
