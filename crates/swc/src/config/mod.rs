@@ -775,7 +775,6 @@ impl Default for Rc {
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsConfig {
                         tsx: false,
-                        disallow_ambiguous_jsx_like: true,
                         ..Default::default()
                     })),
                     ..Default::default()

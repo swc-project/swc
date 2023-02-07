@@ -378,7 +378,6 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                                 decorators,
                                 dts: false,
                                 no_early_errors: false,
-                                disallow_ambiguous_jsx_like: false,
                             })),
                             external_helpers: true.into(),
                             target: Some(target),

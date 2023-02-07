@@ -136,7 +136,6 @@ fn shopify_2_same_opt() {
                         decorators: false,
                         dts: false,
                         no_early_errors: false,
-                        disallow_ambiguous_jsx_like: false,
                     })),
                     transform: None.into(),
                     external_helpers: false.into(),

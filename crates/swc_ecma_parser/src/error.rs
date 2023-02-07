@@ -279,9 +279,6 @@ pub enum SyntaxError {
         span: Span,
         note: &'static str,
     },
-
-    ReservedTypeAssertion,
-    ReservedArrowTypeParam,
 }
 
 impl SyntaxError {
@@ -714,14 +711,6 @@ impl SyntaxError {
                 format!("Unexpected token. Did you mean {}?", did_you_mean).into()
             }
             SyntaxError::WithLabel { inner, .. } => inner.error.1.msg(),
-            SyntaxError::ReservedTypeAssertion => "This syntax is reserved in files with the .mts \
-                                                   or .cts extension. Use an `as` expression \
-                                                   instead."
-                .into(),
-            SyntaxError::ReservedArrowTypeParam => "This syntax is reserved in files with the \
-                                                    .mts or .cts extension. Add a trailing comma, \
-                                                    as in `<T,>() => ...`."
-                .into(),
         }
     }
 }
