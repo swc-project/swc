@@ -486,15 +486,18 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let cons = {
-            // Annex B
-            if !self.ctx().strict && is!(self, "function") {
-                // TODO: report error?
-            }
-            let ctx = Context {
-                ignore_else_clause: false,
-                ..self.ctx()
-            };
-            self.with_ctx(ctx).parse_stmt(false).map(Box::new)?
+            // Prevent stack overflow
+            stacker::maybe_grow(512 * 1024, 2 * 1024 * 1024, || {
+                // Annex B
+                if !self.ctx().strict && is!(self, "function") {
+                    // TODO: report error?
+                }
+                let ctx = Context {
+                    ignore_else_clause: false,
+                    ..self.ctx()
+                };
+                self.with_ctx(ctx).parse_stmt(false).map(Box::new)
+            })?
         };
 
         // We parse `else` branch iteratively, to avoid stack overflow
