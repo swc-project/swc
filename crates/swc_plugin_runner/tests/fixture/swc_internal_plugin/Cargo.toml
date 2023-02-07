@@ -13,5 +13,4 @@ crate-type = ["cdylib"]
 serde = "1"
 swc_core = {path = "../../../../swc_core", features = [
   "ecma_plugin_transform",
-  "ecma_quote",
 ]}
