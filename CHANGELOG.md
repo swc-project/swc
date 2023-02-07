@@ -14,6 +14,9 @@
 - **(es/minifier)** Respect span hygiene from expr simplifier (#6899) ([432dca6](https://github.com/swc-project/swc/commit/432dca647b5ab6d083d1cedbf68d6afc511f84fe))
 
 
+- **(es/module)** Fix SystemJS imports (#6879) ([85fffda](https://github.com/swc-project/swc/commit/85fffdad022cf1bccf8763e7bb73fb15f62d2430))
+
+
 - **(es/parser)** Fix stack overflow due to deeply nested if (#6910) ([f36d945](https://github.com/swc-project/swc/commit/f36d945a33418e991d3ebee27956976ffd5ef446))
 
 
