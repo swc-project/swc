@@ -448,9 +448,11 @@ expose!(parse_file_as_script, Script, |p| { p.parse_script() });
 expose!(parse_file_as_program, Program, |p| { p.parse_program() });
 
 #[inline(always)]
+#[cfg_attr(target_arch = "wasm32", allow(unused))]
 fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callback: F) -> R {
     #[cfg(target_arch = "wasm32")]
     return callback();
+
     #[cfg(not(target_arch = "wasm32"))]
     return stacker::maybe_grow(red_zone, stack_size, callback);
 }
