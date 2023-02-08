@@ -10756,6 +10756,10 @@ fn issue_6899_5() {
         }
         "###,
         false,
+    );
+}
+
+#[test]
 fn issue_6903_1() {
     run_default_exec_test(
         r###"
