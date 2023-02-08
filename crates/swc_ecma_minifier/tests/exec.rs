@@ -10856,3 +10856,45 @@ fn issue_6914_1() {
     "###,
     );
 }
+
+#[test]
+fn issue_6914_2() {
+    run_exec_test(
+        r###"
+        console.log(doSomething())
+
+        function doSomething() {
+            return fabricateEvent()
+        }
+
+        function fabricateEvent() {
+            let def = createEventDef()
+
+            return {
+                def,
+                ui: compileEventUi(def),
+            }
+        }
+
+        function compileEventUi(def) {
+            let uis = []
+            uis.push(def.ui)
+            return uis
+        }
+
+        function createEventDef() {
+            return {
+                id: 'fakeId',
+                ui: 'something'
+            }
+        }
+        "###,
+        r###"
+        {
+            "inline": true,
+            "toplevel": true
+        }
+        "###,
+        false,
+    );
+}
