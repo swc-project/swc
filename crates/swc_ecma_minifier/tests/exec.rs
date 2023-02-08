@@ -10758,3 +10758,66 @@ fn issue_6899_5() {
         false,
     );
 }
+
+#[test]
+fn issue_6903_1() {
+    run_default_exec_test(
+        r###"
+        function test(a, b) {
+            let wrapper = (e) => e
+            wrapper = (e) => (["not", e])
+            if (a) {
+                return wrapper(b)
+            }
+            return wrapper(1)
+        }
+        console.log(test(true, "bad"))
+        "###,
+    );
+}
+
+#[test]
+fn issue_6903_2() {
+    run_exec_test(
+        r###"
+        function test(a, b) {
+            let wrapper = (e) => e
+            wrapper = (e) => (["not", e])
+            if (a) {
+                return wrapper(b)
+            }
+            return wrapper(1)
+        }
+        console.log(test(true, "bad"))
+        "###,
+        r###"
+        {
+            "if_return": true,
+            "join_vars": true,
+            "side_effects": true,
+            "conditionals": true
+        }"###,
+        false,
+    );
+}
+
+#[test]
+fn issue_6903_3() {
+    run_exec_test(
+        r###"
+        function test(a, b) {
+            let wrapper = (e)=>e;
+            return ((wrapper = (e)=>[
+                    "not",
+                    e
+                ]), a) ? wrapper(b) : wrapper(1);
+        }
+        console.log(test(true, "bad"));
+        "###,
+        r###"
+        {
+            "conditionals": true
+        }"###,
+        false,
+    );
+}
