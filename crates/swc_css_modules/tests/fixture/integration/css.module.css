@@ -6,3 +6,11 @@
 :global(.global) {
   color: blue;
 }
+
+.local:global(.global) {
+  color: green;
+}
+
+.local:local(.local) {
+  color: yellow;
+}

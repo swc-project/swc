@@ -1,5 +1,5 @@
 # Changelog
-## [1.3.33] - 2023-02-08
+## [unreleased]
 
 ### Bug Fixes
 
@@ -9,6 +9,9 @@
 
 
 - **(bindings/node)** Add `esnext` to `JscTarget` (#6908) ([82128e3](https://github.com/swc-project/swc/commit/82128e3734f8f5a92e85ed748e92f4f62bb4c63f))
+
+
+- **(css/modules)** Fix interop of `&` and `:global` (#6900) ([f85ea9c](https://github.com/swc-project/swc/commit/f85ea9cb570ee9431926fb51559ecd34a701384f))
 
 
 - **(es/minifier)** Respect span hygiene from expr simplifier (#6899) ([432dca6](https://github.com/swc-project/swc/commit/432dca647b5ab6d083d1cedbf68d6afc511f84fe))
