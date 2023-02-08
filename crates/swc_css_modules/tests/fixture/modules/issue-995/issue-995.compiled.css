@@ -52,7 +52,7 @@ div:not(.__local__a) {
 .__local__😓 .__local__a {
   color: red;
 }
-.__local__a {
+.__local__😓.__local__a {
   color: red;
 }
 .__local__a > .__local__b > .__local__c {
