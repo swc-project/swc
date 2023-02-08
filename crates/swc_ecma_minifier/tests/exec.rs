@@ -10821,3 +10821,38 @@ fn issue_6903_3() {
         false,
     );
 }
+
+#[test]
+fn issue_6914() {
+    run_default_exec_test(
+        r###"
+        console.log(doSomething())
+
+        function doSomething() {
+        return fabricateEvent()
+        }
+
+        function fabricateEvent() {
+        let def = createEventDef()
+
+        return {
+            def,
+            ui: compileEventUi(def),
+        }
+        }
+
+        function compileEventUi(def) {
+        let uis = []
+        uis.push(def.ui)
+        return uis
+        }
+
+        function createEventDef() {
+        return {
+            id: 'fakeId',
+            ui: 'something'
+        }
+        }
+    ""###,
+    );
+}
