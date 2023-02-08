@@ -15,6 +15,8 @@
   <a href="https://www.npmjs.com/package/@swc/helpers">
     <img alt="downloads (3rd party)" src="https://img.shields.io/npm/dm/@swc/helpers?label=downloads%20%283rd%20party%29">
   </a>
+</p>
+<p align="center">
   <a href="https://crates.io/crates/swc_ecma_parser">
     <img alt="undefined" src="https://img.shields.io/crates/d/swc_ecma_parser.svg?label=crates.io%20downloads">
   </a>
