@@ -39,7 +39,7 @@ System.register([
                 }
                 var _proto = C.prototype;
                 _proto.method = function method() {
-                    var loadAsync = import("./0");
+                    var loadAsync = _context.import("./0");
                 };
                 return C;
             }();
@@ -50,7 +50,7 @@ System.register([
                 }
                 var _proto = D.prototype;
                 _proto.method = function method() {
-                    var loadAsync = import("./0");
+                    var loadAsync = _context.import("./0");
                 };
                 return D;
             }());
