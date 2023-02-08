@@ -55,6 +55,12 @@
 
 - **(bindings/cli)** Enable `preferUnplugged` by default for the plugins (#6912) ([17f1c50](https://github.com/swc-project/swc/commit/17f1c50287c798b57a0d2ac2a95ba6c864b1c2d7))- **general**: Make issue templates mention `no +1` (#6894) ([5d5140f](https://github.com/swc-project/swc/commit/5d5140f0a50696d747ee62e72866b9b03e52cde3))
 
+### Testing
+
+
+
+- **(es/module)** Add a test for `jsc.paths` on windows (#6915) ([d18027c](https://github.com/swc-project/swc/commit/d18027cf9b6c45a7b70cf3dd4c3a23b81d92c93a))
+
 ## [1.3.32] - 2023-02-01
 
 ### Bug Fixes
