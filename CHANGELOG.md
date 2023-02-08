@@ -14,6 +14,9 @@
 - **(es/minifier)** Respect span hygiene from expr simplifier (#6899) ([432dca6](https://github.com/swc-project/swc/commit/432dca647b5ab6d083d1cedbf68d6afc511f84fe))
 
 
+- **(es/minifier)** Don't break ternary with assignment in test (#6906) ([951dafb](https://github.com/swc-project/swc/commit/951dafbc1a56b8b29fd76aaad8138e58eaadda12))
+
+
 - **(es/module)** Fix SystemJS imports (#6879) ([85fffda](https://github.com/swc-project/swc/commit/85fffdad022cf1bccf8763e7bb73fb15f62d2430))
 
 
