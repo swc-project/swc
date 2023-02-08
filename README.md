@@ -10,7 +10,10 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@swc/core">
-    <img alt="npm Downloads" src="https://img.shields.io/npm/dm/@swc/helpers">
+    <img alt="@swc/core npm downloads" src="https://img.shields.io/npm/dm/@swc/core?label=%40swc%2Fcore%20npm%20downloads">
+  </a>
+  <a href="https://www.npmjs.com/package/@swc/helpers">
+    <img alt="downloads (3rd party)" src="https://img.shields.io/npm/dm/@swc/helpers?label=downloads%20%283rd%20party%29">
   </a>
   <a href="https://crates.io/crates/swc_ecma_parser">
     <img alt="undefined" src="https://img.shields.io/crates/d/swc_ecma_parser.svg?label=crates.io%20downloads">
@@ -78,8 +81,8 @@ Please see [benchmark results](https://swc.rs/docs/benchmark-transform) on the w
 
 SWC is a community-driven project, and is maintained by a group of [volunteers](https://opencollective.com/swc#team). If you'd like to help support the future of the project, please consider:
 
-- Giving developer time on the project. (Message us on [Discord](https://discord.gg/GnHbXTdZz6) (preferred) or [Github discussions](https://github.com/swc-project/swc/discussions) for guidance!)
-- Giving funds by becoming a sponsor (see https://opencollective.com/swc)!
+-   Giving developer time on the project. (Message us on [Discord](https://discord.gg/GnHbXTdZz6) (preferred) or [Github discussions](https://github.com/swc-project/swc/discussions) for guidance!)
+-   Giving funds by becoming a sponsor (see https://opencollective.com/swc)!
 
 ## Contributing
 
