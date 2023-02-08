@@ -34,6 +34,12 @@
 
 - **(es/typescript)** Ignore jsx element names (#6911) ([ee3a107](https://github.com/swc-project/swc/commit/ee3a1071a5dbe0f2b718dd4f2e9959076cfa337c))
 
+### Documentation
+
+
+
+- **(readme)** Split download badge (#6917) ([d779927](https://github.com/swc-project/swc/commit/d779927b4d00a19b3eb2b6cb792a682cbc006970))
+
 ### Features
 
 
