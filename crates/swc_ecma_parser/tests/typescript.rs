@@ -67,6 +67,8 @@ fn shifted(file: PathBuf) {
 }
 
 #[testing::fixture("tests/typescript/**/*.ts")]
+#[testing::fixture("tests/typescript/**/*.mts")]
+#[testing::fixture("tests/typescript/**/*.cts")]
 #[testing::fixture("tests/typescript/**/*.tsx")]
 fn spec(file: PathBuf) {
     let output = file.parent().unwrap().join(format!(

@@ -537,7 +537,25 @@ impl SystemJs {
 impl Fold for SystemJs {
     noop_fold_type!();
 
+    fn fold_call_expr(&mut self, expr: CallExpr) -> CallExpr {
+        let expr = expr.fold_children_with(self);
+
+        match expr.callee {
+            Callee::Import(_) => CallExpr {
+                callee: self
+                    .context_ident
+                    .clone()
+                    .make_member(quote_ident!("import"))
+                    .as_callee(),
+                ..expr
+            },
+            _ => expr,
+        }
+    }
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children_with(self);
+
         match expr {
             Expr::Ident(ident) => self.fold_module_name_ident(ident),
             Expr::Assign(assign) => {
@@ -562,10 +580,7 @@ impl Fold for SystemJs {
                         .as_callee(),
                     ..call
                 }),
-                _ => Expr::Call(CallExpr {
-                    args: call.args.fold_with(self),
-                    ..call
-                }),
+                _ => Expr::Call(call),
             },
             Expr::MetaProp(meta_prop_expr) => match meta_prop_expr.kind {
                 MetaPropKind::ImportMeta => {
@@ -577,6 +592,7 @@ impl Fold for SystemJs {
                 if self.enter_async_fn == 0 {
                     self.tla = true;
                 }
+
                 Expr::Await(await_expr)
             }
             Expr::This(this_expr) => {
@@ -585,7 +601,7 @@ impl Fold for SystemJs {
                 }
                 Expr::This(this_expr)
             }
-            _ => expr.fold_children_with(self),
+            _ => expr,
         }
     }
 
@@ -610,6 +626,8 @@ impl Fold for SystemJs {
     }
 
     fn fold_prop(&mut self, prop: Prop) -> Prop {
+        let prop = prop.fold_children_with(self);
+
         match prop {
             Prop::Shorthand(shorthand) => Prop::KeyValue(KeyValueProp {
                 key: PropName::Ident(shorthand.clone()),

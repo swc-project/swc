@@ -29,14 +29,14 @@ System.register([
             _export("cl1", cl1 = class cl1 {
                 m() {
                     return _async_to_generator(function*() {
-                        const req = yield import('./test') // TWO
+                        const req = yield _context.import('./test') // TWO
                         ;
                     })();
                 }
             });
             _export("obj", obj = {
                 m: /*#__PURE__*/ _async_to_generator(function*() {
-                    const req = yield import('./test') // THREE
+                    const req = yield _context.import('./test') // THREE
                     ;
                 })
             });
@@ -44,7 +44,7 @@ System.register([
                 constructor(){
                     this.p = {
                         m: /*#__PURE__*/ _async_to_generator(function*() {
-                            const req = yield import('./test') // FOUR
+                            const req = yield _context.import('./test') // FOUR
                             ;
                         })
                     };
@@ -52,7 +52,7 @@ System.register([
             });
             _export("l", l = function() {
                 var _ref = _async_to_generator(function*() {
-                    const req = yield import('./test') // FIVE
+                    const req = yield _context.import('./test') // FIVE
                     ;
                 });
                 return function l() {
