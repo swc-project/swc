@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_parser"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.124.6"
+version       = "0.124.7"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -37,7 +37,7 @@ swc_ecma_visit = { version = "0.82.3", path = "../swc_ecma_visit", optional = tr
 tracing        = "0.1.32"
 typed-arena    = "2.0.1"
 
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+[target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
 stacker = "0.1.15"
 
 [dev-dependencies]
