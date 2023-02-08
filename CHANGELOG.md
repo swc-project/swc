@@ -26,6 +26,9 @@
 - **(es/parser)** Fix stack overflow due to deeply nested if (#6910) ([f36d945](https://github.com/swc-project/swc/commit/f36d945a33418e991d3ebee27956976ffd5ef446))
 
 
+- **(es/parser)** Don't use `stacker` for armv7 (#6916) ([4c5d5a6](https://github.com/swc-project/swc/commit/4c5d5a6fcaf49782effc6079bb92adec45ceb83c))
+
+
 - **(es/resolver)** Resolve parameters correctly (#6890) ([861d87c](https://github.com/swc-project/swc/commit/861d87cae622f371ea697b1cb07ed79d32579b74))
 
 
