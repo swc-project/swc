@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@swc/core">
-    <img alt="@swc/core npm downloads" src="https://img.shields.io/npm/dm/@swc/core?label=%40swc%2Fcore%20npm%20downloads">
+    <img alt="downloads (@swc/core)" src="https://img.shields.io/npm/dm/@swc/core?label=downloads%20%28%40swc%2Fcore%29">
   </a>
   <a href="https://www.npmjs.com/package/@swc/helpers">
     <img alt="downloads (3rd party)" src="https://img.shields.io/npm/dm/@swc/helpers?label=downloads%20%283rd%20party%29">
