@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Don't skip shorthand properties from sequential inliner (#6918) ([725d3fb](https://github.com/swc-project/swc/commit/725d3fb645976681bc11b1df943f3ca1008788ab))
 
+
+- **(es/preset-env)** Fix default target (#6921) ([85a8def](https://github.com/swc-project/swc/commit/85a8defc37ce20b051b1bf2139ead7182d496483))
+
 ## [1.3.34] - 2023-02-08
 
 ### Bug Fixes
