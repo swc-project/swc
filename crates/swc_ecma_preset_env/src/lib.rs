@@ -4,7 +4,7 @@
 
 use std::path::PathBuf;
 
-use preset_env_base::query::{targets_to_versions, Query};
+use preset_env_base::query::targets_to_versions;
 pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
 use regenerator::RegeneratorVisitor;
 use serde::Deserialize;
