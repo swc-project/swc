@@ -10898,3 +10898,36 @@ fn issue_6914_2() {
         false,
     );
 }
+
+#[test]
+fn issue_6914_3() {
+    run_exec_test(
+        r###"
+            console.log(function() {
+                return function() {
+                    let def = function() {
+                        return {
+                            id: 'fakeId',
+                            ui: 'something'
+                        };
+                    }();
+                    return {
+                        def,
+                        ui: function(def) {
+                            let uis = [];
+                            uis.push(def.ui);
+                            return uis;
+                        }(def)
+                    };
+                }();
+            }());
+        "###,
+        r###"
+        {
+            "inline": true,
+            "toplevel": true
+        }
+        "###,
+        false,
+    );
+}
