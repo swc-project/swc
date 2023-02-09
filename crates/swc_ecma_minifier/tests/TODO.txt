@@ -70,7 +70,6 @@ collapse_vars/switch_case_1/input.js
 collapse_vars/toplevel_single_reference/input.js
 collapse_vars/undeclared/input.js
 collapse_vars/unused_orig/input.js
-conditionals/equality_conditionals_false/input.js
 conditionals/ifs_5/input.js
 conditionals/ifs_6/input.js
 conditionals/ifs_same_consequent/input.js
