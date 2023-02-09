@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.3.34] - 2023-02-08
 
 ### Bug Fixes
 
@@ -34,6 +34,12 @@
 
 - **(es/typescript)** Ignore jsx element names (#6911) ([ee3a107](https://github.com/swc-project/swc/commit/ee3a1071a5dbe0f2b718dd4f2e9959076cfa337c))
 
+### Documentation
+
+
+
+- **(readme)** Split download badge (#6917) ([d779927](https://github.com/swc-project/swc/commit/d779927b4d00a19b3eb2b6cb792a682cbc006970))
+
 ### Features
 
 
@@ -48,6 +54,12 @@
 
 
 - **(bindings/cli)** Enable `preferUnplugged` by default for the plugins (#6912) ([17f1c50](https://github.com/swc-project/swc/commit/17f1c50287c798b57a0d2ac2a95ba6c864b1c2d7))- **general**: Make issue templates mention `no +1` (#6894) ([5d5140f](https://github.com/swc-project/swc/commit/5d5140f0a50696d747ee62e72866b9b03e52cde3))
+
+### Testing
+
+
+
+- **(es/module)** Add a test for `jsc.paths` on windows (#6915) ([d18027c](https://github.com/swc-project/swc/commit/d18027cf9b6c45a7b70cf3dd4c3a23b81d92c93a))
 
 ## [1.3.32] - 2023-02-01
 
