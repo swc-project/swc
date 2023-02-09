@@ -63,7 +63,7 @@ swc_atoms = { version = "0.4.32", path = '../swc_atoms' }
 swc_css_ast = { version = "0.134.2", path = "../swc_css_ast", features = [
   "rkyv-impl",
 ] }
-swc_css_parser = { version = "0.143.2", path = "../swc_css_parser" }
+swc_css_parser = { version = "0.143.3", path = "../swc_css_parser" }
 swc_ecma_ast = { version = "0.96.3", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
