@@ -565,7 +565,7 @@ pub struct Config {
     #[serde(default)]
     pub core_js: Option<Version>,
 
-    #[serde(default = "default_targets")]
+    #[serde(default)]
     pub targets: Option<Targets>,
 
     #[serde(default = "default_path")]
@@ -579,10 +579,6 @@ pub struct Config {
 
     #[serde(default)]
     pub bugfixes: bool,
-}
-
-fn default_targets() -> Option<Targets> {
-    Some(Targets::Query(Query::Single("".into())))
 }
 
 fn default_path() -> PathBuf {
