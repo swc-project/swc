@@ -312,6 +312,17 @@ impl FileName {
     }
 }
 
+#[derive(Clone, Debug, Default, Hash, PartialEq, Eq)]
+#[cfg_attr(
+    feature = "diagnostic-serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
+#[cfg_attr(
+    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+pub struct PrimarySpanLabel(pub Span, pub String);
+
 /// A collection of spans. Spans have two orthogonal attributes:
 ///
 /// - they can be *primary spans*. In this case they are the locus of the error,
@@ -329,7 +340,7 @@ impl FileName {
 )]
 pub struct MultiSpan {
     primary_spans: Vec<Span>,
-    span_labels: Vec<(Span, String)>,
+    span_labels: Vec<PrimarySpanLabel>,
 }
 
 extern "C" {
@@ -633,7 +644,7 @@ impl MultiSpan {
     }
 
     pub fn push_span_label(&mut self, span: Span, label: String) {
-        self.span_labels.push((span, label));
+        self.span_labels.push(PrimarySpanLabel(span, label));
     }
 
     /// Selects the first primary span (if any)
@@ -689,7 +700,7 @@ impl MultiSpan {
         let mut span_labels = self
             .span_labels
             .iter()
-            .map(|&(span, ref label)| SpanLabel {
+            .map(|&PrimarySpanLabel(span, ref label)| SpanLabel {
                 span,
                 is_primary: is_primary(span),
                 label: Some(label.clone()),
@@ -1284,9 +1295,16 @@ pub enum SpanSnippetError {
     any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+pub struct FilePos(pub FileName, pub BytePos);
+
+#[derive(Clone, PartialEq, Eq, Debug)]
+#[cfg_attr(
+    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct DistinctSources {
-    pub begin: (FileName, BytePos),
-    pub end: (FileName, BytePos),
+    pub begin: FilePos,
+    pub end: FilePos,
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]
