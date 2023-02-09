@@ -10821,3 +10821,113 @@ fn issue_6903_3() {
         false,
     );
 }
+
+#[test]
+fn issue_6914_1() {
+    run_default_exec_test(
+        r###"
+        console.log(doSomething())
+
+        function doSomething() {
+            return fabricateEvent()
+        }
+
+        function fabricateEvent() {
+            let def = createEventDef()
+
+            return {
+                def,
+                ui: compileEventUi(def),
+            }
+        }
+
+        function compileEventUi(def) {
+            let uis = []
+            uis.push(def.ui)
+            return uis
+        }
+
+        function createEventDef() {
+            return {
+                id: 'fakeId',
+                ui: 'something'
+            }
+        }
+    "###,
+    );
+}
+
+#[test]
+fn issue_6914_2() {
+    run_exec_test(
+        r###"
+        console.log(doSomething())
+
+        function doSomething() {
+            return fabricateEvent()
+        }
+
+        function fabricateEvent() {
+            let def = createEventDef()
+
+            return {
+                def,
+                ui: compileEventUi(def),
+            }
+        }
+
+        function compileEventUi(def) {
+            let uis = []
+            uis.push(def.ui)
+            return uis
+        }
+
+        function createEventDef() {
+            return {
+                id: 'fakeId',
+                ui: 'something'
+            }
+        }
+        "###,
+        r###"
+        {
+            "inline": true,
+            "toplevel": true
+        }
+        "###,
+        false,
+    );
+}
+
+#[test]
+fn issue_6914_3() {
+    run_exec_test(
+        r###"
+            console.log(function() {
+                return function() {
+                    let def = function() {
+                        return {
+                            id: 'fakeId',
+                            ui: 'something'
+                        };
+                    }();
+                    return {
+                        def,
+                        ui: function(def) {
+                            let uis = [];
+                            uis.push(def.ui);
+                            return uis;
+                        }(def)
+                    };
+                }();
+            }());
+        "###,
+        r###"
+        {
+            "inline": true,
+            "toplevel": true
+        }
+        "###,
+        false,
+    );
+}
