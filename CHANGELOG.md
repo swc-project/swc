@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.3.35] - 2023-02-10
 
 ### Bug Fixes
 
