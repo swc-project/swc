@@ -1333,6 +1333,10 @@ impl ModuleConfig {
                     .unwrap_or_else(|_| path.to_path_buf()),
             ),
             _ => base.to_owned(),
+            FileName::Real(v) if !paths.is_empty() => {
+                FileName::Real(v.canonicalize().unwrap_or_else(|_| v.to_path_buf()))
+            }
+            _ => base.clone(),
         };
 
         match config {
