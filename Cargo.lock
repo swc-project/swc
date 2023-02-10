@@ -3300,7 +3300,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.59.23"
+version = "0.59.24"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3481,7 +3481,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.143.2"
+version = "0.143.3"
 dependencies = [
  "bitflags",
  "criterion",

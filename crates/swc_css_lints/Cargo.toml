@@ -26,5 +26,5 @@ thiserror     = "1.0.30"
 
 [dev-dependencies]
 serde_json     = "1.0.79"
-swc_css_parser = { version = "0.143.2", path = "../swc_css_parser" }
+swc_css_parser = { version = "0.143.3", path = "../swc_css_parser" }
 testing        = { version = "0.31.31", path = "../testing" }
