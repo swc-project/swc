@@ -1629,7 +1629,7 @@ where
     fn visit_jsx_element_name(&mut self, n: &JSXElementName) {
         match n {
             JSXElementName::Ident(i) => {
-                if i.sym.starts_with(|c: char| c.is_ascii_uppercase()) {
+                if i.sym.starts_with(|c: char| !c.is_ascii_lowercase()) {
                     n.visit_children_with(self);
                 }
             }
@@ -2083,7 +2083,7 @@ where
     fn visit_mut_jsx_element_name(&mut self, n: &mut JSXElementName) {
         match n {
             JSXElementName::Ident(i) => {
-                if i.sym.starts_with(|c: char| c.is_ascii_uppercase()) {
+                if i.sym.starts_with(|c: char| !c.is_ascii_lowercase()) {
                     n.visit_mut_children_with(self);
                 }
             }
