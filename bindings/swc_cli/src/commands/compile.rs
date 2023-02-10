@@ -28,11 +28,11 @@ use crate::util::trace::init_trace;
 /// Configuration option for transform files.
 #[derive(Parser)]
 pub struct CompileOptions {
-    /// Experimental: provide additional configuration to override the .swcrc.
-    /// Can be used to provide experimental plugin configuration,
+    /// Experimental: provide an additional JSON config object to override the
+    /// .swcrc. Can be used to provide experimental plugin configuration,
     /// including plugin imports that are explicitly relative, starting with `.`
     /// or `..`
-    #[clap(long, value_parser = parse_config)]
+    #[clap(long = "config-json", value_parser = parse_config)]
     config: Option<Config>,
 
     /// Path to a .swcrc file to use
