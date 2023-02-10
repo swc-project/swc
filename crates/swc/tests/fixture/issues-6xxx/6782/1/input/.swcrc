@@ -16,9 +16,5 @@
                 "config/*"
             ]
         }
-    },
-    "module": {
-        "type": "es6"
-    },
-    "sourceMaps": true
+    }
 }
