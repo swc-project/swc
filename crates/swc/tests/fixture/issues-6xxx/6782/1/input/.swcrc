@@ -1,0 +1,24 @@
+{
+    "minify": true,
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "dynamicImport": true
+        },
+        "target": "es2020",
+        "baseUrl": "./",
+        "paths": {
+            "@/config": [
+                "config"
+            ],
+            "@/config/*": [
+                "config/*"
+            ]
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "sourceMaps": true
+}
