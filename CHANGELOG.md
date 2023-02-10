@@ -10,6 +10,9 @@
 
 - **(es/preset-env)** Fix default target (#6921) ([85a8def](https://github.com/swc-project/swc/commit/85a8defc37ce20b051b1bf2139ead7182d496483))
 
+### Miscellaneous Tasks
+- **general**: Bump swc_css_* (#6924) ([75376cd](https://github.com/swc-project/swc/commit/75376cd65cf10e9777aab5e00abf9f851a222a49))
+
 ## [1.3.34] - 2023-02-08
 
 ### Bug Fixes
