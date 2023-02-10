@@ -116,7 +116,7 @@ where
             let mut p = PathBuf::from(target_path);
 
             if cfg!(debug_assertions) {
-                trace!("to_specifier: orig_ext={:?}", orig_ext);
+                trace!("to_specifier({target_path}): orig_ext={:?}", orig_ext);
             }
 
             if let Some(orig_ext) = orig_ext {
