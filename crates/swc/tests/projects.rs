@@ -1001,7 +1001,7 @@ fn bazel_support() {
             Ok(r) => {
                 assert!(r
                     .code
-                    .contains("const _moduleA = require(\"./modules/moduleA\");"),);
+                    .contains("const _moduleA = require(\"./modules/moduleA/index\");"),);
             }
             Err(out) => panic!("Failed to compile where it should not!\nErr:{:?}", out),
         }
