@@ -1,0 +1,16 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    },
+    "target": "es2021",
+    "baseUrl": "./src",
+    "paths": {
+      "@modules/*": ["./modules/*"]
+    }
+  },
+  "module": {
+    "type": "commonjs"
+  },
+  "sourceMaps": true
+}

@@ -1,7 +1,12 @@
+#[cfg(target_family = "unix")]
+use std::os::unix::fs::symlink;
 use std::{
-    fs::create_dir_all,
+    env::current_dir,
+    fs::{create_dir_all, remove_file},
     path::{Path, PathBuf},
 };
+#[cfg(target_os = "windows")]
+use std::{env::var, os::windows::fs::symlink_dir};
 
 use rayon::prelude::*;
 use swc::{
@@ -936,6 +941,74 @@ fn bom() {
 #[test]
 fn json_schema() {
     project("tests/projects/json-schema")
+}
+
+// Tests for Bazel support
+#[test]
+fn bazel_support() {
+    testing::run_test2(false, |cm, handler| {
+        let c = swc::Compiler::new(cm.clone());
+
+        let test_dir = current_dir().unwrap().join("tests/projects/bazel-support");
+
+        let src_dir = test_dir.join("src");
+        let modules_dir = test_dir.join("modules");
+
+        let symlink_build_path = test_dir.join("build");
+        let _ = remove_file(symlink_build_path.clone());
+
+        let symlink_source_path = src_dir.join("modules");
+        let _ = remove_file(symlink_source_path.clone());
+
+        #[cfg(target_family = "unix")]
+        {
+            symlink(src_dir, symlink_build_path.clone()).unwrap();
+            symlink(modules_dir, symlink_source_path).unwrap();
+        }
+
+        // On Windows, creating symbolic links requires debug privileges.
+        // We ignore the error silently here as this test will fail for
+        // unprivileged users.
+        #[cfg(target_os = "windows")]
+        {
+            symlink_dir(src_dir.clone(), symlink_build_path.clone()).unwrap_or_else(|_| {
+                if std::env::var("GITHUB_ACTIONS").is_ok() {
+                    panic!("Failed to create symbolic link");
+                };
+
+                return ();
+            });
+            symlink_dir(modules_dir, symlink_source_path).unwrap();
+        }
+
+        let file_path = symlink_build_path.join("index.ts");
+
+        let source_file = cm
+            .load_file(file_path.as_path())
+            .expect("failed to load file");
+
+        let result = c.process_js_file(
+            source_file,
+            &handler,
+            &Options {
+                swcrc: true,
+                cwd: test_dir,
+                ..Default::default()
+            },
+        );
+
+        match result {
+            Ok(r) => {
+                assert!(r
+                    .code
+                    .contains("const _moduleA = require(\"./modules/moduleA\");"),);
+            }
+            Err(out) => panic!("Failed to compile where it should not!\nErr:{:?}", out),
+        }
+
+        Ok(())
+    })
+    .unwrap()
 }
 
 #[test]
