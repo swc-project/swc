@@ -5,6 +5,14 @@
 
 
 
+- **(bindings/cli)** Rename `--config` to `--config-json` (#6932) ([cb4436b](https://github.com/swc-project/swc/commit/cb4436bd6ed085bdf1f0d98776f166bf2a6275c9))
+
+## [1.3.35] - 2023-02-10
+
+### Bug Fixes
+
+
+
 - **(es/minifier)** Don't skip shorthand properties from sequential inliner (#6918) ([725d3fb](https://github.com/swc-project/swc/commit/725d3fb645976681bc11b1df943f3ca1008788ab))
 
 
