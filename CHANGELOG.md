@@ -7,6 +7,9 @@
 
 - **(bindings/cli)** Rename `--config` to `--config-json` (#6932) ([cb4436b](https://github.com/swc-project/swc/commit/cb4436bd6ed085bdf1f0d98776f166bf2a6275c9))
 
+
+- **(es/module)** Fix `jsc.paths` on Windows (#6930) ([1ec161a](https://github.com/swc-project/swc/commit/1ec161a0f15886f97d4fb9cbb5d115b29ed5e2a2))
+
 ## [1.3.35] - 2023-02-10
 
 ### Bug Fixes
