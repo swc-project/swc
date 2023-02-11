@@ -1327,12 +1327,10 @@ impl ModuleConfig {
         available_features: FeatureFlag,
     ) -> Box<dyn swc_ecma_visit::Fold + 'cmt> {
         let base = match base {
-            FileName::Real(path) if !paths.is_empty() && !path.is_absolute() => FileName::Real(
-                std::env::current_dir()
-                    .map(|v| v.join(path))
-                    .unwrap_or_else(|_| path.to_path_buf()),
-            ),
-            _ => base.to_owned(),
+            FileName::Real(v) if !paths.is_empty() => {
+                FileName::Real(v.canonicalize().unwrap_or_else(|_| v.to_path_buf()))
+            }
+            _ => base.clone(),
         };
 
         match config {
