@@ -41,11 +41,13 @@
 * actual vec into guest it'll write pointer to the vec into the struct.
 */
 
-use std::sync::Arc;
-
-use parking_lot::Mutex;
-use swc_common::{plugin::metadata::TransformPluginMetadataContext, SourceMap};
-use wasmer::{imports, Function, ImportObject, Module};
+use wasmer::{
+    imports,
+    Function,
+    FunctionEnv,
+    Imports,
+    Store
+};
 
 use crate::{
     host_environment::BaseHostEnvironment,
@@ -63,14 +65,14 @@ use crate::{
     },
 };
 
-mod comments;
-mod diagnostics;
-mod handler;
-mod hygiene;
-mod metadata_context;
-mod set_transform_result;
-mod source_map;
-mod span;
+pub(crate) mod comments;
+pub(crate) mod diagnostics;
+pub(crate) mod handler;
+pub(crate) mod hygiene;
+pub(crate) mod metadata_context;
+pub(crate) mod set_transform_result;
+pub(crate) mod source_map;
+pub(crate) mod span;
 
 use handler::*;
 use hygiene::*;
@@ -91,217 +93,117 @@ use self::{
 /// Create an ImportObject includes functions to be imported from host to the
 /// plugins.
 pub(crate) fn build_import_object(
-    module: &Module,
-    source_map: Arc<SourceMap>,
-    metadata_context: Arc<TransformPluginMetadataContext>,
-    plugin_config: Option<serde_json::Value>,
-    transform_result: &Arc<Mutex<Vec<u8>>>,
-    core_diag_buffer: &Arc<Mutex<Vec<u8>>>,
-) -> ImportObject {
-    let store = module.store();
+    wasmer_store: &mut Store,
+    metadata_env: &FunctionEnv<MetadataContextHostEnvironment>,
+    //plugin_config: Option<serde_json::Value>,
+    transform_env: &FunctionEnv<TransformResultHostEnvironment>,
+    base_env: &FunctionEnv<BaseHostEnvironment>,
+    comments_env: &FunctionEnv<CommentHostEnvironment>,
+    //core_diag_buffer: &Arc<Mutex<Vec<u8>>>,
+    source_map_host_env: &FunctionEnv<SourceMapHostEnvironment>,
+) -> Imports {
 
     // core_diagnostics
-    let set_transform_plugin_core_pkg_diagnostics_fn_decl = Function::new_native_with_env(
-        store,
-        DiagnosticContextHostEnvironment::new(core_diag_buffer),
-        set_plugin_core_pkg_diagnostics,
-    );
+    // TODO WASMER UPGRADE - What do i do with diagnostics?
+    //let set_transform_plugin_core_pkg_diagnostics_fn_decl = Function::new_native_with_env(
+    //    store,
+    //    DiagnosticContextHostEnvironment::new(core_diag_buffer),
+    //    set_plugin_core_pkg_diagnostics,
+    //);
 
     // metadata
-    let context_key_buffer = Arc::new(Mutex::new(vec![]));
-    let copy_context_key_to_host_env_fn_decl = Function::new_native_with_env(
-        store,
-        MetadataContextHostEnvironment::new(&metadata_context, &plugin_config, &context_key_buffer),
-        copy_context_key_to_host_env,
-    );
-    let get_transform_plugin_config_fn_decl = Function::new_native_with_env(
-        store,
-        MetadataContextHostEnvironment::new(&metadata_context, &plugin_config, &context_key_buffer),
-        get_transform_plugin_config,
-    );
-    let get_transform_context_fn_decl = Function::new_native_with_env(
-        store,
-        MetadataContextHostEnvironment::new(&metadata_context, &plugin_config, &context_key_buffer),
-        get_transform_context,
-    );
-    let get_experimental_transform_context_fn_decl = Function::new_native_with_env(
-        store,
-        MetadataContextHostEnvironment::new(&metadata_context, &plugin_config, &context_key_buffer),
-        get_experimental_transform_context,
-    );
-    let get_raw_experiemtal_transform_context_fn_decl = Function::new_native_with_env(
-        store,
-        MetadataContextHostEnvironment::new(&metadata_context, &plugin_config, &context_key_buffer),
-        get_raw_experiemtal_transform_context,
-    );
+    let copy_context_key_to_host_env_fn_decl =
+        Function::new_typed_with_env(store, metadata_env, copy_context_key_to_host_env);
+    let get_transform_plugin_config_fn_decl =
+        Function::new_typed_with_env(store, metadata_env get_transform_plugin_config);
+    let get_transform_context_fn_decl =
+        Function::new_typed_with_env(store, metadata_env, get_transform_context);
+    let get_experimental_transform_context_fn_decl =
+        Function::new_typed_with_env(store, metadata_env, get_experimental_transform_context);
+    let get_raw_experiemtal_transform_context_fn_decl =
+        Function::new_typed_with_env(store, metadata_env, get_raw_experiemtal_transform_context);
 
     // transform_result
-    let set_transform_result_fn_decl = Function::new_native_with_env(
-        store,
-        TransformResultHostEnvironment::new(transform_result),
-        set_transform_result,
-    );
+    let set_transform_result_fn_decl =
+        Function::new_typed_with_env(store, transform_env, set_transform_result);
 
     // handler
     let emit_diagnostics_fn_decl =
-        Function::new_native_with_env(store, BaseHostEnvironment::new(), emit_diagnostics);
+        Function::new_typed_with_env(store, base_env, emit_diagnostics);
 
     // hygiene
-    let mark_fresh_fn_decl = Function::new_native(store, mark_fresh_proxy);
-    let mark_parent_fn_decl = Function::new_native(store, mark_parent_proxy);
-    let mark_is_builtin_fn_decl = Function::new_native(store, mark_is_builtin_proxy);
-    let mark_set_builtin_fn_decl = Function::new_native(store, mark_set_builtin_proxy);
-    let mark_is_descendant_of_fn_decl = Function::new_native_with_env(
-        store,
-        BaseHostEnvironment::new(),
-        mark_is_descendant_of_proxy,
-    );
-
+    let mark_fresh_fn_decl = Function::new_typed(store, mark_fresh_proxy);
+    let mark_parent_fn_decl = Function::new_typed(store, mark_parent_proxy);
+    let mark_is_builtin_fn_decl = Function::new_typed(store, mark_is_builtin_proxy);
+    let mark_set_builtin_fn_decl = Function::new_typed(store, mark_set_builtin_proxy);
+    let mark_is_descendant_of_fn_decl =
+        Function::new_typed_with_env(store, base_env, mark_is_descendant_of_proxy);
     let mark_least_ancestor_fn_decl =
-        Function::new_native_with_env(store, BaseHostEnvironment::new(), mark_least_ancestor_proxy);
-
+        Function::new_typed_with_env(store, base_env, mark_least_ancestor_proxy);
     let syntax_context_apply_mark_fn_decl =
-        Function::new_native(store, syntax_context_apply_mark_proxy);
-    let syntax_context_remove_mark_fn_decl = Function::new_native_with_env(
-        store,
-        BaseHostEnvironment::new(),
-        syntax_context_remove_mark_proxy,
-    );
-    let syntax_context_outer_fn_decl = Function::new_native(store, syntax_context_outer_proxy);
+        Function::new_typed(store, syntax_context_apply_mark_proxy);
+    let syntax_context_remove_mark_fn_decl =
+        Function::new_typed_with_env(store, base_env, syntax_context_remove_mark_proxy);
+    let syntax_context_outer_fn_decl = Function::new_typed(store, syntax_context_outer_proxy);
 
     // Span
-    let span_dummy_with_cmt_fn_decl = Function::new_native(store, span_dummy_with_cmt_proxy);
+    let span_dummy_with_cmt_fn_decl = Function::new_typed(store, span_dummy_with_cmt_proxy);
 
     // comments
-    let comment_buffer = Arc::new(Mutex::new(vec![]));
-
-    let copy_comment_to_host_env_fn_decl = Function::new_native_with_env(
-        store,
-        CommentHostEnvironment::new(&comment_buffer),
-        copy_comment_to_host_env,
-    );
-
-    let add_leading_comment_fn_decl = Function::new_native_with_env(
-        store,
-        CommentHostEnvironment::new(&comment_buffer),
-        add_leading_comment_proxy,
-    );
-
-    let add_leading_comments_fn_decl = Function::new_native_with_env(
-        store,
-        CommentHostEnvironment::new(&comment_buffer),
-        add_leading_comments_proxy,
-    );
-
-    let has_leading_comments_fn_decl = Function::new_native(store, has_leading_comments_proxy);
-
-    let move_leading_comments_fn_decl = Function::new_native(store, move_leading_comments_proxy);
-
-    let take_leading_comments_fn_decl = Function::new_native_with_env(
-        store,
-        // take_* doesn't need to share buffer to pass values from plugin to the host - do not
-        // clone buffer here.
-        CommentHostEnvironment::new(&Default::default()),
-        take_leading_comments_proxy,
-    );
-
-    let get_leading_comments_fn_decl = Function::new_native_with_env(
-        store,
-        // get_* doesn't need to share buffer to pass values from plugin to the host - do not clone
-        // buffer here.
-        CommentHostEnvironment::new(&Default::default()),
-        get_leading_comments_proxy,
-    );
-
-    let add_trailing_comment_fn_decl = Function::new_native_with_env(
-        store,
-        CommentHostEnvironment::new(&comment_buffer),
-        add_trailing_comment_proxy,
-    );
-
-    let add_trailing_comments_fn_decl = Function::new_native_with_env(
-        store,
-        CommentHostEnvironment::new(&comment_buffer),
-        add_trailing_comments_proxy,
-    );
-
-    let has_trailing_comments_fn_decl = Function::new_native(store, has_trailing_comments_proxy);
-
-    let move_trailing_comments_fn_decl = Function::new_native(store, move_trailing_comments_proxy);
-
-    let take_trailing_comments_fn_decl = Function::new_native_with_env(
-        store,
-        // take_* doesn't need to share buffer to pass values from plugin to the host - do not
-        // clone buffer here.
-        CommentHostEnvironment::new(&Default::default()),
-        take_trailing_comments_proxy,
-    );
-
-    let get_trailing_comments_fn_decl = Function::new_native_with_env(
-        store,
-        // get_* doesn't need to share buffer to pass values from plugin to the host - do not clone
-        // buffer here.
-        CommentHostEnvironment::new(&Default::default()),
-        get_trailing_comments_proxy,
-    );
-
-    let add_pure_comment_fn_decl = Function::new_native(store, add_pure_comment_proxy);
+    let copy_comment_to_host_env_fn_decl =
+        Function::new_typed_with_env(store, comments_env, copy_comment_to_host_env);
+    let add_leading_comment_fn_decl = Function::new_typed_with_env(store, comments_env, add_leading_comment_proxy);
+    let add_leading_comments_fn_decl = Function::new_typed_with_env(store, comments_env, add_leading_comments_proxy);
+    let has_leading_comments_fn_decl = Function::new_typed(store, has_leading_comments_proxy);
+    let move_leading_comments_fn_decl = Function::new_typed(store, move_leading_comments_proxy);
+    // take_* doesn't need to share buffer to pass values from plugin to the host - do not
+    // clone buffer here.
+    let take_leading_comments_fn_decl =
+        Function::new_typed_with_env(store, comments_env, take_leading_comments_proxy);
+    // get_* doesn't need to share buffer to pass values from plugin to the host - do not clone
+    // buffer here.
+    let get_leading_comments_fn_decl =
+        Function::new_typed_with_env(store, comments_env, get_leading_comments_proxy);
+    let add_trailing_comment_fn_decl =
+        Function::new_typed_with_env(store, comments_env, add_trailing_comment_proxy);
+    let add_trailing_comments_fn_decl =
+        Function::new_typed_with_env(store, comments_env, add_trailing_comments_proxy);
+    let has_trailing_comments_fn_decl =
+        Function::new_typed(store, has_trailing_comments_proxy);
+    let move_trailing_comments_fn_decl =
+        Function::new_typed(store, move_trailing_comments_proxy);
+    // take_* doesn't need to share buffer to pass values from plugin to the host - do not
+    // clone buffer here.
+    let take_trailing_comments_fn_decl =
+        Function::new_typed_with_env(store, comments_env, take_trailing_comments_proxy);
+    // get_* doesn't need to share buffer to pass values from plugin to the host - do not clone
+    // buffer here.
+    let get_trailing_comments_fn_decl =
+        Function::new_typed_with_env(store, comments_env, get_trailing_comments_proxy);
+    let add_pure_comment_fn_decl = Function::new_typed(store, add_pure_comment_proxy);
 
     // source_map
-    let source_map_buffer = Arc::new(Mutex::new(vec![]));
-    let source_map = Arc::new(Mutex::new(source_map));
-
-    let lookup_char_pos_source_map_fn_decl = Function::new_native_with_env(
-        store,
-        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
-        lookup_char_pos_proxy,
-    );
-
-    let doctest_offset_line_fn_decl = Function::new_native_with_env(
-        store,
-        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
-        doctest_offset_line_proxy,
-    );
-
-    let merge_spans_fn_decl = Function::new_native_with_env(
-        store,
-        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
-        merge_spans_proxy,
-    );
-
-    let span_to_string_fn_decl = Function::new_native_with_env(
-        store,
-        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
-        span_to_string_proxy,
-    );
-
-    let span_to_filename_fn_decl = Function::new_native_with_env(
-        store,
-        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
-        span_to_filename_proxy,
-    );
-
-    let span_to_source_fn_decl = Function::new_native_with_env(
-        store,
-        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
-        span_to_source_proxy,
-    );
-
-    let span_to_lines_fn_decl = Function::new_native_with_env(
-        store,
-        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
-        span_to_lines_proxy,
-    );
-
-    let lookup_byte_offset_fn_decl = Function::new_native_with_env(
-        store,
-        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
-        lookup_byte_offset_proxy,
-    );
+    let lookup_char_pos_source_map_fn_decl =
+        Function::new_typed_with_env(store, source_map_host_env, lookup_char_pos_proxy);
+    let doctest_offset_line_fn_decl =
+        Function::new_typed_with_env(store, source_map_host_env, doctest_offset_line_proxy);
+    let merge_spans_fn_decl =
+        Function::new_typed_with_env(store, source_map_host_env, merge_spans_proxy);
+    let span_to_string_fn_decl =
+        Function::new_typed_with_env(store, source_map_host_env, span_to_string_proxy);
+    let span_to_filename_fn_decl =
+        Function::new_typed_with_env(store, source_map_host_env, span_to_filename_proxy);
+    let span_to_source_fn_decl =
+        Function::new_typed_with_env(store, source_map_host_env, span_to_source_proxy);
+    let span_to_lines_fn_decl =
+        Function::new_typed_with_env(store, source_map_host_env, span_to_lines_proxy);
+    let lookup_byte_offset_fn_decl =
+        Function::new_typed_with_env(store, source_map_host_env, lookup_byte_offset_proxy);
 
     imports! {
         "env" => {
-            "__set_transform_plugin_core_pkg_diagnostics" => set_transform_plugin_core_pkg_diagnostics_fn_decl,
+            // diagnostics
+            //"__set_transform_plugin_core_pkg_diagnostics" => set_transform_plugin_core_pkg_diagnostics_fn_decl,
             // metadata
             "__copy_context_key_to_host_env" => copy_context_key_to_host_env_fn_decl,
             "__get_transform_plugin_config" => get_transform_plugin_config_fn_decl,

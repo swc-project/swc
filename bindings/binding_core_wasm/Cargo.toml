@@ -23,9 +23,12 @@ plugin = ["swc_core/plugin_transform_host_js"]
 anyhow = "1.0.66"
 serde = {version = "1", features = ["derive"]}
 serde-wasm-bindgen = "0.4.5"
-swc_core = {version = "0.59.26", features = [
+wasmer = { version = "3.0.1", default-features = false, features = ["js"] }
+wasmer-wasi = { version = "3.0.1", default-features = false, features = ["js"] }
+swc_core = {path = "../../crates/swc_core", version = "0.59.26", features = [
   "common_perf",
   "binding_macro_wasm",
+  "plugin_transform_host_js",
   "ecma_transforms",
   "ecma_visit",
 ]}

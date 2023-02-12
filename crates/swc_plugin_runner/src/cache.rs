@@ -138,7 +138,7 @@ impl PluginModuleCache {
     /// In actual transform, `plugins` is also being called per each transform.
     #[cfg(feature = "filesystem_cache")]
     #[tracing::instrument(level = "info", skip_all)]
-    pub fn load_module(&self, binary_path: &Path) -> Result<Module, Error> {
+    pub fn load_module(&self, wasmer_store: &Store, binary_path: &Path) -> Result<Module, Error> {
         let binary_path = binary_path.to_path_buf();
         let mut inner_cache = self.inner.get().expect("Cache should be available").lock();
 
@@ -154,7 +154,10 @@ impl PluginModuleCache {
             std::fs::read(&binary_path).context("Cannot read plugin from specified path")?;
         let module_bytes_hash = Hash::generate(&module_bytes);
 
+        //TODO WASMER UPGRADE Figure out which one of these is right...
+        //see diff https://github.com/swc-project/swc/pull/5521/files#diff-3bda5def6ce2b7553c3b3a5ad241c0bdb7021e67b7de1e594df4cd5a54d403b3R152
         let wasmer_store = new_store();
+        //let wasmer_store = Store::default();
 
         let load_cold_wasm_bytes = || {
             let span = tracing::span!(
@@ -194,7 +197,7 @@ impl PluginModuleCache {
 
     #[cfg(feature = "memory_cache")]
     #[tracing::instrument(level = "info", skip_all)]
-    pub fn load_module(&self, binary_path: &Path) -> Result<Module, Error> {
+    pub fn load_module(&self, wasmer_store: &Store, binary_path: &Path) -> Result<Module, Error> {
         let binary_path = binary_path.to_path_buf();
         let mut inner_cache = self.inner.get().expect("Cache should be available").lock();
 
@@ -210,7 +213,7 @@ impl PluginModuleCache {
         //TODO: In native runtime we have to reconstruct module using raw bytes in
         // memory cache. requires https://github.com/wasmerio/wasmer/pull/2821
 
-        let wasmer_store = new_store();
+        //let wasmer_store = new_store();
         let module = Module::new(&wasmer_store, in_memory_module_bytes)?;
 
         Ok(module)

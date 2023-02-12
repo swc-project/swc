@@ -336,8 +336,8 @@ __visit = ["__ecma", "swc_ecma_visit"]
 [dependencies]
 # 3rd party dependencies
 once_cell   = { optional = true, version = "1.13.0" }
-wasmer      = { optional = true, version = "2.3.0", default-features = false }
-wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
+wasmer      = { optional = true, version = "3.1.1", default-features = false }
+wasmer-wasi      = { optional = true, version = "3.1.1", default-features = false }
 
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "0.34.25", path = "../binding_macros" }

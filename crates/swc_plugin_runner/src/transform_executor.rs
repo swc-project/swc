@@ -13,7 +13,7 @@ use swc_common::{
     plugin::{diagnostics::PluginCorePkgDiagnostics, metadata::TransformPluginMetadataContext},
     SourceMap,
 };
-use wasmer::Instance;
+use wasmer::{AsStoreMut, Instance, Store, TypedFunction};
 
 #[cfg(feature = "__rkyv")]
 use crate::memory_interop::write_into_memory_view;
@@ -21,13 +21,13 @@ use crate::memory_interop::write_into_memory_view;
 /// A struct encapsule executing a plugin's transform interop to its teardown
 pub struct TransformExecutor {
     // Main transform interface plugin exports
-    exported_plugin_transform: wasmer::NativeFunc<(u32, u32, u32, u32), u32>,
+    exported_plugin_transform: TypedFunction<(u32, u32, u32, u32), u32>,
     // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
     // memory space
-    exported_plugin_free: wasmer::NativeFunc<(u32, u32), u32>,
+    exported_plugin_free: TypedFunction<(u32, u32), u32>,
     // `__alloc` function automatically exported via swc_plugin sdk to allow allocation in guest
     // memory space
-    exported_plugin_alloc: wasmer::NativeFunc<u32, u32>,
+    exported_plugin_alloc: TypedFunction<u32, u32>,
     instance: Instance,
     // Reference to the pointers successfully allocated which'll be freed by Drop.
     allocated_ptr_vec: Vec<(u32, u32)>,
@@ -51,15 +51,16 @@ impl TransformExecutor {
     ) -> Result<TransformExecutor, Error> {
         let transform_result = Arc::new(Mutex::new(vec![]));
         let core_diag_buffer = Arc::new(Mutex::new(vec![]));
-
+        let mut store = Store::default();
         let instance = crate::load_plugin::load_plugin(
+            &mut store,
             path,
             cache,
             source_map,
             metadata_context,
             plugin_config,
             &transform_result,
-            &core_diag_buffer,
+            //&core_diag_buffer,
         )?;
 
         // As soon as instance is ready, host calls a fn to read plugin's swc_core pkg
@@ -75,28 +76,27 @@ impl TransformExecutor {
             .get_native_function::<(), i32>("__get_transform_plugin_core_pkg_diag")?
             .call()?;
 
-        let diag_result: PluginCorePkgDiagnostics =
-            PluginSerializedBytes::from_slice(&(&(*core_diag_buffer.lock()))[..]).deserialize()?;
+        //let diag_result: PluginCorePkgDiagnostics =
+        //    PluginSerializedBytes::from_slice(&(&(*core_diag_buffer.lock()))[..]).deserialize()?;
 
-        let tracker = TransformExecutor {
+        let executor = TransformExecutor {
             exported_plugin_transform: instance
                 .exports
-                .get_native_function::<(u32, u32, u32, u32), u32>(
-                    "__transform_plugin_process_impl",
-                )?,
+                .get_typed_function(&store, "__transform_plugin_process_impl")?,
             exported_plugin_free: instance
                 .exports
-                .get_native_function::<(u32, u32), u32>("__free")?,
+                .get_typed_function(&store, "__free")?,
             exported_plugin_alloc: instance
                 .exports
-                .get_native_function::<u32, u32>("__alloc")?,
+                .get_typed_function(&store, "__alloc")?,
             instance,
+            store,
             allocated_ptr_vec: Vec::with_capacity(3),
             transform_result,
-            plugin_core_diag: diag_result,
+            //plugin_core_diag: diag_result,
         };
 
-        Ok(tracker)
+        Ok(executor)
     }
 
     /// Copy host's serialized bytes into guest (plugin)'s allocated memory.
@@ -108,11 +108,16 @@ impl TransformExecutor {
     ) -> Result<(u32, u32), Error> {
         let memory = self.instance.exports.get_memory("memory")?;
 
-        let ptr = write_into_memory_view(memory, serialized_bytes, |serialized_len| {
-            self.exported_plugin_alloc
-                .call(serialized_len.try_into().expect(""))
-                .expect("")
-        });
+        let ptr = write_into_memory_view(
+            memory,
+            &mut self.store.as_store_mut(),
+            serialized_bytes,
+            |s, serialized_len| {
+                self.exported_plugin_alloc
+                    .call(s, serialized_len.try_into().expect(""))
+                    .expect("")
+            }
+        );
 
         self.allocated_ptr_vec.push(ptr);
         Ok(ptr)
@@ -154,7 +159,7 @@ impl TransformExecutor {
      * current runtime.
      */
     #[allow(unreachable_code)]
-    pub fn is_transform_schema_compatible(&self) -> Result<bool, Error> {
+    pub fn is_transform_schema_compatible(self) -> Result<bool, Error> {
         #[cfg(any(
             feature = "plugin_transform_schema_v1",
             feature = "plugin_transform_schema_vtest"
@@ -191,6 +196,7 @@ impl TransformExecutor {
         let guest_program_ptr = self.write_bytes_into_guest(program)?;
 
         let result = self.exported_plugin_transform.call(
+            &mut self.store,
             guest_program_ptr.0,
             guest_program_ptr.1,
             unresolved_mark.as_u32(),
@@ -205,7 +211,7 @@ impl Drop for TransformExecutor {
     fn drop(&mut self) {
         for ptr in self.allocated_ptr_vec.iter() {
             self.exported_plugin_free
-                .call(ptr.0, ptr.1)
+                .call(&mut self.store, ptr.0, ptr.1)
                 .expect("Failed to free memory allocated in the plugin");
         }
     }

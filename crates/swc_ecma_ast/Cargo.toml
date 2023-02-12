@@ -35,7 +35,7 @@ bitflags   = "1"
 bytecheck  = { version = "0.6.9", optional = true }
 is-macro   = "0.2.1"
 num-bigint = { version = "0.4", features = ["serde"] }
-rkyv       = { package = "rkyv", version = "=0.7.37", optional = true }
+rkyv       = { package = "rkyv", version = "=0.7.38", optional = true }
 # This is to avoid cargo version selection conflict between rkyv=0.7.37 and other versions, as it is strictly pinned
 # cannot be merged.
 rkyv-latest = { package = "rkyv-test", version = "=0.7.38-test.2", optional = true }
