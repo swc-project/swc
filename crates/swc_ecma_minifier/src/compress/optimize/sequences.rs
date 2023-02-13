@@ -906,6 +906,7 @@ where
                             },
                             Mergable::Expr(e) => e,
                             Mergable::FnDecl(..) => continue,
+                            Mergable::Drop => continue,
                         },
                     )? {
                         did_work = true;
@@ -994,6 +995,8 @@ where
                                 break;
                             }
                         }
+
+                        Mergable::Drop => break,
                     }
                 }
             }
@@ -1102,6 +1105,8 @@ where
                                 return false;
                             }
                         }
+
+                        Mergable::Drop => return false,
                     }
 
                     // We can't proceed if the rhs (a.id = b.right) is
@@ -1166,6 +1171,8 @@ where
                                 need_all: true,
                             },
                         )),
+
+                        Mergable::Drop => return false,
                     };
 
                     if let Some(ids_used_by_a_init) = ids_used_by_a_init {
@@ -1265,6 +1272,7 @@ where
                                 return false;
                             }
                         }
+                        Mergable::Drop => return false,
                     }
                 }
 
@@ -1474,6 +1482,7 @@ where
                 Mergable::Expr(e) => dump(*e, false),
                 Mergable::Var(e) => dump(*e, false),
                 Mergable::FnDecl(e) => dump(*e, false),
+                Mergable::Drop => return Ok(false),
             };
 
             Some(
@@ -1523,6 +1532,7 @@ where
                     return Ok(false);
                 }
             }
+            Mergable::Drop => return Ok(false),
         }
 
         {
@@ -1561,6 +1571,8 @@ where
                     // viewed as a variable with an identifier name and a
                     // function expression as a initialized.
                 }
+
+                Mergable::Drop => return Ok(false),
             }
         }
 
@@ -1628,6 +1640,7 @@ where
                     Mergable::Var(a) => idents_used_by_ignoring_nested(&a.init),
                     Mergable::Expr(a) => idents_used_by_ignoring_nested(&**a),
                     Mergable::FnDecl(a) => idents_used_by_ignoring_nested(&**a),
+                    Mergable::Drop => return Ok(false),
                 };
                 if obj_ids.intersection(&a_ids).next().is_some() {
                     return Ok(false);
@@ -1951,6 +1964,7 @@ where
                     crate::debug::dump(&*b, false)
                 );
             }
+            Mergable::Drop => return Ok(false),
         }
 
         if self.replace_seq_update(a, b)? {
@@ -2249,6 +2263,8 @@ where
                     return Ok(false);
                 }
             }
+
+            Mergable::Drop => return Ok(false),
         };
 
         if let Some(a_right) = a_right {
@@ -2316,6 +2332,10 @@ where
                             ident: Some(a.ident.take()),
                             function: a.function.take(),
                         }))
+                    }
+
+                    Mergable::Drop => {
+                        unreachable!()
                     }
                 }
             };
@@ -2516,6 +2536,7 @@ enum Mergable<'a> {
     Var(&'a mut VarDeclarator),
     Expr(&'a mut Expr),
     FnDecl(&'a mut FnDecl),
+    Drop,
 }
 
 impl Mergable<'_> {
@@ -2530,6 +2551,7 @@ impl Mergable<'_> {
                 _ => None,
             },
             Mergable::FnDecl(f) => Some(f.ident.to_id()),
+            Mergable::Drop => None,
         }
     }
 }
