@@ -1072,7 +1072,7 @@ where
         }
     }
 
-    fn drop_mergable_seq(&self, a: &mut Mergable) -> Result<bool, ()> {
+    fn drop_mergable_seq(&mut self, a: &mut Mergable) -> Result<bool, ()> {
         if let Mergable::Expr(a) = a {
             if let Expr::Assign(assign) = a {
                 if let Some(left) = assign.left.as_ident() {
@@ -1085,7 +1085,12 @@ where
                         if !usage.is_fn_local {
                             return Ok(false);
                         }
+                    } else {
+                        return Ok(false);
                     }
+
+                    self.changed = true;
+                    report_change!("sequences: Dropped an assignment using sequential inliner");
 
                     **a = *assign.right.take();
                 }
