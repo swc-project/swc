@@ -1089,10 +1089,12 @@ where
                         return Ok(false);
                     }
 
-                    self.changed = true;
-                    report_change!("sequences: Dropped an assignment using sequential inliner");
+                    if assign.op == op!("=") {
+                        self.changed = true;
+                        report_change!("sequences: Dropped an assignment using sequential inliner");
 
-                    **a = *assign.right.take();
+                        **a = *assign.right.take();
+                    }
                 }
             }
         }
