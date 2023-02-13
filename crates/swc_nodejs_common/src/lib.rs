@@ -1,8 +1,5 @@
 #![deny(warnings)]
 
-/// Explicit extern crate to use allocator.
-extern crate swc_node_base;
-
 use std::any::type_name;
 
 use anyhow::Context;
