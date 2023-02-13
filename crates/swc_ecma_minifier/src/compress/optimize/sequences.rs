@@ -1074,7 +1074,7 @@ where
 
     fn drop_mergable_seq(&mut self, a: &mut Mergable) -> Result<bool, ()> {
         if let Mergable::Expr(a) = a {
-            if self.optimize_in_fn_termination(a) {
+            if self.optimize_last_expr_before_termination(a) {
                 return Ok(true);
             }
         }

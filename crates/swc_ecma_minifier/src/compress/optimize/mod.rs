@@ -2387,7 +2387,7 @@ where
         n.visit_mut_children_with(self);
 
         if let Some(arg) = &mut n.arg {
-            self.optimize_in_fn_termination(arg);
+            self.optimize_last_expr_before_termination(arg);
         }
     }
 
@@ -2783,7 +2783,7 @@ where
     fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
         n.visit_mut_children_with(self);
 
-        self.optimize_in_fn_termination(&mut n.arg);
+        self.optimize_last_expr_before_termination(&mut n.arg);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
