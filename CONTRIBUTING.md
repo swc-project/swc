@@ -194,7 +194,7 @@ adding labels to triage issues:
     that this issue is specific to.
 
 -   Orange, **P**-prefixed labels indicate a bug's **priority**.
--   Light orange, **L**-prefixed labels indicate language related to the bug.
+-   Light orange, **L**-prefixed labels indicate **language** related to the bug.
 
 [gist]: https://gist.github.com/
 [new-issues]: https://github.com/swc-project/swc/issues/new/choose
