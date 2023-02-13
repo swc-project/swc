@@ -914,7 +914,12 @@ where
                             }
                         }
                         Mergable::FnDecl(..) => continue,
-                        Mergable::Drop => continue,
+                        Mergable::Drop => {
+                            if self.drop_mergable_seq(a)? {
+                                did_work = true;
+                                break;
+                            }
+                        }
                     }
 
                     // This logic is required to handle
@@ -1062,6 +1067,29 @@ where
             Pat::Assign(..) => false,
             Pat::Expr(e) => self.is_skippable_for_seq(a, e),
         }
+    }
+
+    fn drop_mergable_seq(&self, a: &mut Mergable) -> Result<bool, ()> {
+        if let Mergable::Expr(a) = a {
+            if let Expr::Assign(assign) = a {
+                if let Some(left) = assign.left.as_ident() {
+                    if left.span.ctxt == self.expr_ctx.unresolved_ctxt {
+                        return Ok(false);
+                    }
+
+                    // Abort if the variable is captured.
+                    if let Some(usage) = self.data.vars.get(&left.to_id()) {
+                        if !usage.is_fn_local {
+                            return Ok(false);
+                        }
+                    }
+
+                    **a = *assign.right.take();
+                }
+            }
+        }
+
+        Ok(false)
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
