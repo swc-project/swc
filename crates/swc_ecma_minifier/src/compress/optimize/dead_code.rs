@@ -33,6 +33,9 @@ where
     ///     throw x();
     /// }
     /// ```
+    /// # Returns
+    ///
+    /// returns true if `e` is changed.
     pub(super) fn optimize_last_expr_before_termination(&mut self, e: &mut Expr) -> bool {
         if !self.options.dead_code {
             return false;
