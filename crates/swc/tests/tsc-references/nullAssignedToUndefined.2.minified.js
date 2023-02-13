@@ -1,2 +1,1 @@
 //// [nullAssignedToUndefined.ts]
-undefined = null;

@@ -1,3 +1,1 @@
 //// [emitCompoundExponentiationOperator1.ts]
-var comp;
-comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp = Math.pow(comp, 1), Math.pow(comp, comp)), Math.pow(comp, Math.pow(comp, 2))), Math.pow(comp, comp) + 2), Math.pow(comp, comp) - 2), 2 * Math.pow(comp, comp)), Math.pow(comp, comp) / 2), Math.pow(comp, comp) % 2), Math.pow(comp - 2, 5)), Math.pow(comp + 2, 5)), Math.pow(2 * comp, 5)), Math.pow(comp / 2, 5)), Math.pow(comp % 2, 5)), Math.pow(comp, 7)), Math.pow(comp, 3)), Math.pow(comp, 10)), Math.pow(comp, 2.5)), Math.pow(comp, 1));
