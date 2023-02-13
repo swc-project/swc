@@ -56,7 +56,7 @@ where
                     .data
                     .vars
                     .get(&lhs.to_id())
-                    .map(|var| var.is_fn_local && !var.declared_as_fn_param)
+                    .map(|var| var.declared && var.is_fn_local && !var.declared_as_fn_param)
                     .unwrap_or(false)
                 {
                     report_change!(
@@ -79,7 +79,7 @@ where
                         .data
                         .vars
                         .get(&lhs.to_id())
-                        .map(|var| var.is_fn_local)
+                        .map(|var| var.declared && var.is_fn_local)
                         .unwrap_or(false)
                     {
                         report_change!(
