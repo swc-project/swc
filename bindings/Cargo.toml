@@ -16,3 +16,6 @@ strip = "symbols"
 
 [profile.dev.package."*"]
 debug-assertions = false
+
+[patch.crates-io]
+string_cache = { git = "https://github.com/boshen/string-cache", branch = "dashmap-swc" }
