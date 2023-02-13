@@ -621,7 +621,7 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>)
+    pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: ModuleItemExt,
     {
@@ -680,6 +680,9 @@ where
             }
         }
 
+        if will_terminate {
+            buf.push(Mergable::Drop);
+        }
         exprs.push(buf);
 
         #[cfg(feature = "debug")]

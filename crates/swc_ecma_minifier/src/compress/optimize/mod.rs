@@ -329,7 +329,7 @@ where
     M: Mode,
 {
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
+    fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer<ProgramData>> + VisitWith<AssertValid>,
@@ -407,7 +407,7 @@ where
             stmts.visit_with(&mut AssertValid);
         }
 
-        self.merge_sequences_in_stmts(stmts);
+        self.merge_sequences_in_stmts(stmts, will_terminate);
 
         #[cfg(debug_assertions)]
         {
@@ -2234,7 +2234,7 @@ where
             skip_standalone: true,
             ..self.ctx
         };
-        self.with_ctx(ctx).handle_stmt_likes(stmts);
+        self.with_ctx(ctx).handle_stmt_likes(stmts, true);
 
         if self.vars.inline_with_multi_replacer(stmts) {
             self.changed = true;
@@ -2675,7 +2675,7 @@ where
 
         self.with_ctx(ctx).inject_else(stmts);
 
-        self.with_ctx(ctx).handle_stmt_likes(stmts);
+        self.with_ctx(ctx).handle_stmt_likes(stmts, false);
 
         drop_invalid_stmts(stmts);
 
