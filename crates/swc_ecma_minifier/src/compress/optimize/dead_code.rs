@@ -33,14 +33,14 @@ where
     ///     throw x();
     /// }
     /// ```
-    pub(super) fn optimize_in_fn_termination(&mut self, e: &mut Expr) {
+    pub(super) fn optimize_in_fn_termination(&mut self, e: &mut Expr) -> bool {
         if !self.options.dead_code {
-            return;
+            return false;
         }
 
         // A return statement in a try block may not terminate function.
         if self.ctx.in_try_block {
-            return;
+            return false;
         }
 
         if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) = e {
@@ -62,7 +62,7 @@ where
                     );
                     self.changed = true;
                     *e = *assign.right.take();
-                    return;
+                    return true;
                 }
             }
         }
@@ -91,9 +91,12 @@ where
                             left: Box::new(Expr::Ident(lhs.clone())),
                             right: assign.right.take(),
                         });
+                        return true;
                     }
                 }
             }
         }
+
+        false
     }
 }

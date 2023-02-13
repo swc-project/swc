@@ -1074,28 +1074,8 @@ where
 
     fn drop_mergable_seq(&mut self, a: &mut Mergable) -> Result<bool, ()> {
         if let Mergable::Expr(a) = a {
-            if let Expr::Assign(assign) = a {
-                if let Some(left) = assign.left.as_ident() {
-                    if left.span.ctxt == self.expr_ctx.unresolved_ctxt {
-                        return Ok(false);
-                    }
-
-                    // Abort if the variable is captured.
-                    if let Some(usage) = self.data.vars.get(&left.to_id()) {
-                        if !usage.is_fn_local {
-                            return Ok(false);
-                        }
-                    } else {
-                        return Ok(false);
-                    }
-
-                    if assign.op == op!("=") {
-                        self.changed = true;
-                        report_change!("sequences: Dropped an assignment using sequential inliner");
-
-                        **a = *assign.right.take();
-                    }
-                }
+            if self.optimize_in_fn_termination(a) {
+                return Ok(true);
             }
         }
 
