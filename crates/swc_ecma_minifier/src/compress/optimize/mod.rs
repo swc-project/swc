@@ -328,6 +328,47 @@ impl<M> Optimizer<'_, M>
 where
     M: Mode,
 {
+    fn handle_stmts(&mut self, stmts: &mut Vec<Stmt>, will_terminate: bool) {
+        // Skip if `use asm` exists.
+        if maybe_par!(
+            stmts.iter().any(|stmt| match stmt.as_stmt() {
+                Some(Stmt::Expr(stmt)) => match &*stmt.expr {
+                    Expr::Lit(Lit::Str(Str { raw, .. })) => {
+                        matches!(raw, Some(value) if value == "\"use asm\"" || value == "'use asm'")
+                    }
+                    _ => false,
+                },
+                _ => false,
+            }),
+            *crate::LIGHT_TASK_PARALLELS
+        ) {
+            return;
+        }
+
+        let ctx = Ctx { ..self.ctx };
+
+        self.with_ctx(ctx).inject_else(stmts);
+
+        self.with_ctx(ctx).handle_stmt_likes(stmts, will_terminate);
+
+        drop_invalid_stmts(stmts);
+
+        if stmts.len() == 1 {
+            if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
+                if let Expr::Lit(Lit::Str(s)) = &**expr {
+                    if s.value == *"use strict" {
+                        stmts.clear();
+                    }
+                }
+            }
+        }
+
+        #[cfg(debug_assertions)]
+        {
+            stmts.visit_with(&mut AssertValid);
+        }
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
@@ -2096,6 +2137,7 @@ where
             if let Some(body) = n.body.as_mut() {
                 // Bypass block scope handler.
                 body.visit_mut_children_with(optimizer);
+                optimizer.handle_stmts(&mut body.stmts, true);
                 #[cfg(debug_assertions)]
                 {
                     body.visit_with(&mut AssertValid);
@@ -2693,6 +2735,7 @@ where
         {
             stmts.visit_with(&mut AssertValid);
         }
+        self.handle_stmts(stmts, false)
     }
 
     fn visit_mut_str(&mut self, s: &mut Str) {
