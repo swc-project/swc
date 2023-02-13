@@ -897,20 +897,24 @@ where
 
                     // Merge sequentially
 
-                    if self.merge_sequential_expr(
-                        a,
-                        match &mut a2[j - idx] {
-                            Mergable::Var(b) => match b.init.as_deref_mut() {
-                                Some(v) => v,
-                                None => continue,
-                            },
-                            Mergable::Expr(e) => e,
-                            Mergable::FnDecl(..) => continue,
-                            Mergable::Drop => continue,
+                    match &mut a2[j - idx] {
+                        Mergable::Var(b) => match b.init.as_deref_mut() {
+                            Some(b) => {
+                                if self.merge_sequential_expr(a, b)? {
+                                    did_work = true;
+                                    break;
+                                }
+                            }
+                            None => continue,
                         },
-                    )? {
-                        did_work = true;
-                        break;
+                        Mergable::Expr(b) => {
+                            if self.merge_sequential_expr(a, b)? {
+                                did_work = true;
+                                break;
+                            }
+                        }
+                        Mergable::FnDecl(..) => continue,
+                        Mergable::Drop => continue,
                     }
 
                     // This logic is required to handle
