@@ -168,7 +168,6 @@ jobs:
       - name: Patch
         shell: bash
         run: |
-          echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
           cd bindings && cargo update -p swc_core
 
@@ -730,7 +729,6 @@ jobs:
       - name: Patch
         shell: bash
         run: |
-          echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
           cd bindings && cargo update -p swc_core
@@ -793,7 +791,6 @@ jobs:
       - name: Patch
         shell: bash
         run: |
-          echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
           cd bindings && cargo update -p swc_core
 
