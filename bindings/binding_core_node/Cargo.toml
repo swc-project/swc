@@ -67,3 +67,4 @@ swc_core = { version = "0.59.26", features = [
   "base_node",
   "base_concurrent",
 ] }
+swc_node_base = "0.5.8"
