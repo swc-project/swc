@@ -13,6 +13,12 @@
 
 - **(es/react)** Fix handling of whitespaces (#6935) ([a9b25aa](https://github.com/swc-project/swc/commit/a9b25aaf4a776731d3ef2dc3c192a7b18023e765))
 
+### Miscellaneous Tasks
+
+
+
+- **(swc_nodejs_common)** Remove swc_node_base from swc_nodejs_common (#6940) ([0771418](https://github.com/swc-project/swc/commit/0771418dd0310a7e05bfad76baf4e16cd289351e))
+
 ## [1.3.35] - 2023-02-10
 
 ### Bug Fixes
