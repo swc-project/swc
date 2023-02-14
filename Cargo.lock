@@ -4384,7 +4384,6 @@ dependencies = [
  "napi",
  "serde",
  "serde_json",
- "swc_node_base",
  "tracing",
  "tracing-subscriber",
 ]
