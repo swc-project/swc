@@ -17,6 +17,9 @@
 
 
 
+- **(bot)** Allow org members to use bump comments (#6942) ([0324d5a](https://github.com/swc-project/swc/commit/0324d5a78b8d47b8948f4011c0dd982ff43a2203))
+
+
 - **(swc_nodejs_common)** Remove swc_node_base from swc_nodejs_common (#6940) ([0771418](https://github.com/swc-project/swc/commit/0771418dd0310a7e05bfad76baf4e16cd289351e))
 
 ## [1.3.35] - 2023-02-10
