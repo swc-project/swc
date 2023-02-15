@@ -1,0 +1,6 @@
+
+  x The value of property 'key' should not be empty
+   ,-[input.js:1:1]
+ 1 | const test = <div key></div>
+   :                   ^^^
+   `----
