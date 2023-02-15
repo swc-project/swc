@@ -13,6 +13,9 @@
 
 - **(es/react)** Fix handling of whitespaces (#6935) ([a9b25aa](https://github.com/swc-project/swc/commit/a9b25aaf4a776731d3ef2dc3c192a7b18023e765))
 
+
+- **(es/react)** Don't panic on `key` without a value (#6945) ([14454c9](https://github.com/swc-project/swc/commit/14454c9dbd222cabb8c6eeafa9c664c34030a121))
+
 ### Miscellaneous Tasks
 
 
