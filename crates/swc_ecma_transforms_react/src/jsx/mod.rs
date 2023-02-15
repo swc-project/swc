@@ -533,10 +533,18 @@ where
                                             .value
                                             .and_then(jsx_attr_value_to_expr)
                                             .map(|expr| expr.as_arg());
-                                        assert_ne!(
-                                            key, None,
-                                            "value of property 'key' should not be empty"
-                                        );
+
+                                        if key.is_none() {
+                                            HANDLER.with(|handler| {
+                                                handler
+                                                    .struct_span_err(
+                                                        i.span,
+                                                        "The value of property 'key' should not \
+                                                         be empty",
+                                                    )
+                                                    .emit();
+                                            });
+                                        }
                                         continue;
                                     }
 
