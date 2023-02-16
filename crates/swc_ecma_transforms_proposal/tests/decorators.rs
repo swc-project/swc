@@ -9,7 +9,7 @@ use swc_ecma_visit::Fold;
 
 fn syntax_default() -> Syntax {
     Syntax::Es(EsConfig {
-        export_default_from: true,
+        decorators: true,
         ..Default::default()
     })
 }
