@@ -5,7 +5,7 @@ use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
-use swc_ecma_transforms_testing::test_fixture;
+use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 use swc_ecma_visit::Fold;
 
 fn syntax_default() -> Syntax {
@@ -47,7 +47,10 @@ fn fixture_inner(input: PathBuf) {
         &|_| create_pass(&input),
         &input,
         &output,
-        Default::default(),
+        FixtureTestConfig {
+            allow_error: true,
+            ..Default::default()
+        },
     );
 }
 
