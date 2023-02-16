@@ -3186,7 +3186,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.199.23"
+version = "0.199.24"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3300,7 +3300,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.59.30"
+version = "0.59.31"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4339,7 +4339,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.32.28"
+version = "0.32.29"
 dependencies = [
  "anyhow",
  "dashmap",
