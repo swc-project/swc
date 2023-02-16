@@ -3,8 +3,7 @@ use std::path::PathBuf;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_transforms_compat::es2020::export_namespace_from;
-use swc_ecma_transforms_proposal::export_default_from;
+use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
 use swc_ecma_transforms_testing::{test, test_fixture};
 use swc_ecma_visit::Fold;
 
