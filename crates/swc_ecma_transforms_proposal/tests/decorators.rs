@@ -55,14 +55,16 @@ fn fixture_inner(input: PathBuf) {
 }
 
 #[derive(Deserialize)]
-#[serde(deny_unknown_fields)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
 struct BabelTestOptions {
     plugins: Vec<(String, BabelPluginOption)>,
 }
 
 #[derive(Deserialize)]
-#[serde(deny_unknown_fields, untagged)]
-enum BabelPluginOption {}
+#[serde(deny_unknown_fields, untagged, rename_all = "camelCase")]
+enum BabelPluginOption {
+    Decorator { version: String },
+}
 
 fn read_options_json(input: &Path) -> BabelTestOptions {
     let mut options_path = input.to_path_buf();
