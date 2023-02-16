@@ -53,9 +53,9 @@ fn fixture_inner(input: PathBuf) {
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Options {}
+struct BabelTestOptions {}
 
-fn read_options_json(input: &Path) -> Options {
+fn read_options_json(input: &Path) -> BabelTestOptions {
     let mut options_path = input.to_path_buf();
     options_path.set_file_name("options.json");
 
