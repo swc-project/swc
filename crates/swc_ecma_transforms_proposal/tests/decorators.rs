@@ -4,8 +4,7 @@ use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
-use swc_ecma_transforms_testing::{test, test_fixture};
-use swc_ecma_visit::Fold;
+use swc_ecma_transforms_testing::test_fixture;
 
 fn syntax_default() -> Syntax {
     Syntax::Es(EsConfig {
@@ -51,7 +50,7 @@ fn fixture_inner(input: PathBuf) {
 
     test_fixture(
         syntax_default(),
-        &|t| {
+        &|_| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
