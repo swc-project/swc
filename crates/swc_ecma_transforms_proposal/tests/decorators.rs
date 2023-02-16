@@ -59,15 +59,16 @@ fn read_options_json(input: &Path) -> BabelTestOptions {
     let mut options_path = input.to_path_buf();
     options_path.set_file_name("options.json");
 
-    if !options_path.exists() {
-        // Look for parent directory
-
-        if !options_path.is_absolute() {
-            return read_options_json(&options_path.parent().unwrap());
-        }
+    if options_path.exists() {
+        return serde_json::from_str(&std::fs::read_to_string(&options_path).unwrap())
+            .expect("failed to read options.json");
     }
 
-    serde_json::from_str(&std::fs::read_to_string(&options_path).unwrap()).unwrap()
+    println!("Reading options from {:?}", options_path);
+
+    // Look for parent directory
+
+    read_options_json(options_path.parent().unwrap())
 }
 
 fn create_pass(input: &PathBuf) -> Box<dyn Fold> {
