@@ -56,15 +56,22 @@ fn fixture_inner(input: PathBuf) {
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct BabelTestOptions {}
+struct BabelTestOptions {
+    plugins: Vec<(String, BabelPluginOption)>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields, untagged)]
+enum BabelPluginOption {}
 
 fn read_options_json(input: &Path) -> BabelTestOptions {
     let mut options_path = input.to_path_buf();
     options_path.set_file_name("options.json");
 
     if options_path.exists() {
-        return serde_json::from_str(&std::fs::read_to_string(&options_path).unwrap())
-            .expect("failed to read options.json");
+        let s = std::fs::read_to_string(&options_path).unwrap();
+        println!("Options: {}", s);
+        return serde_json::from_str(&s).expect("failed to read options.json");
     }
 
     println!("Reading options from {:?}", options_path);
