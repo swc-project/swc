@@ -95,13 +95,13 @@ struct ItemData {
 }
 
 #[derive(Debug, Clone)]
-pub struct InternedGraph<T>
+struct InternedGraph<T>
 where
     T: Eq + Hash + Clone,
 {
     /// `bool`: Strong
-    pub(super) idx_graph: FastDiGraphMap<u32, bool>,
-    pub(super) graph_ix: IndexSet<T, BuildHasherDefault<FxHasher>>,
+    idx_graph: FastDiGraphMap<u32, bool>,
+    graph_ix: IndexSet<T, BuildHasherDefault<FxHasher>>,
 }
 
 impl<T> Default for InternedGraph<T>
@@ -147,7 +147,7 @@ where
 }
 
 #[derive(Debug, Clone, Default)]
-pub struct DepGraph {
+struct DepGraph {
     g: InternedGraph<ItemId>,
 }
 
