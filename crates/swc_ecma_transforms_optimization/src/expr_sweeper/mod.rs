@@ -9,7 +9,6 @@ use swc_ecma_ast::{
     Module, ModuleDecl, ModuleExportName, ModuleItem, Stmt, VarDecl,
 };
 use swc_ecma_utils::find_pat_ids;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 use swc_fast_graph::digraph::FastDiGraphMap;
 
 use self::util::{ids_captured_by, ids_used_by, ids_used_by_ignoring_nested};
@@ -17,19 +16,10 @@ use self::util::{ids_captured_by, ids_used_by, ids_used_by_ignoring_nested};
 mod util;
 
 /// DCE, but for unused expressions.
-pub fn expr_sweeper() -> impl VisitMut {
-    ExprSweeper::default()
-}
-
-#[derive(Debug, Default)]
-struct ExprSweeper {}
-
-impl VisitMut for ExprSweeper {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module(&mut self, module: &mut Module) {
-        let mut g = DepGraph::default();
-        let (item_ids, mut items) = g.init(module);
+pub fn sweep_expressions(module: &mut Module) {
+    let mut g = DepGraph::default();
+    let (item_ids, mut items) = g.init(module);
+    {
         let mut analyzer = Analyzer {
             g: &mut g,
             item_ids: &item_ids,
@@ -47,6 +37,10 @@ impl VisitMut for ExprSweeper {
 
         analyzer.handle_exports(module);
     }
+
+    let item_ids = g.finalize(&items);
+
+    dbg!(&item_ids);
 }
 
 pub struct Analyzer<'a> {
