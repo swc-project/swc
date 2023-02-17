@@ -40,7 +40,7 @@
 use once_cell::sync::Lazy;
 use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_optimization::debug_assert_valid;
+use swc_ecma_transforms_optimization::{debug_assert_valid, expr_sweeper::sweep_expressions};
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
@@ -329,6 +329,10 @@ fn perform_dce(m: &mut Program, options: &CompressOptions, extra: &ExtraOptions)
         }
 
         visitor.reset();
+    }
+
+    if let Program::Module(m) = m {
+        while sweep_expressions(m) {}
     }
 
     debug_assert_valid(&*m);
