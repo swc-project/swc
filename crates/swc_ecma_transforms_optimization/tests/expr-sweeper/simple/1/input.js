@@ -10,9 +10,3 @@ foobarCopy += "Unused";
 function internal() {
     return upper(foobar);
 }
-export function external1() {
-    return internal() + foobar;
-}
-export function external2() {
-    foobar += ".";
-}
