@@ -5,12 +5,16 @@ use petgraph::algo::{has_path_connecting, kosaraju_scc};
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::js_word;
 use swc_ecma_ast::{
-    ClassDecl, Decl, ExportDecl, ExportSpecifier, Expr, ExprStmt, FnDecl, Id, ImportSpecifier,
+    op, ClassDecl, Decl, ExportDecl, ExportSpecifier, Expr, ExprStmt, FnDecl, Id, ImportSpecifier,
     Module, ModuleDecl, ModuleExportName, ModuleItem, Stmt, VarDecl,
 };
 use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 use swc_fast_graph::digraph::FastDiGraphMap;
+
+use self::util::{ids_captured_by, ids_used_by, ids_used_by_ignoring_nested};
+
+mod util;
 
 /// DCE, but for unused expressions.
 pub fn expr_sweeper() -> impl VisitMut {
