@@ -413,8 +413,7 @@ impl DepGraph {
             data: &FxHashMap<ItemId, ItemData>,
             group: &mut Vec<ItemId>,
             start_ix: u32,
-            global_done: &mut FxHashSet<u32>,
-            group_done: &mut FxHashSet<u32>,
+            done: &mut FxHashSet<u32>,
         ) -> bool {
             // TODO: Consider cycles
             //
@@ -428,12 +427,12 @@ impl DepGraph {
             {
                 let dep_id = graph.graph_ix.get_index(dep_ix as _).unwrap().clone();
 
-                if global_done.insert(dep_ix) || group_done.insert(dep_ix) {
+                if done.insert(dep_ix) {
                     changed = true;
 
                     group.push(dep_id);
 
-                    add_to_group(graph, data, group, dep_ix, global_done, group_done);
+                    add_to_group(graph, data, group, dep_ix, done);
                 }
             }
 
@@ -454,7 +453,7 @@ impl DepGraph {
             let ix = self.g.get_node(id);
 
             if id.index == usize::MAX {
-                groups.push((vec![id.clone()], FxHashSet::default()));
+                groups.push(vec![id.clone()]);
                 global_done.insert(ix);
                 continue;
             }
@@ -477,7 +476,7 @@ impl DepGraph {
                 .count();
 
             if count >= 2 {
-                groups.push((vec![id.clone()], FxHashSet::default()));
+                groups.push(vec![id.clone()]);
                 global_done.insert(ix as u32);
             }
         }
@@ -487,10 +486,10 @@ impl DepGraph {
         loop {
             let mut changed = false;
 
-            for (group, group_done) in &mut groups {
+            for group in &mut groups {
                 let start = group[0].clone();
                 let start_ix = self.g.get_node(&start);
-                if add_to_group(&self.g, data, group, start_ix, &mut global_done, group_done) {
+                if add_to_group(&self.g, data, group, start_ix, &mut global_done) {
                     changed = true;
                 }
             }
@@ -499,8 +498,6 @@ impl DepGraph {
                 break;
             }
         }
-
-        let mut groups = groups.into_iter().map(|v| v.0).collect::<Vec<_>>();
 
         for group in groups.iter_mut() {
             group.sort()
