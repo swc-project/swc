@@ -41,9 +41,9 @@ pub fn sweep_expressions(module: &mut Module) {
         analyzer.handle_exports(module);
     }
 
-    let item_ids = g.finalize();
+    let groups = g.finalize();
 
-    dbg!(&item_ids);
+    dbg!(&groups);
 }
 
 pub struct Analyzer<'a> {
