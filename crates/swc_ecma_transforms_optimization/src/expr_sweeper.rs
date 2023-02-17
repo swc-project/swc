@@ -13,6 +13,14 @@ impl VisitMut for ExprSweeper {
     noop_visit_mut_type!();
 }
 
+/// The id of an item
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub(super) struct ItemId {
+    /// The index of the module item in the module.
+    pub index: usize,
+    pub kind: ItemIdKind,
+}
+
 /// ## Import
 ///
 /// ```js
