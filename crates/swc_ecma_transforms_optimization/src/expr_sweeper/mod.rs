@@ -22,7 +22,9 @@ use self::util::{ids_captured_by, ids_used_by, ids_used_by_ignoring_nested};
 mod util;
 
 /// DCE, but for unused expressions.
-pub fn sweep_expressions(module: &mut Module) {
+///
+/// Returns true if it's changed.
+pub fn sweep_expressions(module: &mut Module) -> bool {
     let mut g = DepGraph::default();
     let (item_ids, mut items) = g.init(module);
     {
@@ -52,6 +54,10 @@ pub fn sweep_expressions(module: &mut Module) {
         .filter(|&v| v != usize::MAX)
         .collect::<FxHashSet<_>>();
 
+    if retained_lines.len() == item_ids.len() {
+        return false;
+    }
+
     let mut new_body = vec![];
 
     for (index, stmt) in take(&mut module.body).into_iter().enumerate() {
@@ -61,6 +67,8 @@ pub fn sweep_expressions(module: &mut Module) {
     }
 
     module.body = new_body;
+
+    true
 }
 
 pub struct Analyzer<'a> {
