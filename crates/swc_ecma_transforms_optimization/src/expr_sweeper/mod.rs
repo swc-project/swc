@@ -1,7 +1,10 @@
 #![warn(clippy::all)]
 #![warn(unused)]
 
-use std::hash::{BuildHasherDefault, Hash};
+use std::{
+    hash::{BuildHasherDefault, Hash},
+    mem::take,
+};
 
 use indexmap::IndexSet;
 use petgraph::algo::kosaraju_scc;
@@ -43,7 +46,21 @@ pub fn sweep_expressions(module: &mut Module) {
 
     let required = g.finalize();
 
-    dbg!(&required);
+    let retained_lines = required
+        .iter()
+        .map(|v| v.index)
+        .filter(|&v| v != usize::MAX)
+        .collect::<FxHashSet<_>>();
+
+    let mut new_body = vec![];
+
+    for (index, stmt) in take(&mut module.body).into_iter().enumerate() {
+        if retained_lines.contains(&index) {
+            new_body.push(stmt);
+        }
+    }
+
+    module.body = new_body;
 }
 
 pub struct Analyzer<'a> {
