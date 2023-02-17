@@ -15,7 +15,7 @@ impl VisitMut for ExprSweeper {
 
 /// The id of an item
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub(super) struct ItemId {
+struct ItemId {
     /// The index of the module item in the module.
     pub index: usize,
     pub kind: ItemIdKind,
