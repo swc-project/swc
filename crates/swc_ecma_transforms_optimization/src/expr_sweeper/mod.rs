@@ -4,7 +4,7 @@
 use std::hash::{BuildHasherDefault, Hash};
 
 use indexmap::IndexSet;
-use petgraph::algo::{has_path_connecting, kosaraju_scc};
+use petgraph::algo::kosaraju_scc;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::js_word;
 use swc_ecma_ast::{
@@ -41,9 +41,9 @@ pub fn sweep_expressions(module: &mut Module) {
         analyzer.handle_exports(module);
     }
 
-    let groups = g.finalize();
+    let required = g.finalize();
 
-    dbg!(&groups);
+    dbg!(&required);
 }
 
 pub struct Analyzer<'a> {
@@ -409,11 +409,11 @@ struct DepGraph {
 }
 
 impl DepGraph {
-    fn finalize(&self) -> InternedGraph<Vec<ItemId>> {
+    fn finalize(&self) -> FxHashSet<ItemId> {
         /// Returns true if it should be called again
         fn add_to_group(
             graph: &InternedGraph<ItemId>,
-            group: &mut Vec<ItemId>,
+            required: &mut FxHashSet<ItemId>,
             start_ix: u32,
             done: &mut FxHashSet<u32>,
         ) -> bool {
@@ -427,14 +427,14 @@ impl DepGraph {
                 .idx_graph
                 .neighbors_directed(start_ix, petgraph::Direction::Outgoing)
             {
-                let dep_id = graph.graph_ix.get_index(dep_ix as _).unwrap().clone();
-
                 if done.insert(dep_ix) {
                     changed = true;
 
-                    group.push(dep_id);
+                    let dep_id = graph.graph_ix.get_index(dep_ix as _).unwrap().clone();
 
-                    add_to_group(graph, group, dep_ix, done);
+                    required.insert(dep_id);
+
+                    add_to_group(graph, required, dep_ix, done);
                 }
             }
 
@@ -447,99 +447,27 @@ impl DepGraph {
         // If a node have two or more dependants, it should be in a separate
         // group.
 
-        let mut groups = vec![];
-        let mut global_done = FxHashSet::default();
+        let mut required = FxHashSet::default();
+        let mut done = FxHashSet::default();
 
         // Module evaluation node and export nodes starts a group
         for id in self.g.graph_ix.iter() {
             let ix = self.g.get_node(id);
 
             if id.index == usize::MAX {
-                groups.push(vec![id.clone()]);
-                global_done.insert(ix);
+                required.insert(id.clone());
+                done.insert(ix);
                 continue;
-            }
-        }
-
-        // Expand **starting** nodes
-        for (ix, id) in self.g.graph_ix.iter().enumerate() {
-            // If a node is reachable from two or more nodes, it should be in a
-            // separate group.
-
-            if global_done.contains(&(ix as u32)) {
-                continue;
-            }
-
-            let count = global_done
-                .iter()
-                .filter(|&&staring_point| {
-                    has_path_connecting(&self.g.idx_graph, staring_point, ix as _, None)
-                })
-                .count();
-
-            if count >= 2 {
-                groups.push(vec![id.clone()]);
-                global_done.insert(ix as u32);
             }
         }
 
         //
 
-        loop {
-            let mut changed = false;
-
-            for group in &mut groups {
-                let start = group[0].clone();
-                let start_ix = self.g.get_node(&start);
-                if add_to_group(&self.g, group, start_ix, &mut global_done) {
-                    changed = true;
-                }
-            }
-
-            if !changed {
-                break;
-            }
+        for &start_ix in &done.clone() {
+            if add_to_group(&self.g, &mut required, start_ix, &mut done) {}
         }
 
-        for group in groups.iter_mut() {
-            group.sort()
-        }
-
-        let mut new_graph = InternedGraph::default();
-        let mut group_ix_by_item_ix = FxHashMap::default();
-
-        for group in &groups {
-            let group_ix = new_graph.node(group);
-
-            for item in group {
-                let item_ix = self.g.get_node(item);
-                group_ix_by_item_ix.insert(item_ix, group_ix);
-            }
-        }
-
-        for group in &groups {
-            let group_ix = new_graph.node(group);
-
-            for item in group {
-                let item_ix = self.g.get_node(item);
-
-                for item_dep_ix in self
-                    .g
-                    .idx_graph
-                    .neighbors_directed(item_ix, petgraph::Direction::Outgoing)
-                {
-                    let dep_group_ix = group_ix_by_item_ix.get(&item_dep_ix);
-                    if let Some(&dep_group_ix) = dep_group_ix {
-                        if group_ix == dep_group_ix {
-                            continue;
-                        }
-                        new_graph.idx_graph.add_edge(group_ix, dep_group_ix, true);
-                    }
-                }
-            }
-        }
-
-        new_graph
+        required
     }
 
     /// Fills information per module items
