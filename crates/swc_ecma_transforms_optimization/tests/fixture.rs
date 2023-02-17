@@ -101,7 +101,7 @@ struct ExprSweeper {}
 
 impl Fold for ExprSweeper {
     fn fold_module(&mut self, mut m: Module) -> Module {
-        sweep_expressions(&mut m);
+        while sweep_expressions(&mut m) {}
         m
     }
 }
