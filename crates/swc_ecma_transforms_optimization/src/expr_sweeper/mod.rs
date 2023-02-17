@@ -41,7 +41,7 @@ pub fn sweep_expressions(module: &mut Module) {
         analyzer.handle_exports(module);
     }
 
-    let item_ids = g.finalize(&items);
+    let item_ids = g.finalize();
 
     dbg!(&item_ids);
 }
@@ -409,11 +409,10 @@ struct DepGraph {
 }
 
 impl DepGraph {
-    fn finalize(&self, data: &FxHashMap<ItemId, ItemData>) -> InternedGraph<Vec<ItemId>> {
+    fn finalize(&self) -> InternedGraph<Vec<ItemId>> {
         /// Returns true if it should be called again
         fn add_to_group(
             graph: &InternedGraph<ItemId>,
-            data: &FxHashMap<ItemId, ItemData>,
             group: &mut Vec<ItemId>,
             start_ix: u32,
             done: &mut FxHashSet<u32>,
@@ -435,7 +434,7 @@ impl DepGraph {
 
                     group.push(dep_id);
 
-                    add_to_group(graph, data, group, dep_ix, done);
+                    add_to_group(graph, group, dep_ix, done);
                 }
             }
 
@@ -492,7 +491,7 @@ impl DepGraph {
             for group in &mut groups {
                 let start = group[0].clone();
                 let start_ix = self.g.get_node(&start);
-                if add_to_group(&self.g, data, group, start_ix, &mut global_done) {
+                if add_to_group(&self.g, group, start_ix, &mut global_done) {
                     changed = true;
                 }
             }
