@@ -54,7 +54,7 @@ pub fn sweep_expressions(module: &mut Module) -> bool {
         .filter(|&v| v != usize::MAX)
         .collect::<FxHashSet<_>>();
 
-    if retained_lines.len() == item_ids.len() {
+    if retained_lines.len() == module.body.len() {
         return false;
     }
 
