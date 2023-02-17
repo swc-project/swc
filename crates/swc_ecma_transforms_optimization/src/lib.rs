@@ -12,6 +12,7 @@ pub use self::{
 
 mod const_modules;
 mod debug;
+pub mod expr_sweeper;
 mod inline_globals;
 mod json_parse;
 pub mod simplify;
