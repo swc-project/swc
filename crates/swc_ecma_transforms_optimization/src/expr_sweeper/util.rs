@@ -1,12 +1,15 @@
+use indexmap::IndexSet;
 use swc_ecma_ast::{
     BlockStmtOrExpr, Constructor, Expr, Function, Id, Ident, MemberProp, Pat, PatOrExpr, PropName,
 };
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
+use super::FxBuildHasher;
+
 #[derive(Default)]
 pub(crate) struct IdentUsageCollector {
-    reads: Vec<Id>,
-    writes: Vec<Id>,
+    reads: IndexSet<Id, FxBuildHasher>,
+    writes: IndexSet<Id, FxBuildHasher>,
     ignore_nested: bool,
     is_read: bool,
 }
@@ -49,15 +52,9 @@ impl Visit for IdentUsageCollector {
 
     fn visit_ident(&mut self, n: &Ident) {
         if self.is_read {
-            if self.reads.iter().any(|id| id == &n.to_id()) {
-                return;
-            }
-            self.reads.push(n.to_id());
+            self.reads.insert(n.to_id());
         } else {
-            if self.writes.iter().any(|id| id == &n.to_id()) {
-                return;
-            }
-            self.writes.push(n.to_id());
+            self.writes.insert(n.to_id());
         }
     }
 
@@ -95,8 +92,8 @@ impl Visit for IdentUsageCollector {
 
 #[derive(Default)]
 pub(crate) struct CapturedIdCollector {
-    reads: Vec<Id>,
-    writes: Vec<Id>,
+    reads: IndexSet<Id, FxBuildHasher>,
+    writes: IndexSet<Id, FxBuildHasher>,
     is_nested: bool,
     is_read: bool,
 }
@@ -137,15 +134,9 @@ impl Visit for CapturedIdCollector {
     fn visit_ident(&mut self, n: &Ident) {
         if self.is_nested {
             if self.is_read {
-                if self.reads.iter().any(|id| id == &n.to_id()) {
-                    return;
-                }
-                self.reads.push(n.to_id());
+                self.reads.insert(n.to_id());
             } else {
-                if self.writes.iter().any(|id| id == &n.to_id()) {
-                    return;
-                }
-                self.writes.push(n.to_id());
+                self.writes.insert(n.to_id());
             }
         }
     }
@@ -177,7 +168,9 @@ impl Visit for CapturedIdCollector {
 }
 
 /// Returns `(read, write)`
-pub(crate) fn ids_captured_by<N>(n: &N) -> (Vec<Id>, Vec<Id>)
+pub(crate) fn ids_captured_by<N>(
+    n: &N,
+) -> (IndexSet<Id, FxBuildHasher>, IndexSet<Id, FxBuildHasher>)
 where
     N: VisitWith<CapturedIdCollector>,
 {
@@ -190,7 +183,7 @@ where
 }
 
 /// Returns `(read, write)`
-pub(crate) fn ids_used_by<N>(n: &N) -> (Vec<Id>, Vec<Id>)
+pub(crate) fn ids_used_by<N>(n: &N) -> (IndexSet<Id, FxBuildHasher>, IndexSet<Id, FxBuildHasher>)
 where
     N: VisitWith<IdentUsageCollector>,
 {
@@ -203,7 +196,9 @@ where
 }
 
 /// Returns `(read, write)`
-pub(crate) fn ids_used_by_ignoring_nested<N>(n: &N) -> (Vec<Id>, Vec<Id>)
+pub(crate) fn ids_used_by_ignoring_nested<N>(
+    n: &N,
+) -> (IndexSet<Id, FxBuildHasher>, IndexSet<Id, FxBuildHasher>)
 where
     N: VisitWith<IdentUsageCollector>,
 {

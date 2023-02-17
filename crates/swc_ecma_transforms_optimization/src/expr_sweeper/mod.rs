@@ -21,6 +21,8 @@ use self::util::{ids_captured_by, ids_used_by, ids_used_by_ignoring_nested};
 
 mod util;
 
+type FxBuildHasher = BuildHasherDefault<FxHasher>;
+
 /// DCE, but for unused expressions.
 ///
 /// Returns true if it's changed.
@@ -350,7 +352,7 @@ struct ItemData {
     pub var_decls: Vec<Id>,
 
     /// Variables read by this module item during evaluation?
-    pub read_vars: Vec<Id>,
+    pub read_vars: IndexSet<Id, FxBuildHasher>,
 
     /// Variables read by this module item eventually?
     ///
@@ -364,13 +366,13 @@ struct ItemData {
     ///   They might also be read “during” initial evaluation on any module item
     ///   with SIDE_EFFECTS. This kind of interaction is handled by the module
     ///   item with SIDE_EFFECTS.
-    pub eventual_read_vars: Vec<Id>,
+    pub eventual_read_vars: IndexSet<Id, FxBuildHasher>,
 
     /// Side effects that are triggered on local variables during evaluation?
-    pub write_vars: Vec<Id>,
+    pub write_vars: IndexSet<Id, FxBuildHasher>,
 
     /// Side effects that are triggered on local variables eventually?
-    pub eventual_write_vars: Vec<Id>,
+    pub eventual_write_vars: IndexSet<Id, FxBuildHasher>,
 
     /// Are other unknown side effects that are trigger during evaluation?
     pub side_effects: bool,
