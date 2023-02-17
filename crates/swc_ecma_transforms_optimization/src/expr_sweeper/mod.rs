@@ -148,33 +148,11 @@ where
 
 #[derive(Debug, Clone, Default)]
 pub struct DepGraph {
-    pub(super) g: InternedGraph<ItemId>,
+    g: InternedGraph<ItemId>,
 }
 
 impl DepGraph {
-    /// Weak imports are imports only if it's is referenced strongly. But this
-    /// is production-only, and week dependencies are treated as strong
-    /// dependency in development mode.
-    pub(super) fn handle_weak(&mut self, is_development: bool) {
-        if is_development {
-        } else {
-            for start in self.g.graph_ix.iter() {
-                let start = self.g.get_node(start);
-                for end in self.g.graph_ix.iter() {
-                    let end = self.g.get_node(end);
-
-                    if let Some(false) = self.g.idx_graph.edge_weight(start, end) {
-                        self.g.idx_graph.remove_edge(start, end);
-                    }
-                }
-            }
-        }
-    }
-
-    pub(super) fn finalize(
-        &self,
-        data: &FxHashMap<ItemId, ItemData>,
-    ) -> InternedGraph<Vec<ItemId>> {
+    fn finalize(&self, data: &FxHashMap<ItemId, ItemData>) -> InternedGraph<Vec<ItemId>> {
         /// Returns true if it should be called again
         fn add_to_group(
             graph: &InternedGraph<ItemId>,
