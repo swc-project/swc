@@ -476,10 +476,12 @@ impl DepGraph {
                     continue;
                 }
 
-                ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                    expr: box Expr::Assign(assign),
-                    ..
-                })) => {
+                ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) if expr.is_assign() => {
+                    let assign = match &**expr {
+                        Expr::Assign(a) => a,
+                        _ => unreachable!(),
+                    };
+
                     let mut used_ids = ids_used_by_ignoring_nested(item);
                     let captured_ids = ids_captured_by(item);
 
