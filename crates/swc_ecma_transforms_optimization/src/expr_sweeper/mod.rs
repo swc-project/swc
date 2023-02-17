@@ -1,3 +1,6 @@
+#![warn(clippy::all)]
+#![warn(unused)]
+
 use std::hash::{BuildHasherDefault, Hash};
 
 use indexmap::IndexSet;

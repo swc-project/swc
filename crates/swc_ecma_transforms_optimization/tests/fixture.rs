@@ -1,9 +1,13 @@
 use std::path::PathBuf;
 
 use swc_common::{chain, pass::Repeat, Mark};
+use swc_ecma_ast::Module;
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::fixer::paren_remover;
-use swc_ecma_transforms_optimization::simplify::{dce::dce, expr_simplifier};
+use swc_ecma_transforms_optimization::{
+    expr_sweeper::sweep_expressions,
+    simplify::{dce::dce, expr_simplifier},
+};
 use swc_ecma_transforms_testing::{test_fixture, Tester};
 use swc_ecma_visit::{as_folder, Fold, VisitMut};
 
@@ -86,6 +90,34 @@ fn expr(input: PathBuf) {
                 remover(t),
                 Repeat::new(expr_simplifier(top_level_mark, Default::default()))
             )
+        },
+        &input,
+        &output,
+        Default::default(),
+    );
+}
+
+struct ExprSweeper {}
+
+impl Fold for ExprSweeper {
+    fn fold_module(&mut self, mut m: Module) -> Module {
+        sweep_expressions(&mut m);
+        m
+    }
+}
+
+#[testing::fixture("tests/expr-sweeper/**/input.js")]
+fn expr_swepper(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+
+    test_fixture(
+        Syntax::Es(EsConfig {
+            ..Default::default()
+        }),
+        &|t| {
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            chain!(remover(t), ExprSweeper {})
         },
         &input,
         &output,
