@@ -347,48 +347,45 @@ impl Pure<'_> {
                 let f = f as usize;
 
                 // 6. If x is not finite, return Number::toString(x, 10).
-                // 7. Set x to ℝ(x).
-                let x = num.value;
+
+                let x = {
+                    let x = num.value;
+                    // 7. Set x to ℝ(x).
+                    if x == -0. {
+                        0.
+                    } else {
+                        x
+                    }
+                };
                 // 8. Let s be the empty String.
                 // 9. If x < 0, then
                 //     a. Set s to "-".
                 //     b. Set x to -x.
                 // 10. If x ≥ 10**21, then
                 //     a. Let m be ! ToString(𝔽(x)).
-                if x >= 1E21 || x <= -1E21 {
-                    method.sym = js_word!("toString");
-                    args.clear();
-
-                    self.changed = true;
-                    report_change!(
-                        "evaluate: Evaluating `{}.toFixed({})` as `{}.toString()`",
-                        num,
-                        precision,
-                        num
-                    );
+                let value = if x >= 1e21 || x <= -1e21 {
+                    format!("{:e}", x).replace('e', "e+")
                 } else {
                     // 11. Else,
-                    let value = format!("{:.*}", f, num.value);
+                    format!("{:.*}", f, x)
+                };
 
-                    self.changed = true;
-                    report_change!(
-                        "evaluate: Evaluating `{}.toFixed({})` as `{}`",
-                        num,
-                        precision,
-                        value
-                    );
+                self.changed = true;
+                report_change!(
+                    "evaluate: Evaluating `{}.toFixed({})` as `{}`",
+                    num,
+                    precision,
+                    value
+                );
 
-                    *e = Expr::Lit(Lit::Str(Str {
-                        span: e.span(),
-                        raw: None,
-                        value: value.into(),
-                    }));
-
-                    return;
-                }
-            } else {
-                return;
+                *e = Expr::Lit(Lit::Str(Str {
+                    span: e.span(),
+                    raw: None,
+                    value: value.into(),
+                }));
             }
+
+            return;
         }
 
         if &*method.sym == "toPrecision" {
