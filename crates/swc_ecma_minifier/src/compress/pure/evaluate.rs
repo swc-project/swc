@@ -323,11 +323,51 @@ impl Pure<'_> {
             {
                 if precision.fract() == 0.0 {
                     let precision = precision.floor() as usize;
-                    let value = num_to_fixed(num.value, precision + 1);
+
+                    let value = format!("{:.*}", precision, num.value);
 
                     self.changed = true;
                     report_change!(
                         "evaluate: Evaluating `{}.toFixed({})` as `{}`",
+                        num,
+                        precision,
+                        value
+                    );
+
+                    *e = Expr::Lit(Lit::Str(Str {
+                        span: e.span(),
+                        raw: None,
+                        value: value.into(),
+                    }));
+                }
+            }
+
+            return;
+        }
+
+        if &*method.sym == "toPrecision" {
+            if args.is_empty() {
+                // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toPrecision
+                // 2. If precision is undefined, return ! ToString(x).
+                method.sym = js_word!("toString");
+                self.changed = true;
+                report_change!(
+                    "evaluate: Evaluating `{}.toPrecision()` as `{}.toString()`",
+                    num,
+                    num
+                );
+            } else if let Some(precision) = args
+                .first()
+                .and_then(|arg| eval_as_number(&self.expr_ctx, &arg.expr))
+            {
+                if precision.fract() == 0.0 {
+                    let precision = precision.floor() as usize;
+
+                    let value = num_to_precision(num.value, precision + 1);
+
+                    self.changed = true;
+                    report_change!(
+                        "evaluate: Evaluating `{}.toPrecision({})` as `{}`",
                         num,
                         precision,
                         value
@@ -604,7 +644,7 @@ impl Pure<'_> {
 }
 
 /// https://stackoverflow.com/questions/60497397/how-do-you-format-a-float-to-the-first-significant-decimal-and-with-specified-pr
-fn num_to_fixed(float: f64, precision: usize) -> String {
+fn num_to_precision(float: f64, precision: usize) -> String {
     // compute absolute value
     let a = float.abs();
 
