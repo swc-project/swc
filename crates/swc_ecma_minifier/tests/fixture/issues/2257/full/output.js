@@ -6018,7 +6018,7 @@
             $({
                 target: "Number",
                 proto: !0,
-                forced: nativeToFixed && !0 || !fails(function() {
+                forced: !fails(function() {
                     nativeToFixed.call({});
                 })
             }, {
