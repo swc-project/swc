@@ -379,9 +379,9 @@ impl Pure<'_> {
                         value: value.into(),
                     }));
                 }
-            }
 
-            return;
+                return;
+            }
         }
 
         if &*method.sym == "toString" {
