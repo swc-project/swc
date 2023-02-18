@@ -8,6 +8,9 @@
 - **(bindings/cli)** Rename `--config` to `--config-json` (#6932) ([cb4436b](https://github.com/swc-project/swc/commit/cb4436bd6ed085bdf1f0d98776f166bf2a6275c9))
 
 
+- **(bindings/node)** Treat `.cts` and `.mts` as input by default (#6959) ([d5c0dec](https://github.com/swc-project/swc/commit/d5c0dec40c1bb46bb5674242aa0a85f51c0826f7))
+
+
 - **(bundler)** Don't panic while finding exports (#6947) ([542bb62](https://github.com/swc-project/swc/commit/542bb62ef78a999fe6c636be821427691ce0b071))
 
 
