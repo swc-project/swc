@@ -315,16 +315,60 @@ impl Pure<'_> {
         }
 
         if &*method.sym == "toFixed" {
+            // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.tofixed
+            //
+            // Note 1: This method returns a String containing this Number value represented
+            // in decimal fixed-point notation with fractionDigits digits after the decimal
+            // point. If fractionDigits is undefined, 0 is assumed.
+
+            // Note 2: The output of toFixed may be more precise than toString for some
+            // values because toString only prints enough significant digits to distinguish
+            // the number from adjacent Number values. For example,
+            //
+            // (1000000000000000128).toString() returns "1000000000000000100", while
+            // (1000000000000000128).toFixed(0) returns "1000000000000000128".
+
+            // 1. Let x be ? thisNumberValue(this value).
+            // 2. Let f be ? ToIntegerOrInfinity(fractionDigits).
             if let Some(precision) = args
                 .first()
-                // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.tofixed
                 // 3. Assert: If fractionDigits is undefined, then f is 0.
                 .map_or(Some(0f64), |arg| eval_as_number(&self.expr_ctx, &arg.expr))
             {
-                if precision.fract() == 0.0 {
-                    let precision = precision.floor() as usize;
+                let f = precision.trunc();
 
-                    let value = format!("{:.*}", precision, num.value);
+                // 4. If f is not finite, throw a RangeError exception.
+                // 5. If f < 0 or f > 100, throw a RangeError exception.
+
+                if !(0. ..=100.).contains(&f) {
+                    return;
+                }
+
+                let f = f as usize;
+
+                // 6. If x is not finite, return Number::toString(x, 10).
+                // 7. Set x to ℝ(x).
+                let x = num.value;
+                // 8. Let s be the empty String.
+                // 9. If x < 0, then
+                //     a. Set s to "-".
+                //     b. Set x to -x.
+                // 10. If x ≥ 10**21, then
+                //     a. Let m be ! ToString(𝔽(x)).
+                if x >= 1E21 || x <= -1E21 {
+                    method.sym = js_word!("toString");
+                    args.clear();
+
+                    self.changed = true;
+                    report_change!(
+                        "evaluate: Evaluating `{}.toFixed({})` as `{}.toString()`",
+                        num,
+                        precision,
+                        num
+                    );
+                } else {
+                    // 11. Else,
+                    let value = format!("{:.*}", f, num.value);
 
                     self.changed = true;
                     report_change!(
@@ -339,10 +383,12 @@ impl Pure<'_> {
                         raw: None,
                         value: value.into(),
                     }));
-                }
-            }
 
-            return;
+                    return;
+                }
+            } else {
+                return;
+            }
         }
 
         if &*method.sym == "toPrecision" {
@@ -350,36 +396,15 @@ impl Pure<'_> {
                 // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toprecision
                 // 2. If precision is undefined, return ! ToString(x).
                 method.sym = js_word!("toString");
+                args.clear();
+
                 self.changed = true;
                 report_change!(
                     "evaluate: Evaluating `{}.toPrecision()` as `{}.toString()`",
                     num,
                     num
                 );
-            } else if let Some(precision) = args
-                .first()
-                .and_then(|arg| eval_as_number(&self.expr_ctx, &arg.expr))
-            {
-                if precision.fract() == 0.0 {
-                    let precision = precision.floor() as usize;
-
-                    let value = num_to_precision(num.value, precision + 1);
-
-                    self.changed = true;
-                    report_change!(
-                        "evaluate: Evaluating `{}.toPrecision({})` as `{}`",
-                        num,
-                        precision,
-                        value
-                    );
-
-                    *e = Expr::Lit(Lit::Str(Str {
-                        span: e.span(),
-                        raw: None,
-                        value: value.into(),
-                    }));
-                }
-
+            } else {
                 return;
             }
         }
@@ -641,33 +666,4 @@ impl Pure<'_> {
             ..s
         }));
     }
-}
-
-/// https://stackoverflow.com/questions/60497397/how-do-you-format-a-float-to-the-first-significant-decimal-and-with-specified-pr
-fn num_to_precision(float: f64, precision: usize) -> String {
-    // compute absolute value
-    let a = float.abs();
-
-    // if abs value is greater than 1, then precision becomes less than "standard"
-    let precision = if a >= 1. {
-        // reduce by number of digits, minimum 0
-        let n = (1. + a.log10().floor()) as usize;
-        if n <= precision {
-            precision - n
-        } else {
-            0
-        }
-    // if precision is less than 1 (but non-zero), then precision becomes
-    // greater than "standard"
-    } else if a > 0. {
-        // increase number of digits
-        let n = -(1. + a.log10().floor()) as usize;
-        precision + n
-    // special case for 0
-    } else {
-        0
-    };
-
-    // format with the given computed precision
-    format!("{0:.1$}", float, precision)
 }
