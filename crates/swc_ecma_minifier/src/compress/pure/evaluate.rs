@@ -347,7 +347,7 @@ impl Pure<'_> {
 
         if &*method.sym == "toPrecision" {
             if args.is_empty() {
-                // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toPrecision
+                // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toprecision
                 // 2. If precision is undefined, return ! ToString(x).
                 method.sym = js_word!("toString");
                 self.changed = true;
