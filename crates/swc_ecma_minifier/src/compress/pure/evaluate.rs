@@ -485,16 +485,23 @@ impl Pure<'_> {
                 .first()
                 .map_or(Some(10f64), |arg| eval_as_number(&self.expr_ctx, &arg.expr))
             {
+                if base.trunc() == 10. {
+                    let value = ryu_js::Buffer::new().format(num.value).to_string().into();
+                    *e = Expr::Lit(Lit::Str(Str {
+                        span: e.span(),
+                        raw: None,
+                        value,
+                    }));
+                    return;
+                }
+
                 if num.value.fract() == 0.0 && (2.0..=36.0).contains(&base) && base.fract() == 0.0 {
                     let base = base.floor() as u8;
 
                     self.changed = true;
 
-                    let value = if base == 10 {
-                        ryu_js::Buffer::new().format(num.value).to_string().into()
-                    } else {
-                        Radix::new(num.value as usize, base).to_string().into()
-                    };
+                    let value = Radix::new(num.value as usize, base).to_string().into();
+
                     *e = Expr::Lit(Lit::Str(Str {
                         span: e.span(),
                         raw: None,
