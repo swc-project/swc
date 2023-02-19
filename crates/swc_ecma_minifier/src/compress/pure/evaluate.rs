@@ -396,7 +396,8 @@ impl Pure<'_> {
         }
 
         if &*method.sym == "toPrecision" {
-            if args.is_empty() {
+            // TODO: handle num.toPrecision(undefined)
+            if args.first().is_none() {
                 // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toprecision
                 // 2. If precision is undefined, return ! ToString(x).
                 let value = ryu_js::Buffer::new().format(num.value).to_string().into();
@@ -443,6 +444,7 @@ impl Pure<'_> {
         }
 
         if &*method.sym == "toExponential" {
+            // TODO: handle num.toExponential(undefined)
             if args.first().is_none() {
                 let value = f64_to_exponential(num.value).into();
 
