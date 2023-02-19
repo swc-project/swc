@@ -1,0 +1,19 @@
+export function foo() {
+    alert("1.0");
+    alert("0");
+    alert("0.0");
+    alert("0.00");
+    alert("0.000");
+    alert("10.0");
+    alert("20.00");
+    alert("30.000");
+    alert("100.0");
+    alert("100.00");
+    alert("100.000");
+    alert("110.0");
+    alert("110.00");
+    alert("110.000");
+    alert("110.0000");
+    alert("1110.0000");
+    alert("11110.0000");
+}
