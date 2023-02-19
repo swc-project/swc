@@ -340,7 +340,9 @@ impl Pure<'_> {
                 // 4. If f is not finite, throw a RangeError exception.
                 // 5. If f < 0 or f > 100, throw a RangeError exception.
 
-                if !(0. ..=100.).contains(&f) {
+                // Note: ES2018 increased the maximum number of fraction digits from 20 to 100.
+                // It relies on runtime behavior.
+                if !(0. ..=20.).contains(&f) {
                     return;
                 }
 
@@ -367,7 +369,14 @@ impl Pure<'_> {
                     format!("{:e}", x).replace('e', "e+")
                 } else {
                     // 11. Else,
-                    format!("{:.*}", f, x)
+
+                    if x.fract() != 0. && f != 0 {
+                        // TODO: rust built-in format cannot handle ecma262 `1.25.toFixed(1)`
+
+                        return;
+                    } else {
+                        format!("{:.*}", f, x)
+                    }
                 };
 
                 self.changed = true;
