@@ -335,18 +335,16 @@ impl Pure<'_> {
                 // 3. Assert: If fractionDigits is undefined, then f is 0.
                 .map_or(Some(0f64), |arg| eval_as_number(&self.expr_ctx, &arg.expr))
             {
-                let f = precision.trunc();
+                let f = precision.trunc() as usize;
 
                 // 4. If f is not finite, throw a RangeError exception.
                 // 5. If f < 0 or f > 100, throw a RangeError exception.
 
                 // Note: ES2018 increased the maximum number of fraction digits from 20 to 100.
                 // It relies on runtime behavior.
-                if !(0. ..=20.).contains(&f) {
+                if !(0..=20).contains(&f) {
                     return;
                 }
-
-                let f = f as usize;
 
                 // 6. If x is not finite, return Number::toString(x, 10).
 
@@ -410,7 +408,74 @@ impl Pure<'_> {
                     num,
                     num
                 );
-            } else {
+            } else if let Some(precision) = args
+                .first()
+                .and_then(|arg| eval_as_number(&self.expr_ctx, &arg.expr))
+            {
+                let p = precision.trunc() as usize;
+                // 5. If p < 1 or p > 100, throw a RangeError exception.
+                if !(1..=21).contains(&p) {
+                    return;
+                }
+
+                let value = f64_to_precision(num.value, p);
+                self.changed = true;
+                report_change!(
+                    "evaluate: Evaluating `{}.toPrecision()` as `{}`",
+                    num,
+                    value
+                );
+                *e = Expr::Lit(Lit::Str(Str {
+                    span: e.span(),
+                    raw: None,
+                    value: value.into(),
+                }));
+                return;
+            }
+        }
+
+        if &*method.sym == "toExponential" {
+            if args.first().is_none() {
+                let value = f64_to_exponential(num.value).into();
+
+                self.changed = true;
+                report_change!(
+                    "evaluate: Evaluating `{}.toExponential()` as `{}`",
+                    num,
+                    value
+                );
+
+                *e = Expr::Lit(Lit::Str(Str {
+                    span: e.span(),
+                    raw: None,
+                    value,
+                }));
+                return;
+            } else if let Some(precision) = args
+                .first()
+                .and_then(|arg| eval_as_number(&self.expr_ctx, &arg.expr))
+            {
+                let p = precision.trunc() as usize;
+                // 5. If p < 1 or p > 100, throw a RangeError exception.
+                if !(0..=20).contains(&p) {
+                    return;
+                }
+
+                let value = f64_to_exponential_with_precision(num.value, p).into();
+
+                self.changed = true;
+                report_change!(
+                    "evaluate: Evaluating `{}.toPrecision({})` as `{}`",
+                    num,
+                    precision,
+                    value
+                );
+
+                *e = Expr::Lit(Lit::Str(Str {
+                    span: e.span(),
+                    raw: None,
+                    value,
+                }));
                 return;
             }
         }
@@ -424,7 +489,12 @@ impl Pure<'_> {
                     let base = base.floor() as u8;
 
                     self.changed = true;
-                    let value = Radix::new(num.value as usize, base).to_string().into();
+
+                    let value = if base == 10 {
+                        ryu_js::Buffer::new().format(num.value).to_string().into()
+                    } else {
+                        Radix::new(num.value as usize, base).to_string().into()
+                    };
                     *e = Expr::Lit(Lit::Str(Str {
                         span: e.span(),
                         raw: None,
@@ -672,4 +742,185 @@ impl Pure<'_> {
             ..s
         }));
     }
+}
+
+// Code from boa
+// https://github.com/boa-dev/boa/blob/f8b682085d7fe0bbfcd0333038e93cf2f5aee710/boa_engine/src/builtins/number/mod.rs#L408
+fn f64_to_precision(value: f64, precision: usize) -> String {
+    let mut x = value;
+    let p_i32 = precision as i32;
+
+    // 7. Let s be the empty String.
+    let mut s = String::new();
+    let mut m: String;
+    let mut e: i32;
+
+    // 8. If x < 0, then
+    //     a. Set s to the code unit 0x002D (HYPHEN-MINUS).
+    //     b. Set x to -x.
+    if x < 0. {
+        s.push('-');
+        x = -x;
+    }
+
+    // 9. If x = 0, then
+    //     a. Let m be the String value consisting of p occurrences of the code unit
+    //        0x0030 (DIGIT ZERO).
+    //     b. Let e be 0.
+    if x == 0.0 {
+        m = "0".repeat(precision);
+        e = 0;
+    // 10
+    } else {
+        // Due to f64 limitations, this part differs a bit from the spec,
+        // but has the same effect. It manipulates the string constructed
+        // by `format`: digits with an optional dot between two of them.
+        m = format!("{x:.100}");
+
+        // a: getting an exponent
+        e = flt_str_to_exp(&m);
+        // b: getting relevant digits only
+        if e < 0 {
+            m = m.split_off((1 - e) as usize);
+        } else if let Some(n) = m.find('.') {
+            m.remove(n);
+        }
+        // impl: having exactly `precision` digits in `suffix`
+        if round_to_precision(&mut m, precision) {
+            e += 1;
+        }
+
+        // c: switching to scientific notation
+        let great_exp = e >= p_i32;
+        if e < -6 || great_exp {
+            assert_ne!(e, 0);
+
+            // ii
+            if precision > 1 {
+                m.insert(1, '.');
+            }
+            // vi
+            m.push('e');
+            // iii
+            if great_exp {
+                m.push('+');
+            }
+            // iv, v
+            m.push_str(&e.to_string());
+
+            return s + &m;
+        }
+    }
+
+    // 11
+    let e_inc = e + 1;
+    if e_inc == p_i32 {
+        return s + &m;
+    }
+
+    // 12
+    if e >= 0 {
+        m.insert(e_inc as usize, '.');
+    // 13
+    } else {
+        s.push('0');
+        s.push('.');
+        s.push_str(&"0".repeat(-e_inc as usize));
+    }
+
+    // 14
+    s + &m
+}
+
+fn flt_str_to_exp(flt: &str) -> i32 {
+    let mut non_zero_encountered = false;
+    let mut dot_encountered = false;
+    for (i, c) in flt.chars().enumerate() {
+        if c == '.' {
+            if non_zero_encountered {
+                return (i as i32) - 1;
+            }
+            dot_encountered = true;
+        } else if c != '0' {
+            if dot_encountered {
+                return 1 - (i as i32);
+            }
+            non_zero_encountered = true;
+        }
+    }
+    (flt.len() as i32) - 1
+}
+
+fn round_to_precision(digits: &mut String, precision: usize) -> bool {
+    if digits.len() > precision {
+        let to_round = digits.split_off(precision);
+        let mut digit = digits
+            .pop()
+            .expect("already checked that length is bigger than precision")
+            as u8;
+        if let Some(first) = to_round.chars().next() {
+            if first > '4' {
+                digit += 1;
+            }
+        }
+
+        if digit as char == ':' {
+            // ':' is '9' + 1
+            // need to propagate the increment backward
+            let mut replacement = String::from("0");
+            let mut propagated = false;
+            for c in digits.chars().rev() {
+                let d = match (c, propagated) {
+                    ('0'..='8', false) => (c as u8 + 1) as char,
+                    (_, false) => '0',
+                    (_, true) => c,
+                };
+                replacement.push(d);
+                if d != '0' {
+                    propagated = true;
+                }
+            }
+            digits.clear();
+            let replacement = if propagated {
+                replacement.as_str()
+            } else {
+                digits.push('1');
+                &replacement.as_str()[1..]
+            };
+            for c in replacement.chars().rev() {
+                digits.push(c);
+            }
+            !propagated
+        } else {
+            digits.push(digit as char);
+            false
+        }
+    } else {
+        digits.push_str(&"0".repeat(precision - digits.len()));
+        false
+    }
+}
+
+/// Helper function that formats a float as a ES6-style exponential number
+/// string.
+fn f64_to_exponential(n: f64) -> String {
+    match n.abs() {
+        x if x >= 1.0 || x == 0.0 => format!("{n:e}").replace('e', "e+"),
+        _ => format!("{n:e}"),
+    }
+}
+
+/// Helper function that formats a float as a ES6-style exponential number
+/// string with a given precision.
+// We can't use the same approach as in `f64_to_exponential`
+// because in cases like (0.999).toExponential(0) the result will be 1e0.
+// Instead we get the index of 'e', and if the next character is not '-'
+// we insert the plus sign
+fn f64_to_exponential_with_precision(n: f64, prec: usize) -> String {
+    let mut res = format!("{n:.prec$e}");
+    let idx = res.find('e').expect("'e' not found in exponential string");
+    if res.as_bytes()[idx + 1] != b'-' {
+        res.insert(idx + 1, '+');
+    }
+    res
 }
