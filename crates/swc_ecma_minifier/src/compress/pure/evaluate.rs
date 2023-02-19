@@ -500,7 +500,16 @@ impl Pure<'_> {
 
                     self.changed = true;
 
-                    let value = Radix::new(num.value as usize, base).to_string().into();
+                    let value = {
+                        let x = num.value;
+                        if x < 0. {
+                            // I don't know if u128 is really needed, but it works.
+                            format!("-{}", Radix::new(-x as u128, base))
+                        } else {
+                            Radix::new(x as u128, base).to_string()
+                        }
+                    }
+                    .into();
 
                     *e = Expr::Lit(Lit::Str(Str {
                         span: e.span(),
