@@ -399,16 +399,24 @@ impl Pure<'_> {
             if args.is_empty() {
                 // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toprecision
                 // 2. If precision is undefined, return ! ToString(x).
-                method.sym = js_word!("toString");
-                args.clear();
+                let value = ryu_js::Buffer::new().format(num.value).to_string().into();
 
                 self.changed = true;
                 report_change!(
-                    "evaluate: Evaluating `{}.toPrecision()` as `{}.toString()`",
+                    "evaluate: Evaluating `{}.toPrecision()` as `{}`",
                     num,
-                    num
+                    value
                 );
-            } else if let Some(precision) = args
+
+                *e = Expr::Lit(Lit::Str(Str {
+                    span: e.span(),
+                    raw: None,
+                    value,
+                }));
+                return;
+            }
+
+            if let Some(precision) = args
                 .first()
                 .and_then(|arg| eval_as_number(&self.expr_ctx, &arg.expr))
             {
