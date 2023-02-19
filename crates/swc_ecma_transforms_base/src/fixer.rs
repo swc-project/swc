@@ -944,6 +944,13 @@ impl Fixer<'_> {
 
                 _ => self.wrap(callee),
             },
+
+            Expr::Member(MemberExpr { obj, .. }) => match &**obj {
+                Expr::Lit(Lit::Num(num)) if num.value.signum() == -1. => {
+                    self.wrap(obj);
+                }
+                _ => {}
+            },
             _ => {}
         }
     }
