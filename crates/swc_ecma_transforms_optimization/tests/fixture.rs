@@ -25,7 +25,7 @@ fn dce_single_pass(input: PathBuf) {
         &|t| {
             let unresolved_mark = Mark::new();
 
-            chain!(remover(t), dce(Default::default(), unresolved_mark))
+            chain!(remover(t), dce(Default::default(), unresolved_mark, false))
         },
         &input,
         &output,
@@ -45,7 +45,7 @@ fn dce_repeated(input: PathBuf) {
         &|t| {
             chain!(
                 remover(t),
-                Repeat::new(dce(Default::default(), Mark::new()))
+                Repeat::new(dce(Default::default(), Mark::new(), false))
             )
         },
         &input,
@@ -64,7 +64,7 @@ fn dce_jsx(input: PathBuf) {
             jsx: true,
             ..Default::default()
         }),
-        &|t| chain!(remover(t), dce(Default::default(), Mark::new())),
+        &|t| chain!(remover(t), dce(Default::default(), Mark::new(), false)),
         &input,
         &output,
         Default::default(),

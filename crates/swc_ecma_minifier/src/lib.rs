@@ -306,6 +306,7 @@ fn perform_dce(m: &mut Program, options: &CompressOptions, extra: &ExtraOptions)
             top_retain: options.top_retain.clone(),
         },
         extra.unresolved_mark,
+        false,
     );
 
     loop {

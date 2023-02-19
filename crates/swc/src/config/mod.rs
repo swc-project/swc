@@ -455,6 +455,10 @@ impl Options {
             .as_ref()
             .map(|v| v.simplify.into_bool())
             .unwrap_or_default();
+        let drop_unused_imports = optimizer
+            .as_ref()
+            .map(|v| v.drop_unused_imports.into_bool())
+            .unwrap_or_default();
 
         let optimization = {
             if let Some(opts) = optimizer.and_then(|o| o.globals) {
@@ -472,7 +476,7 @@ impl Options {
             optimization,
             Optional::new(export_default_from(), syntax.export_default_from()),
             Optional::new(
-                simplifier(top_level_mark, Default::default()),
+                simplifier(top_level_mark, drop_unused_imports, Default::default()),
                 enable_simplifier
             ),
             json_parse_pass
@@ -1481,6 +1485,9 @@ pub struct OptimizerConfig {
 
     #[serde(default)]
     pub jsonify: Option<JsonifyOption>,
+
+    #[serde(default)]
+    pub drop_unused_imports: BoolConfig<false>,
 }
 
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]

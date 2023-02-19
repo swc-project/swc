@@ -15,6 +15,7 @@ fn tr() -> impl Fold {
             ..Default::default()
         },
         Mark::new(),
+        false,
     ))
 }
 
