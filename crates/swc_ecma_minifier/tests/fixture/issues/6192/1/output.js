@@ -1,1 +1,1 @@
-import { relative as unused } from 'path';
+import 'path';
