@@ -196,6 +196,9 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
+        if self.input.is_eof() {
+            return None;
+        }
         let mut start = self.cur_pos();
 
         let res = (|| -> Result<Option<_>, _> {

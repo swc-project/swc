@@ -67,6 +67,10 @@ impl<'a> Input for StringInput<'a> {
         self.iter.clone().nth(2).map(|i| i.1)
     }
 
+    fn is_eof(&self) -> bool {
+        self.last_pos().0 as usize >= self.orig.len()
+    }
+
     #[inline]
     fn is_str(&self, s: &str) -> bool {
         let mut s_iter = s.as_bytes().iter();
@@ -217,6 +221,8 @@ pub trait Input: Clone {
     fn peek(&mut self) -> Option<char>;
     fn peek_ahead(&mut self) -> Option<char>;
     fn bump(&mut self);
+
+    fn is_eof(&self) -> bool;
 
     /// Returns [None] if it's end of input **or** current character is not an
     /// ascii character.

@@ -17,7 +17,7 @@ fn main() {
 
     let fm = cm.new_source_file(
         FileName::Custom("test.js".into()),
-        "function foo() {}".into(),
+        r#"const labelContent = <Text color="dark-gray">1</Text>;"#.into(),
     );
 
     let lexer = Lexer::new(

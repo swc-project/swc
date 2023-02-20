@@ -18,6 +18,7 @@
     "editor.formatOnSave": true,
     "git.ignoreLimitWarning": true,
     "git.autoRepositoryDetection": false,
+    "rust-analyzer.checkOnSave": false,
     "git.ignoredRepositories": [
         "crates/swc_ecma_parser/tests/test262-parser",
         "crates/swc_html_parser/tests/html5lib-tests"
@@ -35,5 +36,9 @@
         "rust-analyzer",
         "rkyv-impl",
         "debug"
-    ]
+    ],
+    "lldb.displayFormat": "auto",
+    "lldb.showDisassembly": "auto",
+    "lldb.dereferencePointers": true,
+    "lldb.consoleMode": "commands"
 }
