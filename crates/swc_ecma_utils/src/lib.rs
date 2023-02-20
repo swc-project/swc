@@ -1575,7 +1575,7 @@ fn may_be_str(ty: Value<Type>) -> bool {
     }
 }
 
-fn num_from_str(s: &str) -> Value<f64> {
+pub fn num_from_str(s: &str) -> Value<f64> {
     if s.contains('\u{000b}') {
         return Unknown;
     }
@@ -1588,8 +1588,22 @@ fn num_from_str(s: &str) -> Value<f64> {
     }
 
     if s.starts_with("0x") || s.starts_with("0X") {
-        return match s[2..4].parse() {
-            Ok(n) => Known(n),
+        return match u64::from_str_radix(&s[2..], 16) {
+            Ok(n) => Known(n as f64),
+            Err(_) => Known(NAN),
+        };
+    }
+
+    if s.starts_with("0o") || s.starts_with("0O") {
+        return match u64::from_str_radix(&s[2..], 8) {
+            Ok(n) => Known(n as f64),
+            Err(_) => Known(NAN),
+        };
+    }
+
+    if s.starts_with("0b") || s.starts_with("0B") {
+        return match u64::from_str_radix(&s[2..], 2) {
+            Ok(n) => Known(n as f64),
             Err(_) => Known(NAN),
         };
     }
