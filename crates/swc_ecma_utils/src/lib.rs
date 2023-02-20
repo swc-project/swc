@@ -1601,7 +1601,7 @@ pub fn num_from_str(s: &str) -> Value<f64> {
                     Err(_) => Known(NAN),
                 };
             }
-            b"ob" | b"0B" => {
+            b"0b" | b"0B" => {
                 return match u64::from_str_radix(&s[2..], 2) {
                     Ok(n) => Known(n as f64),
                     Err(_) => Known(NAN),
