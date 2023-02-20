@@ -165,6 +165,9 @@ where
                             }
                             return;
                         }
+                        Decl::TsEnum(ref e) => &e.id,
+                        Decl::TsInterface(ref i) => &i.id,
+                        Decl::TsTypeAlias(ref a) => &a.id,
                         _ => unreachable!("Decl in ExportDecl: {:?}", decl.decl),
                     };
                     Specifier::Specific {

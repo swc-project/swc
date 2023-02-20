@@ -1,7 +1,7 @@
 use std::{
     fs::{self, File},
     io::{self, Read, Write},
-    path::{Path, PathBuf},
+    path::{Component, Path, PathBuf},
     sync::Arc,
 };
 
@@ -13,7 +13,7 @@ use rayon::prelude::*;
 use relative_path::RelativePath;
 use swc_core::{
     base::{
-        config::{ConfigFile, Options, SourceMapsConfig},
+        config::{Config, ConfigFile, Options, PluginConfig, SourceMapsConfig},
         try_with_handler, Compiler, HandlerOpts, TransformOutput,
     },
     common::{
@@ -28,9 +28,12 @@ use crate::util::trace::init_trace;
 /// Configuration option for transform files.
 #[derive(Parser)]
 pub struct CompileOptions {
-    /// Override a config from .swcrc file.
-    #[clap(long)]
-    config: Option<Vec<String>>,
+    /// Experimental: provide an additional JSON config object to override the
+    /// .swcrc. Can be used to provide experimental plugin configuration,
+    /// including plugin imports that are explicitly relative, starting with `.`
+    /// or `..`
+    #[clap(long = "config-json", value_parser = parse_config)]
+    config: Option<Config>,
 
     /// Path to a .swcrc file to use
     #[clap(long)]
@@ -107,6 +110,10 @@ pub struct CompileOptions {
      *no_swcrc: bool, */
 }
 
+fn parse_config(s: &str) -> Result<Config, serde_json::Error> {
+    serde_json::from_str(s)
+}
+
 static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
 
@@ -114,7 +121,7 @@ static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
 });
 
 /// List of file extensions supported by default.
-static DEFAULT_EXTENSIONS: &[&str] = &["js", "jsx", "es6", "es", "mjs", "ts", "tsx"];
+static DEFAULT_EXTENSIONS: &[&str] = &["js", "jsx", "es6", "es", "mjs", "ts", "tsx", "cts", "mts"];
 
 /// Infer list of files to be transformed from cli arguments.
 /// If given input is a directory, it'll traverse it and collect all supported
@@ -277,9 +284,31 @@ impl CompileOptions {
         });
 
         let mut options = Options {
+            config: self.config.to_owned().unwrap_or_default(),
             config_file,
             ..Options::default()
         };
+
+        options.config.jsc.experimental.plugins =
+            options.config.jsc.experimental.plugins.map(|plugins| {
+                plugins
+                    .into_iter()
+                    .map(|p| {
+                        // if the path starts with . or .., then turn it into an absolute path using
+                        // the current working directory as the base
+                        let path = Path::new(&p.0);
+                        PluginConfig(
+                            match path.components().next() {
+                                Some(Component::CurDir) | Some(Component::ParentDir) => {
+                                    path.absolutize().unwrap().display().to_string()
+                                }
+                                _ => p.0,
+                            },
+                            p.1,
+                        )
+                    })
+                    .collect()
+            });
 
         if let Some(file_path) = *file_path {
             options.filename = file_path.to_str().unwrap_or_default().to_owned();

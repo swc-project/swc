@@ -5,7 +5,7 @@ System.register([], function(_export, _context) {
         setters: [],
         execute: function() {
             if (_context.meta.foo) {
-                import.meta.foo();
+                _context.meta.foo();
             }
         }
     };

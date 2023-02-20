@@ -533,10 +533,18 @@ where
                                             .value
                                             .and_then(jsx_attr_value_to_expr)
                                             .map(|expr| expr.as_arg());
-                                        assert_ne!(
-                                            key, None,
-                                            "value of property 'key' should not be empty"
-                                        );
+
+                                        if key.is_none() {
+                                            HANDLER.with(|handler| {
+                                                handler
+                                                    .struct_span_err(
+                                                        i.span,
+                                                        "The value of property 'key' should not \
+                                                         be empty",
+                                                    )
+                                                    .emit();
+                                            });
+                                        }
                                         continue;
                                     }
 
@@ -1336,15 +1344,19 @@ fn count_children(children: &[JSXElementChild]) -> usize {
 fn transform_jsx_attr_str(v: &str) -> String {
     let single_quote = false;
     let mut buf = String::with_capacity(v.len());
+    let mut iter = v.chars().peekable();
 
-    for c in v.chars() {
+    while let Some(c) = iter.next() {
         match c {
             '\u{0008}' => buf.push_str("\\b"),
             '\u{000c}' => buf.push_str("\\f"),
-            ' ' | '\n' | '\r' | '\t' => {
-                if buf.ends_with(' ') {
-                } else {
-                    buf.push(' ')
+            ' ' => buf.push(' '),
+
+            '\n' | '\r' | '\t' => {
+                buf.push(' ');
+
+                while let Some(' ') = iter.peek() {
+                    iter.next();
                 }
             }
             '\u{000b}' => buf.push_str("\\v"),

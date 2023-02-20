@@ -466,7 +466,9 @@ export const DEFAULT_EXTENSIONS = Object.freeze([
   ".es",
   ".mjs",
   ".ts",
-  ".tsx"
+  ".tsx",
+  ".cts",
+  ".mts"
 ]);
 
 function toBuffer(t: any): Buffer {
