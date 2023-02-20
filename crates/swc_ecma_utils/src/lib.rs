@@ -1587,25 +1587,28 @@ pub fn num_from_str(s: &str) -> Value<f64> {
         return Known(0.0);
     }
 
-    if s.starts_with("0x") || s.starts_with("0X") {
-        return match u64::from_str_radix(&s[2..], 16) {
-            Ok(n) => Known(n as f64),
-            Err(_) => Known(NAN),
-        };
-    }
-
-    if s.starts_with("0o") || s.starts_with("0O") {
-        return match u64::from_str_radix(&s[2..], 8) {
-            Ok(n) => Known(n as f64),
-            Err(_) => Known(NAN),
-        };
-    }
-
-    if s.starts_with("0b") || s.starts_with("0B") {
-        return match u64::from_str_radix(&s[2..], 2) {
-            Ok(n) => Known(n as f64),
-            Err(_) => Known(NAN),
-        };
+    if s.len() >= 2 {
+        match &s.as_bytes()[..2] {
+            b"0x" | b"0X" => {
+                return match u64::from_str_radix(&s[2..], 16) {
+                    Ok(n) => Known(n as f64),
+                    Err(_) => Known(NAN),
+                }
+            }
+            b"0o" | b"0O" => {
+                return match u64::from_str_radix(&s[2..], 8) {
+                    Ok(n) => Known(n as f64),
+                    Err(_) => Known(NAN),
+                };
+            }
+            b"ob" | b"0B" => {
+                return match u64::from_str_radix(&s[2..], 2) {
+                    Ok(n) => Known(n as f64),
+                    Err(_) => Known(NAN),
+                };
+            }
+            _ => {}
+        }
     }
 
     if (s.starts_with('-') || s.starts_with('+'))
