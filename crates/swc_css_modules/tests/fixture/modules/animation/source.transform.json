@@ -1,0 +1,38 @@
+{
+  "b": [
+    {
+      "type": "local",
+      "name": "__local__b"
+    }
+  ],
+  "a": [
+    {
+      "type": "local",
+      "name": "__local__a"
+    }
+  ],
+  "infinite": [
+    {
+      "type": "local",
+      "name": "__local__infinite"
+    }
+  ],
+  "c": [
+    {
+      "type": "local",
+      "name": "__local__c"
+    }
+  ],
+  "animationName": [
+    {
+      "type": "local",
+      "name": "__local__animationName"
+    }
+  ],
+  "ease": [
+    {
+      "type": "local",
+      "name": "__local__ease"
+    }
+  ]
+}

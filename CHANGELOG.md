@@ -14,7 +14,13 @@
 - **(bundler)** Don't panic while finding exports (#6947) ([542bb62](https://github.com/swc-project/swc/commit/542bb62ef78a999fe6c636be821427691ce0b071))
 
 
+- **(css/modules)** Fix CSS `animation` on CSS Modules (#6969) ([4771aa2](https://github.com/swc-project/swc/commit/4771aa206a6aa8c48f41eeafba12040c04358885))
+
+
 - **(es/minifier)** Fix `toFixed`, `toPrecision`, `toExponential` and `toString` of Number (#6960) ([9382bda](https://github.com/swc-project/swc/commit/9382bda786613abf15cecb0bf3531dd68bb6166b))
+
+
+- **(es/minifier)** Fix optimization of expressions in numeric context (#6965) ([1dfadb8](https://github.com/swc-project/swc/commit/1dfadb87907ef24c7b4d5184f24f30e028c1cef2))
 
 
 - **(es/module)** Fix `jsc.paths` on Windows (#6930) ([1ec161a](https://github.com/swc-project/swc/commit/1ec161a0f15886f97d4fb9cbb5d115b29ed5e2a2))
