@@ -832,7 +832,7 @@ impl VisitMut for TreeShaker {
                 ImportSpecifier::Namespace(l) => &l.local,
             };
 
-            if self.drop_unused_imports && self.can_drop_binding(local.to_id(), false) {
+            if self.can_drop_binding(local.to_id(), false) {
                 debug!(
                     "Dropping import specifier `{}` because it's not used",
                     local

@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.3.36] - 2023-02-21
 
 ### Bug Fixes
 
@@ -8,7 +8,46 @@
 - **(bindings/cli)** Rename `--config` to `--config-json` (#6932) ([cb4436b](https://github.com/swc-project/swc/commit/cb4436bd6ed085bdf1f0d98776f166bf2a6275c9))
 
 
+- **(bindings/node)** Treat `.cts` and `.mts` as input by default (#6959) ([d5c0dec](https://github.com/swc-project/swc/commit/d5c0dec40c1bb46bb5674242aa0a85f51c0826f7))
+
+
+- **(bundler)** Don't panic while finding exports (#6947) ([542bb62](https://github.com/swc-project/swc/commit/542bb62ef78a999fe6c636be821427691ce0b071))
+
+
+- **(css/modules)** Fix CSS `animation` on CSS Modules (#6969) ([4771aa2](https://github.com/swc-project/swc/commit/4771aa206a6aa8c48f41eeafba12040c04358885))
+
+
+- **(es/minifier)** Fix `toFixed`, `toPrecision`, `toExponential` and `toString` of Number (#6960) ([9382bda](https://github.com/swc-project/swc/commit/9382bda786613abf15cecb0bf3531dd68bb6166b))
+
+
+- **(es/minifier)** Fix optimization of expressions in numeric context (#6965) ([1dfadb8](https://github.com/swc-project/swc/commit/1dfadb87907ef24c7b4d5184f24f30e028c1cef2))
+
+
 - **(es/module)** Fix `jsc.paths` on Windows (#6930) ([1ec161a](https://github.com/swc-project/swc/commit/1ec161a0f15886f97d4fb9cbb5d115b29ed5e2a2))
+
+
+- **(es/react)** Fix handling of whitespaces (#6935) ([a9b25aa](https://github.com/swc-project/swc/commit/a9b25aaf4a776731d3ef2dc3c192a7b18023e765))
+
+
+- **(es/react)** Don't panic on `key` without a value (#6945) ([14454c9](https://github.com/swc-project/swc/commit/14454c9dbd222cabb8c6eeafa9c664c34030a121))
+
+
+- **(es/resolver)** Use type context for `export =` if it's unresolved (#6963) ([e946c43](https://github.com/swc-project/swc/commit/e946c43f4e0640bb7ad2470c9c5979583ced2e23))
+
+### Features
+
+
+
+- **(es/minifier)** Drop unused import bindings (#6967) ([a27ffd2](https://github.com/swc-project/swc/commit/a27ffd22423af6e85fa821c2bb3bbd01e199f472))
+
+### Miscellaneous Tasks
+
+
+
+- **(bot)** Allow org members to use bump comments (#6942) ([0324d5a](https://github.com/swc-project/swc/commit/0324d5a78b8d47b8948f4011c0dd982ff43a2203))
+
+
+- **(swc_nodejs_common)** Remove swc_node_base from swc_nodejs_common (#6940) ([0771418](https://github.com/swc-project/swc/commit/0771418dd0310a7e05bfad76baf4e16cd289351e))
 
 ## [1.3.35] - 2023-02-10
 

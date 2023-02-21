@@ -1,6 +1,6 @@
 //// [dependentDestructuredVariables.ts]
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import "@swc/helpers/src/_async_to_generator.mjs";
+import "@swc/helpers/src/_wrap_async_generator.mjs";
 let { value , done  } = it.next();
 f50((kind, data)=>{
     'A' === kind && data.toFixed(), 'B' === kind && data.toUpperCase();

@@ -6,8 +6,8 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
     ComplexSelector, ComplexSelectorChildren, ComponentValue, Declaration, DeclarationName,
-    Delimiter, DelimiterValue, Ident, KeyframesName, PseudoClassSelectorChildren, QualifiedRule,
-    QualifiedRulePrelude, Stylesheet, SubclassSelector,
+    Delimiter, DelimiterValue, FunctionName, Ident, KeyframesName, PseudoClassSelectorChildren,
+    QualifiedRule, QualifiedRulePrelude, Stylesheet, SubclassSelector,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -320,9 +320,71 @@ where
                 js_word!("animation") => {
                     let mut can_change = true;
 
+                    let mut iteration_count_visited = false;
+                    let mut fill_mode_visited = false;
+                    let mut direction_visited = false;
+                    let mut easing_function_visited = false;
+                    let mut play_state_visited = false;
+
                     for v in &mut n.value {
-                        if can_change {
-                            if let ComponentValue::Ident(box Ident { value, raw, .. }) = v {
+                        match v {
+                            ComponentValue::Ident(box Ident { value, raw, .. }) => {
+                                if !can_change {
+                                    continue;
+                                }
+
+                                match *value {
+                                    // iteration-count
+                                    js_word!("infinite") => {
+                                        if !iteration_count_visited {
+                                            iteration_count_visited = true;
+                                            continue;
+                                        }
+                                    }
+                                    // fill-mode
+                                    // NOTE: `animation: none:` will be trapped here
+                                    js_word!("none")
+                                    | js_word!("forwards")
+                                    | js_word!("backwards")
+                                    | js_word!("both") => {
+                                        if !fill_mode_visited {
+                                            fill_mode_visited = true;
+                                            continue;
+                                        }
+                                    }
+                                    // direction
+                                    js_word!("normal")
+                                    | js_word!("reverse")
+                                    | js_word!("alternate")
+                                    | js_word!("alternate-reverse") => {
+                                        if !direction_visited {
+                                            direction_visited = true;
+                                            continue;
+                                        }
+                                    }
+                                    // easing-function
+                                    js_word!("linear")
+                                    | js_word!("ease")
+                                    | js_word!("ease-in")
+                                    | js_word!("ease-out")
+                                    | js_word!("ease-in-out")
+                                    | js_word!("step-start")
+                                    | js_word!("step-end") => {
+                                        if !easing_function_visited {
+                                            easing_function_visited = true;
+                                            continue;
+                                        }
+                                    }
+                                    // play-state
+                                    js_word!("running") | js_word!("paused") => {
+                                        if !play_state_visited {
+                                            play_state_visited = true;
+                                            continue;
+                                        }
+                                    }
+                                    _ => {}
+                                }
+
                                 *raw = None;
 
                                 rename(
@@ -334,16 +396,43 @@ where
                                 );
                                 can_change = false;
                             }
-                        } else if let ComponentValue::Delimiter(delimiter) = v {
-                            if matches!(
-                                &**delimiter,
-                                Delimiter {
-                                    value: DelimiterValue::Comma,
-                                    ..
-                                }
-                            ) {
-                                can_change = true;
+                            ComponentValue::Integer(_) => {
+                                iteration_count_visited = true;
                             }
+                            ComponentValue::Function(f) => {
+                                if let FunctionName::Ident(ident) = &f.name {
+                                    match ident.value {
+                                        // easing-function
+                                        js_word!("steps")
+                                        | js_word!("cubic-bezier")
+                                        | js_word!("linear") => {
+                                            easing_function_visited = true;
+                                        }
+                                        _ => {
+                                            // should be syntax error
+                                        }
+                                    }
+                                }
+                            }
+                            ComponentValue::Delimiter(delimiter) => {
+                                if matches!(
+                                    &**delimiter,
+                                    Delimiter {
+                                        value: DelimiterValue::Comma,
+                                        ..
+                                    }
+                                ) {
+                                    can_change = true;
+
+                                    // reset all flags
+                                    iteration_count_visited = false;
+                                    fill_mode_visited = false;
+                                    direction_visited = false;
+                                    easing_function_visited = false;
+                                    play_state_visited = false;
+                                }
+                            }
+                            _ => (),
                         }
                     }
                 }
