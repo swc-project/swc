@@ -2576,6 +2576,7 @@ dependencies = [
  "relative-path",
  "serde",
  "serde_json",
+ "sourcemap",
  "swc_core",
  "tracing",
  "tracing-chrome",
