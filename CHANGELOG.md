@@ -34,6 +34,12 @@
 
 - **(es/resolver)** Use type context for `export =` if it's unresolved (#6963) ([e946c43](https://github.com/swc-project/swc/commit/e946c43f4e0640bb7ad2470c9c5979583ced2e23))
 
+### Features
+
+
+
+- **(es/minifier)** Drop unused import bindings (#6967) ([a27ffd2](https://github.com/swc-project/swc/commit/a27ffd22423af6e85fa821c2bb3bbd01e199f472))
+
 ### Miscellaneous Tasks
 
 
