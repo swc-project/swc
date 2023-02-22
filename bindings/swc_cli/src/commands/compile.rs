@@ -1,4 +1,5 @@
 use std::{
+    borrow::Cow,
     fs::{self, File},
     io::{self, Read, Write},
     path::{Component, Path, PathBuf},
@@ -252,9 +253,9 @@ fn emit_output(
         fs::write(output_file_path, &output.code)?;
     } else {
         let source_map = if let Some(ref source_map) = source_map {
-            String::from_utf8_lossy(source_map).to_string()
+            String::from_utf8_lossy(source_map)
         } else {
-            String::new()
+            Cow::Borrowed("")
         };
 
         println!("{}\n{}\n{}", file_path.display(), output.code, source_map,);
