@@ -158,12 +158,6 @@ checksum = "a4521f3e3d031370679b3b140beb36dfe4801b09ac77e30c61941f97df3ef28b"
 
 [[package]]
 name = "base64"
-version = "0.11.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b41b7ea54a0c9d92199de89e20e58d49f02f8e699814ef3fdf266f6f748d15c7"
-
-[[package]]
-name = "base64"
 version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9e1b586273c5702936fe7b7d6896644d8be71e6314cfe09d3167c95f712589e8"
@@ -2553,7 +2547,7 @@ version = "0.11.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "68cc60575865c7831548863cc02356512e3f1dc2f3f82cb837d7fc4cc8f3c97c"
 dependencies = [
- "base64 0.13.1",
+ "base64",
  "bytes",
  "encoding_rs",
  "futures-core",
@@ -2921,17 +2915,16 @@ dependencies = [
 
 [[package]]
 name = "sourcemap"
-version = "6.0.1"
+version = "6.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6e031f2463ecbdd5f34c950f89f5c1e1032f22c0f8e3dc4bdb2e8b6658cf61eb"
+checksum = "aebe057d110ddba043708da3fb010bf562ff6e9d4d60c9ee92860527bcbeccd6"
 dependencies = [
- "base64 0.11.0",
+ "base64",
  "if_chain",
- "lazy_static",
- "regex",
  "rustc_version 0.2.3",
  "serde",
  "serde_json",
+ "unicode-id",
  "url",
 ]
 
@@ -3125,7 +3118,7 @@ dependencies = [
  "ahash",
  "ansi_term",
  "anyhow",
- "base64 0.13.1",
+ "base64",
  "criterion",
  "dashmap",
  "either",
@@ -3568,7 +3561,7 @@ dependencies = [
 name = "swc_ecma_codegen"
 version = "0.129.13"
 dependencies = [
- "base64 0.13.1",
+ "base64",
  "criterion",
  "memchr",
  "num-bigint",
@@ -3993,7 +3986,7 @@ name = "swc_ecma_transforms_react"
 version = "0.160.19"
 dependencies = [
  "ahash",
- "base64 0.13.1",
+ "base64",
  "dashmap",
  "indexmap",
  "once_cell",
@@ -4024,7 +4017,7 @@ version = "0.119.12"
 dependencies = [
  "ansi_term",
  "anyhow",
- "base64 0.13.1",
+ "base64",
  "hex",
  "serde",
  "serde_json",

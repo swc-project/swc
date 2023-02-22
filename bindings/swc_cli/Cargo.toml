@@ -26,7 +26,7 @@ rayon = "1"
 relative-path = "1.6.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
-sourcemap = "6"
+sourcemap = "6.2"
 swc_core = { version = "0.59.36", features = [
   "trace_macro",
   "common_concurrent",
