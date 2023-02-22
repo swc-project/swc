@@ -120,7 +120,18 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
         .parent()
         .map(|parent| parent.join(".swcrc"))
         .and_then(|path| fs::read_to_string(path).ok())
-        .and_then(|content| serde_json::from_value::<Config>(content.into()).ok())
+        .and_then(|content| {
+            jsonc_parser::parse_to_serde_value(
+                &content,
+                &jsonc_parser::ParseOptions {
+                    allow_comments: true,
+                    allow_trailing_commas: true,
+                    allow_loose_object_property_names: false,
+                },
+            )
+            .ok()?
+        })
+        .and_then(|content| serde_json::from_value::<Config>(content).ok())
         .and_then(|config| config.jsc.transform.into_inner())
         .map(|c| c.use_define_for_class_fields == false.into())
         .unwrap_or(false);
