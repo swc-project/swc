@@ -20,10 +20,9 @@ enum EnumKind {
     Num,
 }
 
-pub(super) fn new(metadata: bool, use_define_for_class_fields: bool) -> TscDecorator {
+pub(super) fn new(metadata: bool) -> TscDecorator {
     TscDecorator {
         metadata,
-        use_define_for_class_fields,
         enums: Default::default(),
         vars: Default::default(),
         appended_exprs: Default::default(),
@@ -36,9 +35,6 @@ pub(super) fn new(metadata: bool, use_define_for_class_fields: bool) -> TscDecor
 
 pub(super) struct TscDecorator {
     metadata: bool,
-
-    #[allow(dead_code)]
-    use_define_for_class_fields: bool,
 
     enums: AHashMap<JsWord, EnumKind>,
 
