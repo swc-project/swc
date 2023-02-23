@@ -13,6 +13,12 @@
 
 - **(es/parser)** Reduce pre-allocation to reduce memory usage (#6979) ([f1e7a2a](https://github.com/swc-project/swc/commit/f1e7a2a9cc74b19597e9d7105852daf4672514a2))
 
+### Testing
+
+
+
+- **(es/tsc)** Update tsc test suite (#6982) ([b887b30](https://github.com/swc-project/swc/commit/b887b30092c77ec67eedb7f1dd0b5570a1a16eea))
+
 ## [1.3.36] - 2023-02-21
 
 ### Bug Fixes
