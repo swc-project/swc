@@ -113,6 +113,29 @@ fn init_helpers() -> Arc<PathBuf> {
 }
 
 fn create_matrix(entry: &Path) -> Vec<Options> {
+    // use_define_for_class_fields: false
+    // force to use [[Set]] instead of [[Define]]
+    // EsVersion should be lower than EsVersion::Es2022
+    let force_set_class_field = entry
+        .parent()
+        .map(|parent| parent.join(".swcrc"))
+        .and_then(|path| fs::read_to_string(path).ok())
+        .and_then(|content| {
+            jsonc_parser::parse_to_serde_value(
+                &content,
+                &jsonc_parser::ParseOptions {
+                    allow_comments: true,
+                    allow_trailing_commas: true,
+                    allow_loose_object_property_names: false,
+                },
+            )
+            .ok()?
+        })
+        .and_then(|content| serde_json::from_value::<Config>(content).ok())
+        .and_then(|config| config.jsc.transform.into_inner())
+        .map(|c| c.use_define_for_class_fields == false.into())
+        .unwrap_or(false);
+
     [
         EsVersion::Es2022,
         EsVersion::Es2021,
@@ -125,6 +148,7 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
         EsVersion::Es5,
     ]
     .into_iter()
+    .filter(|e| !force_set_class_field || e < &EsVersion::Es2022)
     .matrix(|| {
         let default_es = Syntax::Es(EsConfig {
             ..Default::default()

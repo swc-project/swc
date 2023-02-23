@@ -1,4 +1,4 @@
-interface Runnable {
+﻿interface Runnable {
     isRunning: boolean;
 }
 

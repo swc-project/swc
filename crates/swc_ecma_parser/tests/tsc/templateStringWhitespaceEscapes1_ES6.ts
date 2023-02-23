@@ -1,3 +1,3 @@
-//@target: es6
+﻿//@target: es6
 
 `\t\n\v\f\r`;

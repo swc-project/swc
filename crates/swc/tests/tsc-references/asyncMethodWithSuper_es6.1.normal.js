@@ -236,3 +236,90 @@ class B extends A {
         })();
     }
 }
+// https://github.com/microsoft/TypeScript/issues/46828
+class Base {
+    set setter(x) {}
+    get getter() {
+        return;
+    }
+    method(x) {}
+    static set setter(x) {}
+    static get getter() {
+        return;
+    }
+    static method(x) {}
+}
+class Derived extends Base {
+    a() {
+        var _this = this, _superprop_get_method = ()=>super.method;
+        return /*#__PURE__*/ _async_to_generator(function*() {
+            return _superprop_get_method().call(_this, '');
+        });
+    }
+    b() {
+        var _superprop_get_getter = ()=>super.getter;
+        return /*#__PURE__*/ _async_to_generator(function*() {
+            return _superprop_get_getter();
+        });
+    }
+    c() {
+        var _superprop_set_setter = (_value)=>super.setter = _value;
+        return /*#__PURE__*/ _async_to_generator(function*() {
+            return _superprop_set_setter('');
+        });
+    }
+    d() {
+        var _this = this, _superprop_get = (_prop)=>super[_prop];
+        return /*#__PURE__*/ _async_to_generator(function*() {
+            return _superprop_get("method").call(_this, '');
+        });
+    }
+    e() {
+        var _superprop_get = (_prop)=>super[_prop];
+        return /*#__PURE__*/ _async_to_generator(function*() {
+            return _superprop_get("getter");
+        });
+    }
+    f() {
+        var _superprop_set = (_prop, _value)=>super[_prop] = _value;
+        return /*#__PURE__*/ _async_to_generator(function*() {
+            return _superprop_set("setter", '');
+        });
+    }
+    static a() {
+        var _this = this, _superprop_get_method = ()=>super.method;
+        return /*#__PURE__*/ _async_to_generator(function*() {
+            return _superprop_get_method().call(_this, '');
+        });
+    }
+    static b() {
+        var _superprop_get_getter = ()=>super.getter;
+        return /*#__PURE__*/ _async_to_generator(function*() {
+            return _superprop_get_getter();
+        });
+    }
+    static c() {
+        var _superprop_set_setter = (_value)=>super.setter = _value;
+        return /*#__PURE__*/ _async_to_generator(function*() {
+            return _superprop_set_setter('');
+        });
+    }
+    static d() {
+        var _this = this, _superprop_get = (_prop)=>super[_prop];
+        return /*#__PURE__*/ _async_to_generator(function*() {
+            return _superprop_get("method").call(_this, '');
+        });
+    }
+    static e() {
+        var _superprop_get = (_prop)=>super[_prop];
+        return /*#__PURE__*/ _async_to_generator(function*() {
+            return _superprop_get("getter");
+        });
+    }
+    static f() {
+        var _superprop_set = (_prop, _value)=>super[_prop] = _value;
+        return /*#__PURE__*/ _async_to_generator(function*() {
+            return _superprop_set("setter", '');
+        });
+    }
+}

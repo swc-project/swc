@@ -466,9 +466,7 @@ test!(
     "
 
     export default class X {
-        constructor(){
-            this.anything = 0;
-        }
+        anything = 0;
         x() {
             const localVar = aFunctionSomewhere();
             return localVar;

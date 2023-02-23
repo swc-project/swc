@@ -65,7 +65,7 @@ pub struct Config {
     /// When running `tsc` with configuration `"target": "<ES6-ES2020>",
     /// "useDefineForClassFields": true`, TS class fields are transformed to
     /// `Object.defineProperty()` statements. You must additionally apply the
-    /// `swc_ecmascript::transforms::compat::es2022::class_properties()` pass to
+    /// [swc_ecma_transforms_compat::es2022::class_properties()] pass to
     /// get this backward-compatible output.
     #[serde(default)]
     pub use_define_for_class_fields: bool,

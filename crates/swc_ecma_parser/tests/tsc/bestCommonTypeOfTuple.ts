@@ -1,4 +1,4 @@
-function f1(x: number): string { return "foo"; }
+﻿function f1(x: number): string { return "foo"; }
 
 function f2(x: number): number { return 10; }
 

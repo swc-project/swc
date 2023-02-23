@@ -1,0 +1,1 @@
+//// [weakTypesAndLiterals01.ts]

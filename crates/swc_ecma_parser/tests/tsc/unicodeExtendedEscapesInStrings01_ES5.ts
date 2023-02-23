@@ -1,3 +1,3 @@
-// @target: es5
+﻿// @target: es5
 
 var x = "\u{0}";

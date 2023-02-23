@@ -1,4 +1,4 @@
-//@target: ES6
+﻿//@target: ES6
 var iterableWithOptionalIterator: {
     [Symbol.iterator]?(): Iterator<string>
 };

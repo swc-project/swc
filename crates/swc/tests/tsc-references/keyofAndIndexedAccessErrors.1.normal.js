@@ -81,3 +81,17 @@ function f30() {
 function f31() {
     var x = "hello";
 }
+// Repro from #51069
+var Test = /*#__PURE__*/ function() {
+    "use strict";
+    function Test(t) {
+        _class_call_check(this, Test);
+        this.testy = t;
+    }
+    var _proto = Test.prototype;
+    _proto.t = function t(key) {
+        this.testy[key] += 1; // Error
+        return this.testy[key];
+    };
+    return Test;
+}();

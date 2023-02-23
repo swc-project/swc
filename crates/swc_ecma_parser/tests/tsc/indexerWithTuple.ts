@@ -1,4 +1,4 @@
-var strNumTuple: [string, number] = ["foo", 10];
+﻿var strNumTuple: [string, number] = ["foo", 10];
 var numTupleTuple: [number, [string, number]] = [10, ["bar", 20]];
 var unionTuple1: [number, string| number] = [10, "foo"];
 var unionTuple2: [boolean, string| number] = [true, "foo"];

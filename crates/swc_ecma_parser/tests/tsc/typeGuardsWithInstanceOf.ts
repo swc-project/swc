@@ -1,4 +1,4 @@
-// @strictNullChecks: true
+﻿// @strictNullChecks: true
 
 interface I { global: string; }
 var result!: I;

@@ -1,0 +1,1 @@
+//// [arrayTypeOfTypeOf.ts]

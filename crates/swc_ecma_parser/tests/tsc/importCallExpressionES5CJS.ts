@@ -1,4 +1,4 @@
-// @module: commonjs
+﻿// @module: commonjs
 // @target: es5
 // @lib: es6
 // @filename: 0.ts

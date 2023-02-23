@@ -1,4 +1,4 @@
-let fooOrBar: "foo" | "bar";
+﻿let fooOrBar: "foo" | "bar";
 
 let a = "foo" as "bar";
 let b = "bar" as "foo";

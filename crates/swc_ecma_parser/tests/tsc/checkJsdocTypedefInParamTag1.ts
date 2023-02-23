@@ -1,4 +1,4 @@
-// @allowJS: true
+﻿// @allowJS: true
 // @suppressOutputPathCheck: true
 
 // @filename: 0.js
