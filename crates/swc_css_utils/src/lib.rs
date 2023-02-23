@@ -274,22 +274,14 @@ pub fn serialize_ident(value: &str, minify: bool) -> Cow<'_, str> {
 }
 
 // https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L166
-fn hex_escape(ascii_byte: u8, minify: bool) -> String {
+fn hex_escape(ascii_byte: u8, _minify: bool) -> String {
     static HEX_DIGITS: &[u8; 16] = b"0123456789abcdef";
 
     if ascii_byte > 0x0f {
         let high = (ascii_byte >> 4) as usize;
         let low = (ascii_byte & 0x0f) as usize;
-
-        if minify {
-            unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[high], HEX_DIGITS[low]]) }
-                .to_string()
-        } else {
-            unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' ']) }
-                .to_string()
-        }
-    } else if minify {
-        unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[ascii_byte as usize]]) }.to_string()
+        unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' ']) }
+            .to_string()
     } else {
         unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[ascii_byte as usize], b' ']) }
             .to_string()
