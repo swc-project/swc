@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/decorator)** Preserve evaluation order (#6972) ([703b340](https://github.com/swc-project/swc/commit/703b340d39c3efb69f4a0d375ab6e5a2f9a4acd9))
+
 ### Miscellaneous Tasks
 
 
