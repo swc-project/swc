@@ -3,7 +3,7 @@ use std::path::{Path, PathBuf};
 use serde::Deserialize;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
-use swc_ecma_transforms_base::resolver;
+use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
 use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 use swc_ecma_visit::Fold;
@@ -57,7 +57,14 @@ fn fixture_inner(input: PathBuf) {
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 struct BabelTestOptions {
+    #[serde(default)]
+    assumptions: Assumptions,
+
+    #[serde(default)]
     plugins: Vec<BabelPluginEntry>,
+
+    #[serde(default)]
+    min_node_version: String,
 }
 
 #[derive(Deserialize)]
