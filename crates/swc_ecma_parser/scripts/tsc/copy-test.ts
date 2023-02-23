@@ -62,6 +62,8 @@ async function check(f: string) {
         // We use rename as resumable copy
         fs.renameSync(f, target);
         // console.log('Created', target)
+    } else {
+        await fs.promises.unlink(f);
     }
 }
 
