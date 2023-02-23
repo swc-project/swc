@@ -1272,7 +1272,30 @@ where
             ClassMember::TsIndexSignature(ref n) => emit!(n),
             ClassMember::Empty(ref n) => emit!(n),
             ClassMember::StaticBlock(ref n) => emit!(n),
+            ClassMember::AutoAccessor(ref n) => emit!(n),
         }
+    }
+
+    #[emitter]
+    fn emit_auto_accessor(&mut self, n: &AutoAccessor) -> Result {
+        self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
+
+        if n.is_static {
+            keyword!("static");
+            space!();
+        }
+
+        keyword!("accessor");
+        space!();
+
+        if let Some(init) = &n.value {
+            formatting_space!();
+            punct!("=");
+            formatting_space!();
+            emit!(init);
+        }
+
+        semi!();
     }
 
     #[emitter]
