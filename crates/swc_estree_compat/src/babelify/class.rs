@@ -60,6 +60,7 @@ impl Babelify for ClassMember {
                 &self
             ),
             ClassMember::StaticBlock(s) => ClassBodyEl::StaticBlock(s.babelify(ctx)),
+            ClassMember::AutoAccessor(..) => todo!("auto accessor"),
         }
     }
 }
