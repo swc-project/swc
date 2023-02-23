@@ -517,6 +517,7 @@ define!({
         TsIndexSignature(TsIndexSignature),
         Empty(EmptyStmt),
         StaticBlock(StaticBlock),
+        Accessor(AutoAccessor),
     }
 
     pub struct ClassProp {
@@ -1826,6 +1827,16 @@ define!({
     pub struct ReservedUnused {
         pub span: Span,
         pub body: Option<Vec<ModuleItem>>,
+    }
+
+    pub struct AutoAccessor {
+        pub span: Span,
+        pub key: PropName,
+        pub value: Option<Box<Expr>>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
+        pub is_static: bool,
+        pub decorators: Vec<Decorator>,
+        pub accessibility: Option<Accessibility>,
     }
 });
 

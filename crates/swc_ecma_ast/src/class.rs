@@ -87,8 +87,8 @@ pub enum ClassMember {
     StaticBlock(StaticBlock),
 
     /// Stage 3
-    #[tag("AccessorProperty")]
-    Accessor(AccessorProperty),
+    #[tag("AutoAccessor")]
+    Accessor(AutoAccessor),
 }
 
 impl Take for ClassMember {
@@ -280,10 +280,10 @@ impl Take for StaticBlock {
     }
 }
 
-#[ast_node("AccessorProperty")]
+#[ast_node("AutoAccessor")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct AccessorProperty {
+pub struct AutoAccessor {
     #[serde(default)]
     pub span: Span,
 
@@ -306,9 +306,9 @@ pub struct AccessorProperty {
     pub accessibility: Option<Accessibility>,
 }
 
-impl Take for AccessorProperty {
-    fn dummy() -> AccessorProperty {
-        AccessorProperty {
+impl Take for AutoAccessor {
+    fn dummy() -> AutoAccessor {
+        AutoAccessor {
             span: Take::dummy(),
             key: Take::dummy(),
             value: Take::dummy(),
