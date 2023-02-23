@@ -523,6 +523,7 @@ impl<C: Comments> ClassProperties<C> {
             ClassMember::Method(m) => contains_super(&m.key),
 
             ClassMember::ClassProp(_)
+            | ClassMember::AutoAccessor(_)
             | ClassMember::PrivateProp(_)
             | ClassMember::StaticBlock(_) => true,
         });
