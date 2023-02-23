@@ -65,6 +65,9 @@ struct BabelTestOptions {
 
     #[serde(default)]
     min_node_version: String,
+
+    #[serde(default)]
+    throws: Option<String>,
 }
 
 #[derive(Deserialize)]
