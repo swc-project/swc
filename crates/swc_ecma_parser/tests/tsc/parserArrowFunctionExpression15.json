@@ -1,0 +1,179 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 98,
+    "end": 256,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 98,
+        "end": 137,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 98,
+          "end": 137,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 98,
+            "end": 103,
+            "ctxt": 0
+          },
+          "value": false
+        },
+        "consequent": {
+          "type": "ArrowFunctionExpression",
+          "span": {
+            "start": 106,
+            "end": 130,
+            "ctxt": 0
+          },
+          "params": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 107,
+                "end": 112,
+                "ctxt": 0
+              },
+              "value": "param",
+              "optional": false,
+              "typeAnnotation": null
+            }
+          ],
+          "body": {
+            "type": "Identifier",
+            "span": {
+              "start": 125,
+              "end": 130,
+              "ctxt": 0
+            },
+            "value": "param",
+            "optional": false
+          },
+          "async": false,
+          "generator": false,
+          "typeParameters": null,
+          "returnType": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 113,
+              "end": 121,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 115,
+                "end": 121,
+                "ctxt": 0
+              },
+              "kind": "string"
+            }
+          }
+        },
+        "alternate": {
+          "type": "NullLiteral",
+          "span": {
+            "start": 133,
+            "end": 137,
+            "ctxt": 0
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 217,
+        "end": 256,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 217,
+          "end": 256,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 217,
+            "end": 222,
+            "ctxt": 0
+          },
+          "value": false
+        },
+        "consequent": {
+          "type": "ArrowFunctionExpression",
+          "span": {
+            "start": 225,
+            "end": 249,
+            "ctxt": 0
+          },
+          "params": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 226,
+                "end": 231,
+                "ctxt": 0
+              },
+              "value": "param",
+              "optional": false,
+              "typeAnnotation": null
+            }
+          ],
+          "body": {
+            "type": "Identifier",
+            "span": {
+              "start": 244,
+              "end": 249,
+              "ctxt": 0
+            },
+            "value": "param",
+            "optional": false
+          },
+          "async": false,
+          "generator": false,
+          "typeParameters": null,
+          "returnType": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 232,
+              "end": 240,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 234,
+                "end": 240,
+                "ctxt": 0
+              },
+              "kind": "string"
+            }
+          }
+        },
+        "alternate": {
+          "type": "NullLiteral",
+          "span": {
+            "start": 252,
+            "end": 256,
+            "ctxt": 0
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

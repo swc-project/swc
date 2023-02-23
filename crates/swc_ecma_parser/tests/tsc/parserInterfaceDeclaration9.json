@@ -1,0 +1,362 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 204,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 1,
+        "end": 68,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 11,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "I1",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 14,
+          "end": 68,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsGetterSignature",
+            "span": {
+              "start": 20,
+              "end": 38,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 24,
+                "end": 27,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 29,
+                "end": 37,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 31,
+                  "end": 37,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            }
+          },
+          {
+            "type": "TsSetterSignature",
+            "span": {
+              "start": 43,
+              "end": 66,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 47,
+                "end": 50,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "param": {
+              "type": "Identifier",
+              "span": {
+                "start": 51,
+                "end": 64,
+                "ctxt": 0
+              },
+              "value": "value",
+              "optional": false,
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 56,
+                  "end": 64,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 58,
+                    "end": 64,
+                    "ctxt": 0
+                  },
+                  "kind": "number"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 70,
+        "end": 137,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 80,
+          "end": 82,
+          "ctxt": 0
+        },
+        "value": "I2",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 83,
+          "end": 137,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsGetterSignature",
+            "span": {
+              "start": 89,
+              "end": 107,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 93,
+                "end": 96,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 98,
+                "end": 106,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 100,
+                  "end": 106,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            }
+          },
+          {
+            "type": "TsSetterSignature",
+            "span": {
+              "start": 112,
+              "end": 135,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 116,
+                "end": 119,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "param": {
+              "type": "Identifier",
+              "span": {
+                "start": 120,
+                "end": 133,
+                "ctxt": 0
+              },
+              "value": "value",
+              "optional": false,
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 125,
+                  "end": 133,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 127,
+                    "end": 133,
+                    "ctxt": 0
+                  },
+                  "kind": "number"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 139,
+        "end": 204,
+        "ctxt": 0
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 149,
+          "end": 151,
+          "ctxt": 0
+        },
+        "value": "I3",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 152,
+          "end": 204,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "TsGetterSignature",
+            "span": {
+              "start": 158,
+              "end": 175,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 162,
+                "end": 165,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 167,
+                "end": 175,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 169,
+                  "end": 175,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            }
+          },
+          {
+            "type": "TsSetterSignature",
+            "span": {
+              "start": 180,
+              "end": 202,
+              "ctxt": 0
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 184,
+                "end": 187,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "param": {
+              "type": "Identifier",
+              "span": {
+                "start": 188,
+                "end": 201,
+                "ctxt": 0
+              },
+              "value": "value",
+              "optional": false,
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 193,
+                  "end": 201,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 195,
+                    "end": 201,
+                    "ctxt": 0
+                  },
+                  "kind": "number"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

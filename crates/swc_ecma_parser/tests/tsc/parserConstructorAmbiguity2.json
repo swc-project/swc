@@ -1,0 +1,58 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 11,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 11,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1,
+          "end": 11,
+          "ctxt": 0
+        },
+        "operator": "<",
+        "left": {
+          "type": "NewExpression",
+          "span": {
+            "start": 1,
+            "end": 9,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 9,
+              "ctxt": 0
+            },
+            "value": "Date",
+            "optional": false
+          },
+          "arguments": null,
+          "typeArguments": null
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 10,
+            "end": 11,
+            "ctxt": 0
+          },
+          "value": "A",
+          "optional": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

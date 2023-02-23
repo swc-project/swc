@@ -1,0 +1,205 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 98,
+    "end": 218,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 98,
+        "end": 118,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 98,
+          "end": 118,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 98,
+            "end": 99,
+            "ctxt": 0
+          },
+          "value": "a",
+          "optional": false
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 102,
+            "end": 103,
+            "ctxt": 0
+          },
+          "value": "b",
+          "optional": false
+        },
+        "alternate": {
+          "type": "ArrowFunctionExpression",
+          "span": {
+            "start": 106,
+            "end": 118,
+            "ctxt": 0
+          },
+          "params": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 107,
+                "end": 108,
+                "ctxt": 0
+              },
+              "value": "c",
+              "optional": false,
+              "typeAnnotation": null
+            }
+          ],
+          "body": {
+            "type": "Identifier",
+            "span": {
+              "start": 117,
+              "end": 118,
+              "ctxt": 0
+            },
+            "value": "e",
+            "optional": false
+          },
+          "async": false,
+          "generator": false,
+          "typeParameters": null,
+          "returnType": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 110,
+              "end": 113,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 112,
+                "end": 113,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 112,
+                  "end": 113,
+                  "ctxt": 0
+                },
+                "value": "d",
+                "optional": false
+              },
+              "typeParams": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 198,
+        "end": 218,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 198,
+          "end": 218,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 198,
+            "end": 199,
+            "ctxt": 0
+          },
+          "value": "a",
+          "optional": false
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 202,
+            "end": 203,
+            "ctxt": 0
+          },
+          "value": "b",
+          "optional": false
+        },
+        "alternate": {
+          "type": "ArrowFunctionExpression",
+          "span": {
+            "start": 206,
+            "end": 218,
+            "ctxt": 0
+          },
+          "params": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 207,
+                "end": 208,
+                "ctxt": 0
+              },
+              "value": "c",
+              "optional": false,
+              "typeAnnotation": null
+            }
+          ],
+          "body": {
+            "type": "Identifier",
+            "span": {
+              "start": 217,
+              "end": 218,
+              "ctxt": 0
+            },
+            "value": "e",
+            "optional": false
+          },
+          "async": false,
+          "generator": false,
+          "typeParameters": null,
+          "returnType": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 210,
+              "end": 213,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 212,
+                "end": 213,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 212,
+                  "end": 213,
+                  "ctxt": 0
+                },
+                "value": "d",
+                "optional": false
+              },
+              "typeParams": null
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

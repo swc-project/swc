@@ -1,0 +1,49 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 78,
+    "end": 99,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 78,
+        "end": 99,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsInterfaceDeclaration",
+        "span": {
+          "start": 85,
+          "end": 99,
+          "ctxt": 0
+        },
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 95,
+            "end": 96,
+            "ctxt": 0
+          },
+          "value": "A",
+          "optional": false
+        },
+        "declare": false,
+        "typeParams": null,
+        "extends": [],
+        "body": {
+          "type": "TsInterfaceBody",
+          "span": {
+            "start": 97,
+            "end": 99,
+            "ctxt": 0
+          },
+          "body": []
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

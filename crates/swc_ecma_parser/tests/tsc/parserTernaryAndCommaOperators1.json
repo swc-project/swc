@@ -1,0 +1,114 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 23,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 23,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "SequenceExpression",
+        "span": {
+          "start": 1,
+          "end": 22,
+          "ctxt": 0
+        },
+        "expressions": [
+          {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 1,
+              "end": 14,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1,
+                "end": 6,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1,
+                  "end": 2,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3,
+                  "end": 6,
+                  "ctxt": 0
+                },
+                "value": "src",
+                "optional": false
+              }
+            },
+            "consequent": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 9,
+                "end": 10,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "alternate": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 13,
+                "end": 14,
+                "ctxt": 0
+              },
+              "value": 2.0,
+              "raw": "2"
+            }
+          },
+          {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 16,
+              "end": 22,
+              "ctxt": 0
+            },
+            "operator": "&&",
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 16,
+                "end": 17,
+                "ctxt": 0
+              },
+              "value": "c",
+              "optional": false
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 21,
+                "end": 22,
+                "ctxt": 0
+              },
+              "value": "d",
+              "optional": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

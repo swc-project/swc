@@ -1,0 +1,139 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 80,
+    "end": 131,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 80,
+        "end": 112,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 80,
+          "end": 111,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 80,
+            "end": 94,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 80,
+              "end": 86,
+              "ctxt": 0
+            },
+            "value": "module",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 87,
+              "end": 94,
+              "ctxt": 0
+            },
+            "value": "exports",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 97,
+            "end": 111,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 97,
+              "end": 103,
+              "ctxt": 0
+            },
+            "value": "window",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 104,
+              "end": 111,
+              "ctxt": 0
+            },
+            "value": "nonprop",
+            "optional": false
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 113,
+        "end": 131,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 113,
+          "end": 130,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 113,
+            "end": 124,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 113,
+              "end": 120,
+              "ctxt": 0
+            },
+            "value": "exports",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 121,
+              "end": 124,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 127,
+            "end": 130,
+            "ctxt": 0
+          },
+          "value": "bar",
+          "optional": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
