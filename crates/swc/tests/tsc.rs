@@ -32,6 +32,7 @@ use testing::NormalizedOutput;
         "privateNameAndIndexSignature.ts",
         "privateNameImplicitDeclaration.ts",
         "privateNameStaticAccessorsDerivedClasses.ts",
+        "privateNameStaticAccessorssDerivedClasses.ts",
     )
 )]
 #[testing::fixture(
