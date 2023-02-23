@@ -57,7 +57,14 @@ fn fixture_inner(input: PathBuf) {
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 struct BabelTestOptions {
-    plugins: Vec<(String, BabelPluginOption)>,
+    plugins: Vec<BabelPluginEntry>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase", untagged)]
+enum BabelPluginEntry {
+    NameOnly(String),
+    WithConfig(String, BabelPluginOption),
 }
 
 #[derive(Deserialize)]
