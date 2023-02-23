@@ -1,0 +1,2 @@
+//// [comparisonOperatorWithNumberOperand.ts]
+t1;

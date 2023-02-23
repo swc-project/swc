@@ -1,1 +1,0 @@
-//// [parserIndexSignature6.ts]

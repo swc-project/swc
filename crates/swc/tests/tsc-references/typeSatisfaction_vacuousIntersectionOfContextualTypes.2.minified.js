@@ -1,0 +1,1 @@
+//// [typeSatisfaction_vacuousIntersectionOfContextualTypes.ts]

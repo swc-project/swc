@@ -1,1 +1,0 @@
-//// [exponentiationOperatorWithNullValueAndInvalidOperands.ts]

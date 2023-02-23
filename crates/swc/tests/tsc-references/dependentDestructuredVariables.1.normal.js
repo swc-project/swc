@@ -30,6 +30,24 @@ function f12({ kind , payload  }) {
             payload; // never
     }
 }
+// repro #50206
+function f13({ kind , payload  }) {
+    if (kind === 'A') {
+        payload.toFixed();
+    }
+    if (kind === 'B') {
+        payload.toUpperCase();
+    }
+}
+function f14(t) {
+    const { kind , payload  } = t;
+    if (kind === 'A') {
+        payload.toFixed();
+    }
+    if (kind === 'B') {
+        payload.toUpperCase();
+    }
+}
 function f20({ kind , payload  }) {
     if (payload) {
         if (kind === 'A') {
@@ -260,3 +278,6 @@ const fa3 = (guard, value)=>{
         }
     }
 };
+const bot = new Client();
+bot.on("shardDisconnect", (event, shard)=>console.log(`Shard ${shard} disconnected (${event.code},${event.wasClean}): ${event.reason}`));
+bot.on("shardDisconnect", (event)=>console.log(`${event.code} ${event.wasClean} ${event.reason}`));
