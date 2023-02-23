@@ -88,7 +88,7 @@ pub enum ClassMember {
 
     /// Stage 3
     #[tag("AutoAccessor")]
-    Accessor(AutoAccessor),
+    AutoAccessor(AutoAccessor),
 }
 
 impl Take for ClassMember {
