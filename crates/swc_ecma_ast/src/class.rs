@@ -312,10 +312,10 @@ impl Take for AccessorProperty {
             span: Take::dummy(),
             key: Take::dummy(),
             value: Take::dummy(),
-            type_ann: Take::dummy(),
-            is_static: Take::dummy(),
+            type_ann: None,
+            is_static: false,
             decorators: Take::dummy(),
-            accessibility: Take::dummy(),
+            accessibility: None,
         }
     }
 }
