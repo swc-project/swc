@@ -2,6 +2,9 @@
     "jsc": {
         "transform": {
             "optimizer": {
+                "simplify": {
+                    "preserveImportsWithSideEffects": false
+                },
                 "globals": {
                     "envs": {
                         "NODE_ENV_ALT": "true"

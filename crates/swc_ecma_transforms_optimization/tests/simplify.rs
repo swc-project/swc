@@ -29,7 +29,7 @@ fn test(src: &str, expected: &str) {
                     expr_simplifier(unresolved_mark, Default::default()),
                     inlining::inlining(Default::default()),
                     dead_branch_remover(unresolved_mark),
-                    dce::dce(Default::default(), unresolved_mark, false)
+                    dce::dce(Default::default(), unresolved_mark, true)
                 )),
             )
         },
@@ -57,7 +57,7 @@ macro_rules! to {
                         expr_simplifier(unresolved_mark, Default::default()),
                         inlining::inlining(Default::default()),
                         dead_branch_remover(unresolved_mark),
-                        dce::dce(Default::default(), unresolved_mark, false)
+                        dce::dce(Default::default(), unresolved_mark, true)
                     )),
                 )
             },
@@ -514,7 +514,7 @@ test!(
                     ..Default::default()
                 }
             ),
-            dce(Default::default(), unresolved_mark, false),
+            dce(Default::default(), unresolved_mark, true),
             inlining(Default::default())
         )
     },
@@ -590,7 +590,7 @@ test!(
                 expr_simplifier(unresolved_mark, Default::default()),
                 inlining::inlining(Default::default()),
                 dead_branch_remover(unresolved_mark),
-                dce::dce(Default::default(), unresolved_mark, false)
+                dce::dce(Default::default(), unresolved_mark, true)
             )),
             es2018(Default::default()),
             es2017(

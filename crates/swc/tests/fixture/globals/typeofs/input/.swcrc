@@ -2,7 +2,6 @@
     "jsc": {
         "transform": {
             "optimizer": {
-                "simplify": false,
                 "globals": {
                     "typeofs": {
                         "window": "object"
