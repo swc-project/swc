@@ -1,0 +1,262 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 147,
+    "end": 368,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 147,
+        "end": 169,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "span": {
+            "start": 154,
+            "end": 157,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 154,
+              "end": 157,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 163,
+          "end": 168,
+          "ctxt": 0
+        },
+        "value": "./b",
+        "raw": "\"./b\""
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ExportDefaultDeclaration",
+      "span": {
+        "start": 170,
+        "end": 197,
+        "ctxt": 0
+      },
+      "decl": {
+        "type": "ClassExpression",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 191,
+            "end": 194,
+            "ctxt": 0
+          },
+          "value": "Foo",
+          "optional": false
+        },
+        "span": {
+          "start": 185,
+          "end": 197,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 198,
+        "end": 204,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 198,
+          "end": 203,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 198,
+            "end": 201,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 229,
+        "end": 251,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "span": {
+            "start": 236,
+            "end": 239,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 236,
+              "end": 239,
+              "ctxt": 0
+            },
+            "value": "Foo",
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 245,
+          "end": 250,
+          "ctxt": 0
+        },
+        "value": "./a",
+        "raw": "\"./a\""
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ExportDefaultDeclaration",
+      "span": {
+        "start": 252,
+        "end": 296,
+        "ctxt": 0
+      },
+      "decl": {
+        "type": "FunctionExpression",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 276,
+            "end": 279,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 267,
+          "end": 296,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 282,
+            "end": 296,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 284,
+                "end": 294,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "NewExpression",
+                "span": {
+                  "start": 284,
+                  "end": 293,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 288,
+                    "end": 291,
+                    "ctxt": 0
+                  },
+                  "value": "Foo",
+                  "optional": false
+                },
+                "arguments": [],
+                "typeArguments": null
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 354,
+        "end": 368,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 354,
+          "end": 367,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Import",
+          "span": {
+            "start": 354,
+            "end": 360,
+            "ctxt": 0
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 361,
+                "end": 366,
+                "ctxt": 0
+              },
+              "value": "./a",
+              "raw": "\"./a\""
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

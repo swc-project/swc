@@ -1,0 +1,535 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 153,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 37,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 37,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 6,
+                "end": 22,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeLiteral",
+                "span": {
+                  "start": 8,
+                  "end": 22,
+                  "ctxt": 0
+                },
+                "members": [
+                  {
+                    "type": "TsPropertySignature",
+                    "span": {
+                      "start": 10,
+                      "end": 20,
+                      "ctxt": 0
+                    },
+                    "readonly": false,
+                    "key": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 10,
+                        "end": 11,
+                        "ctxt": 0
+                      },
+                      "value": "o",
+                      "optional": false
+                    },
+                    "computed": false,
+                    "optional": false,
+                    "init": null,
+                    "params": [],
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 11,
+                        "end": 20,
+                        "ctxt": 0
+                      },
+                      "typeAnnotation": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 13,
+                          "end": 20,
+                          "ctxt": 0
+                        },
+                        "kind": "boolean"
+                      }
+                    },
+                    "typeParams": null
+                  }
+                ]
+              }
+            }
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 25,
+              "end": 37,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 27,
+                    "end": 28,
+                    "ctxt": 0
+                  },
+                  "value": "o",
+                  "optional": false
+                },
+                "value": {
+                  "type": "BooleanLiteral",
+                  "span": {
+                    "start": 30,
+                    "end": 35,
+                    "ctxt": 0
+                  },
+                  "value": false
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 38,
+        "end": 81,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 42,
+          "end": 58,
+          "ctxt": 0
+        },
+        "operator": "===",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 42,
+            "end": 48,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 42,
+              "end": 43,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 43,
+              "end": 48,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 44,
+                "end": 47,
+                "ctxt": 0
+              },
+              "value": "o",
+              "raw": "'o'"
+            }
+          }
+        },
+        "right": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 53,
+            "end": 58,
+            "ctxt": 0
+          },
+          "value": false
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 60,
+          "end": 81,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 66,
+              "end": 79,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 66,
+                "end": 79,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 66,
+                  "end": 72,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 66,
+                    "end": 67,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 67,
+                    "end": 72,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 68,
+                      "end": 71,
+                      "ctxt": 0
+                    },
+                    "value": "o",
+                    "raw": "'o'"
+                  }
+                }
+              },
+              "right": {
+                "type": "BooleanLiteral",
+                "span": {
+                  "start": 75,
+                  "end": 79,
+                  "ctxt": 0
+                },
+                "value": true
+              }
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 83,
+        "end": 118,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 89,
+            "end": 117,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 89,
+              "end": 90,
+              "ctxt": 0
+            },
+            "value": "y",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 90,
+                "end": 108,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTupleType",
+                "span": {
+                  "start": 92,
+                  "end": 108,
+                  "ctxt": 0
+                },
+                "elemTypes": [
+                  {
+                    "type": "TsTupleElement",
+                    "span": {
+                      "start": 93,
+                      "end": 99,
+                      "ctxt": 0
+                    },
+                    "label": null,
+                    "ty": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 93,
+                        "end": 99,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  {
+                    "type": "TsTupleElement",
+                    "span": {
+                      "start": 101,
+                      "end": 107,
+                      "ctxt": 0
+                    },
+                    "label": null,
+                    "ty": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 101,
+                        "end": 107,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "init": {
+            "type": "ArrayExpression",
+            "span": {
+              "start": 111,
+              "end": 117,
+              "ctxt": 0
+            },
+            "elements": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 112,
+                    "end": 113,
+                    "ctxt": 0
+                  },
+                  "value": 0.0,
+                  "raw": "0"
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 115,
+                    "end": 116,
+                    "ctxt": 0
+                  },
+                  "value": 0.0,
+                  "raw": "0"
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 119,
+        "end": 153,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 123,
+          "end": 133,
+          "ctxt": 0
+        },
+        "operator": "===",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 123,
+            "end": 127,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 123,
+              "end": 124,
+              "ctxt": 0
+            },
+            "value": "y",
+            "optional": false
+          },
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 124,
+              "end": 127,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 125,
+                "end": 126,
+                "ctxt": 0
+              },
+              "value": 0.0,
+              "raw": "0"
+            }
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 132,
+            "end": 133,
+            "ctxt": 0
+          },
+          "value": 0.0,
+          "raw": "0"
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 135,
+          "end": 153,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 141,
+              "end": 151,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 141,
+                "end": 150,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 141,
+                  "end": 145,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 141,
+                    "end": 142,
+                    "ctxt": 0
+                  },
+                  "value": "y",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 142,
+                    "end": 145,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 143,
+                      "end": 144,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  }
+                }
+              },
+              "right": {
+                "type": "UnaryExpression",
+                "span": {
+                  "start": 148,
+                  "end": 150,
+                  "ctxt": 0
+                },
+                "operator": "-",
+                "argument": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 149,
+                    "end": 150,
+                    "ctxt": 0
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "alternate": null
+    }
+  ],
+  "interpreter": null
+}

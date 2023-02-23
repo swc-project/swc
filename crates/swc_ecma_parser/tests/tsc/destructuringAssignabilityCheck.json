@@ -1,0 +1,538 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 19,
+    "end": 301,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 19,
+        "end": 33,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 25,
+            "end": 32,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "ArrayPattern",
+            "span": {
+              "start": 25,
+              "end": 27,
+              "ctxt": 0
+            },
+            "elements": [],
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 30,
+              "end": 32,
+              "ctxt": 0
+            },
+            "properties": []
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 53,
+        "end": 74,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 59,
+            "end": 73,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "ObjectPattern",
+            "span": {
+              "start": 59,
+              "end": 61,
+              "ctxt": 0
+            },
+            "properties": [],
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "Identifier",
+            "span": {
+              "start": 64,
+              "end": 73,
+              "ctxt": 0
+            },
+            "value": "undefined",
+            "optional": false
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 94,
+        "end": 110,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 94,
+          "end": 109,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 94,
+            "end": 105,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 95,
+              "end": 104,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "ArrayPattern",
+                "span": {
+                  "start": 96,
+                  "end": 98,
+                  "ctxt": 0
+                },
+                "elements": [],
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 103,
+                "end": 104,
+                "ctxt": 0
+              },
+              "value": 0.0,
+              "raw": "0"
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 106,
+                "end": 108,
+                "ctxt": 0
+              },
+              "properties": []
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 130,
+        "end": 153,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 130,
+          "end": 152,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 130,
+            "end": 141,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 131,
+              "end": 140,
+              "ctxt": 0
+            },
+            "params": [
+              {
+                "type": "ObjectPattern",
+                "span": {
+                  "start": 132,
+                  "end": 134,
+                  "ctxt": 0
+                },
+                "properties": [],
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 139,
+                "end": 140,
+                "ctxt": 0
+              },
+              "value": 0.0,
+              "raw": "0"
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 142,
+                "end": 151,
+                "ctxt": 0
+              },
+              "value": "undefined",
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 183,
+          "end": 186,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 187,
+            "end": 200,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "ObjectPattern",
+            "span": {
+              "start": 187,
+              "end": 200,
+              "ctxt": 0
+            },
+            "properties": [],
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 189,
+                "end": 200,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 191,
+                  "end": 200,
+                  "ctxt": 0
+                },
+                "kind": "undefined"
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 174,
+        "end": 218,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 202,
+          "end": 218,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 208,
+              "end": 216,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 215,
+                "end": 216,
+                "ctxt": 0
+              },
+              "value": 0.0,
+              "raw": "0"
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 228,
+          "end": 231,
+          "ctxt": 0
+        },
+        "value": "bar",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 232,
+            "end": 238,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "ArrayPattern",
+            "span": {
+              "start": 232,
+              "end": 238,
+              "ctxt": 0
+            },
+            "elements": [],
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 234,
+                "end": 238,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeLiteral",
+                "span": {
+                  "start": 236,
+                  "end": 238,
+                  "ctxt": 0
+                },
+                "members": []
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 219,
+        "end": 256,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 240,
+          "end": 256,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 246,
+              "end": 254,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 253,
+                "end": 254,
+                "ctxt": 0
+              },
+              "value": 0.0,
+              "raw": "0"
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 258,
+        "end": 282,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 264,
+            "end": 282,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "ObjectPattern",
+            "span": {
+              "start": 264,
+              "end": 267,
+              "ctxt": 0
+            },
+            "properties": [],
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 267,
+                "end": 278,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 269,
+                  "end": 278,
+                  "ctxt": 0
+                },
+                "kind": "undefined"
+              }
+            }
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 281,
+              "end": 282,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 284,
+        "end": 301,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 290,
+            "end": 301,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "ArrayPattern",
+            "span": {
+              "start": 290,
+              "end": 292,
+              "ctxt": 0
+            },
+            "elements": [],
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 292,
+                "end": 296,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeLiteral",
+                "span": {
+                  "start": 294,
+                  "end": 296,
+                  "ctxt": 0
+                },
+                "members": []
+              }
+            }
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 299,
+              "end": 301,
+              "ctxt": 0
+            },
+            "properties": []
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

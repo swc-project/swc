@@ -1,0 +1,106 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 42,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 42,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 41,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 9,
+              "end": 41,
+              "ctxt": 0
+            },
+            "operator": "instanceof",
+            "left": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 9,
+                "end": 23,
+                "ctxt": 0
+              },
+              "expressions": [
+                {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 16,
+                    "end": 17,
+                    "ctxt": 0
+                  },
+                  "value": 0.0,
+                  "raw": "0"
+                }
+              ],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 10,
+                    "end": 13,
+                    "ctxt": 0
+                  },
+                  "tail": false,
+                  "cooked": "abc",
+                  "raw": "abc"
+                },
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 19,
+                    "end": 22,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": "def",
+                  "raw": "def"
+                }
+              ]
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 35,
+                "end": 41,
+                "ctxt": 0
+              },
+              "value": "String",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

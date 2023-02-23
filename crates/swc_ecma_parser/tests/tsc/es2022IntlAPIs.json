@@ -1,0 +1,344 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 159,
+    "end": 434,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 159,
+        "end": 268,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 165,
+            "end": 267,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 165,
+              "end": 178,
+              "ctxt": 0
+            },
+            "value": "timezoneNames",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TsConstAssertion",
+            "span": {
+              "start": 181,
+              "end": 267,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 181,
+                "end": 258,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 182,
+                      "end": 189,
+                      "ctxt": 0
+                    },
+                    "value": "short",
+                    "raw": "'short'"
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 191,
+                      "end": 197,
+                      "ctxt": 0
+                    },
+                    "value": "long",
+                    "raw": "'long'"
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 199,
+                      "end": 212,
+                      "ctxt": 0
+                    },
+                    "value": "shortOffset",
+                    "raw": "'shortOffset'"
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 214,
+                      "end": 226,
+                      "ctxt": 0
+                    },
+                    "value": "longOffset",
+                    "raw": "'longOffset'"
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 228,
+                      "end": 242,
+                      "ctxt": 0
+                    },
+                    "value": "shortGeneric",
+                    "raw": "'shortGeneric'"
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 244,
+                      "end": 257,
+                      "ctxt": 0
+                    },
+                    "value": "longGeneric",
+                    "raw": "'longGeneric'"
+                  }
+                }
+              ]
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ForOfStatement",
+      "span": {
+        "start": 269,
+        "end": 434,
+        "ctxt": 0
+      },
+      "await": null,
+      "left": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 274,
+          "end": 288,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 280,
+              "end": 288,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 280,
+                "end": 288,
+                "ctxt": 0
+              },
+              "value": "zoneName",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": null,
+            "definite": false
+          }
+        ]
+      },
+      "right": {
+        "type": "Identifier",
+        "span": {
+          "start": 292,
+          "end": 305,
+          "ctxt": 0
+        },
+        "value": "timezoneNames",
+        "optional": false
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 307,
+          "end": 434,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 311,
+              "end": 432,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 315,
+                  "end": 431,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 315,
+                    "end": 324,
+                    "ctxt": 0
+                  },
+                  "value": "formatter",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NewExpression",
+                  "span": {
+                    "start": 327,
+                    "end": 431,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 331,
+                      "end": 350,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 331,
+                        "end": 335,
+                        "ctxt": 0
+                      },
+                      "value": "Intl",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 336,
+                        "end": 350,
+                        "ctxt": 0
+                      },
+                      "value": "DateTimeFormat",
+                      "optional": false
+                    }
+                  },
+                  "arguments": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 351,
+                          "end": 358,
+                          "ctxt": 0
+                        },
+                        "value": "en-US",
+                        "raw": "'en-US'"
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "ObjectExpression",
+                        "span": {
+                          "start": 360,
+                          "end": 430,
+                          "ctxt": 0
+                        },
+                        "properties": [
+                          {
+                            "type": "KeyValueProperty",
+                            "key": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 366,
+                                "end": 374,
+                                "ctxt": 0
+                              },
+                              "value": "timeZone",
+                              "optional": false
+                            },
+                            "value": {
+                              "type": "StringLiteral",
+                              "span": {
+                                "start": 376,
+                                "end": 397,
+                                "ctxt": 0
+                              },
+                              "value": "America/Los_Angeles",
+                              "raw": "'America/Los_Angeles'"
+                            }
+                          },
+                          {
+                            "type": "KeyValueProperty",
+                            "key": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 403,
+                                "end": 415,
+                                "ctxt": 0
+                              },
+                              "value": "timeZoneName",
+                              "optional": false
+                            },
+                            "value": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 417,
+                                "end": 425,
+                                "ctxt": 0
+                              },
+                              "value": "zoneName",
+                              "optional": false
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "typeArguments": null
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}
