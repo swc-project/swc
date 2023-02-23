@@ -913,9 +913,13 @@ impl<C: Comments> ClassProperties<C> {
                     })))
                 }
 
-                ClassMember::StaticBlock(..) => unreachable!(
-                    "classes pass: static blocks\nstatic_blocks pass should remove this"
-                ),
+                ClassMember::StaticBlock(..) => {
+                    unreachable!("static_blocks pass should remove this")
+                }
+
+                ClassMember::AutoAccessor(..) => {
+                    unreachable!("auto_accessor pass should remove this")
+                }
             }
         }
 
