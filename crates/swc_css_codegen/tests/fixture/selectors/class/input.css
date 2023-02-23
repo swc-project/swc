@@ -2,3 +2,4 @@
 .\10FFFFabc:after { content: '\\10FFFFabc' }
 .\10FFFF abc:after { content: '\\10FFFF abc' }
 .\FEFF:after { content: '\uFEFF' }
+.\32 8f99 { color: red }
