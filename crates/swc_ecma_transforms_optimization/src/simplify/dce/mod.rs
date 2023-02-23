@@ -30,7 +30,7 @@ use crate::debug_assert_valid;
 pub fn dce(
     config: Config,
     unresolved_mark: Mark,
-    drop_side_effect_imports: bool,
+    preserve_imports_with_side_effects: bool,
 ) -> impl Fold + VisitMut + Repeated + CompilerPass {
     as_folder(TreeShaker {
         expr_ctx: ExprCtx {
@@ -45,7 +45,7 @@ pub fn dce(
         var_decl_kind: None,
         data: Default::default(),
         bindings: Default::default(),
-        drop_side_effect_imports,
+        preserve_imports_with_side_effects,
     })
 }
 
@@ -92,7 +92,7 @@ struct TreeShaker {
 
     bindings: Arc<AHashSet<Id>>,
 
-    drop_side_effect_imports: bool,
+    preserve_imports_with_side_effects: bool,
 }
 
 impl CompilerPass for TreeShaker {
@@ -914,7 +914,10 @@ impl VisitMut for TreeShaker {
 
                 i.visit_mut_with(self);
 
-                if self.drop_side_effect_imports && !is_for_side_effect && i.specifiers.is_empty() {
+                if !self.preserve_imports_with_side_effects
+                    && !is_for_side_effect
+                    && i.specifiers.is_empty()
+                {
                     debug!("Dropping an import because it's not used");
                     self.changed = true;
                     *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));

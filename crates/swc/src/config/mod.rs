@@ -455,7 +455,7 @@ impl Options {
             if let Some(ref opts) = optimizer.as_ref().and_then(|o| o.simplify) {
                 Either::Left(simplifier(
                     top_level_mark,
-                    opts.drop_side_effect_imports,
+                    opts.preserve_imports_with_side_effects.into_bool(),
                     Default::default(),
                 ))
             } else {
@@ -1491,7 +1491,7 @@ pub struct OptimizerConfig {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct SimplifyOption {
     #[serde(default)]
-    pub drop_side_effect_imports: bool,
+    pub preserve_imports_with_side_effects: BoolConfig<true>,
 }
 
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]

@@ -24,12 +24,12 @@ pub struct Config {
 /// changes.
 pub fn simplifier(
     unresolved_mark: Mark,
-    drop_side_effect_imports: bool,
+    preserve_imports_with_side_effects: bool,
     c: Config,
 ) -> impl RepeatedJsPass {
     Repeat::new(chain!(
         expr_simplifier(unresolved_mark, c.expr),
         dead_branch_remover(unresolved_mark),
-        dce::dce(c.dce, unresolved_mark, drop_side_effect_imports)
+        dce::dce(c.dce, unresolved_mark, preserve_imports_with_side_effects)
     ))
 }
