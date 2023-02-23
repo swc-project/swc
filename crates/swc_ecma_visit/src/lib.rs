@@ -517,7 +517,7 @@ define!({
         TsIndexSignature(TsIndexSignature),
         Empty(EmptyStmt),
         StaticBlock(StaticBlock),
-        Accessor(AutoAccessor),
+        AutoAccessor(AutoAccessor),
     }
 
     pub struct ClassProp {
