@@ -46,6 +46,7 @@ async function compile(
 }
 
 async function check(f: string) {
+    console.log(`Checking ${f}...`);
     const ok = await compile([f], {
         noEmitOnError: true,
         target: ts.ScriptTarget.Latest,
