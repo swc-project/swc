@@ -1,1 +1,1 @@
-`abc${0}abc`.indexOf(`abc`);
+﻿`abc${0}abc`.indexOf(`abc`);

@@ -1,4 +1,4 @@
-interface I {
+﻿interface I {
     (strs: TemplateStringsArray, ...subs: number[]): I;
     member: {
         new (s: string): {

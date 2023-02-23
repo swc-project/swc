@@ -1,4 +1,4 @@
-// @declaration: true
+﻿// @declaration: true
 
 let abc: "AB\r\nC" = `AB
 C`;

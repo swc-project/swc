@@ -1,4 +1,4 @@
-interface I1<T> {
+﻿interface I1<T> {
     commonMethodType(a: string): string;
     commonPropertyType: string;
 

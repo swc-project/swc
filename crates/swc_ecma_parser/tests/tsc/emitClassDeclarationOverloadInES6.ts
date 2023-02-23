@@ -1,4 +1,4 @@
-// @target: es6
+﻿// @target: es6
 class C {
     constructor(y: any)
     constructor(x: number) {

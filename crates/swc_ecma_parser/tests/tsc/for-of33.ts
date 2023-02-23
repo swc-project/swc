@@ -1,4 +1,4 @@
-//@target: ES6
+﻿//@target: ES6
 //@noImplicitAny: true
 class StringIterator {
     [Symbol.iterator]() {

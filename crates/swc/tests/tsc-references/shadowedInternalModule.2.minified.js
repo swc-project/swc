@@ -13,4 +13,20 @@
 //!     :         |
 //!     :         `-- `Y` redefined here
 //!  33 | }
+//!  34 | 
+//!  35 | //
+//!     `----
+//! 
+//!   x the name `Q` is defined multiple times
+//!     ,-[59:1]
+//!  59 | }
+//!  60 | 
+//!  61 | module s {
+//!  62 |   import Q = r.Q;
+//!     :          |
+//!     :          `-- previous definition of `Q` here
+//!  63 |   const Q = 0;
+//!     :         |
+//!     :         `-- `Q` redefined here
+//!  64 | }
 //!     `----

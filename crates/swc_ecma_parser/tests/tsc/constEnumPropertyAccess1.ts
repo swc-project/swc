@@ -1,4 +1,4 @@
-// @declaration: true
+﻿// @declaration: true
 // @target: es6
 
 // constant enum declarations are completely erased in the emitted JavaScript code.

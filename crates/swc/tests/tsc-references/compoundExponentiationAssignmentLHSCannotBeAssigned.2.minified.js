@@ -1,5 +1,0 @@
-//// [compoundExponentiationAssignmentLHSCannotBeAssigned.ts]
-var E, a, b, x1, x2, x3, x4, x5, x6;
-!function(E) {
-    E[E.a = 0] = "a", E[E.b = 1] = "b";
-}(E || (E = {})), x1 = Math.pow(x1 = Math.pow(x1 = Math.pow(x1 = Math.pow(x1 = Math.pow(x1 = Math.pow(x1 = Math.pow(x1 = Math.pow(x1 = Math.pow(x1, a), b), !0), 0), ""), E.a), {}), null), void 0), x2 = Math.pow(x2 = Math.pow(x2 = Math.pow(x2 = Math.pow(x2 = Math.pow(x2 = Math.pow(x2 = Math.pow(x2 = Math.pow(x2 = Math.pow(x2, a), b), !0), 0), ""), E.a), {}), null), void 0), x3 = Math.pow(x3 = Math.pow(x3 = Math.pow(x3 = Math.pow(x3 = Math.pow(x3 = Math.pow(x3 = Math.pow(x3 = Math.pow(x3 = Math.pow(x3, a), b), !0), 0), ""), E.a), {}), null), void 0), x4 = Math.pow(x4 = Math.pow(x4 = Math.pow(x4 = Math.pow(x4 = Math.pow(x4 = Math.pow(x4 = Math.pow(x4 = Math.pow(x4 = Math.pow(x4, a), b), !0), 0), ""), E.a), {}), null), void 0), x5 = Math.pow(x5 = Math.pow(x5 = Math.pow(x5 = Math.pow(x5, b), !0), ""), {}), x6 = Math.pow(x6 = Math.pow(x6 = Math.pow(x6 = Math.pow(x6, b), !0), ""), {});

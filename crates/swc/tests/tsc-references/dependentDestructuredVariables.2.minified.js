@@ -29,3 +29,5 @@ reducer("add", {
         4
     ]
 });
+let bot = new Client();
+bot.on("shardDisconnect", (event, shard)=>console.log(`Shard ${shard} disconnected (${event.code},${event.wasClean}): ${event.reason}`)), bot.on("shardDisconnect", (event)=>console.log(`${event.code} ${event.wasClean} ${event.reason}`));

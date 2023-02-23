@@ -1,4 +1,4 @@
-// @module: commonjs
+﻿// @module: commonjs
 // @target: es6
 // @noImplicitAny: true
 
