@@ -451,14 +451,17 @@ impl Options {
             }
         };
 
-        let enable_simplifier = optimizer
-            .as_ref()
-            .map(|v| v.simplify.into_bool())
-            .unwrap_or_default();
-        let drop_unused_imports = optimizer
-            .as_ref()
-            .map(|v| v.drop_unused_imports.into_bool())
-            .unwrap_or_default();
+        let simplifier_pass = {
+            if let Some(ref opts) = optimizer.as_ref().and_then(|o| o.simplify) {
+                Either::Left(simplifier(
+                    top_level_mark,
+                    opts.drop_side_effect_imports,
+                    Default::default(),
+                ))
+            } else {
+                Either::Right(noop())
+            }
+        };
 
         let optimization = {
             if let Some(opts) = optimizer.and_then(|o| o.globals) {
@@ -475,10 +478,7 @@ impl Options {
             const_modules,
             optimization,
             Optional::new(export_default_from(), syntax.export_default_from()),
-            Optional::new(
-                simplifier(top_level_mark, drop_unused_imports, Default::default()),
-                enable_simplifier
-            ),
+            simplifier_pass,
             json_parse_pass
         );
 
@@ -1481,13 +1481,17 @@ pub struct OptimizerConfig {
     pub globals: Option<GlobalPassOption>,
 
     #[serde(default)]
-    pub simplify: BoolConfig<true>,
+    pub simplify: Option<SimplifyOption>,
 
     #[serde(default)]
     pub jsonify: Option<JsonifyOption>,
+}
 
+#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct SimplifyOption {
     #[serde(default)]
-    pub drop_unused_imports: BoolConfig<false>,
+    pub drop_side_effect_imports: bool,
 }
 
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
