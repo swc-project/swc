@@ -307,5 +307,15 @@ pub struct AccessorProperty {
 }
 
 impl Take for AccessorProperty {
-    fn dummy() -> AccessorProperty {}
+    fn dummy() -> AccessorProperty {
+        AccessorProperty {
+            span: Take::dummy(),
+            key: Take::dummy(),
+            value: Take::dummy(),
+            type_ann: Take::dummy(),
+            is_static: Take::dummy(),
+            decorators: Take::dummy(),
+            accessibility: Take::dummy(),
+        }
+    }
 }
