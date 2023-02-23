@@ -82,9 +82,13 @@ pub enum ClassMember {
     #[tag("EmptyStatement")]
     Empty(EmptyStmt),
 
-    // Stage 3
+    /// Stage 3
     #[tag("StaticBlock")]
     StaticBlock(StaticBlock),
+
+    /// Stage 3
+    #[tag("AccessorProperty")]
+    Accessor(AccessorProperty),
 }
 
 impl Take for ClassMember {
@@ -274,4 +278,34 @@ impl Take for StaticBlock {
             body: Take::dummy(),
         }
     }
+}
+
+#[ast_node("AccessorProperty")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct AccessorProperty {
+    #[serde(default)]
+    pub span: Span,
+
+    pub key: PropName,
+
+    #[serde(default)]
+    pub value: Option<Box<Expr>>,
+
+    #[serde(default, rename = "typeAnnotation")]
+    pub type_ann: Option<Box<TsTypeAnn>>,
+
+    #[serde(default)]
+    pub is_static: bool,
+
+    #[serde(default)]
+    pub decorators: Vec<Decorator>,
+
+    /// Typescript extension.
+    #[serde(default)]
+    pub accessibility: Option<Accessibility>,
+}
+
+impl Take for AccessorProperty {
+    fn dummy() -> AccessorProperty {}
 }
