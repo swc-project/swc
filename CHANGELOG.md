@@ -1,4 +1,18 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/decorator)** Preserve evaluation order (#6972) ([703b340](https://github.com/swc-project/swc/commit/703b340d39c3efb69f4a0d375ab6e5a2f9a4acd9))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/parser)** Reduce pre-allocation to reduce memory usage (#6979) ([f1e7a2a](https://github.com/swc-project/swc/commit/f1e7a2a9cc74b19597e9d7105852daf4672514a2))
+
 ## [1.3.36] - 2023-02-21
 
 ### Bug Fixes

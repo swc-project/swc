@@ -1,10 +1,6 @@
 export class Example {
-    constructor(){
-        this.bar = "1";
-        this.baz = "2";
-    }
-    bar;
-    baz;
+    bar = "1";
+    baz = "2";
 }
 __decorate([
     foo()
