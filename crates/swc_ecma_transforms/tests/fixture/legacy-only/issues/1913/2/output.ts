@@ -1,12 +1,11 @@
 class Store extends BaseStore {
     constructor(){
         super();
-        this.doSomething = ()=>{
-            console.log("run");
-        };
         this.doSomething();
     }
-    doSomething;
+    doSomething = ()=>{
+        console.log("run");
+    };
 }
 __decorate([
     action
