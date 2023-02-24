@@ -837,6 +837,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "data-encoding"
+version = "2.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "23d8666cb01533c39dde32bcbab8e227b4ed6679b2c925eba05feabea39508fb"
+
+[[package]]
 name = "dbg-swc"
 version = "0.66.54"
 dependencies = [
@@ -2915,11 +2921,11 @@ dependencies = [
 
 [[package]]
 name = "sourcemap"
-version = "6.2.1"
+version = "6.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aebe057d110ddba043708da3fb010bf562ff6e9d4d60c9ee92860527bcbeccd6"
+checksum = "3562681c4e0890af6cd22f09a0eeed4afd855d5011cd5f9358c834b670932382"
 dependencies = [
- "base64",
+ "data-encoding",
  "if_chain",
  "rustc_version 0.2.3",
  "serde",
