@@ -46,7 +46,7 @@ swc_ecma_visit                   = { version = "0.82.7", path = "../swc_ecma_vis
 
 [dev-dependencies]
 pretty_assertions           = "1.1"
-sourcemap                   = "6.2.2"
+sourcemap                   = "6"
 swc_ecma_codegen            = { version = "0.129.15", path = "../swc_ecma_codegen" }
 swc_ecma_parser             = { version = "0.124.12", path = "../swc_ecma_parser" }
 swc_ecma_transforms_testing = { version = "0.119.14", path = "../swc_ecma_transforms_testing" }

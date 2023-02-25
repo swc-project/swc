@@ -158,6 +158,12 @@ checksum = "a4521f3e3d031370679b3b140beb36dfe4801b09ac77e30c61941f97df3ef28b"
 
 [[package]]
 name = "base64"
+version = "0.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b41b7ea54a0c9d92199de89e20e58d49f02f8e699814ef3fdf266f6f748d15c7"
+
+[[package]]
+name = "base64"
 version = "0.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9e1b586273c5702936fe7b7d6896644d8be71e6314cfe09d3167c95f712589e8"
@@ -837,14 +843,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "data-encoding"
-version = "2.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "23d8666cb01533c39dde32bcbab8e227b4ed6679b2c925eba05feabea39508fb"
-
-[[package]]
 name = "dbg-swc"
-version = "0.66.54"
+version = "0.66.55"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -2553,7 +2553,7 @@ version = "0.11.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "68cc60575865c7831548863cc02356512e3f1dc2f3f82cb837d7fc4cc8f3c97c"
 dependencies = [
- "base64",
+ "base64 0.13.1",
  "bytes",
  "encoding_rs",
  "futures-core",
@@ -2921,16 +2921,17 @@ dependencies = [
 
 [[package]]
 name = "sourcemap"
-version = "6.2.2"
+version = "6.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3562681c4e0890af6cd22f09a0eeed4afd855d5011cd5f9358c834b670932382"
+checksum = "6e031f2463ecbdd5f34c950f89f5c1e1032f22c0f8e3dc4bdb2e8b6658cf61eb"
 dependencies = [
- "data-encoding",
+ "base64 0.11.0",
  "if_chain",
+ "lazy_static",
+ "regex",
  "rustc_version 0.2.3",
  "serde",
  "serde_json",
- "unicode-id",
  "url",
 ]
 
@@ -3124,7 +3125,7 @@ dependencies = [
  "ahash",
  "ansi_term",
  "anyhow",
- "base64",
+ "base64 0.13.1",
  "criterion",
  "dashmap",
  "either",
@@ -3305,7 +3306,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.59.39"
+version = "0.59.40"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3358,7 +3359,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.149.7"
+version = "0.149.8"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3386,7 +3387,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.144.5"
+version = "0.144.6"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3415,7 +3416,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_compat"
-version = "0.20.5"
+version = "0.20.6"
 dependencies = [
  "bitflags",
  "once_cell",
@@ -3452,7 +3453,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.109.5"
+version = "0.109.6"
 dependencies = [
  "criterion",
  "serde",
@@ -3469,7 +3470,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_modules"
-version = "0.21.7"
+version = "0.21.8"
 dependencies = [
  "rustc-hash",
  "serde",
@@ -3503,7 +3504,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.146.5"
+version = "0.146.6"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -3521,7 +3522,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "0.131.5"
+version = "0.131.6"
 dependencies = [
  "once_cell",
  "serde",
@@ -3567,7 +3568,7 @@ dependencies = [
 name = "swc_ecma_codegen"
 version = "0.129.15"
 dependencies = [
- "base64",
+ "base64 0.13.1",
  "criterion",
  "memchr",
  "num-bigint",
@@ -3992,7 +3993,7 @@ name = "swc_ecma_transforms_react"
 version = "0.160.21"
 dependencies = [
  "ahash",
- "base64",
+ "base64 0.13.1",
  "dashmap",
  "indexmap",
  "once_cell",
@@ -4023,7 +4024,7 @@ version = "0.119.14"
 dependencies = [
  "ansi_term",
  "anyhow",
- "base64",
+ "base64 0.13.1",
  "hex",
  "serde",
  "serde_json",
@@ -4207,7 +4208,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.109.30"
+version = "0.109.31"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4259,7 +4260,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.106.30"
+version = "0.106.31"
 dependencies = [
  "criterion",
  "once_cell",

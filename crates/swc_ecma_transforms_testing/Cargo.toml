@@ -19,7 +19,7 @@ hex = "0.4.3"
 serde = "1"
 serde_json = "1"
 sha-1 = "0.10"
-sourcemap = "6.2.2"
+sourcemap = "6"
 swc_common = { version = "0.29.32", path = "../swc_common", features = [
   "sourcemap",
 ] }
