@@ -1,4 +1,4 @@
-// @target: es2017
+﻿// @target: es2017
 
 async function bar1() {
     delete await 42;

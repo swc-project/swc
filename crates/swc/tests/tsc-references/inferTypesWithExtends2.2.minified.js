@@ -1,0 +1,1 @@
+//// [inferTypesWithExtends2.ts]

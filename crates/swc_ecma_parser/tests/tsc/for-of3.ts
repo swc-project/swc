@@ -1,3 +1,3 @@
-//@target: ES6
+﻿//@target: ES6
 var v: any;
 for (v++ of []) { }

@@ -1,4 +1,4 @@
-//@target: ES6
+﻿//@target: ES6
 var array = [{x: [0], y: {p: ""}}]
 for (var {x: [a], y: {p}} of array) {
     a;

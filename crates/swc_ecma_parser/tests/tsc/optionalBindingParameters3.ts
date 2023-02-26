@@ -1,4 +1,4 @@
-// @checkJs: true
+﻿// @checkJs: true
 // @allowJs: true
 // @noEmit: true
 // @filename: /a.js

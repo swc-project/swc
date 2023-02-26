@@ -1,4 +1,4 @@
-// @target: es6
+﻿// @target: es6
 
 var a = `hello\world`;
 var b = `hello\\world`;

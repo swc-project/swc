@@ -1,4 +1,4 @@
-interface A { a: string }
+﻿interface A { a: string }
 interface B { b: string }
 interface C { c: string }
 interface D { d: string }

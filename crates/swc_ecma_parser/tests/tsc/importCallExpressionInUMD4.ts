@@ -1,4 +1,4 @@
-// @module: umd
+﻿// @module: umd
 // @target: esnext
 // @useDefineForClassFields: false
 // @filename: 0.ts

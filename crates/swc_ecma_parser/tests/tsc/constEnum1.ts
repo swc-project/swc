@@ -1,4 +1,4 @@
-// @declaration: true
+﻿// @declaration: true
 
 // An enum declaration that specifies a const modifier is a constant enum declaration.
 // In a constant enum declaration, all members must have constant values and

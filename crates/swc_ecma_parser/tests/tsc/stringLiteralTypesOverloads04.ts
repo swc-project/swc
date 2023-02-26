@@ -1,4 +1,4 @@
-// @declaration: true
+﻿// @declaration: true
 
 declare function f(x: (p: "foo" | "bar") => "foo");
 

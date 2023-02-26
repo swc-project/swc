@@ -28,8 +28,8 @@ async function compile(
         if (!d.file) continue;
         // Parse failure
         if (1000 <= d.code && d.code < 2000) return false;
-        if (10000 <= d.code) return false;
         if (2000 <= d.code && d.code < 3000) continue;
+        if (10000 <= d.code) return false;
 
         let { line, character } = d.file.getLineAndCharacterOfPosition(
             d.start!
@@ -46,6 +46,7 @@ async function compile(
 }
 
 async function check(f: string) {
+    console.log(`Checking ${f}...`);
     const ok = await compile([f], {
         noEmitOnError: true,
         target: ts.ScriptTarget.Latest,
@@ -61,6 +62,8 @@ async function check(f: string) {
         // We use rename as resumable copy
         fs.renameSync(f, target);
         // console.log('Created', target)
+    } else {
+        await fs.promises.unlink(f);
     }
 }
 

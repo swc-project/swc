@@ -1,4 +1,4 @@
-// @declaration: true
+﻿// @declaration: true
 // @declaration: true
 
 function g() {
