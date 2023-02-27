@@ -5,6 +5,9 @@
 
 
 
+- **(bindings/cli)** Implement `source-file-name` and `source-root` options (#6973) ([3e3e41a](https://github.com/swc-project/swc/commit/3e3e41a1756519515df193db903f6992995420e9))
+
+
 - **(css/utils)** Fix minification of class names with whitespace (#6983) ([cc1d9bd](https://github.com/swc-project/swc/commit/cc1d9bd567340203d5d2bd228a4d0b19f8052202))
 
 
