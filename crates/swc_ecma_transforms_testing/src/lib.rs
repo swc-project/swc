@@ -113,7 +113,7 @@ impl<'a> Tester<'a> {
         op: F,
     ) -> Result<T, ()>
     where
-        F: FnOnce(&mut Parser<Lexer<StringInput>>) -> Result<T, swc_ecma_parser::error::Error>,
+        F: FnOnce(&mut Parser<Lexer>) -> Result<T, swc_ecma_parser::error::Error>,
     {
         let fm = self
             .cm
