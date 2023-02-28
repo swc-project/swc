@@ -286,7 +286,7 @@ macro_rules! tok {
     };
 
     ("accessor") => {
-        crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::Accessor))
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("accessor")))
     };
 
     // ----------

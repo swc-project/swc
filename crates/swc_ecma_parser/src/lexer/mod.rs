@@ -784,7 +784,6 @@ impl<'a, I: Input> Lexer<'a, I> {
             } else {
                 match s.as_bytes()[0] {
                     b'a' if s == "await" => Await.into(),
-                    b'a' if s == "accessor" => Accessor.into(),
                     b'b' if s == "break" => Break.into(),
                     b'c' => match s {
                         "case" => Case.into(),
