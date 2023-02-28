@@ -46,7 +46,7 @@ impl Raw {
 // pub const LINE_SEPARATOR: char = '\u{2028}';
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
-impl<'a, I: Input> Lexer<'a, I> {
+impl<'a> Lexer<'a> {
     pub(super) fn span(&self, start: BytePos) -> Span {
         let end = self.last_pos();
         if cfg!(debug_assertions) && start > end {

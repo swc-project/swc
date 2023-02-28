@@ -8,7 +8,7 @@ use std::{
 
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsConfig, PResult, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, PResult, Parser, Syntax};
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 
@@ -76,7 +76,7 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, StdErr>
 where
-    F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>, &SingleThreadedComments) -> PResult<Ret>,
+    F: FnOnce(&mut Parser<Lexer>, &SingleThreadedComments) -> PResult<Ret>,
 {
     ::testing::run_test(treat_error_as_bug, |cm, handler| {
         if shift {
