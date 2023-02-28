@@ -156,7 +156,8 @@ impl_enum!(
         PrivateProp,
         TsIndexSignature,
         Empty,
-        StaticBlock
+        StaticBlock,
+        AutoAccessor
     ]
 );
 impl_enum!(ObjectPatProp, [KeyValue, Assign, Rest]);

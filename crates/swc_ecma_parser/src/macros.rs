@@ -285,6 +285,10 @@ macro_rules! tok {
         crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::Yield))
     };
 
+    ("accessor") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("accessor")))
+    };
+
     // ----------
     // JSX
     // ----------
