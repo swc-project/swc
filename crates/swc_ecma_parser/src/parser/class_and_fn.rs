@@ -1,4 +1,3 @@
-use either::Either;
 use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
@@ -1000,7 +999,7 @@ impl<I: Tokens> Parser<I> {
         if is_constructor(&key) {
             syntax_error!(self, key.span(), SyntaxError::PropertyNamedConstructor);
         }
-        if key.is_left() {
+        if key.is_private() {
             if declare {
                 self.emit_err(
                     key.span(),
@@ -1035,8 +1034,20 @@ impl<I: Tokens> Parser<I> {
                 p.emit_err(p.input.cur_span(), SyntaxError::TS1005);
             }
 
+            if let Some(..) = accessor_token {
+                return Ok(ClassMember::AutoAccessor(AutoAccessor {
+                    span: span!(p, start),
+                    key,
+                    value,
+                    type_ann,
+                    is_static,
+                    decorators,
+                    accessibility,
+                }));
+            }
+
             Ok(match key {
-                Either::Left(key) => PrivateProp {
+                Key::Private(key) => PrivateProp {
                     span: span!(p, start),
                     key,
                     value,
@@ -1287,13 +1298,13 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_class_prop_name(&mut self) -> PResult<Either<PrivateName, PropName>> {
+    fn parse_class_prop_name(&mut self) -> PResult<Key> {
         if is!(self, '#') {
             let name = self.parse_private_name()?;
             if name.id.sym == js_word!("constructor") {
                 self.emit_err(name.span, SyntaxError::PrivateConstructor);
             }
-            Ok(Either::Left(name))
+            Ok(Key::Private(name))
         } else {
             self.parse_prop_name().map(Key::Public)
         }
@@ -1383,7 +1394,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         match key {
-            Either::Left(key) => Ok(PrivateMethod {
+            Key::Private(key) => Ok(PrivateMethod {
                 span: span!(self, start),
 
                 accessibility,
