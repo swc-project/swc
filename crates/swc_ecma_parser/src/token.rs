@@ -510,7 +510,6 @@ impl Keyword {
             Void => js_word!("void"),
 
             Delete => js_word!("delete"),
-            Accessor => js_word!("accessor"),
         }
     }
 }
