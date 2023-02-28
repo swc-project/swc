@@ -1222,6 +1222,16 @@ impl<'a> VisitMut for Resolver<'a> {
         });
     }
 
+    fn visit_mut_ts_export_assignment(&mut self, node: &mut TsExportAssignment) {
+        node.expr.visit_mut_with(self);
+
+        if self.config.handle_types {
+            if let Some(i) = leftmost(&mut node.expr) {
+                self.try_resolving_as_type(i);
+            }
+        }
+    }
+
     fn visit_mut_ts_expr_with_type_args(&mut self, n: &mut TsExprWithTypeArgs) {
         if self.config.handle_types {
             let old = self.in_type;
@@ -1450,6 +1460,15 @@ impl<'a> VisitMut for Resolver<'a> {
         self.ident_type = old_type;
 
         decl.init.visit_mut_children_with(self);
+    }
+}
+
+fn leftmost(expr: &mut Expr) -> Option<&mut Ident> {
+    match expr {
+        Expr::Ident(i) => Some(i),
+        Expr::Member(MemberExpr { obj, .. }) => leftmost(obj),
+        Expr::Paren(ParenExpr { expr, .. }) => leftmost(expr),
+        _ => None,
     }
 }
 

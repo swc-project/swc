@@ -1,0 +1,1 @@
+//// [autoAccessorAllowedModifiers.ts]

@@ -4,7 +4,7 @@
 
 use std::path::PathBuf;
 
-use preset_env_base::query::{targets_to_versions, Query};
+use preset_env_base::query::targets_to_versions;
 pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
 use regenerator::RegeneratorVisitor;
 use serde::Deserialize;
@@ -565,7 +565,7 @@ pub struct Config {
     #[serde(default)]
     pub core_js: Option<Version>,
 
-    #[serde(default = "default_targets")]
+    #[serde(default)]
     pub targets: Option<Targets>,
 
     #[serde(default = "default_path")]
@@ -579,10 +579,6 @@ pub struct Config {
 
     #[serde(default)]
     pub bugfixes: bool,
-}
-
-fn default_targets() -> Option<Targets> {
-    Some(Targets::Query(Query::Single("".into())))
 }
 
 fn default_path() -> PathBuf {

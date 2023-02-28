@@ -69,3 +69,16 @@ impl_struct!(
 );
 
 impl_struct!(StaticBlock, [span, body]);
+
+impl_struct!(
+    AutoAccessor,
+    [
+        span,
+        key,
+        value,
+        type_ann,
+        is_static,
+        decorators,
+        accessibility
+    ]
+);

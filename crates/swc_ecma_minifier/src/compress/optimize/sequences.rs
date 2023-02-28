@@ -1,7 +1,7 @@
 use std::mem::take;
 
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
     alias::{collect_infects_from, AccessKind, AliasConfig},
@@ -1847,7 +1847,25 @@ where
                         PropOrSpread::Prop(prop) => {
                             // Inline into key
                             let key = match &mut **prop {
-                                Prop::Shorthand(_) => continue,
+                                Prop::Shorthand(shorthand) => {
+                                    // We can't ignore shorthand properties
+                                    //
+                                    // https://github.com/swc-project/swc/issues/6914
+
+                                    let mut new_b = Box::new(Expr::Ident(shorthand.clone()));
+                                    if self.merge_sequential_expr(a, &mut new_b)? {
+                                        *prop = Box::new(Prop::KeyValue(KeyValueProp {
+                                            key: Ident::new(
+                                                shorthand.sym.clone(),
+                                                shorthand.span.with_ctxt(SyntaxContext::empty()),
+                                            )
+                                            .into(),
+                                            value: new_b,
+                                        }));
+                                    }
+
+                                    continue;
+                                }
                                 Prop::KeyValue(prop) => Some(&mut prop.key),
                                 Prop::Assign(_) => None,
                                 Prop::Getter(prop) => Some(&mut prop.key),

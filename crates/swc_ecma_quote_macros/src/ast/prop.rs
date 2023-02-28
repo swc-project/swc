@@ -32,3 +32,5 @@ impl_struct!(KeyValuePatProp, [key, value]);
 impl_struct!(AssignPatProp, [span, key, value]);
 
 impl_struct!(ComputedPropName, [span, expr]);
+
+impl_enum!(Key, [Private, Public]);

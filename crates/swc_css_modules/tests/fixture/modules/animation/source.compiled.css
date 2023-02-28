@@ -1,0 +1,33 @@
+.__local__a {
+  animation: 3s ease __local__animationName;
+}
+.__local__b {
+  animation: 3s cubic-bezier(0.075, 0.82, 0.165, 1) __local__ease;
+}
+.__local__c {
+  animation: 3s ease-in-out 10 __local__infinite;
+}
+@keyframes __local__animationName {
+  0% {
+    background: white;
+  }
+  100% {
+    background: red;
+  }
+}
+@keyframes __local__ease {
+  0% {
+    background: white;
+  }
+  100% {
+    background: red;
+  }
+}
+@keyframes __local__infinite {
+  0% {
+    background: white;
+  }
+  100% {
+    background: red;
+  }
+}

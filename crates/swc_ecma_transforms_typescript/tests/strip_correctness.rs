@@ -131,6 +131,8 @@ fn identity(entry: PathBuf) {
         "tsxReactEmitNesting",
         "tsxTypeArgumentsJsxPreserveOutput",
         "unicodeEscapesInJsxtags",
+        "autoAccessor",
+        "parserArrowFunctionExpression11.ts",
         // decorator
         "issue-2417",
         // TODO: Script mode

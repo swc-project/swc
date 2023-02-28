@@ -165,6 +165,17 @@ impl Default for Syntax {
 }
 
 impl Syntax {
+    fn auto_accessors(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                auto_accessors: true,
+                ..
+            }) => true,
+            Syntax::Typescript(_) => true,
+            _ => false,
+        }
+    }
+
     pub fn import_assertions(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
@@ -332,6 +343,9 @@ pub struct EsConfig {
 
     #[serde(default, rename = "allowReturnOutsideFunction")]
     pub allow_return_outside_function: bool,
+
+    #[serde(default)]
+    pub auto_accessors: bool,
 }
 
 /// Syntactic context.
@@ -461,3 +475,15 @@ expose!(parse_file_as_expr, Box<Expr>, |p| {
 expose!(parse_file_as_module, Module, |p| { p.parse_module() });
 expose!(parse_file_as_script, Script, |p| { p.parse_script() });
 expose!(parse_file_as_program, Program, |p| { p.parse_program() });
+
+#[inline(always)]
+#[cfg(any(target_arch = "wasm32", target_arch = "arm"))]
+fn maybe_grow<R, F: FnOnce() -> R>(_red_zone: usize, _stack_size: usize, callback: F) -> R {
+    callback()
+}
+
+#[inline(always)]
+#[cfg(not(any(target_arch = "wasm32", target_arch = "arm")))]
+fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callback: F) -> R {
+    stacker::maybe_grow(red_zone, stack_size, callback)
+}

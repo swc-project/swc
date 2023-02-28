@@ -1032,9 +1032,20 @@ impl SimplifyExpr {
         match (left, right) {
             // Special case: `x < x` is always false.
             (
-                &Expr::Ident(Ident { sym: ref li, .. }, ..),
-                &Expr::Ident(Ident { sym: ref ri, .. }),
-            ) if !will_negate && li == ri => {
+                &Expr::Ident(
+                    Ident {
+                        sym: ref li,
+                        span: l_span,
+                        ..
+                    },
+                    ..,
+                ),
+                &Expr::Ident(Ident {
+                    sym: ref ri,
+                    span: r_span,
+                    ..
+                }),
+            ) if !will_negate && li == ri && l_span.ctxt == r_span.ctxt => {
                 return Known(false);
             }
             // Special case: `typeof a < typeof a` is always false.

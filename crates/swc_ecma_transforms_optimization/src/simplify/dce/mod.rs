@@ -713,6 +713,13 @@ impl VisitMut for TreeShaker {
                                     .as_deref()
                                     .map_or(false, |e| e.may_have_side_effects(&self.expr_ctx))
                         }
+                        ClassMember::AutoAccessor(m) => {
+                            !matches!(m.key, Key::Public(PropName::Computed(..)))
+                                && !m
+                                    .value
+                                    .as_deref()
+                                    .map_or(false, |e| e.may_have_side_effects(&self.expr_ctx))
+                        }
 
                         ClassMember::PrivateProp(m) => !m
                             .value
@@ -818,6 +825,27 @@ impl VisitMut for TreeShaker {
         if !n.is_invalid() {
             debug_assert_valid(n);
         }
+    }
+
+    fn visit_mut_import_specifiers(&mut self, ss: &mut Vec<ImportSpecifier>) {
+        ss.retain(|s| {
+            let local = match s {
+                ImportSpecifier::Named(l) => &l.local,
+                ImportSpecifier::Default(l) => &l.local,
+                ImportSpecifier::Namespace(l) => &l.local,
+            };
+
+            if self.can_drop_binding(local.to_id(), false) {
+                debug!(
+                    "Dropping import specifier `{}` because it's not used",
+                    local
+                );
+                self.changed = true;
+                return false;
+            }
+
+            true
+        });
     }
 
     fn visit_mut_module(&mut self, m: &mut Module) {

@@ -4,7 +4,7 @@ use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_utils::{ExprExt, ExprFactory, StmtExt, StmtLike};
+use swc_ecma_utils::{ExprExt, ExprFactory, IdentUsageFinder, StmtExt, StmtLike};
 
 use super::Optimizer;
 use crate::{
@@ -316,6 +316,10 @@ where
 
     /// Compress a conditional expression if cons and alt is simillar
     pub(super) fn compress_cond_expr_if_similar(&mut self, e: &mut Expr) {
+        if !self.options.conditionals {
+            return;
+        }
+
         let cond = match e {
             Expr::Cond(expr) => expr,
             _ => return,
@@ -368,6 +372,9 @@ where
                 }
 
                 let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident())?;
+                if IdentUsageFinder::find(&cons_callee.to_id(), &**test) {
+                    return None;
+                }
                 //
 
                 if !cons.callee.eq_ignore_span(&alt.callee) {

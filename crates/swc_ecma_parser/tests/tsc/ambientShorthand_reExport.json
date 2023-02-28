@@ -86,6 +86,7 @@
         "value": "jquery",
         "raw": "\"jquery\""
       },
+      "typeOnly": false,
       "asserts": null
     },
     {

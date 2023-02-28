@@ -1,4 +1,5 @@
 use std::{
+    borrow::Cow,
     fs::{self, File},
     io::{self, Read, Write},
     path::{Component, Path, PathBuf},
@@ -28,11 +29,11 @@ use crate::util::trace::init_trace;
 /// Configuration option for transform files.
 #[derive(Parser)]
 pub struct CompileOptions {
-    /// Experimental: provide additional configuration to override the .swcrc.
-    /// Can be used to provide experimental plugin configuration,
+    /// Experimental: provide an additional JSON config object to override the
+    /// .swcrc. Can be used to provide experimental plugin configuration,
     /// including plugin imports that are explicitly relative, starting with `.`
     /// or `..`
-    #[clap(long, value_parser = parse_config)]
+    #[clap(long = "config-json", value_parser = parse_config)]
     config: Option<Config>,
 
     /// Path to a .swcrc file to use
@@ -121,7 +122,7 @@ static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
 });
 
 /// List of file extensions supported by default.
-static DEFAULT_EXTENSIONS: &[&str] = &["js", "jsx", "es6", "es", "mjs", "ts", "tsx"];
+static DEFAULT_EXTENSIONS: &[&str] = &["js", "jsx", "es6", "es", "mjs", "ts", "tsx", "cts", "mts"];
 
 /// Infer list of files to be transformed from cli arguments.
 /// If given input is a directory, it'll traverse it and collect all supported
@@ -212,10 +213,22 @@ fn resolve_output_file_path(
 
 fn emit_output(
     mut output: TransformOutput,
+    source_file_name: &Option<String>,
+    source_root: &Option<String>,
     out_dir: &Option<PathBuf>,
     file_path: &Path,
     file_extension: PathBuf,
 ) -> anyhow::Result<()> {
+    let source_map = if let Some(ref source_map) = &output.map {
+        Some(extend_source_map(
+            source_map.to_owned(),
+            source_file_name,
+            source_root,
+        )?)
+    } else {
+        None
+    };
+
     if let Some(out_dir) = out_dir {
         let output_file_path = resolve_output_file_path(out_dir, file_path, file_extension)?;
         let output_dir = output_file_path
@@ -226,7 +239,7 @@ fn emit_output(
             fs::create_dir_all(output_dir)?;
         }
 
-        if let Some(source_map) = &output.map {
+        if let Some(ref source_map) = source_map {
             let source_map_path = output_file_path.with_extension("js.map");
 
             output.code.push_str("\n//# sourceMappingURL=");
@@ -239,16 +252,13 @@ fn emit_output(
 
         fs::write(output_file_path, &output.code)?;
     } else {
-        println!(
-            "{}\n{}\n{}",
-            file_path.display(),
-            output.code,
-            output
-                .map
-                .as_ref()
-                .map(|m| m.to_string())
-                .unwrap_or_default()
-        );
+        let source_map = if let Some(ref source_map) = source_map {
+            String::from_utf8_lossy(source_map)
+        } else {
+            Cow::Borrowed("")
+        };
+
+        println!("{}\n{}\n{}", file_path.display(), output.code, source_map,);
     };
     Ok(())
 }
@@ -324,6 +334,9 @@ impl CompileOptions {
                 "true" => SourceMapsConfig::Bool(true),
                 value => SourceMapsConfig::Str(value.to_string()),
             });
+
+            options.source_file_name = self.source_file_name.to_owned();
+            options.source_root = self.source_root.to_owned();
         }
 
         Ok(options)
@@ -469,10 +482,17 @@ impl CompileOptions {
                         buf_srcmap = Some(File::create(map_out_file)?);
                     }
 
+                    let source_map = extend_source_map(
+                        src_map.to_owned(),
+                        &self.source_file_name,
+                        &self.source_root,
+                    )
+                    .unwrap();
+
                     buf_srcmap
                         .as_ref()
                         .expect("Srcmap buffer should be available")
-                        .write(src_map.as_bytes())
+                        .write(&source_map)
                         .and(Ok(()))?;
                 }
 
@@ -498,15 +518,45 @@ impl CompileOptions {
                     let result = execute(compiler, fm, options);
 
                     match result {
-                        Ok(output) => {
-                            emit_output(output, &self.out_dir, &file_path, file_extension)
-                        }
+                        Ok(output) => emit_output(
+                            output,
+                            &self.source_file_name,
+                            &self.source_root,
+                            &self.out_dir,
+                            &file_path,
+                            file_extension,
+                        ),
                         Err(e) => Err(e),
                     }
                 },
             )
         }
     }
+}
+
+// TODO: remove once fixed in core https://github.com/swc-project/swc/issues/1388
+fn extend_source_map(
+    source_map: String,
+    source_file_name: &Option<String>,
+    source_root: &Option<String>,
+) -> anyhow::Result<Vec<u8>> {
+    let mut source_map = sourcemap::SourceMap::from_reader(source_map.as_bytes())
+        .context("failed to encode source map")?;
+
+    if let Some(ref source_file_name) = source_file_name {
+        source_map.set_source(0u32, source_file_name);
+    }
+
+    if source_root.is_some() {
+        source_map.set_source_root(source_root.clone());
+    }
+
+    let mut buf = vec![];
+    source_map
+        .to_writer(&mut buf)
+        .context("failed to decode source map")?;
+
+    Ok(buf)
 }
 
 #[swc_trace]

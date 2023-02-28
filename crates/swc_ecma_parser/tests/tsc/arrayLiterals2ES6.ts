@@ -1,4 +1,4 @@
-// @target:es6
+﻿// @target:es6
 // ElementList:  ( Modified )
 //      Elisionopt   AssignmentExpression
 //      Elisionopt   SpreadElement

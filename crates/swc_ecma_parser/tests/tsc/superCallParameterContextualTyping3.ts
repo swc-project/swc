@@ -1,4 +1,4 @@
-interface ContextualType<T> {
+﻿interface ContextualType<T> {
     method(parameter: T): void;
 }
 

@@ -1,4 +1,4 @@
-let x: "foo";
+﻿let x: "foo";
 let y: "foo" | "bar"; 
 
 declare function randBool(): boolean;

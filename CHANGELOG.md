@@ -1,6 +1,110 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/parser)** Support auto accessors (#6981) ([37533a2](https://github.com/swc-project/swc/commit/37533a23fde30fe054bf321e7ca7a10a346c2f79))
+
+
+- **(es/typescript)** Support `export type * from "mod"` (#6867) ([beb38d3](https://github.com/swc-project/swc/commit/beb38d34a26016051eb0ed364ea1112f416955ac))
+
+## [1.3.37] - 2023-02-28
+
+### Bug Fixes
+
+
+
+- **(bindings/cli)** Implement `source-file-name` and `source-root` options (#6973) ([3e3e41a](https://github.com/swc-project/swc/commit/3e3e41a1756519515df193db903f6992995420e9))
+
+
+- **(css/utils)** Fix minification of class names with whitespace (#6983) ([cc1d9bd](https://github.com/swc-project/swc/commit/cc1d9bd567340203d5d2bd228a4d0b19f8052202))
+
+
+- **(es/decorator)** Preserve evaluation order (#6972) ([703b340](https://github.com/swc-project/swc/commit/703b340d39c3efb69f4a0d375ab6e5a2f9a4acd9))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/parser)** Reduce pre-allocation to reduce memory usage (#6979) ([f1e7a2a](https://github.com/swc-project/swc/commit/f1e7a2a9cc74b19597e9d7105852daf4672514a2))
+
+### Testing
+
+
+
+- **(es/tsc)** Update tsc test suite (#6982) ([b887b30](https://github.com/swc-project/swc/commit/b887b30092c77ec67eedb7f1dd0b5570a1a16eea))
+
+## [1.3.36] - 2023-02-21
+
+### Bug Fixes
+
+
+
+- **(bindings/cli)** Rename `--config` to `--config-json` (#6932) ([cb4436b](https://github.com/swc-project/swc/commit/cb4436bd6ed085bdf1f0d98776f166bf2a6275c9))
+
+
+- **(bindings/node)** Treat `.cts` and `.mts` as input by default (#6959) ([d5c0dec](https://github.com/swc-project/swc/commit/d5c0dec40c1bb46bb5674242aa0a85f51c0826f7))
+
+
+- **(bundler)** Don't panic while finding exports (#6947) ([542bb62](https://github.com/swc-project/swc/commit/542bb62ef78a999fe6c636be821427691ce0b071))
+
+
+- **(css/modules)** Fix CSS `animation` on CSS Modules (#6969) ([4771aa2](https://github.com/swc-project/swc/commit/4771aa206a6aa8c48f41eeafba12040c04358885))
+
+
+- **(es/minifier)** Fix `toFixed`, `toPrecision`, `toExponential` and `toString` of Number (#6960) ([9382bda](https://github.com/swc-project/swc/commit/9382bda786613abf15cecb0bf3531dd68bb6166b))
+
+
+- **(es/minifier)** Fix optimization of expressions in numeric context (#6965) ([1dfadb8](https://github.com/swc-project/swc/commit/1dfadb87907ef24c7b4d5184f24f30e028c1cef2))
+
+
+- **(es/module)** Fix `jsc.paths` on Windows (#6930) ([1ec161a](https://github.com/swc-project/swc/commit/1ec161a0f15886f97d4fb9cbb5d115b29ed5e2a2))
+
+
+- **(es/react)** Fix handling of whitespaces (#6935) ([a9b25aa](https://github.com/swc-project/swc/commit/a9b25aaf4a776731d3ef2dc3c192a7b18023e765))
+
+
+- **(es/react)** Don't panic on `key` without a value (#6945) ([14454c9](https://github.com/swc-project/swc/commit/14454c9dbd222cabb8c6eeafa9c664c34030a121))
+
+
+- **(es/resolver)** Use type context for `export =` if it's unresolved (#6963) ([e946c43](https://github.com/swc-project/swc/commit/e946c43f4e0640bb7ad2470c9c5979583ced2e23))
+
+### Features
+
+
+
+- **(es/minifier)** Drop unused import bindings (#6967) ([a27ffd2](https://github.com/swc-project/swc/commit/a27ffd22423af6e85fa821c2bb3bbd01e199f472))
+
+### Miscellaneous Tasks
+
+
+
+- **(bot)** Allow org members to use bump comments (#6942) ([0324d5a](https://github.com/swc-project/swc/commit/0324d5a78b8d47b8948f4011c0dd982ff43a2203))
+
+
+- **(swc_nodejs_common)** Remove swc_node_base from swc_nodejs_common (#6940) ([0771418](https://github.com/swc-project/swc/commit/0771418dd0310a7e05bfad76baf4e16cd289351e))
+
+## [1.3.35] - 2023-02-10
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Don't skip shorthand properties from sequential inliner (#6918) ([725d3fb](https://github.com/swc-project/swc/commit/725d3fb645976681bc11b1df943f3ca1008788ab))
+
+
+- **(es/preset-env)** Fix default target (#6921) ([85a8def](https://github.com/swc-project/swc/commit/85a8defc37ce20b051b1bf2139ead7182d496483))
+
+
+- **(es/typescript)** Fix handling of non-uppercase JSX elements (#6928) ([ebc65c7](https://github.com/swc-project/swc/commit/ebc65c7dcba4ccfeb7c0a1e200b5130bc8a15791))
+
+### Miscellaneous Tasks
+- **general**: Bump swc_css_* (#6924) ([75376cd](https://github.com/swc-project/swc/commit/75376cd65cf10e9777aab5e00abf9f851a222a49))
+
+## [1.3.34] - 2023-02-08
+
 ### Bug Fixes
 
 
@@ -8,7 +112,37 @@
 - **(bindings)** Don't require unnecessary package (#6902) ([964dfba](https://github.com/swc-project/swc/commit/964dfbaf1ab018d26d4acc574bd4fce5272bf890))
 
 
+- **(bindings/node)** Add `esnext` to `JscTarget` (#6908) ([82128e3](https://github.com/swc-project/swc/commit/82128e3734f8f5a92e85ed748e92f4f62bb4c63f))
+
+
+- **(css/modules)** Fix interop of `&` and `:global` (#6900) ([f85ea9c](https://github.com/swc-project/swc/commit/f85ea9cb570ee9431926fb51559ecd34a701384f))
+
+
+- **(es/minifier)** Respect span hygiene from expr simplifier (#6899) ([432dca6](https://github.com/swc-project/swc/commit/432dca647b5ab6d083d1cedbf68d6afc511f84fe))
+
+
+- **(es/minifier)** Don't break ternary with assignment in test (#6906) ([951dafb](https://github.com/swc-project/swc/commit/951dafbc1a56b8b29fd76aaad8138e58eaadda12))
+
+
+- **(es/module)** Fix SystemJS imports (#6879) ([85fffda](https://github.com/swc-project/swc/commit/85fffdad022cf1bccf8763e7bb73fb15f62d2430))
+
+
+- **(es/parser)** Fix stack overflow due to deeply nested if (#6910) ([f36d945](https://github.com/swc-project/swc/commit/f36d945a33418e991d3ebee27956976ffd5ef446))
+
+
+- **(es/parser)** Don't use `stacker` for armv7 (#6916) ([4c5d5a6](https://github.com/swc-project/swc/commit/4c5d5a6fcaf49782effc6079bb92adec45ceb83c))
+
+
 - **(es/resolver)** Resolve parameters correctly (#6890) ([861d87c](https://github.com/swc-project/swc/commit/861d87cae622f371ea697b1cb07ed79d32579b74))
+
+
+- **(es/typescript)** Ignore jsx element names (#6911) ([ee3a107](https://github.com/swc-project/swc/commit/ee3a1071a5dbe0f2b718dd4f2e9959076cfa337c))
+
+### Documentation
+
+
+
+- **(readme)** Split download badge (#6917) ([d779927](https://github.com/swc-project/swc/commit/d779927b4d00a19b3eb2b6cb792a682cbc006970))
 
 ### Features
 
@@ -16,8 +150,20 @@
 
 - **(bindings/cli)** Add `--config` (#6835) ([d993c4d](https://github.com/swc-project/swc/commit/d993c4def65b0bf900a6b8b8f0d0dee44ba8e0c8))
 
+
+- **(bindings/cli)** Support for *.mts/*.cts files (#6909) ([76bc8a2](https://github.com/swc-project/swc/commit/76bc8a29743edf397c59f5283aaa74a08e8fba57))
+
 ### Miscellaneous Tasks
-- **general**: Make issue templates mention `no +1` (#6894) ([5d5140f](https://github.com/swc-project/swc/commit/5d5140f0a50696d747ee62e72866b9b03e52cde3))
+
+
+
+- **(bindings/cli)** Enable `preferUnplugged` by default for the plugins (#6912) ([17f1c50](https://github.com/swc-project/swc/commit/17f1c50287c798b57a0d2ac2a95ba6c864b1c2d7))- **general**: Make issue templates mention `no +1` (#6894) ([5d5140f](https://github.com/swc-project/swc/commit/5d5140f0a50696d747ee62e72866b9b03e52cde3))
+
+### Testing
+
+
+
+- **(es/module)** Add a test for `jsc.paths` on windows (#6915) ([d18027c](https://github.com/swc-project/swc/commit/d18027cf9b6c45a7b70cf3dd4c3a23b81d92c93a))
 
 ## [1.3.32] - 2023-02-01
 

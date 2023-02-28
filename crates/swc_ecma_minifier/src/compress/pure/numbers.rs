@@ -1,12 +1,20 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
+use swc_ecma_utils::num_from_str;
 
 use super::Pure;
 
 impl Pure<'_> {
     pub(super) fn optimize_expr_in_num_ctx(&mut self, e: &mut Expr) {
         if let Expr::Lit(Lit::Str(Str { span, value, .. })) = e {
-            let value = if value.is_empty() { 0f64 } else { 1f64 };
+            let value = if value.is_empty() {
+                0f64
+            } else {
+                match num_from_str(value).into_result() {
+                    Ok(f) if f.is_finite() => f,
+                    _ => return,
+                }
+            };
 
             self.changed = true;
             report_change!("numbers: Converting a string literal to {:?}", value);

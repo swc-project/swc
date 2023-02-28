@@ -523,6 +523,7 @@ impl<C: Comments> ClassProperties<C> {
             ClassMember::Method(m) => contains_super(&m.key),
 
             ClassMember::ClassProp(_)
+            | ClassMember::AutoAccessor(_)
             | ClassMember::PrivateProp(_)
             | ClassMember::StaticBlock(_) => true,
         });
@@ -912,9 +913,13 @@ impl<C: Comments> ClassProperties<C> {
                     })))
                 }
 
-                ClassMember::StaticBlock(..) => unreachable!(
-                    "classes pass: static blocks\nstatic_blocks pass should remove this"
-                ),
+                ClassMember::StaticBlock(..) => {
+                    unreachable!("static_blocks pass should remove this")
+                }
+
+                ClassMember::AutoAccessor(..) => {
+                    unreachable!("auto_accessor pass should remove this")
+                }
             }
         }
 

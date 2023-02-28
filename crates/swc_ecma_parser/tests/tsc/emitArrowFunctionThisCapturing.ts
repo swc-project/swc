@@ -1,4 +1,4 @@
-// @target:es5
+﻿// @target:es5
 var f1 = () => {
     this.age = 10
 };

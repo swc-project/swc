@@ -1,4 +1,4 @@
-// @declaration: true
+﻿// @declaration: true
 
 interface Base {
     x: string;

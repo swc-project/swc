@@ -435,6 +435,7 @@
     "opera-android": "65",
     "opera_mobile": "65",
     "quest": "17.0",
+    "react-native": "0.71",
     "safari": "15.4",
     "samsung": "16.0"
   },
@@ -3447,6 +3448,7 @@
     "opera-android": "47",
     "opera_mobile": "47",
     "quest": "5.0",
+    "react-native": "0.71",
     "safari": "11.1",
     "samsung": "9.0"
   },
@@ -3561,6 +3563,7 @@
     "opera-android": "65",
     "opera_mobile": "65",
     "quest": "17.0",
+    "react-native": "0.71",
     "safari": "15.4",
     "samsung": "16.0"
   },
@@ -3830,6 +3833,7 @@
     "opera-android": "47",
     "opera_mobile": "47",
     "quest": "5.0",
+    "react-native": "0.71",
     "safari": "14.0",
     "samsung": "9.0"
   },
@@ -4493,6 +4497,7 @@
     "opera-android": "65",
     "opera_mobile": "65",
     "quest": "17.0",
+    "react-native": "0.71",
     "safari": "15.4",
     "samsung": "16.0"
   },
@@ -5194,6 +5199,7 @@
     "opera-android": "65",
     "opera_mobile": "65",
     "quest": "17.0",
+    "react-native": "0.71",
     "safari": "15.4",
     "samsung": "16.0"
   },
@@ -5255,28 +5261,52 @@
   "esnext.array.last-index": {},
   "esnext.array.last-item": {},
   "esnext.array.to-reversed": {
+    "android": "110",
     "bun": "0.1.1",
+    "chrome": "110",
+    "chrome-android": "110",
     "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
     "ios": "16.0",
+    "opera": "96",
     "safari": "16.0"
   },
   "esnext.array.to-sorted": {
+    "android": "110",
     "bun": "0.1.1",
+    "chrome": "110",
+    "chrome-android": "110",
     "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
     "ios": "16.0",
+    "opera": "96",
     "safari": "16.0"
   },
   "esnext.array.to-spliced": {
+    "android": "110",
     "bun": "0.1.1",
+    "chrome": "110",
+    "chrome-android": "110",
     "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
     "ios": "16.0",
+    "opera": "96",
     "safari": "16.0"
   },
   "esnext.array.unique-by": {},
   "esnext.array.with": {
+    "android": "110",
     "bun": "0.1.1",
+    "chrome": "110",
+    "chrome-android": "110",
     "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
     "ios": "16.0",
+    "opera": "96",
     "safari": "16.0"
   },
   "esnext.async-disposable-stack.constructor": {},
@@ -5559,6 +5589,7 @@
     "opera-android": "65",
     "opera_mobile": "65",
     "quest": "17.0",
+    "react-native": "0.71",
     "safari": "15.4",
     "samsung": "16.0"
   },
@@ -5610,22 +5641,40 @@
   },
   "esnext.typed-array.group-by": {},
   "esnext.typed-array.to-reversed": {
+    "android": "110",
     "bun": "0.1.1",
+    "chrome": "110",
+    "chrome-android": "110",
     "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
     "ios": "16.0",
+    "opera": "96",
     "safari": "16.0"
   },
   "esnext.typed-array.to-sorted": {
+    "android": "110",
     "bun": "0.1.1",
+    "chrome": "110",
+    "chrome-android": "110",
     "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
     "ios": "16.0",
+    "opera": "96",
     "safari": "16.0"
   },
   "esnext.typed-array.to-spliced": {},
   "esnext.typed-array.unique-by": {},
   "esnext.typed-array.with": {
+    "android": "110",
     "bun": "0.1.9",
-    "deno": "1.27"
+    "chrome": "110",
+    "chrome-android": "110",
+    "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
+    "opera": "96"
   },
   "esnext.weak-map.delete-all": {},
   "esnext.weak-map.from": {},
@@ -5798,6 +5847,7 @@
     "android": "86",
     "chrome": "86",
     "chrome-android": "86",
+    "deno": "1.29.3",
     "edge": "86",
     "electron": "11.0",
     "firefox": "31",

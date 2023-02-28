@@ -880,6 +880,7 @@ abstract
 accent-color
 accept
 accesskey
+accessor
 acos
 acronym
 action
@@ -984,6 +985,7 @@ background-position-x
 background-position-y
 background-repeat
 background-size
+backwards
 base
 baseFrequency
 baseProfile
@@ -1068,6 +1070,7 @@ border-top-right-radius
 border-top-style
 border-top-width
 border-width
+both
 bottom
 bottom-center
 bottom-left
@@ -1405,6 +1408,7 @@ forestgreen
 form
 formaction
 format
+forwards
 fr
 frame
 frameset
@@ -1505,6 +1509,7 @@ inactivecaptiontext
 indianred
 indigo
 infer
+infinite
 infinity
 infobackground
 infotext
@@ -1971,6 +1976,7 @@ patternUnits
 patterncontentunits
 patterntransform
 patternunits
+paused
 pc
 peachpuff
 perspective
@@ -2094,6 +2100,7 @@ ruby-merge
 ruby-position
 ruby-text
 run-in
+running
 s
 saddlebrown
 salmon

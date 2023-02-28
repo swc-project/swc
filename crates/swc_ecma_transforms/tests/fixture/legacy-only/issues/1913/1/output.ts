@@ -1,11 +1,10 @@
 class Store {
     constructor(){
-        this.doSomething = ()=>{
-            console.log("run");
-        };
         this.doSomething();
     }
-    doSomething;
+    doSomething = ()=>{
+        console.log("run");
+    };
 }
 __decorate([
     action

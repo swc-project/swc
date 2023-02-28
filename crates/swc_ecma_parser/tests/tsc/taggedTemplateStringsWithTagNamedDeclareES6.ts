@@ -1,4 +1,4 @@
-//@target: es6
+﻿//@target: es6
 
 function declare(x: any, ...ys: any[]) {
 }

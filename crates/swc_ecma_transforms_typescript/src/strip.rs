@@ -65,7 +65,7 @@ pub struct Config {
     /// When running `tsc` with configuration `"target": "<ES6-ES2020>",
     /// "useDefineForClassFields": true`, TS class fields are transformed to
     /// `Object.defineProperty()` statements. You must additionally apply the
-    /// `swc_ecmascript::transforms::compat::es2022::class_properties()` pass to
+    /// [swc_ecma_transforms_compat::es2022::class_properties()] pass to
     /// get this backward-compatible output.
     #[serde(default)]
     pub use_define_for_class_fields: bool,
@@ -1094,6 +1094,10 @@ where
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                     type_only: true,
                     ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ExportAll {
+                    type_only: true,
+                    ..
                 })) => continue,
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(v))
                     if matches!(
@@ -1517,6 +1521,12 @@ where
         }
     }
 
+    fn visit_class(&mut self, c: &Class) {
+        c.decorators.visit_with(self);
+        c.super_class.visit_with(self);
+        c.body.visit_with(self);
+    }
+
     fn visit_decl(&mut self, n: &Decl) {
         self.handle_decl(n);
 
@@ -1571,6 +1581,13 @@ where
         self.non_top_level = old;
     }
 
+    fn visit_expr(&mut self, n: &Expr) {
+        let old = self.in_var_pat;
+        self.in_var_pat = false;
+        n.visit_children_with(self);
+        self.in_var_pat = old;
+    }
+
     fn visit_ident(&mut self, n: &Ident) {
         let entry = self.scope.referenced_idents.entry(n.to_id()).or_default();
         if !self.is_type_only_export {
@@ -1613,6 +1630,19 @@ where
         }
     }
 
+    fn visit_jsx_element_name(&mut self, n: &JSXElementName) {
+        match n {
+            JSXElementName::Ident(i) => {
+                if i.sym.starts_with(|c: char| !c.is_ascii_lowercase()) {
+                    n.visit_children_with(self);
+                }
+            }
+            _ => {
+                n.visit_children_with(self);
+            }
+        }
+    }
+
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         let old = self.non_top_level;
         self.non_top_level = false;
@@ -1642,25 +1672,10 @@ where
         self.non_top_level = old;
     }
 
-    fn visit_expr(&mut self, n: &Expr) {
-        let old = self.in_var_pat;
-        self.in_var_pat = false;
-        n.visit_children_with(self);
-        self.in_var_pat = old;
-    }
-
     fn visit_ts_entity_name(&mut self, _: &TsEntityName) {}
 
     // these may contain expr
     fn visit_ts_expr_with_type_args(&mut self, _: &TsExprWithTypeArgs) {}
-
-    fn visit_ts_type_element(&mut self, _: &TsTypeElement) {}
-
-    fn visit_class(&mut self, c: &Class) {
-        c.decorators.visit_with(self);
-        c.super_class.visit_with(self);
-        c.body.visit_with(self);
-    }
 
     fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
         match &n.module_ref {
@@ -1697,6 +1712,8 @@ where
             }
         }
     }
+
+    fn visit_ts_type_element(&mut self, _: &TsTypeElement) {}
 }
 
 fn is_decl_concrete(d: &Decl) -> bool {
@@ -1717,7 +1734,7 @@ fn is_ts_namespace_body_concrete(b: &TsNamespaceBody) -> bool {
                 ModuleDecl::ExportNamed(d) => !d.type_only,
                 ModuleDecl::ExportDefaultDecl(_) => true,
                 ModuleDecl::ExportDefaultExpr(_) => true,
-                ModuleDecl::ExportAll(_) => true,
+                ModuleDecl::ExportAll(d) => !d.type_only,
                 ModuleDecl::TsImportEquals(_) => true,
                 ModuleDecl::TsExportAssignment(..) => true,
                 ModuleDecl::TsNamespaceExport(..) => true,
@@ -2064,6 +2081,19 @@ where
                 ImportsNotUsedAsValues::Remove => false,
                 ImportsNotUsedAsValues::Preserve => true,
             };
+        }
+    }
+
+    fn visit_mut_jsx_element_name(&mut self, n: &mut JSXElementName) {
+        match n {
+            JSXElementName::Ident(i) => {
+                if i.sym.starts_with(|c: char| !c.is_ascii_lowercase()) {
+                    n.visit_mut_children_with(self);
+                }
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
         }
     }
 

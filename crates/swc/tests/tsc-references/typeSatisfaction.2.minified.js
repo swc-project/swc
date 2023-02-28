@@ -1,1 +1,0 @@
-//// [typeSatisfaction.ts]

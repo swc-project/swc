@@ -9,4 +9,4 @@ set -eu
 
 npx tsc ./scripts/tsc/copy-test.ts
 
-find "$1/tests/cases/conformance" -type f | xargs -P 8 -L 1 -I {} node "$SCRIPT_DIR/copy-test.js" {} \;
+find "$1/tests/cases/conformance" -type f | sort -R | xargs -P 10 -L 1 -I {} node "$SCRIPT_DIR/copy-test.js" {} \;

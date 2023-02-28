@@ -142,6 +142,35 @@ test!(
     });"#
 );
 
+test!(
+    syntax(),
+    |tester| tr(
+        tester,
+        Config {
+            ..Default::default()
+        }
+    ),
+    imports,
+    r#"
+    import.meta.url;
+    import.meta.fn();
+    await import('./test2');
+    "#,
+    r#"
+    System.register([], function(_export, _context) {
+        "use strict";
+        return {
+            setters: [],
+            execute: async function() {
+                _context.meta.url;
+                _context.meta.fn();
+                await _context.import('./test2');
+            }
+        };
+    });
+    "#
+);
+
 // TODO: test get-module-name-option, tla
 
 #[testing::fixture("tests/fixture/systemjs/**/input.mjs")]

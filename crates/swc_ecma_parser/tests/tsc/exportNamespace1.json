@@ -99,6 +99,7 @@
         "value": "./b",
         "raw": "'./b'"
       },
+      "typeOnly": false,
       "asserts": null
     },
     {

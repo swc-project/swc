@@ -1,1 +1,0 @@
-//// [parserCatchClauseWithTypeAnnotation1.ts]

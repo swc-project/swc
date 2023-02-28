@@ -1,4 +1,4 @@
-var numOrDate: number | Date;
+﻿var numOrDate: number | Date;
 var strOrBoolean: string | boolean;
 var strOrNum: string | number;
 

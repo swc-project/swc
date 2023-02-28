@@ -1,4 +1,4 @@
-// @module: commonjs
+﻿// @module: commonjs
 // @target: esnext
 // @useDefineForClassFields: false
 

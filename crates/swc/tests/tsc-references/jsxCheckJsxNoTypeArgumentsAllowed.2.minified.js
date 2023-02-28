@@ -1,5 +1,5 @@
 //// [component.d.ts]
-import * as React from "react";
+import "react";
 //// [file.jsx]
 import { MyComp } from "./component";
 import * as React from "react";

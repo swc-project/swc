@@ -1,4 +1,4 @@
-// @module: system
+﻿// @module: system
 // @target: esnext
 // @filename: 0.ts
 export class B {

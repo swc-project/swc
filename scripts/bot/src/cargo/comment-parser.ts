@@ -3,7 +3,6 @@ import YAML from "yaml";
 
 const owner = "swc-project";
 const repo = "swc";
-const maintainer = "kdy1";
 
 export interface Action {
     crate: string;
@@ -17,8 +16,14 @@ export async function parsePrComments(prNumber: number): Promise<Action[]> {
         pull_number: prNumber,
     });
 
+    const maintainers = await octokit.orgs.listPublicMembers({ org: owner });
+
     return comments.data
-        .filter((c) => c.user && c.user.login === maintainer)
+        .filter(
+            (c) =>
+                c.user &&
+                maintainers.data.find((m) => m.login === c.user?.login)
+        )
         .map((c) => {
             const idx = c.body.indexOf("swc-bump:");
             if (idx === -1) {
