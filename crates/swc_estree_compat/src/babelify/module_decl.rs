@@ -179,7 +179,11 @@ impl Babelify for ExportAll {
             base: ctx.base(self.span),
             source: self.src.babelify(ctx),
             assertions: convert_import_asserts(self.asserts, ctx),
-            export_kind: None,
+            export_kind: if self.type_only {
+                Some(ExportKind::Type)
+            } else {
+                None
+            },
         }
     }
 }

@@ -109,6 +109,9 @@ pub struct ExportAll {
     #[serde(rename = "source")]
     pub src: Box<Str>,
 
+    #[serde(rename = "typeOnly")]
+    pub type_only: bool,
+
     #[serde(default)]
     pub asserts: Option<Box<ObjectLit>>,
 }
@@ -118,6 +121,7 @@ impl Take for ExportAll {
         Self {
             span: DUMMY_SP,
             src: Take::dummy(),
+            type_only: Default::default(),
             asserts: Take::dummy(),
         }
     }
