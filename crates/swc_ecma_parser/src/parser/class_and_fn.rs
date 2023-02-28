@@ -452,13 +452,15 @@ impl<I: Tokens> Parser<I> {
             }
         };
 
-        let accessor_token = {
+        let accessor_token = if self.syntax().auto_accessor() {
             let start = cur_pos!(self);
             if eat!(self, "accessor") {
                 Some(span!(self, start))
             } else {
                 None
             }
+        } else {
+            None
         };
 
         if let Some(static_token) = static_token {
@@ -622,9 +624,13 @@ impl<I: Tokens> Parser<I> {
         }
 
         let accessor_token = accessor_token.or_else(|| {
-            let start = cur_pos!(self);
-            if eat!(self, "accessor") {
-                Some(span!(self, start))
+            if self.syntax().auto_accessor() {
+                let start = cur_pos!(self);
+                if eat!(self, "accessor") {
+                    Some(span!(self, start))
+                } else {
+                    None
+                }
             } else {
                 None
             }

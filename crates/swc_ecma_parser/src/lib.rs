@@ -165,6 +165,17 @@ impl Default for Syntax {
 }
 
 impl Syntax {
+    fn auto_accessor(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                auto_accessor: true,
+                ..
+            }) => true,
+            Syntax::Typescript(_) => true,
+            _ => false,
+        }
+    }
+
     pub fn import_assertions(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
@@ -317,6 +328,9 @@ pub struct EsConfig {
 
     #[serde(default, rename = "allowReturnOutsideFunction")]
     pub allow_return_outside_function: bool,
+
+    #[serde(default)]
+    pub auto_accessor: bool,
 }
 
 /// Syntactic context.
