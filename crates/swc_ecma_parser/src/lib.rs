@@ -165,10 +165,10 @@ impl Default for Syntax {
 }
 
 impl Syntax {
-    fn auto_accessor(self) -> bool {
+    fn auto_accessors(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
-                auto_accessor: true,
+                auto_accessors: true,
                 ..
             }) => true,
             Syntax::Typescript(_) => true,
@@ -330,7 +330,7 @@ pub struct EsConfig {
     pub allow_return_outside_function: bool,
 
     #[serde(default)]
-    pub auto_accessor: bool,
+    pub auto_accessors: bool,
 }
 
 /// Syntactic context.
