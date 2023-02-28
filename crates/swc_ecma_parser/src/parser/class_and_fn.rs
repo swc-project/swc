@@ -430,6 +430,7 @@ impl<I: Tokens> Parser<I> {
                     accessibility,
                     key,
                     false,
+                    None,
                     is_optional,
                     false,
                     false,
@@ -446,6 +447,15 @@ impl<I: Tokens> Parser<I> {
         let static_token = {
             let start = cur_pos!(self);
             if eat!(self, "static") {
+                Some(span!(self, start))
+            } else {
+                None
+            }
+        };
+
+        let accessor_token = {
+            let start = cur_pos!(self);
+            if eat!(self, "accessor") {
                 Some(span!(self, start))
             } else {
                 None
@@ -497,6 +507,7 @@ impl<I: Tokens> Parser<I> {
                         accessibility,
                         key,
                         false,
+                        accessor_token,
                         is_optional,
                         false,
                         declare,
@@ -608,6 +619,15 @@ impl<I: Tokens> Parser<I> {
                 _ => {}
             }
         }
+
+        let accessor_token = {
+            let start = cur_pos!(self);
+            if eat!(self, "accessor") {
+                Some(span!(self, start))
+            } else {
+                None
+            }
+        };
 
         if is_static && is!(self, '{') {
             if let Some(span) = declare_token {
@@ -832,6 +852,7 @@ impl<I: Tokens> Parser<I> {
                 accessibility,
                 key,
                 is_static,
+                accessor_token,
                 is_optional,
                 readonly.is_some(),
                 declare,
@@ -967,6 +988,7 @@ impl<I: Tokens> Parser<I> {
         accessibility: Option<Accessibility>,
         key: Either<PrivateName, PropName>,
         is_static: bool,
+        _accessor_token: Option<Span>,
         is_optional: bool,
         readonly: bool,
         declare: bool,
