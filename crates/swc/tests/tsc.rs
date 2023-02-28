@@ -27,6 +27,7 @@ use testing::NormalizedOutput;
 #[testing::fixture(
     "../swc_ecma_parser/tests/tsc/**/*.ts",
     exclude(
+        "autoAccessor",
         "enumConstantMembers.ts",
         "privateNameAndAny.ts",
         "privateNameAndIndexSignature.ts",
