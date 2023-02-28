@@ -10,6 +10,12 @@
 
 - **(es/typescript)** Support `export type * from "mod"` (#6867) ([beb38d3](https://github.com/swc-project/swc/commit/beb38d34a26016051eb0ed364ea1112f416955ac))
 
+### Refactor
+
+
+
+- **(es/parser)** Make lexer not generic over `Input` (#6993) ([367ac82](https://github.com/swc-project/swc/commit/367ac825f6bfab65cf8bcb21e68500daef8ad177))
+
 ## [1.3.37] - 2023-02-28
 
 ### Bug Fixes
