@@ -1,12 +1,13 @@
 //// [autoAccessor2.ts]
-//! 
-//!   x Unexpected token `#`. Expected * for generator, private key, identifier or async
-//!    ,-[1:1]
-//!  1 | 
-//!  2 | class C1 {
-//!  3 |     accessor #a: any;
-//!    :              ^
-//!  4 |     accessor #b = 1;
-//!  5 |     static accessor #c: any;
-//!  6 |     static accessor #d = 2;
-//!    `----
+class C1 {
+    accessor #a;
+    accessor #b = 1;
+    static accessor #c;
+    static accessor #d = 2;
+    constructor(){
+        this.#a = 3, this.#b = 4;
+    }
+    static{
+        this.#c = 5, this.#d = 6;
+    }
+}
