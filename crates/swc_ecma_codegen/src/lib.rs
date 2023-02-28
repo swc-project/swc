@@ -1301,6 +1301,14 @@ where
     }
 
     #[emitter]
+    fn emit_key(&mut self, n: &Key) -> Result {
+        match n {
+            Key::Private(n) => emit!(n),
+            Key::Public(n) => emit!(n),
+        }
+    }
+
+    #[emitter]
     fn emit_private_method(&mut self, n: &PrivateMethod) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
