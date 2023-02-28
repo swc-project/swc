@@ -525,6 +525,7 @@ impl<I: Tokens> Parser<I> {
             declare_token,
             accessibility,
             static_token,
+            accessor_token,
             decorators,
         )
     }
@@ -547,6 +548,7 @@ impl<I: Tokens> Parser<I> {
         declare_token: Option<Span>,
         accessibility: Option<Accessibility>,
         static_token: Option<Span>,
+        accessor_token: Option<Span>,
         decorators: Vec<Decorator>,
     ) -> PResult<ClassMember> {
         let mut is_static = static_token.is_some();
@@ -620,14 +622,14 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        let accessor_token = {
+        let accessor_token = accessor_token.or_else(|| {
             let start = cur_pos!(self);
             if eat!(self, "accessor") {
                 Some(span!(self, start))
             } else {
                 None
             }
-        };
+        });
 
         if is_static && is!(self, '{') {
             if let Some(span) = declare_token {
