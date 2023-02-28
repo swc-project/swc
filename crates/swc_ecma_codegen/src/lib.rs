@@ -1288,6 +1288,8 @@ where
         keyword!("accessor");
         space!();
 
+        emit!(n.key);
+
         if let Some(init) = &n.value {
             formatting_space!();
             punct!("=");
