@@ -1059,6 +1059,7 @@ define!({
     pub struct ExportAll {
         pub span: Span,
         pub src: Box<Str>,
+        pub type_only: bool,
         pub asserts: Option<Box<ObjectLit>>,
     }
     pub struct NamedExport {
