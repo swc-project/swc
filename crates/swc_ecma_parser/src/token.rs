@@ -354,6 +354,7 @@ impl From<Word> for JsWord {
                 Void => js_word!("void"),
 
                 Delete => js_word!("delete"),
+                Accessor => js_word!("accessor"),
             },
 
             Word::Null => js_word!("null"),
