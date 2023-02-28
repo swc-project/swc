@@ -454,6 +454,8 @@ pub enum Keyword {
 
     #[kind(before_expr, starts_expr)]
     Delete,
+
+    Accessor,
 }
 
 impl Keyword {
@@ -510,6 +512,7 @@ impl Keyword {
             Void => js_word!("void"),
 
             Delete => js_word!("delete"),
+            Accessor => js_word!("accessor"),
         }
     }
 }
