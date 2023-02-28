@@ -288,6 +288,7 @@ impl From<JsWord> for Word {
             js_word!("typeof") => TypeOf.into(),
             js_word!("void") => Void.into(),
             js_word!("delete") => Delete.into(),
+            js_word!("accessor") => Accessor.into(),
             _ => Word::Ident(i),
         }
     }
