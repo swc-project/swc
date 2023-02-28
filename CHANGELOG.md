@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es/typescript)** Support `export type * from "mod"` (#6867) ([beb38d3](https://github.com/swc-project/swc/commit/beb38d34a26016051eb0ed364ea1112f416955ac))
+
 ## [1.3.37] - 2023-02-28
 
 ### Bug Fixes
