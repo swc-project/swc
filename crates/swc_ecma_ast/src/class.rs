@@ -14,7 +14,7 @@ use crate::{
         Accessibility, TsExprWithTypeArgs, TsIndexSignature, TsTypeAnn, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
-    EmptyStmt,
+    BigInt, ComputedPropName, EmptyStmt, Id, Ident, Number,
 };
 
 #[ast_node]
@@ -82,9 +82,13 @@ pub enum ClassMember {
     #[tag("EmptyStatement")]
     Empty(EmptyStmt),
 
-    // Stage 3
+    /// Stage 3
     #[tag("StaticBlock")]
     StaticBlock(StaticBlock),
+
+    /// Stage 3
+    #[tag("AutoAccessor")]
+    AutoAccessor(AutoAccessor),
 }
 
 impl Take for ClassMember {
@@ -272,6 +276,73 @@ impl Take for StaticBlock {
         StaticBlock {
             span: DUMMY_SP,
             body: Take::dummy(),
+        }
+    }
+}
+
+/// Either a private name or a public name.
+#[ast_node]
+#[derive(Is, Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub enum Key {
+    #[tag("PrivateName")]
+    Private(PrivateName),
+    #[tag("Identifier")]
+    #[tag("StringLiteral")]
+    #[tag("NumericLiteral")]
+    #[tag("Computed")]
+    #[tag("BigIntLiteral")]
+    Public(PropName),
+}
+
+bridge_from!(Key, PropName, Ident);
+bridge_from!(Key, PropName, Id);
+bridge_from!(Key, PropName, Number);
+bridge_from!(Key, PropName, ComputedPropName);
+bridge_from!(Key, PropName, BigInt);
+
+impl Take for Key {
+    fn dummy() -> Self {
+        Key::Public(Take::dummy())
+    }
+}
+
+#[ast_node("AutoAccessor")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct AutoAccessor {
+    #[serde(default)]
+    pub span: Span,
+
+    pub key: Key,
+
+    #[serde(default)]
+    pub value: Option<Box<Expr>>,
+
+    #[serde(default, rename = "typeAnnotation")]
+    pub type_ann: Option<Box<TsTypeAnn>>,
+
+    #[serde(default)]
+    pub is_static: bool,
+
+    #[serde(default)]
+    pub decorators: Vec<Decorator>,
+
+    /// Typescript extension.
+    #[serde(default)]
+    pub accessibility: Option<Accessibility>,
+}
+
+impl Take for AutoAccessor {
+    fn dummy() -> AutoAccessor {
+        AutoAccessor {
+            span: Take::dummy(),
+            key: Take::dummy(),
+            value: Take::dummy(),
+            type_ann: None,
+            is_static: false,
+            decorators: Take::dummy(),
+            accessibility: None,
         }
     }
 }

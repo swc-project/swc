@@ -9,7 +9,7 @@ use crate::{
     pat::Pat,
     stmt::BlockStmt,
     typescript::TsTypeAnn,
-    MemberProp,
+    Id, MemberProp,
 };
 
 #[ast_node]
@@ -108,6 +108,8 @@ pub enum PropName {
     #[tag("BigIntLiteral")]
     BigInt(BigInt),
 }
+
+bridge_from!(PropName, Ident, Id);
 
 impl Take for PropName {
     fn dummy() -> Self {

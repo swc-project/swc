@@ -1094,6 +1094,10 @@ where
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                     type_only: true,
                     ..
+                }))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ExportAll {
+                    type_only: true,
+                    ..
                 })) => continue,
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(v))
                     if matches!(
@@ -1730,7 +1734,7 @@ fn is_ts_namespace_body_concrete(b: &TsNamespaceBody) -> bool {
                 ModuleDecl::ExportNamed(d) => !d.type_only,
                 ModuleDecl::ExportDefaultDecl(_) => true,
                 ModuleDecl::ExportDefaultExpr(_) => true,
-                ModuleDecl::ExportAll(_) => true,
+                ModuleDecl::ExportAll(d) => !d.type_only,
                 ModuleDecl::TsImportEquals(_) => true,
                 ModuleDecl::TsExportAssignment(..) => true,
                 ModuleDecl::TsNamespaceExport(..) => true,

@@ -1,12 +1,12 @@
 //// [autoAccessor6.ts]
-//! 
-//!   x Unexpected token `a`. Expected * for generator, private key, identifier or async
-//!    ,-[1:1]
-//!  1 | 
-//!  2 | class C1 {
-//!  3 |     accessor a: any;
-//!    :              ^
-//!  4 | }
-//!  5 | 
-//!  6 | class C2 extends C1 {
-//!    `----
+class C1 {
+    accessor a;
+}
+class C2 extends C1 {
+    a = 1;
+}
+class C3 extends C1 {
+    get a() {
+        return super.a;
+    }
+}

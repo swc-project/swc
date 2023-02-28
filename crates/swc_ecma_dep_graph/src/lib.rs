@@ -147,9 +147,14 @@ impl<'a> Visit for DependencyCollector<'a> {
     fn visit_export_all(&mut self, node: &ast::ExportAll) {
         let specifier = node.src.value.clone();
         let leading_comments = self.get_leading_comments(node.span);
+        let kind = if node.type_only {
+            DependencyKind::ExportType
+        } else {
+            DependencyKind::Export
+        };
         let import_assertions = parse_import_assertions(node.asserts.as_deref());
         self.items.push(DependencyDescriptor {
-            kind: DependencyKind::Export,
+            kind,
             is_dynamic: false,
             leading_comments,
             span: node.span,

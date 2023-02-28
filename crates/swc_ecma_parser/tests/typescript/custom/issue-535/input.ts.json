@@ -23,6 +23,7 @@
         "value": "test",
         "raw": "\"test\""
       },
+      "typeOnly": false,
       "asserts": null
     },
     {

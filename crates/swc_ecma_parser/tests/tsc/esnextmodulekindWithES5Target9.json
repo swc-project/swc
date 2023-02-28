@@ -244,6 +244,7 @@
         "value": "mod",
         "raw": "\"mod\""
       },
+      "typeOnly": false,
       "asserts": null
     },
     {

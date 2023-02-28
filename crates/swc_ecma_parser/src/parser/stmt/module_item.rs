@@ -544,10 +544,6 @@ impl<I: Tokens> Parser<I> {
                 }
             };
 
-            if self.input.syntax().typescript() && type_only && !is!(self, '{') {
-                self.emit_err(span!(self, start), SyntaxError::TS1383)
-            }
-
             if default.is_none() && is!(self, '*') && !peeked_is!(self, "as") {
                 assert_and_bump!(self, '*');
 
@@ -556,6 +552,7 @@ impl<I: Tokens> Parser<I> {
                 return Ok(ModuleDecl::ExportAll(ExportAll {
                     span: span!(self, start),
                     src,
+                    type_only,
                     asserts,
                 }));
             }
