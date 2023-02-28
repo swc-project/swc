@@ -1,2 +1,2 @@
 //// [restParameterInDownlevelGenerator.ts]
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import "@swc/helpers/src/_ts_generator.mjs";

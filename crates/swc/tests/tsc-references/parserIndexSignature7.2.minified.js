@@ -1,1 +1,0 @@
-//// [parserIndexSignature7.ts]

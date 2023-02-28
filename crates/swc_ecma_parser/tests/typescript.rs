@@ -67,6 +67,8 @@ fn shifted(file: PathBuf) {
 }
 
 #[testing::fixture("tests/typescript/**/*.ts")]
+#[testing::fixture("tests/typescript/**/*.mts")]
+#[testing::fixture("tests/typescript/**/*.cts")]
 #[testing::fixture("tests/typescript/**/*.tsx")]
 fn spec(file: PathBuf) {
     let output = file.parent().unwrap().join(format!(
@@ -76,7 +78,10 @@ fn spec(file: PathBuf) {
     run_spec(&file, &output);
 }
 
-#[testing::fixture("tests/tsc/**/*.ts")]
+#[testing::fixture(
+    "tests/tsc/**/*.ts",
+    exclude("autoAccessor", "parserArrowFunctionExpression11")
+)]
 fn tsc_spec(file: PathBuf) {
     let output = file.with_extension("json");
     run_spec(&file, &output);

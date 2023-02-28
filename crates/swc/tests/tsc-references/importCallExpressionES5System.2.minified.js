@@ -28,7 +28,7 @@ System.register([
                     _class_call_check(this, D);
                 }
                 return D.prototype.method = function() {
-                    import("./0");
+                    _context.import("./0");
                 }, D;
             }());
         }

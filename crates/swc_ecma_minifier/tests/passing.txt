@@ -288,6 +288,7 @@ conditionals/cond_9/input.js
 conditionals/condition_symbol_matches_consequent/input.js
 conditionals/delete_conditional_1/input.js
 conditionals/delete_conditional_2/input.js
+conditionals/equality_conditionals_false/input.js
 conditionals/equality_conditionals_true/input.js
 conditionals/ifs_1/input.js
 conditionals/ifs_2/input.js

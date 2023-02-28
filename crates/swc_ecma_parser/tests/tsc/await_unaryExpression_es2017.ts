@@ -1,4 +1,4 @@
-// @target: es2017
+﻿// @target: es2017
 
 async function bar() {
     !await 42; // OK

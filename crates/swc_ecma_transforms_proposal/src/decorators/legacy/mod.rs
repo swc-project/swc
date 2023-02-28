@@ -20,10 +20,9 @@ enum EnumKind {
     Num,
 }
 
-pub(super) fn new(metadata: bool, use_define_for_class_fields: bool) -> TscDecorator {
+pub(super) fn new(metadata: bool) -> TscDecorator {
     TscDecorator {
         metadata,
-        use_define_for_class_fields,
         enums: Default::default(),
         vars: Default::default(),
         appended_exprs: Default::default(),
@@ -36,7 +35,6 @@ pub(super) fn new(metadata: bool, use_define_for_class_fields: bool) -> TscDecor
 
 pub(super) struct TscDecorator {
     metadata: bool,
-    use_define_for_class_fields: bool,
 
     enums: AHashMap<JsWord, EnumKind>,
 
@@ -352,28 +350,6 @@ impl VisitMut for TscDecorator {
                     key.as_arg(),
                     undefined(DUMMY_SP).as_arg(),
                 );
-
-                if !self.use_define_for_class_fields && !c.is_static {
-                    if let Some(init) = c.value.take() {
-                        self.constructor_exprs
-                            .push(Box::new(Expr::Assign(AssignExpr {
-                                span: c.span,
-                                op: op!("="),
-                                left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                                    span: DUMMY_SP,
-                                    obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                                    prop: match &c.key {
-                                        PropName::Ident(i) => MemberProp::Ident(i.clone()),
-                                        _ => MemberProp::Computed(ComputedPropName {
-                                            span: DUMMY_SP,
-                                            expr: Box::new(prop_name_to_expr_value(c.key.clone())),
-                                        }),
-                                    },
-                                }))),
-                                right: init,
-                            })));
-                    }
-                }
             }
         }
     }

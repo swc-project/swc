@@ -1,4 +1,4 @@
-// @lib: es5
+﻿// @lib: es5
 // @target: es6
 var id: number = 10000;
 var name: string = "my name";

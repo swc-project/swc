@@ -1,8 +1,7 @@
 class A {
-    x;
+    x = 1;
     constructor();
     constructor(){
-        this.x = 1;
         console.log(123);
     }
 }

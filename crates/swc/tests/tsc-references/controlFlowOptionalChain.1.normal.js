@@ -480,3 +480,12 @@ while(((_arr_i = arr[i]) === null || _arr_i === void 0 ? void 0 : _arr_i.tag) ==
         console.log("I should ALSO be reachable");
     }
 }
+function f50(obj) {
+    var _obj_main;
+    for(var key in (_obj_main = obj.main) === null || _obj_main === void 0 ? void 0 : _obj_main.childs){
+        if (obj.main.childs[key] === obj) {
+            return obj;
+        }
+    }
+    return null;
+}

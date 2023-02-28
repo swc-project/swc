@@ -135,3 +135,13 @@ class C12 {
         this['c'] = 1;
     }
 }
+var E;
+(function(E) {
+    E["A"] = "A";
+    E["B"] = "B";
+})(E || (E = {}));
+class C13 {
+    constructor(){
+        this[E.A] = 1;
+    }
+}

@@ -1,4 +1,4 @@
-type EnhancedString = string & { enhancements: any };
+﻿type EnhancedString = string & { enhancements: any };
 
 var a = "foo" === "bar" as "baz";
 var b = "foo" !== ("bar" as "foo");

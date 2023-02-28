@@ -1,0 +1,23 @@
+{
+    "module": {
+        "type": "commonjs",
+        "strict": true,
+        "noInterop": true
+    },
+    "jsc": {
+        "target": "es2018",
+        "baseUrl": ".",
+        "paths": {
+            "@modules/import": [
+                "./src/import.ts"
+            ]
+        },
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "transform": {
+            "decoratorMetadata": true
+        }
+    }
+}

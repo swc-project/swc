@@ -1,8 +1,5 @@
 export default class X {
-    constructor(){
-        this.prop = "";
-    }
-    prop: string;
+    prop: string = "";
 }
 __decorate([
     networked

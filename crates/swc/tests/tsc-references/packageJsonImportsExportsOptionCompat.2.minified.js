@@ -1,0 +1,1 @@
+//// [packageJsonImportsExportsOptionCompat.ts]

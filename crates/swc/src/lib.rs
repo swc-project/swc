@@ -414,9 +414,7 @@ impl Compiler {
             })?;
 
             if error {
-                return Err(anyhow::anyhow!("Syntax Error").context(
-                    "error was recoverable, but proceeding would result in wrong codegen",
-                ));
+                return Err(anyhow::anyhow!("Syntax Error"));
             }
 
             Ok(program)

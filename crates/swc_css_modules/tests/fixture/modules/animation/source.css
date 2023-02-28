@@ -1,0 +1,38 @@
+.a {
+  animation: 3s ease animationName;
+}
+
+.b {
+  animation: 3s cubic-bezier(0.075, 0.82, 0.165, 1) ease;
+}
+
+.c {
+  animation: 3s ease-in-out 10 infinite;
+}
+
+@keyframes animationName {
+  0% {
+    background: white;
+  }
+  100% {
+    background: red;
+  }
+}
+
+@keyframes ease {
+  0% {
+    background: white;
+  }
+  100% {
+    background: red;
+  }
+}
+
+@keyframes infinite {
+  0% {
+    background: white;
+  }
+  100% {
+    background: red;
+  }
+}

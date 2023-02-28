@@ -619,11 +619,12 @@ impl ProgramData {
 
         if is_first {
             e.ref_count += 1;
+            // If it is inited in some child scope, but referenced in current scope
             if !inited && e.var_initialized {
+                e.reassigned = true;
                 if !is_modify {
                     e.var_initialized = false;
                     e.assign_count += 1;
-                    e.reassigned = true
                 }
             }
         }

@@ -1,4 +1,4 @@
-// @target: es6
+﻿// @target: es6
 var obj: {
     func1: (...rest) => void
 }

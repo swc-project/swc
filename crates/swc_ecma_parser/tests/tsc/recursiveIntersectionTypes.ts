@@ -1,4 +1,4 @@
-type LinkedList<T> = T & { next: LinkedList<T> };
+﻿type LinkedList<T> = T & { next: LinkedList<T> };
 
 interface Entity {
     name: string;

@@ -1,4 +1,4 @@
-interface base { }
+﻿interface base { }
 interface base1 { i }
 class C implements base { c }
 class D implements base { d }

@@ -1,6 +1,6 @@
 //// [dependentDestructuredVariables.ts]
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import "@swc/helpers/src/_async_to_generator.mjs";
+import "@swc/helpers/src/_wrap_async_generator.mjs";
 let { value , done  } = it.next();
 f50((kind, data)=>{
     'A' === kind && data.toFixed(), 'B' === kind && data.toUpperCase();
@@ -29,3 +29,5 @@ reducer("add", {
         4
     ]
 });
+let bot = new Client();
+bot.on("shardDisconnect", (event, shard)=>console.log(`Shard ${shard} disconnected (${event.code},${event.wasClean}): ${event.reason}`)), bot.on("shardDisconnect", (event)=>console.log(`${event.code} ${event.wasClean} ${event.reason}`));

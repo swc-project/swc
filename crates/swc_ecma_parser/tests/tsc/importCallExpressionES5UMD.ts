@@ -1,4 +1,4 @@
-// @module: umd
+﻿// @module: umd
 // @target: es5
 // @lib: es6
 // @filename: 0.ts

@@ -1,4 +1,4 @@
-// @declaration: true
+﻿// @declaration: true
 
 let ABC: "ABC" = `ABC`;
 let DE_NEWLINE_F: "DE\nF" = `DE

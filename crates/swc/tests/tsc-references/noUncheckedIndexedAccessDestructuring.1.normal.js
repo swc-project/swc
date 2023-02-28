@@ -30,6 +30,13 @@ t2.z.toString(); // Should error
     x1.toFixed(); // Should OK
     q.y.toFixed(); // Should OK
     q.z.toFixed(); // Should error
+}{
+    var x2 = numMapPoint.x, q1 = _object_without_properties(numMapPoint, [
+        "x"
+    ]);
+    x2.toFixed(); // Should OK
+    q1.y.toFixed(); // Should OK
+    q1.z.toFixed(); // Should error
 }var ref;
 // Assignment forms
 ref = _sliced_to_array(strArray, 1), target_string = ref[0], ref; // Should error
@@ -38,9 +45,9 @@ ref1 = _sliced_to_array(strArray, 1), target_string_undef = ref1[0], ref1; // Sh
 var ref2;
 ref2 = _to_array(strArray), target_string_arr = ref2.slice(3), ref2; // Should OK
 {
-    var x2, y1, z1;
+    var x3, y1, z1;
     var ref3;
-    ref3 = numMapPoint, x2 = ref3.x, y1 = ref3.y, z1 = ref3.z, ref3; // Should OK
-    var q1;
-    q1 = numMapPoint.q; // Should error
+    ref3 = numMapPoint, x3 = ref3.x, y1 = ref3.y, z1 = ref3.z, ref3; // Should OK
+    var q2;
+    q2 = numMapPoint.q; // Should error
 }

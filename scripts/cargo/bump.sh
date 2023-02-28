@@ -5,6 +5,7 @@ git pull || true
 
 yarn changelog
 cargo mono bump -i
+(cd ./bindings && cargo mono bump swc_cli)
 # Ensure that Cargo.lock is up-to-date
 cargo metadata --format-version 1 > /dev/null
 (cd ./bindings && cargo metadata --format-version 1 > /dev/null)

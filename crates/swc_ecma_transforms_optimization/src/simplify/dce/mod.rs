@@ -820,6 +820,27 @@ impl VisitMut for TreeShaker {
         }
     }
 
+    fn visit_mut_import_specifiers(&mut self, ss: &mut Vec<ImportSpecifier>) {
+        ss.retain(|s| {
+            let local = match s {
+                ImportSpecifier::Named(l) => &l.local,
+                ImportSpecifier::Default(l) => &l.local,
+                ImportSpecifier::Namespace(l) => &l.local,
+            };
+
+            if self.can_drop_binding(local.to_id(), false) {
+                debug!(
+                    "Dropping import specifier `{}` because it's not used",
+                    local
+                );
+                self.changed = true;
+                return false;
+            }
+
+            true
+        });
+    }
+
     fn visit_mut_module(&mut self, m: &mut Module) {
         debug_assert_valid(m);
 

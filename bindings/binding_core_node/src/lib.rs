@@ -4,6 +4,8 @@
 #[macro_use]
 extern crate napi_derive;
 
+extern crate swc_node_base;
+
 use std::{env, panic::set_hook, sync::Arc};
 
 use backtrace::Backtrace;

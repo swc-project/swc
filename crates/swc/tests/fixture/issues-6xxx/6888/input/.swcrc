@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": false
+        },
+    },
+    "minify": false,
+    "isModule": true,
+    "env": {
+        "mode": "usage",
+        "coreJs": "3.27.2"
+    }
+}
