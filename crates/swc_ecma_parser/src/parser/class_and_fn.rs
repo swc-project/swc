@@ -393,7 +393,7 @@ impl<I: Tokens> Parser<I> {
         let declare_token = if declare {
             // Handle declare(){}
             if self.is_class_method() {
-                let key = Either::Right(PropName::Ident(Ident::new(
+                let key = Key::Public(PropName::Ident(Ident::new(
                     js_word!("declare"),
                     span!(self, start),
                 )));
@@ -419,7 +419,7 @@ impl<I: Tokens> Parser<I> {
             {
                 // Property named `declare`
 
-                let key = Either::Right(PropName::Ident(Ident::new(
+                let key = Key::Public(PropName::Ident(Ident::new(
                     js_word!("declare"),
                     span!(self, start),
                 )));
@@ -465,7 +465,7 @@ impl<I: Tokens> Parser<I> {
         if let Some(static_token) = static_token {
             // Handle static(){}
             if self.is_class_method() {
-                let key = Either::Right(PropName::Ident(Ident::new(
+                let key = Key::Public(PropName::Ident(Ident::new(
                     js_word!("static"),
                     static_token,
                 )));
@@ -496,7 +496,7 @@ impl<I: Tokens> Parser<I> {
                 //   {}
                 let is_parsing_static_blocks = is!(self, '{');
                 if !is_parsing_static_blocks {
-                    let key = Either::Right(PropName::Ident(Ident::new(
+                    let key = Key::Public(PropName::Ident(Ident::new(
                         js_word!("static"),
                         static_token,
                     )));
@@ -693,7 +693,7 @@ impl<I: Tokens> Parser<I> {
 
         trace_cur!(self, parse_class_member_with_is_static__normal_class_member);
         let mut key = if readonly.is_some() && is_one_of!(self, '!', ':') {
-            Either::Right(PropName::Ident(Ident::new(
+            Key::Public(PropName::Ident(Ident::new(
                 "readonly".into(),
                 readonly.unwrap(),
             )))
@@ -702,7 +702,7 @@ impl<I: Tokens> Parser<I> {
         };
         let is_optional = self.input.syntax().typescript() && eat!(self, '?');
 
-        if let Either::Right(PropName::Ident(i)) = &mut key {
+        if let Key::Public(PropName::Ident(i)) = &mut key {
             i.optional = is_optional;
         }
 
@@ -807,7 +807,7 @@ impl<I: Tokens> Parser<I> {
                     span: span!(self, start),
                     accessibility,
                     key: match key {
-                        Either::Right(key) => key,
+                        Key::Public(key) => key,
                         _ => unreachable!("is_constructor() returns false for PrivateName"),
                     },
                     is_optional,
@@ -837,7 +837,7 @@ impl<I: Tokens> Parser<I> {
         let is_next_line_generator = self.input.had_line_break_before_cur() && is!(self, '*');
         let getter_or_setter_ident = match key {
             // `get\n*` is an uninitialized property named 'get' followed by a generator.
-            Either::Right(PropName::Ident(ref i))
+            Key::Public(PropName::Ident(ref i))
                 if (i.sym == js_word!("get") || i.sym == js_word!("set"))
                     && !self.is_class_property(/* asi */ false)
                     && !is_next_line_generator =>
@@ -864,7 +864,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if match key {
-            Either::Right(PropName::Ident(ref i)) => i.sym == js_word!("async"),
+            Key::Public(PropName::Ident(ref i)) => i.sym == js_word!("async"),
             _ => false,
         } && !self.input.had_line_break_before_cur()
         {
@@ -988,9 +988,9 @@ impl<I: Tokens> Parser<I> {
         start: BytePos,
         decorators: Vec<Decorator>,
         accessibility: Option<Accessibility>,
-        key: Either<PrivateName, PropName>,
+        key: Key,
         is_static: bool,
-        _accessor_token: Option<Span>,
+        accessor_token: Option<Span>,
         is_optional: bool,
         readonly: bool,
         declare: bool,
@@ -1050,7 +1050,7 @@ impl<I: Tokens> Parser<I> {
                     definite,
                 }
                 .into(),
-                Either::Right(key) => {
+                Key::Public(key) => {
                     let span = span!(p, start);
                     if is_abstract && value.is_some() {
                         p.emit_err(span, SyntaxError::TS1267)
@@ -1295,7 +1295,7 @@ impl<I: Tokens> Parser<I> {
             }
             Ok(Either::Left(name))
         } else {
-            self.parse_prop_name().map(Either::Right)
+            self.parse_prop_name().map(Key::Public)
         }
     }
 
@@ -1397,7 +1397,7 @@ impl<I: Tokens> Parser<I> {
                 kind,
             }
             .into()),
-            Either::Right(key) => {
+            Key::Public(key) => {
                 let span = span!(self, start);
                 if is_abstract && function.body.is_some() {
                     self.emit_err(span, SyntaxError::TS1245)
@@ -1633,13 +1633,13 @@ impl IsSimpleParameterList for Vec<ParamOrTsParamProp> {
     }
 }
 
-fn is_constructor(key: &Either<PrivateName, PropName>) -> bool {
+fn is_constructor(key: &Key) -> bool {
     matches!(
         *key,
-        Either::Right(PropName::Ident(Ident {
+        Key::Public(PropName::Ident(Ident {
             sym: js_word!("constructor"),
             ..
-        })) | Either::Right(PropName::Str(Str {
+        })) | Key::Public(PropName::Str(Str {
             value: js_word!("constructor"),
             ..
         }))
@@ -1667,7 +1667,7 @@ struct MakeMethodArgs {
     decorators: Vec<Decorator>,
     is_optional: bool,
     is_override: bool,
-    key: Either<PrivateName, PropName>,
+    key: Key,
     kind: MethodKind,
     is_async: bool,
     is_generator: bool,
