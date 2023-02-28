@@ -714,7 +714,7 @@ impl VisitMut for TreeShaker {
                                     .map_or(false, |e| e.may_have_side_effects(&self.expr_ctx))
                         }
                         ClassMember::AutoAccessor(m) => {
-                            !matches!(m.key, PropName::Computed(..))
+                            !matches!(m.key, Key::Public(PropName::Computed(..)))
                                 && !m
                                     .value
                                     .as_deref()
