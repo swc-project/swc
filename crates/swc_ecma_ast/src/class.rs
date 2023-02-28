@@ -14,7 +14,7 @@ use crate::{
         Accessibility, TsExprWithTypeArgs, TsIndexSignature, TsTypeAnn, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
-    EmptyStmt,
+    BigInt, ComputedPropName, EmptyStmt, Id, Ident, Number,
 };
 
 #[ast_node]
@@ -280,6 +280,33 @@ impl Take for StaticBlock {
     }
 }
 
+/// Either a private name or a public name.
+#[ast_node]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub enum Key {
+    #[tag("PrivateName")]
+    Private(PrivateName),
+    #[tag("Identifier")]
+    #[tag("StringLiteral")]
+    #[tag("NumericLiteral")]
+    #[tag("Computed")]
+    #[tag("BigIntLiteral")]
+    Public(PropName),
+}
+
+bridge_from!(Key, PropName, Ident);
+bridge_from!(Key, PropName, Id);
+bridge_from!(Key, PropName, Number);
+bridge_from!(Key, PropName, ComputedPropName);
+bridge_from!(Key, PropName, BigInt);
+
+impl Take for Key {
+    fn dummy() -> Self {
+        Key::Public(Take::dummy())
+    }
+}
+
 #[ast_node("AutoAccessor")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -287,7 +314,7 @@ pub struct AutoAccessor {
     #[serde(default)]
     pub span: Span,
 
-    pub key: PropName,
+    pub key: Key,
 
     #[serde(default)]
     pub value: Option<Box<Expr>>,
