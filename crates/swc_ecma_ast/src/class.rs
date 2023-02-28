@@ -282,7 +282,7 @@ impl Take for StaticBlock {
 
 /// Either a private name or a public name.
 #[ast_node]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum Key {
     #[tag("PrivateName")]
