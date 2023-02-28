@@ -16,7 +16,7 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 pub use self::{
     class::{
-        AutoAccessor, Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator,
+        AutoAccessor, Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, Key,
         MethodKind, PrivateMethod, PrivateProp, StaticBlock,
     },
     decl::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator},
