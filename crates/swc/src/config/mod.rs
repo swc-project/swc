@@ -453,13 +453,22 @@ impl Options {
 
         let simplifier_pass = {
             if let Some(ref opts) = optimizer.as_ref().and_then(|o| o.simplify) {
-                Either::Left(simplifier(
-                    top_level_mark,
-                    opts.preserve_imports_with_side_effects.into_bool(),
-                    Default::default(),
-                ))
+                match opts {
+                    SimplifyOption::Bool(allow_simplify) => {
+                        if *allow_simplify {
+                            Either::Left(simplifier(top_level_mark, true, Default::default()))
+                        } else {
+                            Either::Right(noop())
+                        }
+                    }
+                    SimplifyOption::Json(cfg) => Either::Left(simplifier(
+                        top_level_mark,
+                        cfg.preserve_imports_with_side_effects,
+                        Default::default(),
+                    )),
+                }
             } else {
-                Either::Right(noop())
+                Either::Left(simplifier(top_level_mark, true, Default::default()))
             }
         };
 
@@ -1487,11 +1496,28 @@ pub struct OptimizerConfig {
     pub jsonify: Option<JsonifyOption>,
 }
 
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum SimplifyOption {
+    Bool(bool),
+    Json(SimplifyJsonOption),
+}
+
+impl Default for SimplifyOption {
+    fn default() -> Self {
+        SimplifyOption::Bool(true)
+    }
+}
+
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
-pub struct SimplifyOption {
-    #[serde(default)]
-    pub preserve_imports_with_side_effects: BoolConfig<true>,
+pub struct SimplifyJsonOption {
+    #[serde(default = "preserve_imports_with_side_effects")]
+    pub preserve_imports_with_side_effects: bool,
+}
+
+fn preserve_imports_with_side_effects() -> bool {
+    true
 }
 
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
