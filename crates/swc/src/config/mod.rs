@@ -1512,11 +1512,11 @@ impl Default for SimplifyOption {
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct SimplifyJsonOption {
-    #[serde(default = "preserve_imports_with_side_effects")]
+    #[serde(default = "default_preserve_imports_with_side_effects")]
     pub preserve_imports_with_side_effects: bool,
 }
 
-fn preserve_imports_with_side_effects() -> bool {
+fn default_preserve_imports_with_side_effects() -> bool {
     true
 }
 
