@@ -66,9 +66,7 @@
                 "development": true
             },
             "optimizer": {
-                "simplify": {
-                    "preserveImportsWithSideEffects": true
-                }
+                "simplify": true
             }
         }
     },
