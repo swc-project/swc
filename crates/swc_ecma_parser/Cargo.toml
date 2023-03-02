@@ -29,6 +29,7 @@ enum_kind      = { version = "0.2.1", path = "../enum_kind" }
 lexical        = { version = "6.1.0", features = ["power-of-two"] }
 memchr         = "2"
 num-bigint     = "0.4"
+once_cell      = "1"
 serde          = { version = "1", features = ["derive"] }
 smallvec       = "1.8.0"
 smartstring    = "1"
