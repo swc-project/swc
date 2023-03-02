@@ -276,7 +276,7 @@ impl Syntax {
         }
     }
 
-    pub fn disallow_ambiguous_jsx_like(self) -> bool {
+   fn disallow_ambiguous_jsx_like(self) -> bool {
         match self {
             Syntax::Typescript(t) => t.disallow_ambiguous_jsx_like,
             _ => false,
