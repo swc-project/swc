@@ -12,7 +12,9 @@ use swc_common::{
 use swc_ecma_ast::Ident;
 use tracing::warn;
 
-use super::{comments_buffer::BufferedComment, input::Input, Char, LexResult, Lexer};
+use super::{
+    comments_buffer::BufferedComment, input::Input, simd::SkipWhitespace, Char, LexResult, Lexer,
+};
 use crate::{
     error::{Error, SyntaxError},
     lexer::comments_buffer::BufferedCommentKind,
@@ -194,6 +196,11 @@ impl<'a> Lexer<'a> {
     /// See https://tc39.github.io/ecma262/#sec-white-space
     pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) -> LexResult<()> {
         loop {
+            let skip = SkipWhitespace::new(true);
+            let skip = skip.simd(self.input.as_str().as_bytes());
+            dbg!(skip.offset);
+            self.input.bump_bytes(skip.offset);
+
             let cur_b = self.input.cur_as_ascii();
 
             if matches!(cur_b, Some(b'\n' | b'\r')) {

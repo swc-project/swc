@@ -29,6 +29,7 @@ mod comments_buffer;
 pub mod input;
 mod jsx;
 mod number;
+mod simd;
 mod state;
 mod table;
 #[cfg(test)]
