@@ -3731,6 +3731,7 @@ dependencies = [
  "lexical",
  "memchr",
  "num-bigint",
+ "once_cell",
  "pretty_assertions",
  "serde",
  "serde_json",
