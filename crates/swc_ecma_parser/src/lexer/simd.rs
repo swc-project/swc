@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 //! Lexer methods using portable-SIMD
 //! See:
 //!   * <https://github.com/rust-lang/portable-simd/blob/master/beginners-guide.md>
