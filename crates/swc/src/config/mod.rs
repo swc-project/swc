@@ -468,7 +468,7 @@ impl Options {
                     )),
                 }
             } else {
-                Either::Left(simplifier(top_level_mark, true, Default::default()))
+                Either::Right(noop())
             }
         };
 
