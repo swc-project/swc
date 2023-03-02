@@ -48,6 +48,7 @@ impl Raw {
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 impl<'a> Lexer<'a> {
+    #[inline]
     pub(super) fn span(&self, start: BytePos) -> Span {
         let end = self.last_pos();
         if cfg!(debug_assertions) && start > end {
@@ -65,46 +66,55 @@ impl<'a> Lexer<'a> {
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn bump(&mut self) {
         self.input.bump()
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn is(&mut self, c: u8) -> bool {
         self.input.is_byte(c)
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn is_str(&self, s: &str) -> bool {
         self.input.is_str(s)
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn eat(&mut self, c: u8) -> bool {
         self.input.eat_byte(c)
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn cur(&mut self) -> Option<char> {
         self.input.cur()
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn peek(&mut self) -> Option<char> {
         self.input.peek()
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn peek_ahead(&mut self) -> Option<char> {
         self.input.peek_ahead()
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn cur_pos(&mut self) -> BytePos {
         self.input.cur_pos()
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn last_pos(&self) -> BytePos {
         self.input.last_pos()
     }
