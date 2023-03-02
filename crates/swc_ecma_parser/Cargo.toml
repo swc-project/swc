@@ -39,6 +39,7 @@ swc_ecma_ast   = { version = "0.99.2", path = "../swc_ecma_ast" }
 swc_ecma_visit = { version = "0.85.2", path = "../swc_ecma_visit", optional = true }
 tracing        = "0.1.32"
 typed-arena    = "2.0.1"
+wide           = "0.7"
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
 stacker = "0.1.15"
