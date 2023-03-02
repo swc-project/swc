@@ -3729,6 +3729,7 @@ dependencies = [
  "either",
  "enum_kind",
  "lexical",
+ "memchr",
  "num-bigint",
  "pretty_assertions",
  "serde",
