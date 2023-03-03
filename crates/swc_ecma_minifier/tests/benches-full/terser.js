@@ -1190,11 +1190,11 @@
         }
         function switch_body_() {
             expect("{");
-            for(var tmp, a = [], cur = null, branch = null; !is("punc", "}");)is("eof") && unexpected(), is("keyword", "case") ? (branch && (branch.end = prev()), cur = [], a.push(branch = new AST_Case({
+            for(var tmp, a = [], cur = null, branch = null; !is("punc", "}");)is("eof") && unexpected(), is("keyword", "case") ? (branch && (branch.end = prev()), cur = [], branch = new AST_Case({
                 start: (tmp = S.token, next(), tmp),
                 expression: expression(!0),
                 body: cur
-            })), expect(":")) : is("keyword", "default") ? (branch && (branch.end = prev()), cur = [], a.push(branch = new AST_Default({
+            }), a.push(branch), expect(":")) : is("keyword", "default") ? (branch && (branch.end = prev()), cur = [], a.push(branch = new AST_Default({
                 start: (tmp = S.token, next(), expect(":"), tmp),
                 body: cur
             }))) : (cur || unexpected(), cur.push(statement()));
