@@ -1919,7 +1919,7 @@
             this.prototype[name] = method;
         }, ctor;
     }
-    const has_tok_flag = (tok, flag)=>Boolean(tok.flags & flag), set_tok_flag = (tok, flag, truth)=>{
+    const has_tok_flag = (tok, flag)=>!!(tok.flags & flag), set_tok_flag = (tok, flag, truth)=>{
         truth ? tok.flags |= flag : tok.flags &= ~flag;
     };
     class AST_Token {
