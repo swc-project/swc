@@ -994,6 +994,10 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_ts_type_assertion(&mut self, start: BytePos) -> PResult<TsTypeAssertion> {
         debug_assert!(self.input.syntax().typescript());
 
+        if self.input.syntax().disallow_ambiguous_jsx_like() {
+            self.emit_err(span!(self, start), SyntaxError::ReservedTypeAssertion);
+        }
+
         // Not actually necessary to set state.inType because we never reach here if JSX
         // plugin is enabled, but need `tsInType` to satisfy the assertion in
         // `tsParseType`.
