@@ -49,7 +49,7 @@ impl<'a> Tester<'a> {
         op: F,
     ) -> Result<T, ()>
     where
-        F: FnOnce(&mut Parser<Lexer<StringInput>>) -> Result<T, Error>,
+        F: FnOnce(&mut Parser<Lexer>) -> Result<T, Error>,
     {
         let fm = self
             .cm

@@ -9,7 +9,7 @@ use std::{
 use swc_common::comments::SingleThreadedComments;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use testing::NormalizedOutput;
 
 const IGNORED_PASS_TESTS: &[&str] = &[
@@ -121,7 +121,7 @@ fn do_test(entry: &Path, minify: bool) {
             (&*src).into(),
             Some(&comments),
         );
-        let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
+        let mut parser: Parser<Lexer> = Parser::new_from(lexer);
 
         {
             let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(

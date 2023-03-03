@@ -7,7 +7,7 @@ use std::{
 use swc_common::{FileName, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax, TsConfig};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
 use swc_ecma_visit::{Fold, FoldWith};
@@ -172,7 +172,7 @@ fn identity(entry: PathBuf) {
         let src = cm.load_file(&entry).expect("failed to load file");
         println!("{}", src.src);
 
-        let mut parser: Parser<Lexer<StringInput>> = Parser::new(
+        let mut parser: Parser<Lexer> = Parser::new(
             Syntax::Typescript(TsConfig {
                 tsx: file_name.contains("tsx"),
                 decorators: true,
@@ -233,7 +233,7 @@ fn identity(entry: PathBuf) {
 
         let js_fm = cm.new_source_file(FileName::Anon, js_content.clone());
 
-        let mut parser: Parser<Lexer<StringInput>> = Parser::new(
+        let mut parser: Parser<Lexer> = Parser::new(
             Syntax::Es(EsConfig {
                 jsx: file_name.contains("tsx"),
                 decorators: true,

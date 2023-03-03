@@ -23,7 +23,7 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, ()>
 where
-    F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>) -> PResult<Ret>,
+    F: FnOnce(&mut Parser<Lexer>) -> PResult<Ret>,
 {
     let fm = cm
         .load_file(file_name)

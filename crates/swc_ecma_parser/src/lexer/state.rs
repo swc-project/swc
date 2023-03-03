@@ -120,7 +120,7 @@ impl<'a> From<&'a Token> for TokenType {
     }
 }
 
-impl<I: Input> Tokens for Lexer<'_, I> {
+impl Tokens for Lexer<'_> {
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.module && !self.module_errors.borrow().is_empty() {
@@ -192,7 +192,7 @@ impl<I: Input> Tokens for Lexer<'_, I> {
     }
 }
 
-impl<'a, I: Input> Iterator for Lexer<'a, I> {
+impl<'a> Iterator for Lexer<'a> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -797,7 +797,7 @@ pub(crate) fn with_lexer<F, Ret>(
     f: F,
 ) -> Result<Ret, ::testing::StdErr>
 where
-    F: FnOnce(&mut Lexer<'_, crate::lexer::input::StringInput<'_>>) -> Result<Ret, ()>,
+    F: FnOnce(&mut Lexer<'_>) -> Result<Ret, ()>,
 {
     crate::with_test_sess(s, |_, fm| {
         let mut l = Lexer::new(syntax, target, fm, None);
