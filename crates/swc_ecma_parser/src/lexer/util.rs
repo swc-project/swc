@@ -206,15 +206,15 @@ impl<'a> Lexer<'a> {
             }
             self.state.had_line_break |= skip.newline;
     pub(super) fn skip_space(&mut self, lex_comments: bool) -> LexResult<()> {
-        loop {
-            let skip = SkipWhitespace::new(false);
-            let skip = skip.simd(self.input.as_str().as_bytes());
-            // dbg!(skip.offset);
-            for _ in 0..skip.offset {
-                self.input.bump();
-            }
-            self.state.had_line_break |= skip.newline;
+        let skip = SkipWhitespace::new(false);
+        let skip = skip.simd(self.input.as_str().as_bytes());
+        // dbg!(skip.offset);
+        for _ in 0..skip.offset {
+            self.input.bump();
+        }
+        self.state.had_line_break |= skip.newline;
 
+        loop {
             let cur_b = self.input.cur_as_ascii();
 
             if matches!(cur_b, Some(b'\n' | b'\r')) {
