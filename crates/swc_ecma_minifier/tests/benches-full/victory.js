@@ -26588,7 +26588,7 @@
                     {
                         key: "shouldAnimate",
                         value: function() {
-                            return Boolean(this.props.animate);
+                            return !!this.props.animate;
                         }
                     },
                     {

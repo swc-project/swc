@@ -20,7 +20,7 @@ var f = function(e) {
 }, m = function(e, t) {
     return e.props.indexContextValue.targetedIndex === t;
 }, p = function(e) {
-    return Boolean(e.props.indexId);
+    return !!e.props.indexId;
 }, g = function(e, t) {
     return e.props.indexId === t;
 }, h = function(e, t) {
@@ -30,26 +30,26 @@ var f = function(e) {
 export default function S(u) {
     var o, l, S = u.indexName, v = u.initialState, x = u.searchClient, y = u.resultsState, w = u.stalledSearchDelay, F = function(e) {
         return O.getWidgets().filter(function(e) {
-            return Boolean(e.getMetadata);
+            return !!e.getMetadata;
         }).map(function(t) {
             return t.getMetadata(e);
         });
     }, _ = function() {
         var a = O.getWidgets().filter(function(e) {
-            return Boolean(e.getSearchParameters);
+            return !!e.getSearchParameters;
         }).filter(function(e) {
             return !f(e) && !p(e);
         }).reduce(function(e, t) {
             return t.getSearchParameters(e);
         }, N), n = O.getWidgets().filter(function(e) {
-            return Boolean(e.getSearchParameters);
+            return !!e.getSearchParameters;
         }).filter(function(e) {
             var t = f(e) && m(e, S), r = p(e) && g(e, S);
             return t || r;
         }).sort(h).reduce(function(e, t) {
             return t.getSearchParameters(e);
         }, a), s = O.getWidgets().filter(function(e) {
-            return Boolean(e.getSearchParameters);
+            return !!e.getSearchParameters;
         }).filter(function(e) {
             var t = f(e) && !m(e, S), r = p(e) && !g(e, S);
             return t || r;
@@ -324,7 +324,7 @@ export default function S(u) {
         transitionState: function(e) {
             var t = q.getState().widgets;
             return O.getWidgets().filter(function(e) {
-                return Boolean(e.transitionState);
+                return !!e.transitionState;
             }).reduce(function(e, r) {
                 return r.transitionState(t, e);
             }, e);

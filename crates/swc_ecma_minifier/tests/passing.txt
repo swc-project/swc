@@ -913,8 +913,11 @@ issue_229/template_strings/input.js
 issue_2652/insert_semicolon/input.js
 issue_2652/unary_postfix/input.js
 issue_267/issue_267/input.js
+issue_269/issue_269_1/input.js
 issue_269/issue_269_dangers/input.js
 issue_269/issue_269_in_scope/input.js
+issue_269/regexp/input.js
+issue_269/strings_concat/input.js
 issue_2719/warn/input.js
 issue_281/drop_fargs/input.js
 issue_281/inner_var_for_in_1/input.js

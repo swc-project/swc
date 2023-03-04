@@ -11,7 +11,7 @@ function addAlgoliaAgents(searchClient) {
 const isMultiIndexContext = (widget)=>hasMultipleIndices({
         ais: widget.props.contextValue,
         multiIndexContext: widget.props.indexContextValue
-    }), isTargetedIndexEqualIndex = (widget, indexId)=>widget.props.indexContextValue.targetedIndex === indexId, isIndexWidget = (widget)=>Boolean(widget.props.indexId), isIndexWidgetEqualIndex = (widget, indexId)=>widget.props.indexId === indexId, sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
+    }), isTargetedIndexEqualIndex = (widget, indexId)=>widget.props.indexContextValue.targetedIndex === indexId, isIndexWidget = (widget)=>!!widget.props.indexId, isIndexWidgetEqualIndex = (widget, indexId)=>widget.props.indexId === indexId, sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
     const isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
@@ -164,13 +164,13 @@ export default function createInstantSearchManager({ indexName , initialState ={
         searchingForFacetValues: !1
     });
     function getMetadata(state) {
-        return widgetsManager.getWidgets().filter((widget)=>Boolean(widget.getMetadata)).map((widget)=>widget.getMetadata(state));
+        return widgetsManager.getWidgets().filter((widget)=>!!widget.getMetadata).map((widget)=>widget.getMetadata(state));
     }
     function getSearchParameters() {
-        const sharedParameters = widgetsManager.getWidgets().filter((widget)=>Boolean(widget.getSearchParameters)).filter((widget)=>!isMultiIndexContext(widget) && !isIndexWidget(widget)).reduce((res, widget)=>widget.getSearchParameters(res), initialSearchParameters), mainParameters = widgetsManager.getWidgets().filter((widget)=>Boolean(widget.getSearchParameters)).filter((widget)=>{
+        const sharedParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>!isMultiIndexContext(widget) && !isIndexWidget(widget)).reduce((res, widget)=>widget.getSearchParameters(res), initialSearchParameters), mainParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>{
             const targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = isIndexWidget(widget) && isIndexWidgetEqualIndex(widget, indexName);
             return targetedIndexEqualMainIndex || subIndexEqualMainIndex;
-        }).sort(sortIndexWidgetsFirst).reduce((res, widget)=>widget.getSearchParameters(res), sharedParameters), derivedIndices = widgetsManager.getWidgets().filter((widget)=>Boolean(widget.getSearchParameters)).filter((widget)=>{
+        }).sort(sortIndexWidgetsFirst).reduce((res, widget)=>widget.getSearchParameters(res), sharedParameters), derivedIndices = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>{
             const targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName), subIndexNotEqualMainIndex = isIndexWidget(widget) && !isIndexWidgetEqualIndex(widget, indexName);
             return targetedIndexNotEqualMainIndex || subIndexNotEqualMainIndex;
         }).sort(sortIndexWidgetsFirst).reduce((indices, widget)=>{
@@ -279,7 +279,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
         },
         transitionState: function(nextSearchState) {
             const searchState = store.getState().widgets;
-            return widgetsManager.getWidgets().filter((widget)=>Boolean(widget.transitionState)).reduce((res, widget)=>widget.transitionState(searchState, res), nextSearchState);
+            return widgetsManager.getWidgets().filter((widget)=>!!widget.transitionState).reduce((res, widget)=>widget.transitionState(searchState, res), nextSearchState);
         },
         updateClient: function(client) {
             addAlgoliaAgents(client), helper.setClient(client), search();
