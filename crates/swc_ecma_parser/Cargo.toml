@@ -18,12 +18,10 @@ bench = false
 
 [features]
 # Used for debugging
-debug   = []
-default = ["typescript"]
-# rkyv-impl     = []
-rust-analyzer = []
-typescript    = []
-verify        = ["swc_ecma_visit"]
+debug      = []
+default    = ["typescript"]
+typescript = []
+verify     = ["swc_ecma_visit"]
 
 [dependencies]
 either         = { version = "1.4" }
