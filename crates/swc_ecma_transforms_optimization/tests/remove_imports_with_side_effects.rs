@@ -9,10 +9,10 @@ fn tr() -> impl Fold {
     Repeat::new(dce(
         Config {
             top_level: true,
+            preserve_imports_with_side_effects: false,
             ..Default::default()
         },
         Mark::new(),
-        false,
     ))
 }
 

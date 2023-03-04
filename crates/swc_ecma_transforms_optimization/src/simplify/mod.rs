@@ -22,14 +22,10 @@ pub struct Config {
 
 /// Performs simplify-expr, inlining, remove-dead-branch and dce until nothing
 /// changes.
-pub fn simplifier(
-    unresolved_mark: Mark,
-    preserve_imports_with_side_effects: bool,
-    c: Config,
-) -> impl RepeatedJsPass {
+pub fn simplifier(unresolved_mark: Mark, c: Config) -> impl RepeatedJsPass {
     Repeat::new(chain!(
         expr_simplifier(unresolved_mark, c.expr),
         dead_branch_remover(unresolved_mark),
-        dce::dce(c.dce, unresolved_mark, preserve_imports_with_side_effects)
+        dce::dce(c.dce, unresolved_mark)
     ))
 }

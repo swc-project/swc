@@ -67,7 +67,11 @@ use swc_ecma_transforms::{
     Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
-use swc_ecma_transforms_optimization::{inline_globals2, GlobalExprMap};
+use swc_ecma_transforms_optimization::{
+    inline_globals2,
+    simplify::{dce::Config as DceConfig, Config as SimplifyConfig},
+    GlobalExprMap,
+};
 use swc_ecma_visit::{Fold, VisitMutWith};
 
 pub use crate::plugin::PluginConfig;
@@ -456,15 +460,21 @@ impl Options {
                 match opts {
                     SimplifyOption::Bool(allow_simplify) => {
                         if *allow_simplify {
-                            Either::Left(simplifier(top_level_mark, true, Default::default()))
+                            Either::Left(simplifier(top_level_mark, Default::default()))
                         } else {
                             Either::Right(noop())
                         }
                     }
                     SimplifyOption::Json(cfg) => Either::Left(simplifier(
                         top_level_mark,
-                        cfg.preserve_imports_with_side_effects,
-                        Default::default(),
+                        SimplifyConfig {
+                            dce: DceConfig {
+                                preserve_imports_with_side_effects: cfg
+                                    .preserve_imports_with_side_effects,
+                                ..Default::default()
+                            },
+                            ..Default::default()
+                        },
                     )),
                 }
             } else {

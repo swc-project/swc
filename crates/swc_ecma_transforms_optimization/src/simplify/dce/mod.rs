@@ -30,7 +30,6 @@ use crate::debug_assert_valid;
 pub fn dce(
     config: Config,
     unresolved_mark: Mark,
-    preserve_imports_with_side_effects: bool,
 ) -> impl Fold + VisitMut + Repeated + CompilerPass {
     as_folder(TreeShaker {
         expr_ctx: ExprCtx {
@@ -45,7 +44,6 @@ pub fn dce(
         var_decl_kind: None,
         data: Default::default(),
         bindings: Default::default(),
-        preserve_imports_with_side_effects,
     })
 }
 
@@ -65,6 +63,9 @@ pub struct Config {
 
     /// Declarations with a symbol in this set will be preserved.
     pub top_retain: Vec<JsWord>,
+
+    /// If false, imports with side effects will be removed.
+    pub preserve_imports_with_side_effects: bool,
 }
 
 impl Default for Config {
@@ -73,6 +74,7 @@ impl Default for Config {
             module_mark: Default::default(),
             top_level: true,
             top_retain: Default::default(),
+            preserve_imports_with_side_effects: true,
         }
     }
 }
@@ -91,8 +93,6 @@ struct TreeShaker {
     data: Arc<Data>,
 
     bindings: Arc<AHashSet<Id>>,
-
-    preserve_imports_with_side_effects: bool,
 }
 
 impl CompilerPass for TreeShaker {
@@ -914,7 +914,7 @@ impl VisitMut for TreeShaker {
 
                 i.visit_mut_with(self);
 
-                if !self.preserve_imports_with_side_effects
+                if !self.config.preserve_imports_with_side_effects
                     && !is_for_side_effect
                     && i.specifiers.is_empty()
                 {
