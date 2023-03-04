@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Don't skip expressions with side effects from seq inliner (#7007) ([cfeb088](https://github.com/swc-project/swc/commit/cfeb088c37bdc2a5df79f10d2b93ce84cb12542b))
 
+
+- **(es/minifier)** Don't create invalid property names (#7010) ([bb2486c](https://github.com/swc-project/swc/commit/bb2486c4592214c19ee6a1aa747dda5e58a1b07d))
+
 ### Features
 
 
