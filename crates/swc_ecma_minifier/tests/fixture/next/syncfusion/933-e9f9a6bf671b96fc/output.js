@@ -6747,7 +6747,7 @@
                     return value > this.max ? this.max : value < this.min ? this.min : value;
                 }, NumericTextBox.prototype.roundNumber = function(value, precision) {
                     var result = value, decimals = precision || 0, result1 = result.toString().split('e'), result2 = (result = Math.round(Number(result1[0] + 'e' + (result1[1] ? Number(result1[1]) + decimals : decimals)))).toString().split('e');
-                    return result = Number(result2[0] + 'e' + (result2[1] ? Number(result2[1]) - decimals : -decimals)), Number(result.toFixed(decimals));
+                    return Number((result = Number(result2[0] + 'e' + (result2[1] ? Number(result2[1]) - decimals : -decimals))).toFixed(decimals));
                 }, NumericTextBox.prototype.cancelEvent = function(event) {
                     return event.preventDefault(), !1;
                 }, NumericTextBox.prototype.keyPressHandler = function(event) {
