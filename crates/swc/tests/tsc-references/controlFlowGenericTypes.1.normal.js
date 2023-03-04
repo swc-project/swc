@@ -154,3 +154,6 @@ function update(control, key, value) {
         control[key] = value;
     }
 }
+function getColumnProperty(column, key) {
+    return column[key];
+}

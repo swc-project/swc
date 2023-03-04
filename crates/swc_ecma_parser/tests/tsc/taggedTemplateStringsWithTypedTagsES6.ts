@@ -1,4 +1,4 @@
-// @target: ES6
+﻿// @target: ES6
 interface I {
     (stringParts: TemplateStringsArray, ...rest: number[]): I;
     g: I;

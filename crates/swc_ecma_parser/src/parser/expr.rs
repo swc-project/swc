@@ -82,6 +82,7 @@ impl<I: Tokens> Parser<I> {
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr_base);
+        let start = self.input.cur_span();
 
         if self.input.syntax().typescript()
             && (is_one_of!(self, '<', JSXTagStart))
@@ -120,6 +121,9 @@ impl<I: Tokens> Parser<I> {
                 Ok(Some(arrow))
             });
             if let Some(res) = res {
+                if self.input.syntax().disallow_ambiguous_jsx_like() {
+                    self.emit_err(start, SyntaxError::ReservedArrowTypeParam);
+                }
                 return Ok(res);
             }
         }
@@ -712,7 +716,7 @@ impl<I: Tokens> Parser<I> {
             expect!(p, '(');
 
             let mut first = true;
-            let mut expr_or_spreads = Vec::with_capacity(8);
+            let mut expr_or_spreads = Vec::with_capacity(2);
 
             while !eof!(p) && !is!(p, ')') {
                 if first {

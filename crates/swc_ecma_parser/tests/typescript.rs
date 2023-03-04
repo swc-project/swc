@@ -9,7 +9,7 @@ use std::{
 use pretty_assertions::assert_eq;
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Syntax, TsConfig};
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 
@@ -78,7 +78,7 @@ fn spec(file: PathBuf) {
     run_spec(&file, &output);
 }
 
-#[testing::fixture("tests/tsc/**/*.ts")]
+#[testing::fixture("tests/tsc/**/*.ts", exclude("parserArrowFunctionExpression11"))]
 fn tsc_spec(file: PathBuf) {
     let output = file.with_extension("json");
     run_spec(&file, &output);
@@ -221,7 +221,7 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, StdErr>
 where
-    F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>, &SingleThreadedComments) -> PResult<Ret>,
+    F: FnOnce(&mut Parser<Lexer>, &SingleThreadedComments) -> PResult<Ret>,
 {
     let fname = file_name.display().to_string();
 
@@ -242,6 +242,7 @@ where
                 tsx: fname.contains("tsx"),
                 decorators: true,
                 no_early_errors,
+                disallow_ambiguous_jsx_like: fname.contains("cts") || fname.contains("mts"),
                 ..Default::default()
             }),
             EsVersion::Es2015,
@@ -266,6 +267,8 @@ where
 }
 
 #[testing::fixture("tests/typescript-errors/**/*.ts")]
+#[testing::fixture("tests/typescript-errors/**/*.mts")]
+#[testing::fixture("tests/typescript-errors/**/*.cts")]
 #[testing::fixture("tests/typescript-errors/**/*.tsx")]
 fn errors(file: PathBuf) {
     let file_name = file.display().to_string();

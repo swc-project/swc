@@ -435,6 +435,7 @@ impl Swcify for ExportAllDeclaration {
         ExportAll {
             span: ctx.span(&self.base),
             src: self.source.swcify(ctx).into(),
+            type_only: self.export_kind == Some(ExportKind::Type),
             asserts: self
                 .assertions
                 .swcify(ctx)
@@ -777,6 +778,7 @@ impl Swcify for DeclareExportAllDeclaration {
         ExportAll {
             span: ctx.span(&self.base),
             src: self.source.swcify(ctx).into(),
+            type_only: self.export_kind == Some(ExportKind::Type),
             asserts: Default::default(),
         }
     }

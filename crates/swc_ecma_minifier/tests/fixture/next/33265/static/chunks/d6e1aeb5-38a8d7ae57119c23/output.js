@@ -153,7 +153,7 @@
                 if (!match) return null;
                 var major = match[1] && parseFloat(match[1]), minor = match[2] && parseFloat(match[2]);
                 return major && minor ? parseFloat(match[1] + "." + match[2]) : major || null;
-            }(), IS_NATIVE_ANDROID = IS_ANDROID && ANDROID_VERSION < 5 && appleWebkitVersion < 537, IS_FIREFOX = /Firefox/i.test(USER_AGENT), IS_EDGE = /Edg/i.test(USER_AGENT), IS_CHROME = !IS_EDGE && (/Chrome/i.test(USER_AGENT) || /CriOS/i.test(USER_AGENT)), CHROME_VERSION = (match1 = USER_AGENT.match(/(Chrome|CriOS)\/(\d+)/)) && match1[2] ? parseFloat(match1[2]) : null, IE_VERSION = (!(version = (result = /MSIE\s(\d+)\.\d/.exec(USER_AGENT)) && parseFloat(result[1])) && /Trident\/7.0/i.test(USER_AGENT) && /rv:11.0/.test(USER_AGENT) && (version = 11.0), version), IS_SAFARI = /Safari/i.test(USER_AGENT) && !IS_CHROME && !IS_ANDROID && !IS_EDGE, IS_WINDOWS = /Windows/i.test(USER_AGENT), TOUCH_ENABLED = Boolean(isReal() && ("ontouchstart" in global_window__WEBPACK_IMPORTED_MODULE_0___default() || global_window__WEBPACK_IMPORTED_MODULE_0___default().navigator.maxTouchPoints || global_window__WEBPACK_IMPORTED_MODULE_0___default().DocumentTouch && global_window__WEBPACK_IMPORTED_MODULE_0___default().document instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().DocumentTouch)), IS_IPAD = /iPad/i.test(USER_AGENT) || IS_SAFARI && TOUCH_ENABLED && !/iPhone/i.test(USER_AGENT), IS_IPHONE = /iPhone/i.test(USER_AGENT) && !IS_IPAD, IS_IOS = IS_IPHONE || IS_IPAD || IS_IPOD, IS_ANY_SAFARI = (IS_SAFARI || IS_IOS) && !IS_CHROME, browser = Object.freeze({
+            }(), IS_NATIVE_ANDROID = IS_ANDROID && ANDROID_VERSION < 5 && appleWebkitVersion < 537, IS_FIREFOX = /Firefox/i.test(USER_AGENT), IS_EDGE = /Edg/i.test(USER_AGENT), IS_CHROME = !IS_EDGE && (/Chrome/i.test(USER_AGENT) || /CriOS/i.test(USER_AGENT)), CHROME_VERSION = (match1 = USER_AGENT.match(/(Chrome|CriOS)\/(\d+)/)) && match1[2] ? parseFloat(match1[2]) : null, IE_VERSION = (!(version = (result = /MSIE\s(\d+)\.\d/.exec(USER_AGENT)) && parseFloat(result[1])) && /Trident\/7.0/i.test(USER_AGENT) && /rv:11.0/.test(USER_AGENT) && (version = 11.0), version), IS_SAFARI = /Safari/i.test(USER_AGENT) && !IS_CHROME && !IS_ANDROID && !IS_EDGE, IS_WINDOWS = /Windows/i.test(USER_AGENT), TOUCH_ENABLED = !!(isReal() && ("ontouchstart" in global_window__WEBPACK_IMPORTED_MODULE_0___default() || global_window__WEBPACK_IMPORTED_MODULE_0___default().navigator.maxTouchPoints || global_window__WEBPACK_IMPORTED_MODULE_0___default().DocumentTouch && global_window__WEBPACK_IMPORTED_MODULE_0___default().document instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().DocumentTouch)), IS_IPAD = /iPad/i.test(USER_AGENT) || IS_SAFARI && TOUCH_ENABLED && !/iPhone/i.test(USER_AGENT), IS_IPHONE = /iPhone/i.test(USER_AGENT) && !IS_IPAD, IS_IOS = IS_IPHONE || IS_IPAD || IS_IPOD, IS_ANY_SAFARI = (IS_SAFARI || IS_IOS) && !IS_CHROME, browser = Object.freeze({
                 __proto__: null,
                 IS_IPOD: IS_IPOD,
                 IOS_VERSION: IOS_VERSION,
@@ -174,7 +174,7 @@
                 IS_ANY_SAFARI: IS_ANY_SAFARI
             });
             function isNonBlankString(str) {
-                return "string" == typeof str && Boolean(str.trim());
+                return "string" == typeof str && !!str.trim();
             }
             function throwIfWhitespace(str) {
                 if (str.indexOf(" ") >= 0) throw Error("class has illegal whitespace characters");
@@ -797,7 +797,7 @@
                         this.children_ = null, this.childIndex_ = null, this.childNameIndex_ = null, this.parentComponent_ = null, this.el_ && (this.el_.parentNode && this.el_.parentNode.removeChild(this.el_), this.el_ = null), this.player_ = null;
                     }
                 }, _proto.isDisposed = function() {
-                    return Boolean(this.isDisposed_);
+                    return !!this.isDisposed_;
                 }, _proto.player = function() {
                     return this.player_;
                 }, _proto.options = function(obj) {
@@ -5581,7 +5581,7 @@
                 }, _proto.play_ = function(callback) {
                     var _this10 = this;
                     void 0 === callback && (callback = silencePromise), this.playCallbacks_.push(callback);
-                    var isSrcReady = Boolean(!this.changingSrc_ && (this.src() || this.currentSrc()));
+                    var isSrcReady = !!(!this.changingSrc_ && (this.src() || this.currentSrc()));
                     if (this.waitToPlay_ && (this.off([
                         "ready",
                         "loadstart"
@@ -5668,7 +5668,7 @@
                 }, _proto.isFullscreen = function(isFS) {
                     if (void 0 !== isFS) {
                         var oldValue = this.isFullscreen_;
-                        this.isFullscreen_ = Boolean(isFS), this.isFullscreen_ !== oldValue && this.fsApi_.prefixed && this.trigger("fullscreenchange"), this.toggleFullscreenClass_();
+                        this.isFullscreen_ = !!isFS, this.isFullscreen_ !== oldValue && this.fsApi_.prefixed && this.trigger("fullscreenchange"), this.toggleFullscreenClass_();
                         return;
                     }
                     return this.isFullscreen_;
@@ -6082,7 +6082,7 @@
                 }, _proto.breakpoints = function(_breakpoints) {
                     return void 0 === _breakpoints || (this.breakpoint_ = "", this.breakpoints_ = assign({}, DEFAULT_BREAKPOINTS, _breakpoints), this.updateCurrentBreakpoint_()), assign(this.breakpoints_);
                 }, _proto.responsive = function(value) {
-                    return void 0 === value ? this.responsive_ : (value = Boolean(value)) !== this.responsive_ ? (this.responsive_ = value, value ? (this.on("playerresize", this.boundUpdateCurrentBreakpoint_), this.updateCurrentBreakpoint_()) : (this.off("playerresize", this.boundUpdateCurrentBreakpoint_), this.removeCurrentBreakpoint_()), value) : void 0;
+                    return void 0 === value ? this.responsive_ : (value = !!value) !== this.responsive_ ? (this.responsive_ = value, value ? (this.on("playerresize", this.boundUpdateCurrentBreakpoint_), this.updateCurrentBreakpoint_()) : (this.off("playerresize", this.boundUpdateCurrentBreakpoint_), this.removeCurrentBreakpoint_()), value) : void 0;
                 }, _proto.currentBreakpoint = function() {
                     return this.breakpoint_;
                 }, _proto.currentBreakpointClass = function() {
@@ -7321,7 +7321,7 @@
                     if (currentSidxInfo) {
                         var a, key = (0, mpd_parser__WEBPACK_IMPORTED_MODULE_9__.mm)(currentSidxInfo);
                         if (!oldSidxMapping[key]) break;
-                        (Boolean(!(a = oldSidxMapping[key].sidxInfo).map && !currentSidxInfo.map) || Boolean(a.map && currentSidxInfo.map && a.map.byterange.offset === currentSidxInfo.map.byterange.offset && a.map.byterange.length === currentSidxInfo.map.byterange.length)) && a.uri === currentSidxInfo.uri && a.byterange.offset === currentSidxInfo.byterange.offset && a.byterange.length === currentSidxInfo.byterange.length && (newSidxMapping[key] = oldSidxMapping[key]);
+                        (!(a = oldSidxMapping[key].sidxInfo).map && !currentSidxInfo.map || a.map && currentSidxInfo.map && a.map.byterange.offset === currentSidxInfo.map.byterange.offset && a.map.byterange.length === currentSidxInfo.map.byterange.length) && a.uri === currentSidxInfo.uri && a.byterange.offset === currentSidxInfo.byterange.offset && a.byterange.length === currentSidxInfo.byterange.length && (newSidxMapping[key] = oldSidxMapping[key]);
                     }
                 }
                 return newSidxMapping;
@@ -7503,7 +7503,7 @@
                     }), oldMaster = this.masterPlaylistLoader_.master;
                     oldMaster && (newMaster = updateMaster(oldMaster, newMaster, this.masterPlaylistLoader_.sidxMapping_)), this.masterPlaylistLoader_.master = newMaster || oldMaster;
                     var location = this.masterPlaylistLoader_.master.locations && this.masterPlaylistLoader_.master.locations[0];
-                    return location && location !== this.masterPlaylistLoader_.srcUrl && (this.masterPlaylistLoader_.srcUrl = location), (!oldMaster || newMaster && newMaster.minimumUpdatePeriod !== oldMaster.minimumUpdatePeriod) && this.updateMinimumUpdatePeriodTimeout_(), Boolean(newMaster);
+                    return location && location !== this.masterPlaylistLoader_.srcUrl && (this.masterPlaylistLoader_.srcUrl = location), (!oldMaster || newMaster && newMaster.minimumUpdatePeriod !== oldMaster.minimumUpdatePeriod) && this.updateMinimumUpdatePeriodTimeout_(), !!newMaster;
                 }, _proto.updateMinimumUpdatePeriodTimeout_ = function() {
                     var mpl = this.masterPlaylistLoader_;
                     mpl.createMupOnMedia_ && (mpl.off("loadedmetadata", mpl.createMupOnMedia_), mpl.createMupOnMedia_ = null), mpl.minimumUpdatePeriodTimeout_ && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(mpl.minimumUpdatePeriodTimeout_), mpl.minimumUpdatePeriodTimeout_ = null);
@@ -7533,7 +7533,7 @@
                     mediaChanged ? this.media_ = playlists[mediaID] : this.trigger("playlistunchanged"), this.mediaUpdateTimeout || function createMediaUpdateTimeout() {
                         _this9.media().endList || (_this9.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
                             _this9.trigger("mediaupdatetimeout"), createMediaUpdateTimeout();
-                        }, refreshDelay(_this9.media(), Boolean(mediaChanged))));
+                        }, refreshDelay(_this9.media(), !!mediaChanged)));
                     }(), this.trigger("loadedplaylist");
                 }, DashPlaylistLoader;
             }(EventTarget), Config = {
@@ -11147,7 +11147,7 @@
                     }, segment.key ? segment.encryptedBytes = new Uint8Array(newBytes) : segment.bytes = new Uint8Array(newBytes), finishProcessingFn(null, segment);
                 };
             }, transmuxAndNotify = function(_ref4) {
-                var segment = _ref4.segment, bytes = _ref4.bytes, trackInfoFn = _ref4.trackInfoFn, timingInfoFn = _ref4.timingInfoFn, videoSegmentTimingInfoFn = _ref4.videoSegmentTimingInfoFn, audioSegmentTimingInfoFn = _ref4.audioSegmentTimingInfoFn, id3Fn = _ref4.id3Fn, captionsFn = _ref4.captionsFn, isEndOfTimeline = _ref4.isEndOfTimeline, endedTimelineFn = _ref4.endedTimelineFn, dataFn = _ref4.dataFn, doneFn = _ref4.doneFn, onTransmuxerLog = _ref4.onTransmuxerLog, fmp4Tracks = segment.map && segment.map.tracks || {}, isMuxed = Boolean(fmp4Tracks.audio && fmp4Tracks.video), audioStartFn = timingInfoFn.bind(null, segment, "audio", "start"), audioEndFn = timingInfoFn.bind(null, segment, "audio", "end"), videoStartFn = timingInfoFn.bind(null, segment, "video", "start"), videoEndFn = timingInfoFn.bind(null, segment, "video", "end");
+                var segment = _ref4.segment, bytes = _ref4.bytes, trackInfoFn = _ref4.trackInfoFn, timingInfoFn = _ref4.timingInfoFn, videoSegmentTimingInfoFn = _ref4.videoSegmentTimingInfoFn, audioSegmentTimingInfoFn = _ref4.audioSegmentTimingInfoFn, id3Fn = _ref4.id3Fn, captionsFn = _ref4.captionsFn, isEndOfTimeline = _ref4.isEndOfTimeline, endedTimelineFn = _ref4.endedTimelineFn, dataFn = _ref4.dataFn, doneFn = _ref4.doneFn, onTransmuxerLog = _ref4.onTransmuxerLog, fmp4Tracks = segment.map && segment.map.tracks || {}, isMuxed = !!(fmp4Tracks.audio && fmp4Tracks.video), audioStartFn = timingInfoFn.bind(null, segment, "audio", "start"), audioEndFn = timingInfoFn.bind(null, segment, "audio", "end"), videoStartFn = timingInfoFn.bind(null, segment, "video", "start"), videoEndFn = timingInfoFn.bind(null, segment, "video", "end");
                 workerCallback({
                     action: "probeTs",
                     transmuxer: segment.transmuxer,
@@ -11990,7 +11990,7 @@
                         mediaIndex: null,
                         startOfSegment: null,
                         playlist: this.playlist_,
-                        isSyncRequest: Boolean(!this.syncPoint_)
+                        isSyncRequest: !this.syncPoint_
                     };
                     if (next.isSyncRequest) next.mediaIndex = getSyncSegmentCandidate(this.currentTimeline_, segments, bufferedEnd);
                     else if (null !== this.mediaIndex) {
@@ -13734,7 +13734,7 @@
                 var sharedLogLine = "allowing switch " + (currentPlaylist && currentPlaylist.id || "null") + " -> " + nextPlaylist.id;
                 if (!currentPlaylist) return log(sharedLogLine + " as current playlist is not set"), !0;
                 if (nextPlaylist.id === currentPlaylist.id) return !1;
-                var isBuffered = Boolean(findRange(buffered, currentTime).length);
+                var isBuffered = !!findRange(buffered, currentTime).length;
                 if (!currentPlaylist.endList) return isBuffered || "number" != typeof currentPlaylist.partTargetDuration ? (log(sharedLogLine + " as current playlist is live"), !0) : (log("not " + sharedLogLine + " as current playlist is live llhls, but currentTime isn't in buffered."), !1);
                 var forwardBuffer = timeAheadOf(buffered, currentTime), maxBufferLowWaterLine = experimentalBufferBasedABR ? Config.EXPERIMENTAL_MAX_BUFFER_LOW_WATER_LINE : Config.MAX_BUFFER_LOW_WATER_LINE;
                 if (duration < maxBufferLowWaterLine) return log(sharedLogLine + " as duration < max low water line (" + duration + " < " + maxBufferLowWaterLine + ")"), !0;
@@ -13754,7 +13754,7 @@
                     var _this, src = options.src, handleManifestRedirects = options.handleManifestRedirects, withCredentials = options.withCredentials, tech = options.tech, bandwidth = options.bandwidth, externVhs = options.externVhs, useCueTags = options.useCueTags, blacklistDuration = options.blacklistDuration, enableLowInitialPlaylist = options.enableLowInitialPlaylist, sourceType = options.sourceType, cacheEncryptionKeys = options.cacheEncryptionKeys, experimentalBufferBasedABR = options.experimentalBufferBasedABR, experimentalLeastPixelDiffSelector = options.experimentalLeastPixelDiffSelector, captionServices = options.captionServices;
                     if (!src) throw Error("A non-empty playlist URL or JSON manifest string is required");
                     var maxPlaylistRetries = options.maxPlaylistRetries;
-                    null == maxPlaylistRetries && (maxPlaylistRetries = 1 / 0), Vhs$1 = externVhs, _this.experimentalBufferBasedABR = Boolean(experimentalBufferBasedABR), _this.experimentalLeastPixelDiffSelector = Boolean(experimentalLeastPixelDiffSelector), _this.withCredentials = withCredentials, _this.tech_ = tech, _this.vhs_ = tech.vhs, _this.sourceType_ = sourceType, _this.useCueTags_ = useCueTags, _this.blacklistDuration = blacklistDuration, _this.maxPlaylistRetries = maxPlaylistRetries, _this.enableLowInitialPlaylist = enableLowInitialPlaylist, _this.useCueTags_ && (_this.cueTagsTrack_ = _this.tech_.addTextTrack("metadata", "ad-cues"), _this.cueTagsTrack_.inBandMetadataTrackDispatchType = ""), _this.requestOptions_ = {
+                    null == maxPlaylistRetries && (maxPlaylistRetries = 1 / 0), Vhs$1 = externVhs, _this.experimentalBufferBasedABR = !!experimentalBufferBasedABR, _this.experimentalLeastPixelDiffSelector = !!experimentalLeastPixelDiffSelector, _this.withCredentials = withCredentials, _this.tech_ = tech, _this.vhs_ = tech.vhs, _this.sourceType_ = sourceType, _this.useCueTags_ = useCueTags, _this.blacklistDuration = blacklistDuration, _this.maxPlaylistRetries = maxPlaylistRetries, _this.enableLowInitialPlaylist = enableLowInitialPlaylist, _this.useCueTags_ && (_this.cueTagsTrack_ = _this.tech_.addTextTrack("metadata", "ad-cues"), _this.cueTagsTrack_.inBandMetadataTrackDispatchType = ""), _this.requestOptions_ = {
                         withCredentials: withCredentials,
                         handleManifestRedirects: handleManifestRedirects,
                         maxPlaylistRetries: maxPlaylistRetries,

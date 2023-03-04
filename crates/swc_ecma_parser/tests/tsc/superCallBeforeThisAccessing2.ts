@@ -1,4 +1,4 @@
-class Base {
+﻿class Base {
     constructor(c) { }
 }
 class D extends Base {

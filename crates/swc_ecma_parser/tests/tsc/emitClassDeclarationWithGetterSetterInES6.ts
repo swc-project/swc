@@ -1,4 +1,4 @@
-// @target:es6
+﻿// @target:es6
 class C {
     _name: string;
     get name(): string {

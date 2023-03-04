@@ -1,4 +1,4 @@
-// @target: es5
+﻿// @target: es5
 
 var globalCounter = 0;
 function incrementIdx(max: number) {

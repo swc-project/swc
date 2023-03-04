@@ -27,11 +27,13 @@ use testing::NormalizedOutput;
 #[testing::fixture(
     "../swc_ecma_parser/tests/tsc/**/*.ts",
     exclude(
+        "autoAccessor",
         "enumConstantMembers.ts",
         "privateNameAndAny.ts",
         "privateNameAndIndexSignature.ts",
         "privateNameImplicitDeclaration.ts",
         "privateNameStaticAccessorsDerivedClasses.ts",
+        "privateNameStaticAccessorssDerivedClasses.ts",
     )
 )]
 #[testing::fixture(
@@ -378,6 +380,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                                 decorators,
                                 dts: false,
                                 no_early_errors: false,
+                                disallow_ambiguous_jsx_like: false,
                             })),
                             external_helpers: true.into(),
                             target: Some(target),

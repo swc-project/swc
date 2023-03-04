@@ -6,7 +6,7 @@ use std::{
 use pretty_assertions::assert_eq;
 use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput};
+use swc_ecma_parser::{lexer::Lexer, PResult, Parser};
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::{run_test, StdErr};
 
@@ -21,7 +21,7 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, ()>
 where
-    F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>) -> PResult<Ret>,
+    F: FnOnce(&mut Parser<Lexer>) -> PResult<Ret>,
 {
     let fm = cm
         .load_file(file_name)

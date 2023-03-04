@@ -165,6 +165,17 @@ impl Default for Syntax {
 }
 
 impl Syntax {
+    fn auto_accessors(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                auto_accessors: true,
+                ..
+            }) => true,
+            Syntax::Typescript(_) => true,
+            _ => false,
+        }
+    }
+
     pub fn import_assertions(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
@@ -264,6 +275,13 @@ impl Syntax {
             Syntax::Es(..) => true,
         }
     }
+
+    fn disallow_ambiguous_jsx_like(self) -> bool {
+        match self {
+            Syntax::Typescript(t) => t.disallow_ambiguous_jsx_like,
+            _ => false,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
@@ -281,6 +299,14 @@ pub struct TsConfig {
 
     #[serde(skip, default)]
     pub no_early_errors: bool,
+
+    /// babel: `disallowAmbiguousJSXLike`
+    /// Even when JSX parsing is not enabled, this option disallows using syntax
+    /// that would be ambiguous with JSX (`<X> y` type assertions and
+    /// `<X>()=>{}` type arguments)
+    /// see: https://babeljs.io/docs/en/babel-plugin-transform-typescript#disallowambiguousjsxlike
+    #[serde(skip, default)]
+    pub disallow_ambiguous_jsx_like: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
@@ -317,6 +343,9 @@ pub struct EsConfig {
 
     #[serde(default, rename = "allowReturnOutsideFunction")]
     pub allow_return_outside_function: bool,
+
+    #[serde(default)]
+    pub auto_accessors: bool,
 }
 
 /// Syntactic context.
@@ -405,7 +434,7 @@ pub fn with_file_parser<T>(
     target: EsVersion,
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
-    op: impl for<'aa> FnOnce(&mut Parser<Lexer<SourceFileInput<'aa>>>) -> PResult<T>,
+    op: impl for<'aa> FnOnce(&mut Parser<Lexer>) -> PResult<T>,
 ) -> PResult<T> {
     let lexer = Lexer::new(syntax, target, SourceFileInput::from(fm), comments);
     let mut p = Parser::new_from(lexer);

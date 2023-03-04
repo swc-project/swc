@@ -1,4 +1,4 @@
-// @removeComments: false
+﻿// @removeComments: false
 
 const a = 1;
 const f1 = () =>

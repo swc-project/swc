@@ -880,6 +880,7 @@ abstract
 accent-color
 accept
 accesskey
+accessor
 acos
 acronym
 action

@@ -1,3 +1,2 @@
 //// [templateStringMultiline3.ts]
-// newlines are <CR>
-"\n";
+// newlines are <CR>`\`

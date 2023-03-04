@@ -1,4 +1,4 @@
-// @target: es5
+﻿// @target: es5
 
 function f() {
     var { arguments } = { arguments: "hello" };

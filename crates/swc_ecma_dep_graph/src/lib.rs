@@ -147,9 +147,14 @@ impl<'a> Visit for DependencyCollector<'a> {
     fn visit_export_all(&mut self, node: &ast::ExportAll) {
         let specifier = node.src.value.clone();
         let leading_comments = self.get_leading_comments(node.span);
+        let kind = if node.type_only {
+            DependencyKind::ExportType
+        } else {
+            DependencyKind::Export
+        };
         let import_assertions = parse_import_assertions(node.asserts.as_deref());
         self.items.push(DependencyDescriptor {
-            kind: DependencyKind::Export,
+            kind,
             is_dynamic: false,
             leading_comments,
             span: node.span,
@@ -375,7 +380,7 @@ mod tests {
         comments::{Comment, CommentKind, SingleThreadedComments},
         BytePos, FileName, Span, SyntaxContext,
     };
-    use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+    use swc_ecma_parser::{lexer::Lexer, Parser, Syntax, TsConfig};
 
     use super::*;
 
@@ -388,12 +393,13 @@ mod tests {
                 cm.new_source_file(FileName::Custom(file_name.to_string()), source.to_string());
 
             let comments = SingleThreadedComments::default();
-            let lexer: Lexer<StringInput<'_>> = Lexer::new(
+            let lexer: Lexer = Lexer::new(
                 Syntax::Typescript(TsConfig {
                     dts: file_name.ends_with(".d.ts"),
                     tsx: file_name.contains("tsx"),
                     decorators: true,
                     no_early_errors: true,
+                    disallow_ambiguous_jsx_like: false,
                 }),
                 EsVersion::Es2015,
                 (&*fm).into(),

@@ -256,7 +256,6 @@ pub enum SyntaxError {
     TS1273(JsWord),
     TS1274(JsWord),
     TS1277(JsWord),
-    TS1383,
     TS2206,
     TS2207,
     TS2369,
@@ -279,6 +278,9 @@ pub enum SyntaxError {
         span: Span,
         note: &'static str,
     },
+
+    ReservedTypeAssertion,
+    ReservedArrowTypeParam,
 }
 
 impl SyntaxError {
@@ -656,7 +658,6 @@ impl SyntaxError {
                 word
             )
             .into(),
-            SyntaxError::TS1383 => "Only named exports may use 'export type'.".into(),
             SyntaxError::TS2206 => "The 'type' modifier cannot be used on a named import when \
                                     'import type' is used on its import statement."
                 .into(),
@@ -711,6 +712,14 @@ impl SyntaxError {
                 format!("Unexpected token. Did you mean {}?", did_you_mean).into()
             }
             SyntaxError::WithLabel { inner, .. } => inner.error.1.msg(),
+            SyntaxError::ReservedTypeAssertion => "This syntax is reserved in files with the .mts \
+                                                   or .cts extension. Use an `as` expression \
+                                                   instead."
+                .into(),
+            SyntaxError::ReservedArrowTypeParam => "This syntax is reserved in files with the \
+                                                    .mts or .cts extension. Add a trailing comma, \
+                                                    as in `<T,>() => ...`."
+                .into(),
         }
     }
 }

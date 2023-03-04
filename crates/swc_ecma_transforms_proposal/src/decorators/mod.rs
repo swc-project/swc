@@ -57,10 +57,7 @@ mod legacy;
 /// ```
 pub fn decorators(c: Config) -> impl Fold {
     if c.legacy {
-        Either::Left(as_folder(self::legacy::new(
-            c.emit_metadata,
-            c.use_define_for_class_fields,
-        )))
+        Either::Left(as_folder(self::legacy::new(c.emit_metadata)))
     } else {
         if c.emit_metadata {
             unimplemented!("emitting decorator metadata while using new proposal")

@@ -1,0 +1,1 @@
+//// [inferTypesInvalidExtendsDeclaration.ts]

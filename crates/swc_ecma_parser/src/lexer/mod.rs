@@ -5,7 +5,7 @@ use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use swc_atoms::{Atom, AtomGenerator};
-use swc_common::{comments::Comments, BytePos, Span};
+use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{op, EsVersion};
 
 use self::{comments_buffer::CommentsBuffer, state::State, util::*};
@@ -98,13 +98,13 @@ impl Iterator for CharIter {
 impl FusedIterator for CharIter {}
 
 #[derive(Clone)]
-pub struct Lexer<'a, I: Input> {
+pub struct Lexer<'a> {
     comments: Option<&'a dyn Comments>,
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
     comments_buffer: Option<CommentsBuffer>,
 
     pub(crate) ctx: Context,
-    input: I,
+    input: StringInput<'a>,
     start_pos: BytePos,
 
     state: State,
@@ -119,13 +119,13 @@ pub struct Lexer<'a, I: Input> {
     buf: Rc<RefCell<String>>,
 }
 
-impl<I: Input> FusedIterator for Lexer<'_, I> {}
+impl FusedIterator for Lexer<'_> {}
 
-impl<'a, I: Input> Lexer<'a, I> {
+impl<'a> Lexer<'a> {
     pub fn new(
         syntax: Syntax,
         target: EsVersion,
-        input: I,
+        input: StringInput<'a>,
         comments: Option<&'a dyn Comments>,
     ) -> Self {
         let start_pos = input.last_pos();
@@ -149,7 +149,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Utility method to reuse buffer.
     fn with_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
     where
-        F: for<'any> FnOnce(&mut Lexer<'any, I>, &mut String) -> LexResult<Ret>,
+        F: for<'any> FnOnce(&mut Lexer<'any>, &mut String) -> LexResult<Ret>,
     {
         let b = self.buf.clone();
         let mut buf = b.borrow_mut();
@@ -691,7 +691,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 }
 
-impl<'a, I: Input> Lexer<'a, I> {
+impl<'a> Lexer<'a> {
     #[inline(never)]
     fn read_slash(&mut self) -> LexResult<Option<Token>> {
         debug_assert_eq!(self.cur(), Some('/'));

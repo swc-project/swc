@@ -7,7 +7,7 @@ use sourcemap::SourceMap;
 use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 
 static IGNORED_PASS_TESTS: &[&str] = &[
@@ -306,7 +306,7 @@ fn identity(entry: PathBuf) {
             (&*fm).into(),
             Some(&comments),
         );
-        let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
+        let mut parser: Parser<Lexer> = Parser::new_from(lexer);
         let mut src_map = vec![];
 
         {

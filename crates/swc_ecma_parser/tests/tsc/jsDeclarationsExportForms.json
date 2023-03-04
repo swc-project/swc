@@ -99,6 +99,7 @@
         "value": "./cls",
         "raw": "\"./cls\""
       },
+      "typeOnly": false,
       "asserts": null
     },
     {
@@ -118,6 +119,7 @@
         "value": "./func",
         "raw": "\"./func\""
       },
+      "typeOnly": false,
       "asserts": null
     },
     {
@@ -137,6 +139,7 @@
         "value": "./cls",
         "raw": "\"./cls\""
       },
+      "typeOnly": false,
       "asserts": null
     },
     {

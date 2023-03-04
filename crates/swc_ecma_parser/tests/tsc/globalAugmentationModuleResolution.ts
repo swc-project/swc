@@ -1,4 +1,4 @@
-// @traceResolution: true
+﻿// @traceResolution: true
 
 // @fileName: a.ts
 export { };

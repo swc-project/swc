@@ -517,6 +517,7 @@ define!({
         TsIndexSignature(TsIndexSignature),
         Empty(EmptyStmt),
         StaticBlock(StaticBlock),
+        AutoAccessor(AutoAccessor),
     }
 
     pub struct ClassProp {
@@ -1058,6 +1059,7 @@ define!({
     pub struct ExportAll {
         pub span: Span,
         pub src: Box<Str>,
+        pub type_only: bool,
         pub asserts: Option<Box<ObjectLit>>,
     }
     pub struct NamedExport {
@@ -1826,6 +1828,21 @@ define!({
     pub struct ReservedUnused {
         pub span: Span,
         pub body: Option<Vec<ModuleItem>>,
+    }
+
+    pub struct AutoAccessor {
+        pub span: Span,
+        pub key: Key,
+        pub value: Option<Box<Expr>>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
+        pub is_static: bool,
+        pub decorators: Vec<Decorator>,
+        pub accessibility: Option<Accessibility>,
+    }
+
+    pub enum Key {
+        Private(PrivateName),
+        Public(PropName),
     }
 });
 

@@ -1,4 +1,4 @@
-//@target: es6
+﻿//@target: es6
 function foo(strs: TemplateStringsArray): number;
 function foo(strs: TemplateStringsArray, x: number): string;
 function foo(strs: TemplateStringsArray, x: number, y: number): boolean;

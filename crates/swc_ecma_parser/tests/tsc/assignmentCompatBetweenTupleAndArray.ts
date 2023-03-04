@@ -1,4 +1,4 @@
-var numStrTuple: [number, string];
+﻿var numStrTuple: [number, string];
 var numNumTuple: [number, number];
 var numEmptyObjTuple: [number, {}];
 var emptyObjTuple: [{}];

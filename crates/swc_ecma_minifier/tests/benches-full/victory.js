@@ -9640,9 +9640,9 @@
                     {
                         key: "render",
                         value: function() {
-                            var arr, animationWhitelist = VictoryAxis.animationWhitelist, props = victory_core__WEBPACK_IMPORTED_MODULE_4__.Axis.modifyProps(this.props, fallbackProps);
+                            var animationWhitelist = VictoryAxis.animationWhitelist, props = victory_core__WEBPACK_IMPORTED_MODULE_4__.Axis.modifyProps(this.props, fallbackProps);
                             if (this.shouldAnimate()) return this.animateComponent(props, animationWhitelist);
-                            var gridAndTicks = this.renderGridAndTicks(props), children = [
+                            var gridAndTicks = this.renderGridAndTicks(props), modifiedGridAndTicks = props.fixLabelOverlap ? this.fixLabelOverlap(gridAndTicks, props) : gridAndTicks, children = [
                                 this.renderLine(props),
                                 this.renderLabel(props)
                             ].concat(function(arr) {
@@ -9650,9 +9650,9 @@
                                     for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                                     return arr2;
                                 }
-                            }(arr = props.fixLabelOverlap ? this.fixLabelOverlap(gridAndTicks, props) : gridAndTicks) || function(iter) {
+                            }(modifiedGridAndTicks) || function(iter) {
                                 if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
-                            }(arr) || function() {
+                            }(modifiedGridAndTicks) || function() {
                                 throw TypeError("Invalid attempt to spread non-iterable instance");
                             }());
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.groupComponent, {}, children);
@@ -26588,7 +26588,7 @@
                     {
                         key: "shouldAnimate",
                         value: function() {
-                            return Boolean(this.props.animate);
+                            return !!this.props.animate;
                         }
                     },
                     {

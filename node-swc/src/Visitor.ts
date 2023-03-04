@@ -171,6 +171,7 @@ import {
   TsConstAssertion,
   Import,
   SuperPropExpression,
+  BindingIdentifier,
 } from "./types";
 
 export class Visitor {
@@ -1730,7 +1731,10 @@ export class Visitor {
     return node;
   }
 
-  visitBindingIdentifier(i: Identifier): Identifier {
+  visitBindingIdentifier(i: BindingIdentifier): BindingIdentifier {
+    if (i.typeAnnotation) {
+      i.typeAnnotation = this.visitTsTypeAnnotation(i.typeAnnotation);
+    }
     return this.visitIdentifier(i);
   }
 

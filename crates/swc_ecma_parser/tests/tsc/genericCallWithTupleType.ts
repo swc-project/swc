@@ -1,4 +1,4 @@
-interface I<T, U> {
+﻿interface I<T, U> {
     tuple1: [T, U];
 } 
 

@@ -1,4 +1,4 @@
-// Conformance for emitting ES6
+﻿// Conformance for emitting ES6
 // @target: es6
 
 // A parameter declaration may specify either an identifier or a binding pattern.

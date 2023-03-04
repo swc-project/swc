@@ -1,4 +1,4 @@
-const arrow = (param)=>Boolean(param);
+const arrow = (param)=>!!param;
 const obj = {
     method1 () {
         return "hello";

@@ -1,4 +1,65 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(bindings/node)** Fix `visitBindingIdentifier` (#7000) ([30cff01](https://github.com/swc-project/swc/commit/30cff016563d8925ef2b150a669ac4b6de968b82))
+
+
+- **(es/minifier)** Don't skip expressions with side effects from seq inliner (#7007) ([cfeb088](https://github.com/swc-project/swc/commit/cfeb088c37bdc2a5df79f10d2b93ce84cb12542b))
+
+
+- **(es/minifier)** Don't create invalid property names (#7010) ([bb2486c](https://github.com/swc-project/swc/commit/bb2486c4592214c19ee6a1aa747dda5e58a1b07d))
+
+### Features
+
+
+
+- **(es/minifier)** Optimize calls to `Boolean`/`Number`/`String`/`Symbol` (#7006) ([06cbb90](https://github.com/swc-project/swc/commit/06cbb9002da2bdc04440b6ace28432839f42ccdf))
+
+
+- **(es/parser)** Support auto accessors (#6981) ([37533a2](https://github.com/swc-project/swc/commit/37533a23fde30fe054bf321e7ca7a10a346c2f79))
+
+
+- **(es/parser)** Add an option to disallow ambiguous jsx (#6913) ([a6471f3](https://github.com/swc-project/swc/commit/a6471f34c0786bd0e80b3b4c5356929ebb0a8483))
+
+
+- **(es/typescript)** Support `export type * from "mod"` (#6867) ([beb38d3](https://github.com/swc-project/swc/commit/beb38d34a26016051eb0ed364ea1112f416955ac))
+
+### Refactor
+
+
+
+- **(es/parser)** Make lexer not generic over `Input` (#6993) ([367ac82](https://github.com/swc-project/swc/commit/367ac825f6bfab65cf8bcb21e68500daef8ad177))
+
+## [1.3.37] - 2023-02-28
+
+### Bug Fixes
+
+
+
+- **(bindings/cli)** Implement `source-file-name` and `source-root` options (#6973) ([3e3e41a](https://github.com/swc-project/swc/commit/3e3e41a1756519515df193db903f6992995420e9))
+
+
+- **(css/utils)** Fix minification of class names with whitespace (#6983) ([cc1d9bd](https://github.com/swc-project/swc/commit/cc1d9bd567340203d5d2bd228a4d0b19f8052202))
+
+
+- **(es/decorator)** Preserve evaluation order (#6972) ([703b340](https://github.com/swc-project/swc/commit/703b340d39c3efb69f4a0d375ab6e5a2f9a4acd9))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/parser)** Reduce pre-allocation to reduce memory usage (#6979) ([f1e7a2a](https://github.com/swc-project/swc/commit/f1e7a2a9cc74b19597e9d7105852daf4672514a2))
+
+### Testing
+
+
+
+- **(es/tsc)** Update tsc test suite (#6982) ([b887b30](https://github.com/swc-project/swc/commit/b887b30092c77ec67eedb7f1dd0b5570a1a16eea))
+
 ## [1.3.36] - 2023-02-21
 
 ### Bug Fixes

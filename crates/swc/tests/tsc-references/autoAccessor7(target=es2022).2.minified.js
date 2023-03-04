@@ -1,0 +1,1 @@
+//// [autoAccessor7.ts]
