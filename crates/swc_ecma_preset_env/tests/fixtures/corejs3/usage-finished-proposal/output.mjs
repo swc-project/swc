@@ -1,4 +1,6 @@
 import "core-js/modules/es.array.at.js";
+import "core-js/modules/es.array.find-last-index.js";
+import "core-js/modules/es.array.find-last.js";
 import "core-js/modules/es.array.iterator.js";
 import "core-js/modules/es.global-this.js";
 import "core-js/modules/es.object.to-string.js";
@@ -14,3 +16,10 @@ import "core-js/modules/web.dom-collections.iterator.js";
 "ads".replaceAll();
 globalThis.a;
 Promise.allSettled([]);
+var array = [
+    1,
+    2,
+    3
+];
+array.findLastIndex();
+array.findLast();
