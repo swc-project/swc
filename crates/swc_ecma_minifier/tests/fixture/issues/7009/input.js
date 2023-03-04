@@ -12,3 +12,9 @@ export const example4 = (param) =>
 
 export const example5 = (param) =>
   param => param[123];
+
+export class Foo extends Bar {
+  foo() {
+    super["a space b"]();
+  }
+}

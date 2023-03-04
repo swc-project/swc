@@ -51,6 +51,10 @@ where
                             return;
                         }
 
+                        if !is_valid_prop_ident(&s.value) {
+                            return;
+                        }
+
                         self.changed = true;
                         report_change!("arguments: Optimizing computed access to arguments");
                         *prop = SuperProp::Ident(Ident {
