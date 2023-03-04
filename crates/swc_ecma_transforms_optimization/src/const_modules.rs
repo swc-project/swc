@@ -1,20 +1,28 @@
-use std::{collections::HashMap, sync::Arc};
+use std::{
+    collections::{HashMap, HashSet},
+    sync::Arc,
+};
 
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{errors::HANDLER, sync::Lrc, util::move_map::MoveMap, FileName, SourceMap};
+use swc_common::{
+    errors::HANDLER,
+    sync::Lrc,
+    util::{move_map::MoveMap, take::Take},
+    FileName, SourceMap,
+};
 use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn const_modules(
     cm: Lrc<SourceMap>,
     globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>,
 ) -> impl Fold {
-    ConstModules {
+    as_folder(ConstModules {
         globals: globals
             .into_iter()
             .map(|(src, map)| {
@@ -31,7 +39,7 @@ pub fn const_modules(
             })
             .collect(),
         scope: Default::default(),
-    }
+    })
 }
 
 fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
@@ -77,36 +85,45 @@ struct ConstModules {
 
 #[derive(Default)]
 struct Scope {
+    namespace: HashSet<Id>,
     imported: HashMap<JsWord, Arc<Expr>>,
 }
 
-/// TODO: VisitMut
-impl Fold for ConstModules {
-    noop_fold_type!();
+impl VisitMut for ConstModules {
+    noop_visit_mut_type!();
 
-    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        items.move_flat_map(|item| match item {
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        *n = n.take().move_flat_map(|item| match item {
             ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                 let entry = self.globals.get(&import.src.value);
-
                 if let Some(entry) = entry {
                     for s in &import.specifiers {
-                        let i = match *s {
-                            ImportSpecifier::Named(ref s) => &s.local,
-                            ImportSpecifier::Namespace(..) => unimplemented!(
-                                "const modules does not support namespace import yet"
-                            ),
+                        match *s {
+                            ImportSpecifier::Named(ref s) => {
+                                let imported = s
+                                    .imported
+                                    .as_ref()
+                                    .map(|m| match m {
+                                        ModuleExportName::Ident(id) => &id.sym,
+                                        ModuleExportName::Str(s) => &s.value,
+                                    })
+                                    .unwrap_or(&s.local.sym);
+                                let value = entry.get(imported).cloned().unwrap_or_else(|| {
+                                    panic!(
+                                        "The requested const_module `{}` does not provide an \
+                                         export named `{}`",
+                                        import.src.value, imported
+                                    )
+                                });
+                                self.scope.imported.insert(imported.clone(), value);
+                            }
+                            ImportSpecifier::Namespace(ref s) => {
+                                self.scope.namespace.insert(s.local.to_id());
+                            }
                             ImportSpecifier::Default(..) => {
-                                panic!("const_modules does not support default import")
+                                panic!("const_module does not support default import")
                             }
                         };
-                        let value = entry.get(&i.sym).cloned().unwrap_or_else(|| {
-                            panic!(
-                                "const_modules: {} does not contain flags named {}",
-                                import.src.value, i.sym
-                            )
-                        });
-                        self.scope.imported.insert(i.sym.clone(), value);
                     }
 
                     None
@@ -114,42 +131,64 @@ impl Fold for ConstModules {
                     Some(ModuleItem::ModuleDecl(ModuleDecl::Import(import)))
                 }
             }
-            _ => Some(item.fold_with(self)),
+            _ => Some(item),
+        });
+
+        n.iter_mut().for_each(|item| {
+            if let ModuleItem::Stmt(stmt) = item {
+                stmt.visit_mut_with(self);
+            }
         })
     }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = match expr {
-            Expr::Member(expr) => Expr::Member(MemberExpr {
-                obj: expr.obj.fold_with(self),
-                prop: if let MemberProp::Computed(c) = expr.prop {
-                    MemberProp::Computed(c.fold_with(self))
-                } else {
-                    expr.prop
-                },
-                ..expr
-            }),
-
-            Expr::SuperProp(expr) => Expr::SuperProp(SuperPropExpr {
-                prop: if let SuperProp::Computed(c) = expr.prop {
-                    SuperProp::Computed(c.fold_with(self))
-                } else {
-                    expr.prop
-                },
-                ..expr
-            }),
-            _ => expr.fold_children_with(self),
-        };
-        match expr {
-            Expr::Ident(Ident { ref sym, .. }) => {
-                // It's ok because we don't recurse into member expressions.
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        match n {
+            Expr::Ident(ref id @ Ident { ref sym, .. }) => {
                 if let Some(value) = self.scope.imported.get(sym) {
-                    (**value).clone()
-                } else {
-                    expr
+                    *n = (**value).clone();
+                    return;
+                }
+
+                if let Some(..) = self.scope.namespace.get(&id.to_id()) {
+                    panic!(
+                        "The const_module namespace `{}` cannot be used without member accessor",
+                        sym
+                    )
                 }
             }
-            _ => expr,
-        }
+            Expr::Member(MemberExpr { obj, prop, .. }) if obj.is_ident() => {
+                let member_obj = obj.as_ident().unwrap();
+
+                if self.scope.namespace.contains(&member_obj.to_id()) {
+                    let module_name = &member_obj.sym;
+
+                    let imported_name = match prop {
+                        MemberProp::Ident(ref id) => &id.sym,
+                        MemberProp::Computed(ref p) => match &*p.expr {
+                            Expr::Lit(Lit::Str(s)) => &s.value,
+                            _ => return,
+                        },
+                        MemberProp::PrivateName(..) => return,
+                    };
+
+                    let value = self
+                        .globals
+                        .get(module_name)
+                        .and_then(|entry| entry.get(imported_name))
+                        .unwrap_or_else(|| {
+                            panic!(
+                                "The requested const_module `{}` does not provide an export named \
+                                 `{}`",
+                                module_name, imported_name
+                            )
+                        });
+
+                    *n = (**value).clone();
+                }
+            }
+            e => {
+                e.visit_mut_children_with(self);
+            }
+        };
     }
 }
