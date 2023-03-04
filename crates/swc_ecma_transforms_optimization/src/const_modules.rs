@@ -134,11 +134,15 @@ impl VisitMut for ConstModules {
             _ => Some(item),
         });
 
+        if self.scope.imported.is_empty() && self.scope.namespace.is_empty() {
+            return;
+        }
+
         n.iter_mut().for_each(|item| {
             if let ModuleItem::Stmt(stmt) = item {
                 stmt.visit_mut_with(self);
             }
-        })
+        });
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
