@@ -79,25 +79,32 @@ static MAP_DEPENDENCIES: &[&str] = &concat2::<19>(
     COMMON_ITERATORS_WITH_TAG,
 );
 
-static SET_DEPENDENCIES: &[&str] = &concat2::<21>(
+static SET_DEPENDENCIES: &[&str] = &concat2::<28>(
     &[
         "es.set",
         "esnext.set.add-all",
         "esnext.set.delete-all",
         "esnext.set.difference",
+        "esnext.set.difference.v2",
         "esnext.set.every",
         "esnext.set.filter",
         "esnext.set.find",
         "esnext.set.intersection",
+        "esnext.set.intersection.v2",
         "esnext.set.is-disjoint-from",
+        "esnext.set.is-disjoint-from.v2",
         "esnext.set.is-subset-of",
+        "esnext.set.is-subset-of.v2",
         "esnext.set.is-superset-of",
+        "esnext.set.is-superset-of.v2",
         "esnext.set.join",
         "esnext.set.map",
         "esnext.set.reduce",
         "esnext.set.some",
         "esnext.set.symmetric-difference",
+        "esnext.set.symmetric-difference.v2",
         "esnext.set.union",
+        "esnext.set.union.v2",
     ],
     COMMON_ITERATORS_WITH_TAG,
 );
@@ -120,18 +127,29 @@ static WEAK_SET_DEPENDENCIES: &[&str] = &concat2::<7>(
     COMMON_ITERATORS_WITH_TAG,
 );
 
-static URL_SEARCH_PARAMS_DEPENDENCIES: &[&str] =
-    &concat2::<5>(&["web.url-search-params"], COMMON_ITERATORS_WITH_TAG);
+static URL_SEARCH_PARAMS_DEPENDENCIES: &[&str] = &concat2::<6>(
+    &["web.url-search-params", "web.url-search-params.size"],
+    COMMON_ITERATORS_WITH_TAG,
+);
 
-pub static REGEXP_DEPENDENCIES: &[&str] = &["es.regexp.constructor"];
+pub static REGEXP_DEPENDENCIES: &[&str] = &[
+    "es.regexp.constructor",
+    "es.regexp.dot-all",
+    "es.regexp.exec",
+    "es.regexp.sticky",
+    "es.regexp.to-string",
+];
 
 static TYPED_ARRAY: &[&str] = &[
+    "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
     "es.typed-array.fill",
     "es.typed-array.filter",
     "es.typed-array.find",
     "es.typed-array.find-index",
+    "es.typed-array.find-last",
+    "es.typed-array.find-last-index",
     "es.typed-array.for-each",
     "es.typed-array.includes",
     "es.typed-array.index-of",
@@ -148,38 +166,43 @@ static TYPED_ARRAY: &[&str] = &[
     "es.typed-array.sort",
     "es.typed-array.subarray",
     "es.typed-array.to-locale-string",
+    "es.typed-array.to-reversed",
+    "es.typed-array.to-sorted",
     "es.typed-array.to-string",
+    "es.typed-array.with",
     "es.object.to-string",
     "es.array.iterator",
     "es.array-buffer.slice",
+    "esnext.array-buffer.detached",
+    "esnext.array-buffer.transfer",
+    "esnext.array-buffer.transfer-to-fixed-length",
     "esnext.typed-array.filter-reject",
-    "esnext.typed-array.find-last",
-    "esnext.typed-array.find-last-index",
     "esnext.typed-array.group-by",
-    "esnext.typed-array.to-reversed",
-    "esnext.typed-array.to-sorted",
     "esnext.typed-array.to-spliced",
     "esnext.typed-array.unique-by",
-    "esnext.typed-array.with",
 ];
 
-static FLOAT32_ARRAY: &[&str] = &concat2::<36>(TYPED_ARRAY, &["es.typed-array.float32-array"]);
-static FLOAT64_ARRAY: &[&str] = &concat2::<36>(TYPED_ARRAY, &["es.typed-array.float64-array"]);
-static INT8_ARRAY: &[&str] = &concat2::<36>(TYPED_ARRAY, &["es.typed-array.int8-array"]);
-static INT16_ARRAY: &[&str] = &concat2::<36>(TYPED_ARRAY, &["es.typed-array.int16-array"]);
-static INT32_ARRAY: &[&str] = &concat2::<36>(TYPED_ARRAY, &["es.typed-array.int32-array"]);
-static UINT8_ARRAY: &[&str] = &concat2::<36>(TYPED_ARRAY, &["es.typed-array.uint8-array"]);
+static FLOAT32_ARRAY: &[&str] = &concat2::<40>(TYPED_ARRAY, &["es.typed-array.float32-array"]);
+static FLOAT64_ARRAY: &[&str] = &concat2::<40>(TYPED_ARRAY, &["es.typed-array.float64-array"]);
+static INT8_ARRAY: &[&str] = &concat2::<40>(TYPED_ARRAY, &["es.typed-array.int8-array"]);
+static INT16_ARRAY: &[&str] = &concat2::<40>(TYPED_ARRAY, &["es.typed-array.int16-array"]);
+static INT32_ARRAY: &[&str] = &concat2::<40>(TYPED_ARRAY, &["es.typed-array.int32-array"]);
+static UINT8_ARRAY: &[&str] = &concat2::<40>(TYPED_ARRAY, &["es.typed-array.uint8-array"]);
 static UINT8_CLAMPED_ARRAY: &[&str] =
-    &concat2::<36>(TYPED_ARRAY, &["es.typed-array.uint8-clamped-array"]);
-static UINT16_ARRAY: &[&str] = &concat2::<36>(TYPED_ARRAY, &["es.typed-array.uint16-array"]);
-static UINT32_ARRAY: &[&str] = &concat2::<36>(TYPED_ARRAY, &["es.typed-array.uint32-array"]);
+    &concat2::<40>(TYPED_ARRAY, &["es.typed-array.uint8-clamped-array"]);
+static UINT16_ARRAY: &[&str] = &concat2::<40>(TYPED_ARRAY, &["es.typed-array.uint16-array"]);
+static UINT32_ARRAY: &[&str] = &concat2::<40>(TYPED_ARRAY, &["es.typed-array.uint32-array"]);
 
-static OBSERVEABLE: &[&str] = &concat2::<6>(
-    &["esnext.observable", "esnext.symbol.observable"],
+static OBSERVEABLE: &[&str] = &concat2::<7>(
+    &[
+        "esnext.observable",
+        "esnext.symbol.observable",
+        "es.object.to-string",
+    ],
     COMMON_ITERATORS_WITH_TAG,
 );
 
-static URL_DEP: &[&str] = &concat2::<6>(&["web.url"], URL_SEARCH_PARAMS_DEPENDENCIES);
+static URL_DEP: &[&str] = &concat2::<7>(&["web.url"], URL_SEARCH_PARAMS_DEPENDENCIES);
 
 static DOM_EXCEPTION: &[&str] = &[
     "web.dom-exception.constructor",
@@ -202,6 +225,9 @@ static STRUCTURE_CLONE: &[&str] = &concat2::<10>(
 );
 
 static ERROR_DEP: &[&str] = &["es.error.cause", "es.error.to-string"];
+static SUPPRESSED_ERROR_DEP: &[&str] =
+    &concat2::<3>(ERROR_DEP, &["esnext.suppressed-error.constructor"]);
+
 static AGGREGATE_ERROR_DEP: &[&str] = &concat2::<8>(
     COMMON_ITERATORS_WITH_TAG,
     &[
@@ -212,7 +238,27 @@ static AGGREGATE_ERROR_DEP: &[&str] = &concat2::<8>(
     ],
 );
 
+static DISPOSABLE_STACK_DEP: &[&str] = &concat2::<6>(
+    SUPPRESSED_ERROR_DEP,
+    &[
+        "esnext.disposable-stack.constructor",
+        "es.object.to-string",
+        "esnext.iterator.dispose",
+    ],
+);
+
+static ASYNC_DISPOSABLE_STACK_DEP: &[&str] = &concat2::<9>(
+    &concat2::<5>(SUPPRESSED_ERROR_DEP, PROMISE_DEPENDENCIES),
+    &[
+        "esnext.async-disposable-stack.constructor",
+        "es.object.to-string",
+        "esnext.async-iterator.async-dispose",
+        "esnext.iterator.dispose",
+    ],
+);
+
 pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
+    AsyncDisposableStack: ASYNC_DISPOSABLE_STACK_DEP,
     AsyncIterator: ASYNC_ITERATOR,
     AggregateError: AGGREGATE_ERROR_DEP,
     ArrayBuffer: [
@@ -227,6 +273,7 @@ pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
     ],
     Date: ["es.date.to-string"],
     DOMException: DOM_EXCEPTION,
+    DisposableStack: DISPOSABLE_STACK_DEP,
     Error: ERROR_DEP,
     EvalError: ERROR_DEP,
     Iterator: ITERATOR,
@@ -246,13 +293,11 @@ pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
     RangeError: ERROR_DEP,
     ReferenceError: ERROR_DEP,
     Reflect: ["es.reflect.to-string-tag", "es.object.to-string"],
-    RegExp: [
-        "es.regexp.constructor",
-        "es.regexp.exec",
-        "es.regexp.to-string"
-    ],
+    RegExp: REGEXP_DEPENDENCIES,
     Set: SET_DEPENDENCIES,
+    SuppressedError: SUPPRESSED_ERROR_DEP,
     Symbol: SYMBOL_DEPENDENCIES,
+    SyntaxError: ERROR_DEP,
     TypeError: ERROR_DEP,
     URIError: ERROR_DEP,
     URL: URL_DEP,
@@ -271,6 +316,7 @@ pub static BUILTINS: DataMap<&[&str]> = data_map!(Map {
     parseFloat: ["es.parse-float"],
     parseInt: ["es.parse-int"],
     queueMicrotask: ["web.queue-microtask"],
+    self: ["web.self"],
     setTimeout: ["web.timers"],
     setInterval: ["web.timers"],
     setImmediate: ["web.immediate"],
@@ -340,6 +386,11 @@ static FOR_EACH: &[&str] = &concat2::<6>(
     ITERATOR,
 );
 
+static INDEXED: &[&str] = &concat2::<7>(
+    &["esnext.async-iterator.indexed", "esnext.iterator.indexed"],
+    ASYNC_ITERATOR_WITH_ITERATOR,
+);
+
 static REDUCE: &[&str] = &concat2::<5>(
     &[
         "es.array.reduce",
@@ -389,7 +440,7 @@ static PROMISE_FINALLY: &[&str] = &concat2::<3>(&["es.promise.finally"], PROMISE
 pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     asIndexedPairs: INDEXED_PAIRS,
     // TODO: check type of variable
-    at: ["es.string.at-alternative", "es.array.at"],
+    at: ["esnext.string.at", "es.string.at-alternative", "es.array.at"],
     anchor: ["es.string.anchor"],
     big: ["es.string.big"],
     bind: ["es.function.bind"],
@@ -425,21 +476,25 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     getYear: "es.date.get-year",
     groupBy: "esnext.array.group-by",
     groupByToMap: ["esnext.array.group-by-to-map", "es.map", "es.object.to-string"],
+    groupToMap:["esnext.array.group-to-map", "es.map", "es.object.to-string"],
     includes: ["es.array.includes", "es.string.includes"],
+    indexed: INDEXED,
     indexOf: ["es.array.index-of"],
-    italics: ["es.string.italics"],
+    isWellFormed: ["esnext.string.is-well-formed"],
+    italic: ["es.string.italics"],
     join: ["es.array.join"],
     keys: ARRAY_NATURE_ITERATORS_WITH_TAG,
     lastIndex: ["esnext.array.last-index"],
     lastIndexOf: ["es.array.last-index-of"],
     lastItem: ["esnext.array.last-item"],
     link: ["es.string.link"],
+    map: ["es.array.map", "esnext.async-iterator.map", "esnext.iterator.map"],
     match: ["es.string.match", "es.regexp.exec"],
     matchAll: ["es.string.match-all", "es.regexp.exec"],
-    map: ["es.array.map"],
     name: ["es.function.name"],
     padEnd: ["es.string.pad-end"],
     padStart: ["es.string.pad-start"],
+    push: ["es.array.push"],
     reduce: REDUCE,
     reduceRight: ["es.array.reduce-right"],
     repeat: ["es.string.repeat"],
@@ -447,6 +502,7 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     replaceAll: ["es.string.replace-all", "es.string.replace","es.regexp.exec"],
     reverse: ["es.array.reverse"],
     search: ["es.string.search", "es.regexp.exec"],
+    setYear: ["es.date.set-year"],
     slice: ["es.array.slice"],
     small: ["es.string.small"],
     some: SOME,
@@ -469,20 +525,17 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     toISOString: ["es.date.to-iso-string"],
     toJSON: ["es.date.to-json", "web.url.to-json"],
     toPrecision: ["es.number.to-precision"],
-    toString: [
-        "es.object.to-string",
-        "es.regexp.to-string",
-        "es.date.to-string"
-    ],
-    toSorted: ["esnext.array.to-sorted", "es.array.sort"],
-    toSpliced: "esnext.array.to-spliced",
+    toSorted: ["es.array.to-sorted", "es.array.sort"],
+    toSpliced: "es.array.to-spliced",
     toString: ["es.object.to-string", "es.error.to-string", "es.date.to-string", "es.regexp.to-string"],
+    toWellFormed: ["esnext.string.to-well-formed"],
     trim: ["es.string.trim"],
     trimEnd: ["es.string.trim-end"],
     trimLeft: ["es.string.trim-start"],
     trimRight: ["es.string.trim-end"],
     trimStart: ["es.string.trim-start"],
     uniqueBy: ["esnext.array.unique-by", "es.map"],
+    unshift: ["es.array.unshift"],
     unThis: "esnext.function.un-this",
     values: ARRAY_NATURE_ITERATORS_WITH_TAG,
     with: "esnext.array.with",
@@ -490,6 +543,7 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     __defineSetter__: ["es.object.define-setter"],
     __lookupGetter__: ["es.object.lookup-getter"],
     __lookupSetter__: ["es.object.lookup-setter"],
+    __proto__: ["es.object.proto"],
 });
 
 static ASYNC_ITER_FROM: &[&str] = &concat2::<15>(
@@ -519,8 +573,8 @@ static MAP_GROUP_BY: &[&str] = &concat2::<20>(&["esnext.map.group-by"], MAP_DEPE
 static MAP_KEY_BY: &[&str] = &concat2::<20>(&["esnext.map.key-by"], MAP_DEPENDENCIES);
 static MAP_OF: &[&str] = &concat2::<20>(&["esnext.map.key-of"], MAP_DEPENDENCIES);
 
-static SET_FROM: &[&str] = &concat2::<22>(&["esnext.set.from"], SET_DEPENDENCIES);
-static SET_OF: &[&str] = &concat2::<22>(&["esnext.set.of"], SET_DEPENDENCIES);
+static SET_FROM: &[&str] = &concat2::<29>(&["esnext.set.from"], SET_DEPENDENCIES);
+static SET_OF: &[&str] = &concat2::<29>(&["esnext.set.of"], SET_DEPENDENCIES);
 
 static WEAK_MAP_FROM: &[&str] = &concat2::<8>(&["esnext.weak-map.from"], WEAK_MAP_DEPENDENCIES);
 static WEAK_MAP_OF: &[&str] = &concat2::<8>(&["esnext.weak-map.of"], WEAK_MAP_DEPENDENCIES);
@@ -555,6 +609,25 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
     Function: Map {
         isCallable: "esnext.function.is-callable",
         isConstructor: "esnext.function.is-constructor",
+    },
+
+    Iterator: Map {
+        from: ["esnext.iterator.from"],
+        range: [
+            "esnext.iterator.range",
+            "es.object.to-string",
+        ],
+    },
+
+    JSON: Map {
+        isRawJSON: ["esnext.json.is-raw-json"],
+        parse: ["esnext.json.parse", "es.object.keys"],
+        rawJSON: [
+            "esnext.json.raw-json",
+            "es.object.create",
+            "es.object.freeze",
+        ],
+        stringify: ["es.json.stringify"],
     },
 
     Object: Map {
@@ -617,6 +690,11 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
 
     String: Map {
         cooked: "esnext.string.cooked",
+        dedent: [
+            "esnext.string.dedent",
+            "es.string.from-code-point",
+            "es.weak-map",
+        ],
         fromCodePoint: "es.string.from-code-point",
         raw: "es.string.raw",
     },
@@ -697,13 +775,18 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
         asyncDispose: ["es.symbol.async-dispose"],
         asyncIterator: ["es.symbol.async-iterator"],
         dispose: ["esnext.symbol.dispose"],
+        for: ["es.symbol"],
         hasInstance: ["es.symbol.has-instance", "es.function.has-instance"],
         isConcatSpreadable: ["es.symbol.is-concat-spreadable", "es.array.concat"],
+        isRegistered: ["esnext.symbol.is-registered", "es.symbol"],
+        isWellKnown: ["esnext.symbol.is-well-known", "es.symbol"],
         iterator: SYMBOL_ITERATOR,
+        keyFor: ["es.symbol"],
         match: ["es.symbol.match", "es.string.match"],
         matcher: ["es.symbol.matcher"],
-        match: ["es.symbol.match-all", "es.string.match-all"],
+        matchAll: ["es.symbol.match-all", "es.string.match-all"],
         metadata: "esnext.symbol.metadata",
+        metadataKey: ["esnext.symbol.metadata-key"],
         observable: ["esnext.symbol.observable"],
         patternMatch: ["esnext.symbol.pattern-match"],
         replace: ["es.symbol.replace", "es.string.replace"],
@@ -736,15 +819,6 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
         RuntimeError: ERROR_DEP,
     },
 });
-
-//pub static COMMON_INSTANCE_DEPENDENCIES: &[&str] = &[
-//    "es.object.to-string",
-//    "es.object.define-getter",
-//    "es.object.define-setter",
-//    "es.object.lookup-getter",
-//    "es.object.lookup-setter",
-//    "es.regexp.exec",
-//];
 
 pub static POSSIBLE_GLOBAL_OBJECTS: &[&str] = &["global", "globalThis", "self", "window"];
 
