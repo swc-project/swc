@@ -26,6 +26,9 @@
 - **(es/parser)** Add an option to disallow ambiguous jsx (#6913) ([a6471f3](https://github.com/swc-project/swc/commit/a6471f34c0786bd0e80b3b4c5356929ebb0a8483))
 
 
+- **(es/transforms)** Add an option to drop unused imports (#6962) ([67d0a89](https://github.com/swc-project/swc/commit/67d0a89ae65d0efb07a43040b962735b5cc25ea8))
+
+
 - **(es/typescript)** Support `export type * from "mod"` (#6867) ([beb38d3](https://github.com/swc-project/swc/commit/beb38d34a26016051eb0ed364ea1112f416955ac))
 
 ### Refactor
