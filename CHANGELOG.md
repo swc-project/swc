@@ -31,6 +31,12 @@
 
 - **(es/typescript)** Support `export type * from "mod"` (#6867) ([beb38d3](https://github.com/swc-project/swc/commit/beb38d34a26016051eb0ed364ea1112f416955ac))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI (#7014) ([a431a3a](https://github.com/swc-project/swc/commit/a431a3a204faebd283cb7db8359b048d9fcc9a87))
+
 ### Refactor
 
 
