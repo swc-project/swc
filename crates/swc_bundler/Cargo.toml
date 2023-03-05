@@ -67,6 +67,6 @@ swc_ecma_transforms_proposal = {version = "0.153.0", path = "../swc_ecma_transfo
 swc_ecma_transforms_react = {version = "0.164.0", path = "../swc_ecma_transforms_react"}
 swc_ecma_transforms_typescript = {version = "0.168.0", path = "../swc_ecma_transforms_typescript"}
 swc_node_base = {version = "0.5.8", path = "../swc_node_base"}
-tempfile = "3.1.0"
+tempfile = "3.4.0"
 testing = {version = "0.31.35", path = "../testing"}
 url = "2.1.1"

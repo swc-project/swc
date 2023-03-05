@@ -30,5 +30,5 @@ swc_ecma_testing = { version = "0.20.8", path = "../swc_ecma_testing" }
 swc_ecma_transforms_base = { version = "0.120.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils = { version = "0.111.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.84.0", path = "../swc_ecma_visit" }
-tempfile = "3.1.0"
+tempfile = "3.4.0"
 testing = { version = "0.31.35", path = "../testing" }
