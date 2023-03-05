@@ -864,6 +864,7 @@ dependencies = [
  "swc_ecma_visit",
  "swc_error_reporters",
  "swc_timer",
+ "tempfile",
  "tracing",
  "tracing-subscriber",
  "url",

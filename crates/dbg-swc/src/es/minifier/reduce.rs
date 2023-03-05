@@ -11,7 +11,7 @@ use clap::{ArgEnum, Args};
 use rayon::prelude::*;
 use sha1::{Digest, Sha1};
 use swc_common::{SourceMap, GLOBALS};
-use tempdir::TempDir;
+use tempfile::TempDir;
 
 use crate::{
     util::{all_js_files, parse_js, print_js, ChildGuard},
@@ -84,7 +84,7 @@ impl ReduceCommand {
         fs::write(src_path, code.as_bytes()).context("failed to strip comments")?;
 
         //
-        let dir = TempDir::new("dbg-swc").context("failed to create a temp directory")?;
+        let dir = TempDir::new().context("failed to create a temp directory")?;
 
         let input = dir.path().join("input.js");
 
