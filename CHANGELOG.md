@@ -13,6 +13,9 @@
 
 - **(es/minifier)** Don't create invalid property names (#7010) ([bb2486c](https://github.com/swc-project/swc/commit/bb2486c4592214c19ee6a1aa747dda5e58a1b07d))
 
+
+- **(es/parser)** Fix parsing of an array spread in tsx properties (#7011) ([6d6731f](https://github.com/swc-project/swc/commit/6d6731f355ed3bc314be31061b971f9317bea713))
+
 ### Features
 
 
