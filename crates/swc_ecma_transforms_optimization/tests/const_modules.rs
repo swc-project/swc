@@ -35,6 +35,23 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
+    |tester| tr(tester, &[("@ember/env-flags", &[("DEBUG", "true")])]),
+    imports_hoisted,
+    r#"
+        if (DEBUG) {
+            console.log('Foo!');
+        }
+        
+        import { DEBUG } from '@ember/env-flags';
+        "#,
+    r#"
+        if (true) {
+            console.log('Foo!');
+        }"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
     |tester| tr(
         tester,
         &[
@@ -72,4 +89,30 @@ if (false) {
   woot = () => 'toow';
 }
 "
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |tester| tr(tester, &[("foo", &[("bar", "true")])]),
+    namespace_import,
+    r#"
+import * as foo from 'foo';
+console.log(foo.bar)
+"#,
+    r#"
+console.log(true);
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |tester| tr(tester, &[("foo", &[("bar", "true")])]),
+    namespace_import_computed,
+    r#"
+import * as foo from 'foo';
+console.log(foo["bar"])
+"#,
+    r#"
+console.log(true);
+"#
 );

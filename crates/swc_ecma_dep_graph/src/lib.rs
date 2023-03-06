@@ -399,6 +399,7 @@ mod tests {
                     tsx: file_name.contains("tsx"),
                     decorators: true,
                     no_early_errors: true,
+                    disallow_ambiguous_jsx_like: false,
                 }),
                 EsVersion::Es2015,
                 (&*fm).into(),

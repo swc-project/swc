@@ -3,7 +3,7 @@ use std::iter::repeat_with;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, private_ident};
+use swc_ecma_utils::{find_pat_ids, is_valid_prop_ident, private_ident};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Optimizer;
@@ -29,6 +29,10 @@ where
                             return;
                         }
 
+                        if !is_valid_prop_ident(&s.value) {
+                            return;
+                        }
+
                         self.changed = true;
                         report_change!("arguments: Optimizing computed access to arguments");
                         *prop = MemberProp::Ident(Ident {
@@ -44,6 +48,10 @@ where
                 if let SuperProp::Computed(c) = prop {
                     if let Expr::Lit(Lit::Str(s)) = &mut *c.expr {
                         if !s.value.starts_with(|c: char| c.is_ascii_alphabetic()) {
+                            return;
+                        }
+
+                        if !is_valid_prop_ident(&s.value) {
                             return;
                         }
 

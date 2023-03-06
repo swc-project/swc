@@ -558,7 +558,7 @@
                         Component: CachedComponent,
                         wrapApp,
                         err: initialErr,
-                        isFallback: Boolean(initialData.isFallback),
+                        isFallback: !!initialData.isFallback,
                         subscription: (info, App, scroll)=>render(Object.assign({}, info, {
                                 App,
                                 scroll
@@ -2016,7 +2016,7 @@
                                             i18n: {
                                                 locales: options.router.locales
                                             },
-                                            trailingSlash: Boolean(!1)
+                                            trailingSlash: !1
                                         }, rewriteHeader = response.headers.get("x-nextjs-rewrite");
                                         let rewriteTarget = rewriteHeader || response.headers.get("x-nextjs-matched-path");
                                         const matchedPath = response.headers.get("x-matched-path");

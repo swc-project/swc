@@ -8,11 +8,12 @@ let proto = {
         setter_effect = 'PASS';
     }
 };
+let obj2 = {
+    __proto__: proto
+};
 ({
     __proto__: proto
 }).foo;
-({
-    __proto__: proto
-}).bar = 0;
+obj2.bar = 0;
 assert.strictEqual(getter_effect, 'PASS');
 assert.strictEqual(setter_effect, 'PASS');

@@ -178,6 +178,7 @@ fn identity(entry: PathBuf) {
                 decorators: true,
                 dts: false,
                 no_early_errors: false,
+                disallow_ambiguous_jsx_like: false,
             }),
             (&*src).into(),
             None,

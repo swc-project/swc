@@ -275,6 +275,13 @@ impl Syntax {
             Syntax::Es(..) => true,
         }
     }
+
+    fn disallow_ambiguous_jsx_like(self) -> bool {
+        match self {
+            Syntax::Typescript(t) => t.disallow_ambiguous_jsx_like,
+            _ => false,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
@@ -292,6 +299,14 @@ pub struct TsConfig {
 
     #[serde(skip, default)]
     pub no_early_errors: bool,
+
+    /// babel: `disallowAmbiguousJSXLike`
+    /// Even when JSX parsing is not enabled, this option disallows using syntax
+    /// that would be ambiguous with JSX (`<X> y` type assertions and
+    /// `<X>()=>{}` type arguments)
+    /// see: https://babeljs.io/docs/en/babel-plugin-transform-typescript#disallowambiguousjsxlike
+    #[serde(skip, default)]
+    pub disallow_ambiguous_jsx_like: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
