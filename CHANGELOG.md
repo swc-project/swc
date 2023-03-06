@@ -16,6 +16,9 @@
 
 - **(es/parser)** Fix parsing of an array spread in tsx properties (#7011) ([6d6731f](https://github.com/swc-project/swc/commit/6d6731f355ed3bc314be31061b971f9317bea713))
 
+
+- **(es/preset-env)** Move `findLast` and `findLastIndex` to finished proposals (#7012) ([b46a724](https://github.com/swc-project/swc/commit/b46a7248c6ed220276f919748a5ebf84c622858a))
+
 ### Features
 
 
