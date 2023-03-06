@@ -16,7 +16,7 @@ var _obj, isMultiIndexContext = function(widget) {
 }, isTargetedIndexEqualIndex = function(widget, indexId) {
     return widget.props.indexContextValue.targetedIndex === indexId;
 }, isIndexWidget = function(widget) {
-    return Boolean(widget.props.indexId);
+    return !!widget.props.indexId;
 }, isIndexWidgetEqualIndex = function(widget, indexId) {
     return widget.props.indexId === indexId;
 }, sortIndexWidgetsFirst = function(firstWidget, secondWidget) {
@@ -26,26 +26,26 @@ var _obj, isMultiIndexContext = function(widget) {
 export default function createInstantSearchManager(param) {
     var state, listeners, indexName = param.indexName, _initialState = param.initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay, getMetadata = function(state) {
         return widgetsManager.getWidgets().filter(function(widget) {
-            return Boolean(widget.getMetadata);
+            return !!widget.getMetadata;
         }).map(function(widget) {
             return widget.getMetadata(state);
         });
     }, getSearchParameters = function() {
         var sharedParameters = widgetsManager.getWidgets().filter(function(widget) {
-            return Boolean(widget.getSearchParameters);
+            return !!widget.getSearchParameters;
         }).filter(function(widget) {
             return !isMultiIndexContext(widget) && !isIndexWidget(widget);
         }).reduce(function(res, widget) {
             return widget.getSearchParameters(res);
         }, initialSearchParameters), mainParameters = widgetsManager.getWidgets().filter(function(widget) {
-            return Boolean(widget.getSearchParameters);
+            return !!widget.getSearchParameters;
         }).filter(function(widget) {
             var targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = isIndexWidget(widget) && isIndexWidgetEqualIndex(widget, indexName);
             return targetedIndexEqualMainIndex || subIndexEqualMainIndex;
         }).sort(sortIndexWidgetsFirst).reduce(function(res, widget) {
             return widget.getSearchParameters(res);
         }, sharedParameters), derivedIndices = widgetsManager.getWidgets().filter(function(widget) {
-            return Boolean(widget.getSearchParameters);
+            return !!widget.getSearchParameters;
         }).filter(function(widget) {
             var targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName), subIndexNotEqualMainIndex = isIndexWidget(widget) && !isIndexWidgetEqualIndex(widget, indexName);
             return targetedIndexNotEqualMainIndex || subIndexNotEqualMainIndex;
@@ -319,7 +319,7 @@ export default function createInstantSearchManager(param) {
         transitionState: function(nextSearchState) {
             var searchState = store.getState().widgets;
             return widgetsManager.getWidgets().filter(function(widget) {
-                return Boolean(widget.transitionState);
+                return !!widget.transitionState;
             }).reduce(function(res, widget) {
                 return widget.transitionState(searchState, res);
             }, nextSearchState);

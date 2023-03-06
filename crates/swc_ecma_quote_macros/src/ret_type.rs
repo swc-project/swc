@@ -50,7 +50,7 @@ pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<BoxWrapper,
 
 fn parse<T>(
     input_str: &str,
-    op: &mut dyn FnMut(&mut Parser<Lexer<StringInput>>) -> PResult<T>,
+    op: &mut dyn FnMut(&mut Parser<Lexer>) -> PResult<T>,
 ) -> Result<BoxWrapper, Error>
 where
     T: ToCode,

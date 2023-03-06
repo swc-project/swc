@@ -11,7 +11,7 @@ use std::{
 
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
-use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{Fold, FoldWith, VisitMutWith};
@@ -165,7 +165,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     let mut wr = Buf(Arc::new(RwLock::new(vec![])));
                     let mut wr2 = Buf(Arc::new(RwLock::new(vec![])));
 
-                    let mut parser: Parser<Lexer<StringInput>> =
+                    let mut parser: Parser<Lexer> =
                         Parser::new(Syntax::default(), (&*src).into(), None);
 
                     {
@@ -197,7 +197,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                         // Parse source
 
-                        let mut e_parser: Parser<Lexer<StringInput>> =
+                        let mut e_parser: Parser<Lexer> =
                             Parser::new(Syntax::default(), (&*expected).into(), None);
 
                         if module {

@@ -434,6 +434,107 @@ impl Pure<'_> {
                     return;
                 }
             }
+            Expr::Call(CallExpr {
+                span,
+                callee: Callee::Expr(callee),
+                args,
+                ..
+            }) if callee.is_one_of_global_ref_to(
+                &self.expr_ctx,
+                &["Boolean", "Number", "String", "Symbol"],
+            ) =>
+            {
+                let new_expr = match &**callee {
+                    Expr::Ident(Ident {
+                        sym: js_word!("Boolean"),
+                        ..
+                    }) => match &mut args[..] {
+                        [] => Some(Expr::Lit(Lit::Bool(Bool {
+                            span: *span,
+                            value: false,
+                        }))),
+                        [ExprOrSpread { spread: None, expr }] => Some(Expr::Unary(UnaryExpr {
+                            span: *span,
+                            op: op!("!"),
+                            arg: Expr::Unary(UnaryExpr {
+                                span: *span,
+                                op: op!("!"),
+                                arg: expr.take(),
+                            })
+                            .into(),
+                        })),
+                        _ => None,
+                    },
+                    Expr::Ident(Ident {
+                        sym: js_word!("Number"),
+                        ..
+                    }) => match &mut args[..] {
+                        [] => Some(Expr::Lit(Lit::Num(Number {
+                            span: *span,
+                            value: 0.0,
+                            raw: None,
+                        }))),
+                        // this is indeed very unsafe in case of BigInt
+                        [ExprOrSpread { spread: None, expr }] if self.options.unsafe_math => {
+                            Some(Expr::Unary(UnaryExpr {
+                                span: *span,
+                                op: op!(unary, "+"),
+                                arg: expr.take(),
+                            }))
+                        }
+                        _ => None,
+                    },
+                    Expr::Ident(Ident {
+                        sym: js_word!("String"),
+                        ..
+                    }) => match &mut args[..] {
+                        [] => Some(Expr::Lit(Lit::Str(Str {
+                            span: *span,
+                            value: "".into(),
+                            raw: None,
+                        }))),
+                        // this is also very unsafe in case of Symbol
+                        [ExprOrSpread { spread: None, expr }] if self.options.unsafe_passes => {
+                            Some(Expr::Bin(BinExpr {
+                                span: *span,
+                                left: expr.take(),
+                                op: op!(bin, "+"),
+                                right: Expr::Lit(Lit::Str(Str {
+                                    span: *span,
+                                    value: "".into(),
+                                    raw: None,
+                                }))
+                                .into(),
+                            }))
+                        }
+                        _ => None,
+                    },
+                    Expr::Ident(Ident {
+                        sym: js_word!("Symbol"),
+                        ..
+                    }) => {
+                        if let [ExprOrSpread { spread: None, .. }] = &mut args[..] {
+                            if self.options.unsafe_symbols {
+                                args.clear();
+                                report_change!("Remove Symbol call parameter");
+                                self.changed = true;
+                            }
+                        }
+                        None
+                    }
+                    _ => unreachable!(),
+                };
+
+                if let Some(new_expr) = new_expr {
+                    report_change!(
+                        "Converting Boolean/Number/String/Symbol call to native constructor to \
+                         literal"
+                    );
+                    self.changed = true;
+                    *e = new_expr;
+                    return;
+                }
+            }
             _ => {}
         };
 
