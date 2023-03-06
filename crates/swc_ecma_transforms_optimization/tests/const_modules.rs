@@ -134,3 +134,16 @@ test!(
     })['var'];
     "#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |tester| tr(tester, &[("foo", &[("bar", "true")])]),
+    use_as_object_prop_shorthand,
+    r#"
+import { bar } from 'foo';
+console.log({ bar });
+"#,
+    r#"
+console.log({ bar: true });
+"#
+);
