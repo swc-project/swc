@@ -28,7 +28,7 @@ impl<const RADIX: u8> LazyBigInt<RADIX> {
     }
 }
 
-impl<'a, I: Input> Lexer<'a, I> {
+impl<'a> Lexer<'a> {
     /// Reads an integer, octal integer, or floating-point number
     pub(super) fn read_number(
         &mut self,
@@ -531,12 +531,12 @@ impl<'a, I: Input> Lexer<'a, I> {
 mod tests {
     use std::{f64::INFINITY, panic};
 
-    use super::{input::StringInput, *};
+    use super::*;
     use crate::EsConfig;
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where
-        F: FnOnce(&mut Lexer<'_, StringInput<'_>>) -> Ret,
+        F: FnOnce(&mut Lexer<'_>) -> Ret,
     {
         crate::with_test_sess(s, |_, input| {
             let mut l = Lexer::new(

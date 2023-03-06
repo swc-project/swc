@@ -143,6 +143,9 @@ impl<I: Tokens> Parser<I> {
         let expr = if is!(self, '}') {
             self.parse_jsx_empty_expr().map(JSXExpr::JSXEmptyExpr)?
         } else {
+            if is!(self, "...") {
+                bump!(self);
+            }
             self.parse_expr().map(JSXExpr::Expr)?
         };
         expect!(self, '}');

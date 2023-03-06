@@ -537,7 +537,7 @@
                 hex8: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
             };
             function isValidCSSUnit(color) {
-                return Boolean(matchers.CSS_UNIT.exec(String(color)));
+                return !!matchers.CSS_UNIT.exec(String(color));
             }
             var module_TinyColor = function() {
                 function TinyColor(color, opts) {
@@ -747,7 +747,7 @@
                     }
                     return !1;
                 }, TinyColor.prototype.toString = function(format) {
-                    var formatSet = Boolean(format);
+                    var formatSet = !!format;
                     format = null != format ? format : this.format;
                     var formattedString = !1, hasAlpha = this.a < 1 && this.a >= 0;
                     return !formatSet && hasAlpha && (format.startsWith("hex") || "name" === format) ? "name" === format && 0 === this.a ? this.toName() : this.toRgbString() : ("rgb" === format && (formattedString = this.toRgbString()), "prgb" === format && (formattedString = this.toPercentageRgbString()), ("hex" === format || "hex6" === format) && (formattedString = this.toHexString()), "hex3" === format && (formattedString = this.toHexString(!0)), "hex4" === format && (formattedString = this.toHex8String(!0)), "hex8" === format && (formattedString = this.toHex8String()), "name" === format && (formattedString = this.toName()), "hsl" === format && (formattedString = this.toHslString()), "hsv" === format && (formattedString = this.toHsvString()), formattedString || this.toHexString());
@@ -4483,7 +4483,7 @@
                     });
                 },
                 isActive: function(id) {
-                    return Boolean(findToast(toastStore.getState(), id).position);
+                    return !!findToast(toastStore.getState(), id).position;
                 }
             }), counter = 0, Toast = function(props) {
                 var status = props.status, _props$variant = props.variant, id = props.id, title = props.title, isClosable = props.isClosable, onClose = props.onClose, description = props.description, icon = props.icon, alertTitleId = void 0 !== id ? "toast-" + id + "-title" : void 0;

@@ -1581,6 +1581,23 @@ where
         self.non_top_level = old;
     }
 
+    fn visit_default_decl(&mut self, decl: &DefaultDecl) {
+        decl.visit_children_with(self);
+        match decl {
+            DefaultDecl::Class(d) => {
+                if let Some(id) = &d.ident {
+                    self.store(id.sym.clone(), id.span.ctxt, true);
+                }
+            }
+            DefaultDecl::Fn(d) => {
+                if let Some(id) = &d.ident {
+                    self.store(id.sym.clone(), id.span.ctxt, true);
+                }
+            }
+            _ => {}
+        }
+    }
+
     fn visit_expr(&mut self, n: &Expr) {
         let old = self.in_var_pat;
         self.in_var_pat = false;

@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use swc_common::{comments::SingleThreadedComments, errors::Handler, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax, TsConfig};
 use swc_ecma_visit::{Visit, VisitWith};
 
 #[testing::fixture("tests/span/**/*.js")]
@@ -39,7 +39,7 @@ fn span(entry: PathBuf) {
             (&*src).into(),
             Some(&comments),
         );
-        let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
+        let mut parser: Parser<Lexer> = Parser::new_from(lexer);
 
         {
             let module = parser

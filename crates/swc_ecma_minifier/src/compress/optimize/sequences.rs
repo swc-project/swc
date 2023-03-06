@@ -1068,11 +1068,15 @@ where
 
         match e {
             Expr::Ident(e) => {
-                if e.span.ctxt == self.expr_ctx.unresolved_ctxt
-                    && !is_global_var_with_pure_property_access(&e.sym)
-                {
-                    log_abort!("Undeclared");
-                    return false;
+                if e.span.ctxt == self.expr_ctx.unresolved_ctxt {
+                    return if self.options.pristine_globals
+                        && is_global_var_with_pure_property_access(&e.sym)
+                    {
+                        true
+                    } else {
+                        log_abort!("Undeclared");
+                        return false;
+                    };
                 }
 
                 if let Some(a) = a {
@@ -1185,6 +1189,10 @@ where
             }
 
             Expr::Member(MemberExpr { obj, prop, .. }) => {
+                if !self.is_skippable_for_seq(a, obj) {
+                    return false;
+                }
+
                 if !self.should_preserve_property_access(
                     obj,
                     PropertyAccessOpts {

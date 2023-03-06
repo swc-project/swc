@@ -304,6 +304,7 @@ fn perform_dce(m: &mut Program, options: &CompressOptions, extra: &ExtraOptions)
             module_mark: None,
             top_level: options.top_level(),
             top_retain: options.top_retain.clone(),
+            preserve_imports_with_side_effects: true,
         },
         extra.unresolved_mark,
     );
