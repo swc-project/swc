@@ -26,6 +26,7 @@ where
                         module_mark: None,
                         top_level: true,
                         top_retain: Default::default(),
+                        preserve_imports_with_side_effects: true,
                     },
                     self.unresolved_mark,
                 )));
