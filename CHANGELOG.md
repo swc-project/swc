@@ -22,6 +22,9 @@
 
 - **(es/preset-env)** Move `findLast` and `findLastIndex` to finished proposals (#7012) ([b46a724](https://github.com/swc-project/swc/commit/b46a7248c6ed220276f919748a5ebf84c622858a))
 
+
+- **(es/typescript)** Treat export default declarations as declarations (#7017) ([34f9ad3](https://github.com/swc-project/swc/commit/34f9ad3778527a40e6ede50e2e3e2f34f405ff11))
+
 ### Features
 
 
