@@ -365,8 +365,6 @@ struct DeclInfo {
     /// when setting `has_concrete` for `foo`, it must also be set for
     /// `bar`.
     maybe_dependency: Option<Ident>,
-
-    has_another_decl: bool,
 }
 
 impl<C> Strip<C>
@@ -2087,15 +2085,10 @@ where
                 let entry = self.scope.referenced_idents.get(&local.to_id());
                 !matches!(
                     entry,
-                    Some(
-                        &DeclInfo {
-                            has_concrete: false,
-                            ..
-                        } | &DeclInfo {
-                            has_another_decl: true,
-                            ..
-                        }
-                    )
+                    Some(&DeclInfo {
+                        has_concrete: false,
+                        ..
+                    })
                 )
             }
         });
