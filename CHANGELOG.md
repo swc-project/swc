@@ -35,6 +35,9 @@
 - **(es/transforms)** Add an option to drop unused imports (#6962) ([67d0a89](https://github.com/swc-project/swc/commit/67d0a89ae65d0efb07a43040b962735b5cc25ea8))
 
 
+- **(es/transforms)** Support namespace imports from `const_modules` (#7013) ([3cb03d5](https://github.com/swc-project/swc/commit/3cb03d5299d3c6be56f8b7f8c42ba86122640424))
+
+
 - **(es/typescript)** Support `export type * from "mod"` (#6867) ([beb38d3](https://github.com/swc-project/swc/commit/beb38d34a26016051eb0ed364ea1112f416955ac))
 
 ### Miscellaneous Tasks
