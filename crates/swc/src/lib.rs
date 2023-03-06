@@ -269,99 +269,115 @@ impl Compiler {
         self.run(|| -> Result<_, Error> {
             let name = &fm.name;
 
-            // Load original source map
-            match input_src_map {
-                InputSourceMap::Bool(false) => Ok(None),
-                InputSourceMap::Bool(true) => {
-                    let s = "sourceMappingURL=";
-                    let idx = fm.src.rfind(s);
-                    let src_mapping_url = idx.map(|idx| &fm.src[idx + s.len()..]);
+            let read_inline_sourcemap =
+                |data_url: Option<&str>| -> Result<Option<sourcemap::SourceMap>, Error> {
+                    match data_url {
+                        Some(data_url) => {
+                            let url = Url::parse(data_url).with_context(|| {
+                                format!("failed to parse inline source map url\n{}", data_url)
+                            })?;
 
-                    // Load original source map if possible
-                    match &name {
-                        FileName::Real(filename) => {
-                            let dir = match filename.parent() {
+                            let idx = match url.path().find("base64,") {
                                 Some(v) => v,
                                 None => {
-                                    bail!("unexpected: root directory is given as a input file")
+                                    bail!(
+                                        "failed to parse inline source map: not base64: {:?}",
+                                        url
+                                    )
                                 }
                             };
 
-                            let path = match src_mapping_url {
-                                Some(src_mapping_url) => {
-                                    dir.join(src_mapping_url).display().to_string()
-                                }
-                                None => {
-                                    format!("{}.map", dir.join(filename).display())
-                                }
-                            };
+                            let content = url.path()[idx + "base64,".len()..].trim();
 
-                            let file = File::open(&path)
-                                .or_else(|err| {
-                                    // Old behavior. This check would prevent regressions.
-                                    let f = format!("{}.map", filename.display());
+                            let res = base64::decode_config(
+                                content.as_bytes(),
+                                base64::Config::new(base64::CharacterSet::Standard, true),
+                            )
+                            .context("failed to decode base64-encoded source map")?;
 
-                                    match File::open(&f) {
-                                        Ok(v) => Ok(v),
-                                        Err(_) => Err(err),
-                                    }
-                                })
-                                .context("failed to open input source map file");
-
-                            let file = if !is_default {
-                                file?
-                            } else {
-                                match file {
-                                    Ok(v) => v,
-                                    Err(_) => return Ok(None),
-                                }
-                            };
-
-                            Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
-                                || format!("failed to read input source map from file at {}", path),
+                            Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
+                                "failed to read input source map from inlined base64 encoded \
+                                 string",
                             )?))
                         }
-                        _ => {
-                            tracing::error!("Failed to load source map for non-file input");
-                            Ok(None)
+                        None => {
+                            bail!("failed to parse inline source map: `sourceMappingURL` not found")
+                        }
+                    }
+                };
+
+            let read_sourcemap = || -> Result<Option<sourcemap::SourceMap>, Error> {
+                let s = "sourceMappingURL=";
+                let idx = fm.src.rfind(s);
+                let data_url = idx.map(|idx| &fm.src[idx + s.len()..]);
+
+                match read_inline_sourcemap(data_url) {
+                    Ok(r) => Ok(r),
+                    Err(_) => {
+                        // Load original source map if possible
+                        match &name {
+                            FileName::Real(filename) => {
+                                let dir = match filename.parent() {
+                                    Some(v) => v,
+                                    None => {
+                                        bail!("unexpected: root directory is given as a input file")
+                                    }
+                                };
+
+                                let path = match data_url {
+                                    Some(data_url) => dir.join(data_url).display().to_string(),
+                                    None => {
+                                        format!("{}.map", dir.join(filename).display())
+                                    }
+                                };
+
+                                let file = File::open(&path)
+                                    .or_else(|err| {
+                                        // Old behavior. This check would prevent
+                                        // regressions.
+                                        let f = format!("{}.map", filename.display());
+
+                                        match File::open(&f) {
+                                            Ok(v) => Ok(v),
+                                            Err(_) => Err(err),
+                                        }
+                                    })
+                                    .context("failed to open input source map file");
+
+                                let file = if !is_default {
+                                    file?
+                                } else {
+                                    match file {
+                                        Ok(v) => v,
+                                        Err(_) => return Ok(None),
+                                    }
+                                };
+
+                                Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
+                                    || {
+                                        format!(
+                                            "failed to read input source map from file at {}",
+                                            path
+                                        )
+                                    },
+                                )?))
+                            }
+                            _ => {
+                                tracing::error!("Failed to load source map for non-file input");
+                                Ok(None)
+                            }
                         }
                     }
                 }
+            };
+
+            // Load original source map
+            match input_src_map {
+                InputSourceMap::Bool(false) => Ok(None),
+                InputSourceMap::Bool(true) => read_sourcemap(),
                 InputSourceMap::Str(ref s) => {
                     if s == "inline" {
-                        const NEEDLE: &str = "sourceMappingURL=";
-                        // Load inline source map by simple string
-                        // operations
-                        let idx = fm.src.rfind(NEEDLE);
-                        let idx = match idx {
-                            None => bail!(
-                                "failed to parse inline source map: `sourceMappingURL` not found"
-                            ),
-                            Some(v) => v,
-                        };
-                        let data_url = fm.src[idx + NEEDLE.len()..].trim();
-                        let url = Url::parse(data_url).with_context(|| {
-                            format!("failed to parse inline source map url\n{}", data_url)
-                        })?;
-
-                        let idx = match url.path().find("base64,") {
-                            Some(v) => v,
-                            None => {
-                                bail!("failed to parse inline source map: not base64: {:?}", url)
-                            }
-                        };
-
-                        let content = url.path()[idx + "base64,".len()..].trim();
-
-                        let res = base64::decode_config(
-                            content.as_bytes(),
-                            base64::Config::new(base64::CharacterSet::Standard, true),
-                        )
-                        .context("failed to decode base64-encoded source map")?;
-
-                        Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
-                            "failed to read input source map from inlined base64 encoded string",
-                        )?))
+                        read_sourcemap()
                     } else {
                         // Load source map passed by user
                         Ok(Some(

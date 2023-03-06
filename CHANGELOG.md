@@ -8,6 +8,9 @@
 - **(bindings/node)** Fix `visitBindingIdentifier` (#7000) ([30cff01](https://github.com/swc-project/swc/commit/30cff016563d8925ef2b150a669ac4b6de968b82))
 
 
+- **(es)** Allow any kind of input source maps if it's enabled (#7002) ([da5367b](https://github.com/swc-project/swc/commit/da5367b3fbac2cf4ab7d7f4562d58be3cff0edf8))
+
+
 - **(es/minifier)** Don't skip expressions with side effects from seq inliner (#7007) ([cfeb088](https://github.com/swc-project/swc/commit/cfeb088c37bdc2a5df79f10d2b93ce84cb12542b))
 
 
