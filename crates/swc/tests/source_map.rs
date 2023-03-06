@@ -70,6 +70,11 @@ fn file(f: &str, config: Config) -> Result<(), StdErr> {
 }
 
 #[test]
+fn case_inline() {
+    inline("tests/srcmap/case-inline/index.js");
+}
+
+#[test]
 fn issue_622() {
     file("tests/srcmap/issue-622/index.js", Default::default()).unwrap();
 }
