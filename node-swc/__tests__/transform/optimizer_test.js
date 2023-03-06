@@ -7,6 +7,7 @@ it('should perform dce', () => {
         jsc: {
             transform: {
                 optimizer: {
+                    simplify: true,
                     globals: {
                         vars: {
                             __DEBUG__: 'true'
