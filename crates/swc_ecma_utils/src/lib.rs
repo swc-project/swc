@@ -53,6 +53,9 @@ pub mod parallel;
 mod value;
 pub mod var;
 
+mod expr_ignore_span;
+pub use expr_ignore_span::NodeIgnoringSpan;
+
 // TODO: remove
 pub struct ThisVisitor {
     found: bool,

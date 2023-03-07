@@ -1,4 +1,4 @@
-use std::hash::Hash;
+use std::{borrow::Cow, hash::Hash};
 
 use rustc_hash::FxHashSet;
 use swc_common::{
@@ -7,43 +7,12 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::marks::Marks;
-use swc_ecma_utils::find_pat_ids;
+use swc_ecma_utils::{find_pat_ids, NodeIgnoringSpan};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 use crate::option::CompressOptions;
-
-#[derive(Debug, Eq)]
-struct HashEqIgnoreSpanExprRef<'a>(&'a Expr);
-
-impl<'a> PartialEq for HashEqIgnoreSpanExprRef<'a> {
-    fn eq(&self, other: &Self) -> bool {
-        Ident::within_ignored_ctxt(|| self.0.eq_ignore_span(other.0))
-    }
-}
-
-impl<'a> Hash for HashEqIgnoreSpanExprRef<'a> {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        // In pratice, most of cases/input we are dealing with are Expr::Member or
-        // Expr::Ident.
-        match self.0 {
-            Expr::Ident(i) => {
-                i.sym.hash(state);
-            }
-            Expr::Member(i) => {
-                Self(&i.obj).hash(state);
-                if let MemberProp::Ident(prop) = &i.prop {
-                    prop.sym.hash(state);
-                }
-            }
-            _ => {
-                // Other expression kind would fallback to the same empty hash.
-                // So, their will spend linear time to do comparisons.
-            }
-        }
-    }
-}
 
 #[cfg(test)]
 mod tests;
@@ -59,7 +28,7 @@ pub(crate) fn info_marker<'a>(
         options
             .pure_funcs
             .iter()
-            .map(|f| HashEqIgnoreSpanExprRef(f))
+            .map(|f| NodeIgnoringSpan::borrowed(f))
             .collect()
     });
     InfoMarker {
@@ -81,7 +50,7 @@ struct State {
 struct InfoMarker<'a> {
     #[allow(dead_code)]
     options: Option<&'a CompressOptions>,
-    pure_funcs: Option<FxHashSet<HashEqIgnoreSpanExprRef<'a>>>,
+    pure_funcs: Option<FxHashSet<NodeIgnoringSpan<'a>>>,
     comments: Option<&'a dyn Comments>,
     marks: Marks,
     // unresolved_mark: Mark,
@@ -170,7 +139,7 @@ impl VisitMut for InfoMarker<'_> {
         } else if let Some(pure_fns) = &self.pure_funcs {
             if let Callee::Expr(e) = &n.callee {
                 // Check for pure_funcs
-                if pure_fns.contains(&HashEqIgnoreSpanExprRef(e)) {
+                if pure_fns.contains(&NodeIgnoringSpan::borrowed(e)) {
                     n.span = n.span.apply_mark(self.marks.pure);
                 };
             }
