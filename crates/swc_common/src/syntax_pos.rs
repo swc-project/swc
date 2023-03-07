@@ -870,13 +870,30 @@ impl SourceFile {
         mut src: String,
         start_pos: BytePos,
     ) -> SourceFile {
+        remove_bom(&mut src);
+
+        Self::new_from(
+            name,
+            name_was_remapped,
+            unmapped_path,
+            Lrc::new(src),
+            start_pos,
+        )
+    }
+
+    /// `src` should not have UTF8 BOM
+    pub fn new_from(
+        name: FileName,
+        name_was_remapped: bool,
+        unmapped_path: FileName,
+        src: Lrc<String>,
+        start_pos: BytePos,
+    ) -> SourceFile {
         debug_assert_ne!(
             start_pos,
             BytePos::DUMMY,
             "BytePos::DUMMY is reserved and `SourceFile` should not use it"
         );
-
-        remove_bom(&mut src);
 
         let src_hash = {
             let mut hasher: StableHasher = StableHasher::new();
@@ -898,7 +915,7 @@ impl SourceFile {
             name_was_remapped,
             unmapped_path: Some(unmapped_path),
             crate_of_origin: 0,
-            src: Lrc::new(src),
+            src,
             src_hash,
             start_pos,
             end_pos: Pos::from_usize(end_pos),
