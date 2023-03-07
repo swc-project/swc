@@ -2,4 +2,4 @@
 /bar/gi;
 RegExp(foo);
 RegExp("bar", ig);
-/should/afil;
+RegExp("should", "fail");
