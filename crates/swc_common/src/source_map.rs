@@ -202,7 +202,9 @@ impl SourceMap {
 
     /// Creates a new source_file.
     /// This does not ensure that only one SourceFile exists per file name.
-    pub fn new_source_file(&self, filename: FileName, src: String) -> Lrc<SourceFile> {
+    pub fn new_source_file(&self, filename: FileName, mut src: String) -> Lrc<SourceFile> {
+        remove_bom(&mut src);
+
         self.new_source_file_from(filename, Lrc::new(src))
     }
 

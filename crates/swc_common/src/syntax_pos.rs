@@ -1005,7 +1005,7 @@ impl SourceFile {
 }
 
 /// Remove utf-8 BOM if any.
-fn remove_bom(src: &mut String) {
+pub(super) fn remove_bom(src: &mut String) {
     if src.starts_with('\u{feff}') {
         src.drain(..3);
     }
