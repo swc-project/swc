@@ -116,3 +116,21 @@ console.log(foo["bar"])
 console.log(true);
 "#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |tester| tr(
+        tester,
+        &[("testModule", &[("testMap", "{ 'var': 'value' }")])]
+    ),
+    issue_7025,
+    r#"
+    import { testMap } from "testModule";
+    testMap['var'];
+"#,
+    r#"
+    ({
+        'var': 'value'
+    })['var'];
+    "#
+);
