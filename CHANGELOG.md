@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Bailout regex optimization on invalid flags (#7020) ([1318afe](https://github.com/swc-project/swc/commit/1318afe2b4a7a25233db5760b785605019b9f06b))
+
 ## [1.3.38] - 2023-03-06
 
 ### Bug Fixes
