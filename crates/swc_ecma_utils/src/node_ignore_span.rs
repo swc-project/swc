@@ -1,6 +1,6 @@
 use std::{borrow::Cow, fmt::Debug, hash::Hash};
 
-use swc_common::{EqIgnoreSpan, Mark, DUMMY_SP};
+use swc_common::EqIgnoreSpan;
 use swc_ecma_ast::{Expr, Ident, MemberProp};
 
 pub struct NodeIgnoringSpan<'a, Node: ToOwned + Debug>(Cow<'a, Node>);
@@ -59,6 +59,7 @@ impl<'a> Hash for NodeIgnoringSpan<'a, Expr> {
 
 #[test]
 fn test_hash_eq_ignore_span_expr_ref() {
+    use swc_common::{Mark, DUMMY_SP};
     use swc_ecma_ast::*;
 
     use crate::{member_expr, quote_expr};
