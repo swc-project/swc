@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Bailout regex optimization on invalid flags (#7020) ([1318afe](https://github.com/swc-project/swc/commit/1318afe2b4a7a25233db5760b785605019b9f06b))
 
+
+- **(es/transforms)** Handle member object in missing else branch (#7027) ([5c7c8e0](https://github.com/swc-project/swc/commit/5c7c8e073634ff6347194fa0e3fae8c83b64718c))
+
 ## [1.3.38] - 2023-03-06
 
 ### Bug Fixes
