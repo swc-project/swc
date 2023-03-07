@@ -161,11 +161,11 @@ impl VisitMut for ConstModules {
                 }
             }
             Expr::Member(MemberExpr { obj, prop, .. }) if obj.is_ident() => {
-                let member_obj = obj.as_ident().unwrap();
-
-                if self.scope.namespace.contains(&member_obj.to_id()) {
-                    let module_name = &member_obj.sym;
-
+                if let Some(module_name) = obj
+                    .as_ident()
+                    .filter(|member_obj| self.scope.namespace.contains(&member_obj.to_id()))
+                    .map(|member_obj| &member_obj.sym)
+                {
                     let imported_name = match prop {
                         MemberProp::Ident(ref id) => &id.sym,
                         MemberProp::Computed(ref p) => match &*p.expr {
@@ -188,10 +188,12 @@ impl VisitMut for ConstModules {
                         });
 
                     *n = (**value).clone();
+                } else {
+                    n.visit_mut_children_with(self);
                 }
             }
-            e => {
-                e.visit_mut_children_with(self);
+            _ => {
+                n.visit_mut_children_with(self);
             }
         };
     }
