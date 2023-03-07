@@ -3,6 +3,7 @@ use std::{borrow::Cow, fmt::Debug, hash::Hash};
 use swc_common::EqIgnoreSpan;
 use swc_ecma_ast::{Expr, Ident, MemberProp};
 
+/// A newtype that will ignore Span while doing `eq` or `hash`.
 pub struct NodeIgnoringSpan<'a, Node: ToOwned + Debug>(Cow<'a, Node>);
 
 impl<'a, Node: ToOwned + Debug> Debug for NodeIgnoringSpan<'a, Node> {
@@ -31,7 +32,7 @@ impl<'a, Node: EqIgnoreSpan + ToOwned + Debug> PartialEq for NodeIgnoringSpan<'a
 
 impl<'a, Node: EqIgnoreSpan + ToOwned + Debug> Eq for NodeIgnoringSpan<'a, Node> {}
 
-// TODO: This only a workaround for Expr. we need something like
+// TODO: This is only a workaround for Expr. we need something like
 // `hash_ignore_span` for each node in the end.
 impl<'a> Hash for NodeIgnoringSpan<'a, Expr> {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
