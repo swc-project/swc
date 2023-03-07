@@ -50,7 +50,7 @@ struct State {
 struct InfoMarker<'a> {
     #[allow(dead_code)]
     options: Option<&'a CompressOptions>,
-    pure_funcs: Option<FxHashSet<NodeIgnoringSpan<'a>>>,
+    pure_funcs: Option<FxHashSet<NodeIgnoringSpan<'a, Expr>>>,
     comments: Option<&'a dyn Comments>,
     marks: Marks,
     // unresolved_mark: Mark,
