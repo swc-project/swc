@@ -10,6 +10,12 @@
 
 - **(es/transforms)** Handle member object in missing else branch (#7027) ([5c7c8e0](https://github.com/swc-project/swc/commit/5c7c8e073634ff6347194fa0e3fae8c83b64718c))
 
+### Features
+
+
+
+- **(common)** Add an API to create a `SourceFile` without allocation (#7029) ([81495f5](https://github.com/swc-project/swc/commit/81495f5f21d56df7a187847337c9fdd2ff8ee73b))
+
 ## [1.3.38] - 2023-03-06
 
 ### Bug Fixes
