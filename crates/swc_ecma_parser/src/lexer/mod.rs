@@ -4,6 +4,7 @@ use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
+use smartstring::SmartString;
 use swc_atoms::{Atom, AtomGenerator};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{op, EsVersion};
@@ -1080,7 +1081,7 @@ impl<'a> Lexer<'a> {
                     '\\' => {
                         raw.push(c);
 
-                        let mut wrapped = Raw(Some(String::new()));
+                        let mut wrapped = Raw(Some(Default::default()));
 
                         if let Some(chars) = l.read_escaped_char(&mut wrapped, false)? {
                             for c in chars {
@@ -1200,7 +1201,7 @@ impl<'a> Lexer<'a> {
         let start = self.cur_pos();
 
         let mut cooked = Ok(String::new());
-        let mut raw = String::new();
+        let mut raw = SmartString::new();
 
         while let Some(c) = self.cur() {
             if c == '`' || (c == '$' && self.peek() == Some('{')) {
@@ -1218,7 +1219,7 @@ impl<'a> Lexer<'a> {
                 // TODO: Handle error
                 return Ok(Template {
                     cooked: cooked.map(Atom::from),
-                    raw: Atom::new(raw),
+                    raw: Atom::new(&*raw),
                 });
             }
 
