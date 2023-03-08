@@ -2,7 +2,7 @@
 //!
 //!
 //! See https://tc39.github.io/ecma262/#sec-literals-numeric-literals
-use std::fmt::Write;
+use std::{borrow::Cow, fmt::Write};
 
 use either::Either;
 use num_bigint::BigInt as BigIntValue;
@@ -153,11 +153,14 @@ impl<'a> Lexer<'a> {
                     raw_val.push_str(raw.0.as_ref().unwrap());
                 }
 
-                raw_val
-                    // Remove number separator from number
-                    .replace('_', "")
-                    .parse()
-                    .expect("failed to parse float using rust's impl")
+                // Remove number separator from number
+                if raw_val.contains('_') {
+                    Cow::Owned(raw_val.replace('_', ""))
+                } else {
+                    Cow::Borrowed(&raw_val)
+                }
+                .parse()
+                .expect("failed to parse float using rust's impl")
             };
         }
 
@@ -210,10 +213,13 @@ impl<'a> Lexer<'a> {
 
                     write!(raw_val, "{}", exp).unwrap();
 
-                    raw_val
-                        .replace('_', "")
-                        .parse()
-                        .expect("failed to parse float literal")
+                    if raw_val.contains('_') {
+                        Cow::Owned(raw_val.replace('_', ""))
+                    } else {
+                        Cow::Borrowed(&raw_val)
+                    }
+                    .parse()
+                    .expect("failed to parse float literal")
                 }
             }
             _ => {}
