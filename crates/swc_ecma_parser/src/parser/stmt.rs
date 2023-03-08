@@ -206,7 +206,7 @@ impl<'a, I: Tokens> Parser<I> {
                     self.emit_err(self.input.cur_span(), SyntaxError::DeclNotAllowed);
                 }
 
-                return self.parse_fn_decl(decorators).map(Stmt::from);
+                return self.parse_fn_decl(decorators).map(From::from);
             }
 
             tok!("class") => {
@@ -219,7 +219,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!("if") => {
-                return self.parse_if_stmt().map(Stmt::If);
+                return self.parse_if_stmt().map(From::from);
             }
 
             tok!("return") => {
@@ -1308,7 +1308,7 @@ where
     }
 }
 
-impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
+impl<'a, I: Tokens> StmtLikeParser<'a, Box<Stmt>> for Parser<I> {
     fn handle_import_export(&mut self, _: bool, _: Vec<Decorator>) -> PResult<Box<Stmt>> {
         let start = cur_pos!(self);
         if is!(self, "import") && peeked_is!(self, '(') {
