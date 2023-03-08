@@ -73,13 +73,13 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// Parse a statement but not a declaration.
-    pub fn parse_stmt(&mut self, top_level: bool) -> PResult<Stmt> {
+    pub fn parse_stmt(&mut self, top_level: bool) -> PResult<Box<Stmt>> {
         trace_cur!(self, parse_stmt);
         self.parse_stmt_like(false, top_level)
     }
 
     /// Parse a statement and maybe a declaration.
-    pub fn parse_stmt_list_item(&mut self, top_level: bool) -> PResult<Stmt> {
+    pub fn parse_stmt_list_item(&mut self, top_level: bool) -> PResult<Box<Stmt>> {
         trace_cur!(self, parse_stmt_list_item);
         self.parse_stmt_like(true, top_level)
     }
@@ -112,7 +112,7 @@ impl<'a, I: Tokens> Parser<I> {
         include_decl: bool,
         top_level: bool,
         decorators: Vec<Decorator>,
-    ) -> PResult<Stmt> {
+    ) -> PResult<Box<Stmt>> {
         trace_cur!(self, parse_stmt_internal);
 
         if top_level && is!(self, "await") {
@@ -566,7 +566,7 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_return_stmt(&mut self) -> PResult<Stmt> {
+    fn parse_return_stmt(&mut self) -> PResult<Box<Stmt>> {
         let start = cur_pos!(self);
 
         let stmt = self.parse_with(|p| {
@@ -591,7 +591,7 @@ impl<'a, I: Tokens> Parser<I> {
         stmt
     }
 
-    fn parse_switch_stmt(&mut self) -> PResult<Stmt> {
+    fn parse_switch_stmt(&mut self) -> PResult<Box<Stmt>> {
         let switch_start = cur_pos!(self);
 
         assert_and_bump!(self, "switch");
@@ -651,7 +651,7 @@ impl<'a, I: Tokens> Parser<I> {
         }))
     }
 
-    fn parse_throw_stmt(&mut self) -> PResult<Stmt> {
+    fn parse_throw_stmt(&mut self) -> PResult<Box<Stmt>> {
         let start = cur_pos!(self);
 
         assert_and_bump!(self, "throw");
@@ -668,7 +668,7 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(Stmt::Throw(ThrowStmt { span, arg }))
     }
 
-    fn parse_try_stmt(&mut self) -> PResult<Stmt> {
+    fn parse_try_stmt(&mut self) -> PResult<Box<Stmt>> {
         let start = cur_pos!(self);
         assert_and_bump!(self, "try");
 
@@ -941,7 +941,7 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_do_stmt(&mut self) -> PResult<Stmt> {
+    fn parse_do_stmt(&mut self) -> PResult<Box<Stmt>> {
         let start = cur_pos!(self);
 
         assert_and_bump!(self, "do");
@@ -964,7 +964,7 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(Stmt::DoWhile(DoWhileStmt { span, test, body }))
     }
 
-    fn parse_while_stmt(&mut self) -> PResult<Stmt> {
+    fn parse_while_stmt(&mut self) -> PResult<Box<Stmt>> {
         let start = cur_pos!(self);
 
         assert_and_bump!(self, "while");
@@ -984,7 +984,7 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(Stmt::While(WhileStmt { span, test, body }))
     }
 
-    fn parse_with_stmt(&mut self) -> PResult<Stmt> {
+    fn parse_with_stmt(&mut self) -> PResult<Box<Stmt>> {
         if self.syntax().typescript() {
             let span = self.input.cur_span();
             self.emit_err(span, SyntaxError::TS2410);
@@ -1024,7 +1024,7 @@ impl<'a, I: Tokens> Parser<I> {
         Ok(BlockStmt { span, stmts })
     }
 
-    fn parse_labelled_stmt(&mut self, l: Ident) -> PResult<Stmt> {
+    fn parse_labelled_stmt(&mut self, l: Ident) -> PResult<Box<Stmt>> {
         let ctx = Context {
             is_break_allowed: true,
             ..self.ctx()
@@ -1070,7 +1070,7 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_for_stmt(&mut self) -> PResult<Stmt> {
+    fn parse_for_stmt(&mut self) -> PResult<Box<Stmt>> {
         let start = cur_pos!(self);
 
         assert_and_bump!(self, "for");
@@ -1308,7 +1308,7 @@ where
 }
 
 impl<'a, I: Tokens> StmtLikeParser<'a, Stmt> for Parser<I> {
-    fn handle_import_export(&mut self, _: bool, _: Vec<Decorator>) -> PResult<Stmt> {
+    fn handle_import_export(&mut self, _: bool, _: Vec<Decorator>) -> PResult<Box<Stmt>> {
         let start = cur_pos!(self);
         if is!(self, "import") && peeked_is!(self, '(') {
             let expr = self.parse_expr()?;
