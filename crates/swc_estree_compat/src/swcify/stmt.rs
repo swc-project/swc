@@ -69,7 +69,9 @@ impl Swcify for Statement {
             Statement::ExportAllDecl(v) => {
                 return ModuleItem::ModuleDecl(Box::new(ModuleDecl::from(v.swcify(ctx))))
             }
-            Statement::ExportDefaultDecl(v) => return ModuleItem::ModuleDecl(v.swcify(ctx)),
+            Statement::ExportDefaultDecl(v) => {
+                return ModuleItem::ModuleDecl(Box::new(v.swcify(ctx)))
+            }
             Statement::ExportNamedDecl(v) => {
                 return ModuleItem::ModuleDecl(Box::new(ModuleDecl::from(v.swcify(ctx))))
             }
@@ -85,7 +87,7 @@ impl Swcify for Statement {
                 return ModuleItem::ModuleDecl(Box::new(ModuleDecl::from(v.swcify(ctx))))
             }
             Statement::DeclTypeAlias(v) => Box::new(Stmt::Decl(Decl::from(v.swcify(ctx)))),
-            Statement::DeclVar(v) => Stmt::Decl(Decl::from(v.swcify(ctx))),
+            Statement::DeclVar(v) => Box::new(Stmt::Decl(Decl::from(v.swcify(ctx)))),
             Statement::DeclExportDeclaration(v) => {
                 return ModuleItem::ModuleDecl(Box::new(ModuleDecl::from(v.swcify(ctx))))
             }
@@ -138,7 +140,7 @@ impl Swcify for DoWhileStatement {
         DoWhileStmt {
             span: ctx.span(&self.base),
             test: self.test.swcify(ctx),
-            body: Box::new(self.body.swcify(ctx).expect_stmt()),
+            body: self.body.swcify(ctx).expect_stmt(),
         }
     }
 }
@@ -172,7 +174,7 @@ impl Swcify for ForInStatement {
             span: ctx.span(&self.base),
             left: self.left.swcify(ctx),
             right: self.right.swcify(ctx),
-            body: Box::new(self.body.swcify(ctx).expect_stmt()),
+            body: self.body.swcify(ctx).expect_stmt(),
         }
     }
 }
@@ -197,7 +199,7 @@ impl Swcify for ForStatement {
             init: self.init.swcify(ctx),
             test: self.test.swcify(ctx),
             update: self.update.swcify(ctx),
-            body: Box::new(self.body.swcify(ctx).expect_stmt()),
+            body: self.body.swcify(ctx).expect_stmt(),
         }
     }
 }
