@@ -203,6 +203,12 @@ macro_rules! bridge_from {
             }
         }
     };
+    ($dst:ty, $bridge:ty, $src:ty, $($extra:ty),*) => {
+        bridge_from!($dst, $bridge, $src);
+        $(
+            bridge_from!($dst, $bridge, $extra);
+        )*
+    };
 }
 
 macro_rules! bridge_expr_from {

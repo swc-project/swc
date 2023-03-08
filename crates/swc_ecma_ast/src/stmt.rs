@@ -104,6 +104,31 @@ pub enum Stmt {
     Expr(ExprStmt),
 }
 
+bridge_from!(
+    Box<Stmt>,
+    Stmt,
+    BlockStmt,
+    EmptyStmt,
+    DebuggerStmt,
+    WithStmt,
+    ReturnStmt,
+    LabeledStmt,
+    BreakStmt,
+    ContinueStmt,
+    IfStmt,
+    SwitchStmt,
+    ThrowStmt,
+    Box<TryStmt>,
+    TryStmt,
+    WhileStmt,
+    DoWhileStmt,
+    ForStmt,
+    ForInStmt,
+    ForOfStmt,
+    Decl,
+    ExprStmt
+);
+
 // Implement Clone without inline to avoid multiple copies of the
 // implementation.
 impl Clone for Stmt {
