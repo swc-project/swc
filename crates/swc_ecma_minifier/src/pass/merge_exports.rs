@@ -37,12 +37,12 @@ impl VisitMut for Merger {
         stmts.retain(|s| {
             !matches!(
                 s,
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport { src: None, .. }))
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(NamedExport { src: None, .. }))
             )
         });
 
         if !self.specifiers.is_empty() {
-            stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+            stmts.push(ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(
                 NamedExport {
                     src: None,
                     specifiers: self.specifiers.take(),
@@ -55,7 +55,7 @@ impl VisitMut for Merger {
 
         // export {}, to preserve module semantics
         if was_module && stmts.iter().all(|s| matches!(s, ModuleItem::Stmt(..))) {
-            stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+            stmts.push(ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(
                 NamedExport {
                     src: None,
                     specifiers: Default::default(),

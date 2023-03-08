@@ -36,6 +36,8 @@
 #![allow(clippy::only_used_in_recursion)]
 #![allow(unstable_name_collisions)]
 #![allow(clippy::match_like_matches_macro)]
+#![feature(box_syntax)]
+#![feature(box_patterns)]
 
 use once_cell::sync::Lazy;
 use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
@@ -128,7 +130,7 @@ pub fn optimize(
                 .body
                 .iter()
                 .filter_map(|v| v.as_module_decl())
-                .filter_map(|v| match v {
+                .filter_map(|v| match &**v {
                     ModuleDecl::Import(i) => Some(i),
                     _ => None,
                 })

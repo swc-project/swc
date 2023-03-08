@@ -150,7 +150,7 @@ impl Pure<'_> {
 
     fn optimize_fn_stmts(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         if !stmts.is_empty() {
-            if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
+            if let Stmt::Expr(ExprStmt { expr, .. }) = &*stmts[0] {
                 if let Expr::Lit(Lit::Str(v)) = &**expr {
                     if v.value == *"use asm" {
                         return;
@@ -934,7 +934,7 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Box<Stmt>>) {
         if !items.is_empty() {
-            if let Stmt::Expr(ExprStmt { expr, .. }) = &items[0] {
+            if let Stmt::Expr(ExprStmt { expr, .. }) = &*items[0] {
                 if let Expr::Lit(Lit::Str(v)) = &**expr {
                     if v.value == *"use asm" {
                         return;
@@ -947,7 +947,7 @@ impl VisitMut for Pure<'_> {
 
         self.handle_stmt_likes(items);
 
-        items.retain(|s| !matches!(s, Stmt::Empty(..)));
+        items.retain(|s| !matches!(&**s, Stmt::Empty(..)));
 
         #[cfg(debug_assertions)]
         {

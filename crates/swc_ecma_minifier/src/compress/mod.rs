@@ -346,12 +346,12 @@ where
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         stmts.retain(|stmt| match stmt {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+            ModuleItem::Stmt(box Stmt::Empty(..)) => false,
+            ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                 decl: Decl::Var(v),
                 ..
             }))
-            | ModuleItem::Stmt(Stmt::Decl(Decl::Var(v)))
+            | ModuleItem::Stmt(box Stmt::Decl(Decl::Var(v)))
                 if v.decls.is_empty() =>
             {
                 false
@@ -361,7 +361,7 @@ where
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Box<Stmt>>) {
-        stmts.retain(|stmt| match stmt {
+        stmts.retain(|stmt| match &**stmt {
             Stmt::Empty(..) => false,
             Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => false,
             _ => true,

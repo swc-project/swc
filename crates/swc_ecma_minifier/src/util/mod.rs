@@ -48,7 +48,7 @@ impl ModuleItemExt for Box<Stmt> {
         item.expect_stmt()
     }
 
-    fn into_module_decl(self) -> Result<ModuleDecl, Stmt> {
+    fn into_module_decl(self) -> Result<Box<ModuleDecl>, Box<Stmt>> {
         Err(self)
     }
 }
@@ -65,7 +65,7 @@ impl ModuleItemExt for ModuleItem {
         item
     }
 
-    fn into_module_decl(self) -> Result<ModuleDecl, Stmt> {
+    fn into_module_decl(self) -> Result<Box<ModuleDecl>, Box<Stmt>> {
         match self {
             ModuleItem::ModuleDecl(v) => Ok(v),
             ModuleItem::Stmt(v) => Err(v),

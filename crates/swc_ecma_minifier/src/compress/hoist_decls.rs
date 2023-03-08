@@ -112,7 +112,7 @@ impl Hoister<'_> {
             match stmt.try_into_stmt() {
                 Ok(stmt) => {
                     // Seaarch for variable declarations.
-                    match stmt {
+                    match *stmt {
                         Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => {
                             // Move functions to top.
                             fn_decls.push(T::from_stmt(stmt))

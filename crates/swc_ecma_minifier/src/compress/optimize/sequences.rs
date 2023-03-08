@@ -297,19 +297,19 @@ where
                                     unreachable!()
                                 }
                             }
-                            new_stmts.push(T::from_stmt(Stmt::For(stmt)));
+                            new_stmts.push(T::from_stmt(box Stmt::For(stmt)));
                         }
 
                         Stmt::ForIn(mut stmt) => {
                             stmt.right.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(Stmt::ForIn(stmt)));
+                            new_stmts.push(T::from_stmt(box Stmt::ForIn(stmt)));
                         }
 
                         Stmt::ForOf(mut stmt) => {
                             stmt.right.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(Stmt::ForOf(stmt)));
+                            new_stmts.push(T::from_stmt(box Stmt::ForOf(stmt)));
                         }
 
                         Stmt::Decl(Decl::Var(var))
