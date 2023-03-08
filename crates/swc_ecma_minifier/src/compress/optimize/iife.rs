@@ -474,8 +474,10 @@ where
                 if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
                     match &f.body {
                         BlockStmtOrExpr::BlockStmt(body) => {
-                            let has_decl =
-                                body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
+                            let has_decl = body
+                                .stmts
+                                .iter()
+                                .any(|stmt| matches!(&**stmt, Stmt::Decl(..)));
                             if has_decl {
                                 return;
                             }
@@ -592,7 +594,10 @@ where
 
                 if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
                     let body = f.function.body.as_ref().unwrap();
-                    let has_decl = body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
+                    let has_decl = body
+                        .stmts
+                        .iter()
+                        .any(|stmt| matches!(&**stmt, Stmt::Decl(..)));
                     if has_decl {
                         log_abort!("iife: [x] Found decl");
                         return;
@@ -709,7 +714,7 @@ where
         }
 
         if body.stmts.len() == 1 {
-            if let Stmt::Return(ReturnStmt { arg: Some(arg), .. }) = &body.stmts[0] {
+            if let Stmt::Return(ReturnStmt { arg: Some(arg), .. }) = &*body.stmts[0] {
                 if self.is_return_arg_simple_enough_for_iife_eval(arg) {
                     return true;
                 }
@@ -755,7 +760,7 @@ where
             }
         }
 
-        if !body.stmts.iter().all(|stmt| match stmt {
+        if !body.stmts.iter().all(|stmt| match &**stmt {
             Stmt::Decl(Decl::Var(var))
                 if matches!(
                     &**var,
@@ -871,7 +876,7 @@ where
 
         {
             for stmt in &body.stmts {
-                if let Stmt::Decl(Decl::Var(var)) = stmt {
+                if let Stmt::Decl(Decl::Var(var)) = &**stmt {
                     for decl in &var.decls {
                         let ids: Vec<Id> = find_pat_ids(&decl.name);
 
@@ -959,7 +964,7 @@ where
         }
 
         for mut stmt in body.stmts.take() {
-            match stmt {
+            match *stmt {
                 Stmt::Decl(Decl::Var(ref mut var)) => {
                     for decl in &mut var.decls {
                         if decl.init.is_some() {

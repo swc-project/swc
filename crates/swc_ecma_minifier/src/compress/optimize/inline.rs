@@ -143,7 +143,10 @@ where
                         if matches!(&**function, Function { body: Some(..), .. }) =>
                     {
                         if function.body.as_ref().unwrap().stmts.len() == 1
-                            && matches!(&function.body.as_ref().unwrap().stmts[0], Stmt::Return(..))
+                            && matches!(
+                                &*function.body.as_ref().unwrap().stmts[0],
+                                Stmt::Return(..)
+                            )
                         {
                         } else {
                             log_abort!("inline: [x] It's not fn-local");
@@ -444,7 +447,7 @@ where
         let cost_limit = 3 + param_cost + func_body_cost;
 
         if body.stmts.len() == 1 {
-            match &body.stmts[0] {
+            match &*body.stmts[0] {
                 Stmt::Expr(ExprStmt { expr, .. })
                     if expr.size(self.expr_ctx.unresolved_ctxt) < cost_limit =>
                 {
@@ -809,7 +812,7 @@ fn is_arrow_body_simple_enough_for_copy(e: &Expr) -> bool {
 
 fn is_block_stmt_of_fn_simple_enough_for_copy(b: &BlockStmt) -> bool {
     if b.stmts.len() == 1 {
-        if let Stmt::Return(ret) = &b.stmts[0] {
+        if let Stmt::Return(ret) = &*b.stmts[0] {
             return ret
                 .arg
                 .as_deref()

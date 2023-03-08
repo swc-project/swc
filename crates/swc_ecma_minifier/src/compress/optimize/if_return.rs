@@ -416,9 +416,9 @@ where
     /// This method returns [Expr::Seq] or [Expr::Cond].
     ///
     /// `exprs` is a simple optimization.
-    fn merge_if_returns_to(&mut self, stmt: Stmt, mut exprs: Vec<Box<Expr>>) -> Expr {
+    fn merge_if_returns_to(&mut self, stmt: Box<Stmt>, mut exprs: Vec<Box<Expr>>) -> Expr {
         //
-        match stmt {
+        match *stmt {
             Stmt::Block(s) => {
                 assert_eq!(s.stmts.len(), 1);
                 self.merge_if_returns_to(s.stmts.into_iter().next().unwrap(), exprs)
@@ -431,9 +431,9 @@ where
                 alt,
                 ..
             }) => {
-                let cons = Box::new(self.merge_if_returns_to(*cons, vec![]));
+                let cons = Box::new(self.merge_if_returns_to(cons, vec![]));
                 let alt = match alt {
-                    Some(alt) => Box::new(self.merge_if_returns_to(*alt, vec![])),
+                    Some(alt) => Box::new(self.merge_if_returns_to(alt, vec![])),
                     None => undefined(DUMMY_SP),
                 };
 
@@ -539,7 +539,7 @@ fn always_terminates_with_return_arg(s: &Stmt) -> bool {
                     .map(always_terminates_with_return_arg)
                     .unwrap_or(false)
         }
-        Stmt::Block(s) => s.stmts.iter().any(always_terminates_with_return_arg),
+        Stmt::Block(s) => s.stmts.iter().any(|s| always_terminates_with_return_arg(s)),
 
         _ => false,
     }
