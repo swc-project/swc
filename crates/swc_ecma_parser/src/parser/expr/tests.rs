@@ -380,7 +380,7 @@ fn issue_328() {
             }),
             |p| { p.parse_stmt(true) }
         ),
-        Stmt::Expr(ExprStmt {
+        Box::new(Stmt::Expr(ExprStmt {
             span,
             expr: Box::new(Expr::Call(CallExpr {
                 span,
@@ -395,7 +395,7 @@ fn issue_328() {
                 }],
                 type_args: Default::default(),
             }))
-        })
+        }))
     );
 }
 

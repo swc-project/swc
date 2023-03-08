@@ -2854,8 +2854,8 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let first =
-                    ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(Box::new(TsTypeAliasDecl {
+                let first = ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::TsTypeAlias(Box::new(
+                    TsTypeAliasDecl {
                         span: DUMMY_SP,
                         declare: false,
                         id: Ident::new("test".into(), DUMMY_SP),
@@ -2868,7 +2868,8 @@ mod tests {
                                 raw: Some("-1".into()),
                             }),
                         })),
-                    }))));
+                    },
+                )))));
                 vec![first]
             },
         };
@@ -2888,7 +2889,7 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let second = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                let second = ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Const,
                     declare: false,
@@ -2906,7 +2907,7 @@ mod tests {
                         }))),
                         definite: false,
                     }],
-                }))));
+                })))));
                 vec![second]
             },
         };

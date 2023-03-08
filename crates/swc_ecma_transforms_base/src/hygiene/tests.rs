@@ -412,7 +412,7 @@ fn mark_root() {
 
             Ok(vec![
                 tester.parse_stmt("actual1.js", "var foo = 'bar';")?,
-                Stmt::Decl(Decl::Fn(FnDecl {
+                Box::new(Stmt::Decl(Decl::Fn(FnDecl {
                     ident: quote_ident!("Foo"),
                     function: Box::new(Function {
                         span: DUMMY_SP,
@@ -437,7 +437,7 @@ fn mark_root() {
                     }),
 
                     declare: false,
-                })),
+                }))),
             ])
         },
         "
