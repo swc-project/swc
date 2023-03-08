@@ -499,7 +499,7 @@ impl VisitMut for FnEnvHoister {
         if !self.extra_ident.is_empty() {
             b.stmts.insert(
                 0,
-                Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                Box::new(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     kind: VarDeclKind::Var,
                     span: DUMMY_SP,
                     decls: self
@@ -514,7 +514,7 @@ impl VisitMut for FnEnvHoister {
                         })
                         .collect(),
                     declare: false,
-                }))),
+                })))),
             )
         }
     }
@@ -528,7 +528,7 @@ impl VisitMut for FnEnvHoister {
                 *b = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![
-                        Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                        Box::new(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             kind: VarDeclKind::Var,
                             span: DUMMY_SP,
                             decls: self
@@ -543,11 +543,11 @@ impl VisitMut for FnEnvHoister {
                                 })
                                 .collect(),
                             declare: false,
-                        }))),
-                        Stmt::Return(ReturnStmt {
+                        })))),
+                        Box::new(Stmt::Return(ReturnStmt {
                             span: e.span(),
                             arg: Some(e.take()),
-                        }),
+                        })),
                     ],
                 })
             }

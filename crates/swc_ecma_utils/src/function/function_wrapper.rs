@@ -116,7 +116,7 @@ impl<T> FunctionWrapper<T> {
             |ident| private_ident!(ident.span, format!("_{}", ident.sym)),
         );
 
-        let ref_stmt: Stmt = Stmt::Decl(
+        let ref_stmt = Box::new(Stmt::Decl(
             Box::new(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
@@ -129,25 +129,25 @@ impl<T> FunctionWrapper<T> {
                 declare: false,
             })
             .into(),
-        );
+        ));
 
         let fn_decl_stmt = {
             let FnExpr { function, .. } = self.build_function_forward(ref_ident, None);
 
-            Stmt::Decl(
+            Box::new(Stmt::Decl(
                 FnDecl {
                     ident: name_ident.clone(),
                     declare: false,
                     function,
                 }
                 .into(),
-            )
+            ))
         };
 
-        let return_stmt = Stmt::Return(ReturnStmt {
+        let return_stmt = Box::new(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
             arg: Some(Box::new(name_ident.into())),
-        });
+        }));
 
         let block_stmt = BlockStmt {
             span: DUMMY_SP,
@@ -240,14 +240,14 @@ impl<T> FunctionWrapper<T> {
     /// }
     /// ```
     fn build_function_forward(&mut self, ref_ident: Ident, name_ident: Option<Ident>) -> FnExpr {
-        let apply = Stmt::Return(ReturnStmt {
+        let apply = Box::new(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
             arg: Some(Box::new(ref_ident.apply(
                 DUMMY_SP,
                 Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
                 vec![quote_ident!("arguments").as_arg()],
             ))),
-        });
+        }));
 
         FnExpr {
             ident: name_ident,
@@ -299,10 +299,10 @@ impl From<ArrowExpr> for FunctionWrapper<Expr> {
             BlockStmtOrExpr::BlockStmt(block) => block,
             BlockStmtOrExpr::Expr(expr) => BlockStmt {
                 span: DUMMY_SP,
-                stmts: vec![Stmt::Return(ReturnStmt {
+                stmts: vec![Box::new(Stmt::Return(ReturnStmt {
                     span: expr.span(),
                     arg: Some(expr),
-                })],
+                }))],
             },
         });
 
