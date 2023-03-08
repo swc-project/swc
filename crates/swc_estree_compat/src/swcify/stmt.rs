@@ -67,30 +67,30 @@ impl Swcify for Statement {
             Statement::With(v) => v.swcify(ctx).into(),
             Statement::ClassDecl(v) => Decl::Class(v.swcify(ctx)).into(),
             Statement::ExportAllDecl(v) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
+                return ModuleItem::ModuleDecl(Box::new(ModuleDecl::from(v.swcify(ctx))))
             }
             Statement::ExportDefaultDecl(v) => return ModuleItem::ModuleDecl(v.swcify(ctx)),
             Statement::ExportNamedDecl(v) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
+                return ModuleItem::ModuleDecl(Box::new(ModuleDecl::from(v.swcify(ctx))))
             }
             Statement::ForOf(v) => v.swcify(ctx).into(),
             Statement::ImportDecl(v) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
+                return ModuleItem::ModuleDecl(Box::new(ModuleDecl::from(v.swcify(ctx))))
             }
-            Statement::DeclClass(v) => Stmt::Decl(v.swcify(ctx).into()),
-            Statement::DeclFunc(v) => Stmt::Decl(v.swcify(ctx).into()),
-            Statement::DeclInterface(v) => Stmt::Decl(v.swcify(ctx).into()),
-            Statement::DeclModule(v) => Stmt::Decl(v.swcify(ctx).into()),
+            Statement::DeclClass(v) => Box::new(Stmt::Decl(v.swcify(ctx).into())),
+            Statement::DeclFunc(v) => Box::new(Stmt::Decl(v.swcify(ctx).into())),
+            Statement::DeclInterface(v) => Box::new(Stmt::Decl(v.swcify(ctx).into())),
+            Statement::DeclModule(v) => Box::new(Stmt::Decl(v.swcify(ctx).into())),
             Statement::DeclareModuleExports(v) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
+                return ModuleItem::ModuleDecl(Box::new(ModuleDecl::from(v.swcify(ctx))))
             }
-            Statement::DeclTypeAlias(v) => Stmt::Decl(Decl::from(v.swcify(ctx))),
+            Statement::DeclTypeAlias(v) => Box::new(Stmt::Decl(Decl::from(v.swcify(ctx)))),
             Statement::DeclVar(v) => Stmt::Decl(Decl::from(v.swcify(ctx))),
             Statement::DeclExportDeclaration(v) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
+                return ModuleItem::ModuleDecl(Box::new(ModuleDecl::from(v.swcify(ctx))))
             }
             Statement::DeclExportAllDeclaration(v) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::from(v.swcify(ctx)))
+                return ModuleItem::ModuleDecl(Box::new(ModuleDecl::from(v.swcify(ctx))))
             }
             _ => {
                 todo!("swcify: {:?}", self)

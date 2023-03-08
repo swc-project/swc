@@ -1,5 +1,6 @@
 #![cfg_attr(test, deny(warnings))]
 #![feature(box_patterns)]
+#![allow(clippy::vec_box)]
 
 pub use self::resolver::resolver;
 

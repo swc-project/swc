@@ -817,10 +817,10 @@ where
         class_name_sym.span.ctxt = class_name.span.ctxt;
 
         // `return Foo`
-        stmts.push(Stmt::Return(ReturnStmt {
+        stmts.push(Box::new(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
             arg: Some(Box::new(Expr::Ident(class_name_sym))),
-        }));
+        })));
 
         stmts
     }

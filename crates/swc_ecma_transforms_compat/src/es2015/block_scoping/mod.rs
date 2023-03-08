@@ -191,7 +191,7 @@ impl BlockScoping {
                     && body_stmt
                         .stmts
                         .last()
-                        .map(|s| !matches!(s, Stmt::Return(..)))
+                        .map(|s| !matches!(&**s, Stmt::Return(..)))
                         .unwrap_or(true)
                 {
                     body_stmt.stmts.push(v.make_reassignment(None).into_stmt());
@@ -331,15 +331,17 @@ impl BlockScoping {
                                     span: DUMMY_SP,
                                     test: Some(Box::new(key.into())),
                                     cons: vec![match label {
-                                        Label::Break(id) => Stmt::Break(BreakStmt {
+                                        Label::Break(id) => Box::new(Stmt::Break(BreakStmt {
                                             span: DUMMY_SP,
                                             label: Some(id),
-                                        }),
+                                        })),
 
-                                        Label::Continue(id) => Stmt::Continue(ContinueStmt {
-                                            span: DUMMY_SP,
-                                            label: Some(id),
-                                        }),
+                                        Label::Continue(id) => {
+                                            Box::new(Stmt::Continue(ContinueStmt {
+                                                span: DUMMY_SP,
+                                                label: Some(id),
+                                            }))
+                                        }
                                     }],
                                 })
                                 .collect(),
@@ -358,7 +360,7 @@ impl BlockScoping {
                 return;
             }
 
-            *body = Box::new(call.take().into_stmt());
+            *body = call.take().into_stmt();
         }
     }
 
@@ -381,7 +383,7 @@ impl BlockScoping {
         if !body.is_block() {
             *body = Box::new(Stmt::Block(BlockStmt {
                 span: Default::default(),
-                stmts: vec![*body.take()],
+                stmts: vec![body.take()],
             }));
             true
         } else {
@@ -395,7 +397,7 @@ impl BlockScoping {
                 .as_mut_block()
                 .and_then(|block| (block.stmts.len() == 1).then(|| block.stmts[0].take()));
             if let Some(stmt) = stmt {
-                *body = Box::new(stmt)
+                *body = stmt
             }
         }
     }
