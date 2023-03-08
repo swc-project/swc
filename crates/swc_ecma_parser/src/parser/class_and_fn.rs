@@ -1580,7 +1580,13 @@ pub(super) trait FnBodyParser<Body> {
 }
 fn has_use_strict(block: &BlockStmt) -> Option<Span> {
     match block.stmts.iter().find(|stmt| stmt.is_use_strict()) {
-        Some(Stmt::Expr(ExprStmt { span, expr: _ })) => Some(*span),
+        Some(e) => {
+            if let Stmt::Expr(ExprStmt { span, expr: _ }) = &**e {
+                Some(*span)
+            } else {
+                None
+            }
+        }
         _ => None,
     }
 }

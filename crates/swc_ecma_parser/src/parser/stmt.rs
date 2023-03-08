@@ -88,7 +88,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_stmt_like<Type>(&mut self, include_decl: bool, top_level: bool) -> PResult<Type>
     where
         Self: StmtLikeParser<'a, Type>,
-        Type: IsDirective + From<Stmt>,
+        Type: IsDirective + From<Box<Stmt>>,
     {
         trace_cur!(self, parse_stmt_like);
 
