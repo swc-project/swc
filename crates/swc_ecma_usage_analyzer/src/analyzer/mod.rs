@@ -1055,7 +1055,7 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
-    fn visit_stmts(&mut self, stmts: &[Stmt]) {
+    fn visit_stmts(&mut self, stmts: &[Box<Stmt>]) {
         let mut had_cond = false;
 
         for stmt in stmts {
