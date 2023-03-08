@@ -15,7 +15,7 @@ impl Parallel for ExampleVisitMut {
 }
 
 impl ParExplode for ExampleVisitMut {
-    fn after_one_stmt(&mut self, _: &mut Vec<Stmt>) {}
+    fn after_one_stmt(&mut self, _: &mut Vec<Box<Stmt>>) {}
 
     fn after_one_module_item(&mut self, _: &mut Vec<ModuleItem>) {}
 }

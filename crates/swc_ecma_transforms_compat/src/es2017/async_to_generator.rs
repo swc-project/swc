@@ -69,8 +69,8 @@ struct Actual<C: Comments> {
     comments: Option<C>,
 
     unresolved_ctxt: SyntaxContext,
-    extra_stmts: Vec<Stmt>,
-    hoist_stmts: Vec<Stmt>,
+    extra_stmts: Vec<Box<Stmt>>,
+    hoist_stmts: Vec<Box<Stmt>>,
 }
 
 #[swc_trace]
@@ -82,7 +82,7 @@ impl<C: Comments + Clone> VisitMut for AsyncToGenerator<C> {
         self.visit_mut_stmt_like(n);
     }
 
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Box<Stmt>>) {
         self.visit_mut_stmt_like(n);
     }
 }
@@ -300,7 +300,7 @@ impl<C: Comments> VisitMut for Actual<C> {
         .into()
     }
 
-    fn visit_mut_stmts(&mut self, _n: &mut Vec<Stmt>) {}
+    fn visit_mut_stmts(&mut self, _n: &mut Vec<Box<Stmt>>) {}
 
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
         if let VarDeclarator {

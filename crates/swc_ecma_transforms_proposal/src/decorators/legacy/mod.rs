@@ -540,7 +540,7 @@ impl VisitMut for TscDecorator {
         n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, s: &mut Vec<Box<Stmt>>) {
         self.visit_mut_stmt_likes(s)
     }
 }

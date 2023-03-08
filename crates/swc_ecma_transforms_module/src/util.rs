@@ -292,7 +292,7 @@ pub(crate) fn emit_export_stmts(
     features: FeatureFlag,
     exports: Ident,
     mut prop_list: Vec<ObjPropKeyIdent>,
-) -> Vec<Stmt> {
+) -> Vec<Box<Stmt>> {
     let features = &features;
     let support_arrow = caniuse!(features.ArrowFunctions);
     let support_shorthand = caniuse!(features.ShorthandProperties);

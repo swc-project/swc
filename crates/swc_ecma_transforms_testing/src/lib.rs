@@ -133,7 +133,7 @@ impl<'a> Tester<'a> {
         self.with_parser(file_name, Syntax::default(), src, |p| p.parse_module())
     }
 
-    pub fn parse_stmts(&mut self, file_name: &str, src: &str) -> Result<Vec<Stmt>, ()> {
+    pub fn parse_stmts(&mut self, file_name: &str, src: &str) -> Result<Vec<Box<Stmt>>, ()> {
         let stmts = self.with_parser(file_name, Syntax::default(), src, |p| {
             p.parse_script().map(|script| script.body)
         })?;

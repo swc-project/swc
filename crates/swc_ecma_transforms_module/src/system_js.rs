@@ -89,7 +89,7 @@ struct ModuleItemMeta {
     export_values: Vec<Box<Expr>>,
     has_export_all: bool,
     src: JsWord,
-    setter_fn_stmts: Vec<Stmt>,
+    setter_fn_stmts: Vec<Box<Stmt>>,
 }
 
 impl SystemJs {
@@ -244,7 +244,7 @@ impl SystemJs {
         &mut self,
         export_names: &mut Vec<JsWord>,
         export_values: &mut Vec<Box<Expr>>,
-    ) -> Vec<Stmt> {
+    ) -> Vec<Box<Stmt>> {
         match export_names.len() {
             0 => vec![],
             1 => vec![self
@@ -276,7 +276,7 @@ impl SystemJs {
         }
     }
 
-    fn build_module_item_export_all(&mut self, mut meta: ModuleItemMeta) -> Vec<Stmt> {
+    fn build_module_item_export_all(&mut self, mut meta: ModuleItemMeta) -> Vec<Box<Stmt>> {
         if !meta.has_export_all {
             meta.setter_fn_stmts.append(
                 &mut self.build_export_call(&mut meta.export_names, &mut meta.export_values),
@@ -645,7 +645,7 @@ impl Fold for SystemJs {
     }
 
     fn fold_module(&mut self, module: Module) -> Module {
-        let mut before_body_stmts: Vec<Stmt> = vec![];
+        let mut before_body_stmts: Vec<Box<Stmt>> = vec![];
         let mut execute_stmts = vec![];
 
         // collect top level fn decl

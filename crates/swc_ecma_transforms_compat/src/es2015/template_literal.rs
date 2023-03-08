@@ -21,7 +21,7 @@ pub fn template_literal(c: Config) -> impl Fold + VisitMut {
 
 #[derive(Default)]
 struct TemplateLiteral {
-    added: Vec<Stmt>,
+    added: Vec<Box<Stmt>>,
     c: Config,
 }
 

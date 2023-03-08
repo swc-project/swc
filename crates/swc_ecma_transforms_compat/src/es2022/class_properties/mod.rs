@@ -72,7 +72,7 @@ struct ClassProperties<C: Comments> {
 struct ClassExtra {
     lets: Vec<VarDeclarator>,
     vars: Vec<VarDeclarator>,
-    stmts: Vec<Stmt>,
+    stmts: Vec<Box<Stmt>>,
 }
 
 #[swc_trace]
@@ -155,7 +155,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
         self.extra.take().prepend_with(n)
     }
 
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Box<Stmt>>) {
         let old = self.extra.take();
         self.visit_mut_stmt_like(n);
 

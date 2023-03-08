@@ -539,7 +539,7 @@ impl VisitMut for BlockScoping {
         self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
     }
 
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Box<Stmt>>) {
         self.visit_mut_stmt_like(n);
     }
 

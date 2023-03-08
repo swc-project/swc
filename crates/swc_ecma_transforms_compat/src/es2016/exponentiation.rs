@@ -47,7 +47,7 @@ impl Parallel for Exponentiation {
 
 #[swc_trace]
 impl ParExplode for Exponentiation {
-    fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
+    fn after_one_stmt(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         if !self.vars.is_empty() {
             stmts.push(
                 VarDecl {

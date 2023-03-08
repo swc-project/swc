@@ -336,7 +336,7 @@ struct Generator {
     last_operation_was_abrupt: bool,
     last_operation_was_completion: bool,
     clauses: Option<Vec<SwitchCase>>,
-    stmts: Option<Vec<Stmt>>,
+    stmts: Option<Vec<Box<Stmt>>>,
     /// Index to `blocks`
     exception_block_stack: Vec<Ptr<CodeBlock>>,
     /// Index to `blocks`
@@ -1410,7 +1410,7 @@ impl Generator {
         Expr::Ident(result_local)
     }
 
-    fn transform_and_emit_stmts(&mut self, stmts: Vec<Stmt>, start: usize) {
+    fn transform_and_emit_stmts(&mut self, stmts: Vec<Box<Stmt>>, start: usize) {
         for s in stmts.into_iter().skip(start) {
             self.transform_and_emit_stmt(s);
         }
@@ -2777,7 +2777,7 @@ impl Generator {
     }
 
     /// Builds the statements for the generator function body.
-    fn build_stmts(&mut self) -> Vec<Stmt> {
+    fn build_stmts(&mut self) -> Vec<Box<Stmt>> {
         if let Some(ops) = self.operations.clone() {
             for (op_index, _) in ops.iter().enumerate() {
                 self.write_operation(op_index);

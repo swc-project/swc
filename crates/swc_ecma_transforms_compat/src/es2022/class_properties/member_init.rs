@@ -189,7 +189,7 @@ impl MemberInitRecord {
         normal_init
     }
 
-    pub fn into_init_static(self, class_ident: Ident) -> Vec<Stmt> {
+    pub fn into_init_static(self, class_ident: Ident) -> Vec<Box<Stmt>> {
         let mut normal_init = vec![];
         let mut value_init = vec![];
 

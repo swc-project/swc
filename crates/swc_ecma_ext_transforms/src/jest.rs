@@ -75,7 +75,7 @@ impl VisitMut for Jest {
         self.visit_mut_stmt_like(items)
     }
 
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         self.visit_mut_stmt_like(stmts)
     }
 }

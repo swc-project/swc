@@ -574,7 +574,7 @@ where
         }
     }
 
-    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, items: &mut Vec<Box<Stmt>>) {
         self.top_level = false;
         items.visit_mut_children_with(self)
     }

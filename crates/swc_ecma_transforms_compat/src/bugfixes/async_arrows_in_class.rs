@@ -83,7 +83,7 @@ impl Fold for AsyncArrowsInClass {
         stmts
     }
 
-    fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+    fn fold_stmts(&mut self, stmts: Vec<Box<Stmt>>) -> Vec<Box<Stmt>> {
         let mut stmts = stmts.fold_children_with(self);
         if !self.vars.is_empty() {
             prepend_stmt(

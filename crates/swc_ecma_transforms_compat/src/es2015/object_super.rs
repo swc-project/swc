@@ -51,7 +51,7 @@ impl VisitMut for ObjectSuper {
         }
     }
 
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         stmts.visit_mut_children_with(self);
         if !self.extra_vars.is_empty() {
             prepend_stmt(

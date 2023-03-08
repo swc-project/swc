@@ -879,7 +879,7 @@ where
         &mut self,
         decl: TsNamespaceDecl,
         parent_private_name: &Ident,
-    ) -> Option<Vec<Stmt>> {
+    ) -> Option<Vec<Box<Stmt>>> {
         let private_name = private_ident!(decl.id.sym.clone());
         // we'll always create a variable in this scenario
         let var_id = Ident::new(decl.id.sym.clone(), DUMMY_SP.with_ctxt(decl.id.span.ctxt));
@@ -916,7 +916,7 @@ where
     fn get_namespace_var_decl_and_call_expr(
         &self,
         var: Option<VarDeclarator>,
-        body_stmts: Vec<Stmt>,
+        body_stmts: Vec<Box<Stmt>>,
         decl_span: Span,
         parent_module_name: Option<&Ident>,
         module_name: &Ident,
@@ -974,7 +974,7 @@ where
         &mut self,
         block: TsModuleBlock,
         private_module_name: &Ident,
-    ) -> Option<Vec<Stmt>> {
+    ) -> Option<Vec<Box<Stmt>>> {
         let stmts = self.handle_module_items(block.body, Some(private_module_name));
 
         if stmts.is_empty() {
@@ -2533,7 +2533,7 @@ where
         }
     }
 
-    fn visit_mut_stmts(&mut self, orig: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, orig: &mut Vec<Box<Stmt>>) {
         let orig_keys = self.keys.take();
 
         let mut stmts = Vec::with_capacity(orig.len());

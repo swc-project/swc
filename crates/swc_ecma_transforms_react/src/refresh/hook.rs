@@ -43,7 +43,7 @@ enum HookCall {
 pub struct HookRegister<'a> {
     pub options: &'a RefreshOptions,
     pub ident: Vec<Ident>,
-    pub extra_stmt: Vec<Stmt>,
+    pub extra_stmt: Vec<Box<Stmt>>,
     pub current_scope: Vec<SyntaxContext>,
     pub cm: &'a SourceMap,
     pub should_reset: bool,
@@ -327,7 +327,7 @@ impl<'a> VisitMut for HookRegister<'a> {
     }
 }
 
-fn collect_hooks(stmts: &mut Vec<Stmt>, cm: &SourceMap) -> Option<HookSig> {
+fn collect_hooks(stmts: &mut Vec<Box<Stmt>>, cm: &SourceMap) -> Option<HookSig> {
     let mut hook = HookCollector {
         state: Vec::new(),
         cm,

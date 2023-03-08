@@ -16,7 +16,7 @@ struct BlockScopedFns;
 impl VisitMut for BlockScopedFns {
     noop_visit_mut_type!();
 
-    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, items: &mut Vec<Box<Stmt>>) {
         let mut stmts = Vec::with_capacity(items.len());
         let mut extra_stmts = Vec::with_capacity(items.len());
 

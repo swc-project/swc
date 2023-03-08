@@ -441,7 +441,7 @@ impl VisitMut for PrivateInObject {
         }
     }
 
-    fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, s: &mut Vec<Box<Stmt>>) {
         s.visit_mut_children_with(self);
 
         if !self.vars.is_empty() {

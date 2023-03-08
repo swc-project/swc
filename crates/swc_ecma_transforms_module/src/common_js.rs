@@ -373,7 +373,7 @@ where
             },
         );
 
-        let mut export_stmts: Vec<Stmt> = Default::default();
+        let mut export_stmts: Vec<Box<Stmt>> = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
             export_obj_prop_list.sort_by_key(|prop| prop.span());

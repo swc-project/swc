@@ -144,7 +144,7 @@ where
         let mut strip = ModuleDeclStrip::new(self.const_var_kind);
         n.visit_mut_with(&mut strip);
 
-        let mut stmts: Vec<Stmt> = Vec::with_capacity(n.len() + 4);
+        let mut stmts: Vec<Box<Stmt>> = Vec::with_capacity(n.len() + 4);
 
         // "use strict";
         if self.config.strict_mode {

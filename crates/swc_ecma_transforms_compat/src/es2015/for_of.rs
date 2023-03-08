@@ -613,7 +613,7 @@ impl Parallel for ForOf {
 
 #[swc_trace]
 impl ParExplode for ForOf {
-    fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
+    fn after_one_stmt(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         // Add variable declaration
         // e.g. var ref
         if !self.top_level_vars.is_empty() {

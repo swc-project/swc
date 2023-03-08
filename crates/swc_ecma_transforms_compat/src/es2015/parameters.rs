@@ -56,7 +56,7 @@ pub struct Config {
 //         self.state.merge(other.state);
 //     }
 
-//     fn after_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+//     fn after_stmts(&mut self, stmts: &mut Vec<Box<Stmt>>) {
 //         let decls = self.state.take().to_stmt();
 //         if let Some(decls) = decls {
 //             prepend(stmts, decls)
@@ -730,7 +730,7 @@ impl VisitMut for Params {
         }
     }
 
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         let old_rep = self.hoister.take();
 
         stmts.visit_mut_children_with(self);
