@@ -1912,7 +1912,7 @@ impl VisitMut for Hoister<'_, '_> {
         let mut other_stmts = vec![];
 
         for item in stmts {
-            match item {
+            match &mut **item {
                 Stmt::Decl(Decl::Var(v))
                     if matches!(
                         &**v,

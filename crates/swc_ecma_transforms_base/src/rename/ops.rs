@@ -246,29 +246,30 @@ impl<'a> VisitMut for Operator<'a> {
                 let orig_ident = ident.clone();
                 match self.rename_ident(&mut ident) {
                     Ok(..) => {
-                        *item = ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
+                        *item = ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Class(ClassDecl {
                             ident: ident.clone(),
                             class: class.take(),
                             declare: *declare,
-                        })));
+                        }))));
                         export!(
                             ModuleExportName::Ident(orig_ident),
                             ModuleExportName::Ident(ident.take())
                         );
                     }
                     Err(..) => {
-                        *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                            span: *span,
-                            decl: Decl::Class(ClassDecl {
-                                ident: ident.take(),
-                                class: class.take(),
-                                declare: *declare,
-                            }),
-                        }))
+                        *item =
+                            ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportDecl(ExportDecl {
+                                span: *span,
+                                decl: Decl::Class(ClassDecl {
+                                    ident: ident.take(),
+                                    class: class.take(),
+                                    declare: *declare,
+                                }),
+                            })))
                     }
                 }
             }
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+            ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                 span,
                 decl:
                     Decl::Fn(FnDecl {
@@ -284,29 +285,30 @@ impl<'a> VisitMut for Operator<'a> {
                 let orig_ident = ident.clone();
                 match self.rename_ident(&mut ident) {
                     Ok(..) => {
-                        *item = ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                        *item = ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Fn(FnDecl {
                             ident: ident.clone(),
                             function,
                             declare: *declare,
-                        })));
+                        }))));
                         export!(
                             ModuleExportName::Ident(orig_ident),
                             ModuleExportName::Ident(ident)
                         );
                     }
                     Err(..) => {
-                        *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                            span: *span,
-                            decl: Decl::Fn(FnDecl {
-                                ident,
-                                function,
-                                declare: *declare,
-                            }),
-                        }))
+                        *item =
+                            ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportDecl(ExportDecl {
+                                span: *span,
+                                decl: Decl::Fn(FnDecl {
+                                    ident,
+                                    function,
+                                    declare: *declare,
+                                }),
+                            })))
                     }
                 }
             }
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+            ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                 decl: Decl::Var(var),
                 ..
             })) => {
@@ -323,21 +325,21 @@ impl<'a> VisitMut for Operator<'a> {
                 });
 
                 if renamed.is_empty() {
-                    *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    *item = ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportDecl(ExportDecl {
                         span,
                         decl: Decl::Var(Box::new(VarDecl {
                             decls,
                             ..*var.take()
                         })),
-                    }));
+                    })));
                     return;
                 }
-                *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                *item = ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     decls,
                     ..*var.take()
-                }))));
+                })))));
                 self.extra
-                    .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    .push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(
                         NamedExport {
                             span,
                             specifiers: renamed,
@@ -345,7 +347,7 @@ impl<'a> VisitMut for Operator<'a> {
                             type_only: false,
                             asserts: None,
                         },
-                    )));
+                    ))));
             }
             _ => {
                 item.visit_mut_children_with(self);
