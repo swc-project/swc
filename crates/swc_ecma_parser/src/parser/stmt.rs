@@ -409,10 +409,10 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if eat!(self, ';') {
-            Ok(Stmt::Expr(ExprStmt {
+            Ok(Box::new(Stmt::Expr(ExprStmt {
                 span: span!(self, start),
                 expr,
-            }))
+            })))
         } else {
             if let Token::BinOp(..) = *cur!(self, false)? {
                 self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
@@ -497,7 +497,7 @@ impl<'a, I: Tokens> Parser<I> {
                     ignore_else_clause: false,
                     ..self.ctx()
                 };
-                self.with_ctx(ctx).parse_stmt(false).map(Box::new)
+                self.with_ctx(ctx).parse_stmt(false)
             })?
         };
 
@@ -549,14 +549,13 @@ impl<'a, I: Tokens> Parser<I> {
             match cur {
                 Some(mut cur) => {
                     if let Some(last) = last {
-                        self.adjust_if_else_clause(&mut cur, Box::new(last));
+                        self.adjust_if_else_clause(&mut cur, last);
                     }
-                    Some(Stmt::If(cur))
+                    Some(Box::new(Stmt::If(cur)))
                 }
                 _ => last,
             }
-        }
-        .map(Box::new);
+        };
 
         let span = span!(self, start);
         Ok(IfStmt {
@@ -589,7 +588,7 @@ impl<'a, I: Tokens> Parser<I> {
             self.emit_err(span!(self, start), SyntaxError::ReturnNotAllowed);
         }
 
-        stmt
+        stmt.map(Box::new)
     }
 
     fn parse_switch_stmt(&mut self) -> PResult<Box<Stmt>> {
@@ -645,11 +644,11 @@ impl<'a, I: Tokens> Parser<I> {
         // eof or rbrace
         expect!(self, '}');
 
-        Ok(Stmt::Switch(SwitchStmt {
+        Ok(Box::new(Stmt::Switch(SwitchStmt {
             span: span!(self, switch_start),
             discriminant,
             cases,
-        }))
+        })))
     }
 
     fn parse_throw_stmt(&mut self) -> PResult<Box<Stmt>> {
@@ -666,7 +665,7 @@ impl<'a, I: Tokens> Parser<I> {
         expect!(self, ';');
 
         let span = span!(self, start);
-        Ok(Stmt::Throw(ThrowStmt { span, arg }))
+        Ok(Box::new(Stmt::Throw(ThrowStmt { span, arg })))
     }
 
     fn parse_try_stmt(&mut self) -> PResult<Box<Stmt>> {
@@ -687,12 +686,12 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let span = span!(self, start);
-        Ok(Stmt::Try(Box::new(TryStmt {
+        Ok(Box::new(Stmt::Try(Box::new(TryStmt {
             span,
             block,
             handler,
             finalizer,
-        })))
+        }))))
     }
 
     fn parse_catch_clause(&mut self) -> PResult<Option<CatchClause>> {
@@ -952,7 +951,7 @@ impl<'a, I: Tokens> Parser<I> {
             is_continue_allowed: true,
             ..self.ctx()
         };
-        let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
+        let body = self.with_ctx(ctx).parse_stmt(false)?;
         expect!(self, "while");
         expect!(self, '(');
         let test = self.include_in_expr(true).parse_expr()?;
@@ -962,7 +961,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let span = span!(self, start);
 
-        Ok(Stmt::DoWhile(DoWhileStmt { span, test, body }))
+        Ok(Box::new(Stmt::DoWhile(DoWhileStmt { span, test, body })))
     }
 
     fn parse_while_stmt(&mut self) -> PResult<Box<Stmt>> {
@@ -979,10 +978,10 @@ impl<'a, I: Tokens> Parser<I> {
             is_continue_allowed: true,
             ..self.ctx()
         };
-        let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
+        let body = self.with_ctx(ctx).parse_stmt(false)?;
 
         let span = span!(self, start);
-        Ok(Stmt::While(WhileStmt { span, test, body }))
+        Ok(Box::new(Stmt::While(WhileStmt { span, test, body })))
     }
 
     fn parse_with_stmt(&mut self) -> PResult<Box<Stmt>> {
@@ -1008,10 +1007,10 @@ impl<'a, I: Tokens> Parser<I> {
             in_function: true,
             ..self.ctx()
         };
-        let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
+        let body = self.with_ctx(ctx).parse_stmt(false)?;
 
         let span = span!(self, start);
-        Ok(Stmt::With(WithStmt { span, obj, body }))
+        Ok(Box::new(Stmt::With(WithStmt { span, obj, body })))
     }
 
     pub(super) fn parse_block(&mut self, allow_directives: bool) -> PResult<BlockStmt> {
@@ -1040,7 +1039,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             p.state.labels.push(l.sym.clone());
 
-            let body = Box::new(if is!(p, "function") {
+            let body = if is!(p, "function") {
                 let f = p.parse_fn_decl(vec![])?;
                 if let Decl::Fn(FnDecl { function, .. }) = &f {
                     if p.ctx().strict {
@@ -1054,7 +1053,7 @@ impl<'a, I: Tokens> Parser<I> {
                 f.into()
             } else {
                 p.parse_stmt(false)?
-            });
+            };
 
             {
                 let pos = p.state.labels.iter().position(|v| v == &l.sym);
@@ -1063,11 +1062,11 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            Ok(Stmt::Labeled(LabeledStmt {
+            Ok(Box::new(Stmt::Labeled(LabeledStmt {
                 span: span!(p, start),
                 label: l,
                 body,
-            }))
+            })))
         })
     }
 
@@ -1094,7 +1093,7 @@ impl<'a, I: Tokens> Parser<I> {
             is_continue_allowed: true,
             ..self.ctx()
         };
-        let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
+        let body = self.with_ctx(ctx).parse_stmt(false)?;
 
         let span = span!(self, start);
         Ok(match head {
@@ -1103,33 +1102,33 @@ impl<'a, I: Tokens> Parser<I> {
                     syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
 
-                Stmt::For(ForStmt {
+                Box::new(Stmt::For(ForStmt {
                     span,
                     init,
                     test,
                     update,
                     body,
-                })
+                }))
             }
             ForHead::ForIn { left, right } => {
                 if let Some(await_token) = await_token {
                     syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
 
-                Stmt::ForIn(ForInStmt {
+                Box::new(Stmt::ForIn(ForInStmt {
                     span,
                     left,
                     right,
                     body,
-                })
+                }))
             }
-            ForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
+            ForHead::ForOf { left, right } => Box::new(Stmt::ForOf(ForOfStmt {
                 span,
                 await_token,
                 left,
                 right,
                 body,
-            }),
+            })),
         })
     }
 
