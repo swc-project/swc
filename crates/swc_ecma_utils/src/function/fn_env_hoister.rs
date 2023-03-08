@@ -580,7 +580,7 @@ impl VisitMut for FnEnvHoister {
     }
 }
 
-pub fn init_this(stmts: &mut Vec<Stmt>, this_id: &Ident) {
+pub fn init_this(stmts: &mut Vec<Box<Stmt>>, this_id: &Ident) {
     stmts.visit_mut_children_with(&mut InitThis { this_id })
 }
 
@@ -596,7 +596,7 @@ impl<'a> VisitMut for InitThis<'a> {
 
     // babel will transform super() to super(); _this = this
     // hopefully it will be meaningless
-    // fn visit_mut_stmts(&mut self, stmt: &mut Vec<Stmt>) {}
+    // fn visit_mut_stmts(&mut self, stmt: &mut Vec<Box<Stmt>>) {}
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);

@@ -469,7 +469,7 @@ impl StmtExt for Box<Stmt> {
     }
 }
 
-impl StmtExt for Vec<Stmt> {
+impl StmtExt for Vec<Box<Stmt>> {
     fn extract_var_ids(&self) -> Vec<Ident> {
         extract_var_ids(self)
     }
