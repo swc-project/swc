@@ -1361,10 +1361,10 @@ mod tests {
     fn expr_stmt() {
         assert_eq_ignore_span!(
             stmt("a + b + c"),
-            Stmt::Expr(ExprStmt {
+            Box::new(Stmt::Expr(ExprStmt {
                 span,
                 expr: expr("a + b + c")
-            })
+            }))
         )
     }
 
@@ -1372,7 +1372,7 @@ mod tests {
     fn catch_rest_pat() {
         assert_eq_ignore_span!(
             stmt("try {} catch({ ...a34 }) {}"),
-            Stmt::Try(Box::new(TryStmt {
+            Box::new(Stmt::Try(Box::new(TryStmt {
                 span,
                 block: BlockStmt {
                     span,
@@ -1398,7 +1398,7 @@ mod tests {
                     }
                 }),
                 finalizer: None
-            }))
+            })))
         );
     }
 
@@ -1406,10 +1406,10 @@ mod tests {
     fn throw_this() {
         assert_eq_ignore_span!(
             stmt("throw this"),
-            Stmt::Throw(ThrowStmt {
+            Box::new(Stmt::Throw(ThrowStmt {
                 span,
                 arg: expr("this"),
-            })
+            }))
         )
     }
 
@@ -1417,7 +1417,7 @@ mod tests {
     fn await_for_of() {
         assert_eq_ignore_span!(
             stmt("for await (const a of b) ;"),
-            Stmt::ForOf(ForOfStmt {
+            Box::new(Stmt::ForOf(ForOfStmt {
                 span,
                 await_token: Some(span),
                 left: VarDeclOrPat::VarDecl(Box::new(VarDecl {
@@ -1434,7 +1434,7 @@ mod tests {
                 right: Box::new(Expr::Ident(Ident::new("b".into(), span))),
 
                 body: Box::new(Stmt::Empty(EmptyStmt { span })),
-            })
+            }))
         )
     }
 
