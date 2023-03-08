@@ -1023,12 +1023,12 @@ define!({
     }
     pub struct Script {
         pub span: Span,
-        pub body: Vec<Stmt>,
+        pub body: Vec<Box<Stmt>>,
         pub shebang: Option<Atom>,
     }
     pub enum ModuleItem {
-        ModuleDecl(ModuleDecl),
-        Stmt(Stmt),
+        ModuleDecl(Box<ModuleDecl>),
+        Stmt(Box<Stmt>),
     }
     pub enum ModuleDecl {
         Import(ImportDecl),
@@ -1270,7 +1270,7 @@ define!({
     }
     pub struct BlockStmt {
         pub span: Span,
-        pub stmts: Vec<Stmt>,
+        pub stmts: Vec<Box<Stmt>>,
     }
     pub enum Stmt {
         Block(BlockStmt),
@@ -1379,7 +1379,7 @@ define!({
     pub struct SwitchCase {
         pub span: Span,
         pub test: Option<Box<Expr>>,
-        pub cons: Vec<Stmt>,
+        pub cons: Vec<Box<Stmt>>,
     }
     pub struct CatchClause {
         pub span: Span,
