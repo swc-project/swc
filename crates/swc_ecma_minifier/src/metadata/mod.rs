@@ -1,9 +1,7 @@
-use std::{borrow::Cow, hash::Hash};
-
 use rustc_hash::FxHashSet;
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
-    EqIgnoreSpan, Span, SyntaxContext,
+    Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::marks::Marks;
@@ -28,7 +26,7 @@ pub(crate) fn info_marker<'a>(
         options
             .pure_funcs
             .iter()
-            .map(|f| NodeIgnoringSpan::borrowed(f))
+            .map(|f| NodeIgnoringSpan::borrowed(f.as_ref()))
             .collect()
     });
     InfoMarker {

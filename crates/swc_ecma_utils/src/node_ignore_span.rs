@@ -51,8 +51,8 @@ impl<'a> Hash for NodeIgnoringSpan<'a, Expr> {
                 }
             }
             _ => {
-                // Other expression kind would fallback to the same empty hash.
-                // So, their will spend linear time to do comparisons.
+                // Other expression kinds would fallback to the same empty hash.
+                // So, they will spend linear time to do comparisons.
             }
         }
     }
@@ -60,7 +60,8 @@ impl<'a> Hash for NodeIgnoringSpan<'a, Expr> {
 
 #[test]
 fn test_hash_eq_ignore_span_expr_ref() {
-    use swc_common::{Mark, DUMMY_SP};
+    use rustc_hash::FxHashSet;
+    use swc_common::{util::take::Take, Mark, DUMMY_SP};
     use swc_ecma_ast::*;
 
     use crate::{member_expr, quote_expr};
