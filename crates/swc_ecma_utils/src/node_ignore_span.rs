@@ -71,62 +71,64 @@ fn test_hash_eq_ignore_span_expr_ref() {
     }
 
     testing::run_test(false, |_cm, _handler| {
-        let dummy_sp = DUMMY_SP;
-        let meaningful_sp = dummy_sp.apply_mark(Mark::new());
+        Ident::within_ignored_ctxt(|| {
+            let dummy_sp = DUMMY_SP;
+            let meaningful_sp = dummy_sp.apply_mark(Mark::new());
 
-        let meaningful_ident_expr = Expr::Ident(Ident::new("foo".into(), meaningful_sp));
-        let dummy_ident_expr = Expr::Ident(Ident::new("foo".into(), dummy_sp));
+            let meaningful_ident_expr = Expr::Ident(Ident::new("foo".into(), meaningful_sp));
+            let dummy_ident_expr = Expr::Ident(Ident::new("foo".into(), dummy_sp));
 
-        let meaningful_member_expr = member_expr!(meaningful_sp, foo.bar);
-        let dummy_member_expr = member_expr!(dummy_sp, foo.bar);
+            let meaningful_member_expr = member_expr!(meaningful_sp, foo.bar);
+            let dummy_member_expr = member_expr!(dummy_sp, foo.bar);
 
-        let meaningful_null_expr = quote_expr!(meaningful_sp, null);
-        let dummy_null_expr = quote_expr!(dummy_sp, null);
+            let meaningful_null_expr = quote_expr!(meaningful_sp, null);
+            let dummy_null_expr = quote_expr!(dummy_sp, null);
 
-        let meaningful_array_expr = Box::new(Expr::Array(ArrayLit {
-            span: meaningful_sp,
-            elems: Default::default(),
-        }));
+            let meaningful_array_expr = Box::new(Expr::Array(ArrayLit {
+                span: meaningful_sp,
+                elems: Default::default(),
+            }));
 
-        let dummy_array_expr = Box::new(Expr::Array(ArrayLit::dummy()));
+            let dummy_array_expr = Box::new(Expr::Array(ArrayLit::dummy()));
 
-        // Should equal ignoring span and syntax context
-        assert_eq!(
-            expr_ref(&meaningful_ident_expr),
-            expr_ref(&dummy_ident_expr)
-        );
+            // Should equal ignoring span and syntax context
+            assert_eq!(
+                expr_ref(&meaningful_ident_expr),
+                expr_ref(&dummy_ident_expr)
+            );
 
-        assert_eq!(
-            expr_ref(&meaningful_array_expr),
-            expr_ref(&dummy_array_expr)
-        );
+            assert_eq!(
+                expr_ref(&meaningful_array_expr),
+                expr_ref(&dummy_array_expr)
+            );
 
-        let mut set = FxHashSet::from_iter([
-            expr_ref(&meaningful_ident_expr),
-            expr_ref(&meaningful_member_expr),
-            expr_ref(&meaningful_null_expr),
-            expr_ref(&meaningful_array_expr),
-        ]);
+            let mut set = FxHashSet::from_iter([
+                expr_ref(&meaningful_ident_expr),
+                expr_ref(&meaningful_member_expr),
+                expr_ref(&meaningful_null_expr),
+                expr_ref(&meaningful_array_expr),
+            ]);
 
-        // Should produce the same hash value ignoring span and syntax
-        assert!(set.contains(&expr_ref(&dummy_ident_expr)));
-        assert!(set.contains(&expr_ref(&dummy_member_expr)));
-        assert!(set.contains(&expr_ref(&dummy_null_expr)));
-        assert!(set.contains(&expr_ref(&dummy_array_expr)));
+            // Should produce the same hash value ignoring span and syntax
+            assert!(set.contains(&expr_ref(&dummy_ident_expr)));
+            assert!(set.contains(&expr_ref(&dummy_member_expr)));
+            assert!(set.contains(&expr_ref(&dummy_null_expr)));
+            assert!(set.contains(&expr_ref(&dummy_array_expr)));
 
-        set.insert(expr_ref(&dummy_ident_expr));
-        set.insert(expr_ref(&dummy_member_expr));
-        set.insert(expr_ref(&dummy_null_expr));
-        set.insert(expr_ref(&dummy_array_expr));
-        assert_eq!(set.len(), 4);
+            set.insert(expr_ref(&dummy_ident_expr));
+            set.insert(expr_ref(&dummy_member_expr));
+            set.insert(expr_ref(&dummy_null_expr));
+            set.insert(expr_ref(&dummy_array_expr));
+            assert_eq!(set.len(), 4);
 
-        // Should not equal ignoring span and syntax context
-        let dummy_ident_expr = Expr::Ident(Ident::new("baz".into(), dummy_sp));
-        let dummy_member_expr = member_expr!(dummy_sp, baz.bar);
-        let dummy_arrow_expr = Box::new(Expr::Arrow(ArrowExpr::dummy()));
-        assert!(!set.contains(&expr_ref(&dummy_ident_expr)));
-        assert!(!set.contains(&expr_ref(&dummy_member_expr)));
-        assert!(!set.contains(&expr_ref(&dummy_arrow_expr)));
+            // Should not equal ignoring span and syntax context
+            let dummy_ident_expr = Expr::Ident(Ident::new("baz".into(), dummy_sp));
+            let dummy_member_expr = member_expr!(dummy_sp, baz.bar);
+            let dummy_arrow_expr = Box::new(Expr::Arrow(ArrowExpr::dummy()));
+            assert!(!set.contains(&expr_ref(&dummy_ident_expr)));
+            assert!(!set.contains(&expr_ref(&dummy_member_expr)));
+            assert!(!set.contains(&expr_ref(&dummy_arrow_expr)));
+        });
 
         Ok(())
     })
