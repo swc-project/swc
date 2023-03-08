@@ -409,7 +409,7 @@ impl VisitMut for Remover {
                             test,
                             cons: Box::new(Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,
-                                stmts: vec![*cons],
+                                stmts: vec![cons],
                             })),
                             alt,
                             span,
@@ -428,23 +428,23 @@ impl VisitMut for Remover {
                             if let Some(expr) =
                                 ignore_result(*test, true, &self.expr_ctx).map(Box::new)
                             {
-                                stmts.push(Stmt::Expr(ExprStmt { span, expr }))
+                                stmts.push(Box::new(Stmt::Expr(ExprStmt { span, expr })))
                             }
                         }
 
                         if v {
                             // Preserve variables
                             if let Some(var) = alt.and_then(|alt| alt.extract_var_ids_as_var()) {
-                                stmts.push(Stmt::Decl(Decl::Var(Box::new(var))))
+                                stmts.push(Box::new(Stmt::Decl(Decl::Var(Box::new(var)))))
                             }
-                            stmts.push(*cons);
+                            stmts.push(cons);
                         } else {
                             if let Some(var) = cons.extract_var_ids_as_var() {
-                                stmts.push(Stmt::Decl(Decl::Var(Box::new(var))))
+                                stmts.push(Box::new(Stmt::Decl(Decl::Var(Box::new(var)))))
                             }
 
                             if let Some(alt) = alt {
-                                stmts.push(*alt)
+                                stmts.push(alt)
                             }
                         }
 
@@ -571,7 +571,7 @@ impl VisitMut for Remover {
 
                         return if let Some(mut finalizer) = finalizer {
                             if let Some(var) = var.map(Box::new).map(Decl::from).map(Stmt::from) {
-                                prepend_stmt(&mut finalizer.stmts, var);
+                                prepend_stmt(&mut finalizer.stmts, Box::new(var));
                             }
                             finalizer.into()
                         } else {
@@ -621,7 +621,7 @@ impl VisitMut for Remover {
                         let mut done = false;
                         stmts.move_flat_map(|s| {
                             if done {
-                                match s {
+                                match *s {
                                     Stmt::Decl(Decl::Var(var))
                                         if matches!(
                                             &*var,
@@ -649,7 +649,7 @@ impl VisitMut for Remover {
 
                                 return None;
                             }
-                            match s {
+                            match *s {
                                 Stmt::Break(BreakStmt { label: None, .. }) => {
                                     done = true;
                                     None
@@ -1243,7 +1243,7 @@ impl VisitMut for Remover {
                 return true;
             }
 
-            matches!(case.cons[0], Stmt::Break(BreakStmt { label: None, .. }))
+            matches!(*case.cons[0], Stmt::Break(BreakStmt { label: None, .. }))
         }) {
             s.cases.clear();
         }
@@ -1301,7 +1301,7 @@ impl Remover {
         while let Some(stmt_like) = iter.next() {
             let stmt_like = match stmt_like.try_into_stmt() {
                 Ok(stmt) => {
-                    let stmt = match stmt {
+                    let stmt = match *stmt {
                         // Remove empty statements.
                         Stmt::Empty(..) => continue,
 
@@ -1811,14 +1811,14 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
 ///    var x = 1;
 /// }
 /// ```
-fn is_ok_to_inline_block(s: &[Stmt]) -> bool {
+fn is_ok_to_inline_block(s: &[Box<Stmt>]) -> bool {
     // TODO: This may be inlinable if return / throw / break / continue exists
-    if s.iter().any(is_block_scoped_stuff) {
+    if s.iter().any(|s| is_block_scoped_stuff(s)) {
         return false;
     }
 
     // variable declared as `var` is hoisted
-    let last_var = s.iter().rposition(|s| match s {
+    let last_var = s.iter().rposition(|s| match &**s {
         Stmt::Decl(Decl::Var(v))
             if matches!(
                 &**v,
@@ -1841,7 +1841,7 @@ fn is_ok_to_inline_block(s: &[Stmt]) -> bool {
 
     let last_stopper = s.iter().rposition(|s| {
         matches!(
-            s,
+            &**s,
             Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..)
         )
     });
@@ -1865,7 +1865,7 @@ fn is_block_scoped_stuff(s: &Stmt) -> bool {
 
 fn prepare_loop_body_for_inlining(stmt: Box<Stmt>) -> Box<Stmt> {
     let span = stmt.span();
-    let mut stmts = match stmt {
+    let mut stmts = match *stmt {
         Stmt::Block(BlockStmt { stmts, .. }) => stmts,
         _ => vec![stmt],
     };
@@ -1876,7 +1876,7 @@ fn prepare_loop_body_for_inlining(stmt: Box<Stmt>) -> Box<Stmt> {
             return false;
         }
 
-        match stmt {
+        match &**stmt {
             Stmt::Break(BreakStmt { label: None, .. })
             | Stmt::Continue(ContinueStmt { label: None, .. }) => {
                 done = true;
@@ -1895,15 +1895,15 @@ fn prepare_loop_body_for_inlining(stmt: Box<Stmt>) -> Box<Stmt> {
     BlockStmt { span, stmts }.into()
 }
 
-fn has_unconditional_stopper(s: &[Stmt]) -> bool {
+fn has_unconditional_stopper(s: &[Box<Stmt>]) -> bool {
     check_for_stopper(s, false)
 }
 
-fn has_conditional_stopper(s: &[Stmt]) -> bool {
+fn has_conditional_stopper(s: &[Box<Stmt>]) -> bool {
     check_for_stopper(s, true)
 }
 
-fn check_for_stopper(s: &[Stmt], only_conditional: bool) -> bool {
+fn check_for_stopper(s: &[Box<Stmt>], only_conditional: bool) -> bool {
     struct Visitor {
         in_cond: bool,
         found: bool,
