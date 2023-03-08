@@ -213,10 +213,13 @@ impl<'a> Lexer<'a> {
 
                     write!(raw_val, "{}", exp).unwrap();
 
-                    raw_val
-                        .replace('_', "")
-                        .parse()
-                        .expect("failed to parse float literal")
+                    if raw_val.contains('_') {
+                        Cow::Owned(raw_val.replace('_', ""))
+                    } else {
+                        Cow::Borrowed(&raw_val)
+                    }
+                    .parse()
+                    .expect("failed to parse float literal")
                 }
             }
             _ => {}
