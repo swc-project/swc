@@ -25,6 +25,9 @@
 
 - **(es/parser)** Use Cow for `_` in numeric literals (#7031) ([30546a2](https://github.com/swc-project/swc/commit/30546a28f21eb90bbbaef33ce4bc0448cd062a72))
 
+
+- **(es/utils)** Introduce `NodeIgnoringSpan` (#7030) ([8bfef35](https://github.com/swc-project/swc/commit/8bfef35c1be5790b32fea253f28961271fe7f619))
+
 ## [1.3.38] - 2023-03-06
 
 ### Bug Fixes
