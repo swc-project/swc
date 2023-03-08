@@ -242,12 +242,8 @@ impl Swcify for IfStatement {
         IfStmt {
             span: ctx.span(&self.base),
             test: self.test.swcify(ctx),
-            cons: Box::new(self.consequent.swcify(ctx).expect_stmt()),
-            alt: self
-                .alternate
-                .swcify(ctx)
-                .map(|v| v.expect_stmt())
-                .map(Box::new),
+            cons: self.consequent.swcify(ctx).expect_stmt(),
+            alt: self.alternate.swcify(ctx).map(|v| v.expect_stmt()),
         }
     }
 }
@@ -259,7 +255,7 @@ impl Swcify for LabeledStatement {
         LabeledStmt {
             span: ctx.span(&self.base),
             label: self.label.swcify(ctx).id,
-            body: Box::new(self.body.swcify(ctx).expect_stmt()),
+            body: self.body.swcify(ctx).expect_stmt(),
         }
     }
 }
@@ -389,7 +385,7 @@ impl Swcify for WhileStatement {
         WhileStmt {
             span: ctx.span(&self.base),
             test: self.test.swcify(ctx),
-            body: Box::new(self.body.swcify(ctx).expect_stmt()),
+            body: self.body.swcify(ctx).expect_stmt(),
         }
     }
 }
@@ -401,7 +397,7 @@ impl Swcify for WithStatement {
         WithStmt {
             span: ctx.span(&self.base),
             obj: self.object.swcify(ctx),
-            body: Box::new(self.body.swcify(ctx).expect_stmt()),
+            body: self.body.swcify(ctx).expect_stmt(),
         }
     }
 }
@@ -611,7 +607,7 @@ impl Swcify for ForOfStatement {
             await_token: None,
             left: self.left.swcify(ctx),
             right: self.right.swcify(ctx),
-            body: Box::new(self.body.swcify(ctx).expect_stmt()),
+            body: self.body.swcify(ctx).expect_stmt(),
         }
     }
 }

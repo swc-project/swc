@@ -499,7 +499,7 @@ fn fn_args() {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(Mark::root());
 
-            Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
+            Ok(vec![Box::new(Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
                 function: Box::new(Function {
                     span: DUMMY_SP,
@@ -523,7 +523,7 @@ fn fn_args() {
                 }),
 
                 declare: false,
-            }))])
+            })))])
         },
         "
         function Foo(force1) {
@@ -540,7 +540,7 @@ fn block_in_fn() {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(mark1);
 
-            Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
+            Ok(vec![Box::new(Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
                 function: Box::new(Function {
                     span: DUMMY_SP,
@@ -564,7 +564,7 @@ fn block_in_fn() {
                 }),
 
                 declare: false,
-            }))])
+            })))])
         },
         "
         // Ideal:
@@ -593,7 +593,7 @@ fn flat_in_fn() {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(mark1);
 
-            Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
+            Ok(vec![Box::new(Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
                 function: Box::new(Function {
                     span: DUMMY_SP,
@@ -617,7 +617,7 @@ fn flat_in_fn() {
                 }),
 
                 declare: false,
-            }))])
+            })))])
         },
         "
         function Foo() {
@@ -635,7 +635,7 @@ fn params_in_fn() {
             let mark1 = Mark::fresh(Mark::root());
             let mark2 = Mark::fresh(Mark::root());
 
-            Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
+            Ok(vec![Box::new(Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
                 function: Box::new(Function {
                     span: DUMMY_SP,
@@ -663,7 +663,7 @@ fn params_in_fn() {
                 }),
 
                 declare: false,
-            }))])
+            })))])
         },
         "function Foo(param, param1) {}",
     );
