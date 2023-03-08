@@ -2644,7 +2644,7 @@ where
         debug_assert_valid(s);
     }
 
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         // Skip if `use asm` exists.
         if maybe_par!(
             stmts.iter().any(|stmt| match stmt.as_stmt() {

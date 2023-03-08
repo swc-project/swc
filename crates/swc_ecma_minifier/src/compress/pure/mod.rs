@@ -148,7 +148,7 @@ impl Pure<'_> {
         stmts.retain(|s| !matches!(s.as_stmt(), Some(Stmt::Empty(..))));
     }
 
-    fn optimize_fn_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+    fn optimize_fn_stmts(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         if !stmts.is_empty() {
             if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
                 if let Expr::Lit(Lit::Str(v)) = &**expr {
@@ -932,7 +932,7 @@ impl VisitMut for Pure<'_> {
         debug_assert_valid(s);
     }
 
-    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, items: &mut Vec<Box<Stmt>>) {
         if !items.is_empty() {
             if let Stmt::Expr(ExprStmt { expr, .. }) = &items[0] {
                 if let Expr::Lit(Lit::Str(v)) = &**expr {

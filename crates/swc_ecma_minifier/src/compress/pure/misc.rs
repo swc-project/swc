@@ -234,7 +234,7 @@ impl Pure<'_> {
         }
     }
 
-    pub(super) fn remove_useless_return(&mut self, stmts: &mut Vec<Stmt>) {
+    pub(super) fn remove_useless_return(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         if !self.options.dead_code {
             return;
         }
@@ -590,7 +590,7 @@ impl Pure<'_> {
     /// value of function is ignored.
     ///
     /// Returns true if something is modified.
-    fn drop_return_value(&mut self, stmts: &mut Vec<Stmt>) -> bool {
+    fn drop_return_value(&mut self, stmts: &mut Vec<Box<Stmt>>) -> bool {
         for s in stmts.iter_mut() {
             if let Stmt::Return(ReturnStmt {
                 arg: arg @ Some(..),

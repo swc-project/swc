@@ -36,10 +36,10 @@ pub trait ModuleItemExt:
         }
     }
 
-    fn into_module_decl(self) -> Result<ModuleDecl, Stmt>;
+    fn into_module_decl(self) -> Result<Box<ModuleDecl>, Box<Stmt>>;
 }
 
-impl ModuleItemExt for Stmt {
+impl ModuleItemExt for Box<Stmt> {
     fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt> {
         Err(self)
     }

@@ -276,7 +276,7 @@ impl VisitMut for Hoister<'_> {
         self.handle_stmt_likes(stmts);
     }
 
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         self.handle_stmt_likes(stmts);
     }
 }

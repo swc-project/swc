@@ -25,7 +25,7 @@ impl Pure<'_> {
     #[allow(clippy::unnecessary_filter_map)]
     pub(super) fn negate_if_terminate(
         &mut self,
-        stmts: &mut Vec<Stmt>,
+        stmts: &mut Vec<Box<Stmt>>,
         handle_return: bool,
         handle_continue: bool,
     ) {

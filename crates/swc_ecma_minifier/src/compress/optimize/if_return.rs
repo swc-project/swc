@@ -46,7 +46,7 @@ where
 
     pub(super) fn merge_if_returns(
         &mut self,
-        stmts: &mut Vec<Stmt>,
+        stmts: &mut Vec<Box<Stmt>>,
         terminates: bool,
         is_fn_body: bool,
     ) {
@@ -110,7 +110,11 @@ where
     ///     return a ? foo() : bar();
     /// }
     /// ```
-    fn merge_if_returns_inner(&mut self, stmts: &mut Vec<Stmt>, should_preserve_last_return: bool) {
+    fn merge_if_returns_inner(
+        &mut self,
+        stmts: &mut Vec<Box<Stmt>>,
+        should_preserve_last_return: bool,
+    ) {
         if !self.options.if_return {
             return;
         }

@@ -51,7 +51,7 @@ impl VisitMut for PrecompressOptimizer {
         }
     }
 
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Box<Stmt>>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });

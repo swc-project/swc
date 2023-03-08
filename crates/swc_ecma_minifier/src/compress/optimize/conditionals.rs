@@ -625,7 +625,7 @@ where
     }
 
     /// Currently disabled.
-    pub(super) fn inject_else(&mut self, stmts: &mut Vec<Stmt>) {
+    pub(super) fn inject_else(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         if DISABLE_BUGGY_PASSES {
             return;
         }

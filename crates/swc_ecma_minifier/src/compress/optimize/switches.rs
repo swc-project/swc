@@ -467,7 +467,7 @@ where
     }
 }
 
-fn remove_last_break(stmt: &mut Vec<Stmt>) -> bool {
+fn remove_last_break(stmt: &mut Vec<Box<Stmt>>) -> bool {
     match stmt.last_mut() {
         Some(Stmt::Break(BreakStmt { label: None, .. })) => {
             report_change!("switches: Removing `break` at the end");

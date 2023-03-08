@@ -360,7 +360,7 @@ where
         });
     }
 
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         stmts.retain(|stmt| match stmt {
             Stmt::Empty(..) => false,
             Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => false,

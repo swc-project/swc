@@ -63,7 +63,7 @@ impl VisitMut for PostcompressOptimizer<'_> {
         });
     }
 
-    fn visit_mut_stmts(&mut self, nodes: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, nodes: &mut Vec<Box<Stmt>>) {
         let old = self.ctx;
 
         self.ctx.is_top_level = false;

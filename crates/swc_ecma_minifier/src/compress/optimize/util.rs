@@ -349,7 +349,7 @@ impl VisitMut for Finalizer<'_> {
         });
     }
 
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Box<Stmt>>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });
@@ -519,16 +519,16 @@ impl VisitMut for ExprReplacer {
 }
 
 #[derive(Debug, Default, PartialEq, Eq)]
-pub(super) struct SynthesizedStmts(Vec<Stmt>);
+pub(super) struct SynthesizedStmts(Vec<Box<Stmt>>);
 
 impl SynthesizedStmts {
-    pub fn take_stmts(&mut self) -> Vec<Stmt> {
+    pub fn take_stmts(&mut self) -> Vec<Box<Stmt>> {
         take(&mut self.0)
     }
 }
 
 impl std::ops::Deref for SynthesizedStmts {
-    type Target = Vec<Stmt>;
+    type Target = Vec<Box<Stmt>>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
