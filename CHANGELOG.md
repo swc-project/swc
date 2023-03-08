@@ -16,6 +16,12 @@
 
 - **(common)** Add an API to create a `SourceFile` without allocation (#7029) ([81495f5](https://github.com/swc-project/swc/commit/81495f5f21d56df7a187847337c9fdd2ff8ee73b))
 
+### Performance
+
+
+
+- **(atoms)** Update `string-cache` for per-bucket mutex (#6980) ([9841f0b](https://github.com/swc-project/swc/commit/9841f0b5d14736d780c9864eb9bf7609f9ff2840))
+
 ## [1.3.38] - 2023-03-06
 
 ### Bug Fixes
