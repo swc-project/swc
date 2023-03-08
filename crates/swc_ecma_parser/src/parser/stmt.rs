@@ -20,7 +20,7 @@ impl<'a, I: Tokens> Parser<I> {
     ) -> PResult<Vec<Type>>
     where
         Self: StmtLikeParser<'a, Type>,
-        Type: IsDirective + From<Stmt>,
+        Type: IsDirective + From<Box<Stmt>>,
     {
         trace_cur!(self, parse_block_body);
 
@@ -134,7 +134,7 @@ impl<'a, I: Tokens> Parser<I> {
             eat!(self, ';');
 
             let span = span!(self, start);
-            return Ok(Stmt::Expr(ExprStmt { span, expr }));
+            return Ok(ExprStmt { span, expr }.into());
         }
 
         let is_typescript = self.input.syntax().typescript();
@@ -145,7 +145,7 @@ impl<'a, I: Tokens> Parser<I> {
             return self
                 .parse_ts_enum_decl(start, true)
                 .map(Decl::from)
-                .map(Stmt::from);
+                .map(From::from);
         }
 
         match cur!(self, true)? {
@@ -178,18 +178,19 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 return Ok(if is_break {
-                    Stmt::Break(BreakStmt { span, label })
+                    BreakStmt { span, label }.into()
                 } else {
-                    Stmt::Continue(ContinueStmt { span, label })
+                    ContinueStmt { span, label }.into()
                 });
             }
 
             tok!("debugger") => {
                 bump!(self);
                 expect!(self, ';');
-                return Ok(Stmt::Debugger(DebuggerStmt {
+                return Ok(DebuggerStmt {
                     span: span!(self, start),
-                }));
+                }
+                .into());
             }
 
             tok!("do") => {
