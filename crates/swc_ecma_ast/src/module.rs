@@ -124,6 +124,9 @@ pub enum ModuleItem {
     Stmt(Box<Stmt>),
 }
 
+bridge_from!(ModuleItem, Box<ModuleDecl>, ModuleDecl);
+bridge_from!(ModuleItem, Box<Stmt>, Stmt);
+
 impl Take for ModuleItem {
     fn dummy() -> Self {
         ModuleItem::Stmt(Take::dummy())
