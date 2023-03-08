@@ -237,6 +237,7 @@ macro_rules! bridge_decl_from {
     ($bridge:ty, $src:ty) => {
         bridge_from!(crate::Decl, $bridge, $src);
         bridge_from!(crate::Stmt, crate::Decl, $src);
+        bridge_from!(Box<crate::Stmt>, crate::Stmt, $src);
         bridge_from!(crate::ModuleItem, crate::Stmt, $src);
     };
 }
