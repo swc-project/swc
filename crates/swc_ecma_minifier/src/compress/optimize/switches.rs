@@ -167,7 +167,7 @@ where
                             decls: var_ids,
                         }
                         .into(),
-                        s.take(),
+                        Box::new(s.take()),
                     ],
                 })
             }
@@ -307,7 +307,7 @@ where
                         cases[i].cons.eq_ignore_span(&cases[j].cons)
                     } else {
                         if let Some(Stmt::Break(BreakStmt { label: None, .. })) =
-                            cases[i].cons.last()
+                            cases[i].cons.last().map(|v| &**v)
                         {
                             cases[i].cons[..(cases[i].cons.len() - 1)]
                                 .eq_ignore_span(&cases[j].cons)
@@ -379,10 +379,10 @@ where
                         })
                     } else {
                         // is default
-                        let mut stmts = vec![Stmt::Expr(ExprStmt {
+                        let mut stmts = vec![Box::new(Stmt::Expr(ExprStmt {
                             span: discriminant.span(),
                             expr: discriminant,
-                        })];
+                        }))];
                         stmts.extend(case.cons);
                         *s = Stmt::Block(BlockStmt {
                             span: sw.span,
@@ -429,7 +429,7 @@ where
                             ),
                         })
                     } else {
-                        let mut stmts = vec![Stmt::If(IfStmt {
+                        let mut stmts = vec![Box::new(Stmt::If(IfStmt {
                             span: DUMMY_SP,
                             test: Expr::Bin(if first.test.is_none() {
                                 BinExpr {
@@ -453,7 +453,7 @@ where
                             })
                             .into(),
                             alt: None,
-                        })];
+                        }))];
                         stmts.extend(second.cons.take());
                         *s = Stmt::Block(BlockStmt {
                             span: sw.span,
@@ -468,7 +468,7 @@ where
 }
 
 fn remove_last_break(stmt: &mut Vec<Box<Stmt>>) -> bool {
-    match stmt.last_mut() {
+    match stmt.last_mut().map(|v| &mut **v) {
         Some(Stmt::Break(BreakStmt { label: None, .. })) => {
             report_change!("switches: Removing `break` at the end");
             stmt.pop();

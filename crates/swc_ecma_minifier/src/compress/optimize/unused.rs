@@ -519,7 +519,7 @@ where
                     let mut side_effects = extract_class_side_effect(&self.expr_ctx, *class.class);
 
                     if !side_effects.is_empty() {
-                        self.prepend_stmts.push(Stmt::Expr(ExprStmt {
+                        self.prepend_stmts.push(box Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
                             expr: if side_effects.len() > 1 {
                                 Expr::Seq(SeqExpr {

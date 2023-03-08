@@ -182,13 +182,13 @@ where
                         Stmt::Switch(mut stmt) => {
                             stmt.discriminant.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(Stmt::Switch(stmt)));
+                            new_stmts.push(T::from_stmt(box Stmt::Switch(stmt)));
                         }
 
                         Stmt::With(mut stmt) => {
                             stmt.obj.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(Stmt::With(stmt)));
+                            new_stmts.push(T::from_stmt(box Stmt::With(stmt)));
                         }
 
                         Stmt::Return(mut stmt @ ReturnStmt { arg: Some(..), .. }) => {
@@ -204,13 +204,13 @@ where
                                 }
                             }
 
-                            new_stmts.push(T::from_stmt(Stmt::Return(stmt)));
+                            new_stmts.push(T::from_stmt(box Stmt::Return(stmt)));
                         }
 
                         Stmt::Throw(mut stmt) => {
                             stmt.arg.prepend_exprs(take(&mut exprs));
 
-                            new_stmts.push(T::from_stmt(Stmt::Throw(stmt)));
+                            new_stmts.push(T::from_stmt(box Stmt::Throw(stmt)));
                         }
 
                         Stmt::For(mut stmt @ ForStmt { init: None, .. })
@@ -276,7 +276,7 @@ where
                                                     ));
                                                 }
 
-                                                new_stmts.push(T::from_stmt(Stmt::For(stmt)));
+                                                new_stmts.push(T::from_stmt(box Stmt::For(stmt)));
 
                                                 continue;
                                             }
@@ -321,7 +321,7 @@ where
                                 }
                             ) && var.decls.iter().all(|v| v.init.is_none()) =>
                         {
-                            new_stmts.push(T::from_stmt(Stmt::Decl(Decl::Var(var))));
+                            new_stmts.push(T::from_stmt(box Stmt::Decl(Decl::Var(var))));
                         }
 
                         Stmt::Decl(Decl::Fn(..)) => {
@@ -330,7 +330,7 @@ where
 
                         _ => {
                             if !exprs.is_empty() {
-                                new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                                new_stmts.push(T::from_stmt(box Stmt::Expr(ExprStmt {
                                     span: DUMMY_SP,
                                     expr: Expr::from_exprs(take(&mut exprs)),
                                 })))
@@ -342,7 +342,7 @@ where
                 }
                 Err(item) => {
                     if !exprs.is_empty() {
-                        new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                        new_stmts.push(T::from_stmt(box Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
                             expr: Expr::from_exprs(take(&mut exprs)),
                         })))
@@ -354,7 +354,7 @@ where
         }
 
         if !exprs.is_empty() {
-            new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
+            new_stmts.push(T::from_stmt(box Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
                 expr: Expr::from_exprs(take(&mut exprs)),
             })))
@@ -396,7 +396,7 @@ where
 
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
-                Ok(stmt) => match stmt {
+                Ok(stmt) => match *stmt {
                     Stmt::Expr(es)
                         if match &*es.expr {
                             Expr::Seq(seq) => {
@@ -418,6 +418,7 @@ where
                                 .into_iter()
                                 .map(|expr| ExprStmt { span, expr })
                                 .map(Stmt::Expr)
+                                .map(Box::new)
                                 .map(T::from_stmt),
                         );
                     }

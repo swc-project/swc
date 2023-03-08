@@ -2937,7 +2937,7 @@ where
                 if can_prepend {
                     can_prepend = false;
 
-                    self.prepend_stmts.push(Stmt::Expr(ExprStmt {
+                    self.prepend_stmts.push(box Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
                         expr: if side_effects.len() == 1 {
                             side_effects.remove(0)
