@@ -530,7 +530,7 @@ impl VisitMut for Inlining<'_> {
         }
     }
 
-    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, items: &mut Vec<Box<Stmt>>) {
         let old_phase = self.phase;
 
         match old_phase {

@@ -94,7 +94,7 @@ impl VisitMut for ConstModules {
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         *n = n.take().move_flat_map(|item| match item {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+            ModuleItem::ModuleDecl(box ModuleDecl::Import(import)) => {
                 let entry = self.globals.get(&import.src.value);
                 if let Some(entry) = entry {
                     for s in &import.specifiers {

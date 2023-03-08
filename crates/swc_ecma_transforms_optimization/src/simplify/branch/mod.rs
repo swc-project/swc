@@ -613,7 +613,7 @@ impl VisitMut for Remover {
                         }
                     }
 
-                    let remove_break = |stmts: Vec<Stmt>| {
+                    let remove_break = |stmts: Vec<Box<Stmt>>| {
                         debug_assert!(
                             !has_conditional_stopper(&stmts) || has_unconditional_stopper(&stmts)
                         );
@@ -1218,7 +1218,7 @@ impl VisitMut for Remover {
         })
     }
 
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Box<Stmt>>) {
         self.fold_stmt_like(n)
     }
 

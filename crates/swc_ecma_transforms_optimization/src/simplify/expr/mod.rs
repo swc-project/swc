@@ -1593,7 +1593,7 @@ impl VisitMut for SimplifyExpr {
         debug_assert_valid(s);
     }
 
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Box<Stmt>>) {
         let mut child = SimplifyExpr {
             expr_ctx: self.expr_ctx.clone(),
             config: self.config,
