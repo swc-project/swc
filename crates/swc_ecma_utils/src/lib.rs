@@ -194,20 +194,20 @@ impl Visit for ArgumentsFinder {
 }
 
 pub trait StmtOrModuleItem: Send + Sync + Sized {
-    fn into_stmt(self) -> Result<Stmt, ModuleDecl>;
+    fn into_stmt(self) -> Result<Box<Stmt>, Box<ModuleDecl>>;
 
     fn as_stmt(&self) -> Result<&Stmt, &ModuleDecl>;
 
     fn as_stmt_mut(&mut self) -> Result<&mut Stmt, &mut ModuleDecl>;
 
-    fn from_stmt(stmt: Stmt) -> Self;
+    fn from_stmt(stmt: Box<Stmt>) -> Self;
 
-    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl>;
+    fn try_from_module_decl(decl: Box<ModuleDecl>) -> Result<Self, Box<ModuleDecl>>;
 }
 
-impl StmtOrModuleItem for Stmt {
+impl StmtOrModuleItem for Box<Stmt> {
     #[inline]
-    fn into_stmt(self) -> Result<Stmt, ModuleDecl> {
+    fn into_stmt(self) -> Result<Box<Stmt>, Box<ModuleDecl>> {
         Ok(self)
     }
 
@@ -222,19 +222,19 @@ impl StmtOrModuleItem for Stmt {
     }
 
     #[inline]
-    fn from_stmt(stmt: Stmt) -> Self {
+    fn from_stmt(stmt: Box<Stmt>) -> Self {
         stmt
     }
 
     #[inline]
-    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
+    fn try_from_module_decl(decl: Box<ModuleDecl>) -> Result<Self, Box<ModuleDecl>> {
         Err(decl)
     }
 }
 
 impl StmtOrModuleItem for ModuleItem {
     #[inline]
-    fn into_stmt(self) -> Result<Stmt, ModuleDecl> {
+    fn into_stmt(self) -> Result<Box<Stmt>, Box<ModuleDecl>> {
         match self {
             ModuleItem::ModuleDecl(v) => Err(v),
             ModuleItem::Stmt(v) => Ok(v),
@@ -258,37 +258,37 @@ impl StmtOrModuleItem for ModuleItem {
     }
 
     #[inline]
-    fn from_stmt(stmt: Stmt) -> Self {
+    fn from_stmt(stmt: Box<Stmt>) -> Self {
         ModuleItem::Stmt(stmt)
     }
 
     #[inline]
-    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
+    fn try_from_module_decl(decl: Box<ModuleDecl>) -> Result<Self, Box<ModuleDecl>> {
         Ok(ModuleItem::ModuleDecl(decl))
     }
 }
 
 pub trait ModuleItemLike: StmtLike {
-    fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
+    fn try_into_module_decl(self) -> Result<Box<ModuleDecl>, Self> {
         Err(self)
     }
-    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
+    fn try_from_module_decl(decl: Box<ModuleDecl>) -> Result<Self, Box<ModuleDecl>> {
         Err(decl)
     }
 }
 
 pub trait StmtLike: Sized + 'static + Send + Sync {
-    fn try_into_stmt(self) -> Result<Stmt, Self>;
+    fn try_into_stmt(self) -> Result<Box<Stmt>, Self>;
     fn as_stmt(&self) -> Option<&Stmt>;
     fn as_stmt_mut(&mut self) -> Option<&mut Stmt>;
-    fn from_stmt(stmt: Stmt) -> Self;
+    fn from_stmt(stmt: Box<Stmt>) -> Self;
 }
 
-impl ModuleItemLike for Stmt {}
+impl ModuleItemLike for Box<Stmt> {}
 
-impl StmtLike for Stmt {
+impl StmtLike for Box<Stmt> {
     #[inline]
-    fn try_into_stmt(self) -> Result<Stmt, Self> {
+    fn try_into_stmt(self) -> Result<Box<Stmt>, Self> {
         Ok(self)
     }
 
@@ -303,14 +303,14 @@ impl StmtLike for Stmt {
     }
 
     #[inline]
-    fn from_stmt(stmt: Stmt) -> Self {
+    fn from_stmt(stmt: Box<Stmt>) -> Self {
         stmt
     }
 }
 
 impl ModuleItemLike for ModuleItem {
     #[inline]
-    fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
+    fn try_into_module_decl(self) -> Result<Box<ModuleDecl>, Self> {
         match self {
             ModuleItem::ModuleDecl(decl) => Ok(decl),
             _ => Err(self),
@@ -318,13 +318,13 @@ impl ModuleItemLike for ModuleItem {
     }
 
     #[inline]
-    fn try_from_module_decl(decl: ModuleDecl) -> Result<Self, ModuleDecl> {
+    fn try_from_module_decl(decl: Box<ModuleDecl>) -> Result<Self, Box<ModuleDecl>> {
         Ok(ModuleItem::ModuleDecl(decl))
     }
 }
 impl StmtLike for ModuleItem {
     #[inline]
-    fn try_into_stmt(self) -> Result<Stmt, Self> {
+    fn try_into_stmt(self) -> Result<Box<Stmt>, Self> {
         match self {
             ModuleItem::Stmt(stmt) => Ok(stmt),
             _ => Err(self),
@@ -348,7 +348,7 @@ impl StmtLike for ModuleItem {
     }
 
     #[inline]
-    fn from_stmt(stmt: Stmt) -> Self {
+    fn from_stmt(stmt: Box<Stmt>) -> Self {
         ModuleItem::Stmt(stmt)
     }
 }

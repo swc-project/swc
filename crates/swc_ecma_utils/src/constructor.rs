@@ -49,7 +49,7 @@ impl<'a> Fold for Injector<'a> {
         n
     }
 
-    fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+    fn fold_stmts(&mut self, stmts: Vec<Box<Stmt>>) -> Vec<Box<Stmt>> {
         if self.exprs.is_empty() {
             return stmts;
         }
@@ -57,7 +57,7 @@ impl<'a> Fold for Injector<'a> {
         let mut buf = Vec::with_capacity(stmts.len() + 8);
 
         stmts.into_iter().for_each(|stmt| {
-            if let Stmt::Expr(ExprStmt { ref expr, .. }) = stmt {
+            if let Stmt::Expr(ExprStmt { ref expr, .. }) = *stmt {
                 if let Expr::Call(CallExpr {
                     callee: Callee::Super(..),
                     ..
@@ -89,7 +89,7 @@ impl<'a> Fold for Injector<'a> {
                 self.injected |= folder.injected;
 
                 buf.extend(folder.injected_tmp.map(|ident| {
-                    Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                    Box::new(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
@@ -99,7 +99,7 @@ impl<'a> Fold for Injector<'a> {
                             definite: false,
                         }],
                         declare: false,
-                    })))
+                    }))))
                 }));
                 buf.push(stmt);
             }

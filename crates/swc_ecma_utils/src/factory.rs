@@ -50,11 +50,11 @@ pub trait ExprFactory: Into<Expr> {
 
     /// Creates an expression statement with `self`.
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn into_stmt(self) -> Stmt {
-        Stmt::Expr(ExprStmt {
+    fn into_stmt(self) -> Box<Stmt> {
+        Box::new(Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
             expr: Box::new(self.into()),
-        })
+        }))
     }
 
     /// Creates a statement whcih return `self`.
