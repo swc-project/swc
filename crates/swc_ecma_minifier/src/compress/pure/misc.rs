@@ -239,7 +239,7 @@ impl Pure<'_> {
             return;
         }
 
-        if let Some(Stmt::Return(ReturnStmt { arg: None, .. })) = stmts.last() {
+        if let Some(Stmt::Return(ReturnStmt { arg: None, .. })) = stmts.last().map(|v| &**v) {
             self.changed = true;
             report_change!("misc: Removing useless return");
             stmts.pop();
@@ -595,7 +595,7 @@ impl Pure<'_> {
             if let Stmt::Return(ReturnStmt {
                 arg: arg @ Some(..),
                 ..
-            }) = s
+            }) = &mut **s
             {
                 self.ignore_return_value(
                     arg.as_deref_mut().unwrap(),

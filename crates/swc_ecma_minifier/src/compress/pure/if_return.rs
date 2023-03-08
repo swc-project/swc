@@ -68,7 +68,7 @@ impl Pure<'_> {
         };
 
         // If we negate a block, these variables will have narrower scope.
-        if stmts[pos_of_if..].iter().any(|s| match s {
+        if stmts[pos_of_if..].iter().any(|s| match &**s {
             Stmt::Decl(Decl::Var(v))
                 if matches!(
                     &**v,
@@ -96,7 +96,7 @@ impl Pure<'_> {
         let cons = stmts
             .drain(1..)
             .filter_map(|stmt| {
-                if matches!(stmt, Stmt::Decl(Decl::Fn(..))) {
+                if matches!(&*stmt, Stmt::Decl(Decl::Fn(..))) {
                     fn_decls.push(stmt);
                     return None;
                 }
@@ -106,13 +106,13 @@ impl Pure<'_> {
             .collect::<Vec<_>>();
 
         let if_stmt = stmts.take().into_iter().next().unwrap();
-        match if_stmt {
+        match *if_stmt {
             Stmt::If(mut s) => {
                 assert_eq!(s.alt, None);
                 negate(&self.expr_ctx, &mut s.test, false, false);
 
                 s.cons = if cons.len() == 1 && is_fine_for_if_cons(&cons[0]) {
-                    Box::new(cons.into_iter().next().unwrap())
+                    cons.into_iter().next().unwrap()
                 } else {
                     Box::new(Stmt::Block(BlockStmt {
                         span: DUMMY_SP,
@@ -120,7 +120,7 @@ impl Pure<'_> {
                     }))
                 };
 
-                new.push(Stmt::If(s))
+                new.push(box Stmt::If(s))
             }
             _ => {
                 unreachable!()
@@ -151,7 +151,7 @@ impl Pure<'_> {
                 Stmt::Expr(..) => {
                     *alt_of_alt = Box::new(Stmt::Block(BlockStmt {
                         span: DUMMY_SP,
-                        stmts: vec![*alt_of_alt.take()],
+                        stmts: vec![alt_of_alt.take()],
                     }));
                 }
                 _ => {
@@ -166,7 +166,7 @@ impl Pure<'_> {
                 Stmt::Block(alt_of_alt) => {
                     prepend_stmt(
                         &mut alt_of_alt.stmts,
-                        Stmt::If(IfStmt {
+                        box Stmt::If(IfStmt {
                             span: *span_of_alt,
                             test: test_of_alt.take(),
                             cons: cons_of_alt.take(),

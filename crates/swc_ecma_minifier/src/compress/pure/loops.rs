@@ -71,7 +71,7 @@ impl Pure<'_> {
                 cons,
                 alt: None,
                 ..
-            }) = first
+            }) = &mut **first
             {
                 if let Stmt::Break(BreakStmt { label: None, .. }) = &**cons {
                     self.negate(test, false, false);
@@ -104,7 +104,7 @@ impl Pure<'_> {
                 cons,
                 alt: Some(alt),
                 ..
-            }) = first
+            }) = &mut **first
             {
                 if let Stmt::Break(BreakStmt { label: None, .. }) = &**alt {
                     match s.test.as_deref_mut() {
@@ -124,7 +124,7 @@ impl Pure<'_> {
 
                     report_change!("loops: Optimizing a for loop with an if-else-break");
 
-                    *first = *cons.take();
+                    *first = cons.take();
                     return None;
                 }
             }
