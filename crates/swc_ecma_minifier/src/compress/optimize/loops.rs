@@ -56,7 +56,7 @@ where
                 }),
             }));
         self.prepend_stmts.extend(f.test.take().map(|expr| {
-            Stmt::Expr(ExprStmt {
+            box Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
                 expr,
             })
@@ -105,13 +105,13 @@ where
 
                         self.prepend_stmts
                             .extend(f.init.take().map(|init| match init {
-                                VarDeclOrExpr::VarDecl(var) => Stmt::Decl(Decl::Var(var)),
-                                VarDeclOrExpr::Expr(expr) => Stmt::Expr(ExprStmt {
+                                VarDeclOrExpr::VarDecl(var) => box Stmt::Decl(Decl::Var(var)),
+                                VarDeclOrExpr::Expr(expr) => box Stmt::Expr(ExprStmt {
                                     span: DUMMY_SP,
                                     expr,
                                 }),
                             }));
-                        self.prepend_stmts.push(Stmt::Expr(ExprStmt {
+                        self.prepend_stmts.push(box Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
                             expr: f.test.take().unwrap(),
                         }));

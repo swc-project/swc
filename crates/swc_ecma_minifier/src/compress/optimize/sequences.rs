@@ -169,14 +169,14 @@ where
                         continue;
                     }
                     // If
-                    match stmt {
+                    match *stmt {
                         Stmt::Expr(stmt) => {
                             exprs.push(stmt.expr);
                         }
 
                         Stmt::If(mut stmt) => {
                             stmt.test.prepend_exprs(take(&mut exprs));
-                            new_stmts.push(T::from_stmt(Stmt::If(stmt)));
+                            new_stmts.push(T::from_stmt(box Stmt::If(stmt)));
                         }
 
                         Stmt::Switch(mut stmt) => {
