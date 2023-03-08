@@ -107,7 +107,7 @@ impl DuplicateBindings {
         self.lexical_function = lexical_function;
 
         if lexical_function {
-            self.visit_with_stmt_like(s, |s| match s {
+            self.visit_with_stmt_like(s, |s| match &**s {
                 Stmt::Decl(Decl::Fn(FnDecl {
                     ident, function: f, ..
                 })) if f.body.is_some() => Some(ident.clone()),

@@ -183,7 +183,7 @@ impl<'a> Visit for DependencyCollector<'a> {
         swc_ecma_visit::visit_module_items(self, items);
     }
 
-    fn visit_stmts(&mut self, items: &[ast::Stmt]) {
+    fn visit_stmts(&mut self, items: &[Box<ast::Stmt>]) {
         self.is_top_level = false;
         swc_ecma_visit::visit_stmts(self, items);
         self.is_top_level = true;
