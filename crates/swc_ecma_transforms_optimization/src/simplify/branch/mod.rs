@@ -1863,7 +1863,7 @@ fn is_block_scoped_stuff(s: &Stmt) -> bool {
     }
 }
 
-fn prepare_loop_body_for_inlining(stmt: Stmt) -> Stmt {
+fn prepare_loop_body_for_inlining(stmt: Box<Stmt>) -> Box<Stmt> {
     let span = stmt.span();
     let mut stmts = match stmt {
         Stmt::Block(BlockStmt { stmts, .. }) => stmts,

@@ -792,7 +792,7 @@ impl VisitMut for TreeShaker {
                     {
                         if f.params.is_empty() && f.body.as_ref().unwrap().stmts.len() == 1 {
                             if let Stmt::Return(ReturnStmt { arg: Some(arg), .. }) =
-                                &mut f.body.as_mut().unwrap().stmts[0]
+                                &mut *f.body.as_mut().unwrap().stmts[0]
                             {
                                 if let Expr::Object(ObjectLit { props, .. }) = &**arg {
                                     if props.iter().all(|p| match p {
@@ -916,7 +916,7 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
         match n {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
+            ModuleItem::ModuleDecl(box ModuleDecl::Import(i)) => {
                 let is_for_side_effect = i.specifiers.is_empty();
 
                 i.visit_mut_with(self);
@@ -927,7 +927,7 @@ impl VisitMut for TreeShaker {
                 {
                     debug!("Dropping an import because it's not used");
                     self.changed = true;
-                    *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
+                    *n = ModuleItem::Stmt(Box::new(Stmt::Empty(EmptyStmt { span: DUMMY_SP })));
                 }
             }
             _ => {

@@ -128,7 +128,7 @@ impl VisitMut for ConstModules {
 
                     None
                 } else {
-                    Some(ModuleItem::ModuleDecl(ModuleDecl::Import(import)))
+                    Some(ModuleItem::ModuleDecl(Box::new(ModuleDecl::Import(import))))
                 }
             }
             _ => Some(item),
