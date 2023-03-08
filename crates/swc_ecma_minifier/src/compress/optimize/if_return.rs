@@ -151,7 +151,7 @@ where
                     _ => break,
                 };
 
-                if let Stmt::Decl(Decl::Var(v)) = s {
+                if let Stmt::Decl(Decl::Var(v)) = &**s {
                     if v.decls.iter().all(|v| v.init.is_none()) {
                         if last_idx == 0 {
                             break;
@@ -187,7 +187,7 @@ where
 
             let if_return_count = stmts
                 .iter()
-                .filter(|s| match s {
+                .filter(|s| match &***s {
                     Stmt::If(IfStmt {
                         cons, alt: None, ..
                     }) => always_terminates_with_return_arg(cons),
@@ -301,7 +301,7 @@ where
             } else {
                 stmt
             };
-            let is_nonconditional_return = matches!(stmt, Stmt::Return(..));
+            let is_nonconditional_return = matches!(&*stmt, Stmt::Return(..));
             let new_expr = self.merge_if_returns_to(stmt, vec![]);
             match new_expr {
                 Expr::Seq(v) => match &mut cur {
@@ -393,7 +393,7 @@ where
                     let expr = self.ignore_return_value(&mut cur);
 
                     if let Some(cur) = expr {
-                        new.push(Stmt::Expr(ExprStmt {
+                        new.push(box Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
                             expr: Box::new(cur),
                         }))
@@ -402,7 +402,7 @@ where
                     }
                 }
                 _ => {
-                    new.push(Stmt::Return(ReturnStmt {
+                    new.push(box Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(cur),
                     }));

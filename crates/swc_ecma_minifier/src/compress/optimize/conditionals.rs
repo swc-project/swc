@@ -751,7 +751,7 @@ where
                             cons,
                             alt: None,
                         })));
-                        new_stmts.push(T::from_stmt(*alt));
+                        new_stmts.push(T::from_stmt(alt));
                     }
                     _ => {
                         new_stmts.push(T::from_stmt(stmt));
