@@ -76,7 +76,7 @@ impl Take for Module {
 pub struct Script {
     pub span: Span,
 
-    pub body: Vec<Stmt>,
+    pub body: Vec<Box<Stmt>>,
 
     #[serde(default, rename = "interpreter")]
     pub shebang: Option<Atom>,
@@ -119,9 +119,9 @@ pub enum ModuleItem {
     #[tag("TsImportEqualsDeclaration")]
     #[tag("TsExportAssignment")]
     #[tag("TsNamespaceExportDeclaration")]
-    ModuleDecl(ModuleDecl),
+    ModuleDecl(Box<ModuleDecl>),
     #[tag("*")]
-    Stmt(Stmt),
+    Stmt(Box<Stmt>),
 }
 
 impl Take for ModuleItem {

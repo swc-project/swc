@@ -16,7 +16,7 @@ pub struct BlockStmt {
     /// Span including the braces.
     pub span: Span,
 
-    pub stmts: Vec<Stmt>,
+    pub stmts: Vec<Box<Stmt>>,
 }
 
 impl Take for BlockStmt {
@@ -344,7 +344,7 @@ pub struct SwitchCase {
     pub test: Option<Box<Expr>>,
 
     #[serde(rename = "consequent")]
-    pub cons: Vec<Stmt>,
+    pub cons: Vec<Box<Stmt>>,
 }
 
 impl Take for SwitchCase {
