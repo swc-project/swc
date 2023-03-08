@@ -26,7 +26,7 @@ pub trait ParExplode: Parallel {
     /// Invoked after visiting each statements.
     ///
     /// Implementor should not delete/prepend to `stmts`.
-    fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>);
+    fn after_one_stmt(&mut self, stmts: &mut Vec<Box<Stmt>>);
 
     /// Invoked after visiting each statements.
     ///

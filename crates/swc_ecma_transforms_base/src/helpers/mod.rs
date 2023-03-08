@@ -21,7 +21,7 @@ macro_rules! enable_helper {
     }};
 }
 
-fn parse(code: &str) -> Vec<Stmt> {
+fn parse(code: &str) -> Vec<Box<Stmt>> {
     let cm = SourceMap::new(FilePathMapping::empty());
 
     let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
@@ -46,7 +46,7 @@ fn parse(code: &str) -> Vec<Stmt> {
 
 macro_rules! add_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
-        static STMTS: Lazy<Vec<Stmt>> = Lazy::new(|| {
+        static STMTS: Lazy<Vec<Box<Stmt>>> = Lazy::new(|| {
             let code = include_str!(concat!("./_", stringify!($name), ".js"));
             parse(&code)
         });
@@ -177,7 +177,7 @@ macro_rules! define_helpers {
                 })
             }
 
-            fn build_helpers(&self) -> Vec<Stmt> {
+            fn build_helpers(&self) -> Vec<Box<Stmt>> {
                 let mut buf = vec![];
 
                 HELPERS.with(|helpers|{
@@ -203,7 +203,7 @@ macro_rules! define_helpers {
                 buf
             }
 
-            fn build_requires(&self) -> Vec<Stmt>{
+            fn build_requires(&self) -> Vec<Box<Stmt>>{
                 let mut buf = vec![];
                 HELPERS.with(|helpers|{
                     debug_assert!(helpers.external);
@@ -403,7 +403,7 @@ impl InjectHelpers {
         }
     }
 
-    fn make_helpers_for_script(&self) -> Vec<Stmt> {
+    fn make_helpers_for_script(&self) -> Vec<Box<Stmt>> {
         let external = HELPERS.with(|helper| helper.external());
 
         if external {

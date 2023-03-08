@@ -74,7 +74,7 @@ impl Parallel for Operator<'_> {
 }
 
 impl ParExplode for Operator<'_> {
-    fn after_one_stmt(&mut self, _: &mut Vec<Stmt>) {}
+    fn after_one_stmt(&mut self, _: &mut Vec<Box<Stmt>>) {}
 
     fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>) {
         stmts.append(&mut self.extra);
@@ -414,7 +414,7 @@ impl<'a> VisitMut for Operator<'a> {
         *nodes = buf;
     }
 
-    fn visit_mut_stmts(&mut self, nodes: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, nodes: &mut Vec<Box<Stmt>>) {
         use std::mem::take;
 
         #[cfg(feature = "concurrent")]

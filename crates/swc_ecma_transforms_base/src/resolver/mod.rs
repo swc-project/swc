@@ -1110,7 +1110,7 @@ impl<'a> VisitMut for Resolver<'a> {
         };
     }
 
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         let _span = if LOG {
             Some(span!(Level::ERROR, "visit_mut_stmts").entered())
         } else {
@@ -1908,7 +1908,7 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     /// see docs for `self.visit_mut_module_items`
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Box<Stmt>>) {
         let mut other_stmts = vec![];
 
         for item in stmts {
