@@ -239,7 +239,7 @@ impl Pure<'_> {
                 ),
                 |(mut decls, mut hoisted_fns, mut new_stmts), stmt| {
                     match stmt.take().try_into_stmt() {
-                        Ok(Stmt::Decl(Decl::Fn(f))) => {
+                        Ok(box Stmt::Decl(Decl::Fn(f))) => {
                             hoisted_fns.push(Stmt::Decl(Decl::Fn(f)).into());
                         }
                         Ok(t) => {
@@ -300,9 +300,9 @@ impl Pure<'_> {
                 }
                 Some(Stmt::If(i)) => {
                     let mut changed = false;
-                    changed |= drop(&mut *i.cons, last, need_break);
+                    changed |= drop(&mut i.cons, last, need_break);
                     if let Some(alt) = i.alt.as_mut() {
-                        changed |= drop(&mut **alt, last, need_break);
+                        changed |= drop(alt, last, need_break);
                     }
                     changed
                 }
@@ -348,7 +348,7 @@ impl Pure<'_> {
                         }
                         changed
                     } else {
-                        drop(&mut **body, last, true)
+                        drop(&mut *body, last, true)
                     }
                 }
                 Some(Stmt::Block(b)) => {
@@ -377,7 +377,7 @@ impl Pure<'_> {
     {
         fn is_ok(b: &BlockStmt) -> bool {
             maybe_par!(
-                b.stmts.iter().all(is_fine_for_if_cons),
+                b.stmts.iter().all(|s| is_fine_for_if_cons(s)),
                 *crate::LIGHT_TASK_PARALLELS
             )
         }
@@ -421,7 +421,7 @@ impl Pure<'_> {
                 old_stmts
                     .into_iter()
                     .flat_map(|stmt| match stmt.try_into_stmt() {
-                        Ok(v) => match v {
+                        Ok(v) => match *v {
                             Stmt::Block(v) if is_ok(&v) => {
                                 let stmts = v.stmts;
                                 maybe_par!(
@@ -440,7 +440,7 @@ impl Pure<'_> {
             old_stmts
                 .into_iter()
                 .for_each(|stmt| match stmt.try_into_stmt() {
-                    Ok(v) => match v {
+                    Ok(v) => match *v {
                         Stmt::Block(v) if is_ok(&v) => {
                             new.extend(v.stmts.into_iter().map(T::from_stmt));
                         }
@@ -497,11 +497,11 @@ impl Pure<'_> {
             .take()
             .into_iter()
             .for_each(|stmt| match stmt.try_into_stmt() {
-                Ok(stmt) => match stmt {
+                Ok(stmt) => match *stmt {
                     Stmt::If(mut s) => {
                         if let Value::Known(v) = s.test.cast_to_bool(&self.expr_ctx).1 {
                             let mut var_ids = vec![];
-                            new.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                            new.push(T::from_stmt(box Stmt::Expr(ExprStmt {
                                 span: DUMMY_SP,
                                 expr: s.test.take(),
                             })));
@@ -530,7 +530,7 @@ impl Pure<'_> {
                                         .into(),
                                     ))
                                 }
-                                new.push(T::from_stmt(*s.cons.take()));
+                                new.push(T::from_stmt(s.cons.take()));
                             } else {
                                 var_ids = s
                                     .cons
@@ -555,11 +555,11 @@ impl Pure<'_> {
                                     ))
                                 }
                                 if let Some(alt) = s.alt.take() {
-                                    new.push(T::from_stmt(*alt));
+                                    new.push(T::from_stmt(alt));
                                 }
                             }
                         } else {
-                            new.push(T::from_stmt(Stmt::If(s)));
+                            new.push(T::from_stmt(box Stmt::If(s)));
                         }
                     }
                     _ => new.push(T::from_stmt(stmt)),

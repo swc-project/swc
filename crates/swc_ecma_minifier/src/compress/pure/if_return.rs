@@ -36,7 +36,7 @@ impl Pure<'_> {
 
             if stmts.len() == 1 {
                 for s in stmts.iter_mut() {
-                    if let Stmt::If(s) = s {
+                    if let Stmt::If(s) = &mut **s {
                         if let Stmt::Block(cons) = &mut *s.cons {
                             self.negate_if_terminate(&mut cons.stmts, true, false);
                         }
@@ -49,7 +49,7 @@ impl Pure<'_> {
 
         let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {
             idx != len - 1
-                && match s {
+                && match &**s {
                     Stmt::If(IfStmt {
                         cons, alt: None, ..
                     }) => match &**cons {
