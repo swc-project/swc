@@ -303,18 +303,18 @@ impl Visit for DuplicateBindings {
         self.lexical_function = true;
 
         self.visit_with_stmt_like(&m.body, |s| match s {
-            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+            ModuleItem::Stmt(box Stmt::Decl(Decl::Fn(FnDecl {
                 ident, function: f, ..
             })))
             | ModuleItem::ModuleDecl(
-                ModuleDecl::ExportDecl(ExportDecl {
+                box ModuleDecl::ExportDecl(ExportDecl {
                     decl:
                         Decl::Fn(FnDecl {
                             ident, function: f, ..
                         }),
                     ..
                 })
-                | ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                | box ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                     decl:
                         DefaultDecl::Fn(FnExpr {
                             ident: Some(ident),

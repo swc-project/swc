@@ -30,7 +30,7 @@ fn member_expr(s: &'static str) -> Box<Expr> {
 
 fn expr(s: &'static str) -> Box<Expr> {
     test_parser(s, syntax(), |p| {
-        p.parse_stmt(true).map(|stmt| match stmt {
+        p.parse_stmt(true).map(|stmt| match *stmt {
             Stmt::Expr(expr) => expr.expr,
             _ => unreachable!(),
         })

@@ -1346,7 +1346,7 @@ mod tests {
     use super::*;
     use crate::{EsConfig, TsConfig};
 
-    fn stmt(s: &'static str) -> Stmt {
+    fn stmt(s: &'static str) -> Box<Stmt> {
         test_parser(s, Syntax::default(), |p| p.parse_stmt(true))
     }
 
@@ -1462,12 +1462,12 @@ mod tests {
     fn if_else() {
         assert_eq_ignore_span!(
             stmt("if (a) b; else c"),
-            Stmt::If(IfStmt {
+            Box::new(Stmt::If(IfStmt {
                 span,
                 test: expr("a"),
-                cons: Box::new(stmt("b;")),
-                alt: Some(Box::new(stmt("c"))),
-            })
+                cons: stmt("b;"),
+                alt: Some(stmt("c")),
+            }))
         );
     }
 
