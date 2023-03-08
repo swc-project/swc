@@ -215,7 +215,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
                 return self
                     .parse_class_decl(start, start, decorators, false)
-                    .map(Stmt::from);
+                    .map(From::from);
             }
 
             tok!("if") => {
@@ -242,10 +242,10 @@ impl<'a, I: Tokens> Parser<I> {
                 let _ = self.parse_catch_clause();
                 let _ = self.parse_finally_block();
 
-                return Ok(Stmt::Expr(ExprStmt {
+                return Ok(Box::new(Stmt::Expr(ExprStmt {
                     span,
                     expr: Box::new(Expr::Invalid(Invalid { span })),
-                }));
+                })));
             }
 
             // Error recovery
@@ -255,10 +255,10 @@ impl<'a, I: Tokens> Parser<I> {
 
                 let _ = self.parse_finally_block();
 
-                return Ok(Stmt::Expr(ExprStmt {
+                return Ok(Box::new(Stmt::Expr(ExprStmt {
                     span,
                     expr: Box::new(Expr::Invalid(Invalid { span })),
-                }));
+                })));
             }
 
             tok!("try") => {
@@ -275,12 +275,12 @@ impl<'a, I: Tokens> Parser<I> {
 
             tok!("var") => {
                 let v = self.parse_var_stmt(false)?;
-                return Ok(Stmt::Decl(Decl::Var(v)));
+                return Ok(Box::new(Stmt::Decl(Decl::Var(v))));
             }
 
             tok!("const") if include_decl => {
                 let v = self.parse_var_stmt(false)?;
-                return Ok(Stmt::Decl(Decl::Var(v)));
+                return Ok(Box::new(Stmt::Decl(Decl::Var(v))));
             }
 
             // 'let' can start an identifier reference.
@@ -293,7 +293,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 if is_keyword {
                     let v = self.parse_var_stmt(false)?;
-                    return Ok(Stmt::Decl(Decl::Var(v)));
+                    return Ok(Box::new(Stmt::Decl(Decl::Var(v))));
                 }
             }
 
@@ -304,9 +304,9 @@ impl<'a, I: Tokens> Parser<I> {
                 {
                     let start = self.input.cur_pos();
                     bump!(self);
-                    return Ok(Stmt::Decl(Decl::TsInterface(
+                    return Ok(Box::new(Stmt::Decl(Decl::TsInterface(
                         self.parse_ts_interface_decl(start)?,
-                    )));
+                    ))));
                 }
             }
 
@@ -317,23 +317,23 @@ impl<'a, I: Tokens> Parser<I> {
                 {
                     let start = self.input.cur_pos();
                     bump!(self);
-                    return Ok(Stmt::Decl(Decl::TsEnum(
+                    return Ok(Box::new(Stmt::Decl(Decl::TsEnum(
                         self.parse_ts_enum_decl(start, false)?,
-                    )));
+                    ))));
                 }
             }
 
             tok!('{') => {
-                return self.parse_block(false).map(Stmt::Block);
+                return self.parse_block(false).map(From::from);
             }
 
             _ => {}
         }
 
         if eat_exact!(self, ';') {
-            return Ok(Stmt::Empty(EmptyStmt {
+            return Ok(Box::new(Stmt::Empty(EmptyStmt {
                 span: span!(self, start),
-            }));
+            })));
         }
 
         // Handle async function foo() {}
@@ -369,15 +369,15 @@ impl<'a, I: Tokens> Parser<I> {
 
                 eat!(self, ';');
 
-                return Ok(Stmt::Expr(ExprStmt {
+                return Ok(Box::new(Stmt::Expr(ExprStmt {
                     span: span!(self, start),
                     expr,
-                }));
+                })));
             }
 
             if self.input.syntax().typescript() {
                 if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
-                    return Ok(Stmt::Decl(decl));
+                    return Ok(Box::new(Stmt::Decl(decl)));
                 }
             }
         }
@@ -400,7 +400,7 @@ impl<'a, I: Tokens> Parser<I> {
                             return self
                                 .parse_ts_interface_decl(start)
                                 .map(Decl::from)
-                                .map(Stmt::from);
+                                .map(From::from);
                         }
                     }
                     _ => {}
