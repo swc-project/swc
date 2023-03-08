@@ -1,0 +1,7 @@
+{
+    "pristine_globals": true,
+    "unused": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "toplevel": true
+}
