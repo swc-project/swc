@@ -1703,7 +1703,7 @@ impl GlobalPassOption {
                             *expr(cm, handler, v.to_string()),
                         )
                     })
-                    .collect::<Vec<_>>();
+                    .collect::<AHashMap<_, _>>();
                 let map = Arc::new(map);
                 CACHE.insert(cache_key, map.clone());
                 map
