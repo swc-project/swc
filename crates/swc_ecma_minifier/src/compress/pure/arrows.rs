@@ -44,7 +44,7 @@ impl Pure<'_> {
         match b {
             BlockStmtOrExpr::BlockStmt(s) => {
                 if s.stmts.len() == 1 {
-                    if let Stmt::Return(s) = &mut s.stmts[0] {
+                    if let Stmt::Return(s) = &mut *s.stmts[0] {
                         if let Some(arg) = &mut s.arg {
                             report_change!("arrows: Optimizing the body of an arrow");
                             *b = BlockStmtOrExpr::Expr(arg.take());
@@ -74,7 +74,7 @@ impl Pure<'_> {
             if let Some(body) = &mut m.function.body {
                 if body.stmts.len() == 1
                     && matches!(
-                        body.stmts[0],
+                        &*body.stmts[0],
                         Stmt::Return(ReturnStmt { arg: Some(..), .. })
                     )
                 {

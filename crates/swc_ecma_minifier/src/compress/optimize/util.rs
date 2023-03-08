@@ -536,11 +536,11 @@ impl std::ops::Deref for SynthesizedStmts {
 }
 
 impl SynthesizedStmts {
-    pub fn push(&mut self, stmt: Stmt) {
+    pub fn push(&mut self, stmt: Box<Stmt>) {
         self.0.push(stmt);
     }
 
-    pub fn extend(&mut self, stmts: impl IntoIterator<Item = Stmt>) {
+    pub fn extend(&mut self, stmts: impl IntoIterator<Item = Box<Stmt>>) {
         self.0.extend(stmts);
     }
 

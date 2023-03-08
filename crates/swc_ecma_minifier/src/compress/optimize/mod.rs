@@ -384,7 +384,7 @@ where
                 new.extend(self.prepend_stmts.drain(..).map(T::from_stmt));
 
                 match stmt.try_into_stmt() {
-                    Ok(Stmt::Block(s)) if s.span.has_mark(self.marks.fake_block) => {
+                    Ok(box Stmt::Block(s)) if s.span.has_mark(self.marks.fake_block) => {
                         new.extend(s.stmts.into_iter().map(T::from_stmt));
                     }
                     Ok(s) => {
@@ -1234,14 +1234,14 @@ where
                 if bs.stmts.len() == 1 {
                     if bs.span.has_mark(self.marks.fake_block) {
                         report_change!("Unwrapping a fake block");
-                        *s = bs.stmts.take().into_iter().next().unwrap();
+                        *s = *bs.stmts.take().into_iter().next().unwrap();
                         return;
                     }
 
-                    if let Stmt::Block(block) = &mut bs.stmts[0] {
+                    if let Stmt::Block(block) = &mut *bs.stmts[0] {
                         let stmts = &block.stmts;
                         if maybe_par!(
-                            stmts.iter().all(|stmt| !matches!(stmt, Stmt::Decl(..))),
+                            stmts.iter().all(|stmt| !matches!(&**stmt, Stmt::Decl(..))),
                             *crate::LIGHT_TASK_PARALLELS
                         ) {
                             report_change!("optimizer: Removing nested block");
@@ -1255,7 +1255,7 @@ where
                 //
                 // TODO: Support multiple statements.
                 if bs.stmts.len() == 1
-                    && bs.stmts.iter().all(|stmt| match stmt {
+                    && bs.stmts.iter().all(|stmt| match &**stmt {
                         Stmt::Decl(Decl::Var(v))
                             if matches!(
                                 &**v,
@@ -1272,30 +1272,30 @@ where
                 {
                     report_change!("optimizer: Unwrapping a block with variable statements");
                     self.changed = true;
-                    *s = bs.stmts[0].take();
+                    *s = *bs.stmts[0].take();
                     return;
                 }
 
                 for stmt in &mut bs.stmts {
-                    if let Stmt::Block(block) = &stmt {
+                    if let Stmt::Block(block) = &**stmt {
                         if block.stmts.is_empty() {
                             self.changed = true;
                             report_change!("optimizer: Removing empty block");
-                            *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                            *stmt = box Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                             return;
                         }
                     }
                 }
 
                 if unwrap_more && bs.stmts.len() == 1 {
-                    match &bs.stmts[0] {
+                    match &*bs.stmts[0] {
                         Stmt::Expr(..) | Stmt::If(..) => {
-                            *s = bs.stmts[0].take();
+                            *s = *bs.stmts[0].take();
                             report_change!("optimizer: Unwrapping block stmt");
                             self.changed = true;
                         }
                         Stmt::Decl(Decl::Fn(..)) if allow_fn_decl && !self.ctx.in_strict => {
-                            *s = bs.stmts[0].take();
+                            *s = *bs.stmts[0].take();
                             report_change!("optimizer: Unwrapping block stmt in non strcit mode");
                             self.changed = true;
                         }
@@ -1308,7 +1308,9 @@ where
                 self.try_removing_block(&mut s.cons, true, true);
                 let can_remove_block_of_alt = match &*s.cons {
                     Stmt::Expr(..) | Stmt::If(..) => true,
-                    Stmt::Block(bs) if bs.stmts.len() == 1 => matches!(&bs.stmts[0], Stmt::For(..)),
+                    Stmt::Block(bs) if bs.stmts.len() == 1 => {
+                        matches!(&*bs.stmts[0], Stmt::For(..))
+                    }
                     _ => false,
                 };
                 if can_remove_block_of_alt {
@@ -1348,7 +1350,7 @@ where
             Stmt::Block(block)
                 if block.stmts.len() == 1 && is_fine_for_if_cons(&block.stmts[0]) =>
             {
-                *s = block.stmts.take().into_iter().next().unwrap();
+                *s = *block.stmts.take().into_iter().next().unwrap();
             }
             _ => {}
         }
@@ -1415,7 +1417,7 @@ where
                     self.changed = true;
                     report_change!("Converting a body of an arrow expression to BlockStmt");
 
-                    stmts.push(Stmt::Return(ReturnStmt {
+                    stmts.push(box Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(v.take()),
                     }));
@@ -2207,7 +2209,7 @@ where
     fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
         s.visit_mut_children_with(self);
 
-        if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+        if let ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
             decl: Decl::Var(v),
             ..
         })) = s
@@ -2514,9 +2516,9 @@ where
                     .prepend_stmts
                     .take_stmts()
                     .into_iter()
-                    .chain(once(s.take()))
+                    .chain(once(Box::new(s.take())))
                     .chain(self.append_stmts.take_stmts().into_iter())
-                    .filter(|s| match s {
+                    .filter(|s| match &**s {
                         Stmt::Empty(..) => false,
                         Stmt::Decl(Decl::Var(v)) => !v.decls.is_empty(),
                         _ => true,
@@ -2670,7 +2672,7 @@ where
         drop_invalid_stmts(stmts);
 
         if stmts.len() == 1 {
-            if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
+            if let Stmt::Expr(ExprStmt { expr, .. }) = &*stmts[0] {
                 if let Expr::Lit(Lit::Str(s)) = &**expr {
                     if s.value == *"use strict" {
                         stmts.clear();
@@ -2961,7 +2963,7 @@ where
 
             // We append side effects.
             if !side_effects.is_empty() {
-                self.append_stmts.push(Stmt::Expr(ExprStmt {
+                self.append_stmts.push(box Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
                     expr: if side_effects.len() == 1 {
                         side_effects.remove(0)

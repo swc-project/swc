@@ -58,7 +58,7 @@ impl Pure<'_> {
                     cons,
                     alt: None,
                     ..
-                }) = first
+                }) = &mut **first
                 {
                     if let Stmt::Break(BreakStmt {
                         label: Some(label), ..
@@ -93,7 +93,7 @@ impl Pure<'_> {
                     cons,
                     alt: Some(alt),
                     ..
-                }) = first
+                }) = &mut **first
                 {
                     if let Stmt::Break(BreakStmt {
                         label: Some(label), ..
@@ -107,7 +107,7 @@ impl Pure<'_> {
                             );
 
                             let test = test.take();
-                            let cons = *cons.take();
+                            let cons = cons.take();
 
                             let mut new_cons = bs.take();
                             new_cons.stmts[0] = cons;
@@ -164,7 +164,7 @@ impl Pure<'_> {
         if let Stmt::Block(b) = body {
             let last = b.stmts.last_mut()?;
 
-            if let Stmt::Continue(last_cs) = last {
+            if let Stmt::Continue(last_cs) = &mut **last {
                 if last_cs.label.is_some() {
                     if label.eq_ignore_span(&last_cs.label) {
                     } else {
