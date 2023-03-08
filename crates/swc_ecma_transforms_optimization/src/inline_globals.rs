@@ -11,7 +11,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 
 /// The key will be compared using [EqIgnoreSpan::eq_ignore_span], and matched
 /// expressions will be replaced with the value.
-pub type GlobalExprMap = Lrc<Vec<(Expr, Expr)>>;
+pub type GlobalExprMap = Lrc<AHashMap<NodeIgnoringSpan<'static, Expr>, Expr>>;
 
 /// Create a global inlining pass, which replaces expressions with the specified
 /// value.
@@ -38,12 +38,7 @@ pub fn inline_globals2(
     as_folder(InlineGlobals {
         envs,
         globals,
-        global_exprs: Lrc::new(
-            global_exprs
-                .iter()
-                .map(|(k, v)| (NodeIgnoringSpan::owned(k.clone()), v.clone()))
-                .collect(),
-        ),
+        global_exprs,
         typeofs,
         bindings: Default::default(),
     })
