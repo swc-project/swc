@@ -552,7 +552,7 @@ impl VisitMut for Remover {
 
                         let mut v = stmts.into_iter().next().unwrap();
                         v.visit_mut_with(self);
-                        v
+                        *v
                     } else {
                         Stmt::Block(BlockStmt { span, stmts })
                     }
@@ -828,7 +828,7 @@ impl VisitMut for Remover {
                             if !exprs.is_empty() {
                                 prepend_stmt(
                                     &mut stmts,
-                                    Stmt::Expr(ExprStmt {
+                                    Box::new(Stmt::Expr(ExprStmt {
                                         span: DUMMY_SP,
                                         expr: if exprs.len() == 1 {
                                             exprs.remove(0)
@@ -838,7 +838,7 @@ impl VisitMut for Remover {
                                                 exprs,
                                             }))
                                         },
-                                    }),
+                                    })),
                                 );
                             }
 
@@ -999,7 +999,7 @@ impl VisitMut for Remover {
                             if !exprs.is_empty() {
                                 prepend_stmt(
                                     &mut stmts,
-                                    Stmt::Expr(ExprStmt {
+                                    Box::new(Stmt::Expr(ExprStmt {
                                         span: DUMMY_SP,
                                         expr: if exprs.len() == 1 {
                                             exprs.remove(0)
@@ -1009,7 +1009,7 @@ impl VisitMut for Remover {
                                                 exprs,
                                             }))
                                         },
-                                    }),
+                                    })),
                                 );
                             }
 
@@ -1142,7 +1142,7 @@ impl VisitMut for Remover {
                 }
 
                 Stmt::DoWhile(s) => {
-                    if has_conditional_stopper(&[Stmt::DoWhile(s.clone())]) {
+                    if has_conditional_stopper(&[Box::new(Stmt::DoWhile(s.clone()))]) {
                         return Stmt::DoWhile(s);
                     }
 
@@ -1157,7 +1157,7 @@ impl VisitMut for Remover {
                                 body: s.body,
                             })
                         } else {
-                            let mut body = prepare_loop_body_for_inlining(*s.body);
+                            let mut body = prepare_loop_body_for_inlining(s.body);
                             body.visit_mut_with(self);
 
                             if let Some(test) = ignore_result(*s.test, true, &self.expr_ctx) {
@@ -1167,7 +1167,7 @@ impl VisitMut for Remover {
                                 }
                                 .into()
                             } else {
-                                body
+                                *body
                             }
                         }
                     } else {
@@ -1301,7 +1301,7 @@ impl Remover {
         while let Some(stmt_like) = iter.next() {
             let stmt_like = match stmt_like.try_into_stmt() {
                 Ok(stmt) => {
-                    let stmt = match *stmt {
+                    let stmt: Box<_> = match *stmt {
                         // Remove empty statements.
                         Stmt::Empty(..) => continue,
 
@@ -1325,8 +1325,9 @@ impl Remover {
                             let mut hoisted_fns = vec![];
                             for t in iter {
                                 match t.try_into_stmt() {
-                                    Ok(Stmt::Decl(Decl::Fn(f))) => {
-                                        hoisted_fns.push(T::from_stmt(Stmt::Decl(Decl::Fn(f))));
+                                    Ok(box Stmt::Decl(Decl::Fn(f))) => {
+                                        hoisted_fns
+                                            .push(T::from_stmt(Box::new(Stmt::Decl(Decl::Fn(f)))));
                                     }
                                     Ok(t) => {
                                         let ids = extract_var_ids(&t).into_iter().map(|i| {
@@ -1385,7 +1386,7 @@ impl Remover {
                                 new_stmts.extend(
                                     stmts
                                         .into_iter()
-                                        .filter(|s| !matches!(s, Stmt::Empty(..)))
+                                        .filter(|s| !matches!(&**s, Stmt::Empty(..)))
                                         .map(T::from_stmt),
                                 );
                                 continue;
@@ -1407,10 +1408,12 @@ impl Remover {
                                         let expr = ignore_result(*test, true, &self.expr_ctx);
 
                                         if let Some(expr) = expr {
-                                            new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
-                                                span: DUMMY_SP,
-                                                expr: Box::new(expr),
-                                            })));
+                                            new_stmts.push(T::from_stmt(Box::new(Stmt::Expr(
+                                                ExprStmt {
+                                                    span: DUMMY_SP,
+                                                    expr: Box::new(expr),
+                                                },
+                                            ))));
                                         }
                                     }
 
@@ -1421,24 +1424,24 @@ impl Remover {
                                         {
                                             new_stmts.push(T::from_stmt(var.into()))
                                         }
-                                        *cons
+                                        cons
                                     } else {
                                         // Hoist vars from cons
                                         if let Some(var) = cons.extract_var_ids_as_var() {
                                             new_stmts.push(T::from_stmt(var.into()))
                                         }
                                         match alt {
-                                            Some(alt) => *alt,
+                                            Some(alt) => alt,
                                             None => continue,
                                         }
                                     }
                                 }
-                                _ => Stmt::If(IfStmt {
+                                _ => Box::new(Stmt::If(IfStmt {
                                     test,
                                     cons,
                                     alt,
                                     span,
-                                }),
+                                })),
                             }
                         }
 
