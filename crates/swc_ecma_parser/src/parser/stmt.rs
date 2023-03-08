@@ -1451,10 +1451,10 @@ mod tests {
 
         assert_eq_ignore_span!(
             stmt("{ 1; }"),
-            Stmt::Block(BlockStmt {
+            Box::new(Stmt::Block(BlockStmt {
                 span,
                 stmts: vec![stmt("1")],
-            })
+            }))
         );
     }
 
@@ -1486,7 +1486,7 @@ mod tests {
                 }),
                 |p| p.parse_stmt_list_item(true),
             ),
-            Stmt::Decl(Decl::Class(ClassDecl {
+            Box::new(Stmt::Decl(Decl::Class(ClassDecl {
                 ident: Ident::new("Foo".into(), span),
                 class: Box::new(Class {
                     span,
@@ -1508,7 +1508,7 @@ mod tests {
                     type_params: None,
                 }),
                 declare: false,
-            }))
+            })))
         );
     }
 
