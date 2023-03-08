@@ -169,7 +169,7 @@ impl Hoister<'_> {
                             if exprs.is_empty() {
                                 continue;
                             }
-                            new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                            new_stmts.push(T::from_stmt(box Stmt::Expr(ExprStmt {
                                 span: var.span,
                                 expr: if exprs.len() == 1 {
                                     exprs.into_iter().next().unwrap()
@@ -232,7 +232,7 @@ impl Hoister<'_> {
 
                         Stmt::Decl(Decl::Var(..)) => new_stmts.push(T::from_stmt(stmt)),
                         _ => {
-                            if let Stmt::Throw(..) = stmt {
+                            if let Stmt::Throw(..) = *stmt {
                                 fn_decls.push(T::from_stmt(
                                     VarDecl {
                                         span: DUMMY_SP,

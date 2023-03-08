@@ -276,7 +276,7 @@ pub(crate) trait IsModuleItem {
     fn is_module_item() -> bool;
 }
 
-impl IsModuleItem for Stmt {
+impl IsModuleItem for Box<Stmt> {
     fn is_module_item() -> bool {
         false
     }

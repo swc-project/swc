@@ -138,7 +138,7 @@ where
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
                 Ok(stmt) => {
-                    match stmt {
+                    match *stmt {
                         Stmt::If(mut stmt @ IfStmt { alt: None, .. }) => {
                             //
 
@@ -153,7 +153,12 @@ where
                                             right: stmt.test.take(),
                                         }));
                                     } else {
-                                        new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+                                        new.extend(
+                                            cur.take()
+                                                .map(Stmt::If)
+                                                .map(Box::new)
+                                                .map(T::from_stmt),
+                                        );
 
                                         cur = Some(stmt);
                                     }
@@ -164,21 +169,21 @@ where
                             }
                         }
                         _ => {
-                            new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+                            new.extend(cur.take().map(Stmt::If).map(Box::new).map(T::from_stmt));
 
                             new.push(T::from_stmt(stmt));
                         }
                     }
                 }
                 Err(item) => {
-                    new.extend(cur.take().map(Stmt::If).map(T::from_stmt));
+                    new.extend(cur.take().map(Stmt::If).map(Box::new).map(T::from_stmt));
 
                     new.push(item);
                 }
             }
         }
 
-        new.extend(cur.map(Stmt::If).map(T::from_stmt));
+        new.extend(cur.map(Stmt::If).map(Box::new).map(T::from_stmt));
 
         *stmts = new;
     }
@@ -634,15 +639,18 @@ where
 
         let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {
             idx != len - 1
-                && match s {
+                && match &**s {
                     Stmt::If(IfStmt {
                         cons, alt: None, ..
                     }) => match &**cons {
                         Stmt::Block(b) => {
                             b.stmts.len() == 2
-                                && !matches!(b.stmts.first(), Some(Stmt::If(..) | Stmt::Expr(..)))
+                                && !matches!(
+                                    b.stmts.first().map(|v| &**v),
+                                    Some(Stmt::If(..) | Stmt::Expr(..))
+                                )
                                 && matches!(
-                                    b.stmts.last(),
+                                    b.stmts.last().map(|v| &**v),
                                     Some(Stmt::Return(ReturnStmt { arg: None, .. }))
                                 )
                         }
@@ -666,7 +674,7 @@ where
         let alt = stmts.drain(1..).collect::<Vec<_>>();
 
         let if_stmt = stmts.take().into_iter().next().unwrap();
-        match if_stmt {
+        match *if_stmt {
             Stmt::If(mut s) => {
                 match &mut *s.cons {
                     Stmt::Block(cons) => {
@@ -680,7 +688,7 @@ where
                 assert_eq!(s.alt, None);
 
                 s.alt = Some(if alt.len() == 1 {
-                    Box::new(alt.into_iter().next().unwrap())
+                    alt.into_iter().next().unwrap()
                 } else {
                     Box::new(Stmt::Block(BlockStmt {
                         span: DUMMY_SP,
@@ -688,7 +696,7 @@ where
                     }))
                 });
 
-                new.push(Stmt::If(s))
+                new.push(box Stmt::If(s))
             }
             _ => {
                 unreachable!()
@@ -726,7 +734,7 @@ where
         let mut new_stmts = Vec::with_capacity(stmts.len() * 2);
         stmts.take().into_iter().for_each(|stmt| {
             match stmt.try_into_stmt() {
-                Ok(stmt) => match stmt {
+                Ok(stmt) => match *stmt {
                     Stmt::If(IfStmt {
                         span,
                         mut test,
@@ -745,7 +753,7 @@ where
                             swap(&mut cons, &mut alt);
                         }
 
-                        new_stmts.push(T::from_stmt(Stmt::If(IfStmt {
+                        new_stmts.push(T::from_stmt(box Stmt::If(IfStmt {
                             span,
                             test,
                             cons,
