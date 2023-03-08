@@ -115,6 +115,7 @@
 
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![cfg_attr(test, feature(bench_black_box))]
+#![cfg_attr(test, feature(box_patterns))]
 #![cfg_attr(test, feature(test))]
 #![deny(clippy::all)]
 #![deny(unused)]

@@ -87,7 +87,8 @@ fn issue_1813() {
 #[test]
 fn parse_module_export_named_span() {
     let m = module("export function foo() {}");
-    if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { span, .. })) = &m.body[0] {
+    if let ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl { span, .. })) = &m.body[0]
+    {
         assert_eq!(span.lo, BytePos(1));
     } else {
         panic!("expected ExportDecl");
@@ -97,8 +98,9 @@ fn parse_module_export_named_span() {
 #[test]
 fn parse_module_export_default_fn_span() {
     let m = module("export default function foo() {}");
-    if let ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-        span, ..
+    if let ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+        span,
+        ..
     })) = &m.body[0]
     {
         assert_eq!(span.lo, BytePos(1));
@@ -111,8 +113,9 @@ fn parse_module_export_default_fn_span() {
 #[test]
 fn parse_module_export_default_async_fn_span() {
     let m = module("export default async function foo() {}");
-    if let ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-        span, ..
+    if let ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+        span,
+        ..
     })) = &m.body[0]
     {
         assert_eq!(span.lo, BytePos(1));
@@ -125,8 +128,9 @@ fn parse_module_export_default_async_fn_span() {
 #[test]
 fn parse_module_export_default_class_span() {
     let m = module("export default class Foo {}");
-    if let ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-        span, ..
+    if let ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+        span,
+        ..
     })) = &m.body[0]
     {
         assert_eq!(span.lo, BytePos(1));
