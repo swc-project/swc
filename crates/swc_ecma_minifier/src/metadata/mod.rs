@@ -137,9 +137,11 @@ impl VisitMut for InfoMarker<'_> {
         } else if let Some(pure_fns) = &self.pure_funcs {
             if let Callee::Expr(e) = &n.callee {
                 // Check for pure_funcs
-                if pure_fns.contains(&NodeIgnoringSpan::borrowed(e)) {
-                    n.span = n.span.apply_mark(self.marks.pure);
-                };
+                Ident::within_ignored_ctxt(|| {
+                    if pure_fns.contains(&NodeIgnoringSpan::borrowed(e)) {
+                        n.span = n.span.apply_mark(self.marks.pure);
+                    };
+                })
             }
         }
     }

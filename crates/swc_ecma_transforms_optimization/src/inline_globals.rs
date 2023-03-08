@@ -92,7 +92,9 @@ impl VisitMut for InlineGlobals {
             }
         }
 
-        if let Some(value) = self.global_exprs.get(&NodeIgnoringSpan::borrowed(expr)) {
+        if let Some(value) =
+            Ident::within_ignored_ctxt(|| self.global_exprs.get(&NodeIgnoringSpan::borrowed(expr)))
+        {
             *expr = value.clone();
             expr.visit_mut_with(self);
             return;

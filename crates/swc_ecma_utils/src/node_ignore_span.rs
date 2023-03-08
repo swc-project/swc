@@ -1,7 +1,7 @@
 use std::{borrow::Cow, fmt::Debug, hash::Hash};
 
 use swc_common::EqIgnoreSpan;
-use swc_ecma_ast::{Expr, Ident, MemberProp};
+use swc_ecma_ast::{Expr, MemberProp};
 
 /// A newtype that will ignore Span while doing `eq` or `hash`.
 pub struct NodeIgnoringSpan<'a, Node: ToOwned + Debug>(Cow<'a, Node>);
@@ -26,7 +26,7 @@ impl<'a, Node: ToOwned + Debug> NodeIgnoringSpan<'a, Node> {
 
 impl<'a, Node: EqIgnoreSpan + ToOwned + Debug> PartialEq for NodeIgnoringSpan<'a, Node> {
     fn eq(&self, other: &Self) -> bool {
-        Ident::within_ignored_ctxt(|| self.0.eq_ignore_span(&other.0))
+        self.0.eq_ignore_span(&other.0)
     }
 }
 
