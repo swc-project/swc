@@ -402,7 +402,7 @@ impl Pure<'_> {
                 old_stmts
                     .into_par_iter()
                     .flat_map(|stmt| match stmt.try_into_stmt() {
-                        Ok(v) => match v {
+                        Ok(v) => match *v {
                             Stmt::Block(v) if is_ok(&v) => {
                                 let stmts = v.stmts;
                                 maybe_par!(
