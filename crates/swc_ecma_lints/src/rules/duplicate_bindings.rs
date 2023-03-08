@@ -102,7 +102,7 @@ impl DuplicateBindings {
         }
     }
 
-    fn visit_with_stmts(&mut self, s: &[Stmt], lexical_function: bool) {
+    fn visit_with_stmts(&mut self, s: &[Box<Stmt>], lexical_function: bool) {
         let old = self.lexical_function;
         self.lexical_function = lexical_function;
 
@@ -178,7 +178,7 @@ impl Visit for DuplicateBindings {
     }
 
     // block stmt and case block
-    fn visit_stmts(&mut self, b: &[Stmt]) {
+    fn visit_stmts(&mut self, b: &[Box<Stmt>]) {
         self.visit_with_stmts(b, true)
     }
 

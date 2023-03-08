@@ -1682,7 +1682,7 @@ where
         }
     }
 
-    fn visit_stmts(&mut self, n: &[Stmt]) {
+    fn visit_stmts(&mut self, n: &[Box<Stmt>]) {
         let old = self.non_top_level;
         self.non_top_level = true;
         n.iter().for_each(|n| n.visit_with(self));

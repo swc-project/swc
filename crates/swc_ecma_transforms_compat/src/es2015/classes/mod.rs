@@ -224,7 +224,7 @@ where
         self.visit_mut_stmt_like(items)
     }
 
-    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, items: &mut Vec<Box<Stmt>>) {
         self.visit_mut_stmt_like(items)
     }
 
@@ -531,7 +531,7 @@ where
         class_name: Option<Ident>,
         super_class_ident: Option<Ident>,
         class: Box<Class>,
-    ) -> Vec<Stmt> {
+    ) -> Vec<Box<Stmt>> {
         let class_name = class_name.unwrap_or_else(|| quote_ident!("_class"));
         let mut stmts = vec![];
 
@@ -832,9 +832,9 @@ where
         &mut self,
         class_name: &Ident,
         super_class_ident: &Option<Ident>,
-        mut body: Vec<Stmt>,
+        mut body: Vec<Box<Stmt>>,
         this_mark: Option<Mark>,
-    ) -> Vec<Stmt> {
+    ) -> Vec<Box<Stmt>> {
         let mut vars = vec![];
         let mut folder = SuperFieldAccessFolder {
             class_name,
@@ -892,7 +892,7 @@ where
         class_name: &Ident,
         super_class_ident: &Option<Ident>,
         methods: Vec<ClassMethod>,
-    ) -> Vec<Stmt> {
+    ) -> Vec<Box<Stmt>> {
         if methods.is_empty() {
             return vec![];
         }
@@ -1214,7 +1214,7 @@ where
 }
 
 #[tracing::instrument(level = "info", skip_all)]
-fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
+fn inject_class_call_check(c: &mut Vec<Box<Stmt>>, name: Ident) {
     let mut class_name_sym = name.clone();
     class_name_sym.span = DUMMY_SP;
     class_name_sym.span.ctxt = name.span.ctxt;
@@ -1235,7 +1235,7 @@ fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
 
 /// Returns true if no `super` is used before `super()` call.
 #[tracing::instrument(level = "info", skip_all)]
-fn is_always_initialized(body: &[Stmt]) -> bool {
+fn is_always_initialized(body: &[Box<Stmt>]) -> bool {
     struct SuperFinder {
         found: bool,
     }

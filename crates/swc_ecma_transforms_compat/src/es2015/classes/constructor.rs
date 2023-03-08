@@ -23,7 +23,7 @@ impl SuperCallFinder {
     /// - `None`: if no `super()` is found or super() is last call
     /// - `Some(Var)`: `var _this = ...`
     /// - `Some(Assign)`: `_this = ...`
-    pub fn find(node: &[Stmt]) -> Option<SuperFoldingMode> {
+    pub fn find(node: &[Box<Stmt>]) -> Option<SuperFoldingMode> {
         if let Some(Stmt::Expr(ExprStmt { ref expr, .. })) = node.last() {
             if let Expr::Call(CallExpr {
                 callee: Callee::Super(..),

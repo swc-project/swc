@@ -35,7 +35,7 @@ impl Parallel for ExampleFold {
 }
 
 impl ParExplode for ExampleFold {
-    fn after_one_stmt(&mut self, _: &mut Vec<swc_ecma_ast::Stmt>) {}
+    fn after_one_stmt(&mut self, _: &mut Vec<Box<Stmt>>) {}
 
     fn after_one_module_item(&mut self, _: &mut Vec<ModuleItem>) {}
 }

@@ -86,7 +86,7 @@ impl VisitMut for OptChaining {
         self.visit_mut_stmt_like(n);
     }
 
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Box<Stmt>>) {
         self.visit_mut_stmt_like(n);
     }
 }
