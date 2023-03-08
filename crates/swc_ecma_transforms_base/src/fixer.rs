@@ -549,7 +549,7 @@ impl VisitMut for Fixer<'_> {
         if will_eat_else_token(&node.cons) {
             node.cons = Box::new(Stmt::Block(BlockStmt {
                 span: node.cons.span(),
-                stmts: vec![*node.cons.take()],
+                stmts: vec![node.cons.take()],
             }));
         }
     }

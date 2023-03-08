@@ -1,4 +1,5 @@
 #![cfg_attr(test, deny(warnings))]
+#![feature(box_patterns)]
 
 pub use self::resolver::resolver;
 

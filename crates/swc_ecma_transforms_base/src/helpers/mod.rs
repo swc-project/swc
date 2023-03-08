@@ -80,13 +80,15 @@ macro_rules! add_import_to {
 
             let src: Str = concat!("@swc/helpers/src/_", stringify!($name), ".mjs").into();
 
-            $buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                span: DUMMY_SP,
-                specifiers: vec![s],
-                src: Box::new(src),
-                asserts: Default::default(),
-                type_only: Default::default(),
-            })))
+            $buf.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::Import(
+                ImportDecl {
+                    span: DUMMY_SP,
+                    specifiers: vec![s],
+                    src: Box::new(src),
+                    asserts: Default::default(),
+                    type_only: Default::default(),
+                },
+            ))))
         }
     }};
 }
@@ -417,7 +419,7 @@ impl InjectHelpers {
         }
     }
 
-    fn build_reqire(&self, name: &str, mark: Mark) -> Stmt {
+    fn build_reqire(&self, name: &str, mark: Mark) -> Box<Stmt> {
         let c = CallExpr {
             span: DUMMY_SP,
             callee: Expr::Ident(Ident {
@@ -457,7 +459,7 @@ impl InjectHelpers {
             }
             .into(),
         );
-        Stmt::Decl(decl)
+        Box::new(Stmt::Decl(decl))
     }
 }
 

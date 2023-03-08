@@ -1874,8 +1874,8 @@ impl VisitMut for Hoister<'_, '_> {
 
         for item in items {
             match item {
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(v)))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::Stmt(box Stmt::Decl(Decl::Var(v)))
+                | ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Var(v),
                     ..
                 })) if matches!(
@@ -1889,8 +1889,8 @@ impl VisitMut for Hoister<'_, '_> {
                     item.visit_mut_with(self);
                 }
 
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..)))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::Stmt(box Stmt::Decl(Decl::Fn(..)))
+                | ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Fn(..),
                     ..
                 })) => {

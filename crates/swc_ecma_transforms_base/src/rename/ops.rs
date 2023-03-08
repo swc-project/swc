@@ -212,7 +212,7 @@ impl<'a> VisitMut for Operator<'a> {
         macro_rules! export {
             ($orig:expr, $ident:expr) => {
                 self.extra
-                    .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    .push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(
                         NamedExport {
                             span,
                             specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
@@ -225,12 +225,12 @@ impl<'a> VisitMut for Operator<'a> {
                             type_only: false,
                             asserts: None,
                         },
-                    )));
+                    ))));
             };
         }
 
         match item {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+            ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                 span,
                 decl:
                     Decl::Class(ClassDecl {
