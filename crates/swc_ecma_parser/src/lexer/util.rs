@@ -239,15 +239,15 @@ impl<'a> Lexer<'a> {
         // bar
         //
         let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_line_comment();
-        let mut end = self.cur_pos();
 
         let idx = self
             .input
             .as_str()
-            .find(['\r', '\n', '\u{2028}', '\u{2029}']);
+            .find(['\r', '\n', '\u{2028}', '\u{2029}'])
+            .unwrap_or(self.input.as_str().len());
 
-        self.input.bump_bytes(idx.unwrap_or_default() as _);
-        end.0 += idx.unwrap_or_default() as u32;
+        self.input.bump_bytes(idx);
+        let end = self.cur_pos();
 
         if let Some(comments) = self.comments_buffer.as_mut() {
             let s = self.input.slice(slice_start, end);
