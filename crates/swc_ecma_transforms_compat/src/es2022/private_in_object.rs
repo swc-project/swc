@@ -255,10 +255,10 @@ impl VisitMut for PrivateInObject {
                     span: DUMMY_SP,
                     stmts: vec![],
                 };
-                bs.stmts.push(Stmt::Return(ReturnStmt {
+                bs.stmts.push(Box::new(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
                     arg: Some(p.right.take()),
-                }));
+                })));
                 bs.visit_mut_with(self);
 
                 p.right = Box::new(Expr::Call(CallExpr {

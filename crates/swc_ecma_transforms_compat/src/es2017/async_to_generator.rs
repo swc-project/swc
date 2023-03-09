@@ -660,7 +660,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             definite: false,
         });
 
-        let for_stmt = Stmt::For(ForStmt {
+        let for_stmt = Box::new(Stmt::For(ForStmt {
             span: s.span,
             // var _iterator = _asyncIterator(lol()), _step;
             init: Some(
@@ -727,7 +727,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 right: false.into(),
             }))),
             body: Box::new(Stmt::Block(for_loop_body)),
-        });
+        }));
 
         BlockStmt {
             span: body_span,
@@ -737,7 +737,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
 
     let catch_clause = {
         // _didIteratorError = true;
-        let mark_as_errorred = Stmt::Expr(ExprStmt {
+        let mark_as_errorred = Box::new(Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
@@ -745,9 +745,9 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 left: PatOrExpr::Pat(did_iteration_error.clone().into()),
                 right: true.into(),
             })),
-        });
+        }));
         // _iteratorError = err;
-        let store_error = Stmt::Expr(ExprStmt {
+        let store_error = Box::new(Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
@@ -755,7 +755,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 left: PatOrExpr::Pat(iterator_error.clone().into()),
                 right: Box::new(Expr::Ident(err_param.clone())),
             })),
-        });
+        }));
 
         CatchClause {
             span: DUMMY_SP,
@@ -768,11 +768,11 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     };
 
     let finally_block = {
-        let throw_iterator_error = Stmt::Throw(ThrowStmt {
+        let throw_iterator_error = Box::new(Stmt::Throw(ThrowStmt {
             span: DUMMY_SP,
             arg: Box::new(Expr::Ident(iterator_error.clone())),
-        });
-        let throw_iterator_error = Stmt::If(IfStmt {
+        }));
+        let throw_iterator_error = Box::new(Stmt::If(IfStmt {
             span: DUMMY_SP,
             test: Box::new(Expr::Ident(did_iteration_error.clone())),
             cons: Box::new(Stmt::Block(BlockStmt {
@@ -780,10 +780,10 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 stmts: vec![throw_iterator_error],
             })),
             alt: None,
-        });
+        }));
 
         // yield _iterator.return();
-        let yield_stmt = Stmt::Expr(ExprStmt {
+        let yield_stmt = Box::new(Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
             expr: Box::new(Expr::Yield(YieldExpr {
                 span: DUMMY_SP,
@@ -798,7 +798,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     type_args: Default::default(),
                 }))),
             })),
-        });
+        }));
 
         let conditional_yield = Stmt::If(IfStmt {
             span: DUMMY_SP,
