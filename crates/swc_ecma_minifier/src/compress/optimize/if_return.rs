@@ -393,19 +393,19 @@ where
                     let expr = self.ignore_return_value(&mut cur);
 
                     if let Some(cur) = expr {
-                        new.push(box Stmt::Expr(ExprStmt {
+                        new.push(Box::new(Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
                             expr: Box::new(cur),
-                        }))
+                        })))
                     } else {
                         trace_op!("if_return: Ignoring return value");
                     }
                 }
                 _ => {
-                    new.push(box Stmt::Return(ReturnStmt {
+                    new.push(Box::new(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(cur),
-                    }));
+                    })));
                 }
             }
         }

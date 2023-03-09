@@ -34,7 +34,7 @@ impl VisitMut for ExportDefaultFrom {
 
         for item in items.drain(..) {
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(NamedExport {
                     span,
                     specifiers,
                     src: Some(src),
@@ -73,7 +73,7 @@ impl VisitMut for ExportDefaultFrom {
                         }
                     }
 
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    stmts.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(
                         NamedExport {
                             span,
                             specifiers: export_specifiers,
@@ -81,7 +81,7 @@ impl VisitMut for ExportDefaultFrom {
                             type_only: false,
                             asserts: None,
                         },
-                    )));
+                    ))));
 
                     if !origin_specifiers.is_empty() {
                         stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(

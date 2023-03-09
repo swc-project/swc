@@ -696,7 +696,7 @@ where
                     }))
                 });
 
-                new.push(box Stmt::If(s))
+                new.push(Box::new(Stmt::If(s)))
             }
             _ => {
                 unreachable!()
@@ -753,12 +753,12 @@ where
                             swap(&mut cons, &mut alt);
                         }
 
-                        new_stmts.push(T::from_stmt(box Stmt::If(IfStmt {
+                        new_stmts.push(T::from_stmt(Box::new(Stmt::If(IfStmt {
                             span,
                             test,
                             cons,
                             alt: None,
-                        })));
+                        }))));
                         new_stmts.push(T::from_stmt(alt));
                     }
                     _ => {

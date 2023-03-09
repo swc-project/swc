@@ -1423,7 +1423,7 @@ impl Generator {
     }
 
     fn transform_and_emit_embedded_stmt(&mut self, node: Box<Stmt>) {
-        if let Stmt::Block(block) = node {
+        if let Stmt::Block(block) = *node {
             self.transform_and_emit_stmts(block.stmts, 0);
         } else {
             self.transform_and_emit_stmt(node);
