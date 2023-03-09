@@ -577,7 +577,7 @@ impl Decorators {
                             None
                         }
                         .into_iter()
-                        .chain(iter::once(Stmt::Decl(Decl::Class(ClassDecl {
+                        .chain(iter::once(Box::new(Stmt::Decl(Decl::Class(ClassDecl {
                             ident: ident.clone(),
                             class: Class {
                                 decorators: Default::default(),
@@ -586,8 +586,8 @@ impl Decorators {
                             }
                             .into(),
                             declare: false,
-                        }))))
-                        .chain(iter::once(Stmt::Return(ReturnStmt {
+                        })))))
+                        .chain(iter::once(Box::new(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(Box::new(Expr::Object(ObjectLit {
                                 span: DUMMY_SP,
@@ -605,7 +605,7 @@ impl Decorators {
                                     }))),
                                 ],
                             }))),
-                        })))
+                        }))))
                         .collect(),
                     }),
 

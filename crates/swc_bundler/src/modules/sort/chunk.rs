@@ -90,7 +90,7 @@ fn toposort_real_modules<'a>(
             if let Some((_, module)) = modules.iter_mut().find(|(module_id, _)| *module_id == id) {
                 module
                     .body
-                    .retain(|item| !matches!(item, ModuleItem::Stmt(Stmt::Empty(..))));
+                    .retain(|item| !matches!(item, ModuleItem::Stmt(box Stmt::Empty(..))));
                 if module.body.is_empty() {
                     continue;
                 }

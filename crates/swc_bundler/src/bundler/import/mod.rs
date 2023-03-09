@@ -538,8 +538,8 @@ where
         items.visit_mut_children_with(self);
 
         items.retain_mut(|item| match item {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+            ModuleItem::Stmt(box Stmt::Empty(..)) => false,
+            ModuleItem::Stmt(box Stmt::Decl(Decl::Var(var))) => {
                 var.decls.retain(|d| !matches!(d.name, Pat::Invalid(..)));
 
                 !var.decls.is_empty()

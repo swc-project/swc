@@ -17,7 +17,7 @@ impl VisitMut for ExportDefaultFrom {
         let count = items
             .iter()
             .filter(|m| {
-                matches!(m, ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                matches!(m, ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(NamedExport {
                     specifiers,
                     src: Some(..),
                     type_only: false,

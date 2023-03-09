@@ -29,7 +29,7 @@ pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
 
     let mut v = Inliner { data: data.into() };
     module.par_visit_mut_with(&mut v);
-    module.retain_mut(|_, s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
+    module.retain_mut(|_, s| !matches!(s, ModuleItem::Stmt(box Stmt::Empty(..))));
 }
 
 #[derive(Debug)]
@@ -107,7 +107,7 @@ impl VisitMut for Inliner {
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         n.visit_mut_children_with(self);
 
-        n.retain(|v| !matches!(v, ModuleItem::Stmt(Stmt::Empty(..))));
+        n.retain(|v| !matches!(v, ModuleItem::Stmt(box Stmt::Empty(..))));
     }
 
     fn visit_mut_prop(&mut self, n: &mut Prop) {

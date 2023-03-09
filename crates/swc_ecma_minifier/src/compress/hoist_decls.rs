@@ -169,7 +169,7 @@ impl Hoister<'_> {
                             if exprs.is_empty() {
                                 continue;
                             }
-                            new_stmts.push(T::from_stmt(box Stmt::Expr(ExprStmt {
+                            new_stmts.push(T::from_stmt(Box::new(Stmt::Expr(ExprStmt {
                                 span: var.span,
                                 expr: if exprs.len() == 1 {
                                     exprs.into_iter().next().unwrap()
@@ -179,7 +179,7 @@ impl Hoister<'_> {
                                         exprs,
                                     }))
                                 },
-                            })))
+                            }))))
                         }
 
                         Stmt::Decl(Decl::Var(v))
