@@ -1031,19 +1031,19 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         tag: Box<Expr>,
         type_params: Option<Box<TsTypeParamInstantiation>>,
-    ) -> PResult<TaggedTpl> {
+    ) -> PResult<Box<TaggedTpl>> {
         let tagged_tpl_start = tag.span_lo();
         trace_cur!(self, parse_tagged_tpl);
 
         let tpl = self.parse_tpl(true)?;
 
         let span = span!(self, tagged_tpl_start);
-        Ok(TaggedTpl {
+        Ok(Box::new(TaggedTpl {
             span,
             tag,
             type_params,
             tpl,
-        })
+        }))
     }
 
     pub(super) fn parse_tpl(&mut self, is_tagged_tpl: bool) -> PResult<Tpl> {
@@ -1292,11 +1292,11 @@ impl<I: Tokens> Parser<I> {
                             prop: MemberProp::Computed(prop),
                         };
                         let expr = if let Some(question_dot_token) = question_dot_token {
-                            Expr::OptChain(OptChainExpr {
+                            Expr::OptChain(Box::new(OptChainExpr {
                                 span,
                                 question_dot_token,
                                 base: OptChainBase::Member(expr),
-                            })
+                            }))
                         } else {
                             Expr::Member(expr)
                         };
@@ -1335,7 +1335,7 @@ impl<I: Tokens> Parser<I> {
                         syntax_error!(self, self.input.cur_span(), SyntaxError::SuperCallOptional)
                     }
                     Callee::Expr(callee) => Ok((
-                        Box::new(Expr::OptChain(OptChainExpr {
+                        Box::new(Expr::OptChain(Box::new(OptChainExpr {
                             span,
                             question_dot_token,
                             base: OptChainBase::Call(OptCall {
@@ -1344,18 +1344,18 @@ impl<I: Tokens> Parser<I> {
                                 args,
                                 type_args,
                             }),
-                        })),
+                        }))),
                         true,
                     )),
                 }
             } else {
                 Ok((
-                    Expr::Call(CallExpr {
+                    Expr::Call(Box::new(CallExpr {
                         span: span!(self, start),
                         callee: obj,
                         args,
                         type_args: None,
-                    })
+                    }))
                     .into(),
                     true,
                 ))
@@ -1432,11 +1432,11 @@ impl<I: Tokens> Parser<I> {
                     Callee::Expr(obj) => {
                         let expr = MemberExpr { span, obj, prop };
                         let expr = if let Some(question_dot_token) = question_dot_token {
-                            Expr::OptChain(OptChainExpr {
+                            Expr::OptChain(Box::new(OptChainExpr {
                                 span: span!(self, start),
                                 question_dot_token,
                                 base: OptChainBase::Member(expr),
-                            })
+                            }))
                         } else {
                             Expr::Member(expr)
                         };
@@ -1591,13 +1591,13 @@ impl<I: Tokens> Parser<I> {
             };
             let args = self.parse_args(is_import)?;
 
-            let call_expr = Box::new(Expr::Call(CallExpr {
+            let call_expr = Box::new(Expr::Call(Box::new(CallExpr {
                 span: span!(self, start),
 
                 callee,
                 args,
                 type_args,
-            }));
+            })));
 
             return self.parse_subscripts(Callee::Expr(call_expr), false, false);
         }
@@ -2007,12 +2007,12 @@ impl<I: Tokens> Parser<I> {
         import_span: Span,
     ) -> PResult<Box<Expr>> {
         let args = self.parse_args(true)?;
-        let import = Box::new(Expr::Call(CallExpr {
+        let import = Box::new(Expr::Call(Box::new(CallExpr {
             span: span!(self, start),
             callee: Callee::Import(Import { span: import_span }),
             args,
             type_args: Default::default(),
-        }));
+        })));
 
         self.parse_subscripts(Callee::Expr(import), true, false)
     }

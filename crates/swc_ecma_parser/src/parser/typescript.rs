@@ -2659,7 +2659,7 @@ impl<I: Tokens> Parser<I> {
             let is_generator = false;
             let is_async = true;
             let body = p.parse_fn_body(true, false, true, params.is_simple_parameter_list())?;
-            Ok(Some(ArrowExpr {
+            Ok(Some(Box::new(ArrowExpr {
                 span: span!(p, start),
                 body,
                 is_async,
@@ -2667,7 +2667,7 @@ impl<I: Tokens> Parser<I> {
                 type_params: Some(type_params),
                 params,
                 return_type,
-            }))
+            })))
         })
     }
 
