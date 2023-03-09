@@ -178,7 +178,7 @@ pub(super) fn clone_first_use_strict(stmts: &[ModuleItem]) -> Option<Box<Stmt>> 
     }
 
     stmts.iter().find_map(|item| match item {
-        ModuleItem::Stmt(stmt @ Stmt::Expr(ExprStmt { expr, .. })) => match **expr {
+        ModuleItem::Stmt(stmt @ box Stmt::Expr(ExprStmt { expr, .. })) => match **expr {
             Expr::Lit(Lit::Str(Str { ref value, .. })) if value == "use strict" => {
                 Some(stmt.clone())
             }

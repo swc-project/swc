@@ -89,7 +89,7 @@ impl VisitMut for Wrapper {
                 ],
                 type_args: Default::default(),
             }));
-            let mut stmts = vec![];
+            let mut stmts: Vec<Box<_>> = vec![];
             if !v.hoisted_vars.is_empty() {
                 stmts.push(
                     VarDecl {
@@ -2944,7 +2944,7 @@ impl Generator {
 
                 stmts.insert(
                     0,
-                    Stmt::Expr(ExprStmt {
+                    Box::new(Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
                         expr: Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
@@ -2966,7 +2966,7 @@ impl Generator {
                             .as_arg()],
                             type_args: Default::default(),
                         })),
-                    }),
+                    })),
                 );
             }
 
@@ -3192,7 +3192,7 @@ impl Generator {
     }
 
     /// Writes a statement to the current label's statement list.
-    fn write_stmt(&mut self, stmt: Stmt) {
+    fn write_stmt(&mut self, stmt: Box<Stmt>) {
         if stmt.is_empty() {
             return;
         }

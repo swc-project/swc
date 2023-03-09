@@ -492,7 +492,7 @@ impl SystemJs {
                     //     return Stmt::Decl(Decl::Var(var_decl));
                     // }
                 } else {
-                    Stmt::Decl(decl)
+                    Box::new(Stmt::Decl(decl))
                 }
             }
             Stmt::For(for_stmt) => {
@@ -521,14 +521,14 @@ impl SystemJs {
                     Box::new(Stmt::For(for_stmt))
                 }
             }
-            Stmt::ForIn(for_in_stmt) => Stmt::ForIn(ForInStmt {
+            Stmt::ForIn(for_in_stmt) => Box::new(Stmt::ForIn(ForInStmt {
                 left: self.hoist_for_var_decl(for_in_stmt.left),
                 ..for_in_stmt
-            }),
-            Stmt::ForOf(for_of_stmt) => Stmt::ForOf(ForOfStmt {
+            })),
+            Stmt::ForOf(for_of_stmt) => Box::new(Stmt::ForOf(ForOfStmt {
                 left: self.hoist_for_var_decl(for_of_stmt.left),
                 ..for_of_stmt
-            }),
+            })),
             _ => stmt,
         }
     }
@@ -992,7 +992,7 @@ impl Fold for SystemJs {
         execute_stmts = execute_stmts
             .into_iter()
             .map(|s| self.hoist_variables(s).fold_with(self))
-            .filter(|s| !matches!(s, Stmt::Empty(_)))
+            .filter(|s| !matches!(&**s, Stmt::Empty(_)))
             .collect();
 
         // ====================

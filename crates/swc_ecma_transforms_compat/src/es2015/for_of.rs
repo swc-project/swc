@@ -541,7 +541,7 @@ fn make_finally_block(
                 // null) {
                 //   _iterator.return();
                 // }
-                Stmt::If(IfStmt {
+                Box::new(Stmt::If(IfStmt {
                     span: DUMMY_SP,
                     test: Box::new(Expr::Bin(BinExpr {
                         span: DUMMY_SP,
@@ -569,7 +569,7 @@ fn make_finally_block(
                         .into_stmt()],
                     })),
                     alt: None,
-                }),
+                })),
             ],
         },
         handler: None,
@@ -580,7 +580,7 @@ fn make_finally_block(
                 // if (_didIteratorError) {
                 //   throw _iteratorError;
                 // }
-                Stmt::If(IfStmt {
+                Box::new(Stmt::If(IfStmt {
                     span: DUMMY_SP,
                     test: Box::new(Expr::Ident(error_flag_ident)),
                     cons: Box::new(Stmt::Block(BlockStmt {
@@ -591,7 +591,7 @@ fn make_finally_block(
                         })],
                     })),
                     alt: None,
-                }),
+                })),
             ],
         }),
     }
