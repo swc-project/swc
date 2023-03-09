@@ -89,7 +89,7 @@ pub enum Stmt {
     ForIn(ForInStmt),
 
     #[tag("ForOfStatement")]
-    ForOf(ForOfStmt),
+    ForOf(Box<ForOfStmt>),
 
     #[tag("ClassDeclaration")]
     #[tag("FunctionDeclaration")]
