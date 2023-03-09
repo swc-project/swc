@@ -519,10 +519,10 @@ impl Decorators {
 
                                             body: Some(BlockStmt {
                                                 span: DUMMY_SP,
-                                                stmts: vec![Stmt::Return(ReturnStmt {
+                                                stmts: vec![Box::new(Stmt::Return(ReturnStmt {
                                                     span: DUMMY_SP,
                                                     arg: Some(value),
-                                                })],
+                                                }))],
                                             }),
 
                                             type_params: Default::default(),

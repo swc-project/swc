@@ -236,7 +236,7 @@ where
             let mut declared_ids = AHashSet::<_>::default();
 
             for (_, stmt) in entry.iter() {
-                if let ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) = stmt {
+                if let ModuleItem::Stmt(box Stmt::Decl(Decl::Var(decl))) = stmt {
                     if decl.span.ctxt == injected_ctxt {
                         let ids: Vec<Id> = find_pat_ids(decl);
                         declared_ids.extend(ids);
@@ -246,7 +246,7 @@ where
 
             for (module_id, stmt) in entry.iter() {
                 match stmt {
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                    ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(export)) => {
                         for s in &export.specifiers {
                             match s {
                                 ExportSpecifier::Namespace(_) => {}
@@ -288,7 +288,7 @@ where
                         }
                     }
 
-                    ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) => {
+                    ModuleItem::Stmt(box Stmt::Decl(Decl::Var(decl))) => {
                         let ids: Vec<Id> = find_pat_ids(decl);
 
                         for id in ids {
@@ -320,7 +320,7 @@ where
             // Handle `export *` for wrapped modules.
             for (module_id, ctxts) in map.drain() {
                 for (_, stmt) in entry.iter() {
-                    if let ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl))) = stmt {
+                    if let ModuleItem::Stmt(box Stmt::Decl(Decl::Var(decl))) = stmt {
                         let ids: Vec<Id> = find_pat_ids(decl);
 
                         for id in ids {
@@ -346,7 +346,7 @@ where
 
                 for (_, stmt) in entry.iter_mut() {
                     let var = match stmt {
-                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(var)))
+                        ModuleItem::Stmt(box Stmt::Decl(Decl::Var(var)))
                             if matches!(
                                 &**var,
                                 VarDecl {
@@ -401,7 +401,7 @@ where
                     let last_stmt = body.stmts.last_mut();
 
                     let return_stmt = match last_stmt {
-                        Some(Stmt::Return(s)) => s,
+                        Some(box Stmt::Return(s)) => s,
                         _ => continue,
                     };
 
@@ -440,7 +440,7 @@ where
 
         entry.retain_mut(|_, item| {
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportAll(export)) => {
                     if self.config.external_modules.contains(&export.src.value) {
                         return true;
                     }
@@ -448,7 +448,7 @@ where
                     return false;
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(export)) => {
                     if let Some(src) = &export.src {
                         if self.config.external_modules.contains(&src.value) {
                             return true;
@@ -462,7 +462,7 @@ where
                     export.src = None;
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                ModuleItem::ModuleDecl(box ModuleDecl::Import(import)) => {
                     if self.config.external_modules.contains(&import.src.value) {
                         return true;
                     }
