@@ -10,6 +10,12 @@
 
 - **(es/transforms)** Handle member object in missing else branch (#7027) ([5c7c8e0](https://github.com/swc-project/swc/commit/5c7c8e073634ff6347194fa0e3fae8c83b64718c))
 
+
+- **(es/transforms)** Handle object shorthand in `const_modules` (#7022) ([0314869](https://github.com/swc-project/swc/commit/0314869464f59748a6a44980ade4dc1eda39ac3b))
+
+### Documentation
+- **general**: MSRV ([32bc2f5](https://github.com/swc-project/swc/commit/32bc2f57be06997497d2ad43c2168efb3daaa435))
+
 ### Features
 
 
