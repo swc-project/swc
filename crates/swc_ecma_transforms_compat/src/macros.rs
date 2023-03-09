@@ -34,7 +34,7 @@ macro_rules! impl_visit_mut_fn {
                         pat,
                     })
                     .collect(),
-                &mut match &mut f.body {
+                &mut match &mut *f.body {
                     BlockStmtOrExpr::BlockStmt(block) => block.take(),
                     BlockStmtOrExpr::Expr(expr) => BlockStmt {
                         span: body_span,
@@ -53,11 +53,13 @@ macro_rules! impl_visit_mut_fn {
                     _ => false,
                 } {
                 match body.stmts.pop().unwrap() {
-                    Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => BlockStmtOrExpr::Expr(arg),
+                    Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
+                        Box::new(BlockStmtOrExpr::Expr(arg))
+                    }
                     _ => unreachable!(),
                 }
             } else {
-                BlockStmtOrExpr::BlockStmt(body)
+                Box::new(BlockStmtOrExpr::BlockStmt(body))
             };
 
             f.params = params.into_iter().map(|param| param.pat).collect();
