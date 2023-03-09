@@ -141,7 +141,7 @@ impl<'a> Tester<'a> {
         Ok(stmts)
     }
 
-    pub fn parse_stmt(&mut self, file_name: &str, src: &str) -> Result<Stmt, ()> {
+    pub fn parse_stmt(&mut self, file_name: &str, src: &str) -> Result<Box<Stmt>, ()> {
         let mut stmts = self.parse_stmts(file_name, src)?;
         assert!(stmts.len() == 1);
 

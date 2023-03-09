@@ -401,11 +401,11 @@ where
 
     fn handle_ts_import_equals(
         &self,
-        module_decl: ModuleDecl,
+        module_decl: Box<ModuleDecl>,
         module_map: &mut ImportMap,
         has_ts_import_equals: &mut bool,
     ) -> ModuleItem {
-        match module_decl {
+        match *module_decl {
             ModuleDecl::TsImportEquals(v)
                 if matches!(
                     &*v,

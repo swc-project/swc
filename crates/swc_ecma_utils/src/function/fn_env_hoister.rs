@@ -117,22 +117,22 @@ impl FnEnvHoister {
         decls
     }
 
-    pub fn to_stmt(self) -> Option<Stmt> {
+    pub fn to_stmt(self) -> Option<Box<Stmt>> {
         let decls = self.to_decl();
 
         if decls.is_empty() {
             None
         } else {
-            Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+            Some(Box::new(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: false,
                 decls,
-            }))))
+            })))))
         }
     }
 
-    pub fn to_stmt_in_subclass(self) -> (Option<Stmt>, Option<Ident>) {
+    pub fn to_stmt_in_subclass(self) -> (Option<Box<Stmt>>, Option<Ident>) {
         let Self {
             this,
             args,
@@ -181,12 +181,12 @@ impl FnEnvHoister {
             (None, None)
         } else {
             (
-                Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                Some(Box::new(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls,
-                })))),
+                }))))),
                 this,
             )
         }
