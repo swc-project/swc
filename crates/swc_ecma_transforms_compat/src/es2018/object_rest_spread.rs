@@ -85,7 +85,7 @@ macro_rules! impl_for_for_stmt {
                     // **prepend** decls to self.vars
                     decls.append(&mut self.vars.take());
 
-                    stmt = Some(Stmt::Decl(
+                    stmt = Some(Box::new(Stmt::Decl(
                         VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
@@ -93,7 +93,7 @@ macro_rules! impl_for_for_stmt {
                             declare: false,
                         }
                         .into(),
-                    ));
+                    )));
 
                     VarDecl {
                         decls: vec![VarDeclarator {
@@ -115,7 +115,7 @@ macro_rules! impl_for_for_stmt {
                     match &*pat {
                         Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
                         Pat::Object(ObjectPat { .. }) => {
-                            stmt = Some(Stmt::Expr(ExprStmt {
+                            stmt = Some(Box::new(Stmt::Expr(ExprStmt {
                                 span: DUMMY_SP,
                                 expr: Box::new(
                                     AssignExpr {
@@ -126,7 +126,7 @@ macro_rules! impl_for_for_stmt {
                                     }
                                     .into(),
                                 ),
-                            }));
+                            })));
                         }
                         _ => {
                             // insert at index to create
@@ -169,9 +169,12 @@ macro_rules! impl_for_for_stmt {
                     span: *span,
                     stmts: stmt.into_iter().chain(stmts.take()).collect(),
                 },
-                body => BlockStmt {
+                _ => BlockStmt {
                     span: DUMMY_SP,
-                    stmts: stmt.into_iter().chain(iter::once(body.take())).collect(),
+                    stmts: stmt
+                        .into_iter()
+                        .chain(iter::once(for_stmt.body.take()))
+                        .collect(),
                 },
             }));
 

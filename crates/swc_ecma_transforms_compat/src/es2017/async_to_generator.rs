@@ -800,7 +800,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             })),
         }));
 
-        let conditional_yield = Stmt::If(IfStmt {
+        let conditional_yield = Box::new(Stmt::If(IfStmt {
             span: DUMMY_SP,
             // _iteratorAbruptCompletion && _iterator.return != null
             test: Box::new(Expr::Bin(BinExpr {
@@ -821,7 +821,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 stmts: vec![yield_stmt],
             })),
             alt: None,
-        });
+        }));
         let body = BlockStmt {
             span: DUMMY_SP,
             stmts: vec![conditional_yield],
