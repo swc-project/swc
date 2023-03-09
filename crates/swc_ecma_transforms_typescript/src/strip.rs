@@ -2539,7 +2539,7 @@ where
         let mut stmts = Vec::with_capacity(orig.len());
         for mut item in take(orig) {
             self.is_side_effect_import = false;
-            match item {
+            match *item {
                 Stmt::Empty(..) => continue,
 
                 Stmt::Decl(Decl::TsModule(module)) => {
@@ -2547,7 +2547,7 @@ where
                         Some(v) => v,
                         None => continue,
                     };
-                    stmts.extend(decl.map(Stmt::Decl));
+                    stmts.extend(decl.map(Stmt::Decl).map(Box::new));
                     stmts.push(init)
                 }
 

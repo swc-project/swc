@@ -1821,7 +1821,7 @@ impl Generator {
             self.end_loop_block();
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::ForIn(node));
+            self.emit_stmt(Box::new(Stmt::ForIn(node)));
         }
     }
 
@@ -1832,7 +1832,7 @@ impl Generator {
         } else {
             // invalid continue without a containing loop. Leave the node as is,
             // per #17875.
-            self.emit_stmt(Stmt::Continue(node))
+            self.emit_stmt(Box::new(Stmt::Continue(node)))
         }
     }
 
