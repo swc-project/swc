@@ -246,11 +246,11 @@ impl Fold for ExportToReturn {
                         ident.clone(),
                     );
 
-                    Some(Stmt::Decl(Decl::Class(ClassDecl {
+                    Some(Box::new(Stmt::Decl(Decl::Class(ClassDecl {
                         ident,
                         class: expr.class,
                         declare: false,
-                    })))
+                    }))))
                 }
                 DefaultDecl::Fn(expr) => {
                     let ident = expr.ident;
@@ -261,11 +261,11 @@ impl Fold for ExportToReturn {
                         ident.clone(),
                     );
 
-                    Some(Stmt::Decl(Decl::Fn(FnDecl {
+                    Some(Box::new(Stmt::Decl(Decl::Fn(FnDecl {
                         ident,
                         function: expr.function,
                         declare: false,
-                    })))
+                    }))))
                 }
                 DefaultDecl::TsInterfaceDecl(_) => None,
             },
