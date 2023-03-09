@@ -3210,7 +3210,7 @@ impl Generator {
 
     /// Writes an Assign operation to the current label's statement list.
     fn write_assign(&mut self, left: PatOrExpr, right: Box<Expr>, op_loc: Option<Span>) {
-        self.write_stmt(Stmt::Expr(ExprStmt {
+        self.write_stmt(Box::new(Stmt::Expr(ExprStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
@@ -3218,7 +3218,7 @@ impl Generator {
                 left,
                 right,
             })),
-        }))
+        })))
     }
 
     /// Writes a Throw operation to the current label's statement list.
@@ -3230,10 +3230,10 @@ impl Generator {
         self.last_operation_was_completion = true;
 
         // let inst = self.create_instruction(Instruction::Return);
-        self.write_stmt(Stmt::Throw(ThrowStmt {
+        self.write_stmt(Box::new(Stmt::Throw(ThrowStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
             arg: expr,
-        }))
+        })))
     }
 
     /// Writes a Return operation to the current label's statement list.
@@ -3245,7 +3245,7 @@ impl Generator {
         self.last_operation_was_completion = true;
 
         let inst = self.create_instruction(Instruction::Return);
-        self.write_stmt(Stmt::Return(ReturnStmt {
+        self.write_stmt(Box::new(Stmt::Return(ReturnStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
             arg: Some(Box::new(Expr::Array(ArrayLit {
                 span: DUMMY_SP,
@@ -3258,7 +3258,7 @@ impl Generator {
                     }
                 },
             }))),
-        }))
+        })))
     }
 
     /// Writes a Break operation to the current label's statement list.
@@ -3270,13 +3270,13 @@ impl Generator {
 
         let inst = self.create_instruction(Instruction::Break);
         let label = self.create_label(Some(label));
-        self.write_stmt(Stmt::Return(ReturnStmt {
+        self.write_stmt(Box::new(Stmt::Return(ReturnStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
             arg: Some(Box::new(Expr::Array(ArrayLit {
                 span: DUMMY_SP,
                 elems: vec![Some(inst.as_arg()), Some(label.as_arg())],
             }))),
-        }))
+        })))
     }
 
     /// Writes a BreakWhenTrue operation to the current label's statement list.
@@ -3287,7 +3287,7 @@ impl Generator {
     fn write_break_when_true(&mut self, label: Label, cond: Box<Expr>, op_loc: Option<Span>) {
         let inst = self.create_instruction(Instruction::Break);
         let label = self.create_label(Some(label));
-        self.write_stmt(Stmt::If(IfStmt {
+        self.write_stmt(Box::new(Stmt::If(IfStmt {
             span: DUMMY_SP,
             test: cond,
             cons: Box::new(Stmt::Return(ReturnStmt {
@@ -3298,7 +3298,7 @@ impl Generator {
                 }))),
             })),
             alt: None,
-        }))
+        })))
     }
 
     /// Writes a BreakWhenFalse operation to the current label's statement list.
@@ -3309,7 +3309,7 @@ impl Generator {
     fn write_break_when_false(&mut self, label: Label, cond: Box<Expr>, op_loc: Option<Span>) {
         let inst = self.create_instruction(Instruction::Break);
         let label = self.create_label(Some(label));
-        self.write_stmt(Stmt::If(IfStmt {
+        self.write_stmt(Box::new(Stmt::If(IfStmt {
             span: DUMMY_SP,
             test: Box::new(Expr::Unary(UnaryExpr {
                 span: DUMMY_SP,
@@ -3324,7 +3324,7 @@ impl Generator {
                 }))),
             })),
             alt: None,
-        }))
+        })))
     }
 
     /// Writes a Yield operation to the current label's statement list.
@@ -3343,13 +3343,13 @@ impl Generator {
                 vec![Some(inst.as_arg())]
             }
         };
-        self.write_stmt(Stmt::Return(ReturnStmt {
+        self.write_stmt(Box::new(Stmt::Return(ReturnStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
             arg: Some(Box::new(Expr::Array(ArrayLit {
                 span: DUMMY_SP,
                 elems,
             }))),
-        }));
+        })));
     }
 
     /// Writes a YieldStar instruction to the current label's statement list.
@@ -3360,13 +3360,13 @@ impl Generator {
         self.last_operation_was_abrupt = true;
 
         let arg1 = self.create_instruction(Instruction::YieldStar);
-        self.write_stmt(Stmt::Return(ReturnStmt {
+        self.write_stmt(Box::new(Stmt::Return(ReturnStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
             arg: Some(Box::new(Expr::Array(ArrayLit {
                 span: DUMMY_SP,
                 elems: vec![Some(arg1.as_arg()), Some(expr.as_arg())],
             }))),
-        }))
+        })))
     }
 
     /// Writes an Endfinally instruction to the current label's statement list.
@@ -3374,13 +3374,13 @@ impl Generator {
         self.last_operation_was_abrupt = true;
 
         let arg = self.create_instruction(Instruction::Endfinally);
-        self.write_stmt(Stmt::Return(ReturnStmt {
+        self.write_stmt(Box::new(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
             arg: Some(Box::new(Expr::Array(ArrayLit {
                 span: DUMMY_SP,
                 elems: vec![Some(arg.as_arg())],
             }))),
-        }))
+        })))
     }
 
     fn hoist_variable_declaration(&mut self, id: &Ident) {

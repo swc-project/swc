@@ -229,7 +229,7 @@ impl<C: Comments> VisitMut for Actual<C> {
                             }
                             .into(),
                         );
-                        self.extra_stmts.push(Stmt::Decl(ref_fn.into()));
+                        self.extra_stmts.push(Box::new(Stmt::Decl(ref_fn.into())));
                     };
                 } else {
                     export_default.visit_mut_children_with(self);
