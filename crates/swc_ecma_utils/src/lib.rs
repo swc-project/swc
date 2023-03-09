@@ -277,7 +277,7 @@ pub trait ModuleItemLike: StmtLike {
     }
 }
 
-pub trait StmtLike: Sized + 'static + Send + Sync {
+pub trait StmtLike: Sized + 'static + Send + Sync + From<Box<Stmt>> {
     fn try_into_stmt(self) -> Result<Box<Stmt>, Self>;
     fn as_stmt(&self) -> Option<&Stmt>;
     fn as_stmt_mut(&mut self) -> Option<&mut Stmt>;

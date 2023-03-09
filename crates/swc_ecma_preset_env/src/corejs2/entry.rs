@@ -79,7 +79,7 @@ impl VisitMut for Entry {
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         items.retain_mut(|item| {
             item.visit_mut_children_with(self);
-            if let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = &item {
+            if let ModuleItem::Stmt(box Stmt::Expr(ExprStmt { expr, .. })) = &item {
                 if let Expr::Call(CallExpr {
                     callee: Callee::Expr(callee),
                     ref args,

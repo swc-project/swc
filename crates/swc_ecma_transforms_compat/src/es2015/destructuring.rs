@@ -127,7 +127,7 @@ macro_rules! impl_for_for_stmt {
                     span: *span,
                     stmts: iter::once(stmt).chain(stmts.take()).collect(),
                 },
-                body => BlockStmt {
+                _ => BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![stmt, for_stmt.body.take()],
                 },
