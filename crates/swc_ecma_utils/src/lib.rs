@@ -1961,11 +1961,25 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
                 ident: Some(ident), ..
             }) => Some(ident.sym.to_string()),
 
-            Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Call(OptCall { callee: expr, .. }),
-                ..
-            })
-            | Expr::Call(CallExpr {
+            Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
+                OptChainBase::Call(OptCall { callee: expr, .. }) => sym(expr),
+                OptChainBase::Member(MemberExpr {
+                    prop: MemberProp::Ident(ident),
+                    obj,
+                    ..
+                }) => Some(format!("{}_{}", sym(obj).unwrap_or_default(), ident.sym)),
+
+                OptChainBase::Member(MemberExpr {
+                    prop: MemberProp::Computed(ComputedPropName { expr, .. }),
+                    obj,
+                    ..
+                }) => Some(format!(
+                    "{}_{}",
+                    sym(obj).unwrap_or_default(),
+                    sym(expr).unwrap_or_default()
+                )),
+            },
+            Expr::Call(CallExpr {
                 callee: Callee::Expr(expr),
                 ..
             }) => sym(expr),
@@ -1980,31 +1994,13 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
                 ..
             }) => Some(format!("super_{}", sym(expr).unwrap_or_default())),
 
-            Expr::OptChain(OptChainExpr {
-                base:
-                    OptChainBase::Member(MemberExpr {
-                        prop: MemberProp::Ident(ident),
-                        obj,
-                        ..
-                    }),
-                ..
-            })
-            | Expr::Member(MemberExpr {
+            Expr::Member(MemberExpr {
                 prop: MemberProp::Ident(ident),
                 obj,
                 ..
             }) => Some(format!("{}_{}", sym(obj).unwrap_or_default(), ident.sym)),
 
-            Expr::OptChain(OptChainExpr {
-                base:
-                    OptChainBase::Member(MemberExpr {
-                        prop: MemberProp::Computed(ComputedPropName { expr, .. }),
-                        obj,
-                        ..
-                    }),
-                ..
-            })
-            | Expr::Member(MemberExpr {
+            Expr::Member(MemberExpr {
                 prop: MemberProp::Computed(ComputedPropName { expr, .. }),
                 obj,
                 ..
