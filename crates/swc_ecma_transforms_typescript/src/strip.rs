@@ -2204,7 +2204,7 @@ where
                         Some(v) => v,
                         None => continue,
                     };
-                    stmts.extend(decl.map(Stmt::Decl).map(ModuleItem::Stmt));
+                    stmts.extend(decl.map(Stmt::Decl).map(ModuleItem::from));
                     stmts.push(init.into())
                 }
 
@@ -2306,7 +2306,7 @@ where
                     i.visit_mut_with(self);
 
                     if self.is_side_effect_import || !i.specifiers.is_empty() {
-                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(i)));
+                        stmts.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::Import(i))));
                     }
                 }
 
@@ -2323,13 +2323,13 @@ where
                     }));
                     stmts.push(ModuleItem::Stmt(init));
                 }
-                ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(e))) => {
+                ModuleItem::Stmt(box Stmt::Decl(Decl::TsEnum(e))) => {
                     let (decl, init) = self.handle_enum(e, None);
-                    stmts.extend(decl.map(|decl| ModuleItem::Stmt(Stmt::Decl(decl))));
+                    stmts.extend(decl.map(|decl| ModuleItem::Stmt(Box::new(Stmt::Decl(decl)))));
                     stmts.push(ModuleItem::Stmt(init));
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
                     ref expr,
                     ..
                 })) if expr.is_ident() => {
@@ -2348,7 +2348,7 @@ where
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import))
+                ModuleItem::ModuleDecl(box ModuleDecl::TsImportEquals(import))
                     if matches!(
                         &*import,
                         TsImportEqualsDecl {
@@ -2381,19 +2381,19 @@ where
                         }
                         .into();
                         if import.is_export {
-                            stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
+                            stmts.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportDecl(
                                 ExportDecl {
                                     span: DUMMY_SP,
                                     decl: var,
                                 },
-                            )));
+                            ))));
                         } else {
-                            stmts.push(ModuleItem::Stmt(Stmt::Decl(var)));
+                            stmts.push(ModuleItem::Stmt(Box::new(Stmt::Decl(var))));
                         }
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(mut export)) => {
                     // if specifier become empty, we remove export statement.
 
                     if export.type_only {
@@ -2423,9 +2423,9 @@ where
                         continue;
                     }
 
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    stmts.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(
                         NamedExport { ..export },
-                    )))
+                    ))))
                 }
 
                 _ => {
@@ -2562,7 +2562,7 @@ where
 
                 Stmt::Decl(Decl::TsEnum(e)) => {
                     let (decl, init) = self.handle_enum(e, None);
-                    stmts.extend(decl.map(Stmt::Decl));
+                    stmts.extend(decl.map(Stmt::Decl).map(Box::new));
                     stmts.push(init);
                 }
 
@@ -2584,7 +2584,7 @@ where
                         )
                     }
 
-                    stmts.push(Stmt::Decl(Decl::Class(class)));
+                    stmts.push(Box::new(Stmt::Decl(Decl::Class(class))));
                 }
 
                 _ => {
