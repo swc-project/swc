@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_quote"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.44.4"
+version       = "0.44.5"
 
 [lib]
 bench = false
@@ -18,4 +18,5 @@ swc_ecma_ast          = { version = "0.98.2", path = "../swc_ecma_ast" }
 swc_ecma_quote_macros = { version = "0.39.4", path = "../swc_ecma_quote_macros" }
 
 [dev-dependencies]
+swc_core = { path = "../swc_core", features = ["ecma_quote"] }
 testing = { version = "0.31.37", path = "../testing" }

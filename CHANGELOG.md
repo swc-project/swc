@@ -28,6 +28,12 @@
 
 - **(es/utils)** Introduce `NodeIgnoringSpan` (#7030) ([8bfef35](https://github.com/swc-project/swc/commit/8bfef35c1be5790b32fea253f28961271fe7f619))
 
+### Testing
+
+
+
+- **(es/quote)** Fix doctests (#7038) ([e698a34](https://github.com/swc-project/swc/commit/e698a348162e43b11347d2a6139910e096291f59))
+
 ## [1.3.38] - 2023-03-06
 
 ### Bug Fixes
