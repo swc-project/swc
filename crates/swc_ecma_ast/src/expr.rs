@@ -170,7 +170,7 @@ pub enum Expr {
     Invalid(Invalid),
 }
 
-assert_eq_size!(Expr, [u8; 104]);
+assert_eq_size!(Expr, [u8; 80]);
 
 impl Expr {
     /// Normalize parenthesized expressions.
@@ -864,7 +864,7 @@ pub struct ArrowExpr {
 
     pub params: Vec<Pat>,
 
-    pub body: BlockStmtOrExpr,
+    pub body: Box<BlockStmtOrExpr>,
 
     #[serde(default, rename = "async")]
     pub is_async: bool,
@@ -981,7 +981,7 @@ pub struct TaggedTpl {
     pub type_params: Option<Box<TsTypeParamInstantiation>>,
 
     #[serde(rename = "template")]
-    pub tpl: Tpl,
+    pub tpl: Box<Tpl>,
 }
 
 impl Take for TaggedTpl {
@@ -1368,7 +1368,7 @@ impl Take for PatOrExpr {
 pub struct OptChainExpr {
     pub span: Span,
     pub question_dot_token: Span,
-    pub base: OptChainBase,
+    pub base: Box<OptChainBase>,
 }
 
 #[ast_node]
