@@ -241,15 +241,12 @@ impl<'a> Lexer<'a> {
         let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_line_comment();
         let mut end = self.cur_pos();
 
-        while let Some(c) = self.cur() {
-            self.bump();
-            if c.is_line_terminator() {
-                self.state.had_line_break = true;
-                break;
-            } else {
-                end = self.cur_pos();
-            }
-        }
+        let idx = self
+            .input
+            .as_str()
+            .find(['\r', '\n', '\u{2028}', '\u{2029}']);
+
+        end.0 += idx.unwrap_or_default() as u32;
 
         if let Some(comments) = self.comments_buffer.as_mut() {
             let s = self.input.slice(slice_start, end);
