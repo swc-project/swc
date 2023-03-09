@@ -271,7 +271,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 if let Some(orig_ident) = orig_ident {
                     replace_ident(&mut stmt, orig_ident.clone().into(), &ident);
                 }
-                match stmt {
+                match *stmt {
                     Stmt::Expr(e) => exprs.push(e.expr),
                     Stmt::Decl(Decl::Var(v)) => {
                         for mut decl in v.decls {
@@ -314,7 +314,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
 impl<C: Comments> ClassProperties<C> {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + ModuleItemLike + VisitMutWith<Self> + From<Stmt>,
+        T: StmtLike + ModuleItemLike + VisitMutWith<Self> + From<Box<Stmt>>,
     {
         let mut buf = Vec::with_capacity(stmts.len());
 
@@ -322,7 +322,7 @@ impl<C: Comments> ClassProperties<C> {
             match T::try_into_stmt(stmt) {
                 Err(node) => match node.try_into_module_decl() {
                     Ok(mut decl) => {
-                        match decl {
+                        match *decl {
                             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                                 span,
                                 decl: DefaultDecl::Class(ClassExpr { ident, class }),
@@ -335,12 +335,12 @@ impl<C: Comments> ClassProperties<C> {
 
                                 extra.merge_with(
                                     &mut buf,
-                                    T::from_stmt(Stmt::Decl(Decl::Class(decl))),
+                                    T::from_stmt(Box::new(Stmt::Decl(Decl::Class(decl)))),
                                 );
 
                                 buf.push(
-                                    match T::try_from_module_decl(ModuleDecl::ExportNamed(
-                                        NamedExport {
+                                    match T::try_from_module_decl(Box::new(
+                                        ModuleDecl::ExportNamed(NamedExport {
                                             span,
                                             specifiers: vec![ExportNamedSpecifier {
                                                 span: DUMMY_SP,
@@ -354,7 +354,7 @@ impl<C: Comments> ClassProperties<C> {
                                             src: None,
                                             type_only: false,
                                             asserts: None,
-                                        },
+                                        }),
                                     )) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
@@ -374,12 +374,12 @@ impl<C: Comments> ClassProperties<C> {
                                 let (decl, extra) = self.visit_mut_class_as_decl(ident, class);
                                 extra.merge_with(
                                     &mut buf,
-                                    match T::try_from_module_decl(ModuleDecl::ExportDecl(
+                                    match T::try_from_module_decl(Box::new(ModuleDecl::ExportDecl(
                                         ExportDecl {
                                             span,
                                             decl: Decl::Class(decl),
                                         },
-                                    )) {
+                                    ))) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },
@@ -398,14 +398,17 @@ impl<C: Comments> ClassProperties<C> {
                 },
                 Ok(mut stmt) => {
                     // Fold class
-                    match stmt {
+                    match *stmt {
                         Stmt::Decl(Decl::Class(ClassDecl {
                             ident,
                             class,
                             declare: false,
                         })) => {
                             let (decl, extra) = self.visit_mut_class_as_decl(ident, class);
-                            extra.merge_with(&mut buf, T::from_stmt(Stmt::Decl(Decl::Class(decl))))
+                            extra.merge_with(
+                                &mut buf,
+                                T::from_stmt(Box::new(Stmt::Decl(Decl::Class(decl)))),
+                            )
                         }
                         _ => {
                             stmt.visit_mut_children_with(self);
