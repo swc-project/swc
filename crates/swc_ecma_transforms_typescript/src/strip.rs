@@ -1036,7 +1036,7 @@ where
                         Some(v) => v,
                         None => continue,
                     };
-                    stmts.extend(decl.map(Stmt::Decl).map(ModuleItem::Stmt));
+                    stmts.extend(decl.map(Stmt::Decl).map(ModuleItem::from));
                     stmts.push(init.into())
                 }
 
@@ -1121,7 +1121,7 @@ where
                     i.visit_mut_with(self);
 
                     if self.is_side_effect_import || !i.specifiers.is_empty() {
-                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(i)));
+                        stmts.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::Import(i))));
                     }
                 }
 
@@ -1145,7 +1145,7 @@ where
                 }
                 ModuleItem::Stmt(box Stmt::Decl(Decl::TsEnum(e))) => {
                     let (decl, init) = self.handle_enum(e, None);
-                    stmts.extend(decl.map(|decl| ModuleItem::Stmt(Stmt::Decl(decl))));
+                    stmts.extend(decl.map(|decl| ModuleItem::Stmt(Box::new(Stmt::Decl(decl)))));
                     stmts.push(ModuleItem::Stmt(init));
                 }
 
@@ -1168,7 +1168,7 @@ where
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import))
+                ModuleItem::ModuleDecl(box ModuleDecl::TsImportEquals(import))
                     if matches!(
                         &*import,
                         TsImportEqualsDecl {
@@ -1202,7 +1202,7 @@ where
                         .into();
                         if import.is_export {
                             if let Some(parent_module_name) = parent_module_name {
-                                stmts.push(ModuleItem::Stmt(Stmt::Decl(var)));
+                                stmts.push(ModuleItem::Stmt(Box::new(Stmt::Decl(var))));
                                 stmts.push(ModuleItem::Stmt(
                                     self.get_namespace_child_decl_assignment(
                                         parent_module_name,
@@ -1210,20 +1210,20 @@ where
                                     ),
                                 ));
                             } else {
-                                stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
-                                    ExportDecl {
+                                stmts.push(ModuleItem::ModuleDecl(Box::new(
+                                    ModuleDecl::ExportDecl(ExportDecl {
                                         span: DUMMY_SP,
                                         decl: var,
-                                    },
+                                    }),
                                 )));
                             }
                         } else {
-                            stmts.push(ModuleItem::Stmt(Stmt::Decl(var)));
+                            stmts.push(ModuleItem::Stmt(Box::new(Stmt::Decl(var))));
                         }
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(mut export)) => {
                     // if specifier become empty, we remove export statement.
 
                     if export.type_only {
@@ -1253,13 +1253,13 @@ where
                         continue;
                     }
 
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    stmts.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(
                         NamedExport { ..export },
-                    )))
+                    ))))
                 }
 
                 // handle TS namespace child exports
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Class(mut class_decl),
                     ..
                 })) if parent_module_name.is_some() => {
@@ -1268,10 +1268,10 @@ where
                         parent_module_name.unwrap(),
                         class_decl.ident.clone(),
                     );
-                    stmts.push(ModuleItem::Stmt(Stmt::Decl(class_decl.into())));
+                    stmts.push(ModuleItem::Stmt(Box::new(Stmt::Decl(class_decl.into()))));
                     stmts.push(ModuleItem::Stmt(assignment));
                 }
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Fn(mut fn_decl),
                     ..
                 })) if parent_module_name.is_some() => {
@@ -1280,10 +1280,10 @@ where
                         parent_module_name.unwrap(),
                         fn_decl.ident.clone(),
                     );
-                    stmts.push(ModuleItem::Stmt(Stmt::Decl(fn_decl.into())));
+                    stmts.push(ModuleItem::Stmt(Box::new(Stmt::Decl(fn_decl.into()))));
                     stmts.push(ModuleItem::Stmt(assignment));
                 }
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Var(mut v),
                     ..
                 })) if parent_module_name.is_some() => {
@@ -1358,7 +1358,7 @@ where
                         }
                     }
                     if !exprs.is_empty() {
-                        stmts.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+                        stmts.push(ModuleItem::Stmt(Box::new(Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
                             expr: if exprs.len() == 1 {
                                 exprs.into_iter().next().unwrap()
@@ -1368,7 +1368,7 @@ where
                                     exprs,
                                 }))
                             },
-                        })));
+                        }))));
                     }
                 }
 
@@ -1380,7 +1380,7 @@ where
         }
 
         if !delayed_vars.is_empty() {
-            stmts.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+            stmts.push(ModuleItem::Stmt(Box::new(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
                 expr: Box::new(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
@@ -1404,7 +1404,7 @@ where
                         .map(Box::new)
                         .collect(),
                 })),
-            })));
+            }))));
         }
 
         stmts
@@ -1474,7 +1474,11 @@ where
     ///
     /// Example:
     ///   * `MyNamespace.ChildClass = ChildClass`
-    fn get_namespace_child_decl_assignment(&self, module_name: &Ident, decl_name: Ident) -> Stmt {
+    fn get_namespace_child_decl_assignment(
+        &self,
+        module_name: &Ident,
+        decl_name: Ident,
+    ) -> Box<Stmt> {
         let left = PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
             span: DUMMY_SP,
             obj: Box::new(Expr::Ident(module_name.clone())),
@@ -1483,7 +1487,7 @@ where
 
         let right = Box::new(Expr::Ident(decl_name));
 
-        Stmt::Expr(ExprStmt {
+        Box::new(Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
@@ -1491,7 +1495,7 @@ where
                 left,
                 right,
             })),
-        })
+        }))
     }
 }
 
@@ -1746,7 +1750,7 @@ fn is_decl_concrete(d: &Decl) -> bool {
 fn is_ts_namespace_body_concrete(b: &TsNamespaceBody) -> bool {
     match b {
         TsNamespaceBody::TsModuleBlock(b) => b.body.iter().any(|s| match s {
-            ModuleItem::ModuleDecl(s) => match s {
+            ModuleItem::ModuleDecl(s) => match &**s {
                 ModuleDecl::ExportDecl(d) => is_decl_concrete(&d.decl),
                 ModuleDecl::Import(d) => !d.type_only,
                 ModuleDecl::ExportNamed(d) => !d.type_only,
@@ -1757,7 +1761,7 @@ fn is_ts_namespace_body_concrete(b: &TsNamespaceBody) -> bool {
                 ModuleDecl::TsExportAssignment(..) => true,
                 ModuleDecl::TsNamespaceExport(..) => true,
             },
-            ModuleItem::Stmt(s) => match s {
+            ModuleItem::Stmt(s) => match &**s {
                 Stmt::Decl(d) => is_decl_concrete(d),
                 _ => true,
             },

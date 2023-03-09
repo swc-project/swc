@@ -2059,12 +2059,12 @@ impl Generator {
                     name: catch.param.clone().unwrap(),
                     ..Take::dummy()
                 });
-                self.transform_and_emit_embedded_stmt(Stmt::Block(catch.body));
+                self.transform_and_emit_embedded_stmt(Box::new(Stmt::Block(catch.body)));
             }
 
             if let Some(finalizer) = node.finalizer {
                 self.begin_finally_block();
-                self.transform_and_emit_embedded_stmt(Stmt::Block(finalizer));
+                self.transform_and_emit_embedded_stmt(Box::new(Stmt::Block(finalizer)));
             }
 
             self.end_exception_block();
