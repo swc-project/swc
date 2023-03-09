@@ -42,6 +42,20 @@ pub enum ModuleDecl {
     TsNamespaceExport(TsNamespaceExportDecl),
 }
 
+bridge_from!(
+    Box<ModuleDecl>,
+    ModuleDecl,
+    ImportDecl,
+    ExportDecl,
+    NamedExport,
+    ExportDefaultDecl,
+    ExportDefaultExpr,
+    ExportAll,
+    Box<TsImportEqualsDecl>,
+    TsExportAssignment,
+    TsNamespaceExportDecl
+);
+
 impl Take for ModuleDecl {
     fn dummy() -> Self {
         ModuleDecl::Import(ImportDecl::dummy())
