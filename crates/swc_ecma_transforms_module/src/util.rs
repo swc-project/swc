@@ -142,9 +142,10 @@ pub(super) fn object_define_property(
     target: ExprOrSpread,
     prop_name: ExprOrSpread,
     descriptor: ExprOrSpread,
-) -> Expr {
+) -> Box<Expr> {
     member_expr!(DUMMY_SP, Object.defineProperty)
         .as_call(DUMMY_SP, vec![target, prop_name, descriptor])
+        .into()
 }
 
 /// Creates
@@ -155,7 +156,7 @@ pub(super) fn object_define_property(
 ///       value: true
 ///  });
 /// ```
-pub(super) fn define_es_module(exports: Ident) -> Stmt {
+pub(super) fn define_es_module(exports: Ident) -> Box<Stmt> {
     object_define_property(
         exports.as_arg(),
         quote_str!("__esModule").as_arg(),
@@ -171,7 +172,7 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
     .into_stmt()
 }
 
-pub(super) fn clone_first_use_strict(stmts: &[ModuleItem]) -> Option<Stmt> {
+pub(super) fn clone_first_use_strict(stmts: &[ModuleItem]) -> Option<Box<Stmt>> {
     if stmts.is_empty() {
         return None;
     }
@@ -187,7 +188,7 @@ pub(super) fn clone_first_use_strict(stmts: &[ModuleItem]) -> Option<Stmt> {
     })
 }
 
-pub(super) fn use_strict() -> Stmt {
+pub(super) fn use_strict() -> Box<Stmt> {
     Lit::Str(quote_str!("use strict")).into_stmt()
 }
 

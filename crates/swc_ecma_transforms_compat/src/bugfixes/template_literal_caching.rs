@@ -40,7 +40,7 @@ impl TemplateLiteralCaching {
         })
     }
 
-    fn create_var_decl(&mut self) -> Option<Stmt> {
+    fn create_var_decl(&mut self) -> Option<Box<Stmt>> {
         if !self.decls.is_empty() {
             return Some(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: DUMMY_SP,
