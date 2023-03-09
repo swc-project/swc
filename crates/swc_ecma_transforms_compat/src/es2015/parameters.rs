@@ -166,7 +166,7 @@ impl Params {
                             pat: ident.clone().into(),
                             decorators: Vec::new(),
                         });
-                        loose_stmt.push(Stmt::If(IfStmt {
+                        loose_stmt.push(Box::new(Stmt::If(IfStmt {
                             span,
                             test: Box::new(Expr::Bin(BinExpr {
                                 span: DUMMY_SP,
@@ -184,7 +184,7 @@ impl Params {
                                 })),
                             })),
                             alt: None,
-                        }))
+                        })))
                     } else {
                         let binding = private_ident!(span, "param");
                         params.push(Param {
@@ -289,7 +289,7 @@ impl Params {
                         }
                     };
 
-                    unpack_rest = Some(Stmt::For(ForStmt {
+                    unpack_rest = Some(Box::new(Stmt::For(ForStmt {
                         span,
                         init: Some(
                             VarDecl {
@@ -381,7 +381,7 @@ impl Params {
                                 .into_stmt()
                             }],
                         })),
-                    }))
+                    })))
                 }
                 _ => unreachable!(),
             }
@@ -457,10 +457,10 @@ impl VisitMut for Params {
             if let BlockStmtOrExpr::Expr(v) = body {
                 let mut stmts = vec![];
                 prepend_stmt(&mut stmts, decls);
-                stmts.push(Stmt::Return(ReturnStmt {
+                stmts.push(Box::new(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
                     arg: Some(v.take()),
-                }));
+                })));
                 *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
                     stmts,
@@ -573,10 +573,10 @@ impl VisitMut for Params {
                     BlockStmtOrExpr::BlockStmt(block) => block,
                     BlockStmtOrExpr::Expr(expr) => BlockStmt {
                         span: body_span,
-                        stmts: vec![Stmt::Return(ReturnStmt {
+                        stmts: vec![Box::new(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(expr),
-                        })],
+                        }))],
                     },
                 };
 
@@ -604,10 +604,10 @@ impl VisitMut for Params {
                                 span: f.span,
                                 stmts: vec![
                                     var_decl,
-                                    Stmt::Return(ReturnStmt {
+                                    Box::new(Stmt::Return(ReturnStmt {
                                         span: f.span,
                                         arg: Some(Box::new(func)),
-                                    }),
+                                    })),
                                 ],
                             }),
                             type_params: Default::default(),
@@ -623,10 +623,10 @@ impl VisitMut for Params {
                 let body = if was_expr
                     && body.stmts.len() == 1
                     && matches!(
-                        body.stmts[0],
+                        &*body.stmts[0],
                         Stmt::Return(ReturnStmt { arg: Some(..), .. })
                     ) {
-                    match body.stmts.pop().unwrap() {
+                    match *body.stmts.pop().unwrap() {
                         Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
                             BlockStmtOrExpr::Expr(arg)
                         }

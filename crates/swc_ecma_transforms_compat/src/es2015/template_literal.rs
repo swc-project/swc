@@ -330,10 +330,10 @@ impl VisitMut for TemplateLiteral {
                                     params: vec![],
                                     body: Some(BlockStmt {
                                         span: DUMMY_SP,
-                                        stmts: vec![Stmt::Return(ReturnStmt {
+                                        stmts: vec![Box::new(Stmt::Return(ReturnStmt {
                                             span: DUMMY_SP,
                                             arg: Some(Box::new(quote_ident!("data").into())),
-                                        })],
+                                        }))],
                                     }),
                                     decorators: Default::default(),
                                     type_params: Default::default(),
@@ -349,10 +349,10 @@ impl VisitMut for TemplateLiteral {
                             stmts: vec![
                                 data_decl.into(),
                                 assign_expr.into_stmt(),
-                                Stmt::Return(ReturnStmt {
+                                Box::new(Stmt::Return(ReturnStmt {
                                     span: DUMMY_SP,
                                     arg: Some(Box::new(quote_ident!("data").into())),
-                                }),
+                                })),
                             ],
                         })
                     },
