@@ -523,7 +523,7 @@ impl VisitMut for TscDecorator {
         self.visit_mut_stmt_likes(s);
 
         if !self.exports.is_empty() {
-            s.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+            s.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(
                 NamedExport {
                     span: DUMMY_SP,
                     specifiers: self.exports.take(),
@@ -531,7 +531,7 @@ impl VisitMut for TscDecorator {
                     type_only: Default::default(),
                     asserts: Default::default(),
                 },
-            )));
+            ))));
         }
     }
 

@@ -1211,10 +1211,10 @@ impl Generator {
             }
         } && !expressions.is_empty()
         {
-            self.emit_stmt(Stmt::Expr(ExprStmt {
+            self.emit_stmt(Box::new(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
                 expr: Expr::from_exprs(expressions.take()),
-            }));
+            })));
         }
 
         let mut expression = match property {

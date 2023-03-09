@@ -1,6 +1,7 @@
 #![deny(clippy::all)]
 #![deny(unused)]
 #![allow(clippy::match_like_matches_macro)]
+#![allow(clippy::vec_box)]
 #![feature(box_patterns)]
 
 pub use self::{
