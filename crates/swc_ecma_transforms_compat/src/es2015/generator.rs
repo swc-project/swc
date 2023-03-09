@@ -2662,7 +2662,7 @@ impl Generator {
         if stmt.is_empty() {
             self.emit_nop();
         } else {
-            self.emit_worker(OpCode::Statement, Some(OpArgs::Stmt(Box::new(stmt))), None);
+            self.emit_worker(OpCode::Statement, Some(OpArgs::Stmt(stmt)), None);
         }
     }
 
