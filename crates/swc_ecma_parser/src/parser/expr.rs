@@ -601,7 +601,7 @@ impl<I: Tokens> Parser<I> {
                         )
                     }
                     Expr::Member(MemberExpr { ref obj, .. }) => {
-                        if let Expr::OptChain(obj) = **obj {
+                        if let Expr::OptChain(obj) = &**obj {
                             syntax_error!(
                                 self,
                                 obj.question_dot_token,
