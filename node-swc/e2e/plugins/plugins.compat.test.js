@@ -99,5 +99,8 @@ describe("Published plugins", () => {
     //         `);
     //     });
     // }
-    expect(1).toBeTruthy();
+
+    it("should pass", () => {
+        expect(1).toBeTruthy();
+    });
 });
