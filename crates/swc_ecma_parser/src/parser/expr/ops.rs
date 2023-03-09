@@ -312,11 +312,8 @@ impl<I: Tokens> Parser<I> {
 
             if self.input.syntax().typescript() && op == op!("delete") {
                 match arg.unwrap_parens() {
-                    Expr::Member(..)
-                    | Expr::OptChain(OptChainExpr {
-                        base: OptChainBase::Member(..),
-                        ..
-                    }) => {}
+                    Expr::Member(..) => {}
+                    Expr::OptChain(o) if matches!(&o.base, OptChainBase::Member(..)) => {}
                     expr => {
                         self.emit_err(expr.span(), SyntaxError::TS2703);
                     }

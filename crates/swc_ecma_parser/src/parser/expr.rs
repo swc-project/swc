@@ -905,7 +905,7 @@ impl<I: Tokens> Parser<I> {
                     return Ok(errorred_expr);
                 }
             }
-            return Ok(Box::new(Expr::Arrow(arrow_expr)));
+            return Ok(Box::new(Expr::Arrow(Box::new(arrow_expr))));
         } else {
             // If there's no arrow function, we have to check there's no
             // AssignProp in lhs to check against assignment in object literals
@@ -936,7 +936,7 @@ impl<I: Tokens> Parser<I> {
             .collect::<Result<Vec<_>, _>>()?;
         if let Some(async_span) = async_span {
             // It's a call expression
-            return Ok(Box::new(Expr::Call(CallExpr {
+            return Ok(Box::new(Expr::Call(Box::new(CallExpr {
                 span: span!(self, async_span.lo()),
                 callee: Callee::Expr(Box::new(Expr::Ident(Ident::new(
                     "async".into(),
@@ -944,7 +944,7 @@ impl<I: Tokens> Parser<I> {
                 )))),
                 args: expr_or_spreads,
                 type_args: None,
-            })));
+            }))));
         }
 
         // It was not head of arrow function.
@@ -1185,12 +1185,12 @@ impl<I: Tokens> Parser<I> {
                         let args = p.parse_args(is_dynamic_import)?;
 
                         Ok(Some((
-                            Box::new(Expr::Call(CallExpr {
+                            Box::new(Expr::Call(Box::new(CallExpr {
                                 span: span!(p, start),
                                 callee: mut_obj_opt.take().unwrap(),
                                 type_args: Some(type_args),
                                 args,
-                            })),
+                            }))),
                             true,
                         )))
                     } else if is!(p, '`') {
