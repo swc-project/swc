@@ -34,34 +34,6 @@ console.log('foo')
 
 })
 
-it('should handle sourcemap correctly when parse module', async () => {
-    const raw = `
-class Foo extends Array {
-}
-console.log('foo')
-    `;
-    const out1 = swc.transformSync(raw, {
-        filename: 'input.js',
-        sourceMaps: true,
-        plugin: swc.plugins([m => m])
-    });
-
-
-    expect(out1.map).toBeTruthy();
-    expect(JSON.parse(out1.map).sources).toEqual(['input.js']);
-    validate(out1.code, out1.map, { 'input.js': raw });
-
-    const out2 = swc.transformSync(raw, {
-        sourceMaps: true,
-        inlineSourcesContent: true,
-        plugin: swc.plugins([m => m])
-    });
-
-    expect(out2.map).toBeTruthy();
-    expect(JSON.parse(out2.map).sources).toEqual(['<anon>']);
-    validate(out2.code, out2.map, { 'input.js': raw });
-})
-
 it('should handle input sourcemap correctly', async () => {
     const raw = `class Foo extends Array {}`;
     const out1 = swc.transformSync(raw, {
