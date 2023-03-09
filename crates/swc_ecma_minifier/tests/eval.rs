@@ -194,11 +194,11 @@ impl VisitMut for PartialInliner {
                                     raw: Atom::new(&*s.value),
                                     cooked: Some(Atom::new(&*s.value)),
                                 };
-                                tt.tpl = Tpl {
+                                tt.tpl = Box::new(Tpl {
                                     span: el.span,
                                     exprs: Default::default(),
                                     quasis: vec![el],
-                                };
+                                });
                             }
                             _ => {
                                 unreachable!()

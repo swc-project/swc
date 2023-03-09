@@ -112,7 +112,7 @@ fn async_arrow() {
             is_async: true,
             is_generator: false,
             params: vec![],
-            body: BlockStmtOrExpr::Expr(expr("foo")),
+            body: Box::new(BlockStmtOrExpr::Expr(expr("foo"))),
             return_type: None,
             type_params: None,
         }))
@@ -138,10 +138,10 @@ fn object_rest_pat() {
                 })],
                 type_ann: None
             })],
-            body: BlockStmtOrExpr::BlockStmt(BlockStmt {
+            body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                 span,
                 stmts: vec![]
-            }),
+            })),
             return_type: None,
             type_params: None,
         }))
@@ -217,7 +217,7 @@ fn arrow_fn_no_args() {
             is_async: false,
             is_generator: false,
             params: vec![],
-            body: BlockStmtOrExpr::Expr(expr("1")),
+            body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
             return_type: None,
             type_params: None,
         }))
@@ -232,7 +232,7 @@ fn arrow_fn() {
             is_async: false,
             is_generator: false,
             params: vec![Pat::Ident(Ident::new("a".into(), span).into())],
-            body: BlockStmtOrExpr::Expr(expr("1")),
+            body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
             return_type: None,
             type_params: None,
         }))
@@ -252,7 +252,7 @@ fn arrow_fn_rest() {
                 arg: Box::new(Pat::Ident(Ident::new("a".into(), span).into())),
                 type_ann: None
             })],
-            body: BlockStmtOrExpr::Expr(expr("1")),
+            body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
             return_type: None,
             type_params: None,
         }))
@@ -267,7 +267,7 @@ fn arrow_fn_no_paren() {
             is_async: false,
             is_generator: false,
             params: vec![Pat::Ident(Ident::new("a".into(), span).into())],
-            body: BlockStmtOrExpr::Expr(expr("1")),
+            body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
             type_params: None,
             return_type: None,
         }))

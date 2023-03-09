@@ -537,7 +537,7 @@ impl Pure<'_> {
             _ => return,
         };
 
-        match &mut opt.base {
+        match &mut *opt.base {
             OptChainBase::Member(MemberExpr { span, obj, .. }) => {
                 //
                 if is_pure_undefined_or_null(&self.expr_ctx, obj) {
@@ -834,14 +834,14 @@ fn f64_to_precision(value: f64, precision: usize) -> String {
             // iv, v
             m.push_str(&e.to_string());
 
-            return s + &m;
+            return s + &*m;
         }
     }
 
     // 11
     let e_inc = e + 1;
     if e_inc == p_i32 {
-        return s + &m;
+        return s + &*m;
     }
 
     // 12
@@ -855,7 +855,7 @@ fn f64_to_precision(value: f64, precision: usize) -> String {
     }
 
     // 14
-    s + &m
+    s + &*m
 }
 
 fn flt_str_to_exp(flt: &str) -> i32 {

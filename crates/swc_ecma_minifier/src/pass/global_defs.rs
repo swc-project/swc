@@ -116,7 +116,7 @@ fn should_replace(pred: &Expr, node: &Expr) -> bool {
             })
             | Expr::OptChain(OptChainExpr {
                 base:
-                    OptChainBase::Member(MemberExpr {
+                    box OptChainBase::Member(MemberExpr {
                         obj: node_obj,
                         prop: nodes,
                         ..

@@ -45,7 +45,7 @@ impl ClassStaticBlock {
                     is_generator: false,
                     type_params: None,
                     return_type: None,
-                    body: BlockStmtOrExpr::BlockStmt(static_block.body),
+                    body: Box::new(BlockStmtOrExpr::BlockStmt(static_block.body)),
                 }
                 .as_callee(),
                 args: Vec::new(),

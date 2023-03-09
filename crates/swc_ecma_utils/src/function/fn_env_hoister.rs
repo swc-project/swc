@@ -696,7 +696,7 @@ fn extend_super(
             init: Some(Box::new(Expr::Arrow(ArrowExpr {
                 span: DUMMY_SP,
                 params: vec![prop.clone().into()],
-                body: BlockStmtOrExpr::Expr(Box::new(Expr::Object(ObjectLit {
+                body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Object(ObjectLit {
                     span: DUMMY_SP,
                     props: vec![
                         Prop::Getter(GetterProp {
@@ -738,7 +738,7 @@ fn extend_super(
                     .map(Box::new)
                     .map(From::from)
                     .collect(),
-                }))),
+                })))),
                 is_async: false,
                 is_generator: false,
                 return_type: None,
@@ -753,11 +753,13 @@ fn extend_super(
         init: Some(Box::new(Expr::Arrow(ArrowExpr {
             span: DUMMY_SP,
             params: Vec::new(),
-            body: BlockStmtOrExpr::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
-                obj: Super { span: DUMMY_SP },
-                prop: SuperProp::Ident(quote_ident!(key)),
-                span: DUMMY_SP,
-            }))),
+            body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::SuperProp(
+                SuperPropExpr {
+                    obj: Super { span: DUMMY_SP },
+                    prop: SuperProp::Ident(quote_ident!(key)),
+                    span: DUMMY_SP,
+                },
+            )))),
             is_async: false,
             is_generator: false,
             return_type: None,
@@ -773,14 +775,16 @@ fn extend_super(
             init: Some(Box::new(Expr::Arrow(ArrowExpr {
                 span: DUMMY_SP,
                 params: vec![param.clone().into()],
-                body: BlockStmtOrExpr::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
-                    obj: Super { span: DUMMY_SP },
-                    prop: SuperProp::Computed(ComputedPropName {
+                body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::SuperProp(
+                    SuperPropExpr {
+                        obj: Super { span: DUMMY_SP },
+                        prop: SuperProp::Computed(ComputedPropName {
+                            span: DUMMY_SP,
+                            expr: Box::new(Expr::Ident(param)),
+                        }),
                         span: DUMMY_SP,
-                        expr: Box::new(Expr::Ident(param)),
-                    }),
-                    span: DUMMY_SP,
-                }))),
+                    },
+                )))),
                 is_async: false,
                 is_generator: false,
                 return_type: None,
@@ -797,7 +801,7 @@ fn extend_super(
             init: Some(Box::new(Expr::Arrow(ArrowExpr {
                 span: DUMMY_SP,
                 params: vec![value.clone().into()],
-                body: BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
+                body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     left: PatOrExpr::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
                         obj: Super { span: DUMMY_SP },
@@ -806,7 +810,7 @@ fn extend_super(
                     }))),
                     op: op!("="),
                     right: Box::new(Expr::Ident(value)),
-                }))),
+                })))),
                 is_async: false,
                 is_generator: false,
                 return_type: None,
@@ -824,7 +828,7 @@ fn extend_super(
             init: Some(Box::new(Expr::Arrow(ArrowExpr {
                 span: DUMMY_SP,
                 params: vec![prop.clone().into(), value.clone().into()],
-                body: BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
+                body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     left: PatOrExpr::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
                         obj: Super { span: DUMMY_SP },
@@ -836,7 +840,7 @@ fn extend_super(
                     }))),
                     op: op!("="),
                     right: Box::new(Expr::Ident(value)),
-                }))),
+                })))),
                 is_async: false,
                 is_generator: false,
                 return_type: None,

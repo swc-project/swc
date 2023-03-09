@@ -813,7 +813,7 @@ where
     fn emit_opt_chain(&mut self, n: &OptChainExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        match n.base {
+        match &*n.base {
             OptChainBase::Member(ref e) => {
                 if let Expr::New(new) = &*e.obj {
                     self.emit_new(new, false)?;

@@ -373,7 +373,7 @@ impl Pure<'_> {
             _ => return,
         };
 
-        if let OptChainBase::Member(base) = &mut opt.base {
+        if let OptChainBase::Member(base) = &mut *opt.base {
             if match &*base.obj {
                 Expr::Lit(Lit::Null(..)) => false,
                 Expr::Lit(..) | Expr::Object(..) | Expr::Array(..) => true,
@@ -866,15 +866,11 @@ impl Pure<'_> {
                 return;
             }
 
-            Expr::TaggedTpl(TaggedTpl {
-                span,
-                tpl: Tpl { exprs, .. },
-                ..
-            }) if span.has_mark(self.marks.pure) => {
+            Expr::TaggedTpl(TaggedTpl { span, tpl, .. }) if span.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
-                let new = self.make_ignored_expr(exprs.take().into_iter());
+                let new = self.make_ignored_expr(tpl.exprs.take().into_iter());
 
                 *e = new.unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
                 return;
@@ -1228,7 +1224,7 @@ impl Pure<'_> {
                             }
                         }
                     }
-                    Expr::Arrow(callee) => match &mut callee.body {
+                    Expr::Arrow(callee) => match &mut *callee.body {
                         BlockStmtOrExpr::BlockStmt(body) => {
                             for stmt in &mut body.stmts {
                                 self.ignore_return_value_of_return_stmt(stmt, opts);

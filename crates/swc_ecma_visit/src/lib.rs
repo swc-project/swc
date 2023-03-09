@@ -761,7 +761,7 @@ define!({
     pub struct ArrowExpr {
         pub span: Span,
         pub params: Vec<Pat>,
-        pub body: BlockStmtOrExpr,
+        pub body: Box<BlockStmtOrExpr>,
         pub is_async: bool,
         pub is_generator: bool,
         pub type_params: Option<Box<TsTypeParamDecl>>,
@@ -793,7 +793,7 @@ define!({
         pub span: Span,
         pub tag: Box<Expr>,
         pub type_params: Option<Box<TsTypeParamInstantiation>>,
-        pub tpl: Tpl,
+        pub tpl: Box<Tpl>,
     }
     pub struct TplElement {
         pub span: Span,
@@ -831,7 +831,7 @@ define!({
     pub struct OptChainExpr {
         pub span: Span,
         pub question_dot_token: Span,
-        pub base: OptChainBase,
+        pub base: Box<OptChainBase>,
     }
     pub enum OptChainBase {
         Member(MemberExpr),

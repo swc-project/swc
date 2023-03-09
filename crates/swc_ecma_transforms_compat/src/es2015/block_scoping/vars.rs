@@ -244,7 +244,7 @@ impl VisitMut for BlockScopedVars {
             n.params.visit_mut_with(v);
             v.is_param = old;
 
-            match &mut n.body {
+            match &mut *n.body {
                 BlockStmtOrExpr::BlockStmt(b) => {
                     b.visit_mut_children_with(v);
                 }

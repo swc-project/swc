@@ -72,6 +72,7 @@ use swc_ecma_transforms_optimization::{
     simplify::{dce::Config as DceConfig, Config as SimplifyConfig},
     GlobalExprMap,
 };
+use swc_ecma_utils::NodeIgnoringSpan;
 use swc_ecma_visit::{Fold, VisitMutWith};
 
 pub use crate::plugin::PluginConfig;
@@ -1698,11 +1699,11 @@ impl GlobalPassOption {
                     .filter(|(k, _)| k.contains('.'))
                     .map(|(k, v)| {
                         (
-                            *expr(cm, handler, k.to_string()),
+                            NodeIgnoringSpan::owned(*expr(cm, handler, k.to_string())),
                             *expr(cm, handler, v.to_string()),
                         )
                     })
-                    .collect::<Vec<_>>();
+                    .collect::<AHashMap<_, _>>();
                 let map = Arc::new(map);
                 CACHE.insert(cache_key, map.clone());
                 map

@@ -73,7 +73,7 @@ impl Fold for TemplateLiteralCaching {
                         Some(Expr::Arrow(ArrowExpr {
                             span: DUMMY_SP,
                             params: vec![t.clone().into()],
-                            body: BlockStmtOrExpr::Expr(Box::new(Expr::Ident(t))),
+                            body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Ident(t)))),
                             is_async: false,
                             is_generator: false,
                             type_params: None,
@@ -90,11 +90,11 @@ impl Fold for TemplateLiteralCaching {
                 let template = TaggedTpl {
                     span: DUMMY_SP,
                     tag: Box::new(Expr::Ident(helper_ident.clone())),
-                    tpl: Tpl {
+                    tpl: Box::new(Tpl {
                         span: DUMMY_SP,
                         quasis: n.tpl.quasis,
                         exprs: n.tpl.exprs.iter().map(|_| 0.0.into()).collect(),
-                    },
+                    }),
                     type_params: None,
                 };
 

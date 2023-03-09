@@ -290,7 +290,7 @@ impl Visit for NoEmptyFunction {
     }
 
     fn visit_arrow_expr(&mut self, function: &ArrowExpr) {
-        if let BlockStmtOrExpr::BlockStmt(BlockStmt { stmts, span }) = &function.body {
+        if let BlockStmtOrExpr::BlockStmt(BlockStmt { stmts, span }) = &*function.body {
             if self.consider_comments && self.has_comment_in_body(span) {
                 return;
             }
