@@ -2522,14 +2522,10 @@ impl ExprCtx {
                 });
             }
 
-            Expr::TaggedTpl(TaggedTpl {
-                tag,
-                tpl: Tpl { exprs, .. },
-                ..
-            }) => {
+            Expr::TaggedTpl(TaggedTpl { tag, tpl, .. }) => {
                 self.extract_side_effects_to(to, *tag);
 
-                exprs
+                tpl.exprs
                     .into_iter()
                     .for_each(|e| self.extract_side_effects_to(to, *e));
             }
@@ -2555,7 +2551,7 @@ impl ExprCtx {
                 self.extract_side_effects_to(to, *expr)
             }
             Expr::OptChain(OptChainExpr { base: child, .. }) => {
-                self.extract_side_effects_to(to, child.into())
+                self.extract_side_effects_to(to, (*child).into())
             }
 
             Expr::Invalid(..) => unreachable!(),
