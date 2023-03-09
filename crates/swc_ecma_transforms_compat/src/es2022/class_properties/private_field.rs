@@ -439,7 +439,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             }
 
             Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Call(call),
+                base: box OptChainBase::Call(call),
                 question_dot_token,
                 span,
             }) if call.callee.is_member() => {
@@ -455,11 +455,11 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         callee: OptChainExpr {
                             span: *span,
                             question_dot_token: *question_dot_token,
-                            base: OptChainBase::Member(MemberExpr {
+                            base: Box::new(OptChainBase::Member(MemberExpr {
                                 span: call.span,
                                 obj: Box::new(expr),
                                 prop: MemberProp::Ident(quote_ident!("call")),
-                            }),
+                            })),
                         }
                         .as_callee(),
                         args,
@@ -476,7 +476,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             }
             Expr::OptChain(OptChainExpr {
                 base:
-                    OptChainBase::Member(
+                    box OptChainBase::Member(
                         member @ MemberExpr {
                             prop: MemberProp::PrivateName(..),
                             ..
