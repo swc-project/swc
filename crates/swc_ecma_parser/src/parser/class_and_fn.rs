@@ -318,12 +318,12 @@ impl<I: Tokens> Parser<I> {
         }
 
         let args = self.parse_args(false)?;
-        Ok(Box::new(Expr::Call(CallExpr {
+        Ok(Box::new(Expr::Call(Box::new(CallExpr {
             span: span!(self, expr.span_lo()),
             callee: Callee::Expr(expr),
             args,
             type_args: None,
-        })))
+        }))))
     }
 
     fn parse_class_body(&mut self) -> PResult<Vec<ClassMember>> {

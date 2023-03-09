@@ -107,14 +107,10 @@ impl<I: Tokens> Parser<I> {
 
                 let type_parameters = p.parse_ts_type_params(false, false)?;
                 let mut arrow = p.parse_assignment_expr_base()?;
-                match *arrow {
-                    Expr::Arrow(ArrowExpr {
-                        ref mut span,
-                        ref mut type_params,
-                        ..
-                    }) => {
-                        *span = Span::new(type_parameters.span.lo, span.hi, Default::default());
-                        *type_params = Some(type_parameters);
+                match &mut *arrow {
+                    Expr::Arrow(a) => {
+                        a.span = Span::new(type_parameters.span.lo, a.span.hi, Default::default());
+                        a.type_params = Some(type_parameters);
                     }
                     _ => unexpected!(p, "("),
                 }
@@ -386,7 +382,9 @@ impl<I: Tokens> Parser<I> {
                     };
 
                     // parse template literal
-                    return Ok(Box::new(Expr::Tpl(self.with_ctx(ctx).parse_tpl(false)?)));
+                    return Ok(Box::new(Expr::Tpl(
+                        self.with_ctx(ctx).parse_tpl(false).map(From::from)?,
+                    )));
                 }
 
                 tok!('(') => {
@@ -461,7 +459,7 @@ impl<I: Tokens> Parser<I> {
                 let body =
                     self.parse_fn_body(true, false, true, params.is_simple_parameter_list())?;
 
-                return Ok(Box::new(Expr::Arrow(ArrowExpr {
+                return Ok(Box::new(Expr::Arrow(Box::new(ArrowExpr {
                     span: span!(self, start),
                     body,
                     params,
@@ -469,7 +467,7 @@ impl<I: Tokens> Parser<I> {
                     is_generator: false,
                     return_type: None,
                     type_params: None,
-                })));
+                }))));
             } else if can_be_arrow && !self.input.had_line_break_before_cur() && eat!(self, "=>") {
                 if self.ctx().strict && id.is_reserved_in_strict_bind() {
                     self.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
@@ -478,7 +476,7 @@ impl<I: Tokens> Parser<I> {
                 let body =
                     self.parse_fn_body(false, false, true, params.is_simple_parameter_list())?;
 
-                return Ok(Box::new(Expr::Arrow(ArrowExpr {
+                return Ok(Box::new(Expr::Arrow(Box::new(ArrowExpr {
                     span: span!(self, start),
                     body,
                     params,
@@ -488,7 +486,7 @@ impl<I: Tokens> Parser<I> {
                     return_type: None,
                     // TODO
                     type_params: None,
-                })));
+                }))));
             } else {
                 return Ok(Box::new(Expr::Ident(id)));
             }
@@ -595,23 +593,18 @@ impl<I: Tokens> Parser<I> {
 
             if is_new_expr {
                 match *callee {
-                    Expr::OptChain(OptChainExpr {
-                        question_dot_token, ..
-                    }) => {
+                    Expr::OptChain(e) => {
                         syntax_error!(
                             self,
-                            question_dot_token,
+                            e.question_dot_token,
                             SyntaxError::OptChainCannotFollowConstructorCall
                         )
                     }
                     Expr::Member(MemberExpr { ref obj, .. }) => {
-                        if let Expr::OptChain(OptChainExpr {
-                            question_dot_token, ..
-                        }) = **obj
-                        {
+                        if let Expr::OptChain(obj) = **obj {
                             syntax_error!(
                                 self,
-                                question_dot_token,
+                                obj.question_dot_token,
                                 SyntaxError::OptChainCannotFollowConstructorCall
                             )
                         }
@@ -831,7 +824,7 @@ impl<I: Tokens> Parser<I> {
                     unexpected!(p, "fail")
                 }
 
-                Ok(Some(Box::new(Expr::Arrow(ArrowExpr {
+                Ok(Some(Box::new(Expr::Arrow(Box::new(ArrowExpr {
                     span: span!(p, expr_start),
                     is_async: async_span.is_some(),
                     is_generator: false,
@@ -839,7 +832,7 @@ impl<I: Tokens> Parser<I> {
                     body,
                     return_type: Some(return_type),
                     type_params: None,
-                }))))
+                })))))
             }) {
                 return Ok(expr);
             }
