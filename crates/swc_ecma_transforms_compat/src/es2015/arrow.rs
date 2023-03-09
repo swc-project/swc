@@ -148,13 +148,13 @@ impl VisitMut for Arrow {
                         BlockStmtOrExpr::BlockStmt(block) => block.take(),
                         BlockStmtOrExpr::Expr(expr) => BlockStmt {
                             span: DUMMY_SP,
-                            stmts: vec![Stmt::Return(ReturnStmt {
+                            stmts: vec![Box::new(Stmt::Return(ReturnStmt {
                                 // this is needed so
                                 // () => /* 123 */ 1 would become
                                 // function { return /*123 */ 123 }
                                 span: DUMMY_SP,
                                 arg: Some(expr.take()),
-                            })],
+                            }))],
                         },
                     }),
                     type_params: Default::default(),

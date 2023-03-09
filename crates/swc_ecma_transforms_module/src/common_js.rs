@@ -252,7 +252,7 @@ where
         link: Link,
         export: Export,
         is_export_assign: bool,
-    ) -> impl Iterator<Item = Stmt> {
+    ) -> impl Iterator<Item = Box<Stmt>> {
         let import_interop = self.config.import_interop();
         let is_node = import_interop.is_node();
 
@@ -366,7 +366,7 @@ where
                         )
                     };
 
-                    stmts.push(stmt);
+                    stmts.push(Box::new(stmt));
                 } else {
                     stmts.push(import_expr.into_stmt());
                 }

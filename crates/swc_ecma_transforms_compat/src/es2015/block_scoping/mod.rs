@@ -169,7 +169,7 @@ impl BlockScoping {
 
             body_stmt.visit_mut_with(&mut flow_helper);
 
-            let mut body_stmt = match &mut body_stmt.take() {
+            let mut body_stmt = match &mut *body_stmt.take() {
                 Stmt::Block(bs) => bs.take(),
                 body => BlockStmt {
                     span: DUMMY_SP,

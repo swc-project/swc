@@ -21,7 +21,7 @@ impl VisitMut for BlockScopedFns {
         let mut extra_stmts = Vec::with_capacity(items.len());
 
         for mut stmt in items.take() {
-            if let Stmt::Expr(ExprStmt { ref expr, .. }) = stmt {
+            if let Stmt::Expr(ExprStmt { ref expr, .. }) = &*stmt {
                 if let Expr::Lit(Lit::Str(..)) = &**expr {
                     stmts.push(stmt);
                     continue;
@@ -32,10 +32,10 @@ impl VisitMut for BlockScopedFns {
             if stmt.span().is_dummy() {
                 extra_stmts.push(stmt)
             } else {
-                match stmt {
+                match *stmt {
                     Stmt::Decl(Decl::Fn(decl)) => {
                         if IdentUsageFinder::find(&decl.ident.to_id(), &decl.function) {
-                            extra_stmts.push(Stmt::Decl(Decl::Fn(decl)));
+                            extra_stmts.push(Box::new(Stmt::Decl(Decl::Fn(decl))));
                             continue;
                         }
                         stmts.push(
