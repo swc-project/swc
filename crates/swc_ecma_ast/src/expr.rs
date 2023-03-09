@@ -172,6 +172,7 @@ pub enum Expr {
 
 bridge_from!(Expr, Box<CallExpr>, CallExpr);
 bridge_from!(Expr, Box<TaggedTpl>, TaggedTpl);
+bridge_from!(Expr, Box<JSXFragment>, JSXFragment);
 bridge_from!(Expr, Box<ArrowExpr>, ArrowExpr);
 bridge_from!(Expr, Box<Tpl>, Tpl);
 bridge_from!(Expr, Box<OptChainExpr>, OptChainExpr);
