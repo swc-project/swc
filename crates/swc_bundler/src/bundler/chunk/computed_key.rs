@@ -52,7 +52,7 @@ where
                 // Handle `export *`-s from dependency modules.
                 //
                 // See: https://github.com/denoland/deno/issues/9200
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(NamedExport {
                     span,
                     ref specifiers,
                     ..
@@ -79,13 +79,15 @@ where
                                 });
                                 additional_items.push((
                                     module_id,
-                                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                                        span: DUMMY_SP.with_ctxt(injected_ctxt),
-                                        specifiers: vec![specifier],
-                                        src: None,
-                                        type_only: false,
-                                        asserts: None,
-                                    })),
+                                    ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(
+                                        NamedExport {
+                                            span: DUMMY_SP.with_ctxt(injected_ctxt),
+                                            specifiers: vec![specifier],
+                                            src: None,
+                                            type_only: false,
+                                            asserts: None,
+                                        },
+                                    ))),
                                 ));
                             }
                         }
@@ -103,16 +105,16 @@ where
 
         module.append_all(additional_items);
 
-        let return_stmt = Stmt::Return(ReturnStmt {
+        let return_stmt = Box::new(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
             arg: Some(Box::new(Expr::Object(ObjectLit {
                 span: DUMMY_SP,
                 props: take(&mut export_visitor.return_props),
             }))),
-        });
+        }));
 
         module.iter().for_each(|(_, v)| {
-            if let ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) = v {
+            if let ModuleItem::ModuleDecl(box ModuleDecl::ExportAll(ref export)) = v {
                 // We handle this later.
                 let mut map = ctx.export_stars_in_wrapped.lock();
                 map.entry(id).or_default().push(export.span.ctxt);

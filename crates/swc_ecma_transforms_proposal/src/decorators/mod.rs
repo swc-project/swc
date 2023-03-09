@@ -200,7 +200,7 @@ impl Fold for Decorators {
                     );
 
                     // export { Foo as default }
-                    buf.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    buf.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(
                         NamedExport {
                             span: DUMMY_SP,
                             specifiers: vec![ExportNamedSpecifier {
@@ -214,12 +214,12 @@ impl Fold for Decorators {
                             type_only: false,
                             asserts: None,
                         },
-                    )));
+                    ))));
                 }};
             }
             //
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                     decl:
                         DefaultDecl::Class(ClassExpr {
                             ident: Some(ident),
@@ -227,7 +227,7 @@ impl Fold for Decorators {
                         }),
                     ..
                 })) => handle_class!(class, ident),
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
                     span,
                     expr,
                     ..
