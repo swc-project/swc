@@ -1745,7 +1745,7 @@ impl Generator {
             );
 
             node.right.visit_mut_with(self);
-            self.emit_stmt(Stmt::ForIn(ForInStmt {
+            self.emit_stmt(Box::new(Stmt::ForIn(ForInStmt {
                 span: DUMMY_SP,
                 left: VarDeclOrPat::Pat(key.clone().into()),
                 right: node.right.take(),
@@ -1761,7 +1761,7 @@ impl Generator {
                         type_args: Default::default(),
                     })),
                 })),
-            }));
+            })));
 
             self.emit_assignment(PatOrExpr::Pat(keys_index.clone().into()), 0.into(), None);
 

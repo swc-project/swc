@@ -50,11 +50,11 @@ pub fn make_assign_stmt(handle: Ident, expr: Box<Expr>) -> Expr {
     })
 }
 
-pub fn make_call_stmt(handle: Ident) -> Stmt {
-    Stmt::Expr(ExprStmt {
+pub fn make_call_stmt(handle: Ident) -> Box<Stmt> {
+    Box::new(Stmt::Expr(ExprStmt {
         span: DUMMY_SP,
         expr: Box::new(make_call_expr(handle)),
-    })
+    }))
 }
 
 pub fn make_call_expr(handle: Ident) -> Expr {
