@@ -864,6 +864,7 @@ pub struct ArrowExpr {
 
     pub params: Vec<Pat>,
 
+    /// This is boxed to reduce the type size of [Expr].
     pub body: Box<BlockStmtOrExpr>,
 
     #[serde(default, rename = "async")]
@@ -980,6 +981,7 @@ pub struct TaggedTpl {
     #[serde(default, rename = "typeParameters")]
     pub type_params: Option<Box<TsTypeParamInstantiation>>,
 
+    /// This is boxed to reduce the type size of [Expr].
     #[serde(rename = "template")]
     pub tpl: Box<Tpl>,
 }
@@ -1368,6 +1370,7 @@ impl Take for PatOrExpr {
 pub struct OptChainExpr {
     pub span: Span,
     pub question_dot_token: Span,
+    /// This is boxed to reduce the type size of [Expr].
     pub base: Box<OptChainBase>,
 }
 
