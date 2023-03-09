@@ -18,7 +18,7 @@ macro_rules! impl_visit_mut_fn {
 
             f.visit_mut_children_with(self);
 
-            let was_expr = match f.body {
+            let was_expr = match *f.body {
                 BlockStmtOrExpr::Expr(..) => true,
                 _ => false,
             };

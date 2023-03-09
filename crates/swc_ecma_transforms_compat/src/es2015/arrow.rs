@@ -144,7 +144,7 @@ impl VisitMut for Arrow {
                     params,
                     is_async: *is_async,
                     is_generator: *is_generator,
-                    body: Some(match body {
+                    body: Some(match &mut **body {
                         BlockStmtOrExpr::BlockStmt(block) => block.take(),
                         BlockStmtOrExpr::Expr(expr) => BlockStmt {
                             span: DUMMY_SP,
