@@ -50,7 +50,7 @@ pub struct HookRegister<'a> {
 }
 
 impl<'a> HookRegister<'a> {
-    pub fn gen_hook_handle(&mut self) -> Stmt {
+    pub fn gen_hook_handle(&mut self) -> Box<Stmt> {
         VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Var,
