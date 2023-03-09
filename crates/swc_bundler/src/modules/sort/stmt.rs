@@ -152,17 +152,17 @@ fn iter<'a>(
             // dbg!(&current_range);
 
             let can_ignore_deps = match &stmts[idx] {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Fn(..),
                     ..
                 }))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) => true,
+                | ModuleItem::Stmt(box Stmt::Decl(Decl::Fn(..))) => true,
 
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Class(cls),
                     ..
                 }))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls)))
+                | ModuleItem::Stmt(box Stmt::Decl(Decl::Class(cls)))
                     if cls.class.super_class.is_none() =>
                 {
                     true
@@ -173,10 +173,10 @@ fn iter<'a>(
             let can_ignore_weak_deps = can_ignore_deps
                 || matches!(
                     &stmts[idx],
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                         decl: Decl::Class(..),
                         ..
-                    })) | ModuleItem::Stmt(Stmt::Decl(Decl::Class(..)))
+                    })) | ModuleItem::Stmt(box Stmt::Decl(Decl::Class(..)))
                 );
 
             // We
@@ -654,8 +654,8 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
 
         match item {
             // We only check declarations because ids are created by declarations.
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
-            | ModuleItem::Stmt(Stmt::Decl(decl)) => {
+            ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
+            | ModuleItem::Stmt(box Stmt::Decl(decl)) => {
                 //
                 match decl {
                     Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {

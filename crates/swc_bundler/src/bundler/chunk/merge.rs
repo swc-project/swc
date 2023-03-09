@@ -926,7 +926,7 @@ where
                             is_type_only: false,
                         });
 
-                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
                                 specifiers: vec![specifier],
@@ -934,10 +934,10 @@ where
                                 type_only: false,
                                 asserts: None,
                             },
-                        )));
+                        ))));
                     }
 
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(NamedExport {
                         ref specifiers,
                         ref src,
                         ..
@@ -1038,13 +1038,13 @@ where
                                     }
 
                                     if !vars.is_empty() {
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(
-                                            Box::new(VarDecl {
+                                        new.push(ModuleItem::Stmt(Box::new(Stmt::Decl(
+                                            Decl::Var(Box::new(VarDecl {
                                                 span: DUMMY_SP,
                                                 kind: VarDeclKind::Const,
                                                 declare: Default::default(),
                                                 decls: vars,
-                                            }),
+                                            })),
                                         ))));
                                     }
                                     continue;
@@ -1143,13 +1143,15 @@ where
                                                             },
                                                         );
                                                         extra.push(ModuleItem::ModuleDecl(
-                                                            ModuleDecl::ExportNamed(NamedExport {
-                                                                span: ns.span,
-                                                                specifiers: vec![specifier],
-                                                                src: None,
-                                                                asserts: None,
-                                                                type_only: false,
-                                                            }),
+                                                            Box::new(ModuleDecl::ExportNamed(
+                                                                NamedExport {
+                                                                    span: ns.span,
+                                                                    specifiers: vec![specifier],
+                                                                    src: None,
+                                                                    asserts: None,
+                                                                    type_only: false,
+                                                                },
+                                                            )),
                                                         ));
                                                     }
                                                     None => {
@@ -1177,7 +1179,7 @@ where
                         new.push(item);
                     }
 
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
+                    ModuleItem::ModuleDecl(box ModuleDecl::ExportAll(ref export)) => {
                         let export_ctxt = export.span.ctxt;
                         let reexport = self.scope.get_module(info.id).unwrap().export_ctxt();
                         ctx.transitive_remap.insert(export_ctxt, reexport);
@@ -1209,7 +1211,7 @@ where
             let mut new = Vec::with_capacity(stmts.len() + 32);
 
             for stmt in stmts {
-                if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = &stmt {
+                if let ModuleItem::ModuleDecl(box ModuleDecl::Import(import)) = &stmt {
                     if self.config.external_modules.contains(&import.src.value) {
                         new.push(stmt);
                         continue;
@@ -1308,14 +1310,14 @@ impl VisitMut for ImportDropper<'_> {
 
     fn visit_mut_module_item(&mut self, i: &mut ModuleItem) {
         match i {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. }))
+            ModuleItem::ModuleDecl(box ModuleDecl::Import(ImportDecl { src, .. }))
                 if self
                     .imports
                     .specifiers
                     .iter()
                     .any(|(s, _)| s.src.value == *src.value) =>
             {
-                *i = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                *i = ModuleItem::Stmt(Box::new(Stmt::Empty(EmptyStmt { span: DUMMY_SP })))
             }
             _ => {}
         }
@@ -1330,42 +1332,42 @@ impl Fold for Unexporter {
 
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         match item {
-            ModuleItem::ModuleDecl(decl) => match decl {
-                ModuleDecl::ExportDecl(decl) => ModuleItem::Stmt(Stmt::Decl(decl.decl)),
+            ModuleItem::ModuleDecl(decl) => match *decl {
+                ModuleDecl::ExportDecl(decl) => ModuleItem::Stmt(Box::new(Stmt::Decl(decl.decl))),
 
                 ModuleDecl::ExportDefaultDecl(export) => match export.decl {
                     DefaultDecl::Class(ClassExpr { ident: None, .. })
                     | DefaultDecl::Fn(FnExpr { ident: None, .. }) => {
-                        ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                        ModuleItem::Stmt(Box::new(Stmt::Empty(EmptyStmt { span: DUMMY_SP })))
                     }
                     DefaultDecl::TsInterfaceDecl(decl) => {
-                        ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(decl)))
+                        ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::TsInterface(decl))))
                     }
 
                     DefaultDecl::Class(ClassExpr {
                         ident: Some(ident),
                         class,
-                    }) => ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
+                    }) => ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Class(ClassDecl {
                         declare: false,
                         ident,
                         class,
-                    }))),
+                    })))),
 
                     DefaultDecl::Fn(FnExpr {
                         ident: Some(ident),
                         function,
-                    }) => ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                    }) => ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Fn(FnDecl {
                         declare: false,
                         function,
                         ident,
-                    }))),
+                    })))),
                 },
 
                 // Empty statement
                 ModuleDecl::ExportAll(..)
                 | ModuleDecl::ExportDefaultExpr(..)
                 | ModuleDecl::ExportNamed(..) => {
-                    ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                    ModuleItem::Stmt(Box::new(Stmt::Empty(EmptyStmt { span: DUMMY_SP })))
                 }
                 ModuleDecl::Import(..) => ModuleItem::ModuleDecl(decl),
 
@@ -1417,7 +1419,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                 Ok(key_value_props) => {
                     prepend_stmt(
                         &mut n.body,
-                        ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                        ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             span: n.span,
                             kind: VarDeclKind::Const,
                             declare: false,
@@ -1434,7 +1436,7 @@ impl VisitMut for ImportMetaHandler<'_, '_> {
                                 }))),
                                 definite: false,
                             }],
-                        })))),
+                        }))))),
                     );
                 }
                 Err(err) => self.err = Some(err),

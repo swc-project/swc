@@ -149,7 +149,7 @@ where
             //                    }));
             //                return ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
             //            }
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)) => {
+            ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(decl)) => {
                 let v = self.info.items.entry(None).or_default();
                 v.push({
                     let i = match decl.decl {
@@ -177,7 +177,7 @@ where
                 });
             }
 
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(_decl)) => {
+            ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultDecl(_decl)) => {
                 self.info
                     .items
                     .entry(None)
@@ -188,7 +188,7 @@ where
                     });
             }
 
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(_expr)) => {
+            ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultExpr(_expr)) => {
                 self.info
                     .items
                     .entry(None)
@@ -199,7 +199,7 @@ where
                     });
             }
 
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named)) => {
+            ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(named)) => {
                 let ctxt = named
                     .src
                     .as_ref()
@@ -287,7 +287,7 @@ where
                 }
             }
 
-            ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {
+            ModuleItem::ModuleDecl(box ModuleDecl::ExportAll(all)) => {
                 let ctxt = self.ctxt_for(&all.src.value);
                 if let Some((_, export_ctxt)) = ctxt {
                     all.span.ctxt = export_ctxt;
