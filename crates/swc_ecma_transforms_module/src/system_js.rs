@@ -484,7 +484,7 @@ impl SystemJs {
                 if let Decl::Var(var_decl) = decl {
                     // if var_decl.kind == VarDeclKind::Var {
                     if let Some(expr) = self.hoist_var_decl(var_decl) {
-                        expr.into_stmt()
+                        *expr.into_stmt()
                     } else {
                         Stmt::Empty(EmptyStmt { span: DUMMY_SP })
                     }
@@ -650,14 +650,14 @@ impl Fold for SystemJs {
 
         // collect top level fn decl
         for item in &module.body {
-            if let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(fn_decl))) = item {
+            if let ModuleItem::Stmt(box Stmt::Decl(Decl::Fn(fn_decl))) = item {
                 self.root_fn_decl_idents.push(fn_decl.ident.clone());
             }
         }
 
         for item in module.body {
             match item {
-                ModuleItem::ModuleDecl(decl) => match decl {
+                ModuleItem::ModuleDecl(decl) => match *decl {
                     ModuleDecl::Import(import) => {
                         let src = match &self.resolver {
                             Resolver::Real { resolver, base } => resolver
@@ -867,7 +867,7 @@ impl Fold for SystemJs {
                                     fn_decl.ident.to_id(),
                                     fn_decl.ident.sym.clone(),
                                 );
-                                before_body_stmts.push(Stmt::Decl(Decl::Fn(fn_decl)));
+                                before_body_stmts.push(Box::new(Stmt::Decl(Decl::Fn(fn_decl))));
                             }
                             Decl::Var(var_decl) => {
                                 let mut decl = VarDecl {

@@ -765,7 +765,7 @@ where
                 inject_class_call_check(&mut body, class_name.clone());
             }
 
-            stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
+            stmts.push(Box::new(Stmt::Decl(Decl::Fn(FnDecl {
                 ident: class_name.clone(),
                 function: constructor_fn(Constructor {
                     body: Some(BlockStmt {
@@ -775,7 +775,7 @@ where
                     ..constructor
                 }),
                 declare: false,
-            })));
+            }))));
         }
 
         // convert class methods
@@ -800,7 +800,7 @@ where
         if super_class_ident.is_none()
             && stmts
                 .iter()
-                .filter(|stmt| match stmt {
+                .filter(|stmt| match &***stmt {
                     Stmt::Expr(ExprStmt { expr, .. }) => {
                         !matches!(&**expr, Expr::Lit(Lit::Str(..)))
                     }
@@ -990,7 +990,7 @@ where
             class_name: Ident,
             methods: ExprOrSpread,
             static_methods: Option<ExprOrSpread>,
-        ) -> Stmt {
+        ) -> Box<Stmt> {
             let mut class_name_sym = class_name.clone();
             class_name_sym.span = DUMMY_SP;
             class_name_sym.span.ctxt = class_name.span.ctxt;

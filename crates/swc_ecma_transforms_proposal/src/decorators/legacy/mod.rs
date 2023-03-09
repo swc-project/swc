@@ -448,11 +448,12 @@ impl VisitMut for TscDecorator {
                                 decls: vec![d],
                             }
                             .into();
-                            *module_item =
-                                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            *module_item = ModuleItem::ModuleDecl(Box::new(
+                                ModuleDecl::ExportDecl(ExportDecl {
                                     span: export_decl_span,
                                     decl: let_decl,
-                                }));
+                                }),
+                            ));
                         }
                     }
                     _ => {
@@ -460,7 +461,7 @@ impl VisitMut for TscDecorator {
                     }
                 }
             }
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(n)) => match &mut n.decl {
+            ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultDecl(n)) => match &mut n.decl {
                 DefaultDecl::Class(decl) => {
                     let convert_to_let = !decl.class.decorators.is_empty();
                     decl.visit_mut_with(self);
