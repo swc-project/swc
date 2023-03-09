@@ -77,7 +77,7 @@ struct ClassExtra {
 
 #[swc_trace]
 impl ClassExtra {
-    fn prepend_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>) {
+    fn prepend_with<T: StmtLike + From<Box<Stmt>>>(self, stmts: &mut Vec<T>) {
         if !self.vars.is_empty() {
             prepend_stmt(
                 stmts,

@@ -196,7 +196,7 @@ impl MemberInitRecord {
         for value in self.record {
             match value {
                 MemberInit::PubProp(PubProp { span, name, value }) => {
-                    value_init.push(Stmt::Expr(ExprStmt {
+                    value_init.push(Box::new(Stmt::Expr(ExprStmt {
                         span,
                         expr: (if self.c.set_public_fields {
                             let class = class_ident.clone();
@@ -222,11 +222,11 @@ impl MemberInitRecord {
                             })
                         })
                         .into(),
-                    }))
+                    })))
                 }
                 MemberInit::PrivProp(PrivProp { span, name, value }) => {
                     value_init.push(if self.c.private_as_properties {
-                        Stmt::Expr(ExprStmt {
+                        Box::new(Stmt::Expr(ExprStmt {
                             span,
                             expr: Box::new(Expr::Call(CallExpr {
                                 span,
@@ -238,7 +238,7 @@ impl MemberInitRecord {
                                 ],
                                 type_args: None,
                             })),
-                        })
+                        }))
                     } else {
                         VarDecl {
                             span,
@@ -293,7 +293,7 @@ impl MemberInitRecord {
                     fn_name,
                 }) => {
                     if self.c.private_as_properties {
-                        normal_init.push(Stmt::Expr(ExprStmt {
+                        normal_init.push(Box::new(Stmt::Expr(ExprStmt {
                             span,
                             expr: Expr::Call(CallExpr {
                                 span,
@@ -306,7 +306,7 @@ impl MemberInitRecord {
                                 type_args: None,
                             })
                             .into(),
-                        }))
+                        })))
                     } else {
                         unreachable!()
                     }
