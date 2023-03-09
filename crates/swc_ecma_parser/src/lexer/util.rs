@@ -244,7 +244,10 @@ impl<'a> Lexer<'a> {
             .input
             .as_str()
             .find(['\r', '\n', '\u{2028}', '\u{2029}'])
-            .unwrap_or(self.input.as_str().len());
+            .map_or(self.input.as_str().len(), |v| {
+                self.state.had_line_break = true;
+                v
+            });
 
         self.input.bump_bytes(idx);
         let end = self.cur_pos();
