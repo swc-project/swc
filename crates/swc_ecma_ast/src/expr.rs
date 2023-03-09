@@ -105,7 +105,7 @@ pub enum Expr {
     Tpl(Tpl),
 
     #[tag("TaggedTemplateExpression")]
-    TaggedTpl(TaggedTpl),
+    TaggedTpl(Box<TaggedTpl>),
 
     #[tag("ArrowFunctionExpression")]
     Arrow(ArrowExpr),
