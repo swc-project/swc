@@ -3781,7 +3781,6 @@ version = "0.44.5"
 dependencies = [
  "swc_atoms",
  "swc_common",
- "swc_core",
  "swc_ecma_ast",
  "swc_ecma_quote_macros",
  "testing",

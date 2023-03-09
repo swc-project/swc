@@ -18,5 +18,4 @@ swc_ecma_ast          = { version = "0.98.2", path = "../swc_ecma_ast" }
 swc_ecma_quote_macros = { version = "0.39.4", path = "../swc_ecma_quote_macros" }
 
 [dev-dependencies]
-swc_core = { path = "../swc_core", features = ["ecma_quote"] }
 testing = { version = "0.31.37", path = "../testing" }
