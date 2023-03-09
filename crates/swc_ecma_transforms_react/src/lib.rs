@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![allow(clippy::vec_box)]
 #![feature(box_patterns)]
 
 use swc_common::{chain, comments::Comments, sync::Lrc, Mark, SourceMap};

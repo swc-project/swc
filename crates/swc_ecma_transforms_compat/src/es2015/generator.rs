@@ -1804,10 +1804,10 @@ impl Generator {
                 })),
                 None,
             );
-            self.transform_and_emit_embedded_stmt(*node.body);
+            self.transform_and_emit_embedded_stmt(node.body);
 
             self.mark_label(increment_label);
-            self.emit_stmt(Stmt::Expr(ExprStmt {
+            self.emit_stmt(Box::new(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
                 expr: Box::new(Expr::Update(UpdateExpr {
                     span: DUMMY_SP,
@@ -1815,7 +1815,7 @@ impl Generator {
                     op: op!("++"),
                     arg: Box::new(keys_index.clone().into()),
                 })),
-            }));
+            })));
 
             self.emit_break(condition_label, None);
             self.end_loop_block();

@@ -300,18 +300,18 @@ impl<C: Comments> VisitMut for Refresh<C> {
         for mut item in module_items.take() {
             let persistent_id = match &mut item {
                 // function Foo() {}
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl { ident, .. }))) => {
+                ModuleItem::Stmt(box Stmt::Decl(Decl::Fn(FnDecl { ident, .. }))) => {
                     get_persistent_id(ident)
                 }
 
                 // export function Foo() {}
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Fn(FnDecl { ident, .. }),
                     ..
                 })) => get_persistent_id(ident),
 
                 // export default function Foo() {}
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                     decl:
                         DefaultDecl::Fn(FnExpr {
                             // We don't currently handle anonymous default exports.
@@ -323,8 +323,8 @@ impl<C: Comments> VisitMut for Refresh<C> {
 
                 // const Foo = () => {}
                 // export const Foo = () => {}
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl)))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::Stmt(box Stmt::Decl(Decl::Var(var_decl)))
+                | ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Var(var_decl),
                     ..
                 })) => {
@@ -335,7 +335,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                 // export default memo(() => {})
                 // In those cases it is more plausible people will omit names
                 // so they're worth handling despite possible false positives.
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
                     expr,
                     span,
                 })) => {
@@ -353,12 +353,12 @@ impl<C: Comments> VisitMut for Refresh<C> {
                             if let Some(hook) = hook {
                                 make_hook_reg(expr.as_mut(), hook)
                             }
-                            item = ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
+                            item = ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportDefaultExpr(
                                 ExportDefaultExpr {
                                     expr: Box::new(make_assign_stmt(reg[0].0.clone(), expr.take())),
                                     span: *span,
                                 },
-                            ));
+                            )));
                             Persist::Hoc(Hoc {
                                 insert: false,
                                 reg,
@@ -399,13 +399,13 @@ impl<C: Comments> VisitMut for Refresh<C> {
 
                     refresh_regs.push((registration_handle.clone(), persistent_id.to_id()));
 
-                    items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+                    items.push(ModuleItem::Stmt(Box::new(Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
                         expr: Box::new(make_assign_stmt(
                             registration_handle,
                             Box::new(Expr::Ident(persistent_id)),
                         )),
-                    })));
+                    }))));
                 }
 
                 Persist::Hoc(mut hoc) => {
@@ -463,7 +463,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
         // ```
         let refresh_reg = self.options.refresh_reg.as_str();
         for (handle, persistent_id) in refresh_regs {
-            items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+            items.push(ModuleItem::Stmt(Box::new(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
                 expr: Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
@@ -471,7 +471,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                     args: vec![handle.as_arg(), quote_str!(persistent_id.0).as_arg()],
                     type_args: None,
                 })),
-            })));
+            }))));
         }
 
         *module_items = items
