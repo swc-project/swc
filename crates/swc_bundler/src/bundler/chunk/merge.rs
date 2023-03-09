@@ -499,8 +499,9 @@ where
         tracing::trace!("Item count = {}", item_count);
 
         module.retain_mut(|_, item| {
-            if let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                specifiers, ..
+            if let ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(NamedExport {
+                specifiers,
+                ..
             })) = item
             {
                 specifiers.retain(|s| match s {
@@ -579,10 +580,10 @@ where
 
             for item in items {
                 match item {
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(mut import)) => {
+                    ModuleItem::ModuleDecl(box ModuleDecl::Import(mut import)) => {
                         // Preserve imports from node.js builtin modules.
                         if self.config.external_modules.contains(&import.src.value) {
-                            new.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+                            new.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::Import(import))));
                             continue;
                         }
 
@@ -593,7 +594,9 @@ where
                             .find(|s| s.0.src.value == import.src.value)
                         {
                             if !self.scope.get_module(src.module_id).unwrap().is_es6 {
-                                new.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+                                new.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::Import(
+                                    import,
+                                ))));
                                 continue;
                             }
                         }
@@ -659,9 +662,9 @@ where
                         }
 
                         import.specifiers.clear();
-                        new.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+                        new.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::Import(import))));
                     }
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
+                    ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultDecl(export)) => {
                         // At here, we create multiple items.
                         //
                         // One item is `const local_default = expr` and another one is
@@ -678,12 +681,12 @@ where
                                 //
                                 match c.ident {
                                     Some(ident) => {
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(
-                                            ClassDecl {
+                                        new.push(ModuleItem::Stmt(Box::new(Stmt::Decl(
+                                            Decl::Class(ClassDecl {
                                                 ident: ident.clone(),
                                                 class: c.class,
                                                 declare: false,
-                                            },
+                                            }),
                                         ))));
 
                                         new.push(ident.assign_to(local.clone()).into_module_item(
@@ -705,11 +708,13 @@ where
                                 //
                                 match f.ident {
                                     Some(ident) => {
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                                            ident: ident.clone(),
-                                            function: f.function,
-                                            declare: false,
-                                        }))));
+                                        new.push(ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Fn(
+                                            FnDecl {
+                                                ident: ident.clone(),
+                                                function: f.function,
+                                                declare: false,
+                                            },
+                                        )))));
 
                                         new.push(ident.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
@@ -723,11 +728,13 @@ where
                                         //
                                         // See: https://github.com/denoland/deno/issues/9346
                                         let ident = private_ident!("default");
-                                        new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                                            ident: ident.clone(),
-                                            function: f.function,
-                                            declare: false,
-                                        }))));
+                                        new.push(ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Fn(
+                                            FnDecl {
+                                                ident: ident.clone(),
+                                                function: f.function,
+                                                declare: false,
+                                            },
+                                        )))));
 
                                         new.push(ident.assign_to(local.clone()).into_module_item(
                                             injected_ctxt,
@@ -762,7 +769,7 @@ where
                             exported: Some(ModuleExportName::Ident(exported)),
                             is_type_only: false,
                         });
-                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
                                 specifiers: vec![specifier],
@@ -770,10 +777,10 @@ where
                                 type_only: false,
                                 asserts: None,
                             },
-                        )));
+                        ))));
                     }
 
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
+                    ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultExpr(export)) => {
                         // At here, we create two items.
                         //
                         // One item is `const local_default = expr` and the
@@ -810,7 +817,7 @@ where
                             is_type_only: false,
                         });
                         tracing::trace!("Exporting `default` with `export default expr`");
-                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
                                 specifiers: vec![specifier],
@@ -818,23 +825,23 @@ where
                                 type_only: false,
                                 asserts: None,
                             },
-                        )));
+                        ))));
                     }
 
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
+                    ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(export)) => {
                         // Idea is almost same as above. But we uses symbol of the declaration
                         // instead of using `default`.
 
                         let local = match export.decl {
                             Decl::Class(c) => {
                                 let i = c.ident.clone();
-                                new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))));
+                                new.push(ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Class(c)))));
 
                                 i
                             }
                             Decl::Fn(f) => {
                                 let i = f.ident.clone();
-                                new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))));
+                                new.push(ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Fn(f)))));
 
                                 i
                             }
@@ -842,10 +849,10 @@ where
                                 let ids: Vec<Ident> = find_pat_ids(&v);
                                 //
 
-                                new.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))));
+                                new.push(ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Var(v)))));
 
-                                let export =
-                                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                                let export = ModuleItem::ModuleDecl(Box::new(
+                                    ModuleDecl::ExportNamed(NamedExport {
                                         span: export.span.with_ctxt(injected_ctxt),
                                         specifiers: ids
                                             .into_iter()
@@ -884,7 +891,8 @@ where
                                         src: None,
                                         type_only: false,
                                         asserts: None,
-                                    }));
+                                    }),
+                                ));
                                 extra.push(export);
                                 continue;
                             }
