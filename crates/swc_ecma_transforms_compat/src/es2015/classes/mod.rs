@@ -1152,7 +1152,7 @@ where
                     }
                     let span = method.span();
                     let prop = *v.key_prop.clone();
-                    res.push(Stmt::Expr(ExprStmt {
+                    res.push(Box::new(Stmt::Expr(ExprStmt {
                         span,
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span,
@@ -1164,7 +1164,7 @@ where
                             }))),
                             right: escape_keywords(method),
                         })),
-                    }));
+                    })));
                     !(v.get.is_none() && v.set.is_none())
                 } else {
                     true
@@ -1175,7 +1175,7 @@ where
                 if let Some(method) = v.method.take() {
                     let span = method.span();
                     let prop = *v.key_prop.clone();
-                    res.push(Stmt::Expr(ExprStmt {
+                    res.push(Box::new(Stmt::Expr(ExprStmt {
                         span,
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span,
@@ -1187,7 +1187,7 @@ where
                             }))),
                             right: escape_keywords(method),
                         })),
-                    }));
+                    })));
                     !(v.get.is_none() && v.set.is_none())
                 } else {
                     true
@@ -1255,7 +1255,7 @@ fn is_always_initialized(body: &[Box<Stmt>]) -> bool {
         }
     }
 
-    let pos = match body.iter().position(|s| match s {
+    let pos = match body.iter().position(|s| match &**s {
         Stmt::Expr(ExprStmt { expr, .. }) => matches!(
             &**expr,
             Expr::Call(CallExpr {

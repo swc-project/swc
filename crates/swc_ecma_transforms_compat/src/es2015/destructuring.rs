@@ -91,7 +91,7 @@ macro_rules! impl_for_for_stmt {
                     decls.visit_mut_children_with(self);
 
                     // Unpack variables
-                    let stmt: Stmt = VarDecl {
+                    let stmt: Box<Stmt> = VarDecl {
                         span: var_decl.span(),
                         kind: VarDeclKind::Let,
                         decls,
@@ -129,7 +129,7 @@ macro_rules! impl_for_for_stmt {
                 },
                 body => BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![stmt, body.take()],
+                    stmts: vec![stmt, for_stmt.body.take()],
                 },
             }));
         }
@@ -514,7 +514,7 @@ impl Destructuring {
         let stmts = if decls.is_empty() {
             body.stmts.take()
         } else {
-            let mut stmt: Stmt = VarDecl {
+            let mut stmt: Box<Stmt> = VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Let,
                 decls,
