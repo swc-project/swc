@@ -226,9 +226,7 @@ impl<'a> Lexer<'a> {
 
     pub(super) fn skip_line_comment(&mut self, start_skip: usize) {
         let start = self.cur_pos();
-        for _ in 0..start_skip {
-            self.bump();
-        }
+        self.input.bump_bytes(start_skip);
         let slice_start = self.cur_pos();
 
         // foo // comment for foo
@@ -281,8 +279,7 @@ impl<'a> Lexer<'a> {
         debug_assert_eq!(self.cur(), Some('/'));
         debug_assert_eq!(self.peek(), Some('*'));
 
-        self.bump();
-        self.bump();
+        self.input.bump_bytes(2);
 
         // jsdoc
         let slice_start = self.cur_pos();
