@@ -196,7 +196,7 @@ where
                 n.params.visit_with(&mut *child.with_ctx(ctx));
             }
 
-            match &n.body {
+            match &*n.body {
                 BlockStmtOrExpr::BlockStmt(body) => {
                     body.visit_with(child);
                 }

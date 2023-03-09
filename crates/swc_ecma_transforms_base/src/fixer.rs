@@ -909,7 +909,7 @@ impl Fixer<'_> {
                 ..
             })
             | Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Call(OptCall { callee, .. }),
+                base: box OptChainBase::Call(OptCall { callee, .. }),
                 ..
             }) if callee.is_seq() => {
                 *callee = Box::new(Expr::Paren(ParenExpr {
@@ -923,7 +923,7 @@ impl Fixer<'_> {
                 ..
             })
             | Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Call(OptCall { callee, .. }),
+                base: box OptChainBase::Call(OptCall { callee, .. }),
                 ..
             }) if callee.is_arrow() || callee.is_await_expr() || callee.is_assign() => {
                 self.wrap(callee);
@@ -935,7 +935,7 @@ impl Fixer<'_> {
                 ..
             })
             | Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Call(OptCall { callee, .. }),
+                base: box OptChainBase::Call(OptCall { callee, .. }),
                 ..
             }) if callee.is_fn_expr() => match self.ctx {
                 Context::ForcedExpr | Context::FreeExpr => {}
