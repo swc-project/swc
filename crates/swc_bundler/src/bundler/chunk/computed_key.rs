@@ -166,7 +166,7 @@ where
 
         module.append(
             id,
-            ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(var_decl)))),
+            ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Var(Box::new(var_decl))))),
         );
 
         // print_hygiene(
@@ -219,7 +219,7 @@ impl Fold for ExportToReturn {
             ModuleItem::Stmt(_) => return item,
         };
 
-        let stmt = match decl {
+        let stmt = match *decl {
             ModuleDecl::Import(_) => return ModuleItem::ModuleDecl(decl),
             ModuleDecl::ExportDecl(export) => {
                 match &export.decl {
@@ -233,7 +233,7 @@ impl Fold for ExportToReturn {
                     _ => unreachable!(),
                 }
 
-                Some(Stmt::Decl(export.decl))
+                Some(Box::new(Stmt::Decl(export.decl)))
             }
 
             ModuleDecl::ExportDefaultDecl(export) => match export.decl {
@@ -271,7 +271,7 @@ impl Fold for ExportToReturn {
             },
             ModuleDecl::ExportDefaultExpr(_) => None,
             ModuleDecl::ExportAll(export) => {
-                return ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export))
+                return ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportAll(export)))
             }
             ModuleDecl::ExportNamed(export) => {
                 for specifier in &export.specifiers {
@@ -306,7 +306,7 @@ impl Fold for ExportToReturn {
                 if export.src.is_none() && export.span.ctxt != self.synthesized_ctxt {
                     None
                 } else {
-                    return ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export));
+                    return ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(export)));
                 }
             }
             ModuleDecl::TsImportEquals(_) => None,
@@ -317,7 +317,7 @@ impl Fold for ExportToReturn {
         if let Some(stmt) = stmt {
             ModuleItem::Stmt(stmt)
         } else {
-            ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+            ModuleItem::Stmt(Box::new(Stmt::Empty(EmptyStmt { span: DUMMY_SP })))
         }
     }
 }
