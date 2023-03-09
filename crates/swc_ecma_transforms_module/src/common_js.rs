@@ -470,7 +470,7 @@ where
     /// 0 && (exports.foo = 0);
     /// 0 && (module.exports = { foo: _, bar: _ });
     /// ```
-    fn emit_lexer_exports_init(&mut self, export_id_list: &[ObjPropKeyIdent]) -> Option<Stmt> {
+    fn emit_lexer_exports_init(&mut self, export_id_list: &[ObjPropKeyIdent]) -> Option<Box<Stmt>> {
         match export_id_list.len() {
             0 => None,
             1 => {

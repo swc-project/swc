@@ -126,7 +126,7 @@ where
             match T::try_into_stmt(stmt.take()) {
                 Err(node) => match node.try_into_module_decl() {
                     Ok(mut decl) => {
-                        match decl {
+                        match *decl {
                             ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                                 decl: DefaultDecl::Class(ClassExpr { ident, class }),
                                 ..

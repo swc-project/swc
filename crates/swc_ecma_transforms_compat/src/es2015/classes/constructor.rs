@@ -24,7 +24,7 @@ impl SuperCallFinder {
     /// - `Some(Var)`: `var _this = ...`
     /// - `Some(Assign)`: `_this = ...`
     pub fn find(node: &[Box<Stmt>]) -> Option<SuperFoldingMode> {
-        if let Some(Stmt::Expr(ExprStmt { ref expr, .. })) = node.last() {
+        if let Some(Stmt::Expr(ExprStmt { ref expr, .. })) = node.last().map(|v| &**v) {
             if let Expr::Call(CallExpr {
                 callee: Callee::Super(..),
                 ..
@@ -316,7 +316,7 @@ impl VisitMut for ConstructorFolder<'_> {
 
                 match self.mode {
                     Some(SuperFoldingMode::Assign) => {
-                        *stmt = AssignExpr {
+                        *stmt = *AssignExpr {
                             span: DUMMY_SP,
                             left: PatOrExpr::Pat(
                                 quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
