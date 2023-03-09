@@ -246,6 +246,7 @@ impl<'a> Lexer<'a> {
             .as_str()
             .find(['\r', '\n', '\u{2028}', '\u{2029}']);
 
+        self.input.bump_bytes(idx.unwrap_or_default() as _);
         end.0 += idx.unwrap_or_default() as u32;
 
         if let Some(comments) = self.comments_buffer.as_mut() {
