@@ -170,6 +170,8 @@ pub enum Expr {
     Invalid(Invalid),
 }
 
+assert_eq_size!(Expr, [u8; 104]);
+
 impl Expr {
     /// Normalize parenthesized expressions.
     ///
