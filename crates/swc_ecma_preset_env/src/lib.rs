@@ -1,6 +1,7 @@
 #![deny(clippy::all)]
 #![allow(dead_code)]
 #![recursion_limit = "256"]
+#![feature(box_patterns)]
 
 use std::path::PathBuf;
 
@@ -427,7 +428,7 @@ impl VisitMut for Polyfills {
             prepend_stmts(
                 &mut m.body,
                 v.into_iter().map(|src| {
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    ModuleItem::ModuleDecl(Box::new(ModuleDecl::Import(ImportDecl {
                         span,
                         specifiers: vec![],
                         src: Str {
@@ -438,14 +439,14 @@ impl VisitMut for Polyfills {
                         .into(),
                         type_only: false,
                         asserts: None,
-                    }))
+                    })))
                 }),
             );
         } else {
             prepend_stmts(
                 &mut m.body,
                 required.into_iter().map(|src| {
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    ModuleItem::ModuleDecl(Box::new(ModuleDecl::Import(ImportDecl {
                         span,
                         specifiers: vec![],
                         src: Str {
@@ -456,12 +457,12 @@ impl VisitMut for Polyfills {
                         .into(),
                         type_only: false,
                         asserts: None,
-                    }))
+                    })))
                 }),
             );
         }
 
-        m.body.retain(|item| !matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. })) if src.span == DUMMY_SP && src.value == js_word!("")));
+        m.body.retain(|item| !matches!(item, ModuleItem::ModuleDecl(box ModuleDecl::Import(ImportDecl { src, .. })) if src.span == DUMMY_SP && src.value == js_word!("")));
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
@@ -473,7 +474,7 @@ impl VisitMut for Polyfills {
             prepend_stmts(
                 &mut m.body,
                 v.into_iter().map(|src| {
-                    Stmt::Expr(ExprStmt {
+                    Box::new(Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
                         expr: CallExpr {
                             span,
@@ -492,14 +493,14 @@ impl VisitMut for Polyfills {
                             type_args: None,
                         }
                         .into(),
-                    })
+                    }))
                 }),
             );
         } else {
             prepend_stmts(
                 &mut m.body,
                 required.into_iter().map(|src| {
-                    Stmt::Expr(ExprStmt {
+                    Box::new(Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
                         expr: CallExpr {
                             span,
@@ -518,7 +519,7 @@ impl VisitMut for Polyfills {
                             type_args: None,
                         }
                         .into(),
-                    })
+                    }))
                 }),
             );
         }

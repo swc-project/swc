@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+#![feature(box_patterns)]
 
 use std::{
     cmp::Ordering,
@@ -243,7 +244,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 }
 
                 m.body.sort_by(|a, b| match *a {
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    ModuleItem::ModuleDecl(box ModuleDecl::Import(ImportDecl {
                         ref specifiers,
                         ref src,
                         ..
