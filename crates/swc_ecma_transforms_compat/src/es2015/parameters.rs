@@ -569,7 +569,7 @@ impl VisitMut for Params {
                     })
                     .collect();
 
-                let mut body = match f.body.take() {
+                let mut body = match *f.body.take() {
                     BlockStmtOrExpr::BlockStmt(block) => block,
                     BlockStmtOrExpr::Expr(expr) => BlockStmt {
                         span: body_span,
