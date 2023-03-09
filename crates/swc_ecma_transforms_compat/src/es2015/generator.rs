@@ -2007,7 +2007,7 @@ impl Generator {
             //  .endlabeled
             //  .mark endLabel
             self.begin_labeled_block(node.label.sym);
-            self.transform_and_emit_embedded_stmt(*node.body);
+            self.transform_and_emit_embedded_stmt(node.body);
             self.end_labeled_block();
         } else {
             node.visit_mut_with(self);
@@ -2053,7 +2053,7 @@ impl Generator {
             //  .mark endLabel
 
             self.begin_exception_block();
-            self.transform_and_emit_embedded_stmt(Stmt::Block(node.block));
+            self.transform_and_emit_embedded_stmt(Box::new(Stmt::Block(node.block)));
             if let Some(catch) = node.handler {
                 self.begin_catch_block(VarDeclarator {
                     name: catch.param.clone().unwrap(),

@@ -830,7 +830,7 @@ where
         &mut self,
         module: Box<TsModuleDecl>,
         parent_module_name: Option<&Ident>,
-    ) -> Option<(Option<Decl>, Stmt)> {
+    ) -> Option<(Option<Decl>, Box<Stmt>)> {
         if module.global || module.declare {
             return None;
         }
@@ -963,10 +963,10 @@ where
                 declare: false,
                 decls: vec![var],
             }),
-            Stmt::Expr(ExprStmt {
+            Box::new(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
                 expr: initializer,
-            }),
+            })),
         ))
     }
 
@@ -1008,7 +1008,7 @@ where
         for mut item in items {
             self.is_side_effect_import = false;
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     span,
                     decl: Decl::TsModule(module),
                     ..
@@ -1020,18 +1020,18 @@ where
 
                     stmts.extend(decl.map(|decl| {
                         if parent_module_name.is_none() {
-                            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportDecl(ExportDecl {
                                 span,
                                 decl,
-                            }))
+                            })))
                         } else {
-                            ModuleItem::Stmt(Stmt::Decl(decl))
+                            ModuleItem::Stmt(Box::new(Stmt::Decl(decl)))
                         }
                     }));
                     stmts.push(init.into())
                 }
 
-                ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(module))) => {
+                ModuleItem::Stmt(box Stmt::Decl(Decl::TsModule(module))) => {
                     let (decl, init) = match self.handle_ts_module(module, None) {
                         Some(v) => v,
                         None => continue,
@@ -1041,65 +1041,66 @@ where
                 }
 
                 // Strip out ts-only extensions
-                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl { function: f, .. })))
+                ModuleItem::Stmt(box Stmt::Decl(Decl::Fn(FnDecl { function: f, .. })))
                     if f.body.is_none() =>
                 {
                     continue
                 }
-                ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(..)))
-                | ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(..)))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::Stmt(box Stmt::Decl(Decl::TsInterface(..)))
+                | ModuleItem::Stmt(box Stmt::Decl(Decl::TsTypeAlias(..)))
+                | ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::TsInterface(..),
                     ..
                 }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                | ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::TsTypeAlias(..),
                     ..
                 })) => continue,
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Fn(FnDecl { function: f, .. }),
                     ..
                 }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                | ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                     decl: DefaultDecl::Fn(FnExpr { function: f, .. }),
                     ..
                 })) if f.body.is_none() => continue,
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                     decl: DefaultDecl::TsInterfaceDecl(..),
                     ..
                 }))
-                | ModuleItem::ModuleDecl(ModuleDecl::TsNamespaceExport(..))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                | ModuleItem::ModuleDecl(box ModuleDecl::TsNamespaceExport(..))
+                | ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Class(ClassDecl { declare: true, .. }),
                     ..
                 })) => continue,
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Var(v),
                     ..
                 })) if v.declare => continue,
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::TsEnum(v),
                     ..
                 })) if v.declare => continue,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { declare: true, .. }))) => {
-                    continue
-                }
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))) if v.declare => continue,
+                ModuleItem::Stmt(box Stmt::Decl(Decl::Class(ClassDecl {
+                    declare: true, ..
+                }))) => continue,
+                ModuleItem::Stmt(box Stmt::Decl(Decl::Var(v))) if v.declare => continue,
 
                 // Always strip type only import / exports
-                ModuleItem::Stmt(Stmt::Empty(..))
-                | ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                    type_only: true, ..
-                }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                ModuleItem::Stmt(box Stmt::Empty(..))
+                | ModuleItem::ModuleDecl(box ModuleDecl::Import(ImportDecl {
                     type_only: true,
                     ..
                 }))
-                | ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ExportAll {
+                | ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(NamedExport {
+                    type_only: true,
+                    ..
+                }))
+                | ModuleItem::ModuleDecl(box ModuleDecl::ExportAll(ExportAll {
                     type_only: true,
                     ..
                 })) => continue,
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(v))
+                ModuleItem::ModuleDecl(box ModuleDecl::TsImportEquals(v))
                     if matches!(
                         &*v,
                         TsImportEqualsDecl {
@@ -1116,7 +1117,7 @@ where
                     continue
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::Import(mut i)) => {
+                ModuleItem::ModuleDecl(box ModuleDecl::Import(mut i)) => {
                     i.visit_mut_with(self);
 
                     if self.is_side_effect_import || !i.specifiers.is_empty() {
@@ -1124,7 +1125,7 @@ where
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::TsEnum(e),
                     ..
                 })) => {
@@ -1132,23 +1133,23 @@ where
 
                     stmts.extend(decl.map(|decl| {
                         if parent_module_name.is_none() {
-                            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportDecl(ExportDecl {
                                 span: DUMMY_SP,
                                 decl,
-                            }))
+                            })))
                         } else {
-                            ModuleItem::Stmt(Stmt::Decl(decl))
+                            ModuleItem::Stmt(Box::new(Stmt::Decl(decl)))
                         }
                     }));
                     stmts.push(ModuleItem::Stmt(init));
                 }
-                ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(e))) => {
+                ModuleItem::Stmt(box Stmt::Decl(Decl::TsEnum(e))) => {
                     let (decl, init) = self.handle_enum(e, None);
                     stmts.extend(decl.map(|decl| ModuleItem::Stmt(Stmt::Decl(decl))));
                     stmts.push(ModuleItem::Stmt(init));
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
                     ref expr,
                     ..
                 })) if expr.is_ident() => {
