@@ -255,7 +255,7 @@ pub(crate) fn esm_export() -> Function {
     )
     .into_stmt();
 
-    let for_in_stmt: Stmt = ForInStmt {
+    let for_in_stmt = ForInStmt {
         span: DUMMY_SP,
         left: VarDecl {
             span: DUMMY_SP,
@@ -270,7 +270,7 @@ pub(crate) fn esm_export() -> Function {
         }
         .into(),
         right: Box::new(all.clone().into()),
-        body: Box::new(body),
+        body,
     }
     .into();
 
@@ -333,9 +333,9 @@ pub(crate) fn emit_export_stmts(
             let esm_export_ident = private_ident!("_export");
 
             vec![
-                Stmt::Decl(Decl::Fn(
+                Box::new(Stmt::Decl(Decl::Fn(
                     esm_export().into_fn_decl(esm_export_ident.clone()),
-                )),
+                ))),
                 esm_export_ident
                     .as_call(DUMMY_SP, vec![exports.as_arg(), obj_lit.as_arg()])
                     .into_stmt(),

@@ -113,12 +113,18 @@ impl VisitMut for Wrapper {
                     .into(),
                 )
             }
-            stmts.extend(v.hoisted_fns.into_iter().map(Decl::Fn).map(Stmt::Decl));
+            stmts.extend(
+                v.hoisted_fns
+                    .into_iter()
+                    .map(Decl::Fn)
+                    .map(Stmt::Decl)
+                    .map(Box::new),
+            );
 
-            stmts.push(Stmt::Return(ReturnStmt {
+            stmts.push(Box::new(Stmt::Return(ReturnStmt {
                 span: DUMMY_SP,
                 arg: Some(generator_object),
-            }));
+            })));
             f.body.as_mut().unwrap().stmts = stmts;
         }
     }
@@ -1416,7 +1422,7 @@ impl Generator {
         }
     }
 
-    fn transform_and_emit_embedded_stmt(&mut self, node: Stmt) {
+    fn transform_and_emit_embedded_stmt(&mut self, node: Box<Stmt>) {
         if let Stmt::Block(block) = node {
             self.transform_and_emit_stmts(block.stmts, 0);
         } else {
@@ -1424,7 +1430,7 @@ impl Generator {
         }
     }
 
-    fn transform_and_emit_stmt(&mut self, node: Stmt) {
+    fn transform_and_emit_stmt(&mut self, node: Box<Stmt>) {
         let saved_in_statement_containing_yield = self.in_statement_containing_yield;
         if !self.in_statement_containing_yield {
             self.in_statement_containing_yield = contains_yield(&node);
@@ -1434,7 +1440,7 @@ impl Generator {
         self.in_statement_containing_yield = saved_in_statement_containing_yield;
     }
 
-    fn transform_and_emit_stmt_worker(&mut self, mut node: Stmt) {
+    fn transform_and_emit_stmt_worker(&mut self, mut node: Box<Stmt>) {
         match node {
             Stmt::Block(s) => self.transform_and_emit_block(s),
             Stmt::Expr(s) => self.transform_and_emit_expr_stmt(s),
@@ -2652,7 +2658,7 @@ impl Generator {
     /// Emits a Statement.
     ///
     /// - `stmt`: A statement.
-    fn emit_stmt(&mut self, stmt: Stmt) {
+    fn emit_stmt(&mut self, stmt: Box<Stmt>) {
         if stmt.is_empty() {
             self.emit_nop();
         } else {
