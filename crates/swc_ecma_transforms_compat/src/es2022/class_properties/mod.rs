@@ -81,12 +81,12 @@ impl ClassExtra {
         if !self.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                Stmt::from(VarDecl {
+                Box::new(Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
                     declare: false,
-                })
+                }))
                 .into(),
             )
         }
@@ -94,12 +94,12 @@ impl ClassExtra {
         if !self.lets.is_empty() {
             prepend_stmt(
                 stmts,
-                Stmt::from(VarDecl {
+                Box::new(Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
                     declare: false,
-                })
+                }))
                 .into(),
             )
         }
@@ -107,27 +107,27 @@ impl ClassExtra {
         stmts.extend(self.stmts.into_iter().map(|stmt| stmt.into()))
     }
 
-    fn merge_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>, class: T) {
+    fn merge_with<T: StmtLike + From<Box<Stmt>>>(self, stmts: &mut Vec<T>, class: T) {
         if !self.vars.is_empty() {
             stmts.push(
-                Stmt::from(VarDecl {
+                Box::new(Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
                     declare: false,
-                })
+                }))
                 .into(),
             )
         }
 
         if !self.lets.is_empty() {
             stmts.push(
-                Stmt::from(VarDecl {
+                Box::new(Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
                     declare: false,
-                })
+                }))
                 .into(),
             )
         }
@@ -175,10 +175,10 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
 
                 extra.merge_with(&mut stmts, Stmt::Decl(Decl::Class(decl)));
 
-                stmts.push(Stmt::Return(ReturnStmt {
+                stmts.push(Box::new(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
                     arg: Some(Box::new(Expr::Ident(ident))),
-                }));
+                })));
 
                 *body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: DUMMY_SP,
