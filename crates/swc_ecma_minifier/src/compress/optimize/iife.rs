@@ -472,7 +472,7 @@ where
                 }
 
                 if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
-                    match &f.body {
+                    match &*f.body {
                         BlockStmtOrExpr::BlockStmt(body) => {
                             let has_decl =
                                 body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
@@ -494,7 +494,7 @@ where
                     .map(|p| p.clone().ident().unwrap().id)
                     .collect::<Vec<_>>();
 
-                match &mut f.body {
+                match &mut *f.body {
                     BlockStmtOrExpr::BlockStmt(body) => {
                         let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                         if let Some(new) = new {
@@ -1080,7 +1080,7 @@ where
 
             Expr::Arrow(ArrowExpr {
                 params,
-                body: BlockStmtOrExpr::Expr(body),
+                body: box BlockStmtOrExpr::Expr(body),
                 is_async: false,
                 is_generator: false,
                 ..
@@ -1107,7 +1107,7 @@ fn find_params(callee: &mut Expr) -> Option<Vec<&mut Pat>> {
 }
 fn find_body(callee: &mut Expr) -> Option<Either<&mut BlockStmt, &mut Expr>> {
     match callee {
-        Expr::Arrow(e) => match &mut e.body {
+        Expr::Arrow(e) => match &mut *e.body {
             BlockStmtOrExpr::BlockStmt(b) => Some(Either::Left(b)),
             BlockStmtOrExpr::Expr(b) => Some(Either::Right(&mut **b)),
         },
