@@ -153,7 +153,7 @@ impl<C: Comments> VisitMut for Actual<C> {
                 stmts: visitor
                     .to_stmt()
                     .into_iter()
-                    .chain(iter::once(Stmt::Return(ReturnStmt {
+                    .chain(iter::once(Box::new(Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
                         arg: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
@@ -161,7 +161,7 @@ impl<C: Comments> VisitMut for Actual<C> {
                             args: vec![],
                             type_args: Default::default(),
                         }))),
-                    })))
+                    }))))
                     .collect(),
             }),
             decorators: Default::default(),
@@ -203,13 +203,13 @@ impl<C: Comments> VisitMut for Actual<C> {
 
         let FnWrapperResult { name_fn, ref_fn } = wrapper.into();
         *f = name_fn;
-        self.extra_stmts.push(Stmt::Decl(ref_fn.into()));
+        self.extra_stmts.push(Box::new(Stmt::Decl(ref_fn.into())));
     }
 
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
         match item {
             // if fn is ExportDefaultDecl, fn is not FnDecl but FnExpr
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export_default)) => {
+            ModuleItem::ModuleDecl(box ModuleDecl::ExportDefaultDecl(export_default)) => {
                 if let DefaultDecl::Fn(expr) = &mut export_default.decl {
                     if expr.function.is_async {
                         let mut wrapper = FunctionWrapper::from(expr.take());
@@ -288,10 +288,10 @@ impl<C: Comments> VisitMut for Actual<C> {
             is_generator: false,
             body: Some(BlockStmt {
                 span: DUMMY_SP,
-                stmts: vec![Stmt::Return(ReturnStmt {
+                stmts: vec![Box::new(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
                     arg: Some(Box::new(fn_ref)),
-                })],
+                }))],
             }),
             decorators: Default::default(),
             return_type: Default::default(),
@@ -574,7 +574,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         let body_span = s.body.span();
         let orig_body = match *s.body {
             Stmt::Block(s) => s.stmts,
-            _ => vec![*s.body],
+            _ => vec![s.body],
         };
 
         let mut for_loop_body = vec![];
@@ -617,7 +617,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 );
             }
             VarDeclOrPat::Pat(p) => {
-                for_loop_body.push(Stmt::Expr(ExprStmt {
+                for_loop_body.push(Box::new(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
                     expr: Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
@@ -625,7 +625,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                         left: PatOrExpr::Pat(p),
                         right: Box::new(Expr::Ident(value)),
                     })),
-                }));
+                })));
             }
         }
 
