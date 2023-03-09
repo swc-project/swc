@@ -1122,13 +1122,13 @@ impl<'a, I: Tokens> Parser<I> {
                     body,
                 })
             }
-            ForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
+            ForHead::ForOf { left, right } => Stmt::ForOf(Box::new(ForOfStmt {
                 span,
                 await_token,
                 left,
                 right,
                 body,
-            }),
+            })),
         })
     }
 

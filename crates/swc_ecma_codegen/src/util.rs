@@ -100,7 +100,7 @@ impl StartsWithAlphaNum for Expr {
             Expr::Bin(BinExpr { ref left, .. }) | Expr::Cond(CondExpr { test: ref left, .. }) => {
                 left.starts_with_alpha_num()
             }
-            Expr::Call(CallExpr { callee: left, .. }) => left.starts_with_alpha_num(),
+            Expr::Call(c) => c.callee.starts_with_alpha_num(),
             Expr::Member(MemberExpr { obj: ref left, .. }) => left.starts_with_alpha_num(),
 
             Expr::Unary(UnaryExpr { op, .. }) => {
@@ -128,7 +128,7 @@ impl StartsWithAlphaNum for Expr {
 
             Expr::Tpl(_) | Expr::Array(_) | Expr::Object(_) | Expr::Paren(_) => false,
 
-            Expr::TaggedTpl(TaggedTpl { ref tag, .. }) => tag.starts_with_alpha_num(),
+            Expr::TaggedTpl(t) => t.tag.starts_with_alpha_num(),
 
             // it's empty
             Expr::JSXEmpty(..) => false,
@@ -144,15 +144,10 @@ impl StartsWithAlphaNum for Expr {
             | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
             | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => expr.starts_with_alpha_num(),
 
-            Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Member(MemberExpr { obj: expr, .. }),
-                ..
-            }) => expr.starts_with_alpha_num(),
-
-            Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Call(OptCall { callee, .. }),
-                ..
-            }) => callee.starts_with_alpha_num(),
+            Expr::OptChain(o) => match &o.base {
+                OptChainBase::Member(o) => o.obj.starts_with_alpha_num(),
+                OptChainBase::Call(o) => o.callee.starts_with_alpha_num(),
+            },
 
             Expr::Invalid(..) => true,
         }
