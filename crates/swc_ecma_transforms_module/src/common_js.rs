@@ -532,7 +532,7 @@ where
     /// ```javascript
     /// 0 && (__export(require("foo")));
     /// ```
-    fn emit_lexer_ts_reexport(&self, link: &Link) -> Option<Stmt> {
+    fn emit_lexer_ts_reexport(&self, link: &Link) -> Option<Box<Stmt>> {
         let mut seq_list = vec![];
         link.iter().for_each(|(src, LinkItem(_, _, link_flag))| {
             if link_flag.export_star() {

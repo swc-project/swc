@@ -138,8 +138,8 @@ where
                                 buf.push(T::from_stmt(decl.into()));
 
                                 buf.push(
-                                    match T::try_from_module_decl(ModuleDecl::ExportNamed(
-                                        NamedExport {
+                                    match T::try_from_module_decl(Box::new(
+                                        ModuleDecl::ExportNamed(NamedExport {
                                             span: DUMMY_SP,
                                             specifiers: vec![ExportNamedSpecifier {
                                                 span: DUMMY_SP,
@@ -153,7 +153,7 @@ where
                                             src: None,
                                             type_only: false,
                                             asserts: None,
-                                        },
+                                        }),
                                     )) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
@@ -173,12 +173,12 @@ where
                                 let mut decl = self.fold_class_as_var_decl(ident, class);
                                 decl.visit_mut_children_with(self);
                                 buf.push(
-                                    match T::try_from_module_decl(ModuleDecl::ExportDecl(
+                                    match T::try_from_module_decl(Box::new(ModuleDecl::ExportDecl(
                                         ExportDecl {
                                             span,
                                             decl: decl.into(),
                                         },
-                                    )) {
+                                    ))) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
                                     },
@@ -456,7 +456,7 @@ where
 
         let cnt_of_non_directive = stmts
             .iter()
-            .filter(|stmt| match stmt {
+            .filter(|stmt| match &**stmt {
                 Stmt::Expr(ExprStmt { expr, .. }) => !matches!(&**expr, Expr::Lit(Lit::Str(..))),
                 _ => true,
             })
