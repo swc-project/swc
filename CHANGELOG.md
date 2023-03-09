@@ -16,6 +16,12 @@
 
 - **(common)** Add an API to create a `SourceFile` without allocation (#7029) ([81495f5](https://github.com/swc-project/swc/commit/81495f5f21d56df7a187847337c9fdd2ff8ee73b))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix bot ([691a8c1](https://github.com/swc-project/swc/commit/691a8c1a5490cc6fa05ad2bb59cfc7c4d370056f))
+
 ### Performance
 
 
@@ -23,7 +29,13 @@
 - **(atoms)** Update `string-cache` for per-bucket mutex (#6980) ([9841f0b](https://github.com/swc-project/swc/commit/9841f0b5d14736d780c9864eb9bf7609f9ff2840))
 
 
+- **(es/ast)** Shrink size of `Expr` (#7041) ([a9fe1d2](https://github.com/swc-project/swc/commit/a9fe1d2d2228ba89fccb2a5d91f5ac4008f09d01))
+
+
 - **(es/parser)** Use Cow for `_` in numeric literals (#7031) ([30546a2](https://github.com/swc-project/swc/commit/30546a28f21eb90bbbaef33ce4bc0448cd062a72))
+
+
+- **(es/parser)** Use `SmartString` as the buffer (#7033) ([f378a14](https://github.com/swc-project/swc/commit/f378a14888b5a6457ade3991e2754f235d4e3d85))
 
 
 - **(es/utils)** Introduce `NodeIgnoringSpan` (#7030) ([8bfef35](https://github.com/swc-project/swc/commit/8bfef35c1be5790b32fea253f28961271fe7f619))
