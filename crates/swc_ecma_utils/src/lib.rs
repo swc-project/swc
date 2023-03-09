@@ -1455,11 +1455,12 @@ pub trait ExprExt {
                     .any(|arg| arg.expr.may_have_side_effects(ctx))
             }
 
-            Expr::Call(_)
-            | Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Call(_),
-                ..
-            }) => true,
+            Expr::Call(_) => true,
+            Expr::OptChain(OptChainExpr { base, .. })
+                if matches!(&**base, OptChainBase::Call(_)) =>
+            {
+                true
+            }
 
             Expr::Seq(SeqExpr { ref exprs, .. }) => {
                 exprs.iter().any(|e| e.may_have_side_effects(ctx))
