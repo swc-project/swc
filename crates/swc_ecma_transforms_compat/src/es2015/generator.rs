@@ -1511,7 +1511,7 @@ impl Generator {
                 variables_written += cnt;
                 cnt = 0;
 
-                self.emit_stmt(Stmt::Expr(ExprStmt {
+                self.emit_stmt(Box::new(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
                     expr: if pending_expressions.len() == 1 {
                         pending_expressions.pop().unwrap()
@@ -1521,7 +1521,7 @@ impl Generator {
                             exprs: take(&mut pending_expressions),
                         }))
                     },
-                }))
+                })))
             }
         }
     }
@@ -1561,21 +1561,21 @@ impl Generator {
                 let span = node.test.span();
                 self.emit_break_when_false(else_label.unwrap_or(end_label), node.test, Some(span));
 
-                self.transform_and_emit_embedded_stmt(*node.cons);
+                self.transform_and_emit_embedded_stmt(node.cons);
 
                 if let Some(alt) = node.alt {
                     self.emit_break(end_label, None);
                     self.mark_label(else_label.unwrap());
-                    self.transform_and_emit_embedded_stmt(*alt);
+                    self.transform_and_emit_embedded_stmt(alt);
                 }
                 self.mark_label(end_label);
             } else {
                 node.visit_mut_with(self);
-                self.emit_stmt(Stmt::If(node));
+                self.emit_stmt(Box::new(Stmt::If(node)));
             }
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::If(node));
+            self.emit_stmt(Box::new(Stmt::If(node)));
         }
     }
 
@@ -1601,7 +1601,7 @@ impl Generator {
 
             self.begin_loop_block(condition_label);
             self.mark_label(loop_label);
-            self.transform_and_emit_embedded_stmt(*node.body);
+            self.transform_and_emit_embedded_stmt(node.body);
             self.mark_label(condition_label);
             node.test.visit_mut_with(self);
             let span = node.test.span();

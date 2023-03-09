@@ -76,7 +76,7 @@ impl<'a> HookRegister<'a> {
     // The second call is around the function itself. This is used to associate a
     // type with a signature.
     // Unlike with $RefreshReg$, this needs to work for nested declarations too.
-    fn wrap_with_register(&self, handle: Ident, func: Expr, hooks: Vec<Hook>) -> Expr {
+    fn wrap_with_register(&self, handle: Ident, func: Box<Expr>, hooks: Vec<Hook>) -> Box<Expr> {
         let mut args = vec![func.as_arg()];
         let mut sign = Vec::new();
         let mut custom_hook = Vec::new();
@@ -185,20 +185,20 @@ impl<'a> HookRegister<'a> {
             );
         }
 
-        Expr::Call(CallExpr {
+        Box::new(Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: handle.as_callee(),
             args,
             type_args: None,
-        })
+        }))
     }
 
     fn gen_hook_register_stmt(&mut self, ident: Ident, sig: HookSig) {
         self.ident.push(sig.handle.clone());
-        self.extra_stmt.push(Stmt::Expr(ExprStmt {
+        self.extra_stmt.push(Box::new(Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
-            expr: Box::new(self.wrap_with_register(sig.handle, Expr::Ident(ident), sig.hooks)),
-        }))
+            expr: self.wrap_with_register(sig.handle, Box::new(Expr::Ident(ident)), sig.hooks),
+        })))
     }
 }
 
@@ -212,7 +212,7 @@ impl<'a> VisitMut for HookRegister<'a> {
         self.current_scope.push(
             b.stmts
                 .iter()
-                .find_map(|stmt| match stmt {
+                .find_map(|stmt| match &**stmt {
                     Stmt::Decl(decl) => find_pat_ids::<_, Ident>(decl)
                         .into_iter()
                         .find_map(|id| (!id.span.is_dummy()).then(|| id.span.ctxt())),
