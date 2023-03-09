@@ -179,10 +179,10 @@ impl VisitMut for PrivateInObject {
                 }) = m
                 {
                     for expr in take(&mut self.cls.constructor_exprs) {
-                        body.stmts.push(Stmt::Expr(ExprStmt {
+                        body.stmts.push(Box::new(Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
                             expr,
-                        }));
+                        })));
                     }
                 }
             }

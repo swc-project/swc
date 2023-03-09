@@ -173,7 +173,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
                 let (decl, extra) = self.visit_mut_class_as_decl(ident.clone(), class);
 
-                extra.merge_with(&mut stmts, Stmt::Decl(Decl::Class(decl)));
+                extra.merge_with(&mut stmts, Box::new(Stmt::Decl(Decl::Class(decl))));
 
                 stmts.push(Box::new(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
@@ -906,11 +906,11 @@ impl<C: Comments> ClassProperties<C> {
                         in_pat: false,
                     });
 
-                    private_method_fn_decls.push(Stmt::Decl(Decl::Fn(FnDecl {
+                    private_method_fn_decls.push(Box::new(Stmt::Decl(Decl::Fn(FnDecl {
                         ident: fn_name,
                         function: method.function,
                         declare: false,
-                    })))
+                    }))))
                 }
 
                 ClassMember::StaticBlock(..) => {
