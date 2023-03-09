@@ -52,10 +52,10 @@ impl VisitMut for OptChaining {
             BlockStmtOrExpr::Expr(e) => {
                 let mut stmt = BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![Stmt::Return(ReturnStmt {
+                    stmts: vec![Box::new(Stmt::Return(ReturnStmt {
                         span: e.span(),
                         arg: Some(e.take()),
-                    })],
+                    }))],
                 };
 
                 stmt.visit_mut_with(self);

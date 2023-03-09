@@ -260,7 +260,7 @@ impl MemberInitRecord {
                     getter,
                     setter,
                 }) => normal_init.push(if self.c.private_as_properties {
-                    Stmt::Expr(ExprStmt {
+                    Box::new(Stmt::Expr(ExprStmt {
                         span,
                         expr: Box::new(Expr::Call(CallExpr {
                             span,
@@ -272,7 +272,7 @@ impl MemberInitRecord {
                             ],
                             type_args: None,
                         })),
-                    })
+                    }))
                 } else {
                     VarDecl {
                         span,

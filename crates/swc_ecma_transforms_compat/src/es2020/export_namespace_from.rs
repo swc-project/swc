@@ -36,7 +36,7 @@ impl VisitMut for ExportNamespaceFrom {
 
         for item in items.drain(..) {
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                ModuleItem::ModuleDecl(box ModuleDecl::ExportNamed(NamedExport {
                     span,
                     specifiers,
                     src: Some(src),
@@ -75,15 +75,17 @@ impl VisitMut for ExportNamespaceFrom {
                         }
                     }
 
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                        span,
-                        specifiers: import_specifiers,
-                        src: src.clone(),
-                        type_only: false,
-                        asserts: asserts.clone(),
-                    })));
+                    stmts.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::Import(
+                        ImportDecl {
+                            span,
+                            specifiers: import_specifiers,
+                            src: src.clone(),
+                            type_only: false,
+                            asserts: asserts.clone(),
+                        },
+                    ))));
 
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    stmts.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(
                         NamedExport {
                             span,
                             specifiers: export_specifiers,
@@ -91,10 +93,10 @@ impl VisitMut for ExportNamespaceFrom {
                             type_only: false,
                             asserts: None,
                         },
-                    )));
+                    ))));
 
                     if !origin_specifiers.is_empty() {
-                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        stmts.push(ModuleItem::ModuleDecl(Box::new(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span,
                                 specifiers: origin_specifiers,
@@ -102,7 +104,7 @@ impl VisitMut for ExportNamespaceFrom {
                                 type_only: false,
                                 asserts,
                             },
-                        )));
+                        ))));
                     }
                 }
                 _ => {
