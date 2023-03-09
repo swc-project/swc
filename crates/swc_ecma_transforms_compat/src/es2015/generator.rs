@@ -1843,7 +1843,7 @@ impl Generator {
         } else {
             // invalid break without a containing loop. Leave the node as is,
             // per #17875.
-            self.emit_stmt(Stmt::Break(node))
+            self.emit_stmt(Box::new(Stmt::Break(node)))
         }
     }
 
@@ -1867,11 +1867,11 @@ impl Generator {
             node.obj.visit_mut_with(self);
             let obj = self.cache_expression(node.obj);
             self.begin_with_block(obj);
-            self.transform_and_emit_embedded_stmt(*node.body);
+            self.transform_and_emit_embedded_stmt(node.body);
             self.end_with_block();
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::With(node));
+            self.emit_stmt(Box::new(Stmt::With(node)));
         }
     }
 
@@ -1961,11 +1961,11 @@ impl Generator {
 
                 if !pending_clauses.is_empty() {
                     clauses_written += pending_clauses.len();
-                    self.emit_stmt(Stmt::Switch(SwitchStmt {
+                    self.emit_stmt(Box::new(Stmt::Switch(SwitchStmt {
                         span: DUMMY_SP,
                         discriminant: Box::new(Expr::Ident(expression.clone())),
                         cases: take(&mut pending_clauses),
-                    }));
+                    })));
                 }
 
                 if default_clauses_skipped > 0 {
@@ -1987,7 +1987,7 @@ impl Generator {
             self.end_switch_block()
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::Switch(node))
+            self.emit_stmt(Box::new(Stmt::Switch(node)))
         }
     }
 
@@ -2011,7 +2011,7 @@ impl Generator {
             self.end_labeled_block();
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::Labeled(node));
+            self.emit_stmt(Box::new(Stmt::Labeled(node)));
         }
     }
 

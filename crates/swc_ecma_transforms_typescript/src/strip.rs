@@ -499,7 +499,7 @@ where
         &mut self,
         e: Box<TsEnumDecl>,
         module_name: Option<&Ident>,
-    ) -> (Option<Decl>, Stmt) {
+    ) -> (Option<Decl>, Box<Stmt>) {
         /// Called only for enums.
         ///
         /// If both of the default value and the initialization is None, this
@@ -908,7 +908,7 @@ where
             &private_name,
         )?;
         let mut stmts = Vec::new();
-        stmts.extend(var_decl.map(Stmt::from));
+        stmts.extend(var_decl.map(Stmt::from).map(Box::new));
         stmts.push(init_stmt);
         Some(stmts)
     }
@@ -921,7 +921,7 @@ where
         parent_module_name: Option<&Ident>,
         module_name: &Ident,
         private_name: &Ident,
-    ) -> Option<(Option<VarDecl>, Stmt)> {
+    ) -> Option<(Option<VarDecl>, Box<Stmt>)> {
         let init_fn_expr: FnExpr = Function {
             params: vec![Param {
                 span: DUMMY_SP,

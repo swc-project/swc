@@ -85,7 +85,7 @@ impl VisitMut for ImportExportAssign {
 
         for item in n.drain(..) {
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(v))
+                ModuleItem::ModuleDecl(box ModuleDecl::TsImportEquals(v))
                     if matches!(
                         &*v,
                         TsImportEqualsDecl {
@@ -170,7 +170,7 @@ impl VisitMut for ImportExportAssign {
                         TsImportExportAssignConfig::Preserve => unreachable!(),
                     }
                 }
-                ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export_assign)) => {
+                ModuleItem::ModuleDecl(box ModuleDecl::TsExportAssignment(export_assign)) => {
                     self.export_assign.get_or_insert(export_assign);
                 }
                 _ => {
@@ -229,10 +229,10 @@ impl Visit for ImportExportAssign {
         // `export =` is usually at the end of the code, let's scan from both sides
         for item in AlternateEndIterator(n.iter(), false) {
             match item {
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(..)) => {
+                ModuleItem::ModuleDecl(box ModuleDecl::TsImportEquals(..)) => {
                     self.found_import_assign = true
                 }
-                ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(..)) => {
+                ModuleItem::ModuleDecl(box ModuleDecl::TsExportAssignment(..)) => {
                     self.found_export_assign = true;
                 }
                 _ => {
