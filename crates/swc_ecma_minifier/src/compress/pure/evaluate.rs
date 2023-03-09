@@ -537,7 +537,7 @@ impl Pure<'_> {
             _ => return,
         };
 
-        match &mut opt.base {
+        match &mut *opt.base {
             OptChainBase::Member(MemberExpr { span, obj, .. }) => {
                 //
                 if is_pure_undefined_or_null(&self.expr_ctx, obj) {

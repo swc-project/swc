@@ -67,12 +67,8 @@ pub fn extract_arg_val(unresolved_ctxt: SyntaxContext, expr: &Expr) -> ArgValue 
                 ArgValue::Other
             }
         }
-        Expr::TaggedTpl(TaggedTpl {
-            tag,
-            tpl: Tpl { exprs, quasis, .. },
-            ..
-        }) => {
-            if exprs.is_empty() {
+        Expr::TaggedTpl(TaggedTpl { tag, tpl, .. }) => {
+            if tpl.exprs.is_empty() {
                 if let Expr::Member(MemberExpr { obj, prop, .. }) = tag.as_ref() {
                     if let (Expr::Ident(obj), MemberProp::Ident(prop)) = (obj.as_ref(), prop) {
                         if &*obj.sym != "String" {
@@ -87,7 +83,7 @@ pub fn extract_arg_val(unresolved_ctxt: SyntaxContext, expr: &Expr) -> ArgValue 
                             return ArgValue::Other;
                         }
 
-                        return ArgValue::Str(quasis.first().unwrap().raw.clone());
+                        return ArgValue::Str(tpl.quasis.first().unwrap().raw.clone());
                     }
                 }
             }

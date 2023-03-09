@@ -543,7 +543,7 @@ impl<'a> VisitMut for Resolver<'a> {
             child.ident_type = old;
 
             {
-                match &mut e.body {
+                match &mut *e.body {
                     BlockStmtOrExpr::BlockStmt(s) => {
                         let old_strict_mode = child.strict_mode;
                         child.strict_mode = s

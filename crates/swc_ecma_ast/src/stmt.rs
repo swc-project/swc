@@ -104,6 +104,9 @@ pub enum Stmt {
     Expr(ExprStmt),
 }
 
+#[cfg(target_pointer_width = "64")]
+assert_eq_size!(Stmt, [u8; 64]);
+
 // Implement Clone without inline to avoid multiple copies of the
 // implementation.
 impl Clone for Stmt {

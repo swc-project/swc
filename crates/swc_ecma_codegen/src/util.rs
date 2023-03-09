@@ -144,15 +144,10 @@ impl StartsWithAlphaNum for Expr {
             | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
             | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => expr.starts_with_alpha_num(),
 
-            Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Member(MemberExpr { obj: expr, .. }),
-                ..
-            }) => expr.starts_with_alpha_num(),
-
-            Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Call(OptCall { callee, .. }),
-                ..
-            }) => callee.starts_with_alpha_num(),
+            Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
+                OptChainBase::Member(base) => base.obj.starts_with_alpha_num(),
+                OptChainBase::Call(base) => base.callee.starts_with_alpha_num(),
+            },
 
             Expr::Invalid(..) => true,
         }

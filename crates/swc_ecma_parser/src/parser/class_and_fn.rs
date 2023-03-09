@@ -1584,19 +1584,26 @@ fn has_use_strict(block: &BlockStmt) -> Option<Span> {
         _ => None,
     }
 }
-impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
-    fn parse_fn_body_inner(&mut self, is_simple_parameter_list: bool) -> PResult<BlockStmtOrExpr> {
+impl<I: Tokens> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
+    fn parse_fn_body_inner(
+        &mut self,
+        is_simple_parameter_list: bool,
+    ) -> PResult<Box<BlockStmtOrExpr>> {
         if is!(self, '{') {
-            self.parse_block(false).map(|block_stmt| {
-                if !is_simple_parameter_list {
-                    if let Some(span) = has_use_strict(&block_stmt) {
-                        self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
+            self.parse_block(false)
+                .map(|block_stmt| {
+                    if !is_simple_parameter_list {
+                        if let Some(span) = has_use_strict(&block_stmt) {
+                            self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
+                        }
                     }
-                }
-                BlockStmtOrExpr::BlockStmt(block_stmt)
-            })
+                    BlockStmtOrExpr::BlockStmt(block_stmt)
+                })
+                .map(Box::new)
         } else {
-            self.parse_assignment_expr().map(BlockStmtOrExpr::Expr)
+            self.parse_assignment_expr()
+                .map(BlockStmtOrExpr::Expr)
+                .map(Box::new)
         }
     }
 }
