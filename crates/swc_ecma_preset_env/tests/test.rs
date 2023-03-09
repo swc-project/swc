@@ -250,7 +250,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                         ..
                     })) if specifiers.is_empty() && src.value.starts_with("core-js/modules") => {
                         match *b {
-                            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                            ModuleItem::ModuleDecl(box ModuleDecl::Import(ImportDecl {
                                 specifiers: ref rs,
                                 src: ref rsrc,
                                 ..

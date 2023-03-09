@@ -244,7 +244,7 @@ mod tests {
                 .unwrap();
             assert_eq!(v.body.len(), 1);
             let v = match v.body.pop().unwrap() {
-                ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) => *expr,
+                ModuleItem::Stmt(box Stmt::Expr(ExprStmt { expr, .. })) => *expr,
                 _ => unreachable!(),
             };
 
