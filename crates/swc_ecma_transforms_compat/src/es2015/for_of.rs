@@ -136,7 +136,7 @@ impl ForOf {
                 Stmt::Block(b) => b,
                 _ => BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![*body],
+                    stmts: vec![body],
                 },
             };
 
@@ -235,7 +235,7 @@ impl ForOf {
                 Stmt::Block(b) => b,
                 _ => BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![*body],
+                    stmts: vec![body],
                 },
             };
 
@@ -325,7 +325,7 @@ impl ForOf {
 
         let mut body = match *body {
             Stmt::Block(block) => block,
-            body => BlockStmt {
+            _ => BlockStmt {
                 span: DUMMY_SP,
                 stmts: vec![body],
             },
@@ -388,7 +388,7 @@ impl ForOf {
             definite: false,
         });
 
-        let for_stmt = ForStmt {
+        let for_stmt: Box<_> = ForStmt {
             span,
             init: Some(
                 VarDecl {
@@ -459,11 +459,11 @@ impl ForOf {
         .into();
 
         let for_stmt = match label {
-            Some(label) => Stmt::Labeled(LabeledStmt {
+            Some(label) => Box::new(Stmt::Labeled(LabeledStmt {
                 span,
                 label,
-                body: Box::new(for_stmt),
-            }),
+                body: for_stmt,
+            })),
             None => for_stmt,
         };
 
@@ -531,7 +531,7 @@ fn make_finally_block(
     normal_completion_ident: &Ident,
     error_flag_ident: Ident,
     error_ident: Ident,
-) -> Stmt {
+) -> Box<Stmt> {
     TryStmt {
         span: DUMMY_SP,
         block: BlockStmt {

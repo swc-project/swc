@@ -478,15 +478,15 @@ impl SystemJs {
         }
     }
 
-    fn hoist_variables(&mut self, stmt: Stmt) -> Stmt {
-        match stmt {
+    fn hoist_variables(&mut self, stmt: Box<Stmt>) -> Box<Stmt> {
+        match *stmt {
             Stmt::Decl(decl) => {
                 if let Decl::Var(var_decl) = decl {
                     // if var_decl.kind == VarDeclKind::Var {
                     if let Some(expr) = self.hoist_var_decl(var_decl) {
-                        *expr.into_stmt()
+                        expr.into_stmt()
                     } else {
-                        Stmt::Empty(EmptyStmt { span: DUMMY_SP })
+                        Box::new(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
                     }
                     // } else {
                     //     return Stmt::Decl(Decl::Var(var_decl));
@@ -499,26 +499,26 @@ impl SystemJs {
                 if let Some(init) = for_stmt.init {
                     if let VarDeclOrExpr::VarDecl(var_decl) = init {
                         if var_decl.kind == VarDeclKind::Var {
-                            Stmt::For(ForStmt {
+                            Box::new(Stmt::For(ForStmt {
                                 init: self
                                     .hoist_var_decl(var_decl)
                                     .map(|expr| VarDeclOrExpr::Expr(Box::new(expr))),
                                 ..for_stmt
-                            })
+                            }))
                         } else {
-                            Stmt::For(ForStmt {
+                            Box::new(Stmt::For(ForStmt {
                                 init: Some(VarDeclOrExpr::VarDecl(var_decl)),
                                 ..for_stmt
-                            })
+                            }))
                         }
                     } else {
-                        Stmt::For(ForStmt {
+                        Box::new(Stmt::For(ForStmt {
                             init: Some(init),
                             ..for_stmt
-                        })
+                        }))
                     }
                 } else {
-                    Stmt::For(for_stmt)
+                    Box::new(Stmt::For(for_stmt))
                 }
             }
             Stmt::ForIn(for_in_stmt) => Stmt::ForIn(ForInStmt {
@@ -919,11 +919,13 @@ impl Fold for SystemJs {
                                     self.export_values
                                         .push(Box::new(Expr::Ident(ident.clone())));
                                     self.add_export_name(ident.to_id(), js_word!("default"));
-                                    before_body_stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
-                                        ident: ident.clone(),
-                                        declare: false,
-                                        function: fn_expr.function,
-                                    })));
+                                    before_body_stmts.push(Box::new(Stmt::Decl(Decl::Fn(
+                                        FnDecl {
+                                            ident: ident.clone(),
+                                            declare: false,
+                                            function: fn_expr.function,
+                                        },
+                                    ))));
                                 } else {
                                     self.export_names.push(js_word!("default"));
                                     self.export_values.push(Box::new(Expr::Fn(fn_expr)));
@@ -949,7 +951,7 @@ impl Fold for SystemJs {
                     }
                     _ => {}
                 },
-                ModuleItem::Stmt(stmt) => match stmt {
+                ModuleItem::Stmt(stmt) => match *stmt {
                     Stmt::Decl(decl) => match decl {
                         Decl::Class(class_decl) => {
                             self.add_declare_var_idents(&class_decl.ident);
@@ -969,9 +971,9 @@ impl Fold for SystemJs {
                             );
                         }
                         Decl::Fn(fn_decl) => {
-                            before_body_stmts.push(Stmt::Decl(Decl::Fn(fn_decl)));
+                            before_body_stmts.push(Box::new(Stmt::Decl(Decl::Fn(fn_decl))));
                         }
-                        _ => execute_stmts.push(Stmt::Decl(decl)),
+                        _ => execute_stmts.push(Box::new(Stmt::Decl(decl))),
                     },
                     _ => execute_stmts.push(stmt),
                 },
