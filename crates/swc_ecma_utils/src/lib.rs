@@ -1441,17 +1441,18 @@ pub trait ExprExt {
                 callee: Callee::Expr(ref callee),
                 ref args,
                 ..
-            })
-            | Expr::OptChain(OptChainExpr {
-                base:
-                    OptChainBase::Call(OptCall {
-                        ref callee,
-                        ref args,
-                        ..
-                    }),
-                ..
             }) if callee.is_pure_callee(ctx) => {
                 args.iter().any(|arg| arg.expr.may_have_side_effects(ctx))
+            }
+            Expr::OptChain(OptChainExpr { base, .. })
+                if matches!(&**base, OptChainBase::Call(..))
+                    && base.as_mut_call().unwrap().callee.is_pure_callee(ctx) =>
+            {
+                base.as_mut_call()
+                    .unwrap()
+                    .args
+                    .iter()
+                    .any(|arg| arg.expr.may_have_side_effects(ctx))
             }
 
             Expr::Call(_)
@@ -2417,12 +2418,12 @@ impl ExprCtx {
 
                 to.push(Box::new(Expr::New(e)))
             }
-            Expr::Member(_)
-            | Expr::SuperProp(_)
-            | Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Member(_),
-                ..
-            }) => to.push(Box::new(expr)),
+            Expr::Member(_) | Expr::SuperProp(_) => to.push(Box::new(expr)),
+            Expr::OptChain(OptChainExpr { base, .. })
+                if matches!(&*base, OptChainBase::Member(_)) =>
+            {
+                to.push(Box::new(expr))
+            }
 
             // We are at here because we could not determine value of test.
             //TODO: Drop values if it does not have side effects.
