@@ -1427,12 +1427,14 @@ pub trait ExprExt {
             | Expr::Yield(_)
             | Expr::Member(_)
             | Expr::SuperProp(_)
-            | Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Member(_),
-                ..
-            })
             | Expr::Update(_)
             | Expr::Assign(_) => true,
+
+            Expr::OptChain(OptChainExpr { base, .. })
+                if matches!(&**base, OptChainBase::Member(_)) =>
+            {
+                true
+            }
 
             // TODO
             Expr::New(_) => true,
