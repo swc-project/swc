@@ -2801,7 +2801,7 @@ impl Generator {
                 discriminant: Box::new(label_expr),
                 cases: clauses,
             };
-            return vec![Stmt::Switch(switch_stmt)];
+            return vec![Box::new(Stmt::Switch(switch_stmt))];
         }
 
         if let Some(stmts) = self.stmts.take() {
@@ -2910,14 +2910,14 @@ impl Generator {
                         }
                     };
 
-                    stmts = vec![Stmt::With(WithStmt {
+                    stmts = vec![Box::new(Stmt::With(WithStmt {
                         span: DUMMY_SP,
                         obj: Box::new(Expr::Ident(with_block.expression.clone())),
                         body: Box::new(Stmt::Block(BlockStmt {
                             span: DUMMY_SP,
                             stmts,
                         })),
-                    })];
+                    }))];
                 }
             }
 
@@ -2981,7 +2981,7 @@ impl Generator {
                 // label, so we add an assignment statement to
                 // reflect the change in labels.
 
-                stmts.push(Stmt::Expr(ExprStmt {
+                stmts.push(Box::new(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
                     expr: Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
@@ -2991,7 +2991,7 @@ impl Generator {
                         )),
                         right: (self.label_number + 1).into(),
                     })),
-                }));
+                })));
             }
 
             stmts
@@ -3150,7 +3150,7 @@ impl Generator {
             .expect("failed to take operation arguments");
         if opcode == OpCode::Statement {
             let args = args.expect_stmt();
-            self.write_stmt(*args);
+            self.write_stmt(args);
             return;
         }
 

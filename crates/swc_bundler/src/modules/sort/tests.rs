@@ -505,7 +505,7 @@ fn sort_016() {
 
 fn mark(item: &mut ModuleItem, ctxt: SyntaxContext) {
     match item {
-        ModuleItem::ModuleDecl(item) => match item {
+        ModuleItem::ModuleDecl(item) => match &mut **item {
             ModuleDecl::Import(ImportDecl { span, .. })
             | ModuleDecl::ExportDecl(ExportDecl { span, .. })
             | ModuleDecl::ExportNamed(NamedExport { span, .. })
@@ -517,7 +517,7 @@ fn mark(item: &mut ModuleItem, ctxt: SyntaxContext) {
 
             ModuleDecl::TsImportEquals(v) => v.span.ctxt = ctxt,
         },
-        ModuleItem::Stmt(stmt) => match stmt {
+        ModuleItem::Stmt(stmt) => match &mut **stmt {
             Stmt::Empty(_) => {}
             Stmt::Block(BlockStmt { span, .. })
             | Stmt::Debugger(DebuggerStmt { span, .. })

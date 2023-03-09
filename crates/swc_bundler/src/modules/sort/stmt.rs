@@ -808,7 +808,7 @@ mod tests {
             let graph = calc_deps(&module.body);
 
             for i in 0..module.body.len() {
-                if let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) = &module.body[i] {
+                if let ModuleItem::Stmt(box Stmt::Decl(Decl::Fn(..))) = &module.body[i] {
                     continue;
                 }
 
@@ -817,7 +817,7 @@ mod tests {
                     .collect::<Vec<_>>();
 
                 for dep in deps {
-                    if let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..))) = &module.body[dep] {
+                    if let ModuleItem::Stmt(box Stmt::Decl(Decl::Fn(..))) = &module.body[dep] {
                         continue;
                     }
                     print_hygiene(
