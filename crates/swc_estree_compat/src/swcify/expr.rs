@@ -775,7 +775,7 @@ impl Swcify for OptionalMemberExpression {
             span: ctx.span(&self.base),
             // TODO: Use correct span.
             question_dot_token: DUMMY_SP,
-            base: OptChainBase::Member(MemberExpr {
+            base: Box::new(OptChainBase::Member(MemberExpr {
                 span: ctx.span(&self.base),
                 obj: self.object.swcify(ctx),
                 prop: match (self.property, self.computed) {
@@ -789,7 +789,7 @@ impl Swcify for OptionalMemberExpression {
                     }
                     _ => unreachable!(),
                 },
-            }),
+            })),
         }
     }
 }

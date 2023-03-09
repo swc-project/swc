@@ -138,7 +138,7 @@ impl NoAlert {
             }
             Expr::Member(member_expr)
             | Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Member(member_expr),
+                base: box OptChainBase::Member(member_expr),
                 ..
             }) => {
                 let MemberExpr { obj, prop, .. } = member_expr;

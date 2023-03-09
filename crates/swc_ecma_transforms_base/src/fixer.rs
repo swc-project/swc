@@ -127,7 +127,7 @@ impl VisitMut for Fixer<'_> {
         let old = self.ctx;
         self.ctx = Context::Default;
         node.visit_mut_children_with(self);
-        match &mut node.body {
+        match &mut *node.body {
             BlockStmtOrExpr::Expr(e) if e.is_seq() => {
                 self.wrap(e);
             }

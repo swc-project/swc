@@ -168,7 +168,7 @@ impl Visit for DuplicateBindings {
             return_type: _,
         } = a;
         params.visit_with(self);
-        if let BlockStmtOrExpr::BlockStmt(b) = body {
+        if let BlockStmtOrExpr::BlockStmt(b) = &**body {
             self.visit_with_stmts(&b.stmts, false)
         }
     }

@@ -244,7 +244,7 @@ impl Radix {
                 return self.extract_obj_and_prop_member_case(member_expr);
             }
             Expr::OptChain(OptChainExpr {
-                base: OptChainBase::Member(member_expr),
+                base: box OptChainBase::Member(member_expr),
                 ..
             }) => {
                 return self.extract_obj_and_prop_member_case(member_expr);
