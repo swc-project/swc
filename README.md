@@ -46,7 +46,7 @@ Also, SWC tries to ensure that
 
 for rust users.
 
-MSRV of crates named `swc_ecma_*` is the current stable, and nightly for others.
+MSRV of crates is currently nightly, but we will support stable rustc again in the future.
 
 ---
 
