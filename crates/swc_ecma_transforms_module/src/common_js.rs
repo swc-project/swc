@@ -453,7 +453,7 @@ where
                     let mut var_decl = require.into_var_decl(self.const_var_kind, id.into());
                     var_decl.span = span;
 
-                    Stmt::Decl(var_decl.into())
+                    Box::new(Stmt::Decl(var_decl.into()))
                 }
                 .into()
             }

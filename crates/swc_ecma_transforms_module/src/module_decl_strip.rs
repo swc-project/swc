@@ -61,7 +61,7 @@ impl VisitMut for ModuleDeclStrip {
                     self.has_module_decl = true;
 
                     // emit stmt
-                    match module_decl {
+                    match *module_decl {
                         ModuleDecl::Import(..) => continue,
                         ModuleDecl::ExportDecl(ExportDecl { decl, .. }) => {
                             list.push(Stmt::Decl(decl).into());

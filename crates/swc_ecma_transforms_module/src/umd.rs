@@ -495,17 +495,17 @@ where
             stmts: vec![IfStmt {
                 span: DUMMY_SP,
                 test: Box::new(cjs_if_test),
-                cons: Box::new(cjs_if_body.into_stmt()),
+                cons: cjs_if_body.into_stmt(),
                 alt: Some(Box::new(
                     IfStmt {
                         span: DUMMY_SP,
                         test: Box::new(amd_if_test),
-                        cons: Box::new(amd_if_body.into_stmt()),
+                        cons: amd_if_body.into_stmt(),
                         alt: Some(Box::new(
                             IfStmt {
                                 span: DUMMY_SP,
                                 test: Box::new(browser_if_test),
-                                cons: Box::new(browser_if_body.into_stmt()),
+                                cons: browser_if_body.into_stmt(),
                                 alt: None,
                             }
                             .into(),

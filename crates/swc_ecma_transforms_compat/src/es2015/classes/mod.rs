@@ -456,7 +456,7 @@ where
 
         let cnt_of_non_directive = stmts
             .iter()
-            .filter(|stmt| match &**stmt {
+            .filter(|stmt| match &***stmt {
                 Stmt::Expr(ExprStmt { expr, .. }) => !matches!(&**expr, Expr::Lit(Lit::Str(..))),
                 _ => true,
             })
@@ -481,7 +481,7 @@ where
             //    }();
 
             let stmt = stmts.pop().unwrap();
-            match stmt {
+            match *stmt {
                 Stmt::Decl(Decl::Fn(FnDecl {
                     ident,
                     mut function,
@@ -724,23 +724,23 @@ where
                     );
                 }
 
-                let is_last_return = matches!(body.last(), Some(Stmt::Return(..)));
+                let is_last_return = matches!(body.last().map(|v| &**v), Some(Stmt::Return(..)));
                 if !is_last_return {
                     if is_always_initialized {
-                        body.push(Stmt::Return(ReturnStmt {
+                        body.push(Box::new(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(Box::new(Expr::Ident(this))),
-                        }));
+                        })));
                     } else {
                         let possible_return_value =
                             Box::new(make_possible_return_value(ReturningMode::Returning {
                                 mark: this_mark,
                                 arg: None,
                             }));
-                        body.push(Stmt::Return(ReturnStmt {
+                        body.push(Box::new(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(possible_return_value),
-                        }));
+                        })));
                     }
                 }
             }

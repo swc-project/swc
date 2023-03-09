@@ -302,7 +302,7 @@ impl SystemJs {
                 }
                 .into(),
             );
-            meta.setter_fn_stmts.push(Stmt::ForIn(ForInStmt {
+            meta.setter_fn_stmts.push(Box::new(Stmt::ForIn(ForInStmt {
                 span: DUMMY_SP,
                 left: VarDecl {
                     span: DUMMY_SP,
@@ -320,7 +320,7 @@ impl SystemJs {
 
                 body: Box::new(Stmt::Block(BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![Stmt::If(IfStmt {
+                    stmts: vec![Box::new(Stmt::If(IfStmt {
                         span: DUMMY_SP,
                         test: Box::new(Expr::Bin(BinExpr {
                             span: DUMMY_SP,
@@ -349,9 +349,9 @@ impl SystemJs {
                             .into_stmt()],
                         })),
                         alt: None,
-                    })],
+                    }))],
                 })),
-            }));
+            })));
             for (sym, value) in meta
                 .export_names
                 .drain(..)

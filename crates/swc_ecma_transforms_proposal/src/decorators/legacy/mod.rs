@@ -407,7 +407,7 @@ impl VisitMut for TscDecorator {
 
     fn visit_mut_module_item(&mut self, module_item: &mut ModuleItem) {
         match module_item {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(n)) => {
+            ModuleItem::ModuleDecl(box ModuleDecl::ExportDecl(n)) => {
                 let export_decl_span = n.span;
 
                 match &mut n.decl {
