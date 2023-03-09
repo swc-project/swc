@@ -1634,11 +1634,11 @@ impl Generator {
             self.mark_label(loop_label);
             node.test.visit_mut_with(self);
             self.emit_break_when_false(end_label, node.test, None);
-            self.transform_and_emit_stmt(*node.body);
+            self.transform_and_emit_stmt(node.body);
             self.emit_break(loop_label, None);
             self.end_loop_block();
         } else {
-            self.emit_stmt(Stmt::While(node));
+            self.emit_stmt(Box::new(Stmt::While(node)));
         }
     }
 
@@ -1673,10 +1673,10 @@ impl Generator {
                     }
                     VarDeclOrExpr::Expr(mut init) => {
                         init.visit_mut_with(self);
-                        self.emit_stmt(Stmt::Expr(ExprStmt {
+                        self.emit_stmt(Box::new(Stmt::Expr(ExprStmt {
                             span: init.span(),
                             expr: init,
-                        }));
+                        })));
                     }
                 }
             }
@@ -1688,24 +1688,24 @@ impl Generator {
                 self.emit_break_when_false(end_label, cond, None);
             }
 
-            self.transform_and_emit_embedded_stmt(*node.body);
+            self.transform_and_emit_embedded_stmt(node.body);
 
             self.mark_label(increment_label);
 
             if let Some(mut incrementor) = node.update {
                 incrementor.visit_mut_with(self);
 
-                self.emit_stmt(Stmt::Expr(ExprStmt {
+                self.emit_stmt(Box::new(Stmt::Expr(ExprStmt {
                     span: incrementor.span(),
                     expr: incrementor,
-                }));
+                })));
             }
 
             self.emit_break(condition_label, None);
             self.end_loop_block();
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::For(node));
+            self.emit_stmt(Box::new(Stmt::For(node)));
         }
     }
 

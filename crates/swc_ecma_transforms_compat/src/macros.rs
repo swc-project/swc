@@ -48,11 +48,11 @@ macro_rules! impl_visit_mut_fn {
 
             let body = if was_expr
                 && body.stmts.len() == 1
-                && match body.stmts[0] {
+                && match &*body.stmts[0] {
                     Stmt::Return(ReturnStmt { arg: Some(..), .. }) => true,
                     _ => false,
                 } {
-                match body.stmts.pop().unwrap() {
+                match *body.stmts.pop().unwrap() {
                     Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => BlockStmtOrExpr::Expr(arg),
                     _ => unreachable!(),
                 }
