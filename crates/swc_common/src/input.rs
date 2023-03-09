@@ -38,6 +38,11 @@ impl<'a> StringInput<'a> {
             orig_start: start,
         }
     }
+
+    #[inline(always)]
+    pub fn as_str(&self) -> &str {
+        self.iter.as_str()
+    }
 }
 
 /// Creates an [Input] from [SourceFile]. This is an alias for
