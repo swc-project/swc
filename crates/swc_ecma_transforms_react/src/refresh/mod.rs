@@ -412,7 +412,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                     hoc.reg = hoc.reg.into_iter().rev().collect();
                     if hoc.insert {
                         let (ident, name) = hoc.reg.last().unwrap();
-                        items.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+                        items.push(ModuleItem::Stmt(Box::new(Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
                             expr: Box::new(make_assign_stmt(
                                 ident.clone(),
@@ -421,7 +421,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                                     DUMMY_SP.with_ctxt(name.1),
                                 ))),
                             )),
-                        })))
+                        }))))
                     }
                     refresh_regs.append(&mut hoc.reg);
                 }

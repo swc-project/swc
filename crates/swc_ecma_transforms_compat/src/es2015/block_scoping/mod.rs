@@ -173,7 +173,7 @@ impl BlockScoping {
                 Stmt::Block(bs) => bs.take(),
                 body => BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![body.take()],
+                    stmts: vec![Box::new(body.take())],
                 },
             };
 

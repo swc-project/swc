@@ -2,6 +2,7 @@
 #![deny(clippy::all)]
 #![deny(unused)]
 #![allow(clippy::result_unit_err)]
+#![feature(box_patterns)]
 
 use std::{
     env,
@@ -214,7 +215,7 @@ impl VisitMut for RegeneratorHandler {
     noop_visit_mut_type!();
 
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
-        if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
+        if let ModuleItem::ModuleDecl(box ModuleDecl::Import(import)) = item {
             if &*import.src.value != "regenerator-runtime" {
                 return;
             }
@@ -242,12 +243,12 @@ impl VisitMut for RegeneratorHandler {
                 init: Some(init),
                 definite: Default::default(),
             };
-            *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+            *item = ModuleItem::Stmt(Box::new(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: import.span,
                 kind: VarDeclKind::Var,
                 declare: false,
                 decls: vec![decl],
-            }))))
+            })))))
         }
     }
 }
