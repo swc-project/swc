@@ -585,10 +585,10 @@ fn make_finally_block(
                     test: Box::new(Expr::Ident(error_flag_ident)),
                     cons: Box::new(Stmt::Block(BlockStmt {
                         span: DUMMY_SP,
-                        stmts: vec![Stmt::Throw(ThrowStmt {
+                        stmts: vec![Box::new(Stmt::Throw(ThrowStmt {
                             span: DUMMY_SP,
                             arg: Box::new(Expr::Ident(error_ident)),
-                        })],
+                        }))],
                     })),
                     alt: None,
                 })),

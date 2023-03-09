@@ -205,7 +205,7 @@ pub(crate) fn object_define_enumerable(
     target: ExprOrSpread,
     prop_name: ExprOrSpread,
     prop: PropOrSpread,
-) -> Expr {
+) -> Box<Expr> {
     object_define_property(
         target,
         prop_name,
