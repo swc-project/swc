@@ -80,7 +80,7 @@ pub enum Expr {
     Cond(CondExpr),
 
     #[tag("CallExpression")]
-    Call(CallExpr),
+    Call(Box<CallExpr>),
 
     /// `new Cat()`
     #[tag("NewExpression")]
@@ -102,13 +102,13 @@ pub enum Expr {
     Lit(Lit),
 
     #[tag("TemplateLiteral")]
-    Tpl(Tpl),
+    Tpl(Box<Tpl>),
 
     #[tag("TaggedTemplateExpression")]
     TaggedTpl(Box<TaggedTpl>),
 
     #[tag("ArrowFunctionExpression")]
-    Arrow(ArrowExpr),
+    Arrow(Box<ArrowExpr>),
 
     #[tag("ClassExpression")]
     Class(ClassExpr),
@@ -140,7 +140,7 @@ pub enum Expr {
     JSXElement(Box<JSXElement>),
 
     #[tag("JSXFragment")]
-    JSXFragment(JSXFragment),
+    JSXFragment(Box<JSXFragment>),
 
     #[tag("TsTypeAssertion")]
     TsTypeAssertion(TsTypeAssertion),
@@ -164,7 +164,7 @@ pub enum Expr {
     PrivateName(PrivateName),
 
     #[tag("OptionalChainingExpression")]
-    OptChain(OptChainExpr),
+    OptChain(Box<OptChainExpr>),
 
     #[tag("Invalid")]
     Invalid(Invalid),
@@ -1409,12 +1409,12 @@ impl From<OptChainBase> for Expr {
                 callee,
                 args,
                 type_args,
-            }) => Self::Call(CallExpr {
+            }) => Self::Call(Box::new(CallExpr {
                 callee: Callee::Expr(callee),
                 args,
                 span,
                 type_args,
-            }),
+            })),
             OptChainBase::Member(member) => Self::Member(member),
         }
     }
