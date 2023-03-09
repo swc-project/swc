@@ -3777,7 +3777,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote"
-version = "0.44.4"
+version = "0.44.5"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4125,7 +4125,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.219.0"
+version = "0.219.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
