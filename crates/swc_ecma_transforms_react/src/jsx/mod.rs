@@ -1070,7 +1070,7 @@ where
                 });
                 prepend_stmt(
                     &mut module.body,
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    ModuleItem::ModuleDecl(Box::new(ModuleDecl::Import(ImportDecl {
                         span: DUMMY_SP,
                         specifiers: vec![specifier],
                         src: Str {
@@ -1081,7 +1081,7 @@ where
                         .into(),
                         type_only: Default::default(),
                         asserts: Default::default(),
-                    })),
+                    }))),
                 );
             }
 
@@ -1147,7 +1147,7 @@ where
 
                 prepend_stmt(
                     &mut module.body,
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    ModuleItem::ModuleDecl(Box::new(ModuleDecl::Import(ImportDecl {
                         span: DUMMY_SP,
                         specifiers: imports,
                         src: Str {
@@ -1158,7 +1158,7 @@ where
                         .into(),
                         type_only: Default::default(),
                         asserts: Default::default(),
-                    })),
+                    }))),
                 );
             }
         }

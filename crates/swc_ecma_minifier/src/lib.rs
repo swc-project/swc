@@ -28,6 +28,7 @@
 //! step.
 #![deny(clippy::all)]
 #![allow(clippy::blocks_in_if_conditions)]
+#![allow(clippy::boxed_local)]
 #![allow(clippy::collapsible_else_if)]
 #![allow(clippy::collapsible_if)]
 #![allow(clippy::ptr_arg)]

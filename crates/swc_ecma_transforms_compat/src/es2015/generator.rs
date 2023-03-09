@@ -1441,7 +1441,7 @@ impl Generator {
     }
 
     fn transform_and_emit_stmt_worker(&mut self, mut node: Box<Stmt>) {
-        match node {
+        match *node {
             Stmt::Block(s) => self.transform_and_emit_block(s),
             Stmt::Expr(s) => self.transform_and_emit_expr_stmt(s),
             Stmt::If(s) => self.transform_and_emit_if_stmt(s),
@@ -1470,14 +1470,14 @@ impl Generator {
             self.transform_and_emit_stmts(node.stmts, 0);
         } else {
             node.visit_mut_with(self);
-            self.emit_stmt(Stmt::Block(node));
+            self.emit_stmt(Box::new(Stmt::Block(node)));
         }
     }
 
     fn transform_and_emit_expr_stmt(&mut self, mut node: ExprStmt) {
         node.visit_mut_with(self);
 
-        self.emit_stmt(Stmt::Expr(node));
+        self.emit_stmt(Box::new(Stmt::Expr(node)));
     }
 
     fn transform_and_emit_var_decl_list(&mut self, mut node: Box<VarDecl>) {

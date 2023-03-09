@@ -1,4 +1,5 @@
 #![deny(warnings)]
+#![feature(box_patterns)]
 
 extern crate swc_node_base;
 
@@ -486,7 +487,7 @@ fn fixture(input: PathBuf) {
             expected = drop_span(expected);
             expected
                 .body
-                .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
+                .retain(|s| !matches!(s, ModuleItem::Stmt(box Stmt::Empty(..))));
 
             let mut normalized_expected = expected.clone();
             normalized_expected.visit_mut_with(&mut DropParens);
@@ -531,7 +532,7 @@ fn fixture(input: PathBuf) {
                     expected = drop_span(expected);
                     expected
                         .body
-                        .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
+                        .retain(|s| !matches!(s, ModuleItem::Stmt(box Stmt::Empty(..))));
 
                     let mut normalized_expected = expected.clone();
                     normalized_expected.visit_mut_with(&mut DropParens);

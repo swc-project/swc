@@ -170,13 +170,13 @@ impl<'a> HookRegister<'a> {
                     span: DUMMY_SP,
                     body: Some(BlockStmt {
                         span: DUMMY_SP,
-                        stmts: vec![Stmt::Return(ReturnStmt {
+                        stmts: vec![Box::new(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(Box::new(Expr::Array(ArrayLit {
                                 span: DUMMY_SP,
                                 elems,
                             }))),
-                        })],
+                        }))],
                     }),
                     type_params: None,
                     return_type: None,

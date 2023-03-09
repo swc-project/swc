@@ -38,10 +38,10 @@ macro_rules! impl_visit_mut_fn {
                     BlockStmtOrExpr::BlockStmt(block) => block.take(),
                     BlockStmtOrExpr::Expr(expr) => BlockStmt {
                         span: body_span,
-                        stmts: vec![Stmt::Return(ReturnStmt {
+                        stmts: vec![Box::new(Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(expr.take()),
-                        })],
+                        }))],
                     },
                 },
             );

@@ -37,7 +37,7 @@ where
     fn visit_mut_module(&mut self, module: &mut Module) {
         // Pass 1: collect imports
         for item in &module.body {
-            if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
+            if let ModuleItem::ModuleDecl(box ModuleDecl::Import(import)) = item {
                 let src_str = &*import.src.value;
                 if src_str != "react" && src_str != "react-dom" {
                     continue;
