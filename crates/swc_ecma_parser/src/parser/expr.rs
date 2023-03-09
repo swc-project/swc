@@ -819,7 +819,7 @@ impl<I: Tokens> Parser<I> {
                     .into_iter()
                     .collect();
 
-                let body: BlockStmtOrExpr = p.parse_fn_body(
+                let body: Box<BlockStmtOrExpr> = p.parse_fn_body(
                     async_span.is_some(),
                     false,
                     true,
@@ -882,7 +882,7 @@ impl<I: Tokens> Parser<I> {
                 .into_iter()
                 .collect();
 
-            let body: BlockStmtOrExpr = self.parse_fn_body(
+            let body: Box<BlockStmtOrExpr> = self.parse_fn_body(
                 async_span.is_some(),
                 false,
                 true,
@@ -897,7 +897,7 @@ impl<I: Tokens> Parser<I> {
                 return_type,
                 type_params: None,
             };
-            if let BlockStmtOrExpr::BlockStmt(..) = arrow_expr.body {
+            if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
                 if let Ok(&Token::BinOp(..)) = cur!(self, false) {
                     // ) is required
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
@@ -1042,7 +1042,7 @@ impl<I: Tokens> Parser<I> {
         let tagged_tpl_start = tag.span_lo();
         trace_cur!(self, parse_tagged_tpl);
 
-        let tpl = self.parse_tpl(true)?;
+        let tpl = Box::new(self.parse_tpl(true)?);
 
         let span = span!(self, tagged_tpl_start);
         Ok(TaggedTpl {
@@ -1302,7 +1302,7 @@ impl<I: Tokens> Parser<I> {
                             Expr::OptChain(OptChainExpr {
                                 span,
                                 question_dot_token,
-                                base: OptChainBase::Member(expr),
+                                base: Box::new(OptChainBase::Member(expr)),
                             })
                         } else {
                             Expr::Member(expr)
@@ -1345,12 +1345,12 @@ impl<I: Tokens> Parser<I> {
                         Box::new(Expr::OptChain(OptChainExpr {
                             span,
                             question_dot_token,
-                            base: OptChainBase::Call(OptCall {
+                            base: Box::new(OptChainBase::Call(OptCall {
                                 span: span!(self, start),
                                 callee,
                                 args,
                                 type_args,
-                            }),
+                            })),
                         })),
                         true,
                     )),
@@ -1442,7 +1442,7 @@ impl<I: Tokens> Parser<I> {
                             Expr::OptChain(OptChainExpr {
                                 span: span!(self, start),
                                 question_dot_token,
-                                base: OptChainBase::Member(expr),
+                                base: Box::new(OptChainBase::Member(expr)),
                             })
                         } else {
                             Expr::Member(expr)
@@ -1856,7 +1856,7 @@ impl<I: Tokens> Parser<I> {
                     .into_iter()
                     .collect();
 
-                let body: BlockStmtOrExpr =
+                let body: Box<BlockStmtOrExpr> =
                     self.parse_fn_body(false, false, true, params.is_simple_parameter_list())?;
                 let span = span!(self, start);
 
