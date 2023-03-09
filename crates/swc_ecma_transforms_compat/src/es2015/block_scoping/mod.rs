@@ -127,7 +127,7 @@ impl BlockScoping {
     }
 
     fn handle_capture_of_vars(&mut self, body: &mut Box<Stmt>) {
-        let body_stmt = &mut **body;
+        let body_stmt = &mut *body;
 
         {
             let mut v = FunctionFinder { found: false };

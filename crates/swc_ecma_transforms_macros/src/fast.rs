@@ -44,7 +44,7 @@ impl Expander {
     fn inject_default_methods(&self, mut items: Vec<ImplItem>) -> Vec<ImplItem> {
         let list = &[
             ("stmt", q!({ swc_ecma_ast::Stmt })),
-            ("stmts", q!({ Vec<swc_ecma_ast::Stmt> })),
+            ("stmts", q!({ Vec<Box<swc_ecma_ast::Stmt>> })),
             ("module_decl", q!({ swc_ecma_ast::ModuleDecl })),
             ("module_item", q!({ swc_ecma_ast::ModuleItem })),
             ("module_items", q!({ Vec<swc_ecma_ast::ModuleItem> })),

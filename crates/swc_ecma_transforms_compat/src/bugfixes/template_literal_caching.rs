@@ -135,7 +135,7 @@ impl Fold for TemplateLiteralCaching {
     fn fold_module(&mut self, n: Module) -> Module {
         let mut body = n.body.fold_children_with(self);
         if let Some(var) = self.create_var_decl() {
-            prepend_stmt(&mut body, ModuleItem::Stmt(var))
+            prepend_stmt(&mut body, ModuleItem::Stmt(Box::new(var)))
         }
 
         Module { body, ..n }
