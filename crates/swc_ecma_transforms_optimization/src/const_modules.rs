@@ -197,4 +197,26 @@ impl VisitMut for ConstModules {
             }
         };
     }
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match n {
+            Prop::Shorthand(id) => {
+                if let Some(value) = self.scope.imported.get(&id.sym) {
+                    *n = Prop::KeyValue(KeyValueProp {
+                        key: id.take().into(),
+                        value: Box::new((**value).clone()),
+                    });
+                    return;
+                }
+
+                if let Some(..) = self.scope.namespace.get(&id.to_id()) {
+                    panic!(
+                        "The const_module namespace `{}` cannot be used without member accessor",
+                        id.sym
+                    )
+                }
+            }
+            _ => n.visit_mut_children_with(self),
+        }
+    }
 }
