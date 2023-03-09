@@ -1448,21 +1448,19 @@ pub trait ExprExt {
             }
             Expr::OptChain(OptChainExpr { base, .. })
                 if matches!(&**base, OptChainBase::Call(..))
-                    && base.as_mut_call().unwrap().callee.is_pure_callee(ctx) =>
+                    && OptChainBase::as_call(base)
+                        .unwrap()
+                        .callee
+                        .is_pure_callee(ctx) =>
             {
-                base.as_mut_call()
+                OptChainBase::as_call(base)
                     .unwrap()
                     .args
                     .iter()
                     .any(|arg| arg.expr.may_have_side_effects(ctx))
             }
 
-            Expr::Call(_) => true,
-            Expr::OptChain(OptChainExpr { base, .. })
-                if matches!(&**base, OptChainBase::Call(_)) =>
-            {
-                true
-            }
+            Expr::Call(_) | Expr::OptChain(..) => true,
 
             Expr::Seq(SeqExpr { ref exprs, .. }) => {
                 exprs.iter().any(|e| e.may_have_side_effects(ctx))
@@ -1982,6 +1980,7 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
                     sym(obj).unwrap_or_default(),
                     sym(expr).unwrap_or_default()
                 )),
+                _ => None,
             },
             Expr::Call(CallExpr {
                 callee: Callee::Expr(expr),
@@ -2422,8 +2421,8 @@ impl ExprCtx {
                 to.push(Box::new(Expr::New(e)))
             }
             Expr::Member(_) | Expr::SuperProp(_) => to.push(Box::new(expr)),
-            Expr::OptChain(OptChainExpr { base, .. })
-                if matches!(&*base, OptChainBase::Member(_)) =>
+            Expr::OptChain(OptChainExpr { ref base, .. })
+                if matches!(&**base, OptChainBase::Member(_)) =>
             {
                 to.push(Box::new(expr))
             }
