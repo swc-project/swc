@@ -53,13 +53,25 @@ pub fn class_properties<C: Comments>(cm: Option<C>, config: Config) -> impl Fold
     })
 }
 
-#[derive(Debug, Clone, Copy, Default)]
+#[derive(Debug, Clone, Copy)]
 pub struct Config {
     pub private_as_properties: bool,
     pub set_public_fields: bool,
     pub constant_super: bool,
     pub no_document_all: bool,
     pub static_blocks_mark: Mark,
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        Self {
+            private_as_properties: false,
+            set_public_fields: false,
+            constant_super: false,
+            no_document_all: false,
+            static_blocks_mark: Mark::new(),
+        }
+    }
 }
 
 struct ClassProperties<C: Comments> {

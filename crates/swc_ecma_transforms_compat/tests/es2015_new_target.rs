@@ -43,7 +43,8 @@ fn get_passes(t: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
                             constant_super: loose,
                             set_public_fields: loose,
                             private_as_properties: loose,
-                            no_document_all: loose
+                            no_document_all: loose,
+                            static_blocks_mark: Mark::new(),
                         }
                     )
                 ));
