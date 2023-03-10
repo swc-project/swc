@@ -46,11 +46,7 @@ impl<'a> StringInput<'a> {
 
     #[inline]
     pub fn bump_bytes(&mut self, n: usize) {
-        let s = self.iter.as_str();
-
-        self.iter = s[n..].char_indices();
-        self.last_pos.0 += n as u32;
-        self.start_pos_of_iter.0 += n as u32;
+        self.reset_to(self.last_pos + BytePos(n as u32));
     }
 }
 
