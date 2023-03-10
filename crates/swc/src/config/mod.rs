@@ -363,9 +363,9 @@ impl Options {
         // variable management system based on the syntax contexts.
         if syntax.typescript() {
             assumptions.set_class_methods = !transform.use_define_for_class_fields.into_bool();
-            assumptions.set_public_class_fields =
-                !transform.use_define_for_class_fields.into_bool();
         }
+
+        assumptions.set_public_class_fields = !transform.use_define_for_class_fields.into_bool();
 
         program.visit_mut_with(&mut resolver(
             unresolved_mark,

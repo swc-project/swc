@@ -2066,6 +2066,25 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
     }
 }
 
+pub fn prop_name_to_member_prop(prop_name: PropName) -> MemberProp {
+    match prop_name {
+        PropName::Ident(i) => MemberProp::Ident(i),
+        PropName::Str(s) => MemberProp::Computed(ComputedPropName {
+            span: DUMMY_SP,
+            expr: s.into(),
+        }),
+        PropName::Num(n) => MemberProp::Computed(ComputedPropName {
+            span: DUMMY_SP,
+            expr: n.into(),
+        }),
+        PropName::Computed(c) => MemberProp::Computed(c),
+        PropName::BigInt(b) => MemberProp::Computed(ComputedPropName {
+            span: DUMMY_SP,
+            expr: b.into(),
+        }),
+    }
+}
+
 pub fn default_constructor(has_super: bool) -> Constructor {
     trace!(has_super = has_super, "Creating a default constructor");
 

@@ -340,6 +340,12 @@ pub struct ThisExpr {
     pub span: Span,
 }
 
+impl Take for ThisExpr {
+    fn dummy() -> Self {
+        ThisExpr { span: DUMMY_SP }
+    }
+}
+
 /// Array literal.
 #[ast_node("ArrayExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
