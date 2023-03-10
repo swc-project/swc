@@ -20,7 +20,7 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    drop_span, member_expr, prepend_stmt, private_ident, quote_ident, undefined, ExprFactory,
+    drop_span, prepend_stmt, private_ident, quote_ident, undefined, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -832,7 +832,7 @@ where
             return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
         }
 
-        if self.use_spread {
+        if self.use_spread || self.use_builtins {
             return self.fold_attrs_for_next_classic(attrs);
         }
 
@@ -841,55 +841,41 @@ where
             .any(|a| matches!(*a, JSXAttrOrSpread::SpreadElement(..)));
 
         if is_complex {
-            let mut props = vec![];
+            let mut args = vec![];
+            let mut cur_obj_props = vec![];
+            macro_rules! check {
+                () => {{
+                    if args.is_empty() || !cur_obj_props.is_empty() {
+                        args.push(
+                            ObjectLit {
+                                span: DUMMY_SP,
+                                props: mem::take(&mut cur_obj_props),
+                            }
+                            .as_arg(),
+                        )
+                    }
+                }};
+            }
             for attr in attrs {
                 match attr {
                     JSXAttrOrSpread::JSXAttr(a) => {
-                        props.push(PropOrSpread::Prop(Box::new(self.attr_to_prop(a))))
+                        cur_obj_props.push(PropOrSpread::Prop(Box::new(self.attr_to_prop(a))))
                     }
-                    JSXAttrOrSpread::SpreadElement(e) => props.push(PropOrSpread::Spread(e)),
-                }
-            }
-
-            if self.use_builtins {
-                Box::new(Expr::Object(ObjectLit {
-                    span: DUMMY_SP,
-                    props,
-                }))
-            } else {
-                let mut args = vec![];
-                let mut cur_obj_props = vec![];
-                macro_rules! check {
-                    () => {{
-                        if args.is_empty() || !cur_obj_props.is_empty() {
-                            args.push(
-                                ObjectLit {
-                                    span: DUMMY_SP,
-                                    props: mem::take(&mut cur_obj_props),
-                                }
-                                .as_arg(),
-                            )
-                        }
-                    }};
-                }
-
-                for prop in props {
-                    match prop {
-                        PropOrSpread::Prop(p) => cur_obj_props.push(PropOrSpread::Prop(p)),
-                        PropOrSpread::Spread(s) => {
-                            check!();
-                            args.push(s.expr.as_arg());
-                        }
+                    JSXAttrOrSpread::SpreadElement(e) => {
+                        check!();
+                        args.push(e.expr.as_arg());
                     }
                 }
-                check!();
-                Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: helper!(extends, "extends"),
-                    args,
-                    type_args: None,
-                }))
             }
+            check!();
+
+            // calls `_extends` or `Object.assign`
+            Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(extends, "extends"),
+                args,
+                type_args: None,
+            }))
         } else {
             Box::new(Expr::Object(ObjectLit {
                 span: DUMMY_SP,
