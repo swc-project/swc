@@ -303,6 +303,11 @@ impl<'a> Lexer<'a> {
                             AssignOp(Assign)
                         }));
                     }
+
+                    b'a'..=b'z' | b'A'..=b'Z' | b'$' | b'_' | b'\\' => {
+                        // Fast path for ascii identifiers.
+                        return self.read_ident_or_keyword().map(Some);
+                    }
                     _ => {}
                 }
             }
