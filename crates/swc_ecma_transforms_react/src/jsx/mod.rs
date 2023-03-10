@@ -849,8 +849,6 @@ where
                     }
                     JSXAttrOrSpread::SpreadElement(e) => {
                         props.push(PropOrSpread::Spread(e))
-                        // check!();
-                        // args.push(e.expr.as_arg());
                     }
                 }
             }
@@ -901,7 +899,6 @@ where
                     .into_iter()
                     .map(|a| match a {
                         JSXAttrOrSpread::JSXAttr(a) => a,
-                        // JSXAttrOrSpread::SpreadElement(s) => s,
                         _ => unreachable!(),
                     })
                     .map(|attr| {
@@ -914,53 +911,6 @@ where
                     .collect(),
             }))
         }
-
-        // if is_complex {
-        //     let mut args = vec![];
-        //     let mut cur_obj_props = vec![];
-        //     macro_rules! check {
-        //         () => {{
-        //             if args.is_empty() || !cur_obj_props.is_empty() {
-        //                 args.push(
-        //                     ObjectLit {
-        //                         span: DUMMY_SP,
-        //                         props: mem::take(&mut cur_obj_props),
-        //                     }
-        //                     .as_arg(),
-        //                 )
-        //             }
-        //         }};
-        //     }
-        //     for attr in attrs {
-        //         match attr {
-        //             JSXAttrOrSpread::JSXAttr(a) => {
-        //
-        // cur_obj_props.push(PropOrSpread::Prop(Box::new(self.
-        // attr_to_prop(a))))             }
-        //             JSXAttrOrSpread::SpreadElement(e) => {
-        //                 check!();
-        //                 args.push(e.expr.as_arg());
-        //             }
-        //         }
-        //     }
-        //     check!();
-
-        //     // calls `_extends` or `Object.assign`
-        //     Box::new(Expr::Call(CallExpr {
-        //         span: DUMMY_SP,
-        //         callee: {
-        //             if self.use_builtins {
-        //                 member_expr!(DUMMY_SP, Object.assign).as_callee()
-        //             } else {
-        //                 helper!(extends, "extends")
-        //             }
-        //         },
-        //         args,
-        //         type_args: None,
-        //     }))
-        // } else {
-
-        // }
     }
 
     fn attr_to_prop(&mut self, a: JSXAttr) -> Prop {
