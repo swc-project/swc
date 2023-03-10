@@ -24,6 +24,5 @@ import "core-js/modules/es.typed-array.some.js";
 import "core-js/modules/es.typed-array.sort.js";
 import "core-js/modules/es.typed-array.subarray.js";
 import "core-js/modules/es.typed-array.to-locale-string.js";
-import "core-js/modules/es.typed-array.to-sorted.js";
 import "core-js/modules/es.typed-array.to-string.js";
 new Int8Array(1);

@@ -6,6 +6,4 @@ import "core-js/modules/es.typed-array.int8-array.js";
 import "core-js/modules/es.typed-array.set.js";
 import "core-js/modules/es.typed-array.sort.js";
 import "core-js/modules/es.typed-array.to-locale-string.js";
-import "core-js/modules/es.typed-array.to-sorted.js";
-import "core-js/modules/es.typed-array.with.js";
 new Int8Array(1);
