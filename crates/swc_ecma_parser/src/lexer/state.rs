@@ -214,7 +214,7 @@ impl<'a> Iterator for Lexer<'a> {
 
             // skip spaces before getting next character, if we are allowed to.
             if self.state.can_skip_space() {
-                self.skip_space(true)?;
+                self.skip_space::<true>()?;
                 start = self.input.cur_pos();
             };
 
@@ -309,7 +309,7 @@ impl<'a> Iterator for Lexer<'a> {
 
                             self.emit_error_span(span, SyntaxError::TS1185);
                             self.skip_line_comment(6);
-                            self.skip_space(true)?;
+                            self.skip_space::<true>()?;
                             return self.read_token();
                         }
 
