@@ -149,11 +149,11 @@ impl<'a> Input for StringInput<'a> {
                 break;
             }
         }
-        let ret = &s[..last];
+        let ret = unsafe { s.get_unchecked(..last) };
 
         self.last_pos = self.last_pos + BytePos(last as _);
         self.start_pos_of_iter = self.last_pos;
-        self.iter = s[last..].char_indices();
+        self.iter = unsafe { s.get_unchecked(last..) }.char_indices();
 
         ret
     }
