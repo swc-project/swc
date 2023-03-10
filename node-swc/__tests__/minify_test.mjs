@@ -245,3 +245,37 @@ describe("should remove comments", () => {
         `);
     });
 });
+
+
+it("should produce same ressult as transform", async () => {
+
+    const code = `(() => {
+function $parcel$interopDefault(a) {
+  return a && a.__esModule ? a.default : a;
+}
+var $074842700de94141$exports = {};
+$074842700de94141$exports = "some unused data";
+
+
+let $f61716f0e972bb72$var$value = (0, (/*@__PURE__*/$parcel$interopDefault($074842700de94141$exports)));
+
+})();`;
+
+    const transformResult = await swc.transform(code, {
+        jsc: {
+            minify: {
+                mangle: true,
+                compress: true
+            }
+        }
+    });
+
+    // => { code: '' }
+
+    const minifyResult = await swc.minify(code, {
+        mangle: true,
+        compress: true
+    });
+
+    expect(minifyResult.code).toEqual(transformResult.code);
+});
