@@ -14,9 +14,6 @@ var C = function C() {
     "use strict";
     _classCallCheck(this, C);
 };
-var __ = {
-    writable: true,
-    value: function() {
-        C.x = 1;
-    }()
-};
+(function() {
+    C.x = 1;
+})();

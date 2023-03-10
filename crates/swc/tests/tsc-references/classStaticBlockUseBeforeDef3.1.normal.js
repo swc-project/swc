@@ -10,33 +10,24 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
-var __ = {
-    writable: true,
-    value: function() {
-        A.doSomething(); // should not error
-    }()
-};
+(function() {
+    A.doSomething(); // should not error
+})();
 var Baz = function Baz() {
     "use strict";
     _class_call_check(this, Baz);
 };
-var __1 = {
-    writable: true,
-    value: function() {
-        console.log(FOO); // should error
-    }()
-};
+(function() {
+    console.log(FOO); // should error
+})();
 var FOO = "FOO";
 var Bar = function Bar() {
     "use strict";
     _class_call_check(this, Bar);
 };
-var __2 = {
-    writable: true,
-    value: function() {
-        console.log(FOO); // should not error
-    }()
-};
+(function() {
+    console.log(FOO); // should not error
+})();
 var u = "FOO";
 var CFA = /*#__PURE__*/ function() {
     "use strict";
@@ -46,18 +37,12 @@ var CFA = /*#__PURE__*/ function() {
     CFA.doSomething = function doSomething() {};
     return CFA;
 }();
-var __3 = {
-    writable: true,
-    value: function() {
-        u = "BAR";
-        u; // should be "BAR"
-    }()
-};
+(function() {
+    u = "BAR";
+    u; // should be "BAR"
+})();
 CFA.t = 1;
-var __11 = {
-    writable: true,
-    value: function() {
-        u; // should be "BAR"
-    }()
-};
+(function() {
+    u; // should be "BAR"
+})();
 u; // should be "BAR"

@@ -3,7 +3,7 @@ System.register([
     "@swc/helpers/src/_class_call_check.mjs"
 ], function(_export, _context) {
     "use strict";
-    var _class_call_check, C, __;
+    var _class_call_check, C;
     return {
         setters: [
             function(_classCallCheck) {
@@ -15,12 +15,9 @@ System.register([
                 "use strict";
                 _class_call_check(this, C);
             });
-            __ = {
-                writable: true,
-                value: function() {
-                    C.x = 1;
-                }()
-            };
+            (function() {
+                C.x = 1;
+            })();
         }
     };
 });
