@@ -847,9 +847,7 @@ where
                     JSXAttrOrSpread::JSXAttr(a) => {
                         props.push(PropOrSpread::Prop(Box::new(self.attr_to_prop(a))))
                     }
-                    JSXAttrOrSpread::SpreadElement(e) => {
-                        props.push(PropOrSpread::Spread(e))
-                    }
+                    JSXAttrOrSpread::SpreadElement(e) => props.push(PropOrSpread::Spread(e)),
                 }
             }
 
