@@ -1,0 +1,3 @@
+class SomeClass {
+    accessor accessor;
+}
