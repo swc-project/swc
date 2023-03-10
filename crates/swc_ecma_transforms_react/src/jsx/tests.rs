@@ -1172,11 +1172,12 @@ test!(
         Mark::fresh(Mark::root())
     ),
     use_builtins_assignment,
-    r#"var div = <Component {...props} foo="bar" />"#,
+    r#"var div = <Component  {...props}  foo="bar"/>"#,
     r#"
-var div = React.createElement(Component, Object.assign({}, props, {
-  foo: "bar"
-}));
+    var div = React.createElement(Component, {
+        ...props,
+        foo: "bar"
+    });
 "#
 );
 
