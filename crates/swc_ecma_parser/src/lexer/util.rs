@@ -183,54 +183,94 @@ impl<'a> Lexer<'a> {
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) -> LexResult<()> {
-        loop {
-            let cur_b = self.input.cur_as_ascii();
+        if LEX_COMMENTS {
+            loop {
+                let cur_b = self.input.cur_as_ascii();
 
-            if matches!(cur_b, Some(b'\n' | b'\r')) {
-                self.input.bump();
-                self.state.had_line_break = true;
-                continue;
-            }
-
-            if matches!(cur_b, Some(b'\x09' | b'\x0b' | b'\x0c' | b'\x20' | b'\xa0')) {
-                self.input.bump();
-                continue;
-            }
-
-            if LEX_COMMENTS && self.input.is_byte(b'/') {
-                if self.peek() == Some('/') {
-                    self.skip_line_comment(2);
-                    continue;
-                } else if self.peek() == Some('*') {
-                    self.skip_block_comment()?;
-                    continue;
-                }
-                break;
-            }
-
-            let c = self.cur();
-            let c = match c {
-                Some(v) => v,
-                None => break,
-            };
-
-            match c {
-                // white spaces
-                '\u{feff}' => {}
-                // line breaks
-                '\u{2028}' | '\u{2029}' => {
+                if matches!(cur_b, Some(b'\n' | b'\r')) {
+                    self.input.bump();
                     self.state.had_line_break = true;
+                    continue;
                 }
 
-                _ if c.is_whitespace() => {}
+                if matches!(cur_b, Some(b'\x09' | b'\x0b' | b'\x0c' | b'\x20' | b'\xa0')) {
+                    self.input.bump();
+                    continue;
+                }
 
-                _ => break,
+                if self.input.is_byte(b'/') {
+                    if self.peek() == Some('/') {
+                        self.skip_line_comment(2);
+                        continue;
+                    } else if self.peek() == Some('*') {
+                        self.skip_block_comment()?;
+                        continue;
+                    }
+                    break;
+                }
+
+                let c = self.cur();
+                let c = match c {
+                    Some(v) => v,
+                    None => break,
+                };
+
+                match c {
+                    // white spaces
+                    '\u{feff}' => {}
+                    // line breaks
+                    '\u{2028}' | '\u{2029}' => {
+                        self.state.had_line_break = true;
+                    }
+
+                    _ if c.is_whitespace() => {}
+
+                    _ => break,
+                }
+
+                self.bump();
             }
 
-            self.bump();
-        }
+            Ok(())
+        } else {
+            loop {
+                let cur_b = self.input.cur_as_ascii();
 
-        Ok(())
+                if matches!(cur_b, Some(b'\n' | b'\r')) {
+                    self.input.bump();
+                    self.state.had_line_break = true;
+                    continue;
+                }
+
+                if matches!(cur_b, Some(b'\x09' | b'\x0b' | b'\x0c' | b'\x20' | b'\xa0')) {
+                    self.input.bump();
+                    continue;
+                }
+
+                let c = self.cur();
+                let c = match c {
+                    Some(v) => v,
+                    None => break,
+                };
+
+                match c {
+                    // white spaces
+                    '\u{feff}' => {}
+                    // line breaks
+                    '\u{2028}' | '\u{2029}' => {
+                        self.state.had_line_break = true;
+                    }
+
+                    _ if c.is_whitespace() => {}
+
+                    _ => break,
+                }
+
+                self.bump();
+            }
+
+            Ok(())
+        }
     }
 
     pub(super) fn skip_line_comment(&mut self, start_skip: usize) {
