@@ -111,15 +111,17 @@ impl<'a> Input for StringInput<'a> {
 
     #[inline]
     fn slice(&mut self, start: BytePos, end: BytePos) -> &str {
-        assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
+        debug_assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
         let s = self.orig;
 
         let start_idx = (start - self.orig_start).0 as usize;
         let end_idx = (end - self.orig_start).0 as usize;
 
-        let ret = &s[start_idx..end_idx];
+        debug_assert!(end_idx <= s.len());
 
-        self.iter = s[end_idx..].char_indices();
+        let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
+
+        self.iter = unsafe { s.get_unchecked(end_idx..) }.char_indices();
         self.last_pos = end;
         self.start_pos_of_iter = end;
 
@@ -140,6 +142,7 @@ impl<'a> Input for StringInput<'a> {
                 break;
             }
         }
+        debug_assert!(last <= s.len());
         let ret = unsafe { s.get_unchecked(..last) };
 
         self.last_pos = self.last_pos + BytePos(last as _);
@@ -166,9 +169,11 @@ impl<'a> Input for StringInput<'a> {
             return None;
         }
 
+        debug_assert!(last <= s.len());
+
         self.last_pos = self.last_pos + BytePos(last as _);
         self.start_pos_of_iter = self.last_pos;
-        self.iter = s[last..].char_indices();
+        self.iter = unsafe { s.get_unchecked(last..) }.char_indices();
 
         Some(self.last_pos)
     }
@@ -178,7 +183,8 @@ impl<'a> Input for StringInput<'a> {
         let orig = self.orig;
         let idx = (to - self.orig_start).0 as usize;
 
-        let s = &orig[idx..];
+        debug_assert!(idx <= orig.len());
+        let s = unsafe { orig.get_unchecked(idx..) };
         self.iter = s.char_indices();
         self.start_pos_of_iter = to;
         self.last_pos = to;
