@@ -79,16 +79,7 @@ impl<'a> Input for StringInput<'a> {
 
     #[inline]
     fn is_str(&self, s: &str) -> bool {
-        let mut s_iter = s.as_bytes().iter();
-        let mut p_iter = self.iter.clone().map(|i| i.1);
-
-        while let (Some(expected), Some(actual)) = (s_iter.next(), p_iter.next()) {
-            if *expected as char != actual {
-                return false;
-            }
-        }
-
-        s_iter.next().is_none()
+        self.as_str().starts_with(s)
     }
 
     #[inline]
