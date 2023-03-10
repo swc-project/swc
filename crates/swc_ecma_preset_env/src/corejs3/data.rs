@@ -386,11 +386,6 @@ static FOR_EACH: &[&str] = &concat2::<6>(
     ITERATOR,
 );
 
-static INDEXED: &[&str] = &concat2::<7>(
-    &["esnext.async-iterator.indexed", "esnext.iterator.indexed"],
-    ASYNC_ITERATOR_WITH_ITERATOR,
-);
-
 static REDUCE: &[&str] = &concat2::<5>(
     &[
         "es.array.reduce",
@@ -474,14 +469,14 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     fontsize: ["es.string.fontsize"],
     forEach: FOR_EACH,
     getYear: "es.date.get-year",
+    group: ["esnext.array.group"],
     groupBy: "esnext.array.group-by",
     groupByToMap: ["esnext.array.group-by-to-map", "es.map", "es.object.to-string"],
     groupToMap:["esnext.array.group-to-map", "es.map", "es.object.to-string"],
     includes: ["es.array.includes", "es.string.includes"],
-    indexed: INDEXED,
     indexOf: ["es.array.index-of"],
     isWellFormed: ["esnext.string.is-well-formed"],
-    italic: ["es.string.italics"],
+    italics: ["es.string.italics"],
     join: ["es.array.join"],
     keys: ARRAY_NATURE_ITERATORS_WITH_TAG,
     lastIndex: ["esnext.array.last-index"],
@@ -525,6 +520,7 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     toISOString: ["es.date.to-iso-string"],
     toJSON: ["es.date.to-json", "web.url.to-json"],
     toPrecision: ["es.number.to-precision"],
+    toReversed: ["es.array.to-reversed"],
     toSorted: ["es.array.to-sorted", "es.array.sort"],
     toSpliced: "es.array.to-spliced",
     toString: ["es.object.to-string", "es.error.to-string", "es.date.to-string", "es.regexp.to-string"],
@@ -538,7 +534,7 @@ pub static INSTANCE_PROPERTIES: DataMap<&[&str]> = data_map!(Map {
     unshift: ["es.array.unshift"],
     unThis: "esnext.function.un-this",
     values: ARRAY_NATURE_ITERATORS_WITH_TAG,
-    with: "esnext.array.with",
+    with: "es.array.with",
     __defineGetter__: ["es.object.define-getter"],
     __defineSetter__: ["es.object.define-setter"],
     __lookupGetter__: ["es.object.lookup-getter"],
