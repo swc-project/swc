@@ -78,11 +78,6 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
-    fn is_str(&self, s: &str) -> bool {
-        self.as_str().starts_with(s)
-    }
-
-    #[inline]
     fn bump(&mut self) {
         if let Some((i, c)) = self.iter.next() {
             self.last_pos = self.start_pos_of_iter + BytePos((i + c.len_utf8()) as u32);
@@ -90,6 +85,16 @@ impl<'a> Input for StringInput<'a> {
             unsafe {
                 debug_unreachable!("bump should not be called when cur() == None");
             }
+        }
+    }
+
+    #[inline]
+    fn cur_as_ascii(&mut self) -> Option<u8> {
+        let first_byte = *self.as_str().as_bytes().first()?;
+        if first_byte <= 0x7f {
+            Some(first_byte)
+        } else {
+            None
         }
     }
 
@@ -198,6 +203,11 @@ impl<'a> Input for StringInput<'a> {
             // Safety: We checked that `self.iter.as_str().len() > 0`
             unsafe { *self.iter.as_str().as_bytes().get_unchecked(0) == c }
         }
+    }
+
+    #[inline]
+    fn is_str(&self, s: &str) -> bool {
+        self.as_str().starts_with(s)
     }
 
     #[inline]
