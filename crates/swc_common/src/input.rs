@@ -128,6 +128,7 @@ impl<'a> Input for StringInput<'a> {
         ret
     }
 
+    #[inline]
     fn uncons_while<F>(&mut self, mut pred: F) -> &str
     where
         F: FnMut(char) -> bool,
@@ -152,6 +153,7 @@ impl<'a> Input for StringInput<'a> {
         ret
     }
 
+    #[inline]
     fn find<F>(&mut self, mut pred: F) -> Option<BytePos>
     where
         F: FnMut(char) -> bool,
