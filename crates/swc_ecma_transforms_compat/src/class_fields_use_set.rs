@@ -15,6 +15,8 @@ impl VisitMut for ClassFieldsUseSet {
     noop_visit_mut_type!();
 
     fn visit_mut_class(&mut self, n: &mut Class) {
+        n.visit_mut_children_with(self);
+
         let mut fields_handler = FieldsHandler::default();
         n.visit_mut_with(&mut fields_handler);
 
