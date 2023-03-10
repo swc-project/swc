@@ -59,6 +59,7 @@ pub struct Config {
     pub set_public_fields: bool,
     pub constant_super: bool,
     pub no_document_all: bool,
+    pub static_blocks_mark: Mark,
 }
 
 struct ClassProperties<C: Comments> {
@@ -707,6 +708,12 @@ impl<C: Comments> ClassProperties<C> {
                     }
 
                     let value = prop.value.unwrap_or_else(|| undefined(prop_span));
+
+                    if prop.is_static && prop.span.has_mark(self.c.static_blocks_mark) {
+                        let init = MemberInit::StaticBlock(value);
+                        extra_inits.push(init);
+                        continue;
+                    }
 
                     let init = MemberInit::PrivProp(PrivProp {
                         span: prop_span,
