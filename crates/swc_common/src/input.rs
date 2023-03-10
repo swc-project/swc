@@ -44,6 +44,7 @@ impl<'a> StringInput<'a> {
         self.iter.as_str()
     }
 
+    #[inline]
     pub fn bump_bytes(&mut self, n: usize) {
         let s = self.iter.as_str();
 
