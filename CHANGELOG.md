@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.3.39] - 2023-03-10
 
 ### Bug Fixes
 
@@ -36,6 +36,9 @@
 
 
 - **(es/ast)** Shrink size of `Expr` (#7041) ([a9fe1d2](https://github.com/swc-project/swc/commit/a9fe1d2d2228ba89fccb2a5d91f5ac4008f09d01))
+
+
+- **(es/lexer)** Use string searcher for lexing line comments (#7043) ([962b0fc](https://github.com/swc-project/swc/commit/962b0fc8af6084ade064d189ed7cd7f0e2b25ee8))
 
 
 - **(es/parser)** Use Cow for `_` in numeric literals (#7031) ([30546a2](https://github.com/swc-project/swc/commit/30546a28f21eb90bbbaef33ce4bc0448cd062a72))

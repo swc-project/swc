@@ -64,38 +64,47 @@ impl<'a> Lexer<'a> {
         }
     }
 
+    #[inline(always)]
     pub(super) fn bump(&mut self) {
         self.input.bump()
     }
 
+    #[inline(always)]
     pub(super) fn is(&mut self, c: u8) -> bool {
         self.input.is_byte(c)
     }
 
+    #[inline(always)]
     pub(super) fn is_str(&self, s: &str) -> bool {
         self.input.is_str(s)
     }
 
+    #[inline(always)]
     pub(super) fn eat(&mut self, c: u8) -> bool {
         self.input.eat_byte(c)
     }
 
+    #[inline(always)]
     pub(super) fn cur(&mut self) -> Option<char> {
         self.input.cur()
     }
 
+    #[inline(always)]
     pub(super) fn peek(&mut self) -> Option<char> {
         self.input.peek()
     }
 
+    #[inline(always)]
     pub(super) fn peek_ahead(&mut self) -> Option<char> {
         self.input.peek_ahead()
     }
 
+    #[inline(always)]
     pub(super) fn cur_pos(&mut self) -> BytePos {
         self.input.cur_pos()
     }
 
+    #[inline(always)]
     pub(super) fn last_pos(&self) -> BytePos {
         self.input.last_pos()
     }
@@ -226,9 +235,7 @@ impl<'a> Lexer<'a> {
 
     pub(super) fn skip_line_comment(&mut self, start_skip: usize) {
         let start = self.cur_pos();
-        for _ in 0..start_skip {
-            self.bump();
-        }
+        self.input.bump_bytes(start_skip);
         let slice_start = self.cur_pos();
 
         // foo // comment for foo
@@ -239,17 +246,18 @@ impl<'a> Lexer<'a> {
         // bar
         //
         let is_for_next = self.state.had_line_break || !self.state.can_have_trailing_line_comment();
-        let mut end = self.cur_pos();
 
-        while let Some(c) = self.cur() {
-            self.bump();
-            if c.is_line_terminator() {
+        let idx = self
+            .input
+            .as_str()
+            .find(['\r', '\n', '\u{2028}', '\u{2029}'])
+            .map_or(self.input.as_str().len(), |v| {
                 self.state.had_line_break = true;
-                break;
-            } else {
-                end = self.cur_pos();
-            }
-        }
+                v
+            });
+
+        self.input.bump_bytes(idx);
+        let end = self.cur_pos();
 
         if let Some(comments) = self.comments_buffer.as_mut() {
             let s = self.input.slice(slice_start, end);
@@ -280,8 +288,7 @@ impl<'a> Lexer<'a> {
         debug_assert_eq!(self.cur(), Some('/'));
         debug_assert_eq!(self.peek(), Some('*'));
 
-        self.bump();
-        self.bump();
+        self.input.bump_bytes(2);
 
         // jsdoc
         let slice_start = self.cur_pos();
