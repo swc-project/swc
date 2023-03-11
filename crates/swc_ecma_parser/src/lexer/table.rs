@@ -166,3 +166,6 @@ const LSS: ByteHandler = Some(|lexer| lexer.read_token_lt_gt());
 
 /// `>`
 const MOR: ByteHandler = Some(|lexer| lexer.read_token_lt_gt());
+
+/// `/`
+const SLH: ByteHandler = Some(|lexer| lexer.read_slash());
