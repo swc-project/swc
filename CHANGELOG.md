@@ -5,6 +5,23 @@
 
 
 
+- **(es/parser)** Handle class members with `accessor` as the name (#7046) ([9acaf4d](https://github.com/swc-project/swc/commit/9acaf4deeb412d9d3966223acbda673e8e686f06))
+
+
+- **(es/preset-env)** Update data for core-js3 (#7023) ([3730463](https://github.com/swc-project/swc/commit/37304638742238c97d2c87d6ac2dc5f4347da973))
+
+### Features
+
+
+
+- **(es/compat)** Simplify static blocks in classes (#7056) ([b78ce8b](https://github.com/swc-project/swc/commit/b78ce8b7c20f7c62523a017f4066776ada9d779d))
+
+## [1.3.39] - 2023-03-10
+
+### Bug Fixes
+
+
+
 - **(es/minifier)** Bailout regex optimization on invalid flags (#7020) ([1318afe](https://github.com/swc-project/swc/commit/1318afe2b4a7a25233db5760b785605019b9f06b))
 
 
@@ -36,6 +53,9 @@
 
 
 - **(es/ast)** Shrink size of `Expr` (#7041) ([a9fe1d2](https://github.com/swc-project/swc/commit/a9fe1d2d2228ba89fccb2a5d91f5ac4008f09d01))
+
+
+- **(es/lexer)** Use string searcher for lexing line comments (#7043) ([962b0fc](https://github.com/swc-project/swc/commit/962b0fc8af6084ade064d189ed7cd7f0e2b25ee8))
 
 
 - **(es/parser)** Use Cow for `_` in numeric literals (#7031) ([30546a2](https://github.com/swc-project/swc/commit/30546a28f21eb90bbbaef33ce4bc0448cd062a72))

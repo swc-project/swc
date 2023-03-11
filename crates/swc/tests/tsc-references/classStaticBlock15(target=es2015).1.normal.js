@@ -14,28 +14,10 @@ var __5 = {
     writable: true,
     value: 5
 };
-var __ = {
-    writable: true,
-    value: (()=>{})()
-};
-var __2 = {
-    writable: true,
-    value: (()=>{})()
-};
-var __4 = {
-    writable: true,
-    value: (()=>{})()
-};
-var __6 = {
-    writable: true,
-    value: (()=>{})()
-};
-var __7 = {
-    writable: true,
-    value: (()=>{})()
-};
-var __8 = {
-    writable: true,
-    value: (()=>{})()
-};
+(()=>{})();
+(()=>{})();
+(()=>{})();
+(()=>{})();
+(()=>{})();
+(()=>{})();
 console.log(_C__1);

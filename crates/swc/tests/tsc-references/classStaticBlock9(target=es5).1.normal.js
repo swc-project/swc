@@ -5,10 +5,7 @@ var A = function A() {
     _class_call_check(this, A);
 };
 A.bar = A.foo + 1;
-var __ = {
-    writable: true,
-    value: function() {
-        A.foo + 2;
-    }()
-};
+(function() {
+    A.foo + 2;
+})();
 A.foo = 1;

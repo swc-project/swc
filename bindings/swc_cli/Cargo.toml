@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = "Apache-2.0"
 name        = "swc_cli"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.91.25"
+version     = "0.91.26"
 
 [[bin]]
 bench = false
@@ -27,7 +27,7 @@ relative-path = "1.6.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
 sourcemap = "6.2.2"
-swc_core = { version = "0.65.0", features = [
+swc_core = { version = "0.66.2", features = [
   "trace_macro",
   "common_concurrent",
   "base_concurrent",

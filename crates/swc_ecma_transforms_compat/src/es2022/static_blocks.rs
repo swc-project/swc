@@ -1,15 +1,17 @@
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashSet, util::take::Take, DUMMY_SP};
+use swc_common::{collections::AHashSet, util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
-struct ClassStaticBlock;
+struct ClassStaticBlock {
+    mark: Mark,
+}
 
 #[tracing::instrument(level = "info", skip_all)]
-pub fn static_blocks() -> impl Fold + VisitMut {
-    as_folder(ClassStaticBlock)
+pub fn static_blocks(mark: Mark) -> impl Fold + VisitMut {
+    as_folder(ClassStaticBlock { mark })
 }
 
 #[swc_trace]
@@ -20,7 +22,7 @@ impl ClassStaticBlock {
         private_id: JsWord,
     ) -> PrivateProp {
         PrivateProp {
-            span: DUMMY_SP,
+            span: DUMMY_SP.apply_mark(self.mark),
             is_static: true,
             is_optional: false,
             is_override: false,

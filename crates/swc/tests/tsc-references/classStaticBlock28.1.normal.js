@@ -5,10 +5,7 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-var __ = {
-    writable: true,
-    value: function() {
-        foo = 1;
-    }()
-};
+(function() {
+    foo = 1;
+})();
 console.log(foo);
