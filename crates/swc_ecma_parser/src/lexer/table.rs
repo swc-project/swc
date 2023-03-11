@@ -13,19 +13,19 @@ use crate::{
     token::{AssignOpToken, BinOpToken, Token},
 };
 
-type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<Token>>>;
+pub(super) type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<Token>>>;
 
 /// Lookup table mapping any incoming byte to a handler function defined below.
-static BYTE_HANDLERS: [ByteHandler; 256] = [
+pub(super) static BYTE_HANDLERS: [ByteHandler; 256] = [
     //   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F   //
     EOF, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 0
     ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 1
-    ___, EXL, QOT, ERR, IDT, PRC, AMP, QOT, PNO, PNC, ATR, PLS, COM, MIN, PRD, SLH, // 2
+    ___, EXL, QOT, HSH, IDT, PRC, AMP, QOT, PNO, PNC, ATR, PLS, COM, MIN, PRD, SLH, // 2
     ZER, DIG, DIG, DIG, DIG, DIG, DIG, DIG, DIG, DIG, COL, SEM, LSS, EQL, MOR, QST, // 3
     ERR, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, // 4
     IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, BTO, IDT, BTC, CRT, IDT, // 5
     TPL, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, // 6
-    IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, BEO, IDT, BEC, TLD, ERR, // 7
+    IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, BEO, PIP, BEC, TLD, ERR, // 7
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // 8
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // 9
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // A
@@ -138,12 +138,12 @@ single_char!(BEC, b'}', RBrace);
 const CRT: ByteHandler = Some(|lexer| {
     // Bitwise xor
     lexer.input.bump_bytes(1);
-    return Ok(Some(if lexer.input.cur_as_ascii() == Some(b'=') {
+    Ok(Some(if lexer.input.cur_as_ascii() == Some(b'=') {
         lexer.input.bump_bytes(1);
         Token::AssignOp(AssignOpToken::BitXorAssign)
     } else {
         Token::BinOp(BinOpToken::BitXor)
-    }));
+    }))
 });
 
 /// `+`
@@ -169,3 +169,6 @@ const MOR: ByteHandler = Some(|lexer| lexer.read_token_lt_gt());
 
 /// `/`
 const SLH: ByteHandler = Some(|lexer| lexer.read_slash());
+
+/// `#`
+const HSH: ByteHandler = Some(|lexer| lexer.read_token_number_sign());
