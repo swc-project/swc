@@ -9,7 +9,7 @@ include = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license = "Apache-2.0"
 name = "swc_bundler"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.207.1"
+version = "0.207.2"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -42,8 +42,8 @@ swc_ecma_ast = {version = "0.99.2", path = "../swc_ecma_ast"}
 swc_ecma_codegen = {version = "0.134.3", path = "../swc_ecma_codegen"}
 swc_ecma_loader = {version = "0.41.39", path = "../swc_ecma_loader"}
 swc_ecma_parser = {version = "0.129.3", path = "../swc_ecma_parser"}
-swc_ecma_transforms_base = {version = "0.121.3", path = "../swc_ecma_transforms_base"}
-swc_ecma_transforms_optimization = {version = "0.180.1", path = "../swc_ecma_transforms_optimization"}
+swc_ecma_transforms_base = {version = "0.121.4", path = "../swc_ecma_transforms_base"}
+swc_ecma_transforms_optimization = {version = "0.180.2", path = "../swc_ecma_transforms_optimization"}
 swc_ecma_utils = {version = "0.112.3", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.85.2", path = "../swc_ecma_visit"}
 swc_fast_graph = {version = "0.17.38", path = "../swc_fast_graph/"}
@@ -60,12 +60,12 @@ swc_ecma_loader = {version = "0.41.39", path = "../swc_ecma_loader", features = 
   "node",
   "cache",
 ]}
-swc_ecma_minifier = {version = "0.174.1", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = {version = "0.174.2", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ]}
-swc_ecma_transforms_proposal = {version = "0.155.1", path = "../swc_ecma_transforms_proposal"}
-swc_ecma_transforms_react = {version = "0.166.1", path = "../swc_ecma_transforms_react"}
-swc_ecma_transforms_typescript = {version = "0.170.1", path = "../swc_ecma_transforms_typescript"}
+swc_ecma_transforms_proposal = {version = "0.155.2", path = "../swc_ecma_transforms_proposal"}
+swc_ecma_transforms_react = {version = "0.166.2", path = "../swc_ecma_transforms_react"}
+swc_ecma_transforms_typescript = {version = "0.170.2", path = "../swc_ecma_transforms_typescript"}
 swc_node_base = {version = "0.5.8", path = "../swc_node_base"}
 tempfile = "3.4.0"
 testing = {version = "0.31.39", path = "../testing"}
