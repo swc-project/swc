@@ -183,26 +183,13 @@ impl<'a> Lexer<'a> {
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) -> LexResult<()> {
-        let skip = SkipWhitespace::new(false);
-        let skip = skip.simd(self.input.as_str().as_bytes());
-        // dbg!(skip.offset);
-
-        self.input.bump_bytes(skip.offset);
-        self.state.had_line_break |= skip.newline;
-
         loop {
-            let cur_b = self.input.cur_as_ascii();
+            let skip = SkipWhitespace::new(false);
+            let skip = skip.simd(self.input.as_str().as_bytes());
+            // dbg!(skip.offset);
 
-            if matches!(cur_b, Some(b'\n' | b'\r')) {
-                self.input.bump();
-                self.state.had_line_break = true;
-                continue;
-            }
-
-            if matches!(cur_b, Some(b'\x09' | b'\x0b' | b'\x0c' | b'\x20' | b'\xa0')) {
-                self.input.bump();
-                continue;
-            }
+            self.input.bump_bytes(skip.offset);
+            self.state.had_line_break |= skip.newline;
 
             if LEX_COMMENTS && self.input.is_byte(b'/') {
                 if self.peek() == Some('/') {
@@ -228,8 +215,6 @@ impl<'a> Lexer<'a> {
                 '\u{2028}' | '\u{2029}' => {
                     self.state.had_line_break = true;
                 }
-
-                _ if c.is_whitespace() => {}
 
                 _ => break,
             }
