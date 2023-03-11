@@ -96,9 +96,6 @@ export let CommentService = class CommentService {
             session.endSession();
         }
     }
-    commentModel;
-    postModel;
-    connection;
 };
 CommentService = _ts_decorate([
     Injectable(),

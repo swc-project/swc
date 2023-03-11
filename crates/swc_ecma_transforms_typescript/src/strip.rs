@@ -2011,11 +2011,6 @@ where
                     is_abstract: true, ..
                 },
             ) => false,
-            ClassMember::ClassProp(ClassProp {
-                value: None,
-                ref decorators,
-                ..
-            }) if decorators.is_empty() && !self.config.use_define_for_class_fields => false,
 
             _ => true,
         });

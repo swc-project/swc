@@ -23,7 +23,6 @@ export let UserController = class UserController {
         }
         return this.userService.update(userId, updateUserDto);
     }
-    userService;
 };
 _ts_decorate([
     Post(USER_CREATE_ENDPOINT),
