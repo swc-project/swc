@@ -27,14 +27,12 @@ use crate::{
 pub(super) struct Raw(pub Option<SmartString<LazyCompact>>);
 
 impl Raw {
-    #[inline]
     pub fn push_str(&mut self, s: &str) {
         if let Some(ref mut st) = self.0 {
             st.push_str(s)
         }
     }
 
-    #[inline]
     pub fn push(&mut self, c: char) {
         if let Some(ref mut st) = self.0 {
             st.push(c)
@@ -50,7 +48,6 @@ impl Raw {
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 impl<'a> Lexer<'a> {
-    #[inline]
     pub(super) fn span(&self, start: BytePos) -> Span {
         let end = self.last_pos();
         if cfg!(debug_assertions) && start > end {
@@ -68,55 +65,46 @@ impl<'a> Lexer<'a> {
     }
 
     #[inline(always)]
-    #[inline]
     pub(super) fn bump(&mut self) {
         self.input.bump()
     }
 
     #[inline(always)]
-    #[inline]
     pub(super) fn is(&mut self, c: u8) -> bool {
         self.input.is_byte(c)
     }
 
     #[inline(always)]
-    #[inline]
     pub(super) fn is_str(&self, s: &str) -> bool {
         self.input.is_str(s)
     }
 
     #[inline(always)]
-    #[inline]
     pub(super) fn eat(&mut self, c: u8) -> bool {
         self.input.eat_byte(c)
     }
 
     #[inline(always)]
-    #[inline]
     pub(super) fn cur(&mut self) -> Option<char> {
         self.input.cur()
     }
 
     #[inline(always)]
-    #[inline]
     pub(super) fn peek(&mut self) -> Option<char> {
         self.input.peek()
     }
 
     #[inline(always)]
-    #[inline]
     pub(super) fn peek_ahead(&mut self) -> Option<char> {
         self.input.peek_ahead()
     }
 
     #[inline(always)]
-    #[inline]
     pub(super) fn cur_pos(&mut self) -> BytePos {
         self.input.cur_pos()
     }
 
     #[inline(always)]
-    #[inline]
     pub(super) fn last_pos(&self) -> BytePos {
         self.input.last_pos()
     }
@@ -375,7 +363,7 @@ pub trait CharExt: Copy {
     /// Test whether a given character code starts an identifier.
     ///
     /// https://tc39.github.io/ecma262/#prod-IdentifierStart
-    #[inline]
+
     fn is_ident_start(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,
@@ -385,7 +373,7 @@ pub trait CharExt: Copy {
     }
 
     /// Test whether a given character is part of an identifier.
-    #[inline]
+
     fn is_ident_part(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,
@@ -395,7 +383,7 @@ pub trait CharExt: Copy {
     }
 
     /// See https://tc39.github.io/ecma262/#sec-line-terminators
-    #[inline]
+
     fn is_line_terminator(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,
@@ -405,7 +393,7 @@ pub trait CharExt: Copy {
     }
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
-    #[inline]
+
     fn is_line_break(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,
@@ -415,7 +403,7 @@ pub trait CharExt: Copy {
     }
 
     /// See https://tc39.github.io/ecma262/#sec-white-space
-    #[inline]
+
     fn is_ws(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,
