@@ -167,21 +167,22 @@ impl<'a> Lexer<'a> {
 
     /// babel: `getTokenFromCode`
     fn read_token(&mut self) -> LexResult<Option<Token>> {
-        let mut byte;
+        let byte = match self.input.as_str().as_bytes().first() {
+            Some(&v) => v,
+            None => return Ok(None),
+        };
 
-        loop {
-            byte = match self.input.as_str().as_bytes().first() {
-                Some(&v) => v,
-                None => return Ok(None),
-            };
+        let handler = unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
 
-            let handler = unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
-
-            match handler {
-                Some(handler) => return handler(self),
-                None => {
-                    self.input.bump_bytes(1);
-                }
+        match handler {
+            Some(handler) => handler(self),
+            None => {
+                let start = self.cur_pos();
+                self.input.bump_bytes(1);
+                self.error_span(
+                    pos_span(start),
+                    SyntaxError::UnexpectedChar { c: byte as _ },
+                )
             }
         }
     }
