@@ -9,7 +9,12 @@ use swc_atoms::{Atom, AtomGenerator};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{op, EsVersion};
 
-use self::{comments_buffer::CommentsBuffer, state::State, util::*};
+use self::{
+    comments_buffer::CommentsBuffer,
+    state::State,
+    table::{ByteHandler, BYTE_HANDLERS},
+    util::*,
+};
 pub use self::{
     input::Input,
     state::{TokenContext, TokenContexts},
@@ -162,107 +167,23 @@ impl<'a> Lexer<'a> {
 
     /// babel: `getTokenFromCode`
     fn read_token(&mut self) -> LexResult<Option<Token>> {
-        let c = self.input.cur_as_ascii();
+        let mut byte;
 
-        match c {
-            None => {}
-            Some(c) => {
-                match c {
-                    b'#' => return self.read_token_number_sign(),
+        loop {
+            byte = match self.input.as_str().as_bytes().first() {
+                Some(&v) => v,
+                None => return Ok(None),
+            };
 
-                    //
-                    b'.' => return self.read_token_dot().map(Some),
+            let handler = unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
 
-                    b'(' | b')' | b';' | b',' | b'[' | b']' | b'{' | b'}' | b'@' | b'`' | b'~' => {
-                        // These tokens are emitted directly.
-                        self.input.bump();
-                        return Ok(Some(match c {
-                            b'(' => LParen,
-                            b')' => RParen,
-                            b';' => Semi,
-                            b',' => Comma,
-                            b'[' => LBracket,
-                            b']' => RBracket,
-                            b'{' => LBrace,
-                            b'}' => RBrace,
-                            b'@' => At,
-                            b'`' => tok!('`'),
-                            b'~' => tok!('~'),
-
-                            _ => unreachable!(),
-                        }));
-                    }
-
-                    b'?' => return self.read_token_question_mark().map(Some),
-
-                    b':' => return self.read_token_colon().map(Some),
-
-                    b'0' => return self.read_token_zero().map(Some),
-
-                    b'1'..=b'9' => {
-                        return self
-                            .read_number(false)
-                            .map(|v| match v {
-                                Left((value, raw)) => Num { value, raw },
-                                Right((value, raw)) => BigInt { value, raw },
-                            })
-                            .map(Some);
-                    }
-
-                    b'"' | b'\'' => return self.read_str_lit().map(Some),
-
-                    b'/' => return self.read_slash(),
-
-                    b'%' | b'*' => return self.read_token_mul_mod(c).map(Some),
-
-                    // Logical operators
-                    b'|' | b'&' => return self.read_token_logical(c).map(Some),
-                    b'^' => {
-                        // Bitwise xor
-                        self.input.bump();
-                        return Ok(Some(if self.input.cur() == Some('=') {
-                            self.input.bump();
-                            AssignOp(BitXorAssign)
-                        } else {
-                            BinOp(BitXor)
-                        }));
-                    }
-
-                    b'+' | b'-' => return self.read_token_plus_minus(c),
-
-                    b'<' | b'>' => return self.read_token_lt_gt(),
-
-                    b'!' | b'=' => return self.read_token_bang_or_eq(c),
-
-                    b'a'..=b'z' | b'A'..=b'Z' | b'$' | b'_' | b'\\' => {
-                        // Fast path for ascii identifiers.
-                        return self.read_ident_or_keyword().map(Some);
-                    }
-                    _ => {}
+            match handler {
+                Some(handler) => return handler(self),
+                None => {
+                    self.input.bump_bytes(1);
                 }
             }
         }
-
-        let c = match self.input.cur() {
-            Some(c) => c,
-            None => {
-                return Ok(None);
-            }
-        };
-
-        let token = {
-            // Identifier or keyword. '\uXXXX' sequences are allowed in
-            // identifiers, so '\' also dispatches to that.
-            if c == '\\' || c.is_ident_start() {
-                return self.read_ident_or_keyword().map(Some);
-            }
-
-            let start = self.cur_pos();
-            self.input.bump();
-            self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
-        };
-
-        Ok(Some(token))
     }
 
     /// `#`
