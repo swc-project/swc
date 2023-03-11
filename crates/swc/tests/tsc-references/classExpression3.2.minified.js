@@ -7,7 +7,8 @@ var c = new (function(_superClass) {
     _inherits(C, _superClass);
     var _super = _create_super(C);
     function C() {
-        return _class_call_check(this, C), _super.apply(this, arguments);
+        var _this;
+        return _class_call_check(this, C), _this = _super.apply(this, arguments), _this.c = 3, _this;
     }
     return C;
 }(function(_superClass) {
@@ -15,11 +16,12 @@ var c = new (function(_superClass) {
     _inherits(_class, _superClass);
     var _super = _create_super(_class);
     function _class() {
-        return _class_call_check(this, _class), _super.apply(this, arguments);
+        var _this;
+        return _class_call_check(this, _class), _this = _super.apply(this, arguments), _this.b = 2, _this;
     }
     return _class;
 }(function _class() {
     "use strict";
-    _class_call_check(this, _class), this.c = 3, this.b = 2, this.a = 1;
+    _class_call_check(this, _class), this.a = 1;
 })))();
 c.a, c.b, c.c;

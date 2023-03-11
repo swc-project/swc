@@ -47,6 +47,10 @@ struct FieldsHandler {
 impl VisitMut for FieldsHandler {
     noop_visit_mut_type!();
 
+    fn visit_mut_class(&mut self, n: &mut Class) {
+        n.body.visit_mut_children_with(self);
+    }
+
     fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
         match n {
             ClassMember::Constructor(..) => self.constructor_found = true,
@@ -134,7 +138,7 @@ impl VisitMut for ConstructorHandler {
             constructor.visit_mut_with(self);
             n.body.push(constructor.into());
         } else {
-            n.visit_mut_children_with(self);
+            n.body.visit_mut_children_with(self);
         }
     }
 
