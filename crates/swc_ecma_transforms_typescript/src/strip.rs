@@ -1873,9 +1873,9 @@ where
                             }
                             _ => unreachable!("destructuring pattern inside TsParameterProperty"),
                         };
-                        if self.config.use_define_for_class_fields {
-                            extra_props.push(ident.id.clone());
-                        }
+
+                        extra_props.push(ident.id.clone());
+
                         let assign_expr = Box::new(Expr::Assign(AssignExpr {
                             span: ident.span.with_ctxt(SyntaxContext::empty()),
                             left: PatOrExpr::Expr(Box::new(

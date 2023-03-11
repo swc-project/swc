@@ -4,10 +4,11 @@ use swc_common::{chain, comments::SingleThreadedComments, pass::Optional, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
+    class_fields_use_set::class_fields_use_set,
     es2015::{block_scoping, destructuring, parameters},
     es2017::async_to_generator,
     es2020::{nullish_coalescing, optional_chaining},
-    es2022::class_properties,
+    es2022::{class_properties, static_blocks},
 };
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
@@ -29,6 +30,7 @@ fn tr_config(
         no_empty_export: true,
         ..Default::default()
     });
+    let use_set_for_class_fields = !config.use_define_for_class_fields;
     chain!(
         Optional::new(
             decorators(decorators_config.unwrap_or_default()),
@@ -36,16 +38,22 @@ fn tr_config(
         ),
         resolver(unresolved_mark, top_level_mark, true),
         strip_with_config(config, top_level_mark),
+        Optional::new(class_fields_use_set(true), use_set_for_class_fields),
     )
 }
 
 fn properties(t: &Tester, loose: bool) -> impl Fold {
-    class_properties(
-        Some(t.comments.clone()),
-        class_properties::Config {
-            set_public_fields: loose,
-            ..Default::default()
-        },
+    let mark = Mark::new();
+    chain!(
+        static_blocks(mark),
+        class_properties(
+            Some(t.comments.clone()),
+            class_properties::Config {
+                static_blocks_mark: mark,
+                set_public_fields: loose,
+                ..Default::default()
+            },
+        )
     )
 }
 
@@ -714,7 +722,7 @@ test!(
         constructor(a) {
         }
     }
-    A.b = 'foo';"
+    (()=>{ A.b = 'foo'; })();"
 );
 
 test!(
@@ -3602,13 +3610,13 @@ test_with_config!(
     ",
     "
     class A extends Object {
+        b;
         a;
         constructor(b = 2){
             super();
             this.b = b;
             this.a = 1;
         }
-        b;
     }
     "
 );
@@ -3648,13 +3656,19 @@ to!(
     }
     ",
     "
-    let _ref = (console.log(1), 'a'), _ref1 = (console.log(2), 'b');
+    let prop, prop1;
     class A {
         constructor() {
-            this[_ref] = 1;
+            this[prop] = 1;
         }
     }
-    A[_ref1] = 2;
+    (()=>{
+        prop = (console.log(1), 'a');
+        prop1 = (console.log(2), 'b');
+    })();
+    (()=>{
+        A[prop1] = 2;
+    })();
     "
 );
 
@@ -3668,14 +3682,21 @@ to!(
     }
     ",
     "
-    let _ref = (console.log(1), 'a'), _ref1 = (console.log(2), 'b'), _tmp = (console.log(3), 'c');
+    let prop, prop1;
+    let _tmp = (console.log(3), 'c');
     class A {
         [_tmp]() {}
         constructor() {
-            this[_ref] = 1;
+            this[prop] = 1;
         }
     }
-    A[_ref1] = 2;
+    (()=>{
+        prop = (console.log(1), 'a');
+        prop1 = (console.log(2), 'b');
+    })();
+    (()=>{
+        A[prop1] = 2;
+    })();
     "
 );
 
@@ -3746,7 +3767,7 @@ to!(
     "
     var _class;
     const A = (_class = class {},
-        _class.a = 1,
+        (()=>{ _class.a = 1; })(),
         _class);
     "
 );
@@ -4013,11 +4034,6 @@ to!(
     var _store = new WeakMap(), _body = new WeakMap();
     export class Context {
         constructor(optionsOrContext){
-            this.response = {
-                headers: new Headers()
-            };
-            this.params = {
-            };
             _classPrivateFieldInit(this, _store, {
                 writable: true,
                 value: void 0
@@ -4026,6 +4042,11 @@ to!(
                 writable: true,
                 value: void 0
             });
+            this.response = {
+                headers: new Headers()
+            };
+            this.params = {
+            };
             if (optionsOrContext instanceof Context) {
                 Object.assign(this, optionsOrContext);
                 this.customContext = this;
@@ -4121,9 +4142,9 @@ to!(
     var _TestClass;
     var _class;
     let TestClass = _class = someClassDecorator((_class = (_TestClass = class TestClass {
-    }, _TestClass.Something = 'hello', _TestClass.SomeProperties = {
+    }, (()=>{ _TestClass.Something = 'hello'; })(), (()=>{ _TestClass.SomeProperties = {
         firstProp: _TestClass.Something
-    }, _TestClass)) || _class) || _class;
+    };})(), _TestClass)) || _class) || _class;
     function someClassDecorator(c) {
         return c;
     }
@@ -4187,7 +4208,7 @@ class Foo {
 const identifier = 'bar';
 class Foo {
 }
-Foo.identifier = 5;
+(()=>{ Foo.identifier = 5; })();
   "
 );
 
