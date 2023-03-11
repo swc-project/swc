@@ -12,7 +12,9 @@ use swc_common::{
 use swc_ecma_ast::Ident;
 use tracing::warn;
 
-use super::{comments_buffer::BufferedComment, input::Input, Char, LexResult, Lexer};
+use super::{
+    comments_buffer::BufferedComment, input::Input, simd::SkipWhitespace, Char, LexResult, Lexer,
+};
 use crate::{
     error::{Error, SyntaxError},
     lexer::comments_buffer::BufferedCommentKind,
@@ -48,6 +50,7 @@ impl Raw {
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 impl<'a> Lexer<'a> {
+    #[inline]
     pub(super) fn span(&self, start: BytePos) -> Span {
         let end = self.last_pos();
         if cfg!(debug_assertions) && start > end {
@@ -65,46 +68,55 @@ impl<'a> Lexer<'a> {
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn bump(&mut self) {
         self.input.bump()
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn is(&mut self, c: u8) -> bool {
         self.input.is_byte(c)
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn is_str(&self, s: &str) -> bool {
         self.input.is_str(s)
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn eat(&mut self, c: u8) -> bool {
         self.input.eat_byte(c)
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn cur(&mut self) -> Option<char> {
         self.input.cur()
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn peek(&mut self) -> Option<char> {
         self.input.peek()
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn peek_ahead(&mut self) -> Option<char> {
         self.input.peek_ahead()
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn cur_pos(&mut self) -> BytePos {
         self.input.cur_pos()
     }
 
     #[inline(always)]
+    #[inline]
     pub(super) fn last_pos(&self) -> BytePos {
         self.input.last_pos()
     }
@@ -183,17 +195,6 @@ impl<'a> Lexer<'a> {
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) -> LexResult<()> {
-        loop {
-            let skip = SkipWhitespace::new(true);
-            let skip = skip.simd(self.input.as_str().as_bytes());
-            dbg!(skip.offset);
-            self.input.bump_bytes(skip.offset);
-            // dbg!(skip.offset);
-            for _ in 0..skip.offset {
-                self.input.bump();
-            }
-            self.state.had_line_break |= skip.newline;
-    pub(super) fn skip_space(&mut self, lex_comments: bool) -> LexResult<()> {
         let skip = SkipWhitespace::new(false);
         let skip = skip.simd(self.input.as_str().as_bytes());
         // dbg!(skip.offset);
