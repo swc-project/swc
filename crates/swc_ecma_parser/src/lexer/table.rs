@@ -99,6 +99,9 @@ const PRC: ByteHandler = Some(|lexer| lexer.read_token_mul_mod(b'%').map(Some));
 /// `*`
 const ATR: ByteHandler = Some(|lexer| lexer.read_token_mul_mod(b'*').map(Some));
 
+/// `?`
+const QST: ByteHandler = Some(|lexer| lexer.read_token_question_mark().map(Some));
+
 macro_rules! single_char {
     ($name:ident, $c:literal, $token:ident) => {
         const $name: ByteHandler = Some(|lexer| {
