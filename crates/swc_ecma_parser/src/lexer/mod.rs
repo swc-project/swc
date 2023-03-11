@@ -243,7 +243,7 @@ impl<'a> Lexer<'a> {
                                     SyntaxError::LegacyCommentInModule,
                                 );
                                 self.skip_line_comment(0);
-                                self.skip_space(true)?;
+                                self.skip_space::<true>()?;
                                 return self.read_token();
                             }
 
@@ -282,7 +282,7 @@ impl<'a> Lexer<'a> {
                                             SyntaxError::TS1185,
                                         );
                                         self.skip_line_comment(4);
-                                        self.skip_space(true)?;
+                                        self.skip_space::<true>()?;
                                         return self.read_token();
                                     }
 
@@ -302,6 +302,11 @@ impl<'a> Lexer<'a> {
                         } else {
                             AssignOp(Assign)
                         }));
+                    }
+
+                    b'a'..=b'z' | b'A'..=b'Z' | b'$' | b'_' | b'\\' => {
+                        // Fast path for ascii identifiers.
+                        return self.read_ident_or_keyword().map(Some);
                     }
                     _ => {}
                 }
@@ -504,7 +509,7 @@ impl<'a> Lexer<'a> {
                 let span = fixed_len_span(start, 7);
                 self.emit_error_span(span, SyntaxError::TS1185);
                 self.skip_line_comment(5);
-                self.skip_space(true)?;
+                self.skip_space::<true>()?;
                 return self.error_span(span, SyntaxError::TS1185);
             }
 
@@ -719,7 +724,7 @@ impl<'a> Lexer<'a> {
         // XML style comment. `<!--`
         if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
             self.skip_line_comment(3);
-            self.skip_space(true)?;
+            self.skip_space::<true>()?;
             self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
 
             return self.read_token();
@@ -767,7 +772,7 @@ impl<'a> Lexer<'a> {
         {
             self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
             self.skip_line_comment(5);
-            self.skip_space(true)?;
+            self.skip_space::<true>()?;
             return self.read_token();
         }
 
