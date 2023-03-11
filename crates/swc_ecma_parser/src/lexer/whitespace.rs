@@ -101,7 +101,6 @@ impl SkipWhitespace<'_> {
         loop {
             unwind_loop!({
                 byte = self.input.as_bytes().get(self.offset).copied();
-                dbg!(byte);
 
                 if let Some(byte) = byte {
                     let handler =
