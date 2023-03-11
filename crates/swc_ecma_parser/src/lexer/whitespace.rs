@@ -4,8 +4,8 @@ pub(super) type ByteHandler = Option<for<'aa> fn(&mut SkipWhitespace<'aa>) -> bo
 /// Lookup table for whitespace
 static BYTE_HANDLERS: [ByteHandler; 256] = [
     //   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F   //
-    ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, SPC, ___, SPC, ___, ___, ___, // 0
-    ___, NLN, ___, ___, NLN, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 1
+    ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, NLN, ___, SPC, NLN, ___, ___, // 0
+    ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 1
     SPC, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 2
     ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 3
     ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 4
@@ -101,6 +101,7 @@ impl SkipWhitespace<'_> {
         loop {
             unwind_loop!({
                 byte = self.input.as_bytes().get(self.offset).copied();
+                dbg!(byte);
 
                 if let Some(byte) = byte {
                     let handler =
