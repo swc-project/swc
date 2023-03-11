@@ -157,3 +157,6 @@ const EXL: ByteHandler = Some(|lexer| lexer.read_token_bang_or_eq(b'!'));
 
 /// `=`
 const EQL: ByteHandler = Some(|lexer| lexer.read_token_bang_or_eq(b'='));
+
+/// `.`
+const PRD: ByteHandler = Some(|lexer| lexer.read_token_dot().map(Some));
