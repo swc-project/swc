@@ -228,37 +228,7 @@ impl<'a> Lexer<'a> {
                         }));
                     }
 
-                    b'+' | b'-' => {
-                        let start = self.cur_pos();
-
-                        self.input.bump();
-
-                        // '++', '--'
-                        return Ok(Some(if self.input.cur() == Some(c as char) {
-                            self.input.bump();
-
-                            // Handle -->
-                            if self.state.had_line_break && c == b'-' && self.eat(b'>') {
-                                self.emit_module_mode_error(
-                                    start,
-                                    SyntaxError::LegacyCommentInModule,
-                                );
-                                self.skip_line_comment(0);
-                                self.skip_space::<true>()?;
-                                return self.read_token();
-                            }
-
-                            if c == b'+' {
-                                PlusPlus
-                            } else {
-                                MinusMinus
-                            }
-                        } else if self.input.eat_byte(b'=') {
-                            AssignOp(if c == b'+' { AddAssign } else { SubAssign })
-                        } else {
-                            BinOp(if c == b'+' { Add } else { Sub })
-                        }));
-                    }
+                    b'+' | b'-' => return self.read_token_plus_minus(c),
 
                     b'<' | b'>' => return self.read_token_lt_gt(),
 
@@ -695,6 +665,35 @@ impl<'a> Lexer<'a> {
         self.input.bump();
 
         Ok(Some(vec![c.into()]))
+    }
+
+    fn read_token_plus_minus(&self, c: u8) -> LexResult<Option<Token>> {
+        let start = self.cur_pos();
+
+        self.input.bump();
+
+        // '++', '--'
+        return Ok(Some(if self.input.cur() == Some(c as char) {
+            self.input.bump();
+
+            // Handle -->
+            if self.state.had_line_break && c == b'-' && self.eat(b'>') {
+                self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
+                self.skip_line_comment(0);
+                self.skip_space::<true>()?;
+                return self.read_token();
+            }
+
+            if c == b'+' {
+                PlusPlus
+            } else {
+                MinusMinus
+            }
+        } else if self.input.eat_byte(b'=') {
+            AssignOp(if c == b'+' { AddAssign } else { SubAssign })
+        } else {
+            BinOp(if c == b'+' { Add } else { Sub })
+        }));
     }
 }
 
