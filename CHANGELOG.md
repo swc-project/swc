@@ -7,6 +7,12 @@
 
 - **(es/parser)** Handle class members with `accessor` as the name (#7046) ([9acaf4d](https://github.com/swc-project/swc/commit/9acaf4deeb412d9d3966223acbda673e8e686f06))
 
+### Features
+
+
+
+- **(es/compat)** Simplify static blocks in classes (#7056) ([b78ce8b](https://github.com/swc-project/swc/commit/b78ce8b7c20f7c62523a017f4066776ada9d779d))
+
 ## [1.3.39] - 2023-03-10
 
 ### Bug Fixes

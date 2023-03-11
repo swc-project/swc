@@ -16,16 +16,14 @@ fn fixture(input: PathBuf) {
             ..Default::default()
         }),
         &|t| {
+            let config = class_properties::Config::default();
             let pass: Box<dyn Fold> = if input.to_string_lossy().contains("class-properties") {
                 Box::new(chain!(
-                    static_blocks(),
-                    class_properties(
-                        Some(t.comments.clone()),
-                        class_properties::Config::default()
-                    )
+                    static_blocks(config.static_blocks_mark),
+                    class_properties(Some(t.comments.clone()), config)
                 ))
             } else {
-                Box::new(static_blocks())
+                Box::new(static_blocks(config.static_blocks_mark))
             };
             pass
         },
