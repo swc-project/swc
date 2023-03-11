@@ -317,6 +317,12 @@ impl VisitMut for ComputedFieldsHandler {
         }
     }
 
+    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
+        if n.is_class_prop() {
+            n.visit_mut_children_with(self);
+        }
+    }
+
     fn visit_mut_class_members(&mut self, n: &mut Vec<ClassMember>) {
         n.visit_mut_children_with(self);
 
