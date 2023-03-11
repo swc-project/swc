@@ -210,8 +210,9 @@ impl<'a> Lexer<'a> {
                     self.skip_block_comment()?;
                     continue;
                 }
-                break;
             }
+
+            break;
         }
 
         Ok(())
