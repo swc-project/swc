@@ -7,6 +7,9 @@
 
 - **(es/parser)** Handle class members with `accessor` as the name (#7046) ([9acaf4d](https://github.com/swc-project/swc/commit/9acaf4deeb412d9d3966223acbda673e8e686f06))
 
+
+- **(es/preset-env)** Update data for core-js3 (#7023) ([3730463](https://github.com/swc-project/swc/commit/37304638742238c97d2c87d6ac2dc5f4347da973))
+
 ### Features
 
 
