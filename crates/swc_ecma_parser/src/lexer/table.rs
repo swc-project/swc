@@ -21,7 +21,7 @@ static BYTE_HANDLERS: [ByteHandler; 256] = [
     EOF, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 0
     ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 1
     ___, EXL, QOT, ERR, IDT, PRC, AMP, QOT, PNO, PNC, ATR, PLS, COM, MIN, PRD, SLH, // 2
-    ZER, DI0, DIG, DIG, DIG, DIG, DIG, DIG, DIG, DIG, COL, SEM, LSS, EQL, MOR, QST, // 3
+    ZER, DIG, DIG, DIG, DIG, DIG, DIG, DIG, DIG, DIG, COL, SEM, LSS, EQL, MOR, QST, // 3
     ERR, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, // 4
     IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, BTO, IDT, BTC, CRT, IDT, // 5
     TPL, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, IDT, // 6
@@ -59,7 +59,7 @@ const ERR: ByteHandler = Some(|lexer| {
 const IDT: ByteHandler = Some(|lexer| lexer.read_ident_or_keyword().map(Some));
 
 /// `0`
-const DI0: ByteHandler = Some(|lexer| lexer.read_token_zero().map(Some));
+const ZER: ByteHandler = Some(|lexer| lexer.read_token_zero().map(Some));
 
 /// Numbers
 const DIG: ByteHandler = Some(|lexer| {
