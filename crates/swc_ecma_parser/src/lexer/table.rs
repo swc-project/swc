@@ -160,3 +160,9 @@ const EQL: ByteHandler = Some(|lexer| lexer.read_token_bang_or_eq(b'='));
 
 /// `.`
 const PRD: ByteHandler = Some(|lexer| lexer.read_token_dot().map(Some));
+
+/// `<`
+const LSS: ByteHandler = Some(|lexer| lexer.read_token_lt_gt());
+
+/// `>`
+const MOR: ByteHandler = Some(|lexer| lexer.read_token_lt_gt());
