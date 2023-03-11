@@ -907,35 +907,44 @@ impl Fixer<'_> {
             Expr::Call(CallExpr {
                 callee: Callee::Expr(callee),
                 ..
-            })
-            | Expr::OptChain(OptChainExpr {
-                base: box OptChainBase::Call(OptCall { callee, .. }),
-                ..
-            }) if callee.is_seq() => {
+            }) if callee.is_seq()
+                || callee.is_arrow()
+                || callee.is_await_expr()
+                || callee.is_assign() =>
+            {
                 *callee = Box::new(Expr::Paren(ParenExpr {
                     span: callee.span(),
                     expr: callee.take(),
                 }))
             }
+            Expr::OptChain(OptChainExpr { base, .. }) => match &mut **base {
+                OptChainBase::Call(OptCall { callee, .. })
+                    if callee.is_seq()
+                        || callee.is_arrow()
+                        || callee.is_await_expr()
+                        || callee.is_assign() =>
+                {
+                    *callee = Box::new(Expr::Paren(ParenExpr {
+                        span: callee.span(),
+                        expr: callee.take(),
+                    }))
+                }
 
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                ..
-            })
-            | Expr::OptChain(OptChainExpr {
-                base: box OptChainBase::Call(OptCall { callee, .. }),
-                ..
-            }) if callee.is_arrow() || callee.is_await_expr() || callee.is_assign() => {
-                self.wrap(callee);
-            }
+                OptChainBase::Call(OptCall { callee, .. }) if callee.is_fn_expr() => match self.ctx
+                {
+                    Context::ForcedExpr | Context::FreeExpr => {}
+
+                    Context::Callee { is_new: true } => self.wrap(e),
+
+                    _ => self.wrap(callee),
+                },
+
+                _ => {}
+            },
 
             // Function expression cannot start with `function`
             Expr::Call(CallExpr {
                 callee: Callee::Expr(callee),
-                ..
-            })
-            | Expr::OptChain(OptChainExpr {
-                base: box OptChainBase::Call(OptCall { callee, .. }),
                 ..
             }) if callee.is_fn_expr() => match self.ctx {
                 Context::ForcedExpr | Context::FreeExpr => {}
