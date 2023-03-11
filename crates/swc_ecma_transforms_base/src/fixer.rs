@@ -907,27 +907,30 @@ impl Fixer<'_> {
             Expr::Call(CallExpr {
                 callee: Callee::Expr(callee),
                 ..
-            })
-            | Expr::OptChain(OptChainExpr {
-                base: box OptChainBase::Call(OptCall { callee, .. }),
-                ..
-            }) if callee.is_seq() => {
+            }) if callee.is_seq()
+                || callee.is_arrow()
+                || callee.is_await_expr()
+                || callee.is_assign() =>
+            {
                 *callee = Box::new(Expr::Paren(ParenExpr {
                     span: callee.span(),
                     expr: callee.take(),
                 }))
             }
-
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                ..
-            })
-            | Expr::OptChain(OptChainExpr {
-                base: box OptChainBase::Call(OptCall { callee, .. }),
-                ..
-            }) if callee.is_arrow() || callee.is_await_expr() || callee.is_assign() => {
-                self.wrap(callee);
-            }
+            Expr::OptChain(OptChainExpr { base, .. }) => match &mut **base {
+                OptChainBase::Member(_) => {}
+                OptChainBase::Call(OptCall { callee, .. })
+                    if callee.is_seq()
+                        || callee.is_arrow()
+                        || callee.is_await_expr()
+                        || callee.is_assign() =>
+                {
+                    *callee = Box::new(Expr::Paren(ParenExpr {
+                        span: callee.span(),
+                        expr: callee.take(),
+                    }))
+                }
+            },
 
             // Function expression cannot start with `function`
             Expr::Call(CallExpr {
