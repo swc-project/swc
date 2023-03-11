@@ -218,6 +218,7 @@ impl<'a> Lexer<'a> {
         Ok(())
     }
 
+    #[inline(never)]
     pub(super) fn skip_line_comment(&mut self, start_skip: usize) {
         let start = self.cur_pos();
         self.input.bump_bytes(start_skip);
@@ -267,6 +268,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// Expects current char to be '/' and next char to be '*'.
+    #[inline(never)]
     pub(super) fn skip_block_comment(&mut self) -> LexResult<()> {
         let start = self.cur_pos();
 
