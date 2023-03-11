@@ -10,8 +10,18 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 
 /// # What does this module do?
 ///
-/// This module will transform the class semantics from [[Define]] to [[Set]]
+/// This module will transpile the class semantics
+/// from `[[Define]]` to `[[Set]]`.
+///
+///
+/// Note: class's native field is `[[Define]]` semantics.
+///
+/// # Why is it needed?
+/// The getter/setter from the super class won't be triggered in `[[Define]]`
 /// semantics.
+///
+/// Some decorators depend on super class getter/setter.
+/// Therefore, scenarios like this will require `[[Set]]` semantics.
 ///
 /// ## Example
 ///
@@ -29,7 +39,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// ```JavaScript
 /// class Foo {
 ///     #b;
-///     static{
+///     static {
 ///         this.c = 3;
 ///     }
 ///     static #d = 4;
@@ -41,11 +51,11 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// ```
 ///
 /// The variable `a` will be relocated to the constructor. Although the variable
-/// `#b` is not influenced by [[Define]] or [[Set]] semantics, its execution
+/// `#b` is not influenced by `[[Define]]` or `[[Set]]` semantics, its execution
 /// order is associated with variable `a`, thus its initialization is moved into
 /// the constructor.
 ///
-/// The static variable `c` is moved to the static block for [[Set]] semantic
+/// The static variable `c` is moved to the static block for `[[Set]]` semantic
 /// conversion. Whereas, variable `#d` remains completely unaffected and
 /// conserved in its original location.
 ///
@@ -55,7 +65,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 /// For example,
 ///
 /// ```JavaScript
-/// class Foo{
+/// class Foo {
 ///     [foo()] = 1;
 /// }
 /// ```
@@ -73,7 +83,6 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 ///     }
 /// }
 /// ```
-///
 pub fn class_fields_use_set(pure_getters: bool) -> impl Fold + VisitMut {
     as_folder(ClassFieldsUseSet { pure_getters })
 }
