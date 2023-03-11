@@ -918,7 +918,6 @@ impl Fixer<'_> {
                 }))
             }
             Expr::OptChain(OptChainExpr { base, .. }) => match &mut **base {
-                OptChainBase::Member(_) => {}
                 OptChainBase::Call(OptCall { callee, .. })
                     if callee.is_seq()
                         || callee.is_arrow()
@@ -930,15 +929,22 @@ impl Fixer<'_> {
                         expr: callee.take(),
                     }))
                 }
+
+                OptChainBase::Call(OptCall { callee, .. }) if callee.is_fn_expr() => match self.ctx
+                {
+                    Context::ForcedExpr | Context::FreeExpr => {}
+
+                    Context::Callee { is_new: true } => self.wrap(e),
+
+                    _ => self.wrap(callee),
+                },
+
+                _ => {}
             },
 
             // Function expression cannot start with `function`
             Expr::Call(CallExpr {
                 callee: Callee::Expr(callee),
-                ..
-            })
-            | Expr::OptChain(OptChainExpr {
-                base: box OptChainBase::Call(OptCall { callee, .. }),
                 ..
             }) if callee.is_fn_expr() => match self.ctx {
                 Context::ForcedExpr | Context::FreeExpr => {}
