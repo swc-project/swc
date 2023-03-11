@@ -30,7 +30,7 @@ fn tr_config(
         no_empty_export: true,
         ..Default::default()
     });
-    let use_set_for_class_fields = !config.use_define_for_class_fields;
+    let set_public_class_fields = !config.use_define_for_class_fields;
     chain!(
         Optional::new(
             decorators(decorators_config.unwrap_or_default()),
@@ -38,7 +38,7 @@ fn tr_config(
         ),
         resolver(unresolved_mark, top_level_mark, true),
         strip_with_config(config, top_level_mark),
-        Optional::new(class_fields_use_set(true), use_set_for_class_fields),
+        Optional::new(class_fields_use_set(true), set_public_class_fields),
     )
 }
 

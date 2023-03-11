@@ -310,7 +310,7 @@ fn get_expected_stdout(input: &Path) -> Result<String, Error> {
                         &Options {
                             config: Config {
                                 jsc: JscConfig {
-                                    target: Some(EsVersion::Es2021),
+                                    target: Some(EsVersion::Es2022),
                                     syntax: Some(Syntax::Typescript(TsConfig {
                                         decorators: true,
                                         ..Default::default()
@@ -318,7 +318,7 @@ fn get_expected_stdout(input: &Path) -> Result<String, Error> {
                                     transform: Some(TransformConfig {
                                         use_define_for_class_fields: (!input
                                             .to_string_lossy()
-                                            .contains("use_set_for_class_fields"))
+                                            .contains("set_public_class_fields"))
                                         .into(),
                                         ..Default::default()
                                     })
