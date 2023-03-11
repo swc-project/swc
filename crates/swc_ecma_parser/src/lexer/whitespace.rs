@@ -81,42 +81,28 @@ pub(super) struct SkipWhitespace<'a> {
     pub newline: bool,
 }
 
-macro_rules! unwind_loop {
-    ($e:expr) => {{
-        $e;
-        $e;
-        $e;
-        $e;
-        $e;
-        $e;
-        $e;
-        $e;
-    }};
-}
-
 impl SkipWhitespace<'_> {
+    #[inline(always)]
     pub fn scan(&mut self) {
         let mut byte;
 
         loop {
-            unwind_loop!({
-                byte = self.input.as_bytes().get(self.offset).copied();
+            byte = self.input.as_bytes().get(self.offset).copied();
 
-                if let Some(byte) = byte {
-                    let handler =
-                        unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
+            if let Some(byte) = byte {
+                let handler =
+                    unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
 
-                    if let Some(handler) = handler {
-                        if handler(self) {
-                            return;
-                        }
-                    } else {
+                if let Some(handler) = handler {
+                    if handler(self) {
                         return;
                     }
                 } else {
                     return;
                 }
-            })
+            } else {
+                return;
+            }
         }
     }
 }
