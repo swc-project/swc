@@ -25,6 +25,9 @@
 
 - **(es/lexer)** Make lexer faster (#7052) ([d1d0607](https://github.com/swc-project/swc/commit/d1d0607158ab40463d1b123fed52cc526eba8385))
 
+
+- **(es/lexer)** Use jump table for `read_token` (#7058) ([9beefaa](https://github.com/swc-project/swc/commit/9beefaa1d5e711b63293d52a6c77e8aaf5e8f4c1))
+
 ## [1.3.39] - 2023-03-10
 
 ### Bug Fixes
