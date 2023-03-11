@@ -626,13 +626,13 @@ impl<'a> Lexer<'a> {
         Ok(Some(vec![c.into()]))
     }
 
-    fn read_token_plus_minus(&self, c: u8) -> LexResult<Option<Token>> {
+    fn read_token_plus_minus(&mut self, c: u8) -> LexResult<Option<Token>> {
         let start = self.cur_pos();
 
         self.input.bump();
 
         // '++', '--'
-        return Ok(Some(if self.input.cur() == Some(c as char) {
+        Ok(Some(if self.input.cur() == Some(c as char) {
             self.input.bump();
 
             // Handle -->
@@ -652,16 +652,16 @@ impl<'a> Lexer<'a> {
             AssignOp(if c == b'+' { AddAssign } else { SubAssign })
         } else {
             BinOp(if c == b'+' { Add } else { Sub })
-        }));
+        }))
     }
 
-    fn read_token_bang_or_eq(&self, c: u8) -> LexResult<Option<Token>> {
+    fn read_token_bang_or_eq(&mut self, c: u8) -> LexResult<Option<Token>> {
         let start = self.cur_pos();
         let had_line_break_before_last = self.had_line_break_before_last();
 
         self.input.bump();
 
-        return Ok(Some(if self.input.eat_byte(b'=') {
+        Ok(Some(if self.input.eat_byte(b'=') {
             // "=="
 
             if self.input.eat_byte(b'=') {
@@ -692,7 +692,7 @@ impl<'a> Lexer<'a> {
             Bang
         } else {
             AssignOp(Assign)
-        }));
+        }))
     }
 }
 
