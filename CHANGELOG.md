@@ -16,6 +16,12 @@
 
 - **(es/compat)** Simplify static blocks in classes (#7056) ([b78ce8b](https://github.com/swc-project/swc/commit/b78ce8b7c20f7c62523a017f4066776ada9d779d))
 
+### Performance
+
+
+
+- **(es/lexer)** Make lexer faster (#7052) ([d1d0607](https://github.com/swc-project/swc/commit/d1d0607158ab40463d1b123fed52cc526eba8385))
+
 ## [1.3.39] - 2023-03-10
 
 ### Bug Fixes
