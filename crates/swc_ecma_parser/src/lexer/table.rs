@@ -104,6 +104,7 @@ macro_rules! single_char {
 
 single_char!(SEM, b';', Semi);
 single_char!(COM, b',', Comma);
+single_char!(TPL, b'`', BackQuote);
 
 single_char!(PNO, b'(', LParen);
 single_char!(PNC, b')', RParen);
@@ -113,5 +114,3 @@ single_char!(BTC, b']', RBracket);
 
 single_char!(BEO, b'{', LBrace);
 single_char!(BEC, b'}', RBrace);
-
-// b'@' | b'`' | b'~'
