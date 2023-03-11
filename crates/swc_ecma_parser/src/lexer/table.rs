@@ -41,6 +41,17 @@ const EOF: ByteHandler = Some(|lexer| {
     Ok(None)
 });
 
+const ERR: ByteHandler = Some(|lexer| {
+    let c = unsafe {
+        // Safety: Byte handler is only called for non-last chracters
+        lexer.input.cur().unwrap_unchecked()
+    };
+
+    let start = lexer.cur_pos();
+    lexer.input.bump();
+    lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
+});
+
 /// Identifier
 const IDT: ByteHandler = Some(|lexer| lexer.read_ident_or_keyword().map(Some));
 
