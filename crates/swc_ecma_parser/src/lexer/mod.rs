@@ -25,6 +25,7 @@ pub mod input;
 mod jsx;
 mod number;
 mod state;
+mod table;
 #[cfg(test)]
 mod tests;
 pub mod util;
