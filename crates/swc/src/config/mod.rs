@@ -669,7 +669,6 @@ impl Options {
                                 .into_bool(),
                             ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
                         },
-                        use_define_for_class_fields: !assumptions.set_public_class_fields,
                         import_export_assign_config,
                         ..Default::default()
                     },
