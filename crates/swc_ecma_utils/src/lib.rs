@@ -1948,6 +1948,25 @@ impl Visit for LiteralVisitor {
     }
 }
 
+pub fn is_simple_pure_expr(expr: &Expr, pure_getters: bool) -> bool {
+    match expr {
+        Expr::Ident(..) | Expr::This(..) | Expr::Lit(..) => true,
+        Expr::Member(m) if pure_getters => is_simple_pure_member_expr(m, pure_getters),
+        _ => false,
+    }
+}
+
+pub fn is_simple_pure_member_expr(m: &MemberExpr, pure_getters: bool) -> bool {
+    match &m.prop {
+        MemberProp::Ident(..) | MemberProp::PrivateName(..) => {
+            is_simple_pure_expr(&m.obj, pure_getters)
+        }
+        MemberProp::Computed(c) => {
+            is_simple_pure_expr(&c.expr, pure_getters) && is_simple_pure_expr(&m.obj, pure_getters)
+        }
+    }
+}
+
 /// Used to determine super_class_ident
 pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
     fn sym(expr: &Expr) -> Option<String> {

@@ -1,10 +1,16 @@
 //// [symbolProperty6.ts]
+let prop, prop1;
+let _Symbol_toPrimitive = Symbol.toPrimitive, _Symbol_toStringTag = Symbol.toStringTag;
 class C {
-    [Symbol.toPrimitive]() {}
-    get [Symbol.toStringTag]() {
+    [_Symbol_toPrimitive]() {}
+    get [_Symbol_toStringTag]() {
         return 0;
     }
     constructor(){
-        this[Symbol.iterator] = 0;
+        this[prop] = 0;
     }
 }
+(()=>{
+    prop = Symbol.iterator;
+    prop1 = Symbol.unscopables;
+})();

@@ -218,7 +218,12 @@ Math.random() * 2 ? N["s"] : "a";
     [s]: "a",
     [N.s]: "b"
 });
+let prop, prop1;
 class C1 {
+    static{
+        prop = N.s;
+        prop1 = N.s;
+    }
 }
 const o4 = {
     method1 () {

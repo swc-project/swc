@@ -1,6 +1,10 @@
 //// [symbolDeclarationEmit2.ts]
+let prop;
 class C {
     constructor(){
-        this[Symbol.toPrimitive] = "";
+        this[prop] = "";
     }
 }
+(()=>{
+    prop = Symbol.toPrimitive;
+})();

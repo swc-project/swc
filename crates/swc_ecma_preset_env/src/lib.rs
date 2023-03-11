@@ -87,7 +87,10 @@ where
 
     let pass = chain!(
         pass,
-        Optional::new(class_fields_use_set(), assumptions.set_public_class_fields)
+        Optional::new(
+            class_fields_use_set(assumptions.pure_getters),
+            assumptions.set_public_class_fields
+        )
     );
 
     let pass = {

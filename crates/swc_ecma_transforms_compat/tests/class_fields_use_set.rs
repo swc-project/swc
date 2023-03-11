@@ -13,7 +13,7 @@ fn fixture(input: PathBuf) {
         Syntax::Es(EsConfig {
             ..Default::default()
         }),
-        &|_| class_fields_use_set(),
+        &|_| class_fields_use_set(true),
         &input,
         &output,
         Default::default(),
