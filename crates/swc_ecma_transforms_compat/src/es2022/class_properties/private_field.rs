@@ -439,10 +439,19 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             }
 
             Expr::OptChain(OptChainExpr {
-                base: box OptChainBase::Call(call),
+                base,
                 question_dot_token,
                 span,
-            }) if call.callee.is_member() => {
+            }) if match &**base {
+                OptChainBase::Call(call) => call.callee.is_member(),
+                _ => false,
+            } =>
+            {
+                let call = match &mut **base {
+                    OptChainBase::Call(call) => call,
+                    _ => unreachable!(),
+                };
+
                 let mut callee = call.callee.take().member().unwrap();
                 callee.visit_mut_with(self);
                 call.args.visit_mut_with(self);
