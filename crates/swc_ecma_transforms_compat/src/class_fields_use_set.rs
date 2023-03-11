@@ -8,6 +8,72 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
+/// # What does this module do?
+///
+/// This module will transform the class semantics from [[Define]] to [[Set]]
+/// semantics.
+///
+/// ## Example
+///
+/// ```JavaScript
+/// class Foo {
+///     a = 1;
+///     #b = 2;
+///     static c = 3;
+///     static #d = 4;
+/// }
+/// ```
+///
+/// result:
+///
+/// ```JavaScript
+/// class Foo {
+///     #b;
+///     static{
+///         this.c = 3;
+///     }
+///     static #d = 4;
+///     constructor() {
+///         this.a = 1;
+///         this.#b = 2;
+///     }
+/// }
+/// ```
+///
+/// The variable `a` will be relocated to the constructor. Although the variable
+/// `#b` is not influenced by [[Define]] or [[Set]] semantics, its execution
+/// order is associated with variable `a`, thus its initialization is moved into
+/// the constructor.
+///
+/// The static variable `c` is moved to the static block for [[Set]] semantic
+/// conversion. Whereas, variable `#d` remains completely unaffected and
+/// conserved in its original location.
+///
+/// Furthermore, for class props that have side effects, an extraction and
+/// conversion will be performed.
+///
+/// For example,
+///
+/// ```JavaScript
+/// class Foo{
+///     [foo()] = 1;
+/// }
+/// ```
+///
+/// result:
+///
+/// ```JavaScript
+/// let prop;
+/// class Foo{
+///     static {
+///         prop = foo();
+///     }
+///     constructor() {
+///         this[prop] = 1;
+///     }
+/// }
+/// ```
+///
 pub fn class_fields_use_set(pure_getters: bool) -> impl Fold + VisitMut {
     as_folder(ClassFieldsUseSet { pure_getters })
 }
