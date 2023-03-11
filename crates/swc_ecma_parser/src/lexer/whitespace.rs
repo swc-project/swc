@@ -1,5 +1,5 @@
 /// Returns true if it's done
-pub(super) type ByteHandler = Option<for<'aa> fn(&mut SkipWhitespace<'aa>) -> bool>;
+pub(super) type ByteHandler = Option<for<'aa> fn(&mut SkipWhitespace<'aa>) -> usize>;
 
 /// Lookup table for whitespace
 static BYTE_HANDLERS: [ByteHandler; 256] = [
@@ -27,18 +27,13 @@ const ___: ByteHandler = None;
 
 /// Newline
 const NLN: ByteHandler = Some(|skip| {
-    skip.offset += 1;
     skip.newline = true;
 
-    false
+    1
 });
 
 /// Space
-const SPC: ByteHandler = Some(|skip| {
-    skip.offset += 1;
-
-    false
-});
+const SPC: ByteHandler = Some(|_| 1);
 
 /// Unicode
 const UNI: ByteHandler = Some(|skip| {
@@ -62,12 +57,10 @@ const UNI: ByteHandler = Some(|skip| {
 
         _ if c.is_whitespace() => {}
 
-        _ => return true,
+        _ => return 0,
     }
 
-    skip.offset += len;
-
-    false
+    len
 });
 
 /// API is taked from oxc by Boshen (https://github.com/Boshen/oxc/pull/26)
@@ -88,9 +81,11 @@ impl SkipWhitespace<'_> {
             let handler = unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
 
             if let Some(handler) = handler {
-                if handler(self) {
+                let delta = handler(self);
+                if delta == 0 {
                     return;
                 }
+                self.offset += delta;
             } else {
                 return;
             }
