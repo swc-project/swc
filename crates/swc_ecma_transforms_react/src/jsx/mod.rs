@@ -19,9 +19,7 @@ use swc_config::merge::Merge;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{
-    drop_span, prepend_stmt, private_ident, quote_ident, undefined, ExprFactory,
-};
+use swc_ecma_utils::{drop_span, prepend_stmt, private_ident, quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 use self::static_check::should_use_create_element;
