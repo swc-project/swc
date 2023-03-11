@@ -123,6 +123,7 @@ macro_rules! single_char {
 single_char!(SEM, b';', Semi);
 single_char!(COM, b',', Comma);
 single_char!(TPL, b'`', BackQuote);
+single_char!(TLD, b'~', Tilde);
 
 single_char!(PNO, b'(', LParen);
 single_char!(PNC, b')', RParen);
@@ -144,3 +145,15 @@ const CRT: ByteHandler = Some(|lexer| {
         Token::BinOp(BinOpToken::BitXor)
     }));
 });
+
+/// `+`
+const PLS: ByteHandler = Some(|lexer| lexer.read_token_plus_minus(b'+'));
+
+/// `-`
+const MIN: ByteHandler = Some(|lexer| lexer.read_token_plus_minus(b'-'));
+
+/// `!`
+const EXL: ByteHandler = Some(|lexer| lexer.read_token_bang_or_eq(b'!'));
+
+/// `=`
+const EQL: ByteHandler = Some(|lexer| lexer.read_token_bang_or_eq(b'='));
