@@ -232,48 +232,7 @@ impl<'a> Lexer<'a> {
 
                     b'<' | b'>' => return self.read_token_lt_gt(),
 
-                    b'!' | b'=' => {
-                        let start = self.cur_pos();
-                        let had_line_break_before_last = self.had_line_break_before_last();
-
-                        self.input.bump();
-
-                        return Ok(Some(if self.input.eat_byte(b'=') {
-                            // "=="
-
-                            if self.input.eat_byte(b'=') {
-                                if c == b'!' {
-                                    BinOp(NotEqEq)
-                                } else {
-                                    // =======
-                                    //    ^
-                                    if had_line_break_before_last && self.is_str("====") {
-                                        self.emit_error_span(
-                                            fixed_len_span(start, 7),
-                                            SyntaxError::TS1185,
-                                        );
-                                        self.skip_line_comment(4);
-                                        self.skip_space::<true>()?;
-                                        return self.read_token();
-                                    }
-
-                                    BinOp(EqEqEq)
-                                }
-                            } else if c == b'!' {
-                                BinOp(NotEq)
-                            } else {
-                                BinOp(EqEq)
-                            }
-                        } else if c == b'=' && self.input.eat_byte(b'>') {
-                            // "=>"
-
-                            Arrow
-                        } else if c == b'!' {
-                            Bang
-                        } else {
-                            AssignOp(Assign)
-                        }));
-                    }
+                    b'!' | b'=' => return self.read_token_bang_or_eq(c),
 
                     b'a'..=b'z' | b'A'..=b'Z' | b'$' | b'_' | b'\\' => {
                         // Fast path for ascii identifiers.
@@ -693,6 +652,46 @@ impl<'a> Lexer<'a> {
             AssignOp(if c == b'+' { AddAssign } else { SubAssign })
         } else {
             BinOp(if c == b'+' { Add } else { Sub })
+        }));
+    }
+
+    fn read_token_bang_or_eq(&self, c: u8) -> LexResult<Option<Token>> {
+        let start = self.cur_pos();
+        let had_line_break_before_last = self.had_line_break_before_last();
+
+        self.input.bump();
+
+        return Ok(Some(if self.input.eat_byte(b'=') {
+            // "=="
+
+            if self.input.eat_byte(b'=') {
+                if c == b'!' {
+                    BinOp(NotEqEq)
+                } else {
+                    // =======
+                    //    ^
+                    if had_line_break_before_last && self.is_str("====") {
+                        self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
+                        self.skip_line_comment(4);
+                        self.skip_space::<true>()?;
+                        return self.read_token();
+                    }
+
+                    BinOp(EqEqEq)
+                }
+            } else if c == b'!' {
+                BinOp(NotEq)
+            } else {
+                BinOp(EqEq)
+            }
+        } else if c == b'=' && self.input.eat_byte(b'>') {
+            // "=>"
+
+            Arrow
+        } else if c == b'!' {
+            Bang
+        } else {
+            AssignOp(Assign)
         }));
     }
 }
