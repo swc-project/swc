@@ -12,7 +12,10 @@ use swc_common::{
 use swc_ecma_ast::Ident;
 use tracing::warn;
 
-use super::{comments_buffer::BufferedComment, input::Input, Char, LexResult, Lexer};
+use super::{
+    comments_buffer::BufferedComment, input::Input, whitespace::SkipWhitespace, Char, LexResult,
+    Lexer,
+};
 use crate::{
     error::{Error, SyntaxError},
     lexer::comments_buffer::BufferedCommentKind,
@@ -184,18 +187,20 @@ impl<'a> Lexer<'a> {
     /// See https://tc39.github.io/ecma262/#sec-white-space
     pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) -> LexResult<()> {
         loop {
-            let cur_b = self.input.cur_as_ascii();
+            let (offset, newline) = {
+                let mut skip = SkipWhitespace {
+                    input: self.input.as_str(),
+                    newline: false,
+                    offset: 0,
+                };
 
-            if matches!(cur_b, Some(b'\n' | b'\r')) {
-                self.input.bump();
-                self.state.had_line_break = true;
-                continue;
-            }
+                skip.scan();
 
-            if matches!(cur_b, Some(b'\x09' | b'\x0b' | b'\x0c' | b'\x20' | b'\xa0')) {
-                self.input.bump();
-                continue;
-            }
+                (skip.offset, skip.newline)
+            };
+
+            self.input.bump_bytes(offset);
+            self.state.had_line_break |= newline;
 
             if LEX_COMMENTS && self.input.is_byte(b'/') {
                 if self.peek() == Some('/') {
@@ -207,27 +212,6 @@ impl<'a> Lexer<'a> {
                 }
                 break;
             }
-
-            let c = self.cur();
-            let c = match c {
-                Some(v) => v,
-                None => break,
-            };
-
-            match c {
-                // white spaces
-                '\u{feff}' => {}
-                // line breaks
-                '\u{2028}' | '\u{2029}' => {
-                    self.state.had_line_break = true;
-                }
-
-                _ if c.is_whitespace() => {}
-
-                _ => break,
-            }
-
-            self.bump();
         }
 
         Ok(())
