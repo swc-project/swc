@@ -323,7 +323,7 @@ impl OptChaining {
         let span = e.span;
         let cons = undefined(span);
 
-        match &mut e.base {
+        match &mut *e.base {
             OptChainBase::Member(MemberExpr {
                 obj,
                 prop,
@@ -335,11 +335,11 @@ impl OptChaining {
                 let obj_span = obj.span;
                 let obj = self.unwrap(&mut obj);
 
-                let alt = OptChainBase::Member(MemberExpr {
+                let alt = Box::new(OptChainBase::Member(MemberExpr {
                     span: *m_span,
                     obj: obj.alt,
                     prop: prop.take(),
-                });
+                }));
                 let alt = Box::new(Expr::OptChain(OptChainExpr {
                     span: obj_span,
                     question_dot_token,
@@ -359,12 +359,12 @@ impl OptChaining {
 
                 let obj = self.unwrap(&mut callee);
 
-                let alt = OptChainBase::Call(OptCall {
+                let alt = Box::new(OptChainBase::Call(OptCall {
                     span: *span,
                     callee: obj.alt,
                     args: args.take(),
                     type_args: type_args.take(),
-                });
+                }));
                 let alt = Box::new(Expr::OptChain(OptChainExpr {
                     span: *span,
                     question_dot_token,
@@ -380,12 +380,14 @@ impl OptChaining {
             _ => {}
         }
 
-        let mut base = match &mut e.base {
+        let mut base = match &mut *e.base {
             OptChainBase::Member(MemberExpr { obj, prop, .. }) => {
                 let obj_span = obj.span();
 
                 let (left, right, alt) = match &mut **obj {
-                    Expr::Ident(..) => (obj.clone(), obj.clone(), Box::new(e.base.take().into())),
+                    Expr::Ident(..) => {
+                        (obj.clone(), obj.clone(), Box::new((*e.base.take()).into()))
+                    }
                     _ => {
                         let i = alias_ident_for(obj, "ref");
                         self.vars_without_init.push(VarDeclarator {

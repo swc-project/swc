@@ -31,7 +31,7 @@ impl Pure<'_> {
             *e = Expr::Arrow(ArrowExpr {
                 span: function.span,
                 params: function.params.take().into_iter().map(|p| p.pat).collect(),
-                body: BlockStmtOrExpr::BlockStmt(function.body.take().unwrap()),
+                body: Box::new(BlockStmtOrExpr::BlockStmt(function.body.take().unwrap())),
                 is_async: function.is_async,
                 is_generator: function.is_generator,
                 type_params: Default::default(),
@@ -104,7 +104,7 @@ impl Pure<'_> {
                                 .into_iter()
                                 .map(|v| v.pat)
                                 .collect(),
-                            body: BlockStmtOrExpr::Expr(arg),
+                            body: Box::new(BlockStmtOrExpr::Expr(arg)),
                             is_async: m.function.is_async,
                             is_generator: m.function.is_generator,
                             type_params: Default::default(),
@@ -133,7 +133,7 @@ impl Pure<'_> {
 
             if let Expr::Arrow(
                 m @ ArrowExpr {
-                    body: BlockStmtOrExpr::BlockStmt(..),
+                    body: box BlockStmtOrExpr::BlockStmt(..),
                     ..
                 },
             ) = &mut *kv.value

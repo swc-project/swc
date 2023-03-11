@@ -707,7 +707,7 @@ impl SyntaxError {
                     token_list.join(" or ")
                 } else {
                     token_list[0..token_list.len() - 1].join(" , ")
-                        + &format!("or {}", token_list[token_list.len() - 1])
+                        + &*format!("or {}", token_list[token_list.len() - 1])
                 };
                 format!("Unexpected token. Did you mean {}?", did_you_mean).into()
             }

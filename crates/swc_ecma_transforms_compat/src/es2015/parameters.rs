@@ -569,7 +569,7 @@ impl VisitMut for Params {
                     })
                     .collect();
 
-                let mut body = match f.body.take() {
+                let mut body = match *f.body.take() {
                     BlockStmtOrExpr::BlockStmt(block) => block,
                     BlockStmtOrExpr::Expr(expr) => BlockStmt {
                         span: body_span,
@@ -600,7 +600,7 @@ impl VisitMut for Params {
                             params: Vec::new(),
                             is_async: false,
                             is_generator: false,
-                            body: BlockStmtOrExpr::BlockStmt(BlockStmt {
+                            body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                                 span: f.span,
                                 stmts: vec![
                                     var_decl,
@@ -609,7 +609,7 @@ impl VisitMut for Params {
                                         arg: Some(Box::new(func)),
                                     }),
                                 ],
-                            }),
+                            })),
                             type_params: Default::default(),
                             return_type: Default::default(),
                         })
@@ -628,12 +628,12 @@ impl VisitMut for Params {
                     ) {
                     match body.stmts.pop().unwrap() {
                         Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
-                            BlockStmtOrExpr::Expr(arg)
+                            Box::new(BlockStmtOrExpr::Expr(arg))
                         }
                         _ => unreachable!(),
                     }
                 } else {
-                    BlockStmtOrExpr::BlockStmt(body)
+                    Box::new(BlockStmtOrExpr::BlockStmt(body))
                 };
 
                 *e = Expr::Arrow(ArrowExpr {

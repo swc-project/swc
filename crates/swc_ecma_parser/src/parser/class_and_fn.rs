@@ -463,6 +463,56 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
+        if let Some(accessor_token) = accessor_token {
+            // Handle accessor(){}
+            if self.is_class_method() {
+                let key = Key::Public(PropName::Ident(Ident::new(
+                    js_word!("accessor"),
+                    accessor_token,
+                )));
+                let is_optional = self.input.syntax().typescript() && eat!(self, '?');
+                return self.make_method(
+                    |p| p.parse_unique_formal_params(),
+                    MakeMethodArgs {
+                        start,
+                        accessibility,
+                        decorators,
+                        is_abstract: false,
+                        is_optional,
+                        is_override: false,
+                        is_async: false,
+                        is_generator: false,
+                        static_token: None,
+                        key,
+                        kind: MethodKind::Method,
+                    },
+                );
+            } else if self.is_class_property(/* asi */ true)
+                || (self.syntax().typescript() && is!(self, '?'))
+            {
+                // Property named `accessor`
+
+                let key = Key::Public(PropName::Ident(Ident::new(
+                    js_word!("accessor"),
+                    accessor_token,
+                )));
+                let is_optional = self.input.syntax().typescript() && eat!(self, '?');
+                return self.make_property(
+                    start,
+                    decorators,
+                    accessibility,
+                    key,
+                    false,
+                    None,
+                    is_optional,
+                    false,
+                    declare,
+                    false,
+                    false,
+                );
+            }
+        }
+
         if let Some(static_token) = static_token {
             // Handle static(){}
             if self.is_class_method() {
@@ -1584,19 +1634,26 @@ fn has_use_strict(block: &BlockStmt) -> Option<Span> {
         _ => None,
     }
 }
-impl<I: Tokens> FnBodyParser<BlockStmtOrExpr> for Parser<I> {
-    fn parse_fn_body_inner(&mut self, is_simple_parameter_list: bool) -> PResult<BlockStmtOrExpr> {
+impl<I: Tokens> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
+    fn parse_fn_body_inner(
+        &mut self,
+        is_simple_parameter_list: bool,
+    ) -> PResult<Box<BlockStmtOrExpr>> {
         if is!(self, '{') {
-            self.parse_block(false).map(|block_stmt| {
-                if !is_simple_parameter_list {
-                    if let Some(span) = has_use_strict(&block_stmt) {
-                        self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
+            self.parse_block(false)
+                .map(|block_stmt| {
+                    if !is_simple_parameter_list {
+                        if let Some(span) = has_use_strict(&block_stmt) {
+                            self.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
+                        }
                     }
-                }
-                BlockStmtOrExpr::BlockStmt(block_stmt)
-            })
+                    BlockStmtOrExpr::BlockStmt(block_stmt)
+                })
+                .map(Box::new)
         } else {
-            self.parse_assignment_expr().map(BlockStmtOrExpr::Expr)
+            self.parse_assignment_expr()
+                .map(BlockStmtOrExpr::Expr)
+                .map(Box::new)
         }
     }
 }

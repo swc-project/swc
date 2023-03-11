@@ -750,7 +750,7 @@ where
                     .as_ref()
                     .map(|body| body.stmts.is_empty())
                     .unwrap_or(false),
-                Expr::Arrow(f) => match &f.body {
+                Expr::Arrow(f) => match &*f.body {
                     BlockStmtOrExpr::BlockStmt(body) => body.stmts.is_empty(),
                     BlockStmtOrExpr::Expr(_) => false,
                 },
@@ -1407,7 +1407,7 @@ where
 
         if !self.prepend_stmts.is_empty() {
             let mut stmts = self.prepend_stmts.take().take_stmts();
-            match &mut n.body {
+            match &mut *n.body {
                 BlockStmtOrExpr::BlockStmt(v) => {
                     prepend_stmts(&mut v.stmts, stmts.into_iter());
                 }
@@ -1419,17 +1419,17 @@ where
                         span: DUMMY_SP,
                         arg: Some(v.take()),
                     }));
-                    n.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                    n.body = Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                         span: DUMMY_SP,
                         stmts,
-                    });
+                    }));
                 }
             }
         }
 
         self.prepend_stmts = prepend;
 
-        if let BlockStmtOrExpr::BlockStmt(body) = &mut n.body {
+        if let BlockStmtOrExpr::BlockStmt(body) = &mut *n.body {
             drop_invalid_stmts(&mut body.stmts);
         }
     }

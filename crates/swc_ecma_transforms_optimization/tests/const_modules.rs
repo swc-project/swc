@@ -116,3 +116,34 @@ console.log(foo["bar"])
 console.log(true);
 "#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |tester| tr(
+        tester,
+        &[("testModule", &[("testMap", "{ 'var': 'value' }")])]
+    ),
+    issue_7025,
+    r#"
+    import { testMap } from "testModule";
+    testMap['var'];
+"#,
+    r#"
+    ({
+        'var': 'value'
+    })['var'];
+    "#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |tester| tr(tester, &[("foo", &[("bar", "true")])]),
+    use_as_object_prop_shorthand,
+    r#"
+import { bar } from 'foo';
+console.log({ bar });
+"#,
+    r#"
+console.log({ bar: true });
+"#
+);

@@ -2,17 +2,16 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     sync::Lrc,
-    EqIgnoreSpan,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_transforms_macros::parallel;
-use swc_ecma_utils::collect_decls;
+use swc_ecma_utils::{collect_decls, NodeIgnoringSpan};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// The key will be compared using [EqIgnoreSpan::eq_ignore_span], and matched
 /// expressions will be replaced with the value.
-pub type GlobalExprMap = Lrc<Vec<(Expr, Expr)>>;
+pub type GlobalExprMap = Lrc<AHashMap<NodeIgnoringSpan<'static, Expr>, Expr>>;
 
 /// Create a global inlining pass, which replaces expressions with the specified
 /// value.
@@ -49,7 +48,7 @@ pub fn inline_globals2(
 struct InlineGlobals {
     envs: Lrc<AHashMap<JsWord, Expr>>,
     globals: Lrc<AHashMap<JsWord, Expr>>,
-    global_exprs: GlobalExprMap,
+    global_exprs: Lrc<AHashMap<NodeIgnoringSpan<'static, Expr>, Expr>>,
 
     typeofs: Lrc<AHashMap<JsWord, JsWord>>,
 
@@ -93,12 +92,12 @@ impl VisitMut for InlineGlobals {
             }
         }
 
-        for (key, value) in self.global_exprs.iter() {
-            if Ident::within_ignored_ctxt(|| key.eq_ignore_span(&*expr)) {
-                *expr = value.clone();
-                expr.visit_mut_with(self);
-                return;
-            }
+        if let Some(value) =
+            Ident::within_ignored_ctxt(|| self.global_exprs.get(&NodeIgnoringSpan::borrowed(expr)))
+        {
+            *expr = value.clone();
+            expr.visit_mut_with(self);
+            return;
         }
 
         expr.visit_mut_children_with(self);

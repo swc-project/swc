@@ -105,6 +105,7 @@ pub(super) fn prepare_vars(
                     "Ident" => VarPos::Ident,
                     "Expr" => VarPos::Expr,
                     "Pat" => VarPos::Pat,
+                    "Str" => VarPos::Str,
                     _ => panic!("Invalid type: {}", segment.ident),
                 }
             }

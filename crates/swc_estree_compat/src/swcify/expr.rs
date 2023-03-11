@@ -622,7 +622,7 @@ impl Swcify for ArrowFunctionExpression {
         ArrowExpr {
             span: ctx.span(&self.base),
             params: self.params.into_iter().map(|v| v.swcify(ctx).pat).collect(),
-            body: self.body.swcify(ctx),
+            body: Box::new(self.body.swcify(ctx)),
             is_async: self.is_async,
             is_generator: self.generator,
             type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
@@ -718,7 +718,7 @@ impl Swcify for TaggedTemplateExpression {
             span: ctx.span(&self.base),
             tag: self.tag.swcify(ctx),
             type_params: self.type_parameters.swcify(ctx).map(From::from),
-            tpl: self.quasi.swcify(ctx),
+            tpl: Box::new(self.quasi.swcify(ctx)),
         }
     }
 }
@@ -775,7 +775,7 @@ impl Swcify for OptionalMemberExpression {
             span: ctx.span(&self.base),
             // TODO: Use correct span.
             question_dot_token: DUMMY_SP,
-            base: OptChainBase::Member(MemberExpr {
+            base: Box::new(OptChainBase::Member(MemberExpr {
                 span: ctx.span(&self.base),
                 obj: self.object.swcify(ctx),
                 prop: match (self.property, self.computed) {
@@ -789,7 +789,7 @@ impl Swcify for OptionalMemberExpression {
                     }
                     _ => unreachable!(),
                 },
-            }),
+            })),
         }
     }
 }
@@ -813,12 +813,12 @@ impl Swcify for OptionalCallExpression {
             span: ctx.span(&self.base),
             // TODO: Use correct span.
             question_dot_token: DUMMY_SP,
-            base: OptChainBase::Call(OptCall {
+            base: Box::new(OptChainBase::Call(OptCall {
                 span: ctx.span(&self.base),
                 callee: self.callee.swcify(ctx),
                 args: self.arguments.swcify(ctx).into_iter().flatten().collect(),
                 type_args: self.type_parameters.swcify(ctx).map(From::from),
-            }),
+            })),
         }
     }
 }

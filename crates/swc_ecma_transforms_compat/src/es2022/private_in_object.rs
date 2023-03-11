@@ -266,7 +266,7 @@ impl VisitMut for PrivateInObject {
                     callee: ArrowExpr {
                         span: DUMMY_SP,
                         params: Default::default(),
-                        body: BlockStmtOrExpr::BlockStmt(bs),
+                        body: Box::new(BlockStmtOrExpr::BlockStmt(bs)),
                         is_async: false,
                         is_generator: false,
                         type_params: Default::default(),

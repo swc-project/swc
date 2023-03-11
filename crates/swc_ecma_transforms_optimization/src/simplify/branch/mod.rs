@@ -1687,16 +1687,13 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
             ctx,
         ),
 
-        Expr::TaggedTpl(TaggedTpl {
-            span,
-            tag,
-            tpl: Tpl { exprs, .. },
-            ..
-        }) if tag.is_pure_callee(ctx) => ignore_result(
-            ctx.preserve_effects(span, *undefined(span), exprs),
-            true,
-            ctx,
-        ),
+        Expr::TaggedTpl(TaggedTpl { span, tag, tpl, .. }) if tag.is_pure_callee(ctx) => {
+            ignore_result(
+                ctx.preserve_effects(span, *undefined(span), tpl.exprs),
+                true,
+                ctx,
+            )
+        }
 
         //
         // Function expressions are useless if they are not used.

@@ -1,6 +1,7 @@
 use std::{fmt::Write, iter::once, num::FpCategory};
 
-use swc_atoms::js_word;
+use rustc_hash::FxHashSet;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -247,76 +248,78 @@ impl Pure<'_> {
 
     /// `new RegExp("([Sap]+)", "ig")` => `/([Sap]+)/gi`
     fn optimize_regex(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
-        if args.is_empty() || args.len() > 2 {
-            return None;
-        }
-
-        // We aborts the method if arguments are not literals.
-        if args.iter().any(|v| {
-            v.spread.is_some()
-                || match &*v.expr {
-                    Expr::Lit(Lit::Str(s)) => {
-                        if s.value.contains(|c: char| {
-                            // whitelist
-                            !c.is_ascii_alphanumeric()
-                                && !matches!(c, '%' | '[' | ']' | '(' | ')' | '{' | '}' | '-' | '+')
-                        }) {
-                            return true;
-                        }
-                        if s.value.contains("\\\0") || s.value.contains('/') {
-                            return true;
-                        }
-
-                        false
-                    }
-                    _ => true,
+        fn valid_pattern(pattern: &Expr) -> Option<JsWord> {
+            if let Expr::Lit(Lit::Str(s)) = pattern {
+                if s.value.contains(|c: char| {
+                    // whitelist
+                    !c.is_ascii_alphanumeric()
+                        && !matches!(c, '$' | '[' | ']' | '(' | ')' | '{' | '}' | '-' | '+' | '_')
+                }) {
+                    None
+                } else {
+                    Some(s.value.clone())
                 }
-        }) {
-            return None;
+            } else {
+                None
+            }
+        }
+        fn valid_flag(flag: &Expr, es_version: EsVersion) -> Option<JsWord> {
+            if let Expr::Lit(Lit::Str(s)) = flag {
+                let mut set = FxHashSet::default();
+                for c in s.value.chars() {
+                    if !(matches!(c, 'g' | 'i' | 'm')
+                        || (es_version >= EsVersion::Es2015 && matches!(c, 'u' | 'y'))
+                        || (es_version >= EsVersion::Es2018 && matches!(c, 's')))
+                        || (es_version >= EsVersion::Es2022 && matches!(c, 'd'))
+                    {
+                        return None;
+                    }
+
+                    if !set.insert(c) {
+                        return None;
+                    }
+                }
+
+                Some(s.value.clone())
+            } else {
+                None
+            }
         }
 
-        let pattern = args[0].expr.take();
-
-        let pattern = match *pattern {
-            Expr::Lit(Lit::Str(s)) => s.value,
-            _ => {
-                unreachable!()
-            }
+        let (pattern, flag) = match args.as_slice() {
+            [ExprOrSpread { spread: None, expr }] => (valid_pattern(expr)?, "".into()),
+            [ExprOrSpread {
+                spread: None,
+                expr: pattern,
+            }, ExprOrSpread {
+                spread: None,
+                expr: flag,
+            }] => (
+                valid_pattern(pattern)?,
+                valid_flag(flag, self.options.ecma)?,
+            ),
+            _ => return None,
         };
 
         if pattern.is_empty() {
             // For some expressions `RegExp()` and `RegExp("")`
             // Theoretically we can use `/(?:)/` to achieve shorter code
             // But some browsers released in 2015 don't support them yet.
-            args[0].expr = pattern.into();
             return None;
         }
-
-        let flags = args
-            .get_mut(1)
-            .map(|v| v.expr.take())
-            .map(|v| match *v {
-                Expr::Lit(Lit::Str(s)) => {
-                    assert!(s.value.is_ascii());
-
-                    let s = s.value.to_string();
-                    let mut bytes = s.into_bytes();
-                    bytes.sort_unstable();
-
-                    String::from_utf8(bytes).unwrap().into()
-                }
-                _ => {
-                    unreachable!()
-                }
-            })
-            .unwrap_or_default();
 
         report_change!("Optimized regex");
 
         Some(Expr::Lit(Lit::Regex(Regex {
             span: *span,
             exp: pattern.into(),
-            flags,
+            flags: {
+                let flag = flag.to_string();
+                let mut bytes = flag.into_bytes();
+                bytes.sort_unstable();
+
+                String::from_utf8(bytes).unwrap().into()
+            },
         })))
     }
 
@@ -370,7 +373,7 @@ impl Pure<'_> {
             _ => return,
         };
 
-        if let OptChainBase::Member(base) = &mut opt.base {
+        if let OptChainBase::Member(base) = &mut *opt.base {
             if match &*base.obj {
                 Expr::Lit(Lit::Null(..)) => false,
                 Expr::Lit(..) | Expr::Object(..) | Expr::Array(..) => true,
@@ -863,15 +866,11 @@ impl Pure<'_> {
                 return;
             }
 
-            Expr::TaggedTpl(TaggedTpl {
-                span,
-                tpl: Tpl { exprs, .. },
-                ..
-            }) if span.has_mark(self.marks.pure) => {
+            Expr::TaggedTpl(TaggedTpl { span, tpl, .. }) if span.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
-                let new = self.make_ignored_expr(exprs.take().into_iter());
+                let new = self.make_ignored_expr(tpl.exprs.take().into_iter());
 
                 *e = new.unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
                 return;
@@ -1225,7 +1224,7 @@ impl Pure<'_> {
                             }
                         }
                     }
-                    Expr::Arrow(callee) => match &mut callee.body {
+                    Expr::Arrow(callee) => match &mut *callee.body {
                         BlockStmtOrExpr::BlockStmt(body) => {
                             for stmt in &mut body.stmts {
                                 self.ignore_return_value_of_return_stmt(stmt, opts);

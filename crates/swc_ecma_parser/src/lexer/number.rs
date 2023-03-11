@@ -2,10 +2,11 @@
 //!
 //!
 //! See https://tc39.github.io/ecma262/#sec-literals-numeric-literals
-use std::fmt::Write;
+use std::{borrow::Cow, fmt::Write};
 
 use either::Either;
 use num_bigint::BigInt as BigIntValue;
+use smartstring::{LazyCompact, SmartString};
 use swc_common::SyntaxContext;
 use tracing::trace;
 
@@ -45,8 +46,8 @@ impl<'a> Lexer<'a> {
         }
 
         let start = self.cur_pos();
-        let mut raw_val = String::new();
-        let mut raw_str = String::new();
+        let mut raw_val = SmartString::<LazyCompact>::new();
+        let mut raw_str = SmartString::<LazyCompact>::new();
 
         let val = if starts_with_dot {
             // first char is '.'
@@ -64,7 +65,7 @@ impl<'a> Lexer<'a> {
 
                 return Ok(Either::Right((
                     Box::new(s.into_value()),
-                    self.atoms.borrow_mut().intern(raw),
+                    self.atoms.borrow_mut().intern(&*raw),
                 )));
             }
 
@@ -85,7 +86,7 @@ impl<'a> Lexer<'a> {
                     if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
                         return self.make_legacy_octal(start, 0f64).map(|value| {
-                            Either::Left((value, self.atoms.borrow_mut().intern(raw)))
+                            Either::Left((value, self.atoms.borrow_mut().intern(&*raw)))
                         });
                     }
                 } else {
@@ -114,7 +115,7 @@ impl<'a> Lexer<'a> {
                             });
 
                             return self.make_legacy_octal(start, val).map(|value| {
-                                Either::Left((value, self.atoms.borrow_mut().intern(raw)))
+                                Either::Left((value, self.atoms.borrow_mut().intern(&*raw)))
                             });
                         }
                     }
@@ -142,7 +143,7 @@ impl<'a> Lexer<'a> {
                 debug_assert!(self.cur().unwrap().is_ascii_digit());
             }
 
-            let mut raw = Raw(Some(String::new()));
+            let mut raw = Raw(Some(Default::default()));
             // Read numbers after dot
             let dec_val = self.read_int::<10>(0, &mut raw)?;
 
@@ -153,11 +154,14 @@ impl<'a> Lexer<'a> {
                     raw_val.push_str(raw.0.as_ref().unwrap());
                 }
 
-                raw_val
-                    // Remove number separator from number
-                    .replace('_', "")
-                    .parse()
-                    .expect("failed to parse float using rust's impl")
+                // Remove number separator from number
+                if raw_val.contains('_') {
+                    Cow::Owned(raw_val.replace('_', ""))
+                } else {
+                    Cow::Borrowed(&*raw_val)
+                }
+                .parse()
+                .expect("failed to parse float using rust's impl")
             };
         }
 
@@ -192,7 +196,7 @@ impl<'a> Lexer<'a> {
                     true
                 };
 
-                let mut raw = Raw(Some(String::new()));
+                let mut raw = Raw(Some(Default::default()));
                 let exp = self.read_number_no_dot::<10>(&mut raw)?;
 
                 raw_str.push_str(&raw.0.take().unwrap());
@@ -210,10 +214,13 @@ impl<'a> Lexer<'a> {
 
                     write!(raw_val, "{}", exp).unwrap();
 
-                    raw_val
-                        .replace('_', "")
-                        .parse()
-                        .expect("failed to parse float literal")
+                    if raw_val.contains('_') {
+                        Cow::Owned(raw_val.replace('_', ""))
+                    } else {
+                        Cow::Borrowed(&*raw_val)
+                    }
+                    .parse()
+                    .expect("failed to parse float literal")
                 }
             }
             _ => {}
@@ -221,7 +228,10 @@ impl<'a> Lexer<'a> {
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left((val, self.atoms.borrow_mut().intern(raw_str))))
+        Ok(Either::Left((
+            val,
+            self.atoms.borrow_mut().intern(&*raw_str),
+        )))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
@@ -307,7 +317,7 @@ impl<'a> Lexer<'a> {
     /// Returned bool is `true` is there was `8` or `9`.
     fn read_number_no_dot_as_str<const RADIX: u8, const FORMAT: u128>(
         &mut self,
-    ) -> LexResult<(f64, LazyBigInt<RADIX>, String, bool)> {
+    ) -> LexResult<(f64, LazyBigInt<RADIX>, SmartString<LazyCompact>, bool)> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
@@ -318,7 +328,7 @@ impl<'a> Lexer<'a> {
         let mut non_octal = false;
         let mut read_any = false;
 
-        let mut raw = Raw(Some(String::new()));
+        let mut raw = Raw(Some(Default::default()));
 
         self.read_digits::<_, f64, RADIX>(
             |total, radix, v| {

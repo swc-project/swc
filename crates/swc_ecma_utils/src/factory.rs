@@ -88,7 +88,7 @@ pub trait ExprFactory: Into<Expr> {
         ArrowExpr {
             span: DUMMY_SP,
             params,
-            body: BlockStmtOrExpr::from(self),
+            body: Box::new(BlockStmtOrExpr::from(self)),
             is_async: false,
             is_generator: false,
             type_params: None,

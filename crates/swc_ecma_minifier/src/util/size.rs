@@ -153,7 +153,7 @@ impl SizeWithCtxt for Expr {
                 body,
                 is_async,
                 ..
-            }) => match body {
+            }) => match &**body {
                 BlockStmtOrExpr::BlockStmt(_) => TODO,
                 BlockStmtOrExpr::Expr(e) => {
                     let p = match &params[..] {
@@ -178,7 +178,7 @@ impl SizeWithCtxt for Expr {
                 MetaPropKind::ImportMeta => 11,
             },
             Expr::PrivateName(p) => p.size(),
-            Expr::OptChain(p) => match &p.base {
+            Expr::OptChain(p) => match &*p.base {
                 OptChainBase::Member(m) => 1 + m.obj.size(unresolved) + m.prop.size(unresolved),
                 OptChainBase::Call(c) => {
                     1 + c.callee.size(unresolved) + c.args.size(unresolved) + 2

@@ -295,7 +295,7 @@ impl From<ArrowExpr> for FunctionWrapper<Expr> {
             ..
         }: ArrowExpr,
     ) -> Self {
-        let body = Some(match body {
+        let body = Some(match *body {
             BlockStmtOrExpr::BlockStmt(block) => block,
             BlockStmtOrExpr::Expr(expr) => BlockStmt {
                 span: DUMMY_SP,

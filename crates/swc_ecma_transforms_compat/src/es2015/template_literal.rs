@@ -237,12 +237,8 @@ impl VisitMut for TemplateLiteral {
                 *e = *obj
             }
 
-            Expr::TaggedTpl(TaggedTpl {
-                tag,
-                tpl: Tpl { exprs, quasis, .. },
-                ..
-            }) => {
-                assert_eq!(quasis.len(), exprs.len() + 1);
+            Expr::TaggedTpl(TaggedTpl { tag, tpl, .. }) => {
+                assert_eq!(tpl.quasis.len(), tpl.exprs.len() + 1);
 
                 let fn_ident = private_ident!("_templateObject");
 
@@ -273,13 +269,14 @@ impl VisitMut for TemplateLiteral {
                                     },
                                     args: {
                                         let has_escape =
-                                            quasis.iter().any(|s| s.raw.contains('\\'));
+                                            tpl.quasis.iter().any(|s| s.raw.contains('\\'));
 
                                         let raw = if has_escape {
                                             Some(
                                                 ArrayLit {
                                                     span: DUMMY_SP,
-                                                    elems: quasis
+                                                    elems: tpl
+                                                        .quasis
                                                         .iter()
                                                         .cloned()
                                                         .map(|elem| elem.raw.as_arg())
@@ -295,7 +292,8 @@ impl VisitMut for TemplateLiteral {
                                         iter::once(
                                             ArrayLit {
                                                 span: DUMMY_SP,
-                                                elems: quasis
+                                                elems: tpl
+                                                    .quasis
                                                     .take()
                                                     .into_iter()
                                                     .map(|elem| match elem.cooked {
@@ -378,7 +376,7 @@ impl VisitMut for TemplateLiteral {
                         }
                         .as_arg(),
                     )
-                    .chain(exprs.take().into_iter().map(|e| e.as_arg()))
+                    .chain(tpl.exprs.take().into_iter().map(|e| e.as_arg()))
                     .collect(),
                     type_args: Default::default(),
                 })

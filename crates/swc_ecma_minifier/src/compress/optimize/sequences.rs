@@ -1408,7 +1408,7 @@ where
             Expr::Paren(e) => self.is_skippable_for_seq(a, &e.expr),
             Expr::Unary(e) => self.is_skippable_for_seq(a, &e.arg),
 
-            Expr::OptChain(OptChainExpr { base, .. }) => match base {
+            Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
                 OptChainBase::Member(e) => {
                     if !self.should_preserve_property_access(
                         &e.obj,
