@@ -1,4 +1,5 @@
 class Foo {
+    foo;
     a;
     #b;
     static c = 3;
@@ -8,5 +9,4 @@ class Foo {
         this.a = 1;
         this.#b = 2;
     }
-    foo;
 }

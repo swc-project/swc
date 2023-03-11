@@ -4,12 +4,12 @@ import _define_property from "@swc/helpers/src/_define_property.mjs";
 var _b = /*#__PURE__*/ new WeakMap();
 class Foo {
     constructor(foo){
+        _define_property(this, "foo", void 0);
         _define_property(this, "a", void 0);
         _class_private_field_init(this, _b, {
             writable: true,
             value: void 0
         });
-        _define_property(this, "foo", void 0);
         this.foo = foo;
         this.a = 1;
         _class_private_field_set(this, _b, 2);

@@ -1962,23 +1962,26 @@ where
             inject_after_super(c, assign_exprs);
 
             if !extra_props.is_empty() {
-                class.body.extend(extra_props.into_iter().map(|prop| {
-                    ClassMember::ClassProp(ClassProp {
-                        key: PropName::Ident(prop),
-                        value: None,
-                        decorators: Vec::new(),
-                        is_static: false,
-                        type_ann: None,
-                        span: DUMMY_SP,
-                        accessibility: None,
-                        is_abstract: false,
-                        is_optional: false,
-                        is_override: false,
-                        readonly: false,
-                        declare: false,
-                        definite: false,
-                    })
-                }))
+                class.body.splice(
+                    0..0,
+                    extra_props.into_iter().map(|prop| {
+                        ClassMember::ClassProp(ClassProp {
+                            key: PropName::Ident(prop),
+                            value: None,
+                            decorators: Vec::new(),
+                            is_static: false,
+                            type_ann: None,
+                            span: DUMMY_SP,
+                            accessibility: None,
+                            is_abstract: false,
+                            is_optional: false,
+                            is_override: false,
+                            readonly: false,
+                            declare: false,
+                            definite: false,
+                        })
+                    }),
+                );
             }
         }
 
