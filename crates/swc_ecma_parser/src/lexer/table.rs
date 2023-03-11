@@ -5,9 +5,10 @@
 //! https://github.com/ratel-rust/ratel-core/blob/e55a1310ba69a3f5ce2a9a6eef643feced02ac08/ratel/src/lexer/mod.rs#L665
 
 use either::Either;
+use swc_common::input::Input;
 
-use super::{LexResult, Lexer};
-use crate::token::Token;
+use super::{pos_span, util::CharExt, LexResult, Lexer};
+use crate::{error::SyntaxError, token::Token};
 
 type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<Token>>>;
 
@@ -58,4 +59,22 @@ const DIG: ByteHandler = Some(|lexer| {
 });
 
 /// String literals with `'` or `"`
-const QOT: ByteHandler = Some(|lexer| self.read_str_lit().map(Some));
+const QOT: ByteHandler = Some(|lexer| lexer.read_str_lit().map(Some));
+
+/// Unicode
+const UNI: ByteHandler = Some(|lexer| {
+    let c = unsafe {
+        // Safety: Byte handler is only called for non-last chracters
+        lexer.input.cur().unwrap_unchecked()
+    };
+
+    // Identifier or keyword. '\uXXXX' sequences are allowed in
+    // identifiers, so '\' also dispatches to that.
+    if c == '\\' || c.is_ident_start() {
+        return lexer.read_ident_or_keyword().map(Some);
+    }
+
+    let start = lexer.cur_pos();
+    lexer.input.bump();
+    lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
+});
