@@ -23,7 +23,7 @@ pub fn es2022<C: Comments>(cm: Option<C>, config: Config) -> impl Fold {
             unicode_property_regex: true,
             unicode_regex: false,
         }),
-        static_blocks(),
+        static_blocks(config.class_properties.static_blocks_mark),
         class_properties(cm, config.class_properties),
         private_in_object(),
     )

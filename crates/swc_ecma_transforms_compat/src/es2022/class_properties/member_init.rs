@@ -13,6 +13,7 @@ pub(super) enum MemberInit {
     PrivProp(PrivProp),
     PrivMethod(PrivMethod),
     PrivAccessor(PrivAccessor),
+    StaticBlock(Box<Expr>),
 }
 
 pub(super) struct PubProp {
@@ -181,6 +182,7 @@ impl MemberInitRecord {
                     }
                     .into(),
                 ),
+                MemberInit::StaticBlock(..) => unreachable!(),
             }
         }
 
@@ -311,6 +313,7 @@ impl MemberInitRecord {
                         unreachable!()
                     }
                 }
+                MemberInit::StaticBlock(expr) => value_init.push(expr.into_stmt()),
             }
         }
 

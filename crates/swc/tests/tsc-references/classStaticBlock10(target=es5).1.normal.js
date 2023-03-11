@@ -11,26 +11,20 @@ function f() {
         "use strict";
         _class_call_check(this, C1);
     };
-    var __ = {
-        writable: true,
-        value: function() {
-            var a1 = 111;
-            var a2 = 111;
-            var b1 = 222;
-            var b2 = 222;
-        }()
-    };
+    (function() {
+        var a1 = 111;
+        var a2 = 111;
+        var b1 = 222;
+        var b2 = 222;
+    })();
 }
 var C2 = function C2() {
     "use strict";
     _class_call_check(this, C2);
 };
-var __ = {
-    writable: true,
-    value: function() {
-        var a1 = 111;
-        var a2 = 111;
-        var b1 = 222;
-        var b2 = 222;
-    }()
-};
+(function() {
+    var a1 = 111;
+    var a2 = 111;
+    var b1 = 222;
+    var b2 = 222;
+})();

@@ -22,11 +22,8 @@ var C = /*#__PURE__*/ function(B) {
 }(B);
 C.b = 3;
 C.c = _get(_get_prototype_of(C), "a", C);
-var __ = {
-    writable: true,
-    value: function() {
-        C.b;
-        _get(_get_prototype_of(C), "b", C);
-        _get(_get_prototype_of(C), "a", C);
-    }()
-};
+(function() {
+    C.b;
+    _get(_get_prototype_of(C), "b", C);
+    _get(_get_prototype_of(C), "a", C);
+})();
