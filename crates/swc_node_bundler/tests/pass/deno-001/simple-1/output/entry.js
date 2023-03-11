@@ -235,6 +235,15 @@ async function writeResponse(w, r) {
     await writer.flush();
 }
 class ServerRequest {
+    url;
+    method;
+    proto;
+    protoMinor;
+    protoMajor;
+    headers;
+    conn;
+    r;
+    w;
     done = deferred();
     _contentLength = undefined;
     get contentLength() {
@@ -332,6 +341,9 @@ async function readRequest(conn, bufr) {
     return req;
 }
 class Server {
+    listener;
+    closing;
+    connections;
     constructor(listener){
         this.listener = listener;
         this.closing = false;
