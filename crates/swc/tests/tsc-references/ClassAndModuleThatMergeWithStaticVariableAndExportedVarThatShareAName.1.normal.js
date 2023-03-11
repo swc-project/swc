@@ -6,10 +6,12 @@ var Point = function Point(x, y) {
     this.x = x;
     this.y = y;
 };
-Point.Origin = {
-    x: 0,
-    y: 0
-};
+(function() {
+    Point.Origin = {
+        x: 0,
+        y: 0
+    };
+})();
 (function(Point) {
     var Origin = Point.Origin = "";
 })(Point || (Point = {}));
@@ -21,10 +23,12 @@ var A;
         this.x = x;
         this.y = y;
     };
-    Point.Origin = {
-        x: 0,
-        y: 0
-    };
+    (function() {
+        Point.Origin = {
+            x: 0,
+            y: 0
+        };
+    })();
     A.Point = Point;
     (function(Point) {
         var Origin = Point.Origin = "";

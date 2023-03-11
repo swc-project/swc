@@ -6,7 +6,9 @@ var Cls = function Cls() {
     _class_call_check(this, Cls);
     this.x = 12;
 };
-Cls.y = "ok";
+(function() {
+    Cls.y = "ok";
+})();
 export default Cls; /**
  * @typedef {string | number} default
  */ 

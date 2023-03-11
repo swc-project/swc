@@ -8,10 +8,7 @@ var C = /*#__PURE__*/ function(_superClass) {
     var _super = _create_super(C);
     function C() {
         _class_call_check(this, C);
-        var _this;
-        _this = _super.apply(this, arguments);
-        _this.c = 3;
-        return _this;
+        return _super.apply(this, arguments);
     }
     return C;
 }(/*#__PURE__*/ function(_superClass) {
@@ -20,15 +17,14 @@ var C = /*#__PURE__*/ function(_superClass) {
     var _super = _create_super(_class);
     function _class() {
         _class_call_check(this, _class);
-        var _this;
-        _this = _super.apply(this, arguments);
-        _this.b = 2;
-        return _this;
+        return _super.apply(this, arguments);
     }
     return _class;
 }(function _class() {
     "use strict";
     _class_call_check(this, _class);
+    this.c = 3;
+    this.b = 2;
     this.a = 1;
 }));
 var c = new C();

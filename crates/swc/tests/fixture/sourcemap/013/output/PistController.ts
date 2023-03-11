@@ -36,6 +36,8 @@ export let PostController = class PostController {
     createPostComment(id, createCommentDto, user) {
         return this.commentService.create(createCommentDto, id, user.id);
     }
+    postService;
+    commentService;
 };
 _ts_decorate([
     Get(POST_GET_ALL_ENDPOINT),

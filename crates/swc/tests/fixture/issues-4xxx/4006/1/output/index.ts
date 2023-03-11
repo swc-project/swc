@@ -1,3 +1,4 @@
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 import { html, css, LitElement } from "lit";
 export class App extends LitElement {
     render() {
@@ -5,17 +6,18 @@ export class App extends LitElement {
     }
     constructor(){
         super();
+        _define_property(this, "name", void 0);
         this.name = "Somebody";
     }
 }
-App.styles = css`
+_define_property(App, "styles", css`
         p {
             color: blue;
         }
-    `;
-App.properties = {
+    `);
+_define_property(App, "properties", {
     name: {
         type: String
     }
-};
+});
 customElements.define("app", App);

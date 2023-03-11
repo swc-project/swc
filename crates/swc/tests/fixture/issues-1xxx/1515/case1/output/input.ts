@@ -6,11 +6,12 @@ Object.defineProperty(exports, "ServiceError", {
     enumerable: true,
     get: ()=>ServiceError
 });
+const _defineProperty = require("@swc/helpers/lib/_define_property.js").default;
 class ServiceError extends Error {
     constructor(...args){
         super(...args);
-        this.code = ServiceError.Code.badResponse;
-        this.name = "ServiceError.BadResponse";
+        _defineProperty(this, "code", ServiceError.Code.badResponse);
+        _defineProperty(this, "name", "ServiceError.BadResponse");
     }
 }
 (function(ServiceError1) {
@@ -28,8 +29,8 @@ class ServiceError extends Error {
         constructor(...args){
             super(...args);
             // Service was probably not registered, or using the wrong channel
-            this.code = 404;
-            this.name = "ServiceError.ServiceNotFound";
+            _defineProperty(this, "code", 404);
+            _defineProperty(this, "name", "ServiceError.ServiceNotFound");
         }
     }
     ServiceError1.ServiceNotFound = ServiceNotFound;

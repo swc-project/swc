@@ -3,13 +3,17 @@
 class C {
 }
 (({ [(class extends C {
-    static x = 1;
+    static{
+        this.x = 1;
+    }
 }).x]: b = ""  })=>{
     var C1;
 })();
 const x = "";
 (({ [(class extends C {
-    static x = 1;
+    static{
+        this.x = 1;
+    }
 }).x]: b = ""  }, d = x)=>{
     var x1;
 })();

@@ -916,6 +916,11 @@ fn issue_2224() {
                         decorators: true,
                         ..Default::default()
                     })),
+                    transform: Some(TransformConfig {
+                        use_define_for_class_fields: false.into(),
+                        ..Default::default()
+                    })
+                    .into(),
                     ..Default::default()
                 },
                 ..Default::default()

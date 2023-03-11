@@ -1,6 +1,7 @@
 //// [privateNameFieldCallExpression.ts]
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 var _fieldFunc = /*#__PURE__*/ new WeakMap(), _fieldFunc2 = /*#__PURE__*/ new WeakMap();
 class A {
     test() {
@@ -26,14 +27,16 @@ class A {
     constructor(){
         _class_private_field_init(this, _fieldFunc, {
             writable: true,
-            value: function() {
-                this.x = 10;
-            }
+            value: void 0
         });
         _class_private_field_init(this, _fieldFunc2, {
             writable: true,
-            value: function(a, ...b) {}
+            value: void 0
         });
+        _class_private_field_set(this, _fieldFunc, function() {
+            this.x = 10;
+        });
+        _class_private_field_set(this, _fieldFunc2, function(a, ...b) {});
         this.x = 1;
     }
 }

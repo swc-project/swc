@@ -15,8 +15,9 @@ class Foo {
             constructor(){
                 _class_private_field_init(this, _y, {
                     writable: true,
-                    value: 100
+                    value: void 0
                 });
+                _class_private_field_set(this, _y, 100);
             }
         }
         return new Bar()[_class_private_field_get(obj, _name)]();

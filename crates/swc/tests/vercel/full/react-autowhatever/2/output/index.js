@@ -4,51 +4,59 @@ Object.defineProperty(exports, "__esModule", {
 }), Object.defineProperty(exports, "default", {
     enumerable: !0,
     get: function() {
-        return l;
+        return o;
     }
 });
-var e = require("@swc/helpers/lib/_class_call_check.js").default, t = require("@swc/helpers/lib/_inherits.js").default, r = require("@swc/helpers/lib/_interop_require_wildcard.js").default, i = require("@swc/helpers/lib/_object_spread.js").default, s = require("@swc/helpers/lib/_object_spread_props.js").default, n = require("@swc/helpers/lib/_create_super.js").default, c = require("react/jsx-runtime"), l = function(r) {
+var e = require("@swc/helpers/lib/_assert_this_initialized.js").default, t = require("@swc/helpers/lib/_class_call_check.js").default, r = require("@swc/helpers/lib/_create_class.js").default, i = require("@swc/helpers/lib/_define_property.js").default, s = require("@swc/helpers/lib/_inherits.js").default, n = require("@swc/helpers/lib/_interop_require_wildcard.js").default, l = require("@swc/helpers/lib/_object_spread.js").default, c = require("@swc/helpers/lib/_object_spread_props.js").default, u = require("@swc/helpers/lib/_create_super.js").default, a = require("react/jsx-runtime"), o = function(n) {
     "use strict";
-    t(o, r);
-    var l = n(o);
-    function o() {
-        var t;
-        return e(this, o), t = l.apply(this, arguments), t.storeHighlightedItemReference = function(e) {
-            t.props.onHighlightedItemChange(null === e ? null : e.item);
-        }, t;
+    s(d, n);
+    var o = u(d);
+    function d() {
+        var r;
+        return t(this, d), r = o.apply(this, arguments), i(e(r), "storeHighlightedItemReference", function(e) {
+            r.props.onHighlightedItemChange(null === e ? null : e.item);
+        }), r;
     }
-    var u = o.prototype;
-    return u.shouldComponentUpdate = function(e) {
-        return compareObjects(e, this.props, [
-            "itemProps"
-        ]);
-    }, u.render = function() {
-        var e = this, t = this.props, r = t.items, n = t.itemProps, l = t.renderItem, o = t.renderItemData, u = t.sectionIndex, a = t.highlightedItemIndex, d = t.getItemId, p = t.theme, m = t.keyPrefix, h = null === u ? m : "".concat(m, "section-").concat(u, "-"), f = "function" == typeof n;
-        return (0, c.jsx)("ul", s(i({
-            role: "listbox"
-        }, p("".concat(h, "items-list"), "itemsList")), {
-            children: r.map(function(t, r) {
-                var m = r === a, I = "".concat(h, "item-").concat(r), _ = f ? n({
-                    sectionIndex: u,
-                    itemIndex: r
-                }) : n, g = i({
-                    id: d(u, r),
-                    "aria-selected": m
-                }, p(I, "item", 0 === r && "itemFirst", m && "itemHighlighted"), _);
-                return m && (g.ref = e.storeHighlightedItemReference), (0, c.jsx)(Item, s(i({}, g), {
-                    sectionIndex: u,
-                    isHighlighted: m,
-                    itemIndex: r,
-                    item: t,
-                    renderItem: l,
-                    renderItemData: o
+    return r(d, [
+        {
+            key: "shouldComponentUpdate",
+            value: function(e) {
+                return compareObjects(e, this.props, [
+                    "itemProps"
+                ]);
+            }
+        },
+        {
+            key: "render",
+            value: function() {
+                var e = this, t = this.props, r = t.items, i = t.itemProps, s = t.renderItem, n = t.renderItemData, u = t.sectionIndex, o = t.highlightedItemIndex, d = t.getItemId, p = t.theme, h = t.keyPrefix, m = null === u ? h : "".concat(h, "section-").concat(u, "-"), f = "function" == typeof i;
+                return (0, a.jsx)("ul", c(l({
+                    role: "listbox"
+                }, p("".concat(m, "items-list"), "itemsList")), {
+                    children: r.map(function(t, r) {
+                        var h = r === o, _ = "".concat(m, "item-").concat(r), I = f ? i({
+                            sectionIndex: u,
+                            itemIndex: r
+                        }) : i, j = l({
+                            id: d(u, r),
+                            "aria-selected": h
+                        }, p(_, "item", 0 === r && "itemFirst", h && "itemHighlighted"), I);
+                        return h && (j.ref = e.storeHighlightedItemReference), (0, a.jsx)(Item, c(l({}, j), {
+                            sectionIndex: u,
+                            isHighlighted: h,
+                            itemIndex: r,
+                            item: t,
+                            renderItem: s,
+                            renderItemData: n
+                        }));
+                    })
                 }));
-            })
-        }));
-    }, o;
-}(r(require("react")).Component);
-l.propTypes = {
+            }
+        }
+    ]), d;
+}(n(require("react")).Component);
+i(o, "propTypes", {
     items: 500
-}, l.defaultProps = {
+}), i(o, "defaultProps", {
     sectionIndex: null
-}, new l();
+}), new o();

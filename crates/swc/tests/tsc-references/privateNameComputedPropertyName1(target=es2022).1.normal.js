@@ -1,11 +1,14 @@
 //// [privateNameComputedPropertyName1.ts]
 class A {
-    #a = 'a';
+    #a;
     #b;
-    #c = 'c';
+    #c;
     #d;
-    #e = '';
+    #e;
     constructor(){
+        this.#a = 'a';
+        this.#c = 'c';
+        this.#e = '';
         this.#b = 'b';
         this.#d = 'd';
     }

@@ -21,4 +21,6 @@ var Bar = /*#__PURE__*/ function() {
     };
     return Bar;
 }();
-Bar.instance = [];
+(function() {
+    Bar.instance = [];
+})();

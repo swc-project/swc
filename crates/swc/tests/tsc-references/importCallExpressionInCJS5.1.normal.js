@@ -46,7 +46,6 @@ Object.defineProperty(exports, "D", {
 });
 const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 class C {
-    myModule = Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
     method() {
         const loadAsync = Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
         this.myModule.then((Zero)=>{
@@ -57,9 +56,11 @@ class C {
             console.log(one.backup());
         });
     }
+    constructor(){
+        this.myModule = Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
+    }
 }
 class D {
-    myModule = Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
     method() {
         const loadAsync = Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
         this.myModule.then((Zero)=>{
@@ -69,5 +70,8 @@ class D {
             let one = await Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./1")));
             console.log(one.backup());
         });
+    }
+    constructor(){
+        this.myModule = Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
     }
 }

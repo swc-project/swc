@@ -2,5 +2,8 @@
 class A {
 }
 class B extends A {
-    foo = "string";
+    constructor(...args){
+        super(...args);
+        this.foo = "string";
+    }
 }

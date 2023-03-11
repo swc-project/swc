@@ -21,11 +21,27 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C.x = undefined;
-C.y1 = C.x;
-C.y2 = C.x();
-C.y3 = C === null || C === void 0 ? void 0 : C.x();
-C.y4 = C["x"]();
-C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
-C.z3 = _get(_get_prototype_of(C), "f", C).call(C);
-C.z4 = _get(_get_prototype_of(C), "f", C).call(C);
+(function() {
+    C.x = undefined;
+})();
+(function() {
+    C.y1 = C.x;
+})();
+(function() {
+    C.y2 = C.x();
+})();
+(function() {
+    C.y3 = C === null || C === void 0 ? void 0 : C.x();
+})();
+(function() {
+    C.y4 = C["x"]();
+})();
+(function() {
+    C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
+})();
+(function() {
+    C.z3 = _get(_get_prototype_of(C), "f", C).call(C);
+})();
+(function() {
+    C.z4 = _get(_get_prototype_of(C), "f", C).call(C);
+})();

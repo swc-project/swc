@@ -65,9 +65,6 @@ define([
     });
     _interopRequireWildcard = _interopRequireWildcard.default;
     class C {
-        myModule = new Promise((resolve, reject)=>require([
-                "./0"
-            ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
         method() {
             const loadAsync = new Promise((resolve, reject)=>require([
                     "./0"
@@ -82,11 +79,13 @@ define([
                 console.log(one.backup());
             });
         }
+        constructor(){
+            this.myModule = new Promise((resolve, reject)=>require([
+                    "./0"
+                ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
+        }
     }
     class D {
-        myModule = new Promise((resolve, reject)=>require([
-                "./0"
-            ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
         method() {
             const loadAsync = new Promise((resolve, reject)=>require([
                     "./0"
@@ -100,6 +99,11 @@ define([
                     ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
                 console.log(one.backup());
             });
+        }
+        constructor(){
+            this.myModule = new Promise((resolve, reject)=>require([
+                    "./0"
+                ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
         }
     }
 });

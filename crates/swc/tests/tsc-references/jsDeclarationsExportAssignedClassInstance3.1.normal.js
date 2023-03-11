@@ -5,6 +5,8 @@ var Foo = function Foo() {
     _class_call_check(this, Foo);
     this.member = 10;
 };
-Foo.stat = 10;
+(function() {
+    Foo.stat = 10;
+})();
 module.exports = new Foo();
 module.exports.additional = 20;

@@ -1,9 +1,16 @@
 //// [uniqueSymbolsDeclarationsInJs.js]
 class C {
-    static readonlyStaticCall = Symbol();
-    static readonlyStaticTypeAndCall = Symbol();
-    static readwriteStaticCall = Symbol();
-    readonlyCall = Symbol();
-    readwriteCall = Symbol();
+    static{
+        this.readonlyStaticCall = Symbol();
+    }
+    static{
+        this.readonlyStaticTypeAndCall = Symbol();
+    }
+    static{
+        this.readwriteStaticCall = Symbol();
+    }
+    constructor(){
+        this.readonlyCall = Symbol(), this.readwriteCall = Symbol();
+    }
 }
 Symbol();

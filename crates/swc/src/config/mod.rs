@@ -1478,7 +1478,7 @@ pub struct TransformConfig {
     pub treat_const_enum_as_enum: BoolConfig<false>,
 
     #[serde(default)]
-    pub use_define_for_class_fields: BoolConfig<false>,
+    pub use_define_for_class_fields: BoolConfig<true>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]

@@ -6,5 +6,7 @@ var _class;
     var tmp = param[(_class = function _class() {
         "use strict";
         _class_call_check(this, _class);
-    }, _class.x = 1, _class).x], b = tmp === void 0 ? "" : tmp;
+    }, function() {
+        _class.x = 1;
+    }(), _class).x], b = tmp === void 0 ? "" : tmp;
 })();

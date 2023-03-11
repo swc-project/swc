@@ -1,5 +1,6 @@
 //// [privateNameClassExpressionLoop.ts]
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 const array = [];
 for(let i = 0; i < 10; ++i){
@@ -13,8 +14,9 @@ for(let i = 0; i < 10; ++i){
             });
             _class_private_field_init(this, _myField, {
                 writable: true,
-                value: "hello"
+                value: void 0
             });
+            _class_private_field_set(this, _myField, "hello");
         }
     }, _C));
     function method() {}

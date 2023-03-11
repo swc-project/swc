@@ -24,7 +24,7 @@ class A {
     constructor(){
         _class_private_field_init(this, _a, {
             writable: true,
-            value: 'a'
+            value: void 0
         });
         _class_private_field_init(this, _b, {
             writable: true,
@@ -32,7 +32,7 @@ class A {
         });
         _class_private_field_init(this, _c, {
             writable: true,
-            value: 'c'
+            value: void 0
         });
         _class_private_field_init(this, _d, {
             writable: true,
@@ -40,8 +40,11 @@ class A {
         });
         _class_private_field_init(this, _e, {
             writable: true,
-            value: ''
+            value: void 0
         });
+        _class_private_field_set(this, _a, 'a');
+        _class_private_field_set(this, _c, 'c');
+        _class_private_field_set(this, _e, '');
         _class_private_field_set(this, _b, 'b');
         _class_private_field_set(this, _d, 'd');
     }

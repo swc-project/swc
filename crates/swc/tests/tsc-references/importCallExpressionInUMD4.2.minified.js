@@ -57,13 +57,15 @@
         get: ()=>D
     }), _interopRequireWildcard = _interopRequireWildcard.default;
     class D {
-        myModule = import("./0");
         method() {
             import("./0"), this.myModule.then((Zero)=>{
                 console.log(Zero.foo());
             }, async (err)=>{
                 console.log(err), console.log((await import("./1")).backup());
             });
+        }
+        constructor(){
+            this.myModule = import("./0");
         }
     }
 });

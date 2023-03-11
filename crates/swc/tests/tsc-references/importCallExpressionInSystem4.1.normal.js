@@ -49,7 +49,6 @@ System.register([], function(_export, _context) {
         setters: [],
         execute: async function() {
             C = class C {
-                myModule = _context.import("./0");
                 method() {
                     const loadAsync = _context.import("./0");
                     this.myModule.then((Zero)=>{
@@ -60,9 +59,11 @@ System.register([], function(_export, _context) {
                         console.log(one.backup());
                     });
                 }
+                constructor(){
+                    this.myModule = _context.import("./0");
+                }
             };
             _export("D", D = class D {
-                myModule = _context.import("./0");
                 method() {
                     const loadAsync = _context.import("./0");
                     this.myModule.then((Zero)=>{
@@ -72,6 +73,9 @@ System.register([], function(_export, _context) {
                         let one = await _context.import("./1");
                         console.log(one.backup());
                     });
+                }
+                constructor(){
+                    this.myModule = _context.import("./0");
                 }
             });
         }

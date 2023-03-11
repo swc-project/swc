@@ -74,11 +74,19 @@ async function* asyncGenFuncYieldVarCall() {
 }
 // classes
 class C {
-    static readonlyStaticCall = Symbol();
-    static readonlyStaticTypeAndCall = Symbol();
-    static readwriteStaticCall = Symbol();
-    readonlyCall = Symbol();
-    readwriteCall = Symbol();
+    static{
+        this.readonlyStaticCall = Symbol();
+    }
+    static{
+        this.readonlyStaticTypeAndCall = Symbol();
+    }
+    static{
+        this.readwriteStaticCall = Symbol();
+    }
+    constructor(){
+        this.readonlyCall = Symbol();
+        this.readwriteCall = Symbol();
+    }
 }
 const constInitToCReadonlyStaticCall = C.readonlyStaticCall;
 const constInitToCReadonlyStaticType = C.readonlyStaticType;
@@ -146,18 +154,24 @@ const o2 = {
 };
 // property initializers
 class C0 {
-    static a = s;
-    static b = N.s;
-    static c = N["s"];
-    static d = s;
-    static e = N.s;
-    static f = N["s"];
-    a = s;
-    b = N.s;
-    c = N["s"];
-    d = s;
-    e = N.s;
-    f = N["s"];
+    static{
+        this.a = s;
+    }
+    static{
+        this.b = N.s;
+    }
+    static{
+        this.c = N["s"];
+    }
+    static{
+        this.d = s;
+    }
+    static{
+        this.e = N.s;
+    }
+    static{
+        this.f = N["s"];
+    }
     method1() {
         return s;
     }
@@ -172,6 +186,14 @@ class C0 {
     }
     method5(p = s) {
         return p;
+    }
+    constructor(){
+        this.a = s;
+        this.b = N.s;
+        this.c = N["s"];
+        this.d = s;
+        this.e = N.s;
+        this.f = N["s"];
     }
 }
 // non-widening positions

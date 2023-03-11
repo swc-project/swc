@@ -8,8 +8,9 @@ class C {
     constructor(x){
         _class_private_field_init(this, _x, {
             writable: true,
-            value: 1
+            value: void 0
         });
+        _class_private_field_set(this, _x, 1);
         _class_private_field_set(this, _x, x);
     }
 }

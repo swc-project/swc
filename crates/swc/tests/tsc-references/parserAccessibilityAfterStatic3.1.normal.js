@@ -4,4 +4,6 @@ var Outer = function Outer() {
     "use strict";
     _class_call_check(this, Outer);
 };
-Outer.public = 1;
+(function() {
+    Outer.public = 1;
+})();

@@ -20,6 +20,7 @@ export let CommentController = class CommentController {
     deleteComment(id, user) {
         return this.commentService.delete(id, user.id);
     }
+    commentService;
 };
 _ts_decorate([
     UseGuards(JwtAuthGuard),
