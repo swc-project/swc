@@ -1,6 +1,13 @@
-use super::Lexer;
+//! Lookup table for byte handlers.
+//!
+//! Idea is taken from ratel.
+//!
+//! https://github.com/ratel-rust/ratel-core/blob/e55a1310ba69a3f5ce2a9a6eef643feced02ac08/ratel/src/lexer/mod.rs#L665
 
-type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>)>;
+use super::{LexResult, Lexer};
+use crate::token::Token;
+
+type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<Token>>>;
 
 /// Lookup table mapping any incoming byte to a handler function defined below.
 static BYTE_HANDLERS: [ByteHandler; 256] = [
@@ -24,3 +31,11 @@ static BYTE_HANDLERS: [ByteHandler; 256] = [
 ];
 
 const ___: ByteHandler = None;
+
+const EOF: ByteHandler = Some(|lexer| {
+    lexer.input.bump_bytes(1);
+
+    Ok(None)
+});
+
+const IDT: ByteHandler = Some(|lexer| lexer.read_ident_or_keyword().map(Some));
