@@ -89,3 +89,29 @@ const UNI: ByteHandler = Some(|lexer| {
     lexer.input.bump();
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
 });
+
+/// `:`
+const COL: ByteHandler = Some(|lexer| lexer.read_token_colon().map(Some));
+
+macro_rules! single_char {
+    ($name:ident, $c:literal, $token:ident) => {
+        const $name: ByteHandler = Some(|lexer| {
+            lexer.input.bump_bytes(1);
+            Ok(Some(Token::$token))
+        });
+    };
+}
+
+single_char!(SEM, b';', Semi);
+single_char!(COM, b',', Comma);
+
+single_char!(PNO, b'(', LParen);
+single_char!(PNC, b')', RParen);
+
+single_char!(BTO, b'[', LBracket);
+single_char!(BTC, b']', RBracket);
+
+single_char!(BEO, b'{', LBrace);
+single_char!(BEC, b'}', RBrace);
+
+// b'@' | b'`' | b'~'
