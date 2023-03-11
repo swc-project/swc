@@ -8,7 +8,10 @@ use either::Either;
 use swc_common::input::Input;
 
 use super::{pos_span, util::CharExt, LexResult, Lexer};
-use crate::{error::SyntaxError, token::Token};
+use crate::{
+    error::SyntaxError,
+    token::{AssignOpToken, BinOpToken, Token},
+};
 
 type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<Token>>>;
 
@@ -129,3 +132,15 @@ single_char!(BTC, b']', RBracket);
 
 single_char!(BEO, b'{', LBrace);
 single_char!(BEC, b'}', RBrace);
+
+/// `^`
+const CRT: ByteHandler = Some(|lexer| {
+    // Bitwise xor
+    lexer.input.bump_bytes(1);
+    return Ok(Some(if lexer.input.cur_as_ascii() == Some(b'=') {
+        lexer.input.bump_bytes(1);
+        Token::AssignOp(AssignOpToken::BitXorAssign)
+    } else {
+        Token::BinOp(BinOpToken::BitXor)
+    }));
+});
