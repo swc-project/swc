@@ -177,7 +177,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.42.4"
+version = "0.43.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -844,7 +844,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.74.4"
+version = "0.74.5"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -1498,7 +1498,7 @@ dependencies = [
 
 [[package]]
 name = "jsdoc"
-version = "0.98.4"
+version = "0.98.5"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -3130,7 +3130,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.253.4"
+version = "0.254.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3202,7 +3202,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.207.3"
+version = "0.207.4"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3316,7 +3316,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.67.4"
+version = "0.68.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3556,7 +3556,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.99.2"
+version = "0.99.3"
 dependencies = [
  "arbitrary",
  "bitflags",
@@ -3576,7 +3576,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.134.4"
+version = "0.134.5"
 dependencies = [
  "base64 0.13.1",
  "criterion",
@@ -3611,7 +3611,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_dep_graph"
-version = "0.101.4"
+version = "0.101.5"
 dependencies = [
  "pretty_assertions",
  "swc_atoms",
@@ -3624,7 +3624,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "0.98.4"
+version = "0.98.5"
 dependencies = [
  "phf",
  "swc_atoms",
@@ -3636,7 +3636,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.76.5"
+version = "0.76.6"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3680,7 +3680,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.174.3"
+version = "0.174.4"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3723,7 +3723,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.129.4"
+version = "0.129.5"
 dependencies = [
  "criterion",
  "either",
@@ -3749,7 +3749,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.188.4"
+version = "0.188.5"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3777,7 +3777,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote"
-version = "0.45.4"
+version = "0.45.5"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3788,7 +3788,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.40.4"
+version = "0.40.5"
 dependencies = [
  "anyhow",
  "pmutil",
@@ -3814,7 +3814,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.211.3"
+version = "0.211.4"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3839,7 +3839,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.121.5"
+version = "0.121.6"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -3865,7 +3865,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.110.5"
+version = "0.110.6"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3877,7 +3877,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.147.3"
+version = "0.147.4"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3917,7 +3917,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.164.3"
+version = "0.164.4"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3947,7 +3947,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.180.3"
+version = "0.180.4"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3978,7 +3978,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.155.3"
+version = "0.155.4"
 dependencies = [
  "either",
  "serde",
@@ -4001,7 +4001,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.166.3"
+version = "0.166.4"
 dependencies = [
  "ahash",
  "base64 0.13.1",
@@ -4031,7 +4031,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.124.5"
+version = "0.124.6"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4055,7 +4055,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.170.3"
+version = "0.170.4"
 dependencies = [
  "criterion",
  "serde",
@@ -4076,7 +4076,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.8.4"
+version = "0.8.5"
 dependencies = [
  "ahash",
  "indexmap",
@@ -4092,7 +4092,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.112.4"
+version = "0.112.5"
 dependencies = [
  "indexmap",
  "num_cpus",
@@ -4111,7 +4111,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.85.2"
+version = "0.85.3"
 dependencies = [
  "num-bigint",
  "serde",
@@ -4124,7 +4124,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.221.4"
+version = "0.221.5"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -4172,7 +4172,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.176.4"
+version = "0.177.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4220,7 +4220,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.117.3"
+version = "0.117.4"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4272,7 +4272,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.114.3"
+version = "0.114.4"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4358,7 +4358,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.40.4"
+version = "0.41.0"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -4425,7 +4425,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.28.2"
+version = "0.28.3"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -4438,7 +4438,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.90.4"
+version = "0.90.5"
 dependencies = [
  "anyhow",
  "criterion",
