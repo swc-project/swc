@@ -1371,7 +1371,7 @@ define!({
     }
     pub struct ForOfStmt {
         pub span: Span,
-        pub await_token: Option<Span>,
+        pub is_await: bool,
         pub left: VarDeclOrPat,
         pub right: Box<Expr>,
         pub body: Box<Stmt>,

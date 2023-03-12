@@ -46,7 +46,7 @@
         "end": 25,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "Identifier",
         "span": {

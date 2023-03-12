@@ -3186,7 +3186,7 @@ where
 
         keyword!("for");
 
-        if n.await_token.is_some() {
+        if n.is_await {
             space!();
             keyword!("await");
         }

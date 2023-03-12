@@ -1176,7 +1176,7 @@
         "end": 303,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "OptionalChainingExpression",
         "span": {
@@ -1251,7 +1251,7 @@
         "end": 328,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "MemberExpression",
         "span": {

@@ -104,8 +104,9 @@ pub enum Stmt {
     Expr(ExprStmt),
 }
 
-#[cfg(target_pointer_width = "64")]
-assert_eq_size!(Stmt, [u8; 64]);
+// Memory layout depedns on the version of rustc.
+// #[cfg(target_pointer_width = "64")]
+// assert_eq_size!(Stmt, [u8; 56]);
 
 // Implement Clone without inline to avoid multiple copies of the
 // implementation.
@@ -318,7 +319,7 @@ pub struct ForOfStmt {
     ///
     /// for-await-of statements, e.g., `for await (const x of xs) {`
     #[serde(default, rename = "await")]
-    pub await_token: Option<Span>,
+    pub is_await: bool,
     pub left: VarDeclOrPat,
     pub right: Box<Expr>,
     pub body: Box<Stmt>,
@@ -328,7 +329,7 @@ impl Take for ForOfStmt {
     fn dummy() -> Self {
         ForOfStmt {
             span: DUMMY_SP,
-            await_token: Default::default(),
+            is_await: Default::default(),
             left: Take::dummy(),
             right: Take::dummy(),
             body: Take::dummy(),

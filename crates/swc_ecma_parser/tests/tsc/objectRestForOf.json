@@ -153,7 +153,7 @@
         "end": 115,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "VariableDeclaration",
         "span": {
@@ -444,7 +444,7 @@
         "end": 223,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "ObjectPattern",
         "span": {
@@ -578,7 +578,7 @@
         "end": 358,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "VariableDeclaration",
         "span": {

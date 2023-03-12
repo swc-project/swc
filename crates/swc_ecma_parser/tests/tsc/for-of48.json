@@ -240,7 +240,7 @@
         "end": 133,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "ObjectPattern",
         "span": {

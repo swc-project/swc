@@ -2858,7 +2858,7 @@ impl Visit for TopLevelAwait {
     }
 
     fn visit_for_of_stmt(&mut self, for_of_stmt: &ForOfStmt) {
-        if for_of_stmt.await_token.is_some() {
+        if for_of_stmt.is_await {
             self.found = true;
             return;
         }

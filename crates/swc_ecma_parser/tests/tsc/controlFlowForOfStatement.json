@@ -231,7 +231,7 @@
               "end": 150,
               "ctxt": 0
             },
-            "await": null,
+            "await": false,
             "left": {
               "type": "Identifier",
               "span": {

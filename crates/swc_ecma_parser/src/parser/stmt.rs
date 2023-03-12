@@ -1124,7 +1124,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             ForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
                 span,
-                await_token,
+                is_await: await_token.is_some(),
                 left,
                 right,
                 body,
@@ -1419,7 +1419,7 @@ mod tests {
             stmt("for await (const a of b) ;"),
             Stmt::ForOf(ForOfStmt {
                 span,
-                await_token: Some(span),
+                is_await: true,
                 left: VarDeclOrPat::VarDecl(Box::new(VarDecl {
                     span,
                     kind: VarDeclKind::Const,

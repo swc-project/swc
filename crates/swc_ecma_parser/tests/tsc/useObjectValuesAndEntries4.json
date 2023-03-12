@@ -101,7 +101,7 @@
         "end": 109,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "VariableDeclaration",
         "span": {

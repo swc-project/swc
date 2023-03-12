@@ -94,7 +94,7 @@ impl Visit for NoAwaitInLoop {
         for_of_stmt.left.visit_children_with(self);
         for_of_stmt.right.visit_children_with(self);
 
-        self.await_restricted = for_of_stmt.await_token.is_none();
+        self.await_restricted = !for_of_stmt.is_await;
 
         for_of_stmt.body.visit_children_with(self);
 
