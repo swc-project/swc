@@ -1419,7 +1419,7 @@ mod tests {
             stmt("for await (const a of b) ;"),
             Stmt::ForOf(ForOfStmt {
                 span,
-                await_token: Some(span),
+                is_await: true,
                 left: VarDeclOrPat::VarDecl(Box::new(VarDecl {
                     span,
                     kind: VarDeclKind::Const,
