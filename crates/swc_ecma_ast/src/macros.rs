@@ -234,12 +234,3 @@ macro_rules! bridge_decl_from {
         bridge_from!(crate::ModuleItem, crate::Stmt, $src);
     };
 }
-
-/// Copied from static_assertions
-macro_rules! assert_eq_size {
-    ($x:ty, $($xs:ty),+ $(,)?) => {
-        const _: fn() = || {
-            $(let _ = std::mem::transmute::<$x, $xs>;)+
-        };
-    };
-}
