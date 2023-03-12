@@ -307,6 +307,7 @@ pub struct ForInStmt {
     pub body: Box<Stmt>,
 }
 
+#[repr(packed)]
 #[ast_node("ForOfStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
