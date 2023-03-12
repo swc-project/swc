@@ -4282,7 +4282,7 @@
               "end": 2127,
               "ctxt": 0
             },
-            "await": null,
+            "await": false,
             "left": {
               "type": "VariableDeclaration",
               "span": {
@@ -4399,7 +4399,7 @@
               "end": 2188,
               "ctxt": 0
             },
-            "await": null,
+            "await": false,
             "left": {
               "type": "VariableDeclaration",
               "span": {
@@ -4536,7 +4536,7 @@
               "end": 2260,
               "ctxt": 0
             },
-            "await": null,
+            "await": false,
             "left": {
               "type": "VariableDeclaration",
               "span": {

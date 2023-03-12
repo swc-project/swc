@@ -220,7 +220,7 @@
         "end": 115,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "ArrayPattern",
         "span": {

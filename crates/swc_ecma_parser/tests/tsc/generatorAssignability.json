@@ -1174,7 +1174,7 @@
         "end": 820,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "Identifier",
         "span": {
@@ -1212,7 +1212,7 @@
         "end": 844,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "Identifier",
         "span": {
@@ -1278,11 +1278,7 @@
               "end": 937,
               "ctxt": 0
             },
-            "await": {
-              "start": 921,
-              "end": 926,
-              "ctxt": 0
-            },
+            "await": true,
             "left": {
               "type": "Identifier",
               "span": {
@@ -1320,11 +1316,7 @@
               "end": 971,
               "ctxt": 0
             },
-            "await": {
-              "start": 955,
-              "end": 960,
-              "ctxt": 0
-            },
+            "await": true,
             "left": {
               "type": "Identifier",
               "span": {
@@ -1362,11 +1354,7 @@
               "end": 1042,
               "ctxt": 0
             },
-            "await": {
-              "start": 1026,
-              "end": 1031,
-              "ctxt": 0
-            },
+            "await": true,
             "left": {
               "type": "Identifier",
               "span": {
@@ -1404,11 +1392,7 @@
               "end": 1076,
               "ctxt": 0
             },
-            "await": {
-              "start": 1060,
-              "end": 1065,
-              "ctxt": 0
-            },
+            "await": true,
             "left": {
               "type": "Identifier",
               "span": {
@@ -2039,11 +2023,7 @@
               "end": 1626,
               "ctxt": 0
             },
-            "await": {
-              "start": 1598,
-              "end": 1603,
-              "ctxt": 0
-            },
+            "await": true,
             "left": {
               "type": "VariableDeclaration",
               "span": {

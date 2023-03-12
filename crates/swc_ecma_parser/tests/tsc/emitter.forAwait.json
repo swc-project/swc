@@ -90,11 +90,7 @@
               "end": 151,
               "ctxt": 0
             },
-            "await": {
-              "start": 123,
-              "end": 128,
-              "ctxt": 0
-            },
+            "await": true,
             "left": {
               "type": "VariableDeclaration",
               "span": {
@@ -276,11 +272,7 @@
               "end": 253,
               "ctxt": 0
             },
-            "await": {
-              "start": 231,
-              "end": 236,
-              "ctxt": 0
-            },
+            "await": true,
             "left": {
               "type": "Identifier",
               "span": {
@@ -403,11 +395,7 @@
               "end": 354,
               "ctxt": 0
             },
-            "await": {
-              "start": 326,
-              "end": 331,
-              "ctxt": 0
-            },
+            "await": true,
             "left": {
               "type": "VariableDeclaration",
               "span": {
@@ -589,11 +577,7 @@
               "end": 457,
               "ctxt": 0
             },
-            "await": {
-              "start": 435,
-              "end": 440,
-              "ctxt": 0
-            },
+            "await": true,
             "left": {
               "type": "Identifier",
               "span": {
@@ -733,11 +717,7 @@
                 "end": 644,
                 "ctxt": 0
               },
-              "await": {
-                "start": 592,
-                "end": 597,
-                "ctxt": 0
-              },
+              "await": true,
               "left": {
                 "type": "VariableDeclaration",
                 "span": {
@@ -919,11 +899,7 @@
                 "end": 832,
                 "ctxt": 0
               },
-              "await": {
-                "start": 780,
-                "end": 785,
-                "ctxt": 0
-              },
+              "await": true,
               "left": {
                 "type": "VariableDeclaration",
                 "span": {
@@ -1106,11 +1082,7 @@
                     "end": 1012,
                     "ctxt": 0
                   },
-                  "await": {
-                    "start": 980,
-                    "end": 985,
-                    "ctxt": 0
-                  },
+                  "await": true,
                   "left": {
                     "type": "VariableDeclaration",
                     "span": {

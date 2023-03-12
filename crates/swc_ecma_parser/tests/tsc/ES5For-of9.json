@@ -89,7 +89,7 @@
         "end": 121,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "MemberExpression",
         "span": {
@@ -152,7 +152,7 @@
               "end": 119,
               "ctxt": 0
             },
-            "await": null,
+            "await": false,
             "left": {
               "type": "MemberExpression",
               "span": {

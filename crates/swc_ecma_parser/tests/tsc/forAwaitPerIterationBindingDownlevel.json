@@ -418,11 +418,7 @@
                     "end": 686,
                     "ctxt": 0
                   },
-                  "await": {
-                    "start": 301,
-                    "end": 306,
-                    "ctxt": 0
-                  },
+                  "await": true,
                   "left": {
                     "type": "VariableDeclaration",
                     "span": {

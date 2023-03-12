@@ -29563,7 +29563,7 @@
                                   "end": 60120,
                                   "ctxt": 0
                                 },
-                                "await": null,
+                                "await": false,
                                 "left": {
                                   "type": "VariableDeclaration",
                                   "span": {
@@ -29867,7 +29867,7 @@
                                   "end": 60342,
                                   "ctxt": 0
                                 },
-                                "await": null,
+                                "await": false,
                                 "left": {
                                   "type": "VariableDeclaration",
                                   "span": {

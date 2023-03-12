@@ -13,7 +13,7 @@
         "end": 49,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "VariableDeclaration",
         "span": {
@@ -71,7 +71,7 @@
               "end": 47,
               "ctxt": 0
             },
-            "await": null,
+            "await": false,
             "left": {
               "type": "VariableDeclaration",
               "span": {

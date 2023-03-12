@@ -178,7 +178,7 @@
         "end": 143,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "Identifier",
         "span": {
@@ -227,7 +227,7 @@
         "end": 193,
         "ctxt": 0
       },
-      "await": null,
+      "await": false,
       "left": {
         "type": "Identifier",
         "span": {
