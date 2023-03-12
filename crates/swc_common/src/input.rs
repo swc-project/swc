@@ -78,20 +78,6 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
-    fn is_str(&self, s: &str) -> bool {
-        let mut s_iter = s.as_bytes().iter();
-        let mut p_iter = self.iter.clone().map(|i| i.1);
-
-        while let (Some(expected), Some(actual)) = (s_iter.next(), p_iter.next()) {
-            if *expected as char != actual {
-                return false;
-            }
-        }
-
-        s_iter.next().is_none()
-    }
-
-    #[inline]
     fn bump(&mut self) {
         if let Some((i, c)) = self.iter.next() {
             self.last_pos = self.start_pos_of_iter + BytePos((i + c.len_utf8()) as u32);
@@ -99,6 +85,16 @@ impl<'a> Input for StringInput<'a> {
             unsafe {
                 debug_unreachable!("bump should not be called when cur() == None");
             }
+        }
+    }
+
+    #[inline]
+    fn cur_as_ascii(&mut self) -> Option<u8> {
+        let first_byte = *self.as_str().as_bytes().first()?;
+        if first_byte <= 0x7f {
+            Some(first_byte)
+        } else {
+            None
         }
     }
 
@@ -120,15 +116,17 @@ impl<'a> Input for StringInput<'a> {
 
     #[inline]
     fn slice(&mut self, start: BytePos, end: BytePos) -> &str {
-        assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
+        debug_assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
         let s = self.orig;
 
         let start_idx = (start - self.orig_start).0 as usize;
         let end_idx = (end - self.orig_start).0 as usize;
 
-        let ret = &s[start_idx..end_idx];
+        debug_assert!(end_idx <= s.len());
 
-        self.iter = s[end_idx..].char_indices();
+        let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
+
+        self.iter = unsafe { s.get_unchecked(end_idx..) }.char_indices();
         self.last_pos = end;
         self.start_pos_of_iter = end;
 
@@ -149,11 +147,12 @@ impl<'a> Input for StringInput<'a> {
                 break;
             }
         }
-        let ret = &s[..last];
+        debug_assert!(last <= s.len());
+        let ret = unsafe { s.get_unchecked(..last) };
 
         self.last_pos = self.last_pos + BytePos(last as _);
         self.start_pos_of_iter = self.last_pos;
-        self.iter = s[last..].char_indices();
+        self.iter = unsafe { s.get_unchecked(last..) }.char_indices();
 
         ret
     }
@@ -175,9 +174,11 @@ impl<'a> Input for StringInput<'a> {
             return None;
         }
 
+        debug_assert!(last <= s.len());
+
         self.last_pos = self.last_pos + BytePos(last as _);
         self.start_pos_of_iter = self.last_pos;
-        self.iter = s[last..].char_indices();
+        self.iter = unsafe { s.get_unchecked(last..) }.char_indices();
 
         Some(self.last_pos)
     }
@@ -187,7 +188,8 @@ impl<'a> Input for StringInput<'a> {
         let orig = self.orig;
         let idx = (to - self.orig_start).0 as usize;
 
-        let s = &orig[idx..];
+        debug_assert!(idx <= orig.len());
+        let s = unsafe { orig.get_unchecked(idx..) };
         self.iter = s.char_indices();
         self.start_pos_of_iter = to;
         self.last_pos = to;
@@ -201,6 +203,11 @@ impl<'a> Input for StringInput<'a> {
             // Safety: We checked that `self.iter.as_str().len() > 0`
             unsafe { *self.iter.as_str().as_bytes().get_unchecked(0) == c }
         }
+    }
+
+    #[inline]
+    fn is_str(&self, s: &str) -> bool {
+        self.as_str().starts_with(s)
     }
 
     #[inline]
