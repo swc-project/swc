@@ -170,8 +170,9 @@ pub enum Expr {
     Invalid(Invalid),
 }
 
-#[cfg(target_pointer_width = "64")]
-assert_eq_size!(Expr, [u8; 80]);
+// Memory layout depedns on the version of rustc.
+// #[cfg(target_pointer_width = "64")]
+// assert_eq_size!(Expr, [u8; 80]);
 
 impl Expr {
     /// Normalize parenthesized expressions.
