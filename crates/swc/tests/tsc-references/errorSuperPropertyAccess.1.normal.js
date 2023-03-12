@@ -57,8 +57,12 @@ var SomeBase = /*#__PURE__*/ function() {
     SomeBase.publicStaticFunc = function publicStaticFunc() {};
     return SomeBase;
 }();
-SomeBase.privateStaticMember = 0;
-SomeBase.publicStaticMember = 0;
+(function() {
+    SomeBase.privateStaticMember = 0;
+})();
+(function() {
+    SomeBase.publicStaticMember = 0;
+})();
 //super.publicInstanceMemberNotFunction in constructor of derived class
 //super.publicInstanceMemberNotFunction in instance member function of derived class
 //super.publicInstanceMemberNotFunction in instance member accessor(get and set) of derived class

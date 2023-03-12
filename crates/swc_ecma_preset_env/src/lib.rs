@@ -14,6 +14,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{
         bugfixes,
+        class_fields_use_set::class_fields_use_set,
         es2015::{self, generator::generator},
         es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3,
         regexp::{self, regexp},
@@ -83,6 +84,14 @@ where
             chain!($prev, Optional::new($pass, enable))
         }};
     }
+
+    let pass = chain!(
+        pass,
+        Optional::new(
+            class_fields_use_set(assumptions.pure_getters),
+            assumptions.set_public_class_fields
+        )
+    );
 
     let pass = {
         let enable_dot_all_regex = should_enable!(DotAllRegex, false);

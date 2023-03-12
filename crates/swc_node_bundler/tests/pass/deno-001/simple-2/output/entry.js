@@ -1,12 +1,25 @@
+function _defineProperty(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
 function deferred() {}
 class MuxAsyncIterator {
     constructor(){
-        this.signal = deferred();
+        _defineProperty(this, "signal", deferred());
     }
 }
 class ServerRequest {
     constructor(){
-        this.done = deferred();
+        _defineProperty(this, "done", deferred());
     }
 }
 console.log(ServerRequest);

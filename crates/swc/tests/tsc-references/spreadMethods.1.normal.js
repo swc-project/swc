@@ -1,9 +1,11 @@
 //// [spreadMethods.ts]
 class K {
-    p = 12;
     m() {}
     get g() {
         return 0;
+    }
+    constructor(){
+        this.p = 12;
     }
 }
 let k = new K();

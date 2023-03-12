@@ -38,13 +38,15 @@ System.register([], function(_export, _context) {
         setters: [],
         execute: async function() {
             _export("D", class {
-                myModule = _context.import("./0");
                 method() {
                     _context.import("./0"), this.myModule.then((Zero)=>{
                         console.log(Zero.foo());
                     }, async (err)=>{
                         console.log(err), console.log((await _context.import("./1")).backup());
                     });
+                }
+                constructor(){
+                    this.myModule = _context.import("./0");
                 }
             });
         }

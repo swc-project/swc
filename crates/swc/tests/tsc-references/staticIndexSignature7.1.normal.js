@@ -4,8 +4,10 @@ var X = function X() {
     "use strict";
     _class_call_check(this, X);
 };
-X.x = 12 // Should error, incompatible with index signature
-;
+(function() {
+    X.x = 12 // Should error, incompatible with index signature
+    ;
+})();
 var Y = /*#__PURE__*/ function() {
     "use strict";
     function Y() {

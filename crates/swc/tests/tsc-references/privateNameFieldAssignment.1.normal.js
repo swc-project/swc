@@ -11,8 +11,9 @@ class A {
         var _A_getInstance, _A_getInstance1, _A_getInstance2, _A_getInstance3, _A_getInstance4, _A_getInstance5, _A_getInstance6, _A_getInstance7, _A_getInstance8, _A_getInstance9, _A_getInstance10, _A_getInstance11;
         _class_private_field_init(this, _field, {
             writable: true,
-            value: 0
+            value: void 0
         });
+        _class_private_field_set(this, _field, 0);
         _class_private_field_set(this, _field, 1);
         _class_private_field_set(this, _field, _class_private_field_get(this, _field) + 2);
         _class_private_field_set(this, _field, _class_private_field_get(this, _field) - 3);

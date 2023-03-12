@@ -214,6 +214,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 
             Either::Right(chain!(
                 Optional::new(
+                    compat::class_fields_use_set::class_fields_use_set(assumptions.pure_getters),
+                    assumptions.set_public_class_fields,
+                ),
+                Optional::new(
                     compat::es2022::es2022(
                         comments,
                         compat::es2022::Config {

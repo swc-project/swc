@@ -20,9 +20,11 @@ var C = /*#__PURE__*/ function() {
     };
     return C;
 }();
-C.g = function() {
-    return "";
-};
+(function() {
+    C.g = function() {
+        return "";
+    };
+})();
 var c = new C();
 var r1 = c.x;
 var r2 = c.a;

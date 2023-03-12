@@ -28,64 +28,65 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = [
-    function() {
-        var Reflect; // collision (es2015-es2021 only)
-        _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
-    function() {
-        var Reflect = {
-            Reflect: null
-        }.Reflect; // collision (es2015-es2021 only)
-        _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
-    function() {
-        var Reflect = null; // collision (es2015-es2021 only)
-        _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
-    function() {
-        var Reflect = function Reflect() {
-            "use strict";
-            _class_call_check(this, Reflect);
-        } // collision (es2015-es2021 only)
-        ;
-        _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
-    function() {
-        var Reflect = function Reflect() {} // collision (es2015-es2021 only)
-        ;
-        _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
-    function() {
-        var Reflect// collision (es2015-es2021 only)
-        ;
-        (function(Reflect) {})(Reflect || (Reflect = {}));
-        _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
-    function() {
-        var Reflect// collision (es2015-es2021 only)
-        ;
-        (function(Reflect) {})(Reflect || (Reflect = {}));
-        _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
-    function() {
-        _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
-    function() {
-        _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
-    function() {
-        (function Reflect() {
-            "use strict";
-            _class_call_check(this, Reflect);
-        }); // no collision
-        _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
-    function() {
-        (function Reflect() {}); // no collision
-        _get(_get_prototype_of(C), "w", C).call(C);
-    }()
-];
+(function() {
+    C._ = [
+        function() {
+            var Reflect; // collision (es2015-es2021 only)
+            _get(_get_prototype_of(C), "w", C).call(C);
+        }(),
+        function() {
+            var Reflect = {
+                Reflect: null
+            }.Reflect; // collision (es2015-es2021 only)
+            _get(_get_prototype_of(C), "w", C).call(C);
+        }(),
+        function() {
+            var Reflect = null; // collision (es2015-es2021 only)
+            _get(_get_prototype_of(C), "w", C).call(C);
+        }(),
+        function() {
+            var Reflect = function Reflect() {
+                "use strict";
+                _class_call_check(this, Reflect);
+            } // collision (es2015-es2021 only)
+            ;
+            _get(_get_prototype_of(C), "w", C).call(C);
+        }(),
+        function() {
+            function Reflect() {} // collision (es2015-es2021 only)
+            _get(_get_prototype_of(C), "w", C).call(C);
+        }(),
+        function() {
+            var Reflect// collision (es2015-es2021 only)
+            ;
+            (function(Reflect) {})(Reflect || (Reflect = {}));
+            _get(_get_prototype_of(C), "w", C).call(C);
+        }(),
+        function() {
+            var Reflect// collision (es2015-es2021 only)
+            ;
+            (function(Reflect) {})(Reflect || (Reflect = {}));
+            _get(_get_prototype_of(C), "w", C).call(C);
+        }(),
+        function() {
+            _get(_get_prototype_of(C), "w", C).call(C);
+        }(),
+        function() {
+            _get(_get_prototype_of(C), "w", C).call(C);
+        }(),
+        function() {
+            (function Reflect() {
+                "use strict";
+                _class_call_check(this, Reflect);
+            }); // no collision
+            _get(_get_prototype_of(C), "w", C).call(C);
+        }(),
+        function() {
+            (function Reflect() {}); // no collision
+            _get(_get_prototype_of(C), "w", C).call(C);
+        }()
+    ];
+})();
 (function() {
     var Reflect = {
         Reflect: null
@@ -162,7 +163,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [varInContainingScopeStaticField2.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -183,7 +186,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [varInContainingScopeStaticField3.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -202,7 +207,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [varInContainingScopeStaticBlock1.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -290,7 +297,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [classDeclInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -334,7 +343,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [funcDeclInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -373,7 +384,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [valueNamespaceInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -414,7 +427,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [enumInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -458,7 +473,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -499,7 +516,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [namespaceImportInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -537,7 +556,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [namedImportInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -575,7 +596,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [namedImportOfInterfaceInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -613,7 +636,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -651,7 +676,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [namedImportOfConstEnumInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -689,7 +716,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [typeOnlyNamedImportInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -727,7 +756,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [defaultImportInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -765,7 +796,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -803,7 +836,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [typeInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -841,7 +876,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [interfaceInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -879,7 +916,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -921,7 +960,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [classExprInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -968,7 +1009,9 @@ _Reflect = function Reflect() {
         }
         return C;
     }(B);
-    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+    (function() {
+        C._ = _get(_get_prototype_of(C), "w", C).call(C);
+    })();
 }(), _Reflect;
 export { };
 //// [inContainingClassExprStaticBlock.ts]
@@ -1014,7 +1057,9 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function() {
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [funcExprInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
@@ -1054,7 +1099,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         }
         return C;
     }(B);
-    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+    (function() {
+        C._ = _get(_get_prototype_of(C), "w", C).call(C);
+    })();
 });
 export { };
 //// [inContainingFuncExprStaticBlock.ts]

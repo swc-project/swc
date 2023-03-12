@@ -1,17 +1,25 @@
 //// [uniqueSymbolsDeclarationsInJs.js]
 // classes
 class C {
-    /**
+    static{
+        /**
      * @readonly
-     */ static readonlyStaticCall = Symbol();
-    /**
+     */ this.readonlyStaticCall = Symbol();
+    }
+    static{
+        /**
      * @type {unique symbol}
      * @readonly
-     */ static readonlyStaticTypeAndCall = Symbol();
-    static readwriteStaticCall = Symbol();
-    /**
+     */ this.readonlyStaticTypeAndCall = Symbol();
+    }
+    static{
+        this.readwriteStaticCall = Symbol();
+    }
+    constructor(){
+        /**
      * @readonly
-     */ readonlyCall = Symbol();
-    readwriteCall = Symbol();
+     */ this.readonlyCall = Symbol();
+        this.readwriteCall = Symbol();
+    }
 }
 /** @type {unique symbol} */ const a = Symbol();

@@ -2,6 +2,7 @@
 var x = "p";
 let _x = x;
 class A {
+    y;
     a;
     b;
     c;
@@ -16,12 +17,12 @@ class A {
         this.z = this.y;
     }
     z;
-    y;
 }
 class B {
     a;
 }
 class C extends B {
+    ka;
     z;
     constructor(ka){
         super();
@@ -30,5 +31,4 @@ class C extends B {
         this.ki = this.ka;
     }
     ki;
-    ka;
 }

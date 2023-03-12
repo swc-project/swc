@@ -363,9 +363,9 @@ impl Options {
         // variable management system based on the syntax contexts.
         if syntax.typescript() {
             assumptions.set_class_methods = !transform.use_define_for_class_fields.into_bool();
-            assumptions.set_public_class_fields =
-                !transform.use_define_for_class_fields.into_bool();
         }
+
+        assumptions.set_public_class_fields = !transform.use_define_for_class_fields.into_bool();
 
         program.visit_mut_with(&mut resolver(
             unresolved_mark,
@@ -669,7 +669,6 @@ impl Options {
                                 .into_bool(),
                             ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
                         },
-                        use_define_for_class_fields: !assumptions.set_public_class_fields,
                         import_export_assign_config,
                         ..Default::default()
                     },
@@ -1478,7 +1477,7 @@ pub struct TransformConfig {
     pub treat_const_enum_as_enum: BoolConfig<false>,
 
     #[serde(default)]
-    pub use_define_for_class_fields: BoolConfig<false>,
+    pub use_define_for_class_fields: BoolConfig<true>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]

@@ -14,8 +14,8 @@ console.log(new class {
             constructor(){
                 _class_private_field_init(this, _y, {
                     writable: !0,
-                    value: 100
-                });
+                    value: void 0
+                }), _class_private_field_set(this, _y, 100);
             }
         }()[_class_private_field_get(this, _name)]();
     }

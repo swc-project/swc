@@ -7,9 +7,12 @@ console.log(new class {
     getValue(x) {
         let obj = this;
         class Bar {
-            #y = 100;
+            #y;
             [obj.#name]() {
                 return x + this.#y;
+            }
+            constructor(){
+                this.#y = 100;
             }
         }
         return new Bar()[obj.#name]();

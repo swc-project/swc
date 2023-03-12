@@ -16,11 +16,12 @@ module.exports = (_obj = {}, _define_property(_obj, TopLevelSym, function() {
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var TopLevelSym = Symbol();
 var InnerSym = Symbol();
-var _InnerSym = InnerSym;
 export var MyClass = function MyClass() {
     "use strict";
     var _p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : InnerSym;
     _class_call_check(this, MyClass);
-    this[_InnerSym] = "ok";
+    this[InnerSym] = "ok";
 };
-MyClass[TopLevelSym] = 12;
+(function() {
+    MyClass[TopLevelSym] = 12;
+})();

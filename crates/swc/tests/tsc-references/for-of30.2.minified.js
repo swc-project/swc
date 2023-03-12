@@ -1,16 +1,16 @@
 //// [for-of30.ts]
-let _Symbol_iterator = Symbol.iterator;
-for (var v of new class {
+class StringIterator {
     next() {
         return {
             done: !1,
             value: ""
         };
     }
-    [_Symbol_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
     constructor(){
         this.return = 0;
     }
-});
+}
+for (var v of new StringIterator);

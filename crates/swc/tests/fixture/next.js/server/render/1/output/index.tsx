@@ -30,6 +30,20 @@ function noRouter() {
     throw new Error(message);
 }
 class ServerRouter {
+    route;
+    pathname;
+    query;
+    asPath;
+    basePath;
+    events;
+    isFallback;
+    locale;
+    isReady;
+    locales;
+    defaultLocale;
+    domainLocales;
+    isPreview;
+    isLocaleDomain;
     constructor(pathname, query, as, { isFallback  }, isReady, basePath, locale, locales, defaultLocale, domainLocales, isPreview, isLocaleDomain){
         this.route = pathname.replace(/\/$/, "") || "/";
         this.pathname = pathname;

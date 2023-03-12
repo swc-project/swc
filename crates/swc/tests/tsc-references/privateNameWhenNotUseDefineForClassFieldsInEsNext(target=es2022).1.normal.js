@@ -1,55 +1,75 @@
 //// [privateNameWhenNotUseDefineForClassFieldsInEsNext.ts]
 class TestWithStatics {
-    #prop = 0;
-    static dd = new TestWithStatics().#prop;
-    static ["X_ z_ zz"] = class Inner {
-        #foo = 10;
-        m() {
-            new TestWithStatics().#prop // OK
-            ;
-        }
-        static C = class InnerInner {
+    #prop;
+    static{
+        this.dd = new TestWithStatics().#prop // OK
+        ;
+    }
+    static{
+        this["X_ z_ zz"] = class Inner {
+            #foo;
             m() {
                 new TestWithStatics().#prop // OK
                 ;
-                new Inner().#foo; // OK
+            }
+            static{
+                this.C = class InnerInner {
+                    m() {
+                        new TestWithStatics().#prop // OK
+                        ;
+                        new Inner().#foo; // OK
+                    }
+                };
+            }
+            static M() {
+                return class {
+                    m() {
+                        new TestWithStatics().#prop // OK
+                        ;
+                        new Inner().#foo; // OK
+                    }
+                };
+            }
+            constructor(){
+                this.#foo = 10;
             }
         };
-        static M() {
-            return class {
-                m() {
-                    new TestWithStatics().#prop // OK
-                    ;
-                    new Inner().#foo; // OK
-                }
-            };
-        }
-    };
+    }
+    constructor(){
+        this.#prop = 0;
+    }
 }
 class TestNonStatics {
-    #prop = 0;
-    dd = new TestNonStatics().#prop;
-    ["X_ z_ zz"] = class Inner {
-        #foo = 10;
-        m() {
-            new TestNonStatics().#prop // Ok
-            ;
-        }
-        C = class InnerInner {
+    #prop;
+    constructor(){
+        this.#prop = 0;
+        this.dd = new TestNonStatics().#prop // OK
+        ;
+        this["X_ z_ zz"] = class Inner {
+            #foo;
             m() {
                 new TestNonStatics().#prop // Ok
                 ;
-                new Inner().#foo; // Ok
+            }
+            static M() {
+                return class {
+                    m() {
+                        new TestNonStatics().#prop // OK
+                        ;
+                        new Inner().#foo; // OK
+                    }
+                };
+            }
+            constructor(){
+                this.#foo = 10;
+                this.C = class InnerInner {
+                    m() {
+                        new TestNonStatics().#prop // Ok
+                        ;
+                        new Inner().#foo; // Ok
+                    }
+                };
             }
         };
-        static M() {
-            return class {
-                m() {
-                    new TestNonStatics().#prop // OK
-                    ;
-                    new Inner().#foo; // OK
-                }
-            };
-        }
-    };
+    }
 }

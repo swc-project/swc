@@ -1,5 +1,6 @@
 //// [assignParameterPropertyToPropertyDeclarationESNext.ts]
 class C {
+    foo;
     qux;
     bar;
     quiz;
@@ -36,13 +37,13 @@ class C {
         this.foo // ok
         ;
     }
-    foo;
 }
 class D extends C {
     quill = this.foo // ok
     ;
 }
 class E {
+    foo2;
     bar;
     foo1;
     constructor(foo2){
@@ -50,7 +51,6 @@ class E {
         this.bar = ()=>this.foo1 + this.foo2;
         this.foo1 = '';
     }
-    foo2;
 }
 class F {
     Inner = class extends F {
@@ -59,6 +59,7 @@ class F {
     p1 = 0;
 }
 class G {
+    p1;
     Inner;
     constructor(p1){
         this.p1 = p1;
@@ -66,9 +67,9 @@ class G {
             p2 = this.p1;
         };
     }
-    p1;
 }
 class H {
+    p1;
     constructor(p1){
         this.p1 = p1;
         this.p2 = ()=>{
@@ -78,5 +79,4 @@ class H {
     }
     p2;
     p3;
-    p1;
 }

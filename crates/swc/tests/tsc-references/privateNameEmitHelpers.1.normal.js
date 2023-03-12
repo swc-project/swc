@@ -14,8 +14,9 @@ export class C {
         });
         _class_private_field_init(this, _a, {
             writable: true,
-            value: 1
+            value: void 0
         });
+        _class_private_field_set(this, _a, 1);
     }
 }
 function b() {

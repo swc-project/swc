@@ -8,7 +8,9 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-C.f = 1;
+(function() {
+    C.f = 1;
+})();
 var D = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(D, C);
@@ -19,31 +21,39 @@ var D = /*#__PURE__*/ function(C) {
     }
     return D;
 }(C);
-D.arrowFunctionBoundary = function() {
-    return _get(_get_prototype_of(D), "f", D) + 1;
-};
-D.functionExprBoundary = function() {
-    return _get(_get_prototype_of(D), "f", this) + 2;
-};
-D.classExprBoundary = function _class() {
-    "use strict";
-    _class_call_check(this, _class);
-    this.a = _get(_get_prototype_of(_class.prototype), "f", this) + 3;
-};
-D.functionAndClassDeclBoundary = function() {
-    var foo = function foo() {
-        return _get(_get_prototype_of(D), "f", this) + 4;
+(function() {
+    D.arrowFunctionBoundary = function() {
+        return _get(_get_prototype_of(D), "f", D) + 1;
     };
-    var C = /*#__PURE__*/ function() {
+})();
+(function() {
+    D.functionExprBoundary = function() {
+        return _get(_get_prototype_of(D), "f", this) + 2;
+    };
+})();
+(function() {
+    D.classExprBoundary = function _class() {
         "use strict";
-        function C() {
-            _class_call_check(this, C);
-            this.a = _get(_get_prototype_of(C.prototype), "f", this) + 5;
+        _class_call_check(this, _class);
+        this.a = _get(_get_prototype_of(_class.prototype), "f", this) + 3;
+    };
+})();
+(function() {
+    D.functionAndClassDeclBoundary = function() {
+        function foo() {
+            return _get(_get_prototype_of(D), "f", this) + 4;
         }
-        var _proto = C.prototype;
-        _proto.method = function method() {
-            return _get(_get_prototype_of(C.prototype), "f", this) + 6;
-        };
-        return C;
+        var C = /*#__PURE__*/ function() {
+            "use strict";
+            function C() {
+                _class_call_check(this, C);
+                this.a = _get(_get_prototype_of(C.prototype), "f", this) + 5;
+            }
+            var _proto = C.prototype;
+            _proto.method = function method() {
+                return _get(_get_prototype_of(C.prototype), "f", this) + 6;
+            };
+            return C;
+        }();
     }();
-}();
+})();

@@ -68,7 +68,6 @@
     });
     _interopRequireWildcard = _interopRequireWildcard.default;
     class C {
-        myModule = import("./0");
         method() {
             const loadAsync = import("./0");
             this.myModule.then((Zero)=>{
@@ -79,9 +78,11 @@
                 console.log(one.backup());
             });
         }
+        constructor(){
+            this.myModule = import("./0");
+        }
     }
     class D {
-        myModule = import("./0");
         method() {
             const loadAsync = import("./0");
             this.myModule.then((Zero)=>{
@@ -91,6 +92,9 @@
                 let one = await import("./1");
                 console.log(one.backup());
             });
+        }
+        constructor(){
+            this.myModule = import("./0");
         }
     }
 });

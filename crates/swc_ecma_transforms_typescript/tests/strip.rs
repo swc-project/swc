@@ -4,10 +4,11 @@ use swc_common::{chain, comments::SingleThreadedComments, pass::Optional, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
+    class_fields_use_set::class_fields_use_set,
     es2015::{block_scoping, destructuring, parameters},
     es2017::async_to_generator,
     es2020::{nullish_coalescing, optional_chaining},
-    es2022::class_properties,
+    es2022::{class_properties, static_blocks},
 };
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
@@ -15,12 +16,13 @@ use swc_ecma_transforms_typescript::{strip, strip::strip_with_config, TsImportEx
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
-    tr_config(None, None)
+    tr_config(None, None, false)
 }
 
 fn tr_config(
     config: Option<strip::Config>,
     decorators_config: Option<decorators::Config>,
+    use_define_for_class_fields: bool,
 ) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
@@ -29,6 +31,7 @@ fn tr_config(
         no_empty_export: true,
         ..Default::default()
     });
+
     chain!(
         Optional::new(
             decorators(decorators_config.unwrap_or_default()),
@@ -36,16 +39,22 @@ fn tr_config(
         ),
         resolver(unresolved_mark, top_level_mark, true),
         strip_with_config(config, top_level_mark),
+        Optional::new(class_fields_use_set(true), !use_define_for_class_fields),
     )
 }
 
 fn properties(t: &Tester, loose: bool) -> impl Fold {
-    class_properties(
-        Some(t.comments.clone()),
-        class_properties::Config {
-            set_public_fields: loose,
-            ..Default::default()
-        },
+    let mark = Mark::new();
+    chain!(
+        static_blocks(mark),
+        class_properties(
+            Some(t.comments.clone()),
+            class_properties::Config {
+                static_blocks_mark: mark,
+                set_public_fields: loose,
+                ..Default::default()
+            },
+        )
     )
 }
 
@@ -66,13 +75,19 @@ macro_rules! to {
 }
 
 macro_rules! test_with_config {
+    ($name:ident, $config:expr, SET, $from:expr, $to:expr) => {
+        test_with_config!($name, $config, false, $from, $to);
+    };
     ($name:ident, $config:expr, $from:expr, $to:expr) => {
+        test_with_config!($name, $config, true, $from, $to);
+    };
+    ($name:ident, $config:expr, $use_define:expr,$from:expr, $to:expr) => {
         test!(
             Syntax::Typescript(TsConfig {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| tr_config(Some($config), None),
+            |_| tr_config(Some($config), None, $use_define),
             $name,
             $from,
             $to,
@@ -714,7 +729,7 @@ test!(
         constructor(a) {
         }
     }
-    A.b = 'foo';"
+    (()=>{ A.b = 'foo'; })();"
 );
 
 test!(
@@ -3056,6 +3071,7 @@ test!(
                 ..Default::default()
             }),
             None,
+            true,
         )
     },
     deno_7413_3,
@@ -3200,11 +3216,11 @@ test!(
     }),
     |_| tr_config(
         Some(strip::Config {
-            use_define_for_class_fields: true,
             no_empty_export: true,
             ..Default::default()
         }),
-        None
+        None,
+        true
     ),
     compile_to_class_constructor_collision_ignores_types,
     r#"
@@ -3234,7 +3250,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| tr_config(None, Some(Default::default())),
+    |_| tr_config(None, Some(Default::default()), false),
     issue_367,
     "
 
@@ -3588,7 +3604,6 @@ to!(
 test_with_config!(
     issue_1472_1_define,
     strip::Config {
-        use_define_for_class_fields: true,
         no_empty_export: true,
         ..Default::default()
     },
@@ -3602,13 +3617,13 @@ test_with_config!(
     ",
     "
     class A extends Object {
+        b;
         a;
         constructor(b = 2){
             super();
             this.b = b;
             this.a = 1;
         }
-        b;
     }
     "
 );
@@ -3617,9 +3632,9 @@ test_with_config!(
     issue_1472_1_no_define,
     strip::Config {
         no_empty_export: true,
-        use_define_for_class_fields: false,
         ..Default::default()
     },
+    SET,
     "
     class A extends Object {
         a = 1;
@@ -3648,13 +3663,19 @@ to!(
     }
     ",
     "
-    let _ref = (console.log(1), 'a'), _ref1 = (console.log(2), 'b');
+    let prop, prop1;
     class A {
         constructor() {
-            this[_ref] = 1;
+            this[prop] = 1;
         }
     }
-    A[_ref1] = 2;
+    (()=>{
+        prop = (console.log(1), 'a');
+        prop1 = (console.log(2), 'b');
+    })();
+    (()=>{
+        A[prop1] = 2;
+    })();
     "
 );
 
@@ -3668,14 +3689,21 @@ to!(
     }
     ",
     "
-    let _ref = (console.log(1), 'a'), _ref1 = (console.log(2), 'b'), _tmp = (console.log(3), 'c');
+    let prop, prop1;
+    let _tmp = (console.log(3), 'c');
     class A {
         [_tmp]() {}
         constructor() {
-            this[_ref] = 1;
+            this[prop] = 1;
         }
     }
-    A[_ref1] = 2;
+    (()=>{
+        prop = (console.log(1), 'a');
+        prop1 = (console.log(2), 'b');
+    })();
+    (()=>{
+        A[prop1] = 2;
+    })();
     "
 );
 
@@ -3746,7 +3774,7 @@ to!(
     "
     var _class;
     const A = (_class = class {},
-        _class.a = 1,
+        (()=>{ _class.a = 1; })(),
         _class);
     "
 );
@@ -4013,11 +4041,6 @@ to!(
     var _store = new WeakMap(), _body = new WeakMap();
     export class Context {
         constructor(optionsOrContext){
-            this.response = {
-                headers: new Headers()
-            };
-            this.params = {
-            };
             _classPrivateFieldInit(this, _store, {
                 writable: true,
                 value: void 0
@@ -4026,6 +4049,11 @@ to!(
                 writable: true,
                 value: void 0
             });
+            this.response = {
+                headers: new Headers()
+            };
+            this.params = {
+            };
             if (optionsOrContext instanceof Context) {
                 Object.assign(this, optionsOrContext);
                 this.customContext = this;
@@ -4121,9 +4149,9 @@ to!(
     var _TestClass;
     var _class;
     let TestClass = _class = someClassDecorator((_class = (_TestClass = class TestClass {
-    }, _TestClass.Something = 'hello', _TestClass.SomeProperties = {
+    }, (()=>{ _TestClass.Something = 'hello'; })(), (()=>{ _TestClass.SomeProperties = {
         firstProp: _TestClass.Something
-    }, _TestClass)) || _class) || _class;
+    };})(), _TestClass)) || _class) || _class;
     function someClassDecorator(c) {
         return c;
     }
@@ -4187,7 +4215,7 @@ class Foo {
 const identifier = 'bar';
 class Foo {
 }
-Foo.identifier = 5;
+(()=>{ Foo.identifier = 5; })();
   "
 );
 
@@ -4220,7 +4248,6 @@ to!(
 test_with_config!(
     deno_12532_declare_class_prop,
     strip::Config {
-        use_define_for_class_fields: true,
         no_empty_export: true,
         ..Default::default()
     },
@@ -4411,7 +4438,7 @@ let b = (_console_log = console.log(456), class {
 
 test!(
     Syntax::Typescript(TsConfig::default()),
-    |_| tr_config(None, None),
+    |_| tr_config(None, None, true),
     export_import_assign,
     r#"
     export import foo = require("foo");
@@ -4432,7 +4459,8 @@ test!(
             import_export_assign_config: TsImportExportAssignConfig::NodeNext,
             ..Default::default()
         }),
-        None
+        None,
+        true,
     ),
     node_next_1,
     r#"
@@ -4456,7 +4484,8 @@ test!(
             import_export_assign_config: TsImportExportAssignConfig::NodeNext,
             ..Default::default()
         }),
-        None
+        None,
+        true
     ),
     node_next_2,
     r#"
@@ -4477,7 +4506,6 @@ test!(
 test_with_config!(
     issue_6023,
     strip::Config {
-        use_define_for_class_fields: true,
         ..Default::default()
     },
     "

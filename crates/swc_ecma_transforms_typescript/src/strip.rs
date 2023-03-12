@@ -65,9 +65,10 @@ pub struct Config {
     /// When running `tsc` with configuration `"target": "<ES6-ES2020>",
     /// "useDefineForClassFields": true`, TS class fields are transformed to
     /// `Object.defineProperty()` statements. You must additionally apply the
-    /// [swc_ecma_transforms_compat::es2022::class_properties()] pass to
+    /// [swc_ecma_transforms_compat::class_fields_use_set::class_fields_use_set()] pass to
     /// get this backward-compatible output.
     #[serde(default)]
+    #[deprecated(note = "[[Define]] and [[Set]] are managed within swc_ecma_transforms_compat.")]
     pub use_define_for_class_fields: bool,
 
     /// Don't create `export {}`.
@@ -1873,9 +1874,9 @@ where
                             }
                             _ => unreachable!("destructuring pattern inside TsParameterProperty"),
                         };
-                        if self.config.use_define_for_class_fields {
-                            extra_props.push(ident.id.clone());
-                        }
+
+                        extra_props.push(ident.id.clone());
+
                         let assign_expr = Box::new(Expr::Assign(AssignExpr {
                             span: ident.span.with_ctxt(SyntaxContext::empty()),
                             left: PatOrExpr::Expr(Box::new(
@@ -1962,23 +1963,26 @@ where
             inject_after_super(c, assign_exprs);
 
             if !extra_props.is_empty() {
-                class.body.extend(extra_props.into_iter().map(|prop| {
-                    ClassMember::ClassProp(ClassProp {
-                        key: PropName::Ident(prop),
-                        value: None,
-                        decorators: Vec::new(),
-                        is_static: false,
-                        type_ann: None,
-                        span: DUMMY_SP,
-                        accessibility: None,
-                        is_abstract: false,
-                        is_optional: false,
-                        is_override: false,
-                        readonly: false,
-                        declare: false,
-                        definite: false,
-                    })
-                }))
+                class.body.splice(
+                    0..0,
+                    extra_props.into_iter().map(|prop| {
+                        ClassMember::ClassProp(ClassProp {
+                            key: PropName::Ident(prop),
+                            value: None,
+                            decorators: Vec::new(),
+                            is_static: false,
+                            type_ann: None,
+                            span: DUMMY_SP,
+                            accessibility: None,
+                            is_abstract: false,
+                            is_optional: false,
+                            is_override: false,
+                            readonly: false,
+                            declare: false,
+                            definite: false,
+                        })
+                    }),
+                );
             }
         }
 
@@ -2011,11 +2015,6 @@ where
                     is_abstract: true, ..
                 },
             ) => false,
-            ClassMember::ClassProp(ClassProp {
-                value: None,
-                ref decorators,
-                ..
-            }) if decorators.is_empty() && !self.config.use_define_for_class_fields => false,
 
             _ => true,
         });

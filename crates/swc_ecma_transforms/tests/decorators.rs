@@ -11,6 +11,7 @@ use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
+    class_fields_use_set::class_fields_use_set,
     es2015::{classes, function_name},
     es2022::class_properties,
 };
@@ -38,6 +39,7 @@ fn syntax(decorators_before_export: bool) -> Syntax {
 fn tr(t: &Tester) -> impl Fold {
     chain!(
         decorators(Default::default()),
+        class_fields_use_set(true),
         class_properties(Some(t.comments.clone()), Default::default()),
     )
 }
@@ -66,6 +68,7 @@ fn simple_strip(t: &Tester, config: Config) -> impl Fold {
             },
             top_level_mark
         ),
+        class_fields_use_set(true),
         class_properties(
             Some(t.comments.clone()),
             class_properties::Config {
@@ -4484,6 +4487,7 @@ fn fixture_exec(input: PathBuf) {
                     use_define_for_class_fields: false,
                 }),
                 strip(top_level_mark),
+                class_fields_use_set(true),
             )
         },
         &code,

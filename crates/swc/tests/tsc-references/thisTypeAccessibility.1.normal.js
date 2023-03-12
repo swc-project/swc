@@ -7,9 +7,15 @@ var MyClass = function MyClass() {
     this.pp = 123;
     this.ppp = 123;
 };
-MyClass.sp = 123;
-MyClass.spp = 123;
-MyClass.sppp = 123;
+(function() {
+    MyClass.sp = 123;
+})();
+(function() {
+    MyClass.spp = 123;
+})();
+(function() {
+    MyClass.sppp = 123;
+})();
 var MyGenericClass = function MyGenericClass() {
     "use strict";
     _class_call_check(this, MyGenericClass);

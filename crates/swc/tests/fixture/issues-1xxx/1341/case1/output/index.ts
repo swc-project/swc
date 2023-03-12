@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 const _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
+const _defineProperty = require("@swc/helpers/lib/_define_property.js").default;
 class A {
     foo() {
         var _this = this;
@@ -23,7 +24,7 @@ class A {
         })();
     }
     constructor(){
-        this.val = "1";
+        _defineProperty(this, "val", "1");
     }
 }
 new A().foo();

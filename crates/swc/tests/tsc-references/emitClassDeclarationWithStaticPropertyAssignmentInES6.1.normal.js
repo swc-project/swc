@@ -1,10 +1,14 @@
 //// [emitClassDeclarationWithStaticPropertyAssignmentInES6.ts]
 class C {
 }
-C.z = "Foo";
+(()=>{
+    C.z = "Foo";
+})();
 class D {
     constructor(){
         this.x = 20000;
     }
 }
-D.b = true;
+(()=>{
+    D.b = true;
+})();

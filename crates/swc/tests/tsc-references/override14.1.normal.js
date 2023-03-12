@@ -1,6 +1,8 @@
 //// [override14.ts]
 class Foo {
-    property = 1;
+    constructor(){
+        this.property = 1;
+    }
 }
 class SubFoo extends Foo {
 }
