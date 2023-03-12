@@ -5,6 +5,9 @@
 
 
 
+- **(bindings/cli)** Update `swc_ecma_ast` (#7060) ([1b40689](https://github.com/swc-project/swc/commit/1b40689c3a754ce4a038ea98d7e9f41b1e9cf7a7))
+
+
 - **(es)** Support stable rustc again (#7057) ([fbb3016](https://github.com/swc-project/swc/commit/fbb3016870cb6378743170b6833be6bbb7b4a73a))
 
 
