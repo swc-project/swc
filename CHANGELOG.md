@@ -11,6 +11,9 @@
 - **(es)** Support stable rustc again (#7057) ([fbb3016](https://github.com/swc-project/swc/commit/fbb3016870cb6378743170b6833be6bbb7b4a73a))
 
 
+- **(es/ast)** Fix memory layout (#7062) ([085c6f3](https://github.com/swc-project/swc/commit/085c6f35f1f298a7863a99f3adfeb48b2dddbcb8))
+
+
 - **(es/compat)** Handle `useDefineForClassFields: false` (#7055) ([bb6dde7](https://github.com/swc-project/swc/commit/bb6dde794326838b2069c7f86fb900eee36027bc))
 
 
