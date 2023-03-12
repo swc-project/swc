@@ -174,12 +174,12 @@ impl VisitMut for Operators {
         }
     }
 
-    fn visit_mut_module(&mut self, n: &mut Module) {
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         n.visit_mut_children_with(self);
 
         if !self.vars.is_empty() {
             prepend_stmt(
-                &mut n.body,
+                n,
                 VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -191,12 +191,12 @@ impl VisitMut for Operators {
         }
     }
 
-    fn visit_mut_script(&mut self, n: &mut Script) {
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         n.visit_mut_children_with(self);
 
         if !self.vars.is_empty() {
             prepend_stmt(
-                &mut n.body,
+                n,
                 VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
