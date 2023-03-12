@@ -23,7 +23,7 @@ impl_struct!(WhileStmt, [span, test, body]);
 impl_struct!(DoWhileStmt, [span, test, body]);
 impl_struct!(ForStmt, [span, init, test, update, body]);
 impl_struct!(ForInStmt, [span, left, right, body]);
-impl_struct!(ForOfStmt, [span, await_token, left, right, body]);
+impl_struct!(ForOfStmt, [span, is_await, left, right, body]);
 impl_struct!(ReturnStmt, [span, arg]);
 impl_struct!(ExprStmt, [span, expr]);
 
