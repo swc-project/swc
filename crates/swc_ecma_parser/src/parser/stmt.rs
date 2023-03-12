@@ -1124,7 +1124,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             ForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
                 span,
-                await_token,
+                is_await: await_token.is_some(),
                 left,
                 right,
                 body,
