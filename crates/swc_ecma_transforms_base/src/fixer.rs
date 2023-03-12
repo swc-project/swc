@@ -493,7 +493,7 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
         s.visit_mut_children_with(self);
 
-        if s.await_token.is_none() {
+        if !s.is_await {
             match &s.left {
                 VarDeclOrPat::Pat(p)
                     if matches!(
