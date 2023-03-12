@@ -307,7 +307,6 @@ pub struct ForInStmt {
     pub body: Box<Stmt>,
 }
 
-#[repr(packed)]
 #[ast_node("ForOfStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -319,7 +318,7 @@ pub struct ForOfStmt {
     ///
     /// for-await-of statements, e.g., `for await (const x of xs) {`
     #[serde(default, rename = "await")]
-    pub await_token: Option<Span>,
+    pub is_await: bool,
     pub left: VarDeclOrPat,
     pub right: Box<Expr>,
     pub body: Box<Stmt>,
