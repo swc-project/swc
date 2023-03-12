@@ -1,7 +1,6 @@
 //// [privateNameStaticFieldDestructuredBinding.ts]
 class A {
     static #field = 1;
-    otherClass = A;
     testObject() {
         return {
             x: 10,
@@ -15,6 +14,7 @@ class A {
         ];
     }
     constructor(){
+        this.otherClass = A;
         let y;
         ({ x: A.#field , y  } = this.testObject());
         [A.#field, y] = this.testArray();

@@ -1,9 +1,11 @@
 //// [index.js]
 class С1 {
-    /** @type {string=} */ p1 = undefined;
-    /** @type {string | undefined} */ p2 = undefined;
-    /** @type {?string} */ p3 = null;
-    /** @type {string | null} */ p4 = null;
+    constructor(){
+        /** @type {string=} */ this.p1 = undefined;
+        /** @type {string | undefined} */ this.p2 = undefined;
+        /** @type {?string} */ this.p3 = null;
+        /** @type {string | null} */ this.p4 = null;
+    }
 }
 class С2 {
     /** @type {string=} */ get p1() {

@@ -1,4 +1,7 @@
 class Image {
+    width;
+    height;
+    data;
     getPixel(x, y) {
         const index = x + y * this.width;
         const rntVal = {

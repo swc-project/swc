@@ -37,7 +37,9 @@ var Printable = function(superClass) {
         };
         return _class;
     }(superClass);
-    _class.message = "hello";
+    (function() {
+        _class.message = "hello";
+    })();
     return _class;
 };
 function Tagged(superClass) {

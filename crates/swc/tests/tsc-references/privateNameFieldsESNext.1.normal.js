@@ -1,8 +1,6 @@
 //// [privateNameFieldsESNext.ts]
 class C {
-    a = 123;
-    #a = 10;
-    c = "hello";
+    #a;
     #b;
     method() {
         console.log(this.#a);
@@ -15,5 +13,11 @@ class C {
         console.log(this.#m);
         console.log(this.#x = "test");
     }
-    #something = ()=>1234;
+    #something;
+    constructor(){
+        this.a = 123;
+        this.#a = 10;
+        this.c = "hello";
+        this.#something = ()=>1234;
+    }
 }

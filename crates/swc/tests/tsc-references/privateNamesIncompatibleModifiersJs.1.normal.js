@@ -1,5 +1,6 @@
 //// [privateNamesIncompatibleModifiersJs.js]
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 var /**
      * @public
@@ -45,16 +46,19 @@ class A {
         });
         _class_private_field_init(this, _a, {
             writable: true,
-            value: 1
+            value: void 0
         });
         _class_private_field_init(this, _b, {
             writable: true,
-            value: 1
+            value: void 0
         });
         _class_private_field_init(this, _c, {
             writable: true,
-            value: 1
+            value: void 0
         });
+        _class_private_field_set(this, _a, 1);
+        _class_private_field_set(this, _b, 1);
+        _class_private_field_set(this, _c, 1);
     }
 }
 function aMethod() {

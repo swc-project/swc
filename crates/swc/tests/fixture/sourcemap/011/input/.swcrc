@@ -8,6 +8,7 @@
       "decorators": true
     },
     "transform": {
+      "useDefineForClassFields": false,
       "legacyDecorator": true,
       "decoratorMetadata": true
     },

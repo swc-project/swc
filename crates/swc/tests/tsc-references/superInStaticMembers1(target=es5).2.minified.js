@@ -27,25 +27,22 @@ var C = function(B1) {
     }
     return C;
 }(B);
-C._ = [
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    function() {
-        var Reflect;
-        Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
-    function() {
-        var Reflect;
-        Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C)
-], _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), function() {
+!function() {
+    var Reflect, Reflect1;
+    C._ = [
+        void _get(_get_prototype_of(C), "w", C).call(C),
+        void _get(_get_prototype_of(C), "w", C).call(C),
+        void _get(_get_prototype_of(C), "w", C).call(C),
+        void _get(_get_prototype_of(C), "w", C).call(C),
+        void _get(_get_prototype_of(C), "w", C).call(C),
+        void (Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C)),
+        void (Reflect1 || (Reflect1 = {}), _get(_get_prototype_of(C), "w", C).call(C)),
+        void _get(_get_prototype_of(C), "w", C).call(C),
+        void _get(_get_prototype_of(C), "w", C).call(C),
+        void _get(_get_prototype_of(C), "w", C).call(C),
+        void _get(_get_prototype_of(C), "w", C).call(C)
+    ];
+}(), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), function() {
     var Reflect;
     Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C);
 }(), function() {

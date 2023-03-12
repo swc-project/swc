@@ -21,7 +21,9 @@ var C2 = /*#__PURE__*/ function() {
     };
     return C2;
 }();
-C2.y = undefined;
+(function() {
+    C2.y = undefined;
+})();
 var N1;
 (function(N1) {
     var x;

@@ -31,21 +31,24 @@ var _d = /*#__PURE__*/ new WeakMap(), _e = /*#__PURE__*/ new WeakMap(), _f1 = /*
 // Initializer satisfies strict initialization check
 class C4 {
     constructor(){
-        this.a = 0;
-        this.b = 0;
-        this.c = "abc";
         _class_private_field_init(this, _d, {
             writable: true,
-            value: 0
+            value: void 0
         });
         _class_private_field_init(this, _e, {
             writable: true,
-            value: 0
+            value: void 0
         });
         _class_private_field_init(this, _f1, {
             writable: true,
-            value: "abc"
+            value: void 0
         });
+        this.a = 0;
+        this.b = 0;
+        this.c = "abc";
+        _class_private_field_set(this, _d, 0);
+        _class_private_field_set(this, _e, 0);
+        _class_private_field_set(this, _f1, "abc");
     }
 }
 var _b = /*#__PURE__*/ new WeakMap();
@@ -140,8 +143,12 @@ var E;
     E["A"] = "A";
     E["B"] = "B";
 })(E || (E = {}));
+let prop;
 class C13 {
     constructor(){
         this[E.A] = 1;
     }
 }
+(()=>{
+    prop = E.A;
+})();

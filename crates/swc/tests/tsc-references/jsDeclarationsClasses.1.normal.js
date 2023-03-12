@@ -12,15 +12,19 @@ export var B = function B() {
     "use strict";
     _class_call_check(this, B);
 };
-B.cat = "cat";
+(function() {
+    B.cat = "cat";
+})();
 export var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-C.Cls = function _class() {
-    "use strict";
-    _class_call_check(this, _class);
-};
+(function() {
+    C.Cls = function _class() {
+        "use strict";
+        _class_call_check(this, _class);
+    };
+})();
 export var D = function D(a, b) {
     "use strict";
     _class_call_check(this, D);
@@ -88,7 +92,9 @@ export var D = function D(a, b) {
     ]);
     return E;
 }();
-E.staticInitializedField = 12;
+(function() {
+    E.staticInitializedField = 12;
+})();
 /**
  * @template T,U
  */ export var F = /*#__PURE__*/ function() {

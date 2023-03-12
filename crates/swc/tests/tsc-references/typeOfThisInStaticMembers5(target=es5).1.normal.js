@@ -5,6 +5,8 @@ var C = function C(foo) {
     _class_call_check(this, C);
     this.foo = foo;
 };
-C.create = function() {
-    return new C("yep");
-};
+(function() {
+    C.create = function() {
+        return new C("yep");
+    };
+})();

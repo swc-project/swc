@@ -127,6 +127,7 @@ class StringReader extends Deno.Buffer {
     }
 }
 class MultiReader {
+    readers;
     currentIndex = 0;
     constructor(...readers){
         this.readers = readers;
@@ -1200,6 +1201,8 @@ const MIN_BUF_SIZE = 16;
 const CR = "\r".charCodeAt(0);
 const LF = "\n".charCodeAt(0);
 class BufferFullError extends Error {
+    partial;
+    name;
     constructor(partial){
         super("Buffer full");
         this.partial = partial;
@@ -1208,11 +1211,14 @@ class BufferFullError extends Error {
 }
 class PartialReadError extends Deno.errors.UnexpectedEof {
     name = "PartialReadError";
+    partial;
     constructor(){
         super("Encountered UnexpectedEof, data only partially read");
     }
 }
 class BufReader {
+    buf;
+    rd;
     r = 0;
     w = 0;
     eof = false;
@@ -1433,6 +1439,7 @@ function charCode(s) {
     return s.charCodeAt(0);
 }
 class TextProtoReader {
+    r;
     constructor(r){
         this.r = r;
     }
@@ -1556,6 +1563,10 @@ function scanUntilBoundary(buf, dashBoundary, newLineDashBoundary, total, eof) {
     return buf.length;
 }
 class PartReader {
+    mr;
+    headers;
+    n;
+    total;
     constructor(mr, headers){
         this.mr = mr;
         this.headers = headers;
@@ -1590,6 +1601,8 @@ class PartReader {
         return nread;
     }
     close() {}
+    contentDisposition;
+    contentDispositionParams;
     getContentDispositionParams() {
         if (this.contentDispositionParams) return this.contentDispositionParams;
         const cd = this.headers.get("content-disposition");
@@ -1634,6 +1647,12 @@ function skipLWSPChar(u) {
     return ret.slice(0, j);
 }
 class MultipartReader {
+    boundary;
+    newLine;
+    newLineDashBoundary;
+    dashBoundaryDash;
+    dashBoundary;
+    bufReader;
     constructor(reader, boundary){
         this.boundary = boundary;
         this.newLine = encoder.encode("\r\n");
@@ -1722,6 +1741,8 @@ class MultipartReader {
         }
         return multipartFormData(fileMap, valueMap);
     }
+    currentPart;
+    partsRead;
     async nextPart() {
         if (this.currentPart) {
             this.currentPart.close();

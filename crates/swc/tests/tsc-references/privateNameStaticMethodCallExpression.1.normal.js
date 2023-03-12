@@ -22,7 +22,9 @@ class AA {
         return AA;
     }
 }
-AA.x = 1;
+(()=>{
+    AA.x = 1;
+})();
 function method() {
     this.x = 10;
 }

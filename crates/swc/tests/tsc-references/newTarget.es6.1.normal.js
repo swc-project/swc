@@ -8,9 +8,11 @@ class A {
         const b = ()=>new.target;
     }
 }
-A.c = function() {
-    return new.target;
-};
+(()=>{
+    A.c = function() {
+        return new.target;
+    };
+})();
 class B extends A {
     constructor(){
         super();

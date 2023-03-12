@@ -12,13 +12,13 @@ var A = /*#__PURE__*/ function() {
     "use strict";
     function A(y) {
         _class_call_check(this, A);
+        _define_property(this, "y", void 0);
         _define_property(this, "a", void 0);
         _define_property(this, "b", void 0);
         _define_property(this, "c", void 0);
         _define_property(this, "computed", void 0);
         _define_property(this, _x1, void 0);
         _define_property(this, "z", void 0);
-        _define_property(this, "y", void 0);
         this.y = y;
         this.a = this.y;
         this["computed"] = 13;
@@ -46,9 +46,9 @@ var C = /*#__PURE__*/ function(B) {
         _class_call_check(this, C);
         var _this;
         _this = _super.call(this);
+        _define_property(_assert_this_initialized(_this), "ka", void 0);
         _define_property(_assert_this_initialized(_this), "z", void 0);
         _define_property(_assert_this_initialized(_this), "ki", void 0);
-        _define_property(_assert_this_initialized(_this), "ka", void 0);
         _this.ka = ka;
         _this.z = _this.ka;
         _this.ki = _this.ka;

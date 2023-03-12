@@ -1,6 +1,6 @@
 //// [overloadTag2.js]
 export class Foo {
-    #a = true ? 1 : "1";
+    #a;
     #b;
     /**
      * Should not have an implicit any error, because constructor's return type is always implicit
@@ -20,6 +20,7 @@ export class Foo {
      * @constructor
      * @param {number | string} a
      */ constructor(a, b){
+        this.#a = true ? 1 : "1";
         this.#a = a;
         this.#b = b;
     }

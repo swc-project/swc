@@ -12,6 +12,7 @@ pub use self::{
 #[macro_use]
 mod macros;
 pub mod bugfixes;
+pub mod class_fields_use_set;
 pub mod es2015;
 pub mod es2016;
 pub mod es2017;

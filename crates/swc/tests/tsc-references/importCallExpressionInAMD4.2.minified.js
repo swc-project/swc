@@ -58,9 +58,6 @@ define([
         get: ()=>D
     }), _interopRequireWildcard = _interopRequireWildcard.default;
     class D {
-        myModule = new Promise((resolve, reject)=>require([
-                "./0"
-            ], (m)=>resolve(_interopRequireWildcard(m)), reject));
         method() {
             new Promise((resolve, reject)=>require([
                     "./0"
@@ -71,6 +68,11 @@ define([
                         "./1"
                     ], (m)=>resolve(_interopRequireWildcard(m)), reject))).backup());
             });
+        }
+        constructor(){
+            this.myModule = new Promise((resolve, reject)=>require([
+                    "./0"
+                ], (m)=>resolve(_interopRequireWildcard(m)), reject));
         }
     }
 });

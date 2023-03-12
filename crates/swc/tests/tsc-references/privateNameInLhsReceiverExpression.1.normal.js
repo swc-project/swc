@@ -11,8 +11,9 @@ class Test {
             constructor(){
                 _class_private_field_init(this, _x, {
                     writable: true,
-                    value: 1
+                    value: void 0
                 });
+                _class_private_field_set(this, _x, 1);
                 this.s = "prop";
             }
         })).s], _y, 1);
@@ -20,8 +21,9 @@ class Test {
             constructor(){
                 _class_private_field_init(this, _x1, {
                     writable: true,
-                    value: 1
+                    value: void 0
                 });
+                _class_private_field_set(this, _x1, 1);
                 this.s = "prop";
             }
         })).s], _y, _class_private_field_get(_obj__s, _y) + 1);
@@ -29,7 +31,8 @@ class Test {
     constructor(){
         _class_private_field_init(this, _y, {
             writable: true,
-            value: 123
+            value: void 0
         });
+        _class_private_field_set(this, _y, 123);
     }
 }

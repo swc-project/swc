@@ -10,5 +10,7 @@ var C = /*#__PURE__*/ function() {
     _proto.method = function method() {};
     return C;
 }();
-C.s = 0;
+(function() {
+    C.s = 0;
+})();
 export { C as default };

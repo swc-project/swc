@@ -1,8 +1,9 @@
 //// [classStaticBlock11.ts]
 let getX;
 class C {
-    #x = 1;
+    #x;
     constructor(x){
+        this.#x = 1;
         this.#x = x;
     }
     static{

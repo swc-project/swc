@@ -12,8 +12,8 @@ export class C {
             set: set_c
         }), _class_private_field_init(this, _a, {
             writable: !0,
-            value: 1
-        });
+            value: void 0
+        }), _class_private_field_set(this, _a, 1);
     }
 }
 function set_c(v) {

@@ -19,9 +19,11 @@ var C = /*#__PURE__*/ function() {
     };
     return C;
 }();
-C.g = function() {
-    return "";
-};
+(function() {
+    C.g = function() {
+        return "";
+    };
+})();
 // all of these are valid
 var c = new C();
 var r1 = c.x;

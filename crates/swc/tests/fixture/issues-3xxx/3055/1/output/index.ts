@@ -1,5 +1,6 @@
 import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 var _link = /*#__PURE__*/ new WeakSet();
 export class Node {
     link() {
@@ -7,7 +8,8 @@ export class Node {
     }
     constructor(){
         _class_private_method_init(this, _link);
-        this.childNodes = [];
+        _define_property(this, "childNodes", []);
+        _define_property(this, "parent", void 0);
     }
 }
 function link(parent) {

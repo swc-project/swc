@@ -1,6 +1,7 @@
 //// [privateNameUnused.ts]
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
 import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 var _used = new WeakMap(), _unused = new WeakMap();
@@ -8,11 +9,11 @@ export class A {
     constructor(){
         _class_private_field_init(this, _used, {
             writable: !0,
-            value: "used"
+            value: void 0
         }), _class_private_field_init(this, _unused, {
             writable: !0,
-            value: "unused"
-        }), console.log(_class_private_field_get(this, _used));
+            value: void 0
+        }), _class_private_field_set(this, _used, "used"), _class_private_field_set(this, _unused, "unused"), console.log(_class_private_field_get(this, _used));
     }
 }
 var _used1 = new WeakSet(), _unused1 = new WeakSet();

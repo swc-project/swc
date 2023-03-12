@@ -1,8 +1,8 @@
 //// [jsDeclarationsPrivateFields01.ts]
 //// [file.js]
 export class C {
-    #hello = "hello";
-    #world = 100;
+    #hello;
+    #world;
     #calcHello() {
         return this.#hello;
     }
@@ -14,5 +14,8 @@ export class C {
     }
     getWorld() {
         return this.#world;
+    }
+    constructor(){
+        this.#hello = "hello", this.#world = 100;
     }
 }

@@ -8,35 +8,37 @@ export default class {
 }
 //// [locals.ts]
 class C extends B {
-    static _ = [
-        void super.w(),
-        (()=>{
-            var { Reflect  } = {
-                Reflect: null
-            };
-            super.w();
-        })(),
-        (()=>{
-            var [Reflect] = [
-                null
-            ];
-            super.w();
-        })(),
-        void super.w(),
-        void super.w(),
-        (()=>{
-            let Reflect;
-            Reflect || (Reflect = {}), super.w();
-        })(),
-        (()=>{
-            let Reflect;
-            Reflect || (Reflect = {}), super.w();
-        })(),
-        void super.w(),
-        void super.w(),
-        void super.w(),
-        void super.w()
-    ];
+    static{
+        this._ = [
+            void super.w(),
+            (()=>{
+                var { Reflect  } = {
+                    Reflect: null
+                };
+                super.w();
+            })(),
+            (()=>{
+                var [Reflect] = [
+                    null
+                ];
+                super.w();
+            })(),
+            void super.w(),
+            void super.w(),
+            (()=>{
+                let Reflect;
+                Reflect || (Reflect = {}), super.w();
+            })(),
+            (()=>{
+                let Reflect;
+                Reflect || (Reflect = {}), super.w();
+            })(),
+            void super.w(),
+            void super.w(),
+            void super.w(),
+            void super.w()
+        ];
+    }
     static{
         var { Reflect  } = {
             Reflect: null
@@ -82,7 +84,9 @@ class C extends B {
 export { };
 //// [varInContainingScopeStaticField1.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [varInContainingScopeStaticField2.ts]
@@ -90,7 +94,9 @@ var { Reflect  } = {
     Reflect: null
 };
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [varInContainingScopeStaticField3.ts]
@@ -98,7 +104,9 @@ var [Reflect] = [
     null
 ];
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [varInContainingScopeStaticBlock1.ts]
@@ -130,7 +138,9 @@ class C extends B {
 export { };
 //// [classDeclInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [classDeclInContainingScopeStaticBlock.ts]
@@ -142,7 +152,9 @@ class C extends B {
 export { };
 //// [funcDeclInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [funcDeclInContainingScopeStaticBlock.ts]
@@ -154,7 +166,9 @@ class C extends B {
 export { };
 //// [valueNamespaceInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [valueNamespaceInContainingScopeStaticBlock.ts]
@@ -168,7 +182,9 @@ export { };
 var Reflect;
 Reflect || (Reflect = {});
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [enumInContainingScopeStaticBlock.ts]
@@ -184,7 +200,9 @@ export { };
 var Reflect;
 Reflect || (Reflect = {});
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
@@ -198,7 +216,9 @@ class C extends B {
 export { };
 //// [namespaceImportInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [namespaceImportInContainingScopeStaticBlock.ts]
@@ -210,7 +230,9 @@ class C extends B {
 export { };
 //// [namedImportInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [namedImportInContainingScopeStaticBlock.ts]
@@ -222,7 +244,9 @@ class C extends B {
 export { };
 //// [namedImportOfInterfaceInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [namedImportOfInterfaceInContainingScopeStaticBlock.ts]
@@ -234,7 +258,9 @@ class C extends B {
 export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticBlock.ts]
@@ -246,7 +272,9 @@ class C extends B {
 export { };
 //// [namedImportOfConstEnumInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [namedImportOfConstEnumInContainingScopeStaticBlock.ts]
@@ -258,7 +286,9 @@ class C extends B {
 export { };
 //// [typeOnlyNamedImportInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [typeOnlyNamedImportInContainingScopeStaticBlock.ts]
@@ -270,7 +300,9 @@ class C extends B {
 export { };
 //// [defaultImportInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [defaultImportInContainingScopeStaticBlock.ts]
@@ -282,7 +314,9 @@ class C extends B {
 export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticBlock.ts]
@@ -294,7 +328,9 @@ class C extends B {
 export { };
 //// [typeInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [typeInContainingScopeStaticBlock.ts]
@@ -306,7 +342,9 @@ class C extends B {
 export { };
 //// [interfaceInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [interfaceInContainingScopeStaticBlock.ts]
@@ -318,7 +356,9 @@ class C extends B {
 export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticBlock.ts]
@@ -330,7 +370,9 @@ class C extends B {
 export { };
 //// [classExprInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [classExprInContainingScopeStaticBlock.ts]
@@ -346,7 +388,9 @@ export { };
 export { };
 //// [funcExprInContainingScopeStaticField.ts]
 class C extends B {
-    static _ = super.w();
+    static{
+        this._ = super.w();
+    }
 }
 export { };
 //// [funcExprInContainingScopeStaticBlock.ts]

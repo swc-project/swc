@@ -1,6 +1,7 @@
 //// [privateNamesConstructorChain-2.ts]
 import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
 var _foo = new WeakMap();
 class Parent {
@@ -10,8 +11,8 @@ class Parent {
     constructor(){
         _class_private_field_init(this, _foo, {
             writable: !0,
-            value: 3
-        });
+            value: void 0
+        }), _class_private_field_set(this, _foo, 3);
     }
 }
 var _bar = {
@@ -22,11 +23,11 @@ class Child extends Parent {
     constructor(...args){
         super(...args), _class_private_field_init(this, _foo1, {
             writable: !0,
-            value: "foo"
+            value: void 0
         }), _class_private_field_init(this, _bar1, {
             writable: !0,
-            value: "bar"
-        });
+            value: void 0
+        }), _class_private_field_set(this, _foo1, "foo"), _class_private_field_set(this, _bar1, "bar");
     }
 }
 new Parent().accessChildProps();

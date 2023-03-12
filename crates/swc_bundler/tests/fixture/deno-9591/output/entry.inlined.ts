@@ -1655,8 +1655,12 @@ function getLevelName(level) {
     throw new Error(`no level name found for level: ${level}`);
 }
 class LogRecord {
+    msg;
     #args;
     #datetime;
+    level;
+    levelName;
+    loggerName;
     constructor(options){
         this.msg = options.msg;
         this.#args = [
@@ -1824,6 +1828,7 @@ function copyBytes(src, dst, off = 0) {
 }
 const DEFAULT_BUF_SIZE = 4096;
 class AbstractBufBase {
+    buf;
     usedBufferBytes = 0;
     err = null;
     size() {
@@ -1837,6 +1842,7 @@ class AbstractBufBase {
     }
 }
 class BufWriterSync extends AbstractBufBase {
+    writer;
     static create(writer, size = 4096) {
         return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
     }
@@ -1894,6 +1900,9 @@ class BufWriterSync extends AbstractBufBase {
 }
 const DEFAULT_FORMATTER = "{levelName} {msg}";
 class BaseHandler {
+    level;
+    levelName;
+    formatter;
     constructor(levelName, options = {}){
         this.level = getLevelByName(levelName);
         this.levelName = levelName;
@@ -1946,9 +1955,15 @@ class ConsoleHandler extends BaseHandler {
     }
 }
 class WriterHandler extends BaseHandler {
+    _writer;
     #encoder = new TextEncoder();
 }
 class FileHandler extends WriterHandler {
+    _file;
+    _buf;
+    _filename;
+    _mode;
+    _openOptions;
     _encoder = new TextEncoder();
     #unloadCallback = ()=>this.destroy();
     constructor(levelName, options){
@@ -2052,6 +2067,8 @@ class RotatingFileHandler extends FileHandler {
     }
 }
 class LoggerConfig {
+    level;
+    handlers;
 }
 const DEFAULT_LEVEL = "INFO";
 const DEFAULT_CONFIG = {
@@ -3182,6 +3199,15 @@ function clean(version, optionsOrLoose) {
     return s ? s.version : null;
 }
 class SemVer {
+    raw;
+    loose;
+    options;
+    major;
+    minor;
+    patch;
+    version;
+    build;
+    prerelease;
     constructor(version, optionsOrLoose){
         if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
             optionsOrLoose = {
@@ -3530,6 +3556,11 @@ function cmp(v1, operator, v2, optionsOrLoose) {
 }
 const ANY = {};
 class Comparator {
+    semver;
+    operator;
+    value;
+    loose;
+    options;
     constructor(comp, optionsOrLoose){
         if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
             optionsOrLoose = {
@@ -3619,6 +3650,12 @@ class Comparator {
     }
 }
 class Range {
+    range;
+    raw;
+    loose;
+    options;
+    includePrerelease;
+    set;
     constructor(range, optionsOrLoose){
         if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
             optionsOrLoose = {
@@ -5243,6 +5280,8 @@ const ADL = {
 };
 const RESOLVER = declResolver(ADL);
 class ADLMap {
+    data;
+    isEqual;
     constructor(data, isEqual){
         this.data = data;
         this.isEqual = isEqual;
@@ -5299,6 +5338,7 @@ class ADLMap {
     }
 }
 class Manifest {
+    filename;
     jsonBinding = createJsonBinding(RESOLVER, texprManifest());
     tasks = new ADLMap([], (k1, k2)=>k1 === k2);
     constructor(dir, filename = ".manifest.json"){

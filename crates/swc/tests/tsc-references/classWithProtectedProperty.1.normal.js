@@ -22,9 +22,11 @@ var C = /*#__PURE__*/ function() {
     };
     return C;
 }();
-C.g = function() {
-    return "";
-};
+(function() {
+    C.g = function() {
+        return "";
+    };
+})();
 var D = /*#__PURE__*/ function(C1) {
     "use strict";
     _inherits(D, C1);

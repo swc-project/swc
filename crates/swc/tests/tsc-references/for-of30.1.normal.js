@@ -1,5 +1,4 @@
 //// [for-of30.ts]
-let _Symbol_iterator = Symbol.iterator;
 class StringIterator {
     next() {
         return {
@@ -7,7 +6,7 @@ class StringIterator {
             value: ""
         };
     }
-    [_Symbol_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
     constructor(){

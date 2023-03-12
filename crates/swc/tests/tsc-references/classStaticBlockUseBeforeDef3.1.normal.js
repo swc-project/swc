@@ -41,7 +41,9 @@ var CFA = /*#__PURE__*/ function() {
     u = "BAR";
     u; // should be "BAR"
 })();
-CFA.t = 1;
+(function() {
+    CFA.t = 1;
+})();
 (function() {
     u; // should be "BAR"
 })();

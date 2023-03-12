@@ -42,12 +42,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 class D {
-    myModule = Promise.resolve().then(()=>_interopRequireWildcard(require("./0")));
     method() {
         Promise.resolve().then(()=>_interopRequireWildcard(require("./0"))), this.myModule.then((Zero)=>{
             console.log(Zero.foo());
         }, async (err)=>{
             console.log(err), console.log((await Promise.resolve().then(()=>_interopRequireWildcard(require("./1")))).backup());
         });
+    }
+    constructor(){
+        this.myModule = Promise.resolve().then(()=>_interopRequireWildcard(require("./0")));
     }
 }

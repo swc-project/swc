@@ -1,8 +1,9 @@
 define([
     "require",
     "exports",
+    "@swc/helpers/src/_define_property.mjs",
     "@swc/helpers/src/_ts_decorate.mjs"
-], function(require, exports, _tsDecorate) {
+], function(require, exports, _defineProperty, _tsDecorate) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -11,6 +12,7 @@ define([
         enumerable: true,
         get: ()=>_class
     });
+    _defineProperty = _defineProperty.default;
     _tsDecorate = _tsDecorate.default;
     function state() {}
     class Controller {
@@ -19,7 +21,7 @@ define([
         onChange() {}
         constructor(...args){
             super(...args);
-            this.isTest = false;
+            _defineProperty(this, "isTest", false);
         }
     }
     _tsDecorate([

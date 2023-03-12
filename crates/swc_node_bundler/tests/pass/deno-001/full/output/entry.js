@@ -26,6 +26,8 @@ const MAX_CONSECUTIVE_EMPTY_READS = 100;
 const CR = "\r".charCodeAt(0);
 const LF = "\n".charCodeAt(0);
 class BufferFullError extends Error {
+    partial;
+    name;
     constructor(partial){
         super("Buffer full");
         this.partial = partial;
@@ -34,11 +36,14 @@ class BufferFullError extends Error {
 }
 class PartialReadError extends Deno.errors.UnexpectedEof {
     name = "PartialReadError";
+    partial;
     constructor(){
         super("Encountered UnexpectedEof, data only partially read");
     }
 }
 class BufReader {
+    buf;
+    rd;
     r = 0;
     w = 0;
     eof = false;
@@ -219,6 +224,7 @@ class BufReader {
     }
 }
 class AbstractBufBase {
+    buf;
     usedBufferBytes = 0;
     err = null;
     size() {
@@ -232,6 +238,7 @@ class AbstractBufBase {
     }
 }
 class BufWriter extends AbstractBufBase {
+    writer;
     static create(writer, size = DEFAULT_BUF_SIZE) {
         return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
     }
@@ -301,6 +308,7 @@ function charCode(s) {
     return s.charCodeAt(0);
 }
 class TextProtoReader {
+    r;
     constructor(r){
         this.r = r;
     }
@@ -598,6 +606,15 @@ async function writeResponse(w, r) {
     await writer.flush();
 }
 class ServerRequest {
+    url;
+    method;
+    proto;
+    protoMinor;
+    protoMajor;
+    headers;
+    conn;
+    r;
+    w;
     done = deferred();
     _contentLength = undefined;
     get contentLength() {
@@ -695,6 +712,9 @@ async function readRequest(conn, bufr) {
     return req;
 }
 class Server {
+    listener;
+    closing;
+    connections;
     constructor(listener){
         this.listener = listener;
         this.closing = false;

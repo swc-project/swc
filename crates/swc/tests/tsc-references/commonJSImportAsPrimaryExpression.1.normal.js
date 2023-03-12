@@ -15,7 +15,9 @@ var C1 = function C1() {
     _classCallCheck(this, C1);
     this.m1 = 42;
 };
-C1.s1 = true;
+(function() {
+    C1.s1 = true;
+})();
 //// [foo_1.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

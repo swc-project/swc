@@ -1,6 +1,12 @@
 //// [privateNameAndStaticInitializer.ts]
 class A {
-    #foo = 1;
-    static inst = new A();
-    #prop = 2;
+    #foo;
+    static{
+        this.inst = new A();
+    }
+    #prop;
+    constructor(){
+        this.#foo = 1;
+        this.#prop = 2;
+    }
 }
