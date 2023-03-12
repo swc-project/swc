@@ -553,12 +553,7 @@ impl Check for ShouldWork {
 #[tracing::instrument(level = "info", skip_all)]
 fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     let s = match stmt {
-        Stmt::ForOf(
-            s @ ForOfStmt {
-                await_token: Some(..),
-                ..
-            },
-        ) => s.take(),
+        Stmt::ForOf(s @ ForOfStmt { is_await: true, .. }) => s.take(),
         _ => return,
     };
 
