@@ -42,9 +42,9 @@ const UNI: ByteHandler = Some(|skip| {
         skip.input.get_unchecked(skip.offset..)
     };
 
-    let (len, c) = unsafe {
+    let c = unsafe {
         // Safety: Byte handlers are called only when `skip.input` is not empty
-        s.char_indices().next().unwrap_unchecked()
+        s.chars().next().unwrap_unchecked()
     };
 
     match c {
@@ -60,7 +60,7 @@ const UNI: ByteHandler = Some(|skip| {
         _ => return 0,
     }
 
-    len
+    c.len_utf8()
 });
 
 /// API is taked from oxc by Boshen (https://github.com/Boshen/oxc/pull/26)
