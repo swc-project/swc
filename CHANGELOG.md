@@ -31,6 +31,12 @@
 
 - **(es/compat)** Simplify static blocks in classes (#7056) ([b78ce8b](https://github.com/swc-project/swc/commit/b78ce8b7c20f7c62523a017f4066776ada9d779d))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI (#7070) ([97945d0](https://github.com/swc-project/swc/commit/97945d02b8ea7936d7b30142807999da53fec96b))
+
 ### Performance
 
 
