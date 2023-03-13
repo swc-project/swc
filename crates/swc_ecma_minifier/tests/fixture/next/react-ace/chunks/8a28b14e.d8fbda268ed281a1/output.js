@@ -5734,7 +5734,10 @@
                         }
                     }, this.removeMarker = function(markerId) {
                         var marker = this.$frontMarkers[markerId] || this.$backMarkers[markerId];
-                        marker && (delete (marker.inFront ? this.$frontMarkers : this.$backMarkers)[markerId], this._signal(marker.inFront ? "changeFrontMarker" : "changeBackMarker"));
+                        if (marker) {
+                            var markers = marker.inFront ? this.$frontMarkers : this.$backMarkers;
+                            delete markers[markerId], this._signal(marker.inFront ? "changeFrontMarker" : "changeBackMarker");
+                        }
                     }, this.getMarkers = function(inFront) {
                         return inFront ? this.$frontMarkers : this.$backMarkers;
                     }, this.highlight = function(re) {
