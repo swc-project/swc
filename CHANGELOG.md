@@ -17,6 +17,9 @@
 - **(es/compat)** Handle `useDefineForClassFields: false` (#7055) ([bb6dde7](https://github.com/swc-project/swc/commit/bb6dde794326838b2069c7f86fb900eee36027bc))
 
 
+- **(es/compat)** Insert the variable declaration nearest to the available statements (#7067) ([ae348e3](https://github.com/swc-project/swc/commit/ae348e32e18e07c277c358746e3ba3a78b9251c4))
+
+
 - **(es/parser)** Handle class members with `accessor` as the name (#7046) ([9acaf4d](https://github.com/swc-project/swc/commit/9acaf4deeb412d9d3966223acbda673e8e686f06))
 
 
