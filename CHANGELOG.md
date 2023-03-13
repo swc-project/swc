@@ -11,6 +11,9 @@
 - **(es)** Support stable rustc again (#7057) ([fbb3016](https://github.com/swc-project/swc/commit/fbb3016870cb6378743170b6833be6bbb7b4a73a))
 
 
+- **(es)** Respect the value of assumptions (#7065) ([11d4874](https://github.com/swc-project/swc/commit/11d4874a2ea173a43e0a1fcdf8a1390d4320b7ee))
+
+
 - **(es/ast)** Fix memory layout (#7062) ([085c6f3](https://github.com/swc-project/swc/commit/085c6f35f1f298a7863a99f3adfeb48b2dddbcb8))
 
 
