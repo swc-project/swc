@@ -1,4 +1,3 @@
-import _define_property from "@swc/helpers/src/_define_property.mjs";
 var _ClassB;
 var ClassA = function ClassA() {
     "use strict";
@@ -11,4 +10,6 @@ module.exports = (_ClassB = /*#__PURE__*/ function() {
         this.bb = new ClassB.MyA();
     };
     return ClassB;
-}(), _define_property(_ClassB, "MyA", ClassA), _ClassB);
+}(), function() {
+    _ClassB.MyA = ClassA;
+}(), _ClassB);
