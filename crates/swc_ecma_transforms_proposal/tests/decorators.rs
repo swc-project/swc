@@ -1,7 +1,14 @@
-use std::path::{Path, PathBuf};
+use std::{
+    path::{Path, PathBuf},
+    rc::Rc,
+};
 
 use serde::Deserialize;
-use swc_common::{chain, Mark};
+use swc_common::{
+    chain,
+    comments::{Comments, SingleThreadedComments},
+    Mark,
+};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
 use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
@@ -29,7 +36,7 @@ fn exec_inner(input: PathBuf) {
             decorators: true,
             ..Default::default()
         }),
-        |_t| create_pass(&input),
+        |t| create_pass(t.comments.clone(), &input),
         &code,
     );
 }
@@ -44,7 +51,7 @@ fn fixture_inner(input: PathBuf) {
 
     test_fixture(
         syntax_default(),
-        &|_| create_pass(&input),
+        &|t| create_pass(t.comments.clone(), &input),
         &input,
         &output,
         FixtureTestConfig {
@@ -54,7 +61,7 @@ fn fixture_inner(input: PathBuf) {
     );
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 struct BabelTestOptions {
     #[serde(default)]
@@ -70,14 +77,14 @@ struct BabelTestOptions {
     throws: Option<String>,
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase", untagged)]
 enum BabelPluginEntry {
     NameOnly(String),
     WithConfig(String, BabelPluginOption),
 }
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields, untagged, rename_all = "camelCase")]
 enum BabelPluginOption {
     Decorator { version: String },
@@ -100,14 +107,41 @@ fn read_options_json(input: &Path) -> BabelTestOptions {
     read_options_json(options_path.parent().unwrap())
 }
 
-fn create_pass(input: &PathBuf) -> Box<dyn Fold> {
+fn create_pass(comments: Rc<SingleThreadedComments>, input: &PathBuf) -> Box<dyn Fold> {
     let options_json = read_options_json(&input);
 
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    Box::new(chain!(
+    let mut pass: Box<dyn Fold> = Box::new(chain!(
         resolver(unresolved_mark, top_level_mark, false),
         decorator_2022_03()
-    ))
+    ));
+
+    macro_rules! add {
+        ($e:expr) => {{
+            pass = Box::new(chain!(pass, $e));
+        }};
+    }
+
+    for plugin in &options_json.plugins {
+        match plugin {
+            BabelPluginEntry::NameOnly(name) => match &**name {
+                "proposal-class-properties" => {
+                    add!(swc_ecma_transforms_compat::es2022::class_properties(
+                        Some(comments.clone()),
+                        Default::default()
+                    ));
+                    continue;
+                }
+
+                _ => {}
+            },
+            BabelPluginEntry::WithConfig(name, config) => {}
+        }
+
+        dbg!(&plugin);
+    }
+
+    pass
 }
