@@ -2206,7 +2206,8 @@ Elements.prototype = {
             return get(Slick.uidOf(this))[property] = value, this;
         },
         eliminate: function(property) {
-            return delete get(Slick.uidOf(this))[property], this;
+            var storage = get(Slick.uidOf(this));
+            return delete storage[property], this;
         }
     }), window.attachEvent && !window.addEventListener && window.addListener("unload", function() {
         Object.each(collected, clean), window.CollectGarbage && CollectGarbage();

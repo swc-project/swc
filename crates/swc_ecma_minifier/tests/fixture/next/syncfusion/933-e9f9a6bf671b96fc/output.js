@@ -7859,7 +7859,10 @@
                     if (this.directivekeys) {
                         var changedProps = [], directiveValue = this.validateChildren({}, this.directivekeys, props || this.props);
                         if (directiveValue && Object.keys(directiveValue).length) {
-                            if (!silent && this.skipRefresh) for(var _a = 0, _b = this.skipRefresh; _a < _b.length; _a++)delete directiveValue[_b[_a]];
+                            if (!silent && this.skipRefresh) for(var _a = 0, _b = this.skipRefresh; _a < _b.length; _a++){
+                                var fields = _b[_a];
+                                delete directiveValue[fields];
+                            }
                             if (this.prevProperties) for(var dKeys = Object.keys(this.prevProperties), i = 0; i < dKeys.length; i++){
                                 var key = dKeys[i];
                                 if (directiveValue.hasOwnProperty(key)) {
