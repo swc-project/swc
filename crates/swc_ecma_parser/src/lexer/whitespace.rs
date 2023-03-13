@@ -77,7 +77,13 @@ pub(super) struct SkipWhitespace<'a> {
 impl SkipWhitespace<'_> {
     #[inline(always)]
     pub fn scan(&mut self) {
-        for &byte in self.input.as_bytes() {
+        let mut byte;
+        loop {
+            byte = match self.input.as_bytes().get(self.offset).copied() {
+                Some(v) => v,
+                None => return,
+            };
+
             let handler = unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
 
             if let Some(handler) = handler {
