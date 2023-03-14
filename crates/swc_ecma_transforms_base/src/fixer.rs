@@ -82,7 +82,6 @@ macro_rules! array {
 }
 
 impl Fixer<'_> {
-    #[allow(clippy::almost_swapped)]
     fn visit_call<T: VisitMutWith<Self>>(
         &mut self,
         args: &mut Vec<ExprOrSpread>,

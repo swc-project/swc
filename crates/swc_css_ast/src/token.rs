@@ -162,7 +162,7 @@ impl Take for Token {
     }
 }
 
-#[allow(clippy::derived_hash_with_manual_eq)]
+#[allow(clippy::derive_hash_xor_eq)]
 #[allow(clippy::transmute_float_to_int)]
 impl Hash for Token {
     fn hash<H: Hasher>(&self, state: &mut H) {
