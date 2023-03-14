@@ -236,7 +236,7 @@ impl<'a> Lexer<'a> {
                 return Ok(tok!('.'));
             }
         };
-        if ('0'..='9').contains(&next) {
+        if next.is_ascii_digit() {
             return self.read_number(true).map(|v| match v {
                 Left((value, raw)) => Num { value, raw },
                 Right((value, raw)) => BigInt { value, raw },

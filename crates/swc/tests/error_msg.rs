@@ -80,5 +80,5 @@ fn fixture(input: PathBuf) {
 
     let output = NormalizedOutput::from(format!("{}", err));
 
-    output.compare_to_file(&output_path).unwrap();
+    output.compare_to_file(output_path).unwrap();
 }

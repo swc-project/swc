@@ -66,7 +66,7 @@ fn analyze_source_file_generic(
     while i < scan_len {
         let byte = unsafe {
             // We verified that i < scan_len <= src.len()
-            *src_bytes.get_unchecked(i as usize)
+            *src_bytes.get_unchecked(i)
         };
 
         // How much to advance in order to get to the next UTF-8 char in the
@@ -81,7 +81,7 @@ fn analyze_source_file_generic(
 
             match byte {
                 b'\r' => {
-                    if let Some(b'\n') = src_bytes.get(i as usize + 1) {
+                    if let Some(b'\n') = src_bytes.get(i + 1) {
                         lines.push(pos + BytePos(2));
                         i += 2;
                         continue;

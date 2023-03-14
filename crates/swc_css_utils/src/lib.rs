@@ -166,7 +166,7 @@ fn is_escape_not_required(value: &str) -> bool {
         return true;
     }
 
-    if (b'0'..=b'9').contains(&value.as_bytes()[0]) {
+    if value.as_bytes()[0].is_ascii_digit() {
         return false;
     }
 
@@ -174,10 +174,7 @@ fn is_escape_not_required(value: &str) -> bool {
         return false;
     }
 
-    if value.len() >= 2
-        && value.as_bytes()[0] == b'-'
-        && (b'0'..=b'9').contains(&value.as_bytes()[1])
-    {
+    if value.len() >= 2 && value.as_bytes()[0] == b'-' && value.as_bytes()[1].is_ascii_digit() {
         return false;
     }
 

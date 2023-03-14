@@ -170,7 +170,7 @@ fn stylesheet_recovery_test(input: PathBuf, config: ParserConfig) {
         );
     }
 
-    stderr.compare_to_file(&stderr_path).unwrap();
+    stderr.compare_to_file(stderr_path).unwrap();
 }
 
 fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
@@ -248,7 +248,7 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
         );
     }
 
-    stderr.compare_to_file(&stderr_path).unwrap();
+    stderr.compare_to_file(stderr_path).unwrap();
 }
 
 struct SpanVisualizer<'a> {
@@ -546,9 +546,7 @@ fn stylesheet_span_visualizer(input: PathBuf, config: Option<ParserConfig>) {
     })
     .unwrap_err();
 
-    output
-        .compare_to_file(&dir.join("span.swc-stderr"))
-        .unwrap();
+    output.compare_to_file(dir.join("span.swc-stderr")).unwrap();
 }
 
 #[testing::fixture("tests/fixture/**/input.css")]

@@ -40,7 +40,7 @@ where
 
     let s = wr.0.lock().as_str().to_string();
     println!("{}", s);
-    fs::write(&output, &s).expect("failed to write");
+    fs::write(output, &s).expect("failed to write");
 }
 
 fn span(start: usize, end: usize) -> Span {

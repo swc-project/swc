@@ -417,7 +417,7 @@ impl<'a> Lexer<'a> {
                 let total = opt
                     .unwrap_or_default()
                     .checked_mul(radix as u32)
-                    .and_then(|v| v.checked_add(val as u32))
+                    .and_then(|v| v.checked_add(val))
                     .ok_or_else(|| {
                         let span = Span::new(start, start, SyntaxContext::empty());
                         Error::new(span, SyntaxError::InvalidUnicodeEscape)
