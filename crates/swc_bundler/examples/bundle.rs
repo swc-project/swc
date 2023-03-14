@@ -16,7 +16,7 @@ use swc_bundler::{Bundle, Bundler, Load, ModuleData, ModuleRecord};
 use swc_common::{
     errors::{ColorConfig, Handler},
     sync::Lrc,
-    FileName, Globals, Mark, SourceMap, Span, GLOBALS,
+    FileName, Mark, SourceMap, Span, GLOBALS,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{

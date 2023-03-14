@@ -91,5 +91,5 @@ fn fail(input: PathBuf) {
     })
     .unwrap_err();
 
-    stderr.compare_to_file(&stderr_path).unwrap();
+    stderr.compare_to_file(stderr_path).unwrap();
 }
