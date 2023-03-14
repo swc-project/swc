@@ -347,34 +347,7 @@ impl CompileOptions {
     fn collect_inputs(&self) -> anyhow::Result<Vec<InputContext>> {
         let compiler = COMPILER.clone();
 
-        let stdin_input = collect_stdin_input();
-        if stdin_input.is_some() && !self.files.is_empty() {
-            anyhow::bail!("Cannot specify inputs from stdin and files at the same time");
-        }
-
-        if let Some(stdin_input) = stdin_input {
-            let options = self.build_transform_options(&self.filename.as_deref())?;
-
-            let fm = compiler.cm.new_source_file(
-                if options.filename.is_empty() {
-                    FileName::Anon
-                } else {
-                    FileName::Real(options.filename.clone().into())
-                },
-                stdin_input,
-            );
-
-            return Ok(vec![InputContext {
-                options,
-                fm,
-                compiler,
-                file_path: self
-                    .filename
-                    .clone()
-                    .unwrap_or_else(|| PathBuf::from("unknown")),
-                file_extension: self.out_file_extension.clone().into(),
-            }]);
-        } else if !self.files.is_empty() {
+        if !self.files.is_empty() {
             let included_extensions = if let Some(extensions) = &self.extensions {
                 extensions.clone()
             } else {
@@ -405,6 +378,35 @@ impl CompileOptions {
                     })
             })
             .collect::<anyhow::Result<Vec<InputContext>>>();
+        }
+
+        let stdin_input = collect_stdin_input();
+        if stdin_input.is_some() && !self.files.is_empty() {
+            anyhow::bail!("Cannot specify inputs from stdin and files at the same time");
+        }
+
+        if let Some(stdin_input) = stdin_input {
+            let options = self.build_transform_options(&self.filename.as_deref())?;
+
+            let fm = compiler.cm.new_source_file(
+                if options.filename.is_empty() {
+                    FileName::Anon
+                } else {
+                    FileName::Real(options.filename.clone().into())
+                },
+                stdin_input,
+            );
+
+            return Ok(vec![InputContext {
+                options,
+                fm,
+                compiler,
+                file_path: self
+                    .filename
+                    .clone()
+                    .unwrap_or_else(|| PathBuf::from("unknown")),
+                file_extension: self.out_file_extension.clone().into(),
+            }]);
         }
 
         anyhow::bail!("Input is empty");
