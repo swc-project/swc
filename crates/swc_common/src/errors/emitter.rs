@@ -294,7 +294,7 @@ impl EmitterWriter {
         }
 
         // Find overlapping multiline annotations, put them at different depths
-        multiline_annotations.sort_by_key(|&(_, ref ml)| (ml.line_start, ml.line_end));
+        multiline_annotations.sort_by_key(|(_, ml)| (ml.line_start, ml.line_end));
         for item in multiline_annotations.clone() {
             let ann = item.1;
             for item in multiline_annotations.iter_mut() {
@@ -912,7 +912,7 @@ impl EmitterWriter {
         //                see how it *looks* with
         //                very *weird* formats
         //                see?
-        for &(ref text, ref style) in msg.iter() {
+        for (text, style) in msg.iter() {
             let lines = text.split('\n').collect::<Vec<_>>();
             if lines.len() > 1 {
                 for (i, line) in lines.iter().enumerate() {
@@ -975,7 +975,7 @@ impl EmitterWriter {
             if !level_str.is_empty() {
                 buffer.append(0, ": ", header_style);
             }
-            for &(ref text, _) in msg.iter() {
+            for (text, _) in msg.iter() {
                 buffer.append(0, text, header_style);
             }
         }
@@ -1222,7 +1222,7 @@ impl EmitterWriter {
             let suggestions = suggestion.splice_lines(&**sm);
 
             let mut row_num = 2;
-            for &(ref complete, ref parts) in suggestions.iter().take(MAX_SUGGESTIONS) {
+            for (complete, parts) in suggestions.iter().take(MAX_SUGGESTIONS) {
                 // Only show underline if the suggestion spans a single line and doesn't cover
                 // the entirety of the code output. If you have multiple
                 // replacements in the same line of code, show the underline.

@@ -88,7 +88,7 @@ pub fn try_with_handler<F, Ret>(
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
-    let wr = Box::new(LockedWriter::default());
+    let wr = Box::<LockedWriter>::default();
 
     let emitter = PrettyEmitter::new(
         cm,

@@ -4902,12 +4902,12 @@ fn is_ascii_hex_digit(c: char) -> bool {
 
 #[inline(always)]
 fn is_ascii_upper_alpha(c: char) -> bool {
-    matches!(c, 'A'..='Z')
+    c.is_ascii_uppercase()
 }
 
 #[inline(always)]
 fn is_ascii_lower_alpha(c: char) -> bool {
-    matches!(c, 'a'..='z')
+    c.is_ascii_lowercase()
 }
 
 #[inline(always)]

@@ -145,11 +145,11 @@ fn make_body_for_variant(v: &VariantBinder<'_>, bindings: Vec<BindedField<'_>>) 
         .collect();
 
     // TODO: Only one field should be `#[span(lo)]`.
-    let lo = fields.iter().find(|&&(_, ref f)| f.lo);
-    let hi = fields.iter().find(|&&(_, ref f)| f.hi);
+    let lo = fields.iter().find(|&(_, f)| f.lo);
+    let hi = fields.iter().find(|&(_, f)| f.hi);
 
     match (lo, hi) {
-        (Some(&(ref lo_field, _)), Some(&(ref hi_field, _))) => {
+        (Some((lo_field, _)), Some((hi_field, _))) => {
             // Create a new span from lo_field.lo(), hi_field.hi()
             Box::new(
                 Quote::new(def_site::<Span>())
