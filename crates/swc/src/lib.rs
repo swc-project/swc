@@ -337,7 +337,7 @@ impl Compiler {
                                         // regressions.
                                         let f = format!("{}.map", filename.display());
 
-                                        match File::open(&f) {
+                                        match File::open(f) {
                                             Ok(v) => Ok(v),
                                             Err(_) => Err(err),
                                         }

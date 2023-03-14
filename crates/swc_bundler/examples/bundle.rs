@@ -73,7 +73,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
     testing::run_test2(false, |cm, _| {
         let start = Instant::now();
 
-        let globals = Box::leak(Box::new(Globals::default()));
+        let globals = Box::leak(Box::default());
         let mut bundler = Bundler::new(
             globals,
             cm.clone(),

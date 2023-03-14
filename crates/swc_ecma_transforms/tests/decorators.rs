@@ -4467,7 +4467,7 @@ test_exec!(
 
 #[testing::fixture("tests/fixture/decorator/**/exec.ts")]
 fn fixture_exec(input: PathBuf) {
-    let code = fs::read_to_string(&input).expect("failed to read file");
+    let code = fs::read_to_string(input).expect("failed to read file");
 
     swc_ecma_transforms_testing::exec_tr(
         "decorator",

@@ -2952,7 +2952,6 @@ where
                     let seq = v.init.as_mut().unwrap().force_seq();
                     seq.exprs = side_effects
                         .drain(..)
-                        .into_iter()
                         .chain(seq.exprs.take())
                         .filter(|e| !e.is_invalid())
                         .collect();
