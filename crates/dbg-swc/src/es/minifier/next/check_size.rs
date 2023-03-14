@@ -143,7 +143,7 @@ impl CheckSizeCommand {
         wrap_task(|| {
             if !self.ensure_fresh
                 && self.workspace.is_dir()
-                && read_dir(&self.workspace.join("inputs"))
+                && read_dir(self.workspace.join("inputs"))
                     .context("failed to read workspace directory")?
                     .count()
                     != 0
