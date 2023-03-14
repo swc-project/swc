@@ -5,6 +5,9 @@
 
 
 
+- **(bindings/cli)** Change order of checking inputs to workaround a Windows issue (#7077) ([7bbec92](https://github.com/swc-project/swc/commit/7bbec92d234ddb47b51a014937d1ec7c1cb571c7))
+
+
 - **(css/codegen)** Respect `raw` of `Str` (#7078) ([7849a2d](https://github.com/swc-project/swc/commit/7849a2d75d57bf3b6242f5f472a06a30c9fb948d))
 
 ### Performance
