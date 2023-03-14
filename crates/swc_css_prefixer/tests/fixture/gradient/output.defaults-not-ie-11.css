@@ -36,7 +36,7 @@ div {
 }
 .second {
   background: red linear-gradient(red, blue);
-  background: url("logo.png"), linear-gradient(#fff, #000);
+  background: url('logo.png'), linear-gradient(#fff, #000);
 }
 .px {
   background: linear-gradient(black 0, white 100px);
