@@ -91,9 +91,7 @@ impl Fixer<'_> {
         let old = self.ctx;
         self.ctx = Context::ForcedExpr;
         args.visit_mut_with(self);
-        self.ctx = old;
 
-        let old = self.ctx;
         self.ctx = Context::Callee { is_new: false };
         callee.visit_mut_with(self);
 
@@ -629,7 +627,6 @@ impl VisitMut for Fixer<'_> {
         node.args.visit_mut_with(self);
         self.ctx = old;
 
-        let old = self.ctx;
         self.ctx = Context::Callee { is_new: true };
         node.callee.visit_mut_with(self);
         match *node.callee {

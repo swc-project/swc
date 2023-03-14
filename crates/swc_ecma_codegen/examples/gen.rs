@@ -42,7 +42,7 @@ fn parse_and_gen(entry: &Path) {
             String::from_utf8_lossy(&buf).to_string()
         };
 
-        fs::write("output.js", &code).unwrap();
+        fs::write("output.js", code).unwrap();
 
         Ok(())
     })
