@@ -20,7 +20,7 @@ pub fn bench_files(c: &mut Criterion) {
     group.sample_size(10);
 
     let mut bench_file = |name: &str| {
-        let src = read_to_string(&format!("benches/full/{}.js", name)).unwrap();
+        let src = read_to_string(format!("benches/full/{}.js", name)).unwrap();
 
         group.bench_function(name, |b| {
             b.iter(|| {

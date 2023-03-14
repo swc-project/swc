@@ -300,7 +300,7 @@ fn custom_fixture(input: PathBuf) {
 
     testing::run_test2(false, |cm, handler| {
         let mangle = dir.join("mangle.json");
-        let mangle = read_to_string(&mangle).ok();
+        let mangle = read_to_string(mangle).ok();
         if let Some(mangle) = &mangle {
             eprintln!(
                 "---- {} -----\n{}",
@@ -336,7 +336,7 @@ fn custom_fixture(input: PathBuf) {
 fn projects(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = dir.join("config.json");
-    let config = read_to_string(&config).expect("failed to read config.json");
+    let config = read_to_string(config).expect("failed to read config.json");
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
@@ -443,12 +443,12 @@ fn fixture(input: PathBuf) {
 
     let dir = input.parent().unwrap();
     let config = dir.join("config.json");
-    let config = read_to_string(&config).expect("failed to read config.json");
+    let config = read_to_string(config).expect("failed to read config.json");
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
         let mangle = dir.join("mangle.json");
-        let mangle = read_to_string(&mangle).ok();
+        let mangle = read_to_string(mangle).ok();
         if let Some(mangle) = &mangle {
             eprintln!(
                 "---- {} -----\n{}",
@@ -470,7 +470,7 @@ fn fixture(input: PathBuf) {
         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
         let expected = {
-            let expected = read_to_string(&dir.join("output.js")).unwrap();
+            let expected = read_to_string(dir.join("output.js")).unwrap();
             let fm = cm.new_source_file(FileName::Anon, expected);
             let lexer = Lexer::new(
                 Default::default(),
@@ -512,7 +512,7 @@ fn fixture(input: PathBuf) {
             // Check output.teraer.js
             let identical = (|| -> Option<()> {
                 let expected = {
-                    let expected = read_to_string(&dir.join("output.terser.js")).ok()?;
+                    let expected = read_to_string(dir.join("output.terser.js")).ok()?;
                     let fm = cm.new_source_file(FileName::Anon, expected);
                     let lexer = Lexer::new(
                         Default::default(),
@@ -562,9 +562,9 @@ fn fixture(input: PathBuf) {
             })()
             .is_some();
             if identical {
-                let s = read_to_string(&dir.join("output.terser.js"))
+                let s = read_to_string(dir.join("output.terser.js"))
                     .expect("failed to read output.terser.js");
-                std::fs::write(&dir.join("output.js"), s.as_bytes())
+                std::fs::write(dir.join("output.js"), s.as_bytes())
                     .expect("failed to update output.js");
             }
         }
