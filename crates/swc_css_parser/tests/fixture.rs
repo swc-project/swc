@@ -170,7 +170,7 @@ fn stylesheet_recovery_test(input: PathBuf, config: ParserConfig) {
         );
     }
 
-    stderr.compare_to_file(&stderr_path).unwrap();
+    stderr.compare_to_file(stderr_path).unwrap();
 }
 
 fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {

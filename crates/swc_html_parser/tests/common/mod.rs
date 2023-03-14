@@ -33,7 +33,7 @@ pub fn document_test(input: PathBuf, config: ParserConfig) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize document");
 
-                actual_json.compare_to_file(&json_path).unwrap();
+                actual_json.compare_to_file(json_path).unwrap();
 
                 Ok(())
             }
@@ -240,7 +240,7 @@ pub fn document_dom_visualizer(input: PathBuf, config: ParserConfig) {
                 });
 
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(&dir.join("dom.rust-debug"))
+                    .compare_to_file(dir.join("dom.rust-debug"))
                     .unwrap();
 
                 Ok(())
@@ -331,5 +331,5 @@ pub fn document_span_visualizer(input: PathBuf, config: ParserConfig, relative_t
         dir.join("span.rust-debug")
     };
 
-    output.compare_to_file(&output_path).unwrap();
+    output.compare_to_file(output_path).unwrap();
 }
