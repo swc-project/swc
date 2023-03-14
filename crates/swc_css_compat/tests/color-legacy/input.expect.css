@@ -115,7 +115,7 @@
   --some-var: rgba(178 34 34 / 1);
 }
 .content {
-  content: "rgba(178 34 34 / 1)";
+  content: 'rgba(178 34 34 / 1)';
 }
 @supports (order: rgba(178 34 34/ 1)) {
   .support {
@@ -156,7 +156,7 @@
   --some-var: hsl(120 100% 50% / 1);
 }
 .content {
-  content: "hsl(120 100% 50% / 1)";
+  content: 'hsl(120 100% 50% / 1)';
 }
 @supports (order: hsl(120 100% 50% / 1)) {
   .support {

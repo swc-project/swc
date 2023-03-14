@@ -1221,6 +1221,8 @@ where
             let minified = minify_string(&n.value);
 
             write_str!(self, n.span, &minified);
+        } else if let Some(raw) = &n.raw {
+            write_str!(self, n.span, raw);
         } else {
             let value = serialize_string(&n.value);
 
