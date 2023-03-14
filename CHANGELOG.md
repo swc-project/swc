@@ -16,6 +16,9 @@
 
 - **(es/lexer)** Use jump table for `skip_space` (#7073) ([f854d51](https://github.com/swc-project/swc/commit/f854d51343dcbdf43acd87f51e2288a052e39a0b))
 
+### Refactor
+- **general**: Fix lints using clippy from `nightly-2023-03-13` (#6920) ([963c460](https://github.com/swc-project/swc/commit/963c46061321fff3a2893da4953c1fd5ec649311))
+
 ## [1.3.40] - 2023-03-13
 
 ### Bug Fixes
