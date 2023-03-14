@@ -1208,6 +1208,7 @@ impl<'a> Lexer<'a> {
         self.error(start_of_tpl, SyntaxError::UnterminatedTpl)?
     }
 
+    #[allow(clippy::misnamed_getters)]
     #[inline]
     pub fn had_line_break_before_last(&self) -> bool {
         self.state.had_line_break
