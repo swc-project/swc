@@ -735,7 +735,7 @@ impl VisitMut for Remover {
                                         &Expr::Lit(Lit::Bool(Bool { value: d, .. })),
                                     ) => test == d,
                                     (&Expr::Lit(Lit::Null(..)), &Expr::Lit(Lit::Null(..))) => true,
-                                    (&Expr::Ident(ref test), &Expr::Ident(ref d)) => {
+                                    (Expr::Ident(test), Expr::Ident(d)) => {
                                         test.sym == d.sym && test.span.ctxt() == d.span.ctxt()
                                     }
 
@@ -794,7 +794,6 @@ impl VisitMut for Remover {
                             let mut stmts = remove_break(stmts);
 
                             let decls = cases
-                                .into_iter()
                                 .flat_map(|case| {
                                     exprs.extend(
                                         case.test

@@ -18,7 +18,6 @@ impl Compiler {
                 function.value = function
                     .value
                     .drain(..)
-                    .into_iter()
                     .map(|n| match n {
                         ComponentValue::Percentage(box Percentage {
                             span,
@@ -36,7 +35,6 @@ impl Compiler {
                 function.value = function
                     .value
                     .drain(..)
-                    .into_iter()
                     .map(|n| match n {
                         ComponentValue::Hue(box Hue::Angle(Angle {
                             span,

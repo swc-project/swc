@@ -126,7 +126,7 @@ impl Inlining<'_> {
         let mut alias_of = None;
 
         let value_idx = match init.as_deref() {
-            Some(&Expr::Ident(ref vi)) => {
+            Some(Expr::Ident(vi)) => {
                 if let Some((value_idx, value_var)) = self.scope.idx_val(&vi.to_id()) {
                     alias_of = Some(value_var.kind);
                     Some((value_idx, vi.to_id()))
@@ -586,7 +586,7 @@ impl<'a> Scope<'a> {
         }
 
         for (_, v) in self.bindings.iter() {
-            if let Some(&Expr::Ident(ref i)) = v.value.borrow().as_ref() {
+            if let Some(Expr::Ident(i)) = v.value.borrow().as_ref() {
                 if i.sym == id.0 && i.span.ctxt() == id.1 {
                     v.inline_prevented.set(true);
                 }
