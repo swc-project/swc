@@ -1224,7 +1224,7 @@ impl SourceMap {
         if let Some(orig) = orig {
             for src in orig.sources() {
                 let id = builder.add_source(src);
-                src_id = id as u32 + 1;
+                src_id = id + 1;
 
                 builder.set_source_contents(id, orig.get_source_contents(id));
             }
@@ -1411,7 +1411,7 @@ impl FilePathMapping {
         // NOTE: We are iterating over the mapping entries from last to first
         //       because entries specified later on the command line should
         //       take precedence.
-        for &(ref from, ref to) in self.mapping.iter().rev() {
+        for (from, to) in self.mapping.iter().rev() {
             if let Ok(rest) = path.strip_prefix(from) {
                 return (to.join(rest), true);
             }

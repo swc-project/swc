@@ -543,7 +543,7 @@ if (true) loop: for(let _i = 0, _iter = []; _i < _iter.length; _i++){
 
 #[testing::fixture("tests/for-of/**/exec.js")]
 fn exec(input: PathBuf) {
-    let input = read_to_string(&input).unwrap();
+    let input = read_to_string(input).unwrap();
 
     compare_stdout(
         Syntax::default(),
@@ -589,7 +589,7 @@ fn fixture(input: PathBuf) {
 
 #[testing::fixture("tests/for-of/**/exec.js")]
 fn exec_es2015(input: PathBuf) {
-    let input = read_to_string(&input).unwrap();
+    let input = read_to_string(input).unwrap();
 
     compare_stdout(
         Syntax::default(),

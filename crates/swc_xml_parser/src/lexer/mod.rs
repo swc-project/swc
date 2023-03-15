@@ -485,7 +485,7 @@ where
                             if let Some(result) = i.checked_mul(base as u32) {
                                 i = result;
 
-                                if let Some(result) = i.checked_add(value as u32) {
+                                if let Some(result) = i.checked_add(value) {
                                     i = result;
                                 } else {
                                     i = 0x110000;
@@ -3148,7 +3148,7 @@ fn is_noncharacter(c: u32) -> bool {
 
 #[inline(always)]
 fn is_ascii_upper_alpha(c: char) -> bool {
-    matches!(c, 'A'..='Z')
+    c.is_ascii_uppercase()
 }
 
 #[inline(always)]

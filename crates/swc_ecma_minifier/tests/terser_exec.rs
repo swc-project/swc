@@ -59,7 +59,7 @@ fn terser_exec(input: PathBuf) {
     let dir = input.parent().unwrap();
 
     let config = dir.join("config.json");
-    let config = read_to_string(&config).expect("failed to read config.json");
+    let config = read_to_string(config).expect("failed to read config.json");
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     let _ = testing::run_test2(false, |cm, handler| {
@@ -82,9 +82,9 @@ fn terser_exec(input: PathBuf) {
 
         let mut expected_src = None;
 
-        let expected_stdout = read_to_string(&dir.join("expected.stdout"))
+        let expected_stdout = read_to_string(dir.join("expected.stdout"))
             .or_else(|_| {
-                let src = read_to_string(&dir.join("output.terser.js"))
+                let src = read_to_string(dir.join("output.terser.js"))
                     .context("This test does not have `output.terser.js`")?;
 
                 expected_src = Some(src.clone());

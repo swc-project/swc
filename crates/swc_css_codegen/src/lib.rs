@@ -1221,6 +1221,8 @@ where
             let minified = minify_string(&n.value);
 
             write_str!(self, n.span, &minified);
+        } else if let Some(raw) = &n.raw {
+            write_str!(self, n.span, raw);
         } else {
             let value = serialize_string(&n.value);
 
@@ -2767,10 +2769,9 @@ fn minify_string(value: &str) -> String {
 
 fn serialize_dimension_unit(value: &str) -> Cow<'_, str> {
     // Fast-path
-    let need_escape = (value.len() >= 2
-        && value.as_bytes()[0] == b'e'
-        && (b'0'..=b'9').contains(&value.as_bytes()[1]))
-        || value.contains(|c| c == char::REPLACEMENT_CHARACTER);
+    let need_escape =
+        (value.len() >= 2 && value.as_bytes()[0] == b'e' && value.as_bytes()[1].is_ascii_digit())
+            || value.contains(|c| c == char::REPLACEMENT_CHARACTER);
 
     if !need_escape {
         return Cow::Borrowed(value);

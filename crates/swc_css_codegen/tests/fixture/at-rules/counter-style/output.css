@@ -1,6 +1,6 @@
 @counter-style thumbs {
   system: cyclic;
-  symbols: "👍";
+  symbols: "\1F44D";
   suffix: " ";
 }
 ul {

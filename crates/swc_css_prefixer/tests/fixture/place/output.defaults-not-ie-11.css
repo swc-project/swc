@@ -48,7 +48,7 @@ e {
   foo-place-content: first second;
 }
 .content {
-  content: "place-content: first second;";
+  content: 'place-content: first second;';
 }
 .important {
   place-content: first second !important;

@@ -113,7 +113,7 @@ fn fixture(input_dir: PathBuf) {
         Syntax::default(),
         &|_| {
             let paths_json_path = input_dir.join("paths.json");
-            let paths_json = std::fs::read_to_string(&paths_json_path).unwrap();
+            let paths_json = std::fs::read_to_string(paths_json_path).unwrap();
             let paths = serde_json::from_str::<IndexMap<String, Vec<String>>>(&paths_json).unwrap();
 
             let rules = paths.into_iter().collect();

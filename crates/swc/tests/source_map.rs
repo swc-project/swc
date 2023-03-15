@@ -130,7 +130,7 @@ fn issue_706() {
 
 #[testing::fixture("tests/fixture/**/*.map")]
 fn validate_map(map_file: PathBuf) {
-    let content = fs::read_to_string(&map_file).unwrap();
+    let content = fs::read_to_string(map_file).unwrap();
     if content.is_empty() {
         return;
     }

@@ -269,7 +269,7 @@ impl CharFreq {
         let mut all = Vec::with_capacity(64);
 
         for (_, c) in arr {
-            if (b'0'..=b'9').contains(&c) {
+            if c.is_ascii_digit() {
                 digits.push(c);
             } else {
                 alpha.push(c);

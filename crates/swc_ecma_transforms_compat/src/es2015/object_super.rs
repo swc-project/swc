@@ -63,7 +63,6 @@ impl VisitMut for ObjectSuper {
                     decls: self
                         .extra_vars
                         .drain(..)
-                        .into_iter()
                         .map(|v| VarDeclarator {
                             span: DUMMY_SP,
                             name: v.into(),

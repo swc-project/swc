@@ -82,7 +82,6 @@ impl TscDecorator {
             new.extend(
                 self.prepended_exprs
                     .drain(..)
-                    .into_iter()
                     .map(|expr| {
                         Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
@@ -97,7 +96,6 @@ impl TscDecorator {
             new.extend(
                 self.appended_exprs
                     .drain(..)
-                    .into_iter()
                     .map(|expr| {
                         Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,

@@ -1224,7 +1224,7 @@ fn exec(input: PathBuf) {
     println!("{}", path.display());
 
     let src = bundle(&input.to_string_lossy(), false);
-    write(&path, &src).unwrap();
+    write(&path, src).unwrap();
 
     // println!("{}", src);
 
@@ -1260,7 +1260,7 @@ fn exec_minified(input: PathBuf) {
         println!("Unminified: {}", path.display());
 
         let src = bundle(&input.to_string_lossy(), false);
-        write(&path, &src).unwrap();
+        write(&path, src).unwrap();
 
         std::mem::forget(dir);
     }
@@ -1270,7 +1270,7 @@ fn exec_minified(input: PathBuf) {
     println!("{}", path.display());
 
     let src = bundle(&input.to_string_lossy(), true);
-    write(&path, &src).unwrap();
+    write(&path, src).unwrap();
     // println!("{}", src);
 
     let output = Command::new("deno")
