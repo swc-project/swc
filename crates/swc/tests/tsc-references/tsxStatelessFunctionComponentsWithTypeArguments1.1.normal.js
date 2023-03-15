@@ -2,26 +2,23 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_extends.mjs",
     "react"
-], function(require, exports, _extends, _react) {
+], function(require, exports, _react) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _extends = _extends.default;
     // OK
     function Baz(key1, value) {
         var a0 = /*#__PURE__*/ _react.createElement(ComponentWithTwoAttributes, {
             key1: key1,
             value: value
         });
-        var a1 = /*#__PURE__*/ _react.createElement(ComponentWithTwoAttributes, _extends({}, {
+        var a1 = /*#__PURE__*/ _react.createElement(ComponentWithTwoAttributes, {
             key1: key1,
-            value: value
-        }, {
+            value: value,
             key: "Component"
-        }));
+        });
     }
     // OK
     function createLink(func) {

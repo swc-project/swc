@@ -2,11 +2,10 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_extends.mjs",
     "react"
-], function(require, exports, _extends, _react) {
+], function(require, exports, _react) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _extends = _extends.default, InferParamComponent;
+    }), InferParamComponent;
 });
