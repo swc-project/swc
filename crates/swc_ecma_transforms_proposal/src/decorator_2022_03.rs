@@ -33,18 +33,20 @@ impl Decorator202203 {
 
         let mut lhs = vec![];
         let mut combined_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
+        let mut arrays = vec![];
 
         for (id, args) in self.cur_inits.drain(..) {
             lhs.push(Some(id.into()));
 
-            combined_args.push(
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: args,
-                }
-                .as_arg(),
-            );
+            arrays.extend(args);
         }
+        combined_args.push(
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: arrays,
+            }
+            .as_arg(),
+        );
         combined_args.push(
             ArrayLit {
                 span: DUMMY_SP,
