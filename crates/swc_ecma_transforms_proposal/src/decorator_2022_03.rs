@@ -13,6 +13,8 @@ pub fn decorator_2022_03() -> impl VisitMut + Fold {
 struct Decorator202203 {
     /// Variables without initializer.
     extra_vars: Vec<VarDeclarator>,
+    cur_inits: Vec<(Ident, Vec<Option<ExprOrSpread>>)>,
+
     /// Injected into static blocks.
     extra_stmts: Vec<Stmt>,
 }
@@ -61,12 +63,57 @@ impl VisitMut for Decorator202203 {
 
                 p.value = Some(Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: init.as_callee(),
+                    callee: init.clone().as_callee(),
                     args: once(ThisExpr { span: DUMMY_SP }.as_arg())
                         .chain(p.value.take().map(|v| v.as_arg()))
                         .collect(),
                     type_args: Default::default(),
                 })));
+
+                let initialize_init = p
+                    .decorators
+                    .take()
+                    .into_iter()
+                    .map(|dec| {
+                        let getter = Box::new(Function {
+                            span: DUMMY_SP,
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![Stmt::Return(ReturnStmt {
+                                    span: DUMMY_SP,
+                                    arg: Some(Box::new(
+                                        ThisExpr { span: DUMMY_SP }.make_member(p.key.id.clone()),
+                                    )),
+                                })],
+                            }),
+                            is_async: false,
+                            is_generator: false,
+                            decorators: Default::default(),
+                            params: Default::default(),
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        });
+
+                        ArrayLit {
+                            span: DUMMY_SP,
+                            elems: vec![
+                                Some(dec.expr.as_arg()),
+                                Some(0.as_arg()),
+                                Some(
+                                    FnExpr {
+                                        ident: None,
+                                        function: getter,
+                                    }
+                                    .as_arg(),
+                                ),
+                            ],
+                        }
+                        .as_arg()
+                    })
+                    .map(Some)
+                    .collect();
+
+                self.cur_inits.push((init, initialize_init))
             }
 
             ClassMember::PrivateMethod(m) => {}
