@@ -32,15 +32,10 @@ fn parse_stylesheet(fm: &Lrc<SourceFile>) -> Stylesheet {
         &mut errors,
     )
     .unwrap();
-    let has_errors = !errors.is_empty();
     for err in errors {
         HANDLER.with(|handler| {
             err.to_diagnostics(handler).emit();
         });
-    }
-
-    if has_errors {
-        panic!("failed to parse");
     }
 
     ss
