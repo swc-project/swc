@@ -13,11 +13,33 @@ pub fn decorator_2022_03() -> impl VisitMut + Fold {
 struct Decorator202203 {
     /// Variables without initializer.
     extra_vars: Vec<VarDeclarator>,
+    /// Injected into static blocks.
     extra_stmts: Vec<Stmt>,
 }
 
 impl VisitMut for Decorator202203 {
     noop_visit_mut_type!();
+
+    fn visit_mut_class(&mut self, n: &mut Class) {
+        let old_stmts = self.extra_stmts.take();
+
+        n.visit_mut_children_with(self);
+
+        if !self.extra_stmts.is_empty() {
+            n.body.insert(
+                0,
+                ClassMember::StaticBlock(StaticBlock {
+                    span: DUMMY_SP,
+                    body: BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: self.extra_stmts.take(),
+                    },
+                }),
+            );
+        }
+
+        self.extra_stmts = old_stmts;
+    }
 
     fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
         n.visit_mut_children_with(self);
