@@ -80,7 +80,7 @@ impl Decorator202203 {
     }
 
     /// Returns (name, initilaizer_name)
-    fn initializer_name(&mut self, name: PropName) -> (Box<Expr>, Ident) {
+    fn initializer_name(&mut self, name: &mut PropName) -> (Box<Expr>, Ident) {
         match name {
             PropName::Ident(i) => (
                 Box::new(Expr::Lit(Lit::Str(Str {
@@ -104,7 +104,7 @@ impl Decorator202203 {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: PatOrExpr::Pat(ident.clone().into()),
-                        right: Box::new(prop_name_to_expr_value(name)),
+                        right: Box::new(prop_name_to_expr_value(name.take())),
                     })));
 
                 let init = Ident::new("_init_computedKey".into(), ident.span.private());
@@ -165,7 +165,7 @@ impl VisitMut for Decorator202203 {
             return;
         }
 
-        let (name, init) = self.initializer_name(p.key.take());
+        let (name, init) = self.initializer_name(&mut p.key);
 
         self.extra_vars.push(VarDeclarator {
             span: p.span,
