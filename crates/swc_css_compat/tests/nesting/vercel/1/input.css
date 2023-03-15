@@ -1,0 +1,35 @@
+.plan-redirect {
+    --geist-gap: 0;
+
+    border-radius: var(--geist-marketing-radius);
+    box-shadow: var(--shadow-smallest);
+
+    > * {
+        padding: var(--geist-space-gap);
+    }
+}
+
+.plan-redirect-title > *,
+.plan-redirect-content {
+    margin: 0;
+}
+
+.plan-redirect-title {
+    box-shadow: 0px 1px 0px var(--accents-2);
+    > * {
+        font-size: 1rem;
+    }
+}
+
+.plan-redirect-content {
+    align-items: stretch;
+    line-height: 1.5;
+
+    > * {
+        margin: 0;
+    }
+
+    > * + * {
+        margin-top: var(--geist-space-gap);
+    }
+}
