@@ -1,8 +1,8 @@
 //// [objectSpreadRepeatedComplexity.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 function f(cnd) {
     // Type is a union of 2^(n-1) members, where n is the number of spread objects
-    return _object_spread({}, cnd[1] && cnd[2] && {
+    return _extends({}, cnd[1] && cnd[2] && {
         prop0: 0
     }, cnd[3] && {
         prop3a: 1,

@@ -1,8 +1,8 @@
 //// [spreadUnion3.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 function g(t) {
-    _object_spread({}, t).a;
+    _extends({}, t).a;
 }
-_object_spread({
+_extends({
     y: 123
-}, void 0), g(), g(void 0), g(null), _object_spread({}, nullAndUndefinedUnion, nullAndUndefinedUnion), _object_spread({}, nullAndUndefinedUnion);
+}, void 0), g(), g(void 0), g(null), _extends({}, nullAndUndefinedUnion, nullAndUndefinedUnion), _extends({}, nullAndUndefinedUnion);

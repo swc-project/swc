@@ -1,19 +1,19 @@
 //// [destructuringSpread.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
-_object_spread_props(_object_spread({}, {}), {
+_object_spread_props(_extends({}, {}), {
     x: 0
-}).x, _object_spread({
+}).x, _extends({
     y: 0
 }, {}).y;
-var _$_object_spread = _object_spread({
+var _$_extends = _extends({
     z: 0
 }, {
     a: 0,
     b: 0
 });
-_$_object_spread.z, _$_object_spread.a, _$_object_spread.b;
-var _$_object_spread_props = _object_spread_props(_object_spread({}, _object_spread_props(_object_spread({}, _object_spread_props(_object_spread({}, {
+_$_extends.z, _$_extends.a, _$_extends.b;
+var _$_object_spread_props = _object_spread_props(_extends({}, _object_spread_props(_extends({}, _object_spread_props(_extends({}, {
     c: 0
 }), {
     d: 0

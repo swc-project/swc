@@ -1,5 +1,5 @@
 //// [objectRestForOf.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 let array;
@@ -24,7 +24,7 @@ for (var _ref of array){
         rrestOff
     ];
 }
-for (const norest of array.map((a)=>_object_spread_props(_object_spread({}, a), {
+for (const norest of array.map((a)=>_object_spread_props(_extends({}, a), {
         x: 'a string'
     }))){
     [

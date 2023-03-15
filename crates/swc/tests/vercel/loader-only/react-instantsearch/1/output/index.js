@@ -1,5 +1,5 @@
 import _define_property from "@swc/helpers/src/_define_property.mjs";
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
@@ -143,7 +143,7 @@ function serializeQueryParameters(parameters) {
         .sort(sortIndexWidgetsFirst).reduce(function(indices, widget) {
             var indexId = isMultiIndexContext(widget) ? widget.props.indexContextValue.targetedIndex : widget.props.indexId;
             var widgets = indices[indexId] || [];
-            return _object_spread_props(_object_spread({}, indices), _define_property({}, indexId, widgets.concat(widget)));
+            return _object_spread_props(_extends({}, indices), _define_property({}, indexId, widgets.concat(widget)));
         }, {});
         var derivedParameters = Object.keys(derivedIndices).map(function(indexId) {
             return {
@@ -206,7 +206,7 @@ function serializeQueryParameters(parameters) {
             // unused results.
             results = !isDerivedHelpersEmpty && results.getFacetByName ? {} : results;
             if (!isDerivedHelpersEmpty) {
-                results = _object_spread_props(_object_spread({}, results), _define_property({}, indexId, event.results));
+                results = _object_spread_props(_extends({}, results), _define_property({}, indexId, event.results));
             } else {
                 results = event.results;
             }
@@ -220,7 +220,7 @@ function serializeQueryParameters(parameters) {
             var resultsFacetValues = currentState.resultsFacetValues, partialState = _object_without_properties(currentState, [
                 "resultsFacetValues"
             ]);
-            store.setState(_object_spread_props(_object_spread({}, partialState), {
+            store.setState(_object_spread_props(_extends({}, partialState), {
                 results: results,
                 isSearchStalled: nextIsSearchStalled,
                 searching: false,
@@ -239,7 +239,7 @@ function serializeQueryParameters(parameters) {
         var resultsFacetValues = currentState.resultsFacetValues, partialState = _object_without_properties(currentState, [
             "resultsFacetValues"
         ]);
-        store.setState(_object_spread_props(_object_spread({}, partialState), {
+        store.setState(_object_spread_props(_extends({}, partialState), {
             isSearchStalled: nextIsSearchStalled,
             error: error,
             searching: false
@@ -252,7 +252,7 @@ function serializeQueryParameters(parameters) {
                 var _store_getState = store.getState(), resultsFacetValues = _store_getState.resultsFacetValues, partialState = _object_without_properties(_store_getState, [
                     "resultsFacetValues"
                 ]);
-                store.setState(_object_spread_props(_object_spread({}, partialState), {
+                store.setState(_object_spread_props(_extends({}, partialState), {
                     isSearchStalled: true
                 }));
             }, stalledSearchDelay), stalledSearchTimer = _setTimeout, _setTimeout;
@@ -283,7 +283,7 @@ function serializeQueryParameters(parameters) {
                     methodArgs[_key - 1] = arguments[_key];
                 }
                 var requestsWithSerializedParams = requests.map(function(request) {
-                    return _object_spread_props(_object_spread({}, request), {
+                    return _object_spread_props(_extends({}, request), {
                         params: serializeQueryParameters(request.params)
                     });
                 });
@@ -344,7 +344,7 @@ function serializeQueryParameters(parameters) {
                 }));
             }, [])
         }));
-        client.cache = _object_spread_props(_object_spread({}, client.cache), _define_property({}, key, JSON.stringify({
+        client.cache = _object_spread_props(_extends({}, client.cache), _define_property({}, key, JSON.stringify({
             results: results.reduce(function(acc, result) {
                 return acc.concat(result.rawResults);
             }, [])
@@ -383,7 +383,7 @@ function serializeQueryParameters(parameters) {
                 };
             })
         }));
-        client.cache = _object_spread_props(_object_spread({}, client.cache), _define_property({}, key, JSON.stringify({
+        client.cache = _object_spread_props(_extends({}, client.cache), _define_property({}, key, JSON.stringify({
             results: results.rawResults
         })));
     };
@@ -393,7 +393,7 @@ function serializeQueryParameters(parameters) {
         }
         if (Array.isArray(results.results)) {
             return results.results.reduce(function(acc, result) {
-                return _object_spread_props(_object_spread({}, acc), _define_property({}, result._internalIndexId, new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)));
+                return _object_spread_props(_extends({}, acc), _define_property({}, result._internalIndexId, new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)));
             }, {});
         }
         return new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results.state), results.rawResults);
@@ -401,7 +401,7 @@ function serializeQueryParameters(parameters) {
     var onWidgetsUpdate = // Called whenever a widget has been rendered with new props.
     function onWidgetsUpdate() {
         var metadata = getMetadata(store.getState().widgets);
-        store.setState(_object_spread_props(_object_spread({}, store.getState()), {
+        store.setState(_object_spread_props(_extends({}, store.getState()), {
             metadata: metadata,
             searching: true
         }));
@@ -419,7 +419,7 @@ function serializeQueryParameters(parameters) {
     };
     var onExternalStateUpdate = function onExternalStateUpdate(nextSearchState) {
         var metadata = getMetadata(nextSearchState);
-        store.setState(_object_spread_props(_object_spread({}, store.getState()), {
+        store.setState(_object_spread_props(_extends({}, store.getState()), {
             widgets: nextSearchState,
             metadata: metadata,
             searching: true
@@ -431,18 +431,18 @@ function serializeQueryParameters(parameters) {
         // The values 1, 100 are the min / max values that the engine accepts.
         // see: https://www.algolia.com/doc/api-reference/api-parameters/maxFacetHits
         var maxFacetHitsWithinRange = Math.max(1, Math.min(maxFacetHits, 100));
-        store.setState(_object_spread_props(_object_spread({}, store.getState()), {
+        store.setState(_object_spread_props(_extends({}, store.getState()), {
             searchingForFacetValues: true
         }));
         helper.searchForFacetValues(facetName, query, maxFacetHitsWithinRange).then(function(content) {
             var _obj;
-            store.setState(_object_spread_props(_object_spread({}, store.getState()), {
+            store.setState(_object_spread_props(_extends({}, store.getState()), {
                 error: null,
                 searchingForFacetValues: false,
-                resultsFacetValues: _object_spread_props(_object_spread({}, store.getState().resultsFacetValues), (_obj = {}, _define_property(_obj, facetName, content.facetHits), _define_property(_obj, "query", query), _obj))
+                resultsFacetValues: _object_spread_props(_extends({}, store.getState().resultsFacetValues), (_obj = {}, _define_property(_obj, facetName, content.facetHits), _define_property(_obj, "query", query), _obj))
             }));
         }, function(error) {
-            store.setState(_object_spread_props(_object_spread({}, store.getState()), {
+            store.setState(_object_spread_props(_extends({}, store.getState()), {
                 searchingForFacetValues: false,
                 error: error
             }));
@@ -465,7 +465,7 @@ function serializeQueryParameters(parameters) {
             return typeof meta.id !== "undefined" ? res.concat(meta.id) : res;
         }, []);
     };
-    var helper = algoliasearchHelper(searchClient, indexName, _object_spread({}, HIGHLIGHT_TAGS));
+    var helper = algoliasearchHelper(searchClient, indexName, _extends({}, HIGHLIGHT_TAGS));
     addAlgoliaAgents(searchClient);
     helper.on("search", handleNewSearch).on("result", handleSearchSuccess({
         indexId: indexName
@@ -504,19 +504,19 @@ function hydrateMetadata(resultsState) {
     }
     // add a value noop, which gets replaced once the widgets are mounted
     return resultsState.metadata.map(function(datum) {
-        return _object_spread_props(_object_spread({
+        return _object_spread_props(_extends({
             value: function() {
                 return {};
             }
         }, datum), {
             items: datum.items && datum.items.map(function(item) {
-                return _object_spread_props(_object_spread({
+                return _object_spread_props(_extends({
                     value: function() {
                         return {};
                     }
                 }, item), {
                     items: item.items && item.items.map(function(nestedItem) {
-                        return _object_spread({
+                        return _extends({
                             value: function() {
                                 return {};
                             }

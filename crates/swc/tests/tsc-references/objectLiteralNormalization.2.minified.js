@@ -1,5 +1,5 @@
 //// [objectLiteralNormalization.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 var a1 = {
     a: 0
@@ -29,10 +29,10 @@ a2.a, a2.b, a2 = {
 }, a2 = {
     a: 1
 };
-var b2 = _object_spread_props(_object_spread({}, b1), {
+var b2 = _object_spread_props(_extends({}, b1), {
     z: 55
 });
-_object_spread({}, b2), opts;
+_extends({}, b2), opts;
 var d1 = {
     kind: "a",
     pos: {

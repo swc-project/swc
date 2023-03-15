@@ -1,6 +1,6 @@
 //// [literalTypeWidening.ts]
 // Widening vs. non-widening literal types
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 function f1() {
     var c1 = "hello"; // Widening type "hello"
@@ -111,7 +111,7 @@ function test(obj) {
     var a = obj.a, rest = _object_without_properties(obj, [
         "a"
     ]);
-    return _object_spread({
+    return _extends({
         a: "hello"
     }, rest);
 }

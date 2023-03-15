@@ -1,5 +1,5 @@
 import e from "@swc/helpers/src/_define_property.mjs";
-import t from "@swc/helpers/src/_object_spread.mjs";
+import t from "@swc/helpers/src/_extends.mjs";
 import r from "@swc/helpers/src/_object_spread_props.mjs";
 import a from "@swc/helpers/src/_object_without_properties.mjs";
 import n from "@swc/helpers/src/_to_consumable_array.mjs";
@@ -69,26 +69,26 @@ export default function S(u) {
             derivedParameters: c
         };
     }, V = function() {
-        if (!R) {
-            var e = _(P.state), t = e.mainParameters, r = e.derivedParameters;
-            P.derivedHelpers.slice().forEach(function(e) {
+        if (!b) {
+            var e = _(R.state), t = e.mainParameters, r = e.derivedParameters;
+            R.derivedHelpers.slice().forEach(function(e) {
                 e.detach();
             }), r.forEach(function(e) {
                 var t = e.indexId, r = e.parameters;
-                P.derive(function() {
+                R.derive(function() {
                     return r;
                 }).on("result", I({
                     indexId: t
                 })).on("error", j);
-            }), P.setState(t), P.search();
+            }), R.setState(t), R.search();
         }
     }, I = function(n) {
         var s = n.indexId;
         return function(n) {
-            var c = q.getState(), i = !P.derivedHelpers.length, u = c.results ? c.results : {};
+            var c = q.getState(), i = !R.derivedHelpers.length, u = c.results ? c.results : {};
             u = !i && u.getFacetByName ? {} : u, u = i ? n.results : r(t({}, u), e({}, s, n.results));
             var o = q.getState(), l = o.isSearchStalled;
-            P.hasPendingRequests() || (clearTimeout(C), C = null, l = !1), o.resultsFacetValues;
+            R.hasPendingRequests() || (clearTimeout(C), C = null, l = !1), o.resultsFacetValues;
             var d = a(o, [
                 "resultsFacetValues"
             ]);
@@ -101,7 +101,7 @@ export default function S(u) {
         };
     }, j = function(e) {
         var n = e.error, s = q.getState(), c = s.isSearchStalled;
-        P.hasPendingRequests() || (clearTimeout(C), c = !1), s.resultsFacetValues;
+        R.hasPendingRequests() || (clearTimeout(C), c = !1), s.resultsFacetValues;
         var i = a(s, [
             "resultsFacetValues"
         ]);
@@ -110,7 +110,7 @@ export default function S(u) {
             error: n,
             searching: !1
         }));
-    }, b = function(a, n) {
+    }, A = function(a, n) {
         if (a.transporter) {
             a.transporter.responsesCache.set({
                 method: "search",
@@ -146,7 +146,7 @@ export default function S(u) {
                 return e.concat(t.rawResults);
             }, [])
         })));
-    }, A = function(a, n) {
+    }, P = function(a, n) {
         if (a.transporter) {
             a.transporter.responsesCache.set({
                 method: "search",
@@ -174,8 +174,8 @@ export default function S(u) {
         a.cache = r(t({}, a.cache), e({}, s, JSON.stringify({
             results: n.rawResults
         })));
-    }, P = s(x, S, t({}, i));
-    d(x), P.on("search", function() {
+    }, R = s(x, S, t({}, i));
+    d(x), R.on("search", function() {
         C || (C = setTimeout(function() {
             var e = q.getState(), n = (e.resultsFacetValues, a(e, [
                 "resultsFacetValues"
@@ -187,7 +187,7 @@ export default function S(u) {
     }).on("result", I({
         indexId: S
     })).on("error", j);
-    var R = !1, C = null, N = P.state, O = c(function() {
+    var b = !1, C = null, N = R.state, O = c(function() {
         var e = F(q.getState().widgets);
         q.setState(r(t({}, q.getState()), {
             metadata: e,
@@ -229,10 +229,10 @@ export default function S(u) {
                 };
             }
             if (Array.isArray(a.results)) {
-                b(e, a.results);
+                A(e, a.results);
                 return;
             }
-            A(e, a);
+            P(e, a);
         }
     }(x, y);
     var q = (o = {
@@ -295,7 +295,7 @@ export default function S(u) {
             var n = a.facetName, s = a.query, c = a.maxFacetHits;
             q.setState(r(t({}, q.getState()), {
                 searchingForFacetValues: !0
-            })), P.searchForFacetValues(n, s, Math.max(1, Math.min(void 0 === c ? 10 : c, 100))).then(function(a) {
+            })), R.searchForFacetValues(n, s, Math.max(1, Math.min(void 0 === c ? 10 : c, 100))).then(function(a) {
                 var c;
                 q.setState(r(t({}, q.getState()), {
                     error: null,
@@ -330,16 +330,16 @@ export default function S(u) {
             }, e);
         },
         updateClient: function(e) {
-            d(e), P.setClient(e), V();
+            d(e), R.setClient(e), V();
         },
         updateIndex: function(e) {
             N = N.setIndex(e);
         },
         clearCache: function() {
-            P.clearCache(), V();
+            R.clearCache(), V();
         },
         skipSearch: function() {
-            R = !0;
+            b = !0;
         }
     };
 }

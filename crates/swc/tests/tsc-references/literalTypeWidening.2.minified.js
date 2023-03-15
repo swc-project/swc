@@ -1,5 +1,5 @@
 //// [literalTypeWidening.ts]
-import "@swc/helpers/src/_object_spread.mjs";
+import "@swc/helpers/src/_extends.mjs";
 import "@swc/helpers/src/_object_without_properties.mjs";
 export function Set() {
     for(var _len = arguments.length, _$keys = Array(_len), _key = 0; _key < _len; _key++)_$keys[_key] = arguments[_key];

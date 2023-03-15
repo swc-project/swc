@@ -1,4 +1,4 @@
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
@@ -43,7 +43,7 @@ export default function Home() {
                         var href = _param.href, linkProps = _object_without_properties(_param, [
                             "href"
                         ]);
-                        return _createElement("link", _object_spread_props(_object_spread({
+                        return _createElement("link", _object_spread_props(_extends({
                             href: href
                         }, linkProps), {
                             rel: "icon",

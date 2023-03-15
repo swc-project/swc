@@ -1,3 +1,3 @@
 //// [spreadUnion4.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-var c = _object_spread({}, a, b);
+import _extends from "@swc/helpers/src/_extends.mjs";
+var c = _extends({}, a, b);

@@ -1,6 +1,6 @@
 //// [objectLiteralNormalization.ts]
 // Object literals in unions are normalized upon widening
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 var a1 = [
     {
@@ -59,10 +59,10 @@ a2 = {
 a2 = {
     a: 1
 }; // Error
-var b2 = _object_spread_props(_object_spread({}, b1), {
+var b2 = _object_spread_props(_extends({}, b1), {
     z: 55
 });
-var b3 = _object_spread({}, b2);
+var b3 = _extends({}, b2);
 var c1 = !true ? {} : opts;
 var c2 = !true ? opts : {};
 var c3 = !true ? {

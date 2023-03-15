@@ -1,2 +1,2 @@
 //// [spreadTypeVariable.ts]
-import "@swc/helpers/src/_object_spread.mjs";
+import "@swc/helpers/src/_extends.mjs";

@@ -1,3 +1,3 @@
 //// [spreadUnion2.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-_object_spread({}, undefinedUnion), _object_spread({}, nullUnion), _object_spread({}, undefinedUnion, nullUnion), _object_spread({}, nullUnion, undefinedUnion), _object_spread({}, undefinedUnion, undefinedUnion), _object_spread({}, nullUnion, nullUnion);
+import _extends from "@swc/helpers/src/_extends.mjs";
+_extends({}, undefinedUnion), _extends({}, nullUnion), _extends({}, undefinedUnion, nullUnion), _extends({}, nullUnion, undefinedUnion), _extends({}, undefinedUnion, undefinedUnion), _extends({}, nullUnion, nullUnion);

@@ -1,7 +1,7 @@
 //// [objectSpreadRepeatedNullCheckPerf.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 function parseWithSpread(config) {
-    return _object_spread({}, config.a !== undefined && {
+    return _extends({}, config.a !== undefined && {
         a: config.a.toString()
     }, config.b !== undefined && {
         b: config.b.toString()

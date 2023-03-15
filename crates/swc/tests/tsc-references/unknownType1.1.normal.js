@@ -4,7 +4,6 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _extends from "@swc/helpers/src/_extends.mjs";
 import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 // Only equality operators are allowed with unknown
 function f10(x) {
     x == 5;
@@ -86,16 +85,16 @@ function f25() {
 }
 // Spread of unknown causes result to be unknown
 function f26(x, y, z) {
-    var o1 = _object_spread({
+    var o1 = _extends({
         a: 42
     }, x); // { a: number }
-    var o2 = _object_spread({
+    var o2 = _extends({
         a: 42
     }, x, y); // unknown
-    var o3 = _object_spread({
+    var o3 = _extends({
         a: 42
     }, x, y, z); // any
-    var o4 = _object_spread({
+    var o4 = _extends({
         a: 42
     }, z); // any
 }

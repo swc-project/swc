@@ -1,4 +1,4 @@
 //// [spreadContextualTypedBindingPattern.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-var _$_object_spread = _object_spread({}, bob, alice);
-_$_object_spread.naam, _$_object_spread.age;
+import _extends from "@swc/helpers/src/_extends.mjs";
+var _$_extends = _extends({}, bob, alice);
+_$_extends.naam, _$_extends.age;

@@ -1,12 +1,12 @@
 //// [spreadOverwritesPropertyStrict.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
-_object_spread({
+_extends({
     b: 1
-}, ab), _object_spread({}, ab, ab), _object_spread({
+}, ab), _extends({}, ab, ab), _extends({
     b: 1
-}, abq), _object_spread_props(_object_spread({}, ab), {
+}, abq), _object_spread_props(_extends({}, ab), {
     b: 1
-}), _object_spread_props(_object_spread({}, abq), {
+}), _object_spread_props(_extends({}, abq), {
     b: 1
 });

@@ -3209,6 +3209,14 @@ _objectSpreadProps(_extends(_objectSpreadProps(_extends({
 test!(
     syntax(),
     |_| tr(Default::default()),
+    safe_extends_6,
+    r#"({ ...a, set b(v){} })"#,
+    r#"_objectSpreadProps(_extends({}, a), { set b (v){} });"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
     not_safe_extends_1,
     r#"({ set a(v){}, ...b })"#,
     r#"objectSpread({ set a (v){} }, b);"#

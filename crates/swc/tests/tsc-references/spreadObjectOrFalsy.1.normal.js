@@ -1,28 +1,28 @@
 //// [spreadObjectOrFalsy.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 function f1(a) {
-    return _object_spread({}, a); // Error
+    return _extends({}, a); // Error
 }
 function f2(a) {
-    return _object_spread({}, a);
+    return _extends({}, a);
 }
 function f3(a) {
-    return _object_spread({}, a); // Error
+    return _extends({}, a); // Error
 }
 function f4(a) {
-    return _object_spread({}, a);
+    return _extends({}, a);
 }
 function f5(a) {
-    return _object_spread({}, a);
+    return _extends({}, a);
 }
 function f6(a) {
-    return _object_spread({}, a);
+    return _extends({}, a);
 }
 // Repro from #46976
 function g1(a) {
     var z = a.z;
-    return _object_spread({}, z);
+    return _extends({}, z);
 }
 var Foo = /*#__PURE__*/ function() {
     "use strict";

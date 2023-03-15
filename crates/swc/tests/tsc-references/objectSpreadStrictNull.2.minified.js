@@ -1,7 +1,7 @@
 //// [objectSpreadStrictNull.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
-_object_spread_props(_object_spread({}, {
+_object_spread_props(_extends({}, {
     title: "The Matrix",
     yearReleased: 1999
 }), {

@@ -2,8 +2,8 @@ import _assert_this_initialized from "@swc/helpers/src/_assert_this_initialized.
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
 import _define_property from "@swc/helpers/src/_define_property.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 import { jsx as _jsx } from "react/jsx-runtime";
@@ -40,7 +40,7 @@ var ItemsList = /*#__PURE__*/ function(Component) {
                 var _this_props = this.props, items = _this_props.items, itemProps = _this_props.itemProps, renderItem = _this_props.renderItem, renderItemData = _this_props.renderItemData, sectionIndex = _this_props.sectionIndex, highlightedItemIndex = _this_props.highlightedItemIndex, getItemId = _this_props.getItemId, theme = _this_props.theme, keyPrefix = _this_props.keyPrefix;
                 var sectionPrefix = sectionIndex === null ? keyPrefix : "".concat(keyPrefix, "section-").concat(sectionIndex, "-");
                 var isItemPropsFunction = typeof itemProps === "function";
-                return /*#__PURE__*/ _jsx("ul", _object_spread_props(_object_spread({
+                return /*#__PURE__*/ _jsx("ul", _object_spread_props(_extends({
                     role: "listbox"
                 }, theme("".concat(sectionPrefix, "items-list"), "itemsList")), {
                     children: items.map(function(item, itemIndex) {
@@ -51,7 +51,7 @@ var ItemsList = /*#__PURE__*/ function(Component) {
                             sectionIndex: sectionIndex,
                             itemIndex: itemIndex
                         }) : itemProps;
-                        var allItemProps = _object_spread({
+                        var allItemProps = _extends({
                             id: getItemId(sectionIndex, itemIndex),
                             "aria-selected": isHighlighted
                         }, theme(itemKey, "item", isFirst && "itemFirst", isHighlighted && "itemHighlighted"), itemPropsObj);
@@ -59,7 +59,7 @@ var ItemsList = /*#__PURE__*/ function(Component) {
                             allItemProps.ref = _this.storeHighlightedItemReference;
                         }
                         // `key` is provided by theme()
-                        /* eslint-disable react/jsx-key */ return /*#__PURE__*/ _jsx(Item, _object_spread_props(_object_spread({}, allItemProps), {
+                        /* eslint-disable react/jsx-key */ return /*#__PURE__*/ _jsx(Item, _object_spread_props(_extends({}, allItemProps), {
                             sectionIndex: sectionIndex,
                             isHighlighted: isHighlighted,
                             itemIndex: itemIndex,

@@ -5,15 +5,14 @@ import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.
 import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
 import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 var _prop = /*#__PURE__*/ new WeakMap();
 class C {
     method(other) {
-        const obj = _object_spread({}, other);
+        const obj = _extends({}, other);
         _class_private_field_get(obj, _prop);
         const rest = _extends({}, _object_destructuring_empty(other));
         _class_private_field_get(rest, _prop);
-        const statics = _object_spread({}, C);
+        const statics = _extends({}, C);
         _class_static_private_field_spec_get(statics, C, _propStatic);
         const sRest = _extends({}, _object_destructuring_empty(C));
         _class_static_private_field_spec_get(sRest, C, _propStatic);

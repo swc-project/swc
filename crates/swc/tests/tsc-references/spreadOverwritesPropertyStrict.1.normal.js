@@ -1,48 +1,48 @@
 //// [spreadOverwritesPropertyStrict.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
-var unused1 = _object_spread({
+var unused1 = _extends({
     b: 1
 }, ab) // error
 ;
-var unused2 = _object_spread({}, ab, ab) // ok, overwritten error doesn't apply to spreads
+var unused2 = _extends({}, ab, ab) // ok, overwritten error doesn't apply to spreads
 ;
-var unused3 = _object_spread({
+var unused3 = _extends({
     b: 1
 }, abq) // ok, abq might have b: undefined
 ;
-var unused4 = _object_spread_props(_object_spread({}, ab), {
+var unused4 = _object_spread_props(_extends({}, ab), {
     b: 1
 }) // ok, we don't care that b in ab is overwritten
 ;
-var unused5 = _object_spread_props(_object_spread({}, abq), {
+var unused5 = _object_spread_props(_extends({}, abq), {
     b: 1
 }) // ok
 ;
 function g(obj) {
-    return _object_spread({
+    return _extends({
         x: 1
     }, obj); // ok, obj might have x: undefined
 }
 function f(obj) {
-    return _object_spread({
+    return _extends({
         x: 1
     }, obj); // ok, obj might be undefined
 }
 function h(obj) {
-    return _object_spread({
+    return _extends({
         x: 1
     }, obj) // error
     ;
 }
 function i(b, t) {
-    return _object_spread({
+    return _extends({
         command: "hi"
     }, b ? t : {}) // ok
     ;
 }
 function j() {
-    return _object_spread({}, {
+    return _extends({}, {
         command: "hi"
     }, {
         command: "bye"
@@ -50,7 +50,7 @@ function j() {
     ;
 }
 function k(t) {
-    return _object_spread(_object_spread_props(_object_spread({
+    return _extends(_object_spread_props(_extends({
         command: "hi"
     }, {
         spoiler: true
@@ -60,13 +60,13 @@ function k(t) {
     ;
 }
 function l(anyrequired) {
-    return _object_spread({
+    return _extends({
         a: "zzz"
     }, anyrequired) // error
     ;
 }
 function m(anyoptional) {
-    return _object_spread({
+    return _extends({
         a: "zzz"
     }, anyoptional) // ok
     ;

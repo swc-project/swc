@@ -1,7 +1,7 @@
 //// [spreadOverwritesProperty.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-_object_spread({
+import _extends from "@swc/helpers/src/_extends.mjs";
+_extends({
     b: 1
-}, ab), _object_spread({}, ab, ab), _object_spread({
+}, ab), _extends({}, ab, ab), _extends({
     b: 1
 }, abq);

@@ -1,7 +1,7 @@
 //// [objectSpread.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import "@swc/helpers/src/_define_property.mjs";
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 var anything, o = {
     a: 1,
@@ -10,35 +10,35 @@ var anything, o = {
     b: "yes",
     c: !0
 };
-_object_spread_props(_object_spread({}, o), {
+_object_spread_props(_extends({}, o), {
     c: !1
-}), _object_spread({
+}), _extends({
     c: !1
-}, o), _object_spread_props(_object_spread({}, o), {
+}, o), _object_spread_props(_extends({}, o), {
     b: "override"
-}), _object_spread_props(_object_spread({}, _object_spread({
+}), _object_spread_props(_extends({}, _extends({
     a: 3
 }, {
     b: !1,
     c: "overriden"
 })), {
     c: "whatever"
-}), _object_spread({}, o, o2), _object_spread_props(_object_spread({}, o, o2), {
+}), _extends({}, o, o2), _object_spread_props(_extends({}, o, o2), {
     b: "ok"
-}), _object_spread_props(_object_spread({}, _object_spread({
+}), _object_spread_props(_extends({}, _extends({
     a: 1
 }, {
     b: !1,
     c: "overriden"
 })), {
     c: -1
-}), _object_spread({}, o), _object_spread_props(_object_spread({}, {
+}), _extends({}, o), _object_spread_props(_extends({}, {
     get a () {
         return 6;
     }
 }), {
     c: 7
-}).a = 12, _object_spread({}, function() {}), _object_spread({}, anything);
+}).a = 12, _extends({}, function() {}), _extends({}, anything);
 var c = new (function() {
     "use strict";
     function C() {
@@ -47,22 +47,22 @@ var c = new (function() {
     return C.prototype.m = function() {}, C;
 }())();
 function f(t, u) {
-    return _object_spread_props(_object_spread({}, t, u), {
+    return _object_spread_props(_extends({}, t, u), {
         id: "id"
     });
 }
-_object_spread({}, c), _object_spread_props(_object_spread({}, c), {
+_extends({}, c), _object_spread_props(_extends({}, c), {
     plus: function() {
         return this.p + 1;
     }
-}).plus(), _object_spread_props(_object_spread({}, o), {
+}).plus(), _object_spread_props(_extends({}, o), {
     a: "wrong type?"
-}), _object_spread({}, o, {
+}), _extends({}, o, {
     a: "yes",
     b: -1
-}), _object_spread_props(_object_spread({}, o), {
+}), _object_spread_props(_extends({}, o), {
     a: 12
-}), _object_spread({}, {}), f({
+}), _extends({}, {}), f({
     a: 1,
     b: "yes"
 }, {
