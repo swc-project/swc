@@ -7324,7 +7324,7 @@
                 return [
                     function(regexp) {
                         var O = requireObjectCoercible(this), matcher = void 0 == regexp ? void 0 : getMethod(regexp, MATCH);
-                        return matcher ? matcher.call(regexp, O) : RegExp(regexp)[MATCH](toString1(O));
+                        return matcher ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](toString1(O));
                     },
                     function(string) {
                         var result, rx = anObject(this), S = toString1(string), res = maybeCallNative(nativeMatch, rx, S);
@@ -7468,7 +7468,7 @@
                 return [
                     function(regexp) {
                         var O = requireObjectCoercible(this), searcher = void 0 == regexp ? void 0 : getMethod(regexp, SEARCH);
-                        return searcher ? searcher.call(regexp, O) : RegExp(regexp)[SEARCH](toString1(O));
+                        return searcher ? searcher.call(regexp, O) : new RegExp(regexp)[SEARCH](toString1(O));
                     },
                     function(string) {
                         var rx = anObject(this), S = toString1(string), res = maybeCallNative(nativeSearch, rx, S);

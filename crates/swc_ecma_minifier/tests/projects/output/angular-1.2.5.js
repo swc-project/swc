@@ -148,7 +148,7 @@
                 }), source)destination[key] = copy(source[key]);
                 setHashKey(destination, h);
             }
-        } else destination = source, source && (isArray(source) ? destination = copy(source, []) : isDate(source) ? destination = new Date(source.getTime()) : isRegExp(source) ? destination = RegExp(source.source) : isObject(source) && (destination = copy(source, {})));
+        } else destination = source, source && (isArray(source) ? destination = copy(source, []) : isDate(source) ? destination = new Date(source.getTime()) : isRegExp(source) ? destination = new RegExp(source.source) : isObject(source) && (destination = copy(source, {})));
         return destination;
     }
     function equals(o1, o2) {
@@ -3605,7 +3605,7 @@
             if (ctrl.$isEmpty(value) || regexp.test(value)) return ctrl.$setValidity("pattern", !0), value;
             ctrl.$setValidity("pattern", !1);
         };
-        if (pattern && ((match = pattern.match(/^\/(.*)\/([gim]*)$/)) ? (pattern = RegExp(match[1], match[2]), patternValidator = function(value) {
+        if (pattern && ((match = pattern.match(/^\/(.*)\/([gim]*)$/)) ? (pattern = new RegExp(match[1], match[2]), patternValidator = function(value) {
             return validate(pattern, value);
         }) : patternValidator = function(value) {
             var patternObj = scope.$eval(pattern);
@@ -3722,7 +3722,7 @@
         return {
             require: "ngModel",
             link: function(scope, element, attr, ctrl) {
-                var match = /\/(.*)\//.exec(attr.ngList), separator = match && RegExp(match[1]) || attr.ngList || ",";
+                var match = /\/(.*)\//.exec(attr.ngList), separator = match && new RegExp(match[1]) || attr.ngList || ",";
                 ctrl.$parsers.push(function(viewValue) {
                     if (!isUndefined(viewValue)) {
                         var list = [];

@@ -16,6 +16,46 @@ use crate::compress::{
     pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
     util::is_pure_undefined,
 };
+
+fn is_definitely_string(expr: &Expr) -> bool {
+    match expr {
+        Expr::Lit(Lit::Str(_)) => true,
+        Expr::Tpl(_) => true,
+        Expr::Bin(BinExpr {
+            op: BinaryOp::Add,
+            left,
+            right,
+            ..
+        }) => is_definitely_string(left) || is_definitely_string(right),
+        Expr::Paren(ParenExpr { expr, .. }) => is_definitely_string(expr),
+        _ => false,
+    }
+}
+
+/// Check whether we can compress `new RegExp(…)` to `RegExp(…)`. That's sound
+/// unless the first argument is already a RegExp object and the second is
+/// undefined. We check for the common case where we can prove one of the first
+/// two arguments is a string.
+fn can_compress_new_regexp(args: Option<&[ExprOrSpread]>) -> bool {
+    if let Some(args) = args {
+        if let Some(first) = args.first() {
+            if first.spread.is_some() {
+                false
+            } else if is_definitely_string(&first.expr) {
+                true
+            } else if let Some(second) = args.get(1) {
+                second.spread.is_none() && is_definitely_string(&second.expr)
+            } else {
+                false
+            }
+        } else {
+            true
+        }
+    } else {
+        true
+    }
+}
+
 impl Pure<'_> {
     pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
         match e {
@@ -555,8 +595,6 @@ impl Pure<'_> {
                     "Array",
                     // https://262.ecma-international.org/12.0/#sec-function-constructor
                     "Function",
-                    // https://262.ecma-international.org/12.0/#sec-regexp-constructor
-                    "RegExp",
                     // https://262.ecma-international.org/12.0/#sec-error-constructor
                     "Error",
                     // https://262.ecma-international.org/12.0/#sec-aggregate-error-constructor
@@ -569,7 +607,8 @@ impl Pure<'_> {
                     "TypeError",
                     "URIError",
                 ],
-            ) =>
+            ) || (callee.is_global_ref_to(&self.expr_ctx, "RegExp")
+                && can_compress_new_regexp(args.as_deref())) =>
             {
                 self.changed = true;
                 report_change!(

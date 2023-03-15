@@ -2071,13 +2071,13 @@
             ], tb = [
                 function(e) {
                     return e.map(function(e) {
-                        var t, r = RegExp((t = e.attributes.font, tv.reduce(function(e, r) {
+                        var t, r = (t = e.attributes.font, tv.reduce(function(e, r) {
                             return t && t.hasGlyphForCodePoint && t.hasGlyphForCodePoint(r) ? e : [].concat(e, [
                                 String.fromCharCode(r)
                             ]);
-                        }, [])).join("|"));
+                        }, [])), n = new RegExp(r.join("|"));
                         return {
-                            string: e.string.replace(r, ""),
+                            string: e.string.replace(n, ""),
                             attributes: e.attributes
                         };
                     });
@@ -7343,7 +7343,7 @@
                         if (null === o) return null;
                         if (0 == c || "object" != typeof o) return o;
                         if (e.__isArray(o)) f = [];
-                        else if (e.__isRegExp(o)) f = RegExp(o.source, r(o)), o.lastIndex && (f.lastIndex = o.lastIndex);
+                        else if (e.__isRegExp(o)) f = new RegExp(o.source, r(o)), o.lastIndex && (f.lastIndex = o.lastIndex);
                         else if (e.__isDate(o)) f = new Date(o.getTime());
                         else {
                             if (s && n.isBuffer(o)) return f = n.allocUnsafe ? n.allocUnsafe(o.length) : new n(o.length), o.copy(f), f;

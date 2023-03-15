@@ -40811,7 +40811,7 @@
         '<>': 'ne'
     }, RegExpEvaluator = function() {
         function RegExpEvaluator(rVal) {
-            null == (this._condVal = isString(rVal) ? RegExp(rVal) : isRegExp(rVal) ? rVal : null) && throwError(makePrintable('Illegal regexp', rVal, 'in'));
+            null == (this._condVal = isString(rVal) ? new RegExp(rVal) : isRegExp(rVal) ? rVal : null) && throwError(makePrintable('Illegal regexp', rVal, 'in'));
         }
         return RegExpEvaluator.prototype.evaluate = function(lVal) {
             var type = typeof lVal;

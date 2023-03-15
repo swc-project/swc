@@ -1545,7 +1545,7 @@
                     const matchers = yield Promise.resolve(options.router.pageLoader.getMiddleware());
                     if (!matchers) return !1;
                     const { pathname: asPathname  } = _parsePath.parsePath(options.asPath), cleanedAs = _hasBasePath.hasBasePath(asPathname) ? _removeBasePath.removeBasePath(asPathname) : asPathname, asWithBasePathAndLocale = _addBasePath.addBasePath(_addLocale.addLocale(cleanedAs, options.locale));
-                    return matchers.some((m)=>RegExp(m.regexp).test(asWithBasePathAndLocale));
+                    return matchers.some((m)=>new RegExp(m.regexp).test(asWithBasePathAndLocale));
                 })).apply(this, arguments);
             }
             function stripOrigin(url) {
@@ -2682,7 +2682,7 @@
             function getRouteRegex(normalizedRoute) {
                 const { parameterizedRoute , groups  } = getParametrizedRoute(normalizedRoute);
                 return {
-                    re: RegExp("^".concat(parameterizedRoute, "(?:/)?$")),
+                    re: new RegExp("^".concat(parameterizedRoute, "(?:/)?$")),
                     groups: groups
                 };
             }
