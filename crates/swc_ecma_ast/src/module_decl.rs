@@ -129,6 +129,7 @@ impl Take for ExportAll {
 
 /// `export { foo } from 'mod'`
 /// `export { foo as bar } from 'mod'`
+/// `export { foo }`
 #[ast_node("ExportNamedDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
