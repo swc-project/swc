@@ -1131,12 +1131,12 @@ z = { x, ...y };
 z = { x, w: { ...y } };
 "#,
     r#"
-z = _objectSpread({
+z = _extends({
   x
 }, y);
 z = {
   x,
-  w: _objectSpread({}, y)
+  w: _extends({}, y)
 };
 "#
 );
@@ -1155,25 +1155,10 @@ test!(
 ({ ...{ get foo () { return 'foo' } } });
 "#,
     r#"
-_objectSpreadProps(_objectSpread(_objectSpreadProps(_objectSpread({
-    x
-}, y), {
-    a
-}), b), {
-    c
-});
-
-_objectSpread({}, Object.prototype);
-
-_objectSpread({}, {
-  foo: 'bar'
-});
-
-_objectSpread({}, {
-  get foo() {
-    return 'foo';
-  }
-});
+_objectSpreadProps(_extends(_objectSpreadProps(_extends({ x }, y), { a }), b), { c });
+_extends({}, Object.prototype);
+_extends({}, { foo: 'bar' });
+_extends({}, { get foo () { return 'foo'; } });
 "#
 );
 
@@ -1231,7 +1216,7 @@ test!(
     |_| tr(Default::default()),
     spread_variable_declaration,
     r#"var z = { ...x };"#,
-    r#"var z = _objectSpread({}, x);"#
+    r#"var z = _extends({}, x);"#
 );
 
 // object_spread_assignment
@@ -1246,14 +1231,8 @@ z = { x, w: { ...y } };
 
 "#,
     r#"
-z = _objectSpread({
-  x
-}, y);
-z = {
-  x,
-  w: _objectSpread({}, y)
-};
-
+z = _extends({ x }, y);
+z = { x, w: _extends({}, y) };
 "#
 );
 
@@ -2316,7 +2295,7 @@ var z = { ...x };
 
 "#,
     r#"
-var z = _objectSpread({}, x);
+var z = _extends({}, x);
 
 "#
 );
@@ -3219,7 +3198,7 @@ test!(
     |_| tr(Default::default()),
     not_safe_extends_1,
     r#"({ set a(v){}, ...b })"#,
-    r#"objectSpread({ set a (v){} }, b);"#
+    r#"_objectSpread({ set a (v){} }, b);"#
 );
 
 test!(
