@@ -28,11 +28,26 @@ impl Decorator202203 {
         }
 
         let mut lhs = vec![];
-        let mut combined_args = vec![];
+        let mut combined_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
 
         for (id, args) in self.cur_inits.drain(..) {
             lhs.push(Some(id.into()));
+
+            combined_args.push(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: args,
+                }
+                .as_arg(),
+            );
         }
+        combined_args.push(
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: vec![],
+            }
+            .as_arg(),
+        );
 
         let expr = Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
