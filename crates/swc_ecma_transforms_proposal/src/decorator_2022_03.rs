@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmt, private_ident};
+use swc_ecma_utils::{prepend_stmt, private_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn decorator_2022_03() -> impl VisitMut + Fold {
@@ -30,10 +30,17 @@ impl VisitMut for Decorator202203 {
 
                 self.extra_vars.push(VarDeclarator {
                     span: p.span,
-                    name: Pat::Ident(init.into()),
+                    name: Pat::Ident(init.clone().into()),
                     init: None,
                     definite: false,
                 });
+
+                p.value = Some(Box::new(Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: init.as_callee(),
+                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                    type_args: Default::default(),
+                })));
             }
 
             ClassMember::PrivateMethod(m) => {}
