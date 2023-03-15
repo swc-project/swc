@@ -10,6 +10,9 @@
 
 - **(css/codegen)** Respect `raw` of `Str` (#7078) ([7849a2d](https://github.com/swc-project/swc/commit/7849a2d75d57bf3b6242f5f472a06a30c9fb948d))
 
+
+- **(es/minifier)** Preserve `delete` of unresolved variables (#7072) ([86295ba](https://github.com/swc-project/swc/commit/86295ba8f26fbe3829c2c08fd8034975f05f60b5))
+
 ### Performance
 
 
