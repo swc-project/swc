@@ -1,3 +1,5 @@
+use std::iter::once;
+
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, private_ident, ExprFactory};
@@ -38,7 +40,9 @@ impl VisitMut for Decorator202203 {
                 p.value = Some(Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: init.as_callee(),
-                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                    args: once(ThisExpr { span: DUMMY_SP }.as_arg())
+                        .chain(p.value.take().map(|v| v.as_arg()))
+                        .collect(),
                     type_args: Default::default(),
                 })));
             }
