@@ -158,6 +158,7 @@ impl VisitMut for Decorator202203 {
                             elems: vec![
                                 Some(dec.expr.as_arg()),
                                 Some(0.as_arg()),
+                                Some((&*p.key.id.sym).as_arg()),
                                 Some(
                                     FnExpr {
                                         ident: None,
