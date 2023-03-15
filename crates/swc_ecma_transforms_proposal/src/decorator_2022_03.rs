@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::private_ident;
+use swc_ecma_utils::{prepend_stmt, private_ident};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn decorator_2022_03() -> impl VisitMut + Fold {
@@ -46,7 +46,8 @@ impl VisitMut for Decorator202203 {
         n.visit_mut_children_with(self);
 
         if !self.extra_vars.is_empty() {
-            self.extra_stmts.push(
+            prepend_stmt(
+                n,
                 VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -62,7 +63,8 @@ impl VisitMut for Decorator202203 {
         n.visit_mut_children_with(self);
 
         if !self.extra_vars.is_empty() {
-            self.extra_stmts.push(
+            prepend_stmt(
+                n,
                 VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
