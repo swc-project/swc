@@ -2,7 +2,8 @@ use std::iter::once;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmt, private_ident, ExprFactory};
+use swc_ecma_transforms_base::helper;
+use swc_ecma_utils::{prepend_stmt, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn decorator_2022_03() -> impl VisitMut + Fold {
@@ -19,6 +20,47 @@ struct Decorator202203 {
     extra_stmts: Vec<Stmt>,
 }
 
+impl Decorator202203 {
+    /// Moves `cur_inits` to `extra_stmts`.
+    fn consume_inits(&mut self) {
+        if self.cur_inits.is_empty() {
+            return;
+        }
+
+        let mut lhs = vec![];
+        let mut combined_args = vec![];
+
+        for (id, args) in self.cur_inits.drain(..) {
+            lhs.push(Some(id.into()));
+        }
+
+        let expr = Box::new(Expr::Assign(AssignExpr {
+            span: DUMMY_SP,
+            op: op!("="),
+            left: PatOrExpr::Pat(Box::new(Pat::Array(ArrayPat {
+                span: DUMMY_SP,
+                elems: lhs,
+                type_ann: Default::default(),
+                optional: false,
+            }))),
+            right: Box::new(
+                CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(get, "applyDecs2203R"),
+                    args: combined_args,
+                    type_args: Default::default(),
+                }
+                .make_member(quote_ident!("e")),
+            ),
+        }));
+
+        self.extra_stmts.push(Stmt::Expr(ExprStmt {
+            span: DUMMY_SP,
+            expr,
+        }));
+    }
+}
+
 impl VisitMut for Decorator202203 {
     noop_visit_mut_type!();
 
@@ -26,6 +68,8 @@ impl VisitMut for Decorator202203 {
         let old_stmts = self.extra_stmts.take();
 
         n.visit_mut_children_with(self);
+
+        self.consume_inits();
 
         if !self.extra_stmts.is_empty() {
             n.body.insert(
