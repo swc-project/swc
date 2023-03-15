@@ -8,11 +8,11 @@ const memberDec = () => () => 42;
 let _C;
 class C {
   constructor() {
-    babelHelpers.defineProperty(this, "m", _init_m(this));
+    defineProperty(this, "m", _init_m(this));
   }
 }
 ({
   e: [_init_m],
   c: [_C, _initClass]
-} = babelHelpers.applyDecs2203R(C, [[memberDec, 0, "m"]], [classDec]));
+} = applyDecs2203R(C, [[memberDec, 0, "m"]], [classDec]));
 _initClass();

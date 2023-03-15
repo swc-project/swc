@@ -1,9 +1,9 @@
 var _initClass;
-const dec = () => {};
+const dec = () => { };
 let _Foo;
 class Foo extends Bar {
   static {
-    [_Foo, _initClass] = babelHelpers.applyDecs2203R(this, [], [dec]).c;
+    [_Foo, _initClass] = applyDecs2203R(this, [], [dec]).c;
   }
   constructor() {
     let foo = super();

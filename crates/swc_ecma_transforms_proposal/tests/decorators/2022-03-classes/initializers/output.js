@@ -1,11 +1,11 @@
 var _initClass, _initClass2;
-const dec = () => {};
+const dec = () => { };
 let _Foo;
-new class extends babelHelpers.identity {
+new class extends identity {
   static {
     class Foo {
       static {
-        [_Foo, _initClass] = babelHelpers.applyDecs2203R(this, [], [dec]).c;
+        [_Foo, _initClass] = applyDecs2203R(this, [], [dec]).c;
       }
     }
   }
@@ -15,11 +15,11 @@ new class extends babelHelpers.identity {
   }
 }();
 let _Bar;
-new class extends babelHelpers.identity {
+new class extends identity {
   static {
     class Bar extends _Foo {
       static {
-        [_Bar, _initClass2] = babelHelpers.applyDecs2203R(this, [], [dec]).c;
+        [_Bar, _initClass2] = applyDecs2203R(this, [], [dec]).c;
       }
     }
   }

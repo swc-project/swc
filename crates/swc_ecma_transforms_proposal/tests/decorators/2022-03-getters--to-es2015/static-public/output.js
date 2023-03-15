@@ -1,5 +1,5 @@
 var _computedKey, _initStatic;
-const dec = () => {};
+const dec = () => { };
 _computedKey = 'b';
 class Foo {
   static get a() {
@@ -10,7 +10,7 @@ class Foo {
   }
 }
 (() => {
-  [_initStatic] = babelHelpers.applyDecs2203R(Foo, [[dec, 8, "a"], [dec, 8, _computedKey]], []).e;
+  [_initStatic] = applyDecs2203R(Foo, [[dec, 8, "a"], [dec, 8, _computedKey]], []).e;
   _initStatic(Foo);
 })();
-babelHelpers.defineProperty(Foo, "value", 1);
+defineProperty(Foo, "value", 1);

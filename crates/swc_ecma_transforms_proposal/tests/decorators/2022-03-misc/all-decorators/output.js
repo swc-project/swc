@@ -1,18 +1,18 @@
 var _initClass, _init_a, _init_d, _init_e, _call_f, _call_g, _call_g2, _init_h, _get_h, _set_h, _init_i, _init_m, _init_n, _call_o, _call_p, _call_q, _init_r, _get_r, _set_r, _initProto, _initStatic;
-const dec = () => {};
+const dec = () => { };
 let _Class;
-new class extends babelHelpers.identity {
+new class extends identity {
   static {
     class Class {
       static {
         ({
           e: [_init_m, _call_o, _call_p, _call_q, _init_r, _get_r, _set_r, _init_d, _call_f, _call_g, _call_g2, _init_h, _get_h, _set_h, _init_i, _init_n, _init_a, _init_e, _initProto, _initStatic],
           c: [_Class, _initClass]
-        } = babelHelpers.applyDecs2203R(this, [[dec, 7, "j"], [dec, 8, "k"], [dec, 9, "l"], [dec, 6, "m"], [dec, 7, "o", function () {}], [dec, 8, "p", function () {}], [dec, 9, "q", function (v) {}], [dec, 6, "r", function () {
+        } = applyDecs2203R(this, [[dec, 7, "j"], [dec, 8, "k"], [dec, 9, "l"], [dec, 6, "m"], [dec, 7, "o", function () { }], [dec, 8, "p", function () { }], [dec, 9, "q", function (v) { }], [dec, 6, "r", function () {
           return this.#D;
         }, function (value) {
           this.#D = value;
-        }], [dec, 2, "b"], [dec, 3, "c"], [dec, 4, "c"], [dec, 1, "d"], [dec, 2, "f", function () {}], [dec, 3, "g", function () {}], [dec, 4, "g", function (v) {}], [dec, 1, "h", function () {
+        }], [dec, 2, "b"], [dec, 3, "c"], [dec, 4, "c"], [dec, 1, "d"], [dec, 2, "f", function () { }], [dec, 3, "g", function () { }], [dec, 4, "g", function (v) { }], [dec, 1, "h", function () {
           return this.#B;
         }, function (value) {
           this.#B = value;
@@ -29,9 +29,9 @@ new class extends babelHelpers.identity {
       }
       #f = _call_f;
       a = (_initProto(this), _init_a(this));
-      b() {}
-      get c() {}
-      set c(v) {}
+      b() { }
+      get c() { }
+      set c(v) { }
       #A = _init_d(this);
       get d() {
         return this.#A;
@@ -53,9 +53,9 @@ new class extends babelHelpers.identity {
       get #h() {
         return _get_h(this);
       }
-      static j() {}
-      static get k() {}
-      static set l(v) {}
+      static j() { }
+      static get k() { }
+      static set l(v) { }
       static get m() {
         return this.#C;
       }

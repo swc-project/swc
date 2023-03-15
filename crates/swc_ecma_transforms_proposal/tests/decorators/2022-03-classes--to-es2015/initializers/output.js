@@ -1,22 +1,22 @@
 var _initClass, _temp, _initClass2, _temp2;
-const dec = () => {};
+const dec = () => { };
 let _Foo;
-new (_temp = class extends babelHelpers.identity {
+new (_temp = class extends identity {
   constructor() {
-    (super(_Foo), babelHelpers.defineProperty(this, "field", 123)), _initClass();
+    (super(_Foo), defineProperty(this, "field", 123)), _initClass();
   }
 }, (() => {
-  class Foo {}
-  [_Foo, _initClass] = babelHelpers.applyDecs2203R(Foo, [], [dec]).c;
+  class Foo { }
+  [_Foo, _initClass] = applyDecs2203R(Foo, [], [dec]).c;
 })(), _temp)();
 let _Bar;
-new (_temp2 = class extends babelHelpers.identity {
+new (_temp2 = class extends identity {
   constructor() {
-    (super(_Bar), babelHelpers.defineProperty(this, "field", ((() => {
+    (super(_Bar), defineProperty(this, "field", ((() => {
       this.otherField = 456;
     })(), 123))), _initClass2();
   }
 }, (() => {
-  class Bar extends _Foo {}
-  [_Bar, _initClass2] = babelHelpers.applyDecs2203R(Bar, [], [dec]).c;
+  class Bar extends _Foo { }
+  [_Bar, _initClass2] = applyDecs2203R(Bar, [], [dec]).c;
 })(), _temp2)();
