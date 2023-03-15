@@ -193,7 +193,7 @@ impl VisitMut for Decorator202203 {
                     span: DUMMY_SP,
                     elems: vec![
                         Some(dec.expr.as_arg()),
-                        Some(0.as_arg()),
+                        Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
                         Some(name.clone().as_arg()),
                     ],
                 }
@@ -288,7 +288,7 @@ impl VisitMut for Decorator202203 {
                     span: DUMMY_SP,
                     elems: vec![
                         Some(dec.expr.as_arg()),
-                        Some(0.as_arg()),
+                        Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
                         Some((&*p.key.id.sym).as_arg()),
                         Some(
                             FnExpr {
