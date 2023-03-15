@@ -1487,13 +1487,18 @@ where
             )
         };
 
-        if b.is_lit()
-            || b.is_class()
-            || b.is_fn_expr()
-            || b.is_arrow()
-            || b.is_await_expr()
-            || b.is_yield_expr()
-        {
+        if match &*b {
+            Expr::Arrow(..)
+            | Expr::Fn(..)
+            | Expr::Class(..)
+            | Expr::Lit(..)
+            | Expr::Await(..)
+            | Expr::Yield(..) => true,
+            Expr::Unary(UnaryExpr {
+                op: op!("delete"), ..
+            }) => true,
+            _ => false,
+        } {
             return Ok(false);
         }
 
