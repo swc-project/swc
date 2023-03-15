@@ -106,6 +106,7 @@ impl Decorator202203 {
                         left: PatOrExpr::Pat(ident.clone().into()),
                         right: Box::new(prop_name_to_expr_value(name.take())),
                     })));
+                *name = PropName::Ident(ident.clone());
 
                 let init = Ident::new("_init_computedKey".into(), ident.span.private());
 
