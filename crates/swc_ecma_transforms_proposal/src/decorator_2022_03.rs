@@ -22,6 +22,10 @@ impl VisitMut for Decorator202203 {
 
         match n {
             ClassMember::PrivateProp(p) => {
+                if p.decorators.is_empty() {
+                    return;
+                }
+
                 let init = private_ident!(format!("init_{}", p.key.id.sym));
 
                 self.extra_vars.push(VarDeclarator {
