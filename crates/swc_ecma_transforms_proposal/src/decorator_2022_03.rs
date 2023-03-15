@@ -102,123 +102,6 @@ impl VisitMut for Decorator202203 {
         self.extra_stmts = old_stmts;
     }
 
-    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
-        n.visit_mut_children_with(self);
-
-        match n {
-            ClassMember::PrivateProp(p) => {
-                if p.decorators.is_empty() {
-                    return;
-                }
-
-                let init = private_ident!(format!("_init_{}", p.key.id.sym));
-
-                self.extra_vars.push(VarDeclarator {
-                    span: p.span,
-                    name: Pat::Ident(init.clone().into()),
-                    init: None,
-                    definite: false,
-                });
-
-                p.value = Some(Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: init.clone().as_callee(),
-                    args: once(ThisExpr { span: DUMMY_SP }.as_arg())
-                        .chain(p.value.take().map(|v| v.as_arg()))
-                        .collect(),
-                    type_args: Default::default(),
-                })));
-
-                let initialize_init = p
-                    .decorators
-                    .take()
-                    .into_iter()
-                    .map(|dec| {
-                        let access_expr = Box::new(Expr::Member(MemberExpr {
-                            span: DUMMY_SP,
-                            obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                            prop: MemberProp::PrivateName(p.key.clone()),
-                        }));
-
-                        let getter = Box::new(Function {
-                            span: DUMMY_SP,
-                            body: Some(BlockStmt {
-                                span: DUMMY_SP,
-                                stmts: vec![Stmt::Return(ReturnStmt {
-                                    span: DUMMY_SP,
-                                    arg: Some(access_expr.clone()),
-                                })],
-                            }),
-                            is_async: false,
-                            is_generator: false,
-                            decorators: Default::default(),
-                            params: Default::default(),
-                            type_params: Default::default(),
-                            return_type: Default::default(),
-                        });
-                        let settter_arg = private_ident!("value");
-                        let setter = Box::new(Function {
-                            span: DUMMY_SP,
-                            body: Some(BlockStmt {
-                                span: DUMMY_SP,
-                                stmts: vec![Stmt::Expr(ExprStmt {
-                                    span: DUMMY_SP,
-                                    expr: Box::new(Expr::Assign(AssignExpr {
-                                        span: DUMMY_SP,
-                                        op: op!("="),
-                                        left: PatOrExpr::Expr(access_expr),
-                                        right: Box::new(Expr::Ident(settter_arg.clone())),
-                                    })),
-                                })],
-                            }),
-                            is_async: false,
-                            is_generator: false,
-                            decorators: Default::default(),
-                            params: vec![Param {
-                                span: DUMMY_SP,
-                                decorators: Default::default(),
-                                pat: Pat::Ident(settter_arg.into()),
-                            }],
-                            type_params: Default::default(),
-                            return_type: Default::default(),
-                        });
-
-                        ArrayLit {
-                            span: DUMMY_SP,
-                            elems: vec![
-                                Some(dec.expr.as_arg()),
-                                Some(0.as_arg()),
-                                Some((&*p.key.id.sym).as_arg()),
-                                Some(
-                                    FnExpr {
-                                        ident: None,
-                                        function: getter,
-                                    }
-                                    .as_arg(),
-                                ),
-                                Some(
-                                    FnExpr {
-                                        ident: None,
-                                        function: setter,
-                                    }
-                                    .as_arg(),
-                                ),
-                            ],
-                        }
-                        .as_arg()
-                    })
-                    .map(Some)
-                    .collect();
-
-                self.cur_inits.push((init, initialize_init))
-            }
-
-            ClassMember::PrivateMethod(m) => {}
-
-            _ => {}
-        }
-    }
-
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         n.visit_mut_children_with(self);
 
@@ -234,6 +117,115 @@ impl VisitMut for Decorator202203 {
                 .into(),
             );
         }
+    }
+
+    fn visit_mut_private_prop(&mut self, p: &mut PrivateProp) {
+        p.visit_mut_children_with(self);
+
+        if p.decorators.is_empty() {
+            return;
+        }
+
+        let init = private_ident!(format!("_init_{}", p.key.id.sym));
+
+        self.extra_vars.push(VarDeclarator {
+            span: p.span,
+            name: Pat::Ident(init.clone().into()),
+            init: None,
+            definite: false,
+        });
+
+        p.value = Some(Box::new(Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: init.clone().as_callee(),
+            args: once(ThisExpr { span: DUMMY_SP }.as_arg())
+                .chain(p.value.take().map(|v| v.as_arg()))
+                .collect(),
+            type_args: Default::default(),
+        })));
+
+        let initialize_init = p
+            .decorators
+            .take()
+            .into_iter()
+            .map(|dec| {
+                let access_expr = Box::new(Expr::Member(MemberExpr {
+                    span: DUMMY_SP,
+                    obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                    prop: MemberProp::PrivateName(p.key.clone()),
+                }));
+
+                let getter = Box::new(Function {
+                    span: DUMMY_SP,
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(access_expr.clone()),
+                        })],
+                    }),
+                    is_async: false,
+                    is_generator: false,
+                    decorators: Default::default(),
+                    params: Default::default(),
+                    type_params: Default::default(),
+                    return_type: Default::default(),
+                });
+                let settter_arg = private_ident!("value");
+                let setter = Box::new(Function {
+                    span: DUMMY_SP,
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr: Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: PatOrExpr::Expr(access_expr),
+                                right: Box::new(Expr::Ident(settter_arg.clone())),
+                            })),
+                        })],
+                    }),
+                    is_async: false,
+                    is_generator: false,
+                    decorators: Default::default(),
+                    params: vec![Param {
+                        span: DUMMY_SP,
+                        decorators: Default::default(),
+                        pat: Pat::Ident(settter_arg.into()),
+                    }],
+                    type_params: Default::default(),
+                    return_type: Default::default(),
+                });
+
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![
+                        Some(dec.expr.as_arg()),
+                        Some(0.as_arg()),
+                        Some((&*p.key.id.sym).as_arg()),
+                        Some(
+                            FnExpr {
+                                ident: None,
+                                function: getter,
+                            }
+                            .as_arg(),
+                        ),
+                        Some(
+                            FnExpr {
+                                ident: None,
+                                function: setter,
+                            }
+                            .as_arg(),
+                        ),
+                    ],
+                }
+                .as_arg()
+            })
+            .map(Some)
+            .collect();
+
+        self.cur_inits.push((init, initialize_init))
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
