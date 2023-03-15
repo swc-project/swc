@@ -5,6 +5,7 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
+    parser::Ctx,
     Parse,
 };
 
@@ -456,7 +457,11 @@ where
             }
         }
 
-        if nesting_selector.is_none() && type_selector.is_none() && subclass_selectors.is_empty() {
+        if !self.ctx.in_global_or_local_selector
+            && nesting_selector.is_none()
+            && type_selector.is_none()
+            && subclass_selectors.is_empty()
+        {
             return Err(Error::new(start_span, ErrorKind::InvalidSelector));
         }
 
@@ -862,7 +867,11 @@ where
                         js_word!("local") | js_word!("global") if self.config.css_modules => {
                             self.input.skip_ws();
 
-                            let selector_list = self.parse()?;
+                            let ctx = Ctx {
+                                in_global_or_local_selector: true,
+                                ..self.ctx
+                            };
+                            let selector_list = self.with_ctx(ctx).parse_as::<ComplexSelector>()?;
 
                             self.input.skip_ws();
 
