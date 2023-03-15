@@ -142,23 +142,6 @@ impl VisitMut for Decorator202203 {
         self.extra_stmts = old_stmts;
     }
 
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        n.visit_mut_children_with(self);
-
-        if !self.extra_vars.is_empty() {
-            prepend_stmt(
-                n,
-                VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: self.extra_vars.take(),
-                    declare: false,
-                }
-                .into(),
-            );
-        }
-    }
-
     fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
         p.visit_mut_children_with(self);
 
@@ -203,6 +186,39 @@ impl VisitMut for Decorator202203 {
             .collect();
 
         self.cur_inits.push((init, initialize_init))
+    }
+
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        let mut new = Vec::with_capacity(n.len());
+
+        for mut n in n.take() {
+            n.visit_mut_with(self);
+            if !self.computed_key_inits.is_empty() {
+                new.push(
+                    Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Expr::from_exprs(self.computed_key_inits.take()),
+                    })
+                    .into(),
+                )
+            }
+            new.push(n.take());
+        }
+
+        if !self.extra_vars.is_empty() {
+            prepend_stmt(
+                &mut new,
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: self.extra_vars.take(),
+                    declare: false,
+                }
+                .into(),
+            );
+        }
+
+        *n = new;
     }
 
     fn visit_mut_private_prop(&mut self, p: &mut PrivateProp) {
@@ -315,11 +331,22 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        n.visit_mut_children_with(self);
+        let mut new = Vec::with_capacity(n.len());
+
+        for mut n in n.take() {
+            n.visit_mut_with(self);
+            if !self.computed_key_inits.is_empty() {
+                new.push(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: Expr::from_exprs(self.computed_key_inits.take()),
+                }))
+            }
+            new.push(n.take());
+        }
 
         if !self.extra_vars.is_empty() {
             prepend_stmt(
-                n,
+                &mut new,
                 VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -329,5 +356,7 @@ impl VisitMut for Decorator202203 {
                 .into(),
             );
         }
+
+        *n = new;
     }
 }
