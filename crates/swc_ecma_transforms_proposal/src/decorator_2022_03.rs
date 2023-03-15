@@ -140,9 +140,11 @@ impl VisitMut for Decorator202203 {
                                 span: DUMMY_SP,
                                 stmts: vec![Stmt::Return(ReturnStmt {
                                     span: DUMMY_SP,
-                                    arg: Some(Box::new(
-                                        ThisExpr { span: DUMMY_SP }.make_member(p.key.id.clone()),
-                                    )),
+                                    arg: Some(Box::new(Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                                        prop: MemberProp::PrivateName(p.key.clone()),
+                                    }))),
                                 })],
                             }),
                             is_async: false,
