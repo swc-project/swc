@@ -1,7 +1,6 @@
 use std::path::PathBuf;
 
 use swc_atoms::JsWord;
-use swc_common::errors::HANDLER;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
     CodeGenerator, CodegenConfig, Emit,
@@ -56,15 +55,6 @@ fn compile(input: PathBuf) {
             &mut errors,
         )
         .unwrap();
-
-        if !errors.is_empty() {
-            HANDLER.with(|handler| {
-                for err in errors {
-                    err.to_diagnostics(handler).emit();
-                }
-            });
-            panic!("failed to parse")
-        }
 
         let _result = swc_css_modules::imports::analyze_imports(&ss);
 
