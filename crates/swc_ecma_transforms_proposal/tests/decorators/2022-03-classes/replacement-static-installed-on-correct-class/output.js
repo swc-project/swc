@@ -6,7 +6,7 @@ new class extends identity {
   static {
     class Foo {
       static {
-        [_Foo, _initClass] = applyDecs2203R(this, [], [dec]).c;
+        [_Foo, _initClass] = _applyDecs2203R(this, [], [dec]).c;
       }
       static m() { }
     }

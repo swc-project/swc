@@ -36,7 +36,7 @@ function _set_b2(v) {
 function _get_b2() {
   return _get_b(this);
 }
-[_init_a, _get_a, _set_a, _init_b, _get_b, _set_b, _initProto] = applyDecs2203R(Foo, [[dec, 1, "a", function () {
+[_init_a, _get_a, _set_a, _init_b, _get_b, _set_b, _initProto] = _applyDecs2203R(Foo, [[dec, 1, "a", function () {
   return classPrivateFieldGet(this, _A);
 }, function (value) {
   classPrivateFieldSet(this, _A, value);

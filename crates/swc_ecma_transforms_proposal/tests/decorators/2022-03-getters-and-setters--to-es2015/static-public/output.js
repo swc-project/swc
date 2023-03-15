@@ -17,7 +17,7 @@ class Foo {
   }
 }
 (() => {
-  [_initStatic] = applyDecs2203R(Foo, [[dec, 8, "a"], [dec, 9, "a"], [dec, 8, _computedKey], [dec, 9, _computedKey2]], []).e;
+  [_initStatic] = _applyDecs2203R(Foo, [[dec, 8, "a"], [dec, 9, "a"], [dec, 8, _computedKey], [dec, 9, _computedKey2]], []).e;
   _initStatic(Foo);
 })();
 defineProperty(Foo, "value", 1);

@@ -3,7 +3,7 @@ let _A;
 _dec = dec;
 class A {
   static {
-    [_A, _initClass] = applyDecs2203R(this, [], [_dec]).c;
+    [_A, _initClass] = _applyDecs2203R(this, [], [_dec]).c;
   }
   static {
     _initClass();

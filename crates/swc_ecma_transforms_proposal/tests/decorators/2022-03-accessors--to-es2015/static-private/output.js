@@ -27,7 +27,7 @@ function _get_b2() {
   return _get_b(this);
 }
 (() => {
-  [_init_a, _get_a, _set_a, _init_b, _get_b, _set_b, _initStatic] = applyDecs2203R(Foo, [[dec, 6, "a", function () {
+  [_init_a, _get_a, _set_a, _init_b, _get_b, _set_b, _initStatic] = _applyDecs2203R(Foo, [[dec, 6, "a", function () {
     return classStaticPrivateFieldSpecGet(this, Foo, _A);
   }, function (value) {
     classStaticPrivateFieldSpecSet(this, Foo, _A, value);

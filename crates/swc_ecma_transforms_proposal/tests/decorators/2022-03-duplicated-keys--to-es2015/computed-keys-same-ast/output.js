@@ -13,4 +13,4 @@ class Foo {
     return 2;
   }
 }
-[_initProto] = applyDecs2203R(Foo, [[dec, 2, _computedKey], [dec, 2, _computedKey2]], []).e;
+[_initProto] = _applyDecs2203R(Foo, [[dec, 2, _computedKey], [dec, 2, _computedKey2]], []).e;

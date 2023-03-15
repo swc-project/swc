@@ -19,7 +19,7 @@ var _a = {
   set: _set_a
 };
 (() => {
-  [_call_a, _call_a2, _initStatic] = applyDecs2203R(Foo, [[dec, 8, "a", function () {
+  [_call_a, _call_a2, _initStatic] = _applyDecs2203R(Foo, [[dec, 8, "a", function () {
     return this.value;
   }], [dec, 9, "a", function (v) {
     this.value = v;

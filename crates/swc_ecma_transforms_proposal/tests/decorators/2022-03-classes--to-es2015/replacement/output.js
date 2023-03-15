@@ -7,6 +7,6 @@ new (_temp = class extends identity {
   }
 }, (() => {
   class Foo { }
-  [_Foo, _initClass] = applyDecs2203R(Foo, [], [dec]).c;
+  [_Foo, _initClass] = _applyDecs2203R(Foo, [], [dec]).c;
 })(), _temp)();
 const foo = new _Foo();

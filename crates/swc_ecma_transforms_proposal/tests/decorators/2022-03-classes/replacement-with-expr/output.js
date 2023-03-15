@@ -2,7 +2,7 @@ var _initClass, _Bar;
 const dec = () => { };
 const Foo = (class Bar {
   static {
-    [_Bar, _initClass] = applyDecs2203R(this, [], [dec]).c;
+    [_Bar, _initClass] = _applyDecs2203R(this, [], [dec]).c;
   }
   bar = new _Bar();
   static {

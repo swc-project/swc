@@ -1,7 +1,7 @@
 var _init_a, _init_b;
 const dec = () => { };
 class Foo { }
-[_init_a, _init_b] = applyDecs2203R(Foo, [[dec, 5, "a", function () {
+[_init_a, _init_b] = _applyDecs2203R(Foo, [[dec, 5, "a", function () {
   return classStaticPrivateFieldSpecGet(this, Foo, _a);
 }, function (value) {
   classStaticPrivateFieldSpecSet(this, Foo, _a, value);

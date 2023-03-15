@@ -4,7 +4,7 @@ const A = (new class extends identity {
   static {
     class A {
       static {
-        [_A, _initClass] = applyDecs2203R(this, [], [dec]).c;
+        [_A, _initClass] = _applyDecs2203R(this, [], [dec]).c;
       }
     }
   }
@@ -16,7 +16,7 @@ const B = (new class extends identity {
   static {
     class C {
       static {
-        [_C, _initClass2] = applyDecs2203R(this, [], [dec]).c;
+        [_C, _initClass2] = _applyDecs2203R(this, [], [dec]).c;
       }
     }
   }
@@ -28,7 +28,7 @@ const D = (new class extends identity {
   static {
     class D {
       static {
-        [_D, _initClass3] = applyDecs2203R(this, [], [dec]).c;
+        [_D, _initClass3] = _applyDecs2203R(this, [], [dec]).c;
       }
     }
   }
@@ -40,7 +40,7 @@ const E = ((new class extends identity {
   static {
     (class {
       static {
-        [_decorated_class, _initClass4] = applyDecs2203R(this, [], [dec]).c;
+        [_decorated_class, _initClass4] = _applyDecs2203R(this, [], [dec]).c;
       }
     });
   }
@@ -52,7 +52,7 @@ const F = [(new class extends identity {
   static {
     class G {
       static {
-        [_G, _initClass5] = applyDecs2203R(this, [], [dec]).c;
+        [_G, _initClass5] = _applyDecs2203R(this, [], [dec]).c;
       }
     }
   }
@@ -63,7 +63,7 @@ const F = [(new class extends identity {
   static {
     (class {
       static {
-        [_decorated_class2, _initClass6] = applyDecs2203R(this, [], [dec]).c;
+        [_decorated_class2, _initClass6] = _applyDecs2203R(this, [], [dec]).c;
       }
     });
   }
@@ -75,7 +75,7 @@ const H = (new class extends identity {
   static {
     class H extends I {
       static {
-        [_H, _initClass7] = applyDecs2203R(this, [], [dec]).c;
+        [_H, _initClass7] = _applyDecs2203R(this, [], [dec]).c;
       }
     }
   }
@@ -87,7 +87,7 @@ const J = (new class extends identity {
   static {
     class K extends L {
       static {
-        [_K, _initClass8] = applyDecs2203R(this, [], [dec]).c;
+        [_K, _initClass8] = _applyDecs2203R(this, [], [dec]).c;
       }
     }
   }
@@ -101,7 +101,7 @@ function classFactory() {
     static {
       (class {
         static {
-          [_decorated_class3, _initClass9] = applyDecs2203R(this, [], [dec]).c;
+          [_decorated_class3, _initClass9] = _applyDecs2203R(this, [], [dec]).c;
         }
       });
     }

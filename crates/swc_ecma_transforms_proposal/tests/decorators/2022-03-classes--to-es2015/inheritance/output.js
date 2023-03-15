@@ -3,9 +3,9 @@ const dec1 = () => { };
 const dec2 = () => { };
 let _Bar;
 class Bar { }
-[_Bar, _initClass] = applyDecs2203R(Bar, [], [dec1]).c;
+[_Bar, _initClass] = _applyDecs2203R(Bar, [], [dec1]).c;
 _initClass();
 let _Foo;
 class Foo extends _Bar { }
-[_Foo, _initClass2] = applyDecs2203R(Foo, [], [dec2]).c;
+[_Foo, _initClass2] = _applyDecs2203R(Foo, [], [dec2]).c;
 _initClass2();

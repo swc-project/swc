@@ -9,4 +9,4 @@ class A extends B {
   }
   method() { }
 }
-[_initProto] = applyDecs2203R(A, [[_dec, 2, "method"]], []).e;
+[_initProto] = _applyDecs2203R(A, [[_dec, 2, "method"]], []).e;

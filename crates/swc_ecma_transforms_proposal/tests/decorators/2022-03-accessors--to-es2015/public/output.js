@@ -38,4 +38,4 @@ class Foo {
     classPrivateFieldSet(this, _C, v);
   }
 }
-[_init_a, _init_b, _init_computedKey, _initProto] = applyDecs2203R(Foo, [[dec, 1, "a"], [dec, 1, "b"], [dec, 1, _computedKey]], []).e;
+[_init_a, _init_b, _init_computedKey, _initProto] = _applyDecs2203R(Foo, [[dec, 1, "a"], [dec, 1, "b"], [dec, 1, _computedKey]], []).e;

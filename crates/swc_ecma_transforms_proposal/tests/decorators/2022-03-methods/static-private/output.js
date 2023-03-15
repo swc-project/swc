@@ -2,7 +2,7 @@ var _call_a, _initStatic;
 const dec = () => { };
 class Foo {
   static {
-    [_call_a, _initStatic] = applyDecs2203R(this, [[dec, 7, "a", function () {
+    [_call_a, _initStatic] = _applyDecs2203R(this, [[dec, 7, "a", function () {
       return this.value;
     }]], []).e;
     _initStatic(this);

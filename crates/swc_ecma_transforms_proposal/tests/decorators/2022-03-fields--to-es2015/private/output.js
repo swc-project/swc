@@ -14,7 +14,7 @@ class Foo {
     });
   }
 }
-[_init_a, _init_b] = applyDecs2203R(Foo, [[dec, 0, "a", function () {
+[_init_a, _init_b] = _applyDecs2203R(Foo, [[dec, 0, "a", function () {
   return classPrivateFieldGet(this, _a);
 }, function (value) {
   classPrivateFieldSet(this, _a, value);

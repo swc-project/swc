@@ -7,7 +7,7 @@ new (_temp = class extends identity {
   }
 }, (() => {
   class Foo { }
-  [_Foo, _initClass] = applyDecs2203R(Foo, [], [dec]).c;
+  [_Foo, _initClass] = _applyDecs2203R(Foo, [], [dec]).c;
 })(), _temp)();
 let _Bar;
 new (_temp2 = class extends identity {
@@ -18,5 +18,5 @@ new (_temp2 = class extends identity {
   }
 }, (() => {
   class Bar extends _Foo { }
-  [_Bar, _initClass2] = applyDecs2203R(Bar, [], [dec]).c;
+  [_Bar, _initClass2] = _applyDecs2203R(Bar, [], [dec]).c;
 })(), _temp2)();

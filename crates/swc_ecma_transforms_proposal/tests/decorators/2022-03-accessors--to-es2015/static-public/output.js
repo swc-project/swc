@@ -22,7 +22,7 @@ class Foo {
   }
 }
 (() => {
-  [_init_a, _init_b, _init_computedKey, _initStatic] = applyDecs2203R(Foo, [[dec, 6, "a"], [dec, 6, "b"], [dec, 6, _computedKey]], []).e;
+  [_init_a, _init_b, _init_computedKey, _initStatic] = _applyDecs2203R(Foo, [[dec, 6, "a"], [dec, 6, "b"], [dec, 6, _computedKey]], []).e;
   _initStatic(Foo);
 })();
 var _A = {

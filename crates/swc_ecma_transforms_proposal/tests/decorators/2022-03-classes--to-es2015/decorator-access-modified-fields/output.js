@@ -14,5 +14,5 @@ class C {
 ({
   e: [_init_m],
   c: [_C, _initClass]
-} = applyDecs2203R(C, [[memberDec, 0, "m"]], [classDec]));
+} = _applyDecs2203R(C, [[memberDec, 0, "m"]], [classDec]));
 _initClass();

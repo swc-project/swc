@@ -14,6 +14,6 @@ class Foo {
     return classPrivateFieldGet(this, _a).call(this);
   }
 }
-[_call_a, _initProto] = applyDecs2203R(Foo, [[dec, 2, "a", function () {
+[_call_a, _initProto] = _applyDecs2203R(Foo, [[dec, 2, "a", function () {
   return this.value;
 }]], []).e;
