@@ -1,9 +1,11 @@
 use std::iter::once;
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{prepend_stmt, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{
+    prepend_stmt, private_ident, prop_name_to_expr_value, quote_ident, ExprFactory,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn decorator_2022_03() -> impl VisitMut + Fold {
@@ -18,6 +20,8 @@ struct Decorator202203 {
 
     /// Injected into static blocks.
     extra_stmts: Vec<Stmt>,
+
+    computed_key_inits: Vec<Box<Expr>>,
 }
 
 impl Decorator202203 {
@@ -74,6 +78,41 @@ impl Decorator202203 {
             expr,
         }));
     }
+
+    /// Returns (name, initilaizer_name)
+    fn initializer_name(&mut self, name: PropName) -> (Box<Expr>, Ident) {
+        match name {
+            PropName::Ident(i) => (
+                Box::new(Expr::Lit(Lit::Str(Str {
+                    span: i.span.with_ctxt(SyntaxContext::empty()),
+                    value: i.sym.clone(),
+                    raw: None,
+                }))),
+                Ident::new(format!("_init_{}", i.sym).into(), i.span.private()),
+            ),
+            _ => {
+                let ident = private_ident!("_computedKey");
+                self.extra_vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(ident.clone().into()),
+                    init: None,
+                    definite: false,
+                });
+
+                self.computed_key_inits
+                    .push(Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: PatOrExpr::Pat(ident.clone().into()),
+                        right: Box::new(prop_name_to_expr_value(name)),
+                    })));
+
+                let init = Ident::new("_init_computedKey".into(), ident.span.private());
+
+                (Box::new(Expr::Ident(ident)), init)
+            }
+        }
+    }
 }
 
 impl VisitMut for Decorator202203 {
@@ -117,6 +156,52 @@ impl VisitMut for Decorator202203 {
                 .into(),
             );
         }
+    }
+
+    fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
+        p.visit_mut_children_with(self);
+
+        if p.decorators.is_empty() {
+            return;
+        }
+
+        let (name, init) = self.initializer_name(p.key.take());
+
+        self.extra_vars.push(VarDeclarator {
+            span: p.span,
+            name: Pat::Ident(init.clone().into()),
+            init: None,
+            definite: false,
+        });
+
+        p.value = Some(Box::new(Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: init.clone().as_callee(),
+            args: once(ThisExpr { span: DUMMY_SP }.as_arg())
+                .chain(p.value.take().map(|v| v.as_arg()))
+                .collect(),
+            type_args: Default::default(),
+        })));
+
+        let initialize_init = p
+            .decorators
+            .take()
+            .into_iter()
+            .map(|dec| {
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![
+                        Some(dec.expr.as_arg()),
+                        Some(0.as_arg()),
+                        Some(name.clone().as_arg()),
+                    ],
+                }
+                .as_arg()
+            })
+            .map(Some)
+            .collect();
+
+        self.cur_inits.push((init, initialize_init))
     }
 
     fn visit_mut_private_prop(&mut self, p: &mut PrivateProp) {
