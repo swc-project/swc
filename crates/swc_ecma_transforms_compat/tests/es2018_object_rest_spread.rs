@@ -3139,3 +3139,100 @@ test_exec!(
     thing({ queryKey: [{ url: 'https://www.google.com', id: '1' }] })
     "#
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    safe_extends_1,
+    r#"({a, b, ...c})"#,
+    r#"_extends({ a, b }, c);"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    safe_extends_2,
+    r#"({a, b, ...c, set d(v){} })"#,
+    r#"
+_objectSpreadProps(
+    _extends({ a, b }, c),
+    { set d (v){} }
+);
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    safe_extends_3,
+    r#"({a, b, ...c, set d(v){}, e })"#,
+    r#"
+_objectSpreadProps(
+    _extends({ a, b }, c),
+    { set d (v){}, e}
+);"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    safe_extends_4,
+    r#"({a, b, ...c, set d(v){}, set e(v){} })"#,
+    r#"
+_objectSpreadProps(
+  _extends({ a, b}, c),
+  {
+    set d (v){},
+    set e (v){}
+  }
+);
+    "#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    safe_extends_5,
+    r#"({ a, ...b, c, ...d, set e(v){}, set f(v){} })"#,
+    r#"
+_objectSpreadProps(_extends(_objectSpreadProps(_extends({
+    a
+}, b), {
+    c
+}), d), {
+    set e (v){},
+    set f (v){}
+});
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    not_safe_extends_1,
+    r#"({ set a(v){}, ...b })"#,
+    r#"objectSpread({ set a (v){} }, b);"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    not_safe_extends_2,
+    r#"({ a, ...b, c, ...d, set e(v){}, ...f })"#,
+    r#"
+_objectSpread(
+  _objectSpreadProps(
+    _objectSpread(
+      _objectSpreadProps(
+        _objectSpread({ a }, b),
+        { c }
+      ), d
+    ),
+    {
+      set e (v){}
+    }
+  ),
+  f
+);
+"#
+);

@@ -1184,7 +1184,15 @@ impl VisitMut for ObjectSpread {
     }
 }
 
-fn safe_extends(p: &[PropOrSpread]) -> bool {
-    !p.iter()
-        .any(|p| matches!(p, PropOrSpread::Prop(prop) if prop.is_setter()))
+fn safe_extends(prop_or_spread_list: &[PropOrSpread]) -> bool {
+    let mut setter_found = false;
+    for prop_or_spread in prop_or_spread_list {
+        match prop_or_spread {
+            PropOrSpread::Prop(prop) if prop.is_setter() => setter_found = true,
+            PropOrSpread::Spread(..) if setter_found => return false,
+            _ => {}
+        }
+    }
+
+    true
 }
