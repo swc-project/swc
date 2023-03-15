@@ -1114,7 +1114,7 @@ impl VisitMut for ObjectSpread {
                 return;
             }
 
-            let mut callee = if self.config.set_property {
+            let mut callee = if self.config.set_property || safe_extends(props) {
                 helper!(extends, "extends")
             } else {
                 helper!(object_spread, "objectSpread")
@@ -1182,4 +1182,9 @@ impl VisitMut for ObjectSpread {
             });
         }
     }
+}
+
+fn safe_extends(p: &[PropOrSpread]) -> bool {
+    !p.iter()
+        .any(|p| matches!(p, PropOrSpread::Prop(prop) if prop.is_setter()))
 }
