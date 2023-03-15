@@ -26,7 +26,7 @@ impl VisitMut for Decorator202203 {
                     return;
                 }
 
-                let init = private_ident!(format!("init_{}", p.key.id.sym));
+                let init = private_ident!(format!("_init_{}", p.key.id.sym));
 
                 self.extra_vars.push(VarDeclarator {
                     span: p.span,
