@@ -1,0 +1,13 @@
+.gradient-button-wrapper {
+    /*  animated border gradient */
+    .button-bg {
+        &,
+        &::before {
+            background-image: linear-gradient(
+                165deg,
+                var(--start-color),
+                var(--end-color)
+            );
+        }
+    }
+}
