@@ -920,10 +920,10 @@ pub struct JsMinifyOptions {
     #[serde(default)]
     pub ecma: TerserEcmaVersion,
 
-    #[serde(default)]
+    #[serde(default, alias = "keep_classnames")]
     pub keep_classnames: bool,
 
-    #[serde(default)]
+    #[serde(default, alias = "keep_fnames")]
     pub keep_fnames: bool,
 
     #[serde(default)]
