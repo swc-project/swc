@@ -7,7 +7,7 @@
   border: 1px solid var(--accents-2);
 }
 .dark-theme .__local__input {}
-.dark-theme .__local__input::placeholder {
+.dark-theme .__local__input:placeholder {
   color: var(--accents-4);
 }
 .dark-theme .__local__input ~ hr {
