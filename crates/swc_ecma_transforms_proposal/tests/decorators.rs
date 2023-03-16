@@ -121,7 +121,6 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &PathBuf) -> Box<dyn
     macro_rules! add {
         ($e:expr) => {{
             pass = Box::new(chain!(pass, $e));
-            continue;
         }};
     }
 
@@ -131,10 +130,14 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &PathBuf) -> Box<dyn
         match plugin {
             BabelPluginEntry::NameOnly(name) => match &**name {
                 "proposal-class-properties" => {
+                    add!(swc_ecma_transforms_compat::es2022::static_blocks(
+                        static_block_mark
+                    ));
                     add!(swc_ecma_transforms_compat::es2022::class_properties(
                         Some(comments.clone()),
                         Default::default()
                     ));
+                    continue;
                 }
 
                 "proposal-private-methods" => {
@@ -142,12 +145,14 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &PathBuf) -> Box<dyn
                         Some(comments.clone()),
                         Default::default()
                     ));
+                    continue;
                 }
 
                 "proposal-class-static-block" => {
                     add!(swc_ecma_transforms_compat::es2022::static_blocks(
                         static_block_mark
                     ));
+                    continue;
                 }
                 _ => {}
             },
