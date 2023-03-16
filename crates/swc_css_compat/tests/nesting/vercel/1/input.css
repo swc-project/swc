@@ -1,0 +1,119 @@
+.gradient-button-wrapper {
+    .gradient-button {
+        background-color: var(--geist-background);
+
+        :global(.dark-theme) & {
+            box-shadow: 0px 4px 4px 0px #00000040;
+        }
+
+        &[data-hover] {
+            --lighten-color: transparent;
+
+            color: var(--geist-background);
+        }
+
+        &[data-active] {
+            --lighten-color: rgba(255, 255, 255, 0.5);
+        }
+
+        &[data-focus] {
+            box-shadow: 0 0 0 1px var(--geist-background),
+                0 0 0 3px var(--themed-bg, var(--geist-foreground));
+        }
+    }
+
+    /*  animated border gradient */
+    .button-bg {
+        border-radius: var(--geist-radius);
+
+        /* animated glow */
+        &::before {
+            border: 12px solid transparent;
+            z-index: -1;
+
+            :global(.dark-theme) & {
+                opacity: 1;
+            }
+        }
+
+        &,
+        &::before {
+            background-image: linear-gradient(
+                165deg,
+                var(--start-color),
+                var(--end-color)
+            );
+        }
+
+        &.bg-1 {
+            animation: background-1 8s infinite;
+
+            &,
+            &::before {
+                --start-color: #00dfd8;
+                --end-color: #007cf0;
+            }
+        }
+        &.bg-2 {
+            animation: background-2 8s infinite;
+
+            &,
+            &::before {
+                --start-color: #ff0080;
+                --end-color: #7928ca;
+            }
+        }
+        &.bg-3 {
+            animation: background-3 8s infinite;
+
+            &,
+            &::before {
+                --start-color: #ff4d4d;
+                --end-color: #f9cb28;
+            }
+        }
+
+        :global(.stop-hero-animation) & {
+            animation: none;
+        }
+    }
+}
+
+@keyframes background-1 {
+    0%,
+    16.667%,
+    100% {
+        opacity: 1;
+    }
+    33%,
+    83.333% {
+        opacity: 0;
+    }
+}
+
+@keyframes background-2 {
+    0%,
+    16.667%,
+    66.667%,
+    100% {
+        opacity: 0;
+    }
+
+    33.333%,
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes background-3 {
+    0%,
+    100%,
+    50% {
+        opacity: 0;
+    }
+
+    66.667%,
+    83.333% {
+        opacity: 1;
+    }
+}
