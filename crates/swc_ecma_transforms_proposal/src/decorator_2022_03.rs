@@ -82,7 +82,7 @@ impl Decorator202203 {
     }
 
     /// Returns (name, initilaizer_name)
-    fn initializer_name(&mut self, name: &mut PropName) -> (Box<Expr>, Ident) {
+    fn initializer_name(&mut self, name: &mut PropName, prefix: &str) -> (Box<Expr>, Ident) {
         match name {
             PropName::Ident(i) => (
                 Box::new(Expr::Lit(Lit::Str(Str {
@@ -90,7 +90,7 @@ impl Decorator202203 {
                     value: i.sym.clone(),
                     raw: None,
                 }))),
-                Ident::new(format!("_init_{}", i.sym).into(), i.span.private()),
+                Ident::new(format!("_{prefix}_{}", i.sym).into(), i.span.private()),
             ),
             _ => {
                 let ident = private_ident!("_computedKey");
@@ -113,7 +113,10 @@ impl Decorator202203 {
                     expr: ident.clone().into(),
                 });
 
-                let init = Ident::new("_init_computedKey".into(), ident.span.private());
+                let init = Ident::new(
+                    format!("_{prefix}_computedKey").into(),
+                    ident.span.private(),
+                );
 
                 (Box::new(Expr::Ident(ident)), init)
             }
@@ -147,6 +150,16 @@ impl VisitMut for Decorator202203 {
         self.extra_stmts = old_stmts;
     }
 
+    fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
+        n.visit_mut_children_with(self);
+
+        if n.function.decorators.is_empty() {
+            return;
+        }
+
+        let (name, init) = self.initializer_name(&mut n.key, "call");
+    }
+
     fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
         p.visit_mut_children_with(self);
 
@@ -154,7 +167,7 @@ impl VisitMut for Decorator202203 {
             return;
         }
 
-        let (name, init) = self.initializer_name(&mut p.key);
+        let (name, init) = self.initializer_name(&mut p.key, "init");
 
         self.extra_vars.push(VarDeclarator {
             span: p.span,
