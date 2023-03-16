@@ -65,9 +65,6 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
         options.options.runtime = Some(Runtime::Classic);
     }
 
-    if options.use_builtins {
-        options.options.use_builtins = Some(true);
-    }
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         jsx(
@@ -91,9 +88,6 @@ fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
         options.options.runtime = Some(Runtime::Classic);
     }
 
-    if options.use_builtins {
-        options.options.use_builtins = Some(true);
-    }
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         react(
@@ -118,9 +112,10 @@ test!(
   sound="moo" />
 "#,
     r#"
-React.createElement(Component, _extends({}, props, {
+React.createElement(Component, {
+  ...props,
   sound: "moo"
-}));
+});
 "#
 );
 
@@ -1105,10 +1100,11 @@ test!(
 ={2 } z />
 "#,
     r#"
-React.createElement(Component, _extends({}, x, {
+React.createElement(Component, {
+  ...x,
   y: 2,
   z: true
-}));
+});
 "#
 );
 
@@ -1121,10 +1117,11 @@ test!(
     react_wraps_props_in_react_spread_for_last_spread_attributes,
     r#"<Component y={2} z { ... x } />"#,
     r#"
-React.createElement(Component, _extends({
+React.createElement(Component, {
   y: 2,
-  z: true
-}, x));
+  z: true,
+  ...x
+});
 "#
 );
 
@@ -1137,11 +1134,11 @@ test!(
     react_wraps_props_in_react_spread_for_middle_spread_attributes,
     r#"<Component y={2} { ... x } z />"#,
     r#"
-React.createElement(Component, _extends({
-  y: 2
-}, x, {
-  z: true
-}));"#
+React.createElement(Component, {
+    y: 2,
+    ...x,
+    z: true
+});"#
 );
 
 test!(
@@ -1166,7 +1163,6 @@ test!(
     |t| tr(
         t,
         Options {
-            use_builtins: true.into(),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -1174,10 +1170,10 @@ test!(
     use_builtins_assignment,
     r#"var div = <Component {...props} foo="bar" />"#,
     r#"
-var div = React.createElement(Component, Object.assign({}, props, {
-  foo: "bar"
-}));
-"#
+var div = React.createElement(Component, {
+    ...props,
+    foo: "bar"
+});"#
 );
 
 test!(
@@ -1188,7 +1184,6 @@ test!(
     |t| tr(
         t,
         Options {
-            use_spread: true.into(),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -1207,7 +1202,6 @@ test!(
     |t| tr(
         t,
         Options {
-            use_builtins: true.into(),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -1230,7 +1224,6 @@ test!(
             tr(
                 t,
                 Options {
-                    use_builtins: true.into(),
                     ..Default::default()
                 },
                 top_level_mark
@@ -1263,7 +1256,6 @@ test!(
     |t| tr(
         t,
         Options {
-            use_builtins: true.into(),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -1285,7 +1277,6 @@ test!(
             tr(
                 t,
                 Options {
-                    use_builtins: true.into(),
                     ..Default::default()
                 },
                 top_level_mark
@@ -1327,7 +1318,6 @@ test!(
     |t| tr(
         t,
         Options {
-            use_builtins: true.into(),
             ..Default::default()
         },
         Mark::fresh(Mark::root())

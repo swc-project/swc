@@ -2,9 +2,10 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_extends.mjs",
+    "@swc/helpers/src/_object_spread.mjs",
+    "@swc/helpers/src/_object_spread_props.mjs",
     "react"
-], function(require, exports, _extends, _react) {
+], function(require, exports, _objectSpread, _objectSpreadProps, _react) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -15,7 +16,8 @@ define([
             return MainButton;
         }
     });
-    _extends = _extends.default;
+    _objectSpread = _objectSpread.default;
+    _objectSpreadProps = _objectSpreadProps.default;
     var obj0 = {
         to: "world"
     };
@@ -39,34 +41,31 @@ define([
         to: "/some/path",
         onClick: function(e) {}
     }, "GO"); // extra property;
-    var b1 = /*#__PURE__*/ _react.createElement(MainButton, _extends({
+    var b1 = /*#__PURE__*/ _react.createElement(MainButton, _objectSpread({
         onClick: function(e) {}
     }, obj0), "Hello world"); // extra property;
-    var b2 = /*#__PURE__*/ _react.createElement(MainButton, _extends({}, {
+    var b2 = /*#__PURE__*/ _react.createElement(MainButton, _objectSpread({
         to: "10000"
     }, obj2)); // extra property
-    var b3 = /*#__PURE__*/ _react.createElement(MainButton, _extends({}, {
-        to: "10000"
-    }, {
+    var b3 = /*#__PURE__*/ _react.createElement(MainButton, {
+        to: "10000",
         onClick: function(k) {}
-    })); // extra property
-    var b4 = /*#__PURE__*/ _react.createElement(MainButton, _extends({}, obj3, {
+    }); // extra property
+    var b4 = /*#__PURE__*/ _react.createElement(MainButton, _objectSpreadProps(_objectSpread({}, obj3), {
         to: true
     })); // Should error because Incorrect type; but attributes are any so everything is allowed
-    var b5 = /*#__PURE__*/ _react.createElement(MainButton, _extends({}, {
+    var b5 = /*#__PURE__*/ _react.createElement(MainButton, _objectSpread({
         onClick: function onClick(e) {}
     }, obj0)); // Spread retain method declaration (see GitHub #13365), so now there is an extra attributes
-    var b6 = /*#__PURE__*/ _react.createElement(MainButton, _extends({}, {
-        onClick: function onClick(e) {}
-    }, {
+    var b6 = /*#__PURE__*/ _react.createElement(MainButton, {
+        onClick: function onClick(e) {},
         children: 10
-    })); // incorrect type for optional attribute
-    var b7 = /*#__PURE__*/ _react.createElement(MainButton, _extends({}, {
-        onClick: function onClick(e) {}
-    }, {
+    }); // incorrect type for optional attribute
+    var b7 = /*#__PURE__*/ _react.createElement(MainButton, {
+        onClick: function onClick(e) {},
         children: "hello",
         className: true
-    })); // incorrect type for optional attribute
+    }); // incorrect type for optional attribute
     var b8 = /*#__PURE__*/ _react.createElement(MainButton, {
         "data-format": true
     }); // incorrect type for specified hyphanated name

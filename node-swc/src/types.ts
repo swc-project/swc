@@ -834,6 +834,7 @@ export interface ReactConfig {
   development?: boolean;
   /**
    * Use `Object.assign()` instead of `_extends`. Defaults to false.
+   * @deprecated
    */
   useBuiltins?: boolean;
 

@@ -2,9 +2,10 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_extends.mjs",
+    "@swc/helpers/src/_object_spread.mjs",
+    "@swc/helpers/src/_object_spread_props.mjs",
     "react"
-], function(require, exports, _extends, _react) {
+], function(require, exports, _objectSpread, _objectSpreadProps, _react) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -15,7 +16,8 @@ define([
             return MainButton;
         }
     });
-    _extends = _extends.default;
+    _objectSpread = _objectSpread.default;
+    _objectSpreadProps = _objectSpreadProps.default;
     var obj = {
         children: "hi",
         to: "boo"
@@ -38,23 +40,23 @@ define([
     var b1 = /*#__PURE__*/ _react.createElement(MainButton, {
         onClick: function(e) {}
     }, "Hello world");
-    var b2 = /*#__PURE__*/ _react.createElement(MainButton, _extends({}, obj));
-    var b3 = /*#__PURE__*/ _react.createElement(MainButton, _extends({}, {
+    var b2 = /*#__PURE__*/ _react.createElement(MainButton, obj);
+    var b3 = /*#__PURE__*/ _react.createElement(MainButton, _objectSpread({
         to: 10000
     }, obj));
-    var b4 = /*#__PURE__*/ _react.createElement(MainButton, _extends({}, obj1)); // any; just pick the first overload
-    var b5 = /*#__PURE__*/ _react.createElement(MainButton, _extends({}, obj1, {
+    var b4 = /*#__PURE__*/ _react.createElement(MainButton, obj1); // any; just pick the first overload
+    var b5 = /*#__PURE__*/ _react.createElement(MainButton, _objectSpreadProps(_objectSpread({}, obj1), {
         to: "/to/somewhere"
     })); // should pick the second overload
-    var b6 = /*#__PURE__*/ _react.createElement(MainButton, _extends({}, obj2));
-    var b7 = /*#__PURE__*/ _react.createElement(MainButton, _extends({}, {
+    var b6 = /*#__PURE__*/ _react.createElement(MainButton, obj2);
+    var b7 = /*#__PURE__*/ _react.createElement(MainButton, {
         onClick: function() {
             console.log("hi");
         }
-    }));
-    var b8 = /*#__PURE__*/ _react.createElement(MainButton, _extends({}, {
+    });
+    var b8 = /*#__PURE__*/ _react.createElement(MainButton, {
         onClick: function onClick() {}
-    })); // OK; method declaration get retained (See GitHub #13365)
+    }); // OK; method declaration get retained (See GitHub #13365)
     var b9 = /*#__PURE__*/ _react.createElement(MainButton, {
         to: "/some/path",
         "extra-prop": true

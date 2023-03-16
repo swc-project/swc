@@ -1,6 +1,5 @@
 //// [file.tsx]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _extends from "@swc/helpers/src/_extends.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 export var Empty = function(_React_Component) {
@@ -14,4 +13,4 @@ export var Empty = function(_React_Component) {
         return React.createElement("div", null, "Hello");
     }, Empty;
 }(React.Component);
-_extends({}, obj);
+obj;

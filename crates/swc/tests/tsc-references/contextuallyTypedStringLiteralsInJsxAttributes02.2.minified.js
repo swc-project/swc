@@ -2,9 +2,8 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_extends.mjs",
     "react"
-], function(require, exports, _extends, _react) {
+], function(require, exports, _react) {
     "use strict";
     function MainButton(props) {
         return props.goTo ? this._buildMainLink(props) : this._buildMainButton(props);
@@ -28,25 +27,5 @@ define([
         NoOverload1: function() {
             return NoOverload1;
         }
-    }), (_extends = _extends.default)({}, {
-        onClick: function(k) {
-            console.log(k);
-        }
-    }, {
-        extra: !0
-    }), _extends({}, {
-        goTo: "home"
-    }, {
-        extra: !0
-    }), _extends({}, {
-        onClick: function(k) {
-            console.log(k);
-        }
-    }, {
-        extra: !0
-    }), _extends({}, {
-        goTo: "home"
-    }, {
-        extra: !0
     });
 });

@@ -18,9 +18,9 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var foo, _extends = require("@swc/helpers/lib/_extends.js").default;
-require("./test"), _extends({
+var foo, _objectSpread = require("@swc/helpers/lib/_object_spread.js").default, _objectSpreadProps = require("@swc/helpers/lib/_object_spread_props.js").default;
+require("./test"), _objectSpreadProps(_objectSpread({
     x: ""
-}, foo, {
+}, foo), {
     y: ""
 });
