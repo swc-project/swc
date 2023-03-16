@@ -74,7 +74,8 @@ pub struct Options {
     // @babel/plugin-transform-react-jsx: Since "useBuiltIns" is removed in Babel 8, you can remove
     // it from the config.
     #[deprecated(
-        note = r#"This is always true. Use swc_ecma_transforms_compat to downlevel JavaScript syntax."#
+        since = "0.167.4",
+        note = r#"Since `useBuiltIns` is removed in swc, you can remove it from the config."#
     )]
     #[serde(default, alias = "useBuiltIns")]
     pub use_builtins: Option<bool>,
@@ -83,7 +84,8 @@ pub struct Options {
     // always used, and the "useSpread" option is no longer available. Please remove it from your
     // config.',
     #[deprecated(
-        note = r#"This is always true. Use swc_ecma_transforms_compat to downlevel JavaScript syntax."#
+        since = "0.167.4",
+        note = r#"An inline object with spread elements is always used, and the `useSpread` option is no longer available. Please remove it from your config."#
     )]
     #[serde(default)]
     pub use_spread: Option<bool>,
