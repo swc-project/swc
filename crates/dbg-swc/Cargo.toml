@@ -5,7 +5,7 @@ edition     = "2021"
 license     = "Apache-2.0"
 name        = "dbg-swc"
 repository  = "https://github.com/kdy1/dbg-swc.git"
-version     = "0.75.8"
+version     = "0.75.9"
 
 [[bin]]
 bench = false
@@ -27,7 +27,7 @@ swc_common = { version = "0.29.37", features = [
 ], path = "../swc_common" }
 swc_ecma_ast = { version = "0.100.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.135.3", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "0.175.5", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "0.175.6", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
 swc_ecma_parser = { version = "0.130.3", path = "../swc_ecma_parser" }

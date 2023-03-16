@@ -17,6 +17,9 @@
 - **(es/minifier)** Preserve `delete` of unresolved variables (#7072) ([86295ba](https://github.com/swc-project/swc/commit/86295ba8f26fbe3829c2c08fd8034975f05f60b5))
 
 
+- **(es/react)** Align to `babel@8` behavior (#7081) ([7b491a6](https://github.com/swc-project/swc/commit/7b491a69a5ea80cd8aace9e7da3e73079c6a259f))
+
+
 - **(testing)** Ignore `non_snake_case` for generated test names (#7087) ([1c254b1](https://github.com/swc-project/swc/commit/1c254b1c44f72f5e66698f78d76796d5a7f66146))
 
 ### Performance
