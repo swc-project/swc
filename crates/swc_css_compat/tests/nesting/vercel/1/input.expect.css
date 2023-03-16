@@ -1,0 +1,6 @@
+.gradient-button-wrapper {}
+.gradient-button-wrapper .button-bg {}
+.gradient-button-wrapper .button-bg, 
+.gradient-button-wrapper .button-bg:before {
+  background-image: linear-gradient(165deg, var(--start-color), var(--end-color));
+}
