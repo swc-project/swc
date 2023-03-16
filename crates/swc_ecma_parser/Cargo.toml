@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_parser"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.130.2"
+version       = "0.130.3"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -47,7 +47,7 @@ pretty_assertions = "1.1"
 serde_json        = "1"
 swc_ecma_visit    = { version = "0.86.1", path = "../swc_ecma_visit" }
 swc_node_base     = { version = "0.5.8", path = "../swc_node_base" }
-testing           = { version = "0.31.39", path = "../testing" }
+testing           = { version = "0.31.40", path = "../testing" }
 walkdir           = "2"
 
 [[example]]

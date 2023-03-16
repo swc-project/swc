@@ -163,6 +163,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
                 #[inline(never)]
                 #[ignore]
                 #[doc(hidden)]
+                #[allow(non_snake_case)]
                 fn test_ident() {
                     eprintln!("Input: {}", path_str);
 
