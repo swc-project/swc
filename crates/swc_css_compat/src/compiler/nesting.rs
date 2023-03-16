@@ -12,38 +12,49 @@ impl Compiler {
         subclass: &mut Vec<SubclassSelector>,
     ) {
         for sel in subclass {
-            if let SubclassSelector::PseudoClass(PseudoClassSelector {
-                children: Some(children),
-                ..
-            }) = sel
-            {
-                for c in children {
-                    if let PseudoClassSelectorChildren::ForgivingSelectorList(c) = c {
-                        let mut selectors = vec![];
+            match sel {
+                SubclassSelector::PseudoClass(PseudoClassSelector {
+                    children: Some(children),
+                    ..
+                }) => {
+                    for c in children {
+                        if let PseudoClassSelectorChildren::ForgivingSelectorList(c) = c {
+                            let mut selectors = vec![];
 
-                        for sel in &mut c.children {
-                            match sel {
-                                ForgivingComplexSelector::ComplexSelector(sel) => {
-                                    selectors.push(sel.clone());
-                                }
-                                ForgivingComplexSelector::ListOfComponentValues(_) => {
-                                    // Abort
-                                    return;
+                            for sel in &mut c.children {
+                                match sel {
+                                    ForgivingComplexSelector::ComplexSelector(sel) => {
+                                        selectors.push(sel.clone());
+                                    }
+                                    ForgivingComplexSelector::ListOfComponentValues(_) => {
+                                        // Abort
+                                        return;
+                                    }
                                 }
                             }
+
+                            self.process_complex_selectors(prelude, &mut selectors);
+
+                            *c = ForgivingSelectorList {
+                                children: selectors
+                                    .into_iter()
+                                    .map(ForgivingComplexSelector::ComplexSelector)
+                                    .collect(),
+                                ..*c
+                            };
                         }
-
-                        self.process_complex_selectors(prelude, &mut selectors);
-
-                        *c = ForgivingSelectorList {
-                            children: selectors
-                                .into_iter()
-                                .map(ForgivingComplexSelector::ComplexSelector)
-                                .collect(),
-                            ..*c
-                        };
                     }
                 }
+
+                SubclassSelector::PseudoElement(PseudoElementSelector { span, name, .. }) => {
+                    *sel = SubclassSelector::PseudoClass(PseudoClassSelector {
+                        span: *span,
+                        name: name.clone(),
+                        children: Default::default(),
+                    });
+                }
+
+                _ => (),
             }
         }
     }
