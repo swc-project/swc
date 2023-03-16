@@ -11,7 +11,13 @@
 - **(css/codegen)** Respect `raw` of `Str` (#7078) ([7849a2d](https://github.com/swc-project/swc/commit/7849a2d75d57bf3b6242f5f472a06a30c9fb948d))
 
 
+- **(css/parser)** Fix parsing of `:global(> *)` (#7082) ([60f74ea](https://github.com/swc-project/swc/commit/60f74ea0769c2be764af8eb5320343f77ea78c1a))
+
+
 - **(es/minifier)** Preserve `delete` of unresolved variables (#7072) ([86295ba](https://github.com/swc-project/swc/commit/86295ba8f26fbe3829c2c08fd8034975f05f60b5))
+
+
+- **(testing)** Ignore `non_snake_case` for generated test names (#7087) ([1c254b1](https://github.com/swc-project/swc/commit/1c254b1c44f72f5e66698f78d76796d5a7f66146))
 
 ### Performance
 
