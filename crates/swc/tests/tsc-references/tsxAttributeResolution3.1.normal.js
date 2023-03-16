@@ -1,26 +1,27 @@
 //// [file.tsx]
-import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 // OK
 var obj1 = {
     x: "foo"
 };
-/*#__PURE__*/ React.createElement("test1", _extends({}, obj1));
+/*#__PURE__*/ React.createElement("test1", obj1);
 // Error, x is not string
 var obj2 = {
     x: 32
 };
-/*#__PURE__*/ React.createElement("test1", _extends({}, obj2));
+/*#__PURE__*/ React.createElement("test1", obj2);
 // Error, x is missing
 var obj3 = {
     y: 32
 };
-/*#__PURE__*/ React.createElement("test1", _extends({}, obj3));
+/*#__PURE__*/ React.createElement("test1", obj3);
 // OK
 var obj4 = {
     x: 32,
     y: 32
 };
-/*#__PURE__*/ React.createElement("test1", _extends({}, obj4, {
+/*#__PURE__*/ React.createElement("test1", _object_spread_props(_object_spread({}, obj4), {
     x: "ok"
 }));
 // Error
@@ -28,7 +29,7 @@ var obj5 = {
     x: 32,
     y: 32
 };
-/*#__PURE__*/ React.createElement("test1", _extends({
+/*#__PURE__*/ React.createElement("test1", _object_spread({
     x: "ok"
 }, obj5));
 // Ok
@@ -37,11 +38,11 @@ var obj6 = {
     y: 32,
     extra: 100
 };
-/*#__PURE__*/ React.createElement("test1", _extends({}, obj6));
+/*#__PURE__*/ React.createElement("test1", obj6);
 // OK (spread override)
 var obj7 = {
     x: "foo"
 };
-/*#__PURE__*/ React.createElement("test1", _extends({
+/*#__PURE__*/ React.createElement("test1", _object_spread({
     x: 32
 }, obj7));

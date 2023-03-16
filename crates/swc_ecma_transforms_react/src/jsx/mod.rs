@@ -1,6 +1,6 @@
 #![allow(clippy::redundant_allocation)]
 
-use std::{borrow::Cow, iter, iter::once, mem, sync::Arc};
+use std::{borrow::Cow, iter, iter::once, sync::Arc};
 
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -18,10 +18,7 @@ use swc_common::{
 use swc_config::merge::Merge;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
-use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{
-    drop_span, member_expr, prepend_stmt, private_ident, quote_ident, undefined, ExprFactory,
-};
+use swc_ecma_utils::{drop_span, prepend_stmt, private_ident, quote_ident, undefined, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 use self::static_check::should_use_create_element;
@@ -74,10 +71,22 @@ pub struct Options {
     #[serde(default)]
     pub development: Option<bool>,
 
-    /// TODO: Remove this field.
+    // @babel/plugin-transform-react-jsx: Since "useBuiltIns" is removed in Babel 8, you can remove
+    // it from the config.
+    #[deprecated(
+        since = "0.167.4",
+        note = r#"Since `useBuiltIns` is removed in swc, you can remove it from the config."#
+    )]
     #[serde(default, alias = "useBuiltIns")]
     pub use_builtins: Option<bool>,
 
+    // '@babel/plugin-transform-react-jsx: Since Babel 8, an inline object with spread elements is
+    // always used, and the "useSpread" option is no longer available. Please remove it from your
+    // config.',
+    #[deprecated(
+        since = "0.167.4",
+        note = r#"An inline object with spread elements is always used, and the `useSpread` option is no longer available. Please remove it from your config."#
+    )]
     #[serde(default)]
     pub use_spread: Option<bool>,
 
@@ -185,7 +194,6 @@ where
     as_folder(Jsx {
         cm: cm.clone(),
         top_level_mark,
-        next: options.next.unwrap_or(false),
         runtime: options.runtime.unwrap_or_default(),
         import_source: options
             .import_source
@@ -209,8 +217,6 @@ where
             options.pragma_frag.unwrap_or_else(default_pragma_frag),
             top_level_mark,
         ),
-        use_builtins: options.use_builtins.unwrap_or_default(),
-        use_spread: options.use_spread.unwrap_or_default(),
         development: options.development.unwrap_or_default(),
         throw_if_namespace: options
             .throw_if_namespace
@@ -227,7 +233,6 @@ where
 
     top_level_mark: Mark,
 
-    next: bool,
     runtime: Runtime,
     /// For automatic runtime.
     import_source: JsWord,
@@ -244,8 +249,6 @@ where
     pragma: Arc<Box<Expr>>,
     comments: Option<C>,
     pragma_frag: Arc<Box<Expr>>,
-    use_builtins: bool,
-    use_spread: bool,
     development: bool,
     throw_if_namespace: bool,
 }
@@ -785,15 +788,6 @@ where
     }
 
     fn fold_attrs_for_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
-        if self.next {
-            self.fold_attrs_for_next_classic(attrs)
-        } else {
-            self.fold_attrs_for_old_classic(attrs)
-        }
-    }
-
-    /// Runtime; `classic`
-    fn fold_attrs_for_next_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
         if attrs.is_empty() {
             return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
         }
@@ -824,83 +818,6 @@ where
         };
 
         Box::new(Expr::Object(obj))
-    }
-
-    /// Runtime: `automatic`
-    fn fold_attrs_for_old_classic(&mut self, attrs: Vec<JSXAttrOrSpread>) -> Box<Expr> {
-        if attrs.is_empty() {
-            return Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP })));
-        }
-
-        if self.use_spread {
-            return self.fold_attrs_for_next_classic(attrs);
-        }
-
-        let is_complex = attrs
-            .iter()
-            .any(|a| matches!(*a, JSXAttrOrSpread::SpreadElement(..)));
-
-        if is_complex {
-            let mut args = vec![];
-            let mut cur_obj_props = vec![];
-            macro_rules! check {
-                () => {{
-                    if args.is_empty() || !cur_obj_props.is_empty() {
-                        args.push(
-                            ObjectLit {
-                                span: DUMMY_SP,
-                                props: mem::take(&mut cur_obj_props),
-                            }
-                            .as_arg(),
-                        )
-                    }
-                }};
-            }
-            for attr in attrs {
-                match attr {
-                    JSXAttrOrSpread::JSXAttr(a) => {
-                        cur_obj_props.push(PropOrSpread::Prop(Box::new(self.attr_to_prop(a))))
-                    }
-                    JSXAttrOrSpread::SpreadElement(e) => {
-                        check!();
-                        args.push(e.expr.as_arg());
-                    }
-                }
-            }
-            check!();
-
-            // calls `_extends` or `Object.assign`
-            Box::new(Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: {
-                    if self.use_builtins {
-                        member_expr!(DUMMY_SP, Object.assign).as_callee()
-                    } else {
-                        helper!(extends, "extends")
-                    }
-                },
-                args,
-                type_args: None,
-            }))
-        } else {
-            Box::new(Expr::Object(ObjectLit {
-                span: DUMMY_SP,
-                props: attrs
-                    .into_iter()
-                    .map(|a| match a {
-                        JSXAttrOrSpread::JSXAttr(a) => a,
-                        _ => unreachable!(),
-                    })
-                    .map(|attr| {
-                        let mut v = self.attr_to_prop(attr);
-                        v.visit_mut_with(self);
-                        v
-                    })
-                    .map(Box::new)
-                    .map(PropOrSpread::Prop)
-                    .collect(),
-            }))
-        }
     }
 
     fn attr_to_prop(&mut self, a: JSXAttr) -> Prop {

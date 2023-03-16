@@ -1,5 +1,6 @@
 //// [jsxReactTestSuite.tsx]
-import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 /*#__PURE__*/ React.createElement("div", null, "text");
 /*#__PURE__*/ React.createElement("div", null, this.props.children);
 /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("br", null)), /*#__PURE__*/ React.createElement(Component, null, foo, /*#__PURE__*/ React.createElement("br", null), bar), /*#__PURE__*/ React.createElement("br", null));
@@ -27,11 +28,11 @@ var x = /*#__PURE__*/ React.createElement("div", {
 });
 /*#__PURE__*/ React.createElement(Namespace.Component, null);
 /*#__PURE__*/ React.createElement(Namespace.DeepNamespace.Component, null);
-/*#__PURE__*/ React.createElement(Component, _extends({}, x, {
+/*#__PURE__*/ React.createElement(Component, _object_spread_props(_object_spread({}, x), {
     y: 2,
     z: true
 }));
-/*#__PURE__*/ React.createElement(Component, _extends({}, this.props, {
+/*#__PURE__*/ React.createElement(Component, _object_spread_props(_object_spread({}, this.props), {
     sound: "moo"
 }));
 /*#__PURE__*/ React.createElement("font-face", null);
@@ -39,25 +40,25 @@ var x = /*#__PURE__*/ React.createElement("div", {
     x: y
 });
 /*#__PURE__*/ React.createElement("x-component", null);
-/*#__PURE__*/ React.createElement(Component, _extends({}, x));
-/*#__PURE__*/ React.createElement(Component, _extends({}, x, {
+/*#__PURE__*/ React.createElement(Component, x);
+/*#__PURE__*/ React.createElement(Component, _object_spread_props(_object_spread({}, x), {
     y: 2
 }));
-/*#__PURE__*/ React.createElement(Component, _extends({}, x, {
+/*#__PURE__*/ React.createElement(Component, _object_spread_props(_object_spread({}, x), {
     y: 2,
     z: true
 }));
-/*#__PURE__*/ React.createElement(Component, _extends({
+/*#__PURE__*/ React.createElement(Component, _object_spread({
     x: 1
 }, y));
-/*#__PURE__*/ React.createElement(Component, _extends({
+/*#__PURE__*/ React.createElement(Component, _object_spread({
     x: 1,
     y: "2"
 }, z, z), /*#__PURE__*/ React.createElement(Child, null));
-/*#__PURE__*/ React.createElement(Component, _extends({
+/*#__PURE__*/ React.createElement(Component, _object_spread_props(_object_spread({
     x: "1"
 }, (z = {
     y: 2
-}, z), {
+}, z)), {
     z: 3
 }), "Text");

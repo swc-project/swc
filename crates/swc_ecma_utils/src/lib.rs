@@ -1347,6 +1347,9 @@ pub trait ExprExt {
                 .iter()
                 .filter_map(|e| e.as_ref())
                 .any(|e| e.spread.is_some() || e.expr.may_have_side_effects(ctx)),
+            Expr::Unary(UnaryExpr {
+                op: op!("delete"), ..
+            }) => true,
             Expr::Unary(UnaryExpr { ref arg, .. }) => arg.may_have_side_effects(ctx),
             Expr::Bin(BinExpr {
                 ref left,

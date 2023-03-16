@@ -76,6 +76,8 @@ struct Ctx {
     in_page_at_rule: bool,
     in_container_at_rule: bool,
     in_font_feature_values_at_rule: bool,
+
+    in_global_or_local_selector: bool,
 }
 
 impl Default for Ctx {
@@ -92,6 +94,7 @@ impl Default for Ctx {
             in_page_at_rule: false,
             in_container_at_rule: false,
             in_font_feature_values_at_rule: false,
+            in_global_or_local_selector: false,
         }
     }
 }
