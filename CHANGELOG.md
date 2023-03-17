@@ -23,6 +23,9 @@
 - **(es/minifier)** Accept `keep_fnames` and `keep_classnames` (#7090) ([0086914](https://github.com/swc-project/swc/commit/00869147d3ac62db323cdf2a06cc8cc17dcdd1f3))
 
 
+- **(es/minifier)** Remove wrong optimization of `new RegExp(…)` (#7091) ([493a4f7](https://github.com/swc-project/swc/commit/493a4f7042bad7f883981b10cdc02fe0d36a5fb0))
+
+
 - **(es/react)** Align to `babel@8` behavior (#7081) ([7b491a6](https://github.com/swc-project/swc/commit/7b491a69a5ea80cd8aace9e7da3e73079c6a259f))
 
 
