@@ -26,3 +26,9 @@ fn jsonc() {
     let rc = parse_swcrc(include_str!("jsonc.json")).expect("failed to parse");
     dbg!(&rc);
 }
+
+#[test]
+fn issue_6996() {
+    let rc = parse_swcrc(include_str!("issue-6996.json")).expect("failed to parse");
+    dbg!(&rc);
+}

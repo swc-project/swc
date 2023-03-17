@@ -100,6 +100,10 @@ where
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         keyword!("new");
+        if let Some(type_params) = &n.type_params {
+            space!();
+            emit!(type_params);
+        }
 
         punct!("(");
         self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
@@ -122,8 +126,8 @@ where
         }
 
         keyword!("new");
-        space!();
         if let Some(type_params) = &n.type_params {
+            space!();
             emit!(type_params);
         }
 

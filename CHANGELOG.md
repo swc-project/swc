@@ -14,7 +14,13 @@
 - **(css/parser)** Fix parsing of `:global(> *)` (#7082) ([60f74ea](https://github.com/swc-project/swc/commit/60f74ea0769c2be764af8eb5320343f77ea78c1a))
 
 
+- **(es/codegen)** Emit `type_params` for `TsConstructSignatureDecl` (#7080) ([8353acc](https://github.com/swc-project/swc/commit/8353accb1315a8847e4dabcd36274cde5856e763))
+
+
 - **(es/minifier)** Preserve `delete` of unresolved variables (#7072) ([86295ba](https://github.com/swc-project/swc/commit/86295ba8f26fbe3829c2c08fd8034975f05f60b5))
+
+
+- **(es/minifier)** Accept `keep_fnames` and `keep_classnames` (#7090) ([0086914](https://github.com/swc-project/swc/commit/00869147d3ac62db323cdf2a06cc8cc17dcdd1f3))
 
 
 - **(es/react)** Align to `babel@8` behavior (#7081) ([7b491a6](https://github.com/swc-project/swc/commit/7b491a69a5ea80cd8aace9e7da3e73079c6a259f))
