@@ -4174,7 +4174,7 @@
             let comments = options.comments;
             if ("string" == typeof options.comments && /^\/.*\/[a-zA-Z]*$/.test(options.comments)) {
                 var regex_pos = options.comments.lastIndexOf("/");
-                comments = RegExp(options.comments.substr(1, regex_pos - 1), options.comments.substr(regex_pos + 1));
+                comments = new RegExp(options.comments.substr(1, regex_pos - 1), options.comments.substr(regex_pos + 1));
             }
             comment_filter = comments instanceof RegExp ? function(comment) {
                 return "comment5" != comment.type && comments.test(comment.value);
@@ -8393,7 +8393,7 @@
                         return params.push(value), arg !== value;
                     })) {
                         let [source, flags] = params;
-                        source = regexp_source_fix(RegExp(source).source);
+                        source = regexp_source_fix(new RegExp(source).source);
                         const rx = make_node(AST_RegExp, self1, {
                             value: {
                                 source,
@@ -17715,7 +17715,7 @@
             }(reserved);
             var cname = -1;
             cache = options.cache ? options.cache.props : new Map();
-            var regex = options.regex && RegExp(options.regex), debug = !1 !== options.debug;
+            var regex = options.regex && new RegExp(options.regex), debug = !1 !== options.debug;
             debug && (debug_name_suffix = !0 === options.debug ? "" : options.debug);
             var names_to_mangle = new Set(), unmangleable = new Set();
             cache.forEach((mangled_name)=>unmangleable.add(mangled_name));
@@ -17956,7 +17956,7 @@
                     }), (node)=>{
                         if (node instanceof AST_Assign) {
                             var name = node.left.print_to_string(), value = node.right;
-                            return flag ? options[name] = value : value instanceof AST_Array ? options[name] = value.elements.map(to_string) : value instanceof AST_RegExp ? (value = value.value, options[name] = RegExp(value.source, value.flags)) : options[name] = to_string(value), !0;
+                            return flag ? options[name] = value : value instanceof AST_Array ? options[name] = value.elements.map(to_string) : value instanceof AST_RegExp ? (value = value.value, options[name] = new RegExp(value.source, value.flags)) : options[name] = to_string(value), !0;
                         }
                         if (node instanceof AST_Symbol || node instanceof AST_PropAccess) {
                             var name = node.print_to_string();
@@ -18003,7 +18003,7 @@
                     var entries = fs.readdirSync(dir);
                 } catch (ex) {}
                 if (entries) {
-                    var rx = RegExp("^" + path.basename(glob).replace(/[.+^$[\]\\(){}]/g, "\\$&").replace(/\*/g, "[^/\\\\]*").replace(/\?/g, "[^/\\\\]") + "$", "win32" === process.platform ? "i" : ""), results = entries.filter(function(name) {
+                    var pattern = "^" + path.basename(glob).replace(/[.+^$[\]\\(){}]/g, "\\$&").replace(/\*/g, "[^/\\\\]*").replace(/\?/g, "[^/\\\\]") + "$", mod = "win32" === process.platform ? "i" : "", rx = new RegExp(pattern, mod), results = entries.filter(function(name) {
                         return rx.test(name);
                     }).map(function(name) {
                         return path.join(dir, name);

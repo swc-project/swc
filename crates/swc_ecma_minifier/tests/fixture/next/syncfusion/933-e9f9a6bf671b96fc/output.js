@@ -5483,7 +5483,7 @@
                 ], Touch.prototype, "swipeSettings", void 0), Touch = touch_decorate([
                     NotifyPropertyChanges
                 ], Touch);
-            }(Base), LINES = RegExp('\\n|\\r|\\s\\s+', 'g'), QUOTES = RegExp(/'|"/g), IF_STMT = RegExp('if ?\\('), ELSEIF_STMT = RegExp('else if ?\\('), ELSE_STMT = /else/, FOR_STMT = RegExp('for ?\\('), IF_OR_FOR = RegExp('(/if|/for)'), CALL_FUNCTION = RegExp('\\((.*)\\)', ''), NOT_NUMBER = RegExp('^[0-9]+$', 'g'), WORD = RegExp('[\\w"\'.\\s+]+', 'g'), DBL_QUOTED_STR = RegExp('"(.*?)"', 'g'), WORDIF = RegExp('[\\w"\'@#$.\\s-+]+', 'g'), exp = RegExp('\\${([^}]*)}', 'g'), ARR_OBJ = /^\..*/gm, SINGLE_SLASH = /\\/gi, DOUBLE_SLASH = /\\\\/gi, WORDFUNC = RegExp('[\\w"\'@#$.\\s+]+', 'g'), WINDOWFUNC = /\window\./gm;
+            }(Base), LINES = RegExp('\\n|\\r|\\s\\s+', 'g'), QUOTES = new RegExp(/'|"/g), IF_STMT = RegExp('if ?\\('), ELSEIF_STMT = RegExp('else if ?\\('), ELSE_STMT = /else/, FOR_STMT = RegExp('for ?\\('), IF_OR_FOR = RegExp('(/if|/for)'), CALL_FUNCTION = RegExp('\\((.*)\\)', ''), NOT_NUMBER = RegExp('^[0-9]+$', 'g'), WORD = RegExp('[\\w"\'.\\s+]+', 'g'), DBL_QUOTED_STR = RegExp('"(.*?)"', 'g'), WORDIF = RegExp('[\\w"\'@#$.\\s-+]+', 'g'), exp = RegExp('\\${([^}]*)}', 'g'), ARR_OBJ = /^\..*/gm, SINGLE_SLASH = /\\/gi, DOUBLE_SLASH = /\\\\/gi, WORDFUNC = RegExp('[\\w"\'@#$.\\s+]+', 'g'), WINDOWFUNC = /\window\./gm;
             function addNameSpace(str, addNS, nameSpace, ignoreList, ignorePrefix) {
                 return !addNS || NOT_NUMBER.test(str) || -1 !== ignoreList.indexOf(str.split('.')[0]) || ignorePrefix ? str : nameSpace + '.' + str;
             }
@@ -11174,7 +11174,7 @@
                     return styleEle.rel = 'stylesheet', styleEle;
                 }, RichTextEditor.prototype.setValue = function() {
                     if (this.valueTemplate) {
-                        if (RegExp(/<(?=.*? .*?\/ ?>|br|hr|input|!--|wbr)[a-z]+.*?>|<([a-z]+).*?<\/\1>/i).test(this.valueTemplate)) this.setProperties({
+                        if (new RegExp(/<(?=.*? .*?\/ ?>|br|hr|input|!--|wbr)[a-z]+.*?>|<([a-z]+).*?<\/\1>/i).test(this.valueTemplate)) this.setProperties({
                             value: this.valueTemplate
                         });
                         else {
@@ -14562,7 +14562,7 @@
                     this.checkVShape(elm);
                     for(var imgElem = elm.querySelectorAll('img'), i = 0; i < imgElem.length; i++)!(0, ej2_base.le)(imgElem[i].getAttribute('v:shapes')) && 0 > imgElem[i].getAttribute('v:shapes').indexOf('Picture') && 0 > imgElem[i].getAttribute('v:shapes').indexOf('Image') && (0, ej2_base.og)(imgElem[i]);
                     imgElem = elm.querySelectorAll('img');
-                    var imgSrc = [], base64Src = [], imgName = [], linkRegex = RegExp(/([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi);
+                    var imgSrc = [], base64Src = [], imgName = [], linkRegex = new RegExp(/([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi);
                     if (imgElem.length > 0) {
                         for(var i = 0; i < imgElem.length; i++)imgSrc.push(imgElem[i].getAttribute('src')), imgName.push(imgElem[i].getAttribute('src').split('/')[imgElem[i].getAttribute('src').split('/').length - 1].split('.')[0]);
                         for(var hexValue = this.hexConversion(rtfData), i = 0; i < hexValue.length; i++)base64Src.push(this.convertToBase64(hexValue[i]));
@@ -15623,13 +15623,13 @@
                     for(var node = rangeLiNode.parentElement; node !== this.parent.inputElement && (1 !== node.nodeType || 'LI' !== node.tagName);)node = node.parentElement;
                     return node;
                 }, HtmlEditor.prototype.onPaste = function(e) {
-                    var regex = RegExp(/([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi);
+                    var regex = new RegExp(/([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi);
                     if (e.text.match(regex)) {
                         if (e.isWordPaste) return;
                         e.args.preventDefault();
                         var range = this.parent.formatter.editorManager.nodeSelection.getRange(this.parent.contentModule.getDocument());
                         this.parent.formatter.editorManager.nodeSelection.save(range, this.parent.contentModule.getDocument());
-                        for(var httpRegex = RegExp(/([^\S]|^)(((https?\:\/\/)))/gi), wwwRegex = RegExp(/([^\S]|^)(((www\.))(\S+))/gi), enterSplitText = e.text.split('\n'), contentInnerElem = '', i = 0; i < enterSplitText.length; i++)if ('' === enterSplitText[i].trim()) contentInnerElem += (0, util.oG)(this.parent);
+                        for(var httpRegex = new RegExp(/([^\S]|^)(((https?\:\/\/)))/gi), wwwRegex = new RegExp(/([^\S]|^)(((www\.))(\S+))/gi), enterSplitText = e.text.split('\n'), contentInnerElem = '', i = 0; i < enterSplitText.length; i++)if ('' === enterSplitText[i].trim()) contentInnerElem += (0, util.oG)(this.parent);
                         else {
                             for(var contentWithSpace = '', spaceBetweenContent = !0, spaceSplit = enterSplitText[i].split(' '), j = 0; j < spaceSplit.length; j++)'' === spaceSplit[j].trim() ? contentWithSpace += spaceBetweenContent ? '&nbsp;' : ' ' : (spaceBetweenContent = !1, contentWithSpace += spaceSplit[j] + ' ');
                             0 === i ? contentInnerElem += '<span>' + contentWithSpace.trim() + '</span>' : contentInnerElem += '<p>' + contentWithSpace.trim() + '</p>';
@@ -15645,7 +15645,7 @@
                 }, HtmlEditor.prototype.spaceLink = function(e) {
                     var range = this.nodeSelectionObj.getRange(this.contentRenderer.getDocument()), selectNodeEle = this.nodeSelectionObj.getParentNodeCollection(range), text = range.startContainer.textContent.substr(0, range.endOffset), splitText = text.split(' '), urlText = splitText[splitText.length - 1], urlTextRange = range.startOffset - (text.length - splitText[splitText.length - 1].length);
                     urlText = urlText.slice(0, urlTextRange);
-                    var regex = RegExp(/([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi);
+                    var regex = new RegExp(/([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi);
                     if ('A' !== selectNodeEle[0].nodeName && urlText.match(regex)) {
                         var selection = this.nodeSelectionObj.save(range, this.parent.contentModule.getDocument()), value = {
                             url: urlText.indexOf('http') > -1 ? urlText : 'http://' + urlText,
@@ -18058,7 +18058,7 @@
                         value: value
                     }), e.args && null !== value && 'HTML' === this.parent.editorMode) {
                         if (0 === value.length) {
-                            var htmlRegex = RegExp(/<\/[a-z][\s\S]*>/i);
+                            var htmlRegex = new RegExp(/<\/[a-z][\s\S]*>/i);
                             value = e.args.clipboardData.getData('text/plain'), this.isNotFromHtml = '' !== value, value = (value = value.replace(/</g, '&lt;')).replace(/>/g, '&gt;'), this.containsHtml = htmlRegex.test(value);
                             var file = e && e.args.clipboardData && e.args.clipboardData.items.length > 0 ? null === e.args.clipboardData.items[0].getAsFile() ? (0, ej2_base.le)(e.args.clipboardData.items[1]) ? null : e.args.clipboardData.items[1].getAsFile() : e.args.clipboardData.items[0].getAsFile() : null;
                             if (this.parent.notify(constant.RE, {
@@ -19641,7 +19641,7 @@
                             item.id ? ele.id = item.id : ele.id = (0, ej2_base.QI)('tbr-ipt'), innerEle.appendChild(ele), templateProp.appendTo(ele);
                         }
                     } else {
-                        var templateFn = void 0, val = templateProp, regEx = RegExp(/<(?=.*? .*?\/ ?>|br|hr|input|!--|wbr)[a-z]+.*?>|<([a-z]+).*?<\/\1>/i);
+                        var templateFn = void 0, val = templateProp, regEx = new RegExp(/<(?=.*? .*?\/ ?>|br|hr|input|!--|wbr)[a-z]+.*?>|<([a-z]+).*?<\/\1>/i);
                         val = 'string' == typeof templateProp ? templateProp.trim() : templateProp;
                         try {
                             if ('object' != typeof templateProp || (0, ej2_base.le)(templateProp.tagName)) {

@@ -457,7 +457,7 @@
                 }
             }
             _t.EMPTY_BYTE_STRING = new _t("");
-            const mt = RegExp(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.(\d+))?Z$/);
+            const mt = new RegExp(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.(\d+))?Z$/);
             function gt(t) {
                 if (t || L(), "string" == typeof t) {
                     let e = 0;

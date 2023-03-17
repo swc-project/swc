@@ -524,7 +524,7 @@
                 yellow: "#ffff00",
                 yellowgreen: "#9acd32"
             }, CSS_UNIT = "(?:".concat("[-\\+]?\\d*\\.\\d+%?", ")|(?:").concat("[-\\+]?\\d+%?", ")"), PERMISSIVE_MATCH3 = "[\\s|\\(]+(".concat(CSS_UNIT, ")[,|\\s]+(").concat(CSS_UNIT, ")[,|\\s]+(").concat(CSS_UNIT, ")\\s*\\)?"), PERMISSIVE_MATCH4 = "[\\s|\\(]+(".concat(CSS_UNIT, ")[,|\\s]+(").concat(CSS_UNIT, ")[,|\\s]+(").concat(CSS_UNIT, ")[,|\\s]+(").concat(CSS_UNIT, ")\\s*\\)?"), matchers = {
-                CSS_UNIT: RegExp(CSS_UNIT),
+                CSS_UNIT: new RegExp(CSS_UNIT),
                 rgb: RegExp("rgb" + PERMISSIVE_MATCH3),
                 rgba: RegExp("rgba" + PERMISSIVE_MATCH4),
                 hsl: RegExp("hsl" + PERMISSIVE_MATCH3),

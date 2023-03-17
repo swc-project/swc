@@ -2958,7 +2958,7 @@
                                 return inChClass ? inChClass = "]" != square : square ? inChClass = !0 : parenClose ? (stack == lastCapture.stack && (lastCapture.end = index + 1, lastCapture.stack = -1), stack--) : parenOpen && (stack++, 1 != parenOpen.length && (lastCapture.stack = stack, lastCapture.start = index)), m;
                             }), null != lastCapture.end && /^\)*$/.test(src.substr(lastCapture.end)) && (src = src.substring(0, lastCapture.start) + src.substr(lastCapture.end));
                         }
-                        return "^" != src.charAt(0) && (src = "^" + src), "$" != src.charAt(src.length - 1) && (src += "$"), RegExp(src, (flag || "").replace("g", ""));
+                        return "^" != src.charAt(0) && (src = "^" + src), "$" != src.charAt(src.length - 1) && (src += "$"), new RegExp(src, (flag || "").replace("g", ""));
                     }, this.getLineTokens = function(line, startState) {
                         if (startState && "string" != typeof startState) {
                             var stack = startState.slice(0);
@@ -5361,7 +5361,7 @@
                         var iterator = new TokenIterator(this, row, column), token = iterator.getCurrentToken(), type = token && token.type;
                         if (token && /^comment|string/.test(type)) {
                             "comment" == (type = type.match(/comment|string/)[0]) && (type += "|doc-start");
-                            var re = RegExp(type), range = new Range();
+                            var re = new RegExp(type), range = new Range();
                             if (1 != dir) {
                                 do token = iterator.stepBackward();
                                 while (token && re.test(token.type))
@@ -6419,14 +6419,14 @@
                         var modifier = options.caseSensitive ? "gm" : "gmi";
                         if (options.$isMultiLine = !$disableFakeMultiline && /[\n\r]/.test(needle), options.$isMultiLine) return options.re = this.$assembleMultilineRegExp(needle, modifier);
                         try {
-                            var re = RegExp(needle, modifier);
+                            var re = new RegExp(needle, modifier);
                         } catch (e) {
                             re = !1;
                         }
                         return options.re = re;
                     }, this.$assembleMultilineRegExp = function(needle, modifier) {
                         for(var parts = needle.replace(/\r\n|\r|\n/g, "$\n^").split("\n"), re = [], i = 0; i < parts.length; i++)try {
-                            re.push(RegExp(parts[i], modifier));
+                            re.push(new RegExp(parts[i], modifier));
                         } catch (e) {
                             return !1;
                         }
