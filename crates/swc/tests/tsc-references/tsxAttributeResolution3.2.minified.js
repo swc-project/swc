@@ -1,26 +1,17 @@
 //// [file.tsx]
-import _extends from "@swc/helpers/src/_extends.mjs";
-_extends({}, {
-    x: "foo"
-}), _extends({}, {
-    x: 32
-}), _extends({}, {
-    y: 32
-}), _extends({}, {
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
+_object_spread_props(_object_spread({}, {
     x: 32,
     y: 32
-}, {
+}), {
     x: "ok"
-}), _extends({
+}), _object_spread({
     x: "ok"
 }, {
     x: 32,
     y: 32
-}), _extends({}, {
-    x: "ok",
-    y: 32,
-    extra: 100
-}), _extends({
+}), _object_spread({
     x: 32
 }, {
     x: "foo"

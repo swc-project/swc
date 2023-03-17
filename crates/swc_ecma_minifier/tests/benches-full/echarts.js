@@ -3911,7 +3911,8 @@
             for(var roots = this.storage.getRoots(), i = 0; i < roots.length; i++)roots[i] instanceof Group && roots[i].removeSelfFromZr(this);
             this.storage.delAllRoots(), this.painter.clear();
         }, ZRender.prototype.dispose = function() {
-            this.animation.stop(), this.clear(), this.storage.dispose(), this.painter.dispose(), this.handler.dispose(), this.animation = this.storage = this.painter = this.handler = null, delete instances[this.id];
+            var id;
+            this.animation.stop(), this.clear(), this.storage.dispose(), this.painter.dispose(), this.handler.dispose(), this.animation = this.storage = this.painter = this.handler = null, id = this.id, delete instances[id];
         }, ZRender;
     }();
     function init(dom, opts) {

@@ -55,6 +55,7 @@ fn compile(input: PathBuf) {
             &mut errors,
         )
         .unwrap();
+
         let _result = swc_css_modules::imports::analyze_imports(&ss);
 
         let transform_result = swc_css_modules::compile(&mut ss, TestConfig {});

@@ -1,0 +1,19 @@
+{
+    "test": ".jsx?$",
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "decorators": true,
+            "dynamicImport": true
+        },
+        "transform": {
+            "react": {
+                "refresh": true
+            }
+        },
+        "minify": {
+            "keep_fnames": true
+        }
+    }
+}
