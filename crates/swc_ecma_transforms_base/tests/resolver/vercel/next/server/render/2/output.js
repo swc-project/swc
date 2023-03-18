@@ -20,11 +20,11 @@ function renderToStream__1(element__2, generateStaticHTML__2) {
             }
             underlyingStream__4.resolve();
         });
-        stream__4.once("error", (err__6)=>{
+        stream__4.once("error", (err__11)=>{
             if (!underlyingStream__4) {
                 throw new Error("invariant: error called without an underlying stream. This is a bug in Next.js");
             }
-            underlyingStream__4.resolve(err__6);
+            underlyingStream__4.resolve(err__11);
         });
         Object.defineProperty(stream__4, "flush", {
             value: ()=>{
@@ -41,20 +41,20 @@ function renderToStream__1(element__2, generateStaticHTML__2) {
         const doResolve__4 = ()=>{
             if (!resolved__4) {
                 resolved__4 = true;
-                resolve__4((res__7, next__7)=>{
-                    const drainHandler__7 = ()=>{
-                        const prevCallbacks__8 = underlyingStream__4.queuedCallbacks;
+                resolve__4((res__18, next__18)=>{
+                    const drainHandler__18 = ()=>{
+                        const prevCallbacks__19 = underlyingStream__4.queuedCallbacks;
                         underlyingStream__4.queuedCallbacks = [];
-                        prevCallbacks__8.forEach((callback__9)=>callback__9());
+                        prevCallbacks__19.forEach((callback__20)=>callback__20());
                     };
-                    res__7.on("drain", drainHandler__7);
+                    res__18.on("drain", drainHandler__18);
                     underlyingStream__4 = {
-                        resolve: (err__10)=>{
+                        resolve: (err__21)=>{
                             underlyingStream__4 = null;
-                            res__7.removeListener("drain", drainHandler__7);
-                            next__7(err__10);
+                            res__18.removeListener("drain", drainHandler__18);
+                            next__18(err__21);
                         },
-                        writable: res__7,
+                        writable: res__18,
                         queuedCallbacks: []
                     };
                     startWriting__4();
@@ -62,10 +62,10 @@ function renderToStream__1(element__2, generateStaticHTML__2) {
             }
         };
         const { abort__4 , startWriting__4  } = ReactDOMServer.pipeToNodeWritable(element__2, stream__4, {
-            onError (error__11) {
+            onError (error__22) {
                 if (!resolved__4) {
                     resolved__4 = true;
-                    reject__4(error__11);
+                    reject__4(error__22);
                 }
                 abort__4();
             },

@@ -3,15 +3,15 @@ function o__1(e__3) {
     const r__3 = e__3.nextUrl;
     if ("/log" !== r__3.pathname) {
         if ("/throw-error-internal" === r__3.pathname) {
-            function r__4() {
+            function r__5() {
                 return e__3();
             }
             try {
-                r__4();
-            } catch (o__5) {
-                console.error(o__5);
+                r__5();
+            } catch (o__8) {
+                console.error(o__8);
             }
-            return new Promise((e__6, r__6)=>r__6(new Error("oh no!")));
+            return new Promise((e__9, r__9)=>r__9(new Error("oh no!")));
         }
     }
 }

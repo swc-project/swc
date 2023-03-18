@@ -3,6 +3,6 @@ type Movable__1 = {
 };
 const car__1 = {
     start () {},
-    move (d__3) {},
+    move (d__4) {},
     stop () {}
 } satisfies Movable__1 & Record<string, unknown>;

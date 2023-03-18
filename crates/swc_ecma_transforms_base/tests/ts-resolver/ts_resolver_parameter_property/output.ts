@@ -6,8 +6,8 @@ class PartWriter__1 implements Deno.Writer {
         } else {
             buf__3 += `\r\n--${boundary__3}\r\n`;
         }
-        for (const [key__4, value__4] of headers__3.entries()){
-            buf__3 += `${key__4}: ${value__4}\r\n`;
+        for (const [key__6, value__6] of headers__3.entries()){
+            buf__3 += `${key__6}: ${value__6}\r\n`;
         }
         buf__3 += `\r\n`;
         this.partHeader = buf__3;

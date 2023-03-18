@@ -5,7 +5,7 @@ use regex::Regex;
 use sha1::{Digest, Sha1};
 use swc_common::{util::take::Take, SourceMap, SourceMapper, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -209,17 +209,7 @@ impl<'a> VisitMut for HookRegister<'a> {
         let old_ident = self.ident.take();
         let old_stmts = self.extra_stmt.take();
 
-        self.current_scope.push(
-            b.stmts
-                .iter()
-                .find_map(|stmt| match stmt {
-                    Stmt::Decl(decl) => find_pat_ids::<_, Ident>(decl)
-                        .into_iter()
-                        .find_map(|id| (!id.span.is_dummy()).then(|| id.span.ctxt())),
-                    _ => None,
-                })
-                .unwrap_or(SyntaxContext::empty()),
-        );
+        self.current_scope.push(b.span.ctxt);
 
         let stmt_count = b.stmts.len();
         let stmts = mem::replace(&mut b.stmts, Vec::with_capacity(stmt_count));

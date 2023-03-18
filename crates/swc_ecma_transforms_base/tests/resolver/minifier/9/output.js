@@ -2,7 +2,7 @@ var o__1 = 0;
 function f__1() {
     try {
         throw 1;
-    } catch (c__3) {
+    } catch (c__4) {
         try {
             throw 2;
         } catch (o__2) {

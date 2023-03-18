@@ -62,217 +62,217 @@ class ServerRouter__1 {
         noRouter__1();
     }
 }
-function enhanceComponents__1(options__5, App__5, Component__5) {
-    if (typeof options__5 === "function") {
+function enhanceComponents__1(options__11, App__11, Component__11) {
+    if (typeof options__11 === "function") {
         return {
-            App__5,
-            Component: options__5(Component__5)
+            App__11,
+            Component: options__11(Component__11)
         };
     }
     return {
-        App: options__5.enhanceApp ? options__5.enhanceApp(App__5) : App__5,
-        Component: options__5.enhanceComponent ? options__5.enhanceComponent(Component__5) : Component__5
+        App: options__11.enhanceApp ? options__11.enhanceApp(App__11) : App__11,
+        Component: options__11.enhanceComponent ? options__11.enhanceComponent(Component__11) : Component__11
     };
 }
-const invalidKeysMsg__1 = (methodName__6, invalidKeys__6)=>{
-    return `Additional keys were returned from \`${methodName__6}\`. Properties intended for your component must be nested under the \`props\` key, e.g.:` + `\n\n\treturn { props: { title: 'My Title', content: '...' } }` + `\n\nKeys that need to be moved: ${invalidKeys__6.join(", ")}.` + `\nRead more: https://nextjs.org/docs/messages/invalid-getstaticprops-value`;
+const invalidKeysMsg__1 = (methodName__13, invalidKeys__13)=>{
+    return `Additional keys were returned from \`${methodName__13}\`. Properties intended for your component must be nested under the \`props\` key, e.g.:` + `\n\n\treturn { props: { title: 'My Title', content: '...' } }` + `\n\nKeys that need to be moved: ${invalidKeys__13.join(", ")}.` + `\nRead more: https://nextjs.org/docs/messages/invalid-getstaticprops-value`;
 };
-function checkRedirectValues__1(redirect__7, req__7, method__7) {
-    const { destination__7 , permanent__7 , statusCode__7 , basePath__7  } = redirect__7;
-    let errors__7 = [];
-    const hasStatusCode__7 = typeof statusCode__7 !== "undefined";
-    const hasPermanent__7 = typeof permanent__7 !== "undefined";
-    if (hasPermanent__7 && hasStatusCode__7) {
-        errors__7.push(`\`permanent\` and \`statusCode\` can not both be provided`);
-    } else if (hasPermanent__7 && typeof permanent__7 !== "boolean") {
-        errors__7.push(`\`permanent\` must be \`true\` or \`false\``);
-    } else if (hasStatusCode__7 && !allowedStatusCodes__1.has(statusCode__7)) {
-        errors__7.push(`\`statusCode\` must undefined or one of ${[
+function checkRedirectValues__1(redirect__14, req__14, method__14) {
+    const { destination__14 , permanent__14 , statusCode__14 , basePath__14  } = redirect__14;
+    let errors__14 = [];
+    const hasStatusCode__14 = typeof statusCode__14 !== "undefined";
+    const hasPermanent__14 = typeof permanent__14 !== "undefined";
+    if (hasPermanent__14 && hasStatusCode__14) {
+        errors__14.push(`\`permanent\` and \`statusCode\` can not both be provided`);
+    } else if (hasPermanent__14 && typeof permanent__14 !== "boolean") {
+        errors__14.push(`\`permanent\` must be \`true\` or \`false\``);
+    } else if (hasStatusCode__14 && !allowedStatusCodes__1.has(statusCode__14)) {
+        errors__14.push(`\`statusCode\` must undefined or one of ${[
             ...allowedStatusCodes__1
         ].join(", ")}`);
     }
-    const destinationType__7 = typeof destination__7;
-    if (destinationType__7 !== "string") {
-        errors__7.push(`\`destination\` should be string but received ${destinationType__7}`);
+    const destinationType__14 = typeof destination__14;
+    if (destinationType__14 !== "string") {
+        errors__14.push(`\`destination\` should be string but received ${destinationType__14}`);
     }
-    const basePathType__7 = typeof basePath__7;
-    if (basePathType__7 !== "undefined" && basePathType__7 !== "boolean") {
-        errors__7.push(`\`basePath\` should be undefined or a false, received ${basePathType__7}`);
+    const basePathType__14 = typeof basePath__14;
+    if (basePathType__14 !== "undefined" && basePathType__14 !== "boolean") {
+        errors__14.push(`\`basePath\` should be undefined or a false, received ${basePathType__14}`);
     }
-    if (errors__7.length > 0) {
-        throw new Error(`Invalid redirect object returned from ${method__7} for ${req__7.url}\n` + errors__7.join(" and ") + "\n" + `See more info here: https://nextjs.org/docs/messages/invalid-redirect-gssp`);
+    if (errors__14.length > 0) {
+        throw new Error(`Invalid redirect object returned from ${method__14} for ${req__14.url}\n` + errors__14.join(" and ") + "\n" + `See more info here: https://nextjs.org/docs/messages/invalid-redirect-gssp`);
     }
 }
-export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, renderOpts__8) {
-    renderOpts__8.devOnlyCacheBusterQueryString = renderOpts__8.dev ? renderOpts__8.devOnlyCacheBusterQueryString || `?ts=${Date.now()}` : "";
-    query__8 = Object.assign({}, query__8);
-    const { err__8 , dev__8 =false , ampPath__8 ="" , App__8 , Document__8 , pageConfig__8 ={} , Component__8 , buildManifest__8 , fontManifest__8 , reactLoadableManifest__8 , ErrorDebug__8 , getStaticProps__8 , getStaticPaths__8 , getServerSideProps__8 , isDataReq__8 , params__8 , previewProps__8 , basePath__8 , devOnlyCacheBusterQueryString__8 , supportsDynamicHTML__8 , concurrentFeatures__8  } = renderOpts__8;
-    const getFontDefinition__8 = (url__9)=>{
-        if (fontManifest__8) {
-            return getFontDefinitionFromManifest__1(url__9, fontManifest__8);
+export async function renderToHTML__1(req__21, res__21, pathname__21, query__21, renderOpts__21) {
+    renderOpts__21.devOnlyCacheBusterQueryString = renderOpts__21.dev ? renderOpts__21.devOnlyCacheBusterQueryString || `?ts=${Date.now()}` : "";
+    query__21 = Object.assign({}, query__21);
+    const { err__21 , dev__21 =false , ampPath__21 ="" , App__21 , Document__21 , pageConfig__21 ={} , Component__21 , buildManifest__21 , fontManifest__21 , reactLoadableManifest__21 , ErrorDebug__21 , getStaticProps__21 , getStaticPaths__21 , getServerSideProps__21 , isDataReq__21 , params__21 , previewProps__21 , basePath__21 , devOnlyCacheBusterQueryString__21 , supportsDynamicHTML__21 , concurrentFeatures__21  } = renderOpts__21;
+    const getFontDefinition__21 = (url__22)=>{
+        if (fontManifest__21) {
+            return getFontDefinitionFromManifest__1(url__22, fontManifest__21);
         }
         return "";
     };
-    const callMiddleware__8 = async (method__10, args__10, props__10 = false)=>{
-        let results__10 = props__10 ? {} : [];
-        if (Document__8[`${method__10}Middleware`]) {
-            let middlewareFunc__11 = await Document__8[`${method__10}Middleware`];
-            middlewareFunc__11 = middlewareFunc__11.default || middlewareFunc__11;
-            const curResults__11 = await middlewareFunc__11(...args__10);
-            if (props__10) {
-                for (const result__12 of curResults__11){
-                    results__10 = {
-                        ...results__10,
-                        ...result__12
+    const callMiddleware__21 = async (method__24, args__24, props__24 = false)=>{
+        let results__24 = props__24 ? {} : [];
+        if (Document__21[`${method__24}Middleware`]) {
+            let middlewareFunc__25 = await Document__21[`${method__24}Middleware`];
+            middlewareFunc__25 = middlewareFunc__25.default || middlewareFunc__25;
+            const curResults__25 = await middlewareFunc__25(...args__24);
+            if (props__24) {
+                for (const result__27 of curResults__25){
+                    results__24 = {
+                        ...results__24,
+                        ...result__27
                     };
                 }
             } else {
-                results__10 = curResults__11;
+                results__24 = curResults__25;
             }
         }
-        return results__10;
+        return results__24;
     };
-    const headTags__8 = (...args__13)=>callMiddleware__8("headTags", args__13);
-    const isFallback__8 = !!query__8.__nextFallback;
-    delete query__8.__nextFallback;
-    delete query__8.__nextLocale;
-    delete query__8.__nextDefaultLocale;
-    const isSSG__8 = !!getStaticProps__8;
-    const isBuildTimeSSG__8 = isSSG__8 && renderOpts__8.nextExport;
-    const defaultAppGetInitialProps__8 = App__8.getInitialProps === App__8.origGetInitialProps;
-    const hasPageGetInitialProps__8 = !!Component__8.getInitialProps;
-    const pageIsDynamic__8 = isDynamicRoute__1(pathname__8);
-    const isAutoExport__8 = !hasPageGetInitialProps__8 && defaultAppGetInitialProps__8 && !isSSG__8 && !getServerSideProps__8;
-    for (const methodName__14 of [
+    const headTags__21 = (...args__30)=>callMiddleware__21("headTags", args__30);
+    const isFallback__21 = !!query__21.__nextFallback;
+    delete query__21.__nextFallback;
+    delete query__21.__nextLocale;
+    delete query__21.__nextDefaultLocale;
+    const isSSG__21 = !!getStaticProps__21;
+    const isBuildTimeSSG__21 = isSSG__21 && renderOpts__21.nextExport;
+    const defaultAppGetInitialProps__21 = App__21.getInitialProps === App__21.origGetInitialProps;
+    const hasPageGetInitialProps__21 = !!Component__21.getInitialProps;
+    const pageIsDynamic__21 = isDynamicRoute__1(pathname__21);
+    const isAutoExport__21 = !hasPageGetInitialProps__21 && defaultAppGetInitialProps__21 && !isSSG__21 && !getServerSideProps__21;
+    for (const methodName__31 of [
         "getStaticProps",
         "getServerSideProps",
         "getStaticPaths"
     ]){
-        if (Component__8[methodName__14]) {
-            throw new Error(`page ${pathname__8} ${methodName__14} ${GSSP_COMPONENT_MEMBER_ERROR__1}`);
+        if (Component__21[methodName__31]) {
+            throw new Error(`page ${pathname__21} ${methodName__31} ${GSSP_COMPONENT_MEMBER_ERROR__1}`);
         }
     }
-    if (hasPageGetInitialProps__8 && isSSG__8) {
-        throw new Error(SSG_GET_INITIAL_PROPS_CONFLICT__1 + ` ${pathname__8}`);
+    if (hasPageGetInitialProps__21 && isSSG__21) {
+        throw new Error(SSG_GET_INITIAL_PROPS_CONFLICT__1 + ` ${pathname__21}`);
     }
-    if (hasPageGetInitialProps__8 && getServerSideProps__8) {
-        throw new Error(SERVER_PROPS_GET_INIT_PROPS_CONFLICT__1 + ` ${pathname__8}`);
+    if (hasPageGetInitialProps__21 && getServerSideProps__21) {
+        throw new Error(SERVER_PROPS_GET_INIT_PROPS_CONFLICT__1 + ` ${pathname__21}`);
     }
-    if (getServerSideProps__8 && isSSG__8) {
-        throw new Error(SERVER_PROPS_SSG_CONFLICT__1 + ` ${pathname__8}`);
+    if (getServerSideProps__21 && isSSG__21) {
+        throw new Error(SERVER_PROPS_SSG_CONFLICT__1 + ` ${pathname__21}`);
     }
-    if (getStaticPaths__8 && !pageIsDynamic__8) {
-        throw new Error(`getStaticPaths is only allowed for dynamic SSG pages and was found on '${pathname__8}'.` + `\nRead more: https://nextjs.org/docs/messages/non-dynamic-getstaticpaths-usage`);
+    if (getStaticPaths__21 && !pageIsDynamic__21) {
+        throw new Error(`getStaticPaths is only allowed for dynamic SSG pages and was found on '${pathname__21}'.` + `\nRead more: https://nextjs.org/docs/messages/non-dynamic-getstaticpaths-usage`);
     }
-    if (!!getStaticPaths__8 && !isSSG__8) {
-        throw new Error(`getStaticPaths was added without a getStaticProps in ${pathname__8}. Without getStaticProps, getStaticPaths does nothing`);
+    if (!!getStaticPaths__21 && !isSSG__21) {
+        throw new Error(`getStaticPaths was added without a getStaticProps in ${pathname__21}. Without getStaticProps, getStaticPaths does nothing`);
     }
-    if (isSSG__8 && pageIsDynamic__8 && !getStaticPaths__8) {
-        throw new Error(`getStaticPaths is required for dynamic SSG pages and is missing for '${pathname__8}'.` + `\nRead more: https://nextjs.org/docs/messages/invalid-getstaticpaths-value`);
+    if (isSSG__21 && pageIsDynamic__21 && !getStaticPaths__21) {
+        throw new Error(`getStaticPaths is required for dynamic SSG pages and is missing for '${pathname__21}'.` + `\nRead more: https://nextjs.org/docs/messages/invalid-getstaticpaths-value`);
     }
-    let asPath__8 = renderOpts__8.resolvedAsPath || req__8.url;
-    if (dev__8) {
-        const { isValidElementType__15  } = require("react-is");
-        if (!isValidElementType__15(Component__8)) {
-            throw new Error(`The default export is not a React Component in page: "${pathname__8}"`);
+    let asPath__21 = renderOpts__21.resolvedAsPath || req__21.url;
+    if (dev__21) {
+        const { isValidElementType__40  } = require("react-is");
+        if (!isValidElementType__40(Component__21)) {
+            throw new Error(`The default export is not a React Component in page: "${pathname__21}"`);
         }
-        if (!isValidElementType__15(App__8)) {
+        if (!isValidElementType__40(App__21)) {
             throw new Error(`The default export is not a React Component in page: "/_app"`);
         }
-        if (!isValidElementType__15(Document__8)) {
+        if (!isValidElementType__40(Document__21)) {
             throw new Error(`The default export is not a React Component in page: "/_document"`);
         }
-        if (isAutoExport__8 || isFallback__8) {
-            query__8 = {
-                ...query__8.amp ? {
-                    amp: query__8.amp
+        if (isAutoExport__21 || isFallback__21) {
+            query__21 = {
+                ...query__21.amp ? {
+                    amp: query__21.amp
                 } : {}
             };
-            asPath__8 = `${pathname__8}${req__8.url.endsWith("/") && pathname__8 !== "/" && !pageIsDynamic__8 ? "/" : ""}`;
-            req__8.url = pathname__8;
+            asPath__21 = `${pathname__21}${req__21.url.endsWith("/") && pathname__21 !== "/" && !pageIsDynamic__21 ? "/" : ""}`;
+            req__21.url = pathname__21;
         }
-        if (pathname__8 === "/404" && (hasPageGetInitialProps__8 || getServerSideProps__8)) {
+        if (pathname__21 === "/404" && (hasPageGetInitialProps__21 || getServerSideProps__21)) {
             throw new Error(`\`pages/404\` ${STATIC_STATUS_PAGE_GET_INITIAL_PROPS_ERROR__1}`);
         }
-        if (STATIC_STATUS_PAGES__1.includes(pathname__8) && (hasPageGetInitialProps__8 || getServerSideProps__8)) {
-            throw new Error(`\`pages${pathname__8}\` ${STATIC_STATUS_PAGE_GET_INITIAL_PROPS_ERROR__1}`);
+        if (STATIC_STATUS_PAGES__1.includes(pathname__21) && (hasPageGetInitialProps__21 || getServerSideProps__21)) {
+            throw new Error(`\`pages${pathname__21}\` ${STATIC_STATUS_PAGE_GET_INITIAL_PROPS_ERROR__1}`);
         }
     }
     await Loadable__1.preloadAll();
-    let isPreview__8;
-    let previewData__8;
-    if ((isSSG__8 || getServerSideProps__8) && !isFallback__8) {
-        previewData__8 = tryGetPreviewData__1(req__8, res__8, previewProps__8);
-        isPreview__8 = previewData__8 !== false;
+    let isPreview__21;
+    let previewData__21;
+    if ((isSSG__21 || getServerSideProps__21) && !isFallback__21) {
+        previewData__21 = tryGetPreviewData__1(req__21, res__21, previewProps__21);
+        isPreview__21 = previewData__21 !== false;
     }
-    const routerIsReady__8 = !!(getServerSideProps__8 || hasPageGetInitialProps__8 || !defaultAppGetInitialProps__8 && !isSSG__8);
-    const router__8 = new ServerRouter__1(pathname__8, query__8, asPath__8, {
-        isFallback: isFallback__8
-    }, routerIsReady__8, basePath__8, renderOpts__8.locale, renderOpts__8.locales, renderOpts__8.defaultLocale, renderOpts__8.domainLocales, isPreview__8, req__8.__nextIsLocaleDomain);
-    const jsxStyleRegistry__8 = createStyleRegistry__1();
-    const ctx__8 = {
-        err__8,
-        req: isAutoExport__8 ? undefined : req__8,
-        res: isAutoExport__8 ? undefined : res__8,
-        pathname__8,
-        query__8,
-        asPath__8,
-        locale: renderOpts__8.locale,
-        locales: renderOpts__8.locales,
-        defaultLocale: renderOpts__8.defaultLocale,
-        AppTree: (props__16)=>{
-            return <AppContainer__8>
+    const routerIsReady__21 = !!(getServerSideProps__21 || hasPageGetInitialProps__21 || !defaultAppGetInitialProps__21 && !isSSG__21);
+    const router__21 = new ServerRouter__1(pathname__21, query__21, asPath__21, {
+        isFallback: isFallback__21
+    }, routerIsReady__21, basePath__21, renderOpts__21.locale, renderOpts__21.locales, renderOpts__21.defaultLocale, renderOpts__21.domainLocales, isPreview__21, req__21.__nextIsLocaleDomain);
+    const jsxStyleRegistry__21 = createStyleRegistry__1();
+    const ctx__21 = {
+        err__21,
+        req: isAutoExport__21 ? undefined : req__21,
+        res: isAutoExport__21 ? undefined : res__21,
+        pathname__21,
+        query__21,
+        asPath__21,
+        locale: renderOpts__21.locale,
+        locales: renderOpts__21.locales,
+        defaultLocale: renderOpts__21.defaultLocale,
+        AppTree: (props__48)=>{
+            return <AppContainer__21>
 
-                    <App__8 {...props__16} Component__0={Component__8} router__0={router__8}/>
+                    <App__21 {...props__48} Component__0={Component__21} router__0={router__21}/>
 
-                </AppContainer__8>;
+                </AppContainer__21>;
         },
-        defaultGetInitialProps: async (docCtx__17)=>{
-            const enhanceApp__17 = (AppComp__18)=>{
-                return (props__19)=><AppComp__18 {...props__19}/>;
+        defaultGetInitialProps: async (docCtx__49)=>{
+            const enhanceApp__49 = (AppComp__50)=>{
+                return (props__51)=><AppComp__50 {...props__51}/>;
             };
-            const { html__17 , head__17  } = await docCtx__17.renderPage({
-                enhanceApp__17
+            const { html__49 , head__49  } = await docCtx__49.renderPage({
+                enhanceApp__49
             });
-            const styles__17 = jsxStyleRegistry__8.styles();
+            const styles__49 = jsxStyleRegistry__21.styles();
             return {
-                html__17,
-                head__17,
-                styles__17
+                html__49,
+                head__49,
+                styles__49
             };
         }
     };
-    let props__8;
-    const ampState__8 = {
-        ampFirst: pageConfig__8.amp === true,
-        hasQuery: Boolean(query__8.amp),
-        hybrid: pageConfig__8.amp === "hybrid"
+    let props__21;
+    const ampState__21 = {
+        ampFirst: pageConfig__21.amp === true,
+        hasQuery: Boolean(query__21.amp),
+        hybrid: pageConfig__21.amp === "hybrid"
     };
-    const inAmpMode__8 = isInAmpMode__1(ampState__8);
-    const reactLoadableModules__8 = [];
-    let head__8 = defaultHead__1(inAmpMode__8);
-    let scriptLoader__8 = {};
-    const nextExport__8 = !isSSG__8 && (renderOpts__8.nextExport || dev__8 && (isAutoExport__8 || isFallback__8));
-    const AppContainer__8 = ({ children__20  })=><RouterContext__1.Provider value__0={router__8}>
+    const inAmpMode__21 = isInAmpMode__1(ampState__21);
+    const reactLoadableModules__21 = [];
+    let head__21 = defaultHead__1(inAmpMode__21);
+    let scriptLoader__21 = {};
+    const nextExport__21 = !isSSG__21 && (renderOpts__21.nextExport || dev__21 && (isAutoExport__21 || isFallback__21));
+    const AppContainer__21 = ({ children__52  })=><RouterContext__1.Provider value__0={router__21}>
 
-            <AmpStateContext__1.Provider value__0={ampState__8}>
+            <AmpStateContext__1.Provider value__0={ampState__21}>
 
                 <HeadManagerContext__1.Provider value__0={{
-            updateHead: (state__21)=>{
-                head__8 = state__21;
+            updateHead: (state__53)=>{
+                head__21 = state__53;
             },
-            updateScripts: (scripts__22)=>{
-                scriptLoader__8 = scripts__22;
+            updateScripts: (scripts__54)=>{
+                scriptLoader__21 = scripts__54;
             },
             scripts: {},
             mountedInstances: new Set()
         }}>
 
-                    <LoadableContext__1.Provider value__0={(moduleName__23)=>reactLoadableModules__8.push(moduleName__23)}>
+                    <LoadableContext__1.Provider value__0={(moduleName__55)=>reactLoadableModules__21.push(moduleName__55)}>
 
-                        <StyleRegistry__1 registry__0={jsxStyleRegistry__8}>
+                        <StyleRegistry__1 registry__0={jsxStyleRegistry__21}>
 
-                            {children__20}
+                            {children__52}
 
                         </StyleRegistry__1>
 
@@ -283,433 +283,433 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
             </AmpStateContext__1.Provider>
 
         </RouterContext__1.Provider>;
-    props__8 = await loadGetInitialProps__1(App__8, {
-        AppTree: ctx__8.AppTree,
-        Component__8,
-        router__8,
-        ctx__8
+    props__21 = await loadGetInitialProps__1(App__21, {
+        AppTree: ctx__21.AppTree,
+        Component__21,
+        router__21,
+        ctx__21
     });
-    if ((isSSG__8 || getServerSideProps__8) && isPreview__8) {
-        props__8.__N_PREVIEW = true;
+    if ((isSSG__21 || getServerSideProps__21) && isPreview__21) {
+        props__21.__N_PREVIEW = true;
     }
-    if (isSSG__8) {
-        props__8[STATIC_PROPS_ID__1] = true;
+    if (isSSG__21) {
+        props__21[STATIC_PROPS_ID__1] = true;
     }
-    if (isSSG__8 && !isFallback__8) {
-        let data__24;
+    if (isSSG__21 && !isFallback__21) {
+        let data__58;
         try {
-            data__24 = await getStaticProps__8({
-                ...pageIsDynamic__8 ? {
-                    params: query__8
+            data__58 = await getStaticProps__21({
+                ...pageIsDynamic__21 ? {
+                    params: query__21
                 } : undefined,
-                ...isPreview__8 ? {
+                ...isPreview__21 ? {
                     preview: true,
-                    previewData: previewData__8
+                    previewData: previewData__21
                 } : undefined,
-                locales: renderOpts__8.locales,
-                locale: renderOpts__8.locale,
-                defaultLocale: renderOpts__8.defaultLocale
+                locales: renderOpts__21.locales,
+                locale: renderOpts__21.locale,
+                defaultLocale: renderOpts__21.defaultLocale
             });
-        } catch (staticPropsError__25) {
-            if (staticPropsError__25 && staticPropsError__25.code === "ENOENT") {
-                delete staticPropsError__25.code;
+        } catch (staticPropsError__60) {
+            if (staticPropsError__60 && staticPropsError__60.code === "ENOENT") {
+                delete staticPropsError__60.code;
             }
-            throw staticPropsError__25;
+            throw staticPropsError__60;
         }
-        if (data__24 == null) {
+        if (data__58 == null) {
             throw new Error(GSP_NO_RETURNED_VALUE__1);
         }
-        const invalidKeys__24 = Object.keys(data__24).filter((key__26)=>key__26 !== "revalidate" && key__26 !== "props" && key__26 !== "redirect" && key__26 !== "notFound");
-        if (invalidKeys__24.includes("unstable_revalidate")) {
+        const invalidKeys__58 = Object.keys(data__58).filter((key__63)=>key__63 !== "revalidate" && key__63 !== "props" && key__63 !== "redirect" && key__63 !== "notFound");
+        if (invalidKeys__58.includes("unstable_revalidate")) {
             throw new Error(UNSTABLE_REVALIDATE_RENAME_ERROR__1);
         }
-        if (invalidKeys__24.length) {
-            throw new Error(invalidKeysMsg__1("getStaticProps", invalidKeys__24));
+        if (invalidKeys__58.length) {
+            throw new Error(invalidKeysMsg__1("getStaticProps", invalidKeys__58));
         }
         if (process.env.NODE_ENV !== "production") {
-            if (typeof data__24.notFound !== "undefined" && typeof data__24.redirect !== "undefined") {
-                throw new Error(`\`redirect\` and \`notFound\` can not both be returned from ${isSSG__8 ? "getStaticProps" : "getServerSideProps"} at the same time. Page: ${pathname__8}\nSee more info here: https://nextjs.org/docs/messages/gssp-mixed-not-found-redirect`);
+            if (typeof data__58.notFound !== "undefined" && typeof data__58.redirect !== "undefined") {
+                throw new Error(`\`redirect\` and \`notFound\` can not both be returned from ${isSSG__21 ? "getStaticProps" : "getServerSideProps"} at the same time. Page: ${pathname__21}\nSee more info here: https://nextjs.org/docs/messages/gssp-mixed-not-found-redirect`);
             }
         }
-        if ("notFound" in data__24 && data__24.notFound) {
-            if (pathname__8 === "/404") {
+        if ("notFound" in data__58 && data__58.notFound) {
+            if (pathname__21 === "/404") {
                 throw new Error(`The /404 page can not return notFound in "getStaticProps", please remove it to continue!`);
             }
-            renderOpts__8.isNotFound = true;
+            renderOpts__21.isNotFound = true;
         }
-        if ("redirect" in data__24 && data__24.redirect && typeof data__24.redirect === "object") {
-            checkRedirectValues__1(data__24.redirect, req__8, "getStaticProps");
-            if (isBuildTimeSSG__8) {
-                throw new Error(`\`redirect\` can not be returned from getStaticProps during prerendering (${req__8.url})\n` + `See more info here: https://nextjs.org/docs/messages/gsp-redirect-during-prerender`);
+        if ("redirect" in data__58 && data__58.redirect && typeof data__58.redirect === "object") {
+            checkRedirectValues__1(data__58.redirect, req__21, "getStaticProps");
+            if (isBuildTimeSSG__21) {
+                throw new Error(`\`redirect\` can not be returned from getStaticProps during prerendering (${req__21.url})\n` + `See more info here: https://nextjs.org/docs/messages/gsp-redirect-during-prerender`);
             }
-            data__24.props = {
-                __N_REDIRECT: data__24.redirect.destination,
-                __N_REDIRECT_STATUS: getRedirectStatus__1(data__24.redirect)
+            data__58.props = {
+                __N_REDIRECT: data__58.redirect.destination,
+                __N_REDIRECT_STATUS: getRedirectStatus__1(data__58.redirect)
             };
-            if (typeof data__24.redirect.basePath !== "undefined") {
-                data__24.props.__N_REDIRECT_BASE_PATH = data__24.redirect.basePath;
+            if (typeof data__58.redirect.basePath !== "undefined") {
+                data__58.props.__N_REDIRECT_BASE_PATH = data__58.redirect.basePath;
             }
-            renderOpts__8.isRedirect = true;
+            renderOpts__21.isRedirect = true;
         }
-        if ((dev__8 || isBuildTimeSSG__8) && !renderOpts__8.isNotFound && !isSerializableProps__1(pathname__8, "getStaticProps", data__24.props)) {
+        if ((dev__21 || isBuildTimeSSG__21) && !renderOpts__21.isNotFound && !isSerializableProps__1(pathname__21, "getStaticProps", data__58.props)) {
             throw new Error("invariant: getStaticProps did not return valid props. Please report this.");
         }
-        if ("revalidate" in data__24) {
-            if (typeof data__24.revalidate === "number") {
-                if (!Number.isInteger(data__24.revalidate)) {
-                    throw new Error(`A page's revalidate option must be seconds expressed as a natural number for ${req__8.url}. Mixed numbers, such as '${data__24.revalidate}', cannot be used.` + `\nTry changing the value to '${Math.ceil(data__24.revalidate)}' or using \`Math.ceil()\` if you're computing the value.`);
-                } else if (data__24.revalidate <= 0) {
-                    throw new Error(`A page's revalidate option can not be less than or equal to zero for ${req__8.url}. A revalidate option of zero means to revalidate after _every_ request, and implies stale data cannot be tolerated.` + `\n\nTo never revalidate, you can set revalidate to \`false\` (only ran once at build-time).` + `\nTo revalidate as soon as possible, you can set the value to \`1\`.`);
-                } else if (data__24.revalidate > 31536000) {
-                    console.warn(`Warning: A page's revalidate option was set to more than a year for ${req__8.url}. This may have been done in error.` + `\nTo only run getStaticProps at build-time and not revalidate at runtime, you can set \`revalidate\` to \`false\`!`);
+        if ("revalidate" in data__58) {
+            if (typeof data__58.revalidate === "number") {
+                if (!Number.isInteger(data__58.revalidate)) {
+                    throw new Error(`A page's revalidate option must be seconds expressed as a natural number for ${req__21.url}. Mixed numbers, such as '${data__58.revalidate}', cannot be used.` + `\nTry changing the value to '${Math.ceil(data__58.revalidate)}' or using \`Math.ceil()\` if you're computing the value.`);
+                } else if (data__58.revalidate <= 0) {
+                    throw new Error(`A page's revalidate option can not be less than or equal to zero for ${req__21.url}. A revalidate option of zero means to revalidate after _every_ request, and implies stale data cannot be tolerated.` + `\n\nTo never revalidate, you can set revalidate to \`false\` (only ran once at build-time).` + `\nTo revalidate as soon as possible, you can set the value to \`1\`.`);
+                } else if (data__58.revalidate > 31536000) {
+                    console.warn(`Warning: A page's revalidate option was set to more than a year for ${req__21.url}. This may have been done in error.` + `\nTo only run getStaticProps at build-time and not revalidate at runtime, you can set \`revalidate\` to \`false\`!`);
                 }
-            } else if (data__24.revalidate === true) {
-                data__24.revalidate = 1;
-            } else if (data__24.revalidate === false || typeof data__24.revalidate === "undefined") {
-                data__24.revalidate = false;
+            } else if (data__58.revalidate === true) {
+                data__58.revalidate = 1;
+            } else if (data__58.revalidate === false || typeof data__58.revalidate === "undefined") {
+                data__58.revalidate = false;
             } else {
-                throw new Error(`A page's revalidate option must be seconds expressed as a natural number. Mixed numbers and strings cannot be used. Received '${JSON.stringify(data__24.revalidate)}' for ${req__8.url}`);
+                throw new Error(`A page's revalidate option must be seconds expressed as a natural number. Mixed numbers and strings cannot be used. Received '${JSON.stringify(data__58.revalidate)}' for ${req__21.url}`);
             }
         } else {
-            data__24.revalidate = false;
+            data__58.revalidate = false;
         }
-        props__8.pageProps = Object.assign({}, props__8.pageProps, "props" in data__24 ? data__24.props : undefined);
-        renderOpts__8.revalidate = "revalidate" in data__24 ? data__24.revalidate : undefined;
-        renderOpts__8.pageData = props__8;
-        if (renderOpts__8.isNotFound) {
+        props__21.pageProps = Object.assign({}, props__21.pageProps, "props" in data__58 ? data__58.props : undefined);
+        renderOpts__21.revalidate = "revalidate" in data__58 ? data__58.revalidate : undefined;
+        renderOpts__21.pageData = props__21;
+        if (renderOpts__21.isNotFound) {
             return null;
         }
     }
-    if (getServerSideProps__8) {
-        props__8[SERVER_PROPS_ID__1] = true;
+    if (getServerSideProps__21) {
+        props__21[SERVER_PROPS_ID__1] = true;
     }
-    if (getServerSideProps__8 && !isFallback__8) {
-        let data__27;
-        let canAccessRes__27 = true;
-        let resOrProxy__27 = res__8;
+    if (getServerSideProps__21 && !isFallback__21) {
+        let data__85;
+        let canAccessRes__85 = true;
+        let resOrProxy__85 = res__21;
         if (process.env.NODE_ENV !== "production") {
-            resOrProxy__27 = new Proxy(res__8, {
-                get: function(obj__28, prop__28, receiver__28) {
-                    if (!canAccessRes__27) {
+            resOrProxy__85 = new Proxy(res__21, {
+                get: function(obj__87, prop__87, receiver__87) {
+                    if (!canAccessRes__85) {
                         throw new Error(`You should not access 'res' after getServerSideProps resolves.` + `\nRead more: https://nextjs.org/docs/messages/gssp-no-mutating-res`);
                     }
-                    return Reflect.get(obj__28, prop__28, receiver__28);
+                    return Reflect.get(obj__87, prop__87, receiver__87);
                 }
             });
         }
         try {
-            data__27 = await getServerSideProps__8({
-                req: req__8,
-                res: resOrProxy__27,
-                query__8,
-                resolvedUrl: renderOpts__8.resolvedUrl,
-                ...pageIsDynamic__8 ? {
-                    params: params__8
+            data__85 = await getServerSideProps__21({
+                req: req__21,
+                res: resOrProxy__85,
+                query__21,
+                resolvedUrl: renderOpts__21.resolvedUrl,
+                ...pageIsDynamic__21 ? {
+                    params: params__21
                 } : undefined,
-                ...previewData__8 !== false ? {
+                ...previewData__21 !== false ? {
                     preview: true,
-                    previewData: previewData__8
+                    previewData: previewData__21
                 } : undefined,
-                locales: renderOpts__8.locales,
-                locale: renderOpts__8.locale,
-                defaultLocale: renderOpts__8.defaultLocale
+                locales: renderOpts__21.locales,
+                locale: renderOpts__21.locale,
+                defaultLocale: renderOpts__21.defaultLocale
             });
-            canAccessRes__27 = false;
-        } catch (serverSidePropsError__29) {
-            if (isError__1(serverSidePropsError__29) && serverSidePropsError__29.code === "ENOENT") {
-                delete serverSidePropsError__29.code;
+            canAccessRes__85 = false;
+        } catch (serverSidePropsError__90) {
+            if (isError__1(serverSidePropsError__90) && serverSidePropsError__90.code === "ENOENT") {
+                delete serverSidePropsError__90.code;
             }
-            throw serverSidePropsError__29;
+            throw serverSidePropsError__90;
         }
-        if (data__27 == null) {
+        if (data__85 == null) {
             throw new Error(GSSP_NO_RETURNED_VALUE__1);
         }
-        const invalidKeys__27 = Object.keys(data__27).filter((key__30)=>key__30 !== "props" && key__30 !== "redirect" && key__30 !== "notFound");
-        if (data__27.unstable_notFound) {
-            throw new Error(`unstable_notFound has been renamed to notFound, please update the field to continue. Page: ${pathname__8}`);
+        const invalidKeys__85 = Object.keys(data__85).filter((key__93)=>key__93 !== "props" && key__93 !== "redirect" && key__93 !== "notFound");
+        if (data__85.unstable_notFound) {
+            throw new Error(`unstable_notFound has been renamed to notFound, please update the field to continue. Page: ${pathname__21}`);
         }
-        if (data__27.unstable_redirect) {
-            throw new Error(`unstable_redirect has been renamed to redirect, please update the field to continue. Page: ${pathname__8}`);
+        if (data__85.unstable_redirect) {
+            throw new Error(`unstable_redirect has been renamed to redirect, please update the field to continue. Page: ${pathname__21}`);
         }
-        if (invalidKeys__27.length) {
-            throw new Error(invalidKeysMsg__1("getServerSideProps", invalidKeys__27));
+        if (invalidKeys__85.length) {
+            throw new Error(invalidKeysMsg__1("getServerSideProps", invalidKeys__85));
         }
-        if ("notFound" in data__27 && data__27.notFound) {
-            if (pathname__8 === "/404") {
+        if ("notFound" in data__85 && data__85.notFound) {
+            if (pathname__21 === "/404") {
                 throw new Error(`The /404 page can not return notFound in "getStaticProps", please remove it to continue!`);
             }
-            renderOpts__8.isNotFound = true;
+            renderOpts__21.isNotFound = true;
             return null;
         }
-        if ("redirect" in data__27 && typeof data__27.redirect === "object") {
-            checkRedirectValues__1(data__27.redirect, req__8, "getServerSideProps");
-            data__27.props = {
-                __N_REDIRECT: data__27.redirect.destination,
-                __N_REDIRECT_STATUS: getRedirectStatus__1(data__27.redirect)
+        if ("redirect" in data__85 && typeof data__85.redirect === "object") {
+            checkRedirectValues__1(data__85.redirect, req__21, "getServerSideProps");
+            data__85.props = {
+                __N_REDIRECT: data__85.redirect.destination,
+                __N_REDIRECT_STATUS: getRedirectStatus__1(data__85.redirect)
             };
-            if (typeof data__27.redirect.basePath !== "undefined") {
-                data__27.props.__N_REDIRECT_BASE_PATH = data__27.redirect.basePath;
+            if (typeof data__85.redirect.basePath !== "undefined") {
+                data__85.props.__N_REDIRECT_BASE_PATH = data__85.redirect.basePath;
             }
-            renderOpts__8.isRedirect = true;
+            renderOpts__21.isRedirect = true;
         }
-        if (data__27.props instanceof Promise) {
-            data__27.props = await data__27.props;
+        if (data__85.props instanceof Promise) {
+            data__85.props = await data__85.props;
         }
-        if ((dev__8 || isBuildTimeSSG__8) && !isSerializableProps__1(pathname__8, "getServerSideProps", data__27.props)) {
+        if ((dev__21 || isBuildTimeSSG__21) && !isSerializableProps__1(pathname__21, "getServerSideProps", data__85.props)) {
             throw new Error("invariant: getServerSideProps did not return valid props. Please report this.");
         }
-        props__8.pageProps = Object.assign({}, props__8.pageProps, data__27.props);
-        renderOpts__8.pageData = props__8;
+        props__21.pageProps = Object.assign({}, props__21.pageProps, data__85.props);
+        renderOpts__21.pageData = props__21;
     }
-    if (!isSSG__8 && !getServerSideProps__8 && process.env.NODE_ENV !== "production" && Object.keys(props__8?.pageProps || {}).includes("url")) {
-        console.warn(`The prop \`url\` is a reserved prop in Next.js for legacy reasons and will be overridden on page ${pathname__8}\n` + `See more info here: https://nextjs.org/docs/messages/reserved-page-prop`);
+    if (!isSSG__21 && !getServerSideProps__21 && process.env.NODE_ENV !== "production" && Object.keys(props__21?.pageProps || {}).includes("url")) {
+        console.warn(`The prop \`url\` is a reserved prop in Next.js for legacy reasons and will be overridden on page ${pathname__21}\n` + `See more info here: https://nextjs.org/docs/messages/reserved-page-prop`);
     }
-    if (isDataReq__8 && !isSSG__8 || renderOpts__8.isRedirect) {
-        return RenderResult__1.fromStatic(JSON.stringify(props__8));
+    if (isDataReq__21 && !isSSG__21 || renderOpts__21.isRedirect) {
+        return RenderResult__1.fromStatic(JSON.stringify(props__21));
     }
-    if (isFallback__8) {
-        props__8.pageProps = {};
+    if (isFallback__21) {
+        props__21.pageProps = {};
     }
-    if (isResSent__1(res__8) && !isSSG__8) return null;
-    let filteredBuildManifest__8 = buildManifest__8;
-    if (isAutoExport__8 && pageIsDynamic__8) {
-        const page__31 = denormalizePagePath__1(normalizePagePath__1(pathname__8));
-        if (page__31 in filteredBuildManifest__8.pages) {
-            filteredBuildManifest__8 = {
-                ...filteredBuildManifest__8,
+    if (isResSent__1(res__21) && !isSSG__21) return null;
+    let filteredBuildManifest__21 = buildManifest__21;
+    if (isAutoExport__21 && pageIsDynamic__21) {
+        const page__106 = denormalizePagePath__1(normalizePagePath__1(pathname__21));
+        if (page__106 in filteredBuildManifest__21.pages) {
+            filteredBuildManifest__21 = {
+                ...filteredBuildManifest__21,
                 pages: {
-                    ...filteredBuildManifest__8.pages,
-                    [page__31]: [
-                        ...filteredBuildManifest__8.pages[page__31],
-                        ...filteredBuildManifest__8.lowPriorityFiles.filter((f__32)=>f__32.includes("_buildManifest"))
+                    ...filteredBuildManifest__21.pages,
+                    [page__106]: [
+                        ...filteredBuildManifest__21.pages[page__106],
+                        ...filteredBuildManifest__21.lowPriorityFiles.filter((f__108)=>f__108.includes("_buildManifest"))
                     ]
                 },
-                lowPriorityFiles: filteredBuildManifest__8.lowPriorityFiles.filter((f__33)=>!f__33.includes("_buildManifest"))
+                lowPriorityFiles: filteredBuildManifest__21.lowPriorityFiles.filter((f__109)=>!f__109.includes("_buildManifest"))
             };
         }
     }
-    const generateStaticHTML__8 = supportsDynamicHTML__8 !== true;
-    const renderDocument__8 = async ()=>{
-        if (Document__8.getInitialProps) {
-            const renderPage__34 = (options__35 = {})=>{
-                if (ctx__8.err && ErrorDebug__8) {
-                    const html__36 = ReactDOMServer__1.renderToString(<ErrorDebug__8 error__0={ctx__8.err}/>);
+    const generateStaticHTML__21 = supportsDynamicHTML__21 !== true;
+    const renderDocument__21 = async ()=>{
+        if (Document__21.getInitialProps) {
+            const renderPage__111 = (options__112 = {})=>{
+                if (ctx__21.err && ErrorDebug__21) {
+                    const html__113 = ReactDOMServer__1.renderToString(<ErrorDebug__21 error__0={ctx__21.err}/>);
                     return {
-                        html__36,
-                        head__8
+                        html__113,
+                        head__21
                     };
                 }
-                if (dev__8 && (props__8.router || props__8.Component)) {
+                if (dev__21 && (props__21.router || props__21.Component)) {
                     throw new Error(`'router' and 'Component' can not be returned in getInitialProps from _app.js https://nextjs.org/docs/messages/cant-override-next-props`);
                 }
-                const { App: EnhancedApp__35 , Component: EnhancedComponent__35  } = enhanceComponents__1(options__35, App__8, Component__8);
-                const html__35 = ReactDOMServer__1.renderToString(<AppContainer__8>
+                const { App: EnhancedApp__112 , Component: EnhancedComponent__112  } = enhanceComponents__1(options__112, App__21, Component__21);
+                const html__112 = ReactDOMServer__1.renderToString(<AppContainer__21>
 
-                        <EnhancedApp__35 Component__0={EnhancedComponent__35} router__0={router__8} {...props__8}/>
+                        <EnhancedApp__112 Component__0={EnhancedComponent__112} router__0={router__21} {...props__21}/>
 
-                    </AppContainer__8>);
+                    </AppContainer__21>);
                 return {
-                    html__35,
-                    head__8
+                    html__112,
+                    head__21
                 };
             };
-            const documentCtx__34 = {
-                ...ctx__8,
-                renderPage__34
+            const documentCtx__111 = {
+                ...ctx__21,
+                renderPage__111
             };
-            const docProps__34 = await loadGetInitialProps__1(Document__8, documentCtx__34);
-            if (isResSent__1(res__8) && !isSSG__8) return null;
-            if (!docProps__34 || typeof docProps__34.html !== "string") {
-                const message__37 = `"${getDisplayName__1(Document__8)}.getInitialProps()" should resolve to an object with a "html" prop set with a valid html string`;
-                throw new Error(message__37);
+            const docProps__111 = await loadGetInitialProps__1(Document__21, documentCtx__111);
+            if (isResSent__1(res__21) && !isSSG__21) return null;
+            if (!docProps__111 || typeof docProps__111.html !== "string") {
+                const message__115 = `"${getDisplayName__1(Document__21)}.getInitialProps()" should resolve to an object with a "html" prop set with a valid html string`;
+                throw new Error(message__115);
             }
             return {
                 bodyResult: piperFromArray__1([
-                    docProps__34.html
+                    docProps__111.html
                 ]),
-                documentElement: (htmlProps__38)=><Document__8 {...htmlProps__38} {...docProps__34}/>,
-                head: docProps__34.head,
-                headTags: await headTags__8(documentCtx__34),
-                styles: docProps__34.styles
+                documentElement: (htmlProps__116)=><Document__21 {...htmlProps__116} {...docProps__111}/>,
+                head: docProps__111.head,
+                headTags: await headTags__21(documentCtx__111),
+                styles: docProps__111.styles
             };
         } else {
-            const content__39 = ctx__8.err && ErrorDebug__8 ? <ErrorDebug__8 error__0={ctx__8.err}/> : <AppContainer__8>
+            const content__117 = ctx__21.err && ErrorDebug__21 ? <ErrorDebug__21 error__0={ctx__21.err}/> : <AppContainer__21>
 
-                        <App__8 {...props__8} Component__0={Component__8} router__0={router__8}/>
+                        <App__21 {...props__21} Component__0={Component__21} router__0={router__21}/>
 
-                    </AppContainer__8>;
-            const bodyResult__39 = concurrentFeatures__8 ? await renderToStream__1(content__39, generateStaticHTML__8) : piperFromArray__1([
-                ReactDOMServer__1.renderToString(content__39)
+                    </AppContainer__21>;
+            const bodyResult__117 = concurrentFeatures__21 ? await renderToStream__1(content__117, generateStaticHTML__21) : piperFromArray__1([
+                ReactDOMServer__1.renderToString(content__117)
             ]);
             return {
-                bodyResult__39,
-                documentElement: ()=>Document__8(),
-                head__8,
+                bodyResult__117,
+                documentElement: ()=>Document__21(),
+                head__21,
                 headTags: [],
-                styles: jsxStyleRegistry__8.styles()
+                styles: jsxStyleRegistry__21.styles()
             };
         }
     };
-    const documentResult__8 = await renderDocument__8();
-    if (!documentResult__8) {
+    const documentResult__21 = await renderDocument__21();
+    if (!documentResult__21) {
         return null;
     }
-    const dynamicImportsIds__8 = new Set();
-    const dynamicImports__8 = new Set();
-    for (const mod__40 of reactLoadableModules__8){
-        const manifestItem__41 = reactLoadableManifest__8[mod__40];
-        if (manifestItem__41) {
-            dynamicImportsIds__8.add(manifestItem__41.id);
-            manifestItem__41.files.forEach((item__42)=>{
-                dynamicImports__8.add(item__42);
+    const dynamicImportsIds__21 = new Set();
+    const dynamicImports__21 = new Set();
+    for (const mod__119 of reactLoadableModules__21){
+        const manifestItem__120 = reactLoadableManifest__21[mod__119];
+        if (manifestItem__120) {
+            dynamicImportsIds__21.add(manifestItem__120.id);
+            manifestItem__120.files.forEach((item__122)=>{
+                dynamicImports__21.add(item__122);
             });
         }
     }
-    const hybridAmp__8 = ampState__8.hybrid;
-    const docComponentsRendered__8 = {};
-    const { assetPrefix__8 , buildId__8 , customServer__8 , defaultLocale__8 , disableOptimizedLoading__8 , domainLocales__8 , locale__8 , locales__8 , runtimeConfig__8  } = renderOpts__8;
-    const htmlProps__8 = {
+    const hybridAmp__21 = ampState__21.hybrid;
+    const docComponentsRendered__21 = {};
+    const { assetPrefix__21 , buildId__21 , customServer__21 , defaultLocale__21 , disableOptimizedLoading__21 , domainLocales__21 , locale__21 , locales__21 , runtimeConfig__21  } = renderOpts__21;
+    const htmlProps__21 = {
         __NEXT_DATA__: {
-            props__8,
-            page: pathname__8,
-            query__8,
-            buildId__8,
-            assetPrefix: assetPrefix__8 === "" ? undefined : assetPrefix__8,
-            runtimeConfig__8,
-            nextExport: nextExport__8 === true ? true : undefined,
-            autoExport: isAutoExport__8 === true ? true : undefined,
-            isFallback__8,
-            dynamicIds: dynamicImportsIds__8.size === 0 ? undefined : Array.from(dynamicImportsIds__8),
-            err: renderOpts__8.err ? serializeError__1(dev__8, renderOpts__8.err) : undefined,
-            gsp: !!getStaticProps__8 ? true : undefined,
-            gssp: !!getServerSideProps__8 ? true : undefined,
-            customServer__8,
-            gip: hasPageGetInitialProps__8 ? true : undefined,
-            appGip: !defaultAppGetInitialProps__8 ? true : undefined,
-            locale__8,
-            locales__8,
-            defaultLocale__8,
-            domainLocales__8,
-            isPreview: isPreview__8 === true ? true : undefined
+            props__21,
+            page: pathname__21,
+            query__21,
+            buildId__21,
+            assetPrefix: assetPrefix__21 === "" ? undefined : assetPrefix__21,
+            runtimeConfig__21,
+            nextExport: nextExport__21 === true ? true : undefined,
+            autoExport: isAutoExport__21 === true ? true : undefined,
+            isFallback__21,
+            dynamicIds: dynamicImportsIds__21.size === 0 ? undefined : Array.from(dynamicImportsIds__21),
+            err: renderOpts__21.err ? serializeError__1(dev__21, renderOpts__21.err) : undefined,
+            gsp: !!getStaticProps__21 ? true : undefined,
+            gssp: !!getServerSideProps__21 ? true : undefined,
+            customServer__21,
+            gip: hasPageGetInitialProps__21 ? true : undefined,
+            appGip: !defaultAppGetInitialProps__21 ? true : undefined,
+            locale__21,
+            locales__21,
+            defaultLocale__21,
+            domainLocales__21,
+            isPreview: isPreview__21 === true ? true : undefined
         },
-        buildManifest: filteredBuildManifest__8,
-        docComponentsRendered__8,
-        dangerousAsPath: router__8.asPath,
-        canonicalBase: !renderOpts__8.ampPath && req__8.__nextStrippedLocale ? `${renderOpts__8.canonicalBase || ""}/${renderOpts__8.locale}` : renderOpts__8.canonicalBase,
-        ampPath__8,
-        inAmpMode__8,
-        isDevelopment: !!dev__8,
-        hybridAmp__8,
-        dynamicImports: Array.from(dynamicImports__8),
-        assetPrefix__8,
-        unstable_runtimeJS: process.env.NODE_ENV === "production" ? pageConfig__8.unstable_runtimeJS : undefined,
-        unstable_JsPreload: pageConfig__8.unstable_JsPreload,
-        devOnlyCacheBusterQueryString__8,
-        scriptLoader__8,
-        locale__8,
-        disableOptimizedLoading__8,
-        head: documentResult__8.head,
-        headTags: documentResult__8.headTags,
-        styles: documentResult__8.styles,
+        buildManifest: filteredBuildManifest__21,
+        docComponentsRendered__21,
+        dangerousAsPath: router__21.asPath,
+        canonicalBase: !renderOpts__21.ampPath && req__21.__nextStrippedLocale ? `${renderOpts__21.canonicalBase || ""}/${renderOpts__21.locale}` : renderOpts__21.canonicalBase,
+        ampPath__21,
+        inAmpMode__21,
+        isDevelopment: !!dev__21,
+        hybridAmp__21,
+        dynamicImports: Array.from(dynamicImports__21),
+        assetPrefix__21,
+        unstable_runtimeJS: process.env.NODE_ENV === "production" ? pageConfig__21.unstable_runtimeJS : undefined,
+        unstable_JsPreload: pageConfig__21.unstable_JsPreload,
+        devOnlyCacheBusterQueryString__21,
+        scriptLoader__21,
+        locale__21,
+        disableOptimizedLoading__21,
+        head: documentResult__21.head,
+        headTags: documentResult__21.headTags,
+        styles: documentResult__21.styles,
         useMaybeDeferContent__1
     };
-    const documentHTML__8 = ReactDOMServer__1.renderToStaticMarkup(<AmpStateContext__1.Provider value__0={ampState__8}>
+    const documentHTML__21 = ReactDOMServer__1.renderToStaticMarkup(<AmpStateContext__1.Provider value__0={ampState__21}>
 
-            <HtmlContext__1.Provider value__0={htmlProps__8}>
+            <HtmlContext__1.Provider value__0={htmlProps__21}>
 
-                {documentResult__8.documentElement(htmlProps__8)}
+                {documentResult__21.documentElement(htmlProps__21)}
 
             </HtmlContext__1.Provider>
 
         </AmpStateContext__1.Provider>);
     if (process.env.NODE_ENV !== "production") {
-        const nonRenderedComponents__43 = [];
-        const expectedDocComponents__43 = [
+        const nonRenderedComponents__123 = [];
+        const expectedDocComponents__123 = [
             "Main",
             "Head",
             "NextScript",
             "Html"
         ];
-        for (const comp__44 of expectedDocComponents__43){
-            if (!docComponentsRendered__8[comp__44]) {
-                nonRenderedComponents__43.push(comp__44);
+        for (const comp__124 of expectedDocComponents__123){
+            if (!docComponentsRendered__21[comp__124]) {
+                nonRenderedComponents__123.push(comp__124);
             }
         }
-        const plural__43 = nonRenderedComponents__43.length !== 1 ? "s" : "";
-        if (nonRenderedComponents__43.length) {
-            const missingComponentList__45 = nonRenderedComponents__43.map((e__46)=>`<${e__46} />`).join(", ");
-            warn__1(`Your custom Document (pages/_document) did not render all the required subcomponent${plural__43}.\n` + `Missing component${plural__43}: ${missingComponentList__45}\n` + "Read how to fix here: https://nextjs.org/docs/messages/missing-document-component");
+        const plural__123 = nonRenderedComponents__123.length !== 1 ? "s" : "";
+        if (nonRenderedComponents__123.length) {
+            const missingComponentList__127 = nonRenderedComponents__123.map((e__128)=>`<${e__128} />`).join(", ");
+            warn__1(`Your custom Document (pages/_document) did not render all the required subcomponent${plural__123}.\n` + `Missing component${plural__123}: ${missingComponentList__127}\n` + "Read how to fix here: https://nextjs.org/docs/messages/missing-document-component");
         }
     }
-    const renderTargetIdx__8 = documentHTML__8.indexOf(BODY_RENDER_TARGET__1);
-    const prefix__8 = [];
-    prefix__8.push("<!DOCTYPE html>");
-    prefix__8.push(documentHTML__8.substring(0, renderTargetIdx__8));
-    if (inAmpMode__8) {
-        prefix__8.push("<!-- __NEXT_DATA__ -->");
+    const renderTargetIdx__21 = documentHTML__21.indexOf(BODY_RENDER_TARGET__1);
+    const prefix__21 = [];
+    prefix__21.push("<!DOCTYPE html>");
+    prefix__21.push(documentHTML__21.substring(0, renderTargetIdx__21));
+    if (inAmpMode__21) {
+        prefix__21.push("<!-- __NEXT_DATA__ -->");
     }
-    let pipers__8 = [
-        piperFromArray__1(prefix__8),
-        documentResult__8.bodyResult,
+    let pipers__21 = [
+        piperFromArray__1(prefix__21),
+        documentResult__21.bodyResult,
         piperFromArray__1([
-            documentHTML__8.substring(renderTargetIdx__8 + BODY_RENDER_TARGET__1.length)
+            documentHTML__21.substring(renderTargetIdx__21 + BODY_RENDER_TARGET__1.length)
         ])
     ];
-    const postProcessors__8 = (generateStaticHTML__8 ? [
-        inAmpMode__8 ? async (html__47)=>{
-            html__47 = await optimizeAmp__1(html__47, renderOpts__8.ampOptimizerConfig);
-            if (!renderOpts__8.ampSkipValidation && renderOpts__8.ampValidator) {
-                await renderOpts__8.ampValidator(html__47, pathname__8);
+    const postProcessors__21 = (generateStaticHTML__21 ? [
+        inAmpMode__21 ? async (html__130)=>{
+            html__130 = await optimizeAmp__1(html__130, renderOpts__21.ampOptimizerConfig);
+            if (!renderOpts__21.ampSkipValidation && renderOpts__21.ampValidator) {
+                await renderOpts__21.ampValidator(html__130, pathname__21);
             }
-            return html__47;
+            return html__130;
         } : null,
-        process.env.__NEXT_OPTIMIZE_FONTS || process.env.__NEXT_OPTIMIZE_IMAGES ? async (html__48)=>{
-            return await postProcess__1(html__48, {
-                getFontDefinition__8
+        process.env.__NEXT_OPTIMIZE_FONTS || process.env.__NEXT_OPTIMIZE_IMAGES ? async (html__132)=>{
+            return await postProcess__1(html__132, {
+                getFontDefinition__21
             }, {
-                optimizeFonts: renderOpts__8.optimizeFonts,
-                optimizeImages: renderOpts__8.optimizeImages
+                optimizeFonts: renderOpts__21.optimizeFonts,
+                optimizeImages: renderOpts__21.optimizeImages
             });
         } : null,
-        renderOpts__8.optimizeCss ? async (html__49)=>{
-            const Critters__49 = require("critters");
-            const cssOptimizer__49 = new Critters__49({
+        renderOpts__21.optimizeCss ? async (html__133)=>{
+            const Critters__133 = require("critters");
+            const cssOptimizer__133 = new Critters__133({
                 ssrMode: true,
                 reduceInlineStyles: false,
-                path: renderOpts__8.distDir,
-                publicPath: `${renderOpts__8.assetPrefix}/_next/`,
+                path: renderOpts__21.distDir,
+                publicPath: `${renderOpts__21.assetPrefix}/_next/`,
                 preload: "media",
                 fonts: false,
-                ...renderOpts__8.optimizeCss
+                ...renderOpts__21.optimizeCss
             });
-            return await cssOptimizer__49.process(html__49);
+            return await cssOptimizer__133.process(html__133);
         } : null,
-        inAmpMode__8 || hybridAmp__8 ? async (html__50)=>{
-            return html__50.replace(/&amp;amp=1/g, "&amp=1");
+        inAmpMode__21 || hybridAmp__21 ? async (html__134)=>{
+            return html__134.replace(/&amp;amp=1/g, "&amp=1");
         } : null
     ] : []).filter(Boolean);
-    if (generateStaticHTML__8 || postProcessors__8.length > 0) {
-        let html__51 = await piperToString__1(chainPipers__1(pipers__8));
-        for (const postProcessor__52 of postProcessors__8){
-            if (postProcessor__52) {
-                html__51 = await postProcessor__52(html__51);
+    if (generateStaticHTML__21 || postProcessors__21.length > 0) {
+        let html__135 = await piperToString__1(chainPipers__1(pipers__21));
+        for (const postProcessor__136 of postProcessors__21){
+            if (postProcessor__136) {
+                html__135 = await postProcessor__136(html__135);
             }
         }
-        return new RenderResult__1(html__51);
+        return new RenderResult__1(html__135);
     }
-    return new RenderResult__1(chainPipers__1(pipers__8));
+    return new RenderResult__1(chainPipers__1(pipers__21));
 }
-function errorToJSON__1(err__53) {
-    const { name__53 , message__53 , stack__53  } = err__53;
+function errorToJSON__1(err__139) {
+    const { name__139 , message__139 , stack__139  } = err__139;
     return {
-        name__53,
-        message__53,
-        stack__53
+        name__139,
+        message__139,
+        stack__139
     };
 }
-function serializeError__1(dev__54, err__54) {
-    if (dev__54) {
-        return errorToJSON__1(err__54);
+function serializeError__1(dev__140, err__140) {
+    if (dev__140) {
+        return errorToJSON__1(err__140);
     }
     return {
         name: "Internal Server Error.",
@@ -717,129 +717,129 @@ function serializeError__1(dev__54, err__54) {
         statusCode: 500
     };
 }
-function renderToStream__1(element__55, generateStaticHTML__55) {
-    return new Promise((resolve__56, reject__56)=>{
-        let underlyingStream__56 = null;
-        const stream__56 = new Writable__1({
+function renderToStream__1(element__142, generateStaticHTML__142) {
+    return new Promise((resolve__143, reject__143)=>{
+        let underlyingStream__143 = null;
+        const stream__143 = new Writable__1({
             highWaterMark: 0,
-            write (chunk__57, encoding__57, callback__57) {
-                if (!underlyingStream__56) {
+            write (chunk__144, encoding__144, callback__144) {
+                if (!underlyingStream__143) {
                     throw new Error("invariant: write called without an underlying stream. This is a bug in Next.js");
                 }
-                if (!underlyingStream__56.writable.write(chunk__57, encoding__57)) {
-                    underlyingStream__56.queuedCallbacks.push(()=>callback__57());
+                if (!underlyingStream__143.writable.write(chunk__144, encoding__144)) {
+                    underlyingStream__143.queuedCallbacks.push(()=>callback__144());
                 } else {
-                    callback__57();
+                    callback__144();
                 }
             }
         });
-        stream__56.once("finish", ()=>{
-            if (!underlyingStream__56) {
+        stream__143.once("finish", ()=>{
+            if (!underlyingStream__143) {
                 throw new Error("invariant: finish called without an underlying stream. This is a bug in Next.js");
             }
-            underlyingStream__56.resolve();
+            underlyingStream__143.resolve();
         });
-        stream__56.once("error", (err__58)=>{
-            if (!underlyingStream__56) {
+        stream__143.once("error", (err__150)=>{
+            if (!underlyingStream__143) {
                 throw new Error("invariant: error called without an underlying stream. This is a bug in Next.js");
             }
-            underlyingStream__56.resolve(err__58);
+            underlyingStream__143.resolve(err__150);
         });
-        Object.defineProperty(stream__56, "flush", {
+        Object.defineProperty(stream__143, "flush", {
             value: ()=>{
-                if (!underlyingStream__56) {
+                if (!underlyingStream__143) {
                     throw new Error("invariant: flush called without an underlying stream. This is a bug in Next.js");
                 }
-                if (typeof underlyingStream__56.writable.flush === "function") {
-                    underlyingStream__56.writable.flush();
+                if (typeof underlyingStream__143.writable.flush === "function") {
+                    underlyingStream__143.writable.flush();
                 }
             },
             enumerable: true
         });
-        let resolved__56 = false;
-        const doResolve__56 = ()=>{
-            if (!resolved__56) {
-                resolved__56 = true;
-                resolve__56((res__59, next__59)=>{
-                    const drainHandler__59 = ()=>{
-                        const prevCallbacks__60 = underlyingStream__56.queuedCallbacks;
-                        underlyingStream__56.queuedCallbacks = [];
-                        prevCallbacks__60.forEach((callback__61)=>callback__61());
+        let resolved__143 = false;
+        const doResolve__143 = ()=>{
+            if (!resolved__143) {
+                resolved__143 = true;
+                resolve__143((res__157, next__157)=>{
+                    const drainHandler__157 = ()=>{
+                        const prevCallbacks__158 = underlyingStream__143.queuedCallbacks;
+                        underlyingStream__143.queuedCallbacks = [];
+                        prevCallbacks__158.forEach((callback__159)=>callback__159());
                     };
-                    res__59.on("drain", drainHandler__59);
-                    underlyingStream__56 = {
-                        resolve: (err__62)=>{
-                            underlyingStream__56 = null;
-                            res__59.removeListener("drain", drainHandler__59);
-                            next__59(err__62);
+                    res__157.on("drain", drainHandler__157);
+                    underlyingStream__143 = {
+                        resolve: (err__160)=>{
+                            underlyingStream__143 = null;
+                            res__157.removeListener("drain", drainHandler__157);
+                            next__157(err__160);
                         },
-                        writable: res__59,
+                        writable: res__157,
                         queuedCallbacks: []
                     };
-                    startWriting__56();
+                    startWriting__143();
                 });
             }
         };
-        const { abort__56 , startWriting__56  } = ReactDOMServer__1.pipeToNodeWritable(element__55, stream__56, {
-            onError (error__63) {
-                if (!resolved__56) {
-                    resolved__56 = true;
-                    reject__56(error__63);
+        const { abort__143 , startWriting__143  } = ReactDOMServer__1.pipeToNodeWritable(element__142, stream__143, {
+            onError (error__161) {
+                if (!resolved__143) {
+                    resolved__143 = true;
+                    reject__143(error__161);
                 }
-                abort__56();
+                abort__143();
             },
             onCompleteShell () {
-                if (!generateStaticHTML__55) {
-                    doResolve__56();
+                if (!generateStaticHTML__142) {
+                    doResolve__143();
                 }
             },
             onCompleteAll () {
-                doResolve__56();
+                doResolve__143();
             }
         });
     });
 }
-function chainPipers__1(pipers__64) {
-    return pipers__64.reduceRight((lhs__65, rhs__65)=>(res__66, next__66)=>{
-            rhs__65(res__66, (err__67)=>err__67 ? next__66(err__67) : lhs__65(res__66, next__66));
-        }, (res__68, next__68)=>{
-        res__68.end();
-        next__68();
+function chainPipers__1(pipers__166) {
+    return pipers__166.reduceRight((lhs__167, rhs__167)=>(res__168, next__168)=>{
+            rhs__167(res__168, (err__169)=>err__169 ? next__168(err__169) : lhs__167(res__168, next__168));
+        }, (res__170, next__170)=>{
+        res__170.end();
+        next__170();
     });
 }
-function piperFromArray__1(chunks__69) {
-    return (res__70, next__70)=>{
-        if (typeof res__70.cork === "function") {
-            res__70.cork();
+function piperFromArray__1(chunks__171) {
+    return (res__172, next__172)=>{
+        if (typeof res__172.cork === "function") {
+            res__172.cork();
         }
-        chunks__69.forEach((chunk__71)=>res__70.write(chunk__71));
-        if (typeof res__70.uncork === "function") {
-            res__70.uncork();
+        chunks__171.forEach((chunk__174)=>res__172.write(chunk__174));
+        if (typeof res__172.uncork === "function") {
+            res__172.uncork();
         }
-        next__70();
+        next__172();
     };
 }
-function piperToString__1(input__72) {
-    return new Promise((resolve__73, reject__73)=>{
-        const bufferedChunks__73 = [];
-        const stream__73 = new Writable__1({
-            writev (chunks__74, callback__74) {
-                chunks__74.forEach((chunk__75)=>bufferedChunks__73.push(chunk__75.chunk));
-                callback__74();
+function piperToString__1(input__176) {
+    return new Promise((resolve__177, reject__177)=>{
+        const bufferedChunks__177 = [];
+        const stream__177 = new Writable__1({
+            writev (chunks__178, callback__178) {
+                chunks__178.forEach((chunk__179)=>bufferedChunks__177.push(chunk__179.chunk));
+                callback__178();
             }
         });
-        input__72(stream__73, (err__76)=>{
-            if (err__76) {
-                reject__73(err__76);
+        input__176(stream__177, (err__180)=>{
+            if (err__180) {
+                reject__177(err__180);
             } else {
-                resolve__73(Buffer.concat(bufferedChunks__73).toString());
+                resolve__177(Buffer.concat(bufferedChunks__177).toString());
             }
         });
     });
 }
-export function useMaybeDeferContent__1(_name__77, contentFn__77) {
+export function useMaybeDeferContent__1(_name__183, contentFn__183) {
     return [
         false,
-        contentFn__77()
+        contentFn__183()
     ];
 }
