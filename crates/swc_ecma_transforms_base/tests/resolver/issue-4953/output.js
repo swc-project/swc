@@ -5,7 +5,7 @@ export default function(module__1, exports__1) {
     }(void 0, function(t__3) {
         "use strict";
         function vr__3(e__4, r__4, o__4) {
-            try {} catch (t__5) {}
+            try {} catch (t__6) {}
             function t__4() {
                 return '123';
             }

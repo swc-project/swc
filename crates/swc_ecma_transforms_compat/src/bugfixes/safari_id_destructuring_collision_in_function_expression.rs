@@ -194,13 +194,13 @@ mod tests {
         ",
         "
         export default function _typeof__1() {
-            if (Date__2.now() > 0) {
-                _typeof__1 = function _typeof__3() {
-                    console__2.log(0);
+            if (Date__3.now() > 0) {
+                _typeof__1 = function _typeof__5() {
+                    console__3.log(0);
                 };
             } else {
-                _typeof__1 = function _typeof__4() {
-                    console__2.log(2);
+                _typeof__1 = function _typeof__8() {
+                    console__3.log(2);
                 };
             }
             return _typeof__1();

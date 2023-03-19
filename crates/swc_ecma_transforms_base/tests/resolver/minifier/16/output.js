@@ -3,8 +3,8 @@
     function bbb__2() {
         try {
             console.log(111);
-        } catch (Ic__5) {
-            throw Ic__5;
+        } catch (Ic__6) {
+            throw Ic__6;
         }
         var jc__3, Ic__3;
         (Ic__3 = jc__3).PV = "page_view";

@@ -1,8 +1,8 @@
 export function App__1() {
     return <Form__1/>;
 }
-export function Form__1({ onChange__2 =function() {}  }) {
+export function Form__1({ onChange__3 =function() {}  }) {
     return <input onChange__0={function() {
-        onChange__2();
+        onChange__3();
     }}/>;
 }

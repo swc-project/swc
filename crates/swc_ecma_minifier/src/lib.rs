@@ -46,7 +46,7 @@ use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
 
-pub use crate::pass::{global_defs::globals_defs, unique_scope::unique_scope};
+pub use crate::pass::global_defs::globals_defs;
 use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
     metadata::info_marker,
@@ -178,7 +178,6 @@ pub fn optimize(
         ));
         debug_assert_valid(&n);
     }
-    n.visit_mut_with(&mut unique_scope());
 
     if options.wrap {
         // TODO: wrap_common_js

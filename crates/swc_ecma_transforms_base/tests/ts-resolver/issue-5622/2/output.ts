@@ -23,14 +23,14 @@ function outside__1() {
 function defaultArgFunction__1(a__9 = function() {
     return b__9;
 }, b__9 = 1) {}
-function defaultArgArrow__1(a__10 = ()=>()=>b__10, b__10 = 3) {}
+function defaultArgArrow__1(a__11 = ()=>()=>b__11, b__11 = 3) {}
 class C__1 {
-    constructor(a__11 = b, b__11 = 1){}
-    method(a__12 = b__12, b__12 = 1) {}
+    constructor(a__12 = b, b__12 = 1){}
+    method(a__13 = b__13, b__13 = 1) {}
 }
-var x__1 = (a__13 = b, b__13 = c, c__13 = d)=>{
-    var d__13;
+var x__1 = (a__14 = b, b__14 = c, c__14 = d)=>{
+    var d__14;
 };
-function f__1(a__14, b__14 = function() {
-    return c__14;
-}, c__14 = b__14()) {}
+function f__1(a__15, b__15 = function() {
+    return c__15;
+}, c__15 = b__15()) {}
