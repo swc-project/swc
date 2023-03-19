@@ -1,4 +1,4 @@
-class A__1 extends B {
+class A__2 extends B {
     constructor(){
         super();
         const sym__3 = "";

@@ -1,7 +1,7 @@
-function wrapper__1() {
-    function foo__2() {
-        return new Bar__2();
+function wrapper__2() {
+    function foo__3() {
+        return new Bar__3();
     }
-    class Bar__2 {
+    class Bar__3 {
     }
 }

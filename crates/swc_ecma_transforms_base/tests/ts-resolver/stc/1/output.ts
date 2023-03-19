@@ -1,16 +1,16 @@
-interface Mixin1__1 {
+interface Mixin1__2 {
     mixinMethod__0(): void;
 }
-class AbstractBase__1 {
+class AbstractBase__2 {
     abstractBaseMethod(): void;
 }
-function Mixin2__1<TBase__3 extends abstract new(...args: any[]) => any>(baseClass__3: TBase__3) {
-    class MixinClass__3 extends baseClass__3 implements Mixin1__1 {
+function Mixin2__2<TBase__4 extends abstract new(...args: any[]) => any>(baseClass__4: TBase__4) {
+    class MixinClass__4 extends baseClass__4 implements Mixin1__2 {
         mixinMethod(): void {}
         static staticMixinMethod(): void {}
     }
-    return MixinClass__3;
+    return MixinClass__4;
 }
-class DerivedFromAbstract2__1 extends Mixin2__1(AbstractBase__1) {
+class DerivedFromAbstract2__2 extends Mixin2__2(AbstractBase__2) {
     abstractBaseMethod() {}
 }

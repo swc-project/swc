@@ -1,3 +1,3 @@
-new Promise((resolve__2: () => void, ___2)=>{
-    setTimeout(resolve__2, 100);
+new Promise((resolve__3: () => void, ___3)=>{
+    setTimeout(resolve__3, 100);
 });

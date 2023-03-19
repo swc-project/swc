@@ -1,15 +1,15 @@
-var o__1 = 0;
-function f__1() {
+var o__2 = 0;
+function f__2() {
     try {
         throw 1;
-    } catch (c__4) {
+    } catch (c__5) {
         try {
             throw 2;
-        } catch (o__2) {
-            var o__2 = 3;
-            console.log(o__2);
+        } catch (o__3) {
+            var o__3 = 3;
+            console.log(o__3);
         }
     }
-    console.log(o__2);
+    console.log(o__3);
 }
-f__1();
+f__2();

@@ -1,10 +1,10 @@
-interface Foo__1 {
+interface Foo__2 {
     name__0: string;
 }
-function foo__1() {
-    interface Foo__2 {
+function foo__2() {
+    interface Foo__3 {
         name__0: string;
     }
-    const foo__2 = {} as Foo__2;
+    const foo__3 = {} as Foo__3;
 }
-const bar__1 = {} as Foo__1;
+const bar__2 = {} as Foo__2;

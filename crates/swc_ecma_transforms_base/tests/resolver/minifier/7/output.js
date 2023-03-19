@@ -1,11 +1,11 @@
-var a__1 = 1;
-function f__1() {
-    a__2++;
+var a__2 = 1;
+function f__2() {
+    a__3++;
     try {
         x();
-    } catch (a__2) {
-        var a__2 = 2;
+    } catch (a__3) {
+        var a__3 = 2;
     }
 }
-f__1();
-console.log(a__1);
+f__2();
+console.log(a__2);

@@ -1,2 +1,2 @@
-var NaN__1;
+var NaN__2;
 console.log(NaN.toString());

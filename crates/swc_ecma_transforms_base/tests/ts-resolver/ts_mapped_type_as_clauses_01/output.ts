@@ -1,3 +1,3 @@
-type Lazyify__1<T__2> = {
-    [K__2 in keyof T__2]: () => T__2[K__2];
+type Lazyify__2<T__3> = {
+    [K__3 in keyof T__3]: () => T__3[K__3];
 };

@@ -141,6 +141,9 @@ pub fn resolver(
         "Marker provided to resolver should not be the root mark"
     );
 
+    let _ = SyntaxContext::empty().apply_mark(unresolved_mark);
+    let _ = SyntaxContext::empty().apply_mark(top_level_mark);
+
     as_folder(Resolver {
         current: Scope::new(ScopeKind::Fn, top_level_mark, None),
         ident_type: IdentType::Ref,

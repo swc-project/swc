@@ -1,8 +1,8 @@
-var a__1 = 2;
-function foo__1() {
+var a__2 = 2;
+function foo__2() {
     try {
-        var a__2 = 1;
-        a__2;
-    } catch (err__4) {}
-    a__2;
+        var a__3 = 1;
+        a__3;
+    } catch (err__5) {}
+    a__3;
 }

@@ -1,2 +1,2 @@
-var a__1 = "foo";
-var a__1 = "bar";
+var a__2 = "foo";
+var a__2 = "bar";

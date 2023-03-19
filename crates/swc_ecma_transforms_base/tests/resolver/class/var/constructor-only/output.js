@@ -1,1 +1,1 @@
-var Foo__1 = function Foo__2() {};
+var Foo__2 = function Foo__3() {};

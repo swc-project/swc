@@ -1,5 +1,5 @@
-var n__1 = t(3957);
-function o__1(e__3) {
+var n__2 = t(3957);
+function o__2(e__3) {
     const r__3 = e__3.nextUrl;
     if ("/log" !== r__3.pathname) {
         if ("/throw-error-internal" === r__3.pathname) {

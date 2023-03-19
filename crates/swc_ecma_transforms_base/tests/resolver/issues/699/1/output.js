@@ -1,7 +1,7 @@
-function foo__1() {
+function foo__2() {
     return ()=>{
-        function Bar__3() {}
-        Bar__3.qux = "";
-        return Bar__3;
+        function Bar__4() {}
+        Bar__4.qux = "";
+        return Bar__4;
     };
 }

@@ -1,10 +1,10 @@
-var x__1 = 1;
-function foo__1(x__2, y__2 = function() {
-    x__2 = 2;
+var x__2 = 1;
+function foo__2(x__3, y__3 = function() {
+    x__3 = 2;
 }) {
-    var x__2 = 3;
-    y__2();
-    expect(x__2).toBe(3);
+    var x__3 = 3;
+    y__3();
+    expect(x__3).toBe(3);
 }
-foo__1();
-expect(x__1).toBe(1);
+foo__2();
+expect(x__2).toBe(1);

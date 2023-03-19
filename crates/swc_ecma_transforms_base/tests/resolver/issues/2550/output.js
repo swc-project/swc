@@ -1,6 +1,6 @@
-let isNewPrefsActive__1 = true;
+let isNewPrefsActive__2 = true;
 ()=>({
-        isNewPrefsActive__1
+        isNewPrefsActive__2
     }) && {
         a: 1
     };
