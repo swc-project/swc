@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es/resolver)** Make scope context identical to the vars (#7095) ([0f09e35](https://github.com/swc-project/swc/commit/0f09e356c38268ac10223d0d44dd253949bcbc59))
+
 ## [1.3.41] - 2023-03-17
 
 ### Bug Fixes
