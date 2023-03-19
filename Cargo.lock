@@ -3844,6 +3844,7 @@ dependencies = [
  "better_scoped_tls",
  "bitflags",
  "criterion",
+ "indexmap",
  "once_cell",
  "phf",
  "rayon",
