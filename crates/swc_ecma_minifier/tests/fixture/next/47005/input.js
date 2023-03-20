@@ -229,123 +229,25 @@
                 };
 
                 function Ae(t) {
-                    return typeof t != "number" ? function (e) {
-                        return {
-                            top: 0,
-                            right: 0,
-                            bottom: 0,
-                            left: 0,
-                            ...e
-                        }
-                    }(t) : {
-                        top: t,
-                        right: t,
-                        bottom: t,
-                        left: t
-                    }
+
                 }
 
                 function Rt(t) {
-                    return {
-                        ...t,
-                        top: t.y,
-                        left: t.x,
-                        right: t.x + t.width,
-                        bottom: t.y + t.height
-                    }
+
                 }
                 async function Zt(t, e) {
-                    var n;
-                    e === void 0 && (e = {});
-                    let {
-                        x: o,
-                        y: l,
-                        platform: r,
-                        rects: i,
-                        elements: s,
-                        strategy: f
-                    } = t, {
-                        boundary: u = "clippingAncestors",
-                        rootBoundary: a = "viewport",
-                        elementContext: c = "floating",
-                        altBoundary: d = !1,
-                        padding: p = 0
-                    } = e, y = Ae(p), g = s[d ? c === "floating" ? "reference" : "floating" : c], w = Rt(await r.getClippingRect({
-                        element: (n = await (r.isElement == null ? void 0 : r.isElement(g))) == null || n ? g : g.contextElement || await (r.getDocumentElement == null ? void 0 : r.getDocumentElement(s.floating)),
-                        boundary: u,
-                        rootBoundary: a,
-                        strategy: f
-                    })), T = c === "floating" ? {
-                        ...i.floating,
-                        x: o,
-                        y: l
-                    } : i.reference, x = await (r.getOffsetParent == null ? void 0 : r.getOffsetParent(s.floating)), v = await (r.isElement == null ? void 0 : r.isElement(x)) && await (r.getScale == null ? void 0 : r.getScale(x)) || {
-                        x: 1,
-                        y: 1
-                    }, P = Rt(r.convertOffsetParentRelativeRectToViewportRelativeRect ? await r.convertOffsetParentRelativeRectToViewportRelativeRect({
-                        rect: T,
-                        offsetParent: x,
-                        strategy: f
-                    }) : T);
-                    return {
-                        top: (w.top - P.top + y.top) / v.y,
-                        bottom: (P.bottom - w.bottom + y.bottom) / v.y,
-                        left: (w.left - P.left + y.left) / v.x,
-                        right: (P.right - w.right + y.right) / v.x
-                    }
+
                 }
                 var fo = Math.min,
                     uo = Math.max;
 
                 function Gt(t, e, n) {
-                    return uo(t, fo(e, n))
                 }
                 var te = t => ({
                     name: "arrow",
                     options: t,
                     async fn(e) {
-                        let {
-                            element: n,
-                            padding: o = 0
-                        } = t || {}, {
-                            x: l,
-                            y: r,
-                            placement: i,
-                            rects: s,
-                            platform: f,
-                            elements: u
-                        } = e;
-                        if (n == null) return {};
-                        let a = Ae(o),
-                            c = {
-                                x: l,
-                                y: r
-                            },
-                            d = St(i),
-                            p = Qt(d),
-                            y = await f.getDimensions(n),
-                            g = d === "y",
-                            w = g ? "top" : "left",
-                            T = g ? "bottom" : "right",
-                            x = g ? "clientHeight" : "clientWidth",
-                            v = s.reference[p] + s.reference[d] - c[d] - s.floating[p],
-                            P = c[d] - s.reference[d],
-                            R = await (f.getOffsetParent == null ? void 0 : f.getOffsetParent(n)),
-                            W = R ? R[x] : 0;
-                        W && await (f.isElement == null ? void 0 : f.isElement(R)) || (W = u.floating[x] || s.floating[p]);
-                        let K = v / 2 - P / 2,
-                            q = a[w],
-                            U = W - y[p] - a[T],
-                            _ = W / 2 - y[p] / 2 + K,
-                            b = Gt(q, _, U),
-                            E = _t(i) != null && _ != b && s.reference[p] / 2 - (_ < q ? a[w] : a[T]) - y[p] / 2 < 0;
-                        return {
-                            [d]: c[d] - (E ? _ < q ? q - _ : U - _ : 0),
-                            data: {
-                                [d]: b,
-                                centerOffset: _ - b
-                            }
-                        }
+
                     }
                 }),
                     mo = {
