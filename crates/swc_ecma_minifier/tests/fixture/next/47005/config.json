@@ -3,5 +3,6 @@
     "conditionals": false,
     "sequences": false,
     "booleans": false,
+    "dead_code": false,
     "reduce_vars": false
 }
