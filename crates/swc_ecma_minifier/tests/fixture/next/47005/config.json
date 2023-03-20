@@ -4,5 +4,7 @@
     "sequences": false,
     "booleans": false,
     "dead_code": false,
-    "reduce_vars": false
+    "reduce_vars": false,
+    "unused": true,
+    "inline": true
 }
