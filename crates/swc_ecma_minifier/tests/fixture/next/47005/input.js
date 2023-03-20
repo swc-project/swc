@@ -86,23 +86,6 @@
                 function be(t, e, n) {
                 }
                 var Ee = async (t, e, n) => {
-                    let {
-                        placement: o = "bottom",
-                        strategy: l = "absolute",
-                        middleware: r = [],
-                        platform: i
-                    } = n, s = r.filter(Boolean), f = await (i.isRTL == null ? void 0 : i.isRTL(e)), u = await i.getElementRects({
-                    }), {
-                    } = be(u, o, f), d = o, p = {};
-                    for (let g = 0; g < s.length; g++) {
-                    }
-                    return {
-                        x: a,
-                        y: c,
-                        placement: d,
-                        strategy: l,
-                        middlewareData: p
-                    }
                 };
 
 
