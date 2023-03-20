@@ -44,8 +44,7 @@
                 var Ut = je((Co, Wt) => {
                     (function () {
                         "use strict";
-                        var t = {}.hasOwnProperty,
-                            e = "[native code]";
+                        var t = {}.hasOwnProperty;
 
                         function n() {
                             for (var o = [], l = 0; l < arguments.length; l++) {
@@ -98,103 +97,12 @@
                     to = {
                         getTooltipData: () => Ze
                     },
-                    ge = (0, react__WEBPACK_IMPORTED_MODULE_0__.createContext)(to),
-                    eo = ({
-                        children: t
-                    }) => {
-                        let [e, n] = ye({
-                            [qt]: new Set
-                        }), [o, l] = ye({
-                            [qt]: {
-                                current: null
-                            }
-                        }), r = (a, ...c) => {
-                            n(d => {
-                                var y;
-                                let p = (y = d[a]) != null ? y : new Set;
-                                return c.forEach(g => p.add(g)), {
-                                    ...d,
-                                    [a]: new Set(p)
-                                }
-                            })
-                        }, i = (a, ...c) => {
-                            n(d => {
-                                let p = d[a];
-                                return p ? (c.forEach(y => p.delete(y)), {
-                                    ...d
-                                }) : d
-                            })
-                        }, s = (a, c) => {
-                            l(d => {
-                                var p;
-                                return ((p = d[a]) == null ? void 0 : p.current) === c.current ? d : {
-                                    ...d,
-                                    [a]: c
-                                }
-                            })
-                        }, f = Je((a = qt) => {
-                            var c, d;
-                            return {
-                                anchorRefs: (c = e[a]) != null ? c : new Set,
-                                activeAnchor: (d = o[a]) != null ? d : {
-                                    current: null
-                                },
-                                attach: (...p) => r(a, ...p),
-                                detach: (...p) => i(a, ...p),
-                                setActiveAnchor: p => s(a, p)
-                            }
-                        }, [e, o, r, i]), u = Qe(() => ({
-                            getTooltipData: f
-                        }), [f]);
-                        return oo(ge.Provider, {
-                            value: u,
-                            children: t
-                        })
-                    };
+                    ge = (0, react__WEBPACK_IMPORTED_MODULE_0__.createContext)(to);
 
                 function at(t = qt) {
                     return (0, react__WEBPACK_IMPORTED_MODULE_0__.useContext)(ge).getTooltipData(t)
                 }
-                var we = ( /* unused pure expression or super */ null && (eo));
                 var Te = he(Ut());
-                var io = ({
-                    tooltipId: t,
-                    children: e,
-                    className: n,
-                    place: o,
-                    content: l,
-                    html: r,
-                    variant: i,
-                    offset: s,
-                    wrapper: f,
-                    events: u,
-                    positionStrategy: a,
-                    delayShow: c,
-                    delayHide: d
-                }) => {
-                    let {
-                        attach: p,
-                        detach: y
-                    } = at(t), g = ro(null);
-                    return no(() => (p(g), () => {
-                        y(g)
-                    }), []), lo("span", {
-                        ref: g,
-                        className: (0, Te.default)("react-tooltip-wrapper", n),
-                        "data-tooltip-place": o,
-                        "data-tooltip-content": l,
-                        "data-tooltip-html": r,
-                        "data-tooltip-variant": i,
-                        "data-tooltip-offset": s,
-                        "data-tooltip-wrapper": f,
-                        "data-tooltip-events": u,
-                        "data-tooltip-position-strategy": a,
-                        "data-tooltip-delay-show": c,
-                        "data-tooltip-delay-hide": d,
-                        children: e
-                    })
-                },
-                    xe = ( /* unused pure expression or super */ null && (io));
                 var ao = typeof window != "undefined" ? react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect : react__WEBPACK_IMPORTED_MODULE_0__.useEffect,
                     ve = ao;
 
@@ -440,8 +348,6 @@
                         }
                     }
                 }),
-                    po = ["top", "right", "bottom", "left"],
-                    jo = po.reduce((t, e) => t.concat(e, e + "-start", e + "-end"), []),
                     mo = {
                         left: "right",
                         right: "left",
