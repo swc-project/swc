@@ -128,7 +128,6 @@
                 }
 
                 function G(t) {
-                    return V(t).getComputedStyle(t)
                 }
                 var Le = Math.min,
                     Pt = Math.max,
