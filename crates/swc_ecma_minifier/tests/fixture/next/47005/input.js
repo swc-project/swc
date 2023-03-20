@@ -197,7 +197,6 @@
                 }
 
                 function rt(t) {
-                    return De(t) ? (t.nodeName || "").toLowerCase() : ""
                 }
                 var Ft;
 
