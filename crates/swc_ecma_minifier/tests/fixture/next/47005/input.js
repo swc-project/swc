@@ -97,29 +97,7 @@
                 };
 
                 var ne = function (t) {
-                    return t === void 0 && (t = {}), {
-                        name: "shift",
-                        options: t,
-                        async fn(e) {
-                            let {
-                                x: n,
-                                y: o } = e, {
-                                    mainAxis: r = !0,
-                                    crossAxis: i = !1,
-                                    limiter: s = {
-                                        fn: w => {
-                                            let {
-                                                x: T,
-                                                y: x
-                                            } = w;
-                                            return {
-                                                x: T,
-                                                y: x
-                                            }
-                                        }
-                                    } } = t;
-                        }
-                    }
+
                 };
 
                 function V(t) {
