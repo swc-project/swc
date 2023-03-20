@@ -375,31 +375,6 @@
                     warning: "react-tooltip__warning_KtSkBq"
                 };
                 var vo = ({
-                    id: t,
-                    className: e,
-                    classNameArrow: n,
-                    variant: o = "dark",
-                    anchorId: l,
-                    anchorSelect: r,
-                    place: i = "top",
-                    offset: s = 10,
-                    events: f = ["hover"],
-                    openOnClick: u = !1,
-                    positionStrategy: a = "absolute",
-                    middlewares: c,
-                    wrapper: d,
-                    delayHide: y = 0,
-                    float: g = !1,
-                    noArrow: w = !1,
-                    clickable: T = !1,
-                    closeOnEsc: x = !1,
-                    style: v,
-                    position: P,
-                    content: K,
-                    isOpen: q,
-                    setIsOpen: U,
-                    activeAnchor: _,
-                    setActiveAnchor: b
                 }) => {
                     let E = (0, react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null),
                         M = (0, react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null),
