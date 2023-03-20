@@ -628,7 +628,6 @@
                     positionStrategy: a = "absolute",
                     middlewares: c,
                     wrapper: d,
-                    delayShow: p = 0,
                     delayHide: y = 0,
                     float: g = !1,
                     noArrow: w = !1,
@@ -636,8 +635,6 @@
                     closeOnEsc: x = !1,
                     style: v,
                     position: P,
-                    afterShow: R,
-                    afterHide: W,
                     content: K,
                     isOpen: q,
                     setIsOpen: U,
@@ -653,12 +650,9 @@
                         [pt, st] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
                         [$, dt] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(!1),
                         [Dt, mt] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(!1),
-                        Mt = (0, react__WEBPACK_IMPORTED_MODULE_0__.useRef)(!1),
                         vt = (0, react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null),
                         {
-                            anchorRefs: Ht,
-                            setActiveAnchor: zt
-                        } = at(t),
+                            anchorRefs: Ht } = at(t),
                         bt = (0, react__WEBPACK_IMPORTED_MODULE_0__.useRef)(!1),
                         [et, Et] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
                         ct = (0, react__WEBPACK_IMPORTED_MODULE_0__.useRef)(!1),
@@ -684,18 +678,13 @@
                     (0, react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
                         if (q === void 0) return () => null;
                         q && mt(!0);
-                        let m = setTimeout(() => {
-                            dt(q)
-                        }, 10);
                         return () => {
                         }
                     }, [q]), (0, react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
                     }, [$]);
-                    let jt = () => {
+                    let yt = (m = y) => {
                     },
-                        yt = (m = y) => {
-                        },
-                        At = m => {
+                        At = () => {
 
                         },
                         Lt = () => {
