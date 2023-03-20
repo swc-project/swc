@@ -569,43 +569,7 @@
                     return t === void 0 && (t = 0), {
                         name: "offset",
                         options: t,
-                        async fn(e) {
-                            let {
-                                x: n,
-                                y: o
-                            } = e, l = await async function (r, i) {
-                                let {
-                                    placement: s,
-                                    platform: f,
-                                    elements: u
-                                } = r, a = await (f.isRTL == null ? void 0 : f.isRTL(u.floating)), c = ft(s), d = _t(s), p = St(s) === "x", y = ["left", "top"].includes(c) ? -1 : 1, g = a && p ? -1 : 1, w = typeof i == "function" ? i(r) : i, {
-                                    mainAxis: T,
-                                    crossAxis: x,
-                                    alignmentAxis: v
-                                } = typeof w == "number" ? {
-                                    mainAxis: w,
-                                    crossAxis: 0,
-                                    alignmentAxis: null
-                                } : {
-                                            mainAxis: 0,
-                                            crossAxis: 0,
-                                            alignmentAxis: null,
-                                            ...w
-                                        };
-                                return d && typeof v == "number" && (x = d === "end" ? -1 * v : v), p ? {
-                                    x: x * g,
-                                    y: T * y
-                                } : {
-                                    x: T * y,
-                                    y: x * g
-                                }
-                            }(e, t);
-                            return {
-                                x: n + l.x,
-                                y: o + l.y,
-                                data: l
-                            }
-                        }
+
                     }
                 };
 
