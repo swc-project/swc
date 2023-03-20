@@ -219,13 +219,6 @@
                 }
 
                 function It(t) {
-                    let {
-                        overflow: e,
-                        overflowX: n,
-                        overflowY: o,
-                        display: l
-                    } = G(t);
-                    return /auto|scroll|overlay|hidden|clip/.test(e + o + n) && !["inline", "contents"].includes(l)
                 }
 
 
