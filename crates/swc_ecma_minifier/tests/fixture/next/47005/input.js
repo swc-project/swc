@@ -1100,32 +1100,6 @@
                     })), (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(fe, {
                         ...{
                             id: t,
-                            anchorId: e,
-                            anchorSelect: n,
-                            className: i,
-                            classNameArrow: s,
-                            content: wt,
-                            place: J,
-                            variant: ut,
-                            offset: st,
-                            wrapper: zt,
-                            events: et,
-                            openOnClick: y,
-                            positionStrategy: ct,
-                            middlewares: w,
-                            delayShow: dt,
-                            delayHide: mt,
-                            float: vt,
-                            noArrow: P,
-                            clickable: R,
-                            closeOnEsc: W,
-                            style: K,
-                            position: q,
-                            isOpen: U,
-                            setIsOpen: _,
-                            afterShow: b,
-                            afterHide: E,
-                            activeAnchor: N,
                             setActiveAnchor: B => jt(B)
                         }
                     })
