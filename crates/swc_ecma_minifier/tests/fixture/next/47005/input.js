@@ -258,19 +258,9 @@
                     };
 
                 function Nt(t) {
-                    return t.replace(/left|right|bottom|top/g, e => mo[e])
                 }
 
                 function ho(t, e, n) {
-                    n === void 0 && (n = !1);
-                    let o = _t(t),
-                        l = St(t),
-                        r = Qt(l),
-                        i = l === "x" ? o === (n ? "end" : "start") ? "right" : "left" : o === "start" ? "bottom" : "top";
-                    return e.reference[r] > e.floating[r] && (i = Nt(i)), {
-                        main: i,
-                        cross: Nt(i)
-                    }
                 }
                 var yo = {
                     start: "end",
@@ -278,100 +268,9 @@
                 };
 
                 function Jt(t) {
-                    return t.replace(/start|end/g, e => yo[e])
                 }
                 var ee = function (t) {
-                    return t === void 0 && (t = {}), {
-                        name: "flip",
-                        options: t,
-                        async fn(e) {
-                            var n;
-                            let {
-                                placement: o,
-                                middlewareData: l,
-                                rects: r,
-                                initialPlacement: i,
-                                platform: s,
-                                elements: f
-                            } = e, {
-                                mainAxis: u = !0,
-                                crossAxis: a = !0,
-                                fallbackPlacements: c,
-                                fallbackStrategy: d = "bestFit",
-                                fallbackAxisSideDirection: p = "none",
-                                flipAlignment: y = !0,
-                                ...g
-                            } = t, w = ft(o), T = ft(i) === i, x = await (s.isRTL == null ? void 0 : s.isRTL(f.floating)), v = c || (T || !y ? [Nt(i)] : function (b) {
-                                let E = Nt(b);
-                                return [Jt(b), E, Jt(E)]
-                            }(i));
-                            c || p === "none" || v.push(... function (b, E, M, C) {
-                                let S = _t(b),
-                                    H = function (J, Q, ut) {
-                                        let pt = ["left", "right"],
-                                            st = ["right", "left"],
-                                            $ = ["top", "bottom"],
-                                            dt = ["bottom", "top"];
-                                        switch (J) {
-                                            case "top":
-                                            case "bottom":
-                                                return ut ? Q ? st : pt : Q ? pt : st;
-                                            case "left":
-                                            case "right":
-                                                return Q ? $ : dt;
-                                            default:
-                                                return []
-                                        }
-                                    }(ft(b), M === "start", C);
-                                return S && (H = H.map(J => J + "-" + S), E && (H = H.concat(H.map(Jt)))), H
-                            }(i, y, p, x));
-                            let P = [i, ...v],
-                                R = await Zt(e, g),
-                                W = [],
-                                K = ((n = l.flip) == null ? void 0 : n.overflows) || [];
-                            if (u && W.push(R[w]), a) {
-                                let {
-                                    main: b,
-                                    cross: E
-                                } = ho(o, r, x);
-                                W.push(R[b], R[E])
-                            }
-                            if (K = [...K, {
-                                placement: o,
-                                overflows: W
-                            }], !W.every(b => b <= 0)) {
-                                var q, U;
-                                let b = (((q = l.flip) == null ? void 0 : q.index) || 0) + 1,
-                                    E = P[b];
-                                if (E) return {
-                                    data: {
-                                        index: b,
-                                        overflows: K
-                                    },
-                                    reset: {
-                                        placement: E
-                                    }
-                                };
-                                let M = (U = K.filter(C => C.overflows[0] <= 0).sort((C, S) => C.overflows[1] - S.overflows[1])[0]) == null ? void 0 : U.placement;
-                                if (!M) switch (d) {
-                                    case "bestFit": {
-                                        var _;
-                                        let C = (_ = K.map(S => [S.placement, S.overflows.filter(H => H > 0).reduce((H, J) => H + J, 0)]).sort((S, H) => S[1] - H[1])[0]) == null ? void 0 : _[0];
-                                        C && (M = C);
-                                        break
-                                    }
-                                    case "initialPlacement":
-                                        M = i
-                                }
-                                if (o !== M) return {
-                                    reset: {
-                                        placement: M
-                                    }
-                                }
-                            }
-                            return {}
-                        }
-                    }
+
                 };
                 var oe = function (t) {
                     return t === void 0 && (t = 0), {
