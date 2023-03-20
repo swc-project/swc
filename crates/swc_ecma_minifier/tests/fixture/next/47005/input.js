@@ -145,27 +145,7 @@
                             } = t, u = {
                                 x: n,
                                 y: o
-                            }, a = await Zt(e, f), c = St(ft(l)), d = go(c), p = u[c], y = u[d];
-                            if (r) {
-                                let w = c === "y" ? "bottom" : "right";
-                                p = Gt(p + a[c === "y" ? "top" : "left"], p, p - a[w])
-                            }
-                            if (i) {
-                                let w = d === "y" ? "bottom" : "right";
-                                y = Gt(y + a[d === "y" ? "top" : "left"], y, y - a[w])
-                            }
-                            let g = s.fn({
-                                ...e,
-                                [c]: p,
-                                [d]: y
-                            });
-                            return {
-                                ...g,
-                                data: {
-                                    x: g.x - n,
-                                    y: g.y - o
-                                }
-                            }
+                            };
                         }
                     }
                 };
