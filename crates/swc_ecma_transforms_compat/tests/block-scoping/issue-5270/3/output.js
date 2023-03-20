@@ -1,5 +1,5 @@
-var _loop__3 = function() {
-    var j__2 = Math.random();
-    setTimeout(()=>console.log(j__2), 0);
+var _loop__4 = function() {
+    var j__3 = Math.random();
+    setTimeout(()=>console.log(j__3), 0);
 };
-while(foo())_loop__3();
+while(foo())_loop__4();

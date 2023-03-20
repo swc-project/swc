@@ -1,1 +1,1 @@
-type A__1 = B;
+type A__2 = B;

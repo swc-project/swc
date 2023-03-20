@@ -1,9 +1,9 @@
-export function input__1(name__2) {
-    return `${name__2}.md?render`;
+export function input__2(name__3) {
+    return `${name__3}.md?render`;
 }
-export default function({ name__3 , input: inp__3  }) {
-    inp__3 = inp__3 || input__1(name__3);
+export default function({ name__4 , input: inp__4  }) {
+    inp__4 = inp__4 || input__2(name__4);
     return {
-        input: inp__3
+        input: inp__4
     };
 }

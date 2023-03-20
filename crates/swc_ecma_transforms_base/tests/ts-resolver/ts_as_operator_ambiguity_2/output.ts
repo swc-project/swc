@@ -1,11 +1,11 @@
-module Top__1 {
-    interface A__2<T__3> {
-        x__0: T__3;
+module Top__2 {
+    interface A__3<T__4> {
+        x__0: T__4;
     }
-    interface B__2 {
+    interface B__3 {
         m__0: string;
     }
-    var x__2: any;
-    var y__2 = x__2 as A__2<B__2>[];
-    var z__2 = y__2[0].m;
+    var x__3: any;
+    var y__3 = x__3 as A__3<B__3>[];
+    var z__3 = y__3[0].m;
 }

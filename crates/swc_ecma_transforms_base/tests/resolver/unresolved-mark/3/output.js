@@ -1,2 +1,2 @@
-foo__1();
-function foo__1() {}
+foo__2();
+function foo__2() {}

@@ -1,33 +1,33 @@
-import { Writable__1 } from "stream";
-import * as ReactDOMServer__1 from "react-dom/server";
-import { StyleRegistry__1, createStyleRegistry__1 } from "styled-jsx";
-import { warn__1 } from "../build/output/log";
-import { GSP_NO_RETURNED_VALUE__1, GSSP_COMPONENT_MEMBER_ERROR__1, GSSP_NO_RETURNED_VALUE__1, STATIC_STATUS_PAGE_GET_INITIAL_PROPS_ERROR__1, SERVER_PROPS_GET_INIT_PROPS_CONFLICT__1, SERVER_PROPS_SSG_CONFLICT__1, SSG_GET_INITIAL_PROPS_CONFLICT__1, UNSTABLE_REVALIDATE_RENAME_ERROR__1 } from "../lib/constants";
-import { isSerializableProps__1 } from "../lib/is-serializable-props";
-import { isInAmpMode__1 } from "../shared/lib/amp";
-import { AmpStateContext__1 } from "../shared/lib/amp-context";
-import { BODY_RENDER_TARGET__1, SERVER_PROPS_ID__1, STATIC_PROPS_ID__1, STATIC_STATUS_PAGES__1 } from "../shared/lib/constants";
-import { defaultHead__1 } from "../shared/lib/head";
-import { HeadManagerContext__1 } from "../shared/lib/head-manager-context";
-import Loadable__1 from "../shared/lib/loadable";
-import { LoadableContext__1 } from "../shared/lib/loadable-context";
-import postProcess__1 from "../shared/lib/post-process";
-import { RouterContext__1 } from "../shared/lib/router-context";
-import { isDynamicRoute__1 } from "../shared/lib/router/utils/is-dynamic";
-import { HtmlContext__1, getDisplayName__1, isResSent__1, loadGetInitialProps__1 } from "../shared/lib/utils";
-import { tryGetPreviewData__1 } from "./api-utils";
-import { denormalizePagePath__1 } from "./denormalize-page-path";
-import { getFontDefinitionFromManifest__1 } from "./font-utils";
-import { normalizePagePath__1 } from "./normalize-page-path";
-import optimizeAmp__1 from "./optimize-amp";
-import { allowedStatusCodes__1, getRedirectStatus__1 } from "../lib/load-custom-routes";
-import RenderResult__1 from "./render-result";
-import isError__1 from "../lib/is-error";
-function noRouter__1() {
-    const message__2 = 'No router instance found. you should only use "next/router" inside the client side of your app. https://nextjs.org/docs/messages/no-router-instance';
-    throw new Error(message__2);
+import { Writable__2 } from "stream";
+import * as ReactDOMServer__2 from "react-dom/server";
+import { StyleRegistry__2, createStyleRegistry__2 } from "styled-jsx";
+import { warn__2 } from "../build/output/log";
+import { GSP_NO_RETURNED_VALUE__2, GSSP_COMPONENT_MEMBER_ERROR__2, GSSP_NO_RETURNED_VALUE__2, STATIC_STATUS_PAGE_GET_INITIAL_PROPS_ERROR__2, SERVER_PROPS_GET_INIT_PROPS_CONFLICT__2, SERVER_PROPS_SSG_CONFLICT__2, SSG_GET_INITIAL_PROPS_CONFLICT__2, UNSTABLE_REVALIDATE_RENAME_ERROR__2 } from "../lib/constants";
+import { isSerializableProps__2 } from "../lib/is-serializable-props";
+import { isInAmpMode__2 } from "../shared/lib/amp";
+import { AmpStateContext__2 } from "../shared/lib/amp-context";
+import { BODY_RENDER_TARGET__2, SERVER_PROPS_ID__2, STATIC_PROPS_ID__2, STATIC_STATUS_PAGES__2 } from "../shared/lib/constants";
+import { defaultHead__2 } from "../shared/lib/head";
+import { HeadManagerContext__2 } from "../shared/lib/head-manager-context";
+import Loadable__2 from "../shared/lib/loadable";
+import { LoadableContext__2 } from "../shared/lib/loadable-context";
+import postProcess__2 from "../shared/lib/post-process";
+import { RouterContext__2 } from "../shared/lib/router-context";
+import { isDynamicRoute__2 } from "../shared/lib/router/utils/is-dynamic";
+import { HtmlContext__2, getDisplayName__2, isResSent__2, loadGetInitialProps__2 } from "../shared/lib/utils";
+import { tryGetPreviewData__2 } from "./api-utils";
+import { denormalizePagePath__2 } from "./denormalize-page-path";
+import { getFontDefinitionFromManifest__2 } from "./font-utils";
+import { normalizePagePath__2 } from "./normalize-page-path";
+import optimizeAmp__2 from "./optimize-amp";
+import { allowedStatusCodes__2, getRedirectStatus__2 } from "../lib/load-custom-routes";
+import RenderResult__2 from "./render-result";
+import isError__2 from "../lib/is-error";
+function noRouter__2() {
+    const message__3 = 'No router instance found. you should only use "next/router" inside the client side of your app. https://nextjs.org/docs/messages/no-router-instance';
+    throw new Error(message__3);
 }
-class ServerRouter__1 {
+class ServerRouter__2 {
     constructor(pathname__4, query__4, as__4, { isFallback__4  }, isReady__4, basePath__4, locale__4, locales__4, defaultLocale__4, domainLocales__4, isPreview__4, isLocaleDomain__4){
         this.route = pathname__4.replace(/\/$/, "") || "/";
         this.pathname = pathname__4;
@@ -44,25 +44,25 @@ class ServerRouter__1 {
         this.isLocaleDomain = !!isLocaleDomain__4;
     }
     push() {
-        noRouter__1();
+        noRouter__2();
     }
     replace() {
-        noRouter__1();
+        noRouter__2();
     }
     reload() {
-        noRouter__1();
+        noRouter__2();
     }
     back() {
-        noRouter__1();
+        noRouter__2();
     }
     prefetch() {
-        noRouter__1();
+        noRouter__2();
     }
     beforePopState() {
-        noRouter__1();
+        noRouter__2();
     }
 }
-function enhanceComponents__1(options__11, App__11, Component__11) {
+function enhanceComponents__2(options__11, App__11, Component__11) {
     if (typeof options__11 === "function") {
         return {
             App__11,
@@ -74,10 +74,10 @@ function enhanceComponents__1(options__11, App__11, Component__11) {
         Component: options__11.enhanceComponent ? options__11.enhanceComponent(Component__11) : Component__11
     };
 }
-const invalidKeysMsg__1 = (methodName__13, invalidKeys__13)=>{
+const invalidKeysMsg__2 = (methodName__13, invalidKeys__13)=>{
     return `Additional keys were returned from \`${methodName__13}\`. Properties intended for your component must be nested under the \`props\` key, e.g.:` + `\n\n\treturn { props: { title: 'My Title', content: '...' } }` + `\n\nKeys that need to be moved: ${invalidKeys__13.join(", ")}.` + `\nRead more: https://nextjs.org/docs/messages/invalid-getstaticprops-value`;
 };
-function checkRedirectValues__1(redirect__14, req__14, method__14) {
+function checkRedirectValues__2(redirect__14, req__14, method__14) {
     const { destination__14 , permanent__14 , statusCode__14 , basePath__14  } = redirect__14;
     let errors__14 = [];
     const hasStatusCode__14 = typeof statusCode__14 !== "undefined";
@@ -86,9 +86,9 @@ function checkRedirectValues__1(redirect__14, req__14, method__14) {
         errors__14.push(`\`permanent\` and \`statusCode\` can not both be provided`);
     } else if (hasPermanent__14 && typeof permanent__14 !== "boolean") {
         errors__14.push(`\`permanent\` must be \`true\` or \`false\``);
-    } else if (hasStatusCode__14 && !allowedStatusCodes__1.has(statusCode__14)) {
+    } else if (hasStatusCode__14 && !allowedStatusCodes__2.has(statusCode__14)) {
         errors__14.push(`\`statusCode\` must undefined or one of ${[
-            ...allowedStatusCodes__1
+            ...allowedStatusCodes__2
         ].join(", ")}`);
     }
     const destinationType__14 = typeof destination__14;
@@ -103,13 +103,13 @@ function checkRedirectValues__1(redirect__14, req__14, method__14) {
         throw new Error(`Invalid redirect object returned from ${method__14} for ${req__14.url}\n` + errors__14.join(" and ") + "\n" + `See more info here: https://nextjs.org/docs/messages/invalid-redirect-gssp`);
     }
 }
-export async function renderToHTML__1(req__21, res__21, pathname__21, query__21, renderOpts__21) {
+export async function renderToHTML__2(req__21, res__21, pathname__21, query__21, renderOpts__21) {
     renderOpts__21.devOnlyCacheBusterQueryString = renderOpts__21.dev ? renderOpts__21.devOnlyCacheBusterQueryString || `?ts=${Date.now()}` : "";
     query__21 = Object.assign({}, query__21);
     const { err__21 , dev__21 =false , ampPath__21 ="" , App__21 , Document__21 , pageConfig__21 ={} , Component__21 , buildManifest__21 , fontManifest__21 , reactLoadableManifest__21 , ErrorDebug__21 , getStaticProps__21 , getStaticPaths__21 , getServerSideProps__21 , isDataReq__21 , params__21 , previewProps__21 , basePath__21 , devOnlyCacheBusterQueryString__21 , supportsDynamicHTML__21 , concurrentFeatures__21  } = renderOpts__21;
     const getFontDefinition__21 = (url__22)=>{
         if (fontManifest__21) {
-            return getFontDefinitionFromManifest__1(url__22, fontManifest__21);
+            return getFontDefinitionFromManifest__2(url__22, fontManifest__21);
         }
         return "";
     };
@@ -141,7 +141,7 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
     const isBuildTimeSSG__21 = isSSG__21 && renderOpts__21.nextExport;
     const defaultAppGetInitialProps__21 = App__21.getInitialProps === App__21.origGetInitialProps;
     const hasPageGetInitialProps__21 = !!Component__21.getInitialProps;
-    const pageIsDynamic__21 = isDynamicRoute__1(pathname__21);
+    const pageIsDynamic__21 = isDynamicRoute__2(pathname__21);
     const isAutoExport__21 = !hasPageGetInitialProps__21 && defaultAppGetInitialProps__21 && !isSSG__21 && !getServerSideProps__21;
     for (const methodName__31 of [
         "getStaticProps",
@@ -149,17 +149,17 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
         "getStaticPaths"
     ]){
         if (Component__21[methodName__31]) {
-            throw new Error(`page ${pathname__21} ${methodName__31} ${GSSP_COMPONENT_MEMBER_ERROR__1}`);
+            throw new Error(`page ${pathname__21} ${methodName__31} ${GSSP_COMPONENT_MEMBER_ERROR__2}`);
         }
     }
     if (hasPageGetInitialProps__21 && isSSG__21) {
-        throw new Error(SSG_GET_INITIAL_PROPS_CONFLICT__1 + ` ${pathname__21}`);
+        throw new Error(SSG_GET_INITIAL_PROPS_CONFLICT__2 + ` ${pathname__21}`);
     }
     if (hasPageGetInitialProps__21 && getServerSideProps__21) {
-        throw new Error(SERVER_PROPS_GET_INIT_PROPS_CONFLICT__1 + ` ${pathname__21}`);
+        throw new Error(SERVER_PROPS_GET_INIT_PROPS_CONFLICT__2 + ` ${pathname__21}`);
     }
     if (getServerSideProps__21 && isSSG__21) {
-        throw new Error(SERVER_PROPS_SSG_CONFLICT__1 + ` ${pathname__21}`);
+        throw new Error(SERVER_PROPS_SSG_CONFLICT__2 + ` ${pathname__21}`);
     }
     if (getStaticPaths__21 && !pageIsDynamic__21) {
         throw new Error(`getStaticPaths is only allowed for dynamic SSG pages and was found on '${pathname__21}'.` + `\nRead more: https://nextjs.org/docs/messages/non-dynamic-getstaticpaths-usage`);
@@ -192,24 +192,24 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
             req__21.url = pathname__21;
         }
         if (pathname__21 === "/404" && (hasPageGetInitialProps__21 || getServerSideProps__21)) {
-            throw new Error(`\`pages/404\` ${STATIC_STATUS_PAGE_GET_INITIAL_PROPS_ERROR__1}`);
+            throw new Error(`\`pages/404\` ${STATIC_STATUS_PAGE_GET_INITIAL_PROPS_ERROR__2}`);
         }
-        if (STATIC_STATUS_PAGES__1.includes(pathname__21) && (hasPageGetInitialProps__21 || getServerSideProps__21)) {
-            throw new Error(`\`pages${pathname__21}\` ${STATIC_STATUS_PAGE_GET_INITIAL_PROPS_ERROR__1}`);
+        if (STATIC_STATUS_PAGES__2.includes(pathname__21) && (hasPageGetInitialProps__21 || getServerSideProps__21)) {
+            throw new Error(`\`pages${pathname__21}\` ${STATIC_STATUS_PAGE_GET_INITIAL_PROPS_ERROR__2}`);
         }
     }
-    await Loadable__1.preloadAll();
+    await Loadable__2.preloadAll();
     let isPreview__21;
     let previewData__21;
     if ((isSSG__21 || getServerSideProps__21) && !isFallback__21) {
-        previewData__21 = tryGetPreviewData__1(req__21, res__21, previewProps__21);
+        previewData__21 = tryGetPreviewData__2(req__21, res__21, previewProps__21);
         isPreview__21 = previewData__21 !== false;
     }
     const routerIsReady__21 = !!(getServerSideProps__21 || hasPageGetInitialProps__21 || !defaultAppGetInitialProps__21 && !isSSG__21);
-    const router__21 = new ServerRouter__1(pathname__21, query__21, asPath__21, {
+    const router__21 = new ServerRouter__2(pathname__21, query__21, asPath__21, {
         isFallback: isFallback__21
     }, routerIsReady__21, basePath__21, renderOpts__21.locale, renderOpts__21.locales, renderOpts__21.defaultLocale, renderOpts__21.domainLocales, isPreview__21, req__21.__nextIsLocaleDomain);
-    const jsxStyleRegistry__21 = createStyleRegistry__1();
+    const jsxStyleRegistry__21 = createStyleRegistry__2();
     const ctx__21 = {
         err__21,
         req: isAutoExport__21 ? undefined : req__21,
@@ -248,16 +248,16 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
         hasQuery: Boolean(query__21.amp),
         hybrid: pageConfig__21.amp === "hybrid"
     };
-    const inAmpMode__21 = isInAmpMode__1(ampState__21);
+    const inAmpMode__21 = isInAmpMode__2(ampState__21);
     const reactLoadableModules__21 = [];
-    let head__21 = defaultHead__1(inAmpMode__21);
+    let head__21 = defaultHead__2(inAmpMode__21);
     let scriptLoader__21 = {};
     const nextExport__21 = !isSSG__21 && (renderOpts__21.nextExport || dev__21 && (isAutoExport__21 || isFallback__21));
-    const AppContainer__21 = ({ children__52  })=><RouterContext__1.Provider value__0={router__21}>
+    const AppContainer__21 = ({ children__52  })=><RouterContext__2.Provider value__0={router__21}>
 
-            <AmpStateContext__1.Provider value__0={ampState__21}>
+            <AmpStateContext__2.Provider value__0={ampState__21}>
 
-                <HeadManagerContext__1.Provider value__0={{
+                <HeadManagerContext__2.Provider value__0={{
             updateHead: (state__53)=>{
                 head__21 = state__53;
             },
@@ -268,22 +268,22 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
             mountedInstances: new Set()
         }}>
 
-                    <LoadableContext__1.Provider value__0={(moduleName__55)=>reactLoadableModules__21.push(moduleName__55)}>
+                    <LoadableContext__2.Provider value__0={(moduleName__55)=>reactLoadableModules__21.push(moduleName__55)}>
 
-                        <StyleRegistry__1 registry__0={jsxStyleRegistry__21}>
+                        <StyleRegistry__2 registry__0={jsxStyleRegistry__21}>
 
                             {children__52}
 
-                        </StyleRegistry__1>
+                        </StyleRegistry__2>
 
-                    </LoadableContext__1.Provider>
+                    </LoadableContext__2.Provider>
 
-                </HeadManagerContext__1.Provider>
+                </HeadManagerContext__2.Provider>
 
-            </AmpStateContext__1.Provider>
+            </AmpStateContext__2.Provider>
 
-        </RouterContext__1.Provider>;
-    props__21 = await loadGetInitialProps__1(App__21, {
+        </RouterContext__2.Provider>;
+    props__21 = await loadGetInitialProps__2(App__21, {
         AppTree: ctx__21.AppTree,
         Component__21,
         router__21,
@@ -293,7 +293,7 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
         props__21.__N_PREVIEW = true;
     }
     if (isSSG__21) {
-        props__21[STATIC_PROPS_ID__1] = true;
+        props__21[STATIC_PROPS_ID__2] = true;
     }
     if (isSSG__21 && !isFallback__21) {
         let data__58;
@@ -317,14 +317,14 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
             throw staticPropsError__60;
         }
         if (data__58 == null) {
-            throw new Error(GSP_NO_RETURNED_VALUE__1);
+            throw new Error(GSP_NO_RETURNED_VALUE__2);
         }
         const invalidKeys__58 = Object.keys(data__58).filter((key__63)=>key__63 !== "revalidate" && key__63 !== "props" && key__63 !== "redirect" && key__63 !== "notFound");
         if (invalidKeys__58.includes("unstable_revalidate")) {
-            throw new Error(UNSTABLE_REVALIDATE_RENAME_ERROR__1);
+            throw new Error(UNSTABLE_REVALIDATE_RENAME_ERROR__2);
         }
         if (invalidKeys__58.length) {
-            throw new Error(invalidKeysMsg__1("getStaticProps", invalidKeys__58));
+            throw new Error(invalidKeysMsg__2("getStaticProps", invalidKeys__58));
         }
         if (process.env.NODE_ENV !== "production") {
             if (typeof data__58.notFound !== "undefined" && typeof data__58.redirect !== "undefined") {
@@ -338,20 +338,20 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
             renderOpts__21.isNotFound = true;
         }
         if ("redirect" in data__58 && data__58.redirect && typeof data__58.redirect === "object") {
-            checkRedirectValues__1(data__58.redirect, req__21, "getStaticProps");
+            checkRedirectValues__2(data__58.redirect, req__21, "getStaticProps");
             if (isBuildTimeSSG__21) {
                 throw new Error(`\`redirect\` can not be returned from getStaticProps during prerendering (${req__21.url})\n` + `See more info here: https://nextjs.org/docs/messages/gsp-redirect-during-prerender`);
             }
             data__58.props = {
                 __N_REDIRECT: data__58.redirect.destination,
-                __N_REDIRECT_STATUS: getRedirectStatus__1(data__58.redirect)
+                __N_REDIRECT_STATUS: getRedirectStatus__2(data__58.redirect)
             };
             if (typeof data__58.redirect.basePath !== "undefined") {
                 data__58.props.__N_REDIRECT_BASE_PATH = data__58.redirect.basePath;
             }
             renderOpts__21.isRedirect = true;
         }
-        if ((dev__21 || isBuildTimeSSG__21) && !renderOpts__21.isNotFound && !isSerializableProps__1(pathname__21, "getStaticProps", data__58.props)) {
+        if ((dev__21 || isBuildTimeSSG__21) && !renderOpts__21.isNotFound && !isSerializableProps__2(pathname__21, "getStaticProps", data__58.props)) {
             throw new Error("invariant: getStaticProps did not return valid props. Please report this.");
         }
         if ("revalidate" in data__58) {
@@ -381,7 +381,7 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
         }
     }
     if (getServerSideProps__21) {
-        props__21[SERVER_PROPS_ID__1] = true;
+        props__21[SERVER_PROPS_ID__2] = true;
     }
     if (getServerSideProps__21 && !isFallback__21) {
         let data__85;
@@ -416,13 +416,13 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
             });
             canAccessRes__85 = false;
         } catch (serverSidePropsError__90) {
-            if (isError__1(serverSidePropsError__90) && serverSidePropsError__90.code === "ENOENT") {
+            if (isError__2(serverSidePropsError__90) && serverSidePropsError__90.code === "ENOENT") {
                 delete serverSidePropsError__90.code;
             }
             throw serverSidePropsError__90;
         }
         if (data__85 == null) {
-            throw new Error(GSSP_NO_RETURNED_VALUE__1);
+            throw new Error(GSSP_NO_RETURNED_VALUE__2);
         }
         const invalidKeys__85 = Object.keys(data__85).filter((key__93)=>key__93 !== "props" && key__93 !== "redirect" && key__93 !== "notFound");
         if (data__85.unstable_notFound) {
@@ -432,7 +432,7 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
             throw new Error(`unstable_redirect has been renamed to redirect, please update the field to continue. Page: ${pathname__21}`);
         }
         if (invalidKeys__85.length) {
-            throw new Error(invalidKeysMsg__1("getServerSideProps", invalidKeys__85));
+            throw new Error(invalidKeysMsg__2("getServerSideProps", invalidKeys__85));
         }
         if ("notFound" in data__85 && data__85.notFound) {
             if (pathname__21 === "/404") {
@@ -442,10 +442,10 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
             return null;
         }
         if ("redirect" in data__85 && typeof data__85.redirect === "object") {
-            checkRedirectValues__1(data__85.redirect, req__21, "getServerSideProps");
+            checkRedirectValues__2(data__85.redirect, req__21, "getServerSideProps");
             data__85.props = {
                 __N_REDIRECT: data__85.redirect.destination,
-                __N_REDIRECT_STATUS: getRedirectStatus__1(data__85.redirect)
+                __N_REDIRECT_STATUS: getRedirectStatus__2(data__85.redirect)
             };
             if (typeof data__85.redirect.basePath !== "undefined") {
                 data__85.props.__N_REDIRECT_BASE_PATH = data__85.redirect.basePath;
@@ -455,7 +455,7 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
         if (data__85.props instanceof Promise) {
             data__85.props = await data__85.props;
         }
-        if ((dev__21 || isBuildTimeSSG__21) && !isSerializableProps__1(pathname__21, "getServerSideProps", data__85.props)) {
+        if ((dev__21 || isBuildTimeSSG__21) && !isSerializableProps__2(pathname__21, "getServerSideProps", data__85.props)) {
             throw new Error("invariant: getServerSideProps did not return valid props. Please report this.");
         }
         props__21.pageProps = Object.assign({}, props__21.pageProps, data__85.props);
@@ -465,15 +465,15 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
         console.warn(`The prop \`url\` is a reserved prop in Next.js for legacy reasons and will be overridden on page ${pathname__21}\n` + `See more info here: https://nextjs.org/docs/messages/reserved-page-prop`);
     }
     if (isDataReq__21 && !isSSG__21 || renderOpts__21.isRedirect) {
-        return RenderResult__1.fromStatic(JSON.stringify(props__21));
+        return RenderResult__2.fromStatic(JSON.stringify(props__21));
     }
     if (isFallback__21) {
         props__21.pageProps = {};
     }
-    if (isResSent__1(res__21) && !isSSG__21) return null;
+    if (isResSent__2(res__21) && !isSSG__21) return null;
     let filteredBuildManifest__21 = buildManifest__21;
     if (isAutoExport__21 && pageIsDynamic__21) {
-        const page__106 = denormalizePagePath__1(normalizePagePath__1(pathname__21));
+        const page__106 = denormalizePagePath__2(normalizePagePath__2(pathname__21));
         if (page__106 in filteredBuildManifest__21.pages) {
             filteredBuildManifest__21 = {
                 ...filteredBuildManifest__21,
@@ -493,7 +493,7 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
         if (Document__21.getInitialProps) {
             const renderPage__111 = (options__112 = {})=>{
                 if (ctx__21.err && ErrorDebug__21) {
-                    const html__113 = ReactDOMServer__1.renderToString(<ErrorDebug__21 error__0={ctx__21.err}/>);
+                    const html__113 = ReactDOMServer__2.renderToString(<ErrorDebug__21 error__0={ctx__21.err}/>);
                     return {
                         html__113,
                         head__21
@@ -502,8 +502,8 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
                 if (dev__21 && (props__21.router || props__21.Component)) {
                     throw new Error(`'router' and 'Component' can not be returned in getInitialProps from _app.js https://nextjs.org/docs/messages/cant-override-next-props`);
                 }
-                const { App: EnhancedApp__112 , Component: EnhancedComponent__112  } = enhanceComponents__1(options__112, App__21, Component__21);
-                const html__112 = ReactDOMServer__1.renderToString(<AppContainer__21>
+                const { App: EnhancedApp__112 , Component: EnhancedComponent__112  } = enhanceComponents__2(options__112, App__21, Component__21);
+                const html__112 = ReactDOMServer__2.renderToString(<AppContainer__21>
 
                         <EnhancedApp__112 Component__0={EnhancedComponent__112} router__0={router__21} {...props__21}/>
 
@@ -517,14 +517,14 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
                 ...ctx__21,
                 renderPage__111
             };
-            const docProps__111 = await loadGetInitialProps__1(Document__21, documentCtx__111);
-            if (isResSent__1(res__21) && !isSSG__21) return null;
+            const docProps__111 = await loadGetInitialProps__2(Document__21, documentCtx__111);
+            if (isResSent__2(res__21) && !isSSG__21) return null;
             if (!docProps__111 || typeof docProps__111.html !== "string") {
-                const message__115 = `"${getDisplayName__1(Document__21)}.getInitialProps()" should resolve to an object with a "html" prop set with a valid html string`;
+                const message__115 = `"${getDisplayName__2(Document__21)}.getInitialProps()" should resolve to an object with a "html" prop set with a valid html string`;
                 throw new Error(message__115);
             }
             return {
-                bodyResult: piperFromArray__1([
+                bodyResult: piperFromArray__2([
                     docProps__111.html
                 ]),
                 documentElement: (htmlProps__116)=><Document__21 {...htmlProps__116} {...docProps__111}/>,
@@ -538,8 +538,8 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
                         <App__21 {...props__21} Component__0={Component__21} router__0={router__21}/>
 
                     </AppContainer__21>;
-            const bodyResult__117 = concurrentFeatures__21 ? await renderToStream__1(content__117, generateStaticHTML__21) : piperFromArray__1([
-                ReactDOMServer__1.renderToString(content__117)
+            const bodyResult__117 = concurrentFeatures__21 ? await renderToStream__2(content__117, generateStaticHTML__21) : piperFromArray__2([
+                ReactDOMServer__2.renderToString(content__117)
             ]);
             return {
                 bodyResult__117,
@@ -580,7 +580,7 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
             autoExport: isAutoExport__21 === true ? true : undefined,
             isFallback__21,
             dynamicIds: dynamicImportsIds__21.size === 0 ? undefined : Array.from(dynamicImportsIds__21),
-            err: renderOpts__21.err ? serializeError__1(dev__21, renderOpts__21.err) : undefined,
+            err: renderOpts__21.err ? serializeError__2(dev__21, renderOpts__21.err) : undefined,
             gsp: !!getStaticProps__21 ? true : undefined,
             gssp: !!getServerSideProps__21 ? true : undefined,
             customServer__21,
@@ -611,17 +611,17 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
         head: documentResult__21.head,
         headTags: documentResult__21.headTags,
         styles: documentResult__21.styles,
-        useMaybeDeferContent__1
+        useMaybeDeferContent__2
     };
-    const documentHTML__21 = ReactDOMServer__1.renderToStaticMarkup(<AmpStateContext__1.Provider value__0={ampState__21}>
+    const documentHTML__21 = ReactDOMServer__2.renderToStaticMarkup(<AmpStateContext__2.Provider value__0={ampState__21}>
 
-            <HtmlContext__1.Provider value__0={htmlProps__21}>
+            <HtmlContext__2.Provider value__0={htmlProps__21}>
 
                 {documentResult__21.documentElement(htmlProps__21)}
 
-            </HtmlContext__1.Provider>
+            </HtmlContext__2.Provider>
 
-        </AmpStateContext__1.Provider>);
+        </AmpStateContext__2.Provider>);
     if (process.env.NODE_ENV !== "production") {
         const nonRenderedComponents__123 = [];
         const expectedDocComponents__123 = [
@@ -638,10 +638,10 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
         const plural__123 = nonRenderedComponents__123.length !== 1 ? "s" : "";
         if (nonRenderedComponents__123.length) {
             const missingComponentList__127 = nonRenderedComponents__123.map((e__128)=>`<${e__128} />`).join(", ");
-            warn__1(`Your custom Document (pages/_document) did not render all the required subcomponent${plural__123}.\n` + `Missing component${plural__123}: ${missingComponentList__127}\n` + "Read how to fix here: https://nextjs.org/docs/messages/missing-document-component");
+            warn__2(`Your custom Document (pages/_document) did not render all the required subcomponent${plural__123}.\n` + `Missing component${plural__123}: ${missingComponentList__127}\n` + "Read how to fix here: https://nextjs.org/docs/messages/missing-document-component");
         }
     }
-    const renderTargetIdx__21 = documentHTML__21.indexOf(BODY_RENDER_TARGET__1);
+    const renderTargetIdx__21 = documentHTML__21.indexOf(BODY_RENDER_TARGET__2);
     const prefix__21 = [];
     prefix__21.push("<!DOCTYPE html>");
     prefix__21.push(documentHTML__21.substring(0, renderTargetIdx__21));
@@ -649,22 +649,22 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
         prefix__21.push("<!-- __NEXT_DATA__ -->");
     }
     let pipers__21 = [
-        piperFromArray__1(prefix__21),
+        piperFromArray__2(prefix__21),
         documentResult__21.bodyResult,
-        piperFromArray__1([
-            documentHTML__21.substring(renderTargetIdx__21 + BODY_RENDER_TARGET__1.length)
+        piperFromArray__2([
+            documentHTML__21.substring(renderTargetIdx__21 + BODY_RENDER_TARGET__2.length)
         ])
     ];
     const postProcessors__21 = (generateStaticHTML__21 ? [
         inAmpMode__21 ? async (html__130)=>{
-            html__130 = await optimizeAmp__1(html__130, renderOpts__21.ampOptimizerConfig);
+            html__130 = await optimizeAmp__2(html__130, renderOpts__21.ampOptimizerConfig);
             if (!renderOpts__21.ampSkipValidation && renderOpts__21.ampValidator) {
                 await renderOpts__21.ampValidator(html__130, pathname__21);
             }
             return html__130;
         } : null,
         process.env.__NEXT_OPTIMIZE_FONTS || process.env.__NEXT_OPTIMIZE_IMAGES ? async (html__132)=>{
-            return await postProcess__1(html__132, {
+            return await postProcess__2(html__132, {
                 getFontDefinition__21
             }, {
                 optimizeFonts: renderOpts__21.optimizeFonts,
@@ -689,17 +689,17 @@ export async function renderToHTML__1(req__21, res__21, pathname__21, query__21,
         } : null
     ] : []).filter(Boolean);
     if (generateStaticHTML__21 || postProcessors__21.length > 0) {
-        let html__135 = await piperToString__1(chainPipers__1(pipers__21));
+        let html__135 = await piperToString__2(chainPipers__2(pipers__21));
         for (const postProcessor__136 of postProcessors__21){
             if (postProcessor__136) {
                 html__135 = await postProcessor__136(html__135);
             }
         }
-        return new RenderResult__1(html__135);
+        return new RenderResult__2(html__135);
     }
-    return new RenderResult__1(chainPipers__1(pipers__21));
+    return new RenderResult__2(chainPipers__2(pipers__21));
 }
-function errorToJSON__1(err__139) {
+function errorToJSON__2(err__139) {
     const { name__139 , message__139 , stack__139  } = err__139;
     return {
         name__139,
@@ -707,9 +707,9 @@ function errorToJSON__1(err__139) {
         stack__139
     };
 }
-function serializeError__1(dev__140, err__140) {
+function serializeError__2(dev__140, err__140) {
     if (dev__140) {
-        return errorToJSON__1(err__140);
+        return errorToJSON__2(err__140);
     }
     return {
         name: "Internal Server Error.",
@@ -717,10 +717,10 @@ function serializeError__1(dev__140, err__140) {
         statusCode: 500
     };
 }
-function renderToStream__1(element__142, generateStaticHTML__142) {
+function renderToStream__2(element__142, generateStaticHTML__142) {
     return new Promise((resolve__143, reject__143)=>{
         let underlyingStream__143 = null;
-        const stream__143 = new Writable__1({
+        const stream__143 = new Writable__2({
             highWaterMark: 0,
             write (chunk__144, encoding__144, callback__144) {
                 if (!underlyingStream__143) {
@@ -780,7 +780,7 @@ function renderToStream__1(element__142, generateStaticHTML__142) {
                 });
             }
         };
-        const { abort__143 , startWriting__143  } = ReactDOMServer__1.pipeToNodeWritable(element__142, stream__143, {
+        const { abort__143 , startWriting__143  } = ReactDOMServer__2.pipeToNodeWritable(element__142, stream__143, {
             onError (error__161) {
                 if (!resolved__143) {
                     resolved__143 = true;
@@ -799,7 +799,7 @@ function renderToStream__1(element__142, generateStaticHTML__142) {
         });
     });
 }
-function chainPipers__1(pipers__166) {
+function chainPipers__2(pipers__166) {
     return pipers__166.reduceRight((lhs__167, rhs__167)=>(res__168, next__168)=>{
             rhs__167(res__168, (err__169)=>err__169 ? next__168(err__169) : lhs__167(res__168, next__168));
         }, (res__170, next__170)=>{
@@ -807,7 +807,7 @@ function chainPipers__1(pipers__166) {
         next__170();
     });
 }
-function piperFromArray__1(chunks__171) {
+function piperFromArray__2(chunks__171) {
     return (res__172, next__172)=>{
         if (typeof res__172.cork === "function") {
             res__172.cork();
@@ -819,10 +819,10 @@ function piperFromArray__1(chunks__171) {
         next__172();
     };
 }
-function piperToString__1(input__176) {
+function piperToString__2(input__176) {
     return new Promise((resolve__177, reject__177)=>{
         const bufferedChunks__177 = [];
-        const stream__177 = new Writable__1({
+        const stream__177 = new Writable__2({
             writev (chunks__178, callback__178) {
                 chunks__178.forEach((chunk__179)=>bufferedChunks__177.push(chunk__179.chunk));
                 callback__178();
@@ -837,7 +837,7 @@ function piperToString__1(input__176) {
         });
     });
 }
-export function useMaybeDeferContent__1(_name__183, contentFn__183) {
+export function useMaybeDeferContent__2(_name__183, contentFn__183) {
     return [
         false,
         contentFn__183()

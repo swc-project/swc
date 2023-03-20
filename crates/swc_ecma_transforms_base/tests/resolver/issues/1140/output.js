@@ -1,4 +1,4 @@
-const categories__1 = [
+const categories__2 = [
     {
         key: "apple"
     },
@@ -9,10 +9,10 @@ const categories__1 = [
         key: "strawberry"
     }
 ];
-const item__1 = "some item";
-const catNames__1 = categories__1.reduce((a__2, item__2)=>{
+const item__2 = "some item";
+const catNames__2 = categories__2.reduce((a__3, item__3)=>{
     return {
-        ...a__2,
-        [item__2.key.toString()]: item__2
+        ...a__3,
+        [item__3.key.toString()]: item__3
     };
 }, {});

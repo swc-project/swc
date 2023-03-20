@@ -1,4 +1,4 @@
-const ZQLExport__1: IZQL = class ZQL__3 {
+const ZQLExport__2: IZQL = class ZQL__3 {
     private static requiredMap = {
         [ZQLAction.QUERY]: [
             "tableName"

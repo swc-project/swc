@@ -1,12 +1,12 @@
-enum Foo__1 {
+enum Foo__2 {
     name__0,
     string__0
 }
-function foo__1() {
-    enum Foo__2 {
+function foo__2() {
+    enum Foo__3 {
         name__0,
         string__0
     }
-    const foo__2 = {} as Foo__2;
+    const foo__3 = {} as Foo__3;
 }
-const bar__1 = {} as Foo__1;
+const bar__2 = {} as Foo__2;

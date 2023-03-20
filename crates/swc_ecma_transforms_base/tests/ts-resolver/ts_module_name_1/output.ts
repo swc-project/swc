@@ -1,6 +1,6 @@
-module Top__1 {
-    module A__2 {
-        export function b__3() {}
+module Top__2 {
+    module A__3 {
+        export function b__4() {}
     }
-    A__2.b();
+    A__3.b();
 }

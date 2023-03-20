@@ -1,9 +1,9 @@
-const g__1 = 20;
-function baz__1() {
+const g__2 = 20;
+function baz__2() {
     {
-        class g__3 {
+        class g__4 {
         }
-        console.log(g__3);
+        console.log(g__4);
     }
-    return g__1;
+    return g__2;
 }

@@ -1,10 +1,10 @@
-class Base__1 {
+class Base__2 {
     private p;
 }
-var x338__1 = (n__2: {
-    () : Base__1[];
-})=>n__2;
-x338__1(function named__3() {
+var x338__2 = (n__3: {
+    () : Base__2[];
+})=>n__3;
+x338__2(function named__4() {
     return [
         d1,
         d2

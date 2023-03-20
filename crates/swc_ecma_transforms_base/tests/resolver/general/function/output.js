@@ -1,3 +1,3 @@
-function test__1() {
-    let foo__2 = "bar";
+function test__2() {
+    let foo__3 = "bar";
 }

@@ -108,7 +108,7 @@ describe("parse", () => {
                   "identifier": Object {
                     "optional": false,
                     "span": Object {
-                      "ctxt": 1,
+                      "ctxt": 2,
                       "end": 394,
                       "start": 391,
                     },
@@ -155,7 +155,7 @@ describe("parse", () => {
                   "identifier": Object {
                     "optional": false,
                     "span": Object {
-                      "ctxt": 1,
+                      "ctxt": 2,
                       "end": 407,
                       "start": 404,
                     },

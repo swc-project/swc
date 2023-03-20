@@ -1,4 +1,4 @@
-import { Nullable__1 } from "nullable";
-import { SomeOther__1 } from "other";
-const a__1: Nullable__1<SomeOther__1> = "hello";
-console.log(a__1);
+import { Nullable__2 } from "nullable";
+import { SomeOther__2 } from "other";
+const a__2: Nullable__2<SomeOther__2> = "hello";
+console.log(a__2);

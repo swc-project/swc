@@ -1,4 +1,4 @@
-interface MyType__1 {
+interface MyType__2 {
     other__0: number;
 }
-export default MyType__1;
+export default MyType__2;

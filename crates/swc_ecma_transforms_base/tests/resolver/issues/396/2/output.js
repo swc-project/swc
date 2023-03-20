@@ -1,4 +1,4 @@
-function foo__1() {
-    var bar__2 = function bar1__3() {};
-    bar__2;
+function foo__2() {
+    var bar__3 = function bar1__4() {};
+    bar__3;
 }

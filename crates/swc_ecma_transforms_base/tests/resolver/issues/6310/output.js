@@ -1,4 +1,4 @@
 switch(0){
-    case x__1:
-        function x__1() {}
+    case x__3:
+        function x__3() {}
 }

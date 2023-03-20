@@ -1,20 +1,20 @@
-import { myFunction__1 } from "./dep.js";
-class SomeClass__1 {
-    constructor(properties__2){
-        this.props = properties__2;
+import { myFunction__2 } from "./dep.js";
+class SomeClass__2 {
+    constructor(properties__3){
+        this.props = properties__3;
     }
     call() {
-        const { myFunction__3  } = this.props;
-        if (myFunction__3) {
-            myFunction__3();
+        const { myFunction__4  } = this.props;
+        if (myFunction__4) {
+            myFunction__4();
         } else {
             console.log("DID NOT WORK!");
         }
     }
 }
-let instance__1 = new SomeClass__1({
+let instance__2 = new SomeClass__2({
     myFunction: ()=>{
         console.log("CORRECT FUNCTION CALLED");
     }
 });
-instance__1.call();
+instance__2.call();

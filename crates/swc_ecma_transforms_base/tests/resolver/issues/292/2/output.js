@@ -1,8 +1,8 @@
-__assign = Object.assign || function __assign1__2(t__3) {
-    for(var s__3, i__3 = 1, n__3 = arguments.length; i__3 < n__3; i__3++){
-        s__3 = arguments[i__3];
-        for(var p__3 in s__3)if (Object.prototype.hasOwnProperty.call(s__3, p__3)) t__3[p__3] = s__3[p__3];
+__assign = Object.assign || function __assign1__3(t__4) {
+    for(var s__4, i__4 = 1, n__4 = arguments.length; i__4 < n__4; i__4++){
+        s__4 = arguments[i__4];
+        for(var p__4 in s__4)if (Object.prototype.hasOwnProperty.call(s__4, p__4)) t__4[p__4] = s__4[p__4];
     }
-    return t__3;
+    return t__4;
 };
 __assign.apply(this, arguments);

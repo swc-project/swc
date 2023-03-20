@@ -1,7 +1,7 @@
-const b__1 = [];
+const b__2 = [];
 {
-    let a__2;
-    for(a__2 in b__1){
-        console.log(a__2);
+    let a__3;
+    for(a__3 in b__2){
+        console.log(a__3);
     }
 }

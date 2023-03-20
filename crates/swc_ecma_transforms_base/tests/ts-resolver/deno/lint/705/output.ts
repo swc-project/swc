@@ -1,7 +1,7 @@
-import { Foo__1 } from "./foo.ts";
-function _bar__1(...Foo__2: Foo__1) {
-    console.log(Foo__2);
+import { Foo__2 } from "./foo.ts";
+function _bar__2(...Foo__3: Foo__2) {
+    console.log(Foo__3);
 }
-function _bar2__1(Foo__4: Foo__1, other__4 = Foo__4) {
+function _bar2__2(Foo__4: Foo__2, other__4 = Foo__4) {
     Foo__4;
 }
