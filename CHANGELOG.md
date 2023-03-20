@@ -11,6 +11,9 @@
 
 
 
+- **(es/fixer)** Move comments with the insertion order (#7097) ([f250f24](https://github.com/swc-project/swc/commit/f250f243cba49b9cdcdc920d37c92662c14941bc))
+
+
 - **(es/resolver)** Make syntax context for unresolved and top-level stable (#7096) ([c114f00](https://github.com/swc-project/swc/commit/c114f006b4ea388ef9a4503e935d59e92a647ecf))
 
 ## [1.3.41] - 2023-03-17
