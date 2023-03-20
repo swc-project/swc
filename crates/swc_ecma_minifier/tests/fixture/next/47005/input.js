@@ -683,11 +683,8 @@
                         activeAnchor: At
                     } = at(t);
                     (0, react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-                        C(o)
                     }, [o]), (0, react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-                        H(l)
                     }, [l]), (0, react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-                        Q(u)
                     }, [u]), (0, react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
                     }, [yt, At, N, e, n]);
                     let wt = d;
