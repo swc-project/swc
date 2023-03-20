@@ -1028,6 +1028,15 @@ impl Compiler {
                 }
             }
 
+            if opts.keep_fnames {
+                if let Some(opts) = &mut min_opts.compress {
+                    opts.keep_fnames = true;
+                }
+                if let Some(opts) = &mut min_opts.mangle {
+                    opts.keep_fn_names = true;
+                }
+            }
+
             let comments = SingleThreadedComments::default();
 
             let module = self
