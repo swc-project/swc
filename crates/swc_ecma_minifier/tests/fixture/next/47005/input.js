@@ -238,24 +238,14 @@
                 var te = t => ({
                     name: "arrow",
                     options: t,
-                    async fn(e) {
+                    async fn() {
 
                     }
                 });
 
-                function Nt(t) {
-                }
 
-                function ho(t, e, n) {
-                }
-                var yo = {
-                    start: "end",
-                    end: "start"
-                };
 
-                function Jt(t) {
-                }
-                var ee = function (t) {
+                var ee = function () {
 
                 };
                 var oe = function (t) {
@@ -385,9 +375,6 @@
                     return /auto|scroll|overlay|hidden|clip/.test(e + o + n) && !["inline", "contents"].includes(l)
                 }
 
-                function wo(t) {
-                    return ["table", "td", "th"].includes(rt(t))
-                }
 
                 function re(t) {
                     let e = /firefox/i.test(ke()),
@@ -399,9 +386,6 @@
                     })
                 }
 
-                function ie() {
-                    return /^((?!chrome|android).)*safari/i.test(ke())
-                }
 
                 function le(t) {
                     return ["html", "body", "#document"].includes(rt(t))
@@ -427,7 +411,7 @@
                     }
                 }
 
-                function Ct(t, e, n, o) {
+                function Ct(t) {
 
                 }
 
@@ -445,9 +429,6 @@
                     }
                 }
 
-                function Be(t) {
-                    return Ct(nt(t)).left + Vt(t).scrollLeft
-                }
 
                 function kt(t) {
                     if (rt(t) === "html") return t;
@@ -473,8 +454,6 @@
 
                 }
 
-                function Se(t, e) {
-                }
 
                 function Pe(t, e) {
                 }
@@ -513,7 +492,7 @@
                             y: f.top
                         }
                     },
-                    convertOffsetParentRelativeRectToViewportRelativeRect: function (t) {
+                    convertOffsetParentRelativeRectToViewportRelativeRect: function () {
 
                     },
                     isElement: ot,
@@ -957,30 +936,17 @@
                     content: o,
                     html: l,
                     render: r,
-                    className: i,
-                    classNameArrow: s,
                     variant: f = "dark",
                     place: u = "top",
                     offset: a = 10,
                     wrapper: c = "div",
                     children: d = null,
                     events: p = ["hover"],
-                    openOnClick: y = !1,
                     positionStrategy: g = "absolute",
-                    middlewares: w,
                     delayShow: T = 0,
                     delayHide: x = 0,
                     float: v = !1,
-                    noArrow: P = !1,
-                    clickable: R = !1,
-                    closeOnEsc: W = !1,
-                    style: K,
-                    position: q,
-                    isOpen: U,
-                    setIsOpen: _,
-                    afterShow: b,
-                    afterHide: E
-                }) => {
+                    setIsOpen: _ }) => {
                     let [M, C] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(o), [S, H] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(l), [J, Q] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(u), [ut, pt] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(f), [st, $] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(a), [dt, Dt] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(T), [mt, Mt] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(x), [vt, Ht] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(v), [zt, bt] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(c), [et, Et] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(p), [ct, ht] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(g), [N, jt] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(null), {
                         anchorRefs: yt,
                         activeAnchor: At
