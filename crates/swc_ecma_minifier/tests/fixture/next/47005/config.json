@@ -6,6 +6,7 @@
     "dead_code": false,
     "reduce_vars": false,
     "join_vars": false,
+    "comparisons": false,
     "unused": true,
     "inline": true
 }
