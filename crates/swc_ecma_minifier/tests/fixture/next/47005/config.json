@@ -5,6 +5,7 @@
     "booleans": false,
     "dead_code": false,
     "reduce_vars": false,
+    "join_vars": false,
     "unused": true,
     "inline": true
 }
