@@ -91,17 +91,7 @@
                 var Kt = Math.round;
 
                 function Ce(t) {
-                    let e = G(t),
-                        n = parseFloat(e.width),
-                        o = parseFloat(e.height),
-                        l = t.offsetWidth,
-                        r = t.offsetHeight,
-                        i = Kt(n) !== l || Kt(o) !== r;
-                    return i && (n = l, o = r), {
-                        width: n,
-                        height: o,
-                        fallback: i
-                    }
+
                 }
 
                 function rt(t) {
@@ -151,21 +141,12 @@
 
 
                 function kt(t) {
-                    if (rt(t) === "html") return t;
                 }
 
                 function Oe(t) {
-                    let e = kt(t);
-                    return le(e) ? e.ownerDocument.body : Y(e) && It(e) ? e : Oe(e)
                 }
 
                 function We(t, e) {
-                    var n;
-                    e === void 0 && (e = []);
-                    let o = Oe(t),
-                        l = o === ((n = t.ownerDocument) == null ? void 0 : n.body),
-                        r = V(o);
-                    return l ? e.concat(r, r.visualViewport || [], It(o) ? o : []) : e.concat(o, We(o))
                 }
 
                 function _e(t, e, n) {
