@@ -77,22 +77,13 @@
 
 
 
-                function ft(t) {
-                }
 
-                function St(t) {
-                }
 
                 var Ee = async () => {
                 };
 
 
-                async function Zt(t, e) {
 
-                }
-
-                function Gt(t, e, n) {
-                }
                 var te = t => ({
                     name: "arrow",
                     options: t,
@@ -114,9 +105,6 @@
                     }
                 };
 
-                function go(t) {
-                    return t === "x" ? "y" : "x"
-                }
                 var ne = function (t) {
                     return t === void 0 && (t = {}), {
                         name: "shift",
@@ -124,28 +112,21 @@
                         async fn(e) {
                             let {
                                 x: n,
-                                y: o,
-                                placement: l
-                            } = e, {
-                                mainAxis: r = !0,
-                                crossAxis: i = !1,
-                                limiter: s = {
-                                    fn: w => {
-                                        let {
-                                            x: T,
-                                            y: x
-                                        } = w;
-                                        return {
-                                            x: T,
-                                            y: x
+                                y: o } = e, {
+                                    mainAxis: r = !0,
+                                    crossAxis: i = !1,
+                                    limiter: s = {
+                                        fn: w => {
+                                            let {
+                                                x: T,
+                                                y: x
+                                            } = w;
+                                            return {
+                                                x: T,
+                                                y: x
+                                            }
                                         }
-                                    }
-                                },
-                                ...f
-                            } = t, u = {
-                                x: n,
-                                y: o
-                            };
+                                    } } = t;
                         }
                     }
                 };
