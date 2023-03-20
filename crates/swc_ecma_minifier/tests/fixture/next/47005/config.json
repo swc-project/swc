@@ -1,4 +1,7 @@
 {
     "defaults": true,
-    "conditionals": false
+    "conditionals": false,
+    "sequences": false,
+    "booleans": false,
+    "reduce_vars": false
 }
