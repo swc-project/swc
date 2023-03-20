@@ -755,42 +755,6 @@
                     }, [l]), (0, react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
                         Q(u)
                     }, [u]), (0, react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-                        var L;
-                        let B = new Set(yt),
-                            I = n;
-                        if (!I && t && (I = `[data-tooltip-id='${t}']`), I) try {
-                            document.querySelectorAll(I).forEach(O => {
-                                B.add({
-                                    current: O
-                                })
-                            })
-                        } catch (k) { }
-                        let h = document.querySelector(`[id='${e}']`);
-                        if (h && B.add({
-                            current: h
-                        }), !B.size) return () => null;
-                        let D = (L = N != null ? N : h) != null ? L : At.current,
-                            Z = k => {
-                                k.forEach(O => {
-                                    var z;
-                                    if (!D || O.type !== "attributes" || !((z = O.attributeName) != null && z.startsWith("data-tooltip-"))) return;
-                                    let F = Lt(D);
-                                    gt(F)
-                                })
-                            },
-                            m = new MutationObserver(Z),
-                            A = {
-                                attributes: !0,
-                                childList: !1,
-                                subtree: !1
-                            };
-                        if (D) {
-                            let k = Lt(D);
-                            gt(k), m.observe(D, A)
-                        }
-                        return () => {
-                            m.disconnect()
-                        }
                     }, [yt, At, N, e, n]);
                     let wt = d;
                     return r ? wt = r({
