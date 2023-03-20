@@ -251,8 +251,6 @@
                             }
                             return a.set(u, d), d
                         }(e, this._c) : [].concat(n), i = [...r, o], s = i[0], f = i.reduce((u, a) => {
-                            let c = _e(e, a, l);
-                            return u.top = Pt(c.top, u.top), u.right = Le(c.right, u.right), u.bottom = Le(c.bottom, u.bottom), u.left = Pt(c.left, u.left), u
                         }, _e(e, s, l));
                         return {
                             width: f.right - f.left,
