@@ -494,28 +494,7 @@
                 }
 
                 function To(t, e, n) {
-                    let o = Y(e),
-                        l = nt(e),
-                        r = Ct(t, !0, n === "fixed", e),
-                        i = {
-                            scrollLeft: 0,
-                            scrollTop: 0
-                        },
-                        s = {
-                            x: 0,
-                            y: 0
-                        };
-                    if (o || !o && n !== "fixed")
-                        if ((rt(e) !== "body" || It(l)) && (i = Vt(e)), Y(e)) {
-                            let f = Ct(e, !0);
-                            s.x = f.x + e.clientLeft, s.y = f.y + e.clientTop
-                        } else l && (s.x = Be(l));
-                    return {
-                        x: r.left + i.scrollLeft - s.x,
-                        y: r.top + i.scrollTop - s.y,
-                        width: r.width,
-                        height: r.height
-                    }
+
                 }
                 var xo = {
                     getClippingRect: function (t) {
@@ -549,34 +528,7 @@
                         }
                     },
                     convertOffsetParentRelativeRectToViewportRelativeRect: function (t) {
-                        let {
-                            rect: e,
-                            offsetParent: n,
-                            strategy: o
-                        } = t, l = Y(n), r = nt(n);
-                        if (n === r) return e;
-                        let i = {
-                            scrollLeft: 0,
-                            scrollTop: 0
-                        },
-                            s = {
-                                x: 1,
-                                y: 1
-                            },
-                            f = {
-                                x: 0,
-                                y: 0
-                            };
-                        if ((l || !l && o !== "fixed") && ((rt(n) !== "body" || It(r)) && (i = Vt(n)), Y(n))) {
-                            let u = Ct(n);
-                            s = Tt(n), f.x = u.x + n.clientLeft, f.y = u.y + n.clientTop
-                        }
-                        return {
-                            width: e.width * s.x,
-                            height: e.height * s.y,
-                            x: e.x * s.x - i.scrollLeft * s.x + f.x,
-                            y: e.y * s.y - i.scrollTop * s.y + f.y
-                        }
+
                     },
                     isElement: ot,
                     getDimensions: function (t) {
