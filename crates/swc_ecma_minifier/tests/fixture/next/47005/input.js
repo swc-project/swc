@@ -47,26 +47,6 @@
                         var t = {}.hasOwnProperty;
 
                         function n() {
-                            for (var o = [], l = 0; l < arguments.length; l++) {
-                                var r = arguments[l];
-                                if (r) {
-                                    var i = typeof r;
-                                    if (i === "string" || i === "number") o.push(r);
-                                    else if (Array.isArray(r)) {
-                                        if (r.length) {
-                                            var s = n.apply(null, r);
-                                            s && o.push(s)
-                                        }
-                                    } else if (i === "object") {
-                                        if (r.toString !== Object.prototype.toString && !r.toString.toString().includes("[native code]")) {
-                                            o.push(r.toString());
-                                            continue
-                                        }
-                                        for (var f in r) t.call(r, f) && r[f] && o.push(f)
-                                    }
-                                }
-                            }
-                            return o.join(" ")
                         }
                         typeof Wt < "u" && Wt.exports ? (n.default = n, Wt.exports = n) : typeof define == "function" && "object" == "object" && __webpack_require__.amdO ? define("classnames", [], function () {
                             return n
@@ -77,10 +57,6 @@
                 var Ue = (t, e, n) => {
                     let o = null;
                     return function (...r) {
-                        let i = () => {
-                            o = null, n || t.apply(this, r)
-                        };
-                        o && clearTimeout(o), o = setTimeout(i, e)
                     }
                 },
                     Yt = Ue;
