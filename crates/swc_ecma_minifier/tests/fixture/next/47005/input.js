@@ -683,88 +683,13 @@
                 }
 
                 function _e(t, e, n) {
-                    let o;
-                    if (e === "viewport") o = function (i, s) {
-                        let f = V(i),
-                            u = nt(i),
-                            a = f.visualViewport,
-                            c = u.clientWidth,
-                            d = u.clientHeight,
-                            p = 0,
-                            y = 0;
-                        if (a) {
-                            c = a.width, d = a.height;
-                            let g = ie();
-                            (!g || g && s === "fixed") && (p = a.offsetLeft, y = a.offsetTop)
-                        }
-                        return {
-                            width: c,
-                            height: d,
-                            x: p,
-                            y
-                        }
-                    }(t, n);
-                    else if (e === "document") o = function (i) {
-                        let s = nt(i),
-                            f = Vt(i),
-                            u = i.ownerDocument.body,
-                            a = Pt(s.scrollWidth, s.clientWidth, u.scrollWidth, u.clientWidth),
-                            c = Pt(s.scrollHeight, s.clientHeight, u.scrollHeight, u.clientHeight),
-                            d = -f.scrollLeft + Be(i),
-                            p = -f.scrollTop;
-                        return G(u).direction === "rtl" && (d += Pt(s.clientWidth, u.clientWidth) - a), {
-                            width: a,
-                            height: c,
-                            x: d,
-                            y: p
-                        }
-                    }(nt(t));
-                    else if (ot(e)) o = function (i, s) {
-                        let f = Ct(i, !0, s === "fixed"),
-                            u = f.top + i.clientTop,
-                            a = f.left + i.clientLeft,
-                            c = Y(i) ? Tt(i) : {
-                                x: 1,
-                                y: 1
-                            };
-                        return {
-                            width: i.clientWidth * c.x,
-                            height: i.clientHeight * c.y,
-                            x: a * c.x,
-                            y: u * c.y
-                        }
-                    }(e, n);
-                    else {
-                        let i = {
-                            ...e
-                        };
-                        if (ie()) {
-                            var l, r;
-                            let s = V(t);
-                            i.x -= ((l = s.visualViewport) == null ? void 0 : l.offsetLeft) || 0, i.y -= ((r = s.visualViewport) == null ? void 0 : r.offsetTop) || 0
-                        }
-                        o = i
-                    }
-                    return Rt(o)
+
                 }
 
                 function Se(t, e) {
-                    return Y(t) && G(t).position !== "fixed" ? e ? e(t) : t.offsetParent : null
                 }
 
                 function Pe(t, e) {
-                    let n = V(t);
-                    if (!Y(t)) return n;
-                    let o = Se(t, e);
-                    for (; o && wo(o) && G(o).position === "static";) o = Se(o, e);
-                    return o && (rt(o) === "html" || rt(o) === "body" && G(o).position === "static" && !re(o)) ? n : o || function (l) {
-                        let r = kt(l);
-                        for (; Y(r) && !le(r);) {
-                            if (re(r)) return r;
-                            r = kt(r)
-                        }
-                        return null
-                    }(t) || n
                 }
 
                 function To(t, e, n) {
