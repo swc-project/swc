@@ -1,4 +1,4 @@
-for(let r__1 = 0, t__1 = 1; r__1 < t__1; r__1++){
-    const t__2 = 6;
-    console.log(t__2);
+for(let r__3 = 0, t__3 = 1; r__3 < t__3; r__3++){
+    const t__4 = 6;
+    console.log(t__4);
 }

@@ -1,6 +1,6 @@
-export var bar__1 = {};
-class Foo__1 {
+export var bar__2 = {};
+class Foo__2 {
     constructor(){
-        bar__1;
+        bar__2;
     }
 }

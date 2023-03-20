@@ -1,4 +1,4 @@
-var f3__1 = <T__2, U__2 extends T__2>(x__2: T__2, y__2: U__2): T__2 =>{
-    x__2 = y__2;
-    return y__2;
+var f3__2 = <T__3, U__3 extends T__3>(x__3: T__3, y__3: U__3): T__3 =>{
+    x__3 = y__3;
+    return y__3;
 };

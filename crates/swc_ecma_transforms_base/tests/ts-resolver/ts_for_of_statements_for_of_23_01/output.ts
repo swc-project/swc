@@ -1,3 +1,3 @@
-for (const v__1 of new FooIterator()){
-    const v__3 = 0;
+for (const v__3 of new FooIterator()){
+    const v__4 = 0;
 }

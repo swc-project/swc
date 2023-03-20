@@ -1,9 +1,9 @@
-function a__1() {}
-function foo__1() {
-    function b__3() {
-        a__3();
+function a__2() {}
+function foo__2() {
+    function b__4() {
+        a__4();
     }
-    function a__3() {
-        b__3();
+    function a__4() {
+        b__4();
     }
 }

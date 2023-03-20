@@ -1,14 +1,14 @@
-var singleton__1;
-var Sub__1 = function(_Foo__2) {
-    _inherits(Sub__2, _Foo__2);
-    function Sub__2() {
+var singleton__2;
+var Sub__2 = function(_Foo__3) {
+    _inherits(Sub__3, _Foo__3);
+    function Sub__3() {
         var _this__4;
-        _classCallCheck(this, Sub__2);
-        if (singleton__1) {
-            return _possibleConstructorReturn(_this__4, singleton__1);
+        _classCallCheck(this, Sub__3);
+        if (singleton__2) {
+            return _possibleConstructorReturn(_this__4, singleton__2);
         }
-        singleton__1 = _this__4 = _possibleConstructorReturn(this, _getPrototypeOf(Sub__2).call(this));
+        singleton__2 = _this__4 = _possibleConstructorReturn(this, _getPrototypeOf(Sub__3).call(this));
         return _possibleConstructorReturn(_this__4);
     }
-    return Sub__2;
+    return Sub__3;
 }(Foo);

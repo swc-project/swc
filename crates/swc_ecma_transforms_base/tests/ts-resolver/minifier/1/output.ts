@@ -1,10 +1,10 @@
-function foo__1() {
+function foo__2() {
     try {
-        foo__1();
-    } catch (ex__4) {
-        let x__4 = 10;
-        const y__4 = 10;
-        class Zee__4 {
+        foo__2();
+    } catch (ex__5) {
+        let x__5 = 10;
+        const y__5 = 10;
+        class Zee__5 {
         }
     }
     console.log(x, y, Zee);

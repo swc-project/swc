@@ -1,28 +1,28 @@
-module A__1 {
-    export class Point__2 {
-        constructor(public x__3: number, public y__3: number){}
+module A__2 {
+    export class Point__3 {
+        constructor(public x__4: number, public y__4: number){}
     }
-    export var Origin__2 = new Point__2(0, 0);
+    export var Origin__3 = new Point__3(0, 0);
 }
-module B__1 {
-    import a__4 = A__1
+module B__2 {
+    import a__5 = A__2
 }
-module C__1 {
-    import a__5 = A__1
-    var m__5: typeof a__5;
-    var p__5: a__5.Point;
-    var p__5 = {
+module C__2 {
+    import a__6 = A__2
+    var m__6: typeof a__6;
+    var p__6: a__6.Point;
+    var p__6 = {
         x: 0,
         y: 0
     };
 }
-module D__1 {
-    import a__6 = A__1
-    var p__6 = new a__6.Point(1, 1);
+module D__2 {
+    import a__7 = A__2
+    var p__7 = new a__7.Point(1, 1);
 }
-module E__1 {
-    import a__7 = A__1
-    export function xDist__7(x__8: a__7.Point) {
-        return a__7.Origin.x - x__8.x;
+module E__2 {
+    import a__8 = A__2
+    export function xDist__8(x__9: a__8.Point) {
+        return a__8.Origin.x - x__9.x;
     }
 }

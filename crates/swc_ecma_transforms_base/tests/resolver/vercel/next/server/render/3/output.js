@@ -1,10 +1,10 @@
-function top__1() {
-    let resolved__2 = false;
-    const doResolve__2 = ()=>{
-        let aaa__3 = 3;
-        if (!resolved__2) {
-            resolved__2 = true;
-            let bbb__4 = 4;
+function top__2() {
+    let resolved__3 = false;
+    const doResolve__3 = ()=>{
+        let aaa__4 = 3;
+        if (!resolved__3) {
+            resolved__3 = true;
+            let bbb__5 = 4;
             resolve((res__6, next__6)=>{
                 const drainHandler__6 = ()=>{
                     const prevCallbacks__7 = underlyingStream.queuedCallbacks;
@@ -21,25 +21,25 @@ function top__1() {
                     writable: res__6,
                     queuedCallbacks: []
                 };
-                startWriting__2();
+                startWriting__3();
             });
         }
     };
-    const { abort__2 , startWriting__2  } = ReactDOMServer.pipeToNodeWritable(element, stream, {
+    const { abort__3 , startWriting__3  } = ReactDOMServer.pipeToNodeWritable(element, stream, {
         onError (error__10) {
-            if (!resolved__2) {
-                resolved__2 = true;
+            if (!resolved__3) {
+                resolved__3 = true;
                 reject(error__10);
             }
-            abort__2();
+            abort__3();
         },
         onCompleteShell () {
             if (!generateStaticHTML) {
-                doResolve__2();
+                doResolve__3();
             }
         },
         onCompleteAll () {
-            doResolve__2();
+            doResolve__3();
         }
     });
 }

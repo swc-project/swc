@@ -1,12 +1,12 @@
-var o__1 = "PASS";
+var o__2 = "PASS";
 try {
     throw 0;
-} catch (o__3) {
+} catch (o__4) {
     (function() {
-        function a__4() {
-            o__3 = "FAIL";
+        function a__5() {
+            o__4 = "FAIL";
         }
-        a__4(), a__4();
+        a__5(), a__5();
     })();
 }
-console.log(o__1);
+console.log(o__2);

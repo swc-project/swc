@@ -1,6 +1,6 @@
-var ConstructorScoping__1 = function ConstructorScoping__2() {
-    _classCallCheck(this, ConstructorScoping__2);
-    var bar__3;
+var ConstructorScoping__2 = function ConstructorScoping__3() {
+    _classCallCheck(this, ConstructorScoping__3);
+    var bar__4;
     {
         let bar__5;
         use(bar__5);

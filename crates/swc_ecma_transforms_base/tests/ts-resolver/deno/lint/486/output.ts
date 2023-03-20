@@ -1,6 +1,6 @@
-function foo__1() {
-    target__2++;
+function foo__2() {
+    target__3++;
     {
-        var target__2 = 0;
+        var target__3 = 0;
     }
 }

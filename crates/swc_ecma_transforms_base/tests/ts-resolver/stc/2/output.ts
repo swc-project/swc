@@ -1,8 +1,8 @@
-type Movable__1 = {
+type Movable__2 = {
     move__0(distance: number): void;
 };
-const car__1 = {
+const car__2 = {
     start () {},
     move (d__4) {},
     stop () {}
-} satisfies Movable__1 & Record<string, unknown>;
+} satisfies Movable__2 & Record<string, unknown>;

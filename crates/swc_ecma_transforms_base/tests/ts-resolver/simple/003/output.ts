@@ -1,8 +1,8 @@
-class Foo__1<T__2> {
+class Foo__2<T__3> {
 }
-class A__1 {
+class A__2 {
 }
-class B__1 {
+class B__2 {
 }
-new Foo__1<A__1>();
-new Foo__1<B__1>();
+new Foo__2<A__2>();
+new Foo__2<B__2>();

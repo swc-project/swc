@@ -1,17 +1,17 @@
-export default function(module__1, exports__1) {
+export default function(module__3, exports__3) {
     "use strict";
-    !function(t__2, e__2) {
-        e__2(exports__1);
-    }(void 0, function(t__3) {
+    !function(t__4, e__4) {
+        e__4(exports__3);
+    }(void 0, function(t__5) {
         "use strict";
-        function vr__3(e__4, r__4, o__4) {
-            try {} catch (t__6) {}
-            function t__4() {
+        function vr__5(e__6, r__6, o__6) {
+            try {} catch (t__8) {}
+            function t__6() {
                 return '123';
             }
-            return t__4;
+            return t__6;
         }
-        t__3.vr = vr__3;
+        t__5.vr = vr__5;
     });
 }
 ;

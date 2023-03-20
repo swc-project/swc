@@ -1,4 +1,4 @@
-function renderToStream__1(element__2, generateStaticHTML__2) {
+function renderToStream__2(element__3, generateStaticHTML__3) {
     return new Promise((resolve__4, reject__4)=>{
         let underlyingStream__4 = null;
         const stream__4 = new Writable({
@@ -61,7 +61,7 @@ function renderToStream__1(element__2, generateStaticHTML__2) {
                 });
             }
         };
-        const { abort__4 , startWriting__4  } = ReactDOMServer.pipeToNodeWritable(element__2, stream__4, {
+        const { abort__4 , startWriting__4  } = ReactDOMServer.pipeToNodeWritable(element__3, stream__4, {
             onError (error__22) {
                 if (!resolved__4) {
                     resolved__4 = true;
@@ -70,7 +70,7 @@ function renderToStream__1(element__2, generateStaticHTML__2) {
                 abort__4();
             },
             onCompleteShell () {
-                if (!generateStaticHTML__2) {
+                if (!generateStaticHTML__3) {
                     doResolve__4();
                 }
             },

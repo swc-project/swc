@@ -1,9 +1,9 @@
-(function aaa__1() {
+(function aaa__3() {
     try {
         console.log(111);
-    } catch (Ic__5) {
-        throw Ic__5;
+    } catch (Ic__6) {
+        throw Ic__6;
     }
-    var jc__2, Ic__2;
-    (Ic__2 = jc__2).PV = "page_view";
+    var jc__4, Ic__4;
+    (Ic__4 = jc__4).PV = "page_view";
 })();

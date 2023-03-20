@@ -1,4 +1,4 @@
-function foo__1() {
-    bar__2;
-    function bar__2() {}
+function foo__2() {
+    bar__3;
+    function bar__3() {}
 }

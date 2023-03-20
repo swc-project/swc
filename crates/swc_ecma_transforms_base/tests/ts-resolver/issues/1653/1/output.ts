@@ -1,10 +1,10 @@
-module X__1 {
-    export module Z__2 {
-        export const foo__3 = 0;
+module X__2 {
+    export module Z__3 {
+        export const foo__4 = 0;
     }
 }
-module Y__1 {
-    export module Z__4 {
-        export const bar__5 = 1;
+module Y__2 {
+    export module Z__5 {
+        export const bar__6 = 1;
     }
 }

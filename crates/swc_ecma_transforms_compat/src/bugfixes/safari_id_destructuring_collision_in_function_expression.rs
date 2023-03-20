@@ -193,17 +193,17 @@ mod tests {
         }
         ",
         "
-        export default function _typeof__1() {
-            if (Date__3.now() > 0) {
-                _typeof__1 = function _typeof__5() {
-                    console__3.log(0);
+        export default function _typeof__2() {
+            if (Date__1.now() > 0) {
+                _typeof__2 = function _typeof__5() {
+                    console__1.log(0);
                 };
             } else {
-                _typeof__1 = function _typeof__8() {
-                    console__3.log(2);
+                _typeof__2 = function _typeof__8() {
+                    console__1.log(2);
                 };
             }
-            return _typeof__1();
+            return _typeof__2();
         }
         "
     );

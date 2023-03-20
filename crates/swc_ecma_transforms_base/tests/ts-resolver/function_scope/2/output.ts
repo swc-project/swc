@@ -1,5 +1,5 @@
-function wrapper__1(a__2) {
+function wrapper__2(a__3) {
     {
-        let a__3;
+        let a__4;
     }
 }

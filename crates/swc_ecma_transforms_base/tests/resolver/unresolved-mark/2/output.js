@@ -1,2 +1,2 @@
-foo__1();
-var foo__1;
+foo__2();
+var foo__2;

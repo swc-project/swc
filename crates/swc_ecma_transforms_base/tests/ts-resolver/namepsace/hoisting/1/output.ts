@@ -1,8 +1,8 @@
-declare module RangeParser__1 {
-    interface Ranges__2 extends Array<Range__2> {
+declare module RangeParser__2 {
+    interface Ranges__3 extends Array<Range__3> {
         type__0: string;
     }
-    interface Range__2 {
+    interface Range__3 {
         start__0: number;
         end__0: number;
     }

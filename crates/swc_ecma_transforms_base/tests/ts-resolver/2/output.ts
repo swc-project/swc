@@ -1,8 +1,8 @@
-interface Foo__1 {
+interface Foo__2 {
     (a: string) : void;
     b__0: string;
 }
-interface Foo__1 {
+interface Foo__2 {
     (a: number) : number;
     c__0: boolean;
     d__0: {
@@ -10,4 +10,4 @@ interface Foo__1 {
         y__0: number;
     };
 }
-export = Foo__1
+export = Foo__2

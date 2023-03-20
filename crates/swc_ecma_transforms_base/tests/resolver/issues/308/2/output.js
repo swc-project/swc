@@ -1,11 +1,11 @@
-function wrapper__1() {
-    function bar__2(props__3) {}
-    var Foo__2 = function Foo1__4() {
-        _classCallCheck(this, Foo1__4);
+function wrapper__2() {
+    function bar__3(props__4) {}
+    var Foo__3 = function Foo1__5() {
+        _classCallCheck(this, Foo1__5);
         super();
         _defineProperty(this, "onBar", ()=>{
-            bar__2();
+            bar__3();
         });
-        bar__2();
+        bar__3();
     };
 }

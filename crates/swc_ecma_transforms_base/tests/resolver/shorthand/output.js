@@ -1,7 +1,7 @@
-let a__1 = "foo";
-function foo__1() {
-    let a__2 = "bar";
+let a__2 = "foo";
+function foo__2() {
+    let a__3 = "bar";
     use({
-        a__2
+        a__3
     });
 }

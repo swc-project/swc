@@ -1,6 +1,6 @@
-var e__1 = 1;
+var e__2 = 1;
 try {
     throw 2;
-} catch (e__3) {
-    console.log(e__3);
+} catch (e__4) {
+    console.log(e__4);
 }

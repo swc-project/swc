@@ -1,4 +1,4 @@
-class C__1 extends D {
+class C__2 extends D {
     mount() {
         var _this__7 = this, _superprop_get_mount__6 = ()=>super.mount, _loop__8 = function(v__4) {
             setTimeout(()=>_superprop_get_mount__6().call(_this__7, v__4));
