@@ -102,65 +102,18 @@
                     ve = ao;
 
                 function _t(t) {
-                    return t.split("-")[1]
                 }
 
                 function Qt(t) {
-                    return t === "y" ? "height" : "width"
                 }
 
                 function ft(t) {
-                    return t.split("-")[0]
                 }
 
                 function St(t) {
-                    return ["top", "bottom"].includes(ft(t)) ? "x" : "y"
                 }
 
                 function be(t, e, n) {
-                    let {
-                        reference: o,
-                        floating: l
-                    } = t, r = o.x + o.width / 2 - l.width / 2, i = o.y + o.height / 2 - l.height / 2, s = St(e), f = Qt(s), u = o[f] / 2 - l[f] / 2, a = s === "x", c;
-                    switch (ft(e)) {
-                        case "top":
-                            c = {
-                                x: r,
-                                y: o.y - l.height
-                            };
-                            break;
-                        case "bottom":
-                            c = {
-                                x: r,
-                                y: o.y + o.height
-                            };
-                            break;
-                        case "right":
-                            c = {
-                                x: o.x + o.width,
-                                y: i
-                            };
-                            break;
-                        case "left":
-                            c = {
-                                x: o.x - l.width,
-                                y: i
-                            };
-                            break;
-                        default:
-                            c = {
-                                x: o.x,
-                                y: o.y
-                            }
-                    }
-                    switch (_t(e)) {
-                        case "start":
-                            c[s] -= u * (n && a ? -1 : 1);
-                            break;
-                        case "end":
-                            c[s] += u * (n && a ? -1 : 1)
-                    }
-                    return c
                 }
                 var Ee = async (t, e, n) => {
                     let {
