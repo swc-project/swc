@@ -381,12 +381,7 @@
                         placement: o,
                         strategy: r,
                         middleware: s
-                    }).then(({
-                        x: f,
-                        y: u,
-                        placement: a,
-                        middlewareData: c
-                    }) => {
+                    }).then(() => {
                     })) : se(t, e, {
                         placement: "bottom",
                         strategy: r,
@@ -686,38 +681,7 @@
                     let [M, C] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(o), [S, H] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(l), [J, Q] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(u), [ut, pt] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(f), [st, $] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(a), [dt, Dt] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(T), [mt, Mt] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(x), [vt, Ht] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(v), [zt, bt] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(c), [et, Et] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(p), [ct, ht] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(g), [N, jt] = (0, react__WEBPACK_IMPORTED_MODULE_0__.useState)(null), {
                         anchorRefs: yt,
                         activeAnchor: At
-                    } = at(t), Lt = B => B == null ? void 0 : B.getAttributeNames().reduce((h) => {
-                        return h
-                    }, {}), gt = B => {
-                        let I = {
-                            place: () => {
-                            },
-                            content: () => {
-                            },
-                            html: () => {
-                            },
-                            variant: () => {
-                            },
-                            offset: () => {
-                            },
-                            wrapper: () => {
-                            },
-                            events: () => {
-                            },
-                            "position-strategy": () => {
-                            },
-                            "delay-show": () => {
-                            },
-                            "delay-hide": () => {
-                            },
-                            float: () => {
-                            }
-                        };
-                        Object.values(I).forEach(h => h(null)), Object.entries(B).forEach(([h, D]) => {
-                            var Z;
-                            (Z = I[h]) == null || Z.call(I, D)
-                        })
-                    };
+                    } = at(t);
                     (0, react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
                         C(o)
                     }, [o]), (0, react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
