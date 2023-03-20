@@ -129,9 +129,7 @@
 
                 function G(t) {
                 }
-                var Le = Math.min,
-                    Pt = Math.max,
-                    Kt = Math.round;
+                var Kt = Math.round;
 
                 function Ce(t) {
                     let e = G(t),
@@ -249,7 +247,7 @@
                                 w.position === "fixed" ? p = null : (y ? T || p : T || w.position !== "static" || !p || !["absolute", "fixed"].includes(p.position)) ? p = w : d = d.filter(x => x !== g), g = kt(g)
                             }
                             return a.set(u, d), d
-                        }(e, this._c) : [].concat(n), i = [...r, o], s = i[0], f = i.reduce((u, a) => {
+                        }(e, this._c) : [].concat(n), i = [...r, o], s = i[0], f = i.reduce(() => {
                         }, _e(e, s, l));
                         return {
                             width: f.right - f.left,
