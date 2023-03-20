@@ -207,19 +207,15 @@
                 }
 
                 function Y(t) {
-                    return t instanceof V(t).HTMLElement
                 }
 
                 function ot(t) {
-                    return t instanceof V(t).Element
                 }
 
                 function De(t) {
-                    return t instanceof V(t).Node
                 }
 
                 function Re(t) {
-                    return typeof ShadowRoot > "u" ? !1 : t instanceof V(t).ShadowRoot || t instanceof ShadowRoot
                 }
 
                 function It(t) {
