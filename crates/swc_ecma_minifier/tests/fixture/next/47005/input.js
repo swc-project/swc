@@ -387,36 +387,6 @@
                         placement: a,
                         middlewareData: c
                     }) => {
-                        var T, x;
-                        let d = {
-                            left: `${f}px`,
-                            top: `${u}px`
-                        },
-                            {
-                                x: p,
-                                y
-                            } = (T = c.arrow) != null ? T : {
-                                x: 0,
-                                y: 0
-                            },
-                            g = (x = {
-                                top: "bottom",
-                                right: "left",
-                                bottom: "top",
-                                left: "right"
-                            }[a.split("-")[0]]) != null ? x : "bottom",
-                            w = {
-                                left: p != null ? `${p}px` : "",
-                                top: y != null ? `${y}px` : "",
-                                right: "",
-                                bottom: "",
-                                [g]: "-4px"
-                            };
-                        return {
-                            tooltipStyles: d,
-                            tooltipArrowStyles: w,
-                            place: a
-                        }
                     })) : se(t, e, {
                         placement: "bottom",
                         strategy: r,
