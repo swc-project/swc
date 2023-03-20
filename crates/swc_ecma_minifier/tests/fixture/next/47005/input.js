@@ -748,47 +748,30 @@
                         anchorRefs: yt,
                         activeAnchor: At
                     } = at(t), Lt = B => B == null ? void 0 : B.getAttributeNames().reduce((h, D) => {
-                        var Z;
-                        if (D.startsWith("data-tooltip-")) {
-                            let m = D.replace(/^data-tooltip-/, "");
-                            h[m] = (Z = B == null ? void 0 : B.getAttribute(D)) != null ? Z : null
-                        }
                         return h
                     }, {}), gt = B => {
                         let I = {
                             place: h => {
-                                Q(h != null ? h : u)
                             },
                             content: h => {
-                                C(h != null ? h : o)
                             },
                             html: h => {
-                                H(h != null ? h : l)
                             },
                             variant: h => {
-                                pt(h != null ? h : f)
                             },
                             offset: h => {
-                                $(h === null ? a : Number(h))
                             },
                             wrapper: h => {
-                                bt(h != null ? h : c)
                             },
                             events: h => {
-                                let D = h == null ? void 0 : h.split(" ");
-                                Et(D != null ? D : p)
                             },
                             "position-strategy": h => {
-                                ht(h != null ? h : g)
                             },
                             "delay-show": h => {
-                                Dt(h === null ? T : Number(h))
                             },
                             "delay-hide": h => {
-                                Mt(h === null ? x : Number(h))
                             },
                             float: h => {
-                                Ht(h === null ? v : h === "true")
                             }
                         };
                         Object.values(I).forEach(h => h(null)), Object.entries(B).forEach(([h, D]) => {
