@@ -411,23 +411,11 @@
                     }
                 }
 
-                function Ct(t) {
-
-                }
 
                 function nt(t) {
                     return ((De(t) ? t.ownerDocument : t.document) || window.document).documentElement
                 }
 
-                function Vt(t) {
-                    return ot(t) ? {
-                        scrollLeft: t.scrollLeft,
-                        scrollTop: t.scrollTop
-                    } : {
-                        scrollLeft: t.pageXOffset,
-                        scrollTop: t.pageYOffset
-                    }
-                }
 
 
                 function kt(t) {
