@@ -267,27 +267,14 @@
 
 
                 function le(t) {
-                    return ["html", "body", "#document"].includes(rt(t))
                 }
 
                 function Me(t) {
-                    return ot(t) ? t : t.contextElement
                 }
                 var He = {
                 };
 
                 function Tt(t) {
-                    let e = Me(t);
-                    if (!Y(e)) return He;
-                    let n = e.getBoundingClientRect(),
-                        {
-                        } = Ce(e),
-                        i = (r ? Kt(n.width) : n.width) / o,
-                        s = (r ? Kt(n.height) : n.height) / l;
-                    return i && Number.isFinite(i) || (i = 1), s && Number.isFinite(s) || (s = 1), {
-                        x: i,
-                        y: s
-                    }
                 }
 
 
