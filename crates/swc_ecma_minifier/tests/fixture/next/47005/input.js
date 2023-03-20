@@ -38,29 +38,21 @@
                     return t
                 };
                 var he = (t, e, n) => (n = t != null ? Ke($e(t)) : {}, Xe(e || !t || !t.__esModule ? me(n, "default", {
-                    value: t,
-                    enumerable: !0
                 }) : n, t));
                 var Ut = je(() => {
                 });
                 var ae = he(Ut());
                 var Ue = () => {
-                    return function () {
-                    }
                 },
                     Yt = Ue;
                 var qt = "DEFAULT_TOOLTIP_ID",
                     Ze = {
-                        anchorRefs: new Set,
-                        setActiveAnchor: () => { }
                     },
                     to = {
-                        getTooltipData: () => Ze
                     },
                     ge = (0, react__WEBPACK_IMPORTED_MODULE_0__.createContext)(to);
 
                 function at(t = qt) {
-                    return (0, react__WEBPACK_IMPORTED_MODULE_0__.useContext)(ge).getTooltipData(t)
                 }
                 var Te = he(Ut());
                 var ao = typeof window != "undefined" ? react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect : react__WEBPACK_IMPORTED_MODULE_0__.useEffect,
@@ -76,17 +68,8 @@
 
 
                 var te = t => ({
-                    name: "arrow",
-                    options: t,
-                    async fn() {
-
-                    }
                 });
-
-
-
                 var ee = function () {
-
                 };
                 var oe = function (t) {
                     return t === void 0 && (t = 0), {
@@ -101,8 +84,6 @@
                 };
 
                 function V(t) {
-                    var e;
-                    return ((e = t.ownerDocument) == null ? void 0 : e.defaultView) || window
                 }
 
                 function G(t) {
