@@ -41,7 +41,7 @@
                     value: t,
                     enumerable: !0
                 }) : n, t));
-                var Ut = je((Co, Wt) => {
+                var Ut = je(() => {
                 });
                 var ae = he(Ut());
                 var Ue = () => {
