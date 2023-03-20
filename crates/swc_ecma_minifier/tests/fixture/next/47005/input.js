@@ -101,11 +101,7 @@
                 var ao = typeof window != "undefined" ? react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect : react__WEBPACK_IMPORTED_MODULE_0__.useEffect,
                     ve = ao;
 
-                function _t(t) {
-                }
 
-                function Qt(t) {
-                }
 
                 function ft(t) {
                 }
