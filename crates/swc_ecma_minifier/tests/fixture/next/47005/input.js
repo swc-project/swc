@@ -624,8 +624,6 @@
                     return ot(t) ? t : t.contextElement
                 }
                 var He = {
-                    x: 1,
-                    y: 1
                 };
 
                 function Tt(t) {
@@ -633,9 +631,6 @@
                     if (!Y(e)) return He;
                     let n = e.getBoundingClientRect(),
                         {
-                            width: o,
-                            height: l,
-                            fallback: r
                         } = Ce(e),
                         i = (r ? Kt(n.width) : n.width) / o,
                         s = (r ? Kt(n.height) : n.height) / l;
@@ -646,35 +641,7 @@
                 }
 
                 function Ct(t, e, n, o) {
-                    var l, r;
-                    e === void 0 && (e = !1), n === void 0 && (n = !1);
-                    let i = t.getBoundingClientRect(),
-                        s = Me(t),
-                        f = He;
-                    e && (o ? ot(o) && (f = Tt(o)) : f = Tt(t));
-                    let u = s ? V(s) : window,
-                        a = ie() && n,
-                        c = (i.left + (a && ((l = u.visualViewport) == null ? void 0 : l.offsetLeft) || 0)) / f.x,
-                        d = (i.top + (a && ((r = u.visualViewport) == null ? void 0 : r.offsetTop) || 0)) / f.y,
-                        p = i.width / f.x,
-                        y = i.height / f.y;
-                    if (s) {
-                        let g = V(s),
-                            w = o && ot(o) ? V(o) : o,
-                            T = g.frameElement;
-                        for (; T && o && w !== g;) {
-                            let x = Tt(T),
-                                v = T.getBoundingClientRect(),
-                                P = getComputedStyle(T);
-                            v.x += (T.clientLeft + parseFloat(P.paddingLeft)) * x.x, v.y += (T.clientTop + parseFloat(P.paddingTop)) * x.y, c *= x.x, d *= x.y, p *= x.x, y *= x.y, c += v.x, d += v.y, T = V(T).frameElement
-                        }
-                    }
-                    return Rt({
-                        width: p,
-                        height: y,
-                        x: c,
-                        y: d
-                    })
+
                 }
 
                 function nt(t) {
