@@ -989,19 +989,7 @@
                     })
                 },
                     Ne = Ro;
-                /*! Bundled license information:
 
-                classnames/index.js:
-                  (*!
-                        Copyright (c) 2018 Jed Watson.
-                        Licensed under the MIT License (MIT), see
-                        http://jedwatson.github.io/classnames
-                  *)
-                */
-                //# sourceMappingURL=react-tooltip.esm.min.js.map
-
-
-                /***/
             })
 
     }
