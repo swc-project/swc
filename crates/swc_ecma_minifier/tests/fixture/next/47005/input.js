@@ -87,11 +87,6 @@
                 var qt = "DEFAULT_TOOLTIP_ID",
                     Ze = {
                         anchorRefs: new Set,
-                        activeAnchor: {
-                            current: null
-                        },
-                        attach: () => { },
-                        detach: () => { },
                         setActiveAnchor: () => { }
                     },
                     to = {
