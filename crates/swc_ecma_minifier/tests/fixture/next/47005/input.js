@@ -688,61 +688,21 @@
                             dt(q)
                         }, 10);
                         return () => {
-                            clearTimeout(m)
                         }
                     }, [q]), (0, react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-                        $ !== Mt.current && (Mt.current = $, $ ? R == null || R() : W == null || W())
                     }, [$]);
                     let jt = () => {
-                        C.current && clearTimeout(C.current), C.current = setTimeout(() => {
-                            N(!0)
-                        }, p)
                     },
                         yt = (m = y) => {
-                            S.current && clearTimeout(S.current), S.current = setTimeout(() => {
-                                bt.current || N(!1)
-                            }, m)
                         },
                         At = m => {
-                            var L;
-                            if (!m) return;
-                            p ? jt() : N(!0);
-                            let A = (L = m.currentTarget) != null ? L : m.target;
-                            b(A), zt({
-                                current: A
-                            }), S.current && clearTimeout(S.current)
+
                         },
                         Lt = () => {
-                            T ? yt(y || 100) : y ? yt() : N(!1), C.current && clearTimeout(C.current)
                         },
                         gt = ({
-                            x: m,
-                            y: A
                         }) => {
-                            ce({
-                                place: i,
-                                offset: s,
-                                elementReference: {
-                                    getBoundingClientRect() {
-                                        return {
-                                            x: m,
-                                            y: A,
-                                            width: 0,
-                                            height: 0,
-                                            top: A,
-                                            left: m,
-                                            right: m,
-                                            bottom: A
-                                        }
-                                    }
-                                },
-                                tooltipReference: E.current,
-                                tooltipArrowReference: M.current,
-                                strategy: a,
-                                middlewares: c
-                            }).then(k => {
-                                Object.keys(k.tooltipStyles).length && ut(k.tooltipStyles), Object.keys(k.tooltipArrowStyles).length && st(k.tooltipArrowStyles), J(k.place)
-                            })
+
                         },
                         wt = m => {
                             if (!m) return;
