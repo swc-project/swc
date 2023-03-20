@@ -7,6 +7,12 @@
 
 - **(es/resolver)** Make scope context identical to the vars (#7095) ([0f09e35](https://github.com/swc-project/swc/commit/0f09e356c38268ac10223d0d44dd253949bcbc59))
 
+### Refactor
+
+
+
+- **(es/resolver)** Make syntax context for unresolved and top-level stable (#7096) ([c114f00](https://github.com/swc-project/swc/commit/c114f006b4ea388ef9a4503e935d59e92a647ecf))
+
 ## [1.3.41] - 2023-03-17
 
 ### Bug Fixes
