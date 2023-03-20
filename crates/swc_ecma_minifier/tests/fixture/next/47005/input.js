@@ -94,50 +94,9 @@
                         middleware: r = [],
                         platform: i
                     } = n, s = r.filter(Boolean), f = await (i.isRTL == null ? void 0 : i.isRTL(e)), u = await i.getElementRects({
-                        reference: t,
-                        floating: e,
-                        strategy: l
                     }), {
-                        x: a,
-                        y: c
                     } = be(u, o, f), d = o, p = {}, y = 0;
                     for (let g = 0; g < s.length; g++) {
-                        let {
-                            name: w,
-                            fn: T
-                        } = s[g], {
-                            x,
-                            y: v,
-                            data: P,
-                            reset: R
-                        } = await T({
-                            x: a,
-                            y: c,
-                            initialPlacement: o,
-                            placement: d,
-                            strategy: l,
-                            middlewareData: p,
-                            rects: u,
-                            platform: i,
-                            elements: {
-                                reference: t,
-                                floating: e
-                            }
-                        });
-                        a = x ?? a, c = v ?? c, p = {
-                            ...p,
-                            [w]: {
-                                ...p[w],
-                                ...P
-                            }
-                        }, R && y <= 50 && (y++, typeof R == "object" && (R.placement && (d = R.placement), R.rects && (u = R.rects === !0 ? await i.getElementRects({
-                            reference: t,
-                            floating: e,
-                            strategy: l
-                        }) : R.rects), {
-                            x: a,
-                            y: c
-                        } = be(u, d, f)), g = -1)
                     }
                     return {
                         x: a,
