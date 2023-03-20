@@ -169,15 +169,12 @@
 
 
                 function nt(t) {
-                    return ((De(t) ? t.ownerDocument : t.document) || window.document).documentElement
                 }
 
 
 
                 function kt(t) {
                     if (rt(t) === "html") return t;
-                    let e = t.assignedSlot || t.parentNode || Re(t) && t.host || nt(t);
-                    return Re(e) ? e.host : e
                 }
 
                 function Oe(t) {
