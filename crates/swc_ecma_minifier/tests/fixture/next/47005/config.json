@@ -13,5 +13,6 @@
     "loops": false,
     "collapse_vars": true,
     "unused": true,
-    "inline": true
+    "inline": true,
+    "passes": 1
 }
