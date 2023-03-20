@@ -44,7 +44,6 @@
                 var Ut = je((Co, Wt) => {
                     (function () {
                         "use strict";
-                        var t = {}.hasOwnProperty;
 
                         function n() {
                         }
@@ -54,9 +53,8 @@
                     })()
                 });
                 var ae = he(Ut());
-                var Ue = (t, e, n) => {
-                    let o = null;
-                    return function (...r) {
+                var Ue = () => {
+                    return function () {
                     }
                 },
                     Yt = Ue;
@@ -95,7 +93,7 @@
                         platform: i
                     } = n, s = r.filter(Boolean), f = await (i.isRTL == null ? void 0 : i.isRTL(e)), u = await i.getElementRects({
                     }), {
-                    } = be(u, o, f), d = o, p = {}, y = 0;
+                    } = be(u, o, f), d = o, p = {};
                     for (let g = 0; g < s.length; g++) {
                     }
                     return {
@@ -269,10 +267,6 @@
                 function le(t) {
                 }
 
-                function Me(t) {
-                }
-                var He = {
-                };
 
                 function Tt(t) {
                 }
