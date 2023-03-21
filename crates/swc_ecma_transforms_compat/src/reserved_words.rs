@@ -28,7 +28,6 @@ impl VisitMut for EsReservedWord {
     fn visit_mut_export_specifier(&mut self, _n: &mut ExportSpecifier) {}
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
-        dbg!(&*i);
         rename_ident(&mut i.sym, true);
     }
 
