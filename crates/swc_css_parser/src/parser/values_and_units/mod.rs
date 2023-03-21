@@ -1704,7 +1704,7 @@ where
                 let value = match self.try_parse(|p| p.parse_generic_value()) {
                     Some(v) => v,
                     None => {
-                        if is_one_of!(self, ";", ":") {
+                        if is_one_of!(self, ";", ":", "=") {
                             let tok = self.input.bump().unwrap();
 
                             ComponentValue::PreservedToken(Box::new(tok))
