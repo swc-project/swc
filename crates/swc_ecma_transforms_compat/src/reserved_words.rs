@@ -28,12 +28,15 @@ impl VisitMut for EsReservedWord {
     fn visit_mut_export_specifier(&mut self, _n: &mut ExportSpecifier) {}
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
+        dbg!(&*i);
         rename_ident(&mut i.sym, true);
     }
 
     fn visit_mut_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier) {
         s.local.visit_mut_with(self);
     }
+
+    fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
 
     fn visit_mut_prop_name(&mut self, _n: &mut PropName) {}
 }
