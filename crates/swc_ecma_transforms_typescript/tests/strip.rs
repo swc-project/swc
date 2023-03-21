@@ -4539,8 +4539,8 @@ test!(
     issue_7106,
     "
     export class test {
-        #throw() {};
-        #new() {};
+        #throw() {}
+        #new() {}
         test() {
           this.#throw();
           this.#new();
@@ -4549,8 +4549,8 @@ test!(
       ",
     "
     export class test {
-        #throw() {};
-        #new() {};
+        #throw() {}
+        #new() {}
         test() {
           this.#throw();
           this.#new();
