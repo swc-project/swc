@@ -11,6 +11,9 @@
 - **(es/ast)** Fix `EqIgnoreSpan` impl of `Number` (#7112) ([6a570a3](https://github.com/swc-project/swc/commit/6a570a334c787358d67ae6c590a7fd0e916f35e8))
 
 
+- **(es/compat)** Don't modify private fields from `reserved_words` pass (#7113) ([2bc631d](https://github.com/swc-project/swc/commit/2bc631df8792d2f1356b5ef2dbf3ee0c46ecbd4f))
+
+
 - **(es/minifier)** Pass `keep_*` in config to `compress` and `mangle` (#7102) ([6a1201c](https://github.com/swc-project/swc/commit/6a1201cfc44fe5ae3d8599669fd8032c82e6c580))
 
 
