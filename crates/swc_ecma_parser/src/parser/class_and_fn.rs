@@ -482,7 +482,7 @@ impl<I: Tokens> Parser<I> {
                         is_override: false,
                         is_async: false,
                         is_generator: false,
-                        static_token: None,
+                        static_token,
                         key,
                         kind: MethodKind::Method,
                     },
@@ -497,12 +497,13 @@ impl<I: Tokens> Parser<I> {
                     accessor_token,
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
+                let is_static = static_token.is_some();
                 return self.make_property(
                     start,
                     decorators,
                     accessibility,
                     key,
-                    false,
+                    is_static,
                     None,
                     is_optional,
                     false,

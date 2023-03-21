@@ -4,12 +4,15 @@ import { Options } from "./types";
 
 export type BundleInput = BundleOptions | BundleOptions[];
 
+export const isLocalFile = /^\.{0,2}\//; // starts with '/' './' '../'
+
 export async function compileBundleOptions(config: BundleInput | string | undefined): Promise<BundleInput> {
     const f = config === undefined ? '.' : config;
 
     try {
-        const file = typeof f === 'string' ? f : path.resolve('spack.config.js');
-        let configFromFile: BundleInput = require(file);
+        const filepath = typeof f === 'string' ? f : 'spack.config.js';
+        const fileModule = isLocalFile.test(filepath) ? path.resolve(filepath) : filepath;
+        let configFromFile: BundleInput = require(fileModule);
         if ((configFromFile as any).default) {
             configFromFile = (configFromFile as any).default;
         }
