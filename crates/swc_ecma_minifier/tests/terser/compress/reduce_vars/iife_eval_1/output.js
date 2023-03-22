@@ -1,5 +1,5 @@
-(function (x) {
+(function(x) {
     console.log(x() === eval("x"));
-})(function f() {
-    return f;
+})(function f1() {
+    return f1;
 });

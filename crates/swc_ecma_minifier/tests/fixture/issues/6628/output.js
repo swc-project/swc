@@ -1,10 +1,10 @@
 !function() {
     var CallbackType, Collector = function() {
-        var n = function(n) {};
-        return n.usePlugin = function(n, u, l) {}, n.plugins = [], n;
+        var u = function(u) {};
+        return u.usePlugin = function(u, l, o) {}, u.plugins = [], u;
     }();
-    !function(n) {
-        n[n.Var = 0] = "Var", n[n.All = 1] = "All";
+    !function(u) {
+        u[u.Var = 0] = "Var", u[u.All = 1] = "All";
     }(CallbackType || (CallbackType = {}));
     var CepRule = function() {
         eval();
