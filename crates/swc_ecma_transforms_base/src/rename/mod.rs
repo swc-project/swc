@@ -82,7 +82,7 @@ impl<R> RenamePass<R>
 where
     R: Renamer,
 {
-    fn get_unresolved<N>(&self, n: &N) -> FxHashSet<JsWord>
+    fn get_unresolved<N>(&self, n: &N, has_eval: bool) -> FxHashSet<JsWord>
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
     {
@@ -93,11 +93,19 @@ where
             n.visit_with(&mut v);
             v.ids
         };
-        let decls = collect_decls(n);
+        let (decls, preserved) = collect_decls(
+            n,
+            if has_eval {
+                Some(self.config.top_level_mark)
+            } else {
+                None
+            },
+        );
         usages
             .into_iter()
             .filter(|used_id| !decls.contains(used_id))
             .map(|v| v.0)
+            .chain(preserved.into_iter().map(|v| v.0))
             .collect()
     }
 
@@ -133,7 +141,7 @@ where
 
         let mut unresolved = if !is_module_or_script {
             let mut unresolved = self.unresolved.clone();
-            unresolved.extend(self.get_unresolved(node));
+            unresolved.extend(self.get_unresolved(node, has_eval));
             Cow::Owned(unresolved)
         } else {
             Cow::Borrowed(&self.unresolved)
@@ -230,9 +238,10 @@ where
 
     fn visit_mut_module(&mut self, m: &mut Module) {
         self.preserved = self.renamer.preserved_ids_for_module(m);
-        self.unresolved = self.get_unresolved(m);
 
         let has_eval = contains_eval(m, true);
+
+        self.unresolved = self.get_unresolved(m, has_eval);
 
         {
             let map = self.get_map(m, false, true, has_eval);
@@ -247,9 +256,10 @@ where
 
     fn visit_mut_script(&mut self, m: &mut Script) {
         self.preserved = self.renamer.preserved_ids_for_script(m);
-        self.unresolved = self.get_unresolved(m);
 
         let has_eval = contains_eval(m, true);
+
+        self.unresolved = self.get_unresolved(m, has_eval);
 
         {
             let map = self.get_map(m, false, true, has_eval);

@@ -1,4 +1,7 @@
-use rustc_hash::FxHashMap;
+use std::{hash::BuildHasherDefault, ops::RangeFull};
+
+use indexmap::IndexMap;
+use rustc_hash::FxHasher;
 use swc_atoms::js_word;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
@@ -37,7 +40,7 @@ struct Fixer<'a> {
     ///
     /// Key is span of inner expression, and value is span of the paren
     /// expression.
-    span_map: FxHashMap<Span, Span>,
+    span_map: IndexMap<Span, Span, BuildHasherDefault<FxHasher>>,
 
     in_for_stmt_head: bool,
 
@@ -613,7 +616,7 @@ impl VisitMut for Fixer<'_> {
 
         n.visit_mut_children_with(self);
         if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain() {
+            for (to, from) in self.span_map.drain(RangeFull).rev() {
                 c.move_leading(from.lo, to.lo);
                 c.move_trailing(from.hi, to.hi);
             }
@@ -673,7 +676,7 @@ impl VisitMut for Fixer<'_> {
 
         n.visit_mut_children_with(self);
         if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain() {
+            for (to, from) in self.span_map.drain(RangeFull).rev() {
                 c.move_leading(from.lo, to.lo);
                 c.move_trailing(from.hi, to.hi);
             }

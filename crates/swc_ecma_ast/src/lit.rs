@@ -350,7 +350,7 @@ impl Eq for Number {}
 
 impl EqIgnoreSpan for Number {
     fn eq_ignore_span(&self, other: &Self) -> bool {
-        self.value == other.value
+        self.value == other.value && self.value.is_sign_positive() == other.value.is_sign_positive()
     }
 }
 

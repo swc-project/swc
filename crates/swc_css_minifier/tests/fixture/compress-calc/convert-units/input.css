@@ -85,3 +85,113 @@
 .class22 {
     width: calc(1px + 2unknown);
 }
+
+.class23 {
+    width: calc(1hz + 1khz);
+}
+
+.class24 {
+    width: calc(1khz + 1hz);
+}
+
+.class25 {
+    width: calc(1ms + 1s);
+}
+
+.class26 {
+    width: calc(1ms + 1s);
+}
+
+.class27 {
+    width: calc(1dppx + 1x);
+}
+
+.class28 {
+    width: calc(1x + 1dppx);
+}
+
+.class29 {
+    width: calc(1x + 96dpi);
+}
+
+.class30 {
+    width: calc(96dpi + 1x);
+}
+
+.class31 {
+    width: calc(1dppx + 96dpi);
+}
+
+.class32 {
+    width: calc(96dpi + 1dppx);
+}
+
+.class33 {
+    width: calc(1dpcm + 1dpi);
+}
+
+.class34 {
+    width: calc(1dpcm + 1dpi);
+}
+
+.class35 {
+    width: calc(1cm + 1mm);
+}
+
+.class36 {
+    width: calc(1mm + 1cm);
+}
+
+.class37 {
+    width: calc(1mm + 1q);
+}
+
+.class38 {
+    width: calc(1q + 1mm);
+}
+
+.class39 {
+    width: calc(1cm + 1q);
+}
+
+.class40 {
+    width: calc(1q + 1cm);
+}
+
+.class39 {
+    width: calc(1in + 1px);
+}
+
+.class40 {
+    width: calc(1px + 1in);
+}
+
+.class41 {
+    width: calc(1pc + 1in);
+}
+
+.class42 {
+    width: calc(1in + 1pc);
+}
+
+.class43 {
+    width: calc(1pt + 1in);
+}
+
+.class44 {
+    width: calc(1in + 1pt);
+}
+
+.class45 {
+    width: calc(1pt + 1pc);
+}
+
+.class46 {
+    width: calc(1pc + 1pt);
+}
+.class47 {
+    width: calc(1px + 1pc);
+}
+.class48 {
+    width: calc(1pc + 1px);
+}
