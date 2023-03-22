@@ -1,7 +1,7 @@
 use std::hash::Hash;
 
 use rustc_hash::FxHashSet;
-use swc_common::SyntaxContext;
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
@@ -9,7 +9,7 @@ use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 pub(super) struct IdCollector {
     pub ids: FxHashSet<Id>,
     /// [None] if there's no `eval`.
-    pub top_level_mark_for_eval: Option<SyntaxContext>,
+    pub top_level_mark_for_eval: Option<Mark>,
 }
 
 impl Visit for IdCollector {

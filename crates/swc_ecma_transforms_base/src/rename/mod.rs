@@ -2,7 +2,7 @@ use std::borrow::Cow;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, SyntaxContext};
+use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
@@ -90,7 +90,7 @@ where
             let mut v = IdCollector {
                 ids: Default::default(),
                 top_level_mark_for_eval: if has_eval {
-                    Some(SyntaxContext::empty().apply_mark(self.config.top_level_mark))
+                    Some(self.config.top_level_mark)
                 } else {
                     None
                 },
