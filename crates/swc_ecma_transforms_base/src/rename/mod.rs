@@ -89,20 +89,23 @@ where
         let usages = {
             let mut v = IdCollector {
                 ids: Default::default(),
-                top_level_mark_for_eval: if has_eval {
-                    Some(self.config.top_level_mark)
-                } else {
-                    None
-                },
             };
             n.visit_with(&mut v);
             v.ids
         };
-        let decls = collect_decls(n);
+        let (decls, preserved) = collect_decls(
+            n,
+            if has_eval {
+                Some(self.config.top_level_mark)
+            } else {
+                None
+            },
+        );
         usages
             .into_iter()
             .filter(|used_id| !decls.contains(used_id))
             .map(|v| v.0)
+            .chain(preserved.into_iter().map(|v| v.0))
             .collect()
     }
 

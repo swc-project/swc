@@ -8,8 +8,6 @@ use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 pub(super) struct IdCollector {
     pub ids: FxHashSet<Id>,
-    /// [None] if there's no `eval`.
-    pub top_level_mark_for_eval: Option<Mark>,
 }
 
 impl Visit for IdCollector {
@@ -49,7 +47,11 @@ where
     I: IdentLike + Eq + Hash + Send + Sync,
 {
     bindings: FxHashSet<I>,
+    preserved: FxHashSet<I>,
     is_pat_decl: bool,
+
+    /// [None] if there's no `eval`.
+    pub top_level_mark_for_eval: Option<Mark>,
 }
 
 impl<I> CustomBindingCollector<I>
@@ -57,6 +59,13 @@ where
     I: IdentLike + Eq + Hash + Send + Sync,
 {
     fn add(&mut self, i: &Ident) {
+        if let Some(top_level_mark) = self.top_level_mark_for_eval {
+            if i.span.ctxt.outer().is_descendant_of(top_level_mark) {
+                self.preserved.insert(I::from_ident(i));
+                return;
+            }
+        }
+
         self.bindings.insert(I::from_ident(i));
     }
 }
@@ -179,15 +188,21 @@ where
     }
 }
 
-pub(super) fn collect_decls<I, N>(n: &N) -> FxHashSet<I>
+/// Returns `(bindings, preserved)`.
+pub(super) fn collect_decls<I, N>(
+    n: &N,
+    top_level_mark_for_eval: Option<Mark>,
+) -> (FxHashSet<I>, FxHashSet<I>)
 where
     I: IdentLike + Eq + Hash + Send + Sync,
     N: VisitWith<CustomBindingCollector<I>>,
 {
     let mut v = CustomBindingCollector {
         bindings: Default::default(),
+        preserved: Default::default(),
         is_pat_decl: false,
+        top_level_mark_for_eval,
     };
     n.visit_with(&mut v);
-    v.bindings
+    (v.bindings, v.preserved)
 }
