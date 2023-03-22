@@ -7,6 +7,9 @@
 
 - **(es/renamer)** Don't use symbols used by declarations if `eval` exists (#7116) ([6d9763e](https://github.com/swc-project/swc/commit/6d9763e8c0f5cef7689961e7eb11dc7199e8cd08))
 
+
+- **(es/visit)** Fix handling of `Program` of `AndThen` (#7120) ([d50689e](https://github.com/swc-project/swc/commit/d50689eab0e82a68c84fcacdd8ce5c9009a65100))
+
 ## [1.3.42] - 2023-03-22
 
 ### Bug Fixes
