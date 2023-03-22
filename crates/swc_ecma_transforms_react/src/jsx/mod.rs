@@ -90,6 +90,9 @@ pub struct Options {
     #[serde(default)]
     pub use_spread: Option<bool>,
 
+    #[serde(default)]
+    pub key_in_props: Option<bool>,
+
     #[serde(default, deserialize_with = "deserialize_refresh")]
     // default to disabled since this is still considered as experimental by now
     pub refresh: Option<RefreshOptions>,
@@ -217,6 +220,7 @@ where
             options.pragma_frag.unwrap_or_else(default_pragma_frag),
             top_level_mark,
         ),
+        key_in_props: !matches!(options.key_in_props, Some(false)),
         development: options.development.unwrap_or_default(),
         throw_if_namespace: options
             .throw_if_namespace
@@ -249,6 +253,7 @@ where
     pragma: Arc<Box<Expr>>,
     comments: Option<C>,
     pragma_frag: Arc<Box<Expr>>,
+    key_in_props: bool,
     development: bool,
     throw_if_namespace: bool,
 }
@@ -485,7 +490,7 @@ where
     fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
         let top_level_node = self.top_level_node;
         let span = el.span();
-        let use_create_element = should_use_create_element(&el.opening.attrs);
+        let use_create_element = self.key_in_props && should_use_create_element(&el.opening.attrs);
         self.top_level_node = false;
 
         let name = self.jsx_name(el.opening.name);
