@@ -18,7 +18,9 @@ use swc_common::{
 use swc_config::merge::Merge;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
-use swc_ecma_utils::{drop_span, prepend_stmt, private_ident, quote_ident, undefined, ExprFactory};
+use swc_ecma_utils::{
+    drop_span, prepend_stmt, private_ident, quote_ident, undefined, ExprFactory, StmtLike,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 use self::static_check::should_use_create_element;
@@ -187,6 +189,7 @@ pub fn jsx<C>(
     comments: Option<C>,
     options: Options,
     top_level_mark: Mark,
+    unresolved_mark: Mark,
 ) -> impl Fold + VisitMut
 where
     C: Comments,
@@ -194,6 +197,7 @@ where
     as_folder(Jsx {
         cm: cm.clone(),
         top_level_mark,
+        unresolved_mark,
         runtime: options.runtime.unwrap_or_default(),
         import_source: options
             .import_source
@@ -232,6 +236,7 @@ where
     cm: Lrc<SourceMap>,
 
     top_level_mark: Mark,
+    unresolved_mark: Mark,
 
     runtime: Runtime,
     /// For automatic runtime.
@@ -376,6 +381,62 @@ impl<C> Jsx<C>
 where
     C: Comments,
 {
+    fn inject_runtime<T, F>(&mut self, body: &mut Vec<T>, inject: F)
+    where
+        T: StmtLike,
+        // Fn(Vec<(local, imported)>, src, body)
+        F: Fn(Vec<(Ident, Ident)>, &str, &mut Vec<T>),
+    {
+        if self.runtime == Runtime::Automatic {
+            if let Some(local) = self.import_create_element.take() {
+                inject(
+                    vec![(local, quote_ident!("createElement"))],
+                    &self.import_source,
+                    body,
+                );
+            }
+
+            let imports = self.import_jsx.take();
+            let imports = if self.development {
+                imports
+                    .map(|local| (local, quote_ident!("jsxDEV")))
+                    .into_iter()
+                    .chain(
+                        self.import_fragment
+                            .take()
+                            .map(|local| (local, quote_ident!("Fragment"))),
+                    )
+                    .collect::<Vec<_>>()
+            } else {
+                imports
+                    .map(|local| (local, quote_ident!("jsx")))
+                    .into_iter()
+                    .chain(
+                        self.import_jsxs
+                            .take()
+                            .map(|local| (local, quote_ident!("jsxs"))),
+                    )
+                    .chain(
+                        self.import_fragment
+                            .take()
+                            .map(|local| (local, quote_ident!("Fragment"))),
+                    )
+                    .collect::<Vec<_>>()
+            };
+
+            if !imports.is_empty() {
+                let jsx_runtime = if self.development {
+                    "jsx-dev-runtime"
+                } else {
+                    "jsx-runtime"
+                };
+
+                let value = format!("{}/{}", self.import_source, jsx_runtime);
+                inject(imports, &value, body)
+            }
+        }
+    }
+
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
         let span = el.span();
 
@@ -477,7 +538,7 @@ where
 
     /// # Automatic
     ///
-    ///
+    /// <div></div> => jsx('div', null);
     ///
     /// # Classic
     ///
@@ -975,111 +1036,114 @@ where
         module.visit_mut_children_with(self);
 
         if self.runtime == Runtime::Automatic {
-            if let Some(local) = self.import_create_element.take() {
-                let specifier = ImportSpecifier::Named(ImportNamedSpecifier {
-                    span: DUMMY_SP,
-                    local,
-                    imported: Some(ModuleExportName::Ident(Ident::new(
-                        "createElement".into(),
-                        DUMMY_SP,
-                    ))),
-                    is_type_only: false,
-                });
+            self.inject_runtime(&mut module.body, |imports, src, stmts| {
+                let specifiers = imports
+                    .into_iter()
+                    .map(|(local, imported)| {
+                        ImportSpecifier::Named(ImportNamedSpecifier {
+                            span: DUMMY_SP,
+                            local,
+                            imported: Some(ModuleExportName::Ident(imported)),
+                            is_type_only: false,
+                        })
+                    })
+                    .collect();
+
                 prepend_stmt(
-                    &mut module.body,
+                    stmts,
                     ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                         span: DUMMY_SP,
-                        specifiers: vec![specifier],
+                        specifiers,
                         src: Str {
                             span: DUMMY_SP,
                             raw: None,
-                            value: self.import_source.clone(),
+                            value: src.into(),
                         }
                         .into(),
                         type_only: Default::default(),
                         asserts: Default::default(),
                     })),
-                );
-            }
-
-            let imports = self.import_jsx.take();
-            let imports = if self.development {
-                imports
-                    .map(|local| ImportNamedSpecifier {
-                        span: DUMMY_SP,
-                        local,
-                        imported: Some(ModuleExportName::Ident(quote_ident!("jsxDEV"))),
-                        is_type_only: false,
-                    })
-                    .into_iter()
-                    .chain(
-                        self.import_fragment
-                            .take()
-                            .map(|local| ImportNamedSpecifier {
-                                span: DUMMY_SP,
-                                local,
-                                imported: Some(ModuleExportName::Ident(quote_ident!("Fragment"))),
-                                is_type_only: false,
-                            }),
-                    )
-                    .map(ImportSpecifier::Named)
-                    .collect::<Vec<_>>()
-            } else {
-                imports
-                    .map(|local| ImportNamedSpecifier {
-                        span: DUMMY_SP,
-                        local,
-                        imported: Some(ModuleExportName::Ident(quote_ident!("jsx"))),
-                        is_type_only: false,
-                    })
-                    .into_iter()
-                    .chain(self.import_jsxs.take().map(|local| ImportNamedSpecifier {
-                        span: DUMMY_SP,
-                        local,
-                        imported: Some(ModuleExportName::Ident(quote_ident!("jsxs"))),
-                        is_type_only: false,
-                    }))
-                    .chain(
-                        self.import_fragment
-                            .take()
-                            .map(|local| ImportNamedSpecifier {
-                                span: DUMMY_SP,
-                                local,
-                                imported: Some(ModuleExportName::Ident(quote_ident!("Fragment"))),
-                                is_type_only: false,
-                            }),
-                    )
-                    .map(ImportSpecifier::Named)
-                    .collect::<Vec<_>>()
-            };
-
-            if !imports.is_empty() {
-                let jsx_runtime = if self.development {
-                    "jsx-dev-runtime"
-                } else {
-                    "jsx-runtime"
-                };
-
-                let value = format!("{}/{}", self.import_source, jsx_runtime);
-
-                prepend_stmt(
-                    &mut module.body,
-                    ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                        span: DUMMY_SP,
-                        specifiers: imports,
-                        src: Str {
-                            span: DUMMY_SP,
-                            raw: None,
-                            value: value.into(),
-                        }
-                        .into(),
-                        type_only: Default::default(),
-                        asserts: Default::default(),
-                    })),
-                );
-            }
+                )
+            });
         }
     }
+
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        self.parse_directives(script.span);
+
+        for item in &script.body {
+            let span = item.span();
+            if self.parse_directives(span) {
+                break;
+            }
+        }
+
+        script.visit_mut_children_with(self);
+
+        if self.runtime == Runtime::Automatic {
+            let mark = self.unresolved_mark;
+            self.inject_runtime(&mut script.body, |imports, src, stmts| {
+                prepend_stmt(stmts, add_require(imports, src, mark))
+            });
+        }
+    }
+}
+
+// const { createElement } = require('react')
+// const { jsx: jsx } = require('react/jsx-runtime')
+fn add_require(imports: Vec<(Ident, Ident)>, src: &str, unresolved_mark: Mark) -> Stmt {
+    Stmt::Decl(Decl::Var(Box::new(VarDecl {
+        span: DUMMY_SP,
+        kind: VarDeclKind::Const,
+        declare: false,
+        decls: vec![VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Object(ObjectPat {
+                span: DUMMY_SP,
+                props: imports
+                    .into_iter()
+                    .map(|(local, imported)| {
+                        if imported.sym != local.sym {
+                            ObjectPatProp::KeyValue(KeyValuePatProp {
+                                key: PropName::Ident(imported),
+                                value: Box::new(Pat::Ident(BindingIdent {
+                                    id: local,
+                                    type_ann: None,
+                                })),
+                            })
+                        } else {
+                            ObjectPatProp::Assign(AssignPatProp {
+                                span: DUMMY_SP,
+                                key: local,
+                                value: None,
+                            })
+                        }
+                    })
+                    .collect(),
+                optional: false,
+                type_ann: None,
+            }),
+            // require('react')
+            init: Some(Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: Callee::Expr(Box::new(Expr::Ident(Ident {
+                    span: DUMMY_SP.apply_mark(unresolved_mark),
+                    sym: js_word!("require"),
+                    optional: false,
+                }))),
+                args: vec![ExprOrSpread {
+                    spread: None,
+                    expr: Box::new(Expr::Lit(Lit::Str(Str {
+                        span: DUMMY_SP,
+                        value: src.into(),
+                        raw: None,
+                    }))),
+                }],
+                type_args: None,
+            }))),
+            definite: false,
+        }],
+    })))
 }
 
 impl<C> Jsx<C>

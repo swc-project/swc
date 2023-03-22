@@ -749,7 +749,13 @@ impl Options {
             custom_before_pass(&program),
             // handle jsx
             Optional::new(
-                react::react(cm.clone(), comments, transform.react, top_level_mark),
+                react::react(
+                    cm.clone(),
+                    comments,
+                    transform.react,
+                    top_level_mark,
+                    unresolved_mark
+                ),
                 syntax.jsx()
             ),
             pass,
