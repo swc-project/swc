@@ -2,7 +2,7 @@ use std::borrow::Cow;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::collections::AHashMap;
+use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
@@ -82,13 +82,18 @@ impl<R> RenamePass<R>
 where
     R: Renamer,
 {
-    fn get_unresolved<N>(&self, n: &N) -> FxHashSet<JsWord>
+    fn get_unresolved<N>(&self, n: &N, has_eval: bool) -> FxHashSet<JsWord>
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
     {
         let usages = {
             let mut v = IdCollector {
                 ids: Default::default(),
+                top_level_mark_for_eval: if has_eval {
+                    Some(SyntaxContext::empty().apply_mark(self.config.top_level_mark))
+                } else {
+                    None
+                },
             };
             n.visit_with(&mut v);
             v.ids
@@ -133,7 +138,7 @@ where
 
         let mut unresolved = if !is_module_or_script {
             let mut unresolved = self.unresolved.clone();
-            unresolved.extend(self.get_unresolved(node));
+            unresolved.extend(self.get_unresolved(node, has_eval));
             Cow::Owned(unresolved)
         } else {
             Cow::Borrowed(&self.unresolved)
@@ -230,9 +235,10 @@ where
 
     fn visit_mut_module(&mut self, m: &mut Module) {
         self.preserved = self.renamer.preserved_ids_for_module(m);
-        self.unresolved = self.get_unresolved(m);
 
         let has_eval = contains_eval(m, true);
+
+        self.unresolved = self.get_unresolved(m, has_eval);
 
         {
             let map = self.get_map(m, false, true, has_eval);
@@ -247,9 +253,10 @@ where
 
     fn visit_mut_script(&mut self, m: &mut Script) {
         self.preserved = self.renamer.preserved_ids_for_script(m);
-        self.unresolved = self.get_unresolved(m);
 
         let has_eval = contains_eval(m, true);
+
+        self.unresolved = self.get_unresolved(m, has_eval);
 
         {
             let map = self.get_map(m, false, true, has_eval);
