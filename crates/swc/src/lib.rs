@@ -13,7 +13,7 @@
 //!
 //! ## Testing
 //!
-//! See [testing] and [swc_ecma_transform_testing](https://docs.rs/swc_ecmc_transform_testing).
+//! See [testing] and [swc_ecma_transforms_testing](https://docs.rs/swc_ecma_transforms_testing).
 //!
 //! ## Custom javascript transforms
 //!
