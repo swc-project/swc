@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.69.22"
+version       = "0.69.23"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -340,8 +340,8 @@ wasmer      = { optional = true, version = "2.3.0", default-features = false }
 wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 
 # swc_* dependencies
-binding_macros                   = { optional = true, version = "0.44.20", path = "../binding_macros" }
-swc                              = { optional = true, version = "0.255.20", path = "../swc" }
+binding_macros                   = { optional = true, version = "0.44.21", path = "../binding_macros" }
+swc                              = { optional = true, version = "0.255.21", path = "../swc" }
 swc_atoms                        = { optional = true, version = "0.4.39", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "0.208.17", path = "../swc_bundler" }
 swc_cached                       = { optional = true, version = "0.3.15", path = "../swc_cached" }
@@ -373,7 +373,7 @@ swc_ecma_usage_analyzer          = { optional = true, version = "0.9.8", path = 
 swc_ecma_utils                   = { optional = true, version = "0.113.7", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { optional = true, version = "0.86.3", path = "../swc_ecma_visit" }
 swc_node_base                    = { optional = true, version = "0.5.8", path = "../swc_node_base" }
-swc_node_bundler                 = { optional = true, version = "0.42.20", path = "../swc_node_bundler" }
+swc_node_bundler                 = { optional = true, version = "0.42.21", path = "../swc_node_bundler" }
 swc_nodejs_common                = { optional = true, version = "0.0.5", path = "../swc_nodejs_common" }
 swc_plugin                       = { optional = true, version = "0.90.0", path = "../swc_plugin" }
 swc_plugin_macro                 = { optional = true, version = "0.9.10", path = "../swc_plugin_macro" }
