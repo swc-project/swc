@@ -1,834 +1,806 @@
-use std::collections::HashMap;
-
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
+use swc_common::{collections::AHashMap, Span};
 use swc_css_ast::*;
 
-use super::{unit::*, Compressor};
+use super::Compressor;
 use crate::compressor::math::{is_calc_function_name, transform_calc_value_into_component_value};
 
-// transform "(simple calc-value)" into "simple calc-value"
-fn remove_unnecessary_nesting_from_calc_sum(calc_sum: &mut CalcSum) {
-    if calc_sum.expressions.len() == 1 {
-        match &calc_sum.expressions[0] {
-            CalcProductOrOperator::Product(CalcProduct {
-                expressions: calc_product_expressions,
+// Calc-operator node of the calculation tree
+// https://www.w3.org/TR/css-values-4/#calculation-tree-calc-operator-nodes
+#[derive(Debug, Clone)]
+enum CalcOperatorNode {
+    Sum(Vec<CalcNode>),
+    Product(Vec<CalcNode>),
+    Negate(CalcNode),
+    Invert(CalcNode),
+}
+
+#[derive(Debug, Clone)]
+enum CalcNode {
+    Number(Number),
+    Dimension(Dimension),
+    Percentage(Percentage),
+    Constant(Ident),
+    Function(Function),
+    OperatorNode(Box<CalcOperatorNode>),
+}
+
+fn get_precision(n: f64) -> u32 {
+    let n_as_str = n.to_string();
+    n_as_str
+        .find('.')
+        .map_or(0, |sep| (n_as_str.len() - sep) as u32 - 1)
+}
+
+// Parse our AST (subtree) into a calculation tree (as defined by the spec)
+// https://www.w3.org/TR/css-values-4/#parse-a-calculation
+fn collect_calc_sum_into_calc_node(calc_sum: &CalcSum) -> CalcNode {
+    let mut is_negated = false;
+    let mut operands: Vec<CalcNode> = vec![];
+    for node in &calc_sum.expressions {
+        match &node {
+            CalcProductOrOperator::Product(calc_product) => {
+                let mut node = collect_calc_product_into_calc_node(calc_product);
+                if is_negated {
+                    node = CalcNode::OperatorNode(Box::new(CalcOperatorNode::Negate(node)));
+                }
+                operands.push(node);
+            }
+            CalcProductOrOperator::Operator(CalcOperator {
+                value: CalcOperatorType::Sub,
                 ..
-            }) if calc_product_expressions.len() == 1 => {
-                if let CalcValueOrOperator::Value(CalcValue::Sum(CalcSum {
-                    expressions: nested_expressions,
-                    span: nested_span,
-                })) = &calc_product_expressions[0]
-                {
-                    calc_sum.span = *nested_span;
-                    calc_sum.expressions = nested_expressions.to_vec();
+            }) => {
+                is_negated = true;
+            }
+            CalcProductOrOperator::Operator(CalcOperator {
+                value: CalcOperatorType::Add,
+                ..
+            }) => {
+                is_negated = false;
+            }
+            _ => {}
+        }
+    }
+
+    if operands.len() == 1 {
+        operands[0].clone()
+    } else {
+        CalcNode::OperatorNode(Box::new(CalcOperatorNode::Sum(operands)))
+    }
+}
+
+fn collect_calc_product_into_calc_node(calc_product: &CalcProduct) -> CalcNode {
+    let mut is_inverted = false;
+    let mut operands: Vec<CalcNode> = vec![];
+    for node in &calc_product.expressions {
+        match &node {
+            CalcValueOrOperator::Value(calc_value) => {
+                let mut node = collect_calc_value_into_calc_node(calc_value);
+                if is_inverted {
+                    node = CalcNode::OperatorNode(Box::new(CalcOperatorNode::Invert(node)));
+                }
+                operands.push(node);
+            }
+            CalcValueOrOperator::Operator(CalcOperator {
+                value: CalcOperatorType::Div,
+                ..
+            }) => {
+                is_inverted = true;
+            }
+            CalcValueOrOperator::Operator(CalcOperator {
+                value: CalcOperatorType::Mul,
+                ..
+            }) => {
+                is_inverted = false;
+            }
+            _ => {}
+        }
+    }
+
+    if operands.len() == 1 {
+        operands[0].clone()
+    } else {
+        CalcNode::OperatorNode(Box::new(CalcOperatorNode::Product(operands)))
+    }
+}
+
+fn collect_calc_value_into_calc_node(calc_value: &CalcValue) -> CalcNode {
+    match calc_value {
+        CalcValue::Number(n) => CalcNode::Number(n.clone()),
+        CalcValue::Dimension(d) => CalcNode::Dimension(d.clone()),
+        CalcValue::Percentage(p) => CalcNode::Percentage(p.clone()),
+        CalcValue::Constant(c) => CalcNode::Constant(c.clone()),
+        CalcValue::Function(f @ Function { name, value, .. })
+            if is_calc_function_name(name) && value.len() == 1 =>
+        {
+            match &value[0] {
+                ComponentValue::CalcSum(calc_sum) => collect_calc_sum_into_calc_node(calc_sum),
+                _ => CalcNode::Function(f.clone()),
+            }
+        }
+        CalcValue::Function(f) => CalcNode::Function(f.clone()),
+        CalcValue::Sum(calc_sum) => collect_calc_sum_into_calc_node(calc_sum),
+    }
+}
+
+// https://www.w3.org/TR/css-values-4/#calc-simplification
+// Impl. note: our "simplify" implementation does not always return a canonical
+// result For example:
+// * we do not want to transform calc(10px / 3) in to 3.33333333333333px (we'd
+//   lose precision)
+// * we can not transform relative unit (em, vh, etc) into their canonical form
+//   (we do not have the screen/browser context to compute it)
+fn simplify_calc_node(calc_node: &CalcNode) -> CalcNode {
+    match calc_node {
+        CalcNode::Number(_)
+        | CalcNode::Dimension(_)
+        | CalcNode::Percentage(_)
+        | CalcNode::Constant(_)
+        | CalcNode::Function(_) => calc_node.clone(),
+        CalcNode::OperatorNode(op) => simplify_calc_operator_node(op),
+    }
+}
+
+fn simplify_calc_operator_node(calc_operator_node: &CalcOperatorNode) -> CalcNode {
+    match calc_operator_node {
+        CalcOperatorNode::Invert(inverted_calc_node) => {
+            simplify_calc_operator_node_invert(inverted_calc_node)
+        }
+        CalcOperatorNode::Negate(negated_calc_node) => {
+            simplify_calc_operator_node_negate(negated_calc_node)
+        }
+        CalcOperatorNode::Product(nodes) => simplify_calc_operator_node_product(nodes),
+        CalcOperatorNode::Sum(nodes) => simplify_calc_operator_node_sum(nodes),
+    }
+}
+
+// https://www.w3.org/TR/css-values-4/#calc-simplification - Step 7
+// TODO for a better compress we should not always compute the reciprocal
+// TODO currently we transform "x / 2" => "x * .5"... we should avoid it
+fn simplify_calc_operator_node_invert(calc_node: &CalcNode) -> CalcNode {
+    let calc_node = simplify_calc_node(calc_node);
+    match &calc_node {
+        CalcNode::Number(n) => {
+            // If root’s child is a number (not a percentage or dimension) return the
+            // reciprocal of the child’s value.
+            if let Some(result) = try_to_divide_values(1.0, n.value) {
+                CalcNode::Number(Number {
+                    value: result,
+                    span: n.span,
+                    raw: n.raw.clone(),
+                })
+            } else {
+                CalcNode::OperatorNode(Box::new(CalcOperatorNode::Invert(calc_node.clone())))
+            }
+        }
+        CalcNode::OperatorNode(op) => {
+            match &**op {
+                // If root’s child is an Invert node, return the child’s child.
+                CalcOperatorNode::Invert(node) => node.clone(),
+                CalcOperatorNode::Product(children) => {
+                    // Impl. note: not in spec, try to invert a fraction
+                    if let Some(inverted_fraction) =
+                        try_to_invert_if_children_are_fraction(children)
+                    {
+                        inverted_fraction
+                    } else {
+                        CalcNode::OperatorNode(Box::new(CalcOperatorNode::Invert(
+                            calc_node.clone(),
+                        )))
+                    }
+                }
+                _ => CalcNode::OperatorNode(Box::new(CalcOperatorNode::Invert(calc_node.clone()))),
+            }
+        }
+        _ => CalcNode::OperatorNode(Box::new(CalcOperatorNode::Invert(calc_node.clone()))),
+    }
+}
+
+// https://www.w3.org/TR/css-values-4/#calc-simplification - Step 6
+fn simplify_calc_operator_node_negate(calc_node: &CalcNode) -> CalcNode {
+    try_to_switch_sign_of_nodes(&[simplify_calc_node(calc_node)]).unwrap_or_else(|| {
+        CalcNode::OperatorNode(Box::new(CalcOperatorNode::Negate(calc_node.clone())))
+    })
+}
+
+// https://www.w3.org/TR/css-values-4/#calc-simplification - Step 9
+fn simplify_calc_operator_node_product(nodes: &[CalcNode]) -> CalcNode {
+    let mut nodes = nodes.to_vec();
+
+    // For each of root’s children that are Product nodes, replace them with their
+    // children.
+    let mut idx = 0;
+    while idx < nodes.len() {
+        nodes[idx] = simplify_calc_node(&nodes[idx]);
+        if let Some(children) = get_children_if_node_is_product_operator(&nodes[idx]) {
+            nodes.remove(idx);
+            let mut i = idx;
+            for nested_node in children {
+                nodes.insert(i, nested_node);
+                i += 1;
+            }
+        } else {
+            idx += 1;
+        }
+    }
+
+    // If root has multiple children that are numbers (not percentages or
+    // dimensions), remove them and replace them with a single number containing
+    // the product of the removed nodes.
+    let mut number: Option<usize> = None;
+    let mut idx = 0;
+    while idx < nodes.len() {
+        match &nodes[idx] {
+            CalcNode::Number(_) => {
+                if let Some(prev_idx) = number {
+                    let previous_value = get_value(&nodes[prev_idx]);
+                    let value = get_value(&nodes[idx]);
+                    if let Some(result) = try_to_multiply_values(previous_value, value) {
+                        set_value(&mut nodes[prev_idx], result);
+                        nodes.remove(idx);
+                    } else {
+                        idx += 1;
+                    }
+                } else {
+                    number = Some(idx);
+                    idx += 1;
+                }
+            }
+            _ => {
+                idx += 1;
+            }
+        }
+    }
+
+    // If root contains only two children, one of which is a number (not a
+    // percentage or dimension) and the other of which is a Sum whose children
+    // are all numeric values, multiply all of the Sum’s children by the number,
+    // then return the Sum.
+    if nodes.len() == 2 {
+        match (&nodes[0], &nodes[1]) {
+            (CalcNode::Number(Number { value, .. }), CalcNode::OperatorNode(op))
+            | (CalcNode::OperatorNode(op), CalcNode::Number(Number { value, .. })) => {
+                if let CalcOperatorNode::Sum(children) = &**op {
+                    if let Some(sum) =
+                        try_to_multiply_all_numeric_sum_children_by_value(children, *value)
+                    {
+                        return sum;
+                    }
                 }
             }
             _ => {}
         }
     }
-}
 
-fn try_to_extract_into_calc_value(calc_sum: &CalcSum) -> Option<CalcValue> {
-    if calc_sum.expressions.len() == 1 {
-        return match &calc_sum.expressions[0] {
-            CalcProductOrOperator::Product(CalcProduct {
-                expressions: calc_product_expressions,
-                ..
-            }) if calc_product_expressions.len() == 1 => match &calc_product_expressions[0] {
-                CalcValueOrOperator::Value(calc_value) => Some(calc_value.clone()),
-                _ => None,
-            },
-            _ => None,
-        };
+    // If root contains only numeric values and/or Invert nodes containing numeric
+    // values, and multiplying the types of all the children (noting that the
+    // type of an Invert node is the inverse of its child’s type) results in a
+    // type that matches any of the types that a math function can resolve to,
+    // return the result of multiplying all the values of the children
+    // (noting that the value of an Invert node is the reciprocal of its child’s
+    // value), expressed in the result’s canonical unit.
+    nodes = try_to_multiply_all_numeric_and_invert_nodes(&nodes);
+
+    if nodes.len() == 1 {
+        nodes[0].clone()
+    } else {
+        CalcNode::OperatorNode(Box::new(CalcOperatorNode::Product(nodes.clone())))
     }
-
-    None
 }
 
-// We want to track the position of data (dimension, percentage, operator...) in
-// a Vec<CalcProductOrOperator>
-#[derive(Debug, Clone)]
-struct IndexedData<T> {
-    pos: usize,
-    data: T,
-}
+// https://www.w3.org/TR/css-values-4/#calc-simplification - Step 8
+fn simplify_calc_operator_node_sum(nodes: &[CalcNode]) -> CalcNode {
+    let mut nodes = nodes.to_vec();
 
-#[derive(Debug, Clone)]
-struct IndexedOperatorAndOperand<T> {
-    operator: Option<IndexedData<CalcOperator>>,
-    operand: IndexedData<T>,
-}
-
-type SumOperation = fn(v1: f64, v2: f64, ratio: Option<f64>) -> f64;
-
-const SUM_OPERATION_ADD: SumOperation = |v1, v2, ratio| match ratio {
-    None => v1 + v2,
-    Some(r) => v2.mul_add(r, v1),
-};
-const SUM_OPERATION_SUBTRACT: SumOperation = |v1, v2, ratio| match ratio {
-    None => v1 - v2,
-    Some(r) => -(v2.mul_add(r, -v1)),
-};
-
-fn get_precision(n: f64) -> usize {
-    let n_as_str = n.to_string();
-    n_as_str.find('.').map_or(0, |sep| n_as_str.len() - sep)
-}
-
-#[derive(Default)]
-struct CalcSumContext {
-    number: Option<IndexedOperatorAndOperand<Number>>,
-    percentage: Option<IndexedOperatorAndOperand<Percentage>>,
-    absolute_length: Option<IndexedOperatorAndOperand<Length>>,
-    other_lengths: HashMap<JsWord, IndexedOperatorAndOperand<Length>>,
-    angle: Option<IndexedOperatorAndOperand<Angle>>,
-    duration: Option<IndexedOperatorAndOperand<Time>>,
-    frequency: Option<IndexedOperatorAndOperand<Frequency>>,
-    resolution: Option<IndexedOperatorAndOperand<Resolution>>,
-    flex: Option<IndexedOperatorAndOperand<Flex>>,
-    unknown_dimension: HashMap<JsWord, IndexedOperatorAndOperand<UnknownDimension>>,
-    expressions: Vec<CalcProductOrOperator>,
-}
-
-impl CalcSumContext {
-    pub fn fold(&mut self, calc_sum: &mut CalcSum) {
-        self.nested_fold(None, calc_sum);
-        calc_sum.expressions = self.expressions.to_vec();
-        remove_unnecessary_nesting_from_calc_sum(calc_sum);
-    }
-
-    fn nested_fold(&mut self, surrounding_operator: Option<&CalcOperator>, calc_sum: &mut CalcSum) {
-        let mut operator: Option<CalcOperator> =
-            CalcSumContext::merge_operators(surrounding_operator, None);
-
-        let mut expr_it = calc_sum.expressions.iter_mut();
-        while let Some(calc_product_or_operator) = expr_it.next() {
-            match calc_product_or_operator {
-                CalcProductOrOperator::Product(calc_product) => {
-                    fold_calc_product(calc_product);
-                    self.reduce(operator.as_ref(), calc_product);
-                }
-                _ => {
-                    // We should have an operand
-                    return;
-                }
-            };
-
-            if let Some(CalcProductOrOperator::Operator(op)) = expr_it.next() {
-                operator = CalcSumContext::merge_operators(surrounding_operator, Some(op));
+    // For each of root’s children that are Sum nodes, replace them with their
+    // children.
+    let mut idx = 0;
+    while idx < nodes.len() {
+        nodes[idx] = simplify_calc_node(&nodes[idx]);
+        if let Some(children) = get_children_if_node_is_sum_operator(&nodes[idx]) {
+            nodes.remove(idx);
+            let mut i = idx;
+            for nested_node in children {
+                nodes.insert(i, nested_node);
+                i += 1;
             }
+        } else {
+            idx += 1;
         }
     }
 
-    fn merge_operators(
-        surrounding_operator: Option<&CalcOperator>,
-        nested_operator: Option<&CalcOperator>,
-    ) -> Option<CalcOperator> {
-        match nested_operator {
-            None => surrounding_operator.cloned(),
-            Some(no) => match surrounding_operator {
-                None
-                | Some(CalcOperator {
-                    value: CalcOperatorType::Add,
-                    ..
-                }) => Some(no.clone()),
-                Some(CalcOperator {
-                    value: CalcOperatorType::Sub,
-                    ..
-                }) => Some(CalcOperator {
-                    span: no.span,
-                    value: if no.value == CalcOperatorType::Sub {
-                        CalcOperatorType::Add
+    // For each set of root’s children that are numeric values with identical units,
+    // remove those children and replace them with a single numeric value
+    // containing the sum of the removed nodes, and with the same unit. (E.g.
+    // combine numbers, combine percentages, combine px values, etc.)
+    let mut number: Option<usize> = None;
+    let mut percentage: Option<usize> = None;
+    let mut dimensions: AHashMap<JsWord, usize> = AHashMap::default();
+    let mut idx = 0;
+    while idx < nodes.len() {
+        match &nodes[idx] {
+            CalcNode::Number(_) => {
+                if let Some(prev_idx) = number {
+                    if try_to_sum_nodes(&mut nodes, prev_idx, idx) {
+                        nodes.remove(idx);
                     } else {
-                        CalcOperatorType::Sub
-                    },
-                }),
-                _ => unreachable!("Operator value can only be Add or Sub"),
-            },
-        }
-    }
-
-    fn reduce(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct) {
-        if operand.expressions.len() == 1 {
-            match &operand.expressions[0] {
-                CalcValueOrOperator::Value(CalcValue::Number(n)) => {
-                    self.sum_number(operator, operand, n);
+                        idx += 1;
+                    }
+                } else {
+                    number = Some(idx);
+                    idx += 1;
                 }
-                CalcValueOrOperator::Value(CalcValue::Percentage(p)) => {
-                    self.sum_percentage(operator, operand, p);
-                }
-                CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Length(l))) => {
-                    self.sum_length(operator, operand, l);
-                }
-                CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Angle(a))) => {
-                    self.sum_angle(operator, operand, a);
-                }
-                CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Time(d))) => {
-                    self.sum_duration(operator, operand, d);
-                }
-                CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Frequency(f))) => {
-                    self.sum_frequency(operator, operand, f);
-                }
-                CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Resolution(r))) => {
-                    self.sum_resolution(operator, operand, r);
-                }
-                CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Flex(f))) => {
-                    self.sum_flex(operator, operand, f);
-                }
-                CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::UnknownDimension(
-                    u,
-                ))) => {
-                    self.sum_unknown_dimension(operator, operand, u);
-                }
-                CalcValueOrOperator::Value(CalcValue::Sum(s)) => {
-                    let mut sum = s.clone();
-                    self.nested_fold(operator, &mut sum);
-                }
-                CalcValueOrOperator::Value(CalcValue::Function(Function {
-                    name, value, ..
-                })) if is_calc_function_name(name) && value.len() == 1 => {
-                    match &value[0] {
-                        ComponentValue::CalcSum(calc_sum) => {
-                            let mut sum = calc_sum.clone();
-                            self.nested_fold(operator, &mut sum);
-                        }
-                        _ => {
-                            // Other cases (constant, function...), just push the data
-                            self.push(operator, operand);
+            }
+            CalcNode::Dimension(d) => {
+                let unit = get_dimension_unit_lowercase(d);
+                match &dimensions.get(&unit) {
+                    Some(prev_idx) => {
+                        if try_to_sum_nodes(&mut nodes, **prev_idx, idx) {
+                            nodes.remove(idx);
+                        } else {
+                            idx += 1;
                         }
                     }
-                }
-                _ => {
-                    // Other cases (constant, function...), just push the data
-                    self.push(operator, operand);
-                }
-            }
-        } else {
-            // The calc product is not "simple", just push the data
-            self.push(operator, operand);
-        }
-    }
-
-    fn push(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct) {
-        if let Some(op) = operator {
-            self.expressions
-                .push(CalcProductOrOperator::Operator(op.clone()));
-        }
-
-        self.expressions
-            .push(CalcProductOrOperator::Product(operand.clone()));
-    }
-
-    fn sum_number(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct, n: &Number) {
-        match &mut self.number {
-            Some(IndexedOperatorAndOperand {
-                operator: prev_operator,
-                operand: IndexedData { pos, data },
-            }) => {
-                if let Some(result) = CalcSumContext::try_to_sum_values(
-                    prev_operator.as_ref(),
-                    operator,
-                    data.value,
-                    n.value,
-                    None,
-                ) {
-                    data.value = result;
-
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Number(data.clone())),
-                    );
-                } else {
-                    self.push(operator, operand);
+                    None => {
+                        dimensions.insert(unit, idx);
+                        idx += 1;
+                    }
                 }
             }
-            None => self.number = Some(self.new_indexed_data(operator, operand, n.clone())),
-        }
-    }
-
-    fn sum_percentage(
-        &mut self,
-        operator: Option<&CalcOperator>,
-        operand: &CalcProduct,
-        p: &Percentage,
-    ) {
-        match &mut self.percentage {
-            Some(IndexedOperatorAndOperand {
-                operator: prev_operator,
-                operand: IndexedData { pos, data },
-            }) => {
-                if let Some(result) = CalcSumContext::try_to_sum_values(
-                    prev_operator.as_ref(),
-                    operator,
-                    data.value.value,
-                    p.value.value,
-                    None,
-                ) {
-                    data.value.value = result;
-
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Percentage(data.clone())),
-                    );
+            CalcNode::Percentage(_) => {
+                if let Some(prev_idx) = percentage {
+                    if try_to_sum_nodes(&mut nodes, prev_idx, idx) {
+                        nodes.remove(idx);
+                    } else {
+                        idx += 1;
+                    }
                 } else {
-                    self.push(operator, operand);
-                }
-            }
-            None => self.percentage = Some(self.new_indexed_data(operator, operand, p.clone())),
-        }
-    }
-
-    fn sum_length(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct, l: &Length) {
-        if is_absolute_length(&l.unit.value) {
-            self.sum_absolute_length(operator, operand, l)
-        } else {
-            self.sum_other_length(operator, operand, l)
-        }
-    }
-
-    fn sum_absolute_length(
-        &mut self,
-        operator: Option<&CalcOperator>,
-        operand: &CalcProduct,
-        l: &Length,
-    ) {
-        match &mut self.absolute_length {
-            Some(IndexedOperatorAndOperand {
-                operator: prev_operator,
-                operand: IndexedData { pos, data },
-            }) => {
-                if let Some(result) = get_absolute_length_ratio(&data.unit.value, &l.unit.value)
-                    .and_then(|ratio| {
-                        CalcSumContext::try_to_sum_values(
-                            prev_operator.as_ref(),
-                            operator,
-                            data.value.value,
-                            l.value.value,
-                            Some(ratio),
-                        )
-                    })
-                {
-                    data.value.value = result;
-
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Length(
-                            data.clone(),
-                        ))),
-                    );
-                } else {
-                    self.push(operator, operand);
-                }
-            }
-            None => {
-                self.absolute_length = Some(self.new_indexed_data(operator, operand, l.clone()))
-            }
-        }
-    }
-
-    fn sum_other_length(
-        &mut self,
-        operator: Option<&CalcOperator>,
-        operand: &CalcProduct,
-        l: &Length,
-    ) {
-        match &mut self.other_lengths.get_mut(&l.unit.value) {
-            Some(IndexedOperatorAndOperand {
-                operator: prev_operator,
-                operand: IndexedData { pos, data },
-            }) => {
-                if let Some(result) = CalcSumContext::try_to_sum_values(
-                    prev_operator.as_ref(),
-                    operator,
-                    data.value.value,
-                    l.value.value,
-                    None,
-                ) {
-                    data.value.value = result;
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Length(
-                            data.clone(),
-                        ))),
-                    );
-                } else {
-                    self.push(operator, operand);
-                }
-            }
-            None => {
-                let indexed_data: IndexedOperatorAndOperand<Length> =
-                    self.new_indexed_data(operator, operand, l.clone());
-                self.other_lengths
-                    .insert(l.unit.value.clone(), indexed_data);
-            }
-        }
-    }
-
-    fn sum_angle(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct, a: &Angle) {
-        match &mut self.angle {
-            Some(IndexedOperatorAndOperand {
-                operator: prev_operator,
-                operand: IndexedData { pos, data },
-            }) => {
-                if let Some(result) = CalcSumContext::try_to_sum_values(
-                    prev_operator.as_ref(),
-                    operator,
-                    data.value.value,
-                    a.value.value,
-                    None,
-                ) {
-                    data.value.value = result;
-
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Angle(
-                            data.clone(),
-                        ))),
-                    );
-                } else {
-                    self.push(operator, operand);
-                }
-            }
-            None => self.angle = Some(self.new_indexed_data(operator, operand, a.clone())),
-        }
-    }
-
-    fn sum_duration(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct, d: &Time) {
-        match &mut self.duration {
-            Some(IndexedOperatorAndOperand {
-                operator: prev_operator,
-                operand: IndexedData { pos, data },
-            }) => {
-                if let Some(result) =
-                    get_duration_ratio(&data.unit.value, &d.unit.value).and_then(|ratio| {
-                        CalcSumContext::try_to_sum_values(
-                            prev_operator.as_ref(),
-                            operator,
-                            data.value.value,
-                            d.value.value,
-                            Some(ratio),
-                        )
-                    })
-                {
-                    data.value.value = result;
-
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Time(
-                            data.clone(),
-                        ))),
-                    );
-                } else {
-                    self.push(operator, operand);
-                }
-            }
-            None => self.duration = Some(self.new_indexed_data(operator, operand, d.clone())),
-        }
-    }
-
-    fn sum_frequency(
-        &mut self,
-        operator: Option<&CalcOperator>,
-        operand: &CalcProduct,
-        f: &Frequency,
-    ) {
-        match &mut self.frequency {
-            Some(IndexedOperatorAndOperand {
-                operator: prev_operator,
-                operand: IndexedData { pos, data },
-            }) => {
-                if let Some(result) =
-                    get_frequency_ratio(&data.unit.value, &f.unit.value).and_then(|ratio| {
-                        CalcSumContext::try_to_sum_values(
-                            prev_operator.as_ref(),
-                            operator,
-                            data.value.value,
-                            f.value.value,
-                            Some(ratio),
-                        )
-                    })
-                {
-                    data.value.value = result;
-
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Frequency(
-                            data.clone(),
-                        ))),
-                    );
-                } else {
-                    self.push(operator, operand);
-                }
-            }
-            None => self.frequency = Some(self.new_indexed_data(operator, operand, f.clone())),
-        }
-    }
-
-    fn sum_resolution(
-        &mut self,
-        operator: Option<&CalcOperator>,
-        operand: &CalcProduct,
-        r: &Resolution,
-    ) {
-        match &mut self.resolution {
-            Some(IndexedOperatorAndOperand {
-                operator: prev_operator,
-                operand: IndexedData { pos, data },
-            }) => {
-                if let Some(result) = get_resolution_ratio(&data.unit.value, &r.unit.value)
-                    .and_then(|ratio| {
-                        CalcSumContext::try_to_sum_values(
-                            prev_operator.as_ref(),
-                            operator,
-                            data.value.value,
-                            r.value.value,
-                            Some(ratio),
-                        )
-                    })
-                {
-                    data.value.value = result;
-
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Resolution(
-                            data.clone(),
-                        ))),
-                    );
-                } else {
-                    self.push(operator, operand);
-                }
-            }
-            None => self.resolution = Some(self.new_indexed_data(operator, operand, r.clone())),
-        }
-    }
-
-    fn sum_flex(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct, f: &Flex) {
-        match &mut self.flex {
-            Some(IndexedOperatorAndOperand {
-                operator: prev_operator,
-                operand: IndexedData { pos, data },
-            }) => {
-                if let Some(result) = CalcSumContext::try_to_sum_values(
-                    prev_operator.as_ref(),
-                    operator,
-                    data.value.value,
-                    f.value.value,
-                    None,
-                ) {
-                    data.value.value = result;
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Flex(
-                            data.clone(),
-                        ))),
-                    );
-                } else {
-                    self.push(operator, operand);
-                }
-            }
-            None => self.flex = Some(self.new_indexed_data(operator, operand, f.clone())),
-        }
-    }
-
-    fn sum_unknown_dimension(
-        &mut self,
-        operator: Option<&CalcOperator>,
-        operand: &CalcProduct,
-        u: &UnknownDimension,
-    ) {
-        match &mut self.unknown_dimension.get_mut(&u.unit.value) {
-            Some(IndexedOperatorAndOperand {
-                operator: prev_operator,
-                operand: IndexedData { pos, data },
-            }) => {
-                if let Some(result) = CalcSumContext::try_to_sum_values(
-                    prev_operator.as_ref(),
-                    operator,
-                    data.value.value,
-                    u.value.value,
-                    None,
-                ) {
-                    data.value.value = result;
-
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Dimension(
-                            Dimension::UnknownDimension(data.clone()),
-                        )),
-                    );
-                } else {
-                    self.push(operator, operand);
-                }
-            }
-            None => {
-                let indexed_data: IndexedOperatorAndOperand<UnknownDimension> =
-                    self.new_indexed_data(operator, operand, u.clone());
-                self.unknown_dimension
-                    .insert(u.unit.value.clone(), indexed_data);
-            }
-        }
-    }
-
-    fn new_indexed_data<T>(
-        &mut self,
-        operator: Option<&CalcOperator>,
-        operand: &CalcProduct,
-        data: T,
-    ) -> IndexedOperatorAndOperand<T> {
-        let mut indexed_operator = None;
-        let mut pos = self.expressions.len();
-
-        self.push(operator, operand);
-
-        if let Some(op) = operator {
-            indexed_operator = Some(IndexedData {
-                pos,
-                data: op.clone(),
-            });
-            pos += 1;
-        }
-
-        IndexedOperatorAndOperand {
-            operator: indexed_operator,
-            operand: IndexedData { pos, data },
-        }
-    }
-
-    fn update_calc_value(
-        expressions: &mut [CalcProductOrOperator],
-        index: usize,
-        calc_value: CalcValueOrOperator,
-    ) {
-        if let Some(elem) = expressions.get_mut(index) {
-            if let CalcProductOrOperator::Product(CalcProduct { span, .. }) = elem {
-                *elem = CalcProductOrOperator::Product(CalcProduct {
-                    span: *span,
-                    expressions: vec![calc_value],
-                })
-            }
-        }
-    }
-
-    fn switch_sign_if_needed(
-        expressions: &mut [CalcProductOrOperator],
-        value: &mut f64,
-        operator: &mut Option<IndexedData<CalcOperator>>,
-    ) {
-        if value.is_sign_negative() {
-            if let Some(IndexedData { data, pos }) = operator {
-                *value = value.copysign(1.0);
-                data.value = if data.value == CalcOperatorType::Add {
-                    CalcOperatorType::Sub
-                } else {
-                    CalcOperatorType::Add
-                };
-
-                CalcSumContext::update_operator(expressions, *pos, data.clone());
-            }
-        }
-    }
-
-    fn update_operator(
-        expressions: &mut [CalcProductOrOperator],
-        index: usize,
-        operator: CalcOperator,
-    ) {
-        if let Some(elem) = expressions.get_mut(index) {
-            *elem = CalcProductOrOperator::Operator(operator);
-        }
-    }
-
-    fn try_to_sum_values(
-        operator1: Option<&IndexedData<CalcOperator>>,
-        operator2: Option<&CalcOperator>,
-        n1: f64,
-        n2: f64,
-        ratio: Option<f64>,
-    ) -> Option<f64> {
-        let result = match (operator1, operator2) {
-            (
-                None,
-                Some(CalcOperator {
-                    value: op_value, ..
-                }),
-            ) => {
-                let sum = if *op_value == CalcOperatorType::Add {
-                    SUM_OPERATION_ADD
-                } else {
-                    SUM_OPERATION_SUBTRACT
-                };
-
-                sum(n1, n2, ratio)
-            }
-            (
-                Some(op1),
-                Some(CalcOperator {
-                    value: op2_value, ..
-                }),
-            ) => {
-                let sum = if op1.data.value == *op2_value {
-                    SUM_OPERATION_ADD
-                } else {
-                    SUM_OPERATION_SUBTRACT
-                };
-
-                sum(n1, n2, ratio)
-            }
-            _ => unreachable!("The second operator is never None"),
-        };
-
-        let precision1 = get_precision(n1);
-        let precision2 = get_precision(n2) + ratio.map_or(0, get_precision);
-        let result_precision = get_precision(result);
-
-        if result_precision <= precision1.max(precision2) {
-            Some(result)
-        } else {
-            None
-        }
-    }
-}
-
-fn fold_calc_product(calc_product: &mut CalcProduct) {
-    let mut folded_expressions: Vec<CalcValueOrOperator> = vec![];
-
-    let mut prev_operand: Option<CalcValue> = None;
-    let mut operator: Option<CalcOperator> = None;
-    let mut expr_it = calc_product.expressions.iter_mut();
-    while let Some(calc_value) = expr_it.next() {
-        let cur_operand: Option<CalcValue> = match calc_value {
-            CalcValueOrOperator::Value(CalcValue::Sum(calc_sum)) => {
-                CalcSumContext::default().fold(calc_sum);
-                let single_value = try_to_extract_into_calc_value(calc_sum);
-                if single_value.is_some() {
-                    single_value
-                } else {
-                    Some(CalcValue::Sum(CalcSum {
-                        span: calc_sum.span,
-                        expressions: calc_sum.expressions.to_vec(),
-                    }))
-                }
-            }
-            CalcValueOrOperator::Value(calc_value) => Some(calc_value.clone()),
-            _ => None,
-        };
-
-        match (&prev_operand, &operator, &cur_operand) {
-            (None, None, _) => {
-                // First operand
-                prev_operand = cur_operand
-            }
-            (
-                Some(operand1),
-                Some(CalcOperator {
-                    value: CalcOperatorType::Mul,
-                    span: op_span,
-                }),
-                Some(operand2),
-            ) => {
-                let result = try_to_multiply_calc_values(operand1, operand2);
-                if result.is_some() {
-                    prev_operand = result;
-                } else {
-                    folded_expressions.push(CalcValueOrOperator::Value(operand1.clone()));
-                    folded_expressions.push(CalcValueOrOperator::Operator(CalcOperator {
-                        span: *op_span,
-                        value: CalcOperatorType::Mul,
-                    }));
-                    prev_operand = cur_operand
+                    percentage = Some(idx);
+                    idx += 1;
                 }
             }
             _ => {
-                // Something is wrong: we should iterate over some (operand, operator, operand)
-                // tuples
-                return;
+                idx += 1;
             }
         }
-
-        if let Some(CalcValueOrOperator::Operator(op)) = expr_it.next() {
-            operator = Some(CalcOperator {
-                span: op.span,
-                value: op.value,
-            });
-        } else {
-            operator = None;
-        }
     }
 
-    if let Some(operand) = prev_operand {
-        folded_expressions.push(CalcValueOrOperator::Value(operand));
-    }
+    // Impl. node: try to convert some units
+    try_to_reduce_node_with_dimensions(&mut dimensions, &mut nodes);
 
-    calc_product.expressions = folded_expressions;
+    // If root has only a single child at this point, return the child. Otherwise,
+    // return root.
+    if nodes.len() == 1 {
+        nodes[0].clone()
+    } else {
+        CalcNode::OperatorNode(Box::new(CalcOperatorNode::Sum(nodes.clone())))
+    }
 }
 
-fn try_to_multiply_calc_values(value1: &CalcValue, value2: &CalcValue) -> Option<CalcValue> {
-    match (value1, value2) {
-        (CalcValue::Number(n), value) | (value, CalcValue::Number(n)) => {
-            multiply_number_by_calc_value(n, value)
-        }
+fn get_children_if_node_is_sum_operator(calc_node: &CalcNode) -> Option<Vec<CalcNode>> {
+    match calc_node {
+        CalcNode::OperatorNode(op) => match &**op {
+            CalcOperatorNode::Sum(children) => Some(children.clone()),
+            _ => None,
+        },
         _ => None,
     }
+}
+
+fn get_children_if_node_is_product_operator(calc_node: &CalcNode) -> Option<Vec<CalcNode>> {
+    match calc_node {
+        CalcNode::OperatorNode(op) => match &**op {
+            CalcOperatorNode::Product(children) => Some(children.clone()),
+            _ => None,
+        },
+        _ => None,
+    }
+}
+
+// Recursive impl. of https://www.w3.org/TR/css-values-4/#calc-simplification - Step 6
+fn try_to_switch_sign_of_nodes(nodes: &[CalcNode]) -> Option<CalcNode> {
+    let mut nodes = nodes.to_vec();
+    let mut idx = 0;
+    while idx < nodes.len() {
+        let calc_node = &nodes[idx];
+        nodes[idx] = match calc_node {
+            // If root’s child is a numeric value, return an equivalent numeric value, but with the
+            // value negated (0 - value).
+            CalcNode::Number(_) | CalcNode::Dimension(_) | CalcNode::Percentage(_) => {
+                let mut negated_node = calc_node.clone();
+                set_value(&mut negated_node, -get_value(calc_node));
+                negated_node
+            }
+            CalcNode::OperatorNode(op) => {
+                match &**op {
+                    // If root’s child is a Negate node, return the child’s child.
+                    CalcOperatorNode::Negate(node) => node.clone(),
+                    CalcOperatorNode::Sum(nodes) => {
+                        // Impl. note: not in the spec, but we try to propagate the sign before
+                        // continuing the simplification process
+                        try_to_switch_sign_of_nodes(nodes)?
+                    }
+                    _ => return None,
+                }
+            }
+            _ => {
+                // Just wrap the constant (or function)
+                CalcNode::OperatorNode(Box::new(CalcOperatorNode::Negate(calc_node.clone())))
+            }
+        };
+        idx += 1;
+    }
+
+    if nodes.len() == 1 {
+        Some(nodes[0].clone())
+    } else {
+        Some(CalcNode::OperatorNode(Box::new(CalcOperatorNode::Sum(
+            nodes.to_vec(),
+        ))))
+    }
+}
+
+fn try_to_reduce_node_with_dimensions(
+    dimensions: &mut AHashMap<JsWord, usize>,
+    nodes: &mut Vec<CalcNode>,
+) {
+    try_to_reduce_node_with_absolute_lengths(dimensions, nodes);
+    try_to_reduce_node_with_durations(dimensions, nodes);
+    try_to_reduce_node_with_frequencies(dimensions, nodes);
+    try_to_reduce_node_with_resolutions(dimensions, nodes);
+}
+
+// https://www.w3.org/TR/css-values-4/#absolute-lengths
+fn try_to_reduce_node_with_absolute_lengths(
+    dimensions: &mut AHashMap<JsWord, usize>,
+    nodes: &mut Vec<CalcNode>,
+) {
+    if let (Some(idx_cm), Some(idx_mm)) = (
+        dimensions.get(&js_word!("cm")),
+        dimensions.get(&js_word!("mm")),
+    ) {
+        let value_cm = get_value(&nodes[*idx_cm]);
+        let value_mm = get_value(&nodes[*idx_mm]);
+        if let Some(result) = try_to_sum_values(value_cm, value_mm, Some(10.0)) {
+            set_value(&mut nodes[*idx_mm], result);
+            nodes.remove(*idx_cm);
+        }
+    }
+
+    if let (Some(idx_mm), Some(idx_q)) = (
+        dimensions.get(&js_word!("mm")),
+        dimensions.get(&js_word!("q")),
+    ) {
+        let value_mm = get_value(&nodes[*idx_mm]);
+        let value_q = get_value(&nodes[*idx_q]);
+        if let Some(result) = try_to_sum_values(value_mm, value_q, Some(4.0)) {
+            set_value(&mut nodes[*idx_q], result);
+            nodes.remove(*idx_mm);
+        }
+    }
+
+    if let (Some(idx_cm), Some(idx_q)) = (
+        dimensions.get(&js_word!("cm")),
+        dimensions.get(&js_word!("q")),
+    ) {
+        let value_cm = get_value(&nodes[*idx_cm]);
+        let value_q = get_value(&nodes[*idx_q]);
+        if let Some(result) = try_to_sum_values(value_cm, value_q, Some(40.0)) {
+            set_value(&mut nodes[*idx_q], result);
+            nodes.remove(*idx_cm);
+        }
+    }
+
+    if let (Some(idx_in), Some(idx_px)) = (
+        dimensions.get(&js_word!("in")),
+        dimensions.get(&js_word!("px")),
+    ) {
+        let value_in = get_value(&nodes[*idx_in]);
+        let value_px = get_value(&nodes[*idx_px]);
+        if let Some(result) = try_to_sum_values(value_in, value_px, Some(96.0)) {
+            set_value(&mut nodes[*idx_px], result);
+            nodes.remove(*idx_in);
+        }
+    }
+
+    if let (Some(idx_in), Some(idx_pc)) = (
+        dimensions.get(&js_word!("in")),
+        dimensions.get(&js_word!("pc")),
+    ) {
+        let value_in = get_value(&nodes[*idx_in]);
+        let value_pc = get_value(&nodes[*idx_pc]);
+        if let Some(result) = try_to_sum_values(value_in, value_pc, Some(6.0)) {
+            set_value(&mut nodes[*idx_pc], result);
+            nodes.remove(*idx_in);
+        }
+    }
+
+    if let (Some(idx_pc), Some(idx_pt)) = (
+        dimensions.get(&js_word!("pc")),
+        dimensions.get(&js_word!("pt")),
+    ) {
+        let value_pc = get_value(&nodes[*idx_pc]);
+        let value_pt = get_value(&nodes[*idx_pt]);
+        if let Some(result) = try_to_sum_values(value_pc, value_pt, Some(12.0)) {
+            set_value(&mut nodes[*idx_pt], result);
+            nodes.remove(*idx_pc);
+        }
+    }
+
+    if let (Some(idx_pc), Some(idx_px)) = (
+        dimensions.get(&js_word!("pc")),
+        dimensions.get(&js_word!("px")),
+    ) {
+        let value_pc = get_value(&nodes[*idx_pc]);
+        let value_px = get_value(&nodes[*idx_px]);
+        if let Some(result) = try_to_sum_values(value_pc, value_px, Some(16.0)) {
+            set_value(&mut nodes[*idx_px], result);
+            nodes.remove(*idx_pc);
+        }
+    }
+}
+
+// https://www.w3.org/TR/css-values-4/#time
+fn try_to_reduce_node_with_durations(
+    dimensions: &mut AHashMap<JsWord, usize>,
+    nodes: &mut Vec<CalcNode>,
+) {
+    if let (Some(idx_ms), Some(idx_s)) = (
+        dimensions.get(&js_word!("ms")),
+        dimensions.get(&js_word!("s")),
+    ) {
+        let value_ms = get_value(&nodes[*idx_ms]);
+        let value_s = get_value(&nodes[*idx_s]);
+        if let Some(result) = try_to_sum_values(value_s, value_ms, Some(1000.0)) {
+            set_value(&mut nodes[*idx_ms], result);
+            nodes.remove(*idx_s);
+            dimensions.remove(&js_word!("s"));
+        }
+    }
+}
+
+// https://www.w3.org/TR/css-values-4/#frequency
+fn try_to_reduce_node_with_frequencies(
+    dimensions: &mut AHashMap<JsWord, usize>,
+    nodes: &mut Vec<CalcNode>,
+) {
+    if let (Some(idx_hz), Some(idx_khz)) = (
+        dimensions.get(&js_word!("hz")),
+        dimensions.get(&js_word!("khz")),
+    ) {
+        let value_hz = get_value(&nodes[*idx_hz]);
+        let value_khz = get_value(&nodes[*idx_khz]);
+        if let Some(result) = try_to_sum_values(value_khz, value_hz, Some(1000.0)) {
+            set_value(&mut nodes[*idx_hz], result);
+            nodes.remove(*idx_khz);
+            dimensions.remove(&js_word!("khz"));
+        }
+    }
+}
+
+// https://www.w3.org/TR/css-values-4/#resolution
+fn try_to_reduce_node_with_resolutions(
+    dimensions: &mut AHashMap<JsWord, usize>,
+    nodes: &mut Vec<CalcNode>,
+) {
+    match (
+        dimensions.get(&js_word!("dppx")),
+        dimensions.get(&js_word!("x")),
+    ) {
+        // "x" is an alias for "dppx"
+        (Some(idx_dppx), Some(idx_x)) => {
+            let value_dppx = get_value(&nodes[*idx_dppx]);
+            let value_x = get_value(&nodes[*idx_x]);
+            if let Some(result) = try_to_sum_values(value_x, value_dppx, None) {
+                set_value(&mut nodes[*idx_x], result);
+                nodes.remove(*idx_dppx);
+                dimensions.remove(&js_word!("dppx"));
+            }
+        }
+        (Some(idx_dppx), None) => {
+            // rename "dppx" into "x"
+            if let CalcNode::Dimension(Dimension::Resolution(r)) = &mut nodes[*idx_dppx] {
+                r.unit.value = js_word!("x");
+                dimensions.insert(js_word!("x"), *idx_dppx);
+                dimensions.remove(&js_word!("dppx"));
+            }
+        }
+        _ => {}
+    }
+
+    if let (Some(idx_x), Some(idx_dpi)) = (
+        dimensions.get(&js_word!("x")),
+        dimensions.get(&js_word!("dpi")),
+    ) {
+        let value_x = get_value(&nodes[*idx_x]);
+        let value_dpi = get_value(&nodes[*idx_dpi]);
+        if let Some(result) = try_to_sum_values(value_x, value_dpi, Some(96.0)) {
+            set_value(&mut nodes[*idx_dpi], result);
+            nodes.remove(*idx_x);
+            dimensions.remove(&js_word!("x"));
+        }
+    }
+
+    if let (Some(idx_dpcm), Some(idx_dpi)) = (
+        dimensions.get(&js_word!("dpcm")),
+        dimensions.get(&js_word!("dpi")),
+    ) {
+        let value_dpcm = get_value(&nodes[*idx_dpcm]);
+        let value_dpi = get_value(&nodes[*idx_dpi]);
+        if let Some(result) = try_to_sum_values(value_dpcm, value_dpi, Some(2.54)) {
+            set_value(&mut nodes[*idx_dpi], result);
+            nodes.remove(*idx_dpcm);
+            dimensions.remove(&js_word!("dpcm"));
+        }
+    }
+}
+
+fn try_to_multiply_all_numeric_sum_children_by_value(
+    nodes: &[CalcNode],
+    value: f64,
+) -> Option<CalcNode> {
+    let mut operands = vec![];
+
+    for calc_node in nodes {
+        match calc_node {
+            CalcNode::Number(_) | CalcNode::Dimension(_) | CalcNode::Percentage(_) => {
+                let node_value = get_value(calc_node);
+                if let Some(result) = try_to_multiply_values(node_value, value) {
+                    let mut node = calc_node.clone();
+                    set_value(&mut node, result);
+                    operands.push(node);
+                } else {
+                    return None;
+                }
+            }
+            _ => return None,
+        }
+    }
+
+    Some(CalcNode::OperatorNode(Box::new(CalcOperatorNode::Sum(
+        operands,
+    ))))
+}
+
+fn try_to_invert_if_children_are_fraction(children: &[CalcNode]) -> Option<CalcNode> {
+    if children.len() == 2 {
+        match (&children[0], &children[1]) {
+            (CalcNode::OperatorNode(_), _) => None,
+            (numerator, CalcNode::OperatorNode(op)) => {
+                if let CalcOperatorNode::Invert(denominator) = &**op {
+                    Some(CalcNode::OperatorNode(Box::new(CalcOperatorNode::Product(
+                        vec![
+                            denominator.clone(),
+                            CalcNode::OperatorNode(Box::new(CalcOperatorNode::Invert(
+                                numerator.clone(),
+                            ))),
+                        ],
+                    ))))
+                } else {
+                    None
+                }
+            }
+            (_, _) => None,
+        }
+    } else {
+        None
+    }
+}
+
+// https://drafts.css-houdini.org/css-typed-om-1/#cssnumericvalue-multiply-two-types
+// This implementation does not handle "multiplying the types of all the
+// children". This function only handles numeric values and invert of numeric
+// values
+fn try_to_multiply_all_numeric_and_invert_nodes(children: &[CalcNode]) -> Vec<CalcNode> {
+    let mut nodes = children.to_vec();
+
+    let mut numeric: Option<usize> = None;
+    let mut idx = 0;
+    while idx < nodes.len() {
+        match numeric {
+            None => {
+                match &nodes[idx] {
+                    CalcNode::Number(_) | CalcNode::Dimension(_) | CalcNode::Percentage(_) => {
+                        numeric = Some(idx);
+                    }
+                    CalcNode::OperatorNode(op) => {
+                        if let CalcOperatorNode::Invert(CalcNode::Number(_)) = &**op {
+                            numeric = Some(idx);
+                        }
+                    }
+                    _ => {}
+                };
+                idx += 1;
+            }
+            Some(prev_idx) => {
+                let prev_numeric_node = &nodes[prev_idx];
+                let cur_numeric_node = &nodes[idx];
+                match (prev_numeric_node, cur_numeric_node) {
+                    // x * y => z
+                    // x * y% => z%
+                    // x * yPX => zPX
+                    (CalcNode::Number(_), other_node @ CalcNode::Number(_))
+                    | (CalcNode::Number(_), other_node @ CalcNode::Percentage(_))
+                    | (other_node @ CalcNode::Percentage(_), CalcNode::Number(_))
+                    | (CalcNode::Number(_), other_node @ CalcNode::Dimension(_))
+                    | (other_node @ CalcNode::Dimension(_), CalcNode::Number(_)) => {
+                        let prev_value = get_value(prev_numeric_node);
+                        let value = get_value(cur_numeric_node);
+                        if let Some(result) = try_to_multiply_values(prev_value, value) {
+                            nodes[prev_idx] = other_node.clone();
+                            set_value(&mut nodes[prev_idx], result);
+                            nodes.remove(idx);
+                        } else {
+                            idx += 1;
+                        }
+                    }
+                    // 1/x * 1/y => 1/z
+                    (CalcNode::OperatorNode(prev_op), CalcNode::OperatorNode(op)) => {
+                        if let CalcOperatorNode::Invert(prev_numeric_node @ CalcNode::Number(_)) =
+                            &**prev_op
+                        {
+                            if let CalcOperatorNode::Invert(
+                                cur_numeric_node @ CalcNode::Number(_),
+                            ) = &**op
+                            {
+                                let prev_value = get_value(prev_numeric_node);
+                                let value = get_value(cur_numeric_node);
+                                if let Some(result) = try_to_multiply_values(prev_value, value) {
+                                    let mut result_node = prev_numeric_node.clone();
+                                    set_value(&mut result_node, result);
+                                    nodes[prev_idx] = CalcNode::OperatorNode(Box::new(
+                                        CalcOperatorNode::Invert(result_node),
+                                    ));
+                                    nodes.remove(idx);
+                                } else {
+                                    idx += 1;
+                                }
+                            } else {
+                                idx += 1;
+                            }
+                        } else {
+                            idx += 1;
+                        }
+                    }
+                    // 1/x * y => z
+                    // 1/x * y% => z%
+                    // 1/x * yPX => zPX
+                    (numeric_node @ CalcNode::Number(_), CalcNode::OperatorNode(op))
+                    | (CalcNode::OperatorNode(op), numeric_node @ CalcNode::Number(_))
+                    | (numeric_node @ CalcNode::Dimension(_), CalcNode::OperatorNode(op))
+                    | (CalcNode::OperatorNode(op), numeric_node @ CalcNode::Dimension(_))
+                    | (numeric_node @ CalcNode::Percentage(_), CalcNode::OperatorNode(op))
+                    | (CalcNode::OperatorNode(op), numeric_node @ CalcNode::Percentage(_)) => {
+                        if let CalcOperatorNode::Invert(inverted_node @ CalcNode::Number(_)) = &**op
+                        {
+                            let numerator = get_value(numeric_node);
+                            let denominator = get_value(inverted_node);
+                            if let Some(result) = try_to_divide_values(numerator, denominator) {
+                                nodes[prev_idx] = numeric_node.clone();
+                                set_value(&mut nodes[prev_idx], result);
+                                nodes.remove(idx);
+                            } else {
+                                idx += 1;
+                            }
+                        } else {
+                            idx += 1;
+                        }
+                    }
+                    (CalcNode::Percentage(_), CalcNode::Percentage(_))
+                    | (CalcNode::Percentage(_), CalcNode::Dimension(_))
+                    | (CalcNode::Dimension(_), CalcNode::Percentage(_))
+                    | (CalcNode::Dimension(_), CalcNode::Dimension(_)) => {
+                        // Not handled by this impl, just skip it
+                        idx += 1;
+                    }
+                    // Not a (inverted) numeric value
+                    _ => idx += 1,
+                }
+            }
+        }
+    }
+
+    nodes
 }
 
 fn try_to_multiply_values(v1: f64, v2: f64) -> Option<f64> {
@@ -845,128 +817,393 @@ fn try_to_multiply_values(v1: f64, v2: f64) -> Option<f64> {
     }
 }
 
-fn multiply_number_by_calc_value(n: &Number, value: &CalcValue) -> Option<CalcValue> {
-    match value {
-        CalcValue::Number(n2) => try_to_multiply_values(n.value, n2.value).map(|result| {
-            CalcValue::Number(Number {
-                value: result,
-                span: n2.span,
-                raw: None,
-            })
+fn try_to_sum_nodes(nodes: &mut [CalcNode], prev_idx: usize, idx: usize) -> bool {
+    let previous_value = get_value(&nodes[prev_idx]);
+    let value = get_value(&nodes[idx]);
+    if let Some(result) = try_to_sum_values(previous_value, value, None) {
+        set_value(&mut nodes[prev_idx], result);
+        true
+    } else {
+        false
+    }
+}
+
+/// ratio is applied to n1
+fn try_to_sum_values(n1: f64, n2: f64, ratio: Option<f64>) -> Option<f64> {
+    let result = match ratio {
+        None => n1 + n2,
+        Some(r) => n1.mul_add(r, n2),
+    };
+
+    let precision1 = get_precision(n1);
+    let precision2 = get_precision(n2) + ratio.map_or(0, get_precision);
+    let result_precision = get_precision(result);
+
+    if result_precision <= precision1.max(precision2) {
+        Some(result)
+    } else {
+        None
+    }
+}
+
+fn try_to_divide_values(numerator: f64, denominator: f64) -> Option<f64> {
+    let result = numerator / denominator;
+    let result_precision = get_precision(result);
+
+    if result_precision <= f64::DIGITS {
+        Some(result)
+    } else {
+        None
+    }
+}
+
+// Serialize our calculation tree into a "calc" AST
+// https://www.w3.org/TR/css-values-4/#serialize-a-calculation-tree
+// Impl. note: we cannot strictly follow the spec, we need to adapt it to our
+// typed AST
+fn serialize_calculation_node_into_calc_sum(calc_node: &CalcNode) -> CalcSum {
+    match calc_node {
+        CalcNode::Number(_)
+        | CalcNode::Dimension(_)
+        | CalcNode::Percentage(_)
+        | CalcNode::Constant(_)
+        | CalcNode::Function(_) => CalcSum {
+            expressions: vec![serialize_calc_node_into_calc_product(calc_node)],
+            span: Span::dummy_with_cmt(),
+        },
+        CalcNode::OperatorNode(op) => match &**op {
+            CalcOperatorNode::Sum(nodes) => {
+                let mut expr: Vec<CalcProductOrOperator> = vec![];
+
+                let nodes = sort_calculations_children(nodes);
+
+                let mut nodes_iter = nodes.iter();
+
+                if let Some(calc_node) = nodes_iter.next() {
+                    expr.push(serialize_calc_node_into_calc_product(calc_node));
+                }
+
+                for calc_node in nodes_iter {
+                    match calc_node {
+                        CalcNode::Number(_) | CalcNode::Dimension(_) | CalcNode::Percentage(_) => {
+                            let value = get_value(calc_node);
+                            if value.is_sign_negative() {
+                                // Instead of serializing "x + -10", we want to have "x - 10"
+                                let mut node = calc_node.clone();
+                                set_value(&mut node, -value);
+                                expr.push(CalcProductOrOperator::Operator(CalcOperator {
+                                    value: CalcOperatorType::Sub,
+                                    span: Span::dummy_with_cmt(),
+                                }));
+                                expr.push(serialize_calc_node_into_calc_product(&node));
+                            } else {
+                                expr.push(CalcProductOrOperator::Operator(CalcOperator {
+                                    value: CalcOperatorType::Add,
+                                    span: Span::dummy_with_cmt(),
+                                }));
+                                expr.push(serialize_calc_node_into_calc_product(calc_node));
+                            }
+                        }
+                        CalcNode::Constant(_) | CalcNode::Function(_) => {
+                            expr.push(CalcProductOrOperator::Operator(CalcOperator {
+                                value: CalcOperatorType::Add,
+                                span: Span::dummy_with_cmt(),
+                            }));
+                            expr.push(serialize_calc_node_into_calc_product(calc_node));
+                        }
+                        CalcNode::OperatorNode(op) => match &**op {
+                            CalcOperatorNode::Product(_) => {
+                                expr.push(CalcProductOrOperator::Operator(CalcOperator {
+                                    value: CalcOperatorType::Add,
+                                    span: Span::dummy_with_cmt(),
+                                }));
+                                expr.push(serialize_calc_node_into_calc_product(calc_node));
+                            }
+                            CalcOperatorNode::Negate(calc_node) => {
+                                expr.push(CalcProductOrOperator::Operator(CalcOperator {
+                                    value: CalcOperatorType::Sub,
+                                    span: Span::dummy_with_cmt(),
+                                }));
+                                expr.push(serialize_calc_node_into_calc_product(calc_node));
+                            }
+                            _ => unreachable!("Cannot transform sum children into CalcProduct"),
+                        },
+                    }
+                }
+                CalcSum {
+                    expressions: expr,
+                    span: Span::dummy_with_cmt(),
+                }
+            }
+            _ => CalcSum {
+                expressions: vec![serialize_calc_node_into_calc_product(calc_node)],
+                span: Span::dummy_with_cmt(),
+            },
+        },
+    }
+}
+
+fn serialize_calc_node_into_calc_product(calc_node: &CalcNode) -> CalcProductOrOperator {
+    match calc_node {
+        CalcNode::Number(_)
+        | CalcNode::Dimension(_)
+        | CalcNode::Percentage(_)
+        | CalcNode::Constant(_)
+        | CalcNode::Function(_) => CalcProductOrOperator::Product(CalcProduct {
+            expressions: vec![CalcValueOrOperator::Value(
+                serialize_calc_node_into_calc_value(calc_node),
+            )],
+            span: Span::dummy_with_cmt(),
         }),
-        CalcValue::Dimension(Dimension::Length(l)) => {
-            try_to_multiply_values(n.value, l.value.value).map(|result| {
-                CalcValue::Dimension(Dimension::Length(Length {
-                    span: l.span,
-                    value: Number {
-                        value: result,
-                        span: l.value.span,
+        CalcNode::OperatorNode(op) => match &**op {
+            CalcOperatorNode::Negate(_) => CalcProductOrOperator::Product(CalcProduct {
+                expressions: vec![
+                    CalcValueOrOperator::Value(CalcValue::Number(Number {
+                        value: -1.0,
+                        span: Span::dummy_with_cmt(),
                         raw: None,
-                    },
-                    unit: l.unit.clone(),
-                }))
-            })
-        }
-        CalcValue::Dimension(Dimension::Angle(a)) => try_to_multiply_values(n.value, a.value.value)
-            .map(|result| {
-                CalcValue::Dimension(Dimension::Angle(Angle {
-                    span: a.span,
-                    value: Number {
-                        value: result,
-                        span: a.value.span,
-                        raw: None,
-                    },
-                    unit: a.unit.clone(),
-                }))
+                    })),
+                    CalcValueOrOperator::Operator(CalcOperator {
+                        value: CalcOperatorType::Mul,
+                        span: Span::dummy_with_cmt(),
+                    }),
+                    CalcValueOrOperator::Value(serialize_calc_node_into_calc_value(calc_node)),
+                ],
+                span: Span::dummy_with_cmt(),
             }),
-        CalcValue::Dimension(Dimension::Time(t)) => try_to_multiply_values(n.value, t.value.value)
-            .map(|result| {
-                CalcValue::Dimension(Dimension::Time(Time {
-                    span: t.span,
-                    value: Number {
-                        value: result,
-                        span: t.value.span,
+            CalcOperatorNode::Invert(_) => CalcProductOrOperator::Product(CalcProduct {
+                expressions: vec![
+                    CalcValueOrOperator::Value(CalcValue::Number(Number {
+                        value: 1.0,
+                        span: Span::dummy_with_cmt(),
                         raw: None,
-                    },
-                    unit: t.unit.clone(),
-                }))
+                    })),
+                    CalcValueOrOperator::Operator(CalcOperator {
+                        value: CalcOperatorType::Div,
+                        span: Span::dummy_with_cmt(),
+                    }),
+                    CalcValueOrOperator::Value(serialize_calc_node_into_calc_value(calc_node)),
+                ],
+                span: Span::dummy_with_cmt(),
             }),
-        CalcValue::Dimension(Dimension::Frequency(f)) => {
-            try_to_multiply_values(n.value, f.value.value).map(|result| {
-                CalcValue::Dimension(Dimension::Frequency(Frequency {
-                    span: f.span,
-                    value: Number {
-                        value: result,
-                        span: f.value.span,
-                        raw: None,
-                    },
-                    unit: f.unit.clone(),
-                }))
-            })
-        }
-        CalcValue::Dimension(Dimension::Resolution(r)) => {
-            try_to_multiply_values(n.value, r.value.value).map(|result| {
-                CalcValue::Dimension(Dimension::Resolution(Resolution {
-                    span: r.span,
-                    value: Number {
-                        value: result,
-                        span: r.value.span,
-                        raw: None,
-                    },
-                    unit: r.unit.clone(),
-                }))
-            })
-        }
-        CalcValue::Dimension(Dimension::Flex(f)) => try_to_multiply_values(n.value, f.value.value)
-            .map(|result| {
-                CalcValue::Dimension(Dimension::Flex(Flex {
-                    span: f.span,
-                    value: Number {
-                        value: result,
-                        span: f.value.span,
-                        raw: None,
-                    },
-                    unit: f.unit.clone(),
-                }))
+            CalcOperatorNode::Product(nodes) => {
+                let mut expr: Vec<CalcValueOrOperator> = vec![];
+
+                let nodes = sort_calculations_children(nodes);
+
+                let mut nodes_iter = nodes.iter();
+
+                if let Some(calc_node) = nodes_iter.next() {
+                    expr.push(CalcValueOrOperator::Value(
+                        serialize_calc_node_into_calc_value(calc_node),
+                    ))
+                }
+
+                for calc_node in nodes_iter {
+                    match calc_node {
+                        CalcNode::Number(_)
+                        | CalcNode::Dimension(_)
+                        | CalcNode::Percentage(_)
+                        | CalcNode::Constant(_)
+                        | CalcNode::Function(_) => {
+                            expr.push(CalcValueOrOperator::Operator(CalcOperator {
+                                value: CalcOperatorType::Mul,
+                                span: Span::dummy_with_cmt(),
+                            }));
+                            expr.push(CalcValueOrOperator::Value(
+                                serialize_calc_node_into_calc_value(calc_node),
+                            ));
+                        }
+                        CalcNode::OperatorNode(op) => match &**op {
+                            CalcOperatorNode::Invert(calc_node) => {
+                                expr.push(CalcValueOrOperator::Operator(CalcOperator {
+                                    value: CalcOperatorType::Div,
+                                    span: Span::dummy_with_cmt(),
+                                }));
+                                expr.push(CalcValueOrOperator::Value(
+                                    serialize_calc_node_into_calc_value(calc_node),
+                                ));
+                            }
+                            CalcOperatorNode::Product(_) | CalcOperatorNode::Sum(_) => {
+                                expr.push(CalcValueOrOperator::Operator(CalcOperator {
+                                    value: CalcOperatorType::Mul,
+                                    span: Span::dummy_with_cmt(),
+                                }));
+                                expr.push(CalcValueOrOperator::Value(
+                                    serialize_calc_node_into_calc_value(calc_node),
+                                ));
+                            }
+                            _ => unreachable!("Cannot transform product children into CalcProduct"),
+                        },
+                    }
+                }
+                CalcProductOrOperator::Product(CalcProduct {
+                    expressions: expr,
+                    span: Span::dummy_with_cmt(),
+                })
+            }
+            CalcOperatorNode::Sum(_) => CalcProductOrOperator::Product(CalcProduct {
+                expressions: vec![CalcValueOrOperator::Value(
+                    serialize_calc_node_into_calc_value(calc_node),
+                )],
+                span: Span::dummy_with_cmt(),
             }),
-        CalcValue::Dimension(Dimension::UnknownDimension(u)) => {
-            try_to_multiply_values(n.value, u.value.value).map(|result| {
-                CalcValue::Dimension(Dimension::UnknownDimension(UnknownDimension {
-                    span: u.span,
-                    value: Number {
-                        value: result,
-                        span: u.value.span,
-                        raw: None,
-                    },
-                    unit: u.unit.clone(),
-                }))
-            })
+        },
+    }
+}
+
+fn serialize_calc_node_into_calc_value(calc_node: &CalcNode) -> CalcValue {
+    match calc_node {
+        CalcNode::Number(n) => CalcValue::Number(n.clone()),
+        CalcNode::Dimension(d) => CalcValue::Dimension(d.clone()),
+        CalcNode::Percentage(p) => CalcValue::Percentage(p.clone()),
+        CalcNode::Constant(i) => CalcValue::Constant(i.clone()),
+        CalcNode::Function(f) => CalcValue::Function(f.clone()),
+        CalcNode::OperatorNode(op) => match &**op {
+            CalcOperatorNode::Sum(_) => {
+                CalcValue::Sum(serialize_calculation_node_into_calc_sum(calc_node))
+            }
+            CalcOperatorNode::Product(_) => CalcValue::Sum(CalcSum {
+                expressions: vec![serialize_calc_node_into_calc_product(calc_node)],
+                span: Span::dummy_with_cmt(),
+            }),
+            _ => unreachable!("Cannot transform CalcNode::OperatorNode into CalcValue"),
+        },
+    }
+}
+
+// https://www.w3.org/TR/css-values-4/#sort-a-calculations-children
+// Impl. note: since some computations cannot be done (because of a potential
+// loss of precision), we need to keep all numbers, percentages, and so on
+// (instead of only one)
+fn sort_calculations_children(nodes: &[CalcNode]) -> Vec<CalcNode> {
+    let mut ret: Vec<CalcNode> = vec![];
+
+    // If nodes contains a number, remove it from nodes and append it to ret.
+    let mut numbers: Vec<CalcNode> = nodes
+        .iter()
+        .filter(|n| match n {
+            CalcNode::Number(_) => true,
+            _ => false,
+        })
+        .cloned()
+        .collect();
+    ret.append(&mut numbers);
+
+    // If nodes contains a percentage, remove it from nodes and append it to ret.
+    let mut percentages: Vec<CalcNode> = nodes
+        .iter()
+        .filter(|n| match n {
+            CalcNode::Percentage(_) => true,
+            _ => false,
+        })
+        .cloned()
+        .collect();
+    ret.append(&mut percentages);
+
+    // If nodes contains any dimensions, remove them from nodes, sort them by their
+    // units, ordered ASCII case-insensitively, and append them to ret.
+    let mut dimensions: Vec<CalcNode> = nodes
+        .iter()
+        .filter(|n| match n {
+            CalcNode::Dimension(_) => true,
+            _ => false,
+        })
+        .cloned()
+        .collect();
+    dimensions.sort_by(|a, b| match (a, b) {
+        (CalcNode::Dimension(d1), CalcNode::Dimension(d2)) => {
+            let u1 = get_dimension_unit_lowercase(d1);
+            let u2 = get_dimension_unit_lowercase(d2);
+            u1.cmp(&u2)
         }
-        CalcValue::Percentage(p) => try_to_multiply_values(n.value, p.value.value).map(|result| {
-            CalcValue::Percentage(Percentage {
-                span: p.span,
-                value: Number {
-                    value: result,
-                    span: p.value.span,
-                    raw: None,
-                },
-            })
-        }),
-        CalcValue::Constant(_) => {
-            // TODO handle some constants like "+Infinity", "-Infinity" and "NaN"
-            // see https://www.w3.org/TR/css-values-4/#calc-type-checking
-            None
+        _ => unreachable!("The vector should only contain dimensions"),
+    });
+    ret.append(&mut dimensions);
+
+    // If nodes still contains any items, append them to ret in the same order.
+    let mut any_items: Vec<CalcNode> = nodes
+        .iter()
+        .filter(|n| match n {
+            CalcNode::Number(_) | CalcNode::Percentage(_) | CalcNode::Dimension(_) => false,
+            _ => true,
+        })
+        .cloned()
+        .collect();
+    ret.append(&mut any_items);
+
+    // Impl. note: not in spec, for a better compression, we need to be sure the
+    // first item is not negative (if it exists)
+    // "-3px + .75rem" => ".75rem - 3px"
+    if let Some(idx) = ret.iter().position(is_positive_value) {
+        // Move the first positive value at the beginning
+        let positive_value = ret.remove(idx);
+        ret.insert(0, positive_value);
+    }
+
+    ret
+}
+
+fn get_dimension_unit_lowercase(d: &Dimension) -> JsWord {
+    match d {
+        Dimension::Length(l) => l.unit.value.to_ascii_lowercase(),
+        Dimension::Angle(a) => a.unit.value.to_ascii_lowercase(),
+        Dimension::Time(t) => t.unit.value.to_ascii_lowercase(),
+        Dimension::Frequency(f) => f.unit.value.to_ascii_lowercase(),
+        Dimension::Resolution(r) => r.unit.value.to_ascii_lowercase(),
+        Dimension::Flex(f) => f.unit.value.to_ascii_lowercase(),
+        Dimension::UnknownDimension(u) => u.unit.value.to_ascii_lowercase(),
+    }
+}
+
+fn is_positive_value(calc_node: &CalcNode) -> bool {
+    match calc_node {
+        CalcNode::Number(_) | CalcNode::Percentage(_) | CalcNode::Dimension(_) => {
+            get_value(calc_node).is_sign_positive()
         }
-        _ => {
-            // This expression does not represent a simple value... let's do nothing
-            None
-        }
+        _ => false,
+    }
+}
+
+fn get_value(calc_node: &CalcNode) -> f64 {
+    match calc_node {
+        CalcNode::Number(n) => n.value,
+        CalcNode::Percentage(p) => p.value.value,
+        CalcNode::Dimension(Dimension::Length(l)) => l.value.value,
+        CalcNode::Dimension(Dimension::Angle(a)) => a.value.value,
+        CalcNode::Dimension(Dimension::Time(t)) => t.value.value,
+        CalcNode::Dimension(Dimension::Frequency(f)) => f.value.value,
+        CalcNode::Dimension(Dimension::Resolution(r)) => r.value.value,
+        CalcNode::Dimension(Dimension::Flex(f)) => f.value.value,
+        CalcNode::Dimension(Dimension::UnknownDimension(u)) => u.value.value,
+        _ => unreachable!("Can only get a value from a value node"),
+    }
+}
+
+fn set_value(calc_node: &mut CalcNode, value: f64) {
+    match calc_node {
+        CalcNode::Number(n) => n.value = value,
+        CalcNode::Percentage(p) => p.value.value = value,
+        CalcNode::Dimension(Dimension::Length(l)) => l.value.value = value,
+        CalcNode::Dimension(Dimension::Angle(a)) => a.value.value = value,
+        CalcNode::Dimension(Dimension::Time(t)) => t.value.value = value,
+        CalcNode::Dimension(Dimension::Frequency(f)) => f.value.value = value,
+        CalcNode::Dimension(Dimension::Resolution(r)) => r.value.value = value,
+        CalcNode::Dimension(Dimension::Flex(f)) => f.value.value = value,
+        CalcNode::Dimension(Dimension::UnknownDimension(u)) => u.value.value = value,
+        _ => unreachable!("Can only set a value into a value node"),
     }
 }
 
 impl Compressor {
+    // https://www.w3.org/TR/css-values-4/#calculation-tree
     pub(super) fn compress_calc_sum(&mut self, calc_sum: &mut CalcSum) {
-        CalcSumContext::default().fold(calc_sum);
+        let root_calc_node = collect_calc_sum_into_calc_node(calc_sum);
+
+        let simplified_calc_tree = simplify_calc_node(&root_calc_node);
+
+        let simplified_calc_sum = serialize_calculation_node_into_calc_sum(&simplified_calc_tree);
+        calc_sum.expressions = simplified_calc_sum.expressions;
     }
 
     pub(super) fn compress_calc_sum_in_component_value(

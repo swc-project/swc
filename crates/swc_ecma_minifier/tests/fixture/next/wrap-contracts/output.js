@@ -7207,7 +7207,7 @@
                             if (m.c ? !m.c[0] : !m.s) return new BigNumber(NaN);
                             (isModExp = !nIsNeg && x.isInteger() && m.isInteger()) && (x = x.mod(m));
                         } else {
-                            if (n.e > 9 && (x.e > 0 || x.e < -1 || (0 == x.e ? x.c[0] > 1 || nIsBig && x.c[1] >= 24e7 : x.c[0] < 8e13 || nIsBig && x.c[0] <= 9999975e7))) return x.s < 0 && isOdd(n), k = -0, x.e > -1 && (k = 1 / k), new BigNumber(nIsNeg ? 1 / k : k);
+                            if (n.e > 9 && (x.e > 0 || x.e < -1 || (0 == x.e ? x.c[0] > 1 || nIsBig && x.c[1] >= 24e7 : x.c[0] < 8e13 || nIsBig && x.c[0] <= 9999975e7))) return k = x.s < 0 && isOdd(n) ? -0 : 0, x.e > -1 && (k = 1 / k), new BigNumber(nIsNeg ? 1 / k : k);
                             POW_PRECISION && (k = mathceil(POW_PRECISION / LOG_BASE + 2));
                         }
                         for(nIsBig ? (half = new BigNumber(0.5), nIsNeg && (n.s = 1), nIsOdd = isOdd(n)) : nIsOdd = (i = Math.abs(+valueOf(n))) % 2, y = new BigNumber(ONE);;){
@@ -7258,7 +7258,7 @@
                         var xe = x.e / LOG_BASE, ye = y.e / LOG_BASE, xc = x.c, yc = y.c;
                         if (!xe || !ye) {
                             if (!xc || !yc) return xc ? (y.s = -b, y) : new BigNumber(yc ? x : NaN);
-                            if (!xc[0] || !yc[0]) return yc[0] ? (y.s = -b, y) : new BigNumber(xc[0] ? x : -0);
+                            if (!xc[0] || !yc[0]) return yc[0] ? (y.s = -b, y) : new BigNumber(xc[0] ? x : 3 == ROUNDING_MODE ? -0 : 0);
                         }
                         if (xe = bitFloor(xe), ye = bitFloor(ye), xc = xc.slice(), a = xe - ye) {
                             for((xLTy = a < 0) ? (a = -a, t = xc) : (ye = xe, t = yc), t.reverse(), b = a; b--; t.push(0));

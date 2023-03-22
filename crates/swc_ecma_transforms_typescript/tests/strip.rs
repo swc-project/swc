@@ -4532,3 +4532,29 @@ test!(
         A[A["a"] = a] = "a";
     })(A || (A = {}))"#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| tr(),
+    issue_7106,
+    "
+    export class test {
+        #throw() {}
+        #new() {}
+        test() {
+          this.#throw();
+          this.#new();
+        }
+    }
+      ",
+    "
+    export class test {
+        #throw() {}
+        #new() {}
+        test() {
+          this.#throw();
+          this.#new();
+        }
+    }
+      "
+);

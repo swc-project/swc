@@ -35,6 +35,8 @@ impl VisitMut for EsReservedWord {
         s.local.visit_mut_with(self);
     }
 
+    fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
+
     fn visit_mut_prop_name(&mut self, _n: &mut PropName) {}
 }
 
