@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.3.42] - 2023-03-22
 
 ### Bug Fixes
 
@@ -15,6 +15,9 @@
 
 
 - **(es/minifier)** Pass `keep_*` in config to `compress` and `mangle` (#7102) ([6a1201c](https://github.com/swc-project/swc/commit/6a1201cfc44fe5ae3d8599669fd8032c82e6c580))
+
+
+- **(es/minifier)** Don't inline into arrow heads (#7099) ([610e1bb](https://github.com/swc-project/swc/commit/610e1bb581a04fe9b871dd7afa0cf81ab9ee7fa8))
 
 
 - **(es/parser)** Fix parsing of static accessors (#7108) ([dd2b16d](https://github.com/swc-project/swc/commit/dd2b16db9ec77e515dcd38f68f8020d70d0f9ac9))
