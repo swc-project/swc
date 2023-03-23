@@ -611,7 +611,8 @@ test!(
                 Mark::fresh(Mark::root()),
                 Default::default(),
                 Default::default(),
-                Some(t.comments.clone())
+                Some(t.comments.clone()),
+                None
             ),
         )
     },

@@ -1232,7 +1232,8 @@ test!(
                 top_level_mark,
                 Default::default(),
                 Default::default(),
-                Some(t.comments.clone())
+                Some(t.comments.clone()),
+                None
             )
         )
     },
@@ -1285,7 +1286,8 @@ test!(
                 Mark::fresh(Mark::root()),
                 Default::default(),
                 Default::default(),
-                Some(t.comments.clone())
+                Some(t.comments.clone()),
+                None
             )
         )
     },

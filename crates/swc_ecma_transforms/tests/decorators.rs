@@ -3879,7 +3879,8 @@ test!(
                 ..Default::default()
             },
             Default::default(),
-            Some(t.comments.clone())
+            Some(t.comments.clone()),
+            None,
         ),
     ),
     issue_395_1,
@@ -3925,7 +3926,8 @@ test!(
                 ..Default::default()
             },
             Default::default(),
-            Some(t.comments.clone())
+            Some(t.comments.clone()),
+            None,
         ),
     ),
     issue_395_2,
@@ -4291,7 +4293,8 @@ test!(
                 Mark::fresh(Mark::root()),
                 Default::default(),
                 Default::default(),
-                Some(t.comments.clone())
+                Some(t.comments.clone()),
+                None
             ),
         )
     },

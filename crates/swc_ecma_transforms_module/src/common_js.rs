@@ -21,11 +21,14 @@ use crate::{
     },
 };
 
+pub type ImportInteropFn = Option<Box<dyn for<'aa> Fn(Option<&'aa str>) -> ImportInterop>>;
+
 pub fn common_js<C>(
     unresolved_mark: Mark,
     config: Config,
     available_features: FeatureFlag,
     comments: Option<C>,
+    import_interop_fn: ImportInteropFn,
 ) -> impl Fold + VisitMut
 where
     C: Comments,
@@ -42,6 +45,7 @@ where
         } else {
             VarDeclKind::Var
         },
+        import_interop_fn,
     })
 }
 
@@ -52,6 +56,7 @@ pub fn common_js_with_resolver<C>(
     config: Config,
     available_features: FeatureFlag,
     comments: Option<C>,
+    import_interop_fn: ImportInteropFn,
 ) -> impl Fold + VisitMut
 where
     C: Comments,
@@ -68,6 +73,7 @@ where
         } else {
             VarDeclKind::Var
         },
+        import_interop_fn,
     })
 }
 
@@ -82,6 +88,7 @@ where
     comments: Option<C>,
     support_arrow: bool,
     const_var_kind: VarDeclKind,
+    import_interop_fn: ImportInteropFn,
 }
 
 impl<C> VisitMut for Cjs<C>
@@ -281,12 +288,17 @@ where
                 // foo(bar);
                 // ```
 
+                let specifier_import_interop = match &self.import_interop_fn {
+                    Some(f) => f(Some(&src)),
+                    None => import_interop,
+                };
+
                 let is_swc_default_helper =
                     !link_flag.has_named() && src.starts_with("@swc/helpers/");
 
-                let is_node_default = !link_flag.has_named() && is_node;
+                let is_node_default = !link_flag.has_named() && specifier_import_interop.is_node();
 
-                if import_interop.is_none() || is_swc_default_helper {
+                if specifier_import_interop.is_none() || is_swc_default_helper {
                     link_flag -= LinkFlag::NAMESPACE;
                 }
 
@@ -333,7 +345,7 @@ where
 
                 // _introp(require("mod"));
                 let import_expr = {
-                    match import_interop {
+                    match specifier_import_interop {
                         ImportInterop::Swc if link_flag.interop() => if link_flag.namespace() {
                             helper_expr!(interop_require_wildcard, "interopRequireWildcard")
                         } else {

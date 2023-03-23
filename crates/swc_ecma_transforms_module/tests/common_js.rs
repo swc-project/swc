@@ -4,7 +4,10 @@ use swc_common::{chain, comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_compat::es2015::for_of;
-use swc_ecma_transforms_module::common_js::{self, common_js};
+use swc_ecma_transforms_module::{
+    common_js::{self, common_js, ImportInteropFn},
+    util::ImportInterop,
+};
 use swc_ecma_transforms_testing::{test, test_fixture, FixtureTestConfig};
 use swc_ecma_visit::Fold;
 
@@ -20,6 +23,7 @@ fn tr(
     config: common_js::Config,
     typescript: bool,
     comments: Rc<SingleThreadedComments>,
+    import_interop_fn: ImportInteropFn,
 ) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
@@ -28,7 +32,13 @@ fn tr(
 
     chain!(
         resolver(unresolved_mark, top_level_mark, typescript),
-        common_js(unresolved_mark, config, avalible_set, Some(comments)),
+        common_js(
+            unresolved_mark,
+            config,
+            avalible_set,
+            Some(comments),
+            import_interop_fn
+        ),
     )
 }
 
@@ -56,7 +66,7 @@ fn esm_to_cjs(input: PathBuf) {
 
     test_fixture(
         if is_ts { ts_syntax() } else { syntax() },
-        &|tester| tr(config.clone(), is_ts, tester.comments.clone()),
+        &|tester| tr(config.clone(), is_ts, tester.comments.clone(), None),
         &input,
         &output,
         FixtureTestConfig {
@@ -73,7 +83,7 @@ test!(
             assume_array: true,
             ..Default::default()
         }),
-        tr(Default::default(), false, tester.comments.clone())
+        tr(Default::default(), false, tester.comments.clone(), None)
     ),
     for_of_as_array_for_of_import_commonjs,
     r#"
@@ -93,5 +103,43 @@ test!(
         const elm = _foo.array[_i];
         console.log(elm);
     }
+"#
+);
+
+test!(
+    syntax(),
+    |tester| chain!(
+        for_of(for_of::Config {
+            assume_array: true,
+            ..Default::default()
+        }),
+        tr(
+            Default::default(),
+            false,
+            tester.comments.clone(),
+            Some(Box::new(|specifier| {
+                if matches!(specifier, Some("a.mjs")) {
+                    ImportInterop::Swc
+                } else {
+                    ImportInterop::Node
+                }
+            }))
+        )
+    ),
+    import_interop_fn_commonjs,
+    r#"
+    import a from "a.mjs";
+    import b from "b.cjs";
+
+    console.log(a, b);
+"#,
+    r#"
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    const _aMjs = _interopRequireDefault(require("a.mjs"));
+    const _bCjs = require("b.cjs");
+    console.log(_aMjs.default, _bCjs);
 "#
 );

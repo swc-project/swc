@@ -291,7 +291,8 @@ test!(
                 unresolved_mark,
                 Default::default(),
                 Default::default(),
-                Some(t.comments.clone())
+                Some(t.comments.clone()),
+                None
             )
         )
     },
@@ -391,7 +392,8 @@ test!(
                 unresolved_mark,
                 Default::default(),
                 Default::default(),
-                Some(t.comments.clone())
+                Some(t.comments.clone()),
+                None
             )
         )
     },
@@ -928,7 +930,8 @@ test!(
                 unresolved_mark,
                 Default::default(),
                 Default::default(),
-                Some(t.comments.clone())
+                Some(t.comments.clone()),
+                None
             )
         )
     },

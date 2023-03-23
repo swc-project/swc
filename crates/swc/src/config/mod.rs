@@ -1442,6 +1442,7 @@ impl ModuleConfig {
                         config,
                         available_features,
                         comments,
+                        None,
                     ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
@@ -1452,6 +1453,7 @@ impl ModuleConfig {
                         config,
                         available_features,
                         comments,
+                        None,
                     ))
                 }
             }
