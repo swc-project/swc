@@ -16,15 +16,10 @@ mod spanned;
 #[proc_macro_derive(Spanned, attributes(span))]
 pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
-    let name = input.ident.clone();
 
     let item = self::spanned::derive(input);
 
-    print_item(
-        "derive(Spanned)",
-        &format!("IMPL_SPANNED_FOR_{}", name),
-        item.dump(),
-    )
+    print("derive(Spanned)", item.dump())
 }
 
 /// Derives `serde::Deserialize` which is aware of `tag` based deserialization.
@@ -316,22 +311,4 @@ pub fn ast_node(
     };
 
     print("ast_node", item.into())
-}
-
-/// Workarounds https://github.com/rust-lang/rust/issues/44925
-fn print_item<T: Into<TokenStream>>(
-    name: &'static str,
-    const_name: &str,
-    item: T,
-) -> proc_macro::TokenStream {
-    let item = Quote::new(def_site::<Span>()).quote_with(smart_quote!(
-        Vars {
-            item: item.into(),
-            NAME: Ident::new(const_name, Span::call_site())
-        },
-        {
-            const NAME: () = { item };
-        }
-    ));
-    print(name, item.into())
 }
