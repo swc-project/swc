@@ -2155,6 +2155,7 @@ where
         )
     }
 
+    /// This method exists to reduce compile time.
     fn emit_first_of_list5(
         &mut self,
         parent_node: Span,
@@ -2191,6 +2192,7 @@ where
         Ok(())
     }
 
+    /// This method exists to reduce compile time.
     fn emit_last_of_list5(
         &mut self,
         parent_node: Span,
