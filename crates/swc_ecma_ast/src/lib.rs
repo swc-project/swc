@@ -9,7 +9,8 @@
 #![allow(clippy::clone_on_copy)]
 #![recursion_limit = "1024"]
 
-// #![deny(variant_size_differences)]
+#[cfg(all(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"))]
+compile_error!("Cannot enable bytechcked, non-bytechecked rkyv both");
 
 use serde::{Deserialize, Serialize};
 use swc_common::{ast_node, EqIgnoreSpan, Span};
