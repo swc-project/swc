@@ -993,7 +993,7 @@ where
                         src: Str {
                             span: DUMMY_SP,
                             raw: None,
-                            value: "react".into(),
+                            value: self.import_source.clone(),
                         }
                         .into(),
                         type_only: Default::default(),
