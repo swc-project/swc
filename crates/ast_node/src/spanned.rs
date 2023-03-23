@@ -5,7 +5,7 @@ use pmutil::{smart_quote, Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
 use syn::*;
 
-#[derive(Debug, FromField)]
+#[derive(FromField)]
 #[darling(attributes(span))]
 struct MyField {
     /// Name of the field.
