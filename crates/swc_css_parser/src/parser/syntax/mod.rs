@@ -657,7 +657,7 @@ where
             let component_value = self.parse_as::<ComponentValue>()?;
             let preserved_token = match &component_value {
                 ComponentValue::PreservedToken(token_and_span) => {
-                    Some((&token_and_span.token, &token_and_span.span))
+                    Some((&token_and_span.token, token_and_span.span))
                 }
                 _ => None,
             };
@@ -679,7 +679,7 @@ where
                         last_whitespaces = (last_whitespaces.2, 0, 0);
                     }
 
-                    exclamation_point_span = Some(*span);
+                    exclamation_point_span = Some(span);
                 }
                 Some((Token::WhiteSpace { .. }, _)) => {
                     match (&exclamation_point_span, &important_ident) {
@@ -701,10 +701,8 @@ where
                     if exclamation_point_span.is_some()
                         && matches_eq_ignore_ascii_case!(value, js_word!("important")) =>
                 {
-                    important_ident = Some(TokenAndSpan {
-                        token: token.clone(),
-                        span: span.clone(),
-                    });
+                    let token = token.clone();
+                    important_ident = Some(TokenAndSpan { token, span });
                 }
                 _ => {
                     if let Err(err) = self.validate_declaration_value(&component_value) {
