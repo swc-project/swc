@@ -76,13 +76,7 @@ impl ItemImplExt for ItemImpl {
             .params
             .extend(self.generics.params.into_pairs());
 
-        ItemImpl {
-            defaultness: self.defaultness,
-            unsafety: self.unsafety,
-            impl_token: self.impl_token,
-            brace_token: self.brace_token,
-            ..item
-        }
+        item
     }
 }
 
