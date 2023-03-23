@@ -16,15 +16,10 @@ mod spanned;
 #[proc_macro_derive(Spanned, attributes(span))]
 pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
-    let name = input.ident.clone();
 
     let item = self::spanned::derive(input);
 
-    print_item(
-        "derive(Spanned)",
-        &format!("IMPL_SPANNED_FOR_{}", name),
-        item.dump(),
-    )
+    print("derive(Spanned)", item.dump())
 }
 
 /// Derives `serde::Deserialize` which is aware of `tag` based deserialization.
@@ -32,13 +27,7 @@ pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
 
-    let item =
-        enum_deserialize::expand(input)
-            .into_iter()
-            .fold(TokenStream::new(), |mut t, item| {
-                item.to_tokens(&mut t);
-                t
-            });
+    let item = enum_deserialize::expand(input);
 
     print("derive(DeserializeEnum)", item.dump())
 }
@@ -143,7 +132,7 @@ pub fn ast_serde(
         }
     };
 
-    print("ast_serde", item)
+    print("ast_serde", item.into())
 }
 
 struct AddAttr;
@@ -307,7 +296,7 @@ pub fn ast_node(
 
             if let Some(items) = ast_node_impl {
                 for item in items {
-                    quote = quote.quote_with(smart_quote!(Vars { item }, { item }))
+                    quote.push_tokens(&item);
                 }
             }
 
@@ -315,23 +304,5 @@ pub fn ast_node(
         }
     };
 
-    print("ast_node", item)
-}
-
-/// Workarounds https://github.com/rust-lang/rust/issues/44925
-fn print_item<T: Into<TokenStream>>(
-    name: &'static str,
-    const_name: &str,
-    item: T,
-) -> proc_macro::TokenStream {
-    let item = Quote::new(def_site::<Span>()).quote_with(smart_quote!(
-        Vars {
-            item: item.into(),
-            NAME: Ident::new(const_name, Span::call_site())
-        },
-        {
-            const NAME: () = { item };
-        }
-    ));
-    print(name, item)
+    print("ast_node", item.into())
 }

@@ -1,6 +1,6 @@
 extern crate proc_macro;
 
-use pmutil::{smart_quote, Quote, ToTokensExt};
+use pmutil::{smart_quote, Quote};
 use swc_macros_common::prelude::*;
 use syn::*;
 
@@ -17,7 +17,7 @@ pub fn derive_from_variant(input: proc_macro::TokenStream) -> proc_macro::TokenS
             t
         });
 
-    print("derive(FromVariant)", item.dump())
+    print("derive(FromVariant)", item)
 }
 
 fn derive(
@@ -62,7 +62,8 @@ fn derive(
                             }
                         }
                     ))
-                    .parse();
+                    .parse::<ItemImpl>()
+                    .with_generics(generics.clone());
 
                 from_impls.push(from_impl);
             }
@@ -73,7 +74,4 @@ fn derive(
     }
 
     from_impls
-        .into_iter()
-        .map(|item| item.with_generics(generics.clone()))
-        .collect()
 }
