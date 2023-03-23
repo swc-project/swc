@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_optimization"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.181.19"
+version       = "0.181.20"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
@@ -38,7 +38,7 @@ swc_ecma_transforms_base   = { version = "0.122.15", path = "../swc_ecma_transfo
 swc_ecma_transforms_macros = { version = "0.5.1", path = "../swc_ecma_transforms_macros" }
 swc_ecma_utils             = { version = "0.113.10", path = "../swc_ecma_utils" }
 swc_ecma_visit             = { version = "0.86.6", path = "../swc_ecma_visit" }
-swc_fast_graph             = { version = "0.17.40", path = "../swc_fast_graph" }
+swc_fast_graph             = { version = "0.17.41", path = "../swc_fast_graph" }
 tracing                    = "0.1.32"
 
 [dev-dependencies]

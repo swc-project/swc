@@ -16,6 +16,9 @@
 
 - **(es/visit)** Fix handling of `Program` of `AndThen` (#7120) ([d50689e](https://github.com/swc-project/swc/commit/d50689eab0e82a68c84fcacdd8ce5c9009a65100))
 
+
+- **(fast-graph)** Use fxhash instead of ahash to make iteration order consistent (#7133) ([b13eb4c](https://github.com/swc-project/swc/commit/b13eb4c81192a57a7e69b10a2d4530ccd91150f8))
+
 ### Documentation
 
 
