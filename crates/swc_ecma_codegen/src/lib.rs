@@ -2156,6 +2156,7 @@ where
     }
 
     /// This method exists to reduce compile time.
+    #[inline(never)]
     fn emit_first_of_list5(
         &mut self,
         parent_node: Span,
@@ -2197,6 +2198,7 @@ where
     }
 
     /// This method exists to reduce compile time.
+    #[inline(never)]
     fn emit_pre_child_for_list5(
         &mut self,
         parent_node: Span,
@@ -2254,6 +2256,7 @@ where
     }
 
     /// This method exists to reduce compile time.
+    #[inline(never)]
     fn emit_list_finisher_of_list5(
         &mut self,
         parent_node: Span,
@@ -2339,6 +2342,7 @@ where
     }
 
     /// This method exists to reduce compile time.
+    #[inline(never)]
     fn emit_last_of_list5(
         &mut self,
         parent_node: Span,
