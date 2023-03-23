@@ -25,6 +25,7 @@ use petgraph::{
     },
     Directed, Direction, EdgeType, Incoming, IntoWeightedEdge, Outgoing, Undirected,
 };
+use rustc_hash::FxHasher;
 use swc_common::collections::AHashSet;
 
 type FxBuildHasher = BuildHasherDefault<FxHasher>;
