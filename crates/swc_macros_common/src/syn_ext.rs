@@ -65,7 +65,7 @@ impl ItemImplExt for ItemImpl {
             };
 
             ItemImpl {
-                generics: generics.clone(),
+                generics,
                 self_ty: parse2(item).unwrap(),
                 ..self
             }
@@ -75,17 +75,6 @@ impl ItemImplExt for ItemImpl {
         item.generics
             .params
             .extend(self.generics.params.into_pairs());
-        match self.generics.where_clause {
-            Some(WhereClause {
-                ref mut predicates, ..
-            }) => predicates.extend(
-                generics
-                    .where_clause
-                    .into_iter()
-                    .flat_map(|wc| wc.predicates.into_pairs()),
-            ),
-            ref mut opt @ None => *opt = generics.where_clause,
-        }
 
         ItemImpl {
             defaultness: self.defaultness,
