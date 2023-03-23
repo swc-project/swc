@@ -59,18 +59,16 @@ impl ItemImplExt for ItemImpl {
 
         // Handle generics defined on struct, enum, or union.
         let mut item: ItemImpl = {
-            let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
-            let item = if let Some((ref polarity, ref path, ref for_token)) = self.trait_ {
-                quote! {
-                    impl #impl_generics #polarity #path #for_token #ty #ty_generics #where_clause {}
-                }
-            } else {
-                quote! {
-                    impl #impl_generics #ty #ty_generics #where_clause {}
-
-                }
+            let (_, ty_generics, _) = generics.split_for_impl();
+            let item = quote! {
+                #ty #ty_generics
             };
-            parse(item.into()).unwrap_or_else(|err| panic!("with_generics failed: {}", err))
+
+            ItemImpl {
+                generics: generics.clone(),
+                self_ty: parse2(item).unwrap(),
+                ..self
+            }
         };
 
         // Handle generics added by proc-macro.
@@ -90,12 +88,10 @@ impl ItemImplExt for ItemImpl {
         }
 
         ItemImpl {
-            attrs: self.attrs,
             defaultness: self.defaultness,
             unsafety: self.unsafety,
             impl_token: self.impl_token,
             brace_token: self.brace_token,
-            items: self.items,
             ..item
         }
     }
