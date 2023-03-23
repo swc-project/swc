@@ -62,7 +62,8 @@ fn derive(
                             }
                         }
                     ))
-                    .parse();
+                    .parse::<ItemImpl>()
+                    .with_generics(generics.clone());
 
                 from_impls.push(from_impl);
             }
@@ -73,7 +74,4 @@ fn derive(
     }
 
     from_impls
-        .into_iter()
-        .map(|item| item.with_generics(generics.clone()))
-        .collect()
 }
