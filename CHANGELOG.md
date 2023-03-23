@@ -23,6 +23,9 @@
 
 
 
+- **(es)** Remove needless build scripts to reduce compile time (#7129) ([dfe1a3f](https://github.com/swc-project/swc/commit/dfe1a3f4964ba58fdd676c184fdff0919fa78b26))
+
+
 - **(es/codegen)** Extract code from generic functions to reduce compile time (#7127) ([08fa94f](https://github.com/swc-project/swc/commit/08fa94fc737c2c3522227c1275e4a1d93c2a8611))
 
 ## [1.3.42] - 2023-03-22
