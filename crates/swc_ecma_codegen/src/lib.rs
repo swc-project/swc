@@ -2155,11 +2155,10 @@ where
         )
     }
 
-    #[allow(clippy::cognitive_complexity)]
-    fn emit_list5<N: Node>(
+    fn emit_first_of_list5(
         &mut self,
         parent_node: Span,
-        children: Option<&[N]>,
+        children: Option<usize>,
         format: ListFormat,
         start: usize,
         count: usize,
@@ -2168,7 +2167,7 @@ where
             return Ok(());
         }
 
-        let is_empty = children.is_none() || start > children.unwrap().len() || count == 0;
+        let is_empty = children.is_none() || start > children.unwrap() || count == 0;
         if is_empty && format.contains(ListFormat::OptionalIfEmpty) {
             return Ok(());
         }
@@ -2189,7 +2188,45 @@ where
             }
         }
 
-        // self.handlers.onBeforeEmitNodeArray(children);
+        Ok(())
+    }
+
+    fn emit_last_of_list5(
+        &mut self,
+        parent_node: Span,
+        is_empty: bool,
+        format: ListFormat,
+        start: usize,
+        count: usize,
+    ) -> Result {
+        if format.contains(ListFormat::BracketsMask) {
+            if is_empty {
+                self.emit_leading_comments(
+                    {
+                        //TODO: children.hi()
+
+                        parent_node.hi()
+                    },
+                    true,
+                )?; // Emit leading comments within empty lists
+            }
+            self.wr.write_punct(None, format.closing_bracket())?;
+        }
+
+        Ok(())
+    }
+
+    fn emit_list5<N: Node>(
+        &mut self,
+        parent_node: Span,
+        children: Option<&[N]>,
+        format: ListFormat,
+        start: usize,
+        count: usize,
+    ) -> Result {
+        self.emit_first_of_list5(parent_node, children.map(|v| v.len()), format, start, count)?;
+
+        let is_empty = children.is_none() || start > children.unwrap().len() || count == 0;
 
         if is_empty {
             // Write a line terminator if the parent node was multi-line
@@ -2375,20 +2412,7 @@ where
 
         // self.handlers.onAfterEmitNodeArray(children);
 
-        if format.contains(ListFormat::BracketsMask) {
-            if is_empty {
-                self.emit_leading_comments(
-                    {
-                        //TODO: children.hi()
-
-                        parent_node.hi()
-                    },
-                    true,
-                )?; // Emit leading comments within empty lists
-            }
-            self.wr.write_punct(None, format.closing_bracket())?;
-        }
-
+        self.emit_last_of_list5(parent_node, is_empty, format, start, count)?;
         Ok(())
     }
 }
