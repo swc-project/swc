@@ -2048,31 +2048,23 @@ where
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
         }
-
-        let Token::Dimension(dimension) = bump!(self) else { unreachable!() };
-        let DimensionToken {
-            value,
-            raw_value,
-            raw_unit,
-            unit,
-            ..
-        } = *dimension;
+        let Token::Dimension(dim) = bump!(self) else { unreachable!() };
 
         // TODO validate
 
-        let unit_len = raw_unit.len() as u32;
+        let unit_len = dim.raw_unit.len() as u32;
 
         Ok(Length {
             span,
             value: Number {
                 span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
-                value,
-                raw: Some(raw_value),
+                value: dim.value,
+                raw: Some(dim.raw_value),
             },
             unit: Ident {
                 span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                value: unit.to_ascii_lowercase(),
-                raw: Some(raw_unit),
+                value: dim.unit.to_ascii_lowercase(),
+                raw: Some(dim.raw_unit),
             },
         })
     }
@@ -2088,36 +2080,28 @@ where
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
         }
+        let Token::Dimension(dim) = bump!(self) else { unreachable!() };
 
-        let Token::Dimension(dimension) = bump!(self) else { unreachable!() };
-        let DimensionToken {
-            value,
-            raw_value,
-            raw_unit,
-            unit,
-            ..
-        } = *dimension;
-
-        if !is_angle_unit(&unit) {
+        if !is_angle_unit(&dim.unit) {
             return Err(Error::new(
                 span,
                 ErrorKind::Expected("'deg', 'grad', 'rad' or 'turn' units"),
             ));
         }
 
-        let unit_len = raw_unit.len() as u32;
+        let unit_len = dim.raw_unit.len() as u32;
 
         Ok(Angle {
             span,
             value: Number {
                 span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
-                value,
-                raw: Some(raw_value),
+                value: dim.value,
+                raw: Some(dim.raw_value),
             },
             unit: Ident {
                 span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                value: unit.to_ascii_lowercase(),
-                raw: Some(raw_unit),
+                value: dim.unit.to_ascii_lowercase(),
+                raw: Some(dim.raw_unit),
             },
         })
     }
@@ -2133,33 +2117,25 @@ where
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
         }
+        let Token::Dimension(dim) = bump!(self) else { unreachable!() };
 
-        let Token::Dimension(dimension) = bump!(self) else { unreachable!() };
-        let DimensionToken {
-            value,
-            raw_value,
-            raw_unit,
-            unit,
-            ..
-        } = *dimension;
-
-        if !is_time_unit(&unit) {
+        if !is_time_unit(&dim.unit) {
             return Err(Error::new(span, ErrorKind::Expected("'s' or 'ms' units")));
         }
 
-        let unit_len = raw_unit.len() as u32;
+        let unit_len = dim.raw_unit.len() as u32;
 
         Ok(Time {
             span,
             value: Number {
                 span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
-                value,
-                raw: Some(raw_value),
+                value: dim.value,
+                raw: Some(dim.raw_value),
             },
             unit: Ident {
                 span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                value: unit.to_ascii_lowercase(),
-                raw: Some(raw_unit),
+                value: dim.unit.to_ascii_lowercase(),
+                raw: Some(dim.raw_unit),
             },
         })
     }
@@ -2176,32 +2152,25 @@ where
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
         }
 
-        let Token::Dimension(dimension) = bump!(self) else { unreachable!() };
-        let DimensionToken {
-            value,
-            raw_value,
-            raw_unit,
-            unit,
-            ..
-        } = *dimension;
+        let Token::Dimension(dim) = bump!(self) else { unreachable!() };
 
-        if !is_frequency_unit(&unit) {
+        if !is_frequency_unit(&dim.unit) {
             return Err(Error::new(span, ErrorKind::Expected("'Hz' or 'kHz' units")));
         }
 
-        let unit_len = raw_unit.len() as u32;
+        let unit_len = dim.raw_unit.len() as u32;
 
         Ok(Frequency {
             span,
             value: Number {
                 span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
-                value,
-                raw: Some(raw_value),
+                value: dim.value,
+                raw: Some(dim.raw_value),
             },
             unit: Ident {
                 span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                value: unit.to_ascii_lowercase(),
-                raw: Some(raw_unit),
+                value: dim.unit.to_ascii_lowercase(),
+                raw: Some(dim.raw_unit),
             },
         })
     }
@@ -2217,36 +2186,28 @@ where
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
         }
+        let Token::Dimension(dim) = bump!(self) else { unreachable!() };
 
-        let Token::Dimension(dimension) = bump!(self) else { unreachable!() };
-        let DimensionToken {
-            value,
-            raw_value,
-            raw_unit,
-            unit,
-            ..
-        } = *dimension;
-
-        if !is_resolution_unit(&unit) {
+        if !is_resolution_unit(&dim.unit) {
             return Err(Error::new(
                 span,
                 ErrorKind::Expected("'dpi', 'dpcm', 'dppx' or 'x' units"),
             ));
         }
 
-        let unit_len = raw_unit.len() as u32;
+        let unit_len = dim.raw_unit.len() as u32;
 
         Ok(Resolution {
             span,
             value: Number {
                 span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
-                value,
-                raw: Some(raw_value),
+                value: dim.value,
+                raw: Some(dim.raw_value),
             },
             unit: Ident {
                 span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                value: unit.to_ascii_lowercase(),
-                raw: Some(raw_unit),
+                value: dim.unit.to_ascii_lowercase(),
+                raw: Some(dim.raw_unit),
             },
         })
     }
@@ -2262,33 +2223,25 @@ where
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
         }
+        let Token::Dimension(dim) = bump!(self) else { unreachable!() };
 
-        let Token::Dimension(dimension) = bump!(self) else { unreachable!() };
-        let DimensionToken {
-            value,
-            raw_value,
-            raw_unit,
-            unit,
-            ..
-        } = *dimension;
-
-        if !is_flex_unit(&unit) {
+        if !is_flex_unit(&dim.unit) {
             return Err(Error::new(span, ErrorKind::Expected("'fr' unit")));
         }
 
-        let unit_len = raw_unit.len() as u32;
+        let unit_len = dim.raw_unit.len() as u32;
 
         Ok(Flex {
             span,
             value: Number {
                 span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
-                value,
-                raw: Some(raw_value),
+                value: dim.value,
+                raw: Some(dim.raw_value),
             },
             unit: Ident {
                 span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                value: unit.to_ascii_lowercase(),
-                raw: Some(raw_unit),
+                value: dim.unit.to_ascii_lowercase(),
+                raw: Some(dim.raw_unit),
             },
         })
     }
@@ -2304,29 +2257,21 @@ where
         if !is!(self, Dimension) {
             return Err(Error::new(span, ErrorKind::Expected("dimension token")));
         }
+        let Token::Dimension(dim) = bump!(self) else { unreachable!() };
 
-        let Token::Dimension(dimension) = bump!(self) else { unreachable!() };
-        let DimensionToken {
-            value,
-            unit,
-            raw_value,
-            raw_unit,
-            ..
-        } = *dimension;
-
-        let unit_len = raw_unit.len() as u32;
+        let unit_len = dim.raw_unit.len() as u32;
 
         Ok(UnknownDimension {
             span,
             value: Number {
                 span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
-                value,
-                raw: Some(raw_value),
+                value: dim.value,
+                raw: Some(dim.raw_value),
             },
             unit: Ident {
                 span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                value: unit.to_lowercase().into(),
-                raw: Some(raw_unit),
+                value: dim.unit.to_lowercase().into(),
+                raw: Some(dim.raw_unit),
             },
         })
     }
