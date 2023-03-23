@@ -661,6 +661,7 @@ where
             };
 
             match preserved_token {
+                // Optimization for step 6
                 Some(TokenAndSpan {
                     token: Token::Delim { value: '!', .. },
                     span,
