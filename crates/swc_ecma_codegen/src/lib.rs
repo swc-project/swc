@@ -2193,6 +2193,91 @@ where
     }
 
     /// This method exists to reduce compile time.
+    fn emit_list_finisher_of_list5(
+        &mut self,
+        parent_node: Span,
+        format: ListFormat,
+        previous_sibling: Option<Span>,
+        last_child: Option<Span>,
+    ) -> Result {
+        // Write a trailing comma, if requested.
+        let has_trailing_comma = format.contains(ListFormat::ForceTrailingComma)
+            || format.contains(ListFormat::AllowTrailingComma) && {
+                if parent_node.is_dummy() {
+                    false
+                } else {
+                    match self.cm.span_to_snippet(parent_node) {
+                        Ok(snippet) => {
+                            if snippet.len() < 3 {
+                                false
+                            } else {
+                                let last_char = snippet.chars().last().unwrap();
+                                snippet[..snippet.len() - last_char.len_utf8()]
+                                    .trim()
+                                    .ends_with(',')
+                            }
+                        }
+                        _ => false,
+                    }
+                }
+            };
+
+        if has_trailing_comma
+            && format.contains(ListFormat::CommaDelimited)
+            && (!self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma))
+        {
+            punct!(self, ",");
+            formatting_space!(self);
+        }
+
+        {
+            // Emit any trailing comment of the last element in the list
+            // i.e
+            //       var array = [...
+            //          2
+            //          /* end of element 2 */
+            //       ];
+
+            let emit_trailing_comments = {
+                // TODO:
+                //
+                // !(getEmitFlags(previousSibling).contains(EmitFlags::NoTrailingComments))
+
+                true
+            };
+
+            if let Some(previous_sibling) = previous_sibling {
+                if format.contains(ListFormat::DelimitersMask)
+                    && previous_sibling.hi() != parent_node.hi()
+                    && emit_trailing_comments
+                    && self.comments.is_some()
+                {
+                    self.emit_leading_comments(previous_sibling.hi(), true)?;
+                }
+            }
+        }
+
+        // Decrease the indent, if requested.
+        if format.contains(ListFormat::Indented) && !self.cfg.minify {
+            self.wr.decrease_indent()?;
+        }
+
+        // Write the closing line terminator or closing whitespace.
+        if self
+            .cm
+            .should_write_closing_line_terminator(parent_node, last_child, format)
+        {
+            if !self.cfg.minify {
+                self.wr.write_line()?;
+            }
+        } else if format.contains(ListFormat::SpaceBetweenBraces) && !self.cfg.minify {
+            self.wr.write_space()?;
+        }
+
+        Ok(())
+    }
+
+    /// This method exists to reduce compile time.
     fn emit_last_of_list5(
         &mut self,
         parent_node: Span,
@@ -2337,79 +2422,12 @@ where
                 previous_sibling = Some(child.span());
             }
 
-            // Write a trailing comma, if requested.
-            let has_trailing_comma = format.contains(ListFormat::ForceTrailingComma)
-                || format.contains(ListFormat::AllowTrailingComma) && {
-                    if parent_node.is_dummy() {
-                        false
-                    } else {
-                        match self.cm.span_to_snippet(parent_node) {
-                            Ok(snippet) => {
-                                if snippet.len() < 3 {
-                                    false
-                                } else {
-                                    let last_char = snippet.chars().last().unwrap();
-                                    snippet[..snippet.len() - last_char.len_utf8()]
-                                        .trim()
-                                        .ends_with(',')
-                                }
-                            }
-                            _ => false,
-                        }
-                    }
-                };
-
-            if has_trailing_comma
-                && format.contains(ListFormat::CommaDelimited)
-                && (!self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma))
-            {
-                punct!(self, ",");
-                formatting_space!(self);
-            }
-
-            {
-                // Emit any trailing comment of the last element in the list
-                // i.e
-                //       var array = [...
-                //          2
-                //          /* end of element 2 */
-                //       ];
-
-                let emit_trailing_comments = {
-                    // TODO:
-                    //
-                    // !(getEmitFlags(previousSibling).contains(EmitFlags::NoTrailingComments))
-
-                    true
-                };
-
-                if let Some(previous_sibling) = previous_sibling {
-                    if format.contains(ListFormat::DelimitersMask)
-                        && previous_sibling.hi() != parent_node.hi()
-                        && emit_trailing_comments
-                        && self.comments.is_some()
-                    {
-                        self.emit_leading_comments(previous_sibling.hi(), true)?;
-                    }
-                }
-            }
-
-            // Decrease the indent, if requested.
-            if format.contains(ListFormat::Indented) && !self.cfg.minify {
-                self.wr.decrease_indent()?;
-            }
-
-            // Write the closing line terminator or closing whitespace.
-            if self
-                .cm
-                .should_write_closing_line_terminator(parent_node, children, format)
-            {
-                if !self.cfg.minify {
-                    self.wr.write_line()?;
-                }
-            } else if format.contains(ListFormat::SpaceBetweenBraces) && !self.cfg.minify {
-                self.wr.write_space()?;
-            }
+            self.emit_list_finisher_of_list5(
+                parent_node,
+                format,
+                previous_sibling,
+                children.last().map(|v| v.span()),
+            )?;
         }
 
         // self.handlers.onAfterEmitNodeArray(children);

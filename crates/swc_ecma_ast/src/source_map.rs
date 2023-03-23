@@ -93,10 +93,10 @@ pub trait SourceMapperExt {
         }
     }
 
-    fn should_write_closing_line_terminator<N: Spanned>(
+    fn should_write_closing_line_terminator(
         &self,
         parent_node: Span,
-        children: &[N],
+        last_child: Option<Span>,
         format: ListFormat,
     ) -> bool {
         if format.contains(ListFormat::MultiLine) {
@@ -108,11 +108,12 @@ pub trait SourceMapperExt {
                 return true;
             }
 
-            if children.is_empty() {
+            if last_child.is_none() {
                 return !self.is_on_same_line(parent_node.lo(), parent_node.hi());
             }
 
-            let last_child = children[children.len() - 1].span();
+            let last_child = last_child.unwrap();
+
             if parent_node.is_synthesized() || last_child.is_synthesized() {
                 last_child.starts_on_new_line(format)
             } else {
