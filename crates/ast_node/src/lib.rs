@@ -27,13 +27,7 @@ pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
 
-    let item =
-        enum_deserialize::expand(input)
-            .into_iter()
-            .fold(TokenStream::new(), |mut t, item| {
-                item.to_tokens(&mut t);
-                t
-            });
+    let item = enum_deserialize::expand(input);
 
     print("derive(DeserializeEnum)", item.dump())
 }

@@ -29,7 +29,7 @@ pub fn expand(
         data,
         ..
     }: DeriveInput,
-) -> Vec<ItemImpl> {
+) -> ItemImpl {
     let data = match data {
         Data::Enum(data) => data,
         _ => unreachable!("expand_enum is called with none-enum item"),
@@ -438,5 +438,5 @@ pub fn expand(
             .with_generics(generics)
     };
 
-    vec![deserialize]
+    deserialize
 }
