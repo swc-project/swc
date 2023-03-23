@@ -5,6 +5,9 @@
 
 
 
+- **(css/codegen)** Preserve `raw` of numbers (#7131) ([150c2b6](https://github.com/swc-project/swc/commit/150c2b6fbaef976c6ee97438d1b9b7ffe4b210be))
+
+
 - **(es/react)** Respect `import_source` in new jsx (#7128) ([5d7acfd](https://github.com/swc-project/swc/commit/5d7acfd9cbbb9780879d0d7a046f716572a477f7))
 
 
