@@ -5,6 +5,9 @@
 
 
 
+- **(es/react)** Respect `import_source` in new jsx (#7128) ([5d7acfd](https://github.com/swc-project/swc/commit/5d7acfd9cbbb9780879d0d7a046f716572a477f7))
+
+
 - **(es/renamer)** Don't use symbols used by declarations if `eval` exists (#7116) ([6d9763e](https://github.com/swc-project/swc/commit/6d9763e8c0f5cef7689961e7eb11dc7199e8cd08))
 
 
