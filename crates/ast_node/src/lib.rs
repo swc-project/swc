@@ -143,7 +143,7 @@ pub fn ast_serde(
         }
     };
 
-    print("ast_serde", item)
+    print("ast_serde", item.into())
 }
 
 struct AddAttr;
@@ -315,7 +315,7 @@ pub fn ast_node(
         }
     };
 
-    print("ast_node", item)
+    print("ast_node", item.into())
 }
 
 /// Workarounds https://github.com/rust-lang/rust/issues/44925
@@ -333,5 +333,5 @@ fn print_item<T: Into<TokenStream>>(
             const NAME: () = { item };
         }
     ));
-    print(name, item)
+    print(name, item.into())
 }

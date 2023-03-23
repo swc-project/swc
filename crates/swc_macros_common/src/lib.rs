@@ -1,3 +1,5 @@
+//! Internal crate for the swc project.
+
 extern crate proc_macro;
 
 #[cfg(procmacro2_semver_exempt)]
@@ -29,13 +31,8 @@ pub fn def_site<T: FromSpan>() -> T {
 }
 
 /// `attr` - tokens inside `#[]`. e.g. `derive(EqIgnoreSpan)`, ast_node
-pub fn print<T: Into<proc_macro2::TokenStream>>(
-    attr: &'static str,
-    t: T,
-) -> proc_macro::TokenStream {
+pub fn print(attr: &'static str, tokens: proc_macro2::TokenStream) -> proc_macro::TokenStream {
     use std::env;
-
-    let tokens = t.into();
 
     match env::var("PRINT_GENERATED") {
         Ok(ref s) if s == "1" || attr == s => {}
