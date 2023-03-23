@@ -63,10 +63,10 @@ pub trait SourceMapperExt {
         false
     }
 
-    fn should_write_leading_line_terminator<N: Spanned>(
+    fn should_write_leading_line_terminator(
         &self,
         parent_node: Span,
-        children: &[N],
+        first_child: Option<Span>,
         format: ListFormat,
     ) -> bool {
         if format.contains(ListFormat::MultiLine) {
@@ -78,11 +78,11 @@ pub trait SourceMapperExt {
                 return true;
             }
 
-            if children.is_empty() {
+            if first_child.is_none() {
                 return !self.is_on_same_line(parent_node.lo(), parent_node.hi());
             }
 
-            let first_child = children[0].span();
+            let first_child = first_child.unwrap();
             if parent_node.is_synthesized() || first_child.is_synthesized() {
                 return first_child.starts_on_new_line(format);
             }

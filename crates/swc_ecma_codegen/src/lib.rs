@@ -2335,10 +2335,11 @@ where
             let may_emit_intervening_comments =
                 !format.intersects(ListFormat::NoInterveningComments);
             let mut should_emit_intervening_comments = may_emit_intervening_comments;
-            if self
-                .cm
-                .should_write_leading_line_terminator(parent_node, children, format)
-            {
+            if self.cm.should_write_leading_line_terminator(
+                parent_node,
+                children.first().map(|v| v.span()),
+                format,
+            ) {
                 if !self.cfg.minify {
                     self.wr.write_line()?;
                 }
