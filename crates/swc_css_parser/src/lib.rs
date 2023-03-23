@@ -1,4 +1,3 @@
-#![feature(box_patterns)]
 #![deny(unused_must_use)]
 #![deny(clippy::all)]
 #![allow(clippy::needless_return)]

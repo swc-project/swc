@@ -656,74 +656,79 @@ where
 
             let component_value = self.parse_as::<ComponentValue>()?;
 
-            match &component_value {
-                // Optimization for step 6
-                ComponentValue::PreservedToken(box TokenAndSpan {
-                    span,
-                    token: Token::Delim { value: '!', .. },
-                    ..
-                }) if is!(self, " ") || is_case_insensitive_ident!(self, "important") => {
-                    if let Some(span) = &exclamation_point_span {
-                        is_valid_to_canonicalize = false;
+            let is_valid_token =
+                if let ComponentValue::PreservedToken(token_and_span) = &component_value {
+                    match &token_and_span.token {
+                        Token::Delim { value: '!', .. }
+                            if is!(self, " ") || is_case_insensitive_ident!(self, "important") =>
+                        {
+                            let span = token_and_span.span;
 
-                        self.errors.push(Error::new(
-                            *span,
-                            ErrorKind::Unexpected("'!' in declaration value"),
-                        ));
+                            if let Some(span) = &exclamation_point_span {
+                                is_valid_to_canonicalize = false;
 
-                        important_ident = None;
-                        last_whitespaces = (last_whitespaces.2, 0, 0);
+                                self.errors.push(Error::new(
+                                    *span,
+                                    ErrorKind::Unexpected("'!' in declaration value"),
+                                ));
+
+                                important_ident = None;
+                                last_whitespaces = (last_whitespaces.2, 0, 0);
+                            }
+
+                            exclamation_point_span = Some(span);
+                            true
+                        }
+                        Token::WhiteSpace { .. } => {
+                            match (&exclamation_point_span, &important_ident) {
+                                (Some(_), Some(_)) => {
+                                    last_whitespaces.2 += 1;
+                                }
+                                (Some(_), None) => {
+                                    last_whitespaces.1 += 1;
+                                }
+                                (None, None) => {
+                                    last_whitespaces.0 += 1;
+                                }
+                                _ => {
+                                    unreachable!();
+                                }
+                            }
+                            true
+                        }
+                        Token::Ident { value, .. }
+                            if exclamation_point_span.is_some()
+                                && matches_eq_ignore_ascii_case!(value, js_word!("important")) =>
+                        {
+                            important_ident = Some(token_and_span.clone());
+                            true
+                        }
+                        _ => false,
                     }
+                } else {
+                    false
+                };
 
-                    exclamation_point_span = Some(*span);
+            // Handle invalid token
+            if !is_valid_token {
+                if let Err(err) = self.validate_declaration_value(&component_value) {
+                    is_valid_to_canonicalize = false;
+
+                    self.errors.push(err);
                 }
-                ComponentValue::PreservedToken(box TokenAndSpan {
-                    token: Token::WhiteSpace { .. },
-                    ..
-                }) => match (&exclamation_point_span, &important_ident) {
-                    (Some(_), Some(_)) => {
-                        last_whitespaces.2 += 1;
-                    }
-                    (Some(_), None) => {
-                        last_whitespaces.1 += 1;
-                    }
-                    (None, None) => {
-                        last_whitespaces.0 += 1;
-                    }
-                    _ => {
-                        unreachable!();
-                    }
-                },
-                ComponentValue::PreservedToken(
-                    token_and_span @ box TokenAndSpan {
-                        token: Token::Ident { value, .. },
-                        ..
-                    },
-                ) if exclamation_point_span.is_some()
-                    && matches_eq_ignore_ascii_case!(value, js_word!("important")) =>
-                {
-                    important_ident = Some(token_and_span.clone());
-                }
-                _ => {
-                    if let Err(err) = self.validate_declaration_value(&component_value) {
-                        is_valid_to_canonicalize = false;
 
-                        self.errors.push(err);
-                    }
+                last_whitespaces = (0, 0, 0);
 
-                    last_whitespaces = (0, 0, 0);
+                if let Some(span) = &exclamation_point_span {
+                    is_valid_to_canonicalize = false;
 
-                    if let Some(span) = &exclamation_point_span {
-                        is_valid_to_canonicalize = false;
+                    self.errors.push(Error::new(
+                        *span,
+                        ErrorKind::Unexpected("'!' in declaration value"),
+                    ));
 
-                        self.errors.push(Error::new(
-                            *span,
-                            ErrorKind::Unexpected("'!' in declaration value"),
-                        ));
-
-                        important_ident = None;
-                        exclamation_point_span = None;
-                    }
+                    important_ident = None;
+                    exclamation_point_span = None;
                 }
             }
 

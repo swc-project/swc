@@ -376,74 +376,25 @@ where
         &mut self,
         component_value: &ComponentValue,
     ) -> PResult<()> {
-        match component_value {
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::BadString { .. },
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("bad string in declaration value"),
-                ));
-            }
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::BadUrl { .. },
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("bad url in declaration value"),
-                ));
-            }
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::RParen,
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("')' in declaration value"),
-                ));
-            }
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::RBracket,
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("']' in declaration value"),
-                ));
-            }
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::RBrace,
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("'}' in declaration value"),
-                ));
-            }
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::Semi,
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("';' in declaration value"),
-                ));
-            }
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::Delim { value: '!' },
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("'!' in declaration value"),
-                ));
-            }
-            _ => {}
-        }
+        if let ComponentValue::PreservedToken(token_and_span) = component_value {
+            let span = &token_and_span.span;
+            let token = &token_and_span.token;
 
-        Ok(())
+            let result = match token {
+                Token::BadString { .. } => Err("bad string in declaration value"),
+                Token::BadUrl { .. } => Err("bad url in declaration value"),
+                Token::RParen => Err("')' in declaration value"),
+                Token::RBracket => Err("']' in declaration value"),
+                Token::RBrace => Err("'}' in declaration value"),
+                Token::Semi => Err("';' in declaration value"),
+                Token::Delim { value: '!' } => Err("'!' in declaration value"),
+                _ => Ok(()),
+            };
+
+            result.map_err(|err_message| Error::new(*span, ErrorKind::Unexpected(err_message)))
+        } else {
+            Ok(())
+        }
     }
 }
 

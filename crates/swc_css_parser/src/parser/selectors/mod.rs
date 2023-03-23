@@ -1297,14 +1297,11 @@ where
                         n_value = if has_minus_sign { ident_value[1..].to_string() } else { ident_value.to_string() };
                     }
                     tok!("dimension") => {
-                        let dimension = match bump!(self) {
-                            Token::Dimension(box DimensionToken { value, raw_value, unit, .. }) => (value, raw_value, unit),
-                            _ => {
-                                unreachable!();
-                            }
-                        };
+                        let Token::Dimension(dimension) = bump!(self) else { unreachable!() };
+                        let DimensionToken { value, raw_value, unit, .. } = *dimension;
+                        // let dimension = (dimension.value, dimension.raw_value, dimension.unit);
 
-                        let n_char = dimension.2.chars().next();
+                        let n_char = unit.chars().next();
 
                         if n_char != Some('n') && n_char != Some('N') {
                             return Err(Error::new(
@@ -1313,9 +1310,9 @@ where
                             ));
                         }
 
-                        a = Some(dimension.0 as i32);
-                        a_raw = Some(dimension.1);
-                        n_value =  (*dimension.2).to_string();
+                        a = Some(value as i32);
+                        a_raw = Some(raw_value);
+                        n_value =  (*unit).to_string();
                     }
                     _ => {
                         return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));
