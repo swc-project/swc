@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default, _objectSpreadProps = require("@swc/helpers/lib/_object_spread_props.js").default;
-require("preact/jsx-runtime"), require("react");
+require("preact/jsx-runtime"), require("preact");
 var props = {
     answer: 42
 };
