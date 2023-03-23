@@ -296,7 +296,7 @@ pub fn ast_node(
 
             if let Some(items) = ast_node_impl {
                 for item in items {
-                    quote = quote.quote_with(smart_quote!(Vars { item }, { item }))
+                    quote.push_tokens(&item);
                 }
             }
 
