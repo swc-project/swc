@@ -35,15 +35,12 @@ pub trait SourceMapperExt {
         false
     }
 
-    fn should_write_separating_line_terminator<P: Spanned, N: Spanned>(
+    fn should_write_separating_line_terminator(
         &self,
-        prev: Option<P>,
-        next: Option<N>,
+        prev: Option<Span>,
+        next: Option<Span>,
         format: ListFormat,
     ) -> bool {
-        let prev = prev.map(|s| s.span());
-        let next = next.map(|s| s.span());
-
         if format.contains(ListFormat::MultiLine) {
             return true;
         }

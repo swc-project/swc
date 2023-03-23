@@ -2193,6 +2193,63 @@ where
     }
 
     /// This method exists to reduce compile time.
+    fn emit_pre_child_for_list5(
+        &mut self,
+        parent_node: Span,
+        format: ListFormat,
+        previous_sibling: Option<Span>,
+        child: Span,
+        should_decrease_indent_after_emit: &mut bool,
+        should_emit_intervening_comments: &mut bool,
+    ) -> Result {
+        // Write the delimiter if this is not the first node.
+        if let Some(previous_sibling) = previous_sibling {
+            // i.e
+            //      function commentedParameters(
+            //          /* Parameter a */
+            //          a
+            // /* End of parameter a */
+            // -> this comment isn't considered to be trailing comment of parameter "a" due
+            // to newline ,
+            if format.contains(ListFormat::DelimitersMask)
+                && previous_sibling.hi != parent_node.hi()
+                && self.comments.is_some()
+            {
+                self.emit_leading_comments(previous_sibling.hi(), true)?;
+            }
+
+            self.write_delim(format)?;
+
+            // Write either a line terminator or whitespace to separate the elements.
+
+            if self.cm.should_write_separating_line_terminator(
+                Some(previous_sibling),
+                Some(child),
+                format,
+            ) {
+                // If a synthesized node in a single-line list starts on a new
+                // line, we should increase the indent.
+                if (format & (ListFormat::LinesMask | ListFormat::Indented))
+                    == ListFormat::SingleLine
+                    && !self.cfg.minify
+                {
+                    self.wr.increase_indent()?;
+                    *should_decrease_indent_after_emit = true;
+                }
+
+                if !self.cfg.minify {
+                    self.wr.write_line()?;
+                }
+                *should_emit_intervening_comments = false;
+            } else if format.contains(ListFormat::SpaceBetweenSiblings) {
+                formatting_space!(self);
+            }
+        }
+
+        Ok(())
+    }
+
+    /// This method exists to reduce compile time.
     fn emit_list_finisher_of_list5(
         &mut self,
         parent_node: Span,
@@ -2359,49 +2416,14 @@ where
             for i in 0..count {
                 let child = &children[start + i];
 
-                // Write the delimiter if this is not the first node.
-                if let Some(previous_sibling) = previous_sibling {
-                    // i.e
-                    //      function commentedParameters(
-                    //          /* Parameter a */
-                    //          a
-                    // /* End of parameter a */
-                    // -> this comment isn't considered to be trailing comment of parameter "a" due
-                    // to newline ,
-                    if format.contains(ListFormat::DelimitersMask)
-                        && previous_sibling.hi != parent_node.hi()
-                        && self.comments.is_some()
-                    {
-                        self.emit_leading_comments(previous_sibling.hi(), true)?;
-                    }
-
-                    self.write_delim(format)?;
-
-                    // Write either a line terminator or whitespace to separate the elements.
-
-                    if self.cm.should_write_separating_line_terminator(
-                        Some(previous_sibling),
-                        Some(child),
-                        format,
-                    ) {
-                        // If a synthesized node in a single-line list starts on a new
-                        // line, we should increase the indent.
-                        if (format & (ListFormat::LinesMask | ListFormat::Indented))
-                            == ListFormat::SingleLine
-                            && !self.cfg.minify
-                        {
-                            self.wr.increase_indent()?;
-                            should_decrease_indent_after_emit = true;
-                        }
-
-                        if !self.cfg.minify {
-                            self.wr.write_line()?;
-                        }
-                        should_emit_intervening_comments = false;
-                    } else if format.contains(ListFormat::SpaceBetweenSiblings) {
-                        formatting_space!(self);
-                    }
-                }
+                self.emit_pre_child_for_list5(
+                    parent_node,
+                    format,
+                    previous_sibling,
+                    child.span(),
+                    &mut should_decrease_indent_after_emit,
+                    &mut should_emit_intervening_comments,
+                )?;
 
                 child.emit_with(self)?;
 
