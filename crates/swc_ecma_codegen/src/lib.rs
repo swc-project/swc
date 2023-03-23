@@ -2155,7 +2155,219 @@ where
         )
     }
 
-    #[allow(clippy::cognitive_complexity)]
+    /// This method exists to reduce compile time.
+    #[inline(never)]
+    fn emit_first_of_list5(
+        &mut self,
+        parent_node: Span,
+        children: Option<usize>,
+        format: ListFormat,
+        start: usize,
+        count: usize,
+    ) -> Option<Result> {
+        if children.is_none() && format.contains(ListFormat::OptionalIfUndefined) {
+            return Some(Ok(()));
+        }
+
+        let is_empty = children.is_none() || start > children.unwrap() || count == 0;
+        if is_empty && format.contains(ListFormat::OptionalIfEmpty) {
+            return Some(Ok(()));
+        }
+
+        if format.contains(ListFormat::BracketsMask) {
+            if let Err(err) = self.wr.write_punct(None, format.opening_bracket()) {
+                return Some(Err(err));
+            }
+
+            if is_empty {
+                if let Err(err) = self.emit_trailing_comments_of_pos(
+                    {
+                        // TODO: children.lo()
+
+                        parent_node.lo()
+                    },
+                    true,
+                    false,
+                ) {
+                    return Some(Err(err));
+                }
+            }
+        }
+
+        None
+    }
+
+    /// This method exists to reduce compile time.
+    #[inline(never)]
+    fn emit_pre_child_for_list5(
+        &mut self,
+        parent_node: Span,
+        format: ListFormat,
+        previous_sibling: Option<Span>,
+        child: Span,
+        should_decrease_indent_after_emit: &mut bool,
+        should_emit_intervening_comments: &mut bool,
+    ) -> Result {
+        // Write the delimiter if this is not the first node.
+        if let Some(previous_sibling) = previous_sibling {
+            // i.e
+            //      function commentedParameters(
+            //          /* Parameter a */
+            //          a
+            // /* End of parameter a */
+            // -> this comment isn't considered to be trailing comment of parameter "a" due
+            // to newline ,
+            if format.contains(ListFormat::DelimitersMask)
+                && previous_sibling.hi != parent_node.hi()
+                && self.comments.is_some()
+            {
+                self.emit_leading_comments(previous_sibling.hi(), true)?;
+            }
+
+            self.write_delim(format)?;
+
+            // Write either a line terminator or whitespace to separate the elements.
+
+            if self.cm.should_write_separating_line_terminator(
+                Some(previous_sibling),
+                Some(child),
+                format,
+            ) {
+                // If a synthesized node in a single-line list starts on a new
+                // line, we should increase the indent.
+                if (format & (ListFormat::LinesMask | ListFormat::Indented))
+                    == ListFormat::SingleLine
+                    && !self.cfg.minify
+                {
+                    self.wr.increase_indent()?;
+                    *should_decrease_indent_after_emit = true;
+                }
+
+                if !self.cfg.minify {
+                    self.wr.write_line()?;
+                }
+                *should_emit_intervening_comments = false;
+            } else if format.contains(ListFormat::SpaceBetweenSiblings) {
+                formatting_space!(self);
+            }
+        }
+
+        Ok(())
+    }
+
+    /// This method exists to reduce compile time.
+    #[inline(never)]
+    fn emit_list_finisher_of_list5(
+        &mut self,
+        parent_node: Span,
+        format: ListFormat,
+        previous_sibling: Option<Span>,
+        last_child: Option<Span>,
+    ) -> Result {
+        // Write a trailing comma, if requested.
+        let has_trailing_comma = format.contains(ListFormat::ForceTrailingComma)
+            || format.contains(ListFormat::AllowTrailingComma) && {
+                if parent_node.is_dummy() {
+                    false
+                } else {
+                    match self.cm.span_to_snippet(parent_node) {
+                        Ok(snippet) => {
+                            if snippet.len() < 3 {
+                                false
+                            } else {
+                                let last_char = snippet.chars().last().unwrap();
+                                snippet[..snippet.len() - last_char.len_utf8()]
+                                    .trim()
+                                    .ends_with(',')
+                            }
+                        }
+                        _ => false,
+                    }
+                }
+            };
+
+        if has_trailing_comma
+            && format.contains(ListFormat::CommaDelimited)
+            && (!self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma))
+        {
+            punct!(self, ",");
+            formatting_space!(self);
+        }
+
+        {
+            // Emit any trailing comment of the last element in the list
+            // i.e
+            //       var array = [...
+            //          2
+            //          /* end of element 2 */
+            //       ];
+
+            let emit_trailing_comments = {
+                // TODO:
+                //
+                // !(getEmitFlags(previousSibling).contains(EmitFlags::NoTrailingComments))
+
+                true
+            };
+
+            if let Some(previous_sibling) = previous_sibling {
+                if format.contains(ListFormat::DelimitersMask)
+                    && previous_sibling.hi() != parent_node.hi()
+                    && emit_trailing_comments
+                    && self.comments.is_some()
+                {
+                    self.emit_leading_comments(previous_sibling.hi(), true)?;
+                }
+            }
+        }
+
+        // Decrease the indent, if requested.
+        if format.contains(ListFormat::Indented) && !self.cfg.minify {
+            self.wr.decrease_indent()?;
+        }
+
+        // Write the closing line terminator or closing whitespace.
+        if self
+            .cm
+            .should_write_closing_line_terminator(parent_node, last_child, format)
+        {
+            if !self.cfg.minify {
+                self.wr.write_line()?;
+            }
+        } else if format.contains(ListFormat::SpaceBetweenBraces) && !self.cfg.minify {
+            self.wr.write_space()?;
+        }
+
+        Ok(())
+    }
+
+    /// This method exists to reduce compile time.
+    #[inline(never)]
+    fn emit_last_of_list5(
+        &mut self,
+        parent_node: Span,
+        is_empty: bool,
+        format: ListFormat,
+        start: usize,
+        count: usize,
+    ) -> Result {
+        if format.contains(ListFormat::BracketsMask) {
+            if is_empty {
+                self.emit_leading_comments(
+                    {
+                        //TODO: children.hi()
+
+                        parent_node.hi()
+                    },
+                    true,
+                )?; // Emit leading comments within empty lists
+            }
+            self.wr.write_punct(None, format.closing_bracket())?;
+        }
+
+        Ok(())
+    }
+
     fn emit_list5<N: Node>(
         &mut self,
         parent_node: Span,
@@ -2164,32 +2376,13 @@ where
         start: usize,
         count: usize,
     ) -> Result {
-        if children.is_none() && format.contains(ListFormat::OptionalIfUndefined) {
-            return Ok(());
+        if let Some(result) =
+            self.emit_first_of_list5(parent_node, children.map(|v| v.len()), format, start, count)
+        {
+            return result;
         }
 
         let is_empty = children.is_none() || start > children.unwrap().len() || count == 0;
-        if is_empty && format.contains(ListFormat::OptionalIfEmpty) {
-            return Ok(());
-        }
-
-        if format.contains(ListFormat::BracketsMask) {
-            self.wr.write_punct(None, format.opening_bracket())?;
-
-            if is_empty {
-                self.emit_trailing_comments_of_pos(
-                    {
-                        // TODO: children.lo()
-
-                        parent_node.lo()
-                    },
-                    true,
-                    false,
-                )?;
-            }
-        }
-
-        // self.handlers.onBeforeEmitNodeArray(children);
 
         if is_empty {
             // Write a line terminator if the parent node was multi-line
@@ -2211,10 +2404,11 @@ where
             let may_emit_intervening_comments =
                 !format.intersects(ListFormat::NoInterveningComments);
             let mut should_emit_intervening_comments = may_emit_intervening_comments;
-            if self
-                .cm
-                .should_write_leading_line_terminator(parent_node, children, format)
-            {
+            if self.cm.should_write_leading_line_terminator(
+                parent_node,
+                children.first().map(|v| v.span()),
+                format,
+            ) {
                 if !self.cfg.minify {
                     self.wr.write_line()?;
                 }
@@ -2234,49 +2428,14 @@ where
             for i in 0..count {
                 let child = &children[start + i];
 
-                // Write the delimiter if this is not the first node.
-                if let Some(previous_sibling) = previous_sibling {
-                    // i.e
-                    //      function commentedParameters(
-                    //          /* Parameter a */
-                    //          a
-                    // /* End of parameter a */
-                    // -> this comment isn't considered to be trailing comment of parameter "a" due
-                    // to newline ,
-                    if format.contains(ListFormat::DelimitersMask)
-                        && previous_sibling.hi != parent_node.hi()
-                        && self.comments.is_some()
-                    {
-                        self.emit_leading_comments(previous_sibling.hi(), true)?;
-                    }
-
-                    self.write_delim(format)?;
-
-                    // Write either a line terminator or whitespace to separate the elements.
-
-                    if self.cm.should_write_separating_line_terminator(
-                        Some(previous_sibling),
-                        Some(child),
-                        format,
-                    ) {
-                        // If a synthesized node in a single-line list starts on a new
-                        // line, we should increase the indent.
-                        if (format & (ListFormat::LinesMask | ListFormat::Indented))
-                            == ListFormat::SingleLine
-                            && !self.cfg.minify
-                        {
-                            self.wr.increase_indent()?;
-                            should_decrease_indent_after_emit = true;
-                        }
-
-                        if !self.cfg.minify {
-                            self.wr.write_line()?;
-                        }
-                        should_emit_intervening_comments = false;
-                    } else if format.contains(ListFormat::SpaceBetweenSiblings) {
-                        formatting_space!(self);
-                    }
-                }
+                self.emit_pre_child_for_list5(
+                    parent_node,
+                    format,
+                    previous_sibling,
+                    child.span(),
+                    &mut should_decrease_indent_after_emit,
+                    &mut should_emit_intervening_comments,
+                )?;
 
                 child.emit_with(self)?;
 
@@ -2298,97 +2457,17 @@ where
                 previous_sibling = Some(child.span());
             }
 
-            // Write a trailing comma, if requested.
-            let has_trailing_comma = format.contains(ListFormat::ForceTrailingComma)
-                || format.contains(ListFormat::AllowTrailingComma) && {
-                    if parent_node.is_dummy() {
-                        false
-                    } else {
-                        match self.cm.span_to_snippet(parent_node) {
-                            Ok(snippet) => {
-                                if snippet.len() < 3 {
-                                    false
-                                } else {
-                                    let last_char = snippet.chars().last().unwrap();
-                                    snippet[..snippet.len() - last_char.len_utf8()]
-                                        .trim()
-                                        .ends_with(',')
-                                }
-                            }
-                            _ => false,
-                        }
-                    }
-                };
-
-            if has_trailing_comma
-                && format.contains(ListFormat::CommaDelimited)
-                && (!self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma))
-            {
-                punct!(self, ",");
-                formatting_space!(self);
-            }
-
-            {
-                // Emit any trailing comment of the last element in the list
-                // i.e
-                //       var array = [...
-                //          2
-                //          /* end of element 2 */
-                //       ];
-
-                let emit_trailing_comments = {
-                    // TODO:
-                    //
-                    // !(getEmitFlags(previousSibling).contains(EmitFlags::NoTrailingComments))
-
-                    true
-                };
-
-                if let Some(previous_sibling) = previous_sibling {
-                    if format.contains(ListFormat::DelimitersMask)
-                        && previous_sibling.hi() != parent_node.hi()
-                        && emit_trailing_comments
-                        && self.comments.is_some()
-                    {
-                        self.emit_leading_comments(previous_sibling.hi(), true)?;
-                    }
-                }
-            }
-
-            // Decrease the indent, if requested.
-            if format.contains(ListFormat::Indented) && !self.cfg.minify {
-                self.wr.decrease_indent()?;
-            }
-
-            // Write the closing line terminator or closing whitespace.
-            if self
-                .cm
-                .should_write_closing_line_terminator(parent_node, children, format)
-            {
-                if !self.cfg.minify {
-                    self.wr.write_line()?;
-                }
-            } else if format.contains(ListFormat::SpaceBetweenBraces) && !self.cfg.minify {
-                self.wr.write_space()?;
-            }
+            self.emit_list_finisher_of_list5(
+                parent_node,
+                format,
+                previous_sibling,
+                children.last().map(|v| v.span()),
+            )?;
         }
 
         // self.handlers.onAfterEmitNodeArray(children);
 
-        if format.contains(ListFormat::BracketsMask) {
-            if is_empty {
-                self.emit_leading_comments(
-                    {
-                        //TODO: children.hi()
-
-                        parent_node.hi()
-                    },
-                    true,
-                )?; // Emit leading comments within empty lists
-            }
-            self.wr.write_punct(None, format.closing_bracket())?;
-        }
-
+        self.emit_last_of_list5(parent_node, is_empty, format, start, count)?;
         Ok(())
     }
 }

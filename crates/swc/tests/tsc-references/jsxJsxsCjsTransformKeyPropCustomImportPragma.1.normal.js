@@ -7,14 +7,14 @@ Object.defineProperty(exports, "__esModule", {
 var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default;
 var _objectSpreadProps = require("@swc/helpers/lib/_object_spread_props.js").default;
 var _jsxRuntime = require("preact/jsx-runtime");
-var _react = require("react");
+var _preact = require("preact");
 var props = {
     answer: 42
 };
 var a = /*#__PURE__*/ (0, _jsxRuntime.jsx)("div", _objectSpreadProps(_objectSpread({}, props), {
     children: "text"
 }), "foo");
-var b = /*#__PURE__*/ (0, _react.createElement)("div", _objectSpreadProps(_objectSpread({}, props), {
+var b = /*#__PURE__*/ (0, _preact.createElement)("div", _objectSpreadProps(_objectSpread({}, props), {
     key: "bar"
 }), "text");
 //// [react.tsx]
