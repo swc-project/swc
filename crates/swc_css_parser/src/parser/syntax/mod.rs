@@ -655,82 +655,79 @@ where
             }
 
             let component_value = self.parse_as::<ComponentValue>()?;
+            let preserved_token = match &component_value {
+                ComponentValue::PreservedToken(token_and_span) => Some(&**token_and_span),
+                _ => None,
+            };
 
-            let is_valid_token =
-                if let ComponentValue::PreservedToken(token_and_span) = &component_value {
-                    match &token_and_span.token {
-                        Token::Delim { value: '!', .. }
-                            if is!(self, " ") || is_case_insensitive_ident!(self, "important") =>
-                        {
-                            let span = token_and_span.span;
+            match preserved_token {
+                Some(TokenAndSpan {
+                    token: Token::Delim { value: '!', .. },
+                    span,
+                }) if is!(self, " ") || is_case_insensitive_ident!(self, "important") => {
+                    if let Some(span) = &exclamation_point_span {
+                        is_valid_to_canonicalize = false;
 
-                            if let Some(span) = &exclamation_point_span {
-                                is_valid_to_canonicalize = false;
+                        self.errors.push(Error::new(
+                            *span,
+                            ErrorKind::Unexpected("'!' in declaration value"),
+                        ));
 
-                                self.errors.push(Error::new(
-                                    *span,
-                                    ErrorKind::Unexpected("'!' in declaration value"),
-                                ));
-
-                                important_ident = None;
-                                last_whitespaces = (last_whitespaces.2, 0, 0);
-                            }
-
-                            exclamation_point_span = Some(span);
-                            true
-                        }
-                        Token::WhiteSpace { .. } => {
-                            match (&exclamation_point_span, &important_ident) {
-                                (Some(_), Some(_)) => {
-                                    last_whitespaces.2 += 1;
-                                }
-                                (Some(_), None) => {
-                                    last_whitespaces.1 += 1;
-                                }
-                                (None, None) => {
-                                    last_whitespaces.0 += 1;
-                                }
-                                _ => {
-                                    unreachable!();
-                                }
-                            }
-                            true
-                        }
-                        Token::Ident { value, .. }
-                            if exclamation_point_span.is_some()
-                                && matches_eq_ignore_ascii_case!(value, js_word!("important")) =>
-                        {
-                            important_ident = Some(token_and_span.clone());
-                            true
-                        }
-                        _ => false,
+                        important_ident = None;
+                        last_whitespaces = (last_whitespaces.2, 0, 0);
                     }
-                } else {
-                    false
-                };
 
-            // Handle invalid token
-            if !is_valid_token {
-                if let Err(err) = self.validate_declaration_value(&component_value) {
-                    is_valid_to_canonicalize = false;
-
-                    self.errors.push(err);
+                    exclamation_point_span = Some(*span);
                 }
-
-                last_whitespaces = (0, 0, 0);
-
-                if let Some(span) = &exclamation_point_span {
-                    is_valid_to_canonicalize = false;
-
-                    self.errors.push(Error::new(
-                        *span,
-                        ErrorKind::Unexpected("'!' in declaration value"),
-                    ));
-
-                    important_ident = None;
-                    exclamation_point_span = None;
+                Some(TokenAndSpan {
+                    token: Token::WhiteSpace { .. },
+                    ..
+                }) => match (&exclamation_point_span, &important_ident) {
+                    (Some(_), Some(_)) => {
+                        last_whitespaces.2 += 1;
+                    }
+                    (Some(_), None) => {
+                        last_whitespaces.1 += 1;
+                    }
+                    (None, None) => {
+                        last_whitespaces.0 += 1;
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                },
+                Some(
+                    token_and_span @ TokenAndSpan {
+                        token: Token::Ident { value, .. },
+                        ..
+                    },
+                ) if exclamation_point_span.is_some()
+                    && matches_eq_ignore_ascii_case!(value, js_word!("important")) =>
+                {
+                    important_ident = Some(token_and_span.clone());
                 }
-            }
+                _ => {
+                    if let Err(err) = self.validate_declaration_value(&component_value) {
+                        is_valid_to_canonicalize = false;
+
+                        self.errors.push(err);
+                    }
+
+                    last_whitespaces = (0, 0, 0);
+
+                    if let Some(span) = &exclamation_point_span {
+                        is_valid_to_canonicalize = false;
+
+                        self.errors.push(Error::new(
+                            *span,
+                            ErrorKind::Unexpected("'!' in declaration value"),
+                        ));
+
+                        important_ident = None;
+                        exclamation_point_span = None;
+                    }
+                }
+            };
 
             declaration.value.push(component_value);
         }
