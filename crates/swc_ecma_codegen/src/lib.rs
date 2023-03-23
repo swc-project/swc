@@ -2163,21 +2163,23 @@ where
         format: ListFormat,
         start: usize,
         count: usize,
-    ) -> Result {
+    ) -> Option<Result> {
         if children.is_none() && format.contains(ListFormat::OptionalIfUndefined) {
-            return Ok(());
+            return Some(Ok(()));
         }
 
         let is_empty = children.is_none() || start > children.unwrap() || count == 0;
         if is_empty && format.contains(ListFormat::OptionalIfEmpty) {
-            return Ok(());
+            return Some(Ok(()));
         }
 
         if format.contains(ListFormat::BracketsMask) {
-            self.wr.write_punct(None, format.opening_bracket())?;
+            if let Err(err) = self.wr.write_punct(None, format.opening_bracket()) {
+                return Some(Err(err));
+            }
 
             if is_empty {
-                self.emit_trailing_comments_of_pos(
+                if let Err(err) = self.emit_trailing_comments_of_pos(
                     {
                         // TODO: children.lo()
 
@@ -2185,11 +2187,13 @@ where
                     },
                     true,
                     false,
-                )?;
+                ) {
+                    return Some(Err(err));
+                }
             }
         }
 
-        Ok(())
+        None
     }
 
     /// This method exists to reduce compile time.
@@ -2368,7 +2372,11 @@ where
         start: usize,
         count: usize,
     ) -> Result {
-        self.emit_first_of_list5(parent_node, children.map(|v| v.len()), format, start, count)?;
+        if let Some(result) =
+            self.emit_first_of_list5(parent_node, children.map(|v| v.len()), format, start, count)
+        {
+            return result;
+        }
 
         let is_empty = children.is_none() || start > children.unwrap().len() || count == 0;
 
