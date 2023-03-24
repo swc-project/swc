@@ -55,10 +55,10 @@ pub struct FnDecl {
     #[serde(rename = "identifier")]
     pub ident: Ident,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub declare: bool,
 
-    #[cfg_attr(feature = "serde", serde(flatten))]
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[span]
     pub function: Box<Function>,
 }
@@ -80,10 +80,10 @@ pub struct ClassDecl {
     #[serde(rename = "identifier")]
     pub ident: Ident,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub declare: bool,
 
-    #[cfg_attr(feature = "serde", serde(flatten))]
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[span]
     pub class: Box<Class>,
 }
@@ -96,7 +96,7 @@ pub struct VarDecl {
 
     pub kind: VarDeclKind,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub declare: bool,
 
     #[serde(rename = "declarations")]
@@ -138,11 +138,11 @@ pub struct VarDeclarator {
     pub name: Pat,
 
     /// Initialization expression.
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub init: Option<Box<Expr>>,
 
     /// Typescript only
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub definite: bool,
 }
 

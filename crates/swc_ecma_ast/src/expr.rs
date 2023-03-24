@@ -514,7 +514,7 @@ pub struct FnExpr {
     #[serde(default, rename = "identifier")]
     pub ident: Option<Ident>,
 
-    #[cfg_attr(feature = "serde", serde(flatten))]
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[span]
     pub function: Box<Function>,
 }
@@ -548,7 +548,7 @@ pub struct ClassExpr {
     #[serde(default, rename = "identifier")]
     pub ident: Option<Ident>,
 
-    #[cfg_attr(feature = "serde", serde(flatten))]
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[span]
     pub class: Box<Class>,
 }
@@ -884,7 +884,7 @@ pub struct ArrowExpr {
     #[serde(default, rename = "typeParameters")]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub return_type: Option<Box<TsTypeAnn>>,
 }
 
@@ -911,7 +911,7 @@ pub struct YieldExpr {
     #[serde(default, rename = "argument")]
     pub arg: Option<Box<Expr>>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub delegate: bool,
 }
 
@@ -1129,7 +1129,7 @@ impl Take for Import {
     ))
 )]
 pub struct ExprOrSpread {
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub spread: Option<Span>,
 

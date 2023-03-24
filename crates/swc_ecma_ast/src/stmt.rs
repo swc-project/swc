@@ -202,7 +202,7 @@ pub struct LabeledStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BreakStmt {
     pub span: Span,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub label: Option<Ident>,
 }
 
@@ -211,7 +211,7 @@ pub struct BreakStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ContinueStmt {
     pub span: Span,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub label: Option<Ident>,
 }
 
@@ -255,10 +255,10 @@ pub struct TryStmt {
 
     pub block: BlockStmt,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub handler: Option<CatchClause>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub finalizer: Option<BlockStmt>,
 }
 
@@ -286,13 +286,13 @@ pub struct DoWhileStmt {
 pub struct ForStmt {
     pub span: Span,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub init: Option<VarDeclOrExpr>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub test: Option<Box<Expr>>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub update: Option<Box<Expr>>,
 
     pub body: Box<Stmt>,
@@ -344,7 +344,7 @@ pub struct SwitchCase {
     pub span: Span,
 
     /// None for `default:`
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub test: Option<Box<Expr>>,
 
     #[serde(rename = "consequent")]
@@ -370,7 +370,7 @@ pub struct CatchClause {
     ///
     /// The param is null if the catch binding is omitted. E.g., try { foo() }
     /// catch { bar() }
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub param: Option<Pat>,
 
     pub body: BlockStmt,

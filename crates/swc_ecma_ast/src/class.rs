@@ -23,26 +23,26 @@ use crate::{
 pub struct Class {
     pub span: Span,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(c, serde(default))]
     pub decorators: Vec<Decorator>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub body: Vec<ClassMember>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub super_class: Option<Box<Expr>>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_abstract: bool,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub super_type_params: Option<Box<TsTypeParamInstantiation>>,
 
     /// Typescript extension.
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub implements: Vec<TsExprWithTypeArgs>,
 }
 
@@ -101,44 +101,44 @@ impl Take for ClassMember {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ClassProp {
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
 
     pub key: PropName,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub value: Option<Box<Expr>>,
 
     #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<Box<TsTypeAnn>>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_static: bool,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decorators: Vec<Decorator>,
 
     /// Typescript extension.
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub accessibility: Option<Accessibility>,
 
     /// Typescript extension.
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_abstract: bool,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_optional: bool,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_override: bool,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub readonly: bool,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub declare: bool,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub definite: bool,
 }
 
@@ -146,37 +146,37 @@ pub struct ClassProp {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct PrivateProp {
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
 
     pub key: PrivateName,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub value: Option<Box<Expr>>,
 
     #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<Box<TsTypeAnn>>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_static: bool,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decorators: Vec<Decorator>,
 
     /// Typescript extension.
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub accessibility: Option<Accessibility>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_optional: bool,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_override: bool,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub readonly: bool,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub definite: bool,
 }
 
@@ -186,7 +186,7 @@ macro_rules! method {
         #[derive(Eq, Hash, EqIgnoreSpan)]
         #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
         pub struct $name {
-            #[cfg_attr(feature = "serde", serde(default))]
+            #[cfg_attr(feature = "serde-impl", serde(default))]
             pub span: Span,
 
             pub key: $KEY,
@@ -195,21 +195,21 @@ macro_rules! method {
 
             pub kind: MethodKind,
 
-            #[cfg_attr(feature = "serde", serde(default))]
+            #[cfg_attr(feature = "serde-impl", serde(default))]
             pub is_static: bool,
 
             /// Typescript extension.
-            #[cfg_attr(feature = "serde", serde(default))]
+            #[cfg_attr(feature = "serde-impl", serde(default))]
             pub accessibility: Option<Accessibility>,
 
             /// Typescript extension.
-            #[cfg_attr(feature = "serde", serde(default))]
+            #[cfg_attr(feature = "serde-impl", serde(default))]
             pub is_abstract: bool,
 
-            #[cfg_attr(feature = "serde", serde(default))]
+            #[cfg_attr(feature = "serde-impl", serde(default))]
             pub is_optional: bool,
 
-            #[cfg_attr(feature = "serde", serde(default))]
+            #[cfg_attr(feature = "serde-impl", serde(default))]
             pub is_override: bool,
         }
     };
@@ -228,13 +228,13 @@ pub struct Constructor {
 
     pub params: Vec<ParamOrTsParamProp>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub body: Option<BlockStmt>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub accessibility: Option<Accessibility>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_optional: bool,
 }
 
@@ -311,25 +311,25 @@ impl Take for Key {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AutoAccessor {
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
 
     pub key: Key,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub value: Option<Box<Expr>>,
 
     #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<Box<TsTypeAnn>>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_static: bool,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decorators: Vec<Decorator>,
 
     /// Typescript extension.
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub accessibility: Option<Accessibility>,
 }
 

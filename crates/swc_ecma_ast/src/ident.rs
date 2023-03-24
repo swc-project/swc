@@ -29,7 +29,7 @@ use crate::typescript::TsTypeAnn;
 )]
 pub struct BindingIdent {
     #[span]
-    #[cfg_attr(feature = "serde", serde(flatten))]
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub id: Ident,
     #[serde(default, rename = "typeAnnotation")]
@@ -122,7 +122,7 @@ pub struct Ident {
     pub sym: JsWord,
 
     /// TypeScript only. Used in case of an optional parameter.
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub optional: bool,
 }
 

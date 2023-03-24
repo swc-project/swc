@@ -332,7 +332,7 @@ fn make_as_str_ident() -> Ident {
 fn make_serialize(i: &DeriveInput) -> ItemImpl {
     Quote::new_call_site()
         .quote_with(smart_quote!(Vars { Type: &i.ident }, {
-            #[cfg(feature = "serde")]
+            #[cfg(feature = "serde-impl")]
             impl ::serde::Serialize for Type {
                 fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
                 where
@@ -349,7 +349,7 @@ fn make_serialize(i: &DeriveInput) -> ItemImpl {
 fn make_deserialize(i: &DeriveInput) -> ItemImpl {
     Quote::new_call_site()
         .quote_with(smart_quote!(Vars { Type: &i.ident }, {
-            #[cfg(feature = "serde")]
+            #[cfg(feature = "serde-impl")]
             impl<'de> ::serde::Deserialize<'de> for Type {
                 fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
                 where

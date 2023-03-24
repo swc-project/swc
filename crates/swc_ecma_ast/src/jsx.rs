@@ -262,7 +262,7 @@ pub struct JSXFragment {
 
     pub opening: JSXOpeningFragment,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub children: Vec<JSXElementChild>,
 
     pub closing: JSXClosingFragment,

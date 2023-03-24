@@ -411,7 +411,7 @@ pub fn expand(
                     variants
                 },
                 {
-                    #[cfg(feature = "serde")]
+                    #[cfg(feature = "serde-impl")]
                     impl<'de> serde::Deserialize<'de> for Enum {
                         #[allow(unreachable_code)]
                         fn deserialize<__D>(

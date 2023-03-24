@@ -5,6 +5,7 @@ use std::fmt;
 use is_macro::Is;
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
+#[cfg(feature = "serde")]
 use serde::{
     de::{self, Unexpected, Visitor},
     Deserialize, Deserializer, Serialize,

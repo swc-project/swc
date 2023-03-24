@@ -174,6 +174,6 @@ pub struct AssignPatProp {
     pub span: Span,
     pub key: Ident,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub value: Option<Box<Expr>>,
 }
