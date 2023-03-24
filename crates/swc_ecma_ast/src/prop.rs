@@ -67,7 +67,7 @@ pub struct GetterProp {
     pub key: PropName,
     #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub body: Option<BlockStmt>,
 }
 #[ast_node("SetterProperty")]
@@ -77,7 +77,7 @@ pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
     pub param: Box<Pat>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub body: Option<BlockStmt>,
 }
 #[ast_node("MethodProperty")]
@@ -86,7 +86,7 @@ pub struct SetterProp {
 pub struct MethodProp {
     pub key: PropName,
 
-    #[serde(flatten)]
+    #[cfg_attr(feature = "serde", serde(flatten))]
     #[span]
     pub function: Box<Function>,
 }

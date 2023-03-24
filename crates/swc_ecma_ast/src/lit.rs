@@ -296,7 +296,7 @@ pub struct Regex {
     #[serde(rename = "pattern")]
     pub exp: Atom,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub flags: Atom,
 }
 

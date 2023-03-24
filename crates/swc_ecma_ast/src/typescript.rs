@@ -57,10 +57,10 @@ pub struct TsTypeParam {
     #[serde(default, rename = "const")]
     pub is_const: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub constraint: Option<Box<TsType>>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub default: Option<Box<TsType>>,
 }
 
@@ -77,10 +77,10 @@ pub struct TsTypeParamInstantiation {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsParamProp {
     pub span: Span,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub decorators: Vec<Decorator>,
     /// At least one of `accessibility` or `readonly` must be set.
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub accessibility: Option<Accessibility>,
     #[serde(rename = "override")]
     pub is_override: bool,
@@ -159,7 +159,7 @@ pub struct TsCallSignatureDecl {
     pub params: Vec<TsFnParam>,
     #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -171,7 +171,7 @@ pub struct TsConstructSignatureDecl {
     pub params: Vec<TsFnParam>,
     #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -184,12 +184,12 @@ pub struct TsPropertySignature {
     pub key: Box<Expr>,
     pub computed: bool,
     pub optional: bool,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub init: Option<Box<Expr>>,
     pub params: Vec<TsFnParam>,
     #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -228,9 +228,9 @@ pub struct TsMethodSignature {
     pub computed: bool,
     pub optional: bool,
     pub params: Vec<TsFnParam>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -469,7 +469,7 @@ pub struct TsFnType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     #[serde(rename = "typeAnnotation")]
     pub type_ann: Box<TsTypeAnn>,
@@ -481,7 +481,7 @@ pub struct TsFnType {
 pub struct TsConstructorType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     #[serde(rename = "typeAnnotation")]
     pub type_ann: Box<TsTypeAnn>,
@@ -494,7 +494,7 @@ pub struct TsConstructorType {
 pub struct TsTypeRef {
     pub span: Span,
     pub type_name: TsEntityName,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub type_params: Option<Box<TsTypeParamInstantiation>>,
 }
 
@@ -770,12 +770,12 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsMappedType {
     pub span: Span,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub readonly: Option<TruePlusMinus>,
     pub type_param: TsTypeParam,
     #[serde(default, rename = "nameType")]
     pub name_type: Option<Box<TsType>>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub optional: Option<TruePlusMinus>,
     #[serde(default, rename = "typeAnnotation")]
     pub type_ann: Option<Box<TsType>>,
@@ -832,7 +832,7 @@ pub struct TsInterfaceDecl {
     pub span: Span,
     pub id: Ident,
     pub declare: bool,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     pub extends: Vec<TsExprWithTypeArgs>,
     pub body: TsInterfaceBody,
@@ -864,7 +864,7 @@ pub struct TsTypeAliasDecl {
     pub span: Span,
     pub declare: bool,
     pub id: Ident,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     #[serde(rename = "typeAnnotation")]
     pub type_ann: Box<TsType>,
@@ -887,7 +887,7 @@ pub struct TsEnumDecl {
 pub struct TsEnumMember {
     pub span: Span,
     pub id: TsEnumMemberId,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub init: Option<Box<Expr>>,
 }
 
@@ -922,7 +922,7 @@ pub struct TsModuleDecl {
     /// In TypeScript, this is only available through`node.flags`.
     pub global: bool,
     pub id: TsModuleName,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub body: Option<TsNamespaceBody>,
 }
 

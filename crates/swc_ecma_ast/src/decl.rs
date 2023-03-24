@@ -55,10 +55,10 @@ pub struct FnDecl {
     #[serde(rename = "identifier")]
     pub ident: Ident,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub declare: bool,
 
-    #[serde(flatten)]
+    #[cfg_attr(feature = "serde", serde(flatten))]
     #[span]
     pub function: Box<Function>,
 }
@@ -80,10 +80,10 @@ pub struct ClassDecl {
     #[serde(rename = "identifier")]
     pub ident: Ident,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub declare: bool,
 
-    #[serde(flatten)]
+    #[cfg_attr(feature = "serde", serde(flatten))]
     #[span]
     pub class: Box<Class>,
 }
@@ -96,7 +96,7 @@ pub struct VarDecl {
 
     pub kind: VarDeclKind,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub declare: bool,
 
     #[serde(rename = "declarations")]
@@ -138,11 +138,11 @@ pub struct VarDeclarator {
     pub name: Pat,
 
     /// Initialization expression.
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub init: Option<Box<Expr>>,
 
     /// Typescript only
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub definite: bool,
 }
 

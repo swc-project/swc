@@ -74,7 +74,7 @@ pub struct ExportDecl {
 pub struct ImportDecl {
     pub span: Span,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub specifiers: Vec<ImportSpecifier>,
 
     #[serde(rename = "source")]
@@ -83,7 +83,7 @@ pub struct ImportDecl {
     #[serde(default, rename = "typeOnly")]
     pub type_only: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub asserts: Option<Box<ObjectLit>>,
 }
 
@@ -112,7 +112,7 @@ pub struct ExportAll {
     #[serde(rename = "typeOnly")]
     pub type_only: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub asserts: Option<Box<ObjectLit>>,
 }
 
@@ -143,7 +143,7 @@ pub struct NamedExport {
     #[serde(rename = "typeOnly")]
     pub type_only: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub asserts: Option<Box<ObjectLit>>,
 }
 
@@ -224,10 +224,10 @@ pub struct ImportNamedSpecifier {
 
     pub local: Ident,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub imported: Option<ModuleExportName>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub is_type_only: bool,
 }
 
@@ -272,10 +272,10 @@ pub struct ExportNamedSpecifier {
     /// `foo` in `export { foo as bar }`
     pub orig: ModuleExportName,
     /// `Some(bar)` in `export { foo as bar }`
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub exported: Option<ModuleExportName>,
     /// `type` in `export { type foo as bar }`
-    #[serde(default)]
+    #[cfg_attr(feature = "serde", serde(default))]
     pub is_type_only: bool,
 }
 
