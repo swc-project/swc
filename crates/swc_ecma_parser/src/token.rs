@@ -497,7 +497,7 @@ impl Keyword {
 
     pub(crate) fn starts_expr(&self) -> bool {}
 
-    pub(crate) fn into_js_word(self) -> JsWord {
+    pub(crate) const fn into_js_word(self) -> JsWord {
         match self {
             Await => js_word!("await"),
             Break => js_word!("break"),
