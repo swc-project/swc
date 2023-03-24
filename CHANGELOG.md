@@ -35,6 +35,9 @@
 - **(es/codegen)** Extract code from generic functions to reduce compile time (#7127) ([08fa94f](https://github.com/swc-project/swc/commit/08fa94fc737c2c3522227c1275e4a1d93c2a8611))
 
 
+- **(es/parser)** Remove `EnumKind` to reduce compile time (#7137) ([915f747](https://github.com/swc-project/swc/commit/915f747cb7ba972e47e249b5a5ba9573dd68f607))
+
+
 - **(macros)** Reduce compile time (#7132) ([2154a3f](https://github.com/swc-project/swc/commit/2154a3f117d9ea7cc2f12856d6e7f2b33a255d26))
 
 ## [1.3.42] - 2023-03-22
