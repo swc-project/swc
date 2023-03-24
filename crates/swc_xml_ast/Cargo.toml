@@ -15,6 +15,7 @@ version = "0.7.22"
 bench = false
 
 [features]
+serde-impl = ["serde"]
 
 [dependencies]
 is-macro = "0.2.0"

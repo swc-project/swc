@@ -16,6 +16,7 @@ __rkyv              = []
 default             = []
 rkyv-bytecheck-impl = []
 rkyv-impl           = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
+serde-impl          = ["serde"]
 
 [dependencies]
 bytecheck = { version = "0.6.9", optional = true }

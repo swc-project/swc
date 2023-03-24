@@ -21,9 +21,9 @@ pub struct JsDoc {
 #[ast_node]
 pub struct TagItem {
     pub span: Span,
-    #[cfg_attr(feature = "serde", serde(rename = "tagName"))]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "tagName"))]
     pub tag_name: Text,
-    #[cfg_attr(feature = "serde", serde(flatten))]
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
     pub tag: Tag,
 }
 
