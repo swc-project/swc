@@ -153,8 +153,7 @@ impl Token {
     pub(crate) fn starts_expr(&self) -> bool {}
 }
 
-#[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash)]
-#[kind(functions(starts_expr = "bool"))]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
 pub enum BinOpToken {
     /// `==`
     EqEq,
@@ -180,10 +179,8 @@ pub enum BinOpToken {
     ZeroFillRShift,
 
     /// `+`
-    #[kind(starts_expr)]
     Add,
     /// `-`
-    #[kind(starts_expr)]
     Sub,
     /// `*`
     Mul,
@@ -218,7 +215,11 @@ pub enum BinOpToken {
 }
 
 impl BinOpToken {
-    pub const fn before_expr(self) -> bool {
+    pub(crate) const fn starts_expr(&self) -> bool {
+        matches!(self, Self::Add | Self::Sub)
+    }
+
+    pub(crate) const fn before_expr(self) -> bool {
         true
     }
 }
