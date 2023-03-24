@@ -474,7 +474,26 @@ pub enum Keyword {
 }
 
 impl Keyword {
-    pub(crate) fn before_expr(&self) -> bool {}
+    pub(crate) const fn before_expr(&self) -> bool {
+        matches!(
+            self,
+            Self::Await
+                | Self::Case
+                | Self::Default_
+                | Self::Do
+                | Self::Else
+                | Self::Return
+                | Self::Throw
+                | Self::New
+                | Self::Extends
+                | Self::Yield
+                | Self::In
+                | Self::InstanceOf
+                | Self::TypeOf
+                | Self::Void
+                | Self::Delete
+        )
+    }
 
     pub(crate) fn starts_expr(&self) -> bool {}
 
