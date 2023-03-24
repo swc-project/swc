@@ -398,36 +398,27 @@ impl Debug for Word {
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Keyword {
     /// Spec says this might be identifier.
-    #[kind(before_expr, starts_expr)]
     Await,
-
     Break,
-    #[kind(before_expr)]
     Case,
     Catch,
     Continue,
     Debugger,
-    #[kind(before_expr)]
     Default_,
-    #[kind(before_expr)]
     Do,
-    #[kind(before_expr)]
     Else,
 
     Finally,
     For,
 
-    #[kind(starts_expr)]
     Function,
 
     If,
 
-    #[kind(before_expr)]
     Return,
 
     Switch,
 
-    #[kind(before_expr, starts_expr)]
     Throw,
 
     Try,
@@ -437,39 +428,24 @@ pub enum Keyword {
     While,
     With,
 
-    #[kind(before_expr, starts_expr)]
     New,
-    #[kind(starts_expr)]
     This,
-    #[kind(starts_expr)]
     Super,
 
-    #[kind(starts_expr)]
     Class,
 
-    #[kind(before_expr)]
     Extends,
 
     Export,
-    #[kind(starts_expr)]
     Import,
 
     /// Spec says this might be identifier.
-    #[kind(before_expr, starts_expr)]
     Yield,
 
-    #[kind(before_expr)]
     In,
-    #[kind(before_expr)]
     InstanceOf,
-
-    #[kind(before_expr, starts_expr)]
     TypeOf,
-
-    #[kind(before_expr, starts_expr)]
     Void,
-
-    #[kind(before_expr, starts_expr)]
     Delete,
 }
 
