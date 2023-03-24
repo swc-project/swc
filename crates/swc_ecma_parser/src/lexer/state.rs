@@ -1,6 +1,5 @@
 use std::mem::take;
 
-use enum_kind::Kind;
 use swc_common::{BytePos, Span};
 use tracing::trace;
 

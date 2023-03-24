@@ -6,7 +6,6 @@ use std::{
     fmt::{self, Debug, Display, Formatter},
 };
 
-use enum_kind::Kind;
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{Span, Spanned};
@@ -16,8 +15,7 @@ use swc_ecma_ast::BinaryOp;
 pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*};
 use crate::{error::Error, lexer::LexResult};
 
-#[derive(Kind, Clone, PartialEq)]
-#[kind(functions(starts_expr = "bool", before_expr = "bool"))]
+#[derive(Clone, PartialEq)]
 pub enum Token {
     /// Identifier, "null", "true", "false".
     ///
@@ -145,6 +143,16 @@ pub enum Token {
     Error(Error),
 }
 
+impl Token {
+    pub(crate) fn before_expr(&self) -> bool {
+        match self {
+            Token::Word(w) => w.before_expr(),
+        }
+    }
+
+    pub(crate) fn starts_expr(&self) -> bool {}
+}
+
 #[derive(Kind, Debug, Clone, Copy, Eq, PartialEq, Hash)]
 #[kind(functions(starts_expr = "bool"))]
 pub enum BinOpToken {
@@ -230,21 +238,31 @@ impl Spanned for TokenAndSpan {
     }
 }
 
-#[derive(Kind, Clone, PartialEq, Eq, Hash)]
-#[kind(functions(starts_expr = "bool", before_expr = "bool"))]
+#[derive(Clone, PartialEq, Eq, Hash)]
 pub enum Word {
-    #[kind(delegate)]
     Keyword(Keyword),
 
-    #[kind(starts_expr)]
     Null,
-    #[kind(starts_expr)]
     True,
-    #[kind(starts_expr)]
     False,
 
-    #[kind(starts_expr)]
     Ident(JsWord),
+}
+
+impl Word {
+    pub(crate) fn before_expr(&self) -> bool {
+        match self {
+            Word::Keyword(k) => k.before_expr(),
+            _ => false,
+        }
+    }
+
+    pub(crate) fn starts_expr(&self) -> bool {
+        match self {
+            Word::Keyword(k) => k.starts_expr(),
+            _ => true,
+        }
+    }
 }
 
 impl From<JsWord> for Word {
