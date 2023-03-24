@@ -189,13 +189,18 @@ pub fn ast_node(
 
             item.quote_with(smart_quote!(Vars { input, clone }, {
                 #[allow(clippy::derive_partial_eq_without_eq)]
+                #[cfg_attr(
+                    feature = "serde-impl",
+                    derive(
+                        ::serde::Serialize,
+                        ::swc_common::DeserializeEnum,
+                    )
+                )]
                 #[derive(
                     ::swc_common::FromVariant,
                     ::swc_common::Spanned,
                     Debug,
-                    PartialEq,
-                    ::serde::Serialize,
-                    ::swc_common::DeserializeEnum,
+                    PartialEq
                 )]
                 clone
                 #[cfg_attr(
