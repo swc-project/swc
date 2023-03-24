@@ -238,7 +238,10 @@ pub fn ast_node(
                 }) => {
                     if args.is_some() {
                         Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
-                            #[serde(tag = "type")]
+                            #[cfg_attr(
+                                feature = "serde-impl",
+                                serde(tag = "type")
+                            )]
                         })))
                     } else {
                         None
@@ -248,8 +251,11 @@ pub fn ast_node(
             };
 
             let serde_rename = args.as_ref().map(|args| {
-                Quote::new_call_site().quote_with(smart_quote!(Vars { name: &args.ty },{
-                    #[serde(rename = name)]
+                Quote::new_call_site().quote_with(smart_quote!(Vars { name: &args.ty }, {
+                    #[cfg_attr(
+                        feature = "serde-impl",
+                        serde(rename = name)
+                    )]
                 }))
             });
 
