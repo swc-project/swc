@@ -324,43 +324,47 @@ impl Compiler {
                                     }
                                 };
 
-                                let path = match data_url {
-                                    Some(data_url) => dir.join(data_url).display().to_string(),
-                                    None => {
-                                        format!("{}.map", dir.join(filename).display())
+                                match data_url {
+                                    Some(data_url) => {
+                                        let path = dir.join(data_url).display().to_string();
+                                        let file = File::open(&path).or_else(|err| {
+                                            // Old behavior. This check would prevent
+                                            // regressions.
+                                            // Perhaps it shouldn't be supported. Sometimes
+                                            // developers don't want to expose their source code.
+                                            // Map files are for internal troubleshooting
+                                            // convenience.
+                                            let f = format!("{}.map", filename.display());
+
+                                            match File::open(f) {
+                                                Ok(v) => Ok(v),
+                                                Err(_) => Err(err),
+                                            }
+                                        });
+
+                                        let file = if !is_default {
+                                            file?
+                                        } else {
+                                            match file {
+                                                Ok(v) => v,
+                                                Err(_) => return Ok(None),
+                                            }
+                                        };
+
+                                        Ok(Some(
+                                            sourcemap::SourceMap::from_reader(file).with_context(
+                                                || {
+                                                    format!(
+                                                        "failed to read input source map from \
+                                                         file at {}",
+                                                        path
+                                                    )
+                                                },
+                                            )?,
+                                        ))
                                     }
-                                };
-
-                                let file = File::open(&path)
-                                    .or_else(|err| {
-                                        // Old behavior. This check would prevent
-                                        // regressions.
-                                        let f = format!("{}.map", filename.display());
-
-                                        match File::open(f) {
-                                            Ok(v) => Ok(v),
-                                            Err(_) => Err(err),
-                                        }
-                                    })
-                                    .context("failed to open input source map file");
-
-                                let file = if !is_default {
-                                    file?
-                                } else {
-                                    match file {
-                                        Ok(v) => v,
-                                        Err(_) => return Ok(None),
-                                    }
-                                };
-
-                                Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
-                                    || {
-                                        format!(
-                                            "failed to read input source map from file at {}",
-                                            path
-                                        )
-                                    },
-                                )?))
+                                    None => Ok(None),
+                                }
                             }
                             _ => {
                                 tracing::error!("Failed to load source map for non-file input");
