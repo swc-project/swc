@@ -105,7 +105,8 @@ pub struct Invalid {
     pub span: Span,
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum EsVersion {
     #[serde(rename = "es3")]
     Es3,
