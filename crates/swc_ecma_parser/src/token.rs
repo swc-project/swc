@@ -139,10 +139,6 @@ impl Token {
             | Self::PlusPlus
             | Self::MinusMinus
             | Self::Tilde
-            | Self::Str { .. }
-            | Self::Regex(..)
-            | Self::Num { .. }
-            | Self::BigInt { .. }
             | Self::JSXText { .. } => true,
             _ => false,
         }
@@ -161,6 +157,10 @@ impl Token {
             | Self::PlusPlus
             | Self::MinusMinus
             | Self::Tilde
+            | Self::Str { .. }
+            | Self::Regex(..)
+            | Self::Num { .. }
+            | Self::BigInt { .. }
             | Self::JSXTagStart => true,
             _ => false,
         }
