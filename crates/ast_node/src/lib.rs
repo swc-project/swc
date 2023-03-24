@@ -193,14 +193,14 @@ pub fn ast_node(
                     feature = "serde-impl",
                     derive(
                         ::serde::Serialize,
-                        ::swc_common::DeserializeEnum,
                     )
                 )]
                 #[derive(
                     ::swc_common::FromVariant,
                     ::swc_common::Spanned,
                     Debug,
-                    PartialEq
+                    PartialEq,
+                    ::swc_common::DeserializeEnum,
                 )]
                 clone
                 #[cfg_attr(
