@@ -1,6 +1,5 @@
 use std::mem::take;
 
-use enum_kind::Kind;
 use swc_common::{BytePos, Span};
 use tracing::trace;
 
@@ -62,7 +61,7 @@ enum TokenType {
 }
 impl TokenType {
     #[inline]
-    fn before_expr(self) -> bool {
+    const fn before_expr(self) -> bool {
         match self {
             TokenType::JSXName
             | TokenType::JSXTagStart
@@ -760,33 +759,47 @@ impl TokenContexts {
 /// given point in the program is loosely based on sweet.js' approach.
 /// See https://github.com/mozilla/sweet.js/wiki/design
 #[repr(u8)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Kind)]
-#[kind(function(is_expr = "bool", preserve_space = "bool"))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TokenContext {
     BraceStmt,
-    #[kind(is_expr)]
     BraceExpr,
-    #[kind(is_expr)]
     TplQuasi,
     ParenStmt {
         /// Is this `for` loop?
         is_for_loop: bool,
     },
-    #[kind(is_expr)]
     ParenExpr,
-    #[kind(is_expr, preserve_space)]
     Tpl {
         /// Start of a template literal.
         start: BytePos,
     },
-    #[kind(is_expr)]
     FnExpr,
-    #[kind(is_expr)]
     ClassExpr,
     JSXOpeningTag,
     JSXClosingTag,
-    #[kind(is_expr, preserve_space)]
     JSXExpr,
+}
+
+impl TokenContext {
+    pub(crate) const fn is_expr(&self) -> bool {
+        matches!(
+            self,
+            Self::BraceExpr
+                | Self::TplQuasi
+                | Self::ParenExpr
+                | Self::Tpl { .. }
+                | Self::FnExpr
+                | Self::ClassExpr
+                | Self::JSXExpr
+        )
+    }
+
+    pub(crate) const fn preserve_space(&self) -> bool {
+        match self {
+            Self::Tpl { .. } | Self::JSXExpr => true,
+            _ => false,
+        }
+    }
 }
 
 #[cfg(test)]
