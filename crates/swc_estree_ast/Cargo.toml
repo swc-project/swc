@@ -17,8 +17,12 @@ version = "0.19.39"
 [lib]
 bench = false
 
+[features]
+default    = ["serde-impl"]
+serde-impl = ["serde"]
+
 [dependencies]
-serde      = { version = "1", features = ["derive"] }
+serde      = { version = "1", features = ["derive"], optional = true }
 serde_json = "1"
 
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
