@@ -61,7 +61,7 @@ enum TokenType {
 }
 impl TokenType {
     #[inline]
-    fn before_expr(self) -> bool {
+    const fn before_expr(self) -> bool {
         match self {
             TokenType::JSXName
             | TokenType::JSXTagStart
