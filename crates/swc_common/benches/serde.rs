@@ -1,3 +1,5 @@
+#![cfg_attr(not(feature = "serde-impl"), allow(unused))]
+
 use ast_node::ast_node;
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use serde::{Deserialize, Serialize};
@@ -64,6 +66,7 @@ fn bench_serde(c: &mut Criterion) {
 }
 
 fn bench_ast_node(c: &mut Criterion) {
+    #[cfg(feature = "serde-impl")]
     c.bench_function("serialization of ast node", |b| {
         let src = AstNode::String(Str {
             span: DUMMY_SP,
@@ -72,6 +75,7 @@ fn bench_ast_node(c: &mut Criterion) {
 
         b.iter(|| black_box(serde_json::to_string(&src).unwrap()));
     });
+    #[cfg(feature = "serde-impl")]
     c.bench_function("deserialization of ast node", |b| {
         let src = serde_json::to_string(&AstNode::String(Str {
             span: DUMMY_SP,
