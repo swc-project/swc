@@ -86,24 +86,20 @@ pub enum Token {
     Tilde,
 
     /// String literal. Span of this token contains quote.
-    #[kind(starts_expr)]
     Str {
         value: JsWord,
         raw: Atom,
     },
 
     /// Regexp literal.
-    #[kind(starts_expr)]
     Regex(Atom, Atom),
 
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
-    #[kind(starts_expr)]
     Num {
         value: f64,
         raw: Atom,
     },
 
-    #[kind(starts_expr)]
     BigInt {
         value: Box<BigIntValue>,
         raw: Atom,
@@ -112,11 +108,9 @@ pub enum Token {
     JSXName {
         name: JsWord,
     },
-    #[kind(before_expr)]
     JSXText {
         raw: Atom,
     },
-    #[kind(starts_expr)]
     JSXTagStart,
     JSXTagEnd,
 
@@ -125,10 +119,10 @@ pub enum Token {
 }
 
 impl Token {
-    pub(crate) fn before_expr(&self) -> bool {
+    pub(crate) const fn before_expr(&self) -> bool {
         match self {
             Self::Word(w) => w.before_expr(),
-            Self::BinOpToken(w) => w.before_expr(),
+            Self::BinOp(w) => w.before_expr(),
             Self::Arrow
             | Self::DotDotDot
             | Self::Bang
@@ -144,23 +138,31 @@ impl Token {
             | Self::QuestionMark
             | Self::PlusPlus
             | Self::MinusMinus
-            | Self::Tilde => true,
+            | Self::Tilde
+            | Self::Str { .. }
+            | Self::Regex(..)
+            | Self::Num { .. }
+            | Self::BigInt { .. }
+            | Self::JSXText { .. } => true,
+            _ => false,
         }
     }
 
-    pub(crate) fn starts_expr(&self) -> bool {
+    pub(crate) const fn starts_expr(&self) -> bool {
         match self {
             Self::Word(w) => w.starts_expr(),
-            Self::BinOpToken(w) => w.starts_expr(),
+            Self::BinOp(w) => w.starts_expr(),
             Self::Bang
             | Self::LParen
             | Self::LBrace
             | Self::LBracket
             | Self::BackQuote
-            | Self::DollarLBrac
+            | Self::DollarLBrace
             | Self::PlusPlus
             | Self::MinusMinus
-            | Self::Tilde => true,
+            | Self::Tilde
+            | Self::JSXTagStart => true,
+            _ => false,
         }
     }
 }
