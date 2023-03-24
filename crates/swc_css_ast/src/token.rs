@@ -24,7 +24,7 @@ impl Take for TokenAndSpan {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, Is, EqIgnoreSpan)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -37,10 +37,11 @@ impl Take for TokenAndSpan {
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
+#[cfg_attr(feature = "serde-impl", Serialize, Deserialize)]
 pub enum NumberType {
-    #[serde(rename = "integer")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "integer"))]
     Integer,
-    #[serde(rename = "number")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "number"))]
     Number,
 }
 
