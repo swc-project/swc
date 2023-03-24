@@ -52,14 +52,11 @@ pub enum Token {
     RBrace,
 
     /// ';'
-    #[kind(before_expr)]
     Semi,
     /// ','
-    #[kind(before_expr)]
     Comma,
 
     /// '`'
-    #[kind(starts_expr)]
     BackQuote,
     Template {
         raw: Atom,
@@ -145,14 +142,16 @@ impl Token {
             | Self::Bang
             | Self::LParen
             | Self::LBrace
-            | Self::LBracket => true,
+            | Self::LBracket
+            | Self::Semi
+            | Self::Comma => true,
         }
     }
 
     pub(crate) fn starts_expr(&self) -> bool {
         match self {
             Self::Word(w) => w.starts_expr(),
-            Self::Bang | Self::LParen | Self::LBrace | Self::LBracket => true,
+            Self::Bang | Self::LParen | Self::LBrace | Self::LBracket | Self::BackQuote => true,
         }
     }
 }
@@ -255,14 +254,14 @@ pub enum Word {
 }
 
 impl Word {
-    pub(crate) fn before_expr(&self) -> bool {
+    pub(crate) const fn before_expr(&self) -> bool {
         match self {
             Word::Keyword(k) => k.before_expr(),
             _ => false,
         }
     }
 
-    pub(crate) fn starts_expr(&self) -> bool {
+    pub(crate) const fn starts_expr(&self) -> bool {
         match self {
             Word::Keyword(k) => k.starts_expr(),
             _ => true,
