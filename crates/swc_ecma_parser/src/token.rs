@@ -20,11 +20,9 @@ pub enum Token {
     /// Identifier, "null", "true", "false".
     ///
     /// Contains `null` and ``
-    #[kind(delegate)]
     Word(Word),
 
     /// '=>'
-    #[kind(before_expr)]
     Arrow,
 
     /// '#'
@@ -36,24 +34,19 @@ pub enum Token {
     Dot,
 
     /// '...'
-    #[kind(before_expr)]
     DotDotDot,
     /// '!'
-    #[kind(before_expr, starts_expr)]
     Bang,
 
     /// '('
-    #[kind(before_expr, starts_expr)]
     LParen,
     /// ')'
     RParen,
     /// `[`
-    #[kind(before_expr, starts_expr)]
     LBracket,
     /// ']'
     RBracket,
     /// '{'
-    #[kind(before_expr, starts_expr)]
     LBrace,
     /// '}'
     RBrace,
@@ -146,11 +139,22 @@ pub enum Token {
 impl Token {
     pub(crate) fn before_expr(&self) -> bool {
         match self {
-            Token::Word(w) => w.before_expr(),
+            Self::Word(w) => w.before_expr(),
+            Self::Arrow
+            | Self::DotDotDot
+            | Self::Bang
+            | Self::LParen
+            | Self::LBrace
+            | Self::LBracket => true,
         }
     }
 
-    pub(crate) fn starts_expr(&self) -> bool {}
+    pub(crate) fn starts_expr(&self) -> bool {
+        match self {
+            Self::Word(w) => w.starts_expr(),
+            Self::Bang | Self::LParen | Self::LBrace | Self::LBracket => true,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
