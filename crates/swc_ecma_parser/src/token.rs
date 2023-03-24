@@ -63,20 +63,15 @@ pub enum Token {
         cooked: LexResult<Atom>,
     },
     /// ':'
-    #[kind(before_expr)]
     Colon,
     /// '::'
-    #[kind(before_expr)]
     ColonColon,
     ///
-    #[kind(delegate)]
     BinOp(BinOpToken),
     ///
-    #[kind(before_expr)]
     AssignOp(AssignOpToken),
 
     /// '${'
-    #[kind(before_expr, starts_expr)]
     DollarLBrace,
 
     /// '?'
@@ -137,6 +132,7 @@ impl Token {
     pub(crate) fn before_expr(&self) -> bool {
         match self {
             Self::Word(w) => w.before_expr(),
+            Self::BinOpToken(w) => w.before_expr(),
             Self::Arrow
             | Self::DotDotDot
             | Self::Bang
@@ -144,14 +140,24 @@ impl Token {
             | Self::LBrace
             | Self::LBracket
             | Self::Semi
-            | Self::Comma => true,
+            | Self::Comma
+            | Self::Colon
+            | Self::ColonColon
+            | Self::AssignOp(..)
+            | Self::DollarLBrace => true,
         }
     }
 
     pub(crate) fn starts_expr(&self) -> bool {
         match self {
             Self::Word(w) => w.starts_expr(),
-            Self::Bang | Self::LParen | Self::LBrace | Self::LBracket | Self::BackQuote => true,
+            Self::BinOpToken(w) => w.starts_expr(),
+            Self::Bang
+            | Self::LParen
+            | Self::LBrace
+            | Self::LBracket
+            | Self::BackQuote
+            | Self::DollarLBrace => true,
         }
     }
 }
