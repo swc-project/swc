@@ -225,7 +225,10 @@ pub fn ast_node(
                         deserialize = "__D: rkyv_latest::de::SharedDeserializeRegistry"
                     ))
                 )]
-                #[serde(untagged)]
+                #[cfg_attr(
+                    feature = "serde-impl",
+                    serde(untagged)
+                )]
                 input
             }))
         }
