@@ -28,7 +28,6 @@ rkyv-bytecheck-impl = [
   "swc_atoms/rkyv-bytecheck-impl",
   "swc_common/rkyv-bytecheck-impl",
 ]
-serde-impl = ["serde"]
 
 [dependencies]
 arbitrary  = { version = "1", optional = true, features = ["derive"] }

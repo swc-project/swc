@@ -12,7 +12,6 @@ version       = "0.99.10"
 bench = false
 
 [features]
-serde-impl = ["serde"]
 
 [dependencies]
 nom   = "7.1.0"

@@ -190,7 +190,7 @@ pub fn ast_node(
             item.quote_with(smart_quote!(Vars { input, clone }, {
                 #[allow(clippy::derive_partial_eq_without_eq)]
                 #[cfg_attr(
-                    feature = "serde-impl",
+                    feature = "serde",
                     derive(
                         ::serde::Serialize,
                     )
@@ -226,7 +226,7 @@ pub fn ast_node(
                     ))
                 )]
                 #[cfg_attr(
-                    feature = "serde-impl",
+                    feature = "serde",
                     serde(untagged)
                 )]
                 input
@@ -247,7 +247,7 @@ pub fn ast_node(
                     if args.is_some() {
                         Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
                             #[cfg_attr(
-                                feature = "serde-impl",
+                                feature = "serde",
                                 serde(tag = "type")
                             )]
                         })))
@@ -261,7 +261,7 @@ pub fn ast_node(
             let serde_rename = args.as_ref().map(|args| {
                 Quote::new_call_site().quote_with(smart_quote!(Vars { name: &args.ty }, {
                     #[cfg_attr(
-                        feature = "serde-impl",
+                        feature = "serde",
                         serde(rename = name)
                     )]
                 }))
@@ -276,7 +276,7 @@ pub fn ast_node(
                     #[allow(clippy::derive_partial_eq_without_eq)]
                     #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
                     #[cfg_attr(
-                        feature = "serde-impl",
+                        feature = "serde",
                         derive(::serde::Serialize, ::serde::Deserialize)
                     )]
                     #[cfg_attr(
@@ -307,7 +307,7 @@ pub fn ast_node(
                     )]
                     serde_tag
                     #[cfg_attr(
-                        feature = "serde-impl",
+                        feature = "serde",
                         serde(rename_all = "camelCase")
                     )]
                     serde_rename
