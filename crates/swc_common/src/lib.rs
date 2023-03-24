@@ -57,7 +57,7 @@ pub use self::{
 pub mod private;
 
 /// A trait for ast nodes.
-pub trait AstNode: Debug + PartialEq + Clone + Spanned + Serialize {
+pub trait AstNode: Debug + PartialEq + Clone + Spanned {
     const TYPE: &'static str;
 }
 
