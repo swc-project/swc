@@ -261,7 +261,10 @@ pub fn ast_node(
                 item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
                     #[allow(clippy::derive_partial_eq_without_eq)]
                     #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
-                    #[derive(::serde::Serialize, ::serde::Deserialize)]
+                    #[cfg_attr(
+                        feature = "serde-impl",
+                        derive(::serde::Serialize, ::serde::Deserialize)
+                    )]
                     #[cfg_attr(
                         feature = "rkyv-impl",
                         derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
