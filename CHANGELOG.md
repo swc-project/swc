@@ -25,6 +25,12 @@
 
 - **(es)** Fix doc url (#7123) ([1e4abcb](https://github.com/swc-project/swc/commit/1e4abcb11d4c5884cc6559db8e86ecd7fbd96e5d))
 
+### Miscellaneous Tasks
+
+
+
+- **(cargo)** Refactor `Cargo.toml` to reduce merge conflict (#7139) ([2826198](https://github.com/swc-project/swc/commit/28261985b00c23fd1411a8f782c04439d4e4919c))
+
 ### Refactor
 
 
