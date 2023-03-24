@@ -801,8 +801,11 @@ impl TokenContext {
         )
     }
 
-    pub(crate) fn preserve_space(&self) -> bool {
-        match self {}
+    pub(crate) const fn preserve_space(&self) -> bool {
+        match self {
+            Self::Tpl { .. } | Self::JSXExpr => true,
+            _ => false,
+        }
     }
 }
 
