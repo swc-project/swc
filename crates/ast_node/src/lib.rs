@@ -298,7 +298,10 @@ pub fn ast_node(
                         )
                     )]
                     serde_tag
-                    #[serde(rename_all = "camelCase")]
+                    #[cfg_attr(
+                        feature = "serde-impl",
+                        serde(rename_all = "camelCase")
+                    )]
                     serde_rename
                     input
                 }));
