@@ -762,28 +762,21 @@ impl TokenContexts {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TokenContext {
     BraceStmt,
-    #[kind(is_expr)]
     BraceExpr,
-    #[kind(is_expr)]
     TplQuasi,
     ParenStmt {
         /// Is this `for` loop?
         is_for_loop: bool,
     },
-    #[kind(is_expr)]
     ParenExpr,
-    #[kind(is_expr, preserve_space)]
     Tpl {
         /// Start of a template literal.
         start: BytePos,
     },
-    #[kind(is_expr)]
     FnExpr,
-    #[kind(is_expr)]
     ClassExpr,
     JSXOpeningTag,
     JSXClosingTag,
-    #[kind(is_expr, preserve_space)]
     JSXExpr,
 }
 
