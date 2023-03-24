@@ -759,8 +759,7 @@ impl TokenContexts {
 /// given point in the program is loosely based on sweet.js' approach.
 /// See https://github.com/mozilla/sweet.js/wiki/design
 #[repr(u8)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Kind)]
-#[kind(function(is_expr = "bool", preserve_space = "bool"))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TokenContext {
     BraceStmt,
     #[kind(is_expr)]
@@ -786,6 +785,16 @@ pub enum TokenContext {
     JSXClosingTag,
     #[kind(is_expr, preserve_space)]
     JSXExpr,
+}
+
+impl TokenContext {
+    pub fn is_expr(&self) -> bool {
+        match self {}
+    }
+
+    pub fn preserve_space(&self) -> bool {
+        match self {}
+    }
 }
 
 #[cfg(test)]

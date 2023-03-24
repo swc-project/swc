@@ -395,8 +395,7 @@ impl Debug for Word {
 }
 
 /// Keywords
-#[derive(Kind, Clone, Copy, PartialEq, Eq, Hash)]
-#[kind(function(before_expr = "bool", starts_expr = "bool"))]
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Keyword {
     /// Spec says this might be identifier.
     #[kind(before_expr, starts_expr)]
@@ -475,6 +474,10 @@ pub enum Keyword {
 }
 
 impl Keyword {
+    pub(crate) fn before_expr(&self) -> bool {}
+
+    pub(crate) fn starts_expr(&self) -> bool {}
+
     pub(crate) fn into_js_word(self) -> JsWord {
         match self {
             Await => js_word!("await"),
