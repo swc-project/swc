@@ -495,7 +495,23 @@ impl Keyword {
         )
     }
 
-    pub(crate) fn starts_expr(&self) -> bool {}
+    pub(crate) const fn starts_expr(&self) -> bool {
+        matches!(
+            self,
+            Self::Await
+                | Self::Function
+                | Self::Throw
+                | Self::New
+                | Self::This
+                | Self::Super
+                | Self::Class
+                | Self::Import
+                | Self::Yield
+                | Self::TypeOf
+                | Self::Void
+                | Self::Delete
+        )
+    }
 
     pub(crate) const fn into_js_word(self) -> JsWord {
         match self {
