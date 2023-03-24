@@ -36,8 +36,9 @@ impl Loc {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq)]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "serde-impl", serde(rename_all = "camelCase"))]
 pub struct BaseNode {
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub leading_comments: Vec<Comment>,
