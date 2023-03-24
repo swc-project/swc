@@ -75,18 +75,14 @@ pub enum Token {
     DollarLBrace,
 
     /// '?'
-    #[kind(before_expr)]
     QuestionMark,
 
     /// `++`
-    #[kind(before_expr, starts_expr)]
     PlusPlus,
     /// `--`
-    #[kind(before_expr, starts_expr)]
     MinusMinus,
 
     /// `~`
-    #[kind(before_expr, starts_expr)]
     Tilde,
 
     /// String literal. Span of this token contains quote.
@@ -144,7 +140,11 @@ impl Token {
             | Self::Colon
             | Self::ColonColon
             | Self::AssignOp(..)
-            | Self::DollarLBrace => true,
+            | Self::DollarLBrace
+            | Self::QuestionMark
+            | Self::PlusPlus
+            | Self::MinusMinus
+            | Self::Tilde => true,
         }
     }
 
@@ -157,7 +157,10 @@ impl Token {
             | Self::LBrace
             | Self::LBracket
             | Self::BackQuote
-            | Self::DollarLBrace => true,
+            | Self::DollarLBrac
+            | Self::PlusPlus
+            | Self::MinusMinus
+            | Self::Tilde => true,
         }
     }
 }
