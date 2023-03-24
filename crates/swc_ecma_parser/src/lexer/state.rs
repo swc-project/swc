@@ -788,11 +788,20 @@ pub enum TokenContext {
 }
 
 impl TokenContext {
-    pub fn is_expr(&self) -> bool {
-        match self {}
+    pub(crate) const fn is_expr(&self) -> bool {
+        matches!(
+            self,
+            Self::BraceExpr
+                | Self::TplQuasi
+                | Self::ParenExpr
+                | Self::Tpl { .. }
+                | Self::FnExpr
+                | Self::ClassExpr
+                | Self::JSXExpr
+        )
     }
 
-    pub fn preserve_space(&self) -> bool {
+    pub(crate) fn preserve_space(&self) -> bool {
         match self {}
     }
 }
