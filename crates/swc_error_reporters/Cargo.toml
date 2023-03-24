@@ -12,10 +12,11 @@ version       = "0.13.40"
 bench = false
 
 [dependencies]
-anyhow = "1"
-miette = { version = "4.2.1", features = ["fancy"] }
-once_cell = "1"
+anyhow      = "1"
+miette      = { version = "4.2.1", features = ["fancy"] }
+once_cell   = "1"
 parking_lot = "0.12.0"
+
 swc_common = { version = "0.29.39", path = "../swc_common", features = [
   "concurrent",
 ] }
