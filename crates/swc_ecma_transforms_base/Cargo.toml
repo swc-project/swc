@@ -26,17 +26,19 @@ rayon             = { version = "1", optional = true }
 rustc-hash        = "1.1.0"
 serde             = { version = "1", features = ["derive"] }
 smallvec          = "1.8.0"
-swc_atoms         = { version = "0.4.39", path = "../swc_atoms" }
-swc_common        = { version = "0.29.39", path = "../swc_common" }
-swc_ecma_ast      = { version = "0.100.5", path = "../swc_ecma_ast" }
-swc_ecma_parser   = { version = "0.130.10", path = "../swc_ecma_parser" }
-swc_ecma_utils    = { version = "0.113.11", path = "../swc_ecma_utils" }
-swc_ecma_visit    = { version = "0.86.6", path = "../swc_ecma_visit" }
 tracing           = "0.1.32"
 
+swc_atoms       = { version = "0.4.39", path = "../swc_atoms" }
+swc_common      = { version = "0.29.39", path = "../swc_common" }
+swc_ecma_ast    = { version = "0.100.5", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "0.130.10", path = "../swc_ecma_parser" }
+swc_ecma_utils  = { version = "0.113.11", path = "../swc_ecma_utils" }
+swc_ecma_visit  = { version = "0.86.6", path = "../swc_ecma_visit" }
+
 [dev-dependencies]
-criterion                  = "0.3"
-rayon                      = "1"
+criterion = "0.3"
+rayon     = "1"
+
 swc_ecma_codegen           = { version = "0.135.11", path = "../swc_ecma_codegen" }
 swc_ecma_transforms_macros = { version = "0.5.1", path = "../swc_ecma_transforms_macros" }
 swc_node_base              = { version = "0.5.8", path = "../swc_node_base" }

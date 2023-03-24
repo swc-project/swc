@@ -12,14 +12,19 @@ bench = false
 name  = "dbg-swc"
 
 [dependencies]
-anyhow = "1.0.57"
-clap = { version = "3", features = ["derive"] }
-dialoguer = "0.10.2"
-flate2 = "1.0"
-rayon = "1.5.2"
-serde = "1"
-serde_json = "1"
-sha1 = "0.10.1"
+anyhow             = "1.0.57"
+clap               = { version = "3", features = ["derive"] }
+dialoguer          = "0.10.2"
+flate2             = "1.0"
+rayon              = "1.5.2"
+serde              = "1"
+serde_json         = "1"
+sha1               = "0.10.1"
+tempfile           = "3.4.0"
+tracing            = "0.1.34"
+tracing-subscriber = { version = "0.3.11", features = ["fmt", "env-filter"] }
+url                = "2"
+
 swc_atoms = { version = "0.4.39", path = "../swc_atoms" }
 swc_common = { version = "0.29.39", features = [
   "concurrent",
@@ -35,7 +40,3 @@ swc_ecma_transforms_base = { version = "0.122.16", path = "../swc_ecma_transform
 swc_ecma_visit = { version = "0.86.6", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "0.13.40", path = "../swc_error_reporters" }
 swc_timer = { version = "0.17.42", path = "../swc_timer" }
-tempfile = "3.4.0"
-tracing = "0.1.34"
-tracing-subscriber = { version = "0.3.11", features = ["fmt", "env-filter"] }
-url = "2"

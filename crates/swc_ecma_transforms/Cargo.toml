@@ -45,10 +45,11 @@ swc_ecma_utils                   = { version = "0.113.11", path = "../swc_ecma_u
 swc_ecma_visit                   = { version = "0.86.6", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-pretty_assertions           = "1.1"
-sourcemap                   = "6"
+pretty_assertions = "1.1"
+sourcemap         = "6"
+tempfile          = "3"
+
 swc_ecma_codegen            = { version = "0.135.11", path = "../swc_ecma_codegen" }
 swc_ecma_parser             = { version = "0.130.10", path = "../swc_ecma_parser" }
 swc_ecma_transforms_testing = { version = "0.125.16", path = "../swc_ecma_transforms_testing" }
-tempfile                    = "3"
 testing                     = { version = "0.31.42", path = "../testing" }
