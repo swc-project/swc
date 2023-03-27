@@ -128,7 +128,8 @@ testing_transform = ["__ecma", "__testing_transform"]
 
 # Enable swc_ecma_ast / swc_atoms support.
 # TODO: currently both are enabled at once, we may want to separate them.
-ecma_ast = ["__ecma", "swc_ecma_ast", "swc_atoms"]
+ecma_ast       = ["__ecma", "swc_ecma_ast", "swc_atoms"]
+ecma_ast_serde = ["ecma_ast", "swc_ecma_ast/serde-impl"]
 
 # Enable swc_ecma_parser support.
 ecma_parser            = ["__parser"]
@@ -151,6 +152,7 @@ ecma_usage_analyzer = ["__ecma", "swc_ecma_usage_analyzer"]
 
 # Enable swc_css
 css_ast        = ["__css", "swc_css_ast"]
+css_ast_serde  = ["css_ast", "swc_css_ast/serde-impl"]
 css_codegen    = ["__css", "swc_css_codegen"]
 css_compat     = ["__css", "swc_css_compat"]
 css_minifier   = ["__css", "swc_css_minifier"]

@@ -15,26 +15,26 @@ use crate::{
 pub struct Function {
     pub params: Vec<Param>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decorators: Vec<Decorator>,
 
     pub span: Span,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub body: Option<BlockStmt>,
 
     /// if it's a generator.
-    #[serde(default, rename = "generator")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "generator"))]
     pub is_generator: bool,
 
     /// if it's an async function.
-    #[serde(default, rename = "async")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "async"))]
     pub is_async: bool,
 
-    #[serde(default, rename = "typeParameters")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeParameters"))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub return_type: Option<Box<TsTypeAnn>>,
 }
 
@@ -58,7 +58,7 @@ impl Take for Function {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Param {
     pub span: Span,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decorators: Vec<Decorator>,
     pub pat: Pat,
 }

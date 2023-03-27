@@ -189,12 +189,17 @@ pub fn ast_node(
 
             item.quote_with(smart_quote!(Vars { input, clone }, {
                 #[allow(clippy::derive_partial_eq_without_eq)]
+                #[cfg_attr(
+                    feature = "serde-impl",
+                    derive(
+                        ::serde::Serialize,
+                    )
+                )]
                 #[derive(
                     ::swc_common::FromVariant,
                     ::swc_common::Spanned,
                     Debug,
                     PartialEq,
-                    ::serde::Serialize,
                     ::swc_common::DeserializeEnum,
                 )]
                 clone
@@ -220,7 +225,10 @@ pub fn ast_node(
                         deserialize = "__D: rkyv_latest::de::SharedDeserializeRegistry"
                     ))
                 )]
-                #[serde(untagged)]
+                #[cfg_attr(
+                    feature = "serde-impl",
+                    serde(untagged)
+                )]
                 input
             }))
         }
@@ -238,7 +246,10 @@ pub fn ast_node(
                 }) => {
                     if args.is_some() {
                         Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
-                            #[serde(tag = "type")]
+                            #[cfg_attr(
+                                feature = "serde-impl",
+                                serde(tag = "type")
+                            )]
                         })))
                     } else {
                         None
@@ -248,8 +259,11 @@ pub fn ast_node(
             };
 
             let serde_rename = args.as_ref().map(|args| {
-                Quote::new_call_site().quote_with(smart_quote!(Vars { name: &args.ty },{
-                    #[serde(rename = name)]
+                Quote::new_call_site().quote_with(smart_quote!(Vars { name: &args.ty }, {
+                    #[cfg_attr(
+                        feature = "serde-impl",
+                        serde(rename = name)
+                    )]
                 }))
             });
 
@@ -261,7 +275,10 @@ pub fn ast_node(
                 item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
                     #[allow(clippy::derive_partial_eq_without_eq)]
                     #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
-                    #[derive(::serde::Serialize, ::serde::Deserialize)]
+                    #[cfg_attr(
+                        feature = "serde-impl",
+                        derive(::serde::Serialize, ::serde::Deserialize)
+                    )]
                     #[cfg_attr(
                         feature = "rkyv-impl",
                         derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -289,7 +306,10 @@ pub fn ast_node(
                         )
                     )]
                     serde_tag
-                    #[serde(rename_all = "camelCase")]
+                    #[cfg_attr(
+                        feature = "serde-impl",
+                        serde(rename_all = "camelCase")
+                    )]
                     serde_rename
                     input
                 }));
