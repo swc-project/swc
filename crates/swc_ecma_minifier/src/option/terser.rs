@@ -12,8 +12,8 @@ use super::{default_passes, true_by_default, CompressOptions, TopLevelOptions};
 use crate::option::PureGetterOption;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-#[serde(untagged)]
+#[cfg_attr(feature = "serde-impl", serde(deny_unknown_fields))]
+#[cfg_attr(feature = "serde-impl", serde(untagged))]
 pub enum TerserEcmaVersion {
     Num(usize),
     Str(String),
@@ -26,11 +26,11 @@ impl Default for TerserEcmaVersion {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-#[serde(untagged)]
+#[cfg_attr(feature = "serde-impl", serde(deny_unknown_fields))]
+#[cfg_attr(feature = "serde-impl", serde(untagged))]
 pub enum TerserPureGetterOption {
     Bool(bool),
-    #[serde(rename = "strict")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "strict"))]
     Strict,
     Str(String),
 }
@@ -42,208 +42,208 @@ impl Default for TerserPureGetterOption {
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-#[serde(untagged)]
+#[cfg_attr(feature = "serde-impl", serde(deny_unknown_fields))]
+#[cfg_attr(feature = "serde-impl", serde(untagged))]
 pub enum TerserInlineOption {
     Bool(bool),
     Num(u8),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-#[serde(untagged)]
+#[cfg_attr(feature = "serde-impl", serde(deny_unknown_fields))]
+#[cfg_attr(feature = "serde-impl", serde(untagged))]
 pub enum TerserTopLevelOptions {
     Bool(bool),
     Str(String),
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-#[serde(untagged)]
+#[cfg_attr(feature = "serde-impl", serde(deny_unknown_fields))]
+#[cfg_attr(feature = "serde-impl", serde(untagged))]
 pub enum TerserSequenceOptions {
     Bool(bool),
     Num(u8),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-#[serde(untagged)]
+#[cfg_attr(feature = "serde-impl", serde(deny_unknown_fields))]
+#[cfg_attr(feature = "serde-impl", serde(untagged))]
 pub enum TerserTopRetainOption {
     Str(String),
     Seq(Vec<JsWord>),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde-impl", serde(deny_unknown_fields))]
 pub struct TerserCompressorOptions {
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub arguments: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub arrows: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub booleans: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub booleans_as_integers: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub collapse_vars: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub comparisons: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub computed_props: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub conditionals: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub dead_code: Option<bool>,
 
-    #[serde(default = "true_by_default")]
+    #[cfg_attr(feature = "serde-impl", serde(default = "true_by_default"))]
     pub defaults: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub directives: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub drop_console: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub drop_debugger: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ecma: TerserEcmaVersion,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub evaluate: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub expression: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub global_defs: AHashMap<JsWord, Value>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub hoist_funs: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub hoist_props: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub hoist_vars: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub ie8: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub if_return: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub inline: Option<TerserInlineOption>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub join_vars: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub keep_classnames: bool,
 
-    #[serde(default = "true_by_default")]
+    #[cfg_attr(feature = "serde-impl", serde(default = "true_by_default"))]
     pub keep_fargs: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub keep_fnames: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub keep_infinity: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub loops: Option<bool>,
     // module        : false,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub negate_iife: Option<bool>,
 
-    #[serde(default = "default_passes")]
+    #[cfg_attr(feature = "serde-impl", serde(default = "default_passes"))]
     pub passes: usize,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub properties: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub pure_getters: TerserPureGetterOption,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub pure_funcs: Vec<String>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub reduce_funcs: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub reduce_vars: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub sequences: Option<TerserSequenceOptions>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub side_effects: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub switches: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub top_retain: Option<TerserTopRetainOption>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub toplevel: Option<TerserTopLevelOptions>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub typeofs: Option<bool>,
 
-    #[serde(default)]
-    #[serde(rename = "unsafe")]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "unsafe"))]
     pub unsafe_passes: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub unsafe_arrows: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub unsafe_comps: bool,
 
-    #[serde(default)]
-    #[serde(rename = "unsafe_Function")]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "unsafe_Function"))]
     pub unsafe_function: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub unsafe_math: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub unsafe_symbols: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub unsafe_methods: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub unsafe_proto: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub unsafe_regexp: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub unsafe_undefined: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub unused: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub module: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub const_to_let: Option<bool>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub pristine_globals: Option<bool>,
 }
 
