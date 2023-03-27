@@ -82,7 +82,7 @@ impl VisitMut for TypeOfSymbol {
 
                     let call = Expr::Call(CallExpr {
                         span: *span,
-                        callee: helper!(*span, type_of, "typeof"),
+                        callee: helper!(*span, type_of, "type_of"),
                         args: vec![arg.take().as_arg()],
 
                         type_args: Default::default(),
@@ -98,7 +98,7 @@ impl VisitMut for TypeOfSymbol {
                 _ => {
                     let call = Expr::Call(CallExpr {
                         span: *span,
-                        callee: helper!(*span, type_of, "typeof"),
+                        callee: helper!(*span, type_of, "type_of"),
                         args: vec![arg.take().as_arg()],
 
                         type_args: Default::default(),
@@ -111,7 +111,7 @@ impl VisitMut for TypeOfSymbol {
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
-        if &f.ident.sym == "_typeof" {
+        if &f.ident.sym == "_type_of" {
             return;
         }
 
@@ -131,14 +131,6 @@ impl VisitMut for TypeOfSymbol {
         }
 
         f.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
-        v.visit_mut_children_with(self);
-
-        if let Pat::Ident(i) = &v.name {
-            if &i.id.sym == "_typeof" {}
-        }
     }
 }
 
@@ -213,16 +205,16 @@ mod tests {
         }
 
         var isWeb =
-        !isUndef(typeof window === \"undefined\" ? \"undefined\" : _typeof(window)) &&
+        !isUndef(typeof window === \"undefined\" ? \"undefined\" : _type_of(window)) &&
         'onload' in window;
         exports.isWeb = isWeb;
         var isNode =
-        !isUndef(typeof process === \"undefined\" ? \"undefined\" : _typeof(process)) &&
+        !isUndef(typeof process === \"undefined\" ? \"undefined\" : _type_of(process)) &&
         !!(process.versions && process.versions.node);
         exports.isNode = isNode;
         var isWeex =
         !isUndef(
-            typeof WXEnvironment === \"undefined\" ? \"undefined\" : _typeof(WXEnvironment)
+            typeof WXEnvironment === \"undefined\" ? \"undefined\" : _type_of(WXEnvironment)
         ) && WXEnvironment.platform !== 'Web';
         exports.isWeex = isWeex;
         "

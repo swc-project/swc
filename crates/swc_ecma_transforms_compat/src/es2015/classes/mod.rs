@@ -64,7 +64,7 @@ type IndexMap<K, V> = indexmap::IndexMap<K, V, ahash::RandomState>;
 /// ```js
 /// var Test = function () {
 ///   function Test(name) {
-///     _classCallCheck(this, Test);
+///     _class_call_check(this, Test);
 ///
 ///     this.name = name;
 ///   }
@@ -436,7 +436,7 @@ where
                     params,
                     vec![CallExpr {
                         span: DUMMY_SP,
-                        callee: helper!(wrap_native_super, "wrapNativeSuper"),
+                        callee: helper!(wrap_native_super, "wrap_native_super"),
                         args: vec![super_class.as_arg()],
                         type_args: Default::default(),
                     }
@@ -467,14 +467,14 @@ where
             // should be
             //
             //    var Foo = function Foo() {
-            //        _classCallCheck(this, Foo);
+            //        _class_call_check(this, Foo);
             //    };
             //
             // instead of
             //
             //    var Foo = function(){
             //      function Foo() {
-            //          _classCallCheck(this, Foo);
+            //          _class_call_check(this, Foo);
             //      }
             //
             //      return Foo;
@@ -611,7 +611,7 @@ where
                             name: var.clone().into(),
                             init: Some(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
-                                callee: helper!(create_super, "createSuper"),
+                                callee: helper!(create_super, "create_super"),
                                 args: vec![class_name_sym.as_arg()],
                                 type_args: Default::default(),
                             }))),
@@ -760,7 +760,7 @@ where
                 },
             );
 
-            // inject _classCallCheck(this, Bar);
+            // inject _class_call_check(this, Bar);
             if !self.config.no_class_calls {
                 inject_class_call_check(&mut body, class_name.clone());
             }
@@ -985,7 +985,7 @@ where
             .as_arg()
         }
 
-        /// _createClass(Foo, [{}], [{}]);
+        /// _create_class(Foo, [{}], [{}]);
         fn mk_create_class_call(
             class_name: Ident,
             methods: ExprOrSpread,
@@ -997,7 +997,7 @@ where
 
             CallExpr {
                 span: DUMMY_SP,
-                callee: helper!(create_class, "createClass"),
+                callee: helper!(create_class, "create_class"),
                 args: iter::once(class_name_sym.as_arg())
                     .chain(iter::once(methods))
                     .chain(static_methods)
@@ -1221,7 +1221,7 @@ fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
 
     let class_call_check = CallExpr {
         span: DUMMY_SP,
-        callee: helper!(class_call_check, "classCallCheck"),
+        callee: helper!(class_call_check, "class_call_check"),
         args: vec![
             Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
             class_name_sym.as_arg(),

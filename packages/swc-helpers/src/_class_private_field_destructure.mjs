@@ -1,7 +1,6 @@
-import classExtractFieldDescriptor from './_class_extract_field_descriptor.mjs';
-import classApplyDescriptorDestructureSet from './_class_apply_descriptor_destructure.mjs';
-
-export default function _classPrivateFieldDestructureSet(receiver, privateMap) {
-  var descriptor = classExtractFieldDescriptor(receiver, privateMap, "set");
-  return classApplyDescriptorDestructureSet(receiver, descriptor);
+import _class_apply_descriptor_destructure from "./_class_apply_descriptor_destructure.mjs";
+import _class_extract_field_descriptor from "./_class_extract_field_descriptor.mjs";
+export default function _class_private_field_destructure(receiver, privateMap) {
+    var descriptor = _class_extract_field_descriptor(receiver, privateMap, "set");
+    return _class_apply_descriptor_destructure(receiver, descriptor);
 }

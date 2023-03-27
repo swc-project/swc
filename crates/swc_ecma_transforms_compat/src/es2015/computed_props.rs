@@ -29,10 +29,10 @@ use swc_trace_macro::swc_trace;
 ///
 /// var obj = (
 ///   _obj = {},
-///   _defineProperty(_obj, "x" + foo, "heh"),
-///   _defineProperty(_obj, "y" + bar, "noo"),
-///   _defineProperty(_obj, "foo", "foo"),
-///   _defineProperty(_obj, "bar", "bar"),
+///   _define_property(_obj, "x" + foo, "heh"),
+///   _define_property(_obj, "y" + bar, "noo"),
+///   _define_property(_obj, "foo", "foo"),
+///   _define_property(_obj, "bar", "bar"),
 ///   _obj
 /// );
 /// ```
@@ -240,7 +240,7 @@ impl VisitMut for ComputedProps {
                 if !self.c.loose && props_cnt == 1 {
                     single_cnt_prop = Some(Expr::Call(CallExpr {
                         span,
-                        callee: helper!(define_property, "defineProperty"),
+                        callee: helper!(define_property, "define_property"),
                         args: vec![exprs.pop().unwrap().as_arg(), key.as_arg(), value.as_arg()],
                         type_args: Default::default(),
                     }));
@@ -261,7 +261,7 @@ impl VisitMut for ComputedProps {
                 } else {
                     Box::new(Expr::Call(CallExpr {
                         span,
-                        callee: helper!(define_property, "defineProperty"),
+                        callee: helper!(define_property, "define_property"),
                         args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
                         type_args: Default::default(),
                     }))
@@ -291,7 +291,7 @@ impl VisitMut for ComputedProps {
                 });
                 exprs.push(Box::new(Expr::Call(CallExpr {
                     span: *span,
-                    callee: helper!(define_enumerable_properties, "defineEnumerableProperties"),
+                    callee: helper!(define_enumerable_properties, "define_enumerable_properties"),
                     args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
                     type_args: Default::default(),
                 })));

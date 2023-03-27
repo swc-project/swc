@@ -1,3 +1,3 @@
-function _writeOnlyError(name) {
-  throw new TypeError("\"" + name + "\" is write-only");
+function _write_only_error(name) {
+    throw new TypeError("\"" + name + "\" is write-only");
 }

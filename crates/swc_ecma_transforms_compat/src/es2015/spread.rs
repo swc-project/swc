@@ -268,7 +268,7 @@ impl Spread {
                     } else {
                         CallExpr {
                             span,
-                            callee: helper!(to_consumable_array, "toConsumableArray"),
+                            callee: helper!(to_consumable_array, "to_consumable_array"),
                             args: vec![expr.as_arg()],
                             type_args: Default::default(),
                         }
@@ -320,7 +320,7 @@ impl Spread {
                                         Expr::Call(to_consumable_array(expr, span))
                                     };
                                 }
-                                // [].concat(arr) is shorter than _toConsumableArray(arr)
+                                // [].concat(arr) is shorter than _to_consumable_array(arr)
                                 if args_len == 1 {
                                     return if self.c.loose {
                                         Expr::Call(CallExpr {

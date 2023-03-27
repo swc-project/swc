@@ -996,11 +996,11 @@ export interface BaseModuleConfig {
    *
    * "use strict";
    *
-   * function _interopRequireDefault(obj) {
+   * function _interop_require_default(obj) {
    *   return obj && obj.__esModule ? obj : { default: obj };
    * }
    *
-   * var _foo = _interopRequireDefault(require("foo"));
+   * var _foo = _interop_require_default(require("foo"));
    * var _bar = require("bar");
    *
    * _foo.default;
@@ -1040,7 +1040,7 @@ export interface BaseModuleConfig {
    * - `none`
    *
    * If you know that the imported file has been transformed with a compiler that stores the `default` export on
-   * `exports.default` (such as swc or Babel), you can safely omit the `_interopRequireDefault` helper.
+   * `exports.default` (such as swc or Babel), you can safely omit the `_interop_require_default` helper.
    *
    * ```javascript
    * import foo from "foo";

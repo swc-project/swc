@@ -1298,7 +1298,7 @@ impl Generator {
 
                 Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: helper!(define_property, "defineProperty"),
+                    callee: helper!(define_property, "define_property"),
                     args: vec![
                         temp.clone().as_arg(),
                         prop_name_to_expr_value(key).as_arg(),

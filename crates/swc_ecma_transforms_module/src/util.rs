@@ -118,7 +118,7 @@ impl Default for Lazy {
 
 pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
     if !src.contains('/') {
-        return format!("_{}", src.to_camel_case()).into();
+        return format!("_{}", src.to_snake_case()).into();
     }
 
     let src = src
@@ -127,7 +127,7 @@ pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
         .flatten()
         .unwrap_or(src);
 
-    format!("_{}", src.split('/').last().unwrap().to_camel_case()).into()
+    format!("_{}", src.split('/').last().unwrap().to_snake_case()).into()
 }
 
 /// Creates

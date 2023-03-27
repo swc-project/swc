@@ -216,7 +216,7 @@ impl ForOf {
                         span: DUMMY_SP,
                         callee: helper!(
                             create_for_of_iterator_helper_loose,
-                            "createForOfIteratorHelperLoose"
+                            "create_for_of_iterator_helper_loose"
                         ),
                         args: vec![right.as_arg()],
                         type_args: Default::default(),

@@ -147,10 +147,10 @@ export class Foo {
 export var Foo = function() {
     "use strict";
     function Foo() {
-        _classCallCheck(this, Foo);
+        _class_call_check(this, Foo);
     }
 
-    _createClass(Foo, [{
+    _create_class(Foo, [{
             key: "func",
             value: function func(a) {
                 var b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : Date.now();
@@ -180,10 +180,10 @@ class HomePage extends React.Component {}
             "use strict";
             _inherits(HomePage, _React_Component);
 
-            var _super = _createSuper(HomePage);
+            var _super = _create_super(HomePage);
 
             function HomePage() {
-              _classCallCheck(this, HomePage);
+              _class_call_check(this, HomePage);
 
               return _super.apply(this, arguments);
             }
@@ -209,7 +209,7 @@ export default function fn1() {
     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
         args[_key] = arguments[_key];
     }
-    fn2.apply(void 0, _toConsumableArray(args));
+    fn2.apply(void 0, _to_consumable_array(args));
 }
 "
     );
@@ -320,10 +320,10 @@ class B extends A {
         "var A = function() {
     \"use strict\";
     function A() {
-        _classCallCheck(this, A);
+        _class_call_check(this, A);
         this.a_num = 10;
     }
-    _createClass(A, [{
+    _create_class(A, [{
             key: \"print\",
             value: function print() {
                 expect(this.a_num).toBe(10);
@@ -334,19 +334,19 @@ class B extends A {
 var B = function(A) {
     \"use strict\";
     _inherits(B, A);
-    var _super = _createSuper(B);
+    var _super = _create_super(B);
     function B(num) {
-        _classCallCheck(this, B);
+        _class_call_check(this, B);
         var _this;
         _this = _super.call(this);
         _this.b_num = num;
         return _this;
     }
-    _createClass(B, [{
+    _create_class(B, [{
             key: \"print\",
             value: function print() {
                 expect(this.b_num).toBe(20);
-                _get(_getPrototypeOf(B.prototype), \"print\", this).call(this);
+                _get(_get_prototype_of(B.prototype), \"print\", this).call(this);
             }
         }]);
     return B;
@@ -401,9 +401,9 @@ return new B(20).print()"
         console.log(function() {
             \"use strict\";
             function _class() {
-                _classCallCheck(this, _class);
+                _class_call_check(this, _class);
             }
-            _createClass(_class, [
+            _create_class(_class, [
                 {
                     key: \"run\",
                     value: function run() {
@@ -456,7 +456,7 @@ export class Foo {
 export var Foo = function() {
     "use strict";
     function Foo() {
-        _classCallCheck(this, Foo);
+        _class_call_check(this, Foo);
     }
     var _proto = Foo.prototype;
     _proto.let = function _let() {};
