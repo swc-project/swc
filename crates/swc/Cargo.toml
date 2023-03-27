@@ -122,6 +122,9 @@ swc_visit = { version = "0.5.5", path = "../swc_visit" }
 ansi_term = "0.12"
 criterion = "0.3"
 rayon = "1.5.1"
+swc_ecma_ast = { version = "0.100.5", path = "../swc_ecma_ast", features = [
+  "serde-impl",
+] }
 swc_ecma_lints = { version = "0.77.16", path = "../swc_ecma_lints", features = [
   "non_critical_lints",
 ] }
