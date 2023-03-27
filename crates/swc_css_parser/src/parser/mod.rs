@@ -47,6 +47,10 @@ pub struct ParserConfig {
     /// Defaults to `false`.
     #[serde(default)]
     pub legacy_nesting: bool,
+
+    /// If this is `true`, the legacy syntax for IE will be parsed.
+    #[serde(default)]
+    pub legacy_ie: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
