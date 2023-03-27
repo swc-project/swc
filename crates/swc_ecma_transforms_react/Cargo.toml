@@ -14,7 +14,7 @@ bench = false
 
 [features]
 concurrent = ["rayon"]
-defaults   = ["serde-impl"]
+default    = ["serde-impl"]
 serde-impl = []
 
 [dependencies]
