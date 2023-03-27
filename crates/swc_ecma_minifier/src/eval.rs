@@ -235,7 +235,7 @@ impl Evaluator {
 
         {
             e.visit_mut_with(&mut pure_optimizer(
-                &serde_json::from_str("{}").unwrap(),
+                &Default::default(),
                 None,
                 self.marks,
                 PureOptimizerConfig {
