@@ -11,35 +11,6 @@ env:
   RUST_LOG: "off"
 
 jobs:
-  binary-size:
-    name: Binary size
-    if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') && github.repository_owner == 'swc-project' }}
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Cache
-        uses: actions/cache@v1
-        with:
-          path: |
-            ./cache
-            ~/.cargo/
-            target
-          key: cargo-release-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            cargo-release-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-      - name: Build (release)
-        run: |
-          yarn
-          yarn build
-
-      - name: Print binary size
-        run: ls -al ./bindings/target/release/libbinding*
-
   benchmark:
     name: Performance regression check
     if: >-

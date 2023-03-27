@@ -150,7 +150,7 @@ bridge_stmt_from!(Box<TryStmt>, TryStmt);
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExprStmt {
     pub span: Span,
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
 
@@ -174,7 +174,7 @@ pub struct DebuggerStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct WithStmt {
     pub span: Span,
-    #[serde(rename = "object")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "object"))]
     pub obj: Box<Expr>,
     pub body: Box<Stmt>,
 }
@@ -184,7 +184,7 @@ pub struct WithStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ReturnStmt {
     pub span: Span,
-    #[serde(default, rename = "argument")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "argument"))]
     pub arg: Option<Box<Expr>>,
 }
 
@@ -202,7 +202,7 @@ pub struct LabeledStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct BreakStmt {
     pub span: Span,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub label: Option<Ident>,
 }
 
@@ -211,7 +211,7 @@ pub struct BreakStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ContinueStmt {
     pub span: Span,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub label: Option<Ident>,
 }
 
@@ -222,10 +222,10 @@ pub struct IfStmt {
     pub span: Span,
     pub test: Box<Expr>,
 
-    #[serde(rename = "consequent")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "consequent"))]
     pub cons: Box<Stmt>,
 
-    #[serde(default, rename = "alternate")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "alternate"))]
     pub alt: Option<Box<Stmt>>,
 }
 
@@ -243,7 +243,7 @@ pub struct SwitchStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ThrowStmt {
     pub span: Span,
-    #[serde(rename = "argument")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Box<Expr>,
 }
 
@@ -255,10 +255,10 @@ pub struct TryStmt {
 
     pub block: BlockStmt,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub handler: Option<CatchClause>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub finalizer: Option<BlockStmt>,
 }
 
@@ -286,13 +286,13 @@ pub struct DoWhileStmt {
 pub struct ForStmt {
     pub span: Span,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub init: Option<VarDeclOrExpr>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub test: Option<Box<Expr>>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub update: Option<Box<Expr>>,
 
     pub body: Box<Stmt>,
@@ -318,7 +318,7 @@ pub struct ForOfStmt {
     /// es2018
     ///
     /// for-await-of statements, e.g., `for await (const x of xs) {`
-    #[serde(default, rename = "await")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "await"))]
     pub is_await: bool,
     pub left: VarDeclOrPat,
     pub right: Box<Expr>,
@@ -344,10 +344,10 @@ pub struct SwitchCase {
     pub span: Span,
 
     /// None for `default:`
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub test: Option<Box<Expr>>,
 
-    #[serde(rename = "consequent")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "consequent"))]
     pub cons: Vec<Stmt>,
 }
 
@@ -370,7 +370,7 @@ pub struct CatchClause {
     ///
     /// The param is null if the catch binding is omitted. E.g., try { foo() }
     /// catch { bar() }
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub param: Option<Pat>,
 
     pub body: BlockStmt,

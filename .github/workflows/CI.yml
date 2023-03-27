@@ -216,9 +216,6 @@ jobs:
           - crate: dbg-swc
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: enum_kind
-            os: ubuntu-latest
-            runner: ubuntu-latest
           - crate: from_variant
             os: ubuntu-latest
             runner: ubuntu-latest

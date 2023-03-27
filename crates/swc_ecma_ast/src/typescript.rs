@@ -1,10 +1,13 @@
 #![allow(clippy::vec_box)]
 #![allow(missing_copy_implementations)]
+
+#[cfg(feature = "serde-impl")]
 use std::fmt;
 
 use is_macro::Is;
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
+#[cfg(feature = "serde-impl")]
 use serde::{
     de::{self, Unexpected, Visitor},
     Deserialize, Deserializer, Serialize,
@@ -28,7 +31,7 @@ use crate::{
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeAnn {
     pub span: Span,
-    #[serde(rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
 
@@ -37,7 +40,7 @@ pub struct TsTypeAnn {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeParamDecl {
     pub span: Span,
-    #[serde(rename = "parameters")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "parameters"))]
     pub params: Vec<TsTypeParam>,
 }
 
@@ -48,19 +51,19 @@ pub struct TsTypeParam {
     pub span: Span,
     pub name: Ident,
 
-    #[serde(default, rename = "in")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "in"))]
     pub is_in: bool,
 
-    #[serde(default, rename = "out")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "out"))]
     pub is_out: bool,
 
-    #[serde(default, rename = "const")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "const"))]
     pub is_const: bool,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub constraint: Option<Box<TsType>>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub default: Option<Box<TsType>>,
 }
 
@@ -77,12 +80,12 @@ pub struct TsTypeParamInstantiation {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsParamProp {
     pub span: Span,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decorators: Vec<Decorator>,
     /// At least one of `accessibility` or `readonly` must be set.
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub accessibility: Option<Accessibility>,
-    #[serde(rename = "override")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "override"))]
     pub is_override: bool,
     pub readonly: bool,
     pub param: TsParamPropParam,
@@ -157,9 +160,9 @@ pub enum TsTypeElement {
 pub struct TsCallSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -169,9 +172,9 @@ pub struct TsCallSignatureDecl {
 pub struct TsConstructSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -184,12 +187,12 @@ pub struct TsPropertySignature {
     pub key: Box<Expr>,
     pub computed: bool,
     pub optional: bool,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub init: Option<Box<Expr>>,
     pub params: Vec<TsFnParam>,
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -202,7 +205,7 @@ pub struct TsGetterSignature {
     pub key: Box<Expr>,
     pub computed: bool,
     pub optional: bool,
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -228,9 +231,9 @@ pub struct TsMethodSignature {
     pub computed: bool,
     pub optional: bool,
     pub params: Vec<TsFnParam>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -239,11 +242,11 @@ pub struct TsMethodSignature {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsIndexSignature {
     pub params: Vec<TsFnParam>,
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 
     pub readonly: bool,
-    #[serde(rename = "static")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "static"))]
     pub is_static: bool,
     pub span: Span,
 }
@@ -391,50 +394,51 @@ pub struct TsKeywordType {
     pub kind: TsKeywordTypeKind,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
     any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub enum TsKeywordTypeKind {
-    #[serde(rename = "any")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "any"))]
     TsAnyKeyword,
 
-    #[serde(rename = "unknown")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "unknown"))]
     TsUnknownKeyword,
 
-    #[serde(rename = "number")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "number"))]
     TsNumberKeyword,
 
-    #[serde(rename = "object")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "object"))]
     TsObjectKeyword,
 
-    #[serde(rename = "boolean")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "boolean"))]
     TsBooleanKeyword,
 
-    #[serde(rename = "bigint")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "bigint"))]
     TsBigIntKeyword,
 
-    #[serde(rename = "string")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "string"))]
     TsStringKeyword,
 
-    #[serde(rename = "symbol")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "symbol"))]
     TsSymbolKeyword,
 
-    #[serde(rename = "void")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "void"))]
     TsVoidKeyword,
 
-    #[serde(rename = "undefined")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "undefined"))]
     TsUndefinedKeyword,
 
-    #[serde(rename = "null")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "null"))]
     TsNullKeyword,
 
-    #[serde(rename = "never")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "never"))]
     TsNeverKeyword,
 
-    #[serde(rename = "intrinsic")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "intrinsic"))]
     TsIntrinsicKeyword,
 }
 
@@ -469,9 +473,9 @@ pub struct TsFnType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
-    #[serde(rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsTypeAnn>,
 }
 
@@ -481,9 +485,9 @@ pub struct TsFnType {
 pub struct TsConstructorType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
-    #[serde(rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsTypeAnn>,
     pub is_abstract: bool,
 }
@@ -494,7 +498,7 @@ pub struct TsConstructorType {
 pub struct TsTypeRef {
     pub span: Span,
     pub type_name: TsEntityName,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamInstantiation>>,
 }
 
@@ -505,7 +509,7 @@ pub struct TsTypePredicate {
     pub span: Span,
     pub asserts: bool,
     pub param_name: TsThisTypeOrIdent,
-    #[serde(rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -528,7 +532,7 @@ pub enum TsThisTypeOrIdent {
 pub struct TsTypeQuery {
     pub span: Span,
     pub expr_name: TsTypeQueryExpr,
-    #[serde(default, rename = "typeArguments")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
@@ -548,10 +552,10 @@ pub enum TsTypeQueryExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsImportType {
     pub span: Span,
-    #[serde(rename = "argument")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Str,
     pub qualifier: Option<TsEntityName>,
-    #[serde(rename = "typeArguments")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
@@ -594,7 +598,7 @@ pub struct TsTupleElement {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsOptionalType {
     pub span: Span,
-    #[serde(rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
 
@@ -603,7 +607,7 @@ pub struct TsOptionalType {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsRestType {
     pub span: Span,
-    #[serde(rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
 
@@ -658,7 +662,7 @@ pub struct TsInferType {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsParenthesizedType {
     pub span: Span,
-    #[serde(rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
 
@@ -668,7 +672,7 @@ pub struct TsParenthesizedType {
 pub struct TsTypeOperator {
     pub span: Span,
     pub op: TsTypeOperatorOp,
-    #[serde(rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
 
@@ -693,7 +697,7 @@ pub enum TsTypeOperatorOp {
 pub struct TsIndexedAccessType {
     pub span: Span,
     pub readonly: bool,
-    #[serde(rename = "objectType")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "objectType"))]
     pub obj_type: Box<TsType>,
     pub index_type: Box<TsType>,
 }
@@ -710,6 +714,7 @@ pub enum TruePlusMinus {
     Minus,
 }
 
+#[cfg(feature = "serde-impl")]
 impl Serialize for TruePlusMinus {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -723,6 +728,7 @@ impl Serialize for TruePlusMinus {
     }
 }
 
+#[cfg(feature = "serde-impl")]
 impl<'de> Deserialize<'de> for TruePlusMinus {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
@@ -770,14 +776,14 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsMappedType {
     pub span: Span,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub readonly: Option<TruePlusMinus>,
     pub type_param: TsTypeParam,
-    #[serde(default, rename = "nameType")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "nameType"))]
     pub name_type: Option<Box<TsType>>,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub optional: Option<TruePlusMinus>,
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsType>>,
 }
 
@@ -786,7 +792,7 @@ pub struct TsMappedType {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsLitType {
     pub span: Span,
-    #[serde(rename = "literal")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "literal"))]
     pub lit: TsLit,
 }
 
@@ -832,7 +838,7 @@ pub struct TsInterfaceDecl {
     pub span: Span,
     pub id: Ident,
     pub declare: bool,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     pub extends: Vec<TsExprWithTypeArgs>,
     pub body: TsInterfaceBody,
@@ -851,9 +857,9 @@ pub struct TsInterfaceBody {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsExprWithTypeArgs {
     pub span: Span,
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
-    #[serde(default, rename = "typeArguments")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
@@ -864,9 +870,9 @@ pub struct TsTypeAliasDecl {
     pub span: Span,
     pub declare: bool,
     pub id: Ident,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
-    #[serde(rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
 
@@ -887,7 +893,7 @@ pub struct TsEnumDecl {
 pub struct TsEnumMember {
     pub span: Span,
     pub id: TsEnumMemberId,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub init: Option<Box<Expr>>,
 }
 
@@ -922,7 +928,7 @@ pub struct TsModuleDecl {
     /// In TypeScript, this is only available through`node.flags`.
     pub global: bool,
     pub id: TsModuleName,
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub body: Option<TsNamespaceBody>,
 }
 
@@ -999,7 +1005,7 @@ pub enum TsModuleRef {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsExternalModuleRef {
     pub span: Span,
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Str,
 }
 
@@ -1011,7 +1017,7 @@ pub struct TsExternalModuleRef {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsExportAssignment {
     pub span: Span,
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
 
@@ -1032,9 +1038,9 @@ pub struct TsNamespaceExportDecl {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsAsExpr {
     pub span: Span,
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
-    #[serde(rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
 
@@ -1043,9 +1049,9 @@ pub struct TsAsExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsTypeAssertion {
     pub span: Span,
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
-    #[serde(rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
 
@@ -1054,7 +1060,7 @@ pub struct TsTypeAssertion {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsNonNullExpr {
     pub span: Span,
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
 
@@ -1063,24 +1069,25 @@ pub struct TsNonNullExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsSatisfiesExpr {
     pub span: Span,
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
-    #[serde(rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Eq, Hash, EqIgnoreSpan)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
     any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub enum Accessibility {
-    #[serde(rename = "public")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "public"))]
     Public,
-    #[serde(rename = "protected")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "protected"))]
     Protected,
-    #[serde(rename = "private")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "private"))]
     Private,
 }
 
@@ -1089,7 +1096,7 @@ pub enum Accessibility {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsConstAssertion {
     pub span: Span,
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
 
@@ -1098,8 +1105,8 @@ pub struct TsConstAssertion {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsInstantiation {
     pub span: Span,
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
-    #[serde(rename = "typeArguments")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeArguments"))]
     pub type_args: Box<TsTypeParamInstantiation>,
 }

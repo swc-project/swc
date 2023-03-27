@@ -7,35 +7,42 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_codegen"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.135.10"
+version       = "0.137.0"
+
+[features]
+# This does not enable serde for ast nodes.
+serde-impl = ["swc_ecma_ast/serde"]
 
 [lib]
 bench = false
 
 [dependencies]
-memchr                  = "2.4.1"
-num-bigint              = { version = "0.4", features = ["serde"] }
-once_cell               = "1.10.0"
-rustc-hash              = "1.1.0"
-serde                   = "1.0.127"
-sourcemap               = "6"
+memchr     = "2.4.1"
+num-bigint = { version = "0.4", features = ["serde"] }
+once_cell  = "1.10.0"
+rustc-hash = "1.1.0"
+serde      = "1.0.127"
+sourcemap  = "6"
+tracing    = "0.1.32"
+
 swc_atoms               = { version = "0.4.39", path = "../swc_atoms" }
-swc_common              = { version = "0.29.39", path = "../swc_common" }
-swc_ecma_ast            = { version = "0.100.5", path = "../swc_ecma_ast" }
+swc_common              = { version = "0.30.0", path = "../swc_common" }
+swc_ecma_ast            = { version = "0.102.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen_macros = { version = "0.7.2", path = "../swc_ecma_codegen_macros" }
-tracing                 = "0.1.32"
 
 [dev-dependencies]
-base64 = "0.13"
-criterion = "0.3"
+base64     = "0.13"
+criterion  = "0.3"
 serde_json = "1"
-swc_common = { version = "0.29.39", path = "../swc_common", features = [
+
+swc_common = { version = "0.30.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_parser = { version = "0.130.9", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "0.132.0", path = "../swc_ecma_parser" }
 swc_ecma_testing = { version = "0.20.7", path = "../swc_ecma_testing" }
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
-testing = { version = "0.31.42", path = "../testing" }
+testing = { version = "0.32.0", path = "../testing" }
+
 [[bench]]
 harness = false
 name    = "bench"
