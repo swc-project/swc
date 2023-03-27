@@ -26,8 +26,11 @@ concurrent = [
   "indexmap/rayon",
 ]
 debug = ["backtrace", "swc_ecma_transforms_optimization/debug"]
-serde-impl = ["swc_ecma_ast/serde-impl"]
-trace-ast = []
+default = ["serde-impl"]
+# Implement serialize/deserialize for more types
+extra-serde = ["swc_ecma_ast/serde-impl", "serde-impl"]
+serde-impl  = []
+trace-ast   = []
 
 [dependencies]
 ahash             = "0.7.6"
