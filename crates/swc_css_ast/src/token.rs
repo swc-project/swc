@@ -4,6 +4,7 @@ use std::{
 };
 
 use is_macro::Is;
+#[cfg(feature = "serde-impl")]
 use serde::{Deserialize, Serialize};
 use swc_atoms::{Atom, JsWord};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
