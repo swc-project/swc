@@ -2,6 +2,7 @@
 use is_macro::Is;
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
+#[cfg(feature = "serde-impl")]
 use serde::{
     self,
     de::{self, MapAccess, Visitor},

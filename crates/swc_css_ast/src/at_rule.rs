@@ -803,10 +803,10 @@ pub struct SizeFeatureRange {
 pub struct SizeFeatureRangeInterval {
     pub span: Span,
     pub left: Box<SizeFeatureValue>,
-    #[serde(rename = "leftComparison")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "leftComparison"))]
     pub left_comparison: SizeFeatureRangeComparison,
     pub name: SizeFeatureName,
-    #[serde(rename = "rightComparison")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "rightComparison"))]
     pub right_comparison: SizeFeatureRangeComparison,
     pub right: Box<SizeFeatureValue>,
 }
