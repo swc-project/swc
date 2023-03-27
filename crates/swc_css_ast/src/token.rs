@@ -125,7 +125,7 @@ pub enum Token {
     Number {
         value: f64,
         raw: Atom,
-        #[serde(rename = "type")]
+        #[cfg_attr(feature = "serde-impl", serde(rename = "type"))]
         type_flag: NumberType,
     },
     Percentage {
