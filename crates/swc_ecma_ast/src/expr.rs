@@ -6,7 +6,7 @@ use rkyv_latest as rkyv;
 use serde::{
     self,
     de::{self, MapAccess, Visitor},
-    Deserialize, Deserializer, Serialize,
+    Deserialize, Deserializer,
 };
 use string_enum::StringEnum;
 use swc_atoms::{js_word, Atom};
@@ -585,12 +585,12 @@ bridge_expr_from!(ClassExpr, Box<Class>);
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
-#[cfg_attr(feature = "serde-impl", serde(tag = "type"))]
-#[cfg_attr(feature = "serde-impl", serde(rename_all = "camelCase"))]
-#[cfg_attr(feature = "serde-impl", serde(rename = "AssignmentExpression"))]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize))]
+#[cfg_attr(feature = "serde-impl", serde(tag = "type"))]
+#[cfg_attr(feature = "serde-impl", serde(rename_all = "camelCase"))]
+#[cfg_attr(feature = "serde-impl", serde(rename = "AssignmentExpression"))]
 pub struct AssignExpr {
     pub span: Span,
 

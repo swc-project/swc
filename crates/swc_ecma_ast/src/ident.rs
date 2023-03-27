@@ -3,8 +3,6 @@ use std::fmt::Display;
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
 use scoped_tls::scoped_thread_local;
-#[cfg(feature = "serde-impl")]
-use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
