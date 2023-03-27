@@ -65,7 +65,7 @@ pub struct AssignProp {
 pub struct GetterProp {
     pub span: Span,
     pub key: PropName,
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub body: Option<BlockStmt>,

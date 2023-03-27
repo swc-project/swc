@@ -184,7 +184,7 @@ pub struct WithStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ReturnStmt {
     pub span: Span,
-    #[serde(default, rename = "argument")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "argument"))]
     pub arg: Option<Box<Expr>>,
 }
 
@@ -225,7 +225,7 @@ pub struct IfStmt {
     #[cfg_attr(feature = "serde-impl", serde(rename = "consequent"))]
     pub cons: Box<Stmt>,
 
-    #[serde(default, rename = "alternate")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "alternate"))]
     pub alt: Option<Box<Stmt>>,
 }
 
@@ -318,7 +318,7 @@ pub struct ForOfStmt {
     /// es2018
     ///
     /// for-await-of statements, e.g., `for await (const x of xs) {`
-    #[serde(default, rename = "await")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "await"))]
     pub is_await: bool,
     pub left: VarDeclOrPat,
     pub right: Box<Expr>,

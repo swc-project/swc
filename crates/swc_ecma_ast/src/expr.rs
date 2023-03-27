@@ -355,7 +355,7 @@ impl Take for ThisExpr {
 pub struct ArrayLit {
     pub span: Span,
 
-    #[serde(default, rename = "elements")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "elements"))]
     pub elems: Vec<Option<ExprOrSpread>>,
 }
 
@@ -375,7 +375,7 @@ impl Take for ArrayLit {
 pub struct ObjectLit {
     pub span: Span,
 
-    #[serde(default, rename = "properties")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "properties"))]
     pub props: Vec<PropOrSpread>,
 }
 
@@ -512,7 +512,7 @@ impl Take for BinExpr {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct FnExpr {
-    #[serde(default, rename = "identifier")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "identifier"))]
     pub ident: Option<Ident>,
 
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
@@ -546,7 +546,7 @@ bridge_expr_from!(FnExpr, Box<Function>);
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ClassExpr {
-    #[serde(default, rename = "identifier")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "identifier"))]
     pub ident: Option<Ident>,
 
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
@@ -586,7 +586,7 @@ bridge_expr_from!(ClassExpr, Box<Class>);
     ))
 )]
 #[cfg_attr(feature = "serde-impl", serde(tag = "type"))]
-#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "serde-impl", serde(rename_all = "camelCase"))]
 #[cfg_attr(feature = "serde-impl", serde(rename = "AssignmentExpression"))]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -802,10 +802,10 @@ pub struct CallExpr {
 
     pub callee: Callee,
 
-    #[serde(default, rename = "arguments")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "arguments"))]
     pub args: Vec<ExprOrSpread>,
 
-    #[serde(default, rename = "typeArguments")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
@@ -829,10 +829,10 @@ pub struct NewExpr {
 
     pub callee: Box<Expr>,
 
-    #[serde(default, rename = "arguments")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "arguments"))]
     pub args: Option<Vec<ExprOrSpread>>,
 
-    #[serde(default, rename = "typeArguments")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
@@ -878,13 +878,13 @@ pub struct ArrowExpr {
     /// This is boxed to reduce the type size of [Expr].
     pub body: Box<BlockStmtOrExpr>,
 
-    #[serde(default, rename = "async")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "async"))]
     pub is_async: bool,
 
-    #[serde(default, rename = "generator")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "generator"))]
     pub is_generator: bool,
 
-    #[serde(default, rename = "typeParameters")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeParameters"))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -911,7 +911,7 @@ impl Take for ArrowExpr {
 pub struct YieldExpr {
     pub span: Span,
 
-    #[serde(default, rename = "argument")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "argument"))]
     pub arg: Option<Box<Expr>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -989,7 +989,7 @@ pub struct TaggedTpl {
 
     pub tag: Box<Expr>,
 
-    #[serde(default, rename = "typeParameters")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeParameters"))]
     pub type_params: Option<Box<TsTypeParamInstantiation>>,
 
     /// This is boxed to reduce the type size of [Expr].
@@ -1404,10 +1404,10 @@ pub struct OptCall {
 
     pub callee: Box<Expr>,
 
-    #[serde(default, rename = "arguments")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "arguments"))]
     pub args: Vec<ExprOrSpread>,
 
-    #[serde(default, rename = "typeArguments")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }

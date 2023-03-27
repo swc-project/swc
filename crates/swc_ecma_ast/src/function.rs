@@ -24,14 +24,14 @@ pub struct Function {
     pub body: Option<BlockStmt>,
 
     /// if it's a generator.
-    #[serde(default, rename = "generator")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "generator"))]
     pub is_generator: bool,
 
     /// if it's an async function.
-    #[serde(default, rename = "async")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "async"))]
     pub is_async: bool,
 
-    #[serde(default, rename = "typeParameters")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeParameters"))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]

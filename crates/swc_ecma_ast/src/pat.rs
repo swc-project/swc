@@ -89,7 +89,7 @@ pub struct ArrayPat {
     #[cfg_attr(feature = "serde-impl", serde(rename = "optional"))]
     pub optional: bool,
 
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -106,7 +106,7 @@ pub struct ObjectPat {
     #[cfg_attr(feature = "serde-impl", serde(rename = "optional"))]
     pub optional: bool,
 
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -120,7 +120,7 @@ pub struct AssignPat {
 
     pub right: Box<Expr>,
 
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -137,7 +137,7 @@ pub struct RestPat {
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Box<Pat>,
 
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 

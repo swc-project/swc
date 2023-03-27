@@ -108,7 +108,7 @@ pub struct JSXOpeningElement {
 
     pub span: Span,
 
-    #[serde(default, rename = "attributes")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "attributes"))]
     pub attrs: Vec<JSXAttrOrSpread>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "selfClosing"))]
@@ -116,7 +116,7 @@ pub struct JSXOpeningElement {
 
     /// Note: This field's name is different from one from babel because it is
     /// misleading
-    #[serde(default, rename = "typeArguments")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 

@@ -80,7 +80,7 @@ pub struct ImportDecl {
     #[cfg_attr(feature = "serde-impl", serde(rename = "source"))]
     pub src: Box<Str>,
 
-    #[serde(default, rename = "typeOnly")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeOnly"))]
     pub type_only: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]

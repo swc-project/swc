@@ -109,7 +109,7 @@ pub struct ClassProp {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub value: Option<Box<Expr>>,
 
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -154,7 +154,7 @@ pub struct PrivateProp {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub value: Option<Box<Expr>>,
 
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -320,7 +320,7 @@ pub struct AutoAccessor {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub value: Option<Box<Expr>>,
 
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
