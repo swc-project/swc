@@ -953,7 +953,7 @@ pub enum MetaPropKind {
 pub struct AwaitExpr {
     pub span: Span,
 
-    #[serde(rename = "argument")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Box<Expr>,
 }
 
@@ -963,7 +963,7 @@ pub struct AwaitExpr {
 pub struct Tpl {
     pub span: Span,
 
-    #[serde(rename = "expressions")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expressions"))]
     pub exprs: Vec<Box<Expr>>,
 
     pub quasis: Vec<TplElement>,
