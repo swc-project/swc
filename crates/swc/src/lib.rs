@@ -13,7 +13,7 @@
 //!
 //! ## Testing
 //!
-//! See [testing] and [swc_ecma_transform_testing](https://docs.rs/swc_ecmc_transform_testing).
+//! See [testing] and [swc_ecma_transforms_testing](https://docs.rs/swc_ecma_transforms_testing).
 //!
 //! ## Custom javascript transforms
 //!
@@ -1025,6 +1025,15 @@ impl Compiler {
                     if opts.top_level.is_none() {
                         opts.top_level = Some(true);
                     }
+                }
+            }
+
+            if opts.keep_fnames {
+                if let Some(opts) = &mut min_opts.compress {
+                    opts.keep_fnames = true;
+                }
+                if let Some(opts) = &mut min_opts.mangle {
+                    opts.keep_fn_names = true;
                 }
             }
 

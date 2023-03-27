@@ -38,7 +38,6 @@ use std::fmt::Debug;
 
 pub use ast_node::{ast_node, ast_serde, DeserializeEnum, Spanned};
 pub use from_variant::FromVariant;
-use serde::Serialize;
 pub use swc_eq_ignore_macros::{EqIgnoreSpan, TypeEq};
 pub use swc_visit::chain;
 
@@ -57,7 +56,7 @@ pub use self::{
 pub mod private;
 
 /// A trait for ast nodes.
-pub trait AstNode: Debug + PartialEq + Clone + Spanned + Serialize {
+pub trait AstNode: Debug + PartialEq + Clone + Spanned {
     const TYPE: &'static str;
 }
 

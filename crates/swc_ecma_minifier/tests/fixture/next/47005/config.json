@@ -1,0 +1,18 @@
+{
+    "defaults": true,
+    "conditionals": false,
+    "sequences": false,
+    "booleans": false,
+    "dead_code": false,
+    "reduce_vars": false,
+    "join_vars": false,
+    "comparisons": false,
+    "computed_props": false,
+    "evaluate": false,
+    "if_return": false,
+    "loops": false,
+    "collapse_vars": true,
+    "unused": true,
+    "inline": true,
+    "passes": 1
+}

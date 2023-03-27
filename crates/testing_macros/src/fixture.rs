@@ -6,13 +6,13 @@ use std::{
 use anyhow::{Context, Error};
 use glob::glob;
 use once_cell::sync::Lazy;
-use pmutil::q;
+use pmutil::{q, Quote};
 use proc_macro2::Span;
 use regex::Regex;
 use relative_path::RelativePath;
 use syn::{
     parse::{Parse, ParseStream},
-    Ident, ItemFn, Lit, LitStr, Meta, NestedMeta, Token,
+    Ident, Lit, LitStr, Meta, NestedMeta, Token,
 };
 
 pub struct Config {
@@ -96,7 +96,7 @@ impl Parse for Config {
     }
 }
 
-pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
+pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<Quote>, Error> {
     let base_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").expect(
         "#[fixture] requires CARGO_MANIFEST_DIR because it's relative to cargo manifest directory",
     ));
@@ -152,39 +152,32 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
         .replace("___", "__");
         let test_ident = Ident::new(&test_name, Span::call_site());
 
-        let mut f = q!(
+        let ignored_attr = if ignored {
+            q!(Vars {}, { #[ignore] })
+        } else {
+            Quote::new_call_site()
+        };
+
+        let f = q!(
             Vars {
                 test_ident,
                 path_str: &abs_path.to_string_lossy(),
-                callee
+                callee,
+                ignored_attr,
             },
             {
                 #[test]
                 #[inline(never)]
-                #[ignore]
                 #[doc(hidden)]
                 #[allow(non_snake_case)]
+                ignored_attr
                 fn test_ident() {
                     eprintln!("Input: {}", path_str);
 
                     callee(::std::path::PathBuf::from(path_str));
                 }
             }
-        )
-        .parse::<ItemFn>();
-
-        if !ignored {
-            f.attrs.retain(|attr| {
-                if let Some(name) = attr.path.get_ident() {
-                    if name == "ignore" {
-                        return false;
-                    }
-                }
-
-                true
-            });
-            //
-        }
+        );
 
         test_fns.push(f);
     }

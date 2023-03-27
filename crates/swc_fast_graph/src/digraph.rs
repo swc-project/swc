@@ -6,7 +6,7 @@
 use std::{
     cmp::Ordering,
     fmt,
-    hash::{self, Hash},
+    hash::{self, BuildHasherDefault, Hash},
     iter::{Cloned, DoubleEndedIterator, FromIterator},
     marker::PhantomData,
     ops::Deref,
@@ -25,7 +25,10 @@ use petgraph::{
     },
     Directed, Direction, EdgeType, Incoming, IntoWeightedEdge, Outgoing, Undirected,
 };
+use rustc_hash::FxHasher;
 use swc_common::collections::AHashSet;
+
+type FxBuildHasher = BuildHasherDefault<FxHasher>;
 
 /// A `GraphMap` with directed edges.
 ///
@@ -59,8 +62,8 @@ pub type FastDiGraphMap<N, E> = FastGraphMap<N, E, Directed>;
 /// Depends on crate feature `graphmap` (default).
 #[derive(Clone)]
 pub struct FastGraphMap<N, E, Ty> {
-    nodes: IndexMap<N, Vec<(N, CompactDirection)>, ahash::RandomState>,
-    edges: IndexMap<(N, N), E, ahash::RandomState>,
+    nodes: IndexMap<N, Vec<(N, CompactDirection)>, FxBuildHasher>,
+    edges: IndexMap<(N, N), E, FxBuildHasher>,
     ty: PhantomData<Ty>,
 }
 
@@ -584,7 +587,7 @@ where
     Ty: EdgeType,
 {
     from: N,
-    edges: &'a IndexMap<(N, N), E, ahash::RandomState>,
+    edges: &'a IndexMap<(N, N), E, FxBuildHasher>,
     iter: Neighbors<'a, N, Ty>,
 }
 

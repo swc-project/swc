@@ -15,7 +15,7 @@ push({
         }();
     },
     "App.jsx": function() {
-        var ShaderChunk = {
+        var ShaderChunk1 = {
             shadowmap_pars_vertex: "",
             shadowmap_vertex: "",
             shadowmask_pars_fragment: "",
@@ -47,7 +47,7 @@ push({
             meshphong_frag: ""
         };
         ShaderLib.physical = {
-            x: ShaderChunk.meshphysical_frag
+            x: ShaderChunk1.meshphysical_frag
         };
     }
 });

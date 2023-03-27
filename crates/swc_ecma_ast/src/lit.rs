@@ -293,10 +293,10 @@ impl Take for Null {
 pub struct Regex {
     pub span: Span,
 
-    #[serde(rename = "pattern")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "pattern"))]
     pub exp: Atom,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub flags: Atom,
 }
 
@@ -350,7 +350,7 @@ impl Eq for Number {}
 
 impl EqIgnoreSpan for Number {
     fn eq_ignore_span(&self, other: &Self) -> bool {
-        self.value == other.value
+        self.value == other.value && self.value.is_sign_positive() == other.value.is_sign_positive()
     }
 }
 

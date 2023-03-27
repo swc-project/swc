@@ -191,6 +191,7 @@ where
                 let ctx = Ctx {
                     in_pat_of_param: true,
                     is_delete_arg: false,
+                    inline_prevented: true,
                     ..child.ctx
                 };
                 n.params.visit_with(&mut *child.with_ctx(ctx));

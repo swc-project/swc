@@ -35,15 +35,12 @@ pub trait SourceMapperExt {
         false
     }
 
-    fn should_write_separating_line_terminator<P: Spanned, N: Spanned>(
+    fn should_write_separating_line_terminator(
         &self,
-        prev: Option<P>,
-        next: Option<N>,
+        prev: Option<Span>,
+        next: Option<Span>,
         format: ListFormat,
     ) -> bool {
-        let prev = prev.map(|s| s.span());
-        let next = next.map(|s| s.span());
-
         if format.contains(ListFormat::MultiLine) {
             return true;
         }
@@ -63,10 +60,10 @@ pub trait SourceMapperExt {
         false
     }
 
-    fn should_write_leading_line_terminator<N: Spanned>(
+    fn should_write_leading_line_terminator(
         &self,
         parent_node: Span,
-        children: &[N],
+        first_child: Option<Span>,
         format: ListFormat,
     ) -> bool {
         if format.contains(ListFormat::MultiLine) {
@@ -78,11 +75,11 @@ pub trait SourceMapperExt {
                 return true;
             }
 
-            if children.is_empty() {
+            if first_child.is_none() {
                 return !self.is_on_same_line(parent_node.lo(), parent_node.hi());
             }
 
-            let first_child = children[0].span();
+            let first_child = first_child.unwrap();
             if parent_node.is_synthesized() || first_child.is_synthesized() {
                 return first_child.starts_on_new_line(format);
             }
@@ -93,10 +90,10 @@ pub trait SourceMapperExt {
         }
     }
 
-    fn should_write_closing_line_terminator<N: Spanned>(
+    fn should_write_closing_line_terminator(
         &self,
         parent_node: Span,
-        children: &[N],
+        last_child: Option<Span>,
         format: ListFormat,
     ) -> bool {
         if format.contains(ListFormat::MultiLine) {
@@ -108,11 +105,12 @@ pub trait SourceMapperExt {
                 return true;
             }
 
-            if children.is_empty() {
+            if last_child.is_none() {
                 return !self.is_on_same_line(parent_node.lo(), parent_node.hi());
             }
 
-            let last_child = children[children.len() - 1].span();
+            let last_child = last_child.unwrap();
+
             if parent_node.is_synthesized() || last_child.is_synthesized() {
                 last_child.starts_on_new_line(format)
             } else {
