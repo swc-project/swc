@@ -27,5 +27,8 @@ swc_xml_ast = { version = "0.7.22", path = "../swc_xml_ast" }
 serde      = "1.0.127"
 serde_json = "1.0.66"
 
+swc_xml_ast = { version = "0.7.22", path = "../swc_xml_ast", features = [
+  "serde-impl",
+] }
 swc_xml_visit = { version = "0.7.22", path = "../swc_xml_visit" }
-testing       = { version = "0.31.42", path = "../testing" }
+testing = { version = "0.31.42", path = "../testing" }
