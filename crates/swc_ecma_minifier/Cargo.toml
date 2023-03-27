@@ -26,6 +26,7 @@ concurrent = [
   "indexmap/rayon",
 ]
 debug = ["backtrace", "swc_ecma_transforms_optimization/debug"]
+serde-impl = ["swc_ecma_ast/serde-impl"]
 trace-ast = []
 
 [dependencies]
