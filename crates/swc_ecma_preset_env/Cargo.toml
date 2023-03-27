@@ -11,6 +11,10 @@ version       = "0.189.21"
 [lib]
 bench = false
 
+[features]
+default    = ["serde-impl"]
+serde-impl = []
+
 [dependencies]
 ahash      = "0.7.4"
 anyhow     = "1"
