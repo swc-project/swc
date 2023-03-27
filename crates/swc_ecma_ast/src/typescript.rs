@@ -1,5 +1,7 @@
 #![allow(clippy::vec_box)]
 #![allow(missing_copy_implementations)]
+
+#[cfg(feature = "serde-impl")]
 use std::fmt;
 
 use is_macro::Is;

@@ -1,6 +1,7 @@
 use is_macro::Is;
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
+#[cfg(feature = "serde-impl")]
 use serde::{Deserialize, Serialize};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
