@@ -45,17 +45,19 @@ pub enum NumberType {
     Number,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feat = "serde-impl", derive(Serialize, Deserialize))]
 pub struct DimensionToken {
     pub value: f64,
     pub raw_value: Atom,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub unit: JsWord,
-    #[serde(rename = "type")]
+
+    #[cfg_attr(feat = "serde-impl", serde(rename = "type"))]
     pub type_flag: NumberType,
     pub raw_unit: Atom,
 }
