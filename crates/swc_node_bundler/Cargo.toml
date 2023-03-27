@@ -13,9 +13,10 @@ version       = "0.42.27"
 bench = false
 
 [features]
-default = ["swc_v1"]
-swc_v1  = []
-swc_v2  = []
+default    = ["swc_v1"]
+serde-impl = []
+swc_v1     = ["serde-impl"]
+swc_v2     = ["serde-impl"]
 
 [dependencies]
 anyhow     = "1"
