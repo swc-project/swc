@@ -1,3 +1,5 @@
+#![cfg_attr(not(feature = "extra-serde"), allow(unused))]
+
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_cached::regex::CachedRegex;
@@ -28,7 +30,7 @@ pub struct ExtraOptions {
     pub top_level_mark: Mark,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Default, Clone)]
 #[cfg_attr(feature = "extra-serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "extra-serde", serde(rename_all = "camelCase"))]
 #[cfg_attr(feature = "extra-serde", serde(deny_unknown_fields))]
@@ -43,18 +45,6 @@ pub struct MinifyOptions {
     pub wrap: bool,
     #[cfg_attr(feature = "extra-serde", serde(default))]
     pub enclose: bool,
-}
-
-impl Default for MinifyOptions {
-    fn default() -> Self {
-        Self {
-            rename: Default::default(),
-            compress: Default::default(),
-            mangle: Default::default(),
-            wrap: Default::default(),
-            enclose: Default::default(),
-        }
-    }
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
