@@ -1,16 +1,22 @@
 #![allow(dead_code)]
 
-use std::path::PathBuf;
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 
 use swc_common::{chain, Mark};
-use swc_ecma_parser::EsConfig;
-use swc_ecma_transforms_base::resolver;
+use swc_ecma_codegen::{Config, Emitter};
+use swc_ecma_parser::{EsConfig, Parser, StringInput};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene, resolver};
 use swc_ecma_transforms_compat::{
     es2015::{arrow, classes},
     es3::property_literals,
 };
 use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{parse_options, test, test_fixture, FixtureTestConfig, Tester};
+use swc_ecma_visit::FoldWith;
+use testing::NormalizedOutput;
 
 use super::*;
 use crate::{display_name, pure_annotations, react};
@@ -24,7 +30,8 @@ fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Fold {
             t.cm.clone(),
             Some(t.comments.clone()),
             options,
-            top_level_mark
+            top_level_mark,
+            unresolved_mark
         ),
         display_name(),
         classes(Some(t.comments.clone()), Default::default()),
@@ -71,7 +78,8 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
             t.cm.clone(),
             Some(t.comments.clone()),
             options.options,
-            top_level_mark
+            top_level_mark,
+            unresolved_mark,
         ),
         display_name(),
         pure_annotations(Some(t.comments.clone()))
@@ -94,7 +102,8 @@ fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Fold {
             t.cm.clone(),
             Some(t.comments.clone()),
             options.options,
-            top_level_mark
+            top_level_mark,
+            unresolved_mark
         ),
         display_name(),
     )
@@ -1338,6 +1347,7 @@ test!(
     }),
     |t| {
         let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh(Mark::root());
 
         chain!(
             classes(Some(t.comments.clone()), Default::default()),
@@ -1345,7 +1355,8 @@ test!(
                 t.cm.clone(),
                 Some(t.comments.clone()),
                 Default::default(),
-                top_level_mark
+                top_level_mark,
+                unresolved_mark
             )
         )
     },
@@ -1419,7 +1430,8 @@ test!(
                 t.cm.clone(),
                 Some(t.comments.clone()),
                 Default::default(),
-                top_level_mark
+                top_level_mark,
+                unresolved_mark
             )
         )
     },
@@ -1482,4 +1494,75 @@ fn integration(input: PathBuf) {
             ..Default::default()
         },
     );
+}
+
+#[testing::fixture("tests/script/**/input.js")]
+fn script(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+
+    let options = parse_options(input.parent().unwrap());
+
+    let input = fs::read_to_string(&input).unwrap();
+
+    test_script(&input, &output, options);
+}
+
+fn test_script(src: &str, output: &Path, options: Options) {
+    Tester::run(|tester| {
+        let fm = tester
+            .cm
+            .new_source_file(FileName::Real("input.js".into()), src.into());
+
+        let syntax = Syntax::Es(EsConfig {
+            jsx: true,
+            ..Default::default()
+        });
+
+        let mut parser = Parser::new(syntax, StringInput::from(&*fm), Some(&tester.comments));
+
+        let script = parser.parse_script().unwrap();
+
+        let top_level_mark = Mark::new();
+        let unresolved_mark = Mark::new();
+
+        let script = script.fold_with(&mut chain!(
+            resolver(Mark::new(), top_level_mark, false),
+            react(
+                tester.cm.clone(),
+                Some(&tester.comments),
+                options,
+                top_level_mark,
+                unresolved_mark,
+            ),
+            hygiene::hygiene(),
+            fixer(Some(&tester.comments))
+        ));
+
+        let mut buf = vec![];
+
+        let mut emitter = Emitter {
+            cfg: Config {
+                target: Default::default(),
+                ascii_only: true,
+                minify: false,
+                omit_last_semi: true,
+            },
+            cm: tester.cm.clone(),
+            wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                tester.cm.clone(),
+                "\n",
+                &mut buf,
+                None,
+            )),
+            comments: Some(&tester.comments),
+        };
+
+        // println!("Emitting: {:?}", module);
+        emitter.emit_script(&script).unwrap();
+
+        let s = String::from_utf8_lossy(&buf).to_string();
+        assert!(NormalizedOutput::new_raw(s).compare_to_file(output).is_ok());
+
+        Ok(())
+    })
 }

@@ -74,6 +74,7 @@ fn run_test(input: &str, expected: &str) {
                 Some(&actual_comments),
                 Default::default(),
                 top_level_mark,
+                unresolved_mark,
             ));
 
         let actual_src = emit(actual_sm, actual_comments, &actual);
