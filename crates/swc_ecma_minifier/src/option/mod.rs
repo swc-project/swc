@@ -28,7 +28,8 @@ pub struct ExtraOptions {
     pub top_level_mark: Mark,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Clone)]
+#[cfg_attr(feature = "extra-serde", derive(Serialize, Deserialize))]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct MinifyOptions {
@@ -108,7 +109,8 @@ impl Default for PureGetterOption {
 }
 
 /// https://terser.org/docs/api-reference.html#compress-options
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone)]
+#[cfg_attr(feature = "extra-serde", derive(Serialize, Deserialize))]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct CompressOptions {
