@@ -7,7 +7,7 @@ use std::fmt;
 use is_macro::Is;
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
-#[cfg(feature = "serde")]
+#[cfg(feature = "serde-impl")]
 use serde::{
     de::{self, Unexpected, Visitor},
     Deserialize, Deserializer, Serialize,
@@ -60,10 +60,10 @@ pub struct TsTypeParam {
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "const"))]
     pub is_const: bool,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub constraint: Option<Box<TsType>>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub default: Option<Box<TsType>>,
 }
 
@@ -80,10 +80,10 @@ pub struct TsTypeParamInstantiation {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsParamProp {
     pub span: Span,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decorators: Vec<Decorator>,
     /// At least one of `accessibility` or `readonly` must be set.
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub accessibility: Option<Accessibility>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "override"))]
     pub is_override: bool,
@@ -162,7 +162,7 @@ pub struct TsCallSignatureDecl {
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -174,7 +174,7 @@ pub struct TsConstructSignatureDecl {
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -187,12 +187,12 @@ pub struct TsPropertySignature {
     pub key: Box<Expr>,
     pub computed: bool,
     pub optional: bool,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub init: Option<Box<Expr>>,
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -231,9 +231,9 @@ pub struct TsMethodSignature {
     pub computed: bool,
     pub optional: bool,
     pub params: Vec<TsFnParam>,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -473,7 +473,7 @@ pub struct TsFnType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
 
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsTypeAnn>,
@@ -485,7 +485,7 @@ pub struct TsFnType {
 pub struct TsConstructorType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsTypeAnn>,
@@ -498,7 +498,7 @@ pub struct TsConstructorType {
 pub struct TsTypeRef {
     pub span: Span,
     pub type_name: TsEntityName,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamInstantiation>>,
 }
 
@@ -776,12 +776,12 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsMappedType {
     pub span: Span,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub readonly: Option<TruePlusMinus>,
     pub type_param: TsTypeParam,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "nameType"))]
     pub name_type: Option<Box<TsType>>,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub optional: Option<TruePlusMinus>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsType>>,
@@ -838,7 +838,7 @@ pub struct TsInterfaceDecl {
     pub span: Span,
     pub id: Ident,
     pub declare: bool,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     pub extends: Vec<TsExprWithTypeArgs>,
     pub body: TsInterfaceBody,
@@ -870,7 +870,7 @@ pub struct TsTypeAliasDecl {
     pub span: Span,
     pub declare: bool,
     pub id: Ident,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
@@ -893,7 +893,7 @@ pub struct TsEnumDecl {
 pub struct TsEnumMember {
     pub span: Span,
     pub id: TsEnumMemberId,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub init: Option<Box<Expr>>,
 }
 
@@ -928,7 +928,7 @@ pub struct TsModuleDecl {
     /// In TypeScript, this is only available through`node.flags`.
     pub global: bool,
     pub id: TsModuleName,
-    #[cfg_attr(feature = "serde", serde(default))]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub body: Option<TsNamespaceBody>,
 }
 
