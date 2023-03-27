@@ -14,5 +14,5 @@
         enumerable: true,
         get: ()=>_z.default
     });
-    _z = /*#__PURE__*/ _interopRequireDefault(_z);
+    _z = /*#__PURE__*/ _interop_require_default(_z);
 });

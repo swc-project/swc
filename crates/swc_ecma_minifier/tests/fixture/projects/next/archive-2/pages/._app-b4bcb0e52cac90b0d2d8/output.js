@@ -6,25 +6,25 @@
                 __unused_webpack_module, exports, __webpack_require__
             ) {
                 "use strict";
-                var _classCallCheck = __webpack_require__(
+                var _class_call_check = __webpack_require__(
                         4988
                     ),
-                    _createClass = __webpack_require__(
+                    _create_class = __webpack_require__(
                         9590
                     ),
                     _inherits = __webpack_require__(
                         4546
                     ),
-                    _possibleConstructorReturn = __webpack_require__(
+                    _possible_constructor_return = __webpack_require__(
                         1581
                     ),
-                    _getPrototypeOf = __webpack_require__(
+                    _get_prototype_of = __webpack_require__(
                         852
                     ),
                     _regeneratorRuntime = __webpack_require__(
                         7945
                     );
-                function _createSuper(
+                function _create_super(
                     Derived
                 ) {
                     var hasNativeReflectConstruct = (function (
@@ -53,11 +53,11 @@
                     return function (
                     ) {
                         var result,
-                            Super = _getPrototypeOf(
+                            Super = _get_prototype_of(
                                 Derived
                             );
                         if (hasNativeReflectConstruct) {
-                            var NewTarget = _getPrototypeOf(
+                            var NewTarget = _get_prototype_of(
                                 this
                             ).constructor;
                             result = Reflect.construct(
@@ -69,7 +69,7 @@
                             this,
                             arguments
                         );
-                        return _possibleConstructorReturn(
+                        return _possible_constructor_return(
                             this,
                             result
                         );
@@ -147,7 +147,7 @@
                             _throw
                         );
                 }
-                function _asyncToGenerator(
+                function _async_to_generator(
                     fn
                 ) {
                     return function (
@@ -197,7 +197,7 @@
                 }
                 function _appGetInitialProps(
                 ) {
-                    return (_appGetInitialProps = _asyncToGenerator(
+                    return (_appGetInitialProps = _async_to_generator(
                         _regeneratorRuntime.mark(
                             function _callee(
                                 _ref
@@ -259,13 +259,13 @@
                         App,
                         _react$default$Compon
                     );
-                    var _super = _createSuper(
+                    var _super = _create_super(
                         App
                     );
                     function App(
                     ) {
                         return (
-                            _classCallCheck(
+                            _class_call_check(
                                 this,
                                 App
                             ),
@@ -276,7 +276,7 @@
                         );
                     }
                     return (
-                        _createClass(
+                        _create_class(
                             App,
                             [
                                 {

@@ -18,10 +18,10 @@ define([
     "exports",
     "elements1",
     "elements2"
-], function(require, exports, _elements1, _elements2) {
+], function(require, exports, _elements_1, _elements_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    /*#__PURE__*/ React.createElement(_elements1.MyElement, null);
+    /*#__PURE__*/ React.createElement(_elements_1.MyElement, null);
 });

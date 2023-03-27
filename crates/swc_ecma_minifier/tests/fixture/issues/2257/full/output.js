@@ -1141,22 +1141,22 @@
             function _toArray(arr) {
                 return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
             }
-            function _type_of_typeof(obj) {
+            function _typeof_typeof(obj) {
                 return obj && obj.constructor === Symbol ? "symbol" : typeof obj;
             }
             function _toPrimitive(input, hint) {
-                if ("object" !== _type_of_typeof(input) || null === input) return input;
+                if ("object" !== _typeof_typeof(input) || null === input) return input;
                 var prim = input[Symbol.toPrimitive];
                 if (void 0 !== prim) {
                     var res = prim.call(input, hint || "default");
-                    if ("object" !== _type_of_typeof(res)) return res;
+                    if ("object" !== _typeof_typeof(res)) return res;
                     throw TypeError("@@toPrimitive must return a primitive value.");
                 }
                 return ("string" === hint ? String : Number)(input);
             }
             function _toPropertyKey(arg) {
                 var key = _toPrimitive(arg, "string");
-                return "symbol" === _type_of_typeof(key) ? key : String(key);
+                return "symbol" === _typeof_typeof(key) ? key : String(key);
             }
             function _decorate(decorators, factory, superClass) {
                 var F, elements, proto, r = factory(function(O) {
@@ -1562,7 +1562,7 @@
                 return target;
             }
             function _possibleConstructorReturn(self1, call) {
-                return call && ("object" === _type_of_typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self1);
+                return call && ("object" === _typeof_typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self1);
             }
             function _readOnlyError(name) {
                 throw Error('"' + name + '" is read-only');
@@ -1828,7 +1828,7 @@
                     return _toPropertyKey;
                 },
                 typeOf: function() {
-                    return _type_of_typeof;
+                    return _typeof_typeof;
                 },
                 wrapAsyncGenerator: function() {
                     return _wrapAsyncGenerator;

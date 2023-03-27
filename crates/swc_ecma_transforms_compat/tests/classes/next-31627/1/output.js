@@ -8,7 +8,7 @@ export default function Home() {
 }
 let MyClass = function MyClass() {
     "use strict";
-    _classCallCheck(this, MyClass);
+    _class_call_check(this, MyClass);
     selectAll(".group").each(function() {
         select(this).selectAll("path");
     });

@@ -6,5 +6,5 @@ Object.defineProperty(exports, "Scope", {
     enumerable: true,
     get: ()=>_interfaces.Scope
 });
-_exportStar(require("./http"), exports);
+_export_star(require("./http"), exports);
 const _interfaces = require("./interfaces");

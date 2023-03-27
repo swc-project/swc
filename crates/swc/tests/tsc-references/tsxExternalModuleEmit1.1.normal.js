@@ -13,18 +13,18 @@ Object.defineProperty(exports, "App", {
         return App;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
+var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default;
 var _inherits = require("@swc/helpers/lib/_inherits.js").default;
-var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _createSuper = require("@swc/helpers/lib/_create_super.js").default;
-var _react = /*#__PURE__*/ _interopRequireWildcard(require("react"));
+var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _create_super = require("@swc/helpers/lib/_create_super.js").default;
+var _react = /*#__PURE__*/ _interop_require_wildcard(require("react"));
 var _button = require("./button");
 var App = /*#__PURE__*/ function(_React_Component) {
     "use strict";
     _inherits(App, _React_Component);
-    var _super = _createSuper(App);
+    var _super = _create_super(App);
     function App() {
-        _classCallCheck(this, App);
+        _class_call_check(this, App);
         return _super.apply(this, arguments);
     }
     var _proto = App.prototype;
@@ -44,17 +44,17 @@ Object.defineProperty(exports, "Button", {
         return Button;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
+var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default;
 var _inherits = require("@swc/helpers/lib/_inherits.js").default;
-var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _createSuper = require("@swc/helpers/lib/_create_super.js").default;
-var _react = /*#__PURE__*/ _interopRequireWildcard(require("react"));
+var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _create_super = require("@swc/helpers/lib/_create_super.js").default;
+var _react = /*#__PURE__*/ _interop_require_wildcard(require("react"));
 var Button = /*#__PURE__*/ function(_React_Component) {
     "use strict";
     _inherits(Button, _React_Component);
-    var _super = _createSuper(Button);
+    var _super = _create_super(Button);
     function Button() {
-        _classCallCheck(this, Button);
+        _class_call_check(this, Button);
         return _super.apply(this, arguments);
     }
     var _proto = Button.prototype;

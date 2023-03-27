@@ -13,7 +13,7 @@ _export(exports, {
     get: ()=>_get,
     byID: ()=>byID
 });
-const _get = /*#__PURE__*/ _interopRequireWildcard(require("./get"));
+const _get = /*#__PURE__*/ _interop_require_wildcard(require("./get"));
 const byID = (id)=>{
     // Do some async stuff
     return new Promise((resolve)=>setTimeout(()=>{

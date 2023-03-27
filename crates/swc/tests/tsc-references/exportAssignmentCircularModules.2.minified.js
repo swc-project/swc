@@ -2,26 +2,26 @@
 define([
     "require",
     "./foo_1"
-], function(require, _foo1) {
+], function(require, _foo_1) {
     "use strict";
     var Foo;
-    return (Foo || (Foo = {})).x = _foo1.x, Foo;
+    return (Foo || (Foo = {})).x = _foo_1.x, Foo;
 });
 //// [foo_1.ts]
 define([
     "require",
     "./foo_2"
-], function(require, _foo2) {
+], function(require, _foo_2) {
     "use strict";
     var Foo;
-    return (Foo || (Foo = {})).x = _foo2.x, Foo;
+    return (Foo || (Foo = {})).x = _foo_2.x, Foo;
 });
 //// [foo_2.ts]
 define([
     "require",
     "./foo_0"
-], function(require, _foo0) {
+], function(require, _foo_0) {
     "use strict";
     var Foo;
-    return (Foo || (Foo = {})).x = _foo0.x, Foo;
+    return (Foo || (Foo = {})).x = _foo_0.x, Foo;
 });

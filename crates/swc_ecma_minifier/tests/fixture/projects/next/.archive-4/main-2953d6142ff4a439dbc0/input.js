@@ -2,7 +2,7 @@
     [179],
     {
         /***/ 4291: /***/ function (module) {
-            function _arrayLikeToArray(arr, len) {
+            function _array_like_to_array(arr, len) {
                 if (len == null || len > arr.length) len = arr.length;
 
                 for (var i = 0, arr2 = new Array(len); i < len; i++) {
@@ -12,17 +12,17 @@
                 return arr2;
             }
 
-            module.exports = _arrayLikeToArray;
+            module.exports = _array_like_to_array;
 
             /***/
         },
 
         /***/ 4325: /***/ function (module) {
-            function _arrayWithHoles(arr) {
+            function _array_with_holes(arr) {
                 if (Array.isArray(arr)) return arr;
             }
 
-            module.exports = _arrayWithHoles;
+            module.exports = _array_with_holes;
 
             /***/
         },
@@ -34,17 +34,17 @@
         ) {
             var arrayLikeToArray = __webpack_require__(4291);
 
-            function _arrayWithoutHoles(arr) {
+            function _array_without_holes(arr) {
                 if (Array.isArray(arr)) return arrayLikeToArray(arr);
             }
 
-            module.exports = _arrayWithoutHoles;
+            module.exports = _array_without_holes;
 
             /***/
         },
 
         /***/ 9382: /***/ function (module) {
-            function _assertThisInitialized(self) {
+            function _assert_this_initialized(self) {
                 if (self === void 0) {
                     throw new ReferenceError(
                         "this hasn't been initialised - super() hasn't been called"
@@ -54,7 +54,7 @@
                 return self;
             }
 
-            module.exports = _assertThisInitialized;
+            module.exports = _assert_this_initialized;
 
             /***/
         },
@@ -84,7 +84,7 @@
                 }
             }
 
-            function _asyncToGenerator(fn) {
+            function _async_to_generator(fn) {
                 return function () {
                     var self = this,
                         args = arguments;
@@ -120,19 +120,19 @@
                 };
             }
 
-            module.exports = _asyncToGenerator;
+            module.exports = _async_to_generator;
 
             /***/
         },
 
         /***/ 4988: /***/ function (module) {
-            function _classCallCheck(instance, Constructor) {
+            function _class_call_check(instance, Constructor) {
                 if (!(instance instanceof Constructor)) {
                     throw new TypeError("Cannot call a class as a function");
                 }
             }
 
-            module.exports = _classCallCheck;
+            module.exports = _class_call_check;
 
             /***/
         },
@@ -183,20 +183,20 @@
                 }
             }
 
-            function _createClass(Constructor, protoProps, staticProps) {
+            function _create_class(Constructor, protoProps, staticProps) {
                 if (protoProps)
                     _defineProperties(Constructor.prototype, protoProps);
                 if (staticProps) _defineProperties(Constructor, staticProps);
                 return Constructor;
             }
 
-            module.exports = _createClass;
+            module.exports = _create_class;
 
             /***/
         },
 
         /***/ 566: /***/ function (module) {
-            function _defineProperty(obj, key, value) {
+            function _define_property(obj, key, value) {
                 if (key in obj) {
                     Object.defineProperty(obj, key, {
                         value: value,
@@ -211,22 +211,22 @@
                 return obj;
             }
 
-            module.exports = _defineProperty;
+            module.exports = _define_property;
 
             /***/
         },
 
         /***/ 852: /***/ function (module) {
-            function _getPrototypeOf(o) {
-                module.exports = _getPrototypeOf = Object.setPrototypeOf
+            function _get_prototype_of(o) {
+                module.exports = _get_prototype_of = Object.setPrototypeOf
                     ? Object.getPrototypeOf
-                    : function _getPrototypeOf(o) {
+                    : function _get_prototype_of(o) {
                           return o.__proto__ || Object.getPrototypeOf(o);
                       };
-                return _getPrototypeOf(o);
+                return _get_prototype_of(o);
             }
 
-            module.exports = _getPrototypeOf;
+            module.exports = _get_prototype_of;
 
             /***/
         },
@@ -264,19 +264,19 @@
         },
 
         /***/ 6571: /***/ function (module) {
-            function _isNativeFunction(fn) {
+            function _is_native_function(fn) {
                 return (
                     Function.toString.call(fn).indexOf("[native code]") !== -1
                 );
             }
 
-            module.exports = _isNativeFunction;
+            module.exports = _is_native_function;
 
             /***/
         },
 
         /***/ 6340: /***/ function (module) {
-            function _isNativeReflectConstruct() {
+            function _is_native_reflect_construct() {
                 if (typeof Reflect === "undefined" || !Reflect.construct)
                     return false;
                 if (Reflect.construct.sham) return false;
@@ -292,7 +292,7 @@
                 }
             }
 
-            module.exports = _isNativeReflectConstruct;
+            module.exports = _is_native_reflect_construct;
 
             /***/
         },
@@ -312,7 +312,7 @@
         },
 
         /***/ 1682: /***/ function (module) {
-            function _iterableToArrayLimit(arr, i) {
+            function _iterable_to_array_limit(arr, i) {
                 if (
                     typeof Symbol === "undefined" ||
                     !(Symbol.iterator in Object(arr))
@@ -347,19 +347,19 @@
                 return _arr;
             }
 
-            module.exports = _iterableToArrayLimit;
+            module.exports = _iterable_to_array_limit;
 
             /***/
         },
 
         /***/ 1420: /***/ function (module) {
-            function _nonIterableRest() {
+            function _non_iterable_rest() {
                 throw new TypeError(
                     "Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."
                 );
             }
 
-            module.exports = _nonIterableRest;
+            module.exports = _non_iterable_rest;
 
             /***/
         },
@@ -385,7 +385,7 @@
 
             var assertThisInitialized = __webpack_require__(9382);
 
-            function _possibleConstructorReturn(self, call) {
+            function _possible_constructor_return(self, call) {
                 if (
                     call &&
                     (_typeof(call) === "object" || typeof call === "function")
@@ -396,24 +396,24 @@
                 return assertThisInitialized(self);
             }
 
-            module.exports = _possibleConstructorReturn;
+            module.exports = _possible_constructor_return;
 
             /***/
         },
 
         /***/ 990: /***/ function (module) {
-            function _setPrototypeOf(o, p) {
-                module.exports = _setPrototypeOf =
+            function _set_prototype_of(o, p) {
+                module.exports = _set_prototype_of =
                     Object.setPrototypeOf ||
-                    function _setPrototypeOf(o, p) {
+                    function _set_prototype_of(o, p) {
                         o.__proto__ = p;
                         return o;
                     };
 
-                return _setPrototypeOf(o, p);
+                return _set_prototype_of(o, p);
             }
 
-            module.exports = _setPrototypeOf;
+            module.exports = _set_prototype_of;
 
             /***/
         },
@@ -431,7 +431,7 @@
 
             var nonIterableRest = __webpack_require__(1420);
 
-            function _slicedToArray(arr, i) {
+            function _sliced_to_array(arr, i) {
                 return (
                     arrayWithHoles(arr) ||
                     iterableToArrayLimit(arr, i) ||
@@ -440,7 +440,7 @@
                 );
             }
 
-            module.exports = _slicedToArray;
+            module.exports = _sliced_to_array;
 
             /***/
         },
@@ -458,7 +458,7 @@
 
             var nonIterableSpread = __webpack_require__(7331);
 
-            function _toConsumableArray(arr) {
+            function _to_consumable_array(arr) {
                 return (
                     arrayWithoutHoles(arr) ||
                     iterableToArray(arr) ||
@@ -509,7 +509,7 @@
         ) {
             var arrayLikeToArray = __webpack_require__(4291);
 
-            function _unsupportedIterableToArray(o, minLen) {
+            function _unsupported_iterable_to_array(o, minLen) {
                 if (!o) return;
                 if (typeof o === "string") return arrayLikeToArray(o, minLen);
                 var n = Object.prototype.toString.call(o).slice(8, -1);
@@ -522,7 +522,7 @@
                     return arrayLikeToArray(o, minLen);
             }
 
-            module.exports = _unsupportedIterableToArray;
+            module.exports = _unsupported_iterable_to_array;
 
             /***/
         },
@@ -540,50 +540,49 @@
 
             var construct = __webpack_require__(4096);
 
-            function _wrapNativeSuper(Class) {
+            function _wrap_native_super(Class) {
                 var _cache = typeof Map === "function" ? new Map() : undefined;
 
-                module.exports = _wrapNativeSuper = function _wrapNativeSuper(
-                    Class
-                ) {
-                    if (Class === null || !isNativeFunction(Class))
-                        return Class;
+                module.exports = _wrap_native_super =
+                    function _wrap_native_super(Class) {
+                        if (Class === null || !isNativeFunction(Class))
+                            return Class;
 
-                    if (typeof Class !== "function") {
-                        throw new TypeError(
-                            "Super expression must either be null or a function"
-                        );
-                    }
+                        if (typeof Class !== "function") {
+                            throw new TypeError(
+                                "Super expression must either be null or a function"
+                            );
+                        }
 
-                    if (typeof _cache !== "undefined") {
-                        if (_cache.has(Class)) return _cache.get(Class);
+                        if (typeof _cache !== "undefined") {
+                            if (_cache.has(Class)) return _cache.get(Class);
 
-                        _cache.set(Class, Wrapper);
-                    }
+                            _cache.set(Class, Wrapper);
+                        }
 
-                    function Wrapper() {
-                        return construct(
-                            Class,
-                            arguments,
-                            getPrototypeOf(this).constructor
-                        );
-                    }
+                        function Wrapper() {
+                            return construct(
+                                Class,
+                                arguments,
+                                getPrototypeOf(this).constructor
+                            );
+                        }
 
-                    Wrapper.prototype = Object.create(Class.prototype, {
-                        constructor: {
-                            value: Wrapper,
-                            enumerable: false,
-                            writable: true,
-                            configurable: true,
-                        },
-                    });
-                    return setPrototypeOf(Wrapper, Class);
-                };
+                        Wrapper.prototype = Object.create(Class.prototype, {
+                            constructor: {
+                                value: Wrapper,
+                                enumerable: false,
+                                writable: true,
+                                configurable: true,
+                            },
+                        });
+                        return setPrototypeOf(Wrapper, Class);
+                    };
 
-                return _wrapNativeSuper(Class);
+                return _wrap_native_super(Class);
             }
 
-            module.exports = _wrapNativeSuper;
+            module.exports = _wrap_native_super;
 
             /***/
         },
@@ -1641,34 +1640,34 @@
 
             var _regeneratorRuntime = __webpack_require__(7945);
 
-            var _classCallCheck = __webpack_require__(4988);
+            var _class_call_check = __webpack_require__(4988);
 
-            var _createClass = __webpack_require__(9590);
+            var _create_class = __webpack_require__(9590);
 
             var _inherits = __webpack_require__(4546);
 
-            var _possibleConstructorReturn = __webpack_require__(1581);
+            var _possible_constructor_return = __webpack_require__(1581);
 
-            var _getPrototypeOf = __webpack_require__(852);
+            var _get_prototype_of = __webpack_require__(852);
 
-            var _slicedToArray = __webpack_require__(3408);
+            var _sliced_to_array = __webpack_require__(3408);
 
-            function _createSuper(Derived) {
-                var hasNativeReflectConstruct = _isNativeReflectConstruct();
+            function _create_super(Derived) {
+                var hasNativeReflectConstruct = _is_native_reflect_construct();
                 return function _createSuperInternal() {
-                    var Super = _getPrototypeOf(Derived),
+                    var Super = _get_prototype_of(Derived),
                         result;
                     if (hasNativeReflectConstruct) {
-                        var NewTarget = _getPrototypeOf(this).constructor;
+                        var NewTarget = _get_prototype_of(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
                     } else {
                         result = Super.apply(this, arguments);
                     }
-                    return _possibleConstructorReturn(this, result);
+                    return _possible_constructor_return(this, result);
                 };
             }
 
-            function _isNativeReflectConstruct() {
+            function _is_native_reflect_construct() {
                 if (typeof Reflect === "undefined" || !Reflect.construct)
                     return false;
                 if (Reflect.construct.sham) return false;
@@ -1693,13 +1692,13 @@
 
             __webpack_require__(5193);
 
-            var _react = _interopRequireDefault(__webpack_require__(2735));
+            var _react = _interop_require_default(__webpack_require__(2735));
 
-            var _reactDom = _interopRequireDefault(__webpack_require__(2788));
+            var _reactDom = _interop_require_default(__webpack_require__(2788));
 
             var _headManagerContext = __webpack_require__(1874);
 
-            var _mitt = _interopRequireDefault(__webpack_require__(4387));
+            var _mitt = _interop_require_default(__webpack_require__(4387));
 
             var _routerContext = __webpack_require__(6857);
 
@@ -1715,13 +1714,15 @@
 
             var _portal = __webpack_require__(3651);
 
-            var _headManager = _interopRequireDefault(
+            var _headManager = _interop_require_default(
                 __webpack_require__(4424)
             );
 
-            var _pageLoader = _interopRequireDefault(__webpack_require__(6042));
+            var _pageLoader = _interop_require_default(
+                __webpack_require__(6042)
+            );
 
-            var _performanceRelayer = _interopRequireDefault(
+            var _performanceRelayer = _interop_require_default(
                 __webpack_require__(8421)
             );
 
@@ -1753,7 +1754,7 @@
                 }
             }
 
-            function _asyncToGenerator(fn) {
+            function _async_to_generator(fn) {
                 return function () {
                     var self = this,
                         args = arguments;
@@ -1789,7 +1790,7 @@
                 };
             }
 
-            function _defineProperty(obj, key, value) {
+            function _define_property(obj, key, value) {
                 if (key in obj) {
                     Object.defineProperty(obj, key, {
                         value: value,
@@ -1804,7 +1805,7 @@
                 return obj;
             }
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -1812,7 +1813,7 @@
                       };
             }
 
-            function _interopRequireWildcard(obj) {
+            function _interop_require_wildcard(obj) {
                 if (obj && obj.__esModule) {
                     return obj;
                 } else {
@@ -1846,7 +1847,7 @@
                 }
             }
 
-            function _objectSpread(target) {
+            function _object_spread(target) {
                 for (var i = 1; i < arguments.length; i++) {
                     var source = arguments[i] != null ? arguments[i] : {};
                     var ownKeys = Object.keys(source);
@@ -1865,7 +1866,7 @@
                     }
 
                     ownKeys.forEach(function (key) {
-                        _defineProperty(target, key, source[key]);
+                        _define_property(target, key, source[key]);
                     });
                 }
 
@@ -1936,7 +1937,7 @@
             var pageLoader = new _pageLoader["default"](buildId, prefix);
 
             var register = function register(_ref) {
-                var _ref2 = _slicedToArray(_ref, 2),
+                var _ref2 = _sliced_to_array(_ref, 2),
                     r = _ref2[0],
                     f = _ref2[1];
 
@@ -1968,15 +1969,15 @@
             var Container = /*#__PURE__*/ (function (_react$default$Compon) {
                 _inherits(Container, _react$default$Compon);
 
-                var _super = _createSuper(Container);
+                var _super = _create_super(Container);
 
                 function Container() {
-                    _classCallCheck(this, Container);
+                    _class_call_check(this, Container);
 
                     return _super.apply(this, arguments);
                 }
 
-                _createClass(Container, [
+                _create_class(Container, [
                     {
                         key: "componentDidCatch",
                         value: function componentDidCatch(componentErr, info) {
@@ -2087,7 +2088,7 @@
             var CachedComponent;
 
             function _initNext() {
-                _initNext = _asyncToGenerator(
+                _initNext = _async_to_generator(
                     /*#__PURE__*/ _regeneratorRuntime.mark(function _callee() {
                         var opts,
                             initialErr,
@@ -2379,7 +2380,7 @@
             }
 
             function _render() {
-                _render = _asyncToGenerator(
+                _render = _async_to_generator(
                     /*#__PURE__*/ _regeneratorRuntime.mark(function _callee2(
                         renderingProps
                     ) {
@@ -2426,7 +2427,7 @@
 
                                             _context2.next = 16;
                                             return renderError(
-                                                _objectSpread(
+                                                _object_spread(
                                                     {},
                                                     renderingProps,
                                                     {
@@ -2473,7 +2474,7 @@
                             : lastAppProps.Component) === ErrorComponent
                             ? Promise.resolve()
                                   .then(function () {
-                                      return _interopRequireWildcard(
+                                      return _interop_require_wildcard(
                                           __webpack_require__(4956)
                                       );
                                   })
@@ -2513,7 +2514,7 @@
                                 : (0, _utils).loadGetInitialProps(App, appCtx)
                         ).then(function (initProps) {
                             return doRender(
-                                _objectSpread({}, renderErrorProps, {
+                                _object_spread({}, renderErrorProps, {
                                     err: err,
                                     Component: ErrorComponent,
                                     styleSheets: styleSheets,
@@ -2658,7 +2659,7 @@
 
             var wrapApp = function wrapApp(App) {
                 return function (wrappedAppProps) {
-                    var appProps = _objectSpread({}, wrappedAppProps, {
+                    var appProps = _object_spread({}, wrappedAppProps, {
                         Component: CachedComponent,
                         err: hydrateErr,
                         router: router,
@@ -2687,7 +2688,7 @@
                 Component = Component || lastAppProps.Component;
                 props = props || lastAppProps.props;
 
-                var appProps = _objectSpread({}, props, {
+                var appProps = _object_spread({}, props, {
                     Component: Component,
                     err: err,
                     router: router,
@@ -2987,9 +2988,9 @@
         ) {
             "use strict";
 
-            var _classCallCheck = __webpack_require__(4988);
+            var _class_call_check = __webpack_require__(4988);
 
-            var _createClass = __webpack_require__(9590);
+            var _create_class = __webpack_require__(9590);
 
             Object.defineProperty(exports, "__esModule", {
                 value: true,
@@ -2998,7 +2999,7 @@
 
             var _router = __webpack_require__(1073);
 
-            var _getAssetPathFromRoute = _interopRequireDefault(
+            var _getAssetPathFromRoute = _interop_require_default(
                 __webpack_require__(3794)
             );
 
@@ -3010,7 +3011,7 @@
 
             var _routeLoader = __webpack_require__(1740);
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -3033,7 +3034,7 @@
             }
 
             var PageLoader = /*#__PURE__*/ (function () {
-                _createClass(PageLoader, [
+                _create_class(PageLoader, [
                     {
                         key: "getPageList",
                         value: function getPageList() {
@@ -3148,7 +3149,7 @@
                 ]);
 
                 function PageLoader(buildId, assetPrefix) {
-                    _classCallCheck(this, PageLoader);
+                    _class_call_check(this, PageLoader);
 
                     this.routeLoader = (0, _routeLoader).createRouteLoader(
                         assetPrefix
@@ -3236,18 +3237,18 @@
         ) {
             "use strict";
 
-            var _slicedToArray = __webpack_require__(3408);
+            var _sliced_to_array = __webpack_require__(3408);
 
             Object.defineProperty(exports, "__esModule", {
                 value: true,
             });
             exports.Portal = void 0;
 
-            var _react = _interopRequireDefault(__webpack_require__(2735));
+            var _react = _interop_require_default(__webpack_require__(2735));
 
             var _reactDom = __webpack_require__(2788);
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -3262,7 +3263,7 @@
                 var portalNode = _react["default"].useRef(null);
 
                 var _react$default$useSta = _react["default"].useState(),
-                    _react$default$useSta2 = _slicedToArray(
+                    _react$default$useSta2 = _sliced_to_array(
                         _react$default$useSta,
                         2
                     ),
@@ -3341,7 +3342,7 @@
         ) {
             "use strict";
 
-            var _slicedToArray = __webpack_require__(3408);
+            var _sliced_to_array = __webpack_require__(3408);
 
             Object.defineProperty(exports, "__esModule", {
                 value: true,
@@ -3349,11 +3350,11 @@
             exports.RouteAnnouncer = RouteAnnouncer;
             exports.default = void 0;
 
-            var _react = _interopRequireDefault(__webpack_require__(2735));
+            var _react = _interop_require_default(__webpack_require__(2735));
 
             var _router = __webpack_require__(6409);
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -3366,7 +3367,7 @@
                     asPath = _useRouter.asPath;
 
                 var _react$default$useSta = _react["default"].useState(""),
-                    _react$default$useSta2 = _slicedToArray(
+                    _react$default$useSta2 = _sliced_to_array(
                         _react$default$useSta,
                         2
                     ),
@@ -3451,13 +3452,13 @@
             exports.getClientBuildManifest = getClientBuildManifest;
             exports.createRouteLoader = createRouteLoader;
 
-            var _getAssetPathFromRoute = _interopRequireDefault(
+            var _getAssetPathFromRoute = _interop_require_default(
                 __webpack_require__(3794)
             );
 
             var _requestIdleCallback = __webpack_require__(6933);
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -3875,7 +3876,7 @@
                 ) {
                     if (
                         Array.isArray(o) ||
-                        (it = _unsupportedIterableToArray(o)) ||
+                        (it = _unsupported_iterable_to_array(o)) ||
                         (allowArrayLike && o && typeof o.length === "number")
                     ) {
                         if (it) o = it;
@@ -3930,9 +3931,10 @@
                 };
             }
 
-            function _unsupportedIterableToArray(o, minLen) {
+            function _unsupported_iterable_to_array(o, minLen) {
                 if (!o) return;
-                if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+                if (typeof o === "string")
+                    return _array_like_to_array(o, minLen);
                 var n = Object.prototype.toString.call(o).slice(8, -1);
                 if (n === "Object" && o.constructor) n = o.constructor.name;
                 if (n === "Map" || n === "Set") return Array.from(o);
@@ -3940,10 +3942,10 @@
                     n === "Arguments" ||
                     /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)
                 )
-                    return _arrayLikeToArray(o, minLen);
+                    return _array_like_to_array(o, minLen);
             }
 
-            function _arrayLikeToArray(arr, len) {
+            function _array_like_to_array(arr, len) {
                 if (len == null || len > arr.length) len = arr.length;
                 for (var i = 0, arr2 = new Array(len); i < len; i++) {
                     arr2[i] = arr[i];
@@ -3971,15 +3973,17 @@
             exports.makePublicRouterInstance = makePublicRouterInstance;
             exports.default = void 0;
 
-            var _react = _interopRequireDefault(__webpack_require__(2735));
+            var _react = _interop_require_default(__webpack_require__(2735));
 
-            var _router = _interopRequireDefault(__webpack_require__(1073));
+            var _router = _interop_require_default(__webpack_require__(1073));
 
             var _routerContext = __webpack_require__(6857);
 
-            var _withRouter = _interopRequireDefault(__webpack_require__(9336));
+            var _withRouter = _interop_require_default(
+                __webpack_require__(9336)
+            );
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -4171,7 +4175,7 @@
         ) {
             "use strict";
 
-            var _slicedToArray = __webpack_require__(3408);
+            var _sliced_to_array = __webpack_require__(3408);
 
             Object.defineProperty(exports, "__esModule", {
                 value: true,
@@ -4187,7 +4191,7 @@
 
             var _requestIdleCallback = __webpack_require__(6933);
 
-            function _defineProperty(obj, key, value) {
+            function _define_property(obj, key, value) {
                 if (key in obj) {
                     Object.defineProperty(obj, key, {
                         value: value,
@@ -4202,7 +4206,7 @@
                 return obj;
             }
 
-            function _objectSpread(target) {
+            function _object_spread(target) {
                 for (var i = 1; i < arguments.length; i++) {
                     var source = arguments[i] != null ? arguments[i] : {};
                     var ownKeys = Object.keys(source);
@@ -4221,17 +4225,17 @@
                     }
 
                     ownKeys.forEach(function (key) {
-                        _defineProperty(target, key, source[key]);
+                        _define_property(target, key, source[key]);
                     });
                 }
 
                 return target;
             }
 
-            function _objectWithoutProperties(source, excluded) {
+            function _object_without_properties(source, excluded) {
                 if (source == null) return {};
 
-                var target = _objectWithoutPropertiesLoose(source, excluded);
+                var target = _object_without_properties_loose(source, excluded);
 
                 var key, i;
 
@@ -4255,7 +4259,7 @@
                 return target;
             }
 
-            function _objectWithoutPropertiesLoose(source, excluded) {
+            function _object_without_properties_loose(source, excluded) {
                 if (source == null) return {};
                 var target = {};
                 var sourceKeys = Object.keys(source);
@@ -4348,7 +4352,7 @@
                     _i < _Object$entries.length;
                     _i++
                 ) {
-                    var _Object$entries$_i = _slicedToArray(
+                    var _Object$entries$_i = _sliced_to_array(
                             _Object$entries[_i],
                             2
                         ),
@@ -4422,7 +4426,7 @@
                             ? "afterInteractive"
                             : _props$strategy2,
                     onError = props.onError,
-                    restProps = _objectWithoutProperties(props, [
+                    restProps = _object_without_properties(props, [
                         "src",
                         "onLoad",
                         "dangerouslySetInnerHTML",
@@ -4452,7 +4456,7 @@
                         scripts.beforeInteractive = (
                             scripts.beforeInteractive || []
                         ).concat([
-                            _objectSpread(
+                            _object_spread(
                                 {
                                     src: src,
                                     onLoad: onLoad,
@@ -4488,11 +4492,11 @@
             });
             exports.default = withRouter;
 
-            var _react = _interopRequireDefault(__webpack_require__(2735));
+            var _react = _interop_require_default(__webpack_require__(2735));
 
             var _router = __webpack_require__(6409);
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -4535,32 +4539,32 @@
         ) {
             "use strict";
 
-            var _classCallCheck = __webpack_require__(4988);
+            var _class_call_check = __webpack_require__(4988);
 
-            var _createClass = __webpack_require__(9590);
+            var _create_class = __webpack_require__(9590);
 
             var _inherits = __webpack_require__(4546);
 
-            var _possibleConstructorReturn = __webpack_require__(1581);
+            var _possible_constructor_return = __webpack_require__(1581);
 
-            var _getPrototypeOf = __webpack_require__(852);
+            var _get_prototype_of = __webpack_require__(852);
 
-            function _createSuper(Derived) {
-                var hasNativeReflectConstruct = _isNativeReflectConstruct();
+            function _create_super(Derived) {
+                var hasNativeReflectConstruct = _is_native_reflect_construct();
                 return function _createSuperInternal() {
-                    var Super = _getPrototypeOf(Derived),
+                    var Super = _get_prototype_of(Derived),
                         result;
                     if (hasNativeReflectConstruct) {
-                        var NewTarget = _getPrototypeOf(this).constructor;
+                        var NewTarget = _get_prototype_of(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
                     } else {
                         result = Super.apply(this, arguments);
                     }
-                    return _possibleConstructorReturn(this, result);
+                    return _possible_constructor_return(this, result);
                 };
             }
 
-            function _isNativeReflectConstruct() {
+            function _is_native_reflect_construct() {
                 if (typeof Reflect === "undefined" || !Reflect.construct)
                     return false;
                 if (Reflect.construct.sham) return false;
@@ -4580,11 +4584,11 @@
             });
             exports.default = void 0;
 
-            var _react = _interopRequireDefault(__webpack_require__(2735));
+            var _react = _interop_require_default(__webpack_require__(2735));
 
-            var _head = _interopRequireDefault(__webpack_require__(3396));
+            var _head = _interop_require_default(__webpack_require__(3396));
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -4616,15 +4620,15 @@
             var Error1 = /*#__PURE__*/ (function (_react$default$Compon) {
                 _inherits(Error1, _react$default$Compon);
 
-                var _super = _createSuper(Error1);
+                var _super = _create_super(Error1);
 
                 function Error1() {
-                    _classCallCheck(this, Error1);
+                    _class_call_check(this, Error1);
 
                     return _super.apply(this, arguments);
                 }
 
-                _createClass(Error1, [
+                _create_class(Error1, [
                     {
                         key: "render",
                         value: function render() {
@@ -4780,9 +4784,9 @@
             });
             exports.AmpStateContext = void 0;
 
-            var _react = _interopRequireDefault(__webpack_require__(2735));
+            var _react = _interop_require_default(__webpack_require__(2735));
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -4813,11 +4817,11 @@
             exports.isInAmpMode = isInAmpMode;
             exports.useAmp = useAmp;
 
-            var _react = _interopRequireDefault(__webpack_require__(2735));
+            var _react = _interop_require_default(__webpack_require__(2735));
 
             var _ampContext = __webpack_require__(1923);
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -4862,9 +4866,9 @@
             });
             exports.HeadManagerContext = void 0;
 
-            var _react = _interopRequireDefault(__webpack_require__(2735));
+            var _react = _interop_require_default(__webpack_require__(2735));
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -4889,7 +4893,7 @@
         ) {
             "use strict";
 
-            var _defineProperty = __webpack_require__(566);
+            var _define_property = __webpack_require__(566);
 
             function ownKeys(object, enumerableOnly) {
                 var keys = Object.keys(object);
@@ -4907,12 +4911,12 @@
                 return keys;
             }
 
-            function _objectSpread(target) {
+            function _object_spread(target) {
                 for (var i = 1; i < arguments.length; i++) {
                     var source = arguments[i] != null ? arguments[i] : {};
                     if (i % 2) {
                         ownKeys(Object(source), true).forEach(function (key) {
-                            _defineProperty(target, key, source[key]);
+                            _define_property(target, key, source[key]);
                         });
                     } else if (Object.getOwnPropertyDescriptors) {
                         Object.defineProperties(
@@ -4938,9 +4942,11 @@
             exports.defaultHead = defaultHead;
             exports.default = void 0;
 
-            var _react = _interopRequireWildcard(__webpack_require__(2735));
+            var _react = _interop_require_wildcard(__webpack_require__(2735));
 
-            var _sideEffect = _interopRequireDefault(__webpack_require__(2097));
+            var _sideEffect = _interop_require_default(
+                __webpack_require__(2097)
+            );
 
             var _ampContext = __webpack_require__(1923);
 
@@ -4948,7 +4954,7 @@
 
             var _amp = __webpack_require__(5726);
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -4956,7 +4962,7 @@
                       };
             }
 
-            function _interopRequireWildcard(obj) {
+            function _interop_require_wildcard(obj) {
                 if (obj && obj.__esModule) {
                     return obj;
                 } else {
@@ -5152,7 +5158,10 @@
                                     return c.props["href"].startsWith(url);
                                 })
                             ) {
-                                var newProps = _objectSpread({}, c.props || {});
+                                var newProps = _object_spread(
+                                    {},
+                                    c.props || {}
+                                );
 
                                 newProps["data-href"] = newProps["href"];
                                 newProps["href"] = undefined; // Add this attribute to make it easy to identify optimized tags
@@ -5287,9 +5296,9 @@
             });
             exports.RouterContext = void 0;
 
-            var _react = _interopRequireDefault(__webpack_require__(2735));
+            var _react = _interop_require_default(__webpack_require__(2735));
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -5316,13 +5325,13 @@
 
             var _regeneratorRuntime = __webpack_require__(7945);
 
-            var _asyncToGenerator = __webpack_require__(5374);
+            var _async_to_generator = __webpack_require__(5374);
 
-            var _classCallCheck = __webpack_require__(4988);
+            var _class_call_check = __webpack_require__(4988);
 
-            var _createClass = __webpack_require__(9590);
+            var _create_class = __webpack_require__(9590);
 
-            var _slicedToArray = __webpack_require__(3408);
+            var _sliced_to_array = __webpack_require__(3408);
 
             Object.defineProperty(exports, "__esModule", {
                 value: true,
@@ -5346,7 +5355,7 @@
 
             var _normalizeLocalePath = __webpack_require__(6509);
 
-            var _mitt = _interopRequireDefault(__webpack_require__(4387));
+            var _mitt = _interop_require_default(__webpack_require__(4387));
 
             var _utils = __webpack_require__(6373);
 
@@ -5356,7 +5365,7 @@
 
             var _querystring = __webpack_require__(6136);
 
-            var _resolveRewrites = _interopRequireDefault(
+            var _resolveRewrites = _interop_require_default(
                 __webpack_require__(808)
             );
 
@@ -5364,7 +5373,7 @@
 
             var _routeRegex = __webpack_require__(4339);
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -5637,7 +5646,7 @@
                 // If url and as provided as an object representation,
                 // we'll format them into the string version here.
                 var _resolveHref = resolveHref(router, url, true),
-                    _resolveHref2 = _slicedToArray(_resolveHref, 2),
+                    _resolveHref2 = _sliced_to_array(_resolveHref, 2),
                     resolvedHref = _resolveHref2[0],
                     resolvedAs = _resolveHref2[1];
 
@@ -5764,7 +5773,7 @@
                         domainLocales = _ref.domainLocales,
                         isPreview = _ref.isPreview;
 
-                    _classCallCheck(this, Router);
+                    _class_call_check(this, Router);
 
                     // Static Data Cache
                     this.sdc = {}; // In-flight Server Data Requests, for deduping
@@ -5931,7 +5940,7 @@
                     }
                 }
 
-                _createClass(Router, [
+                _create_class(Router, [
                     {
                         key: "reload",
                         value: function reload() {
@@ -6002,7 +6011,7 @@
                     {
                         key: "change",
                         value: (function () {
-                            var _change = _asyncToGenerator(
+                            var _change = _async_to_generator(
                                 /*#__PURE__*/ _regeneratorRuntime.mark(
                                     function _callee(
                                         method,
@@ -6965,7 +6974,7 @@
                     {
                         key: "handleRouteInfoError",
                         value: (function () {
-                            var _handleRouteInfoError = _asyncToGenerator(
+                            var _handleRouteInfoError = _async_to_generator(
                                 /*#__PURE__*/ _regeneratorRuntime.mark(
                                     function _callee2(
                                         err,
@@ -7167,7 +7176,7 @@
                     {
                         key: "getRouteInfo",
                         value: (function () {
-                            var _getRouteInfo = _asyncToGenerator(
+                            var _getRouteInfo = _async_to_generator(
                                 /*#__PURE__*/ _regeneratorRuntime.mark(
                                     function _callee3(
                                         route,
@@ -7457,7 +7466,7 @@
                             if (!this.asPath) return false;
 
                             var _this$asPath$split = this.asPath.split("#"),
-                                _this$asPath$split2 = _slicedToArray(
+                                _this$asPath$split2 = _sliced_to_array(
                                     _this$asPath$split,
                                     2
                                 ),
@@ -7465,7 +7474,7 @@
                                 oldHash = _this$asPath$split2[1];
 
                             var _as$split = as.split("#"),
-                                _as$split2 = _slicedToArray(_as$split, 2),
+                                _as$split2 = _sliced_to_array(_as$split, 2),
                                 newUrlNoHash = _as$split2[0],
                                 newHash = _as$split2[1]; // Makes sure we scroll to the provided hash if the url/hash are the same
 
@@ -7491,7 +7500,7 @@
                         key: "scrollToHash",
                         value: function scrollToHash(as) {
                             var _as$split3 = as.split("#"),
-                                _as$split4 = _slicedToArray(_as$split3, 2),
+                                _as$split4 = _sliced_to_array(_as$split3, 2),
                                 hash = _as$split4[1]; // Scroll to top if the hash is just `#` with no value or `#top`
                             // To mirror browsers
 
@@ -7530,7 +7539,7 @@
                     {
                         key: "prefetch",
                         value: (function () {
-                            var _prefetch = _asyncToGenerator(
+                            var _prefetch = _async_to_generator(
                                 /*#__PURE__*/ _regeneratorRuntime.mark(
                                     function _callee4(url) {
                                         var _this3 = this;
@@ -7744,7 +7753,7 @@
                     {
                         key: "fetchComponent",
                         value: (function () {
-                            var _fetchComponent = _asyncToGenerator(
+                            var _fetchComponent = _async_to_generator(
                                 /*#__PURE__*/ _regeneratorRuntime.mark(
                                     function _callee5(route) {
                                         var cancelled,
@@ -7961,11 +7970,11 @@
             });
             exports.formatUrl = formatUrl;
 
-            var querystring = _interopRequireWildcard(
+            var querystring = _interop_require_wildcard(
                 __webpack_require__(6136)
             );
 
-            function _interopRequireWildcard(obj) {
+            function _interop_require_wildcard(obj) {
                 if (obj && obj.__esModule) {
                     return obj;
                 } else {
@@ -8165,7 +8174,7 @@
         ) {
             "use strict";
 
-            var _slicedToArray = __webpack_require__(3408);
+            var _sliced_to_array = __webpack_require__(3408);
 
             Object.defineProperty(exports, "__esModule", {
                 value: true,
@@ -8203,7 +8212,7 @@
             function urlQueryToSearchParams(urlQuery) {
                 var result = new URLSearchParams();
                 Object.entries(urlQuery).forEach(function (_ref) {
-                    var _ref2 = _slicedToArray(_ref, 2),
+                    var _ref2 = _sliced_to_array(_ref, 2),
                         key = _ref2[0],
                         value = _ref2[1];
 
@@ -8443,34 +8452,34 @@
 
             var _toConsumableArray = __webpack_require__(9571);
 
-            var _classCallCheck = __webpack_require__(4988);
+            var _class_call_check = __webpack_require__(4988);
 
-            var _createClass = __webpack_require__(9590);
+            var _create_class = __webpack_require__(9590);
 
-            var _assertThisInitialized = __webpack_require__(9382);
+            var _assert_this_initialized = __webpack_require__(9382);
 
             var _inherits = __webpack_require__(4546);
 
-            var _possibleConstructorReturn = __webpack_require__(1581);
+            var _possible_constructor_return = __webpack_require__(1581);
 
-            var _getPrototypeOf = __webpack_require__(852);
+            var _get_prototype_of = __webpack_require__(852);
 
-            function _createSuper(Derived) {
-                var hasNativeReflectConstruct = _isNativeReflectConstruct();
+            function _create_super(Derived) {
+                var hasNativeReflectConstruct = _is_native_reflect_construct();
                 return function _createSuperInternal() {
-                    var Super = _getPrototypeOf(Derived),
+                    var Super = _get_prototype_of(Derived),
                         result;
                     if (hasNativeReflectConstruct) {
-                        var NewTarget = _getPrototypeOf(this).constructor;
+                        var NewTarget = _get_prototype_of(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
                     } else {
                         result = Super.apply(this, arguments);
                     }
-                    return _possibleConstructorReturn(this, result);
+                    return _possible_constructor_return(this, result);
                 };
             }
 
-            function _isNativeReflectConstruct() {
+            function _is_native_reflect_construct() {
                 if (typeof Reflect === "undefined" || !Reflect.construct)
                     return false;
                 if (Reflect.construct.sham) return false;
@@ -8497,12 +8506,12 @@
             var _class = /*#__PURE__*/ (function (_react$Component) {
                 _inherits(_class, _react$Component);
 
-                var _super = _createSuper(_class);
+                var _super = _create_super(_class);
 
                 function _class(props) {
                     var _this;
 
-                    _classCallCheck(this, _class);
+                    _class_call_check(this, _class);
 
                     _this = _super.call(this, props);
 
@@ -8510,7 +8519,7 @@
                         if (_this._hasHeadManager) {
                             _this.props.headManager.updateHead(
                                 _this.props.reduceComponentsToState(
-                                    _toConsumableArray(
+                                    _to_consumable_array(
                                         _this.props.headManager.mountedInstances
                                     ),
                                     _this.props
@@ -8525,7 +8534,7 @@
 
                     if (isServer && _this._hasHeadManager) {
                         _this.props.headManager.mountedInstances.add(
-                            _assertThisInitialized(_this)
+                            _assert_this_initialized(_this)
                         );
 
                         _this.emitChange();
@@ -8534,7 +8543,7 @@
                     return _this;
                 }
 
-                _createClass(_class, [
+                _create_class(_class, [
                     {
                         key: "componentDidMount",
                         value: function componentDidMount() {
@@ -8590,34 +8599,34 @@
 
             var _regeneratorRuntime = __webpack_require__(7945);
 
-            var _classCallCheck = __webpack_require__(4988);
+            var _class_call_check = __webpack_require__(4988);
 
             var _inherits = __webpack_require__(4546);
 
-            var _possibleConstructorReturn = __webpack_require__(1581);
+            var _possible_constructor_return = __webpack_require__(1581);
 
-            var _getPrototypeOf = __webpack_require__(852);
+            var _get_prototype_of = __webpack_require__(852);
 
-            var _wrapNativeSuper = __webpack_require__(8545);
+            var _wrap_native_super = __webpack_require__(8545);
 
-            var _asyncToGenerator = __webpack_require__(5374);
+            var _async_to_generator = __webpack_require__(5374);
 
-            function _createSuper(Derived) {
-                var hasNativeReflectConstruct = _isNativeReflectConstruct();
+            function _create_super(Derived) {
+                var hasNativeReflectConstruct = _is_native_reflect_construct();
                 return function _createSuperInternal() {
-                    var Super = _getPrototypeOf(Derived),
+                    var Super = _get_prototype_of(Derived),
                         result;
                     if (hasNativeReflectConstruct) {
-                        var NewTarget = _getPrototypeOf(this).constructor;
+                        var NewTarget = _get_prototype_of(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
                     } else {
                         result = Super.apply(this, arguments);
                     }
-                    return _possibleConstructorReturn(this, result);
+                    return _possible_constructor_return(this, result);
                 };
             }
 
-            function _isNativeReflectConstruct() {
+            function _is_native_reflect_construct() {
                 if (typeof Reflect === "undefined" || !Reflect.construct)
                     return false;
                 if (Reflect.construct.sham) return false;
@@ -8691,7 +8700,7 @@
             }
 
             function _loadGetInitialProps() {
-                _loadGetInitialProps = _asyncToGenerator(
+                _loadGetInitialProps = _async_to_generator(
                     /*#__PURE__*/ _regeneratorRuntime.mark(function _callee(
                         App,
                         ctx
@@ -8835,16 +8844,16 @@
             var DecodeError = /*#__PURE__*/ (function (_Error) {
                 _inherits(DecodeError, _Error);
 
-                var _super = _createSuper(DecodeError);
+                var _super = _create_super(DecodeError);
 
                 function DecodeError() {
-                    _classCallCheck(this, DecodeError);
+                    _class_call_check(this, DecodeError);
 
                     return _super.apply(this, arguments);
                 }
 
                 return DecodeError;
-            })(/*#__PURE__*/ _wrapNativeSuper(Error));
+            })(/*#__PURE__*/ _wrap_native_super(Error));
 
             exports.DecodeError = DecodeError;
 

@@ -5,10 +5,10 @@
         "vs/base/test/node/testUtils"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.testUtils);
-})(this, function(exports, _testUtils) {
+})(this, function(exports, _test_utils) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    const fixturesFolder = (0, _testUtils.getPathFromAmdModule)(require, "./fixtures");
+    const fixturesFolder = (0, _test_utils.getPathFromAmdModule)(require, "./fixtures");
 });

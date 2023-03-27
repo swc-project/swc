@@ -27,21 +27,21 @@ define([
     "exports",
     "@swc/helpers/src/_interop_require_wildcard.mjs",
     "./t1"
-], function(require, exports, _interopRequireWildcard, _t1) {
+], function(require, exports, _interop_require_wildcard, _t_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _interopRequireWildcard = _interopRequireWildcard.default;
-    var _t11 = /*#__PURE__*/ _interopRequireWildcard(_t1);
-    _t1.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
+    _interop_require_wildcard = _interop_require_wildcard.default;
+    var _t_11 = /*#__PURE__*/ _interop_require_wildcard(_t_1);
+    _t_1.default;
+    _t_11.default;
+    _t_11.default;
+    _t_11.default;
+    _t_11.default;
+    _t_11.default;
+    _t_11.default;
+    _t_11.default;
 });
 //// [t3.ts]
 define([
@@ -49,7 +49,7 @@ define([
     "exports",
     "@swc/helpers/src/_interop_require_wildcard.mjs",
     "./t1"
-], function(require, exports, _interopRequireWildcard, _t1) {
+], function(require, exports, _interop_require_wildcard, _t_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -62,38 +62,38 @@ define([
     }
     _export(exports, {
         a: function() {
-            return _t1;
+            return _t_1;
         },
         b: function() {
-            return _t11.default;
+            return _t_11.default;
         },
         c: function() {
-            return _t11;
+            return _t_11;
         },
         d: function() {
-            return _t11.default;
+            return _t_11.default;
         },
         e1: function() {
-            return _t11.default;
+            return _t_11.default;
         },
         e2: function() {
-            return _t11;
+            return _t_11;
         },
         f1: function() {
-            return _t11.default;
+            return _t_11.default;
         },
         f2: function() {
-            return _t11.default;
+            return _t_11.default;
         }
     });
-    _interopRequireWildcard = _interopRequireWildcard.default;
-    var _t11 = /*#__PURE__*/ _interopRequireWildcard(_t1);
-    _t1.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
-    _t11.default;
+    _interop_require_wildcard = _interop_require_wildcard.default;
+    var _t_11 = /*#__PURE__*/ _interop_require_wildcard(_t_1);
+    _t_1.default;
+    _t_11.default;
+    _t_11.default;
+    _t_11.default;
+    _t_11.default;
+    _t_11.default;
+    _t_11.default;
+    _t_11.default;
 });

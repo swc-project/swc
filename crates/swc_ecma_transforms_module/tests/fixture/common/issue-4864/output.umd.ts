@@ -10,7 +10,7 @@
         "./path/to/SDUs"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.ss, global.st, global.sc, global.s, global.ptus, global.sdus);
-})(this, function(exports, _ss, _st, _sc, _s, _ptus, _sdus) {
+})(this, function(exports, _ss, _st, _sc, _s, _pt_us, _sd_us) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -54,23 +54,23 @@
     const us = {
         e: {
             p: {
-                gTFNDP: _ptus.gTFNDP,
-                gTFPP: _ptus.gTFPP,
-                vT: _ptus.vT
+                gTFNDP: _pt_us.gTFNDP,
+                gTFPP: _pt_us.gTFPP,
+                vT: _pt_us.vT
             }
         },
         ds: {
-            D_C_E: _sdus.D_C_E,
-            cDC: _sdus.cDC,
-            cIRTI: _sdus.cIRTI,
-            CPC: _sdus.CPC,
-            rCW: _sdus.rCW,
-            SDC: _sdus.SDC,
-            WL: _sdus.WL,
-            TS: _sdus.TS
+            D_C_E: _sd_us.D_C_E,
+            cDC: _sd_us.cDC,
+            cIRTI: _sd_us.cIRTI,
+            CPC: _sd_us.CPC,
+            rCW: _sd_us.rCW,
+            SDC: _sd_us.SDC,
+            WL: _sd_us.WL,
+            TS: _sd_us.TS
         }
     };
     const C = {
-        ..._ptus.C
+        ..._pt_us.C
     };
 });

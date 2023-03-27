@@ -32,11 +32,11 @@ Object.defineProperty(exports, "__esModule", {
         return a;
     }
 });
-var E, D, M, _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, v = 1;
+var E, D, M, _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default, v = 1;
 function f() {}
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 !function(E) {
     E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
@@ -58,37 +58,37 @@ Object.defineProperty(exports, "__esModule", {
     });
 }(exports, {
     v: function() {
-        return _t1.v;
+        return _t_1.v;
     },
     f: function() {
-        return _t1.f;
+        return _t_1.f;
     },
     C: function() {
-        return _t1.C;
+        return _t_1.C;
     },
     I: function() {
-        return _t1.I;
+        return _t_1.I;
     },
     E: function() {
-        return _t1.E;
+        return _t_1.E;
     },
     D: function() {
-        return _t1.D;
+        return _t_1.D;
     },
     M: function() {
-        return _t1.M;
+        return _t_1.M;
     },
     N: function() {
-        return _t1.N;
+        return _t_1.N;
     },
     T: function() {
-        return _t1.T;
+        return _t_1.T;
     },
     a: function() {
-        return _t1.a;
+        return _t_1.a;
     }
 });
-var _t1 = require("./t1");
+var _t_1 = require("./t1");
 //// [t3.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {
@@ -100,34 +100,34 @@ Object.defineProperty(exports, "__esModule", {
     });
 }(exports, {
     v: function() {
-        return _t1.v;
+        return _t_1.v;
     },
     f: function() {
-        return _t1.f;
+        return _t_1.f;
     },
     C: function() {
-        return _t1.C;
+        return _t_1.C;
     },
     I: function() {
-        return _t1.I;
+        return _t_1.I;
     },
     E: function() {
-        return _t1.E;
+        return _t_1.E;
     },
     D: function() {
-        return _t1.D;
+        return _t_1.D;
     },
     M: function() {
-        return _t1.M;
+        return _t_1.M;
     },
     N: function() {
-        return _t1.N;
+        return _t_1.N;
     },
     T: function() {
-        return _t1.T;
+        return _t_1.T;
     },
     a: function() {
-        return _t1.a;
+        return _t_1.a;
     }
 });
-var _t1 = require("./t1");
+var _t_1 = require("./t1");

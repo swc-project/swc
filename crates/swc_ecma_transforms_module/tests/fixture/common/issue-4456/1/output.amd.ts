@@ -23,7 +23,7 @@ define([
         breakpoints: ()=>breakpoints,
         default: ()=>_default
     });
-    _styled = /*#__PURE__*/ _interopRequireDefault(_styled);
+    _styled = /*#__PURE__*/ _interop_require_default(_styled);
     interface IStyledProp {
         className?: string;
     }

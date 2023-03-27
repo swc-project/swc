@@ -2,7 +2,7 @@ define([
     "require",
     "exports",
     "another-module"
-], function(require, exports, _anotherModule) {
+], function(require, exports, _another_module) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -11,7 +11,7 @@ define([
         enumerable: true,
         get: ()=>whatever
     });
-    _exportStar(_anotherModule, exports);
+    _export_star(_another_module, exports);
     function whatever(notExportName) {
         const shouldNotBeExportNameAsWell = 123;
         return shouldNotBeExportNameAsWell + notExportName;

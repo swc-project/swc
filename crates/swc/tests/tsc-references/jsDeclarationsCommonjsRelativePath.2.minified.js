@@ -3,10 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
+var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default;
 module.exports = {
     Thing: function Thing() {
-        _classCallCheck(this, Thing);
+        _class_call_check(this, Thing);
     }
 };
 //// [reexport.js]

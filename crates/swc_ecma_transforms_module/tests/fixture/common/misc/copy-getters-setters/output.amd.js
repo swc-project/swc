@@ -2,7 +2,7 @@ define([
     "require",
     "exports",
     "./moduleWithGetter"
-], function(require, exports, _moduleWithGetter) {
+], function(require, exports, _module_with_getter) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -14,8 +14,8 @@ define([
         });
     }
     _export(exports, {
-        baz: ()=>_moduleWithGetter.baz,
-        Foo: ()=>_moduleWithGetter.default
+        baz: ()=>_module_with_getter.baz,
+        Foo: ()=>_module_with_getter.default
     });
-    _moduleWithGetter = /*#__PURE__*/ _interopRequireWildcard(_moduleWithGetter);
+    _module_with_getter = /*#__PURE__*/ _interop_require_wildcard(_module_with_getter);
 });

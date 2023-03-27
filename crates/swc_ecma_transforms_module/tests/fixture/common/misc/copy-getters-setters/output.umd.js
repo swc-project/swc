@@ -5,7 +5,7 @@
         "./moduleWithGetter"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.moduleWithGetter);
-})(this, function(exports, _moduleWithGetter) {
+})(this, function(exports, _module_with_getter) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -17,8 +17,8 @@
         });
     }
     _export(exports, {
-        baz: ()=>_moduleWithGetter.baz,
-        Foo: ()=>_moduleWithGetter.default
+        baz: ()=>_module_with_getter.baz,
+        Foo: ()=>_module_with_getter.default
     });
-    _moduleWithGetter = /*#__PURE__*/ _interopRequireWildcard(_moduleWithGetter);
+    _module_with_getter = /*#__PURE__*/ _interop_require_wildcard(_module_with_getter);
 });

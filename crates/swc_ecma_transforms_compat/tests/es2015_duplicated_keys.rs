@@ -44,7 +44,7 @@ test!(
     |_| duplicate_keys(),
     combination_dupes,
     r#"var x = { a: 5, a: 6 };"#,
-    r#"var x = _defineProperty({
+    r#"var x = _define_property({
   a: 5
 }, "a", 6);"#
 );

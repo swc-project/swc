@@ -23,8 +23,8 @@ Object.defineProperty(exports, "default", {
         return f2;
     }
 });
-var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _m1 = /*#__PURE__*/ _interopRequireDefault(require("./m1"));
+var _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
+var _m_1 = /*#__PURE__*/ _interop_require_default(require("./m1"));
 function f2() {
-    (0, _m1.default)();
+    (0, _m_1.default)();
 }

@@ -4,12 +4,12 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _jsxRuntime = require("preact/jsx-runtime");
-var a = /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_jsxRuntime.Fragment, {
+var _jsx_runtime = require("preact/jsx-runtime");
+var a = /*#__PURE__*/ (0, _jsx_runtime.jsxs)(_jsx_runtime.Fragment, {
     children: [
-        /*#__PURE__*/ (0, _jsxRuntime.jsx)("p", {}),
+        /*#__PURE__*/ (0, _jsx_runtime.jsx)("p", {}),
         "text",
-        /*#__PURE__*/ (0, _jsxRuntime.jsx)("div", {
+        /*#__PURE__*/ (0, _jsx_runtime.jsx)("div", {
             className: "foo"
         })
     ]
@@ -20,13 +20,13 @@ var a = /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_jsxRuntime.Fragment, {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _jsxRuntime = require("react/jsx-runtime");
+var _jsx_runtime = require("react/jsx-runtime");
 require("./preact");
-var a = /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_jsxRuntime.Fragment, {
+var a = /*#__PURE__*/ (0, _jsx_runtime.jsxs)(_jsx_runtime.Fragment, {
     children: [
-        /*#__PURE__*/ (0, _jsxRuntime.jsx)("p", {}),
+        /*#__PURE__*/ (0, _jsx_runtime.jsx)("p", {}),
         "text",
-        /*#__PURE__*/ (0, _jsxRuntime.jsx)("div", {
+        /*#__PURE__*/ (0, _jsx_runtime.jsx)("div", {
             className: "foo"
         })
     ]

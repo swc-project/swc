@@ -242,7 +242,7 @@
                 }
             }
 
-            function _createClass(Constructor, protoProps, staticProps) {
+            function _create_class(Constructor, protoProps, staticProps) {
                 if (protoProps)
                     _defineProperties(Constructor.prototype, protoProps);
                 if (staticProps) _defineProperties(Constructor, staticProps);
@@ -575,7 +575,7 @@ https://github.com/threepointone/glamor/blob/667b480d31b3721a905021b26e1290ce92c
                     return tag;
                 };
 
-                _createClass(StyleSheet, [
+                _create_class(StyleSheet, [
                     {
                         key: "length",
                         get: function get() {
@@ -612,11 +612,11 @@ https://github.com/threepointone/glamor/blob/667b480d31b3721a905021b26e1290ce92c
 
             var _react = __webpack_require__(2735);
 
-            var _stylesheetRegistry = _interopRequireDefault(
+            var _stylesheetRegistry = _interop_require_default(
                 __webpack_require__(7805)
             );
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -624,7 +624,7 @@ https://github.com/threepointone/glamor/blob/667b480d31b3721a905021b26e1290ce92c
                       };
             }
 
-            function _inheritsLoose(subClass, superClass) {
+            function _inherits_loose(subClass, superClass) {
                 subClass.prototype = Object.create(superClass.prototype);
                 subClass.prototype.constructor = subClass;
                 subClass.__proto__ = superClass;
@@ -633,7 +633,7 @@ https://github.com/threepointone/glamor/blob/667b480d31b3721a905021b26e1290ce92c
             var styleSheetRegistry = new _stylesheetRegistry["default"]();
 
             var JSXStyle = /*#__PURE__*/ (function (_Component) {
-                _inheritsLoose(JSXStyle, _Component);
+                _inherits_loose(JSXStyle, _Component);
 
                 function JSXStyle(props) {
                     var _this;
@@ -710,11 +710,15 @@ https://github.com/threepointone/glamor/blob/667b480d31b3721a905021b26e1290ce92c
             exports.__esModule = true;
             exports.default = void 0;
 
-            var _stringHash = _interopRequireDefault(__webpack_require__(8182));
+            var _stringHash = _interop_require_default(
+                __webpack_require__(8182)
+            );
 
-            var _stylesheet = _interopRequireDefault(__webpack_require__(9261));
+            var _stylesheet = _interop_require_default(
+                __webpack_require__(9261)
+            );
 
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {

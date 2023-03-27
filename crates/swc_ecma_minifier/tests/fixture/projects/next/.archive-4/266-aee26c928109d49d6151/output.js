@@ -808,17 +808,17 @@
             ) {
                 "use strict";
                 (exports.__esModule = !0), (exports.default = void 0);
-                var _stringHash = _interopRequireDefault(
+                var _stringHash = _interop_require_default(
                         __webpack_require__(
                             8182
                         )
                     ),
-                    _stylesheet = _interopRequireDefault(
+                    _stylesheet = _interop_require_default(
                         __webpack_require__(
                             9261
                         )
                     );
-                function _interopRequireDefault(
+                function _interop_require_default(
                     obj
                 ) {
                     return obj && obj.__esModule

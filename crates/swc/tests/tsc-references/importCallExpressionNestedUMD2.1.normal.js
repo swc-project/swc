@@ -28,20 +28,20 @@
         "@swc/helpers/src/_ts_generator.mjs"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.indexTs = {}, global.asyncToGeneratorMjs, global.interopRequireWildcardMjs, global.tsGeneratorMjs);
-})(this, function(exports, _asyncToGenerator, _interopRequireWildcard, _tsGenerator) {
+})(this, function(exports, _async_to_generator, _interop_require_wildcard, _ts_generator) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _asyncToGenerator = _asyncToGenerator.default;
-    _interopRequireWildcard = _interopRequireWildcard.default;
-    _tsGenerator = _tsGenerator.default;
+    _async_to_generator = _async_to_generator.default;
+    _interop_require_wildcard = _interop_require_wildcard.default;
+    _ts_generator = _ts_generator.default;
     function foo() {
         return _foo.apply(this, arguments);
     }
     function _foo() {
-        _foo = _asyncToGenerator(function() {
-            return _tsGenerator(this, function(_state) {
+        _foo = _async_to_generator(function() {
+            return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [

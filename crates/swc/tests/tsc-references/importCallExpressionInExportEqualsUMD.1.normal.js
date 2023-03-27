@@ -14,9 +14,9 @@
         "@swc/helpers/src/_interop_require_wildcard.mjs"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) module.exports = factory(global.interopRequireWildcardMjs);
-})(this, function(_interopRequireWildcard) {
+})(this, function(_interop_require_wildcard) {
     "use strict";
-    _interopRequireWildcard = _interopRequireWildcard.default;
+    _interop_require_wildcard = _interop_require_wildcard.default;
     return async function() {
         const something = await import("./something");
     };

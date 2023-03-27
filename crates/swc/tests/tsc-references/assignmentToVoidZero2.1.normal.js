@@ -17,5 +17,5 @@ c.p + c.q;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _assignmentToVoidZero2 = require("./assignmentToVoidZero2");
-_assignmentToVoidZero2.j + _assignmentToVoidZero2.k;
+var _assignment_to_void_zero_2 = require("./assignmentToVoidZero2");
+_assignment_to_void_zero_2.j + _assignment_to_void_zero_2.k;

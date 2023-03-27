@@ -60,10 +60,10 @@ function ___hello() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _m1 = require("./m1");
-(0, _m1["_"])();
-(0, _m1["__"])();
-(0, _m1["___hello"])();
-(0, _m1["__esmodule"])();
-(0, _m1["__proto"])();
-(0, _m1["_hi"])();
+var _m_1 = require("./m1");
+(0, _m_1["_"])();
+(0, _m_1["__"])();
+(0, _m_1["___hello"])();
+(0, _m_1["__esmodule"])();
+(0, _m_1["__proto"])();
+(0, _m_1["_hi"])();

@@ -6,12 +6,12 @@ Object.defineProperty(exports, "AppController", {
     enumerable: true,
     get: ()=>AppController
 });
-const _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
-const _tsMetadata = require("@swc/helpers/lib/_ts_metadata.js").default;
-const _tsParam = require("@swc/helpers/lib/_ts_param.js").default;
+const _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+const _ts_metadata = require("@swc/helpers/lib/_ts_metadata.js").default;
+const _ts_param = require("@swc/helpers/lib/_ts_param.js").default;
 const _common = require("@nestjs/common");
-const _appService = require("./app.service");
-const _createUserDto = require("./dtos/CreateUserDto");
+const _app_service = require("./app.service");
+const _create_user_dto = require("./dtos/CreateUserDto");
 let AppController = class AppController {
     async getHello() {
         const result = await this.appService.getHello();
@@ -25,23 +25,23 @@ let AppController = class AppController {
         this.appService = appService;
     }
 };
-_tsDecorate([
+_ts_decorate([
     (0, _common.Get)(),
-    _tsMetadata("design:type", Function),
-    _tsMetadata("design:paramtypes", [])
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [])
 ], AppController.prototype, "getHello", null);
-_tsDecorate([
+_ts_decorate([
     (0, _common.Post)(),
-    _tsParam(0, (0, _common.Body)()),
-    _tsMetadata("design:type", Function),
-    _tsMetadata("design:paramtypes", [
-        typeof _createUserDto.CreateUserDto === "undefined" ? Object : _createUserDto.CreateUserDto
+    _ts_param(0, (0, _common.Body)()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _create_user_dto.CreateUserDto === "undefined" ? Object : _create_user_dto.CreateUserDto
     ])
 ], AppController.prototype, "create", null);
-AppController = _tsDecorate([
+AppController = _ts_decorate([
     (0, _common.Controller)(),
-    _tsMetadata("design:type", Function),
-    _tsMetadata("design:paramtypes", [
-        typeof _appService.AppService === "undefined" ? Object : _appService.AppService
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
+        typeof _app_service.AppService === "undefined" ? Object : _app_service.AppService
     ])
 ], AppController);

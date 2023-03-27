@@ -7,6 +7,6 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _react = /*#__PURE__*/ _interopRequireDefault(_react);
+    _react = /*#__PURE__*/ _interop_require_default(_react);
     window.React = _react.default;
 });

@@ -28,7 +28,7 @@ Object.defineProperty(exports, "__esModule", {
     b: ()=>_0.b,
     ns: ()=>_0
 });
-const _exportStar = require("@swc/helpers/lib/_export_star.js").default, _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default, _0 = _interopRequireWildcard(_exportStar(require("./0"), exports));
+const _export_star = require("@swc/helpers/lib/_export_star.js").default, _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default, _0 = _interop_require_wildcard(_export_star(require("./0"), exports));
 //// [2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

@@ -2,33 +2,33 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
-const _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
-const _tsMetadata = require("@swc/helpers/lib/_ts_metadata.js").default;
-const _tsParam = require("@swc/helpers/lib/_ts_param.js").default;
+const _async_to_generator = require("@swc/helpers/lib/_async_to_generator.js").default;
+const _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+const _ts_metadata = require("@swc/helpers/lib/_ts_metadata.js").default;
+const _ts_param = require("@swc/helpers/lib/_ts_param.js").default;
 class Foo {
     fnName1(argName) {
-        return _asyncToGenerator(function*() {})();
+        return _async_to_generator(function*() {})();
     }
     fnName2(argName = false) {
-        return _asyncToGenerator(function*() {})();
+        return _async_to_generator(function*() {})();
     }
 }
-_tsDecorate([
-    _tsParam(0, Arg("GraphQLArgName", {
+_ts_decorate([
+    _ts_param(0, Arg("GraphQLArgName", {
         nullable: true
     })),
-    _tsMetadata("design:type", Function),
-    _tsMetadata("design:paramtypes", [
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         Boolean
     ])
 ], Foo.prototype, "fnName1", null);
-_tsDecorate([
-    _tsParam(0, Arg("GraphQLArgName", {
+_ts_decorate([
+    _ts_param(0, Arg("GraphQLArgName", {
         nullable: true
     })),
-    _tsMetadata("design:type", Function),
-    _tsMetadata("design:paramtypes", [
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         Boolean
     ])
 ], Foo.prototype, "fnName2", null);

@@ -8,15 +8,15 @@ Object.defineProperty(exports, "__esModule", {
         return Task;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, _inherits = require("@swc/helpers/lib/_inherits.js").default, _wrapNativeSuper = require("@swc/helpers/lib/_wrap_native_super.js").default, _createSuper = require("@swc/helpers/lib/_create_super.js").default, Task = function(Promise1) {
+var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default, _inherits = require("@swc/helpers/lib/_inherits.js").default, _wrap_native_super = require("@swc/helpers/lib/_wrap_native_super.js").default, _create_super = require("@swc/helpers/lib/_create_super.js").default, Task = function(Promise1) {
     "use strict";
     _inherits(Task, Promise1);
-    var _super = _createSuper(Task);
+    var _super = _create_super(Task);
     function Task() {
-        return _classCallCheck(this, Task), _super.apply(this, arguments);
+        return _class_call_check(this, Task), _super.apply(this, arguments);
     }
     return Task;
-}(_wrapNativeSuper(Promise));
+}(_wrap_native_super(Promise));
 //// [test.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

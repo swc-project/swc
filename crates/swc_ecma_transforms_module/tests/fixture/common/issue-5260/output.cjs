@@ -18,10 +18,10 @@ _export(exports, {
 });
 const _a = require("a");
 const _b = require("b");
-const _c = /*#__PURE__*/ _interopRequireDefault(require("c"));
-const _d = /*#__PURE__*/ _interopRequireDefault(require("d"));
-const _e = /*#__PURE__*/ _interopRequireWildcard(require("e"));
-const _f = /*#__PURE__*/ _interopRequireWildcard(require("f"));
+const _c = /*#__PURE__*/ _interop_require_default(require("c"));
+const _d = /*#__PURE__*/ _interop_require_default(require("d"));
+const _e = /*#__PURE__*/ _interop_require_wildcard(require("e"));
+const _f = /*#__PURE__*/ _interop_require_wildcard(require("f"));
 // unresolved
 const x = X;
 const _a1 = a;

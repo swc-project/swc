@@ -26,23 +26,23 @@ _export(exports, {
         return l;
     }
 });
-var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
-var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default;
+var _async_to_generator = require("@swc/helpers/lib/_async_to_generator.js").default;
+var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default;
+var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _ts_generator = require("@swc/helpers/lib/_ts_generator.js").default;
 function fn() {
     return _fn.apply(this, arguments);
 }
 function _fn() {
-    _fn = _asyncToGenerator(function() {
+    _fn = _async_to_generator(function() {
         var req;
-        return _tsGenerator(this, function(_state) {
+        return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
                     return [
                         4,
                         Promise.resolve().then(function() {
-                            return /*#__PURE__*/ _interopRequireWildcard(require("./test"));
+                            return /*#__PURE__*/ _interop_require_wildcard(require("./test"));
                         }) // ONE
                     ];
                 case 1:
@@ -58,19 +58,19 @@ function _fn() {
 var cl1 = /*#__PURE__*/ function() {
     "use strict";
     function cl1() {
-        _classCallCheck(this, cl1);
+        _class_call_check(this, cl1);
     }
     var _proto = cl1.prototype;
     _proto.m = function m() {
-        return _asyncToGenerator(function() {
+        return _async_to_generator(function() {
             var req;
-            return _tsGenerator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [
                             4,
                             Promise.resolve().then(function() {
-                                return /*#__PURE__*/ _interopRequireWildcard(require("./test"));
+                                return /*#__PURE__*/ _interop_require_wildcard(require("./test"));
                             }) // TWO
                         ];
                     case 1:
@@ -85,15 +85,15 @@ var cl1 = /*#__PURE__*/ function() {
     return cl1;
 }();
 var obj = {
-    m: /*#__PURE__*/ _asyncToGenerator(function() {
+    m: /*#__PURE__*/ _async_to_generator(function() {
         var req;
-        return _tsGenerator(this, function(_state) {
+        return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
                     return [
                         4,
                         Promise.resolve().then(function() {
-                            return /*#__PURE__*/ _interopRequireWildcard(require("./test"));
+                            return /*#__PURE__*/ _interop_require_wildcard(require("./test"));
                         }) // THREE
                     ];
                 case 1:
@@ -107,17 +107,17 @@ var obj = {
 };
 var cl2 = function cl2() {
     "use strict";
-    _classCallCheck(this, cl2);
+    _class_call_check(this, cl2);
     this.p = {
-        m: /*#__PURE__*/ _asyncToGenerator(function() {
+        m: /*#__PURE__*/ _async_to_generator(function() {
             var req;
-            return _tsGenerator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [
                             4,
                             Promise.resolve().then(function() {
-                                return /*#__PURE__*/ _interopRequireWildcard(require("./test"));
+                                return /*#__PURE__*/ _interop_require_wildcard(require("./test"));
                             }) // FOUR
                         ];
                     case 1:
@@ -131,15 +131,15 @@ var cl2 = function cl2() {
     };
 };
 var l = function() {
-    var _ref = _asyncToGenerator(function() {
+    var _ref = _async_to_generator(function() {
         var req;
-        return _tsGenerator(this, function(_state) {
+        return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
                     return [
                         4,
                         Promise.resolve().then(function() {
-                            return /*#__PURE__*/ _interopRequireWildcard(require("./test"));
+                            return /*#__PURE__*/ _interop_require_wildcard(require("./test"));
                         }) // FIVE
                     ];
                 case 1:

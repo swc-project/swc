@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "render", {
     enumerable: true,
     get: function() {
-        return _customRender.customRender;
+        return _custom_render.customRender;
     }
 });
-var _exportStar = require("@swc/helpers/lib/_export_star.js").default;
-var _customRender = require("./customRender");
-_exportStar(require("@testing-library/react"), exports);
+var _export_star = require("@swc/helpers/lib/_export_star.js").default;
+var _custom_render = require("./customRender");
+_export_star(require("@testing-library/react"), exports);

@@ -25,10 +25,10 @@ var as = 100;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _t1 = /*#__PURE__*/ _interopRequireWildcard(require("./t1"));
-var x = _t1.as;
-var y = _t1.return;
+var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _t_1 = /*#__PURE__*/ _interop_require_wildcard(require("./t1"));
+var x = _t_1.as;
+var y = _t_1.return;
 //// [t3.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

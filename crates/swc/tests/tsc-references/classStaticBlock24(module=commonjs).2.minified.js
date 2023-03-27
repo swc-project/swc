@@ -8,8 +8,8 @@ Object.defineProperty(exports, "__esModule", {
         return C;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, C = function C() {
+var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default, C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 C.x = 1;

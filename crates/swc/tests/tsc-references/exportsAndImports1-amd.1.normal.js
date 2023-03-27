@@ -9,7 +9,7 @@ define([
     "require",
     "exports",
     "@swc/helpers/src/_class_call_check.mjs"
-], function(require, exports, _classCallCheck) {
+], function(require, exports, _class_call_check) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -43,12 +43,12 @@ define([
             return a;
         }
     });
-    _classCallCheck = _classCallCheck.default;
+    _class_call_check = _class_call_check.default;
     var v = 1;
     function f() {}
     var C = function C() {
         "use strict";
-        _classCallCheck(this, C);
+        _class_call_check(this, C);
     };
     var E;
     (function(E) {
@@ -74,7 +74,7 @@ define([
     "require",
     "exports",
     "./t1"
-], function(require, exports, _t1) {
+], function(require, exports, _t_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -87,34 +87,34 @@ define([
     }
     _export(exports, {
         v: function() {
-            return _t1.v;
+            return _t_1.v;
         },
         f: function() {
-            return _t1.f;
+            return _t_1.f;
         },
         C: function() {
-            return _t1.C;
+            return _t_1.C;
         },
         I: function() {
-            return _t1.I;
+            return _t_1.I;
         },
         E: function() {
-            return _t1.E;
+            return _t_1.E;
         },
         D: function() {
-            return _t1.D;
+            return _t_1.D;
         },
         M: function() {
-            return _t1.M;
+            return _t_1.M;
         },
         N: function() {
-            return _t1.N;
+            return _t_1.N;
         },
         T: function() {
-            return _t1.T;
+            return _t_1.T;
         },
         a: function() {
-            return _t1.a;
+            return _t_1.a;
         }
     });
 });
@@ -123,7 +123,7 @@ define([
     "require",
     "exports",
     "./t1"
-], function(require, exports, _t1) {
+], function(require, exports, _t_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -136,34 +136,34 @@ define([
     }
     _export(exports, {
         v: function() {
-            return _t1.v;
+            return _t_1.v;
         },
         f: function() {
-            return _t1.f;
+            return _t_1.f;
         },
         C: function() {
-            return _t1.C;
+            return _t_1.C;
         },
         I: function() {
-            return _t1.I;
+            return _t_1.I;
         },
         E: function() {
-            return _t1.E;
+            return _t_1.E;
         },
         D: function() {
-            return _t1.D;
+            return _t_1.D;
         },
         M: function() {
-            return _t1.M;
+            return _t_1.M;
         },
         N: function() {
-            return _t1.N;
+            return _t_1.N;
         },
         T: function() {
-            return _t1.T;
+            return _t_1.T;
         },
         a: function() {
-            return _t1.a;
+            return _t_1.a;
         }
     });
 });

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _depJs = require("./dep.js");
+const _dep_js = require("./dep.js");
 class SomeClass {
     constructor(properties){
         this.props = properties;

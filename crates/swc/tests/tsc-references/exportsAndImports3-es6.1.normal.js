@@ -61,18 +61,18 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    v: ()=>_t1.v1,
-    f: ()=>_t1.f1,
-    C: ()=>_t1.C1,
-    I: ()=>_t1.I1,
-    E: ()=>_t1.E1,
-    D: ()=>_t1.D1,
-    M: ()=>_t1.M1,
-    N: ()=>_t1.N1,
-    T: ()=>_t1.T1,
-    a: ()=>_t1.a1
+    v: ()=>_t_1.v1,
+    f: ()=>_t_1.f1,
+    C: ()=>_t_1.C1,
+    I: ()=>_t_1.I1,
+    E: ()=>_t_1.E1,
+    D: ()=>_t_1.D1,
+    M: ()=>_t_1.M1,
+    N: ()=>_t_1.N1,
+    T: ()=>_t_1.T1,
+    a: ()=>_t_1.a1
 });
-const _t1 = require("./t1");
+const _t_1 = require("./t1");
 //// [t3.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {
@@ -85,15 +85,15 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    v: ()=>_t1.v1,
-    f: ()=>_t1.f1,
-    C: ()=>_t1.C1,
-    I: ()=>_t1.I1,
-    E: ()=>_t1.E1,
-    D: ()=>_t1.D1,
-    M: ()=>_t1.M1,
-    N: ()=>_t1.N1,
-    T: ()=>_t1.T1,
-    a: ()=>_t1.a1
+    v: ()=>_t_1.v1,
+    f: ()=>_t_1.f1,
+    C: ()=>_t_1.C1,
+    I: ()=>_t_1.I1,
+    E: ()=>_t_1.E1,
+    D: ()=>_t_1.D1,
+    M: ()=>_t_1.M1,
+    N: ()=>_t_1.N1,
+    T: ()=>_t_1.T1,
+    a: ()=>_t_1.a1
 });
-const _t1 = require("./t1");
+const _t_1 = require("./t1");

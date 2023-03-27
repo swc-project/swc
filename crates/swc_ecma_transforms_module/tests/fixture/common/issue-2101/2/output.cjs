@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "render", {
     enumerable: true,
-    get: ()=>_customRender.customRender
+    get: ()=>_custom_render.customRender
 });
-const _customRender = require("./customRender");
-_exportStar(require("@testing-library/react"), exports);
+const _custom_render = require("./customRender");
+_export_star(require("@testing-library/react"), exports);

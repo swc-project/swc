@@ -6,7 +6,7 @@
                 __unused_webpack_module, exports, __webpack_require__
             ) {
                 "use strict";
-                var _defineProperty = __webpack_require__(
+                var _define_property = __webpack_require__(
                     566
                 );
                 function ownKeys(
@@ -37,7 +37,7 @@
                     }
                     return keys;
                 }
-                function _objectSpread(
+                function _object_spread(
                     target
                 ) {
                     for (var i = 1; i < arguments.length; i++) {
@@ -55,7 +55,7 @@
                                 function (
                                     key
                                 ) {
-                                    _defineProperty(
+                                    _define_property(
                                         target,
                                         key,
                                         source[key]
@@ -110,24 +110,24 @@
                         : "function" == typeof dynamicOptions
                             ? (loadableOptions.loader = dynamicOptions)
                             : "object" == typeof dynamicOptions &&
-                      (loadableOptions = _objectSpread(
-                          _objectSpread(
+                      (loadableOptions = _object_spread(
+                          _object_spread(
                               {
                               },
                               loadableOptions
                           ),
                           dynamicOptions
                       ));
-                    (loadableOptions = _objectSpread(
-                        _objectSpread(
+                    (loadableOptions = _object_spread(
+                        _object_spread(
                             {
                             },
                             loadableOptions
                         ),
                         options
                     )).loadableGenerated &&
-                    delete (loadableOptions = _objectSpread(
-                        _objectSpread(
+                    delete (loadableOptions = _object_spread(
+                        _object_spread(
                             {
                             },
                             loadableOptions
@@ -149,17 +149,17 @@
                         loadableOptions
                     );
                 };
-                _interopRequireDefault(
+                _interop_require_default(
                     __webpack_require__(
                         2735
                     )
                 );
-                var _loadable = _interopRequireDefault(
+                var _loadable = _interop_require_default(
                     __webpack_require__(
                         880
                     )
                 );
-                function _interopRequireDefault(
+                function _interop_require_default(
                     obj
                 ) {
                     return obj && obj.__esModule
@@ -210,13 +210,13 @@
                 __unused_webpack_module, exports, __webpack_require__
             ) {
                 "use strict";
-                var _defineProperty = __webpack_require__(
+                var _define_property = __webpack_require__(
                         566
                     ),
-                    _classCallCheck = __webpack_require__(
+                    _class_call_check = __webpack_require__(
                         4988
                     ),
-                    _createClass = __webpack_require__(
+                    _create_class = __webpack_require__(
                         9590
                     );
                 function ownKeys(
@@ -247,7 +247,7 @@
                     }
                     return keys;
                 }
-                function _objectSpread(
+                function _object_spread(
                     target
                 ) {
                     for (var i = 1; i < arguments.length; i++) {
@@ -265,7 +265,7 @@
                                 function (
                                     key
                                 ) {
-                                    _defineProperty(
+                                    _define_property(
                                         target,
                                         key,
                                         source[key]
@@ -317,7 +317,7 @@
                         ) {
                             if (!o) return;
                             if ("string" == typeof o)
-                                return _arrayLikeToArray(
+                                return _array_like_to_array(
                                     o,
                                     minLen
                                 );
@@ -342,7 +342,7 @@
                                     n
                                 )
                             )
-                                return _arrayLikeToArray(
+                                return _array_like_to_array(
                                     o,
                                     minLen
                                 );
@@ -413,7 +413,7 @@
                         },
                     };
                 }
-                function _arrayLikeToArray(
+                function _array_like_to_array(
                     arr, len
                 ) {
                     (null == len || len > arr.length) && (len = arr.length);
@@ -489,7 +489,7 @@
                     function LoadableSubscription(
                         loadFn, opts
                     ) {
-                        _classCallCheck(
+                        _class_call_check(
                             this,
                             LoadableSubscription
                         ),
@@ -503,7 +503,7 @@
                         );
                     }
                     return (
-                        _createClass(
+                        _create_class(
                             LoadableSubscription,
                             [
                                 {
@@ -591,8 +591,8 @@
                                     value: function (
                                         partial
                                     ) {
-                                        (this._state = _objectSpread(
-                                            _objectSpread(
+                                        (this._state = _object_spread(
+                                            _object_spread(
                                                 {
                                                 },
                                                 this._state

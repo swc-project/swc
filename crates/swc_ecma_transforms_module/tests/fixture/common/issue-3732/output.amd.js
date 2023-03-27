@@ -18,7 +18,7 @@ define([
         get: ()=>_get,
         byID: ()=>byID
     });
-    _get = /*#__PURE__*/ _interopRequireWildcard(_get);
+    _get = /*#__PURE__*/ _interop_require_wildcard(_get);
     const byID = (id)=>{
         // Do some async stuff
         return new Promise((resolve)=>setTimeout(()=>{

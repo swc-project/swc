@@ -26,10 +26,10 @@ define([
         e: ()=>_e,
         f: ()=>_f
     });
-    _c = /*#__PURE__*/ _interopRequireDefault(_c);
-    _d = /*#__PURE__*/ _interopRequireDefault(_d);
-    _e = /*#__PURE__*/ _interopRequireWildcard(_e);
-    _f = /*#__PURE__*/ _interopRequireWildcard(_f);
+    _c = /*#__PURE__*/ _interop_require_default(_c);
+    _d = /*#__PURE__*/ _interop_require_default(_d);
+    _e = /*#__PURE__*/ _interop_require_wildcard(_e);
+    _f = /*#__PURE__*/ _interop_require_wildcard(_f);
     // unresolved
     const x = X;
     const _a1 = a;

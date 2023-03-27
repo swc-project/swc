@@ -527,11 +527,11 @@ function (_React$Component) {
   _inherits(App, _React$Component);
 
   function App() {
-    _classCallCheck(this, App);
-    return _possibleConstructorReturn(this, _getPrototypeOf(App).apply(this, arguments));
+    _class_call_check(this, App);
+    return _possible_constructor_return(this, _get_prototype_of(App).apply(this, arguments));
   }
 
-  _createClass(App, [{
+  _create_class(App, [{
     key: "render",
     value: function render() {
       const navbarHeader = _ref;
@@ -1253,7 +1253,7 @@ test!(
 Object.defineProperty(exports, \"__esModule\", {
     value: true
 });
-var _react = _interopRequireDefault(require(\"react\"));
+var _react = _interop_require_default(require(\"react\"));
 _react.default.createElement(\"div\", null);"
 );
 
@@ -1305,7 +1305,7 @@ test!(
 Object.defineProperty(exports, \"__esModule\", {
     value: true
 });
-var _react = _interopRequireDefault(require(\"react\"));
+var _react = _interop_require_default(require(\"react\"));
 _react.default.createElement(\"div\", {
     style: \"white-space: pre\"
 }, \"Hello World\");"
@@ -1387,7 +1387,7 @@ value: true
 });
 exports.default = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interop_require_default(require("react"));
 
 var RandomComponent =
 /*#__PURE__*/
@@ -1395,11 +1395,11 @@ function (_Component) {
 _inherits(RandomComponent, _Component);
 
 function RandomComponent() {
-_classCallCheck(this, RandomComponent);
-return _possibleConstructorReturn(this, _getPrototypeOf(RandomComponent).call(this));
+_class_call_check(this, RandomComponent);
+return _possible_constructor_return(this, _get_prototype_of(RandomComponent).call(this));
 }
 
-_createClass(RandomComponent, [{
+_create_class(RandomComponent, [{
 key: "render",
 value: function render() {
   return _react.default.createElement("div", {

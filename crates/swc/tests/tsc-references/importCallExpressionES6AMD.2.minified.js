@@ -19,7 +19,7 @@ define([
     "require",
     "exports",
     "@swc/helpers/src/_interop_require_wildcard.mjs"
-], function(require, exports, _interopRequireWildcard) {
+], function(require, exports, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
@@ -31,19 +31,19 @@ define([
     }(exports, {
         p2: ()=>p2,
         D: ()=>D
-    }), _interopRequireWildcard = _interopRequireWildcard.default, new Promise((resolve, reject)=>require([
+    }), _interop_require_wildcard = _interop_require_wildcard.default, new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(_interopRequireWildcard(m)), reject)), new Promise((resolve, reject)=>require([
+        ], (m)=>resolve(_interop_require_wildcard(m)), reject)), new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(_interopRequireWildcard(m)), reject)).then((zero)=>zero.foo());
+        ], (m)=>resolve(_interop_require_wildcard(m)), reject)).then((zero)=>zero.foo());
     var p2 = new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(_interopRequireWildcard(m)), reject));
+        ], (m)=>resolve(_interop_require_wildcard(m)), reject));
     class D {
         method() {
             new Promise((resolve, reject)=>require([
                     "./0"
-                ], (m)=>resolve(_interopRequireWildcard(m)), reject));
+                ], (m)=>resolve(_interop_require_wildcard(m)), reject));
         }
     }
 });

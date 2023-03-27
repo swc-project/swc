@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
-var _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
-var _tsMetadata = require("@swc/helpers/lib/_ts_metadata.js").default;
+var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default;
+var _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+var _ts_metadata = require("@swc/helpers/lib/_ts_metadata.js").default;
 require("reflect-metadata");
 var COL_KEY = Symbol("col");
 var column = function() {
@@ -14,9 +14,9 @@ var column = function() {
 };
 var User = function User() {
     "use strict";
-    _classCallCheck(this, User);
+    _class_call_check(this, User);
 };
-_tsDecorate([
+_ts_decorate([
     column(),
-    _tsMetadata("design:type", String)
+    _ts_metadata("design:type", String)
 ], User.prototype, "currency", void 0);

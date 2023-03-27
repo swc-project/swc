@@ -63,12 +63,12 @@ var x = "x", y = "y", z = "z";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _exportStar = require("@swc/helpers/lib/_export_star.js").default;
-_exportStar(require("./t1"), exports), _exportStar(require("./t2"), exports), _exportStar(require("./t3"), exports);
+var _export_star = require("@swc/helpers/lib/_export_star.js").default;
+_export_star(require("./t1"), exports), _export_star(require("./t2"), exports), _export_star(require("./t3"), exports);
 //// [main.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _t4 = (0, require("@swc/helpers/lib/_interop_require_wildcard.js").default)(require("./t4"));
-_t4.default, _t4.x, _t4.y, _t4.z, _t4.foo;
+var _t_4 = (0, require("@swc/helpers/lib/_interop_require_wildcard.js").default)(require("./t4"));
+_t_4.default, _t_4.x, _t_4.y, _t_4.z, _t_4.foo;

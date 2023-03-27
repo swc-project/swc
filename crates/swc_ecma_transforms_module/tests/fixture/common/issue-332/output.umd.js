@@ -14,7 +14,7 @@
         enumerable: true,
         get: ()=>bar
     });
-    _foo = /*#__PURE__*/ _interopRequireDefault(_foo);
+    _foo = /*#__PURE__*/ _interop_require_default(_foo);
     const bar = {
         foo: _foo.default
     };

@@ -6,7 +6,7 @@
                 __unused_webpack_module, exports, __webpack_require__
             ) {
                 "use strict";
-                var _slicedToArray = __webpack_require__(
+                var _sliced_to_array = __webpack_require__(
                     3408
                 );
                 exports.default = void 0;
@@ -71,7 +71,7 @@
                                         props.href,
                                         !0
                                     ),
-                                    _resolveHref2 = _slicedToArray(
+                                    _resolveHref2 = _sliced_to_array(
                                         _resolveHref,
                                         2
                                     ),
@@ -113,7 +113,7 @@
                                 rootMargin: "200px",
                             }
                         ),
-                        _useIntersection3 = _slicedToArray(
+                        _useIntersection3 = _sliced_to_array(
                             _useIntersection2,
                             2
                         ),
@@ -289,7 +289,7 @@
                 __unused_webpack_module, exports, __webpack_require__
             ) {
                 "use strict";
-                var _slicedToArray = __webpack_require__(
+                var _sliced_to_array = __webpack_require__(
                     3408
                 );
                 Object.defineProperty(
@@ -309,7 +309,7 @@
                         _useState = _react.useState(
                             !1
                         ),
-                        _useState2 = _slicedToArray(
+                        _useState2 = _sliced_to_array(
                             _useState,
                             2
                         ),

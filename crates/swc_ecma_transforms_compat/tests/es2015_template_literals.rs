@@ -164,7 +164,7 @@ function a() {
   tag`\01`;
 }"#,
     r#"function _templateObject() {
-    const data = _taggedTemplateLiteral([
+    const data = _tagged_template_literal([
         void 0
     ], [
         "\\unicode and \\u{55}"
@@ -175,7 +175,7 @@ function a() {
     return data;
 }
 function _templateObject1() {
-    const data = _taggedTemplateLiteral([
+    const data = _tagged_template_literal([
         void 0
     ], [
         "\\01"
@@ -186,7 +186,7 @@ function _templateObject1() {
     return data;
 }
 function _templateObject2() {
-    const data = _taggedTemplateLiteral([
+    const data = _tagged_template_literal([
         void 0,
         "right"
     ], [
@@ -199,7 +199,7 @@ function _templateObject2() {
     return data;
 }
 function _templateObject3() {
-    const data = _taggedTemplateLiteral([
+    const data = _tagged_template_literal([
         "left",
         void 0
     ], [
@@ -212,7 +212,7 @@ function _templateObject3() {
     return data;
 }
 function _templateObject4() {
-    const data = _taggedTemplateLiteral([
+    const data = _tagged_template_literal([
         "left",
         void 0,
         "right"
@@ -227,7 +227,7 @@ function _templateObject4() {
     return data;
 }
 function _templateObject5() {
-    const data = _taggedTemplateLiteral([
+    const data = _tagged_template_literal([
         "left",
         void 0,
         "right"
@@ -242,7 +242,7 @@ function _templateObject5() {
     return data;
 }
 function _templateObject6() {
-    const data = _taggedTemplateLiteral([
+    const data = _tagged_template_literal([
         "left",
         void 0,
         "right"
@@ -257,7 +257,7 @@ function _templateObject6() {
     return data;
 }
 function _templateObject7() {
-    const data = _taggedTemplateLiteral([
+    const data = _tagged_template_literal([
         void 0
     ], [
         "\\01"
@@ -446,7 +446,7 @@ function a() {
 "#,
     r#"
 function _templateObject8() {
-  const data = _taggedTemplateLiteral([void 0], ["\\01"]);
+  const data = _tagged_template_literal([void 0], ["\\01"]);
 
   _templateObject8 = function () {
     return data;
@@ -456,7 +456,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  const data = _taggedTemplateLiteral(["left", void 0, "right"], ["left", "\\u{-0}", "right"]);
+  const data = _tagged_template_literal(["left", void 0, "right"], ["left", "\\u{-0}", "right"]);
 
   _templateObject7 = function () {
     return data;
@@ -466,7 +466,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  const data = _taggedTemplateLiteral(["left", void 0, "right"], ["left", "\\u000g", "right"]);
+  const data = _tagged_template_literal(["left", void 0, "right"], ["left", "\\u000g", "right"]);
 
   _templateObject6 = function () {
     return data;
@@ -476,7 +476,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  const data = _taggedTemplateLiteral(["left", void 0, "right"], ["left", "\\xg", "right"]);
+  const data = _tagged_template_literal(["left", void 0, "right"], ["left", "\\xg", "right"]);
 
   _templateObject5 = function () {
     return data;
@@ -486,7 +486,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  const data = _taggedTemplateLiteral(["left", void 0], ["left", "\\xg"]);
+  const data = _tagged_template_literal(["left", void 0], ["left", "\\xg"]);
 
   _templateObject4 = function () {
     return data;
@@ -496,7 +496,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  const data = _taggedTemplateLiteral([void 0, "right"], ["\\xg", "right"]);
+  const data = _tagged_template_literal([void 0, "right"], ["\\xg", "right"]);
 
   _templateObject3 = function () {
     return data;
@@ -506,7 +506,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral([void 0], ["\\01"]);
+  const data = _tagged_template_literal([void 0], ["\\01"]);
 
   _templateObject2 = function () {
     return data;
@@ -516,7 +516,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  const data = _taggedTemplateLiteral([void 0], ["\\unicode and \\u{55}"]);
+  const data = _tagged_template_literal([void 0], ["\\unicode and \\u{55}"]);
 
   _templateObject = function () {
     return data;
@@ -525,7 +525,7 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _tagged_template_literal(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 tag(_templateObject());
 tag(_templateObject2());
@@ -665,7 +665,7 @@ expect(bar()).not.toBe(foo());
 "#,
     r#"
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["some template"]);
+  const data = _tagged_template_literal(["some template"]);
 
   _templateObject = function () {
     return data;
@@ -675,7 +675,7 @@ function _templateObject() {
 }
 
 function _templateObject1() {
-  const data = _taggedTemplateLiteral(["some template"]);
+  const data = _tagged_template_literal(["some template"]);
 
   _templateObject1 = function () {
     return data;
@@ -716,7 +716,7 @@ var bar = bar`wow\naB${ 42 } ${_.baz()}`;
 "#,
     r#"
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["wow\na", "b ", ""], ["wow\\na", "b ", ""]);
+  const data = _tagged_template_literal(["wow\na", "b ", ""], ["wow\\na", "b ", ""]);
 
   _templateObject = function () {
     return data;
@@ -726,7 +726,7 @@ function _templateObject() {
 }
 
 function _templateObject1() {
-  const data = _taggedTemplateLiteral(["wow\nab", " ", ""], ["wow\\nab", " ", ""]);
+  const data = _tagged_template_literal(["wow\nab", " ", ""], ["wow\\nab", " ", ""]);
 
   _templateObject1 = function () {
     return data;
@@ -736,7 +736,7 @@ function _templateObject1() {
 }
 
 function _templateObject2() {
-  const data = _taggedTemplateLiteral(["wow\naB", " ", ""], ["wow\\naB", " ", ""]);
+  const data = _tagged_template_literal(["wow\naB", " ", ""], ["wow\\naB", " ", ""]);
 
   _templateObject2 = function () {
     return data;
@@ -765,7 +765,7 @@ var bar = tag`first${1}second`;
 "#,
     r#"
 function _templateObject() {
-  const data = _taggedTemplateLiteral(["wow"]);
+  const data = _tagged_template_literal(["wow"]);
 
   _templateObject = function () {
     return data;
@@ -775,7 +775,7 @@ function _templateObject() {
 }
 
 function _templateObject1() {
-  const data = _taggedTemplateLiteral(["first", "second"]);
+  const data = _tagged_template_literal(["first", "second"]);
 
   _templateObject1 = function () {
     return data;
@@ -801,7 +801,7 @@ test!(
   }
 ",
     "function _templateObject() {
-      const data = _taggedTemplateLiteral([
+      const data = _tagged_template_literal([
           \"Hello World\"
       ]);
       _templateObject = function() {
@@ -810,7 +810,7 @@ test!(
       return data;
   }
   function _templateObject1() {
-      const data = _taggedTemplateLiteral([
+      const data = _tagged_template_literal([
           \"Nobody will ever see this.\"
       ]);
       _templateObject1 = function() {
@@ -935,7 +935,7 @@ test!(
     ",
     "
     function _templateObject() {
-      const data = _taggedTemplateLiteral([
+      const data = _tagged_template_literal([
           \"'Hello'\"
       ]);
       _templateObject = function() {
@@ -990,7 +990,7 @@ test!(
     ",
     "
     function _templateObject() {
-      const data = _taggedTemplateLiteral([
+      const data = _tagged_template_literal([
           \"template\"
       ]);
       _templateObject = function() {
@@ -1252,7 +1252,7 @@ var bar = bar`wow\naB${ 42 } ${_.baz()}`;
     "#,
     r#"
 function _templateObject() {
-    const data = _taggedTemplateLiteralLoose([
+    const data = _tagged_template_literal_loose([
         "wow\na",
         "b ",
         ""
@@ -1267,7 +1267,7 @@ function _templateObject() {
     return data;
 }
 function _templateObject1() {
-    const data = _taggedTemplateLiteralLoose([
+    const data = _tagged_template_literal_loose([
         "wow\nab",
         " ",
         ""
@@ -1282,7 +1282,7 @@ function _templateObject1() {
     return data;
 }
 function _templateObject2() {
-    const data = _taggedTemplateLiteralLoose([
+    const data = _tagged_template_literal_loose([
         "wow\naB",
         " ",
         ""
@@ -1321,7 +1321,7 @@ tag`\01`;
 }"#,
     r#"
 function _templateObject8() {
-const data = _taggedTemplateLiteralLoose([void 0], ["\\01"]);
+const data = _tagged_template_literal_loose([void 0], ["\\01"]);
 
 _templateObject8 = function () {
   return data;
@@ -1331,7 +1331,7 @@ return data;
 }
 
 function _templateObject7() {
-const data = _taggedTemplateLiteralLoose(["left", void 0, "right"], ["left", "\\u{-0}", "right"]);
+const data = _tagged_template_literal_loose(["left", void 0, "right"], ["left", "\\u{-0}", "right"]);
 
 _templateObject7 = function () {
   return data;
@@ -1341,7 +1341,7 @@ return data;
 }
 
 function _templateObject6() {
-const data = _taggedTemplateLiteralLoose(["left", void 0, "right"], ["left", "\\u000g", "right"]);
+const data = _tagged_template_literal_loose(["left", void 0, "right"], ["left", "\\u000g", "right"]);
 
 _templateObject6 = function () {
   return data;
@@ -1351,7 +1351,7 @@ return data;
 }
 
 function _templateObject5() {
-const data = _taggedTemplateLiteralLoose(["left", void 0, "right"], ["left", "\\xg", "right"]);
+const data = _tagged_template_literal_loose(["left", void 0, "right"], ["left", "\\xg", "right"]);
 
 _templateObject5 = function () {
   return data;
@@ -1361,7 +1361,7 @@ return data;
 }
 
 function _templateObject4() {
-const data = _taggedTemplateLiteralLoose(["left", void 0], ["left", "\\xg"]);
+const data = _tagged_template_literal_loose(["left", void 0], ["left", "\\xg"]);
 
 _templateObject4 = function () {
   return data;
@@ -1371,7 +1371,7 @@ return data;
 }
 
 function _templateObject3() {
-const data = _taggedTemplateLiteralLoose([void 0, "right"], ["\\xg", "right"]);
+const data = _tagged_template_literal_loose([void 0, "right"], ["\\xg", "right"]);
 
 _templateObject3 = function () {
   return data;
@@ -1381,7 +1381,7 @@ return data;
 }
 
 function _templateObject2() {
-const data = _taggedTemplateLiteralLoose([void 0], ["\\01"]);
+const data = _tagged_template_literal_loose([void 0], ["\\01"]);
 
 _templateObject2 = function () {
   return data;
@@ -1391,7 +1391,7 @@ return data;
 }
 
 function _templateObject() {
-const data = _taggedTemplateLiteralLoose([void 0], ["\\unicode and \\u{55}"]);
+const data = _tagged_template_literal_loose([void 0], ["\\unicode and \\u{55}"]);
 
 _templateObject = function () {
   return data;

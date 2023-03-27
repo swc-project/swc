@@ -32,14 +32,14 @@ System.register([
     _export("fn", fn);
     return {
         setters: [
-            function(_asyncToGenerator) {
-                _async_to_generator = _asyncToGenerator.default;
+            function(_async_to_generator1) {
+                _async_to_generator = _async_to_generator1.default;
             },
-            function(_classCallCheck) {
-                _class_call_check = _classCallCheck.default;
+            function(_class_call_check1) {
+                _class_call_check = _class_call_check1.default;
             },
-            function(_tsGenerator) {
-                _ts_generator = _tsGenerator.default;
+            function(_ts_generator1) {
+                _ts_generator = _ts_generator1.default;
             }
         ],
         execute: function() {

@@ -199,7 +199,7 @@ Ref.nextID = 0"#,
     r#"var Ref = function Ref() {
         "use strict";
         var id = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : ++Ref.nextID;
-        _classCallCheck(this, Ref);
+        _class_call_check(this, Ref);
         this.id = id;
     };
 Ref.nextID = 0;"#
@@ -243,13 +243,13 @@ class X {
     r#"var Ref = function Ref() {
       "use strict";
       var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : Ref;
-      _classCallCheck(this, Ref);
+      _class_call_check(this, Ref);
       this.ref = ref;
   }
 var X = function X() {
       "use strict";
       var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;
-      _classCallCheck(this, X);
+      _class_call_check(this, X);
         this.x = x;
     };
 "#
@@ -430,7 +430,7 @@ set arr([x, y] = []) {
         };
     },
     set arr (param){
-        var _ref1 = _slicedToArray(param === void 0 ? [] : param, 2), x = _ref1[0], y = _ref1[1];
+        var _ref1 = _sliced_to_array(param === void 0 ? [] : param, 2), x = _ref1[0], y = _ref1[1];
         this.num = {
             x,
             y
@@ -711,7 +711,7 @@ var innerclassproperties = function () {
   return _temp = _class = function _class() {
     "use strict";
 
-    _classCallCheck(this, _class);
+    _class_call_check(this, _class);
     this.args = args;
   }, _class.args = args, _temp;
 };"#
@@ -734,7 +734,7 @@ var x = async (...rest) => {
     r#"var concat =
 /*#__PURE__*/
 function () {
-  var _ref = _asyncToGenerator(function* () {
+  var _ref = _async_to_generator(function* () {
     var x = arguments.length <= 0 ? undefined : arguments[0];
     var y = arguments.length <= 1 ? undefined : arguments[1];
   });
@@ -747,7 +747,7 @@ function () {
 var x =
 /*#__PURE__*/
 function () {
-  var _ref2 = _asyncToGenerator(function* () {
+  var _ref2 = _async_to_generator(function* () {
     if (noNeedToWork) return 0;
 
     for (var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -980,7 +980,7 @@ function r() {
 
   var _x = x;
 
-  var _x2 = _slicedToArray(_x, 1);
+  var _x2 = _sliced_to_array(_x, 1);
 
   rest[0] = _x2[0];
   return rest;
@@ -1286,14 +1286,14 @@ test!(
         let Foo = function(Bar1) {
             "use strict";
             _inherits(Foo, Bar1);
-            var _super = _createSuper(Foo);
+            var _super = _create_super(Foo);
             function Foo() {
-                _classCallCheck(this, Foo);
+                _class_call_check(this, Foo);
                 return _super.apply(this, arguments);
             }
             return Foo;
         }(Bar);
-        return hello.apply(void 0, _toConsumableArray(foo));
+        return hello.apply(void 0, _to_consumable_array(foo));
     }
 }"#
 );
@@ -1307,7 +1307,7 @@ test!(
     for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++){
         _tmp[_key] = arguments[_key];
     }
-    var _tmp1 = _slicedToArray(_tmp, 1), a = _tmp1[0];
+    var _tmp1 = _sliced_to_array(_tmp, 1), a = _tmp1[0];
 }"#
 );
 
@@ -1411,10 +1411,10 @@ function foo() {
 //});
 //exports["default"] = void 0;
 //
-//var _args = _interopRequireDefault(require("utils/url/args"));
+//var _args = _interop_require_default(require("utils/url/args"));
 //
-//function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : {
-// "default": obj }; }
+//function _interop_require_default(obj) { return obj && obj.__esModule ? obj :
+// { "default": obj }; }
 //
 //function _typeof(obj) { if (typeof Symbol === "function" && typeof
 // Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return
@@ -1422,7 +1422,7 @@ function foo() {
 // typeof Symbol === "function" && obj.constructor === Symbol && obj !==
 // Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 //
-//function _classCallCheck(instance, Constructor) { if (!(instance instanceof
+//function _class_call_check(instance, Constructor) { if (!(instance instanceof
 // Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 //
 //function _defineProperties(target, props) { for (var i = 0; i < props.length;
@@ -1431,19 +1431,20 @@ function foo() {
 // in descriptor) descriptor.writable = true; Object.defineProperty(target,
 // descriptor.key, descriptor); } }
 //
-//function _createClass(Constructor, protoProps, staticProps) { if (protoProps)
-// _defineProperties(Constructor.prototype, protoProps); if (staticProps)
-// _defineProperties(Constructor, staticProps); return Constructor; }
+//function _create_class(Constructor, protoProps, staticProps) { if
+// (protoProps) _defineProperties(Constructor.prototype, protoProps); if
+// (staticProps) _defineProperties(Constructor, staticProps); return
+// Constructor; }
 //
-//function _possibleConstructorReturn(self, call) { if (call && (_typeof(call)
-// === "object" || typeof call === "function")) { return call; } return
-// _assertThisInitialized(self); }
+//function _possible_constructor_return(self, call) { if (call &&
+// (_typeof(call) === "object" || typeof call === "function")) { return call; }
+// return _assert_this_initialized(self); }
 //
-//function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ?
-// Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ ||
-// Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+//function _get_prototype_of(o) { _get_prototype_of = Object.setPrototypeOf ?
+// Object.getPrototypeOf : function _get_prototype_of(o) { return o.__proto__ ||
+// Object.getPrototypeOf(o); }; return _get_prototype_of(o); }
 //
-//function _assertThisInitialized(self) { if (self === void 0) { throw new
+//function _assert_this_initialized(self) { if (self === void 0) { throw new
 // ReferenceError("this hasn't been initialised - super() hasn't been called");
 // } return self; }
 //
@@ -1452,13 +1453,13 @@ function foo() {
 // must either be null or a function"); } subClass.prototype =
 // Object.create(superClass && superClass.prototype, { constructor: { value:
 // subClass, writable: true, configurable: true } }); if (superClass)
-// _setPrototypeOf(subClass, superClass); }
+// _set_prototype_of(subClass, superClass); }
 //
-//function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ||
-// function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return
-// _setPrototypeOf(o, p); }
+//function _set_prototype_of(o, p) { _set_prototype_of = Object.setPrototypeOf
+// || function _set_prototype_of(o, p) { o.__proto__ = p; return o; }; return
+// _set_prototype_of(o, p); }
 //
-//function _defineProperty(obj, key, value) { if (key in obj) {
+//function _define_property(obj, key, value) { if (key in obj) {
 // Object.defineProperty(obj, key, { value: value, enumerable: true,
 // configurable: true, writable: true }); } else { obj[key] = value; } return
 // obj; }
@@ -1469,25 +1470,25 @@ function foo() {
 //  _inherits(App, _Component);
 //
 //  function App() {
-//    var _getPrototypeOf2;
+//    var _get_prototype_of2;
 //
 //    var _this;
 //
-//    _classCallCheck(this, App);
+//    _class_call_check(this, App);
 //
 //    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key <
 // _len; _key++) {      args[_key] = arguments[_key];
 //    }
 //
-//    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 =
-// _getPrototypeOf(App)).call.apply(_getPrototypeOf2, [this].concat(args)));
+//    _this = _possible_constructor_return(this, (_get_prototype_of2 =
+// _get_prototype_of(App)).call.apply(_get_prototype_of2, [this].concat(args)));
 //
-//    _defineProperty(_assertThisInitialized(_this), "exportType", '');
+//    _define_property(_assert_this_initialized(_this), "exportType", '');
 //
 //    return _this;
 //  }
 //
-//  _createClass(App, [{
+//  _create_class(App, [{
 //    key: "componentDidMount",
 //    value: function componentDidMount() {
 //      this.exportType = _args["default"].get('type', window.location.href);
@@ -1527,7 +1528,7 @@ function foo() {
 //});
 //exports.Test = void 0;
 //
-//function _classCallCheck(instance, Constructor) { if (!(instance instanceof
+//function _class_call_check(instance, Constructor) { if (!(instance instanceof
 // Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 //
 //function _defineProperties(target, props) { for (var i = 0; i < props.length;
@@ -1536,18 +1537,19 @@ function foo() {
 // in descriptor) descriptor.writable = true; Object.defineProperty(target,
 // descriptor.key, descriptor); } }
 //
-//function _createClass(Constructor, protoProps, staticProps) { if (protoProps)
-// _defineProperties(Constructor.prototype, protoProps); if (staticProps)
-// _defineProperties(Constructor, staticProps); return Constructor; }
+//function _create_class(Constructor, protoProps, staticProps) { if
+// (protoProps) _defineProperties(Constructor.prototype, protoProps); if
+// (staticProps) _defineProperties(Constructor, staticProps); return
+// Constructor; }
 //
 //var Test =
 // /*#__PURE__*/
 //function () {
 //  function Test() {
-//    _classCallCheck(this, Test);
+//    _class_call_check(this, Test);
 //  }
 //
-//  _createClass(Test, [{
+//  _create_class(Test, [{
 //    key: "invite",
 //    value: function invite() {
 //      var options = arguments.length > 0 && arguments[0] !== undefined ?
@@ -1588,7 +1590,7 @@ var concat = async (...arrs) => {
 "#,
     r#"
 var concat = function () {
-  var _ref = _asyncToGenerator(function* () {
+  var _ref = _async_to_generator(function* () {
     var x = arguments.length <= 0 ? undefined : arguments[0];
     var y = arguments.length <= 1 ? undefined : arguments[1];
   });
@@ -1625,7 +1627,7 @@ var x = async (...rest) => {
 "#,
     r#"
 var x = function () {
-  var _ref = _asyncToGenerator(function* () {
+  var _ref = _async_to_generator(function* () {
     if (noNeedToWork) return 0;
 
     for (var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -2050,7 +2052,7 @@ test!(
     fn_len_default_array_destructuring,
     "function t([,,a] = [1,2,3]) { return a }",
     "function t(param) {
-      var _ref = _slicedToArray(param === void 0 ? [1, 2, 3] : param, 3),
+      var _ref = _sliced_to_array(param === void 0 ? [1, 2, 3] : param, 3),
           a = _ref[2];
 
       return a;

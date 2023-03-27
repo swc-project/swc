@@ -9,11 +9,11 @@
             "use strict";
             /* harmony export */ __webpack_require__.d(__webpack_exports__, {
                 /* harmony export */ Z: function () {
-                    return /* binding */ _assertThisInitialized;
+                    return /* binding */ _assert_this_initialized;
                 },
                 /* harmony export */
             });
-            function _assertThisInitialized(self) {
+            function _assert_this_initialized(self) {
                 if (self === void 0) {
                     throw new ReferenceError(
                         "this hasn't been initialised - super() hasn't been called"
@@ -34,11 +34,11 @@
             "use strict";
             /* harmony export */ __webpack_require__.d(__webpack_exports__, {
                 /* harmony export */ Z: function () {
-                    return /* binding */ _classCallCheck;
+                    return /* binding */ _class_call_check;
                 },
                 /* harmony export */
             });
-            function _classCallCheck(instance, Constructor) {
+            function _class_call_check(instance, Constructor) {
                 if (!(instance instanceof Constructor)) {
                     throw new TypeError("Cannot call a class as a function");
                 }
@@ -55,7 +55,7 @@
             "use strict";
             /* harmony export */ __webpack_require__.d(__webpack_exports__, {
                 /* harmony export */ Z: function () {
-                    return /* binding */ _createClass;
+                    return /* binding */ _create_class;
                 },
                 /* harmony export */
             });
@@ -69,7 +69,7 @@
                 }
             }
 
-            function _createClass(Constructor, protoProps, staticProps) {
+            function _create_class(Constructor, protoProps, staticProps) {
                 if (protoProps)
                     _defineProperties(Constructor.prototype, protoProps);
                 if (staticProps) _defineProperties(Constructor, staticProps);
@@ -87,11 +87,11 @@
             "use strict";
             /* harmony export */ __webpack_require__.d(__webpack_exports__, {
                 /* harmony export */ Z: function () {
-                    return /* binding */ _defineProperty;
+                    return /* binding */ _define_property;
                 },
                 /* harmony export */
             });
-            function _defineProperty(obj, key, value) {
+            function _define_property(obj, key, value) {
                 if (key in obj) {
                     Object.defineProperty(obj, key, {
                         value: value,
@@ -117,17 +117,17 @@
             "use strict";
             /* harmony export */ __webpack_require__.d(__webpack_exports__, {
                 /* harmony export */ Z: function () {
-                    return /* binding */ _getPrototypeOf;
+                    return /* binding */ _get_prototype_of;
                 },
                 /* harmony export */
             });
-            function _getPrototypeOf(o) {
-                _getPrototypeOf = Object.setPrototypeOf
+            function _get_prototype_of(o) {
+                _get_prototype_of = Object.setPrototypeOf
                     ? Object.getPrototypeOf
-                    : function _getPrototypeOf(o) {
+                    : function _get_prototype_of(o) {
                           return o.__proto__ || Object.getPrototypeOf(o);
                       };
-                return _getPrototypeOf(o);
+                return _get_prototype_of(o);
             }
 
             /***/
@@ -147,15 +147,15 @@
                 },
             }); // CONCATENATED MODULE: ../../../node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
 
-            function _setPrototypeOf(o, p) {
-                _setPrototypeOf =
+            function _set_prototype_of(o, p) {
+                _set_prototype_of =
                     Object.setPrototypeOf ||
-                    function _setPrototypeOf(o, p) {
+                    function _set_prototype_of(o, p) {
                         o.__proto__ = p;
                         return o;
                     };
 
-                return _setPrototypeOf(o, p);
+                return _set_prototype_of(o, p);
             } // CONCATENATED MODULE: ../../../node_modules/@babel/runtime/helpers/esm/inherits.js
             function _inherits(subClass, superClass) {
                 if (typeof superClass !== "function" && superClass !== null) {
@@ -174,7 +174,7 @@
                         },
                     }
                 );
-                if (superClass) _setPrototypeOf(subClass, superClass);
+                if (superClass) _set_prototype_of(subClass, superClass);
             }
 
             /***/
@@ -190,7 +190,7 @@
             // EXPORTS
             __webpack_require__.d(__webpack_exports__, {
                 Z: function () {
-                    return /* binding */ _possibleConstructorReturn;
+                    return /* binding */ _possible_constructor_return;
                 },
             }); // CONCATENATED MODULE: ../../../node_modules/@babel/runtime/helpers/esm/typeof.js
 
@@ -219,7 +219,7 @@
             }
             // EXTERNAL MODULE: ../../../node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
             var assertThisInitialized = __webpack_require__(2911); // CONCATENATED MODULE: ../../../node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-            function _possibleConstructorReturn(self, call) {
+            function _possible_constructor_return(self, call) {
                 if (
                     call &&
                     (_typeof(call) === "object" || typeof call === "function")
@@ -248,34 +248,34 @@
             });
             /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ =
                 __webpack_require__(4512);
-            /* harmony import */ var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__ =
+            /* harmony import */ var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_class_call_check__WEBPACK_IMPORTED_MODULE_5__ =
                 __webpack_require__(8436);
-            /* harmony import */ var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_8__ =
+            /* harmony import */ var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_create_class__WEBPACK_IMPORTED_MODULE_8__ =
                 __webpack_require__(8370);
-            /* harmony import */ var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ =
+            /* harmony import */ var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assert_this_initialized__WEBPACK_IMPORTED_MODULE_7__ =
                 __webpack_require__(2911);
             /* harmony import */ var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ =
                 __webpack_require__(3001);
-            /* harmony import */ var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ =
+            /* harmony import */ var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possible_constructor_return__WEBPACK_IMPORTED_MODULE_2__ =
                 __webpack_require__(7130);
-            /* harmony import */ var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__ =
+            /* harmony import */ var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_get_prototype_of__WEBPACK_IMPORTED_MODULE_1__ =
                 __webpack_require__(2374);
-            /* harmony import */ var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ =
+            /* harmony import */ var _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_define_property__WEBPACK_IMPORTED_MODULE_6__ =
                 __webpack_require__(9178);
             /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ =
                 __webpack_require__(2735);
 
-            function _createSuper(Derived) {
-                var hasNativeReflectConstruct = _isNativeReflectConstruct();
+            function _create_super(Derived) {
+                var hasNativeReflectConstruct = _is_native_reflect_construct();
                 return function _createSuperInternal() {
                     var Super = (0,
-                        _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__ /* .default */.Z)(
+                        _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_get_prototype_of__WEBPACK_IMPORTED_MODULE_1__ /* .default */.Z)(
                             Derived
                         ),
                         result;
                     if (hasNativeReflectConstruct) {
                         var NewTarget = (0,
-                        _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__ /* .default */.Z)(
+                        _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_get_prototype_of__WEBPACK_IMPORTED_MODULE_1__ /* .default */.Z)(
                             this
                         ).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -283,14 +283,14 @@
                         result = Super.apply(this, arguments);
                     }
                     return (0,
-                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ /* .default */.Z)(
+                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possible_constructor_return__WEBPACK_IMPORTED_MODULE_2__ /* .default */.Z)(
                         this,
                         result
                     );
                 };
             }
 
-            function _isNativeReflectConstruct() {
+            function _is_native_reflect_construct() {
                 if (typeof Reflect === "undefined" || !Reflect.construct)
                     return false;
                 if (Reflect.construct.sham) return false;
@@ -312,13 +312,13 @@
                     _React$Component
                 );
 
-                var _super = _createSuper(Counter);
+                var _super = _create_super(Counter);
 
                 function Counter() {
                     var _this;
 
                     (0,
-                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__ /* .default */.Z)(
+                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_class_call_check__WEBPACK_IMPORTED_MODULE_5__ /* .default */.Z)(
                         this,
                         Counter
                     );
@@ -336,9 +336,9 @@
                     _this = _super.call.apply(_super, [this].concat(args));
 
                     (0,
-                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ /* .default */.Z)(
+                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_define_property__WEBPACK_IMPORTED_MODULE_6__ /* .default */.Z)(
                         (0,
-                        _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ /* .default */.Z)(
+                        _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assert_this_initialized__WEBPACK_IMPORTED_MODULE_7__ /* .default */.Z)(
                             _this
                         ),
                         "state",
@@ -351,7 +351,7 @@
                 }
 
                 (0,
-                _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_8__ /* .default */.Z)(
+                _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_create_class__WEBPACK_IMPORTED_MODULE_8__ /* .default */.Z)(
                     Counter,
                     [
                         {

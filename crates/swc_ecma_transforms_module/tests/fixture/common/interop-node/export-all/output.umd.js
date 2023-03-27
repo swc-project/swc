@@ -17,6 +17,6 @@
         enumerable: true,
         get: ()=>_default
     });
-    _react = _exportStar(_react, exports);
+    _react = _export_star(_react, exports);
     const _default = _react;
 });
