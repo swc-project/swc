@@ -38,7 +38,7 @@ impl Take for TokenAndSpan {
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
-#[cfg_attr(feature = "serde-impl", Serialize, Deserialize)]
+#[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
 pub enum NumberType {
     #[cfg_attr(feature = "serde-impl", serde(rename = "integer"))]
     Integer,
