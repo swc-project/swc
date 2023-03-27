@@ -31,6 +31,9 @@
 
 - **(css/parser)** Add `legacy_ie` to the `ParserConfig` (#7109) ([5e58b3e](https://github.com/swc-project/swc/commit/5e58b3e5f6dfe6a7ede97c3e8a2f7436db964113))
 
+
+- **(es/react)** Support script within automatic runtime (#7126) ([05a2815](https://github.com/swc-project/swc/commit/05a2815e6ceb6d12e122be4e4ef84281d398f8c2))
+
 ### Miscellaneous Tasks
 
 
