@@ -3,6 +3,7 @@ use std::fmt::Display;
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
 use scoped_tls::scoped_thread_local;
+#[cfg(feature = "serde-impl")]
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -13,7 +14,7 @@ use unicode_id::UnicodeID;
 use crate::typescript::TsTypeAnn;
 
 /// Identifier used as a pattern.
-#[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Serialize, Deserialize)]
+#[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
     any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
@@ -27,6 +28,7 @@ use crate::typescript::TsTypeAnn;
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct BindingIdent {
     #[span]
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
