@@ -29,9 +29,12 @@ criterion  = "0.3"
 serde      = "1.0.127"
 serde_json = "1.0.66"
 
+swc_html_ast = { version = "0.28.32", path = "../swc_html_ast", features = [
+  "serde-impl",
+] }
 swc_html_visit = { version = "0.28.32", path = "../swc_html_visit" }
-swc_node_base  = { version = "0.5.8", path = "../swc_node_base" }
-testing        = { version = "0.31.42", path = "../testing" }
+swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
+testing = { version = "0.31.42", path = "../testing" }
 
 [[bench]]
 harness = false
