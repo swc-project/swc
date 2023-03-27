@@ -324,24 +324,42 @@ impl Compiler {
                                     }
                                 };
 
-                                match data_url {
+                                // Old behavior. This check would prevent
+                                // regressions.
+                                // Perhaps it shouldn't be supported. Sometimes
+                                // developers don't want to expose their source code.
+                                // Map files are for internal troubleshooting
+                                // convenience.
+                                let fallback_map_path =
+                                    PathBuf::from(format!("{}.map", filename.display()));
+
+                                let map_path = match data_url {
                                     Some(data_url) => {
-                                        let path = dir.join(data_url).display().to_string();
-                                        let file = File::open(&path).or_else(|err| {
-                                            // Old behavior. This check would prevent
-                                            // regressions.
-                                            // Perhaps it shouldn't be supported. Sometimes
-                                            // developers don't want to expose their source code.
-                                            // Map files are for internal troubleshooting
-                                            // convenience.
-                                            let f = format!("{}.map", filename.display());
+                                        let map_path = dir.join(data_url);
+                                        if map_path.exists() {
+                                            Some(map_path)
+                                        } else if fallback_map_path.exists() {
+                                            Some(fallback_map_path)
+                                        } else {
+                                            bail!("failed to find input source map file")
+                                        }
+                                    }
+                                    None => {
+                                        if fallback_map_path.exists() {
+                                            Some(fallback_map_path)
+                                        } else {
+                                            None
+                                        }
+                                    }
+                                };
 
-                                            match File::open(f) {
-                                                Ok(v) => Ok(v),
-                                                Err(_) => Err(err),
-                                            }
-                                        });
+                                match map_path {
+                                    Some(map_path) => {
+                                        let path = map_path.display().to_string();
+                                        let file = File::open(&path)
+                                            .context("failed to open input source map file");
 
+                                        // Old behavior.
                                         let file = if !is_default {
                                             file?
                                         } else {
@@ -355,8 +373,8 @@ impl Compiler {
                                             sourcemap::SourceMap::from_reader(file).with_context(
                                                 || {
                                                     format!(
-                                                        "failed to read input source map from \
-                                                         file at {}",
+                                                        "failed to read input source map
+                                        from file at {}",
                                                         path
                                                     )
                                                 },
