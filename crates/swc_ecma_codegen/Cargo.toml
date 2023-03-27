@@ -10,7 +10,8 @@ repository    = "https://github.com/swc-project/swc.git"
 version       = "0.135.11"
 
 [features]
-serde-impl = []
+# This does not enable serde for ast nodes.
+serde-impl = ["swc_ecma_ast/serde"]
 
 [lib]
 bench = false
