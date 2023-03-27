@@ -63,7 +63,7 @@ pub struct DimensionToken {
     pub raw_unit: Atom,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -76,6 +76,7 @@ pub struct DimensionToken {
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub enum Token {
     Ident {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
