@@ -572,7 +572,7 @@ impl From<Box<Class>> for ClassExpr {
 bridge_from!(ClassExpr, Box<Class>, Class);
 bridge_expr_from!(ClassExpr, Box<Class>);
 
-#[derive(Spanned, Clone, Debug, PartialEq, Serialize)]
+#[derive(Spanned, Clone, Debug, PartialEq)]
 #[cfg_attr(
     any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -590,6 +590,7 @@ bridge_expr_from!(ClassExpr, Box<Class>);
 #[serde(rename = "AssignmentExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize))]
 pub struct AssignExpr {
     pub span: Span,
 
@@ -1115,7 +1116,7 @@ impl Take for Import {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, Eq, Hash, EqIgnoreSpan)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
     any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
@@ -1129,6 +1130,7 @@ impl Take for Import {
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct ExprOrSpread {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
