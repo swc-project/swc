@@ -35,6 +35,9 @@
 
 
 
+- **(ast)** Make serde optional (#7138) ([30bc086](https://github.com/swc-project/swc/commit/30bc0860526c0983042c60a039a1f5acee47830c))
+
+
 - **(es)** Remove needless build scripts to reduce compile time (#7129) ([dfe1a3f](https://github.com/swc-project/swc/commit/dfe1a3f4964ba58fdd676c184fdff0919fa78b26))
 
 
