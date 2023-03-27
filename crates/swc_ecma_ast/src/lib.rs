@@ -128,7 +128,7 @@ pub enum EsVersion {
     Es2021,
     #[serde(rename = "es2022")]
     Es2022,
-    #[serde(rename = "esnext")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "esnext"))]
     EsNext,
 }
 

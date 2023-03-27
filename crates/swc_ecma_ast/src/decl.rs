@@ -52,7 +52,7 @@ impl Take for Decl {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct FnDecl {
-    #[serde(rename = "identifier")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "identifier"))]
     pub ident: Ident,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -77,7 +77,7 @@ impl Take for FnDecl {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ClassDecl {
-    #[serde(rename = "identifier")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "identifier"))]
     pub ident: Ident,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -99,7 +99,7 @@ pub struct VarDecl {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub declare: bool,
 
-    #[serde(rename = "declarations")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "declarations"))]
     pub decls: Vec<VarDeclarator>,
 }
 
@@ -134,7 +134,7 @@ pub enum VarDeclKind {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct VarDeclarator {
     pub span: Span,
-    #[serde(rename = "id")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "id"))]
     pub name: Pat,
 
     /// Initialization expression.

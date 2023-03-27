@@ -244,7 +244,7 @@ pub struct Constructor {
 pub struct Decorator {
     pub span: Span,
 
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
 
@@ -256,11 +256,11 @@ pub struct Decorator {
 )]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub enum MethodKind {
-    #[serde(rename = "method")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "method"))]
     Method,
-    #[serde(rename = "getter")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "getter"))]
     Getter,
-    #[serde(rename = "setter")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "setter"))]
     Setter,
 }
 

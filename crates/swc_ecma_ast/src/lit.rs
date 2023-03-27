@@ -293,7 +293,7 @@ impl Take for Null {
 pub struct Regex {
     pub span: Span,
 
-    #[serde(rename = "pattern")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "pattern"))]
     pub exp: Atom,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]

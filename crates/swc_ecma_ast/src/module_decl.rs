@@ -54,7 +54,7 @@ impl Take for ModuleDecl {
 pub struct ExportDefaultExpr {
     pub span: Span,
 
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
 
@@ -64,7 +64,7 @@ pub struct ExportDefaultExpr {
 pub struct ExportDecl {
     pub span: Span,
 
-    #[serde(rename = "declaration")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "declaration"))]
     pub decl: Decl,
 }
 
@@ -77,7 +77,7 @@ pub struct ImportDecl {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub specifiers: Vec<ImportSpecifier>,
 
-    #[serde(rename = "source")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "source"))]
     pub src: Box<Str>,
 
     #[serde(default, rename = "typeOnly")]
@@ -106,10 +106,10 @@ impl Take for ImportDecl {
 pub struct ExportAll {
     pub span: Span,
 
-    #[serde(rename = "source")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "source"))]
     pub src: Box<Str>,
 
-    #[serde(rename = "typeOnly")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeOnly"))]
     pub type_only: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -137,10 +137,10 @@ pub struct NamedExport {
 
     pub specifiers: Vec<ExportSpecifier>,
 
-    #[serde(rename = "source")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "source"))]
     pub src: Option<Box<Str>>,
 
-    #[serde(rename = "typeOnly")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeOnly"))]
     pub type_only: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]

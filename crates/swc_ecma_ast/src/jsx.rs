@@ -25,11 +25,11 @@ pub enum JSXObject {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXMemberExpr {
-    #[serde(rename = "object")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "object"))]
     #[span(lo)]
     pub obj: JSXObject,
 
-    #[serde(rename = "property")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "property"))]
     #[span(hi)]
     pub prop: Ident,
 }
@@ -39,7 +39,7 @@ pub struct JSXMemberExpr {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXNamespacedName {
-    #[serde(rename = "namespace")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "namespace"))]
     #[span(lo)]
     pub ns: Ident,
     #[span(hi)]
@@ -58,7 +58,7 @@ pub struct JSXEmptyExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXExprContainer {
     pub span: Span,
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: JSXExpr,
 }
 
@@ -78,7 +78,7 @@ pub enum JSXExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct JSXSpreadChild {
     pub span: Span,
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
 
@@ -111,7 +111,7 @@ pub struct JSXOpeningElement {
     #[serde(default, rename = "attributes")]
     pub attrs: Vec<JSXAttrOrSpread>,
 
-    #[serde(rename = "selfClosing")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "selfClosing"))]
     pub self_closing: bool,
 
     /// Note: This field's name is different from one from babel because it is

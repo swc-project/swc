@@ -82,11 +82,11 @@ pat_to_other!(RestPat);
 pub struct ArrayPat {
     pub span: Span,
 
-    #[serde(rename = "elements")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "elements"))]
     pub elems: Vec<Option<Pat>>,
 
     /// Only in an ambient context
-    #[serde(rename = "optional")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "optional"))]
     pub optional: bool,
 
     #[serde(default, rename = "typeAnnotation")]
@@ -99,11 +99,11 @@ pub struct ArrayPat {
 pub struct ObjectPat {
     pub span: Span,
 
-    #[serde(rename = "properties")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "properties"))]
     pub props: Vec<ObjectPatProp>,
 
     /// Only in an ambient context
-    #[serde(rename = "optional")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "optional"))]
     pub optional: bool,
 
     #[serde(default, rename = "typeAnnotation")]
@@ -131,10 +131,10 @@ pub struct AssignPat {
 pub struct RestPat {
     pub span: Span,
 
-    #[serde(rename = "rest")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "rest"))]
     pub dot3_token: Span,
 
-    #[serde(rename = "argument")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Box<Pat>,
 
     #[serde(default, rename = "typeAnnotation")]

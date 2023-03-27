@@ -415,11 +415,11 @@ impl Take for PropOrSpread {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct SpreadElement {
-    #[serde(rename = "spread")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "spread"))]
     #[span(lo)]
     pub dot3_token: Span,
 
-    #[serde(rename = "arguments")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "arguments"))]
     #[span(hi)]
     pub expr: Box<Expr>,
 }
@@ -439,10 +439,10 @@ impl Take for SpreadElement {
 pub struct UnaryExpr {
     pub span: Span,
 
-    #[serde(rename = "operator")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "operator"))]
     pub op: UnaryOp,
 
-    #[serde(rename = "argument")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Box<Expr>,
 }
 
@@ -462,12 +462,12 @@ impl Take for UnaryExpr {
 pub struct UpdateExpr {
     pub span: Span,
 
-    #[serde(rename = "operator")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "operator"))]
     pub op: UpdateOp,
 
     pub prefix: bool,
 
-    #[serde(rename = "argument")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Box<Expr>,
 }
 
@@ -488,7 +488,7 @@ impl Take for UpdateExpr {
 pub struct BinExpr {
     pub span: Span,
 
-    #[serde(rename = "operator")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "operator"))]
     pub op: BinaryOp,
 
     pub left: Box<Expr>,
@@ -585,16 +585,16 @@ bridge_expr_from!(ClassExpr, Box<Class>);
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
-#[serde(tag = "type")]
+#[cfg_attr(feature = "serde-impl", serde(tag = "type"))]
 #[serde(rename_all = "camelCase")]
-#[serde(rename = "AssignmentExpression")]
+#[cfg_attr(feature = "serde-impl", serde(rename = "AssignmentExpression"))]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize))]
 pub struct AssignExpr {
     pub span: Span,
 
-    #[serde(rename = "operator")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "operator"))]
     pub op: AssignOp,
 
     pub left: PatOrExpr,
@@ -705,10 +705,10 @@ impl<'de> Deserialize<'de> for AssignExpr {
 pub struct MemberExpr {
     pub span: Span,
 
-    #[serde(rename = "object")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "object"))]
     pub obj: Box<Expr>,
 
-    #[serde(rename = "property")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "property"))]
     pub prop: MemberProp,
 }
 
@@ -732,7 +732,7 @@ pub struct SuperPropExpr {
 
     pub obj: Super,
 
-    #[serde(rename = "property")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "property"))]
     pub prop: SuperProp,
 }
 
@@ -776,10 +776,10 @@ pub struct CondExpr {
 
     pub test: Box<Expr>,
 
-    #[serde(rename = "consequent")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "consequent"))]
     pub cons: Box<Expr>,
 
-    #[serde(rename = "alternate")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "alternate"))]
     pub alt: Box<Expr>,
 }
 
@@ -854,7 +854,7 @@ impl Take for NewExpr {
 pub struct SeqExpr {
     pub span: Span,
 
-    #[serde(rename = "expressions")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expressions"))]
     pub exprs: Vec<Box<Expr>>,
 }
 
@@ -993,7 +993,7 @@ pub struct TaggedTpl {
     pub type_params: Option<Box<TsTypeParamInstantiation>>,
 
     /// This is boxed to reduce the type size of [Expr].
-    #[serde(rename = "template")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "template"))]
     pub tpl: Box<Tpl>,
 }
 
@@ -1058,7 +1058,7 @@ impl<'a> arbitrary::Arbitrary<'a> for TplElement {
 pub struct ParenExpr {
     pub span: Span,
 
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
 impl Take for ParenExpr {
@@ -1137,7 +1137,7 @@ pub struct ExprOrSpread {
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub spread: Option<Span>,
 
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub expr: Box<Expr>,
 }

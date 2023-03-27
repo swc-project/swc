@@ -116,7 +116,7 @@ bridge_from!(BindingIdent, Ident, Id);
 #[derive(Eq, Hash)]
 pub struct Ident {
     pub span: Span,
-    #[serde(rename = "value")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
     #[cfg_attr(
         any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
         with(swc_atoms::EncodeJsWord)

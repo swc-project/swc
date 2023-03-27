@@ -150,7 +150,7 @@ bridge_stmt_from!(Box<TryStmt>, TryStmt);
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ExprStmt {
     pub span: Span,
-    #[serde(rename = "expression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
 }
 
@@ -174,7 +174,7 @@ pub struct DebuggerStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct WithStmt {
     pub span: Span,
-    #[serde(rename = "object")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "object"))]
     pub obj: Box<Expr>,
     pub body: Box<Stmt>,
 }
@@ -222,7 +222,7 @@ pub struct IfStmt {
     pub span: Span,
     pub test: Box<Expr>,
 
-    #[serde(rename = "consequent")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "consequent"))]
     pub cons: Box<Stmt>,
 
     #[serde(default, rename = "alternate")]
@@ -243,7 +243,7 @@ pub struct SwitchStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ThrowStmt {
     pub span: Span,
-    #[serde(rename = "argument")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Box<Expr>,
 }
 
@@ -347,7 +347,7 @@ pub struct SwitchCase {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub test: Option<Box<Expr>>,
 
-    #[serde(rename = "consequent")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "consequent"))]
     pub cons: Vec<Stmt>,
 }
 
