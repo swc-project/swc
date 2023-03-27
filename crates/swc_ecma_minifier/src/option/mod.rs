@@ -45,6 +45,18 @@ pub struct MinifyOptions {
     pub enclose: bool,
 }
 
+impl Default for MinifyOptions {
+    fn default() -> Self {
+        Self {
+            rename: Default::default(),
+            compress: Default::default(),
+            mangle: Default::default(),
+            wrap: Default::default(),
+            enclose: Default::default(),
+        }
+    }
+}
+
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
@@ -367,6 +379,5 @@ const fn default_ecma() -> EsVersion {
     EsVersion::Es5
 }
 
-impl_default!(MinifyOptions);
 impl_default!(MangleOptions);
 impl_default!(CompressOptions);
