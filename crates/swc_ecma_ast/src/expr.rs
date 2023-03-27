@@ -617,6 +617,7 @@ impl Take for AssignExpr {
 // to `PatOrExpr::Expr(Box<Expr::Ident>)` when `op` is not `=`.
 // Same logic as parser:
 // https://github.com/swc-project/swc/blob/b87e3b0d4f46e6aea1ee7745f0bb3d129ef12b9c/crates/swc_ecma_parser/src/parser/pat.rs#L602-L610
+#[cfg(feature = "serde-impl")]
 impl<'de> Deserialize<'de> for AssignExpr {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
