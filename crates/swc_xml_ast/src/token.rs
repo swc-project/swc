@@ -1,3 +1,4 @@
+#[cfg(feature = "serde-impl")]
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -9,9 +10,8 @@ pub struct TokenAndSpan {
     pub token: Token,
 }
 
-#[derive(
-    Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize, EqIgnoreSpan,
-)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
 pub struct AttributeToken {
     pub span: Span,
     pub name: JsWord,
@@ -20,7 +20,8 @@ pub struct AttributeToken {
     pub raw_value: Option<JsWord>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
 pub enum Token {
     Doctype {
         // Name
