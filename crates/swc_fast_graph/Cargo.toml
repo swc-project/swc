@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = "Apache-2.0"
 name        = "swc_fast_graph"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.17.42"
+version     = "0.18.0"
 
 [lib]
 bench = false
@@ -16,4 +16,4 @@ indexmap   = "1.6.1"
 petgraph   = "0.6"
 rustc-hash = "1.1.0"
 
-swc_common = { version = "0.29.40", path = "../swc_common" }
+swc_common = { version = "0.30.0", path = "../swc_common" }
