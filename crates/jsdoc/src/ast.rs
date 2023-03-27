@@ -304,7 +304,7 @@ pub struct ParameterTag {
     pub span: Span,
 
     pub name: Option<Text>,
-    #[serde(rename = "typeExpression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeExpression"))]
     pub ty: Option<Text>,
 
     pub desc: Text,
@@ -345,11 +345,11 @@ pub struct TemplateTag {
 #[ast_node]
 pub struct TypedefTag {
     pub span: Span,
-    #[serde(rename = "full_name")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "full_name"))]
     pub full_name: Option<NamespaceBody>,
 
     pub name: Option<Text>,
-    #[serde(rename = "typeExpression")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "typeExpression"))]
     pub type_expr: Option<TypeExprOrTypeLit>,
 }
 
