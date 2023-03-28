@@ -1,10 +1,11 @@
-use std::iter::once;
+use std::{iter::once, mem::transmute};
 
 use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    prepend_stmt, private_ident, prop_name_to_expr_value, quote_ident, ExprFactory,
+    constructor::inject_after_super, default_constructor, prepend_stmt, private_ident,
+    prop_name_to_expr_value, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -18,8 +19,8 @@ struct Decorator202203 {
     extra_vars: Vec<VarDeclarator>,
     cur_inits: Vec<(Ident, Vec<Option<ExprOrSpread>>)>,
 
-    /// If not empty, `initProto` should be generated.
-    init_proto_args: Vec<Vec<Option<ExprOrSpread>>>,
+    /// If not empty, `initProto` should be injected to the constructor.
+    init_proto_args: Vec<Option<ExprOrSpread>>,
 
     /// Injected into static blocks.
     extra_stmts: Vec<Stmt>,
@@ -125,6 +126,28 @@ impl Decorator202203 {
             }
         }
     }
+
+    fn ensure_constructor<'a>(&mut self, c: &'a mut Class) -> &'a mut Constructor {
+        for member in c.body.iter_mut() {
+            if let ClassMember::Constructor(constructor) = member {
+                return unsafe {
+                    // Safety: We need polonius
+                    transmute::<&mut Constructor, &'a mut Constructor>(constructor)
+                };
+            }
+        }
+
+        c.body
+            .insert(0, default_constructor(c.super_class.is_some()).into());
+
+        for member in c.body.iter_mut() {
+            if let ClassMember::Constructor(constructor) = member {
+                return constructor;
+            }
+        }
+
+        unreachable!()
+    }
 }
 
 impl VisitMut for Decorator202203 {
@@ -150,6 +173,28 @@ impl VisitMut for Decorator202203 {
             );
         }
 
+        if !self.init_proto_args.is_empty() {
+            let c = self.ensure_constructor(n);
+
+            let args = vec![
+                ThisExpr { span: DUMMY_SP }.as_arg(),
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: self.init_proto_args.take(),
+                }
+                .as_arg(),
+            ];
+            inject_after_super(
+                c,
+                vec![Box::new(Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(get, "_applyDecs2203R"),
+                    args,
+                    type_args: Default::default(),
+                }))],
+            )
+        }
+
         self.extra_stmts = old_stmts;
     }
 
@@ -163,11 +208,17 @@ impl VisitMut for Decorator202203 {
         let (name, init) = self.initializer_name(&mut n.key, "call");
 
         for mut dec in n.function.decorators.drain(..) {
-            self.init_proto_args.push(vec![
-                Some(dec.expr.take().as_arg()),
-                Some(if n.is_static { 7 } else { 2 }.as_arg()),
-                Some(name.clone().as_arg()),
-            ]);
+            self.init_proto_args.push(Some(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![
+                        Some(dec.expr.take().as_arg()),
+                        Some(if n.is_static { 7 } else { 2 }.as_arg()),
+                        Some(name.clone().as_arg()),
+                    ],
+                }
+                .as_arg(),
+            ));
         }
     }
 
