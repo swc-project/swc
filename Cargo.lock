@@ -3306,7 +3306,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.72.0"
+version = "0.72.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3359,7 +3359,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.151.0"
+version = "0.151.1"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3416,7 +3416,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_compat"
-version = "0.22.0"
+version = "0.22.1"
 dependencies = [
  "bitflags",
  "once_cell",
@@ -3470,7 +3470,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_modules"
-version = "0.23.0"
+version = "0.23.1"
 dependencies = [
  "rustc-hash",
  "serde",

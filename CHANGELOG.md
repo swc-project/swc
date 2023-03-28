@@ -8,6 +8,9 @@
 - **(css/codegen)** Preserve `raw` of numbers (#7131) ([150c2b6](https://github.com/swc-project/swc/commit/150c2b6fbaef976c6ee97438d1b9b7ffe4b210be))
 
 
+- **(css/compat)** Remove usage of `box_syntax` (#7153) ([6f0bf66](https://github.com/swc-project/swc/commit/6f0bf665c29abaa64c60fb43053f96e465d3e041))
+
+
 - **(es/react)** Respect `import_source` in new jsx (#7128) ([5d7acfd](https://github.com/swc-project/swc/commit/5d7acfd9cbbb9780879d0d7a046f716572a477f7))
 
 
