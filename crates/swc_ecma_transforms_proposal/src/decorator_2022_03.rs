@@ -32,7 +32,7 @@ struct Decorator202203 {
 impl Decorator202203 {
     /// Moves `cur_inits` to `extra_stmts`.
     fn consume_inits(&mut self) {
-        if self.cur_inits.is_empty() {
+        if self.cur_inits.is_empty() && self.init_proto.is_none() {
             return;
         }
 
@@ -171,6 +171,20 @@ impl VisitMut for Decorator202203 {
 
         n.visit_mut_children_with(self);
 
+        if let Some(init_proto) = self.init_proto.clone() {
+            let c = self.ensure_constructor(n);
+
+            inject_after_super(
+                c,
+                vec![Box::new(Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: init_proto.as_callee(),
+                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                    type_args: Default::default(),
+                }))],
+            )
+        }
+
         self.consume_inits();
 
         if !self.extra_stmts.is_empty() {
@@ -186,9 +200,7 @@ impl VisitMut for Decorator202203 {
             );
         }
 
-        if !self.init_proto_args.is_empty() {
-            let c = self.ensure_constructor(n);
-        }
+        self.init_proto.take();
 
         self.extra_stmts = old_stmts;
     }
@@ -202,10 +214,8 @@ impl VisitMut for Decorator202203 {
 
         let (name, init) = self.initializer_name(&mut n.key, "call");
 
-        if !n.function.decorators.is_empty() {
-            self.init_proto
-                .get_or_insert_with(|| private_ident!("_initProto"));
-        }
+        self.init_proto
+            .get_or_insert_with(|| private_ident!("_initProto"));
 
         for mut dec in n.function.decorators.drain(..) {
             self.init_proto_args.push(Some(
