@@ -90,6 +90,8 @@ fn fixtures() -> Result<(), Error> {
                         })
                     };
                     run_test(input, output, syntax, is_module);
+
+                    Ok(())
                 })
             })),
         })
