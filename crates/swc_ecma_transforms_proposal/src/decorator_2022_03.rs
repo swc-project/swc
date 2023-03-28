@@ -18,6 +18,9 @@ struct Decorator202203 {
     extra_vars: Vec<VarDeclarator>,
     cur_inits: Vec<(Ident, Vec<Option<ExprOrSpread>>)>,
 
+    /// If not empty, `initProto` should be generated.
+    init_proto_args: Vec<Vec<Option<ExprOrSpread>>>,
+
     /// Injected into static blocks.
     extra_stmts: Vec<Stmt>,
 
@@ -158,6 +161,14 @@ impl VisitMut for Decorator202203 {
         }
 
         let (name, init) = self.initializer_name(&mut n.key, "call");
+
+        for mut dec in n.function.decorators.drain(..) {
+            self.init_proto_args.push(vec![
+                Some(dec.expr.take().as_arg()),
+                Some(if n.is_static { 7 } else { 2 }.as_arg()),
+                Some(name.clone().as_arg()),
+            ]);
+        }
     }
 
     fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
