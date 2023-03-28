@@ -3895,8 +3895,8 @@ class Demo {
 ",
     "
 \"use strict\";
-var _module_a_js = require(\"./moduleA.js\");
-let Demo = _decorate([(0, _module_a_js.default)('0.0.1')], function(_initialize) {
+var _moduleA = require(\"./moduleA.js\");
+let Demo = _decorate([(0, _moduleA.default)('0.0.1')], function(_initialize) {
   class Demo{
       constructor(){
           _initialize(this);
