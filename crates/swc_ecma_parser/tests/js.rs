@@ -91,6 +91,7 @@ where
 
         let lexer = Lexer::new(
             Syntax::Es(EsConfig {
+                decorators: true,
                 ..Default::default()
             }),
             EsVersion::Es2015,
