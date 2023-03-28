@@ -18,6 +18,7 @@ use swc_ecma_visit::Fold;
 fn syntax_default() -> Syntax {
     Syntax::Es(EsConfig {
         decorators: true,
+        auto_accessors: true,
         ..Default::default()
     })
 }
