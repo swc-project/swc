@@ -20,6 +20,7 @@ struct Decorator202203 {
     cur_inits: Vec<(Ident, Vec<Option<ExprOrSpread>>)>,
 
     /// If not empty, `initProto` should be injected to the constructor.
+    init_proto: Option<Ident>,
     init_proto_args: Vec<Option<ExprOrSpread>>,
 
     /// Injected into static blocks.
@@ -44,6 +45,18 @@ impl Decorator202203 {
 
             arrays.extend(args);
         }
+
+        if let Some(init_proto) = self.init_proto.take() {
+            lhs.push(Some(init_proto.into()));
+            arrays.push(Some(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: self.init_proto_args.take(),
+                }
+                .as_arg(),
+            ));
+        }
+
         combined_args.push(
             ArrayLit {
                 span: DUMMY_SP,
@@ -175,24 +188,6 @@ impl VisitMut for Decorator202203 {
 
         if !self.init_proto_args.is_empty() {
             let c = self.ensure_constructor(n);
-
-            let args = vec![
-                ThisExpr { span: DUMMY_SP }.as_arg(),
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: self.init_proto_args.take(),
-                }
-                .as_arg(),
-            ];
-            inject_after_super(
-                c,
-                vec![Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: helper!(get, "_applyDecs2203R"),
-                    args,
-                    type_args: Default::default(),
-                }))],
-            )
         }
 
         self.extra_stmts = old_stmts;
@@ -206,6 +201,11 @@ impl VisitMut for Decorator202203 {
         }
 
         let (name, init) = self.initializer_name(&mut n.key, "call");
+
+        if !n.function.decorators.is_empty() {
+            self.init_proto
+                .get_or_insert_with(|| private_ident!("_initProto"));
+        }
 
         for mut dec in n.function.decorators.drain(..) {
             self.init_proto_args.push(Some(
