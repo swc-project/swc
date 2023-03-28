@@ -9,7 +9,7 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    baz: ()=>_module_with_getter.baz,
-    Foo: ()=>_module_with_getter.default
+    baz: ()=>_moduleWithGetter.baz,
+    Foo: ()=>_moduleWithGetter.default
 });
-const _module_with_getter = /*#__PURE__*/ _interop_require_wildcard(require("./moduleWithGetter"));
+const _moduleWithGetter = /*#__PURE__*/ _interop_require_wildcard(require("./moduleWithGetter"));

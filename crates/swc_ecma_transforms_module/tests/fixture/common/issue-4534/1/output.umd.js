@@ -5,7 +5,7 @@
         "./A"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.a);
-})(this, function(exports, _a) {
+})(this, function(exports, _A) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -17,8 +17,8 @@
         });
     }
     _export(exports, {
-        A: ()=>_a,
-        B: ()=>_a
+        A: ()=>_A,
+        B: ()=>_A
     });
-    _a = /*#__PURE__*/ _interop_require_wildcard(_a);
+    _A = /*#__PURE__*/ _interop_require_wildcard(_A);
 });

@@ -9,7 +9,7 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    node: ()=>_body_nodes_builder,
+    node: ()=>_BodyNodesBuilder,
     create: ()=>create,
     trustBox: ()=>trustBox,
     opener: ()=>opener,
@@ -24,10 +24,10 @@ const _class_private_field_init = require("@swc/helpers/lib/_class_private_field
 const _class_private_field_set = require("@swc/helpers/lib/_class_private_field_set.js").default;
 const _export_star = require("@swc/helpers/lib/_export_star.js").default;
 const _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-const _abstract_builders = require("./AbstractBuilders");
-const _builder_utils = require("./Builder.utils");
-const _element_builder = require("./ElementBuilder");
-const _body_nodes_builder = /*#__PURE__*/ _interop_require_wildcard(_export_star(require("./BodyNodesBuilder"), exports));
+const _AbstractBuilders = require("./AbstractBuilders");
+const _Builderutils = require("./Builder.utils");
+const _ElementBuilder = require("./ElementBuilder");
+const _BodyNodesBuilder = /*#__PURE__*/ _interop_require_wildcard(_export_star(require("./BodyNodesBuilder"), exports));
 const create = ()=>new BodyBuilder();
 const trustBox = ()=>new TrustBoxBuilder();
 const opener = ()=>new OpenerBuilder();
@@ -40,21 +40,21 @@ const seq = {
     source: ()=>new ArticleSourceSeqBuilder()
 };
 var _stages = /*#__PURE__*/ new WeakMap(), _trustBox = /*#__PURE__*/ new WeakMap(), _disclaimer = /*#__PURE__*/ new WeakMap(), _articleSources = /*#__PURE__*/ new WeakMap();
-class BodyBuilder extends _abstract_builders.AbstractBuilder {
+class BodyBuilder extends _AbstractBuilders.AbstractBuilder {
     stages(...stages) {
-        _class_private_field_set(this, _stages, stages.map(_builder_utils.mapBuildArg));
+        _class_private_field_set(this, _stages, stages.map(_Builderutils.mapBuildArg));
         return this;
     }
     trustBox(trustBox) {
-        _class_private_field_set(this, _trustBox, (0, _builder_utils.mapBuildArg)(trustBox));
+        _class_private_field_set(this, _trustBox, (0, _Builderutils.mapBuildArg)(trustBox));
         return this;
     }
     disclaimer(disclaimer) {
-        _class_private_field_set(this, _disclaimer, disclaimer?.map(_builder_utils.mapBuildArg));
+        _class_private_field_set(this, _disclaimer, disclaimer?.map(_Builderutils.mapBuildArg));
         return this;
     }
     articleSources(articleSources) {
-        _class_private_field_set(this, _articleSources, (0, _builder_utils.mapBuildArg)(articleSources));
+        _class_private_field_set(this, _articleSources, (0, _Builderutils.mapBuildArg)(articleSources));
         return this;
     }
     build() {
@@ -86,13 +86,13 @@ class BodyBuilder extends _abstract_builders.AbstractBuilder {
     }
 }
 var _nodes = /*#__PURE__*/ new WeakMap(), _hidden = /*#__PURE__*/ new WeakMap();
-class TrustBoxBuilder extends _abstract_builders.AbstractBuilder {
+class TrustBoxBuilder extends _AbstractBuilders.AbstractBuilder {
     nodes(nodes) {
-        _class_private_field_set(this, _nodes, nodes.map(_builder_utils.mapBuildArg));
+        _class_private_field_set(this, _nodes, nodes.map(_Builderutils.mapBuildArg));
         return this;
     }
     hidden(hidden) {
-        _class_private_field_set(this, _hidden, hidden.map(_builder_utils.mapBuildArg));
+        _class_private_field_set(this, _hidden, hidden.map(_Builderutils.mapBuildArg));
         return this;
     }
     build() {
@@ -114,9 +114,9 @@ class TrustBoxBuilder extends _abstract_builders.AbstractBuilder {
     }
 }
 var _element = /*#__PURE__*/ new WeakMap();
-class OpenerBuilder extends _abstract_builders.AbstractBuilder {
+class OpenerBuilder extends _AbstractBuilders.AbstractBuilder {
     element(element) {
-        _class_private_field_set(this, _element, (0, _builder_utils.mapBuildArg)(element));
+        _class_private_field_set(this, _element, (0, _Builderutils.mapBuildArg)(element));
         return this;
     }
     build() {
@@ -128,31 +128,31 @@ class OpenerBuilder extends _abstract_builders.AbstractBuilder {
         super(...args);
         _class_private_field_init(this, _element, {
             writable: true,
-            value: (0, _element_builder.image)().build()
+            value: (0, _ElementBuilder.image)().build()
         });
     }
 }
 var _nodes1 = /*#__PURE__*/ new WeakMap(), _header = /*#__PURE__*/ new WeakMap(), _companions = /*#__PURE__*/ new WeakMap(), _commercialsEndOfStage = /*#__PURE__*/ new WeakMap();
-class BodyStageSeqBuilder extends _abstract_builders.AbstractSeqBuilder {
+class BodyStageSeqBuilder extends _AbstractBuilders.AbstractSeqBuilder {
     nodes(nodes) {
-        _class_private_field_set(this, _nodes1, nodes.map(_builder_utils.mapBuildArgs));
+        _class_private_field_set(this, _nodes1, nodes.map(_Builderutils.mapBuildArgs));
         return this;
     }
     header(header) {
-        _class_private_field_set(this, _header, (0, _builder_utils.mapBuildArgs)(header ?? []));
+        _class_private_field_set(this, _header, (0, _Builderutils.mapBuildArgs)(header ?? []));
         return this;
     }
     companions(companions) {
-        _class_private_field_set(this, _companions, companions.map(_builder_utils.mapBuildArgs));
+        _class_private_field_set(this, _companions, companions.map(_Builderutils.mapBuildArgs));
         return this;
     }
     commercialsEndOfStage(commercialsEndOfStage) {
-        _class_private_field_set(this, _commercialsEndOfStage, commercialsEndOfStage.map(_builder_utils.mapBuildArgs));
+        _class_private_field_set(this, _commercialsEndOfStage, commercialsEndOfStage.map(_Builderutils.mapBuildArgs));
         return this;
     }
     buildListItem(seqNextElement) {
         return {
-            id: (0, _builder_utils.hash)("bodyStage", _class_private_field_get(this, _nodes1), _class_private_field_get(this, _companions), _class_private_field_get(this, _commercialsEndOfStage), _class_private_field_get(this, _header)),
+            id: (0, _Builderutils.hash)("bodyStage", _class_private_field_get(this, _nodes1), _class_private_field_get(this, _companions), _class_private_field_get(this, _commercialsEndOfStage), _class_private_field_get(this, _header)),
             nodes: seqNextElement.array(_class_private_field_get(this, _nodes1)),
             header: seqNextElement.maybe(_class_private_field_get(this, _header)),
             companions: seqNextElement.array(_class_private_field_get(this, _companions)),
@@ -180,7 +180,7 @@ class BodyStageSeqBuilder extends _abstract_builders.AbstractSeqBuilder {
     }
 }
 var _seqBuilder = /*#__PURE__*/ new WeakMap();
-class BodyStageBuilder extends _abstract_builders.AbstractBuilder {
+class BodyStageBuilder extends _AbstractBuilders.AbstractBuilder {
     nodes(nodes) {
         _class_private_field_get(this, _seqBuilder).nodes([
             nodes
@@ -219,13 +219,13 @@ class BodyStageBuilder extends _abstract_builders.AbstractBuilder {
     }
 }
 var _variant = /*#__PURE__*/ new WeakMap(), _opener = /*#__PURE__*/ new WeakMap();
-class BodyHeaderBuilder extends _abstract_builders.AbstractBuilder {
+class BodyHeaderBuilder extends _AbstractBuilders.AbstractBuilder {
     variant(variant) {
         _class_private_field_set(this, _variant, variant);
         return this;
     }
     opener(opener) {
-        _class_private_field_set(this, _opener, (0, _builder_utils.mapBuildArg)(opener));
+        _class_private_field_set(this, _opener, (0, _Builderutils.mapBuildArg)(opener));
         return this;
     }
     build() {
@@ -247,13 +247,13 @@ class BodyHeaderBuilder extends _abstract_builders.AbstractBuilder {
     }
 }
 var _nodes2 = /*#__PURE__*/ new WeakMap();
-class ArticleSourceSeqBuilder extends _abstract_builders.AbstractSeqBuilder {
+class ArticleSourceSeqBuilder extends _AbstractBuilders.AbstractSeqBuilder {
     nodes(nodes) {
-        _class_private_field_set(this, _nodes2, nodes.map(_builder_utils.mapBuildArgs));
+        _class_private_field_set(this, _nodes2, nodes.map(_Builderutils.mapBuildArgs));
         return this;
     }
     buildListItem(seqNextElement) {
-        const id = (0, _builder_utils.hash)("article-source", _class_private_field_get(this, _nodes2));
+        const id = (0, _Builderutils.hash)("article-source", _class_private_field_get(this, _nodes2));
         return {
             id,
             nodes: seqNextElement.array(_class_private_field_get(this, _nodes2))
@@ -268,7 +268,7 @@ class ArticleSourceSeqBuilder extends _abstract_builders.AbstractSeqBuilder {
     }
 }
 var _seqBuilder1 = /*#__PURE__*/ new WeakMap();
-class ArticleSourceBuilder extends _abstract_builders.AbstractBuilder {
+class ArticleSourceBuilder extends _AbstractBuilders.AbstractBuilder {
     nodes(...nodes) {
         _class_private_field_get(this, _seqBuilder1).nodes([
             nodes
@@ -288,13 +288,13 @@ class ArticleSourceBuilder extends _abstract_builders.AbstractBuilder {
     }
 }
 var _nodes3 = /*#__PURE__*/ new WeakMap(), _hidden1 = /*#__PURE__*/ new WeakMap();
-class ArticleSourcesBuilder extends _abstract_builders.AbstractBuilder {
+class ArticleSourcesBuilder extends _AbstractBuilders.AbstractBuilder {
     nodes(...nodes) {
-        _class_private_field_set(this, _nodes3, nodes.map(_builder_utils.mapBuildArg));
+        _class_private_field_set(this, _nodes3, nodes.map(_Builderutils.mapBuildArg));
         return this;
     }
     hidden(...hidden) {
-        _class_private_field_set(this, _hidden1, hidden.map(_builder_utils.mapBuildArg));
+        _class_private_field_set(this, _hidden1, hidden.map(_Builderutils.mapBuildArg));
         return this;
     }
     build() {

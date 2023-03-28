@@ -3,7 +3,7 @@ define([
     "exports",
     "./File1",
     "./File2"
-], function(require, exports, _file_1, _file_2) {
+], function(require, exports, _File1, _File2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -12,7 +12,7 @@ define([
         enumerable: true,
         get: ()=>BIZ
     });
-    _export_star(_file_1, exports);
-    _export_star(_file_2, exports);
+    _export_star(_File1, exports);
+    _export_star(_File2, exports);
     const BIZ = "biz";
 });

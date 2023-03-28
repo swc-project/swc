@@ -2,14 +2,14 @@ define([
     "require",
     "exports",
     "./Z"
-], function(require, exports, _z) {
+], function(require, exports, _Z) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     Object.defineProperty(exports, "X", {
         enumerable: true,
-        get: ()=>_z.default
+        get: ()=>_Z.default
     });
-    _z = /*#__PURE__*/ _interop_require_default(_export_star(_z, exports));
+    _Z = /*#__PURE__*/ _interop_require_default(_export_star(_Z, exports));
 });

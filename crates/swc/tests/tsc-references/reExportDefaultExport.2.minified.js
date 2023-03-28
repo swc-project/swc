@@ -23,5 +23,5 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _m_1 = (0, require("@swc/helpers/lib/_interop_require_wildcard.js").default)(require("./m1"));
-(0, _m_1.f)(), (0, _m_1.default)();
+var _m1 = (0, require("@swc/helpers/lib/_interop_require_wildcard.js").default)(require("./m1"));
+(0, _m1.f)(), (0, _m1.default)();

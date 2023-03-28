@@ -24,10 +24,10 @@ define([
     "exports",
     "@swc/helpers/src/_interop_require_default.mjs",
     "./m1"
-], function(require, exports, _interop_require_default, _m_1) {
+], function(require, exports, _interop_require_default, _m1) {
     "use strict";
     function f2() {
-        (0, _m_1.default)();
+        (0, _m1.default)();
     }
     Object.defineProperty(exports, "__esModule", {
         value: !0
@@ -36,5 +36,5 @@ define([
         get: function() {
             return f2;
         }
-    }), _m_1 = (_interop_require_default = _interop_require_default.default)(_m_1);
+    }), _m1 = (_interop_require_default = _interop_require_default.default)(_m1);
 });

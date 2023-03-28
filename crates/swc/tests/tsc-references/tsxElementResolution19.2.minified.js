@@ -33,9 +33,9 @@ define([
     "@swc/helpers/src/_interop_require_wildcard.mjs",
     "react",
     "./file1"
-], function(require, exports, _interop_require_wildcard, _react, _file_1) {
+], function(require, exports, _interop_require_wildcard, _react, _file1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _react = (_interop_require_wildcard = _interop_require_wildcard.default)(_react), _file_1.MyClass;
+    }), _react = (_interop_require_wildcard = _interop_require_wildcard.default)(_react), _file1.MyClass;
 });

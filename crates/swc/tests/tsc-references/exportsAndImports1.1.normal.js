@@ -72,37 +72,37 @@ function _export(target, all) {
 }
 _export(exports, {
     v: function() {
-        return _t_1.v;
+        return _t1.v;
     },
     f: function() {
-        return _t_1.f;
+        return _t1.f;
     },
     C: function() {
-        return _t_1.C;
+        return _t1.C;
     },
     I: function() {
-        return _t_1.I;
+        return _t1.I;
     },
     E: function() {
-        return _t_1.E;
+        return _t1.E;
     },
     D: function() {
-        return _t_1.D;
+        return _t1.D;
     },
     M: function() {
-        return _t_1.M;
+        return _t1.M;
     },
     N: function() {
-        return _t_1.N;
+        return _t1.N;
     },
     T: function() {
-        return _t_1.T;
+        return _t1.T;
     },
     a: function() {
-        return _t_1.a;
+        return _t1.a;
     }
 });
-var _t_1 = require("./t1");
+var _t1 = require("./t1");
 //// [t3.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {
@@ -116,34 +116,34 @@ function _export(target, all) {
 }
 _export(exports, {
     v: function() {
-        return _t_1.v;
+        return _t1.v;
     },
     f: function() {
-        return _t_1.f;
+        return _t1.f;
     },
     C: function() {
-        return _t_1.C;
+        return _t1.C;
     },
     I: function() {
-        return _t_1.I;
+        return _t1.I;
     },
     E: function() {
-        return _t_1.E;
+        return _t1.E;
     },
     D: function() {
-        return _t_1.D;
+        return _t1.D;
     },
     M: function() {
-        return _t_1.M;
+        return _t1.M;
     },
     N: function() {
-        return _t_1.N;
+        return _t1.N;
     },
     T: function() {
-        return _t_1.T;
+        return _t1.T;
     },
     a: function() {
-        return _t_1.a;
+        return _t1.a;
     }
 });
-var _t_1 = require("./t1");
+var _t1 = require("./t1");

@@ -6,7 +6,7 @@ const _anywhere = require("anywhere");
 class Example {
     #test1 = _anywhere.test1;
     test2 = _anywhere.test2;
-     #test3() {
+    #test3() {
         return _anywhere.test3;
     }
     test4() {
@@ -19,7 +19,7 @@ class Example {
         return _anywhere.test6;
     }
     #test7 = this.#test1;
-     #test8() {
+    #test8() {
         return this.#test3();
     }
     get #test9() {

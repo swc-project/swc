@@ -35,7 +35,7 @@ define([
     "require",
     "exports",
     "./t1"
-], function(require, exports, _t_1) {
+], function(require, exports, _t1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -48,10 +48,10 @@ define([
     }
     _export(exports, {
         y: function() {
-            return _t_1.x;
+            return _t1.x;
         },
         x: function() {
-            return _t_1.y;
+            return _t1.y;
         }
     });
 });
@@ -60,7 +60,7 @@ define([
     "require",
     "exports",
     "./t1"
-], function(require, exports, _t_1) {
+], function(require, exports, _t1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -73,10 +73,10 @@ define([
     }
     _export(exports, {
         y: function() {
-            return _t_1.x;
+            return _t1.x;
         },
         x: function() {
-            return _t_1.y;
+            return _t1.y;
         }
     });
 });

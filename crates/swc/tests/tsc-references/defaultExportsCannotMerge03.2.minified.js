@@ -19,7 +19,7 @@ var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _m_1 = (0, require("@swc/helpers/lib/_interop_require_default.js").default)(require("m1"));
-(0, _m_1.default)();
-var z = new _m_1.default();
+var _m1 = (0, require("@swc/helpers/lib/_interop_require_default.js").default)(require("m1"));
+(0, _m1.default)();
+var z = new _m1.default();
 z.p1, z.p2;

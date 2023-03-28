@@ -82,9 +82,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _t_4 = /*#__PURE__*/ _interop_require_wildcard(require("./t4"));
-_t_4.default;
-_t_4.x;
-_t_4.y;
-_t_4.z;
-_t_4.foo;
+var _t4 = /*#__PURE__*/ _interop_require_wildcard(require("./t4"));
+_t4.default;
+_t4.x;
+_t4.y;
+_t4.z;
+_t4.foo;

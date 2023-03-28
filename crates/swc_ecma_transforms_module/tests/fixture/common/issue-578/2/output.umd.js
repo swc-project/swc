@@ -5,7 +5,7 @@
         "./dep.js"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.depJs);
-})(this, function(exports, _dep_js) {
+})(this, function(exports, _dep) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

@@ -7,8 +7,8 @@ System.register([
     return {
         setters: [
             function(_foo) {},
-            function(_foo_bar) {},
-            function(_foo_bar) {}
+            function(_foobar) {},
+            function(_foobar) {}
         ],
         execute: function() {}
     };

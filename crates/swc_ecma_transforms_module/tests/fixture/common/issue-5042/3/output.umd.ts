@@ -5,7 +5,7 @@
         "vs/base/test/common/testUtils"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.testUtils);
-})(this, function(exports, _test_utils) {
+})(this, function(exports, _testUtils) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -14,6 +14,6 @@
         enumerable: true,
         get: ()=>flakySuite
     });
-    _test_utils = /*#__PURE__*/ _interop_require_wildcard(_test_utils);
-    var flakySuite = _test_utils.flakySuite;
+    _testUtils = /*#__PURE__*/ _interop_require_wildcard(_testUtils);
+    var flakySuite = _testUtils.flakySuite;
 });

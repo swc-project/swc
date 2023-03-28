@@ -24,13 +24,13 @@ define([
     "exports",
     "@swc/helpers/src/_interop_require_wildcard.mjs",
     "./t1"
-], function(require, exports, _interop_require_wildcard, _t_1) {
+], function(require, exports, _interop_require_wildcard, _t1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
-    var _t_11 = (_interop_require_wildcard = _interop_require_wildcard.default)(_t_1);
-    _t_1.default, _t_11.default, _t_11.default, _t_11.default, _t_11.default, _t_11.default, _t_11.default, _t_11.default;
+    var _t11 = (_interop_require_wildcard = _interop_require_wildcard.default)(_t1);
+    _t1.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default;
 });
 //// [t3.ts]
 define([
@@ -38,7 +38,7 @@ define([
     "exports",
     "@swc/helpers/src/_interop_require_wildcard.mjs",
     "./t1"
-], function(require, exports, _interop_require_wildcard, _t_1) {
+], function(require, exports, _interop_require_wildcard, _t1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
@@ -49,30 +49,30 @@ define([
         });
     }(exports, {
         a: function() {
-            return _t_1;
+            return _t1;
         },
         b: function() {
-            return _t_11.default;
+            return _t11.default;
         },
         c: function() {
-            return _t_11;
+            return _t11;
         },
         d: function() {
-            return _t_11.default;
+            return _t11.default;
         },
         e1: function() {
-            return _t_11.default;
+            return _t11.default;
         },
         e2: function() {
-            return _t_11;
+            return _t11;
         },
         f1: function() {
-            return _t_11.default;
+            return _t11.default;
         },
         f2: function() {
-            return _t_11.default;
+            return _t11.default;
         }
     });
-    var _t_11 = (_interop_require_wildcard = _interop_require_wildcard.default)(_t_1);
-    _t_1.default, _t_11.default, _t_11.default, _t_11.default, _t_11.default, _t_11.default, _t_11.default, _t_11.default;
+    var _t11 = (_interop_require_wildcard = _interop_require_wildcard.default)(_t1);
+    _t1.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default;
 });

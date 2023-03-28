@@ -9,8 +9,8 @@ Object.defineProperty(exports, "RequestHandler", {
 const _class_private_field_get = require("@swc/helpers/lib/_class_private_field_get.js").default;
 const _class_private_field_init = require("@swc/helpers/lib/_class_private_field_init.js").default;
 const _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
-const _node_fetch = /*#__PURE__*/ _interop_require_default(require("node-fetch"));
-const _abort_signal = require("./misc/AbortSignal");
+const _nodefetch = /*#__PURE__*/ _interop_require_default(require("node-fetch"));
+const _AbortSignal = require("./misc/AbortSignal");
 const _errors = require("../../errors");
 const _utils = require("../../utils");
 const headers = [
@@ -120,11 +120,11 @@ class RequestHandler {
      * @return {Promise<*>}
      * @private
      */ async _make(url, request, tries = 0) {
-        const signal = new _abort_signal.AbortSignal();
+        const signal = new _AbortSignal.AbortSignal();
         const timeout = _utils.Timers.setTimeout(()=>signal.abort(), this.rest.options.timeout);
         let res;
         try {
-            res = await (0, _node_fetch.default)(url, {
+            res = await (0, _nodefetch.default)(url, {
                 ...request,
                 signal
             });

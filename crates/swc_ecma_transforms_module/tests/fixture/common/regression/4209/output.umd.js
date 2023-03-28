@@ -5,14 +5,14 @@
         "./copyPaste"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.copyPaste);
-})(this, function(exports, _copy_paste) {
+})(this, function(exports, _copyPaste) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     class Thing {
         handleCopySomething() {
-            (0, _copy_paste.copy)();
+            (0, _copyPaste.copy)();
         }
         completelyUnrelated(copy = 123) {}
     }

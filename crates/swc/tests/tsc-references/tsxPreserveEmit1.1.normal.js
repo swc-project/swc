@@ -17,12 +17,12 @@ define([
     "exports",
     "react",
     "react-router"
-], function(require, exports, _react, _react_router) {
+], function(require, exports, _react, _reactrouter) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    var Route = _react_router.Route;
+    var Route = _reactrouter.Route;
     var routes1 = /*#__PURE__*/ _react.createElement(Route, null);
     var M;
     (function(M) {

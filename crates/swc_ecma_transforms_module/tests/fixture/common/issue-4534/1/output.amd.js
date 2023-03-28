@@ -2,7 +2,7 @@ define([
     "require",
     "exports",
     "./A"
-], function(require, exports, _a) {
+], function(require, exports, _A) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -14,8 +14,8 @@ define([
         });
     }
     _export(exports, {
-        A: ()=>_a,
-        B: ()=>_a
+        A: ()=>_A,
+        B: ()=>_A
     });
-    _a = /*#__PURE__*/ _interop_require_wildcard(_a);
+    _A = /*#__PURE__*/ _interop_require_wildcard(_A);
 });

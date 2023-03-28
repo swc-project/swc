@@ -5,7 +5,7 @@
         "another-module"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.anotherModule);
-})(this, function(exports, _another_module) {
+})(this, function(exports, _anothermodule) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -14,7 +14,7 @@
         enumerable: true,
         get: ()=>whatever
     });
-    _export_star(_another_module, exports);
+    _export_star(_anothermodule, exports);
     function whatever(notExportName) {
         const shouldNotBeExportNameAsWell = 123;
         return shouldNotBeExportNameAsWell + notExportName;

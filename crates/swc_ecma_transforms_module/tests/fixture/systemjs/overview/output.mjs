@@ -13,8 +13,8 @@ System.register([
                 bar = _foo.bar;
                 bar2 = _foo.foo;
             },
-            function(_foo_bar) {},
-            function(_foo_bar) {}
+            function(_foobar) {},
+            function(_foobar) {}
         ],
         execute: function() {
             _export("foo", foo);

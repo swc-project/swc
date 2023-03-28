@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _copy_paste = require("./copyPaste");
+const _copyPaste = require("./copyPaste");
 class Thing {
     handleCopySomething() {
-        (0, _copy_paste.copy)();
+        (0, _copyPaste.copy)();
     }
     completelyUnrelated(copy = 123) {}
 }

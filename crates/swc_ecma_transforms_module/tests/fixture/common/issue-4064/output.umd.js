@@ -6,7 +6,7 @@
         "./File2"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.file1, global.file2);
-})(this, function(exports, _file_1, _file_2) {
+})(this, function(exports, _File1, _File2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -15,7 +15,7 @@
         enumerable: true,
         get: ()=>BIZ
     });
-    _export_star(_file_1, exports);
-    _export_star(_file_2, exports);
+    _export_star(_File1, exports);
+    _export_star(_File2, exports);
     const BIZ = "biz";
 });

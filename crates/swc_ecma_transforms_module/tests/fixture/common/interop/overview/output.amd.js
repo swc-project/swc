@@ -8,7 +8,7 @@ define([
     "foo3",
     "foo4",
     "foo5"
-], function(require, exports, _foo, _foo_bar, _foo_bar1, _foo_2, _foo_3, _foo_4, _foo_5) {
+], function(require, exports, _foo, _foobar, _foobar1, _foo2, _foo3, _foo4, _foo5) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -23,11 +23,11 @@ define([
         test: ()=>test,
         test2: ()=>test2
     });
-    _foo_2 = /*#__PURE__*/ _interop_require_default(_foo_2);
-    _foo_3 = /*#__PURE__*/ _interop_require_wildcard(_foo_3);
+    _foo2 = /*#__PURE__*/ _interop_require_default(_foo2);
+    _foo3 = /*#__PURE__*/ _interop_require_wildcard(_foo3);
     var test;
     var test2 = 5;
-    _foo_4.bar;
-    _foo_5.foo;
-    _foo_2.default;
+    _foo4.bar;
+    _foo5.foo;
+    _foo2.default;
 });

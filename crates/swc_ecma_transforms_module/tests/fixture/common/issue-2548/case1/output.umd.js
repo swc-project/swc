@@ -5,14 +5,14 @@
         "./Z"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.z);
-})(this, function(exports, _z) {
+})(this, function(exports, _Z) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     Object.defineProperty(exports, "X", {
         enumerable: true,
-        get: ()=>_z.default
+        get: ()=>_Z.default
     });
-    _z = /*#__PURE__*/ _interop_require_default(_z);
+    _Z = /*#__PURE__*/ _interop_require_default(_Z);
 });

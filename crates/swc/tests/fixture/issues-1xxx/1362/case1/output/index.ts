@@ -10,8 +10,8 @@ const _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
 const _ts_metadata = require("@swc/helpers/lib/_ts_metadata.js").default;
 const _ts_param = require("@swc/helpers/lib/_ts_param.js").default;
 const _common = require("@nestjs/common");
-const _app_service = require("./app.service");
-const _create_user_dto = require("./dtos/CreateUserDto");
+const _appservice = require("./app.service");
+const _CreateUserDto = require("./dtos/CreateUserDto");
 let AppController = class AppController {
     async getHello() {
         const result = await this.appService.getHello();
@@ -35,13 +35,13 @@ _ts_decorate([
     _ts_param(0, (0, _common.Body)()),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
-        typeof _create_user_dto.CreateUserDto === "undefined" ? Object : _create_user_dto.CreateUserDto
+        typeof _CreateUserDto.CreateUserDto === "undefined" ? Object : _CreateUserDto.CreateUserDto
     ])
 ], AppController.prototype, "create", null);
 AppController = _ts_decorate([
     (0, _common.Controller)(),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
-        typeof _app_service.AppService === "undefined" ? Object : _app_service.AppService
+        typeof _appservice.AppService === "undefined" ? Object : _appservice.AppService
     ])
 ], AppController);

@@ -3,14 +3,14 @@ define([
     "require",
     "exports",
     "M"
-], function(require, exports, _m) {
+], function(require, exports, _M) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     // Should be strings
-    var x = _m.x;
-    var y = _m.y;
+    var x = _M.x;
+    var y = _M.y;
 });
 //// [ambientExternalModuleMerging_declare.ts]
 define([

@@ -74,7 +74,7 @@ define([
     "require",
     "exports",
     "./t1"
-], function(require, exports, _t_1) {
+], function(require, exports, _t1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
@@ -85,34 +85,34 @@ define([
         });
     }(exports, {
         v: function() {
-            return _t_1.v1;
+            return _t1.v1;
         },
         f: function() {
-            return _t_1.f1;
+            return _t1.f1;
         },
         C: function() {
-            return _t_1.C1;
+            return _t1.C1;
         },
         I: function() {
-            return _t_1.I1;
+            return _t1.I1;
         },
         E: function() {
-            return _t_1.E1;
+            return _t1.E1;
         },
         D: function() {
-            return _t_1.D1;
+            return _t1.D1;
         },
         M: function() {
-            return _t_1.M1;
+            return _t1.M1;
         },
         N: function() {
-            return _t_1.N1;
+            return _t1.N1;
         },
         T: function() {
-            return _t_1.T1;
+            return _t1.T1;
         },
         a: function() {
-            return _t_1.a1;
+            return _t1.a1;
         }
     });
 });
@@ -121,7 +121,7 @@ define([
     "require",
     "exports",
     "./t1"
-], function(require, exports, _t_1) {
+], function(require, exports, _t1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
@@ -132,34 +132,34 @@ define([
         });
     }(exports, {
         v: function() {
-            return _t_1.v1;
+            return _t1.v1;
         },
         f: function() {
-            return _t_1.f1;
+            return _t1.f1;
         },
         C: function() {
-            return _t_1.C1;
+            return _t1.C1;
         },
         I: function() {
-            return _t_1.I1;
+            return _t1.I1;
         },
         E: function() {
-            return _t_1.E1;
+            return _t1.E1;
         },
         D: function() {
-            return _t_1.D1;
+            return _t1.D1;
         },
         M: function() {
-            return _t_1.M1;
+            return _t1.M1;
         },
         N: function() {
-            return _t_1.N1;
+            return _t1.N1;
         },
         T: function() {
-            return _t_1.T1;
+            return _t1.T1;
         },
         a: function() {
-            return _t_1.a1;
+            return _t1.a1;
         }
     });
 });

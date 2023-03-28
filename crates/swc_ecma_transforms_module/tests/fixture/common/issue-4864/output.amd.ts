@@ -7,7 +7,7 @@ define([
     "./path/to/S",
     "./path/to/PTUs",
     "./path/to/SDUs"
-], function(require, exports, _ss, _st, _sc, _s, _pt_us, _sd_us) {
+], function(require, exports, _SS, _ST, _SC, _S, _PTUs, _SDUs) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -21,26 +21,26 @@ define([
     _export(exports, {
         SETs: ()=>SETs,
         SI: ()=>SI,
-        SSERT: ()=>_st.S_E_R_T,
-        ILIAN: ()=>_st.ILIAN,
-        IWI: ()=>_st.IWI,
-        SM: ()=>_st.SM,
-        VP: ()=>_st.VP,
-        SC: ()=>_sc.SC,
-        cSEP: ()=>_s.cSEP,
-        iCSEPFT: ()=>_s.iCSEPFT,
-        SASC: ()=>_s.SASC,
+        SSERT: ()=>_ST.S_E_R_T,
+        ILIAN: ()=>_ST.ILIAN,
+        IWI: ()=>_ST.IWI,
+        SM: ()=>_ST.SM,
+        VP: ()=>_ST.VP,
+        SC: ()=>_SC.SC,
+        cSEP: ()=>_S.cSEP,
+        iCSEPFT: ()=>_S.iCSEPFT,
+        SASC: ()=>_S.SASC,
         us: ()=>us,
         C: ()=>C
     });
     const SETs = {
-        [_st.S_E_T]: _st.S_E_T as typeof SSET
+        [_ST.S_E_T]: _ST.S_E_T as typeof SSET
     };
     const SI = {
-        [SETs[_st.S_E_T]]: _ss.SI
+        [SETs[_ST.S_E_T]]: _SS.SI
     };
     const iCSP = async ()=>{
-        return Promise.resolve(_s.cSP);
+        return Promise.resolve(_S.cSP);
     };
     p.eE({
         i: "s",
@@ -51,23 +51,23 @@ define([
     const us = {
         e: {
             p: {
-                gTFNDP: _pt_us.gTFNDP,
-                gTFPP: _pt_us.gTFPP,
-                vT: _pt_us.vT
+                gTFNDP: _PTUs.gTFNDP,
+                gTFPP: _PTUs.gTFPP,
+                vT: _PTUs.vT
             }
         },
         ds: {
-            D_C_E: _sd_us.D_C_E,
-            cDC: _sd_us.cDC,
-            cIRTI: _sd_us.cIRTI,
-            CPC: _sd_us.CPC,
-            rCW: _sd_us.rCW,
-            SDC: _sd_us.SDC,
-            WL: _sd_us.WL,
-            TS: _sd_us.TS
+            D_C_E: _SDUs.D_C_E,
+            cDC: _SDUs.cDC,
+            cIRTI: _SDUs.cIRTI,
+            CPC: _SDUs.CPC,
+            rCW: _SDUs.rCW,
+            SDC: _SDUs.SDC,
+            WL: _SDUs.WL,
+            TS: _SDUs.TS
         }
     };
     const C = {
-        ..._pt_us.C
+        ..._PTUs.C
     };
 });

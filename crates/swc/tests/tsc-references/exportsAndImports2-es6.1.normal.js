@@ -29,10 +29,10 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    y: ()=>_t_1.x,
-    x: ()=>_t_1.y
+    y: ()=>_t1.x,
+    x: ()=>_t1.y
 });
-const _t_1 = require("./t1");
+const _t1 = require("./t1");
 //// [t3.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {
@@ -45,7 +45,7 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    y: ()=>_t_1.x,
-    x: ()=>_t_1.y
+    y: ()=>_t1.x,
+    x: ()=>_t1.y
 });
-const _t_1 = require("./t1");
+const _t1 = require("./t1");

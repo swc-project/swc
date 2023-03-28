@@ -23,8 +23,8 @@ var as = 100;
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _t_1 = (0, require("@swc/helpers/lib/_interop_require_wildcard.js").default)(require("./t1"));
-_t_1.as, _t_1.return;
+var _t1 = (0, require("@swc/helpers/lib/_interop_require_wildcard.js").default)(require("./t1"));
+_t1.as, _t1.return;
 //// [t3.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {
