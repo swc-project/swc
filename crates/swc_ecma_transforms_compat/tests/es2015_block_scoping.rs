@@ -1085,7 +1085,7 @@ expect(expected).toEqual([10,10,10,10,10]);
 
 #[testing::fixture("tests/block-scoping/**/exec.js")]
 fn exec(input: PathBuf) {
-    let input = read_to_string(&input).unwrap();
+    let input = read_to_string(input).unwrap();
     compare_stdout(
         Default::default(),
         |_| {

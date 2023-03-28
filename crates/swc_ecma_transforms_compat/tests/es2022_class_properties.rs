@@ -6645,7 +6645,7 @@ function set_privateFieldValue(newValue) {
 
 #[testing::fixture("tests/classes/**/exec.js")]
 fn exec(input: PathBuf) {
-    let src = read_to_string(&input).unwrap();
+    let src = read_to_string(input).unwrap();
     compare_stdout(
         Default::default(),
         |t| class_properties(Some(t.comments.clone()), Default::default()),

@@ -1021,7 +1021,7 @@ class Foo {
 
 #[testing::fixture("tests/opt-chain/**/exec.js")]
 fn exec(input: PathBuf) {
-    let src = read_to_string(&input).unwrap();
+    let src = read_to_string(input).unwrap();
 
     compare_stdout(
         Default::default(),
