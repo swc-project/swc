@@ -305,6 +305,8 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let expected = p(true);
                 assert_eq!(src, expected);
             }
+
+            Ok(())
         });
     }
 
