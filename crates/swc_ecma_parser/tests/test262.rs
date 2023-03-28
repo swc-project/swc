@@ -208,6 +208,8 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 {
                     panic!()
                 }
+
+                Ok(())
             });
         }
     }
