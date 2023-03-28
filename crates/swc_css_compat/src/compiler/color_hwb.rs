@@ -131,19 +131,19 @@ impl Compiler {
                             span: Default::default(),
                             raw: None,
                         })),
-                        ComponentValue::Delimiter(box Delimiter {
+                        ComponentValue::Delimiter(Box::new(Delimiter {
                             value: DelimiterValue::Comma,
                             span: Default::default(),
-                        }),
+                        })),
                         ComponentValue::Number(Box::new(Number {
                             value: rgb[1].round(),
                             span: Default::default(),
                             raw: None,
                         })),
-                        ComponentValue::Delimiter(box Delimiter {
+                        ComponentValue::Delimiter(Box::new(Delimiter {
                             value: DelimiterValue::Comma,
                             span: Default::default(),
-                        }),
+                        })),
                         ComponentValue::Number(Box::new(Number {
                             value: rgb[2].round(),
                             span: Default::default(),
@@ -165,33 +165,33 @@ impl Compiler {
                             span: Default::default(),
                             raw: None,
                         })),
-                        ComponentValue::Delimiter(box Delimiter {
+                        ComponentValue::Delimiter(Box::new(Delimiter {
                             value: DelimiterValue::Comma,
                             span: Default::default(),
-                        }),
+                        })),
                         ComponentValue::Number(Box::new(Number {
                             value: rgb[1].round(),
                             span: Default::default(),
                             raw: None,
                         })),
-                        ComponentValue::Delimiter(box Delimiter {
+                        ComponentValue::Delimiter(Box::new(Delimiter {
                             value: DelimiterValue::Comma,
                             span: Default::default(),
-                        }),
+                        })),
                         ComponentValue::Number(Box::new(Number {
                             value: rgb[2].round(),
                             span: Default::default(),
                             raw: None,
                         })),
-                        ComponentValue::Delimiter(box Delimiter {
+                        ComponentValue::Delimiter(Box::new(Delimiter {
                             value: DelimiterValue::Comma,
                             span: Default::default(),
-                        }),
-                        ComponentValue::AlphaValue(box AlphaValue::Number(Number {
+                        })),
+                        ComponentValue::AlphaValue(Box::new(AlphaValue::Number(Number {
                             value: a,
                             span: Default::default(),
                             raw: None,
-                        })),
+                        }))),
                     ],
                     span: Default::default(),
                 });
