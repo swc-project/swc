@@ -23,6 +23,9 @@ struct Decorator202203 {
     init_proto: Option<Ident>,
     init_proto_args: Vec<Option<ExprOrSpread>>,
 
+    init_static: Option<Ident>,
+    init_static_args: Vec<Option<ExprOrSpread>>,
+
     /// Injected into static blocks.
     extra_stmts: Vec<Stmt>,
 
@@ -32,6 +35,64 @@ struct Decorator202203 {
 impl Decorator202203 {
     /// Moves `cur_inits` to `extra_stmts`.
     fn consume_inits(&mut self) {
+        if let Some(init_static) = self.init_static.take() {
+            self.extra_vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(init_static.clone().into()),
+                init: None,
+                definite: false,
+            });
+
+            let combined_args = vec![
+                ThisExpr { span: DUMMY_SP }.as_arg(),
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: self.init_static_args.take(),
+                }
+                .as_arg(),
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![],
+                }
+                .as_arg(),
+            ];
+
+            let expr = Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: PatOrExpr::Pat(Box::new(Pat::Array(ArrayPat {
+                    span: DUMMY_SP,
+                    elems: vec![Some(Pat::Ident(init_static.clone().into()))],
+                    type_ann: Default::default(),
+                    optional: false,
+                }))),
+                right: Box::new(
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(get, "applyDecs2203R"),
+                        args: combined_args,
+                        type_args: Default::default(),
+                    }
+                    .make_member(quote_ident!("e")),
+                ),
+            }));
+
+            self.extra_stmts.push(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr,
+            }));
+
+            self.extra_stmts.push(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: Box::new(Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: init_static.as_callee(),
+                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                    type_args: Default::default(),
+                })),
+            }))
+        }
+
         if self.cur_inits.is_empty() && self.init_proto.is_none() {
             return;
         }
@@ -47,6 +108,13 @@ impl Decorator202203 {
         }
 
         if let Some(init_proto) = self.init_proto.take() {
+            self.extra_vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(init_proto.clone().into()),
+                init: None,
+                definite: false,
+            });
+
             lhs.push(Some(init_proto.into()));
             arrays.push(Some(
                 ArrayLit {
@@ -214,11 +282,16 @@ impl VisitMut for Decorator202203 {
 
         let (name, init) = self.initializer_name(&mut n.key, "call");
 
-        self.init_proto
-            .get_or_insert_with(|| private_ident!("_initProto"));
+        if n.is_static {
+            self.init_static
+                .get_or_insert_with(|| private_ident!("_initStatic"));
+        } else {
+            self.init_proto
+                .get_or_insert_with(|| private_ident!("_initProto"));
+        }
 
         for mut dec in n.function.decorators.drain(..) {
-            self.init_proto_args.push(Some(
+            let arg = Some(
                 ArrayLit {
                     span: DUMMY_SP,
                     elems: vec![
@@ -228,7 +301,12 @@ impl VisitMut for Decorator202203 {
                     ],
                 }
                 .as_arg(),
-            ));
+            );
+            if n.is_static {
+                self.init_static_args.push(arg);
+            } else {
+                self.init_proto_args.push(arg);
+            }
         }
     }
 
