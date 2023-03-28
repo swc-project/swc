@@ -258,11 +258,11 @@
             852: function (
                 module
             ) {
-                function _get_prototype_of(
+                function _getPrototypeOf(
                     o
                 ) {
                     return (
-                        (module.exports = _get_prototype_of =
+                        (module.exports = _getPrototypeOf =
                         Object.setPrototypeOf
                             ? Object.getPrototypeOf
                             : function (
@@ -274,12 +274,12 @@
                                     )
                                 );
                             }),
-                        _get_prototype_of(
+                        _getPrototypeOf(
                             o
                         )
                     );
                 }
-                module.exports = _get_prototype_of;
+                module.exports = _getPrototypeOf;
             },
             4546: function (
                 module, __unused_webpack_exports, __webpack_require__
@@ -454,24 +454,24 @@
             990: function (
                 module
             ) {
-                function _set_prototype_of(
+                function _setPrototypeOf(
                     o, p
                 ) {
                     return (
-                        (module.exports = _set_prototype_of =
+                        (module.exports = _setPrototypeOf =
                         Object.setPrototypeOf ||
                         function (
                             o, p
                         ) {
                             return (o.__proto__ = p), o;
                         }),
-                        _set_prototype_of(
+                        _setPrototypeOf(
                             o,
                             p
                         )
                     );
                 }
-                module.exports = _set_prototype_of;
+                module.exports = _setPrototypeOf;
             },
             3408: function (
                 module, __unused_webpack_exports, __webpack_require__
@@ -631,7 +631,7 @@
                     construct = __webpack_require__(
                         4096
                     );
-                function _wrap_native_super(
+                function _wrapNativeSuper(
                     Class
                 ) {
                     var _cache = "function" == typeof Map
@@ -639,7 +639,7 @@
                         )
                         : void 0;
                     return (
-                        (module.exports = _wrap_native_super =
+                        (module.exports = _wrapNativeSuper =
                         function (
                             Class
                         ) {
@@ -690,12 +690,12 @@
                                 )
                             );
                         }),
-                        _wrap_native_super(
+                        _wrapNativeSuper(
                             Class
                         )
                     );
                 }
-                module.exports = _wrap_native_super;
+                module.exports = _wrapNativeSuper;
             },
             7945: function (
                 module, __unused_webpack_exports, __webpack_require__
@@ -1852,25 +1852,25 @@
                 var _regeneratorRuntime = __webpack_require__(
                         7945
                     ),
-                    _class_call_check = __webpack_require__(
+                    _classCallCheck = __webpack_require__(
                         4988
                     ),
-                    _create_class = __webpack_require__(
+                    _createClass = __webpack_require__(
                         9590
                     ),
                     _inherits = __webpack_require__(
                         4546
                     ),
-                    _possible_constructor_return = __webpack_require__(
+                    _possibleConstructorReturn = __webpack_require__(
                         1581
                     ),
-                    _get_prototype_of = __webpack_require__(
+                    _getPrototypeOf = __webpack_require__(
                         852
                     ),
-                    _sliced_to_array = __webpack_require__(
+                    _slicedToArray = __webpack_require__(
                         3408
                     );
-                function _create_super(
+                function _createSuper(
                     Derived
                 ) {
                     var hasNativeReflectConstruct = (function (
@@ -1899,11 +1899,11 @@
                     return function (
                     ) {
                         var result,
-                            Super = _get_prototype_of(
+                            Super = _getPrototypeOf(
                                 Derived
                             );
                         if (hasNativeReflectConstruct) {
-                            var NewTarget = _get_prototype_of(
+                            var NewTarget = _getPrototypeOf(
                                 this
                             ).constructor;
                             result = Reflect.construct(
@@ -1915,7 +1915,7 @@
                             this,
                             arguments
                         );
-                        return _possible_constructor_return(
+                        return _possibleConstructorReturn(
                             this,
                             result
                         );
@@ -1941,12 +1941,12 @@
                 __webpack_require__(
                     5193
                 );
-                var _react = _interop_require_default(
+                var _react = _interopRequireDefault(
                         __webpack_require__(
                             2735
                         )
                     ),
-                    _reactDom = _interop_require_default(
+                    _reactDom = _interopRequireDefault(
                         __webpack_require__(
                             2788
                         )
@@ -1954,7 +1954,7 @@
                     _headManagerContext = __webpack_require__(
                         1874
                     ),
-                    _mitt = _interop_require_default(
+                    _mitt = _interopRequireDefault(
                         __webpack_require__(
                             4387
                         )
@@ -1980,17 +1980,17 @@
                     _portal = __webpack_require__(
                         3651
                     ),
-                    _headManager = _interop_require_default(
+                    _headManager = _interopRequireDefault(
                         __webpack_require__(
                             4424
                         )
                     ),
-                    _pageLoader = _interop_require_default(
+                    _pageLoader = _interopRequireDefault(
                         __webpack_require__(
                             6042
                         )
                     ),
-                    _performanceRelayer = _interop_require_default(
+                    _performanceRelayer = _interopRequireDefault(
                         __webpack_require__(
                             8421
                         )
@@ -2031,7 +2031,7 @@
                             _throw
                         );
                 }
-                function _async_to_generator(
+                function _asyncToGenerator(
                     fn
                 ) {
                     return function (
@@ -2079,7 +2079,7 @@
                         );
                     };
                 }
-                function _define_property(
+                function _defineProperty(
                     obj, key, value
                 ) {
                     return (
@@ -2098,7 +2098,7 @@
                         obj
                     );
                 }
-                function _interop_require_default(
+                function _interopRequireDefault(
                     obj
                 ) {
                     return obj && obj.__esModule
@@ -2107,7 +2107,7 @@
                             default: obj,
                         };
                 }
-                function _object_spread(
+                function _objectSpread(
                     target
                 ) {
                     for (var i = 1; i < arguments.length; i++) {
@@ -2137,7 +2137,7 @@
                             function (
                                 key
                             ) {
-                                _define_property(
+                                _defineProperty(
                                     target,
                                     key,
                                     source[key]
@@ -2209,7 +2209,7 @@
                     register = function (
                         _ref
                     ) {
-                        var _ref2 = _sliced_to_array(
+                        var _ref2 = _slicedToArray(
                                 _ref,
                                 2
                             ),
@@ -2256,13 +2256,13 @@
                             Container,
                             _react$default$Compon
                         );
-                        var _super = _create_super(
+                        var _super = _createSuper(
                             Container
                         );
                         function Container(
                         ) {
                             return (
-                                _class_call_check(
+                                _classCallCheck(
                                     this,
                                     Container
                                 ),
@@ -2273,7 +2273,7 @@
                             );
                         }
                         return (
-                            _create_class(
+                            _createClass(
                                 Container,
                                 [
                                     {
@@ -2382,7 +2382,7 @@
                     );
                 function _initNext(
                 ) {
-                    return (_initNext = _async_to_generator(
+                    return (_initNext = _asyncToGenerator(
                         _regeneratorRuntime.mark(
                             function _callee(
                             ) {
@@ -2628,7 +2628,7 @@
                 }
                 function _render(
                 ) {
-                    return (_render = _async_to_generator(
+                    return (_render = _asyncToGenerator(
                         _regeneratorRuntime.mark(
                             function _callee2(
                                 renderingProps
@@ -2682,7 +2682,7 @@
                                                 return (
                                                     (_context2.next = 16),
                                                     renderError(
-                                                        _object_spread(
+                                                        _objectSpread(
                                                             {
                                                             },
                                                             renderingProps,
@@ -2836,7 +2836,7 @@
                                             initProps
                                         ) {
                                             return doRender(
-                                                _object_spread(
+                                                _objectSpread(
                                                     {
                                                     },
                                                     renderErrorProps,
@@ -3003,7 +3003,7 @@
                         return function (
                             wrappedAppProps
                         ) {
-                            var appProps = _object_spread(
+                            var appProps = _objectSpread(
                                 {
                                 },
                                 wrappedAppProps,
@@ -3037,7 +3037,7 @@
                         styleSheets =
                         "initial" in input ? void 0 : input.styleSheets;
                     Component = Component || lastAppProps.Component;
-                    var appProps = _object_spread(
+                    var appProps = _objectSpread(
                         {
                         },
                         (props = props || lastAppProps.props),
@@ -3406,10 +3406,10 @@
                 __unused_webpack_module, exports, __webpack_require__
             ) {
                 "use strict";
-                var _class_call_check = __webpack_require__(
+                var _classCallCheck = __webpack_require__(
                         4988
                     ),
-                    _create_class = __webpack_require__(
+                    _createClass = __webpack_require__(
                         9590
                     );
                 Object.defineProperty(
@@ -3449,7 +3449,7 @@
                     function PageLoader(
                         buildId, assetPrefix
                     ) {
-                        _class_call_check(
+                        _classCallCheck(
                             this,
                             PageLoader
                         ),
@@ -3477,7 +3477,7 @@
                         ));
                     }
                     return (
-                        _create_class(
+                        _createClass(
                             PageLoader,
                             [
                                 {
@@ -3697,7 +3697,7 @@
                 __unused_webpack_module, exports, __webpack_require__
             ) {
                 "use strict";
-                var _sliced_to_array = __webpack_require__(
+                var _slicedToArray = __webpack_require__(
                     3408
                 );
                 Object.defineProperty(
@@ -3730,7 +3730,7 @@
                         ),
                         _react$default$useSta = _react.default.useState(
                         ),
-                        forceUpdate = _sliced_to_array(
+                        forceUpdate = _slicedToArray(
                             _react$default$useSta,
                             2
                         )[1];
@@ -3834,7 +3834,7 @@
                 __unused_webpack_module, exports, __webpack_require__
             ) {
                 "use strict";
-                var _sliced_to_array = __webpack_require__(
+                var _slicedToArray = __webpack_require__(
                     3408
                 );
                 Object.defineProperty(
@@ -3865,7 +3865,7 @@
                         _react$default$useSta = _react.default.useState(
                             ""
                         ),
-                        _react$default$useSta2 = _sliced_to_array(
+                        _react$default$useSta2 = _slicedToArray(
                             _react$default$useSta,
                             2
                         ),
@@ -4539,7 +4539,7 @@
                         ) {
                             if (!o) return;
                             if ("string" == typeof o)
-                                return _array_like_to_array(
+                                return _arrayLikeToArray(
                                     o,
                                     minLen
                                 );
@@ -4564,7 +4564,7 @@
                                     n
                                 )
                             )
-                                return _array_like_to_array(
+                                return _arrayLikeToArray(
                                     o,
                                     minLen
                                 );
@@ -4635,7 +4635,7 @@
                         },
                     };
                 }
-                function _array_like_to_array(
+                function _arrayLikeToArray(
                     arr, len
                 ) {
                     (null == len || len > arr.length) && (len = arr.length);
@@ -4764,12 +4764,12 @@
                     );
                 }),
                 (exports.default = void 0);
-                var _react = _interop_require_default(
+                var _react = _interopRequireDefault(
                         __webpack_require__(
                             2735
                         )
                     ),
-                    _router = _interop_require_default(
+                    _router = _interopRequireDefault(
                         __webpack_require__(
                             1073
                         )
@@ -4777,12 +4777,12 @@
                     _routerContext = __webpack_require__(
                         6857
                     ),
-                    _withRouter = _interop_require_default(
+                    _withRouter = _interopRequireDefault(
                         __webpack_require__(
                             9336
                         )
                     );
-                function _interop_require_default(
+                function _interopRequireDefault(
                     obj
                 ) {
                     return obj && obj.__esModule
@@ -4946,7 +4946,7 @@
                 __unused_webpack_module, exports, __webpack_require__
             ) {
                 "use strict";
-                var _sliced_to_array = __webpack_require__(
+                var _slicedToArray = __webpack_require__(
                     3408
                 );
                 Object.defineProperty(
@@ -4976,7 +4976,7 @@
                     _requestIdleCallback = __webpack_require__(
                         6933
                     );
-                function _define_property(
+                function _defineProperty(
                     obj, key, value
                 ) {
                     return (
@@ -4995,7 +4995,7 @@
                         obj
                     );
                 }
-                function _object_spread(
+                function _objectSpread(
                     target
                 ) {
                     for (var i = 1; i < arguments.length; i++) {
@@ -5025,7 +5025,7 @@
                             function (
                                 key
                             ) {
-                                _define_property(
+                                _defineProperty(
                                     target,
                                     key,
                                     source[key]
@@ -5035,7 +5035,7 @@
                     }
                     return target;
                 }
-                function _object_without_properties(
+                function _objectWithoutProperties(
                     source, excluded
                 ) {
                     if (null == source) return {
@@ -5185,7 +5185,7 @@
                                 _i < _Object$entries.length;
                                 _i++
                             ) {
-                                var _Object$entries$_i = _sliced_to_array(
+                                var _Object$entries$_i = _slicedToArray(
                                         _Object$entries[_i],
                                         2
                                     ),
@@ -5255,7 +5255,7 @@
                             ? "afterInteractive"
                             : _props$strategy2,
                         onError = props.onError,
-                        restProps = _object_without_properties(
+                        restProps = _objectWithoutProperties(
                             props,
                             [
                                 "src",
@@ -5317,7 +5317,7 @@
                                 scripts.beforeInteractive || []
                             ).concat(
                                 [
-                                    _object_spread(
+                                    _objectSpread(
                                         {
                                             src: src,
                                             onLoad: onLoad,
@@ -5390,22 +5390,22 @@
                 __unused_webpack_module, exports, __webpack_require__
             ) {
                 "use strict";
-                var _class_call_check = __webpack_require__(
+                var _classCallCheck = __webpack_require__(
                         4988
                     ),
-                    _create_class = __webpack_require__(
+                    _createClass = __webpack_require__(
                         9590
                     ),
                     _inherits = __webpack_require__(
                         4546
                     ),
-                    _possible_constructor_return = __webpack_require__(
+                    _possibleConstructorReturn = __webpack_require__(
                         1581
                     ),
-                    _get_prototype_of = __webpack_require__(
+                    _getPrototypeOf = __webpack_require__(
                         852
                     );
-                function _create_super(
+                function _createSuper(
                     Derived
                 ) {
                     var hasNativeReflectConstruct = (function (
@@ -5434,11 +5434,11 @@
                     return function (
                     ) {
                         var result,
-                            Super = _get_prototype_of(
+                            Super = _getPrototypeOf(
                                 Derived
                             );
                         if (hasNativeReflectConstruct) {
-                            var NewTarget = _get_prototype_of(
+                            var NewTarget = _getPrototypeOf(
                                 this
                             ).constructor;
                             result = Reflect.construct(
@@ -5450,7 +5450,7 @@
                             this,
                             arguments
                         );
-                        return _possible_constructor_return(
+                        return _possibleConstructorReturn(
                             this,
                             result
                         );
@@ -5464,17 +5464,17 @@
                     }
                 ),
                 (exports.default = void 0);
-                var _react = _interop_require_default(
+                var _react = _interopRequireDefault(
                         __webpack_require__(
                             2735
                         )
                     ),
-                    _head = _interop_require_default(
+                    _head = _interopRequireDefault(
                         __webpack_require__(
                             3396
                         )
                     );
-                function _interop_require_default(
+                function _interopRequireDefault(
                     obj
                 ) {
                     return obj && obj.__esModule
@@ -5510,13 +5510,13 @@
                         Error1,
                         _react$default$Compon
                     );
-                    var _super = _create_super(
+                    var _super = _createSuper(
                         Error1
                     );
                     function Error1(
                     ) {
                         return (
-                            _class_call_check(
+                            _classCallCheck(
                                 this,
                                 Error1
                             ),
@@ -5527,7 +5527,7 @@
                         );
                     }
                     return (
-                        _create_class(
+                        _createClass(
                             Error1,
                             [
                                 {
@@ -5771,7 +5771,7 @@
                 __unused_webpack_module, exports, __webpack_require__
             ) {
                 "use strict";
-                var _define_property = __webpack_require__(
+                var _defineProperty = __webpack_require__(
                     566
                 );
                 function ownKeys(
@@ -6084,7 +6084,7 @@
                                                     function (
                                                         key
                                                     ) {
-                                                        _define_property(
+                                                        _defineProperty(
                                                             target,
                                                             key,
                                                             source[key]
@@ -6311,16 +6311,16 @@
                 var _regeneratorRuntime = __webpack_require__(
                         7945
                     ),
-                    _async_to_generator = __webpack_require__(
+                    _asyncToGenerator = __webpack_require__(
                         5374
                     ),
-                    _class_call_check = __webpack_require__(
+                    _classCallCheck = __webpack_require__(
                         4988
                     ),
-                    _create_class = __webpack_require__(
+                    _createClass = __webpack_require__(
                         9590
                     ),
-                    _sliced_to_array = __webpack_require__(
+                    _slicedToArray = __webpack_require__(
                         3408
                     );
                 Object.defineProperty(
@@ -6361,7 +6361,7 @@
                     (__webpack_require__(
                         6509
                     ),
-                    _interop_require_default(
+                    _interopRequireDefault(
                         __webpack_require__(
                             4387
                         )
@@ -6378,7 +6378,7 @@
                     _querystring = __webpack_require__(
                         6136
                     ),
-                    _resolveRewrites = _interop_require_default(
+                    _resolveRewrites = _interopRequireDefault(
                         __webpack_require__(
                             808
                         )
@@ -6389,7 +6389,7 @@
                     _routeRegex = __webpack_require__(
                         4339
                     );
-                function _interop_require_default(
+                function _interopRequireDefault(
                     obj
                 ) {
                     return obj && obj.__esModule
@@ -6735,7 +6735,7 @@
                             url,
                             !0
                         ),
-                        _resolveHref2 = _sliced_to_array(
+                        _resolveHref2 = _slicedToArray(
                             _resolveHref,
                             2
                         ),
@@ -6900,7 +6900,7 @@
                             _ref.defaultLocale,
                             _ref.domainLocales,
                             _ref.isPreview);
-                        _class_call_check(
+                        _classCallCheck(
                             this,
                             Router
                         ),
@@ -7048,7 +7048,7 @@
                         _handleRouteInfoError,
                         _change;
                     return (
-                        _create_class(
+                        _createClass(
                             Router,
                             [
                                 {
@@ -7126,7 +7126,7 @@
                                 {
                                     key: "change",
                                     value:
-                                ((_change = _async_to_generator(
+                                ((_change = _asyncToGenerator(
                                     _regeneratorRuntime.mark(
                                         function _callee(
                                             method,
@@ -7875,7 +7875,7 @@
                                 {
                                     key: "handleRouteInfoError",
                                     value:
-                                ((_handleRouteInfoError = _async_to_generator(
+                                ((_handleRouteInfoError = _asyncToGenerator(
                                     _regeneratorRuntime.mark(
                                         function _callee2(
                                             err,
@@ -8050,7 +8050,7 @@
                                 {
                                     key: "getRouteInfo",
                                     value:
-                                ((_getRouteInfo = _async_to_generator(
+                                ((_getRouteInfo = _asyncToGenerator(
                                     _regeneratorRuntime.mark(
                                         function _callee3(
                                             route,
@@ -8296,7 +8296,7 @@
                                         var _this$asPath$split = this.asPath.split(
                                                 "#"
                                             ),
-                                            _this$asPath$split2 = _sliced_to_array(
+                                            _this$asPath$split2 = _slicedToArray(
                                                 _this$asPath$split,
                                                 2
                                             ),
@@ -8305,7 +8305,7 @@
                                             _as$split = as.split(
                                                 "#"
                                             ),
-                                            _as$split2 = _sliced_to_array(
+                                            _as$split2 = _slicedToArray(
                                                 _as$split,
                                                 2
                                             ),
@@ -8330,7 +8330,7 @@
                                         var _as$split3 = as.split(
                                                 "#"
                                             ),
-                                            hash = _sliced_to_array(
+                                            hash = _slicedToArray(
                                                 _as$split3,
                                                 2
                                             )[1];
@@ -8365,7 +8365,7 @@
                                 {
                                     key: "prefetch",
                                     value:
-                                ((_prefetch = _async_to_generator(
+                                ((_prefetch = _asyncToGenerator(
                                     _regeneratorRuntime.mark(
                                         function _callee4(
                                             url
@@ -8559,7 +8559,7 @@
                                 {
                                     key: "fetchComponent",
                                     value:
-                                ((_fetchComponent = _async_to_generator(
+                                ((_fetchComponent = _asyncToGenerator(
                                     _regeneratorRuntime.mark(
                                         function _callee5(
                                             route
@@ -9062,7 +9062,7 @@
                 __unused_webpack_module, exports, __webpack_require__
             ) {
                 "use strict";
-                var _sliced_to_array = __webpack_require__(
+                var _slicedToArray = __webpack_require__(
                     3408
                 );
                 function stringifyUrlQueryParam(
@@ -9121,7 +9121,7 @@
                             function (
                                 _ref
                             ) {
-                                var _ref2 = _sliced_to_array(
+                                var _ref2 = _slicedToArray(
                                         _ref,
                                         2
                                     ),
@@ -9446,10 +9446,10 @@
                 var _toConsumableArray = __webpack_require__(
                         9571
                     ),
-                    _class_call_check = __webpack_require__(
+                    _classCallCheck = __webpack_require__(
                         4988
                     ),
-                    _create_class = __webpack_require__(
+                    _createClass = __webpack_require__(
                         9590
                     ),
                     _inherits =
@@ -9458,13 +9458,13 @@
                     ), __webpack_require__(
                         4546
                     )),
-                    _possible_constructor_return = __webpack_require__(
+                    _possibleConstructorReturn = __webpack_require__(
                         1581
                     ),
-                    _get_prototype_of = __webpack_require__(
+                    _getPrototypeOf = __webpack_require__(
                         852
                     );
-                function _create_super(
+                function _createSuper(
                     Derived
                 ) {
                     var hasNativeReflectConstruct = (function (
@@ -9493,11 +9493,11 @@
                     return function (
                     ) {
                         var result,
-                            Super = _get_prototype_of(
+                            Super = _getPrototypeOf(
                                 Derived
                             );
                         if (hasNativeReflectConstruct) {
-                            var NewTarget = _get_prototype_of(
+                            var NewTarget = _getPrototypeOf(
                                 this
                             ).constructor;
                             result = Reflect.construct(
@@ -9509,7 +9509,7 @@
                             this,
                             arguments
                         );
-                        return _possible_constructor_return(
+                        return _possibleConstructorReturn(
                             this,
                             result
                         );
@@ -9533,7 +9533,7 @@
                             _class,
                             _react$Component
                         );
-                        var _super = _create_super(
+                        var _super = _createSuper(
                             _class
                         );
                         function _class(
@@ -9541,7 +9541,7 @@
                         ) {
                             var _this;
                             return (
-                                _class_call_check(
+                                _classCallCheck(
                                     this,
                                     _class
                                 ),
@@ -9554,7 +9554,7 @@
                                     _this._hasHeadManager &&
                                         _this.props.headManager.updateHead(
                                             _this.props.reduceComponentsToState(
-                                                _to_consumable_array(
+                                                _toConsumableArray(
                                                     _this.props.headManager
                                                         .mountedInstances
                                                 ),
@@ -9569,7 +9569,7 @@
                             );
                         }
                         return (
-                            _create_class(
+                            _createClass(
                                 _class,
                                 [
                                     {
@@ -9627,25 +9627,25 @@
                 var _regeneratorRuntime = __webpack_require__(
                         7945
                     ),
-                    _class_call_check = __webpack_require__(
+                    _classCallCheck = __webpack_require__(
                         4988
                     ),
                     _inherits = __webpack_require__(
                         4546
                     ),
-                    _possible_constructor_return = __webpack_require__(
+                    _possibleConstructorReturn = __webpack_require__(
                         1581
                     ),
-                    _get_prototype_of = __webpack_require__(
+                    _getPrototypeOf = __webpack_require__(
                         852
                     ),
-                    _wrap_native_super = __webpack_require__(
+                    _wrapNativeSuper = __webpack_require__(
                         8545
                     ),
-                    _async_to_generator = __webpack_require__(
+                    _asyncToGenerator = __webpack_require__(
                         5374
                     );
-                function _create_super(
+                function _createSuper(
                     Derived
                 ) {
                     var hasNativeReflectConstruct = (function (
@@ -9674,11 +9674,11 @@
                     return function (
                     ) {
                         var result,
-                            Super = _get_prototype_of(
+                            Super = _getPrototypeOf(
                                 Derived
                             );
                         if (hasNativeReflectConstruct) {
-                            var NewTarget = _get_prototype_of(
+                            var NewTarget = _getPrototypeOf(
                                 this
                             ).constructor;
                             result = Reflect.construct(
@@ -9690,7 +9690,7 @@
                             this,
                             arguments
                         );
-                        return _possible_constructor_return(
+                        return _possibleConstructorReturn(
                             this,
                             result
                         );
@@ -9786,7 +9786,7 @@
                 }
                 function _loadGetInitialProps(
                 ) {
-                    return (_loadGetInitialProps = _async_to_generator(
+                    return (_loadGetInitialProps = _asyncToGenerator(
                         _regeneratorRuntime.mark(
                             function _callee(
                                 App, ctx
@@ -9928,13 +9928,13 @@
                         DecodeError,
                         _Error
                     );
-                    var _super = _create_super(
+                    var _super = _createSuper(
                         DecodeError
                     );
                     function DecodeError(
                     ) {
                         return (
-                            _class_call_check(
+                            _classCallCheck(
                                 this,
                                 DecodeError
                             ),
@@ -9946,7 +9946,7 @@
                     }
                     return DecodeError;
                 })(
-                    _wrap_native_super(
+                    _wrapNativeSuper(
                         Error
                     )
                 );

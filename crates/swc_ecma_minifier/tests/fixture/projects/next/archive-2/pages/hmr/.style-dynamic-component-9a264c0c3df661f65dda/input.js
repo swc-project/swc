@@ -9,7 +9,7 @@
             "use strict";
             var __webpack_unused_export__;
 
-            var _define_property = __webpack_require__(566);
+            var _defineProperty = __webpack_require__(566);
 
             function ownKeys(object, enumerableOnly) {
                 var keys = Object.keys(object);
@@ -27,12 +27,12 @@
                 return keys;
             }
 
-            function _object_spread(target) {
+            function _objectSpread(target) {
                 for (var i = 1; i < arguments.length; i++) {
                     var source = arguments[i] != null ? arguments[i] : {};
                     if (i % 2) {
                         ownKeys(Object(source), true).forEach(function (key) {
-                            _define_property(target, key, source[key]);
+                            _defineProperty(target, key, source[key]);
                         });
                     } else if (Object.getOwnPropertyDescriptors) {
                         Object.defineProperties(
@@ -58,11 +58,11 @@
             __webpack_unused_export__ = noSSR;
             exports.default = dynamic;
 
-            var _react = _interop_require_default(__webpack_require__(2735));
+            var _react = _interopRequireDefault(__webpack_require__(2735));
 
-            var _loadable = _interop_require_default(__webpack_require__(880));
+            var _loadable = _interopRequireDefault(__webpack_require__(880));
 
-            function _interop_require_default(obj) {
+            function _interopRequireDefault(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -123,20 +123,20 @@
                 } else if (typeof dynamicOptions === "function") {
                     loadableOptions.loader = dynamicOptions; // Support for having first argument being options, eg: dynamic({loader: import('../hello-world')})
                 } else if (typeof dynamicOptions === "object") {
-                    loadableOptions = _object_spread(
-                        _object_spread({}, loadableOptions),
+                    loadableOptions = _objectSpread(
+                        _objectSpread({}, loadableOptions),
                         dynamicOptions
                     );
                 } // Support for passing options, eg: dynamic(import('../hello-world'), {loading: () => <p>Loading something</p>})
 
-                loadableOptions = _object_spread(
-                    _object_spread({}, loadableOptions),
+                loadableOptions = _objectSpread(
+                    _objectSpread({}, loadableOptions),
                     options
                 ); // coming from build/babel/plugins/react-loadable-plugin.js
 
                 if (loadableOptions.loadableGenerated) {
-                    loadableOptions = _object_spread(
-                        _object_spread({}, loadableOptions),
+                    loadableOptions = _objectSpread(
+                        _objectSpread({}, loadableOptions),
                         loadableOptions.loadableGenerated
                     );
                     delete loadableOptions.loadableGenerated;
@@ -169,9 +169,9 @@
             });
             exports.LoadableContext = void 0;
 
-            var _react = _interop_require_default(__webpack_require__(2735));
+            var _react = _interopRequireDefault(__webpack_require__(2735));
 
-            function _interop_require_default(obj) {
+            function _interopRequireDefault(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -196,11 +196,11 @@
         ) {
             "use strict";
 
-            var _define_property = __webpack_require__(566);
+            var _defineProperty = __webpack_require__(566);
 
-            var _class_call_check = __webpack_require__(4988);
+            var _classCallCheck = __webpack_require__(4988);
 
-            var _create_class = __webpack_require__(9590);
+            var _createClass = __webpack_require__(9590);
 
             function ownKeys(object, enumerableOnly) {
                 var keys = Object.keys(object);
@@ -218,12 +218,12 @@
                 return keys;
             }
 
-            function _object_spread(target) {
+            function _objectSpread(target) {
                 for (var i = 1; i < arguments.length; i++) {
                     var source = arguments[i] != null ? arguments[i] : {};
                     if (i % 2) {
                         ownKeys(Object(source), true).forEach(function (key) {
-                            _define_property(target, key, source[key]);
+                            _defineProperty(target, key, source[key]);
                         });
                     } else if (Object.getOwnPropertyDescriptors) {
                         Object.defineProperties(
@@ -251,7 +251,7 @@
                 ) {
                     if (
                         Array.isArray(o) ||
-                        (it = _unsupported_iterable_to_array(o)) ||
+                        (it = _unsupportedIterableToArray(o)) ||
                         (allowArrayLike && o && typeof o.length === "number")
                     ) {
                         if (it) o = it;
@@ -306,10 +306,9 @@
                 };
             }
 
-            function _unsupported_iterable_to_array(o, minLen) {
+            function _unsupportedIterableToArray(o, minLen) {
                 if (!o) return;
-                if (typeof o === "string")
-                    return _array_like_to_array(o, minLen);
+                if (typeof o === "string") return _arrayLikeToArray(o, minLen);
                 var n = Object.prototype.toString.call(o).slice(8, -1);
                 if (n === "Object" && o.constructor) n = o.constructor.name;
                 if (n === "Map" || n === "Set") return Array.from(o);
@@ -317,10 +316,10 @@
                     n === "Arguments" ||
                     /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)
                 )
-                    return _array_like_to_array(o, minLen);
+                    return _arrayLikeToArray(o, minLen);
             }
 
-            function _array_like_to_array(arr, len) {
+            function _arrayLikeToArray(arr, len) {
                 if (len == null || len > arr.length) len = arr.length;
                 for (var i = 0, arr2 = new Array(len); i < len; i++) {
                     arr2[i] = arr[i];
@@ -333,13 +332,13 @@
             });
             exports.default = void 0;
 
-            var _react = _interop_require_default(__webpack_require__(2735));
+            var _react = _interopRequireDefault(__webpack_require__(2735));
 
             var _useSubscription = __webpack_require__(4234);
 
             var _loadableContext = __webpack_require__(8183);
 
-            function _interop_require_default(obj) {
+            function _interopRequireDefault(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -501,7 +500,7 @@
 
             var LoadableSubscription = /*#__PURE__*/ (function () {
                 function LoadableSubscription(loadFn, opts) {
-                    _class_call_check(this, LoadableSubscription);
+                    _classCallCheck(this, LoadableSubscription);
 
                     this._loadFn = loadFn;
                     this._opts = opts;
@@ -511,7 +510,7 @@
                     this.retry();
                 }
 
-                _create_class(LoadableSubscription, [
+                _createClass(LoadableSubscription, [
                     {
                         key: "promise",
                         value: function promise() {
@@ -573,8 +572,8 @@
                     {
                         key: "_update",
                         value: function _update(partial) {
-                            this._state = _object_spread(
-                                _object_spread({}, this._state),
+                            this._state = _objectSpread(
+                                _objectSpread({}, this._state),
                                 {},
                                 {
                                     error: this._res.error,

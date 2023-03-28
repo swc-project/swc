@@ -9,14 +9,14 @@
             "use strict";
             var __webpack_unused_export__;
 
-            var _sliced_to_array = __webpack_require__(3408);
+            var _slicedToArray = __webpack_require__(3408);
 
             __webpack_unused_export__ = {
                 value: true,
             };
             exports.default = void 0;
 
-            var _react = _interop_require_default(__webpack_require__(2735));
+            var _react = _interopRequireDefault(__webpack_require__(2735));
 
             var _router = __webpack_require__(1073);
 
@@ -24,7 +24,7 @@
 
             var _useIntersection = __webpack_require__(4770);
 
-            function _interop_require_default(obj) {
+            function _interopRequireDefault(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -120,10 +120,7 @@
                                     props.href,
                                     true
                                 ),
-                                _resolveHref2 = _sliced_to_array(
-                                    _resolveHref,
-                                    2
-                                ),
+                                _resolveHref2 = _slicedToArray(_resolveHref, 2),
                                 resolvedHref = _resolveHref2[0],
                                 resolvedAs = _resolveHref2[1];
 
@@ -165,7 +162,7 @@
                 var _useIntersection2 = (0, _useIntersection).useIntersection({
                         rootMargin: "200px",
                     }),
-                    _useIntersection3 = _sliced_to_array(_useIntersection2, 2),
+                    _useIntersection3 = _slicedToArray(_useIntersection2, 2),
                     setIntersectionRef = _useIntersection3[0],
                     isVisible = _useIntersection3[1];
 
@@ -298,7 +295,7 @@
         ) {
             "use strict";
 
-            var _sliced_to_array = __webpack_require__(3408);
+            var _slicedToArray = __webpack_require__(3408);
 
             Object.defineProperty(exports, "__esModule", {
                 value: true,
@@ -319,7 +316,7 @@
                 var unobserve = (0, _react).useRef();
 
                 var _useState = (0, _react).useState(false),
-                    _useState2 = _sliced_to_array(_useState, 2),
+                    _useState2 = _slicedToArray(_useState, 2),
                     visible = _useState2[0],
                     setVisible = _useState2[1];
 

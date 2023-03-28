@@ -8,34 +8,34 @@
         ) {
             "use strict";
 
-            var _class_call_check = __webpack_require__(4988);
+            var _classCallCheck = __webpack_require__(4988);
 
-            var _create_class = __webpack_require__(9590);
+            var _createClass = __webpack_require__(9590);
 
             var _inherits = __webpack_require__(4546);
 
-            var _possible_constructor_return = __webpack_require__(1581);
+            var _possibleConstructorReturn = __webpack_require__(1581);
 
-            var _get_prototype_of = __webpack_require__(852);
+            var _getPrototypeOf = __webpack_require__(852);
 
             var _regeneratorRuntime = __webpack_require__(7945);
 
-            function _create_super(Derived) {
-                var hasNativeReflectConstruct = _is_native_reflect_construct();
+            function _createSuper(Derived) {
+                var hasNativeReflectConstruct = _isNativeReflectConstruct();
                 return function _createSuperInternal() {
-                    var Super = _get_prototype_of(Derived),
+                    var Super = _getPrototypeOf(Derived),
                         result;
                     if (hasNativeReflectConstruct) {
-                        var NewTarget = _get_prototype_of(this).constructor;
+                        var NewTarget = _getPrototypeOf(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
                     } else {
                         result = Super.apply(this, arguments);
                     }
-                    return _possible_constructor_return(this, result);
+                    return _possibleConstructorReturn(this, result);
                 };
             }
 
-            function _is_native_reflect_construct() {
+            function _isNativeReflectConstruct() {
                 if (typeof Reflect === "undefined" || !Reflect.construct)
                     return false;
                 if (Reflect.construct.sham) return false;
@@ -67,7 +67,7 @@
             });
             exports.default = void 0;
 
-            var _react = _interop_require_default(__webpack_require__(2735));
+            var _react = _interopRequireDefault(__webpack_require__(2735));
 
             var _utils = __webpack_require__(6373);
 
@@ -95,7 +95,7 @@
                 }
             }
 
-            function _async_to_generator(fn) {
+            function _asyncToGenerator(fn) {
                 return function () {
                     var self = this,
                         args = arguments;
@@ -131,7 +131,7 @@
                 };
             }
 
-            function _interop_require_default(obj) {
+            function _interopRequireDefault(obj) {
                 return obj && obj.__esModule
                     ? obj
                     : {
@@ -145,7 +145,7 @@
                      * `App` component is used for initialize of pages. It allows for overwriting and full control of the `page` initialization.
                      * This allows for keeping state between navigation, custom error handling, injecting additional data.
                      */
-                    _async_to_generator(
+                    _asyncToGenerator(
                         /*#__PURE__*/ _regeneratorRuntime.mark(function _callee(
                             _ref
                         ) {
@@ -190,15 +190,15 @@
             var App = /*#__PURE__*/ (function (_react$default$Compon) {
                 _inherits(App, _react$default$Compon);
 
-                var _super = _create_super(App);
+                var _super = _createSuper(App);
 
                 function App() {
-                    _class_call_check(this, App);
+                    _classCallCheck(this, App);
 
                     return _super.apply(this, arguments);
                 }
 
-                _create_class(App, [
+                _createClass(App, [
                     {
                         key: "render",
                         value: function render() {

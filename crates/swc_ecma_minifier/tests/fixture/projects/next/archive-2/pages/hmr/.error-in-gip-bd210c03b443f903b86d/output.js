@@ -8,7 +8,7 @@
                 __webpack_require__
             ) {
                 "use strict";
-                function _assert_this_initialized(
+                function _assertThisInitialized(
                     self
                 ) {
                     if (void 0 === self)
@@ -22,7 +22,7 @@
                     {
                         Z: function (
                         ) {
-                            return _assert_this_initialized;
+                            return _assertThisInitialized;
                         },
                     }
                 );
@@ -33,7 +33,7 @@
                 __webpack_require__
             ) {
                 "use strict";
-                function _class_call_check(
+                function _classCallCheck(
                     instance, Constructor
                 ) {
                     if (!(instance instanceof Constructor))
@@ -46,7 +46,7 @@
                     {
                         Z: function (
                         ) {
-                            return _class_call_check;
+                            return _classCallCheck;
                         },
                     }
                 );
@@ -72,7 +72,7 @@
                         );
                     }
                 }
-                function _create_class(
+                function _createClass(
                     Constructor, protoProps, staticProps
                 ) {
                     return (
@@ -93,7 +93,7 @@
                     {
                         Z: function (
                         ) {
-                            return _create_class;
+                            return _createClass;
                         },
                     }
                 );
@@ -104,10 +104,10 @@
                 __webpack_require__
             ) {
                 "use strict";
-                function _get_prototype_of(
+                function _getPrototypeOf(
                     o
                 ) {
-                    return (_get_prototype_of = Object.setPrototypeOf
+                    return (_getPrototypeOf = Object.setPrototypeOf
                         ? Object.getPrototypeOf
                         : function (
                             o
@@ -124,7 +124,7 @@
                     {
                         Z: function (
                         ) {
-                            return _get_prototype_of;
+                            return _getPrototypeOf;
                         },
                     }
                 );
@@ -135,10 +135,10 @@
                 __webpack_require__
             ) {
                 "use strict";
-                function _set_prototype_of(
+                function _setPrototypeOf(
                     o, p
                 ) {
-                    return (_set_prototype_of =
+                    return (_setPrototypeOf =
                     Object.setPrototypeOf ||
                     function (
                         o, p
@@ -166,7 +166,7 @@
                             },
                         }
                     )),
-                    superClass && _set_prototype_of(
+                    superClass && _setPrototypeOf(
                         subClass,
                         superClass
                     );
@@ -216,14 +216,14 @@
                     {
                         Z: function (
                         ) {
-                            return _possible_constructor_return;
+                            return _possibleConstructorReturn;
                         },
                     }
                 );
                 var assertThisInitialized = __webpack_require__(
                     2911
                 );
-                function _possible_constructor_return(
+                function _possibleConstructorReturn(
                     self, call
                 ) {
                     return !call ||
@@ -258,11 +258,11 @@
                     __webpack_require__(
                         4512
                     ),
-                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_class_call_check__WEBPACK_IMPORTED_MODULE_5__ =
+                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__ =
                     __webpack_require__(
                         8436
                     ),
-                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_create_class__WEBPACK_IMPORTED_MODULE_6__ =
+                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_6__ =
                     __webpack_require__(
                         8370
                     ),
@@ -270,15 +270,15 @@
                     __webpack_require__(
                         3001
                     ),
-                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possible_constructor_return__WEBPACK_IMPORTED_MODULE_2__ =
+                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ =
                     __webpack_require__(
                         7130
                     ),
-                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_get_prototype_of__WEBPACK_IMPORTED_MODULE_1__ =
+                    _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__ =
                     __webpack_require__(
                         2374
                     );
-                function _create_super(
+                function _createSuper(
                     Derived
                 ) {
                     var hasNativeReflectConstruct = (function (
@@ -308,12 +308,12 @@
                     ) {
                         var result,
                             Super = (0,
-                            _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_get_prototype_of__WEBPACK_IMPORTED_MODULE_1__.Z)(
+                            _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(
                                 Derived
                             );
                         if (hasNativeReflectConstruct) {
                             var NewTarget = (0,
-                            _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_get_prototype_of__WEBPACK_IMPORTED_MODULE_1__.Z)(
+                            _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(
                                 this
                             ).constructor;
                             result = Reflect.construct(
@@ -326,7 +326,7 @@
                             arguments
                         );
                         return (0,
-                        _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possible_constructor_return__WEBPACK_IMPORTED_MODULE_2__.Z)(
+                        _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__.Z)(
                             this,
                             result
                         );
@@ -340,14 +340,14 @@
                         _default,
                         _React$Component
                     );
-                    var _super = _create_super(
+                    var _super = _createSuper(
                         _default
                     );
                     function _default(
                     ) {
                         return (
                             (0,
-                            _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_class_call_check__WEBPACK_IMPORTED_MODULE_5__.Z)(
+                            _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__.Z)(
                                 this,
                                 _default
                             ),
@@ -359,7 +359,7 @@
                     }
                     return (
                         (0,
-                        _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_create_class__WEBPACK_IMPORTED_MODULE_6__.Z)(
+                        _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_6__.Z)(
                             _default,
                             [
                                 {
