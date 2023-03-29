@@ -105,8 +105,6 @@ fn fixture(input: PathBuf) {
         },
         &input,
         &output,
-        FixtureTestConfig {
-            ..Default::default()
-        },
+        Default::default(),
     )
 }

@@ -73,9 +73,7 @@ impl Load for PathLoader {
 
         let module = parse_file_as_module(
             &fm,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
+            Syntax::Es(Default::default()),
             Default::default(),
             None,
             &mut vec![],
