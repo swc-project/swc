@@ -10,9 +10,6 @@
 
 use std::fmt;
 
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
-
 use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart};
 use crate::syntax_pos::{MultiSpan, Span};
 
@@ -21,10 +18,6 @@ use crate::syntax_pos::{MultiSpan, Span};
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
-)]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct Diagnostic {
     pub level: Level,
@@ -40,10 +33,6 @@ pub struct Diagnostic {
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 pub enum DiagnosticId {
     Error(String),
     Lint(String),
@@ -54,10 +43,6 @@ pub enum DiagnosticId {
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
-)]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct SubDiagnostic {
     pub level: Level,

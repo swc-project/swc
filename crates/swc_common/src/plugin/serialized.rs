@@ -1,10 +1,6 @@
 use std::any::type_name;
 
 use anyhow::{Context, Error};
-#[cfg(feature = "__rkyv")]
-use rkyv::Deserialize;
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 use serde::de::DeserializeOwned;
 
 #[derive(Debug, Clone, PartialEq, Eq)]

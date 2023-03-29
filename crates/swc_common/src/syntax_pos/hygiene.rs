@@ -30,7 +30,7 @@ use crate::collections::AHashMap;
 /// marks).
 #[derive(Clone, Copy, PartialEq, Eq, Default, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[serde(transparent)]
-pub struct SyntaxContext(#[cfg_attr(feature = "__rkyv", omit_bounds)] u32);
+pub struct SyntaxContext(u32);
 
 #[cfg(feature = "arbitrary")]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]

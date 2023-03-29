@@ -105,10 +105,6 @@ pub struct CodeSuggestion {
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 pub struct Substitution {
     pub parts: Vec<SubstitutionPart>,
 }
@@ -117,10 +113,6 @@ pub struct Substitution {
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
-)]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct SubstitutionPart {
     pub span: Span,
@@ -864,10 +856,6 @@ impl Handler {
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
-)]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub enum Level {
     Bug,
