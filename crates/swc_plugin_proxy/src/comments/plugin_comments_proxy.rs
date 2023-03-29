@@ -1,5 +1,3 @@
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 #[cfg(feature = "__plugin_mode")]
 use swc_common::{
     comments::{Comment, Comments},
@@ -8,7 +6,7 @@ use swc_common::{
 #[cfg(feature = "__plugin_mode")]
 use swc_trace_macro::swc_trace;
 
-#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
 use crate::memory_interop::read_returned_result_from_host;
 
 #[cfg(target_arch = "wasm32")]
