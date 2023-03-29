@@ -2,15 +2,17 @@ use std::sync::Arc;
 
 use anyhow::{anyhow, Error};
 use parking_lot::Mutex;
-#[cfg(feature = "__rkyv")]
-use swc_common::plugin::serialized::{PluginError, PluginSerializedBytes};
 #[cfg(any(
     feature = "plugin_transform_schema_v1",
     feature = "plugin_transform_schema_vtest"
 ))]
 use swc_common::plugin::PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
 use swc_common::{
-    plugin::{diagnostics::PluginCorePkgDiagnostics, metadata::TransformPluginMetadataContext},
+    plugin::{
+        diagnostics::PluginCorePkgDiagnostics,
+        metadata::TransformPluginMetadataContext,
+        serialized::{PluginError, PluginSerializedBytes},
+    },
     SourceMap,
 };
 use wasmer::Instance;
@@ -36,7 +38,6 @@ pub struct TransformExecutor {
     pub plugin_core_diag: PluginCorePkgDiagnostics,
 }
 
-#[cfg(feature = "__rkyv")]
 impl TransformExecutor {
     #[tracing::instrument(
         level = "info",
