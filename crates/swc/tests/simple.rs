@@ -4,7 +4,7 @@ use swc::{
 };
 use swc_common::FileName;
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{Syntax, TsConfig};
 use testing::Tester;
 
 fn compile(src: &str, options: Options) -> String {
