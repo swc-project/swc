@@ -27,11 +27,13 @@
     "rust-analyzer.check.features": [
         // We use this to make IDE faster
         "rust-analyzer",
-        "debug"
+        "debug",
+        "__plugin"
     ],
     "rust-analyzer.cargo.features": [
         // We use this to make IDE faster
         "rust-analyzer",
-        "debug"
+        "debug",
+        "__plugin"
     ]
 }
