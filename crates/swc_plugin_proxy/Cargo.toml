@@ -20,6 +20,7 @@ plugin-mode = ["__plugin_mode", "swc_common/plugin-base"]
 
 [dependencies]
 
+serde   = { version = "1", features = ["derive"] }
 tracing = "0.1.32"
 
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
