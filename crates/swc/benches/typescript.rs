@@ -177,9 +177,7 @@ fn full_group(c: &mut Criterion) {
                         config: Config {
                             jsc: JscConfig {
                                 target: Some($target),
-                                syntax: Some(Syntax::Typescript(TsConfig {
-                                    ..Default::default()
-                                })),
+                                syntax: Some(Syntax::Typescript(Default::default())),
                                 ..Default::default()
                             },
                             module: None,

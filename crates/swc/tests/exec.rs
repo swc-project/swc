@@ -149,9 +149,7 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
     ]
     .into_iter()
     .matrix(|| {
-        let default_es = Syntax::Es(EsConfig {
-            ..Default::default()
-        });
+        let default_es = Syntax::Es(Default::default());
 
         if let Some(ext) = entry.extension() {
             if ext == "ts" {
