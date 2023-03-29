@@ -542,7 +542,6 @@ mod tests {
     use std::{f64::INFINITY, panic};
 
     use super::*;
-    use crate::EsConfig;
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where
