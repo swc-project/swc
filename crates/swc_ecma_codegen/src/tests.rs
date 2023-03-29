@@ -93,9 +93,7 @@ pub(crate) fn assert_min(from: &str, to: &str) {
             omit_last_semi: true,
             ..Default::default()
         },
-        Syntax::Es(EsConfig {
-            ..Default::default()
-        }),
+        Syntax::Es(Default::default()),
     );
 
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);

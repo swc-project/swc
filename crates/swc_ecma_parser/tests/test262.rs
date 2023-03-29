@@ -96,6 +96,11 @@ fn add_test<F: FnOnce() -> Result<(), String> + Send + 'static>(
             compile_fail: false,
             no_run: false,
             ignore_message: Default::default(),
+            end_col: 0,
+            end_line: 0,
+            start_col: 0,
+            start_line: 0,
+            source_file: "",
         },
         testfn: DynTestFn(Box::new(f)),
     });
