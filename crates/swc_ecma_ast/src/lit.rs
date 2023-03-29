@@ -121,23 +121,6 @@ where
     }
 }
 
-#[cfg(any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"))]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Box<BigIntValue>, D> for EncodeBigInt
-where
-    D: ?Sized + rkyv::Fallible,
-{
-    fn deserialize_with(
-        field: &rkyv::Archived<String>,
-        deserializer: &mut D,
-    ) -> Result<Box<BigIntValue>, D::Error> {
-        use rkyv::Deserialize;
-
-        let s: String = field.deserialize(deserializer)?;
-
-        Ok(Box::new(s.parse().unwrap()))
-    }
-}
-
 #[cfg(feature = "arbitrary")]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
 impl<'a> arbitrary::Arbitrary<'a> for BigInt {
@@ -167,10 +150,6 @@ impl From<BigIntValue> for BigInt {
 pub struct Str {
     pub span: Span,
 
-    #[cfg_attr(
-        any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-        with(swc_atoms::EncodeJsWord)
-    )]
     pub value: JsWord,
 
     /// Use `None` value only for transformations to avoid recalculate escaped

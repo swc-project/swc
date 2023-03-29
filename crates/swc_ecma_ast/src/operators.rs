@@ -1,14 +1,8 @@
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 use string_enum::StringEnum;
 use swc_common::EqIgnoreSpan;
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 pub enum BinaryOp {
     /// `==`
     EqEq,
@@ -114,10 +108,6 @@ impl BinaryOp {
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 pub enum AssignOp {
     /// `=`
     Assign,
@@ -187,10 +177,6 @@ impl AssignOp {
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 pub enum UpdateOp {
     /// `++`
     PlusPlus,
@@ -200,10 +186,6 @@ pub enum UpdateOp {
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 pub enum UnaryOp {
     /// `-`
     Minus,
