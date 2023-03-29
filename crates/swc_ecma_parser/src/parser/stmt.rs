@@ -1850,14 +1850,9 @@ export default function waitUntil(callback, options = {}) {
   both?: StringBuffer
 ) => void;";
 
-        let _ = test_parser_comment(
-            &c,
-            s,
-            Syntax::Typescript(TsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_typescript_module(),
-        );
+        let _ = test_parser_comment(&c, s, Syntax::Typescript(Default::default()), |p| {
+            p.parse_typescript_module()
+        });
 
         let (leading, trailing) = c.take_all();
         assert!(trailing.borrow().is_empty());
@@ -1877,14 +1872,9 @@ export default function waitUntil(callback, options = {}) {
   __dirname: string
 ) => void;";
 
-        let _ = test_parser_comment(
-            &c,
-            s,
-            Syntax::Typescript(TsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_typescript_module(),
-        );
+        let _ = test_parser_comment(&c, s, Syntax::Typescript(Default::default()), |p| {
+            p.parse_typescript_module()
+        });
 
         let (leading, trailing) = c.take_all();
         assert!(trailing.borrow().is_empty());
@@ -1899,14 +1889,9 @@ export default function waitUntil(callback, options = {}) {
     [key: string]: (module: Module, filename: string) => any;
   } = Object.create(null);";
 
-        let _ = test_parser_comment(
-            &c,
-            s,
-            Syntax::Typescript(TsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_typescript_module(),
-        );
+        let _ = test_parser_comment(&c, s, Syntax::Typescript(Default::default()), |p| {
+            p.parse_typescript_module()
+        });
 
         let (leading, trailing) = c.take_all();
         assert!(trailing.borrow().is_empty());
@@ -1982,63 +1967,33 @@ export default function waitUntil(callback, options = {}) {
     #[should_panic(expected = "'import.meta' cannot be used outside of module code.")]
     fn import_meta_in_script() {
         let src = "const foo = import.meta.url;";
-        test_parser(
-            src,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_script(),
-        );
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
     }
 
     #[test]
     fn import_meta_in_program() {
         let src = "const foo = import.meta.url;";
-        test_parser(
-            src,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_program(),
-        );
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
     }
 
     #[test]
     #[should_panic(expected = "'import', and 'export' cannot be used outside of module code")]
     fn import_statement_in_script() {
         let src = "import 'foo';";
-        test_parser(
-            src,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_script(),
-        );
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
     }
 
     #[test]
     #[should_panic(expected = "top level await is only allowed in module")]
     fn top_level_await_in_script() {
         let src = "await promise";
-        test_parser(
-            src,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_script(),
-        );
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
     }
 
     #[test]
     fn top_level_await_in_program() {
         let src = "await promise";
-        test_parser(
-            src,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_program(),
-        );
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_program());
     }
 
     #[test]
@@ -2136,13 +2091,7 @@ export default function waitUntil(callback, options = {}) {
     fn class_static_blocks() {
         let src = "class Foo { static { 1 + 1; } }";
         assert_eq_ignore_span!(
-            test_parser(
-                src,
-                Syntax::Es(EsConfig {
-                    ..Default::default()
-                }),
-                |p| p.parse_expr()
-            ),
+            test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
             Box::new(Expr::Class(ClassExpr {
                 ident: Some(Ident {
                     span,
@@ -2173,13 +2122,7 @@ export default function waitUntil(callback, options = {}) {
     fn multiple_class_static_blocks() {
         let src = "class Foo { static { 1 + 1; } static { 1 + 1; } }";
         assert_eq_ignore_span!(
-            test_parser(
-                src,
-                Syntax::Es(EsConfig {
-                    ..Default::default()
-                }),
-                |p| p.parse_expr()
-            ),
+            test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
             Box::new(Expr::Class(ClassExpr {
                 ident: Some(Ident {
                     span,
@@ -2224,13 +2167,7 @@ export default function waitUntil(callback, options = {}) {
             }
         }";
         assert_eq_ignore_span!(
-            test_parser(
-                src,
-                Syntax::Es(EsConfig {
-                    ..Default::default()
-                }),
-                |p| p.parse_expr()
-            ),
+            test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
             Box::new(Expr::Class(ClassExpr {
                 ident: Some(Ident {
                     span,
@@ -2264,13 +2201,7 @@ export default function waitUntil(callback, options = {}) {
             {}
         }";
         assert_eq_ignore_span!(
-            test_parser(
-                src,
-                Syntax::Es(EsConfig {
-                    ..Default::default()
-                }),
-                |p| p.parse_expr()
-            ),
+            test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr()),
             Box::new(Expr::Class(ClassExpr {
                 ident: Some(Ident {
                     span,
@@ -2424,13 +2355,9 @@ export default function waitUntil(callback, options = {}) {
 "use strict";
 const foo;"#;
 
-        test_parser(
-            src,
-            Syntax::Typescript(TsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_script(),
-        );
+        test_parser(src, Syntax::Typescript(Default::default()), |p| {
+            p.parse_script()
+        });
     }
 
     #[test]
@@ -2440,13 +2367,7 @@ const foo;"#;
 "use strict";
 const foo;"#;
 
-        test_parser(
-            src,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_script(),
-        );
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
     }
 
     #[test]

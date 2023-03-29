@@ -2921,9 +2921,7 @@ mod tests {
     string | number);",
             |handler, input| {
                 let lexer = Lexer::new(
-                    Syntax::Typescript(TsConfig {
-                        ..Default::default()
-                    }),
+                    Syntax::Typescript(Default::default()),
                     EsVersion::Es2019,
                     input,
                     None,
@@ -2947,9 +2945,7 @@ mod tests {
     fn issue_751() {
         crate::with_test_sess("t ? -(v >>> 1) : v >>> 1", |handler, input| {
             let lexer = Lexer::new(
-                Syntax::Typescript(TsConfig {
-                    ..Default::default()
-                }),
+                Syntax::Typescript(Default::default()),
                 EsVersion::Es2019,
                 input,
                 None,
