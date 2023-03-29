@@ -25,7 +25,6 @@ use swc_trace_macro::swc_trace;
 ///
 /// x = Math.pow(x, 3);
 /// ```
-#[tracing::instrument(level = "info", skip_all)]
 pub fn exponentiation() -> impl Fold + VisitMut {
     as_folder(Exponentiation::default())
 }
