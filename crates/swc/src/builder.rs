@@ -190,6 +190,9 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Some(ModuleConfig::Umd(ref c)) => {
                 (true, c.config.import_interop(), c.config.ignore_dynamic)
             }
+            Some(ModuleConfig::PorterJs(ref c)) => {
+                (true, c.config.import_interop(), c.config.ignore_dynamic)
+            }
             Some(ModuleConfig::SystemJs(_))
             | Some(ModuleConfig::Es6)
             | Some(ModuleConfig::NodeNext)

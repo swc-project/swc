@@ -1407,6 +1407,8 @@ pub enum ModuleConfig {
     Amd(modules::amd::Config),
     #[serde(rename = "systemjs")]
     SystemJs(modules::system_js::Config),
+    #[serde(rename = "porterjs")]
+    PorterJs(modules::porter_js::Config),
     #[serde(rename = "es6")]
     Es6,
     #[serde(rename = "nodenext")]
@@ -1516,6 +1518,27 @@ impl ModuleConfig {
                         base,
                         unresolved_mark,
                         config,
+                    ))
+                }
+            }
+            Some(ModuleConfig::PorterJs(config)) => {
+                if paths.is_empty() {
+                    Box::new(modules::porter_js::porter_js(
+                        unresolved_mark,
+                        config,
+                        available_features,
+                        comments,
+                    ))
+                } else {
+                    let resolver = build_resolver(base_url, paths);
+
+                    Box::new(modules::porter_js::porter_js_with_resolver(
+                        resolver,
+                        base,
+                        unresolved_mark,
+                        config,
+                        available_features,
+                        comments,
                     ))
                 }
             }

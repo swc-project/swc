@@ -903,7 +903,7 @@ export interface GlobalPassOption {
   typeofs?: Record<string, string>;
 }
 
-export type ModuleConfig = Es6Config | CommonJsConfig | UmdConfig | AmdConfig | NodeNextConfig | SystemjsConfig;
+export type ModuleConfig = Es6Config | CommonJsConfig | UmdConfig | AmdConfig | NodeNextConfig | SystemjsConfig | PorterJsConfig;
 
 export interface BaseModuleConfig {
   /**
@@ -1093,6 +1093,12 @@ export interface SystemjsConfig {
   type: "systemjs";
   allowTopLevelThis?: boolean;
 }
+
+export interface PorterJsConfig {
+  type: "porterjs";
+  moduleId?: string;
+}
+
 export interface Output {
   /**
    * Transformed code

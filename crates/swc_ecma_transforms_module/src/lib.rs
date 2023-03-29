@@ -13,6 +13,7 @@ pub mod import_analysis;
 pub(crate) mod module_decl_strip;
 pub(crate) mod module_ref_rewriter;
 pub mod path;
+pub mod porter_js;
 pub mod rewriter;
 pub mod system_js;
 pub mod umd;
