@@ -1209,7 +1209,6 @@ impl<'a> Lexer<'a> {
     }
 
     #[inline]
-    #[allow(clippy::misnamed_getters)]
     pub fn had_line_break_before_last(&self) -> bool {
         self.state.had_line_break
     }

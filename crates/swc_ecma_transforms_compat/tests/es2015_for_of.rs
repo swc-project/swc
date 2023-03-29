@@ -7,7 +7,9 @@ use swc_ecma_transforms_compat::es2015::{
     self,
     for_of::{for_of, Config},
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{
+    compare_stdout, test, test_exec, test_fixture, FixtureTestConfig,
+};
 
 fn syntax() -> Syntax {
     Default::default()
@@ -373,7 +375,9 @@ for(let _i = 0; _i < array.length; _i++){
 // regression_scope_9696
 test_exec!(
     syntax(),
-    |_| for_of(Default::default()),
+    |_| for_of(Config {
+        ..Default::default()
+    }),
     regression_scope_9696_exec,
     r#"
 var arr = [1, 2, 3];
@@ -475,7 +479,9 @@ for(let _i = 0; _i < array.length; _i++){
 // regression_label_object_with_comment_4995
 test!(
     syntax(),
-    |_| for_of(Default::default()),
+    |_| for_of(Config {
+        ..Default::default()
+    }),
     regression_label_object_with_comment_4995,
     r#"
 myLabel: //woops
@@ -575,7 +581,9 @@ fn fixture(input: PathBuf) {
         },
         &input,
         &output,
-        Default::default(),
+        FixtureTestConfig {
+            ..Default::default()
+        },
     );
 }
 

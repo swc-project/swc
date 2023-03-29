@@ -542,6 +542,7 @@ mod tests {
     use std::{f64::INFINITY, panic};
 
     use super::*;
+    use crate::EsConfig;
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where
@@ -549,7 +550,9 @@ mod tests {
     {
         crate::with_test_sess(s, |_, input| {
             let mut l = Lexer::new(
-                Syntax::Es(Default::default()),
+                Syntax::Es(EsConfig {
+                    ..Default::default()
+                }),
                 Default::default(),
                 input,
                 None,

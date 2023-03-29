@@ -74,7 +74,7 @@ where
 
                         helpers.add_to(&mut bundle.module.body);
 
-                        new.push(bundle);
+                        new.push(Bundle { ..bundle });
                     }
                     BundleKind::Lib { name } => {
                         let hash = calc_hash(self.cm.clone(), &bundle.module)?;

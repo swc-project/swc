@@ -3605,7 +3605,7 @@ test!(
 
 #[testing::fixture("tests/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
-    let input = read_to_string(input).unwrap();
+    let input = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
         |t| {
@@ -3628,7 +3628,7 @@ fn exec(input: PathBuf) {
 
 #[testing::fixture("tests/async-to-generator/**/exec.js")]
 fn exec_regenerator(input: PathBuf) {
-    let input = read_to_string(input).unwrap();
+    let input = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
         |t| {

@@ -35,6 +35,7 @@ use swc_trace_macro::swc_trace;
 ///   yield bar();
 /// });
 /// ```
+#[tracing::instrument(level = "info", skip_all)]
 pub fn async_to_generator<C: Comments + Clone>(
     c: Config,
     comments: Option<C>,

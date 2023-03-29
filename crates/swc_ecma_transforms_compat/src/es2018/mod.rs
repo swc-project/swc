@@ -7,6 +7,7 @@ use crate::regexp::{self, regexp};
 
 pub mod object_rest_spread;
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn es2018(c: Config) -> impl Fold {
     chain!(
         regexp(regexp::Config {

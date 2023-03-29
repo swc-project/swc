@@ -49,6 +49,7 @@ use swc_trace_macro::swc_trace;
 ///   }
 /// }
 /// ```
+#[tracing::instrument(level = "info", skip_all)]
 pub fn for_of(c: Config) -> impl Fold + VisitMut {
     as_folder(ForOf {
         c,

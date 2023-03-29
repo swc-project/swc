@@ -18,6 +18,7 @@ use swc_trace_macro::swc_trace;
 /// ```js
 /// new RegExp("o+", "y")
 /// ```
+#[tracing::instrument(level = "info", skip_all)]
 pub fn sticky_regex() -> impl 'static + Fold + VisitMut {
     as_folder(StickyRegex)
 }

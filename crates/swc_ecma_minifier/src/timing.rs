@@ -14,7 +14,9 @@ pub struct Timings {
 
 impl Timings {
     pub fn new() -> Timings {
-        Default::default()
+        Timings {
+            ..Default::default()
+        }
     }
 
     pub fn section(&mut self, name: &str) {

@@ -92,7 +92,7 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "c06df922631aeabc.js",
 ];
 
-fn add_test<F: FnOnce() -> Result<(), String> + Send + 'static>(
+fn add_test<F: FnOnce() + Send + 'static>(
     tests: &mut Vec<TestDescAndFn>,
     name: String,
     ignore: bool,
@@ -107,11 +107,6 @@ fn add_test<F: FnOnce() -> Result<(), String> + Send + 'static>(
             compile_fail: false,
             no_run: false,
             ignore_message: Default::default(),
-            end_col: 0,
-            end_line: 0,
-            start_col: 0,
-            start_line: 0,
-            source_file: "",
         },
         testfn: DynTestFn(Box::new(f)),
     });
@@ -263,8 +258,6 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     Err(())
                 })
                 .expect("failed to run test");
-
-                Ok(())
             }
         });
     }

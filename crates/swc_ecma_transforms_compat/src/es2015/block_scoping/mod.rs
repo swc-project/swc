@@ -35,6 +35,7 @@ mod vars;
 ///    });
 /// }
 /// ```
+#[tracing::instrument(level = "info", skip_all)]
 pub fn block_scoping(unresolved_mark: Mark) -> impl VisitMut + Fold {
     as_folder(chain!(
         self::vars::block_scoped_vars(),

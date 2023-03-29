@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use swc_common::chain;
-use swc_ecma_parser::Syntax;
+use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_compat::es2022::{class_properties, static_blocks};
 use swc_ecma_transforms_testing::test_fixture;
 use swc_ecma_visit::Fold;
@@ -12,7 +12,9 @@ fn fixture(input: PathBuf) {
 
     let output = parent.join("output.js");
     test_fixture(
-        Syntax::Es(Default::default()),
+        Syntax::Es(EsConfig {
+            ..Default::default()
+        }),
         &|t| {
             let config = class_properties::Config::default();
             let pass: Box<dyn Fold> = if input.to_string_lossy().contains("class-properties") {
