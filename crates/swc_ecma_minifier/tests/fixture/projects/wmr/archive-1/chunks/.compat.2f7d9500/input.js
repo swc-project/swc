@@ -1291,9 +1291,9 @@ var _CALENDAR_TYPE_LOCALE;
 
 function _toConsumableArray$2(arr) {
     return (
-        _array_without_holes$2(arr) ||
+        _arrayWithoutHoles$2(arr) ||
         _iterableToArray$2(arr) ||
-        _unsupported_iterable_to_array$2(arr) ||
+        _unsupportedIterableToArray$2(arr) ||
         _nonIterableSpread$2()
     );
 }
@@ -1304,14 +1304,14 @@ function _nonIterableSpread$2() {
     );
 }
 
-function _unsupported_iterable_to_array$2(o, minLen) {
+function _unsupportedIterableToArray$2(o, minLen) {
     if (!o) return;
-    if (typeof o === "string") return _array_like_to_array$2(o, minLen);
+    if (typeof o === "string") return _arrayLikeToArray$2(o, minLen);
     var n = Object.prototype.toString.call(o).slice(8, -1);
     if (n === "Object" && o.constructor) n = o.constructor.name;
     if (n === "Map" || n === "Set") return Array.from(o);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-        return _array_like_to_array$2(o, minLen);
+        return _arrayLikeToArray$2(o, minLen);
 }
 
 function _iterableToArray$2(iter) {
@@ -1319,11 +1319,11 @@ function _iterableToArray$2(iter) {
         return Array.from(iter);
 }
 
-function _array_without_holes$2(arr) {
-    if (Array.isArray(arr)) return _array_like_to_array$2(arr);
+function _arrayWithoutHoles$2(arr) {
+    if (Array.isArray(arr)) return _arrayLikeToArray$2(arr);
 }
 
-function _array_like_to_array$2(arr, len) {
+function _arrayLikeToArray$2(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
     for (var i = 0, arr2 = new Array(len); i < len; i++) {
         arr2[i] = arr[i];
@@ -1331,7 +1331,7 @@ function _array_like_to_array$2(arr, len) {
     return arr2;
 }
 
-function _define_property$c(obj, key, value) {
+function _defineProperty$c(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -1353,7 +1353,7 @@ var CALENDAR_TYPES = {
 };
 var CALENDAR_TYPE_LOCALES =
     ((_CALENDAR_TYPE_LOCALE = {}),
-    _define_property$c(_CALENDAR_TYPE_LOCALE, CALENDAR_TYPES.US, [
+    _defineProperty$c(_CALENDAR_TYPE_LOCALE, CALENDAR_TYPES.US, [
         "en-CA",
         "en-US",
         "es-AR",
@@ -1374,7 +1374,7 @@ var CALENDAR_TYPE_LOCALES =
         "es-VE",
         "pt-BR",
     ]),
-    _define_property$c(_CALENDAR_TYPE_LOCALE, CALENDAR_TYPES.ARABIC, [
+    _defineProperty$c(_CALENDAR_TYPE_LOCALE, CALENDAR_TYPES.ARABIC, [
         // ar-LB, ar-MA intentionally missing
         "ar",
         "ar-AE",
@@ -1396,7 +1396,7 @@ var CALENDAR_TYPE_LOCALES =
         "ps",
         "ps-AR",
     ]),
-    _define_property$c(_CALENDAR_TYPE_LOCALE, CALENDAR_TYPES.HEBREW, [
+    _defineProperty$c(_CALENDAR_TYPE_LOCALE, CALENDAR_TYPES.HEBREW, [
         "he",
         "he-IL",
     ]),
@@ -2288,12 +2288,12 @@ function ownKeys$b(object, enumerableOnly) {
     return keys;
 }
 
-function _object_spread$b(target) {
+function _objectSpread$b(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
         if (i % 2) {
             ownKeys$b(Object(source), true).forEach(function (key) {
-                _define_property$b(target, key, source[key]);
+                _defineProperty$b(target, key, source[key]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(
@@ -2313,7 +2313,7 @@ function _object_spread$b(target) {
     return target;
 }
 
-function _define_property$b(obj, key, value) {
+function _defineProperty$b(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -2327,9 +2327,9 @@ function _define_property$b(obj, key, value) {
     return obj;
 }
 
-function _object_without_properties$8(source, excluded) {
+function _objectWithoutProperties$8(source, excluded) {
     if (source == null) return {};
-    var target = _object_without_properties_loose$8(source, excluded);
+    var target = _objectWithoutPropertiesLoose$8(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -2344,7 +2344,7 @@ function _object_without_properties$8(source, excluded) {
     return target;
 }
 
-function _object_without_properties_loose$8(source, excluded) {
+function _objectWithoutPropertiesLoose$8(source, excluded) {
     if (source == null) return {};
     var target = {};
     var sourceKeys = Object.keys(source);
@@ -2369,7 +2369,7 @@ function Flex(_ref) {
         offset = _ref.offset,
         style = _ref.style,
         wrap = _ref.wrap,
-        otherProps = _object_without_properties$8(_ref, [
+        otherProps = _objectWithoutProperties$8(_ref, [
             "children",
             "className",
             "direction",
@@ -2384,7 +2384,7 @@ function Flex(_ref) {
         _extends$c(
             {
                 className: className,
-                style: _object_spread$b(
+                style: _objectSpread$b(
                     {
                         display: "flex",
                         flexDirection: direction,
@@ -2398,8 +2398,8 @@ function Flex(_ref) {
         React.Children.map(children, function (child, index) {
             return /*#__PURE__*/ React.cloneElement(
                 child,
-                _object_spread$b(
-                    _object_spread$b({}, child.props),
+                _objectSpread$b(
+                    _objectSpread$b({}, child.props),
                     {},
                     {
                         style: {
@@ -2430,9 +2430,9 @@ Flex.propTypes = {
 };
 function _toConsumableArray$1(arr) {
     return (
-        _array_without_holes$1(arr) ||
+        _arrayWithoutHoles$1(arr) ||
         _iterableToArray$1(arr) ||
-        _unsupported_iterable_to_array$1(arr) ||
+        _unsupportedIterableToArray$1(arr) ||
         _nonIterableSpread$1()
     );
 }
@@ -2443,14 +2443,14 @@ function _nonIterableSpread$1() {
     );
 }
 
-function _unsupported_iterable_to_array$1(o, minLen) {
+function _unsupportedIterableToArray$1(o, minLen) {
     if (!o) return;
-    if (typeof o === "string") return _array_like_to_array$1(o, minLen);
+    if (typeof o === "string") return _arrayLikeToArray$1(o, minLen);
     var n = Object.prototype.toString.call(o).slice(8, -1);
     if (n === "Object" && o.constructor) n = o.constructor.name;
     if (n === "Map" || n === "Set") return Array.from(o);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-        return _array_like_to_array$1(o, minLen);
+        return _arrayLikeToArray$1(o, minLen);
 }
 
 function _iterableToArray$1(iter) {
@@ -2458,11 +2458,11 @@ function _iterableToArray$1(iter) {
         return Array.from(iter);
 }
 
-function _array_without_holes$1(arr) {
-    if (Array.isArray(arr)) return _array_like_to_array$1(arr);
+function _arrayWithoutHoles$1(arr) {
+    if (Array.isArray(arr)) return _arrayLikeToArray$1(arr);
 }
 
-function _array_like_to_array$1(arr, len) {
+function _arrayLikeToArray$1(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
     for (var i = 0, arr2 = new Array(len); i < len; i++) {
         arr2[i] = arr[i];
@@ -2612,12 +2612,12 @@ function ownKeys$a(object, enumerableOnly) {
     return keys;
 }
 
-function _object_spread$a(target) {
+function _objectSpread$a(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
         if (i % 2) {
             ownKeys$a(Object(source), true).forEach(function (key) {
-                _define_property$a(target, key, source[key]);
+                _defineProperty$a(target, key, source[key]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(
@@ -2637,7 +2637,7 @@ function _object_spread$a(target) {
     return target;
 }
 
-function _define_property$a(obj, key, value) {
+function _defineProperty$a(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -2668,9 +2668,9 @@ function _extends$b() {
     return _extends$b.apply(this, arguments);
 }
 
-function _object_without_properties$7(source, excluded) {
+function _objectWithoutProperties$7(source, excluded) {
     if (source == null) return {};
-    var target = _object_without_properties_loose$7(source, excluded);
+    var target = _objectWithoutPropertiesLoose$7(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -2685,7 +2685,7 @@ function _object_without_properties$7(source, excluded) {
     return target;
 }
 
-function _object_without_properties_loose$7(source, excluded) {
+function _objectWithoutPropertiesLoose$7(source, excluded) {
     if (source == null) return {};
     var target = {};
     var sourceKeys = Object.keys(source);
@@ -2712,7 +2712,7 @@ function TileGroup(_ref) {
         Tile = _ref.tile,
         value = _ref.value,
         valueType = _ref.valueType,
-        tileProps = _object_without_properties$7(_ref, [
+        tileProps = _objectWithoutProperties$7(_ref, [
             "className",
             "count",
             "dateTransform",
@@ -2764,8 +2764,8 @@ function TileGroup(_ref) {
         tiles
     );
 }
-TileGroup.propTypes = _object_spread$a(
-    _object_spread$a({}, tileGroupProps),
+TileGroup.propTypes = _objectSpread$a(
+    _objectSpread$a({}, tileGroupProps),
     {},
     {
         activeStartDate: PropTypes.instanceOf(Date),
@@ -2790,12 +2790,12 @@ function ownKeys$9(object, enumerableOnly) {
     return keys;
 }
 
-function _object_spread$9(target) {
+function _objectSpread$9(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
         if (i % 2) {
             ownKeys$9(Object(source), true).forEach(function (key) {
-                _define_property$9(target, key, source[key]);
+                _defineProperty$9(target, key, source[key]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(
@@ -2834,7 +2834,7 @@ function _typeof$1(obj) {
     return _typeof$1(obj);
 }
 
-function _class_call_check$1(instance, Constructor) {
+function _classCallCheck$1(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
@@ -2850,7 +2850,7 @@ function _defineProperties$1(target, props) {
     }
 }
 
-function _create_class$1(Constructor, protoProps, staticProps) {
+function _createClass$1(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties$1(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties$1(Constructor, staticProps);
     return Constructor;
@@ -2869,42 +2869,42 @@ function _inherits$1(subClass, superClass) {
             configurable: true,
         },
     });
-    if (superClass) _set_prototype_of$1(subClass, superClass);
+    if (superClass) _setPrototypeOf$1(subClass, superClass);
 }
 
-function _set_prototype_of$1(o, p) {
-    _set_prototype_of$1 =
+function _setPrototypeOf$1(o, p) {
+    _setPrototypeOf$1 =
         Object.setPrototypeOf ||
-        function _set_prototype_of(o, p) {
+        function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };
-    return _set_prototype_of$1(o, p);
+    return _setPrototypeOf$1(o, p);
 }
 
-function _create_super$1(Derived) {
-    var hasNativeReflectConstruct = _is_native_reflect_construct$1();
+function _createSuper$1(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct$1();
     return function _createSuperInternal() {
-        var Super = _get_prototype_of$1(Derived),
+        var Super = _getPrototypeOf$1(Derived),
             result;
         if (hasNativeReflectConstruct) {
-            var NewTarget = _get_prototype_of$1(this).constructor;
+            var NewTarget = _getPrototypeOf$1(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
         } else {
             result = Super.apply(this, arguments);
         }
-        return _possible_constructor_return$1(this, result);
+        return _possibleConstructorReturn$1(this, result);
     };
 }
 
-function _possible_constructor_return$1(self, call) {
+function _possibleConstructorReturn$1(self, call) {
     if (call && (_typeof$1(call) === "object" || typeof call === "function")) {
         return call;
     }
-    return _assert_this_initialized$1(self);
+    return _assertThisInitialized$1(self);
 }
 
-function _assert_this_initialized$1(self) {
+function _assertThisInitialized$1(self) {
     if (self === void 0) {
         throw new ReferenceError(
             "this hasn't been initialised - super() hasn't been called"
@@ -2913,7 +2913,7 @@ function _assert_this_initialized$1(self) {
     return self;
 }
 
-function _is_native_reflect_construct$1() {
+function _isNativeReflectConstruct$1() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
@@ -2927,16 +2927,16 @@ function _is_native_reflect_construct$1() {
     }
 }
 
-function _get_prototype_of$1(o) {
-    _get_prototype_of$1 = Object.setPrototypeOf
+function _getPrototypeOf$1(o) {
+    _getPrototypeOf$1 = Object.setPrototypeOf
         ? Object.getPrototypeOf
-        : function _get_prototype_of(o) {
+        : function _getPrototypeOf(o) {
               return o.__proto__ || Object.getPrototypeOf(o);
           };
-    return _get_prototype_of$1(o);
+    return _getPrototypeOf$1(o);
 }
 
-function _define_property$9(obj, key, value) {
+function _defineProperty$9(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -2966,12 +2966,12 @@ function getValue$1(nextProps, prop) {
 var Tile = /*#__PURE__*/ (function (_Component) {
     _inherits$1(Tile, _Component);
 
-    var _super = _create_super$1(Tile);
+    var _super = _createSuper$1(Tile);
 
     function Tile() {
         var _this;
 
-        _class_call_check$1(this, Tile);
+        _classCallCheck$1(this, Tile);
 
         for (
             var _len = arguments.length, args = new Array(_len), _key = 0;
@@ -2983,12 +2983,12 @@ var Tile = /*#__PURE__*/ (function (_Component) {
 
         _this = _super.call.apply(_super, [this].concat(args));
 
-        _define_property$9(_assert_this_initialized$1(_this), "state", {});
+        _defineProperty$9(_assertThisInitialized$1(_this), "state", {});
 
         return _this;
     }
 
-    _create_class$1(
+    _createClass$1(
         Tile,
         [
             {
@@ -3090,8 +3090,8 @@ var Tile = /*#__PURE__*/ (function (_Component) {
 
     return Tile;
 })(_);
-Tile.propTypes = _object_spread$9(
-    _object_spread$9({}, tileProps),
+Tile.propTypes = _objectSpread$9(
+    _objectSpread$9({}, tileProps),
     {},
     {
         children: PropTypes.node.isRequired,
@@ -3113,12 +3113,12 @@ function ownKeys$8(object, enumerableOnly) {
     return keys;
 }
 
-function _object_spread$8(target) {
+function _objectSpread$8(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
         if (i % 2) {
             ownKeys$8(Object(source), true).forEach(function (key) {
-                _define_property$8(target, key, source[key]);
+                _defineProperty$8(target, key, source[key]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(
@@ -3138,7 +3138,7 @@ function _object_spread$8(target) {
     return target;
 }
 
-function _define_property$8(obj, key, value) {
+function _defineProperty$8(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -3169,9 +3169,9 @@ function _extends$a() {
     return _extends$a.apply(this, arguments);
 }
 
-function _object_without_properties$6(source, excluded) {
+function _objectWithoutProperties$6(source, excluded) {
     if (source == null) return {};
-    var target = _object_without_properties_loose$6(source, excluded);
+    var target = _objectWithoutPropertiesLoose$6(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -3186,7 +3186,7 @@ function _object_without_properties$6(source, excluded) {
     return target;
 }
 
-function _object_without_properties_loose$6(source, excluded) {
+function _objectWithoutPropertiesLoose$6(source, excluded) {
     if (source == null) return {};
     var target = {};
     var sourceKeys = Object.keys(source);
@@ -3204,7 +3204,7 @@ function Decade(_ref) {
         _ref$formatYear = _ref.formatYear,
         formatYear$1 =
             _ref$formatYear === void 0 ? formatYear : _ref$formatYear,
-        otherProps = _object_without_properties$6(_ref, [
+        otherProps = _objectWithoutProperties$6(_ref, [
             "classes",
             "formatYear",
         ]);
@@ -3222,8 +3222,8 @@ function Decade(_ref) {
         getDecadeLabel(locale, formatYear$1, date)
     );
 }
-Decade.propTypes = _object_spread$8(
-    _object_spread$8({}, tileProps),
+Decade.propTypes = _objectSpread$8(
+    _objectSpread$8({}, tileProps),
     {},
     {
         formatYear: PropTypes.func,
@@ -3242,12 +3242,12 @@ function ownKeys$7(object, enumerableOnly) {
     return keys;
 }
 
-function _object_spread$7(target) {
+function _objectSpread$7(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
         if (i % 2) {
             ownKeys$7(Object(source), true).forEach(function (key) {
-                _define_property$7(target, key, source[key]);
+                _defineProperty$7(target, key, source[key]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(
@@ -3267,7 +3267,7 @@ function _object_spread$7(target) {
     return target;
 }
 
-function _define_property$7(obj, key, value) {
+function _defineProperty$7(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -3314,7 +3314,7 @@ function Decades(props) {
         })
     );
 }
-Decades.propTypes = _object_spread$7({}, tileGroupProps);
+Decades.propTypes = _objectSpread$7({}, tileGroupProps);
 function CenturyView(props) {
     function renderDecades() {
         return /*#__PURE__*/ React.createElement(Decades, props);
@@ -3341,12 +3341,12 @@ function ownKeys$6(object, enumerableOnly) {
     return keys;
 }
 
-function _object_spread$6(target) {
+function _objectSpread$6(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
         if (i % 2) {
             ownKeys$6(Object(source), true).forEach(function (key) {
-                _define_property$6(target, key, source[key]);
+                _defineProperty$6(target, key, source[key]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(
@@ -3366,7 +3366,7 @@ function _object_spread$6(target) {
     return target;
 }
 
-function _define_property$6(obj, key, value) {
+function _defineProperty$6(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -3397,9 +3397,9 @@ function _extends$8() {
     return _extends$8.apply(this, arguments);
 }
 
-function _object_without_properties$5(source, excluded) {
+function _objectWithoutProperties$5(source, excluded) {
     if (source == null) return {};
-    var target = _object_without_properties_loose$5(source, excluded);
+    var target = _objectWithoutPropertiesLoose$5(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -3414,7 +3414,7 @@ function _object_without_properties$5(source, excluded) {
     return target;
 }
 
-function _object_without_properties_loose$5(source, excluded) {
+function _objectWithoutPropertiesLoose$5(source, excluded) {
     if (source == null) return {};
     var target = {};
     var sourceKeys = Object.keys(source);
@@ -3432,7 +3432,7 @@ function Year(_ref) {
         _ref$formatYear = _ref.formatYear,
         formatYear$1 =
             _ref$formatYear === void 0 ? formatYear : _ref$formatYear,
-        otherProps = _object_without_properties$5(_ref, [
+        otherProps = _objectWithoutProperties$5(_ref, [
             "classes",
             "formatYear",
         ]);
@@ -3450,8 +3450,8 @@ function Year(_ref) {
         formatYear$1(locale, date)
     );
 }
-Year.propTypes = _object_spread$6(
-    _object_spread$6({}, tileProps),
+Year.propTypes = _objectSpread$6(
+    _objectSpread$6({}, tileProps),
     {},
     {
         formatYear: PropTypes.func,
@@ -3470,12 +3470,12 @@ function ownKeys$5(object, enumerableOnly) {
     return keys;
 }
 
-function _object_spread$5(target) {
+function _objectSpread$5(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
         if (i % 2) {
             ownKeys$5(Object(source), true).forEach(function (key) {
-                _define_property$5(target, key, source[key]);
+                _defineProperty$5(target, key, source[key]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(
@@ -3495,7 +3495,7 @@ function _object_spread$5(target) {
     return target;
 }
 
-function _define_property$5(obj, key, value) {
+function _defineProperty$5(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -3546,7 +3546,7 @@ function Years(props) {
         })
     );
 }
-Years.propTypes = _object_spread$5({}, tileGroupProps);
+Years.propTypes = _objectSpread$5({}, tileGroupProps);
 function DecadeView(props) {
     function renderYears() {
         return /*#__PURE__*/ React.createElement(Years, props);
@@ -3573,12 +3573,12 @@ function ownKeys$4(object, enumerableOnly) {
     return keys;
 }
 
-function _object_spread$4(target) {
+function _objectSpread$4(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
         if (i % 2) {
             ownKeys$4(Object(source), true).forEach(function (key) {
-                _define_property$4(target, key, source[key]);
+                _defineProperty$4(target, key, source[key]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(
@@ -3598,7 +3598,7 @@ function _object_spread$4(target) {
     return target;
 }
 
-function _define_property$4(obj, key, value) {
+function _defineProperty$4(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -3629,9 +3629,9 @@ function _extends$6() {
     return _extends$6.apply(this, arguments);
 }
 
-function _object_without_properties$4(source, excluded) {
+function _objectWithoutProperties$4(source, excluded) {
     if (source == null) return {};
-    var target = _object_without_properties_loose$4(source, excluded);
+    var target = _objectWithoutPropertiesLoose$4(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -3646,7 +3646,7 @@ function _object_without_properties$4(source, excluded) {
     return target;
 }
 
-function _object_without_properties_loose$4(source, excluded) {
+function _objectWithoutPropertiesLoose$4(source, excluded) {
     if (source == null) return {};
     var target = {};
     var sourceKeys = Object.keys(source);
@@ -3669,7 +3669,7 @@ function Month(_ref) {
             _ref$formatMonthYear === void 0
                 ? formatMonthYear
                 : _ref$formatMonthYear,
-        otherProps = _object_without_properties$4(_ref, [
+        otherProps = _objectWithoutProperties$4(_ref, [
             "classes",
             "formatMonth",
             "formatMonthYear",
@@ -3689,8 +3689,8 @@ function Month(_ref) {
         formatMonth$1(locale, date)
     );
 }
-Month.propTypes = _object_spread$4(
-    _object_spread$4({}, tileProps),
+Month.propTypes = _objectSpread$4(
+    _objectSpread$4({}, tileProps),
     {},
     {
         formatMonth: PropTypes.func,
@@ -3710,12 +3710,12 @@ function ownKeys$3(object, enumerableOnly) {
     return keys;
 }
 
-function _object_spread$3(target) {
+function _objectSpread$3(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
         if (i % 2) {
             ownKeys$3(Object(source), true).forEach(function (key) {
-                _define_property$3(target, key, source[key]);
+                _defineProperty$3(target, key, source[key]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(
@@ -3735,7 +3735,7 @@ function _object_spread$3(target) {
     return target;
 }
 
-function _define_property$3(obj, key, value) {
+function _defineProperty$3(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -3787,8 +3787,8 @@ function Months(props) {
         })
     );
 }
-Months.propTypes = _object_spread$3(
-    _object_spread$3({}, tileGroupProps),
+Months.propTypes = _objectSpread$3(
+    _objectSpread$3({}, tileGroupProps),
     {},
     {
         locale: PropTypes.string,
@@ -3820,12 +3820,12 @@ function ownKeys$2(object, enumerableOnly) {
     return keys;
 }
 
-function _object_spread$2(target) {
+function _objectSpread$2(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
         if (i % 2) {
             ownKeys$2(Object(source), true).forEach(function (key) {
-                _define_property$2(target, key, source[key]);
+                _defineProperty$2(target, key, source[key]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(
@@ -3845,7 +3845,7 @@ function _object_spread$2(target) {
     return target;
 }
 
-function _define_property$2(obj, key, value) {
+function _defineProperty$2(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -3876,9 +3876,9 @@ function _extends$4() {
     return _extends$4.apply(this, arguments);
 }
 
-function _object_without_properties$3(source, excluded) {
+function _objectWithoutProperties$3(source, excluded) {
     if (source == null) return {};
-    var target = _object_without_properties_loose$3(source, excluded);
+    var target = _objectWithoutPropertiesLoose$3(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -3893,7 +3893,7 @@ function _object_without_properties$3(source, excluded) {
     return target;
 }
 
-function _object_without_properties_loose$3(source, excluded) {
+function _objectWithoutPropertiesLoose$3(source, excluded) {
     if (source == null) return {};
     var target = {};
     var sourceKeys = Object.keys(source);
@@ -3917,7 +3917,7 @@ function Day(_ref) {
         calendarType = _ref.calendarType,
         classes = _ref.classes,
         currentMonthIndex = _ref.currentMonthIndex,
-        otherProps = _object_without_properties$3(_ref, [
+        otherProps = _objectWithoutProperties$3(_ref, [
             "formatDay",
             "formatLongDate",
             "calendarType",
@@ -3948,8 +3948,8 @@ function Day(_ref) {
         formatDay$1(locale, date)
     );
 }
-Day.propTypes = _object_spread$2(
-    _object_spread$2({}, tileProps),
+Day.propTypes = _objectSpread$2(
+    _objectSpread$2({}, tileProps),
     {},
     {
         currentMonthIndex: PropTypes.number.isRequired,
@@ -3970,12 +3970,12 @@ function ownKeys$1(object, enumerableOnly) {
     return keys;
 }
 
-function _object_spread$1(target) {
+function _objectSpread$1(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
         if (i % 2) {
             ownKeys$1(Object(source), true).forEach(function (key) {
-                _define_property$1(target, key, source[key]);
+                _defineProperty$1(target, key, source[key]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(
@@ -3995,7 +3995,7 @@ function _object_spread$1(target) {
     return target;
 }
 
-function _define_property$1(obj, key, value) {
+function _defineProperty$1(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -4026,9 +4026,9 @@ function _extends$3() {
     return _extends$3.apply(this, arguments);
 }
 
-function _object_without_properties$2(source, excluded) {
+function _objectWithoutProperties$2(source, excluded) {
     if (source == null) return {};
-    var target = _object_without_properties_loose$2(source, excluded);
+    var target = _objectWithoutPropertiesLoose$2(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -4043,7 +4043,7 @@ function _object_without_properties$2(source, excluded) {
     return target;
 }
 
-function _object_without_properties_loose$2(source, excluded) {
+function _objectWithoutPropertiesLoose$2(source, excluded) {
     if (source == null) return {};
     var target = {};
     var sourceKeys = Object.keys(source);
@@ -4061,7 +4061,7 @@ function Days(props) {
 
     var showFixedNumberOfWeeks = props.showFixedNumberOfWeeks,
         showNeighboringMonth = props.showNeighboringMonth,
-        otherProps = _object_without_properties$2(props, [
+        otherProps = _objectWithoutProperties$2(props, [
             "showFixedNumberOfWeeks",
             "showNeighboringMonth",
         ]);
@@ -4124,7 +4124,7 @@ function Days(props) {
         })
     );
 }
-Days.propTypes = _object_spread$1(
+Days.propTypes = _objectSpread$1(
     {
         calendarType: isCalendarType.isRequired,
         showFixedNumberOfWeeks: PropTypes.bool,
@@ -4322,9 +4322,9 @@ function _extends$1() {
     return _extends$1.apply(this, arguments);
 }
 
-function _object_without_properties$1(source, excluded) {
+function _objectWithoutProperties$1(source, excluded) {
     if (source == null) return {};
-    var target = _object_without_properties_loose$1(source, excluded);
+    var target = _objectWithoutPropertiesLoose$1(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -4339,7 +4339,7 @@ function _object_without_properties$1(source, excluded) {
     return target;
 }
 
-function _object_without_properties_loose$1(source, excluded) {
+function _objectWithoutPropertiesLoose$1(source, excluded) {
     if (source == null) return {};
     var target = {};
     var sourceKeys = Object.keys(source);
@@ -4374,7 +4374,7 @@ function MonthView(props) {
         formatShortWeekday = props.formatShortWeekday,
         onClickWeekNumber = props.onClickWeekNumber,
         showWeekNumbers = props.showWeekNumbers,
-        childProps = _object_without_properties$1(props, [
+        childProps = _objectWithoutProperties$1(props, [
             "calendarType",
             "formatShortWeekday",
             "onClickWeekNumber",
@@ -4494,7 +4494,7 @@ function _typeof(obj) {
     return _typeof(obj);
 }
 
-function _class_call_check(instance, Constructor) {
+function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
@@ -4510,7 +4510,7 @@ function _defineProperties(target, props) {
     }
 }
 
-function _create_class(Constructor, protoProps, staticProps) {
+function _createClass(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
@@ -4529,42 +4529,42 @@ function _inherits(subClass, superClass) {
             configurable: true,
         },
     });
-    if (superClass) _set_prototype_of(subClass, superClass);
+    if (superClass) _setPrototypeOf(subClass, superClass);
 }
 
-function _set_prototype_of(o, p) {
-    _set_prototype_of =
+function _setPrototypeOf(o, p) {
+    _setPrototypeOf =
         Object.setPrototypeOf ||
-        function _set_prototype_of(o, p) {
+        function _setPrototypeOf(o, p) {
             o.__proto__ = p;
             return o;
         };
-    return _set_prototype_of(o, p);
+    return _setPrototypeOf(o, p);
 }
 
-function _create_super(Derived) {
-    var hasNativeReflectConstruct = _is_native_reflect_construct();
+function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
     return function _createSuperInternal() {
-        var Super = _get_prototype_of(Derived),
+        var Super = _getPrototypeOf(Derived),
             result;
         if (hasNativeReflectConstruct) {
-            var NewTarget = _get_prototype_of(this).constructor;
+            var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
         } else {
             result = Super.apply(this, arguments);
         }
-        return _possible_constructor_return(this, result);
+        return _possibleConstructorReturn(this, result);
     };
 }
 
-function _possible_constructor_return(self, call) {
+function _possibleConstructorReturn(self, call) {
     if (call && (_typeof(call) === "object" || typeof call === "function")) {
         return call;
     }
-    return _assert_this_initialized(self);
+    return _assertThisInitialized(self);
 }
 
-function _assert_this_initialized(self) {
+function _assertThisInitialized(self) {
     if (self === void 0) {
         throw new ReferenceError(
             "this hasn't been initialised - super() hasn't been called"
@@ -4573,7 +4573,7 @@ function _assert_this_initialized(self) {
     return self;
 }
 
-function _is_native_reflect_construct() {
+function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
@@ -4587,13 +4587,13 @@ function _is_native_reflect_construct() {
     }
 }
 
-function _get_prototype_of(o) {
-    _get_prototype_of = Object.setPrototypeOf
+function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf
         ? Object.getPrototypeOf
-        : function _get_prototype_of(o) {
+        : function _getPrototypeOf(o) {
               return o.__proto__ || Object.getPrototypeOf(o);
           };
-    return _get_prototype_of(o);
+    return _getPrototypeOf(o);
 }
 
 function ownKeys(object, enumerableOnly) {
@@ -4609,12 +4609,12 @@ function ownKeys(object, enumerableOnly) {
     return keys;
 }
 
-function _object_spread(target) {
+function _objectSpread(target) {
     for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i] != null ? arguments[i] : {};
         if (i % 2) {
             ownKeys(Object(source), true).forEach(function (key) {
-                _define_property(target, key, source[key]);
+                _defineProperty(target, key, source[key]);
             });
         } else if (Object.getOwnPropertyDescriptors) {
             Object.defineProperties(
@@ -4634,7 +4634,7 @@ function _object_spread(target) {
     return target;
 }
 
-function _define_property(obj, key, value) {
+function _defineProperty(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -4648,9 +4648,9 @@ function _define_property(obj, key, value) {
     return obj;
 }
 
-function _object_without_properties(source, excluded) {
+function _objectWithoutProperties(source, excluded) {
     if (source == null) return {};
-    var target = _object_without_properties_loose(source, excluded);
+    var target = _objectWithoutPropertiesLoose(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -4665,7 +4665,7 @@ function _object_without_properties(source, excluded) {
     return target;
 }
 
-function _object_without_properties_loose(source, excluded) {
+function _objectWithoutPropertiesLoose(source, excluded) {
     if (source == null) return {};
     var target = {};
     var sourceKeys = Object.keys(source);
@@ -4678,11 +4678,11 @@ function _object_without_properties_loose(source, excluded) {
     return target;
 }
 
-function _to_consumable_array(arr) {
+function _toConsumableArray(arr) {
     return (
-        _array_without_holes(arr) ||
+        _arrayWithoutHoles(arr) ||
         _iterableToArray(arr) ||
-        _unsupported_iterable_to_array(arr) ||
+        _unsupportedIterableToArray(arr) ||
         _nonIterableSpread()
     );
 }
@@ -4693,14 +4693,14 @@ function _nonIterableSpread() {
     );
 }
 
-function _unsupported_iterable_to_array(o, minLen) {
+function _unsupportedIterableToArray(o, minLen) {
     if (!o) return;
-    if (typeof o === "string") return _array_like_to_array(o, minLen);
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
     var n = Object.prototype.toString.call(o).slice(8, -1);
     if (n === "Object" && o.constructor) n = o.constructor.name;
     if (n === "Map" || n === "Set") return Array.from(o);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
-        return _array_like_to_array(o, minLen);
+        return _arrayLikeToArray(o, minLen);
 }
 
 function _iterableToArray(iter) {
@@ -4708,11 +4708,11 @@ function _iterableToArray(iter) {
         return Array.from(iter);
 }
 
-function _array_without_holes(arr) {
-    if (Array.isArray(arr)) return _array_like_to_array(arr);
+function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
 }
 
-function _array_like_to_array(arr, len) {
+function _arrayLikeToArray(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
     for (var i = 0, arr2 = new Array(len); i < len; i++) {
         arr2[i] = arr[i];
@@ -4725,7 +4725,7 @@ defaultMinDate.setHours(0, 0, 0, 0);
 var defaultMaxDate = new Date(8.64e15);
 var baseClassName = "react-calendar";
 var allViews = ["century", "decade", "year", "month"];
-var allValueTypes = [].concat(_to_consumable_array(allViews.slice(1)), ["day"]);
+var allValueTypes = [].concat(_toConsumableArray(allViews.slice(1)), ["day"]);
 
 function toDate(value) {
     if (value instanceof Date) {
@@ -4856,7 +4856,7 @@ function getInitialActiveStartDate(props) {
         minDetail = props.minDetail,
         value = props.value,
         view = props.view,
-        otherProps = _object_without_properties(props, [
+        otherProps = _objectWithoutProperties(props, [
             "activeStartDate",
             "defaultActiveStartDate",
             "defaultValue",
@@ -4875,7 +4875,7 @@ function getInitialActiveStartDate(props) {
     }
 
     return getActiveStartDate(
-        _object_spread(
+        _objectSpread(
             {
                 maxDetail: maxDetail,
                 minDetail: minDetail,
@@ -4894,12 +4894,12 @@ var getIsSingleValue = function getIsSingleValue(value) {
 var Calendar = /*#__PURE__*/ (function (_Component) {
     _inherits(Calendar, _Component);
 
-    var _super = _create_super(Calendar);
+    var _super = _createSuper(Calendar);
 
     function Calendar() {
         var _this;
 
-        _class_call_check(this, Calendar);
+        _classCallCheck(this, Calendar);
 
         for (
             var _len = arguments.length, _args = new Array(_len), _key = 0;
@@ -4911,17 +4911,17 @@ var Calendar = /*#__PURE__*/ (function (_Component) {
 
         _this = _super.call.apply(_super, [this].concat(_args));
 
-        _define_property(_assert_this_initialized(_this), "state", {
+        _defineProperty(_assertThisInitialized(_this), "state", {
             activeStartDate: _this.props.defaultActiveStartDate,
             value: _this.props.defaultValue,
             view: _this.props.defaultView,
         });
 
-        _define_property(
-            _assert_this_initialized(_this),
+        _defineProperty(
+            _assertThisInitialized(_this),
             "setStateAndCallCallbacks",
             function (nextState, event, callback) {
-                var _assertThisInitialize = _assert_this_initialized(_this),
+                var _assertThisInitialize = _assertThisInitialized(_this),
                     previousActiveStartDate =
                         _assertThisInitialize.activeStartDate,
                     previousView = _assertThisInitialize.view;
@@ -4991,8 +4991,8 @@ var Calendar = /*#__PURE__*/ (function (_Component) {
             }
         );
 
-        _define_property(
-            _assert_this_initialized(_this),
+        _defineProperty(
+            _assertThisInitialized(_this),
             "setActiveStartDate",
             function (activeStartDate) {
                 _this.setStateAndCallCallbacks({
@@ -5001,8 +5001,8 @@ var Calendar = /*#__PURE__*/ (function (_Component) {
             }
         );
 
-        _define_property(
-            _assert_this_initialized(_this),
+        _defineProperty(
+            _assertThisInitialized(_this),
             "drillDown",
             function (nextActiveStartDate, event) {
                 if (!_this.drillDownAvailable) {
@@ -5011,7 +5011,7 @@ var Calendar = /*#__PURE__*/ (function (_Component) {
 
                 _this.onClickTile(nextActiveStartDate, event);
 
-                var _assertThisInitialize2 = _assert_this_initialized(_this),
+                var _assertThisInitialize2 = _assertThisInitialized(_this),
                     view = _assertThisInitialize2.view,
                     views = _assertThisInitialize2.views;
 
@@ -5029,36 +5029,32 @@ var Calendar = /*#__PURE__*/ (function (_Component) {
             }
         );
 
-        _define_property(
-            _assert_this_initialized(_this),
-            "drillUp",
-            function () {
-                if (!_this.drillUpAvailable) {
-                    return;
-                }
-
-                var _assertThisInitialize3 = _assert_this_initialized(_this),
-                    activeStartDate = _assertThisInitialize3.activeStartDate,
-                    view = _assertThisInitialize3.view,
-                    views = _assertThisInitialize3.views;
-
-                var onDrillUp = _this.props.onDrillUp;
-                var nextView = views[views.indexOf(view) - 1];
-                var nextActiveStartDate = getBegin(nextView, activeStartDate);
-
-                _this.setStateAndCallCallbacks(
-                    {
-                        activeStartDate: nextActiveStartDate,
-                        view: nextView,
-                    },
-                    undefined,
-                    onDrillUp
-                );
+        _defineProperty(_assertThisInitialized(_this), "drillUp", function () {
+            if (!_this.drillUpAvailable) {
+                return;
             }
-        );
 
-        _define_property(
-            _assert_this_initialized(_this),
+            var _assertThisInitialize3 = _assertThisInitialized(_this),
+                activeStartDate = _assertThisInitialize3.activeStartDate,
+                view = _assertThisInitialize3.view,
+                views = _assertThisInitialize3.views;
+
+            var onDrillUp = _this.props.onDrillUp;
+            var nextView = views[views.indexOf(view) - 1];
+            var nextActiveStartDate = getBegin(nextView, activeStartDate);
+
+            _this.setStateAndCallCallbacks(
+                {
+                    activeStartDate: nextActiveStartDate,
+                    view: nextView,
+                },
+                undefined,
+                onDrillUp
+            );
+        });
+
+        _defineProperty(
+            _assertThisInitialized(_this),
             "onChange",
             function (value, event) {
                 var selectRange = _this.props.selectRange;
@@ -5069,8 +5065,7 @@ var Calendar = /*#__PURE__*/ (function (_Component) {
 
                 if (selectRange) {
                     // Range selection turned on
-                    var _assertThisInitialize4 =
-                            _assert_this_initialized(_this),
+                    var _assertThisInitialize4 = _assertThisInitialized(_this),
                         previousValue = _assertThisInitialize4.value,
                         valueType = _assertThisInitialize4.valueType;
 
@@ -5092,8 +5087,8 @@ var Calendar = /*#__PURE__*/ (function (_Component) {
                 }
 
                 var nextActiveStartDate = getActiveStartDate(
-                    _object_spread(
-                        _object_spread({}, _this.props),
+                    _objectSpread(
+                        _objectSpread({}, _this.props),
                         {},
                         {
                             value: nextValue,
@@ -5112,11 +5107,11 @@ var Calendar = /*#__PURE__*/ (function (_Component) {
             }
         );
 
-        _define_property(
-            _assert_this_initialized(_this),
+        _defineProperty(
+            _assertThisInitialized(_this),
             "onClickTile",
             function (value, event) {
-                var _assertThisInitialize5 = _assert_this_initialized(_this),
+                var _assertThisInitialize5 = _assertThisInitialized(_this),
                     view = _assertThisInitialize5.view;
 
                 var _this$props2 = _this.props,
@@ -5148,8 +5143,8 @@ var Calendar = /*#__PURE__*/ (function (_Component) {
             }
         );
 
-        _define_property(
-            _assert_this_initialized(_this),
+        _defineProperty(
+            _assertThisInitialized(_this),
             "onMouseOver",
             function (value) {
                 _this.setState(function (prevState) {
@@ -5167,8 +5162,8 @@ var Calendar = /*#__PURE__*/ (function (_Component) {
             }
         );
 
-        _define_property(
-            _assert_this_initialized(_this),
+        _defineProperty(
+            _assertThisInitialized(_this),
             "onMouseLeave",
             function () {
                 _this.setState({
@@ -5180,7 +5175,7 @@ var Calendar = /*#__PURE__*/ (function (_Component) {
         return _this;
     }
 
-    _create_class(Calendar, [
+    _createClass(Calendar, [
         {
             key: "getProcessedValue",
 
