@@ -61,8 +61,7 @@ where
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(u32) -> u32,
-    R: rkyv::Archive,
-    R::Archived: rkyv::Deserialize<R, rkyv::de::deserializers::SharedDeserializeMap>,
+    R: serde::de::DeserializeOwned,
 {
     let allocated_returned_value_ptr = read_returned_result_from_host_inner(f);
 
@@ -87,8 +86,7 @@ where
 pub fn read_returned_result_from_host_fallible<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(u32) -> u32,
-    R: rkyv::Archive,
-    R::Archived: rkyv::Deserialize<R, rkyv::de::deserializers::SharedDeserializeMap>,
+    R: serde::de::DeserializeOwned,
 {
     // Allocate AllocatedBytesPtr to get return value from the host
     let allocated_bytes_ptr = AllocatedBytesPtr(0, 0);
