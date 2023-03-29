@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Build
+
+
+
+- **(cargo)** Revert rustc upgrade (#7162) ([12546c8](https://github.com/swc-project/swc/commit/12546c853a67210e840efd61452041ef8db00d3a))
+
 ## [1.3.43] - 2023-03-29
 
 ### Bug Fixes
