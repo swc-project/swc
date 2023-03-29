@@ -15,7 +15,7 @@ use swc_common::{
     collections::AHashMap, plugin::metadata::TransformPluginMetadataContext, sync::Lazy, Mark,
 };
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
-use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax};
+use swc_ecma_parser::{parse_file_as_program, Syntax};
 use swc_ecma_visit::Visit;
 use swc_plugin_runner::cache::PluginModuleCache;
 

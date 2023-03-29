@@ -1800,9 +1800,7 @@ export default function waitUntil(callback, options = {}) {
                     import(filePath).then(bar => {})
                 }
             }",
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
+            Syntax::Es(Default::default()),
             |p| p.parse_module(),
         );
     }
