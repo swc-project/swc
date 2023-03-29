@@ -4,7 +4,7 @@ use anyhow::{bail, Context, Error};
 use helpers::Helpers;
 use swc::{
     config::{GlobalInliningPassEnvs, InputSourceMap, IsModule, JscConfig, TransformConfig},
-    try_with_handler, HandlerOpts,
+    try_with_handler,
 };
 use swc_atoms::JsWord;
 use swc_bundler::{Load, ModuleData};
