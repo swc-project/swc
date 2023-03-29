@@ -1616,24 +1616,12 @@ export default App"#;
     fn shebang_02() {
         let src = "#!/usr/bin/env node
 let x = 4";
-        test_parser(
-            src,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_module(),
-        );
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
     }
 
     #[test]
     fn empty() {
-        test_parser(
-            "",
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_module(),
-        );
+        test_parser("", Syntax::Es(Default::default()), |p| p.parse_module());
     }
 
     #[test]
