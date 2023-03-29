@@ -6,8 +6,6 @@ use std::{
 };
 
 use num_bigint::BigInt as BigIntValue;
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
@@ -68,10 +66,6 @@ bridge_lit_from!(BigInt, BigIntValue);
 #[derive(Eq, Hash)]
 pub struct BigInt {
     pub span: Span,
-    #[cfg_attr(
-        any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-        with(EncodeBigInt)
-    )]
     pub value: Box<BigIntValue>,
 
     /// Use `None` value only for transformations to avoid recalculate
@@ -82,42 +76,6 @@ pub struct BigInt {
 impl EqIgnoreSpan for BigInt {
     fn eq_ignore_span(&self, other: &Self) -> bool {
         self.value == other.value
-    }
-}
-
-#[cfg(feature = "__rkyv")]
-#[derive(Debug, Clone, Copy)]
-pub struct EncodeBigInt;
-
-#[cfg(any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"))]
-impl rkyv::with::ArchiveWith<Box<BigIntValue>> for EncodeBigInt {
-    type Archived = rkyv::Archived<String>;
-    type Resolver = rkyv::Resolver<String>;
-
-    unsafe fn resolve_with(
-        field: &Box<BigIntValue>,
-        pos: usize,
-        resolver: Self::Resolver,
-        out: *mut Self::Archived,
-    ) {
-        use rkyv::Archive;
-
-        let s = field.to_string();
-        s.resolve(pos, resolver, out);
-    }
-}
-
-#[cfg(any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"))]
-impl<S> rkyv::with::SerializeWith<Box<BigIntValue>, S> for EncodeBigInt
-where
-    S: ?Sized + rkyv::ser::Serializer,
-{
-    fn serialize_with(
-        field: &Box<BigIntValue>,
-        serializer: &mut S,
-    ) -> Result<Self::Resolver, S::Error> {
-        let field = field.to_string();
-        rkyv::string::ArchivedString::serialize_from_str(&field, serializer)
     }
 }
 

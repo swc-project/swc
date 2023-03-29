@@ -1,7 +1,5 @@
 #![allow(clippy::vec_box)]
 use is_macro::Is;
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 #[cfg(feature = "serde-impl")]
 use serde::{
     self,
@@ -572,20 +570,7 @@ impl From<Box<Class>> for ClassExpr {
 bridge_from!(ClassExpr, Box<Class>, Class);
 bridge_expr_from!(ClassExpr, Box<Class>);
 
-#[derive(Spanned, Clone, Debug, PartialEq)]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    archive(bound(
-        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
-                     rkyv::ser::SharedSerializeRegistry",
-        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-    ))
-)]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize))]
 #[cfg_attr(feature = "serde-impl", serde(tag = "type"))]
@@ -938,10 +923,6 @@ pub struct MetaPropExpr {
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 pub enum MetaPropKind {
     /// `new.target`
     NewTarget,
@@ -1119,26 +1100,12 @@ impl Take for Import {
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    archive(bound(
-        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
-                     rkyv::ser::SharedSerializeRegistry",
-        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-    ))
-)]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct ExprOrSpread {
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub spread: Option<Span>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub expr: Box<Expr>,
 }
 
