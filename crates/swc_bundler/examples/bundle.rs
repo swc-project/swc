@@ -233,9 +233,7 @@ impl Load for Loader {
 
         let module = parse_file_as_module(
             &fm,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
+            Syntax::Es(Default::default()),
             EsVersion::Es2020,
             None,
             &mut vec![],

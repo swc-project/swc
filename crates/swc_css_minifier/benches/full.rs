@@ -5,12 +5,9 @@ use std::{fs::read_to_string, path::Path};
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use swc_common::{errors::HANDLER, FileName};
 use swc_css_ast::Stylesheet;
-use swc_css_codegen::{
-    writer::basic::{BasicCssWriter, BasicCssWriterConfig},
-    Emit,
-};
+use swc_css_codegen::{writer::basic::BasicCssWriter, Emit};
 use swc_css_minifier::minify;
-use swc_css_parser::{parse_file, parser::ParserConfig};
+use swc_css_parser::parse_file;
 
 pub fn bench_files(c: &mut Criterion) {
     let mut group = c.benchmark_group("css/minify/libraries");
