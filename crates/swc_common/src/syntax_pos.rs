@@ -597,6 +597,7 @@ pub const NO_EXPANSION: SyntaxContext = SyntaxContext::empty();
 
 /// Identifies an offset of a multi-byte character in a SourceFile
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub struct MultiByteChar {
     /// The absolute offset of the character in the SourceMap
     pub pos: BytePos,
@@ -621,6 +622,7 @@ impl MultiByteChar {
 
 /// Identifies an offset of a non-narrow character in a SourceFile
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub enum NonNarrowChar {
     /// Represents a zero-width character
     ZeroWidth(BytePos),
