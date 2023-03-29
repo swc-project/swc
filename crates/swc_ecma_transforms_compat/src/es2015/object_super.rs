@@ -14,7 +14,6 @@ struct ObjectSuper {
     extra_vars: Vec<Ident>,
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn object_super() -> impl Fold + VisitMut {
     as_folder(ObjectSuper {
         extra_vars: Vec::new(),

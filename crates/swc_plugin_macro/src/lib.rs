@@ -30,6 +30,7 @@ pub fn css_plugin_transform(
     }
 }
 
+#[allow(clippy::redundant_clone)]
 fn handle_func(func: ItemFn, ast_type: Ident) -> TokenStream {
     let ident = func.sig.ident.clone();
     let transform_process_impl_ident =

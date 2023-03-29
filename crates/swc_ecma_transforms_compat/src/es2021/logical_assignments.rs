@@ -5,7 +5,6 @@ use swc_ecma_utils::{alias_ident_for, prepend_stmt};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn logical_assignments() -> impl Fold + VisitMut {
     as_folder(Operators::default())
 }

@@ -15,7 +15,6 @@ use swc_ecma_visit::{
 };
 use swc_trace_macro::swc_trace;
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn optional_chaining(c: Config) -> impl Fold + VisitMut {
     as_folder(OptChaining {
         c,
