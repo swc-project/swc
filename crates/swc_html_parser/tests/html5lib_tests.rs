@@ -25,13 +25,7 @@ mod common;
 
 #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn span_visualizer(input: PathBuf) {
-    document_span_visualizer(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-        true,
-    )
+    document_span_visualizer(input, Default::default(), true)
 }
 
 fn unescape(s: &str) -> Option<String> {
