@@ -550,9 +550,7 @@ mod tests {
     {
         crate::with_test_sess(s, |_, input| {
             let mut l = Lexer::new(
-                Syntax::Es(EsConfig {
-                    ..Default::default()
-                }),
+                Syntax::Es(Default::default()),
                 Default::default(),
                 input,
                 None,

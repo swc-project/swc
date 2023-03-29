@@ -319,9 +319,7 @@ fn export_namespace_from_min() {
             minify: true,
             ..Default::default()
         },
-        Syntax::Es(EsConfig {
-            ..EsConfig::default()
-        }),
+        Syntax::Es(EsConfig::default()),
     );
 }
 

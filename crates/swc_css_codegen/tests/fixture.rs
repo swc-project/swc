@@ -44,14 +44,7 @@ fn run(input: &Path, minify: bool) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(
-            &fm,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .unwrap();
+        let mut stylesheet: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -85,16 +78,10 @@ fn run(input: &Path, minify: bool) {
             .unwrap();
 
         let mut errors = vec![];
-        let mut stylesheet_output: Stylesheet = parse_file(
-            &fm_output,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .map_err(|err| {
-            err.to_diagnostics(&handler).emit();
-        })?;
+        let mut stylesheet_output: Stylesheet =
+            parse_file(&fm_output, Default::default(), &mut errors).map_err(|err| {
+                err.to_diagnostics(&handler).emit();
+            })?;
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
