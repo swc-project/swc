@@ -44,7 +44,9 @@ swc_common = { version = "0.30.2", path = "../swc_common", features = [
 ] }
 swc_css_ast = { version = "0.136.2", path = "../swc_css_ast", optional = true }
 swc_ecma_ast = { version = "0.102.2", path = "../swc_ecma_ast", optional = true }
-swc_plugin_proxy = { version = "0.31.2", path = "../swc_plugin_proxy" }
+swc_plugin_proxy = { version = "0.31.2", path = "../swc_plugin_proxy", features = [
+  "__plugin_rt",
+] }
 
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
