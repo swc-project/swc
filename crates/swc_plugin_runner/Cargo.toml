@@ -40,6 +40,7 @@ wasmer-wasi = { version = "2.3.0", default-features = false }
 
 swc_common = { version = "0.30.2", path = "../swc_common", features = [
   "concurrent",
+  "plugin-rt",
 ] }
 swc_css_ast = { version = "0.136.2", path = "../swc_css_ast", optional = true }
 swc_ecma_ast = { version = "0.102.2", path = "../swc_ecma_ast", optional = true }
