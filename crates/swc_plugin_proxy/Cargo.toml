@@ -14,25 +14,12 @@ bench = false
 __rkyv = []
 # Enably rkyv serialization with stable version of rkyv.
 rkyv-impl = ["__rkyv", "rkyv"]
-# Enable rkyv serialization with updated version of rkyv, along with bytecheck.
-rkyv-bytecheck-impl = ["__rkyv", "rkyv-latest"]
 
 __plugin_mode = []
 __plugin_rt   = []
-# swc/core, which runs plugin
-plugin-bytecheck-rt = [
-  "__plugin_rt",
-  "swc_common/plugin-bytecheck-base",
-  "rkyv-bytecheck-impl",
-]
-plugin-rt = ["__plugin_rt", "swc_common/plugin-base", "rkyv-impl"]
+plugin-rt     = ["__plugin_rt", "swc_common/plugin-base", "rkyv-impl"]
 
 # actual wasm plugin binary
-plugin-bytecheck-mode = [
-  "__plugin_mode",
-  "swc_common/plugin-bytecheck-base",
-  "rkyv-bytecheck-impl",
-]
 plugin-mode = ["__plugin_mode", "swc_common/plugin-base", "rkyv-impl"]
 
 [dependencies]
