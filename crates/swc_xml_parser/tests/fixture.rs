@@ -382,44 +382,24 @@ impl VisitMut for DomVisualizer<'_> {
 
 #[testing::fixture("tests/fixture/**/*.xml")]
 fn pass(input: PathBuf) {
-    document_test(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-    )
+    document_test(input, Default::default())
 }
 
 #[testing::fixture("tests/recovery/**/*.xml")]
 fn recovery(input: PathBuf) {
-    document_recovery_test(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-    )
+    document_recovery_test(input, Default::default())
 }
 
 #[testing::fixture("tests/fixture/**/*.xml")]
 #[testing::fixture("tests/recovery/**/*.xml")]
 fn span_visualizer(input: PathBuf) {
-    document_span_visualizer(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-    )
+    document_span_visualizer(input, Default::default())
 }
 
 #[testing::fixture("tests/fixture/**/*.xml")]
 #[testing::fixture("tests/recovery/**/*.xml")]
 fn dom_visualizer(input: PathBuf) {
-    document_dom_visualizer(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-    )
+    document_dom_visualizer(input, Default::default())
 }
 
 // TODO tests from xml5lib-tests

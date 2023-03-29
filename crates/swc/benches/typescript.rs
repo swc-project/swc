@@ -11,7 +11,7 @@ use swc_common::{
     errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap, GLOBALS,
 };
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{fixer, hygiene, resolver, typescript};
 use swc_ecma_visit::FoldWith;
 
@@ -177,9 +177,7 @@ fn full_group(c: &mut Criterion) {
                         config: Config {
                             jsc: JscConfig {
                                 target: Some($target),
-                                syntax: Some(Syntax::Typescript(TsConfig {
-                                    ..Default::default()
-                                })),
+                                syntax: Some(Syntax::Typescript(Default::default())),
                                 ..Default::default()
                             },
                             module: None,

@@ -9,7 +9,7 @@ use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType, LineFeed},
     CodeGenerator, CodegenConfig, Emit,
 };
-use swc_css_parser::{parse_file, parser::ParserConfig};
+use swc_css_parser::parse_file;
 use swc_css_visit::{VisitMut, VisitMutWith};
 use testing::{assert_eq, run_test2, NormalizedOutput};
 
@@ -44,14 +44,7 @@ fn run(input: &Path, minify: bool) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(
-            &fm,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .unwrap();
+        let mut stylesheet: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -85,16 +78,10 @@ fn run(input: &Path, minify: bool) {
             .unwrap();
 
         let mut errors = vec![];
-        let mut stylesheet_output: Stylesheet = parse_file(
-            &fm_output,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .map_err(|err| {
-            err.to_diagnostics(&handler).emit();
-        })?;
+        let mut stylesheet_output: Stylesheet =
+            parse_file(&fm_output, Default::default(), &mut errors).map_err(|err| {
+                err.to_diagnostics(&handler).emit();
+            })?;
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -356,14 +343,7 @@ fn indent_type(input: PathBuf) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(
-            &fm,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .unwrap();
+        let mut stylesheet: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -394,16 +374,10 @@ fn indent_type(input: PathBuf) {
             .unwrap();
 
         let mut errors = vec![];
-        let mut stylesheet_output: Stylesheet = parse_file(
-            &fm_output,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .map_err(|err| {
-            err.to_diagnostics(&handler).emit();
-        })?;
+        let mut stylesheet_output: Stylesheet =
+            parse_file(&fm_output, Default::default(), &mut errors).map_err(|err| {
+                err.to_diagnostics(&handler).emit();
+            })?;
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -433,14 +407,7 @@ fn indent_width(input: PathBuf) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(
-            &fm,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .unwrap();
+        let mut stylesheet: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -471,16 +438,10 @@ fn indent_width(input: PathBuf) {
             .unwrap();
 
         let mut errors = vec![];
-        let mut stylesheet_output: Stylesheet = parse_file(
-            &fm_output,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .map_err(|err| {
-            err.to_diagnostics(&handler).emit();
-        })?;
+        let mut stylesheet_output: Stylesheet =
+            parse_file(&fm_output, Default::default(), &mut errors).map_err(|err| {
+                err.to_diagnostics(&handler).emit();
+            })?;
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -510,14 +471,7 @@ fn linefeed_lf(input: PathBuf) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(
-            &fm,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .unwrap();
+        let mut stylesheet: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -550,16 +504,10 @@ fn linefeed_lf(input: PathBuf) {
             .unwrap();
 
         let mut errors = vec![];
-        let mut stylesheet_output: Stylesheet = parse_file(
-            &fm_output,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .map_err(|err| {
-            err.to_diagnostics(&handler).emit();
-        })?;
+        let mut stylesheet_output: Stylesheet =
+            parse_file(&fm_output, Default::default(), &mut errors).map_err(|err| {
+                err.to_diagnostics(&handler).emit();
+            })?;
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -589,14 +537,7 @@ fn linefeed_crlf(input: PathBuf) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(
-            &fm,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .unwrap();
+        let mut stylesheet: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -629,16 +570,10 @@ fn linefeed_crlf(input: PathBuf) {
             .unwrap();
 
         let mut errors = vec![];
-        let mut stylesheet_output: Stylesheet = parse_file(
-            &fm_output,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .map_err(|err| {
-            err.to_diagnostics(&handler).emit();
-        })?;
+        let mut stylesheet_output: Stylesheet =
+            parse_file(&fm_output, Default::default(), &mut errors).map_err(|err| {
+                err.to_diagnostics(&handler).emit();
+            })?;
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -664,16 +599,10 @@ fn parse_again(input: PathBuf) {
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(
-            &fm,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .map_err(|err| {
-            err.to_diagnostics(&handler).emit();
-        })?;
+        let mut stylesheet: Stylesheet =
+            parse_file(&fm, Default::default(), &mut errors).map_err(|err| {
+                err.to_diagnostics(&handler).emit();
+            })?;
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -691,16 +620,10 @@ fn parse_again(input: PathBuf) {
 
         let new_fm = cm.new_source_file(FileName::Anon, css_str);
         let mut parsed_errors = vec![];
-        let mut parsed: Stylesheet = parse_file(
-            &new_fm,
-            ParserConfig {
-                ..Default::default()
-            },
-            &mut parsed_errors,
-        )
-        .map_err(|err| {
-            err.to_diagnostics(&handler).emit();
-        })?;
+        let mut parsed: Stylesheet = parse_file(&new_fm, Default::default(), &mut parsed_errors)
+            .map_err(|err| {
+                err.to_diagnostics(&handler).emit();
+            })?;
 
         for err in parsed_errors {
             err.to_diagnostics(&handler).emit();

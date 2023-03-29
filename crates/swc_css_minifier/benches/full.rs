@@ -5,12 +5,9 @@ use std::{fs::read_to_string, path::Path};
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use swc_common::{errors::HANDLER, FileName};
 use swc_css_ast::Stylesheet;
-use swc_css_codegen::{
-    writer::basic::{BasicCssWriter, BasicCssWriterConfig},
-    Emit,
-};
+use swc_css_codegen::{writer::basic::BasicCssWriter, Emit};
 use swc_css_minifier::minify;
-use swc_css_parser::{parse_file, parser::ParserConfig};
+use swc_css_parser::parse_file;
 
 pub fn bench_files(c: &mut Criterion) {
     let mut group = c.benchmark_group("css/minify/libraries");
@@ -42,26 +39,13 @@ fn run(src: &str) {
             let fm = cm.new_source_file(FileName::Anon, src.into());
 
             let mut errors = vec![];
-            let mut ss: Stylesheet = parse_file(
-                &fm,
-                ParserConfig {
-                    ..Default::default()
-                },
-                &mut errors,
-            )
-            .unwrap();
+            let mut ss: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
 
             minify(&mut ss, Default::default());
 
             let mut buf = String::new();
             {
-                let wr = BasicCssWriter::new(
-                    &mut buf,
-                    None,
-                    BasicCssWriterConfig {
-                        ..Default::default()
-                    },
-                );
+                let wr = BasicCssWriter::new(&mut buf, None, Default::default());
                 let mut generator = swc_css_codegen::CodeGenerator::new(
                     wr,
                     swc_css_codegen::CodegenConfig { minify: true },

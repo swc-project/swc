@@ -5,14 +5,9 @@ use std::{fs::read_to_string, path::Path};
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use swc_common::{errors::HANDLER, FileName};
 use swc_html_ast::{Document, DocumentFragment, DocumentMode, Element, Namespace};
-use swc_html_codegen::{
-    writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig},
-    Emit,
-};
+use swc_html_codegen::{writer::basic::BasicHtmlWriter, Emit};
 use swc_html_minifier::{minify_document, minify_document_fragment, option::MinifyOptions};
-use swc_html_parser::{
-    parse_file_as_document, parse_file_as_document_fragment, parser::ParserConfig,
-};
+use swc_html_parser::{parse_file_as_document, parse_file_as_document_fragment};
 
 pub fn bench_files_document(c: &mut Criterion) {
     let mut group = c.benchmark_group("html/minify/document");
@@ -82,14 +77,8 @@ fn run_document(src: &str) {
             let fm = cm.new_source_file(FileName::Anon, src.into());
 
             let mut errors = vec![];
-            let mut document: Document = parse_file_as_document(
-                &fm,
-                ParserConfig {
-                    ..Default::default()
-                },
-                &mut errors,
-            )
-            .unwrap();
+            let mut document: Document =
+                parse_file_as_document(&fm, Default::default(), &mut errors).unwrap();
 
             for err in errors {
                 err.to_diagnostics(&handler).emit();
@@ -99,13 +88,7 @@ fn run_document(src: &str) {
 
             let mut buf = String::new();
             {
-                let wr = BasicHtmlWriter::new(
-                    &mut buf,
-                    None,
-                    BasicHtmlWriterConfig {
-                        ..Default::default()
-                    },
-                );
+                let wr = BasicHtmlWriter::new(&mut buf, None, Default::default());
                 let mut generator = swc_html_codegen::CodeGenerator::new(
                     wr,
                     swc_html_codegen::CodegenConfig {
@@ -147,9 +130,7 @@ fn run_document_fragment(src: &str) {
                 &context_element,
                 DocumentMode::NoQuirks,
                 None,
-                ParserConfig {
-                    ..Default::default()
-                },
+                Default::default(),
                 &mut errors,
             )
             .unwrap();
@@ -162,13 +143,7 @@ fn run_document_fragment(src: &str) {
 
             let mut buf = String::new();
             {
-                let wr = BasicHtmlWriter::new(
-                    &mut buf,
-                    None,
-                    BasicHtmlWriterConfig {
-                        ..Default::default()
-                    },
-                );
+                let wr = BasicHtmlWriter::new(&mut buf, None, Default::default());
                 let mut generator = swc_html_codegen::CodeGenerator::new(
                     wr,
                     swc_html_codegen::CodegenConfig {

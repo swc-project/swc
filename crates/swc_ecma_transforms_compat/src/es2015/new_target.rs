@@ -9,7 +9,6 @@ use swc_ecma_visit::{
 };
 use swc_trace_macro::swc_trace;
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn new_target() -> impl Fold + VisitMut + CompilerPass {
     as_folder(NewTarget {
         ctx: Ctx::Constructor,

@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.3.43] - 2023-03-29
 
 ### Bug Fixes
 
@@ -60,6 +60,12 @@
 
 
 - **(macros)** Reduce compile time (#7132) ([2154a3f](https://github.com/swc-project/swc/commit/2154a3f117d9ea7cc2f12856d6e7f2b33a255d26))
+
+### Build
+
+
+
+- **(cargo)** Update `rustc` to `nightly-2023-03-28` (#7154) ([e445502](https://github.com/swc-project/swc/commit/e445502072d8ebfcbe0da0cb59f3d6a85d4a2087))
 
 ## [1.3.42] - 2023-03-22
 

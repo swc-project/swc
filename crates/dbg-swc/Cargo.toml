@@ -5,7 +5,7 @@ edition     = "2021"
 license     = "Apache-2.0"
 name        = "dbg-swc"
 repository  = "https://github.com/kdy1/dbg-swc.git"
-version     = "0.78.0"
+version     = "0.78.2"
 
 [[bin]]
 bench = false
@@ -25,18 +25,18 @@ tracing            = "0.1.34"
 tracing-subscriber = { version = "0.3.11", features = ["fmt", "env-filter"] }
 url                = "2"
 
-swc_atoms = { version = "0.4.39", path = "../swc_atoms" }
-swc_common = { version = "0.30.0", features = [
+swc_atoms = { version = "0.4.40", path = "../swc_atoms" }
+swc_common = { version = "0.30.1", features = [
   "concurrent",
   "tty-emitter",
 ], path = "../swc_common" }
-swc_ecma_ast = { version = "0.102.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.137.0", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "0.178.0", path = "../swc_ecma_minifier", features = [
+swc_ecma_ast = { version = "0.102.1", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.137.1", path = "../swc_ecma_codegen" }
+swc_ecma_minifier = { version = "0.178.1", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_parser = { version = "0.132.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.124.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_visit = { version = "0.88.0", path = "../swc_ecma_visit" }
-swc_error_reporters = { version = "0.14.0", path = "../swc_error_reporters" }
-swc_timer = { version = "0.18.0", path = "../swc_timer" }
+swc_ecma_parser = { version = "0.132.1", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "0.124.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_visit = { version = "0.88.1", path = "../swc_ecma_visit" }
+swc_error_reporters = { version = "0.14.1", path = "../swc_error_reporters" }
+swc_timer = { version = "0.18.1", path = "../swc_timer" }

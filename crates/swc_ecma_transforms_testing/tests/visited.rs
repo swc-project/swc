@@ -14,7 +14,7 @@ impl Fold for Panicking {
             panic!("visited: {}", sym)
         }
 
-        JSXOpeningElement { ..node }
+        node
     }
 }
 
