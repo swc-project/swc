@@ -33,7 +33,6 @@ mod sticky_regex;
 pub mod template_literal;
 mod typeof_symbol;
 
-#[tracing::instrument(level = "info", skip_all)]
 fn exprs(unresolved_mark: Mark) -> impl Fold {
     chain!(
         arrow(unresolved_mark),
