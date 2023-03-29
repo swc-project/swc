@@ -925,6 +925,7 @@ impl BytePos {
 /// is not equivalent to a character offset. The SourceMap will convert BytePos
 /// values to CharPos values as necessary.
 #[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub struct CharPos(pub usize);
 
 // FIXME: Lots of boilerplate in these impls, but so far my attempts to fix
@@ -1066,6 +1067,7 @@ pub struct SourceFileAndBytePos {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub struct LineInfo {
     /// Index of line, starting from 0.
     pub line_index: usize,
@@ -1098,6 +1100,7 @@ pub struct FileLines {
 
 /// A struct to exchange `FileLines` with omitting SourceFile as needed.
 /// This is internal struct between plugins to the host, not a public interface.
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub struct PartialFileLines {
     pub file: Option<Lrc<SourceFile>>,
     pub lines: Vec<LineInfo>,
