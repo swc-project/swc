@@ -1124,6 +1124,7 @@ pub enum SpanLinesError {
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub enum SpanSnippetError {
     DummyBytePos,
     IllFormedSpan(Span),
@@ -1140,6 +1141,7 @@ pub struct DistinctSources {
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub struct MalformedSourceMapPositions {
     pub name: FileName,
     pub source_len: usize,
