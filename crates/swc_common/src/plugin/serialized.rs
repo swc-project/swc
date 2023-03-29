@@ -1,17 +1,14 @@
 use std::any::type_name;
 
-use anyhow::Error;
+use anyhow::{Context, Error};
 #[cfg(feature = "__rkyv")]
 use rkyv::Deserialize;
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
+use serde::de::DeserializeOwned;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
-#[cfg_attr(
-    feature = "__plugin",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 /// Enum for possible errors while running transform via plugin.
 /// This error indicates internal operation failure either in plugin_runner
 /// or plugin_macro. Plugin's transform fn itself does not allow to return
@@ -36,7 +33,7 @@ pub enum PluginError {
 /// format struct contains: it is strict implementation detail which can
 /// change anytime.
 pub struct PluginSerializedBytes {
-    pub(crate) field: rkyv::AlignedVec,
+    pub(crate) field: Vec<u8>,
 }
 
 #[cfg(feature = "__plugin")]
@@ -47,9 +44,9 @@ impl PluginSerializedBytes {
      */
     #[tracing::instrument(level = "info", skip_all)]
     pub fn from_slice(bytes: &[u8]) -> PluginSerializedBytes {
-        let mut field = rkyv::AlignedVec::new();
-        field.extend_from_slice(bytes);
-        PluginSerializedBytes { field }
+        PluginSerializedBytes {
+            field: bytes.to_vec(),
+        }
     }
 
     /**
@@ -61,19 +58,11 @@ impl PluginSerializedBytes {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn try_serialize<W>(t: &W) -> Result<Self, Error>
     where
-        W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
+        W: serde::Serialize,
     {
-        rkyv::to_bytes::<_, 512>(t)
-            .map(|field| PluginSerializedBytes { field })
-            .map_err(|err| match err {
-                rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
-                rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(_e) => {
-                    Error::msg("AllocScratchError")
-                }
-                rkyv::ser::serializers::CompositeSerializerError::SharedError(_e) => {
-                    Error::msg("SharedSerializeMapError")
-                }
-            })
+        rmp_serde::to_vec(t)
+            .map(|v| PluginSerializedBytes { field: v })
+            .with_context(|| format!("failed to serialize `{}` using rmp_serde", type_name::<W>()))
     }
 
     /*
@@ -101,16 +90,16 @@ impl PluginSerializedBytes {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn deserialize<W>(&self) -> Result<W, Error>
     where
-        W: rkyv::Archive,
-        W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
+        W: DeserializeOwned,
     {
         use anyhow::Context;
 
-        let archived = unsafe { rkyv::archived_root::<W>(&self.field[..]) };
-
-        archived
-            .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
-            .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
+        rmp_serde::from_slice(&self.field[..]).with_context(|| {
+            format!(
+                "failed to deserialize `{}` using rmp_serde",
+                type_name::<W>()
+            )
+        })
     }
 }
 
