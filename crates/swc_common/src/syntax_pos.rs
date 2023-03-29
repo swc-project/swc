@@ -1061,6 +1061,7 @@ pub struct SourceFileAndLine {
 }
 
 #[derive(Debug)]
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub struct SourceFileAndBytePos {
     pub sf: Lrc<SourceFile>,
     pub pos: BytePos,
@@ -1116,6 +1117,7 @@ pub type FileLinesResult = Result<FileLines, Box<SpanLinesError>>;
 pub type PartialFileLinesResult = Result<PartialFileLines, Box<SpanLinesError>>;
 
 #[derive(Clone, PartialEq, Eq, Debug)]
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub enum SpanLinesError {
     IllFormedSpan(Span),
     DistinctSources(DistinctSources),
@@ -1131,6 +1133,7 @@ pub enum SpanSnippetError {
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub struct DistinctSources {
     pub begin: (FileName, BytePos),
     pub end: (FileName, BytePos),
