@@ -1734,7 +1734,7 @@ impl Generator {
 
             self.emit_assignment(
                 PatOrExpr::Pat(keys_array.clone().into()),
-                Box::new(Take::dummy().into()),
+                Box::new(ArrayLit { ..Take::dummy() }.into()),
                 None,
             );
 
