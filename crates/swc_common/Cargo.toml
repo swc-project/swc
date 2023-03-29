@@ -30,6 +30,7 @@ plugin-base = [
   "diagnostic-serde",
   "rmp-serde",
   "url/serde",
+  "serde/rc",
 ]
 plugin-mode = ["__plugin_mode", "plugin-base"]
 plugin-rt = ["__plugin_rt", "plugin-base"]
