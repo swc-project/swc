@@ -306,9 +306,7 @@ fn export_namespace_from() {
         "export * as Foo from 'foo';",
         "export * as Foo from 'foo';",
         Default::default(),
-        Syntax::Es(EsConfig {
-            ..EsConfig::default()
-        }),
+        Syntax::Es(EsConfig::default()),
     );
 }
 
