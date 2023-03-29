@@ -1784,9 +1784,7 @@ export default function waitUntil(callback, options = {}) {
     fn issue_380_1() {
         test_parser(
             "import(filePath).then(bar => {})",
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
+            Syntax::Es(Default::default()),
             |p| p.parse_module(),
         );
     }
@@ -1810,22 +1808,16 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             "try {
 } catch {}",
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
+            Syntax::Es(Default::default()),
             |p| p.parse_module(),
         );
     }
 
     #[test]
     fn top_level_await() {
-        test_parser(
-            "await foo",
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_module(),
-        );
+        test_parser("await foo", Syntax::Es(Default::default()), |p| {
+            p.parse_module()
+        });
     }
 
     #[test]
@@ -1838,14 +1830,9 @@ export default function waitUntil(callback, options = {}) {
     } = Object.create(null);
 }
 ";
-        let _ = test_parser_comment(
-            &c,
-            s,
-            Syntax::Typescript(TsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_typescript_module(),
-        );
+        let _ = test_parser_comment(&c, s, Syntax::Typescript(Default::default()), |p| {
+            p.parse_typescript_module()
+        });
 
         let (leading, trailing) = c.take_all();
         assert!(trailing.borrow().is_empty());
