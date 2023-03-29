@@ -1,3 +1,4 @@
+use serde::{Deserialize, Serialize};
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 #[cfg(any(feature = "__plugin_rt", feature = "__plugin_mode"))]
 use swc_common::plugin::serialized::{
@@ -5,6 +6,7 @@ use swc_common::plugin::serialized::{
 };
 
 /// A struct to exchange allocated data between memory spaces.
+#[derive(Serialize, Deserialize)]
 pub struct AllocatedBytesPtr(pub u32, pub u32);
 
 /// Performs an interop while calling host fn to get non-determined size return
