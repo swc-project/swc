@@ -1,4 +1,4 @@
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2020::nullish_coalescing::{nullish_coalescing, Config};
 use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_visit::Fold;

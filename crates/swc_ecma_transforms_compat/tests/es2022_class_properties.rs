@@ -3,7 +3,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
 use swc_common::{chain, Mark};
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::{arrow, block_scoping, classes, function_name, template_literal},

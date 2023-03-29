@@ -7,9 +7,7 @@ use swc_ecma_transforms_compat::es2015::{
     self,
     for_of::{for_of, Config},
 };
-use swc_ecma_transforms_testing::{
-    compare_stdout, test, test_exec, test_fixture, FixtureTestConfig,
-};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
 
 fn syntax() -> Syntax {
     Default::default()

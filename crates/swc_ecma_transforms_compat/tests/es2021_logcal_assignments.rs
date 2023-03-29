@@ -1,4 +1,4 @@
-use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2021;
 use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_visit::Fold;
