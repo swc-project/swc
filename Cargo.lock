@@ -3179,7 +3179,6 @@ dependencies = [
 name = "swc_atoms"
 version = "0.4.41"
 dependencies = [
- "bytecheck",
  "once_cell",
  "rkyv",
  "rkyv-test",
@@ -3256,7 +3255,6 @@ dependencies = [
  "ast_node",
  "atty",
  "better_scoped_tls",
- "bytecheck",
  "cfg-if 1.0.0",
  "criterion",
  "either",
@@ -3376,7 +3374,6 @@ dependencies = [
 name = "swc_css_ast"
 version = "0.136.2"
 dependencies = [
- "bytecheck",
  "is-macro",
  "rkyv",
  "serde",
@@ -3550,7 +3547,6 @@ version = "0.102.2"
 dependencies = [
  "arbitrary",
  "bitflags",
- "bytecheck",
  "is-macro",
  "num-bigint",
  "rkyv",
@@ -4223,9 +4219,7 @@ dependencies = [
 name = "swc_html_ast"
 version = "0.30.2"
 dependencies = [
- "bytecheck",
  "is-macro",
- "rkyv",
  "serde",
  "string_enum",
  "swc_atoms",
