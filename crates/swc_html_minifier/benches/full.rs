@@ -82,14 +82,8 @@ fn run_document(src: &str) {
             let fm = cm.new_source_file(FileName::Anon, src.into());
 
             let mut errors = vec![];
-            let mut document: Document = parse_file_as_document(
-                &fm,
-                ParserConfig {
-                    ..Default::default()
-                },
-                &mut errors,
-            )
-            .unwrap();
+            let mut document: Document =
+                parse_file_as_document(&fm, Default::default(), &mut errors).unwrap();
 
             for err in errors {
                 err.to_diagnostics(&handler).emit();
@@ -99,13 +93,7 @@ fn run_document(src: &str) {
 
             let mut buf = String::new();
             {
-                let wr = BasicHtmlWriter::new(
-                    &mut buf,
-                    None,
-                    BasicHtmlWriterConfig {
-                        ..Default::default()
-                    },
-                );
+                let wr = BasicHtmlWriter::new(&mut buf, None, Default::default());
                 let mut generator = swc_html_codegen::CodeGenerator::new(
                     wr,
                     swc_html_codegen::CodegenConfig {
@@ -147,9 +135,7 @@ fn run_document_fragment(src: &str) {
                 &context_element,
                 DocumentMode::NoQuirks,
                 None,
-                ParserConfig {
-                    ..Default::default()
-                },
+                Default::default(),
                 &mut errors,
             )
             .unwrap();
@@ -162,13 +148,7 @@ fn run_document_fragment(src: &str) {
 
             let mut buf = String::new();
             {
-                let wr = BasicHtmlWriter::new(
-                    &mut buf,
-                    None,
-                    BasicHtmlWriterConfig {
-                        ..Default::default()
-                    },
-                );
+                let wr = BasicHtmlWriter::new(&mut buf, None, Default::default());
                 let mut generator = swc_html_codegen::CodeGenerator::new(
                     wr,
                     swc_html_codegen::CodegenConfig {
