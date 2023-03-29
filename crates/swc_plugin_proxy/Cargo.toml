@@ -11,24 +11,16 @@ version     = "0.31.2"
 bench = false
 
 [features]
-__rkyv = []
-# Enably rkyv serialization with stable version of rkyv.
-rkyv-impl = ["__rkyv", "rkyv"]
-
 __plugin_mode = []
 __plugin_rt   = []
-plugin-rt     = ["__plugin_rt", "swc_common/plugin-base", "rkyv-impl"]
+plugin-rt     = ["__plugin_rt", "swc_common/plugin-base"]
 
 # actual wasm plugin binary
-plugin-mode = ["__plugin_mode", "swc_common/plugin-base", "rkyv-impl"]
+plugin-mode = ["__plugin_mode", "swc_common/plugin-base"]
 
 [dependencies]
 
-rkyv = { package = "rkyv", version = "=0.7.37", optional = true }
-# This is to avoid cargo version selection conflict between rkyv=0.7.37 and other versions, as it is strictly pinned
-# cannot be merged.
-rkyv-latest = { package = "rkyv-test", version = "=0.7.38-test.2", optional = true }
-tracing     = "0.1.32"
+tracing = "0.1.32"
 
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
 swc_common        = { version = "0.30.2", path = "../swc_common" }
