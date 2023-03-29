@@ -115,8 +115,7 @@ pub unsafe fn deserialize_from_ptr<W>(
     raw_allocated_ptr_len: u32,
 ) -> Result<W, Error>
 where
-    W: rkyv::Archive,
-    W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
+    W: DeserializeOwned,
 {
     let serialized =
         PluginSerializedBytes::from_raw_ptr(raw_allocated_ptr, raw_allocated_ptr_len as usize);
@@ -139,14 +138,12 @@ pub unsafe fn deserialize_from_ptr_into_fallible<W>(
     raw_allocated_ptr_len: u32,
 ) -> Result<W, Error>
 where
-    W: rkyv::Archive,
-    W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
+    W: DeserializeOwned,
 {
     let serialized =
         PluginSerializedBytes::from_raw_ptr(raw_allocated_ptr, raw_allocated_ptr_len as usize);
 
-    rkyv::from_bytes_unchecked(&serialized.field)
-        .map_err(|_err| Error::msg("Failed to deserialize given ptr"))
+    serialized.deserialize()
 }
 
 /*
