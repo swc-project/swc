@@ -20,18 +20,14 @@ fn pass(input: PathBuf) {
 
         let lexer = Lexer::new(
             if input.extension().unwrap() == "ts" {
-                Syntax::Typescript(swc_ecma_parser::TsConfig {
-                    ..Default::default()
-                })
+                Syntax::Typescript(Default::default())
             } else if input.extension().unwrap() == "tsx" {
                 Syntax::Typescript(swc_ecma_parser::TsConfig {
                     tsx: true,
                     ..Default::default()
                 })
             } else {
-                Syntax::Es(swc_ecma_parser::EsConfig {
-                    ..Default::default()
-                })
+                Syntax::Es(Default::default())
             },
             es_version,
             SourceFileInput::from(&*fm),
