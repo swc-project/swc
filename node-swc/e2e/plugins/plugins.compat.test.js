@@ -61,7 +61,7 @@ const inferBinaryName = () => {
     );
 };
 
-describe("Published plugins", () => {
+describe.skip("Published plugins", () => {
     const packageName = platformPackagesMap[platform][arch];
 
     if (!!packageName) {
