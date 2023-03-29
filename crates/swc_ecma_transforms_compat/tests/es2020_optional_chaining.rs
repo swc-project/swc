@@ -10,9 +10,7 @@ fn tr(c: Config) -> impl Fold {
 }
 
 fn syntax() -> Syntax {
-    Syntax::Typescript(TsConfig {
-        ..Default::default()
-    })
+    Syntax::Typescript(Default::default())
 }
 
 // general_memoize_loose

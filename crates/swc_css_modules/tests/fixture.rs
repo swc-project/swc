@@ -71,12 +71,7 @@ fn compile(input: PathBuf) {
                     ..Default::default()
                 },
             );
-            let mut g = CodeGenerator::new(
-                wr,
-                CodegenConfig {
-                    ..Default::default()
-                },
-            );
+            let mut g = CodeGenerator::new(wr, Default::default());
 
             g.emit(&ss).unwrap();
         }
