@@ -1,4 +1,3 @@
-#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
 use std::{
     env, fs,
     path::{Path, PathBuf},
@@ -8,11 +7,11 @@ use std::{
 
 use anyhow::{anyhow, Error};
 use serde_json::json;
-#[cfg(feature = "__rkyv")]
-use swc_common::plugin::serialized::PluginSerializedBytes;
 use swc_common::{
-    collections::AHashMap, plugin::metadata::TransformPluginMetadataContext, sync::Lazy, FileName,
-    Mark,
+    collections::AHashMap,
+    plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
+    sync::Lazy,
+    FileName, Mark,
 };
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax, TsConfig};
@@ -50,7 +49,6 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     Err(anyhow!("Could not find built plugin"))
 }
 
-#[cfg(feature = "__rkyv")]
 static PLUGIN_PATH: Lazy<PathBuf> = Lazy::new(|| {
     build_plugin(
         &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
@@ -61,7 +59,6 @@ static PLUGIN_PATH: Lazy<PathBuf> = Lazy::new(|| {
     .unwrap()
 });
 
-#[cfg(feature = "__rkyv")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.ts")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.tsx")]
 fn internal(input: PathBuf) -> Result<(), Error> {

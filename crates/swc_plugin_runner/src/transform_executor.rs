@@ -17,7 +17,6 @@ use swc_common::{
 };
 use wasmer::Instance;
 
-#[cfg(feature = "__rkyv")]
 use crate::memory_interop::write_into_memory_view;
 
 /// A struct encapsule executing a plugin's transform interop to its teardown

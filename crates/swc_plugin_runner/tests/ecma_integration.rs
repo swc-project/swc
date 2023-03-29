@@ -1,5 +1,3 @@
-#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
-
 use std::{
     env, fs,
     path::{Path, PathBuf},
@@ -9,11 +7,12 @@ use std::{
 
 use anyhow::{anyhow, Error};
 use serde_json::json;
-#[cfg(feature = "__rkyv")]
-use swc_common::plugin::serialized::PluginSerializedBytes;
 use swc_common::{
-    collections::AHashMap, errors::HANDLER, plugin::metadata::TransformPluginMetadataContext,
-    sync::Lazy, FileName, Mark,
+    collections::AHashMap,
+    errors::HANDLER,
+    plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
+    sync::Lazy,
+    FileName, Mark,
 };
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax};
@@ -71,7 +70,6 @@ impl Visit for TestVisitor {
     }
 }
 
-#[cfg(feature = "__rkyv")]
 #[test]
 fn internal() -> Result<(), Error> {
     let path = build_plugin(

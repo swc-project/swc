@@ -1,5 +1,3 @@
-#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
-
 use std::{path::Path, sync::Arc};
 
 use anyhow::Error;
