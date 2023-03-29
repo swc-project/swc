@@ -246,12 +246,14 @@ __css_plugin_transform = [
   "__common_plugin_transform",
   "css_visit",
   "css_ast",                   # Enable optional packages
+  "css_ast_serde",             # Enable optional packages
 ]
 __ecma_plugin_transform = [
   # Dependent features
   "__common_plugin_transform",
   "ecma_visit",
   "ecma_ast",                  # Enable optional packages
+  "ecma_ast_serde",            # Enable optional packages
 ]
 
 # Internal flags for any transform plugin host feature
