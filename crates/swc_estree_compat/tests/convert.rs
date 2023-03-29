@@ -74,11 +74,6 @@ fn fixtures() -> Result<(), Error> {
                 compile_fail: false,
                 no_run: false,
                 ignore_message: Default::default(),
-                end_col: 0,
-                end_line: 0,
-                source_file: "",
-                start_col: 0,
-                start_line: 0,
             },
             testfn: DynTestFn(Box::alloc().init(move || {
                 GLOBALS.set(&Default::default(), || {
@@ -90,11 +85,11 @@ fn fixtures() -> Result<(), Error> {
                             ..Default::default()
                         })
                     } else {
-                        Syntax::Es(Default::default())
+                        Syntax::Es(EsConfig {
+                            ..Default::default()
+                        })
                     };
                     run_test(input, output, syntax, is_module);
-
-                    Ok(())
                 })
             })),
         })

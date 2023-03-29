@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use swc_ecma_parser::Syntax;
+use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_compat::class_fields_use_set::class_fields_use_set;
 use swc_ecma_transforms_testing::test_fixture;
 
@@ -10,7 +10,9 @@ fn fixture(input: PathBuf) {
 
     let output = parent.join("output.js");
     test_fixture(
-        Syntax::Es(Default::default()),
+        Syntax::Es(EsConfig {
+            ..Default::default()
+        }),
         &|_| class_fields_use_set(true),
         &input,
         &output,

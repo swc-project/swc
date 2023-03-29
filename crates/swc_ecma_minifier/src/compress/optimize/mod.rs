@@ -339,7 +339,7 @@ where
         let append_stmts = self.append_stmts.take();
 
         {
-            let mut child_ctx = self.ctx;
+            let mut child_ctx = Ctx { ..self.ctx };
             let mut directive_count = 0;
 
             if !stmts.is_empty() {
@@ -1401,7 +1401,7 @@ where
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         let prepend = self.prepend_stmts.take();
 
-        let ctx = self.ctx;
+        let ctx = Ctx { ..self.ctx };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
@@ -2125,7 +2125,7 @@ where
         }
 
         {
-            let ctx = self.ctx;
+            let ctx = Ctx { ..self.ctx };
             self.with_ctx(ctx).optimize_usage_of_arguments(n);
         }
 
@@ -2661,7 +2661,7 @@ where
             return;
         }
 
-        let ctx = self.ctx;
+        let ctx = Ctx { ..self.ctx };
 
         self.with_ctx(ctx).inject_else(stmts);
 

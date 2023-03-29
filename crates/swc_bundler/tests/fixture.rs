@@ -57,7 +57,9 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
 
                     {
                         let mut emitter = Emitter {
-                            cfg: Default::default(),
+                            cfg: swc_ecma_codegen::Config {
+                                ..Default::default()
+                            },
                             cm: cm.clone(),
                             comments: None,
                             wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),

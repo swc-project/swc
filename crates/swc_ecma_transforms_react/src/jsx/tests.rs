@@ -1169,7 +1169,13 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(
+        t,
+        Options {
+            ..Default::default()
+        },
+        Mark::fresh(Mark::root())
+    ),
     use_builtins_assignment,
     r#"var div = <Component {...props} foo="bar" />"#,
     r#"
@@ -1184,7 +1190,13 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(
+        t,
+        Options {
+            ..Default::default()
+        },
+        Mark::fresh(Mark::root())
+    ),
     use_spread_assignment,
     r#"<Component y={2} { ...x } z />"#,
     r#"
@@ -1196,7 +1208,13 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(
+        t,
+        Options {
+            ..Default::default()
+        },
+        Mark::fresh(Mark::root())
+    ),
     issue_229,
     "const a = <>test</>
 const b = <div>test</div>",
@@ -1212,7 +1230,13 @@ test!(
     |t| {
         let top_level_mark = Mark::fresh(Mark::root());
         chain!(
-            tr(t, Default::default(), top_level_mark),
+            tr(
+                t,
+                Options {
+                    ..Default::default()
+                },
+                top_level_mark
+            ),
             common_js(
                 top_level_mark,
                 Default::default(),
@@ -1238,7 +1262,13 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(
+        t,
+        Options {
+            ..Default::default()
+        },
+        Mark::fresh(Mark::root())
+    ),
     issue_481,
     "<span> {foo}</span>;",
     "React.createElement(\"span\", null, \" \", foo);"
@@ -1253,7 +1283,13 @@ test!(
     |t| {
         let top_level_mark = Mark::fresh(Mark::root());
         chain!(
-            tr(t, Default::default(), top_level_mark),
+            tr(
+                t,
+                Options {
+                    ..Default::default()
+                },
+                top_level_mark
+            ),
             common_js(
                 Mark::fresh(Mark::root()),
                 Default::default(),
@@ -1288,7 +1324,13 @@ test!(
         jsx: true,
         ..Default::default()
     }),
-    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    |t| tr(
+        t,
+        Options {
+            ..Default::default()
+        },
+        Mark::fresh(Mark::root())
+    ),
     issue_542,
     "let page = <p>Click <em>New melody</em> listen to a randomly generated melody</p>",
     "let page = React.createElement(\"p\", null, \"Click \", React.createElement(\"em\", null, \

@@ -3,14 +3,16 @@
 use std::path::PathBuf;
 
 use swc_common::{chain, Mark};
-use swc_ecma_parser::Syntax;
+use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_module::system_js::{system_js, Config};
 use swc_ecma_transforms_testing::{test, test_fixture, Tester};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
-    Syntax::Es(Default::default())
+    Syntax::Es(EsConfig {
+        ..Default::default()
+    })
 }
 
 fn tr(_tester: &mut Tester<'_>, config: Config) -> impl Fold {
@@ -142,7 +144,12 @@ test!(
 
 test!(
     syntax(),
-    |tester| tr(tester, Default::default()),
+    |tester| tr(
+        tester,
+        Config {
+            ..Default::default()
+        }
+    ),
     imports,
     r#"
     import.meta.url;
@@ -174,7 +181,14 @@ fn fixture(input: PathBuf) {
 
     test_fixture(
         syntax(),
-        &|tester| tr(tester, Default::default()),
+        &|tester| {
+            tr(
+                tester,
+                Config {
+                    ..Default::default()
+                },
+            )
+        },
         &input,
         &output,
         Default::default(),

@@ -145,9 +145,14 @@ fn issue_1878() {
         let s = "
             // test
         ";
-        let _ = super::test_parser_comment(&c, s, Syntax::Typescript(Default::default()), |p| {
-            p.parse_typescript_module()
-        });
+        let _ = super::test_parser_comment(
+            &c,
+            s,
+            Syntax::Typescript(TsConfig {
+                ..Default::default()
+            }),
+            |p| p.parse_typescript_module(),
+        );
 
         let (leading, trailing) = c.take_all();
         assert!(trailing.borrow().is_empty());
@@ -162,9 +167,14 @@ fn issue_1878() {
         let s = "#!/foo/bar
             // test
         ";
-        let _ = super::test_parser_comment(&c, s, Syntax::Typescript(Default::default()), |p| {
-            p.parse_typescript_module()
-        });
+        let _ = super::test_parser_comment(
+            &c,
+            s,
+            Syntax::Typescript(TsConfig {
+                ..Default::default()
+            }),
+            |p| p.parse_typescript_module(),
+        );
 
         let (leading, trailing) = c.take_all();
         assert!(leading.borrow().is_empty());

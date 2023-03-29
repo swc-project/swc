@@ -1,5 +1,4 @@
-cognitive-complexity-threshold = 50
-disallowed-names = [
+blacklisted-names = [
   "bool",
   "char",
   "str",
@@ -16,5 +15,6 @@ disallowed-names = [
   "isize",
   "usize",
 ]
+cognitive-complexity-threshold = 50
 msrv = "1.58"
 type-complexity-threshold = 25000

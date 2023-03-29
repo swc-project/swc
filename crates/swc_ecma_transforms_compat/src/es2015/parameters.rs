@@ -15,6 +15,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 use swc_trace_macro::swc_trace;
 use tracing::trace;
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn parameters(c: Config, unresolved_mark: Mark) -> impl 'static + Fold {
     let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
     as_folder(Params {

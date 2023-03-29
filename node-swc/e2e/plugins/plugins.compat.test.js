@@ -61,7 +61,7 @@ const inferBinaryName = () => {
     );
 };
 
-describe.skip("Published plugins", () => {
+describe("Published plugins", () => {
     const packageName = platformPackagesMap[platform][arch];
 
     if (!!packageName) {
@@ -70,7 +70,6 @@ describe.skip("Published plugins", () => {
                 getPkgRoot(),
                 packageName
             ));
-            console.log(`Package name: ${packageName}`);
 
             const options = {
                 jsc: {
@@ -88,15 +87,11 @@ describe.skip("Published plugins", () => {
                 },
             };
 
-            console.log("Before transformSync");
-
             const { code } = transformSync(
                 'console.log("hello world")',
                 false,
                 Buffer.from(JSON.stringify(options))
             );
-
-            console.log("After transformSync");
 
             expect(code).toMatchInlineSnapshot(`
                 "console.log(\\"hello world\\");

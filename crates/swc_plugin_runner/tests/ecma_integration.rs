@@ -16,7 +16,7 @@ use swc_common::{
     sync::Lazy, FileName, Mark,
 };
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
-use swc_ecma_parser::{parse_file_as_program, Syntax};
+use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
 use swc_plugin_runner::cache::PluginModuleCache;
 
@@ -87,7 +87,9 @@ fn internal() -> Result<(), Error> {
 
         let program = parse_file_as_program(
             &fm,
-            Syntax::Es(Default::default()),
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
             EsVersion::latest(),
             None,
             &mut vec![],
@@ -149,7 +151,9 @@ fn internal() -> Result<(), Error> {
 
         let program = parse_file_as_program(
             &fm,
-            Syntax::Es(Default::default()),
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
             EsVersion::latest(),
             None,
             &mut vec![],
@@ -199,7 +203,9 @@ fn internal() -> Result<(), Error> {
 
         let program = parse_file_as_program(
             &fm,
-            Syntax::Es(Default::default()),
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
             EsVersion::latest(),
             None,
             &mut vec![],

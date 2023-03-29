@@ -28,6 +28,7 @@ use self::{
 mod constructor;
 mod prop_name;
 
+#[tracing::instrument(level = "info", skip_all)]
 pub fn classes<C>(comments: Option<C>, config: Config) -> impl Fold + VisitMut
 where
     C: Comments,

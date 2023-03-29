@@ -4,7 +4,10 @@ use std::{fs, path::PathBuf};
 
 use swc_common::{errors::HANDLER, input::SourceFileInput};
 use swc_css_lints::{get_rules, LintConfig, LintParams, LintRule};
-use swc_css_parser::{lexer::Lexer, parser::Parser};
+use swc_css_parser::{
+    lexer::Lexer,
+    parser::{Parser, ParserConfig},
+};
 
 #[testing::fixture("tests/rules/pass/**/input.css")]
 fn pass(input: PathBuf) {
@@ -13,7 +16,9 @@ fn pass(input: PathBuf) {
         serde_json::from_str::<LintConfig>(&fs::read_to_string(config_path).unwrap()).unwrap();
 
     testing::run_test2(false, |cm, handler| -> Result<(), _> {
-        let config = Default::default();
+        let config = ParserConfig {
+            ..Default::default()
+        };
 
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
@@ -53,7 +58,9 @@ fn fail(input: PathBuf) {
         serde_json::from_str::<LintConfig>(&fs::read_to_string(config_path).unwrap()).unwrap();
 
     let stderr = testing::run_test2(false, |cm, handler| -> Result<(), _> {
-        let config = Default::default();
+        let config = ParserConfig {
+            ..Default::default()
+        };
 
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm), config);

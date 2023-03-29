@@ -73,7 +73,7 @@ fn test(input: PathBuf) {
         panic!("Comments have incorrect position")
     }
 
-    output.compare_to_file(output_file).unwrap();
+    output.compare_to_file(&output_file).unwrap();
 }
 
 struct CommentPrinter<'a> {

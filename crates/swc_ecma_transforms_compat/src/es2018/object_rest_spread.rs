@@ -24,6 +24,7 @@ use swc_trace_macro::swc_trace;
 // `ignoreFunctionLength` on
 
 /// `@babel/plugin-proposal-object-rest-spread`
+#[tracing::instrument(level = "info", skip_all)]
 pub fn object_rest_spread(config: Config) -> impl Fold + VisitMut {
     chain!(
         as_folder(ObjectRest {

@@ -33,6 +33,7 @@ mod sticky_regex;
 pub mod template_literal;
 mod typeof_symbol;
 
+#[tracing::instrument(level = "info", skip_all)]
 fn exprs(unresolved_mark: Mark) -> impl Fold {
     chain!(
         arrow(unresolved_mark),
@@ -52,6 +53,7 @@ fn exprs(unresolved_mark: Mark) -> impl Fold {
 /// Used to generate `require` calls.
 /// See the documentation of [regenerator](self::regenerator::regenerator) for
 /// more details.
+#[tracing::instrument(level = "info", skip_all)]
 pub fn es2015<C>(unresolved_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
 where
     C: Comments + Clone,

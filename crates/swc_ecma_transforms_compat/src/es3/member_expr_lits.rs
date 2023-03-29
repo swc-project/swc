@@ -20,6 +20,7 @@ use swc_trace_macro::swc_trace;
 /// obj["const"] = "isKeyword";
 /// obj["var"] = "isKeyword";
 /// ```
+#[tracing::instrument(level = "info", skip_all)]
 pub fn member_expression_literals() -> impl Fold {
     MemberExprLit
 }

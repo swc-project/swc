@@ -36,6 +36,7 @@ use swc_trace_macro::swc_trace;
 ///     b = _arr2[1],
 ///     rest = _arr2.slice(2);
 /// ```
+#[tracing::instrument(level = "info", skip_all)]
 pub fn destructuring(c: Config) -> impl Fold + VisitMut {
     as_folder(Destructuring { c })
 }

@@ -25,7 +25,9 @@ fn spec_tr(tester: &Tester) -> impl Fold {
     chain!(
         resolver(unresolved_mark, Mark::new(), false),
         classes(Some(tester.comments.clone()), Default::default()),
-        spread(Default::default()),
+        spread(spread::Config {
+            ..Default::default()
+        }),
         block_scoping(unresolved_mark),
     )
 }
@@ -6546,7 +6548,9 @@ test!(
             es2015::es2015(
                 unresolved_mark,
                 Some(t.comments.clone()),
-                Default::default()
+                es2015::Config {
+                    ..Default::default()
+                }
             ),
         )
     },
@@ -6579,7 +6583,13 @@ test!(
 
         chain!(
             class_properties(Some(t.comments.clone()), Default::default()),
-            es2015::es2015(global_mark, Some(t.comments.clone()), Default::default()),
+            es2015::es2015(
+                global_mark,
+                Some(t.comments.clone()),
+                es2015::Config {
+                    ..Default::default()
+                }
+            ),
         )
     },
     issue_1660_5,
@@ -6656,7 +6666,13 @@ test!(
 
         chain!(
             class_properties(Some(t.comments.clone()), Default::default()),
-            es2015::es2015(global_mark, Some(t.comments.clone()), Default::default()),
+            es2015::es2015(
+                global_mark,
+                Some(t.comments.clone()),
+                es2015::Config {
+                    ..Default::default()
+                }
+            ),
         )
     },
     issue_1959_1,
@@ -6697,7 +6713,13 @@ test!(
 
         chain!(
             class_properties(Some(t.comments.clone()), Default::default()),
-            es2015::es2015(global_mark, Some(t.comments.clone()), Default::default()),
+            es2015::es2015(
+                global_mark,
+                Some(t.comments.clone()),
+                es2015::Config {
+                    ..Default::default()
+                }
+            ),
         )
     },
     issue_1959_2,
@@ -6733,7 +6755,7 @@ var Extended = function(Base) {
 
 #[testing::fixture("tests/classes/**/exec.js")]
 fn exec(input: PathBuf) {
-    let src = read_to_string(input).unwrap();
+    let src = read_to_string(&input).unwrap();
     compare_stdout(
         Default::default(),
         |t| {

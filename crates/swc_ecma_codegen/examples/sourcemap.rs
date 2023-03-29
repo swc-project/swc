@@ -34,7 +34,9 @@ fn parse_and_gen(entry: &Path) {
 
         {
             let mut emitter = Emitter {
-                cfg: Default::default(),
+                cfg: swc_ecma_codegen::Config {
+                    ..Default::default()
+                },
                 cm: cm.clone(),
                 comments: None,
                 wr: JsWriter::new(cm.clone(), "\n", &mut code, Some(&mut srcmap)),

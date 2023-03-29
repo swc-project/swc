@@ -8,7 +8,7 @@ pub fn copy_bytes_into_host(memory: &Memory, bytes_ptr: u32, bytes_ptr_len: u32)
 
     // Deref & read through plugin's wasm memory space via returned ptr
     let derefed_ptr = ptr
-        .deref(memory, 0, bytes_ptr_len)
+        .deref(memory, 0, bytes_ptr_len as u32)
         .expect("Should able to deref from given ptr");
 
     derefed_ptr

@@ -8,7 +8,7 @@ use std::{
 
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Syntax};
+use swc_ecma_parser::{lexer::Lexer, EsConfig, PResult, Parser, Syntax};
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 
@@ -90,7 +90,9 @@ where
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
         let lexer = Lexer::new(
-            Syntax::Es(Default::default()),
+            Syntax::Es(EsConfig {
+                ..Default::default()
+            }),
             EsVersion::Es2015,
             (&*fm).into(),
             Some(&comments),

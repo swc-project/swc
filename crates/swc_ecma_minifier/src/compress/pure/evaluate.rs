@@ -368,7 +368,7 @@ impl Pure<'_> {
                 } else {
                     // 11. Else,
 
-                    if x.fract() != 0. || f != 0 {
+                    if x.fract() != 0. && f != 0 {
                         // TODO: rust built-in format cannot handle ecma262 `1.25.toFixed(1)`
 
                         return;

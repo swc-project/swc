@@ -1737,7 +1737,9 @@ test!(
     syntax(),
     |_| chain!(
         destructuring(Config { loose: true }),
-        spread(Default::default()),
+        spread(spread::Config {
+            ..Default::default()
+        }),
         block_scoping(Mark::new()),
         object_rest_spread(Default::default())
     ),
@@ -1922,7 +1924,9 @@ for(ref in obj){
 test!(
     syntax(),
     |_| chain!(
-        spread(Default::default()),
+        spread(spread::Config {
+            ..Default::default()
+        }),
         destructuring(Config { loose: true }),
         block_scoping(Mark::new()),
         object_rest_spread(Default::default()),
