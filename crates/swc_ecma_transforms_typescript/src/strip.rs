@@ -1253,9 +1253,7 @@ where
                         continue;
                     }
 
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                        NamedExport { ..export },
-                    )))
+                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)))
                 }
 
                 // handle TS namespace child exports
@@ -2413,9 +2411,7 @@ where
                         continue;
                     }
 
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                        NamedExport { ..export },
-                    )))
+                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)))
                 }
 
                 _ => {
