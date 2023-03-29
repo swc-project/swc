@@ -619,10 +619,6 @@ impl MultiByteChar {
 }
 
 /// Identifies an offset of a non-narrow character in a SourceFile
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum NonNarrowChar {
     /// Represents a zero-width character
@@ -686,10 +682,6 @@ impl Sub<BytePos> for NonNarrowChar {
 }
 
 /// A single source in the SourceMap.
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 #[derive(Clone)]
 pub struct SourceFile {
     /// The name of the file that the source came from. Source that doesn't
@@ -905,11 +897,7 @@ pub trait Pos {
 )]
 #[serde(transparent)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct BytePos(#[cfg_attr(feature = "__rkyv", omit_bounds)] pub u32);
+pub struct BytePos(pub u32);
 
 impl BytePos {
     /// Dummy position. This is reserved for synthesized spans.
@@ -932,10 +920,6 @@ impl BytePos {
 /// A character offset. Because of multibyte utf8 characters, a byte offset
 /// is not equivalent to a character offset. The SourceMap will convert BytePos
 /// values to CharPos values as necessary.
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 #[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
 pub struct CharPos(pub usize);
 
@@ -1045,10 +1029,6 @@ pub struct Loc {
 
 /// A struct to exchange `Loc` with omitting SourceFile as needed.
 /// This is internal struct between plugins to the host, not a public interface.
-#[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Debug, Clone)
-)]
 pub struct PartialLoc {
     pub source_file: Option<Lrc<SourceFile>>,
     pub line: usize,
