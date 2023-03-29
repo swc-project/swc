@@ -1,5 +1,3 @@
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 #[cfg(any(feature = "__plugin_rt", feature = "__plugin_mode"))]
 use swc_common::plugin::serialized::{
@@ -7,16 +5,7 @@ use swc_common::plugin::serialized::{
 };
 
 /// A struct to exchange allocated data between memory spaces.
-#[cfg_attr(
-    feature = "__rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 pub struct AllocatedBytesPtr(pub u32, pub u32);
-
-#[cfg(not(feature = "__rkyv"))]
-fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
-    unimplemented!("Plugin proxy does not work without serialization support")
-}
 
 /// Performs an interop while calling host fn to get non-determined size return
 /// values from the host. This is based on the contract between host's imported
@@ -26,7 +15,7 @@ fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
 ///
 /// Returns a struct AllocatedBytesPtr to the ptr for actual return value if
 /// host fn allocated return value, None otherwise.
-#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
 #[tracing::instrument(level = "info", skip_all)]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr>
 where
@@ -61,15 +50,10 @@ where
     })
 }
 
-#[cfg(not(feature = "__rkyv"))]
-pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R> {
-    unimplemented!("Plugin proxy does not work without serialization support")
-}
-
 /// Performs deserialization to the actual return value type from returned ptr.
 ///
 /// This fn is for the Infallible types works for most of the cases.
-#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 #[tracing::instrument(level = "info", skip_all)]
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
@@ -90,18 +74,13 @@ where
     })
 }
 
-#[cfg(not(feature = "__rkyv"))]
-pub fn read_returned_result_from_host_fallible<F, R>(f: F) -> Option<R> {
-    unimplemented!("Plugin proxy does not work without serialization support")
-}
-
 /// Performs deserialization to the actual return value type from returned ptr.
 ///
 /// This behaves same as read_returned_result_from_host, the only difference is
 /// this is for the `Fallible` struct to deserialize. If a struct contains
 /// shared pointers like Arc, Rc rkyv requires trait bounds to the
 /// SharedSerializeRegistry which cannot be infallible.
-#[cfg(all(feature = "__rkyv", target_arch = "wasm32"))]
+#[cfg(all(target_arch = "wasm32"))]
 #[tracing::instrument(level = "info", skip_all)]
 pub fn read_returned_result_from_host_fallible<F, R>(f: F) -> Option<R>
 where
