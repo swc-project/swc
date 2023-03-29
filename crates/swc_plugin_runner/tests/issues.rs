@@ -91,9 +91,7 @@ fn issue_6404() -> Result<(), Error> {
 
         let program = parse_file_as_program(
             &fm,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
+            Syntax::Es(Default::default()),
             EsVersion::latest(),
             None,
             &mut vec![],

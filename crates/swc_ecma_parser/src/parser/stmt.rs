@@ -1609,13 +1609,7 @@ export default App"#;
     #[test]
     fn shebang_01() {
         let src = "#!/usr/bin/env node";
-        test_parser(
-            src,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            |p| p.parse_module(),
-        );
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_module());
     }
 
     #[test]
