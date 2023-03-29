@@ -10,6 +10,7 @@ use serde::de::DeserializeOwned;
 /// or plugin_macro. Plugin's transform fn itself does not allow to return
 /// error - instead it should use provided `handler` to emit corresponding error
 /// to the host.
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub enum PluginError {
     /// Occurs when failed to convert size passed from host / guest into usize
     /// or similar for the conversion. This is an internal error rasied via

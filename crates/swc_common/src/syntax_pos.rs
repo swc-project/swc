@@ -110,6 +110,7 @@ better_scoped_tls::scoped_tls!(
 );
 
 #[derive(Debug, Eq, PartialEq, Clone, Ord, PartialOrd, Hash)]
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub enum FileName {
     Real(PathBuf),
     /// A macro. This includes the full name of the macro, so that there are no
@@ -683,6 +684,7 @@ impl Sub<BytePos> for NonNarrowChar {
 
 /// A single source in the SourceMap.
 #[derive(Clone)]
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub struct SourceFile {
     /// The name of the file that the source came from. Source that doesn't
     /// originate from files has names between angle brackets by convention,
@@ -1029,6 +1031,7 @@ pub struct Loc {
 
 /// A struct to exchange `Loc` with omitting SourceFile as needed.
 /// This is internal struct between plugins to the host, not a public interface.
+#[cfg_attr(feature = "plugin-base", derive(serde::Serialize, serde::Deserialize))]
 pub struct PartialLoc {
     pub source_file: Option<Lrc<SourceFile>>,
     pub line: usize,
