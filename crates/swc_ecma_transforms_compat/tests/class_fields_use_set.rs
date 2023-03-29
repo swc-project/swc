@@ -10,9 +10,7 @@ fn fixture(input: PathBuf) {
 
     let output = parent.join("output.js");
     test_fixture(
-        Syntax::Es(EsConfig {
-            ..Default::default()
-        }),
+        Syntax::Es(Default::default()),
         &|_| class_fields_use_set(true),
         &input,
         &output,

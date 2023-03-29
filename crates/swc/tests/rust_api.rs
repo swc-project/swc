@@ -92,9 +92,7 @@ fn shopify_1_check_filename() {
                         })),
                         ..Default::default()
                     },
-                    module: Some(ModuleConfig::CommonJs(common_js::Config {
-                        ..Default::default()
-                    })),
+                    module: Some(ModuleConfig::CommonJs(Default::default())),
                     ..Default::default()
                 },
                 ..Default::default()

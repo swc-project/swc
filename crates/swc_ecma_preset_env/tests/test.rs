@@ -182,9 +182,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 .load_file(&dir.join("input.mjs"))
                 .expect("failed to load file");
             let mut p = Parser::new(
-                Syntax::Es(EsConfig {
-                    ..Default::default()
-                }),
+                Syntax::Es(Default::default()),
                 StringInput::from(&*fm),
                 None,
             );
@@ -227,9 +225,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                     .expect("failed to load output file");
 
                 let mut p = Parser::new(
-                    Syntax::Es(EsConfig {
-                        ..Default::default()
-                    }),
+                    Syntax::Es(Default::default()),
                     StringInput::from(&*fm),
                     None,
                 );

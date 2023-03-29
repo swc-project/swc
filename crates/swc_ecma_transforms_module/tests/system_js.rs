@@ -10,9 +10,7 @@ use swc_ecma_transforms_testing::{test, test_fixture, Tester};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
-    Syntax::Es(EsConfig {
-        ..Default::default()
-    })
+    Syntax::Es(Default::default())
 }
 
 fn tr(_tester: &mut Tester<'_>, config: Config) -> impl Fold {
@@ -144,12 +142,7 @@ test!(
 
 test!(
     syntax(),
-    |tester| tr(
-        tester,
-        Config {
-            ..Default::default()
-        }
-    ),
+    |tester| tr(tester, Default::default()),
     imports,
     r#"
     import.meta.url;
@@ -181,14 +174,7 @@ fn fixture(input: PathBuf) {
 
     test_fixture(
         syntax(),
-        &|tester| {
-            tr(
-                tester,
-                Config {
-                    ..Default::default()
-                },
-            )
-        },
+        &|tester| tr(tester, Default::default()),
         &input,
         &output,
         Default::default(),

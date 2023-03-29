@@ -22,14 +22,8 @@ fn main() {
                     let fm =
                         cm.new_source_file(FileName::Custom("foo.js".into()), "this ?= foo".into());
 
-                    c.process_js_file(
-                        fm,
-                        handler,
-                        &Options {
-                            ..Default::default()
-                        },
-                    )
-                    .context("failed to process file")
+                    c.process_js_file(fm, handler, &Default::default())
+                        .context("failed to process file")
                 },
             )
         })

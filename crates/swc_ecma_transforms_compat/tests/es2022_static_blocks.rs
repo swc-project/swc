@@ -12,9 +12,7 @@ fn fixture(input: PathBuf) {
 
     let output = parent.join("output.js");
     test_fixture(
-        Syntax::Es(EsConfig {
-            ..Default::default()
-        }),
+        Syntax::Es(Default::default()),
         &|t| {
             let config = class_properties::Config::default();
             let pass: Box<dyn Fold> = if input.to_string_lossy().contains("class-properties") {

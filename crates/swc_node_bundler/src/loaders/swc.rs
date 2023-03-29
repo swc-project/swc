@@ -297,12 +297,8 @@ impl SwcLoader {
 
 impl Load for SwcLoader {
     fn load(&self, name: &FileName) -> Result<ModuleData, Error> {
-        try_with_handler(
-            self.compiler.cm.clone(),
-            HandlerOpts {
-                ..Default::default()
-            },
-            |handler| self.load_with_handler(handler, name),
-        )
+        try_with_handler(self.compiler.cm.clone(), Default::default(), |handler| {
+            self.load_with_handler(handler, name)
+        })
     }
 }
