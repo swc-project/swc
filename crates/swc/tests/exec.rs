@@ -16,7 +16,7 @@ use swc::{
 };
 use swc_common::{errors::ColorConfig, SourceMap, GLOBALS};
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::{assert_eq, find_executable, unignore_fixture};
 use tracing::{span, Level};
