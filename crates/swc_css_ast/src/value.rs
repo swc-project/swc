@@ -14,7 +14,6 @@ use crate::Function;
 #[derive(Eq, Hash)]
 pub struct Ident {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
     pub raw: Option<Atom>,
 }
@@ -48,7 +47,6 @@ impl Take for Ident {
 #[derive(Eq, Hash)]
 pub struct CustomIdent {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
     pub raw: Option<Atom>,
 }
@@ -64,7 +62,6 @@ impl EqIgnoreSpan for CustomIdent {
 #[derive(Eq, Hash)]
 pub struct DashedIdent {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
     pub raw: Option<Atom>,
 }
@@ -87,7 +84,6 @@ impl PartialEq<str> for DashedIdent {
 #[derive(Eq, Hash)]
 pub struct CustomPropertyName {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
     pub raw: Option<Atom>,
 }
@@ -103,7 +99,6 @@ impl EqIgnoreSpan for CustomPropertyName {
 #[derive(Eq, Hash)]
 pub struct Str {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
     pub raw: Option<Atom>,
 }
@@ -115,18 +110,6 @@ impl EqIgnoreSpan for Str {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    archive(bound(
-        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
-                     rkyv::ser::SharedSerializeRegistry",
-        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-    ))
-)]
 pub enum DelimiterValue {
     /// `,`
     Comma,
@@ -174,7 +157,6 @@ pub struct HexColor {
     /// Includes `#`
     pub span: Span,
     /// Does **not** include `#`
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
     /// Does **not** include `#`
     pub raw: Option<Atom>,
@@ -394,18 +376,6 @@ pub struct Ratio {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    archive(bound(
-        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
-                     rkyv::ser::SharedSerializeRegistry",
-        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-    ))
-)]
 pub enum BinOp {
     /// `+`
     Add,
@@ -439,7 +409,6 @@ pub enum UrlValue {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct UrlValueRaw {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
     pub raw: Option<Atom>,
 }
@@ -457,9 +426,7 @@ pub enum UrlModifier {
 #[derive(Eq, Hash)]
 pub struct UnicodeRange {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub start: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub end: Option<JsWord>,
     pub raw: Option<Atom>,
 }
@@ -502,18 +469,6 @@ pub struct CalcOperator {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    archive(bound(
-        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
-                     rkyv::ser::SharedSerializeRegistry",
-        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-    ))
-)]
 pub enum CalcOperatorType {
     /// `+`
     Add,
