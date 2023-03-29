@@ -5,6 +5,7 @@ use std::{
 };
 
 use rustc_hash::FxHashMap;
+use serde::{Deserialize, Serialize};
 use swc_atoms::{atom, Atom};
 
 use crate::{
@@ -541,7 +542,7 @@ impl SingleThreadedComments {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Comment {
     pub kind: CommentKind,
     pub span: Span,
@@ -555,7 +556,7 @@ impl Spanned for Comment {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum CommentKind {
     Line,
     Block,
