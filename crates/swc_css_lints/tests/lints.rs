@@ -16,9 +16,7 @@ fn pass(input: PathBuf) {
         serde_json::from_str::<LintConfig>(&fs::read_to_string(config_path).unwrap()).unwrap();
 
     testing::run_test2(false, |cm, handler| -> Result<(), _> {
-        let config = ParserConfig {
-            ..Default::default()
-        };
+        let config = Default::default();
 
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
@@ -58,9 +56,7 @@ fn fail(input: PathBuf) {
         serde_json::from_str::<LintConfig>(&fs::read_to_string(config_path).unwrap()).unwrap();
 
     let stderr = testing::run_test2(false, |cm, handler| -> Result<(), _> {
-        let config = ParserConfig {
-            ..Default::default()
-        };
+        let config = Default::default();
 
         let fm = cm.load_file(&input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm), config);

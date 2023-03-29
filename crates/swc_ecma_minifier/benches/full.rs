@@ -75,9 +75,7 @@ fn run(src: &str) {
                 None,
                 &MinifyOptions {
                     rename: false,
-                    compress: Some(CompressOptions {
-                        ..Default::default()
-                    }),
+                    compress: Some(Default::default()),
                     mangle: Some(MangleOptions {
                         props: None,
                         top_level: Some(true),

@@ -17,9 +17,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
         let fm = cm.load_file(input).unwrap();
 
         let lexer = Lexer::new(
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
+            Syntax::Es(Default::default()),
             EsVersion::latest(),
             StringInput::from(&*fm),
             None,

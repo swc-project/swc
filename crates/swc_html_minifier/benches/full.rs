@@ -5,14 +5,9 @@ use std::{fs::read_to_string, path::Path};
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use swc_common::{errors::HANDLER, FileName};
 use swc_html_ast::{Document, DocumentFragment, DocumentMode, Element, Namespace};
-use swc_html_codegen::{
-    writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig},
-    Emit,
-};
+use swc_html_codegen::{writer::basic::BasicHtmlWriter, Emit};
 use swc_html_minifier::{minify_document, minify_document_fragment, option::MinifyOptions};
-use swc_html_parser::{
-    parse_file_as_document, parse_file_as_document_fragment, parser::ParserConfig,
-};
+use swc_html_parser::{parse_file_as_document, parse_file_as_document_fragment};
 
 pub fn bench_files_document(c: &mut Criterion) {
     let mut group = c.benchmark_group("html/minify/document");

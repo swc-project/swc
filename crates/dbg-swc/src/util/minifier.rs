@@ -31,9 +31,7 @@ pub fn get_minified(
             None,
             &MinifyOptions {
                 compress: if compress {
-                    Some(CompressOptions {
-                        ..Default::default()
-                    })
+                    Some(Default::default())
                 } else {
                     None
                 },
