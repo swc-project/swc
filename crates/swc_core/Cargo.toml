@@ -234,7 +234,6 @@ __common_plugin_transform = [
   # Dependent features
   "ecma_visit",
   "__common",
-  "swc_atoms/rkyv-impl",
   "swc_common/plugin-mode",
   "swc_plugin_proxy/plugin-mode",
   "swc_plugin_macro",
@@ -247,50 +246,21 @@ __css_plugin_transform = [
   "__common_plugin_transform",
   "css_visit",
   "css_ast",                   # Enable optional packages
-  "swc_css_ast/rkyv-impl",
 ]
 __ecma_plugin_transform = [
   # Dependent features
   "__common_plugin_transform",
   "ecma_visit",
   "ecma_ast",                  # Enable optional packages
-  "swc_ecma_ast/rkyv-impl",
-]
-
-__plugin_transform_bytecheck = [
-  # Dependent features
-  "ecma_visit",
-  "__common",
-  "ecma_ast",
-  "swc_ecma_ast/rkyv-bytecheck-impl",
-  "swc_atoms/rkyv-bytecheck-impl",
-  "swc_common/plugin-bytecheck-mode",
-  "swc_plugin_proxy/plugin-bytecheck-mode",
-  "swc_plugin_macro",
-  "swc_plugin",
-  "once_cell",
 ]
 
 # Internal flags for any transform plugin host feature
 __plugin_transform_host = [
   # Dependent features
-  "__common",                    # Enable optional packages
-  "swc_ecma_ast/rkyv-impl",
-  "swc_atoms/rkyv-impl",
+  "__common",                   # Enable optional packages
   "swc_common/plugin-rt",
-  "swc_plugin_runner/rkyv-impl", # TODO: we may simply flag around downlevel plugin feature
   "swc_plugin_proxy/plugin-rt",
   "swc/plugin",
-]
-
-# Internal flags for the transform plugin host, if it needs to enable bytecheck
-__plugin_transform_host_bytecheck = [
-  "__common",
-  "swc_atoms/rkyv-bytecheck-impl",
-  "swc_common/plugin-bytecheck-rt",
-  "swc_ecma_ast/rkyv-bytecheck-impl",
-  "swc_plugin_proxy/plugin-bytecheck-rt",
-  "swc/plugin-bytecheck",
 ]
 
 # Internal flags to control plugin environment
