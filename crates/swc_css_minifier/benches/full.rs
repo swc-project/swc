@@ -42,26 +42,13 @@ fn run(src: &str) {
             let fm = cm.new_source_file(FileName::Anon, src.into());
 
             let mut errors = vec![];
-            let mut ss: Stylesheet = parse_file(
-                &fm,
-                ParserConfig {
-                    ..Default::default()
-                },
-                &mut errors,
-            )
-            .unwrap();
+            let mut ss: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
 
             minify(&mut ss, Default::default());
 
             let mut buf = String::new();
             {
-                let wr = BasicCssWriter::new(
-                    &mut buf,
-                    None,
-                    BasicCssWriterConfig {
-                        ..Default::default()
-                    },
-                );
+                let wr = BasicCssWriter::new(&mut buf, None, Default::default());
                 let mut generator = swc_css_codegen::CodeGenerator::new(
                     wr,
                     swc_css_codegen::CodegenConfig { minify: true },
