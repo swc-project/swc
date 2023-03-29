@@ -62,6 +62,7 @@ pub(crate) struct MarkData {
     pub(crate) is_builtin: bool,
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct MutableMarkContext(pub u32, pub u32, pub u32);
 
 // List of proxy calls injected by the host in the plugin's runtime context.
