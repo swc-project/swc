@@ -2574,35 +2574,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "rkyv-test"
-version = "0.7.38-test.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ddf47bca568385a5121422d265f8ea7ca2c8816141e29fd415498eabb150f14e"
-dependencies = [
- "bytecheck",
- "hashbrown 0.12.0",
- "ptr_meta",
- "rend",
- "rkyv_derive_test",
- "seahash",
-]
-
-[[package]]
 name = "rkyv_derive"
 version = "0.7.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e289706df51226e84814bf6ba1a9e1013112ae29bc7a9878f73fce360520c403"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
-]
-
-[[package]]
-name = "rkyv_derive_test"
-version = "0.7.38-test.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e573710463b17b3cc3c5de19cc12118a788392b056ff097c6ee700920a4545ce"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3180,8 +3155,6 @@ name = "swc_atoms"
 version = "0.4.41"
 dependencies = [
  "once_cell",
- "rkyv",
- "rkyv-test",
  "rustc-hash",
  "serde",
  "string_cache",
@@ -3264,8 +3237,6 @@ dependencies = [
  "once_cell",
  "parking_lot",
  "rayon",
- "rkyv",
- "rkyv-test",
  "rustc-hash",
  "serde",
  "serde_json",
@@ -3375,7 +3346,6 @@ name = "swc_css_ast"
 version = "0.136.2"
 dependencies = [
  "is-macro",
- "rkyv",
  "serde",
  "string_enum",
  "swc_atoms",
@@ -3549,8 +3519,6 @@ dependencies = [
  "bitflags",
  "is-macro",
  "num-bigint",
- "rkyv",
- "rkyv-test",
  "scoped-tls",
  "serde",
  "serde_json",
@@ -4412,8 +4380,6 @@ name = "swc_plugin_proxy"
 version = "0.31.2"
 dependencies = [
  "better_scoped_tls",
- "rkyv",
- "rkyv-test",
  "swc_common",
  "swc_ecma_ast",
  "swc_trace_macro",
