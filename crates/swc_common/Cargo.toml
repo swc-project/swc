@@ -16,17 +16,23 @@ version       = "0.30.2"
 bench = false
 
 [features]
-__plugin         = []
-__plugin_mode    = []
-__plugin_rt      = []
-concurrent       = ["parking_lot"]
-debug            = []
-default          = []
+__plugin = []
+__plugin_mode = []
+__plugin_rt = []
+concurrent = ["parking_lot"]
+debug = []
+default = []
 diagnostic-serde = []
-perf             = ["parking_lot"]
-plugin-base      = ["__plugin", "anyhow", "diagnostic-serde", "rmp-serde"]
-plugin-mode      = ["__plugin_mode", "plugin-base"]
-plugin-rt        = ["__plugin_rt", "plugin-base"]
+perf = ["parking_lot"]
+plugin-base = [
+  "__plugin",
+  "anyhow",
+  "diagnostic-serde",
+  "rmp-serde",
+  "url/serde",
+]
+plugin-mode = ["__plugin_mode", "plugin-base"]
+plugin-rt = ["__plugin_rt", "plugin-base"]
 
 plugin_transform_schema_v1    = []
 plugin_transform_schema_vtest = []
