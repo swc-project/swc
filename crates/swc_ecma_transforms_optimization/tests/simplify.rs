@@ -574,9 +574,7 @@ test!(
 );
 
 test!(
-    Syntax::Es(EsConfig {
-        ..Default::default()
-    }),
+    Syntax::Es(Default::default()),
     |t| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();

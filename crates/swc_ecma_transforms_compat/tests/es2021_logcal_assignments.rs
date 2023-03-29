@@ -8,9 +8,7 @@ fn tr() -> impl Fold {
 }
 
 fn syntax() -> Syntax {
-    Syntax::Typescript(TsConfig {
-        ..Default::default()
-    })
+    Syntax::Typescript(Default::default())
 }
 
 test!(

@@ -375,9 +375,7 @@ for(let _i = 0; _i < array.length; _i++){
 // regression_scope_9696
 test_exec!(
     syntax(),
-    |_| for_of(Config {
-        ..Default::default()
-    }),
+    |_| for_of(Default::default()),
     regression_scope_9696_exec,
     r#"
 var arr = [1, 2, 3];
@@ -479,9 +477,7 @@ for(let _i = 0; _i < array.length; _i++){
 // regression_label_object_with_comment_4995
 test!(
     syntax(),
-    |_| for_of(Config {
-        ..Default::default()
-    }),
+    |_| for_of(Default::default()),
     regression_label_object_with_comment_4995,
     r#"
 myLabel: //woops
@@ -581,9 +577,7 @@ fn fixture(input: PathBuf) {
         },
         &input,
         &output,
-        FixtureTestConfig {
-            ..Default::default()
-        },
+        Default::default(),
     );
 }
 

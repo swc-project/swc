@@ -8,9 +8,7 @@ fn tr(c: Config) -> impl Fold {
 }
 
 fn syntax() -> Syntax {
-    Syntax::Es(EsConfig {
-        ..Default::default()
-    })
+    Syntax::Es(Default::default())
 }
 
 test_exec!(

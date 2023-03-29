@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use swc_common::chain;
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2022::{class_properties, static_blocks};
 use swc_ecma_transforms_testing::test_fixture;
 use swc_ecma_visit::Fold;

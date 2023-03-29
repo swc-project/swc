@@ -279,13 +279,7 @@ test_exec!(
     ::swc_ecma_parser::Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     issue_723_2,
     "function foo() {
@@ -309,13 +303,7 @@ test!(
     Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     issue_1022_1,
     "
@@ -340,13 +328,7 @@ test!(
     Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     issue_1022_2,
     "
@@ -373,13 +355,7 @@ test!(
     Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     issue_1022_3,
     "
@@ -409,13 +385,7 @@ test!(
     Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     issue_1021_1,
     "
@@ -453,13 +423,7 @@ test!(
     Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     issue_1036_1,
     "
@@ -497,13 +461,7 @@ test!(
         let mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
-            es2015::es2015(
-                mark,
-                Some(comments.clone()),
-                es2015::Config {
-                    ..Default::default()
-                },
-            )
+            es2015::es2015(mark, Some(comments.clone()), Default::default(),)
         )
     },
     issue_1036_2,
@@ -572,13 +530,7 @@ test_exec!(
         let mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator(Default::default(), Some(comments.clone()), mark),
-            es2015::es2015(
-                mark,
-                Some(comments.clone()),
-                es2015::Config {
-                    ..Default::default()
-                },
-            )
+            es2015::es2015(mark, Some(comments.clone()), Default::default(),)
         )
     },
     issue_1036_3,
@@ -725,13 +677,7 @@ test!(
         let mark = Mark::new();
         chain!(
             resolver(mark, Mark::new(), false),
-            es2015::es2015(
-                mark,
-                Some(comments.clone()),
-                es2015::Config {
-                    ..Default::default()
-                },
-            )
+            es2015::es2015(mark, Some(comments.clone()), Default::default(),)
         )
     },
     arguments_loop,
@@ -759,13 +705,7 @@ test!(
     ::swc_ecma_parser::Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     arguments_loop_member,
     "
@@ -794,13 +734,7 @@ compare_stdout!(
         let mark = Mark::fresh(Mark::root());
         chain!(
             resolver(mark, Mark::new(), false),
-            es2015::es2015(
-                mark,
-                Some(comments.clone()),
-                es2015::Config {
-                    ..Default::default()
-                },
-            )
+            es2015::es2015(mark, Some(comments.clone()), Default::default(),)
         )
     },
     arguments_arrow,
@@ -819,13 +753,7 @@ test!(
     ::swc_ecma_parser::Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     arguments_function,
     "

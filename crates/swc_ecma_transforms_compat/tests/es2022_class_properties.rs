@@ -16,9 +16,7 @@ use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
-    Syntax::Es(EsConfig {
-        ..Default::default()
-    })
+    Syntax::Es(Default::default())
 }
 
 fn tr(t: &Tester) -> impl Fold {
