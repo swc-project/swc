@@ -1,4 +1,4 @@
-use swc_common::{collections::AHashMap, SyntaxContext};
+use swc_common::{collections::AHashMap, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -24,6 +24,26 @@ impl VisitMut for Rename {
         if let Some(id) = self.map.get(&i.to_id()) {
             *i = Ident::new(id.0.clone(), i.span.with_ctxt(id.1));
         }
+    }
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        let span = n.span();
+        if span.ctxt == SyntaxContext::empty() {
+            return;
+        }
+
+        if let Prop::Shorthand(ident) = n {
+            if let Some(id) = self.map.get(&ident.to_id()) {
+                *n = Prop::KeyValue(KeyValueProp {
+                    key: PropName::Ident(ident.clone()),
+                    value: Box::new(Ident::new(id.0.clone(), span.with_ctxt(id.1)).into()),
+                });
+            }
+
+            return;
+        }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_member_prop(&mut self, n: &mut MemberProp) {
