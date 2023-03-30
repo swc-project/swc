@@ -18,7 +18,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{EsConfig, Parser, Syntax};
+use swc_ecma_parser::{Parser, Syntax};
 use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
 use swc_ecma_transforms::{fixer, helpers};
 use swc_ecma_utils::drop_span;
@@ -182,9 +182,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 .load_file(&dir.join("input.mjs"))
                 .expect("failed to load file");
             let mut p = Parser::new(
-                Syntax::Es(EsConfig {
-                    ..Default::default()
-                }),
+                Syntax::Es(Default::default()),
                 StringInput::from(&*fm),
                 None,
             );
@@ -227,9 +225,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                     .expect("failed to load output file");
 
                 let mut p = Parser::new(
-                    Syntax::Es(EsConfig {
-                        ..Default::default()
-                    }),
+                    Syntax::Es(Default::default()),
                     StringInput::from(&*fm),
                     None,
                 );

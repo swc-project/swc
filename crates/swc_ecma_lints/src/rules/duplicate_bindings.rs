@@ -12,9 +12,7 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use crate::rule::{visitor_rule, Rule};
 
 pub fn duplicate_bindings() -> Box<dyn Rule> {
-    visitor_rule(DuplicateBindings {
-        ..Default::default()
-    })
+    visitor_rule(DuplicateBindings::default())
 }
 
 #[derive(Debug, Default, Clone, Copy)]

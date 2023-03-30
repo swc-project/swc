@@ -1,14 +1,6 @@
 # Changelog
 ## [unreleased]
 
-### Build
-
-
-
-- **(cargo)** Revert rustc upgrade (#7162) ([12546c8](https://github.com/swc-project/swc/commit/12546c853a67210e840efd61452041ef8db00d3a))
-
-## [1.3.43] - 2023-03-29
-
 ### Bug Fixes
 
 
@@ -74,6 +66,12 @@
 
 
 - **(cargo)** Update `rustc` to `nightly-2023-03-28` (#7154) ([e445502](https://github.com/swc-project/swc/commit/e445502072d8ebfcbe0da0cb59f3d6a85d4a2087))
+
+
+- **(cargo)** Revert rustc upgrade (#7162) ([12546c8](https://github.com/swc-project/swc/commit/12546c853a67210e840efd61452041ef8db00d3a))
+
+
+- **(cargo)** Update `rustc` to `nightly-2023-03-20` (#7170) ([0259a74](https://github.com/swc-project/swc/commit/0259a7465fc5122cf2f297f962f7f0209f619251))
 
 ## [1.3.42] - 2023-03-22
 

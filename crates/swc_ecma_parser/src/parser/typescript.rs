@@ -2838,9 +2838,7 @@ mod tests {
     use swc_ecma_ast::*;
     use swc_ecma_visit::assert_eq_ignore_span;
 
-    use crate::{
-        lexer::Lexer, test_parser, token::*, Capturing, EsVersion, Parser, Syntax, TsConfig,
-    };
+    use crate::{lexer::Lexer, test_parser, token::*, Capturing, EsVersion, Parser, Syntax};
 
     #[test]
     fn issue_708_1() {
@@ -2921,9 +2919,7 @@ mod tests {
     string | number);",
             |handler, input| {
                 let lexer = Lexer::new(
-                    Syntax::Typescript(TsConfig {
-                        ..Default::default()
-                    }),
+                    Syntax::Typescript(Default::default()),
                     EsVersion::Es2019,
                     input,
                     None,
@@ -2947,9 +2943,7 @@ mod tests {
     fn issue_751() {
         crate::with_test_sess("t ? -(v >>> 1) : v >>> 1", |handler, input| {
             let lexer = Lexer::new(
-                Syntax::Typescript(TsConfig {
-                    ..Default::default()
-                }),
+                Syntax::Typescript(Default::default()),
                 EsVersion::Es2019,
                 input,
                 None,

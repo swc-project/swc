@@ -1612,12 +1612,7 @@ fn issue_481() {
 #[test]
 fn issue_915_1() {
     assert_eq!(
-        lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
-                ..Default::default()
-            }),
-            r##"encode("\r\n")"##
-        ),
+        lex_tokens(crate::Syntax::Es(Default::default()), r##"encode("\r\n")"##),
         vec![
             Word(Word::Ident("encode".into())),
             LParen,
