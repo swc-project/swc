@@ -56,7 +56,7 @@ pub enum AtRulePrelude {
     PropertyPrelude(CustomPropertyName),
     #[tag("CustomIdent")]
     CounterStylePrelude(CustomIdent),
-    #[tag("ColorProfileName")]
+    #[tag("Ident")]
     ColorProfilePrelude(ColorProfileName),
     #[tag("DocumentPrelude")]
     DocumentPrelude(DocumentPrelude),
