@@ -8,4 +8,4 @@
 
 export CARGO_MANIFEST_DIR=$(pwd)
 export RUST_LOG=off
-cargo profile instruments -t time --bench invoke --features rkyv-impl --release -- $@
+cargo profile instruments -t time --bench ecma_invoke --release -- $@
