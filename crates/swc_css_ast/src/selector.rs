@@ -303,7 +303,7 @@ pub struct PseudoClassSelector {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum PseudoClassSelectorChildren {
-    #[tag("TokenAndSpan")]
+    #[tag("PreservedToken")]
     PreservedToken(TokenAndSpan),
 
     #[tag("AnPlusBNotation")]
@@ -370,7 +370,7 @@ pub struct PseudoElementSelector {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum PseudoElementSelectorChildren {
-    #[tag("TokenAndSpan")]
+    #[tag("PreservedToken")]
     PreservedToken(TokenAndSpan),
     #[tag("Ident")]
     Ident(Ident),
