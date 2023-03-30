@@ -81,6 +81,23 @@ test!(
     "
 );
 
+test!(
+    syntax(),
+    |_| tr(),
+    issue_7169,
+    "function myFunc(options) {
+      options.context ||= {}
+      const closure = function() {}
+    }",
+    "
+    function myFunc(options) {
+      var _options;
+      (_options = options).context || (_options.context = {});
+      const closure = function() {};
+    }
+    "
+);
+
 test_exec!(
     syntax(),
     |_| tr(),
