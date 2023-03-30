@@ -483,7 +483,12 @@ pub enum CalcOperatorType {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CalcValueOrOperator {
-    #[tag("CalcValue")]
+    #[tag("Number")]
+    #[tag("Dimension")]
+    #[tag("Percentage")]
+    #[tag("Ident")]
+    #[tag("CalcSum")]
+    #[tag("Function")]
     Value(CalcValue),
     #[tag("CalcOperator")]
     Operator(CalcOperator),

@@ -543,7 +543,7 @@ pub enum SupportsInParens {
     #[tag("SupportsCondition")]
     SupportsCondition(SupportsCondition),
 
-    #[tag("SupportsFeature")]
+    #[tag("Declaration")]
     Feature(SupportsFeature),
 
     #[tag("Function")]
