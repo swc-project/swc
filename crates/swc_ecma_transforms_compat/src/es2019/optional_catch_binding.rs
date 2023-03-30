@@ -5,7 +5,6 @@ use swc_trace_macro::swc_trace;
 
 struct OptionalCatchBinding;
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn optional_catch_binding() -> impl Fold + VisitMut {
     as_folder(OptionalCatchBinding)
 }

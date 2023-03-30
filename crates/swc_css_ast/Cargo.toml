@@ -21,7 +21,7 @@ serde-impl          = ["serde"]
 [dependencies]
 bytecheck = { version = "0.6.9", optional = true }
 is-macro  = "0.2.0"
-rkyv      = { version = "=0.7.37", optional = true }
+rkyv      = { version = "=0.7.40", optional = true }
 serde     = { version = "1.0.127", features = ["derive"], optional = true }
 
 string_enum = { version = "0.4.0", path = "../string_enum/" }

@@ -37,8 +37,8 @@ plugin-mode = ["__plugin_mode", "swc_common/plugin-base", "rkyv-impl"]
 
 [dependencies]
 
-rkyv = { package = "rkyv", version = "=0.7.37", optional = true }
-# This is to avoid cargo version selection conflict between rkyv=0.7.37 and other versions, as it is strictly pinned
+rkyv = { package = "rkyv", version = "=0.7.40", optional = true }
+# This is to avoid cargo version selection conflict between rkyv=0.7.40 and other versions, as it is strictly pinned
 # cannot be merged.
 rkyv-latest = { package = "rkyv-test", version = "=0.7.38-test.2", optional = true }
 tracing     = "0.1.32"

@@ -30,7 +30,6 @@ use swc_trace_macro::swc_trace;
 ///
 /// _instanceof(foo, Bar);
 /// ```
-#[tracing::instrument(level = "info", skip_all)]
 pub fn instance_of() -> impl Fold + VisitMut {
     as_folder(InstanceOf)
 }

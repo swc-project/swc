@@ -55,6 +55,7 @@ const buildPlugin = async (feature) => {
 
     const options = { cwd: getPkgRoot(), stdio: "inherit" };
 
+    console.log(`Building plugins: ${feature}`);
     const proc =
         process.platform == "win32"
             ? spawn("cmd", ["/s", "/c", "cargo", ...args], options)

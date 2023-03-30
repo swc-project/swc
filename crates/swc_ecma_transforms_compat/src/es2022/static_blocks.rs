@@ -9,7 +9,6 @@ struct ClassStaticBlock {
     mark: Mark,
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn static_blocks(mark: Mark) -> impl Fold + VisitMut {
     as_folder(ClassStaticBlock { mark })
 }
