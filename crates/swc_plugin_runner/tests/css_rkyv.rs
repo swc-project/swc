@@ -69,7 +69,7 @@ fn invoke(input: PathBuf) -> Result<(), Error> {
 
     // run single plugin
     testing::run_test(false, |cm, _handler| {
-        let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
+        let fm = cm.load_file(&input).unwrap();
 
         let parsed: Stylesheet =
             swc_css_parser::parse_file(&fm, Default::default(), &mut vec![]).unwrap();
