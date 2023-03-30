@@ -300,7 +300,10 @@ pub enum MediaConditionAllType {
     Or(MediaOr),
 
     #[tag("MediaCondition")]
-    #[tag("MediaFeature")]
+    #[tag("MediaFeaturePlain")]
+    #[tag("MediaFeatureBoolean")]
+    #[tag("MediaFeatureRange")]
+    #[tag("MediaFeatureRangeInterval")]
     #[tag("Function")]
     #[tag("SimpleBlock")]
     MediaInParens(MediaInParens),
@@ -316,7 +319,10 @@ pub enum MediaConditionWithoutOrType {
     And(MediaAnd),
 
     #[tag("MediaCondition")]
-    #[tag("MediaFeature")]
+    #[tag("MediaFeaturePlain")]
+    #[tag("MediaFeatureBoolean")]
+    #[tag("MediaFeatureRange")]
+    #[tag("MediaFeatureRangeInterval")]
     #[tag("Function")]
     #[tag("SimpleBlock")]
     MediaInParens(MediaInParens),
@@ -370,7 +376,10 @@ pub enum MediaInParens {
     #[tag("MediaCondition")]
     MediaCondition(MediaCondition),
 
-    #[tag("MediaFeature")]
+    #[tag("MediaFeaturePlain")]
+    #[tag("MediaFeatureBoolean")]
+    #[tag("MediaFeatureRange")]
+    #[tag("MediaFeatureRangeInterval")]
     Feature(Box<MediaFeature>),
 
     #[tag("Function")]
