@@ -57,7 +57,7 @@ impl PluginSerializedBytes {
     where
         W: serde::Serialize,
     {
-        rmp_serde::to_vec(t)
+        rmp_serde::to_vec_named(t)
             .map(|v| PluginSerializedBytes { field: v })
             .with_context(|| format!("failed to serialize `{}` using rmp_serde", type_name::<W>()))
     }
