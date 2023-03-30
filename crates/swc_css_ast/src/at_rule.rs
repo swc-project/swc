@@ -299,7 +299,10 @@ pub enum MediaConditionAllType {
     #[tag("MediaOr")]
     Or(MediaOr),
 
-    #[tag("MediaInParens")]
+    #[tag("MediaCondition")]
+    #[tag("MediaFeature")]
+    #[tag("Function")]
+    #[tag("SimpleBlock")]
     MediaInParens(MediaInParens),
 }
 
@@ -312,7 +315,10 @@ pub enum MediaConditionWithoutOrType {
     #[tag("MediaAnd")]
     And(MediaAnd),
 
-    #[tag("MediaInParens")]
+    #[tag("MediaCondition")]
+    #[tag("MediaFeature")]
+    #[tag("Function")]
+    #[tag("SimpleBlock")]
     MediaInParens(MediaInParens),
 }
 
