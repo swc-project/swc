@@ -33,7 +33,7 @@ pub struct ForgivingSelectorList {
 pub enum ForgivingComplexSelector {
     #[tag("ComplexSelector")]
     ComplexSelector(ComplexSelector),
-    #[tag("ListOfComponentValues")]
+    #[tag("*")]
     ListOfComponentValues(ListOfComponentValues),
 }
 
