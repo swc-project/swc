@@ -30,7 +30,24 @@ struct ReservedWord {
 impl Fold for ReservedWord {
     noop_fold_type!();
 
-    fn fold_export_specifier(&mut self, n: ExportSpecifier) -> ExportSpecifier {
+    fn fold_export_named_specifier(&mut self, n: ExportNamedSpecifier) -> ExportNamedSpecifier {
+        let ident = match n.orig {
+            ModuleExportName::Ident(ident) if ident.is_reserved_in_es3() => ident,
+            _ => return n,
+        };
+
+        ExportNamedSpecifier {
+            orig: ident.clone().fold_with(self).into(),
+            exported: n.exported.or_else(|| Some(ident.into())),
+            ..n
+        }
+    }
+
+    fn fold_named_export(&mut self, n: NamedExport) -> NamedExport {
+        if n.src.is_none() {
+            return n.fold_children_with(self);
+        }
+
         n
     }
 
@@ -39,16 +56,14 @@ impl Fold for ReservedWord {
     }
 
     fn fold_import_named_specifier(&mut self, s: ImportNamedSpecifier) -> ImportNamedSpecifier {
-        if s.imported.is_some() {
+        if s.local.is_reserved_in_es3() {
             ImportNamedSpecifier {
+                imported: s.imported.or_else(|| Some(s.local.clone().into())),
                 local: s.local.fold_with(self),
                 ..s
             }
         } else {
-            ImportNamedSpecifier {
-                imported: s.imported.fold_with(self),
-                ..s
-            }
+            s
         }
     }
 
@@ -131,4 +146,22 @@ function utf8CheckByte(_byte) {
     );
 
     identical!(export_as_default, "export { Foo as default }");
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| ReservedWord {
+            preserve_import: false
+        },
+        issue_7164,
+        r#"
+        import { int } from './a.js'
+        console.log(int)
+        export { int };
+        "#,
+        r#"
+        import { int as _int } from './a.js';
+        console.log(_int);
+        export { _int as int };
+        "#
+    );
 }
