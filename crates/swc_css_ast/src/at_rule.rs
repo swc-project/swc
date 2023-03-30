@@ -367,7 +367,8 @@ pub enum MediaInParens {
     #[tag("MediaFeature")]
     Feature(Box<MediaFeature>),
 
-    #[tag("GeneralEnclosed")]
+    #[tag("Function")]
+    #[tag("SimpleBlock")]
     GeneralEnclosed(GeneralEnclosed),
 }
 
@@ -545,7 +546,8 @@ pub enum SupportsInParens {
     #[tag("SupportsFeature")]
     Feature(SupportsFeature),
 
-    #[tag("GeneralEnclosed")]
+    #[tag("Function")]
+    #[tag("SimpleBlock")]
     GeneralEnclosed(GeneralEnclosed),
 }
 
@@ -712,7 +714,8 @@ pub enum QueryInParens {
     // https://drafts.csswg.org/css-contain-3/#typedef-style-query
     // #[tag("Function")]
     // Function(Function),
-    #[tag("GeneralEnclosed")]
+    #[tag("Function")]
+    #[tag("SimpleBlock")]
     GeneralEnclosed(GeneralEnclosed),
 }
 

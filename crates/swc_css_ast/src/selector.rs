@@ -306,7 +306,7 @@ pub enum PseudoClassSelectorChildren {
     #[tag("TokenAndSpan")]
     PreservedToken(TokenAndSpan),
 
-    #[tag("AnPlusB")]
+    #[tag("AnPlusBNotation")]
     AnPlusB(AnPlusB),
 
     #[tag("Ident")]

@@ -148,7 +148,7 @@ pub struct ListOfComponentValues {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ComponentValue {
     // No grammar
-    #[tag("TokenAndSpan")]
+    #[tag("PreservedToken")]
     PreservedToken(Box<TokenAndSpan>),
     #[tag("Function")]
     Function(Box<Function>),
