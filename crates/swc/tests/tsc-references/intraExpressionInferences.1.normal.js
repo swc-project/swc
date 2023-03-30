@@ -89,7 +89,7 @@ test({
         return "a";
     },
     c: function(b) {
-        var _$x = b;
+        var x1 = b;
     }
 });
 test({
@@ -100,7 +100,7 @@ test({
         return a;
     },
     c: function(b) {
-        var _$x = b;
+        var x1 = b;
     }
 });
 // Repro from #41712
