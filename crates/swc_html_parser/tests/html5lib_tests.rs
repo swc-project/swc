@@ -25,13 +25,7 @@ mod common;
 
 #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn span_visualizer(input: PathBuf) {
-    document_span_visualizer(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-        true,
-    )
+    document_span_visualizer(input, Default::default(), true)
 }
 
 fn unescape(s: &str) -> Option<String> {
@@ -70,7 +64,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
     let contents = fs::read_to_string(filename).expect("Something went wrong reading the file");
     let obj: Value = serde_json::from_str(&contents).expect("json parse error");
     let tests = match obj.get(&"tests".to_string()) {
-        Some(&Value::Array(ref tests)) => tests,
+        Some(Value::Array(tests)) => tests,
         _ => return,
     };
 
@@ -834,7 +828,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 });
 
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(&input.with_extension("dom.rust-debug"))
+                    .compare_to_file(input.with_extension("dom.rust-debug"))
                     .unwrap();
 
                 Ok(())
@@ -858,7 +852,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 });
 
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(&input.with_extension("dom.rust-debug"))
+                    .compare_to_file(input.with_extension("dom.rust-debug"))
                     .unwrap();
 
                 Ok(())

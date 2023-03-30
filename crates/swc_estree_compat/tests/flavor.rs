@@ -7,7 +7,7 @@ use anyhow::Context;
 use serde_json::{Number, Value};
 use swc::SwcComments;
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_estree_ast::flavor::Flavor;
 use swc_estree_compat::babelify::Babelify;
 use testing::{assert_eq, json::diff_json_value, DebugUsingDisplay, NormalizedOutput};
@@ -17,9 +17,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
         let fm = cm.load_file(input).unwrap();
 
         let lexer = Lexer::new(
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
+            Syntax::Es(Default::default()),
             EsVersion::latest(),
             StringInput::from(&*fm),
             None,

@@ -30,7 +30,7 @@ use swc_ecma_loader::{
 use swc_ecma_minifier::option::{
     CompressOptions, ExtraOptions, MangleOptions, MinifyOptions, TopLevelOptions,
 };
-use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
+use swc_ecma_parser::{parse_file_as_module, Syntax};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::VisitMutWith;
 
@@ -233,9 +233,7 @@ impl Load for Loader {
 
         let module = parse_file_as_module(
             &fm,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
+            Syntax::Es(Default::default()),
             EsVersion::Es2020,
             None,
             &mut vec![],

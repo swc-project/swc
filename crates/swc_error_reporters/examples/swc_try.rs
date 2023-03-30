@@ -11,7 +11,7 @@ use swc_error_reporters::{GraphicalReportHandler, PrettyEmitter, PrettyEmitterCo
 fn main() {
     let cm = Lrc::<SourceMap>::default();
 
-    let wr = Box::new(LockedWriter::default());
+    let wr = Box::<LockedWriter>::default();
 
     let emitter = PrettyEmitter::new(
         cm.clone(),

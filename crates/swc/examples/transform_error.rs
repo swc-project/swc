@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use anyhow::Context;
-use swc::{self, config::Options, try_with_handler};
+use swc::{self, try_with_handler};
 use swc_common::{errors::ColorConfig, FileName, SourceMap, GLOBALS};
 
 fn main() {
@@ -22,14 +22,8 @@ fn main() {
                     let fm =
                         cm.new_source_file(FileName::Custom("foo.js".into()), "this ?= foo".into());
 
-                    c.process_js_file(
-                        fm,
-                        handler,
-                        &Options {
-                            ..Default::default()
-                        },
-                    )
-                    .context("failed to process file")
+                    c.process_js_file(fm, handler, &Default::default())
+                        .context("failed to process file")
                 },
             )
         })

@@ -92,7 +92,7 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "c06df922631aeabc.js",
 ];
 
-fn add_test<F: FnOnce() + Send + 'static>(
+fn add_test<F: FnOnce() -> Result<(), String> + Send + 'static>(
     tests: &mut Vec<TestDescAndFn>,
     name: String,
     ignore: bool,
@@ -258,6 +258,8 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     Err(())
                 })
                 .expect("failed to run test");
+
+                Ok(())
             }
         });
     }

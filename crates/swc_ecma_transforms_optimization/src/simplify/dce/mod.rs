@@ -861,9 +861,7 @@ impl VisitMut for TreeShaker {
             self.bindings = Arc::new(collect_decls(&*m))
         }
 
-        let mut data = Data {
-            ..Default::default()
-        };
+        let mut data = Default::default();
 
         {
             let mut analyzer = Analyzer {
@@ -891,9 +889,7 @@ impl VisitMut for TreeShaker {
             self.bindings = Arc::new(collect_decls(&*m))
         }
 
-        let mut data = Data {
-            ..Default::default()
-        };
+        let mut data = Default::default();
 
         {
             let mut analyzer = Analyzer {
