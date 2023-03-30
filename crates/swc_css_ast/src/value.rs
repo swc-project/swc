@@ -399,7 +399,7 @@ pub struct Url {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum UrlValue {
-    #[tag("Str")]
+    #[tag("String")]
     Str(Str),
     #[tag("UrlValueRaw")]
     Raw(UrlValueRaw),
@@ -526,7 +526,7 @@ pub enum CalcValue {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum FamilyName {
-    #[tag("Str")]
+    #[tag("String")]
     Str(Str),
     #[tag("SequenceOfCustomIdents")]
     SequenceOfCustomIdents(SequenceOfCustomIdents),

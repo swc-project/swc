@@ -312,7 +312,7 @@ pub enum PseudoClassSelectorChildren {
     #[tag("Ident")]
     Ident(Ident),
 
-    #[tag("Str")]
+    #[tag("String")]
     Str(Str),
 
     #[tag("Delimiter")]

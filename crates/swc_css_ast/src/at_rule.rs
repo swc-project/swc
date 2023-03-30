@@ -50,7 +50,7 @@ impl PartialEq<JsWord> for AtRuleName {
 pub enum AtRulePrelude {
     #[tag("ListOfComponentValues")]
     ListOfComponentValues(ListOfComponentValues),
-    #[tag("Str")]
+    #[tag("String")]
     CharsetPrelude(Str),
     #[tag("CustomPropertyName")]
     PropertyPrelude(CustomPropertyName),
@@ -123,7 +123,7 @@ pub enum DocumentPreludeMatchingFunction {
 pub enum KeyframesName {
     #[tag("CustomIdent")]
     CustomIdent(Box<CustomIdent>),
-    #[tag("Str")]
+    #[tag("String")]
     Str(Box<Str>),
     /// Only for CSS modules
     #[tag("KeyframesPseudoPrefix")]
@@ -180,7 +180,7 @@ pub struct ImportPrelude {
 pub enum ImportHref {
     #[tag("Url")]
     Url(Url),
-    #[tag("Str")]
+    #[tag("String")]
     Str(Str),
 }
 
@@ -214,7 +214,7 @@ pub struct NamespacePrelude {
 pub enum NamespacePreludeUri {
     #[tag("Url")]
     Url(Url),
-    #[tag("Str")]
+    #[tag("String")]
     Str(Str),
 }
 
