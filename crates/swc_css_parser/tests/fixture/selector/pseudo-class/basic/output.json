@@ -1797,7 +1797,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 372,
                           "end": 373,

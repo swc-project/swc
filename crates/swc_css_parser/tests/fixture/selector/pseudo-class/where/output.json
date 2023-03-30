@@ -58,7 +58,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 8,
                           "end": 10,
@@ -239,7 +239,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 25,
                           "end": 31,
@@ -467,7 +467,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 46,
                           "end": 66,
@@ -788,7 +788,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 89,
                           "end": 100,
@@ -956,7 +956,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 112,
                           "end": 129,
@@ -1195,7 +1195,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 138,
                           "end": 155,
@@ -1434,7 +1434,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 164,
                           "end": 177,
@@ -1686,7 +1686,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 192,
                           "end": 206,
@@ -1879,7 +1879,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 221,
                           "end": 237,
@@ -2065,7 +2065,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 249,
                           "end": 265,
@@ -2338,7 +2338,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 288,
                           "end": 304,
@@ -2540,7 +2540,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 316,
                           "end": 336,
@@ -2736,7 +2736,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 349,
                           "end": 361,
@@ -2917,7 +2917,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 373,
                           "end": 405,
@@ -3152,7 +3152,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 416,
                           "end": 459,
@@ -3387,7 +3387,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 470,
                           "end": 528,
@@ -3754,7 +3754,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 540,
                           "end": 701,
@@ -4307,7 +4307,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 713,
                           "end": 806,
@@ -4637,7 +4637,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 837,
                           "end": 841,
@@ -4814,7 +4814,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 855,
                           "end": 862,
@@ -5051,7 +5051,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 876,
                           "end": 882,
@@ -5275,7 +5275,7 @@
                     },
                     "children": [
                       {
-                        "type": "SelectorList",
+                        "type": "ForgivingSelectorList",
                         "span": {
                           "start": 896,
                           "end": 905,

@@ -2732,7 +2732,7 @@
                             },
                             "children": [
                               {
-                                "type": "SelectorList",
+                                "type": "ForgivingSelectorList",
                                 "span": {
                                   "start": 717,
                                   "end": 728,
@@ -4824,7 +4824,7 @@
                             },
                             "children": [
                               {
-                                "type": "SelectorList",
+                                "type": "ForgivingSelectorList",
                                 "span": {
                                   "start": 1288,
                                   "end": 1293,
@@ -6872,7 +6872,7 @@
                             },
                             "children": [
                               {
-                                "type": "SelectorList",
+                                "type": "ForgivingSelectorList",
                                 "span": {
                                   "start": 1800,
                                   "end": 1811,
