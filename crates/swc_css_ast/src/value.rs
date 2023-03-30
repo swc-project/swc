@@ -484,7 +484,13 @@ pub enum CalcOperatorType {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CalcValueOrOperator {
     #[tag("Number")]
-    #[tag("Dimension")]
+    #[tag("Length")]
+    #[tag("Angle")]
+    #[tag("Time")]
+    #[tag("Frequency")]
+    #[tag("Resolution")]
+    #[tag("Flex")]
+    #[tag("UnknownDimension")]
     #[tag("Percentage")]
     #[tag("Ident")]
     #[tag("CalcSum")]
@@ -499,7 +505,13 @@ pub enum CalcValueOrOperator {
 pub enum CalcValue {
     #[tag("Number")]
     Number(Number),
-    #[tag("Dimension")]
+    #[tag("Length")]
+    #[tag("Angle")]
+    #[tag("Time")]
+    #[tag("Frequency")]
+    #[tag("Resolution")]
+    #[tag("Flex")]
+    #[tag("UnknownDimension")]
     Dimension(Dimension),
     #[tag("Percentage")]
     Percentage(Percentage),

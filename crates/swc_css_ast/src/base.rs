@@ -182,7 +182,13 @@ pub enum ComponentValue {
     Number(Box<Number>),
     #[tag("Percentage")]
     Percentage(Box<Percentage>),
-    #[tag("Dimension")]
+    #[tag("Length")]
+    #[tag("Angle")]
+    #[tag("Time")]
+    #[tag("Frequency")]
+    #[tag("Resolution")]
+    #[tag("Flex")]
+    #[tag("UnknownDimension")]
     Dimension(Box<Dimension>),
     #[tag("LengthPercentage")]
     LengthPercentage(Box<LengthPercentage>),

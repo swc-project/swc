@@ -410,7 +410,13 @@ pub enum MediaFeatureValue {
     #[tag("Number")]
     Number(Number),
 
-    #[tag("Dimension")]
+    #[tag("Length")]
+    #[tag("Angle")]
+    #[tag("Time")]
+    #[tag("Frequency")]
+    #[tag("Resolution")]
+    #[tag("Flex")]
+    #[tag("UnknownDimension")]
     Dimension(Dimension),
 
     #[tag("Ident")]
@@ -802,7 +808,13 @@ pub enum SizeFeatureValue {
     #[tag("Number")]
     Number(Number),
 
-    #[tag("Dimension")]
+    #[tag("Length")]
+    #[tag("Angle")]
+    #[tag("Time")]
+    #[tag("Frequency")]
+    #[tag("Resolution")]
+    #[tag("Flex")]
+    #[tag("UnknownDimension")]
     Dimension(Dimension),
 
     #[tag("Ident")]
