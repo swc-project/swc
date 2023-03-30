@@ -732,7 +732,10 @@ pub enum QueryInParens {
     #[tag("ContainerQuery")]
     ContainerQuery(Box<ContainerQuery>),
 
-    #[tag("SizeFeature")]
+    #[tag("SizeFeatureRangeInterval")]
+    #[tag("SizeFeaturePlain")]
+    #[tag("SizeFeatureBoolean")]
+    #[tag("SizeFeatureRange")]
     SizeFeature(SizeFeature),
 
     // TODO implement style
