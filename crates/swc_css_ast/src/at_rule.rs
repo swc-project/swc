@@ -680,7 +680,13 @@ pub enum ContainerQueryType {
     #[tag("ContainerQueryOr")]
     Or(ContainerQueryOr),
 
-    #[tag("QueryInParens")]
+    #[tag("ContainerQuery")]
+    #[tag("SizeFeatureRangeInterval")]
+    #[tag("SizeFeaturePlain")]
+    #[tag("SizeFeatureBoolean")]
+    #[tag("SizeFeatureRange")]
+    #[tag("Function")]
+    #[tag("SimpleBlock")]
     QueryInParens(QueryInParens),
 }
 
