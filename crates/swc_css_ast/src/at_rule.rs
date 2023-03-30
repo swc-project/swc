@@ -78,7 +78,8 @@ pub enum AtRulePrelude {
     SupportsPrelude(SupportsCondition),
     #[tag("PageSelectorList")]
     PagePrelude(PageSelectorList),
-    #[tag("LayerPrelude")]
+    #[tag("LayerName")]
+    #[tag("LayerNameList")]
     LayerPrelude(LayerPrelude),
     #[tag("ContainerCondition")]
     ContainerPrelude(ContainerCondition),
