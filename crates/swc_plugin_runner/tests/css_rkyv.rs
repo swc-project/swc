@@ -58,6 +58,10 @@ static PLUGIN_PATH: Lazy<PathBuf> = Lazy::new(|| {
 });
 
 #[testing::fixture("../swc_css_parser/tests/fixture/**/input.css")]
+fn test_file(input: PathBuf) {
+    invoke(input).unwrap();
+}
+
 fn invoke(input: PathBuf) -> Result<(), Error> {
     use swc_css_ast::Stylesheet;
 

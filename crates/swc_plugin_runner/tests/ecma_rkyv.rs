@@ -61,6 +61,10 @@ static PLUGIN_PATH: Lazy<PathBuf> = Lazy::new(|| {
 
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.ts")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.tsx")]
+fn test_file(input: PathBuf) {
+    internal(input).unwrap();
+}
+
 fn internal(input: PathBuf) -> Result<(), Error> {
     let path = PLUGIN_PATH.clone();
 
