@@ -21,7 +21,7 @@ impl Take for SelectorList {
     }
 }
 
-#[ast_node("SelectorList")]
+#[ast_node("ForgivingSelectorList")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ForgivingSelectorList {
     pub span: Span,
