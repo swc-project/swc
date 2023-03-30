@@ -130,8 +130,8 @@ fn handle_func(func: ItemFn, ast_type: Ident) -> TokenStream {
             // Reconstruct `Program` & config string from serialized program
             // Host (SWC) should allocate memory, copy bytes and pass ptr to plugin.
             let program = unsafe { swc_core::common::plugin::serialized::deserialize_from_ptr(ast_ptr, ast_ptr_len) };
-            if program.is_err() {
-                let err = swc_core::common::plugin::serialized::PluginError::Deserialize("Failed to deserialize program received from host".to_string());
+            if let Err(err) = program {
+                let err = swc_core::common::plugin::serialized::PluginError::Deserialize(format!("Failed to deserialize program received from host: {:?}", err));
                 return construct_error_ptr(err);
             }
             let program: #ast_type = program.expect("Should be a program");
