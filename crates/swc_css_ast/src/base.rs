@@ -202,7 +202,7 @@ pub enum ComponentValue {
     Ratio(Box<Ratio>),
     #[tag("UnicodeRange")]
     UnicodeRange(Box<UnicodeRange>),
-    #[tag("Color")]
+    #[tag("HexColor")]
     Color(Box<Color>),
     #[tag("AlphaValue")]
     AlphaValue(Box<AlphaValue>),

@@ -512,7 +512,10 @@ pub enum SupportsConditionType {
     #[tag("SupportsOr")]
     Or(SupportsOr),
 
-    #[tag("SupportsInParens")]
+    #[tag("SupportsCondition")]
+    #[tag("Declaration")]
+    #[tag("Function")]
+    #[tag("SimpleBlock")]
     SupportsInParens(SupportsInParens),
 }
 

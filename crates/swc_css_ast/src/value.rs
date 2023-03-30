@@ -131,7 +131,7 @@ pub struct Delimiter {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Color {
-    #[tag("AbsoluteColorBase")]
+    #[tag("HexColor")]
     AbsoluteColorBase(AbsoluteColorBase),
     #[tag("Ident")]
     CurrentColorOrSystemColor(Ident),
