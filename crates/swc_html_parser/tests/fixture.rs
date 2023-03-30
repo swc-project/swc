@@ -7,7 +7,6 @@
 use std::path::PathBuf;
 
 use common::{document_dom_visualizer, document_span_visualizer};
-use swc_html_parser::parser::ParserConfig;
 
 use crate::common::document_test;
 
@@ -16,31 +15,15 @@ mod common;
 
 #[testing::fixture("tests/fixture/**/*.html")]
 fn pass(input: PathBuf) {
-    document_test(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-    )
+    document_test(input, Default::default())
 }
 
 #[testing::fixture("tests/fixture/**/*.html")]
 fn span_visualizer(input: PathBuf) {
-    document_span_visualizer(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-        false,
-    )
+    document_span_visualizer(input, Default::default(), false)
 }
 
 #[testing::fixture("tests/fixture/**/*.html")]
 fn dom_visualizer(input: PathBuf) {
-    document_dom_visualizer(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-    )
+    document_dom_visualizer(input, Default::default())
 }

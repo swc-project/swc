@@ -7,7 +7,7 @@ use std::{
 use anyhow::{bail, Context, Result};
 use swc_common::{FileName, SourceMap};
 use swc_ecma_ast::*;
-use swc_ecma_minifier::option::{CompressOptions, MinifyOptions};
+use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -31,9 +31,7 @@ pub fn get_minified(
             None,
             &MinifyOptions {
                 compress: if compress {
-                    Some(CompressOptions {
-                        ..Default::default()
-                    })
+                    Some(Default::default())
                 } else {
                     None
                 },
@@ -70,7 +68,7 @@ pub fn get_terser_output(file: &Path, compress: bool, mangle: bool) -> Result<St
         if mangle {
             cmd.arg("--mangle");
         }
-        cmd.arg("--comments false");
+        cmd.args(["--comments", "false"]);
         cmd.arg("--");
         cmd.arg(file);
 

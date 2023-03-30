@@ -1074,7 +1074,7 @@ impl VisitMut for Remover {
                         }
                     }
 
-                    SwitchStmt { ..s }.into()
+                    s.into()
                 }
 
                 Stmt::For(s)

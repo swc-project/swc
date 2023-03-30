@@ -4375,9 +4375,7 @@ eval: function _eval() {
 
 test!(
     ts(),
-    |_| decorators(decorators::Config {
-        ..Default::default()
-    }),
+    |_| decorators(Default::default()),
     issue_846_1,
     "
   class SomeClass {

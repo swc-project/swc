@@ -43,7 +43,7 @@ fn document_recovery_test(input: PathBuf, config: ParserConfig) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize document");
 
-                actual_json.compare_to_file(&json_path).unwrap();
+                actual_json.compare_to_file(json_path).unwrap();
 
                 Err(())
             }
@@ -72,31 +72,15 @@ fn document_recovery_test(input: PathBuf, config: ParserConfig) {
 
 #[testing::fixture("tests/recovery/**/*.html")]
 fn recovery(input: PathBuf) {
-    document_recovery_test(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-    )
+    document_recovery_test(input, Default::default())
 }
 
 #[testing::fixture("tests/recovery/**/*.html")]
 fn span_visualizer(input: PathBuf) {
-    document_span_visualizer(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-        false,
-    )
+    document_span_visualizer(input, Default::default(), false)
 }
 
 #[testing::fixture("tests/recovery/**/*.html")]
 fn dom_visualizer(input: PathBuf) {
-    document_dom_visualizer(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-    )
+    document_dom_visualizer(input, Default::default())
 }

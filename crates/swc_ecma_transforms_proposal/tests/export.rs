@@ -12,9 +12,7 @@ fn syntax_default() -> Syntax {
     })
 }
 fn syntax_namespace() -> Syntax {
-    Syntax::Es(EsConfig {
-        ..Default::default()
-    })
+    Syntax::Es(Default::default())
 }
 
 fn tr() -> impl Fold {

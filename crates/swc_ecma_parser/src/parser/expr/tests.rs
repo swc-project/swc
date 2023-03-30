@@ -373,13 +373,9 @@ fn issue_319_1() {
 #[test]
 fn issue_328() {
     assert_eq_ignore_span!(
-        test_parser(
-            "import('test')",
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            |p| { p.parse_stmt(true) }
-        ),
+        test_parser("import('test')", Syntax::Es(Default::default()), |p| {
+            p.parse_stmt(true)
+        }),
         Stmt::Expr(ExprStmt {
             span,
             expr: Box::new(Expr::Call(CallExpr {

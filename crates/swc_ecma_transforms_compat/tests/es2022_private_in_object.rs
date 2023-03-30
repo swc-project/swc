@@ -7,7 +7,7 @@ use swc_ecma_transforms_compat::{
     es2015::classes,
     es2022::{class_properties, private_in_object},
 };
-use swc_ecma_transforms_testing::{parse_options, test_fixture, FixtureTestConfig};
+use swc_ecma_transforms_testing::{parse_options, test_fixture};
 use swc_ecma_visit::Fold;
 
 #[derive(Debug, Clone, Deserialize)]
@@ -105,8 +105,6 @@ fn fixture(input: PathBuf) {
         },
         &input,
         &output,
-        FixtureTestConfig {
-            ..Default::default()
-        },
+        Default::default(),
     )
 }

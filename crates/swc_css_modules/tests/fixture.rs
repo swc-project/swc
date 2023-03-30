@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use swc_atoms::JsWord;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
-    CodeGenerator, CodegenConfig, Emit,
+    CodeGenerator, Emit,
 };
 use swc_css_parser::parser::ParserConfig;
 use testing::NormalizedOutput;
@@ -71,12 +71,7 @@ fn compile(input: PathBuf) {
                     ..Default::default()
                 },
             );
-            let mut g = CodeGenerator::new(
-                wr,
-                CodegenConfig {
-                    ..Default::default()
-                },
-            );
+            let mut g = CodeGenerator::new(wr, Default::default());
 
             g.emit(&ss).unwrap();
         }
