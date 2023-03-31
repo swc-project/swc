@@ -1,4 +1,18 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Handle shorthand object prop while renaming (#7176) ([0a80e05](https://github.com/swc-project/swc/commit/0a80e0506b0fd58d31027c348ea0c957a5cc60f7))
+
+### Testing
+
+
+
+- **(es/plugin)** Enable E2E plugin test (#7178) ([a785f18](https://github.com/swc-project/swc/commit/a785f18740942c841fede3d625ec2fd4b090d020))
+
 ## [1.3.44] - 2023-03-30
 
 ### Bug Fixes
