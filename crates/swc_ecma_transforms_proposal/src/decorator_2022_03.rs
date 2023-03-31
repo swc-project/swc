@@ -316,7 +316,7 @@ impl VisitMut for Decorator202203 {
                 key: p.key.clone(),
                 is_optional: Default::default(),
                 is_override: Default::default(),
-                is_static: Default::default(),
+                is_static: p.is_static,
                 value: Some(init.into()),
                 type_ann: Default::default(),
                 decorators: Default::default(),
