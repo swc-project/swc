@@ -2,9 +2,10 @@ use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
-    DUMMY_SP,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helpers::HELPERS;
 use swc_ecma_utils::{undefined, ExprFactory, IntoIndirectCall};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -37,7 +38,29 @@ pub(crate) struct ModuleRefRewriter {
 
     pub allow_top_level_this: bool,
 
-    pub is_global_this: bool,
+    is_global_this: bool,
+    helper_ctxt: Option<SyntaxContext>,
+}
+
+impl ModuleRefRewriter {
+    pub fn new(
+        import_map: ImportMap,
+        lazy_record: AHashSet<Id>,
+        allow_top_level_this: bool,
+    ) -> Self {
+        Self {
+            import_map,
+            lazy_record,
+            allow_top_level_this,
+            is_global_this: true,
+            helper_ctxt: {
+                HELPERS
+                    .is_set()
+                    .then(|| HELPERS.with(|helper| helper.mark()))
+                    .map(|mark| SyntaxContext::empty().apply_mark(mark))
+            },
+        }
+    }
 }
 
 impl VisitMut for ModuleRefRewriter {
@@ -83,6 +106,7 @@ impl VisitMut for ModuleRefRewriter {
             Callee::Expr(e) if e.is_ident() => {
                 let is_indirect_callee = e
                     .as_ident()
+                    .filter(|ident| self.helper_ctxt.iter().all(|ctxt| ctxt != &ident.span.ctxt))
                     .and_then(|ident| self.import_map.get(&ident.to_id()))
                     .map(|(_, prop)| prop.is_some())
                     .unwrap_or_default();
@@ -102,6 +126,7 @@ impl VisitMut for ModuleRefRewriter {
         let is_indirect = n
             .tag
             .as_ident()
+            .filter(|ident| self.helper_ctxt.iter().all(|ctxt| ctxt != &ident.span.ctxt))
             .and_then(|ident| self.import_map.get(&ident.to_id()))
             .map(|(_, prop)| prop.is_some())
             .unwrap_or_default();

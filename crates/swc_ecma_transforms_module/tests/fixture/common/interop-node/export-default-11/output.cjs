@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 0 && (module.exports = {
-    default: _,
-    Cachier: _
+    default: null,
+    Cachier: null
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {

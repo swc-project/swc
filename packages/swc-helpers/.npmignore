@@ -3,3 +3,4 @@ package-lock.json
 *.log
 .swcrc
 .yarn
+*.tgz
