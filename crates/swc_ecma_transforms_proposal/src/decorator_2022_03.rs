@@ -567,6 +567,7 @@ impl VisitMut for Decorator202203 {
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         let old_extra_stmts = self.extra_stmts.take();
+        let old_extra_vars = self.extra_vars.take();
 
         let mut new = Vec::with_capacity(n.len());
 
@@ -596,6 +597,7 @@ impl VisitMut for Decorator202203 {
 
         *n = new;
 
+        self.extra_vars = old_extra_vars;
         self.extra_stmts = old_extra_stmts;
     }
 }
