@@ -36,7 +36,7 @@ where
     C: Comments,
 {
     as_folder(Umd {
-        config: config.build(cm.clone()),
+        config: config.build(),
         unresolved_mark,
         cm,
         resolver: Resolver::Default,
@@ -68,7 +68,7 @@ where
     C: Comments,
 {
     as_folder(Umd {
-        config: config.build(cm.clone()),
+        config: config.build(),
         unresolved_mark,
         cm,
         resolver: Resolver::Real { base, resolver },
@@ -445,7 +445,7 @@ where
                 let global_dep = {
                     let dep_name = self.config.global_name(&src_path);
                     let global = global.clone();
-                    if is_valid_prop_ident(&dep_name) {
+                    if is_valid_prop_ident(&dep_name) || dep_name.eq("_") {
                         global.make_member(quote_ident!(dep_name))
                     } else {
                         global.computed_member(quote_str!(dep_name))

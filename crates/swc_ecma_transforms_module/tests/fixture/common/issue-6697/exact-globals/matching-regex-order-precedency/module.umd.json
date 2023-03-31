@@ -1,0 +1,9 @@
+{
+  "exactGlobals": [
+    ["./phenome$", "PHENOMENA_NO_MATCH"],
+    ["phenomena\\.levels", "PhenomenaFirstMatch"],
+    ["^.*phenomena\\.*$", "PhenomenaSecondMatch"],
+    [".*?storm\\.js$", "STORM_JS"],
+    ["\\.js$", "ANYTHING_JS"]
+  ]
+}
