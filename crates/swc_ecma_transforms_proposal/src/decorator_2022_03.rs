@@ -74,7 +74,11 @@ impl Decorator202203 {
             arrays.push(Some(
                 ArrayLit {
                     span: DUMMY_SP,
-                    elems: self.init_proto_args.take(),
+                    elems: if for_static {
+                        self.init_static_args.take()
+                    } else {
+                        self.init_proto_args.take()
+                    },
                 }
                 .as_arg(),
             ));
