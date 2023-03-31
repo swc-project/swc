@@ -40,16 +40,16 @@ Object.defineProperty(exports, "__esModule", {
     enumerable: !0,
     get: ()=>D
 });
-const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 class D {
     method() {
-        Promise.resolve().then(()=>_interopRequireWildcard(require("./0"))), this.myModule.then((Zero)=>{
+        Promise.resolve().then(()=>_interop_require_wildcard(require("./0"))), this.myModule.then((Zero)=>{
             console.log(Zero.foo());
         }, async (err)=>{
-            console.log(err), console.log((await Promise.resolve().then(()=>_interopRequireWildcard(require("./1")))).backup());
+            console.log(err), console.log((await Promise.resolve().then(()=>_interop_require_wildcard(require("./1")))).backup());
         });
     }
     constructor(){
-        this.myModule = Promise.resolve().then(()=>_interopRequireWildcard(require("./0")));
+        this.myModule = Promise.resolve().then(()=>_interop_require_wildcard(require("./0")));
     }
 }

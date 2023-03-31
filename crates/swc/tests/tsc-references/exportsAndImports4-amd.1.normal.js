@@ -27,13 +27,13 @@ define([
     "exports",
     "@swc/helpers/src/_interop_require_wildcard.mjs",
     "./t1"
-], function(require, exports, _interopRequireWildcard, _t1) {
+], function(require, exports, _interop_require_wildcard, _t1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _interopRequireWildcard = _interopRequireWildcard.default;
-    var _t11 = /*#__PURE__*/ _interopRequireWildcard(_t1);
+    _interop_require_wildcard = _interop_require_wildcard.default;
+    var _t11 = /*#__PURE__*/ _interop_require_wildcard(_t1);
     _t1.default;
     _t11.default;
     _t11.default;
@@ -49,7 +49,7 @@ define([
     "exports",
     "@swc/helpers/src/_interop_require_wildcard.mjs",
     "./t1"
-], function(require, exports, _interopRequireWildcard, _t1) {
+], function(require, exports, _interop_require_wildcard, _t1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -86,8 +86,8 @@ define([
             return _t11.default;
         }
     });
-    _interopRequireWildcard = _interopRequireWildcard.default;
-    var _t11 = /*#__PURE__*/ _interopRequireWildcard(_t1);
+    _interop_require_wildcard = _interop_require_wildcard.default;
+    var _t11 = /*#__PURE__*/ _interop_require_wildcard(_t1);
     _t1.default;
     _t11.default;
     _t11.default;

@@ -1,4 +1,4 @@
-export default function _classApplyDescriptorUpdate(receiver, descriptor) {
+export default function _class_apply_descriptor_update(receiver, descriptor) {
     if (descriptor.set) {
         if (!descriptor.get) {
             throw new TypeError("attempted to read set only private field");
@@ -10,7 +10,7 @@ export default function _classApplyDescriptorUpdate(receiver, descriptor) {
                 },
                 get value() {
                     return descriptor.get.call(receiver);
-                },
+                }
             };
         }
         return descriptor.__destrWrapper;

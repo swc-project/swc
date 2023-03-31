@@ -870,6 +870,7 @@ XPathExpression
 XPathResult
 XSLTProcessor
 __proto__
+_define_property
 _defineProperty
 _extends
 _toConsumableArray

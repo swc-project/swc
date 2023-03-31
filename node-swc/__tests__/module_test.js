@@ -1,6 +1,6 @@
 const swc = require("../../");
 
-it("should emit _interopRequireDefault", () => {
+it("should emit _interop_require_default", () => {
     const out = swc.transformSync(`import foo from "foo"`, {
         module: {
             type: "commonjs"
@@ -8,11 +8,11 @@ it("should emit _interopRequireDefault", () => {
     });
     expect(out.map).toBeFalsy();
 
-    expect(out.code).toContain(`function _interopRequireDefault`);
-    expect(out.code).toContain(`_interopRequireDefault(require("foo"))`);
+    expect(out.code).toContain(`function _interop_require_default`);
+    expect(out.code).toContain(`_interop_require_default(require("foo"))`);
 });
 
-it("should emit _interopRequireWildcard", () => {
+it("should emit _interop_require_wildcard", () => {
     const out = swc.transformSync('import * as foo from "foo"', {
         module: {
             type: "commonjs"
@@ -20,9 +20,9 @@ it("should emit _interopRequireWildcard", () => {
     });
     expect(out.map).toBeFalsy();
 
-    expect(out.code).toContain(`function _interopRequireWildcard`);
+    expect(out.code).toContain(`function _interop_require_wildcard`);
     expect(out.code).toContain(
-        `_interopRequireWildcard(require("foo"))`
+        `_interop_require_wildcard(require("foo"))`
     );
 });
 
@@ -44,6 +44,6 @@ it("should work with amd and external helpers", () => {
     expect(out.map).toBeFalsy();
 
     expect(out.code).toContain(`define("a",`);
-    expect(out.code).toContain(`_classCallCheck(this, Foo);`);
+    expect(out.code).toContain(`_class_call_check(this, Foo);`);
     expect(out.code).toContain(`_inherits(Bar, Foo);`);
 });

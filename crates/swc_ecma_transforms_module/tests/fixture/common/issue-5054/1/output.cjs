@@ -12,9 +12,9 @@ _export(exports, {
     default: ()=>_default,
     y: ()=>y
 });
-const _foo = /*#__PURE__*/ _interopRequireDefault(require("foo"));
+const _foo = /*#__PURE__*/ _interop_require_default(require("foo"));
 const _bar = require("bar");
-const _baz = /*#__PURE__*/ _interopRequireWildcard(require("baz"));
+const _baz = /*#__PURE__*/ _interop_require_wildcard(require("baz"));
 const _default = {
     foo: _foo.default,
     baz: _baz,

@@ -49,7 +49,7 @@ test!(
     |_| destructuring(Config { loose: false }),
     need_to_array,
     r#"const [x, y, ...z] = o;"#,
-    r#"const _o = _toArray(o), x = _o[0], y = _o[1], z = _o.slice(2);"#,
+    r#"const _o = _to_array(o), x = _o[0], y = _o[1], z = _o.slice(2);"#,
     ok_if_code_eq
 );
 
@@ -500,20 +500,20 @@ var _z = z,
     x = Object.assign({}, _z);
 var _z2 = z,
     x = _z2.x,
-    y = _objectWithoutProperties(_z2, ["x"]);
+    y = _object_without_properties(_z2, ["x"]);
 var _z3 = z,
     x = _z3[x],
-    y = _objectWithoutProperties(_z3, [x].map(_toPropertyKey));
+    y = _object_without_properties(_z3, [x].map(_to_property_key));
 
 (function (_ref) {
   var x = _ref.x,
-      y = _objectWithoutProperties(_ref, ["x"]);
+      y = _object_without_properties(_ref, ["x"]);
 });
 
 var _o = o;
 x = _o.x;
 y = _o.y;
-z = _objectWithoutProperties(_o, ["x", "y"]);
+z = _object_without_properties(_o, ["x", "y"]);
 _o;"#
 );
 
@@ -534,20 +534,20 @@ var _z = z,
     x = _extends({}, _z);
 var _z2 = z,
     x = _z2.x,
-    y = _objectWithoutProperties(_z2, ["x"]);
+    y = _object_without_properties(_z2, ["x"]);
 var _z3 = z,
     x = _z3[x],
-    y = _objectWithoutProperties(_z3, [x].map(_toPropertyKey));
+    y = _object_without_properties(_z3, [x].map(_to_property_key));
 
 (function (_ref) {
   var x = _ref.x,
-      y = _objectWithoutProperties(_ref, ["x"]);
+      y = _object_without_properties(_ref, ["x"]);
 });
 
 var _o = o;
 x = _o.x;
 y = _o.y;
-z = _objectWithoutProperties(_o, ["x", "y"]);
+z = _object_without_properties(_o, ["x", "y"]);
 _o;"#
 );
 
@@ -993,12 +993,12 @@ for ([ name, before, after ] of test.expectation.registers) {
 "#,
     r#"
 for (var _$ref of test.expectation.registers){
-    var _ref = _slicedToArray(_$ref, 3), name = _ref[0], before = _ref[1], after = _ref[2];
+    var _ref = _sliced_to_array(_$ref, 3), name = _ref[0], before = _ref[1], after = _ref[2];
 }
 
 var _$ref1;
 for (ref of test.expectation.registers){
-    _$ref1 = _slicedToArray(ref, 3), name = _$ref1[0], before = _$ref1[1], after = _$ref1[2], _$ref1;
+    _$ref1 = _sliced_to_array(ref, 3), name = _$ref1[0], before = _$ref1[1], after = _$ref1[2], _$ref1;
 }
 
 "#
@@ -1304,20 +1304,20 @@ expect(f2({a: 1})).toEqual([1, 1, 1]);
 //    x = Object.assign({}, _z);
 //var _z2 = z,
 //    x = _z2.x,
-//    y = _objectWithoutProperties(_z2, ["x"]);
+//    y = _object_without_properties(_z2, ["x"]);
 //var _z3 = z,
 //    x = _z3[x],
-//    y = _objectWithoutProperties(_z3, [x].map(_toPropertyKey));
+//    y = _object_without_properties(_z3, [x].map(_to_property_key));
 //
 //(function (_ref) {
 //  var x = _ref.x,
-//      y = _objectWithoutProperties(_ref, ["x"]);
+//      y = _object_without_properties(_ref, ["x"]);
 //});
 //
 //var _o = o;
 //x = _o.x;
 //y = _o.y;
-//z = _objectWithoutProperties(_o, ["x", "y"]);
+//z = _object_without_properties(_o, ["x", "y"]);
 //_o;
 //
 //"#
@@ -1377,11 +1377,11 @@ console.log(unpackObject({
 }));
 
  var unpackArray = function(param, param1) {
-    var _param = _slicedToArray(param, 3),
+    var _param = _sliced_to_array(param, 3),
         a = _param[0],
         b = _param[1],
         c = _param[2],
-        _param1 = _slicedToArray(param1, 3),
+        _param1 = _sliced_to_array(param1, 3),
         x = _param1[0],
         y = _param1[1],
         z = _param1[2];
@@ -1455,8 +1455,8 @@ test!(
     ref = [a[1], a[0]], a[0] = ref[0], a[1] = ref[1], ref;
 
 
-    var _toConsumableArray_concat = _slicedToArray(_toConsumableArray(foo).concat([bar]), 2), a = _toConsumableArray_concat[0], b = _toConsumableArray_concat[1];
-    // TODO: var ref4 = _toConsumableArray(foo).concat([bar]), a = ref4[0], b = ref4[1];
+    var _to_consumable_array_concat = _sliced_to_array(_to_consumable_array(foo).concat([bar]), 2), a = _to_consumable_array_concat[0], b = _to_consumable_array_concat[1];
+    // TODO: var ref4 = _to_consumable_array(foo).concat([bar]), a = ref4[0], b = ref4[1];
 
 var _ref3 = [foo(), bar],
     a = _ref3[0],
@@ -1540,20 +1540,20 @@ var { [x]: x, ...y } = z;
     r#"
 var z = {};
 var x = _extends({
-}, _objectDestructuringEmpty(z));
+}, _object_destructuring_empty(z));
 var x = z.x,
-    y = _objectWithoutProperties(z, ["x"]);
+    y = _object_without_properties(z, ["x"]);
 var x = z[x],
-    y = _objectWithoutProperties(z, [x].map(_toPropertyKey));
+    y = _object_without_properties(z, [x].map(_to_property_key));
 
 (function (_param) {
   var x = _param.x,
-      y = _objectWithoutProperties(_param, ["x"]);
+      y = _object_without_properties(_param, ["x"]);
 });
 
 var _o;
 var ref;
-_o = o, z = _objectWithoutProperties(_o, ["x", "y"]), ref = _o, x = ref.x, y = ref.y, ref, _o;
+_o = o, z = _object_without_properties(_o, ["x", "y"]), ref = _o, x = ref.x, y = ref.y, ref, _o;
 
 
 "#
@@ -1666,7 +1666,7 @@ function isSorted([x, y, ...wow]) {
 "#,
     r#"
 function isSorted(param) {
-  var _param = _toArray(param),
+  var _param = _to_array(param),
     x = _param[0],
     y = _param[1],
     wow = _param.slice(2);
@@ -1704,10 +1704,10 @@ var {topLeft: [x1, y1], bottomRight: [x2, y2] } = rect;
     r#"
 var rect = {};
 
-var _rect_topLeft = _slicedToArray(rect.topLeft, 2),
+var _rect_topLeft = _sliced_to_array(rect.topLeft, 2),
     x1 = _rect_topLeft[0],
     y1 = _rect_topLeft[1],
-    _rect_bottomRight = _slicedToArray(rect.bottomRight, 2),
+    _rect_bottomRight = _sliced_to_array(rect.bottomRight, 2),
     x2 = _rect_bottomRight[0],
     y2 = _rect_bottomRight[1];
 "#
@@ -1728,7 +1728,7 @@ test!(
 "#,
     r#"
             var ref;
-ref = _slicedToArray(f(), 2), a = ref[0], b = ref[1], ref;
+ref = _sliced_to_array(f(), 2), a = ref[0], b = ref[1], ref;
 "#
 );
 
@@ -1857,7 +1857,7 @@ var _key = prefix + 'state',
     country = input[`country`],
     state = input[_key],
     consents = input[_key1],
-    rest = _objectWithoutProperties(input, ["given_name", 'last_name', `country`, _key, _key1].map(_toPropertyKey));
+    rest = _object_without_properties(input, ["given_name", 'last_name', `country`, _key, _key1].map(_to_property_key));
 
 
 "#
@@ -1908,12 +1908,12 @@ for ([name, value] in obj) {
 "#,
     r#"
 for(var _$ref in obj){
-    var _ref = _slicedToArray(_$ref, 2), name = _ref[0], value = _ref[1];
+    var _ref = _sliced_to_array(_$ref, 2), name = _ref[0], value = _ref[1];
     print("Name: " + name + ", Value: " + value);
 }
 var _$ref1;
 for(ref in obj){
-    _$ref1 = _slicedToArray(ref, 2), name = _$ref1[0], value = _$ref1[1], _$ref1;
+    _$ref1 = _sliced_to_array(ref, 2), name = _$ref1[0], value = _$ref1[1], _$ref1;
     print("Name: " + name + ", Value: " + value);
 }"#
 );

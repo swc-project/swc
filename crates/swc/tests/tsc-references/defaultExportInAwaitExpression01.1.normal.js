@@ -29,15 +29,15 @@
         "./a"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.bTs = {}, global.asyncToGeneratorMjs, global.interopRequireDefaultMjs, global.a);
-})(this, function(exports, _asyncToGenerator, _interopRequireDefault, _a) {
+})(this, function(exports, _async_to_generator, _interop_require_default, _a) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _asyncToGenerator = _asyncToGenerator.default;
-    _interopRequireDefault = _interopRequireDefault.default;
-    _a = /*#__PURE__*/ _interopRequireDefault(_a);
-    _asyncToGenerator(function*() {
+    _async_to_generator = _async_to_generator.default;
+    _interop_require_default = _interop_require_default.default;
+    _a = /*#__PURE__*/ _interop_require_default(_a);
+    _async_to_generator(function*() {
         const value = yield _a.default;
     })();
 });

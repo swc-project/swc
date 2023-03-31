@@ -21,6 +21,6 @@
         namespace1: ()=>_white,
         namespace2: ()=>_black
     });
-    _white = /*#__PURE__*/ _interopRequireWildcard(_white);
-    _black = /*#__PURE__*/ _interopRequireWildcard(_black);
+    _white = /*#__PURE__*/ _interop_require_wildcard(_white);
+    _black = /*#__PURE__*/ _interop_require_wildcard(_black);
 });

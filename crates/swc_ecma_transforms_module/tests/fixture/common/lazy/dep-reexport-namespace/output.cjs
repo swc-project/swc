@@ -7,7 +7,7 @@ Object.defineProperty(exports, "namespace", {
     get: ()=>_foo()
 });
 function _foo() {
-    const data = /*#__PURE__*/ _interopRequireWildcard(require("foo"));
+    const data = /*#__PURE__*/ _interop_require_wildcard(require("foo"));
     _foo = function() {
         return data;
     };

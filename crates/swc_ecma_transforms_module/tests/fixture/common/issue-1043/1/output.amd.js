@@ -12,5 +12,5 @@ define([
         enumerable: true,
         get: ()=>_interfaces.Scope
     });
-    _exportStar(_http, exports);
+    _export_star(_http, exports);
 });

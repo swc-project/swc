@@ -1,1 +1,1 @@
-export { __metadata as default } from 'tslib'
+export { __metadata as default } from "tslib";

@@ -41,7 +41,7 @@ it("should respect custom transform option", async () => {
                 Promise.resolve(value).then(_next, _throw);
             }
         }
-        function _asyncToGenerator(fn) {
+        function _async_to_generator(fn) {
             return function() {
                 var self = this, args = arguments;
                 return new Promise(function(resolve, reject) {
@@ -159,7 +159,7 @@ it("should respect custom transform option", async () => {
             return _bar.apply(this, arguments);
         }
         function _bar() {
-            _bar = _asyncToGenerator(function() {
+            _bar = _async_to_generator(function() {
                 return __generator(this, function(_state) {
                     switch(_state.label){
                         case 0:

@@ -46,7 +46,7 @@ test!(
     const obj = _obj = {
         test: 2,
         get: function get() {
-            return _get(_getPrototypeOf(_obj), "test", this);
+            return _get(_get_prototype_of(_obj), "test", this);
         }
     };
     Object.setPrototypeOf(obj, Base);"#
@@ -77,7 +77,7 @@ test!(
     const obj = _obj = {
         test: 2,
         set: function set() {
-            return _set(_getPrototypeOf(_obj), "test", 3, this, true);
+            return _set(_get_prototype_of(_obj), "test", 3, this, true);
         }
     };
     Object.setPrototypeOf(obj, Base);"#
@@ -115,7 +115,7 @@ test!(
     const Outer = _obj = {
         constructor: function constructor() {
             const Inner = {
-                [_get(_getPrototypeOf(_obj), "toString", this).call(this)]: function () {
+                [_get(_get_prototype_of(_obj), "toString", this).call(this)]: function () {
                     return 'hello';
                 }
             };
@@ -146,7 +146,7 @@ test!(
     var obj = _obj = {
         bar: function bar() {
             var _super;
-            return _set(_getPrototypeOf(_obj), "test", (_super = +_get(_getPrototypeOf(_obj), "test", this)) + 1, this, true), _super;
+            return _set(_get_prototype_of(_obj), "test", (_super = +_get(_get_prototype_of(_obj), "test", this)) + 1, this, true), _super;
         }
     };
     Object.setPrototypeOf(obj, Base);"#
@@ -173,7 +173,7 @@ test!(
     var obj = _obj = {
         bar: function bar() {
             var  _ref, _super;
-            return _set(_getPrototypeOf(_obj), _ref = test, (_super = +_get(_getPrototypeOf(_obj), _ref, this)) + 1, this, true), _super;
+            return _set(_get_prototype_of(_obj), _ref = test, (_super = +_get(_get_prototype_of(_obj), _ref, this)) + 1, this, true), _super;
         }
     };
     Object.setPrototypeOf(obj, Base);"#
@@ -199,7 +199,7 @@ test!(
     };
     var obj = _obj = {
         bar: function bar() {
-            return _set(_getPrototypeOf(_obj), "test", +_get(_getPrototypeOf(_obj), "test", this) + 1, this, true);
+            return _set(_get_prototype_of(_obj), "test", +_get(_get_prototype_of(_obj), "test", this) + 1, this, true);
         }
     };
     Object.setPrototypeOf(obj, Base);"#
@@ -234,7 +234,7 @@ f0.prototype = _obj = {
     job: 'Software Engineer',
     sayName: function sayName() {
         v0[args](1, {
-            v9: (v7)=>_get(_getPrototypeOf(_obj), "v3", this).call(this, v27),
+            v9: (v7)=>_get(_get_prototype_of(_obj), "v3", this).call(this, v27),
             foo: a,
             done: 'a'
         });

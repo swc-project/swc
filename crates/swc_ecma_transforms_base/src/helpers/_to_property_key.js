@@ -1,4 +1,4 @@
-function _toPropertyKey(arg) {
-  var key = _toPrimitive(arg, "string");
-  return _typeof(key) === "symbol" ? key : String(key);
+function _to_property_key(arg) {
+    var key = _to_primitive(arg, "string");
+    return _type_of(key) === "symbol" ? key : String(key);
 }

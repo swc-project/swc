@@ -14,11 +14,11 @@ System.register([
 ], function(_export, _context) {
     return {
         setters: [
-            function(_asyncToGenerator) {
-                _asyncToGenerator.default;
+            function(_async_to_generator1) {
+                _async_to_generator1.default;
             },
-            function(_tsGenerator) {
-                _tsGenerator.default;
+            function(_ts_generator1) {
+                _ts_generator1.default;
             }
         ],
         execute: function() {}

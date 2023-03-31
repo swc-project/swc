@@ -7,5 +7,5 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _exportStar(_foo, exports);
+    _export_star(_foo, exports);
 });

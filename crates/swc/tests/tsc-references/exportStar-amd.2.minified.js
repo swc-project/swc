@@ -83,11 +83,11 @@ define([
     "./t1",
     "./t2",
     "./t3"
-], function(require, exports, _exportStar, _t1, _t2, _t3) {
+], function(require, exports, _export_star, _t1, _t2, _t3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), (_exportStar = _exportStar.default)(_t1, exports), _exportStar(_t2, exports), _exportStar(_t3, exports);
+    }), (_export_star = _export_star.default)(_t1, exports), _export_star(_t2, exports), _export_star(_t3, exports);
 });
 //// [main.ts]
 define([
@@ -95,9 +95,9 @@ define([
     "exports",
     "@swc/helpers/src/_interop_require_wildcard.mjs",
     "./t4"
-], function(require, exports, _interopRequireWildcard, _t4) {
+], function(require, exports, _interop_require_wildcard, _t4) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), (_t4 = (_interopRequireWildcard = _interopRequireWildcard.default)(_t4)).default, _t4.x, _t4.y, _t4.z, _t4.foo;
+    }), (_t4 = (_interop_require_wildcard = _interop_require_wildcard.default)(_t4)).default, _t4.x, _t4.y, _t4.z, _t4.foo;
 });

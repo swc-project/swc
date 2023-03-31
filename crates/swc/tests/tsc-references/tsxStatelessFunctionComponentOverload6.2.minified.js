@@ -5,7 +5,7 @@ define([
     "@swc/helpers/src/_object_spread.mjs",
     "@swc/helpers/src/_object_spread_props.mjs",
     "react"
-], function(require, exports, _objectSpread, _objectSpreadProps, _react) {
+], function(require, exports, _object_spread, _object_spread_props, _react) {
     "use strict";
     var obj1;
     function MainButton(props) {
@@ -18,12 +18,12 @@ define([
         get: function() {
             return MainButton;
         }
-    }), _objectSpread = _objectSpread.default, _objectSpreadProps = _objectSpreadProps.default, _objectSpread({
+    }), _object_spread = _object_spread.default, _object_spread_props = _object_spread_props.default, _object_spread({
         to: 10000
     }, {
         children: "hi",
         to: "boo"
-    }), _objectSpreadProps(_objectSpread({}, obj1), {
+    }), _object_spread_props(_object_spread({}, obj1), {
         to: "/to/somewhere"
     });
 });

@@ -9,5 +9,5 @@ define([
     });
     new Promise((resolve, reject)=>require([
             `world/${(0, _bar.foo)(baz)}.js`
-        ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
+        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
 });

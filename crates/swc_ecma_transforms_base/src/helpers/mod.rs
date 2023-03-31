@@ -8,7 +8,7 @@ use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmts, DropSpan, ExprFactory};
+use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[macro_export]
@@ -269,7 +269,7 @@ define_helpers!(Helpers {
         class_check_private_static_field_descriptor,
         class_apply_descriptor_update
     ),
-    construct: (set_prototype_of),
+    construct: (is_native_reflect_construct, set_prototype_of),
     create_class: (),
     decorate: (to_array, to_property_key),
     defaults: (),
@@ -428,7 +428,7 @@ impl InjectHelpers {
             .as_callee(),
             args: vec![Str {
                 span: DUMMY_SP,
-                value: "@swc/helpers".into(),
+                value: format!("@swc/helpers/lib/_{}.js", name).into(),
                 raw: None,
             }
             .as_arg()],
@@ -448,7 +448,7 @@ impl InjectHelpers {
                         MemberExpr {
                             span: DUMMY_SP,
                             obj: c.into(),
-                            prop: Ident::new(name.into(), DUMMY_SP).into(),
+                            prop: quote_ident!("default").into(),
                         }
                         .into(),
                     ),
@@ -551,7 +551,7 @@ impl VisitMut for Marker {
                 return;
             }
 
-            if &*i.id.sym != "_typeof" && !i.id.sym.starts_with("__") {
+            if !i.id.sym.starts_with("__") {
                 self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
             }
         }

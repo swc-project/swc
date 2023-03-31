@@ -10,9 +10,9 @@ Object.defineProperty(exports, "__esModule", {
         return Decl;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, Decl = function Decl() {
+var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default, Decl = function Decl() {
     "use strict";
-    _classCallCheck(this, Decl);
+    _class_call_check(this, Decl);
 };
 //// [m2.ts]
 "use strict";

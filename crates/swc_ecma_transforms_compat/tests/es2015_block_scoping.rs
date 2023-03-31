@@ -399,9 +399,9 @@ test!(
         var C = function() {
             "use strict";
             function C() {
-                _classCallCheck(this, C);
+                _class_call_check(this, C);
             }
-            _createClass(C, [
+            _create_class(C, [
                 {
                     key: "m",
                     value: function m() {
@@ -446,7 +446,7 @@ test!(
                     3
                 ]
             ].map(async function(param) {
-                var _param = _slicedToArray(param, 1), a = _param[0];
+                var _param = _sliced_to_array(param, 1), a = _param[0];
                 return Promise.resolve().then(function() {
                     return a * 2;
                 });
@@ -477,7 +477,7 @@ test!(
         return _foo.apply(this, arguments);
     }
     function _foo() {
-        _foo = _asyncToGenerator(function() {
+        _foo = _async_to_generator(function() {
             return __generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -494,10 +494,10 @@ test!(
                                     3
                                 ]
                             ].map(function() {
-                                var _ref = _asyncToGenerator(function(param) {
+                                var _ref = _async_to_generator(function(param) {
                                     var _param, a;
                                     return __generator(this, function(_state) {
-                                        _param = _slicedToArray(param, 1), a = _param[0];
+                                        _param = _sliced_to_array(param, 1), a = _param[0];
                                         return [
                                             2,
                                             Promise.resolve().then(function() {
@@ -777,7 +777,7 @@ test!(
     |_| tr(),
     issue_1462_1,
     "
-    export default function _objectSpread(target) {
+    export default function _object_spread(target) {
         for (var i = 1; i < arguments.length; i++) {
             var source = arguments[i] != null ? arguments[i] : {};
             var ownKeys = Object.keys(source);
@@ -797,7 +797,7 @@ test!(
     }
     ",
     "
-    export default function _objectSpread(target) {
+    export default function _object_spread(target) {
         for (var i = 1; i < arguments.length; i++) {
             var source = arguments[i] != null ? arguments[i] : {};
             var ownKeys = Object.keys(source);

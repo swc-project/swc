@@ -22,7 +22,7 @@ define([
     "exports",
     "@swc/helpers/src/_class_call_check.mjs",
     "@swc/helpers/src/_interop_require_wildcard.mjs"
-], function(require, exports, _classCallCheck, _interopRequireWildcard) {
+], function(require, exports, _class_call_check, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
@@ -38,17 +38,17 @@ define([
         D: function() {
             return D;
         }
-    }), _classCallCheck = _classCallCheck.default, _interopRequireWildcard = _interopRequireWildcard.default, new Promise(function(resolve, reject) {
+    }), _class_call_check = _class_call_check.default, _interop_require_wildcard = _interop_require_wildcard.default, new Promise(function(resolve, reject) {
         return require([
             "./0"
         ], function(m) {
-            return resolve(_interopRequireWildcard(m));
+            return resolve(_interop_require_wildcard(m));
         }, reject);
     }), new Promise(function(resolve, reject) {
         return require([
             "./0"
         ], function(m) {
-            return resolve(_interopRequireWildcard(m));
+            return resolve(_interop_require_wildcard(m));
         }, reject);
     }).then(function(zero) {
         return zero.foo();
@@ -57,19 +57,19 @@ define([
         return require([
             "./0"
         ], function(m) {
-            return resolve(_interopRequireWildcard(m));
+            return resolve(_interop_require_wildcard(m));
         }, reject);
     }), D = function() {
         "use strict";
         function D() {
-            _classCallCheck(this, D);
+            _class_call_check(this, D);
         }
         return D.prototype.method = function() {
             new Promise(function(resolve, reject) {
                 return require([
                     "./0"
                 ], function(m) {
-                    return resolve(_interopRequireWildcard(m));
+                    return resolve(_interop_require_wildcard(m));
                 }, reject);
             });
         }, D;

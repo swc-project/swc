@@ -12,5 +12,5 @@ define([
         enumerable: true,
         get: ()=>_customRender.customRender
     });
-    _exportStar(_react, exports);
+    _export_star(_react, exports);
 });

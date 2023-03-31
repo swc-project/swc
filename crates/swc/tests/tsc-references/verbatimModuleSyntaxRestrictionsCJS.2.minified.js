@@ -25,8 +25,8 @@ Object.defineProperty(exports, "__esModule", {
     Values: ()=>Values,
     x: ()=>x
 });
-const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-Promise.resolve().then(()=>_interopRequireWildcard(require("./decl")));
+const _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+Promise.resolve().then(()=>_interop_require_wildcard(require("./decl")));
 const x = 1;
 (Values || (Values = {})).x = 1;
 //// [/main2.ts]

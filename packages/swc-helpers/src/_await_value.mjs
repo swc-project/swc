@@ -1,3 +1,3 @@
-export default function _AwaitValue(value) {
-  this.wrapped = value;
+export default function _await_value(value) {
+    this.wrapped = value;
 }

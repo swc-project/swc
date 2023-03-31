@@ -2,24 +2,24 @@ var _a = /*#__PURE__*/ new WeakMap(), _c = /*#__PURE__*/ new WeakMap();
 let A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        _classCallCheck(this, A);
-        _classPrivateFieldInit(this, _c, {
+        _class_call_check(this, A);
+        _class_private_field_init(this, _c, {
             get: get_c,
             set: set_c
         });
-        _classPrivateFieldInit(this, _a, {
+        _class_private_field_init(this, _a, {
             writable: true,
             value: 1n
         });
     }
-    _createClass(A, [
+    _create_class(A, [
         {
             key: "foo",
             value: function foo() {
-                let a = _classPrivateFieldUpdate(this, _a).value++;
-                a = ++_classPrivateFieldUpdate(this, _a).value;
-                let b = _classPrivateFieldUpdate(this, _c).value++;
-                b = ++_classPrivateFieldUpdate(this, _c).value;
+                let a = _class_private_field_update(this, _a).value++;
+                a = ++_class_private_field_update(this, _a).value;
+                let b = _class_private_field_update(this, _c).value++;
+                b = ++_class_private_field_update(this, _c).value;
                 console.log(a, b);
             }
         }
@@ -27,10 +27,10 @@ let A = /*#__PURE__*/ function() {
         {
             key: "bar",
             value: function bar() {
-                let d = _classStaticPrivateFieldUpdate(this, A, _d).value++;
-                d = ++_classStaticPrivateFieldUpdate(this, A, _d).value;
-                let e = _classStaticPrivateFieldUpdate(A, A, _d).value++;
-                e = ++_classStaticPrivateFieldUpdate(A, A, _d).value;
+                let d = _class_static_private_field_update(this, A, _d).value++;
+                d = ++_class_static_private_field_update(this, A, _d).value;
+                let e = _class_static_private_field_update(A, A, _d).value++;
+                e = ++_class_static_private_field_update(A, A, _d).value;
                 console.log(d, e);
             }
         }
@@ -46,16 +46,16 @@ var _b = {
     value: 2n
 };
 function get_c() {
-    return _classPrivateFieldGet(this, _a);
+    return _class_private_field_get(this, _a);
 }
 function set_c(v) {
-    _classPrivateFieldSet(this, _a, v);
+    _class_private_field_set(this, _a, v);
 }
 function get_d() {
-    return _classStaticPrivateFieldSpecGet(this, A, _b);
+    return _class_static_private_field_spec_get(this, A, _b);
 }
 function set_d(v) {
-    _classStaticPrivateFieldSpecSet(this, A, _b, v);
+    _class_static_private_field_spec_set(this, A, _b, v);
 }
 const a = new A();
 a.foo();

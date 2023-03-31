@@ -14,5 +14,5 @@
         enumerable: true,
         get: ()=>_foo.default
     });
-    _foo = /*#__PURE__*/ _interopRequireDefault(_foo);
+    _foo = /*#__PURE__*/ _interop_require_default(_foo);
 });

@@ -1,4 +1,4 @@
-export default function _typeof(obj) {
+export default function _type_of(obj) {
     "@swc/helpers - typeof";
-    return obj && obj.constructor === Symbol ? "symbol" : typeof obj;
-};
+    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+}

@@ -4,17 +4,17 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default;
-var _objectSpreadProps = require("@swc/helpers/lib/_object_spread_props.js").default;
-var _jsxRuntime = require("preact/jsx-runtime");
+var _object_spread = require("@swc/helpers/lib/_object_spread.js").default;
+var _object_spread_props = require("@swc/helpers/lib/_object_spread_props.js").default;
+var _jsxruntime = require("preact/jsx-runtime");
 var _preact = require("preact");
 var props = {
     answer: 42
 };
-var a = /*#__PURE__*/ (0, _jsxRuntime.jsx)("div", _objectSpreadProps(_objectSpread({}, props), {
+var a = /*#__PURE__*/ (0, _jsxruntime.jsx)("div", _object_spread_props(_object_spread({}, props), {
     children: "text"
 }), "foo");
-var b = /*#__PURE__*/ (0, _preact.createElement)("div", _objectSpreadProps(_objectSpread({}, props), {
+var b = /*#__PURE__*/ (0, _preact.createElement)("div", _object_spread_props(_object_spread({}, props), {
     key: "bar"
 }), "text");
 //// [react.tsx]
@@ -23,17 +23,17 @@ var b = /*#__PURE__*/ (0, _preact.createElement)("div", _objectSpreadProps(_obje
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default;
-var _objectSpreadProps = require("@swc/helpers/lib/_object_spread_props.js").default;
-var _jsxRuntime = require("react/jsx-runtime");
+var _object_spread = require("@swc/helpers/lib/_object_spread.js").default;
+var _object_spread_props = require("@swc/helpers/lib/_object_spread_props.js").default;
+var _jsxruntime = require("react/jsx-runtime");
 var _react = require("react");
 require("./preact");
 var props2 = {
     answer: 42
 };
-var a2 = /*#__PURE__*/ (0, _jsxRuntime.jsx)("div", _objectSpreadProps(_objectSpread({}, props2), {
+var a2 = /*#__PURE__*/ (0, _jsxruntime.jsx)("div", _object_spread_props(_object_spread({}, props2), {
     children: "text"
 }), "foo");
-var b2 = /*#__PURE__*/ (0, _react.createElement)("div", _objectSpreadProps(_objectSpread({}, props2), {
+var b2 = /*#__PURE__*/ (0, _react.createElement)("div", _object_spread_props(_object_spread({}, props2), {
     key: "bar"
 }), "text");

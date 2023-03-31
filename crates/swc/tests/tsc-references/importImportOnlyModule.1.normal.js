@@ -3,7 +3,7 @@ define([
     "require",
     "exports",
     "@swc/helpers/src/_class_call_check.mjs"
-], function(require, exports, _classCallCheck) {
+], function(require, exports, _class_call_check) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -14,10 +14,10 @@ define([
             return C1;
         }
     });
-    _classCallCheck = _classCallCheck.default;
+    _class_call_check = _class_call_check.default;
     var C1 = function C1() {
         "use strict";
-        _classCallCheck(this, C1);
+        _class_call_check(this, C1);
         this.m1 = 42;
     };
     (function() {
@@ -29,7 +29,7 @@ define([
     "require",
     "exports",
     "./foo_0"
-], function(require, exports, _foo0) {
+], function(require, exports, _foo_0) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -41,10 +41,10 @@ define([
     "require",
     "exports",
     "./foo_1"
-], function(require, exports, _foo1) {
+], function(require, exports, _foo_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    var x = _foo1; // Cause a runtime dependency
+    var x = _foo_1; // Cause a runtime dependency
 });

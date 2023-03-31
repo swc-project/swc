@@ -8,10 +8,10 @@ Object.defineProperty(exports, "__esModule", {
         return C;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, _inherits = require("@swc/helpers/lib/_inherits.js").default, _instanceof = require("@swc/helpers/lib/_instanceof.js").default, _createSuper = require("@swc/helpers/lib/_create_super.js").default, C = function() {
+var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default, _inherits = require("@swc/helpers/lib/_inherits.js").default, _instanceof = require("@swc/helpers/lib/_instanceof.js").default, _create_super = require("@swc/helpers/lib/_create_super.js").default, C = function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     return C.prototype.m = function() {
         return _instanceof(this, D);
@@ -19,9 +19,9 @@ var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, 
 }(), D = function(C) {
     "use strict";
     _inherits(D, C);
-    var _super = _createSuper(D);
+    var _super = _create_super(D);
     function D() {
-        return _classCallCheck(this, D), _super.apply(this, arguments);
+        return _class_call_check(this, D), _super.apply(this, arguments);
     }
     return D;
 }(C);

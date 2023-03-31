@@ -14,6 +14,6 @@
         enumerable: true,
         get: ()=>flakySuite
     });
-    _testUtils = /*#__PURE__*/ _interopRequireWildcard(_testUtils);
+    _testUtils = /*#__PURE__*/ _interop_require_wildcard(_testUtils);
     var flakySuite = _testUtils.flakySuite;
 });

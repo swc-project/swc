@@ -43,5 +43,5 @@ var _default = (0, require("@swc/helpers/lib/_interop_require_wildcard.js").defa
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default, _1 = _interopRequireDefault(require("./1")), _11 = _interopRequireDefault(require("./11"));
+var _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default, _1 = _interop_require_default(require("./1")), _11 = _interop_require_default(require("./11"));
 _1.default.a, _11.default.a, _1.default.b, _11.default.b;

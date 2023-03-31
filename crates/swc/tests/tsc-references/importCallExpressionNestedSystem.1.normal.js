@@ -25,8 +25,8 @@ System.register([
     }
     return {
         setters: [
-            function(_asyncToGenerator) {
-                _async_to_generator = _asyncToGenerator.default;
+            function(_async_to_generator1) {
+                _async_to_generator = _async_to_generator1.default;
             }
         ],
         execute: function() {}

@@ -29,7 +29,7 @@
         "@swc/helpers/src/_interop_require_wildcard.mjs",
         "./0"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {}, global.interopRequireWildcardMjs, global["0"]);
-}(this, function(exports1, _interopRequireWildcard, _0) {
+}(this, function(exports1, _interop_require_wildcard, _0) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
@@ -38,7 +38,7 @@
         get: function() {
             return _0;
         }
-    }), _0 = (_interopRequireWildcard = _interopRequireWildcard.default)(_0), ns.a, ns.b;
+    }), _0 = (_interop_require_wildcard = _interop_require_wildcard.default)(_0), ns.a, ns.b;
     var ns = {
         a: 1,
         b: 2
@@ -52,9 +52,9 @@
         "@swc/helpers/src/_interop_require_wildcard.mjs",
         "./1"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.2Ts = {}, global.interopRequireWildcardMjs, global["1"]);
-}(this, function(exports1, _interopRequireWildcard, _1) {
+}(this, function(exports1, _interop_require_wildcard, _1) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
-    }), (_1 = (_interopRequireWildcard = _interopRequireWildcard.default)(_1)).ns.a, _1.ns.b;
+    }), (_1 = (_interop_require_wildcard = _interop_require_wildcard.default)(_1)).ns.a, _1.ns.b;
 });

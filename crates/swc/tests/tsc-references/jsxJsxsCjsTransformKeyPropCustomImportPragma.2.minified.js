@@ -3,14 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default, _objectSpreadProps = require("@swc/helpers/lib/_object_spread_props.js").default;
+var _object_spread = require("@swc/helpers/lib/_object_spread.js").default, _object_spread_props = require("@swc/helpers/lib/_object_spread_props.js").default;
 require("preact/jsx-runtime"), require("preact");
 var props = {
     answer: 42
 };
-_objectSpreadProps(_objectSpread({}, props), {
+_object_spread_props(_object_spread({}, props), {
     children: "text"
-}), _objectSpreadProps(_objectSpread({}, props), {
+}), _object_spread_props(_object_spread({}, props), {
     key: "bar"
 });
 //// [react.tsx]
@@ -18,13 +18,13 @@ _objectSpreadProps(_objectSpread({}, props), {
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default, _objectSpreadProps = require("@swc/helpers/lib/_object_spread_props.js").default;
+var _object_spread = require("@swc/helpers/lib/_object_spread.js").default, _object_spread_props = require("@swc/helpers/lib/_object_spread_props.js").default;
 require("react/jsx-runtime"), require("react"), require("./preact");
 var props2 = {
     answer: 42
 };
-_objectSpreadProps(_objectSpread({}, props2), {
+_object_spread_props(_object_spread({}, props2), {
     children: "text"
-}), _objectSpreadProps(_objectSpread({}, props2), {
+}), _object_spread_props(_object_spread({}, props2), {
     key: "bar"
 });

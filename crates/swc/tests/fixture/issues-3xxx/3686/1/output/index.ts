@@ -6,17 +6,17 @@ Object.defineProperty(exports, "ServiceError", {
     enumerable: true,
     get: ()=>ServiceError
 });
-const _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+const _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
 const CD = ()=>{};
 const PD = ()=>{};
 let ServiceError = class ServiceError1 extends Error {
     code = ServiceError.Code.badResponse;
     name = "ServiceError.BadResponse";
 };
-_tsDecorate([
+_ts_decorate([
     PD
 ], ServiceError.prototype, "code", void 0);
-ServiceError = _tsDecorate([
+ServiceError = _ts_decorate([
     CD
 ], ServiceError);
 (function(ServiceError1) {

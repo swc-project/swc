@@ -1,3 +1,3 @@
-export default function _classPrivateMethodSet() {
-  throw new TypeError("attempted to reassign private method");
+export default function _class_private_method_set() {
+    throw new TypeError("attempted to reassign private method");
 }

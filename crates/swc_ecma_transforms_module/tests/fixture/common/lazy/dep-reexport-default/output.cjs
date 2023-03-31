@@ -7,7 +7,7 @@ Object.defineProperty(exports, "default", {
     get: ()=>_foo().default
 });
 function _foo() {
-    const data = /*#__PURE__*/ _interopRequireDefault(require("foo"));
+    const data = /*#__PURE__*/ _interop_require_default(require("foo"));
     _foo = function() {
         return data;
     };

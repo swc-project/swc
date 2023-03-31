@@ -11,8 +11,8 @@
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _foo = /*#__PURE__*/ _interopRequireDefault(_foo);
-    _foo1 = /*#__PURE__*/ _interopRequireDefault(_foo1);
+    _foo = /*#__PURE__*/ _interop_require_default(_foo);
+    _foo1 = /*#__PURE__*/ _interop_require_default(_foo1);
     const a = [
         _foo1.default,
         _foo.default

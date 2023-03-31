@@ -1,4 +1,4 @@
-function _classPrivateMethodInit(obj, privateSet) {
-  _checkPrivateRedeclaration(obj, privateSet);
-  privateSet.add(obj);
+function _class_private_method_init(obj, privateSet) {
+    _check_private_redeclaration(obj, privateSet);
+    privateSet.add(obj);
 }

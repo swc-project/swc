@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _defineProperty = require("@swc/helpers/lib/_define_property.js").default;
-var _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default;
+var _define_property = require("@swc/helpers/lib/_define_property.js").default;
+var _ts_generator = require("@swc/helpers/lib/_ts_generator.js").default;
 function _asyncIterator(iterable) {
     var method;
     if (typeof Symbol === "function") {
@@ -49,14 +49,14 @@ function _asyncToGenerator(fn) {
 }
 _asyncToGenerator(function() {
     var counter, resolve, promise, iterable, res, _i, _iter, v, oldresolve;
-    return _tsGenerator(this, function(_state) {
+    return _ts_generator(this, function(_state) {
         switch(_state.label){
             case 0:
                 counter = 0;
                 promise = new Promise(function(r) {
                     return resolve = r;
                 });
-                iterable = _defineProperty({}, Symbol.asyncIterator, function() {
+                iterable = _define_property({}, Symbol.asyncIterator, function() {
                     return {
                         next: function next() {
                             return promise;
@@ -65,7 +65,7 @@ _asyncToGenerator(function() {
                 });
                 res = _asyncToGenerator(function() {
                     var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, value, err;
-                    return _tsGenerator(this, function(_state) {
+                    return _ts_generator(this, function(_state) {
                         switch(_state.label){
                             case 0:
                                 _iteratorAbruptCompletion = false, _didIteratorError = false;

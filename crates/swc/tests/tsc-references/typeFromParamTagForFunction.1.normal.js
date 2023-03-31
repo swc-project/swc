@@ -16,10 +16,10 @@ var A = require("./a-ext").A;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
+var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default;
 exports.B = function _class() {
     "use strict";
-    _classCallCheck(this, _class);
+    _class_call_check(this, _class);
     this.x = 1;
 };
 //// [b.js]
@@ -79,10 +79,10 @@ Object.defineProperty(exports, "E", {
         return E;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
+var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default;
 var E = function E() {
     "use strict";
-    _classCallCheck(this, E);
+    _class_call_check(this, E);
     this.x = 1;
 };
 //// [e.js]
@@ -112,10 +112,10 @@ function G() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
+var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default;
 var H = function H() {
     "use strict";
-    _classCallCheck(this, H);
+    _class_call_check(this, H);
     this.x = 1;
 };
 /** @param {H} p */ function h(p) {

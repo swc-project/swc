@@ -57,7 +57,7 @@
         "@swc/helpers/src/_interop_require_wildcard.mjs"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.2Ts = {}, global.interopRequireWildcardMjs);
-})(this, function(exports, _interopRequireWildcard) {
+})(this, function(exports, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -66,7 +66,7 @@
         enumerable: true,
         get: ()=>D
     });
-    _interopRequireWildcard = _interopRequireWildcard.default;
+    _interop_require_wildcard = _interop_require_wildcard.default;
     class C {
         method() {
             const loadAsync = import("./0");

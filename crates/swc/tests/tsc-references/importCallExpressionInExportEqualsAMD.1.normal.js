@@ -9,12 +9,12 @@ define([
 define([
     "require",
     "@swc/helpers/src/_interop_require_wildcard.mjs"
-], function(require, _interopRequireWildcard) {
+], function(require, _interop_require_wildcard) {
     "use strict";
-    _interopRequireWildcard = _interopRequireWildcard.default;
+    _interop_require_wildcard = _interop_require_wildcard.default;
     return async function() {
         const something = await new Promise((resolve, reject)=>require([
                 "./something"
-            ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
+            ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
     };
 });

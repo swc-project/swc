@@ -7,7 +7,7 @@
         "@swc/helpers/src/_interop_require_wildcard.mjs"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.testTs = {}, global.asyncToGeneratorMjs, global.interopRequireWildcardMjs);
-})(this, function(exports, _asyncToGenerator, _interopRequireWildcard) {
+})(this, function(exports, _async_to_generator, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -25,13 +25,13 @@
         cl2: ()=>cl2,
         l: ()=>l
     });
-    _asyncToGenerator = _asyncToGenerator.default;
-    _interopRequireWildcard = _interopRequireWildcard.default;
+    _async_to_generator = _async_to_generator.default;
+    _interop_require_wildcard = _interop_require_wildcard.default;
     function fn() {
         return _fn.apply(this, arguments);
     }
     function _fn() {
-        _fn = _asyncToGenerator(function*() {
+        _fn = _async_to_generator(function*() {
             const req = yield import('./test') // ONE
             ;
         });
@@ -39,14 +39,14 @@
     }
     class cl1 {
         m() {
-            return _asyncToGenerator(function*() {
+            return _async_to_generator(function*() {
                 const req = yield import('./test') // TWO
                 ;
             })();
         }
     }
     const obj = {
-        m: /*#__PURE__*/ _asyncToGenerator(function*() {
+        m: /*#__PURE__*/ _async_to_generator(function*() {
             const req = yield import('./test') // THREE
             ;
         })
@@ -54,7 +54,7 @@
     class cl2 {
         constructor(){
             this.p = {
-                m: /*#__PURE__*/ _asyncToGenerator(function*() {
+                m: /*#__PURE__*/ _async_to_generator(function*() {
                     const req = yield import('./test') // FOUR
                     ;
                 })
@@ -62,7 +62,7 @@
         }
     }
     const l = function() {
-        var _ref = _asyncToGenerator(function*() {
+        var _ref = _async_to_generator(function*() {
             const req = yield import('./test') // FIVE
             ;
         });
