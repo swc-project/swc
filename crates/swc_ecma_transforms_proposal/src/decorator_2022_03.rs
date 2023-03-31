@@ -349,7 +349,17 @@ impl VisitMut for Decorator202203 {
                     span: DUMMY_SP,
                     elems: vec![
                         Some(dec.expr.take().as_arg()),
-                        Some(if n.is_static { 7 } else { 2 }.as_arg()),
+                        Some(
+                            match (n.is_static, n.kind) {
+                                (true, MethodKind::Method) => 7,
+                                (false, MethodKind::Method) => 2,
+                                (true, MethodKind::Setter) => 9,
+                                (false, MethodKind::Setter) => 4,
+                                (true, MethodKind::Getter) => 8,
+                                (false, MethodKind::Getter) => 3,
+                            }
+                            .as_arg(),
+                        ),
                         Some(name.clone().as_arg()),
                     ],
                 }
