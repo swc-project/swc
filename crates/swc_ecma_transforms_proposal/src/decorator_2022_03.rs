@@ -273,6 +273,67 @@ impl VisitMut for Decorator202203 {
         self.extra_stmts = old_stmts;
     }
 
+    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
+        n.visit_mut_children_with(self);
+
+        if let ClassMember::PrivateMethod(p) = n {
+            if p.function.decorators.is_empty() {
+                return;
+            }
+
+            let init = private_ident!(format!("_call_{}", p.key.id.sym));
+
+            self.extra_vars.push(VarDeclarator {
+                span: p.span,
+                name: Pat::Ident(init.clone().into()),
+                init: None,
+                definite: false,
+            });
+
+            if p.is_static {
+                self.init_static
+                    .get_or_insert_with(|| private_ident!("_initStatic"));
+            } else {
+                self.init_proto
+                    .get_or_insert_with(|| private_ident!("_initProto"));
+            }
+
+            for mut dec in p.function.decorators.drain(..) {
+                let arg = Some(
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: vec![
+                            Some(dec.expr.take().as_arg()),
+                            Some(if p.is_static { 7 } else { 2 }.as_arg()),
+                            Some(p.key.id.sym.clone().as_arg()),
+                        ],
+                    }
+                    .as_arg(),
+                );
+                if p.is_static {
+                    self.init_static_args.push(arg);
+                } else {
+                    self.init_proto_args.push(arg);
+                }
+            }
+
+            self.cur_inits.push((init.clone(), vec![]));
+            *n = ClassMember::PrivateProp(PrivateProp {
+                accessibility: Default::default(),
+                span: p.span,
+                key: p.key.clone(),
+                is_optional: Default::default(),
+                is_override: Default::default(),
+                is_static: Default::default(),
+                value: Some(init.into()),
+                type_ann: Default::default(),
+                decorators: Default::default(),
+                definite: Default::default(),
+                readonly: Default::default(),
+            });
+        }
+    }
+
     fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
         n.visit_mut_children_with(self);
 
