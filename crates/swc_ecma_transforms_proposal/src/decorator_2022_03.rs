@@ -62,7 +62,7 @@ impl Decorator202203 {
             arrays.extend(args);
         }
 
-        if let Some(init_proto) = init_ident {
+        if let Some(init_proto) = init_ident.clone() {
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: Pat::Ident(init_proto.clone().into()),
@@ -119,6 +119,20 @@ impl Decorator202203 {
             span: DUMMY_SP,
             expr,
         }));
+
+        if for_static {
+            if let Some(init) = init_ident {
+                self.extra_stmts.push(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: init.as_callee(),
+                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                        type_args: Default::default(),
+                    })),
+                }));
+            }
+        }
     }
 
     /// Returns (name, initilaizer_name)
