@@ -17,6 +17,7 @@ pub fn decorator_2022_03() -> impl VisitMut + Fold {
 struct Decorator202203 {
     /// Variables without initializer.
     extra_vars: Vec<VarDeclarator>,
+    static_inits: Vec<(Ident, Vec<Option<ExprOrSpread>>)>,
     cur_inits: Vec<(Ident, Vec<Option<ExprOrSpread>>)>,
 
     /// If not empty, `initProto` should be injected to the constructor.
@@ -34,66 +35,20 @@ struct Decorator202203 {
 
 impl Decorator202203 {
     /// Moves `cur_inits` to `extra_stmts`.
-    fn consume_inits(&mut self) {
-        if let Some(init_static) = self.init_static.take() {
-            self.extra_vars.push(VarDeclarator {
-                span: DUMMY_SP,
-                name: Pat::Ident(init_static.clone().into()),
-                init: None,
-                definite: false,
-            });
+    fn consume_inits(&mut self, for_static: bool) {
+        let init_ident = if for_static {
+            self.init_static.take()
+        } else {
+            self.init_proto.take()
+        };
 
-            let combined_args = vec![
-                ThisExpr { span: DUMMY_SP }.as_arg(),
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: self.init_static_args.take(),
-                }
-                .as_arg(),
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: vec![],
-                }
-                .as_arg(),
-            ];
+        let inits = if for_static {
+            self.static_inits.take()
+        } else {
+            self.cur_inits.take()
+        };
 
-            let expr = Box::new(Expr::Assign(AssignExpr {
-                span: DUMMY_SP,
-                op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Array(ArrayPat {
-                    span: DUMMY_SP,
-                    elems: vec![Some(Pat::Ident(init_static.clone().into()))],
-                    type_ann: Default::default(),
-                    optional: false,
-                }))),
-                right: Box::new(
-                    CallExpr {
-                        span: DUMMY_SP,
-                        callee: helper!(get, "applyDecs2203R"),
-                        args: combined_args,
-                        type_args: Default::default(),
-                    }
-                    .make_member(quote_ident!("e")),
-                ),
-            }));
-
-            self.extra_stmts.push(Stmt::Expr(ExprStmt {
-                span: DUMMY_SP,
-                expr,
-            }));
-
-            self.extra_stmts.push(Stmt::Expr(ExprStmt {
-                span: DUMMY_SP,
-                expr: Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: init_static.as_callee(),
-                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                    type_args: Default::default(),
-                })),
-            }))
-        }
-
-        if self.cur_inits.is_empty() && self.init_proto.is_none() {
+        if inits.is_empty() && init_ident.is_none() {
             return;
         }
 
@@ -101,13 +56,13 @@ impl Decorator202203 {
         let mut combined_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
         let mut arrays = vec![];
 
-        for (id, args) in self.cur_inits.drain(..) {
+        for (id, args) in inits {
             lhs.push(Some(id.into()));
 
             arrays.extend(args);
         }
 
-        if let Some(init_proto) = self.init_proto.take() {
+        if let Some(init_proto) = init_ident {
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: Pat::Ident(init_proto.clone().into()),
@@ -253,7 +208,8 @@ impl VisitMut for Decorator202203 {
             )
         }
 
-        self.consume_inits();
+        self.consume_inits(true);
+        self.consume_inits(false);
 
         if !self.extra_stmts.is_empty() {
             n.body.insert(
@@ -323,7 +279,11 @@ impl VisitMut for Decorator202203 {
                 }
             }
 
-            self.cur_inits.push((init.clone(), vec![]));
+            if p.is_static {
+                self.static_inits.push((init.clone(), vec![]));
+            } else {
+                self.cur_inits.push((init.clone(), vec![]));
+            }
             *n = ClassMember::PrivateProp(PrivateProp {
                 accessibility: Default::default(),
                 span: p.span,
