@@ -1,8 +1,30 @@
 var _init_a, _init_b, _computedKey, _init_computedKey;
-const dec = () => { };
+const dec = ()=>{};
 _computedKey = 'c';
-class Foo { }
-[_init_a, _init_b, _init_computedKey] = _applyDecs2203R(Foo, [[dec, 5, "a"], [dec, 5, "b"], [dec, 5, _computedKey]], []).e;
-defineProperty(Foo, "a", _init_a(Foo));
-defineProperty(Foo, "b", _init_b(Foo, 123));
-defineProperty(Foo, _computedKey, _init_computedKey(Foo, 456));
+class Foo {
+}
+var __ = {
+    writable: true,
+    value: (()=>{
+        [_init_a, _init_b, _init_computedKey] = _applyDecs2203R(Foo, [
+            [
+                dec,
+                5,
+                "a"
+            ],
+            [
+                dec,
+                5,
+                "b"
+            ],
+            [
+                dec,
+                5,
+                _computedKey
+            ]
+        ], []).e;
+    })()
+};
+_define_property(Foo, "a", _init_a(Foo));
+_define_property(Foo, "b", _init_b(Foo, 123));
+_define_property(Foo, _computedKey, _init_computedKey(Foo, 456));

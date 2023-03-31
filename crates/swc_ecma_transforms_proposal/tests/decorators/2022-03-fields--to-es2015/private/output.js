@@ -1,25 +1,44 @@
 var _init_a, _init_b;
-const dec = () => { };
-var _a = /*#__PURE__*/new WeakMap();
-var _b = /*#__PURE__*/new WeakMap();
+const dec = ()=>{};
+var _a = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakMap();
 class Foo {
-  constructor() {
-    classPrivateFieldInitSpec(this, _a, {
-      writable: true,
-      value: _init_a(this)
-    });
-    classPrivateFieldInitSpec(this, _b, {
-      writable: true,
-      value: _init_b(this, 123)
-    });
-  }
+    constructor(){
+        _class_private_field_init(this, _a, {
+            writable: true,
+            value: _init_a(this)
+        });
+        _class_private_field_init(this, _b, {
+            writable: true,
+            value: _init_b(this, 123)
+        });
+    }
 }
-[_init_a, _init_b] = _applyDecs2203R(Foo, [[dec, 0, "a", function () {
-  return classPrivateFieldGet(this, _a);
-}, function (value) {
-  classPrivateFieldSet(this, _a, value);
-}], [dec, 0, "b", function () {
-  return classPrivateFieldGet(this, _b);
-}, function (value) {
-  classPrivateFieldSet(this, _b, value);
-}]], []).e;
+var __ = {
+    writable: true,
+    value: (()=>{
+        [_init_a, _init_b] = _applyDecs2203R(Foo, [
+            [
+                dec,
+                0,
+                "a",
+                function() {
+                    return _class_private_field_get(this, _a);
+                },
+                function(value) {
+                    _class_private_field_set(this, _a, value);
+                }
+            ],
+            [
+                dec,
+                0,
+                "b",
+                function() {
+                    return _class_private_field_get(this, _b);
+                },
+                function(value) {
+                    _class_private_field_set(this, _b, value);
+                }
+            ]
+        ], []).e;
+    })()
+};

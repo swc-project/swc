@@ -1,18 +1,31 @@
 var _computedKey, _initProto;
-const dec = () => { };
+const dec = ()=>{};
 _computedKey = 'b';
 class Foo {
-  static {
-    [_initProto] = _applyDecs2203R(this, [[dec, 2, "a"], [dec, 2, _computedKey]], []).e;
-  }
-  constructor(...args) {
-    _initProto(this);
-  }
-  value = 1;
-  a() {
-    return this.value;
-  }
-  [_computedKey]() {
-    return this.value;
-  }
+    static{
+        [_initProto] = _applyDecs2203R(this, [
+            [
+                [
+                    dec,
+                    2,
+                    "a"
+                ],
+                [
+                    dec,
+                    2,
+                    _computedKey
+                ]
+            ]
+        ], []).e;
+    }
+    constructor(){
+        _initProto(this);
+    }
+    value = 1;
+    a() {
+        return this.value;
+    }
+    [_computedKey]() {
+        return this.value;
+    }
 }
