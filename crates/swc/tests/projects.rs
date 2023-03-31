@@ -669,7 +669,7 @@ impl Fold for Panicking {
             panic!("visited: {}", sym)
         }
 
-        JSXOpeningElement { ..node }
+        node
     }
 }
 
@@ -964,9 +964,7 @@ fn issue_6009() {
             config: Config {
                 exclude,
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
-                        ..Default::default()
-                    })),
+                    syntax: Some(Syntax::Typescript(Default::default())),
                     ..Default::default()
                 },
                 ..Default::default()

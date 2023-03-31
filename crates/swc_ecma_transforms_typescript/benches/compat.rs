@@ -286,11 +286,7 @@ fn es2015_shorthand_property(b: &mut Bencher) {
 
 fn es2015_spread(b: &mut Bencher) {
     run(b, || {
-        swc_ecma_transforms_compat::es2015::spread(
-            swc_ecma_transforms_compat::es2015::spread::Config {
-                ..Default::default()
-            },
-        )
+        swc_ecma_transforms_compat::es2015::spread(Default::default())
     });
 }
 

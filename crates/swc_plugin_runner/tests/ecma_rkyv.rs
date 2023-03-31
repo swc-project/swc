@@ -15,7 +15,7 @@ use swc_common::{
     Mark,
 };
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_program, Syntax, TsConfig};
 use swc_plugin_runner::cache::{init_plugin_module_cache_once, PLUGIN_MODULE_CACHE};
 use tracing::info;
 
@@ -131,9 +131,7 @@ fn internal(input: PathBuf) -> Result<(), Error> {
 
         let parsed = parse_file_as_program(
             &fm,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
+            Syntax::Es(Default::default()),
             EsVersion::latest(),
             None,
             &mut vec![],

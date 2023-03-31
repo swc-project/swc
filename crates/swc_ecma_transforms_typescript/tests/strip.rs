@@ -3101,9 +3101,7 @@ test!(
 );
 
 test!(
-    Syntax::Typescript(TsConfig {
-        ..Default::default()
-    }),
+    Syntax::Typescript(Default::default()),
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
@@ -3159,9 +3157,7 @@ test!(
 );
 
 test!(
-    Syntax::Typescript(TsConfig {
-        ..Default::default()
-    }),
+    Syntax::Typescript(Default::default()),
     |_| chain!(tr(), nullish_coalescing(Default::default())),
     issue_1123_1,
     r#"
@@ -3211,9 +3207,7 @@ test!(
 
 // compile_to_class_constructor_collision_ignores_types
 test!(
-    Syntax::Typescript(TsConfig {
-        ..Default::default()
-    }),
+    Syntax::Typescript(Default::default()),
     |_| tr_config(
         Some(strip::Config {
             no_empty_export: true,
@@ -4505,9 +4499,7 @@ test!(
 
 test_with_config!(
     issue_6023,
-    strip::Config {
-        ..Default::default()
-    },
+    Default::default(),
     "
     abstract class Shape {
         abstract height: number;

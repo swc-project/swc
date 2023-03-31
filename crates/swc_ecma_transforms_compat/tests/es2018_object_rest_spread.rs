@@ -243,12 +243,7 @@ export var [dd, ee] = ads;
 
 test!(
     syntax(),
-    |_| chain!(
-        tr(Default::default()),
-        spread(spread::Config {
-            ..Default::default()
-        })
-    ),
+    |_| chain!(tr(Default::default()), spread(Default::default())),
     rest_for_x,
     r#"
 // ForXStatement
