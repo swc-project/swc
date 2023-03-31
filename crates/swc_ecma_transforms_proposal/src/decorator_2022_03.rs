@@ -71,17 +71,23 @@ impl Decorator202203 {
             });
 
             lhs.push(Some(init_proto.into()));
-            arrays.push(Some(
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: if for_static {
-                        self.init_static_args.take()
-                    } else {
-                        self.init_proto_args.take()
-                    },
-                }
-                .as_arg(),
-            ));
+            if for_static {
+                combined_args.push(
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: self.init_static_args.take(),
+                    }
+                    .as_arg(),
+                );
+            } else {
+                arrays.push(Some(
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: self.init_proto_args.take(),
+                    }
+                    .as_arg(),
+                ));
+            }
         }
 
         combined_args.push(
@@ -91,13 +97,15 @@ impl Decorator202203 {
             }
             .as_arg(),
         );
-        combined_args.push(
-            ArrayLit {
-                span: DUMMY_SP,
-                elems: vec![],
-            }
-            .as_arg(),
-        );
+        if !for_static {
+            combined_args.push(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![],
+                }
+                .as_arg(),
+            );
+        }
 
         let expr = Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
