@@ -298,7 +298,12 @@ impl VisitMut for Decorator202203 {
                     .get_or_insert_with(|| private_ident!("_initProto"));
             }
 
-            for mut dec in p.function.decorators.drain(..) {
+            for mut dec in p.function.decorators.take() {
+                let caller = FnExpr {
+                    ident: None,
+                    function: p.function.take(),
+                };
+
                 let arg = Some(
                     ArrayLit {
                         span: DUMMY_SP,
@@ -306,6 +311,7 @@ impl VisitMut for Decorator202203 {
                             Some(dec.expr.take().as_arg()),
                             Some(if p.is_static { 7 } else { 2 }.as_arg()),
                             Some(p.key.id.sym.clone().as_arg()),
+                            Some(caller.as_arg()),
                         ],
                     }
                     .as_arg(),
