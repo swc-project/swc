@@ -100,6 +100,7 @@ where
                 n.raw = None;
 
                 rename(
+                    n.span,
                     &mut self.config,
                     &mut self.result,
                     &mut self.data.orig_to_renamed,
@@ -111,6 +112,7 @@ where
                 n.raw = None;
 
                 rename(
+                    n.span,
                     &mut self.config,
                     &mut self.result,
                     &mut self.data.orig_to_renamed,
@@ -328,7 +330,9 @@ where
 
                     for v in &mut n.value {
                         match v {
-                            ComponentValue::Ident(box Ident { value, raw, .. }) => {
+                            ComponentValue::Ident(box Ident {
+                                span, value, raw, ..
+                            }) => {
                                 if !can_change {
                                     continue;
                                 }
@@ -388,6 +392,7 @@ where
                                 *raw = None;
 
                                 rename(
+                                    *span,
                                     &mut self.config,
                                     &mut self.result,
                                     &mut self.data.orig_to_renamed,
@@ -438,10 +443,14 @@ where
                 }
                 js_word!("animation-name") => {
                     for v in &mut n.value {
-                        if let ComponentValue::Ident(box Ident { value, raw, .. }) = v {
+                        if let ComponentValue::Ident(box Ident {
+                            span, value, raw, ..
+                        }) = v
+                        {
                             *raw = None;
 
                             rename(
+                                *span,
                                 &mut self.config,
                                 &mut self.result,
                                 &mut self.data.orig_to_renamed,
@@ -616,6 +625,7 @@ fn process_local<C>(
             sel.text.raw = None;
 
             rename(
+                sel.span,
                 config,
                 result,
                 orig_to_renamed,
@@ -627,6 +637,7 @@ fn process_local<C>(
             sel.text.raw = None;
 
             rename(
+                sel.span,
                 config,
                 result,
                 orig_to_renamed,
