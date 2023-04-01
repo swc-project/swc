@@ -13,6 +13,12 @@
 
 - **(es/modules)** Hint nodejs for multiple `export *` (#7184) ([98f1493](https://github.com/swc-project/swc/commit/98f14931e7fa24b9d888eb5149c647840978b096))
 
+### Features
+
+
+
+- **(css/modules)** Preserve spans of CSS class names (#7185) ([df7b4e7](https://github.com/swc-project/swc/commit/df7b4e71d22a7174df6f4fe9691044560e8e7f65))
+
 ### Testing
 
 
