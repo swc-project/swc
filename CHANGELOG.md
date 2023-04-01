@@ -10,6 +10,9 @@
 
 - **(es/helpers)** Use snake_case for helpers (#7147) ([3ca954b](https://github.com/swc-project/swc/commit/3ca954b9f9622ed400308f2af35242583a4bdc3d))
 
+
+- **(es/modules)** Hint nodejs for multiple `export *` (#7184) ([98f1493](https://github.com/swc-project/swc/commit/98f14931e7fa24b9d888eb5149c647840978b096))
+
 ### Testing
 
 
