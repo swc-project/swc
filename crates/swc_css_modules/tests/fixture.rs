@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 
+use rustc_hash::FxHashMap;
 use serde::Serialize;
 use swc_atoms::JsWord;
 use swc_css_codegen::{
@@ -111,7 +112,7 @@ fn compile(input: PathBuf) {
                                 .collect::<Vec<_>>(),
                         )
                     })
-                    .collect::<Vec<_>>(),
+                    .collect::<FxHashMap<_, _>>(),
             )
             .unwrap();
 
