@@ -530,12 +530,13 @@ where
 
     /// emit [cjs-module-lexer](https://github.com/nodejs/cjs-module-lexer) friendly exports list
     /// ```javascript
-    /// 0 && (__export(require("foo")));
+    /// 0 && __export(require("foo")) && __export(require("bar"));
     /// ```
     fn emit_lexer_ts_reexport(&self, link: &Link) -> Option<Stmt> {
-        let mut seq_list = vec![];
-        link.iter().for_each(|(src, LinkItem(_, _, link_flag))| {
-            if link_flag.export_star() {
+        let expr = link
+            .iter()
+            .filter(|(.., LinkItem(.., link_flag))| link_flag.export_star())
+            .fold(0.into(), |expr, (src, ..)| {
                 let import_expr =
                     self.resolver
                         .make_require_call(self.unresolved_mark, src.clone(), DUMMY_SP);
@@ -543,28 +544,16 @@ where
                 let export = Expr::Ident(quote_ident!("__export"))
                     .as_call(DUMMY_SP, vec![import_expr.as_arg()]);
 
-                seq_list.push(Box::new(export));
-            }
-        });
+                BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("&&"),
+                    left: expr,
+                    right: export.into(),
+                }
+                .into()
+            });
 
-        if seq_list.is_empty() {
-            None
-        } else {
-            let seq_expr = SeqExpr {
-                span: DUMMY_SP,
-                exprs: seq_list,
-            }
-            .into();
-
-            let expr = BinExpr {
-                span: DUMMY_SP,
-                op: op!("&&"),
-                left: 0.into(),
-                right: seq_expr,
-            };
-
-            Some(expr.into_stmt())
-        }
+        (!expr.is_lit()).then(|| expr.into_stmt())
     }
 
     fn pure_span(&self) -> Span {
