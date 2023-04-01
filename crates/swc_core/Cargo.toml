@@ -295,15 +295,15 @@ __plugin_transform_host_bytecheck = [
 
 # Internal flags to control plugin environment
 __plugin_transform_env_native = [
+  "swc/plugin_transform_host_native",
   "swc_plugin_runner/filesystem_cache",
-  "wasmer/default",
-  "wasmer-wasi/default",
+  "swc_plugin_runner/plugin_transform_host_native",
 ]
 
 __plugin_transform_env_js = [
+  "swc/plugin_transform_host_js",
   "swc_plugin_runner/memory_cache",
-  "wasmer/js-default",
-  "wasmer-wasi/js-default",
+  "swc_plugin_runner/plugin_transform_host_js",
 ]
 
 # Do not use: testing purpose only
@@ -337,9 +337,7 @@ __visit = ["__ecma", "swc_ecma_visit"]
 
 [dependencies]
 # 3rd party dependencies
-once_cell   = { optional = true, version = "1.13.0" }
-wasmer      = { optional = true, version = "2.3.0", default-features = false }
-wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
+once_cell = { optional = true, version = "1.13.0" }
 
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "0.48.6", path = "../binding_macros" }
@@ -350,6 +348,7 @@ swc_cached                       = { optional = true, version = "0.3.15", path =
 swc_common                       = { optional = true, version = "0.30.5", path = "../swc_common" }
 swc_css_ast                      = { optional = true, version = "0.136.6", path = "../swc_css_ast" }
 swc_css_codegen                  = { optional = true, version = "0.146.6", path = "../swc_css_codegen" }
+swc_css_compat                   = { optional = true, version = "0.22.7", path = "../swc_css_compat" }
 swc_css_minifier                 = { optional = true, version = "0.111.6", path = "../swc_css_minifier" }
 swc_css_modules                  = { optional = true, version = "0.24.1", path = "../swc_css_modules" }
 swc_css_parser                   = { optional = true, version = "0.145.6", path = "../swc_css_parser" }
@@ -383,8 +382,7 @@ swc_plugin_proxy                 = { optional = true, version = "0.31.5", path =
 swc_trace_macro                  = { optional = true, version = "0.1.2", path = "../swc_trace_macro" }
 testing                          = { optional = true, version = "0.32.5", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
-swc_css_compat    = { version = "0.22.7", path = "../swc_css_compat", optional = true }
-swc_plugin_runner = { optional = true, version = "0.93.8", path = "../swc_plugin_runner", default-features = false }
+swc_plugin_runner = { optional = true, version = "0.93.7", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]
 vergen = { version = "7.3.2", default-features = false, features = ["cargo"] }
