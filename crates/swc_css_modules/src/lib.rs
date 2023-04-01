@@ -265,11 +265,9 @@ where
                                 ComponentValue::Str(import_source),
                             ) => {
                                 for class_name in n.value.iter().take(n.value.len() - 2) {
-                                    if let ComponentValue::Ident(box Ident { value, .. }) =
-                                        class_name
-                                    {
+                                    if let ComponentValue::Ident(value) = class_name {
                                         composes_for_current.push(CssClassName::Import {
-                                            name: value.clone(),
+                                            name: *value.clone(),
                                             from: import_source.value.clone(),
                                         });
                                     }
@@ -288,11 +286,9 @@ where
                                 }),
                             ) => {
                                 for class_name in n.value.iter().take(n.value.len() - 2) {
-                                    if let ComponentValue::Ident(box Ident { value, .. }) =
-                                        class_name
-                                    {
+                                    if let ComponentValue::Ident(value) = class_name {
                                         composes_for_current.push(CssClassName::Global {
-                                            name: value.clone(),
+                                            name: *value.clone(),
                                         });
                                     }
                                 }
