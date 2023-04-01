@@ -33,14 +33,14 @@ pub trait TransformConfig {
 pub enum CssClassName {
     Local {
         /// Tranformed css class name
-        name: JsWord,
+        name: Ident,
     },
     Global {
-        name: JsWord,
+        name: Ident,
     },
     Import {
         /// The exported class name. This is the value specified by the user.
-        name: JsWord,
+        name: Ident,
         /// The module specifier.
         from: JsWord,
     },
