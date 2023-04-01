@@ -533,27 +533,33 @@ where
     /// 0 && __export(require("foo")) && __export(require("bar"));
     /// ```
     fn emit_lexer_ts_reexport(&self, link: &Link) -> Option<Stmt> {
-        let expr = link
-            .iter()
+        link.iter()
             .filter(|(.., LinkItem(.., link_flag))| link_flag.export_star())
-            .fold(0.into(), |expr, (src, ..)| {
+            .map(|(src, ..)| {
                 let import_expr =
                     self.resolver
                         .make_require_call(self.unresolved_mark, src.clone(), DUMMY_SP);
 
-                let export = Expr::Ident(quote_ident!("__export"))
-                    .as_call(DUMMY_SP, vec![import_expr.as_arg()]);
-
+                Expr::Ident(quote_ident!("__export")).as_call(DUMMY_SP, vec![import_expr.as_arg()])
+            })
+            .reduce(|left, right| {
                 BinExpr {
                     span: DUMMY_SP,
                     op: op!("&&"),
-                    left: expr,
-                    right: export.into(),
+                    left: left.into(),
+                    right: right.into(),
                 }
                 .into()
-            });
-
-        (!expr.is_lit()).then(|| expr.into_stmt())
+            })
+            .map(|expr| {
+                BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("&&"),
+                    left: 0.into(),
+                    right: expr.into(),
+                }
+                .into_stmt()
+            })
     }
 
     fn pure_span(&self) -> Span {
