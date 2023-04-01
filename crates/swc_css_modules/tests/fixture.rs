@@ -1,10 +1,13 @@
 use std::path::PathBuf;
 
+use rustc_hash::FxHashMap;
+use serde::Serialize;
 use swc_atoms::JsWord;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
     CodeGenerator, Emit,
 };
+use swc_css_modules::CssClassName;
 use swc_css_parser::parser::ParserConfig;
 use testing::NormalizedOutput;
 
@@ -84,8 +87,34 @@ fn compile(input: PathBuf) {
             .unwrap();
 
         if !transform_result.renamed.is_empty() {
-            let transformed_classes =
-                serde_json::to_string_pretty(&transform_result.renamed).unwrap();
+            let transformed_classes = serde_json::to_string_pretty(
+                &transform_result
+                    .renamed
+                    .into_iter()
+                    .map(|(k, v)| {
+                        (
+                            k,
+                            v.into_iter()
+                                .map(|v| match v {
+                                    CssClassName::Global { name } => {
+                                        CssClassNameForTest::Global { name: name.value }
+                                    }
+                                    CssClassName::Local { name } => {
+                                        CssClassNameForTest::Local { name: name.value }
+                                    }
+                                    CssClassName::Import { name, from } => {
+                                        CssClassNameForTest::Import {
+                                            name: name.value,
+                                            from,
+                                        }
+                                    }
+                                })
+                                .collect::<Vec<_>>(),
+                        )
+                    })
+                    .collect::<FxHashMap<_, _>>(),
+            )
+            .unwrap();
 
             NormalizedOutput::from(transformed_classes)
                 .compare_to_file(input.with_file_name(format!(
@@ -97,6 +126,24 @@ fn compile(input: PathBuf) {
         Ok(())
     })
     .unwrap();
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize)]
+#[serde(tag = "type", rename_all = "camelCase")]
+enum CssClassNameForTest {
+    Local {
+        /// Tranformed css class name
+        name: JsWord,
+    },
+    Global {
+        name: JsWord,
+    },
+    Import {
+        /// The exported class name. This is the value specified by the user.
+        name: JsWord,
+        /// The module specifier.
+        from: JsWord,
+    },
 }
 
 struct TestConfig {}

@@ -11,7 +11,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 use crate::Function;
 
 #[ast_node("Ident")]
-#[derive(Eq, Hash)]
+#[derive(Eq, PartialOrd, Ord, Hash)]
 pub struct Ident {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
