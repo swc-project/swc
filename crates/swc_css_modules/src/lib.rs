@@ -1,7 +1,6 @@
 #![feature(box_patterns)]
 
 use rustc_hash::FxHashMap;
-use serde::Serialize;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, Span};
 use swc_css_ast::{
@@ -28,8 +27,7 @@ pub trait TransformConfig {
     // ComponentValue;
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize)]
-#[serde(tag = "type", rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum CssClassName {
     Local {
         /// Tranformed css class name
