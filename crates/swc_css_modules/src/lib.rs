@@ -3,7 +3,7 @@
 use rustc_hash::FxHashMap;
 use serde::Serialize;
 use swc_atoms::{js_word, JsWord};
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, Span};
 use swc_css_ast::{
     ComplexSelector, ComplexSelectorChildren, ComponentValue, Declaration, DeclarationName,
     Delimiter, DelimiterValue, FunctionName, Ident, KeyframesName, PseudoClassSelectorChildren,
@@ -299,10 +299,14 @@ where
                     }
 
                     for class_name in n.value.iter() {
-                        if let ComponentValue::Ident(box Ident { value, .. }) = class_name {
+                        if let ComponentValue::Ident(box Ident { span, value, .. }) = class_name {
                             if let Some(value) = self.data.orig_to_renamed.get(value) {
                                 composes_for_current.push(CssClassName::Local {
-                                    name: value.clone(),
+                                    name: Ident {
+                                        span: *span,
+                                        value: value.clone(),
+                                        raw: None,
+                                    },
                                 });
                             }
                         }
@@ -561,6 +565,7 @@ where
 }
 
 fn rename<C>(
+    span: Span,
     config: &mut C,
     result: &mut TransformResult,
     orig_to_renamed: &mut FxHashMap<JsWord, JsWord>,
@@ -582,7 +587,13 @@ fn rename<C>(
     {
         let e = result.renamed.entry(name.clone()).or_default();
 
-        let v = CssClassName::Local { name: new.clone() };
+        let v = CssClassName::Local {
+            name: Ident {
+                span,
+                value: new.clone(),
+                raw: None,
+            },
+        };
         if !e.contains(&v) {
             e.push(v);
         }
