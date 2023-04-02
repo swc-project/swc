@@ -5,6 +5,9 @@
 
 
 
+- **(es)** Allow missing `.map` file (#7141) ([3e6a186](https://github.com/swc-project/swc/commit/3e6a1869e84ec01125cf115c3d5f5c5c89645e1a))
+
+
 - **(es/compat)** Handle shorthand object prop while renaming (#7176) ([0a80e05](https://github.com/swc-project/swc/commit/0a80e0506b0fd58d31027c348ea0c957a5cc60f7))
 
 
