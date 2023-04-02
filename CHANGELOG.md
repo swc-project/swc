@@ -16,6 +16,9 @@
 
 - **(es/modules)** Hint nodejs for multiple `export *` (#7184) ([98f1493](https://github.com/swc-project/swc/commit/98f14931e7fa24b9d888eb5149c647840978b096))
 
+
+- **(es/parser)** Fix infinite loop on jsx in js (#7191) ([414e669](https://github.com/swc-project/swc/commit/414e66910dc5d9fea254811618f69067ab4a7a67))
+
 ### Features
 
 
