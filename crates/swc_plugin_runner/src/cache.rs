@@ -80,7 +80,11 @@ fn create_filesystem_cache(filesystem_cache_root: &Option<String>) -> Option<Fil
 
     if let Some(root_path) = &mut root_path {
         root_path.push("plugins");
-        root_path.push(MODULE_SERIALIZATION_VERSION);
+        root_path.push(format!(
+            "{}_{}",
+            MODULE_SERIALIZATION_VERSION,
+            option_env!("CARGO_PKG_RUST_VERSION").unwrap_or("default")
+        ));
 
         return FileSystemCache::new(&root_path).ok();
     }
