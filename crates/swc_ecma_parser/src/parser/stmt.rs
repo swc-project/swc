@@ -845,6 +845,10 @@ impl<'a, I: Tokens> Parser<I> {
 
             while !eat!(self, ';') {
                 bump!(self);
+
+                if let Some(Token::Error(_)) = self.input.cur() {
+                    break;
+                }
             }
         }
 
