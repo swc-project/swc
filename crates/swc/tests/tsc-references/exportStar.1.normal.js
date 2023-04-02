@@ -72,17 +72,17 @@ var z = "z";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _exportStar = require("@swc/helpers/lib/_export_star.js").default;
-_exportStar(require("./t1"), exports);
-_exportStar(require("./t2"), exports);
-_exportStar(require("./t3"), exports);
+var _export_star = require("@swc/helpers/lib/_export_star.js").default;
+_export_star(require("./t1"), exports);
+_export_star(require("./t2"), exports);
+_export_star(require("./t3"), exports);
 //// [main.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _t4 = /*#__PURE__*/ _interopRequireWildcard(require("./t4"));
+var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _t4 = /*#__PURE__*/ _interop_require_wildcard(require("./t4"));
 _t4.default;
 _t4.x;
 _t4.y;

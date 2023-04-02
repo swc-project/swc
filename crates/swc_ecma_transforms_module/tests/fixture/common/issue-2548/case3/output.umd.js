@@ -5,7 +5,7 @@
         "./Z"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.z);
-})(this, function(exports, _z) {
+})(this, function(exports, _Z) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -17,9 +17,9 @@
         });
     }
     _export(exports, {
-        X: ()=>_z.default,
-        X2: ()=>_z.X2,
-        Y: ()=>_z.Y
+        X: ()=>_Z.default,
+        X2: ()=>_Z.X2,
+        Y: ()=>_Z.Y
     });
-    _z = /*#__PURE__*/ _interopRequireWildcard(_exportStar(_z, exports));
+    _Z = /*#__PURE__*/ _interop_require_wildcard(_export_star(_Z, exports));
 });

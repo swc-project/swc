@@ -77,7 +77,7 @@ function foo(bar) {
   return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = _asyncToGenerator(function*(bar) {
+    _foo = _async_to_generator(function*(bar) {
         bar && (yield bar());
     });
     return _foo.apply(this, arguments);
@@ -107,7 +107,7 @@ let TestClass = {
      testMethodFailure () {
         var _this = this;
         return new Promise(function() {
-          var _ref = _asyncToGenerator(function*(resolve) {
+          var _ref = _async_to_generator(function*(resolve) {
             console.log(_this);
             setTimeout(resolve, 1000);
           });
@@ -141,7 +141,7 @@ function foo(param) {
   return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = _asyncToGenerator(function*(param) {
+    _foo = _async_to_generator(function*(param) {
         let a = param.a, _param_b = param.b, b = _param_b === void 0 ? mandatory("b") : _param_b;
         return Promise.resolve(b);
     });
@@ -161,16 +161,16 @@ test!(
 (async () => { await 'not iife' });
 "#,
     r#"
-_asyncToGenerator(function*() {
+_async_to_generator(function*() {
     yield 'ok';
 })();
 
-_asyncToGenerator(function*() {
+_async_to_generator(function*() {
     yield 'ok';
 })();
 
 (function() {
-    var _notIIFE = _asyncToGenerator(function*() {
+    var _notIIFE = _async_to_generator(function*() {
         yield 'ok';
     });
     function notIIFE() {
@@ -179,7 +179,7 @@ _asyncToGenerator(function*() {
     return notIIFE;
 })();
 
-_asyncToGenerator(function*() {
+_async_to_generator(function*() {
     yield 'not iife';
 })
 "#
@@ -199,7 +199,7 @@ class Foo {
     r#"
 class Foo {
   foo() {
-    return _asyncToGenerator(function* () {
+    return _async_to_generator(function* () {
       var wat = yield bar();
     })();
   }
@@ -235,15 +235,15 @@ async function s(x, ...args) {
     return _s.apply(this, arguments);
 }
 function _s() {
-    _s = _asyncToGenerator(function*(x) {
+    _s = _async_to_generator(function*(x) {
         for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
             args[_key - 1] = arguments[_key];
         }
         var _this = this, _arguments = arguments;
         let t = function() {
-            var _t = _asyncToGenerator(function*(y, a) {
+            var _t = _async_to_generator(function*(y, a) {
                 let r = function() {
-                    var _r = _asyncToGenerator(function*(z, b) {
+                    var _r = _async_to_generator(function*(z, b) {
                         for(var _len = arguments.length, innerArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
                             innerArgs[_key - 2] = arguments[_key];
                         }
@@ -291,7 +291,7 @@ bar = async function () {
 "#,
     "
 var foo = function() {
-    var _foo = _asyncToGenerator(function*() {
+    var _foo = _async_to_generator(function*() {
         var wat = yield bar();
     });
     function foo() {
@@ -300,7 +300,7 @@ var foo = function() {
     return foo;
 }();
 var foo2 = function() {
-    var _foo2 = _asyncToGenerator(function*() {
+    var _foo2 = _async_to_generator(function*() {
         var wat = yield bar();
     });
     function foo2() {
@@ -308,7 +308,7 @@ var foo2 = function() {
     }
     return foo2;
 }(), bar = function() {
-    var _bar = _asyncToGenerator(function*() {
+    var _bar = _async_to_generator(function*() {
         var wat = yield foo();
     });
     function bar() {
@@ -329,7 +329,7 @@ var foo = async function bar() {
 "#,
     r#"
 var foo = function() {
-  var _bar = _asyncToGenerator(function*() {
+  var _bar = _async_to_generator(function*() {
     console.log(bar);
   });
   function bar() {
@@ -348,7 +348,7 @@ test!(
     r#"
 foo(async function () {
 });"#,
-    r#"foo(_asyncToGenerator(function*() {}));"#
+    r#"foo(_async_to_generator(function*() {}));"#
 );
 
 test!(
@@ -381,7 +381,7 @@ class Class {
     class Class {
       method() {
           var _this = this;
-          return _asyncToGenerator(function*() {
+          return _async_to_generator(function*() {
               var _this1 = _this;
               _this;
               (function() {
@@ -398,7 +398,7 @@ class Class {
                       (function() {
                           _this;
                       });
-                      _asyncToGenerator(function*() {
+                      _async_to_generator(function*() {
                           _this;
                     });
                   }
@@ -409,7 +409,7 @@ class Class {
                   (function() {
                       _this;
                   });
-                  _asyncToGenerator(function*() {
+                  _async_to_generator(function*() {
                       _this;
                 });
               }
@@ -435,7 +435,7 @@ class Foo extends class{
 }{
      method() {
         var _this = this, _superprop_get_method = ()=>super.method;
-        return _asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             var _this1 = _this, _superprop_get_method1 = ()=>_superprop_get_method();
             _superprop_get_method().call(_this);
             var arrow = function arrow() {
@@ -592,7 +592,7 @@ let obj = {
   a: 123,
 
   foo(bar) {
-    return _asyncToGenerator(function* () {
+    return _async_to_generator(function* () {
       return yield baz(bar);
     })();
   }
@@ -614,7 +614,7 @@ function foo(bar) {
   return _foo.apply(this, arguments);
 }
 function _foo() {
-  _foo = _asyncToGenerator(function* (bar) {});
+  _foo = _async_to_generator(function* (bar) {});
   return _foo.apply(this, arguments);
 }
 "#
@@ -634,7 +634,7 @@ function foo() {
   return _foo.apply(this, arguments);
 }
 function _foo() {
-  _foo = _asyncToGenerator(function* () {
+  _foo = _async_to_generator(function* () {
     var wat = yield bar();
   });
   return _foo.apply(this, arguments);
@@ -653,7 +653,7 @@ test!(
 });",
     "export default obj({
     f () {
-        return _asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             yield g();
         })();
     }
@@ -785,7 +785,7 @@ return (new A()).print();"
 //});
 //
 //function _action() {
-//  _action = _asyncToGenerator(function* () {
+//  _action = _async_to_generator(function* () {
 //    return _ref;
 //  });
 //  return _action.apply(this, arguments);
@@ -850,7 +850,7 @@ function foo() {
 }
 
 function _foo() {
-  _foo = _asyncToGenerator(function* () {});
+  _foo = _async_to_generator(function* () {});
   return _foo.apply(this, arguments);
 }
 
@@ -911,7 +911,7 @@ function f() {
 function f() {
   g(
   /*#__PURE__*/
-  _asyncToGenerator(function* () {
+  _async_to_generator(function* () {
     var _this = this;
 
     c(function () {
@@ -921,7 +921,7 @@ function f() {
 }
 
 /*#__PURE__*/
-_asyncToGenerator(function* () {
+_async_to_generator(function* () {
   var _this = this;
 
   console.log('async wrapper:', this === 'foo');
@@ -952,7 +952,7 @@ async function foo() {
 let _Promise;
 
 function _foo() {
-  _foo = _asyncToGenerator(function* () {
+  _foo = _async_to_generator(function* () {
     yield new _Promise(resolve => {
       resolve();
     });
@@ -998,7 +998,7 @@ class Class {
     class Class {
       method() {
         var _this = this;
-        return _asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             _this;
             ()=>_this
             ;
@@ -1012,7 +1012,7 @@ class Class {
                         this;
                     };
                     var _this = this;
-                    _asyncToGenerator(function*() {
+                    _async_to_generator(function*() {
                         _this;
                     });
                 }
@@ -1023,7 +1023,7 @@ class Class {
                     this;
                 };
                 var _this = this;
-                _asyncToGenerator(function*() {
+                _async_to_generator(function*() {
                     _this;
                 });
             }
@@ -1052,7 +1052,7 @@ let obj = {
   a: 123,
 
   foo(bar) {
-    return _asyncToGenerator(function* () {
+    return _async_to_generator(function* () {
       return yield baz(bar);
     })();
   }
@@ -1112,7 +1112,7 @@ test!(
 
 "#,
     r#"
-_asyncToGenerator(
+_async_to_generator(
  /*#__PURE__*/
 regeneratorRuntime.mark(function _callee() {
   return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -1127,7 +1127,7 @@ regeneratorRuntime.mark(function _callee() {
     }
   }, _callee);
 }))();
-_asyncToGenerator(
+_async_to_generator(
  /*#__PURE__*/
 regeneratorRuntime.mark(function _callee2() {
   return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -1145,7 +1145,7 @@ regeneratorRuntime.mark(function _callee2() {
 
  /*#__PURE__*/
 (function () {
-  var _notIIFE = _asyncToGenerator(
+  var _notIIFE = _async_to_generator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee3() {
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -1169,7 +1169,7 @@ regeneratorRuntime.mark(function _callee2() {
 })();
 
  /*#__PURE__*/
-_asyncToGenerator(
+_async_to_generator(
  /*#__PURE__*/
 regeneratorRuntime.mark(function _callee4() {
   return regeneratorRuntime.wrap(function _callee4$(_context4) {
@@ -1216,7 +1216,7 @@ regeneratorRuntime.mark(function _callee4() {
 //}
 //
 //function _foo() {
-//  _foo = _asyncToGenerator(
+//  _foo = _async_to_generator(
 //  /*#__PURE__*/
 //  regeneratorRuntime.mark(function _callee2() {
 //    return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -1224,7 +1224,7 @@ regeneratorRuntime.mark(function _callee4() {
 //        case 0:
 //          /*#__PURE__*/
 //          (function () {
-//            var _ref = _asyncToGenerator(
+//            var _ref = _async_to_generator(
 //            /*#__PURE__*/
 //            regeneratorRuntime.mark(function _callee(number) {
 //              var tmp;
@@ -1271,7 +1271,7 @@ var foo = async function bar() {
 var foo =
 /*#__PURE__*/
 function () {
-  var _bar = _asyncToGenerator(function* () {
+  var _bar = _async_to_generator(function* () {
     console.log(bar);
   });
 
@@ -1300,7 +1300,7 @@ function () {
 //    r#"
 //var _this = this;
 //
-//_asyncToGenerator(
+//_async_to_generator(
 // /*#__PURE__*/
 //regeneratorRuntime.mark(function _callee() {
 //  return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -1315,13 +1315,13 @@ function () {
 //    }
 //  }, _callee);
 //}))();
-//_asyncToGenerator(
+//_async_to_generator(
 // /*#__PURE__*/
 //regeneratorRuntime.mark(function _callee2() {
 //  return regeneratorRuntime.wrap(function _callee2$(_context2) {
 //    while (1) switch (_context2.prev = _context2.next) {
 //      case 0:
-//        _newArrowCheck(this, _this);
+//        _new_arrow_check(this, _this);
 //        _context2.next = 3;
 //        return 'ok';
 //
@@ -1334,7 +1334,7 @@ function () {
 //
 // /*#__PURE__*/
 //(function () {
-//  var _notIIFE = _asyncToGenerator(
+//  var _notIIFE = _async_to_generator(
 //  /*#__PURE__*/
 //  regeneratorRuntime.mark(function _callee3() {
 //    return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -1358,13 +1358,13 @@ function () {
 //})();
 //
 // /*#__PURE__*/
-//_asyncToGenerator(
+//_async_to_generator(
 // /*#__PURE__*/
 //regeneratorRuntime.mark(function _callee4() {
 //  return regeneratorRuntime.wrap(function _callee4$(_context4) {
 //    while (1) switch (_context4.prev = _context4.next) {
 //      case 0:
-//        _newArrowCheck(this, _this);
+//        _new_arrow_check(this, _this);
 //        _context4.next = 3;
 //        return 'not iife';
 //
@@ -1402,7 +1402,7 @@ let TestClass = {
     testMethodFailure () {
         var _this = this;
         return new Promise(function() {
-            var _ref = _asyncToGenerator(function*(resolve) {
+            var _ref = _async_to_generator(function*(resolve) {
                 console.log(_this);
                 setTimeout(resolve, 1000);
             });
@@ -1483,7 +1483,7 @@ function foo(_) {
 }
 
 function _foo() {
-  _foo = _asyncToGenerator(function* (param) {
+  _foo = _async_to_generator(function* (param) {
     let a = param.a,
         _param_b = param.b,
         b = _param_b === void 0 ? mandatory("b") : _param_b;
@@ -1516,7 +1516,7 @@ exports.default = void 0;
 
 var _default =
 /*#__PURE__*/
-_asyncToGenerator(function* () {
+_async_to_generator(function* () {
   return yield foo();
 });
 
@@ -1545,7 +1545,7 @@ function one(a) {
   return _one.apply(this, arguments);
 }
 function _one() {
-  _one = _asyncToGenerator(function*(a, b = 1) {
+  _one = _async_to_generator(function*(a, b = 1) {
   });
   return _one.apply(this, arguments);
 }
@@ -1553,7 +1553,7 @@ function two(a, b) {
   return _two.apply(this, arguments);
 }
 function _two() {
-  _two = _asyncToGenerator(function*(a, b, ...c) {
+  _two = _async_to_generator(function*(a, b, ...c) {
   });
   return _two.apply(this, arguments);
 }
@@ -1561,7 +1561,7 @@ function three(a) {
   return _three.apply(this, arguments);
 }
 function _three() {
-  _three = _asyncToGenerator(function*(a, b = 1, c, d = 3) {
+  _three = _async_to_generator(function*(a, b = 1, c, d = 3) {
   });
   return _three.apply(this, arguments);
 }
@@ -1569,7 +1569,7 @@ function four(a) {
   return _four.apply(this, arguments);
 }
 function _four() {
-  _four = _asyncToGenerator(function*(a, b = 1, c, ...d) {
+  _four = _async_to_generator(function*(a, b = 1, c, ...d) {
   });
   return _four.apply(this, arguments);
 }
@@ -1577,7 +1577,7 @@ function five(a, _) {
   return _five.apply(this, arguments);
 }
 function _five() {
-  _five = _asyncToGenerator(function*(a, { b  }) {
+  _five = _async_to_generator(function*(a, { b  }) {
   });
   return _five.apply(this, arguments);
 }
@@ -1585,7 +1585,7 @@ function six(a) {
   return _six.apply(this, arguments);
 }
 function _six() {
-  _six = _asyncToGenerator(function*(a, { b  } = {
+  _six = _async_to_generator(function*(a, { b  } = {
   }) {
   });
   return _six.apply(this, arguments);
@@ -1615,7 +1615,7 @@ class Foo extends class {} {
   method() {
     var _this = this, _superprop_get_method = () => super.method,;
 
-    return _asyncToGenerator(function* () {
+    return _async_to_generator(function* () {
       _superprop_get_method().call(_this);
 
       var arrow = () => _superprop_get_method().call(_this);
@@ -1651,7 +1651,7 @@ function myFunc() {
 }
 
 function _myFunc() {
-  _myFunc = _asyncToGenerator(function* () {});
+  _myFunc = _async_to_generator(function* () {});
   return _myFunc.apply(this, arguments);
 }
 
@@ -1674,7 +1674,7 @@ class Foo {
     r#"
 class Foo {
   foo() {
-    return _asyncToGenerator(function* () {
+    return _async_to_generator(function* () {
       var wat = yield bar();
     })();
   }
@@ -1697,7 +1697,7 @@ test!(
 "#,
     r#"
 (function () {
-  var _poll = _asyncToGenerator(function* () {
+  var _poll = _async_to_generator(function* () {
     console.log((yield Promise.resolve('Hello')));
     setTimeout(poll, 1000);
   });
@@ -1741,13 +1741,13 @@ function s(x) {
   return _s.apply(this, arguments);
 }
 function _s() {
-  _s = _asyncToGenerator(function* (x, ...args) {
+  _s = _async_to_generator(function* (x, ...args) {
       var _this = this, _arguments = arguments;
       let t = function () {
-          var _ref = _asyncToGenerator(
+          var _ref = _async_to_generator(
               function* (y, a) {
                   let r = function () {
-                      var _ref = _asyncToGenerator(
+                      var _ref = _async_to_generator(
                           function* (z, b, ...innerArgs) {
                               yield z;
                               console.log(_this, innerArgs, _arguments);
@@ -1796,14 +1796,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.foo = foo;
 
-var _bar = _interopRequireDefault(require("bar"));
+var _bar = _interop_require_default(require("bar"));
 
 function foo() {
   return _foo.apply(this, arguments);
 }
 
 function _foo() {
-  _foo = _asyncToGenerator(function* () {});
+  _foo = _async_to_generator(function* () {});
   return _foo.apply(this, arguments);
 }
 
@@ -1835,12 +1835,12 @@ async function foo() {
 let _Promise;
 
 function _foo() {
-  _foo = _asyncToGenerator(function* () {
+  _foo = _async_to_generator(function* () {
     let Promise;
     yield bar();
 
     function _bar() {
-      _bar = _asyncToGenerator(function* () {
+      _bar = _async_to_generator(function* () {
         return Promise.resolve();
       });
       return _bar.apply(this, arguments);
@@ -1877,12 +1877,12 @@ async () => { await promise }
 "#,
     r#"
 /*#__PURE__*/
-_asyncToGenerator(function* () {
+_async_to_generator(function* () {
   return yield promise;
 });
 
 /*#__PURE__*/
-_asyncToGenerator(function* () {
+_async_to_generator(function* () {
   yield promise;
 });
 
@@ -1988,7 +1988,7 @@ bar = async function () {
 var foo =
 /*#__PURE__*/
 function () {
-  var _ref = _asyncToGenerator(function* () {
+  var _ref = _async_to_generator(function* () {
     var wat = yield bar();
   });
 
@@ -2000,7 +2000,7 @@ function () {
 var foo2 =
 /*#__PURE__*/
 function () {
-  var _ref = _asyncToGenerator(function* () {
+  var _ref = _async_to_generator(function* () {
     var wat = yield bar();
   });
 
@@ -2011,7 +2011,7 @@ function () {
     bar =
 /*#__PURE__*/
 function () {
-  var _ref = _asyncToGenerator(function* () {
+  var _ref = _async_to_generator(function* () {
     var wat = yield foo();
   });
 
@@ -2039,7 +2039,7 @@ function foo() {
   return _foo.apply(this, arguments);
 }
 function _foo() {
-  _foo = _asyncToGenerator(function* () {
+  _foo = _async_to_generator(function* () {
     var wat = yield bar();
   });
   return _foo.apply(this, arguments);
@@ -2066,7 +2066,7 @@ async function foo() {
 import _Promise from 'somewhere';
 
 function _foo() {
-  _foo = _asyncToGenerator(function* () {
+  _foo = _async_to_generator(function* () {
     yield _Promise.resolve();
   });
   return _foo.apply(this, arguments);
@@ -2095,7 +2095,7 @@ function foo(bar) {
   return _foo.apply(this, arguments);
 }
 function _foo() {
-  _foo = _asyncToGenerator(function* (bar) {});
+  _foo = _async_to_generator(function* (bar) {});
   return _foo.apply(this, arguments);
 }
 "#
@@ -2131,7 +2131,7 @@ for (let a of b) {
   return _foo.apply(this, arguments);
 }
 function _foo() {
-  _foo = _asyncToGenerator(function*() {
+  _foo = _async_to_generator(function*() {
       for (let a of b){
       }
   });
@@ -2155,7 +2155,7 @@ test!(
     ",
     "
     const x = function() {
-        var _ref = _asyncToGenerator(function*() {
+        var _ref = _async_to_generator(function*() {
             console.log((yield Promise.all([
                 [
                     1
@@ -2167,7 +2167,7 @@ test!(
                     3
                 ]
             ].map(function() {
-                var _ref = _asyncToGenerator(function*([a]) {
+                var _ref = _async_to_generator(function*([a]) {
                     return Promise.resolve().then(()=>a * 2
                     );
                 });
@@ -2231,12 +2231,12 @@ test!(
       return _request.apply(this, arguments);
     }
     function _request() {
-      _request = _asyncToGenerator(function*(path) {
+      _request = _async_to_generator(function*(path) {
           return `success:${path}`;
       });
       return _request.apply(this, arguments);
     }
-    _asyncToGenerator(function*() {
+    _async_to_generator(function*() {
       const obj = source === 'matilda' ? details : yield \
      request(`/${details._id}?source=${source}`);
       console.log({
@@ -2265,7 +2265,7 @@ test()
     return _test.apply(this, arguments);
   }
   function _test() {
-    _test = _asyncToGenerator(function* () {
+    _test = _async_to_generator(function* () {
       try {
         yield 1;
       } finally {
@@ -2300,10 +2300,10 @@ test!(
         val = '1';
         foo() {
             var _this = this;
-            return _asyncToGenerator(function*() {
+            return _async_to_generator(function*() {
                 try {
                     return yield (function() {
-                        var _ref = _asyncToGenerator(function*(x) {
+                        var _ref = _async_to_generator(function*(x) {
                             return x + _this.val;
                         });
                         return function(x) {
@@ -2360,9 +2360,9 @@ test!(
         val = '1';
         foo() {
             var _this = this;
-            return _asyncToGenerator(function*() {
+            return _async_to_generator(function*() {
                 return yield (function() {
-                    var _ref = _asyncToGenerator(function*(x) {
+                    var _ref = _async_to_generator(function*(x) {
                         return x + _this.val;
                     });
                     return function(x) {
@@ -2420,7 +2420,7 @@ test!(
           };
       },
       byPlatform: function() {
-          var _ref = _asyncToGenerator(function*(platform) {
+          var _ref = _async_to_generator(function*(platform) {
               const result = yield this.find({
                   platform: {
                       $eq: platform
@@ -2485,7 +2485,7 @@ test!(
     ",
     "
     (function () {
-      var _main = _asyncToGenerator(function* () {
+      var _main = _async_to_generator(function* () {
         console.log(1);
       });
 
@@ -2514,11 +2514,11 @@ test!(
       return _main.apply(this, arguments);
     }
     function _main() {
-      _main = _asyncToGenerator(function*() {
+      _main = _async_to_generator(function*() {
           {
               var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
               try {
-                  for(var _iterator = _asyncIterator(lol()), _step; _iteratorAbruptCompletion = \
+                  for(var _iterator = _async_iterator(lol()), _step; _iteratorAbruptCompletion = \
      !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
                         let _value = _step.value;
                         const x = _value;
@@ -2560,7 +2560,7 @@ test!(
       return _lol.apply(this, arguments);
     }
     function _lol() {
-      _lol = _wrapAsyncGenerator(function* () {
+      _lol = _wrap_async_generator(function* () {
         yield 1;
         yield 2;
       });
@@ -2592,7 +2592,7 @@ test!(
       return _getThing.apply(this, arguments);
     }
     function _getThing() {
-        _getThing = _asyncToGenerator(function*(key) {
+        _getThing = _async_to_generator(function*(key) {
             const it = cache[key] || (yield fetchThing(key));
             return it;
         });
@@ -2633,7 +2633,7 @@ test!(
         return _getThing.apply(this, arguments);
     }
     function _getThing() {
-        _getThing = _asyncToGenerator(function(key) {
+        _getThing = _async_to_generator(function(key) {
             var it, _tmp;
             return __generator(this, function(_state) {
                 switch(_state.label){
@@ -2789,7 +2789,7 @@ test!(
       console.log('Constructor | this.item', this.item);
     }
     MyClass.prototype.fun = function() {
-        var _fun = _asyncToGenerator(function() {
+        var _fun = _async_to_generator(function() {
             return __generator(this, function(_state) {
                 console.log('fun | this.item', this.item);
                 return [
@@ -2886,7 +2886,7 @@ test!(
         console.log('this is MyClass handle');
     };
     MyClass.prototype.init = function() {
-        var _ref = _asyncToGenerator(function(param1) {
+        var _ref = _async_to_generator(function(param1) {
             var a;
             return __generator(this, function(_state) {
                 a = 1;
@@ -2942,7 +2942,7 @@ export default async function someCall() {
       return _region.apply(this, arguments);
   }
   function _region() {
-      _region = _asyncToGenerator(function() {
+      _region = _async_to_generator(function() {
           return __generator(this, function(_state) {
               return [
                   2
@@ -2955,7 +2955,7 @@ export default async function someCall() {
       return _otherCall.apply(this, arguments);
   }
   function _otherCall() {
-      _otherCall = _asyncToGenerator(function() {
+      _otherCall = _async_to_generator(function() {
           return __generator(this, function(_state) {
               switch(_state.label){
                   case 0:
@@ -2977,7 +2977,7 @@ export default async function someCall() {
       return _someCall.apply(this, arguments);
   }
   function _someCall() {
-      _someCall = _asyncToGenerator(function() {
+      _someCall = _async_to_generator(function() {
           return __generator(this, function(_state) {
               switch(_state.label){
                   case 0:
@@ -3021,7 +3021,7 @@ export default async function() {
       return _region.apply(this, arguments);
     }
     function _region() {
-        _region = _asyncToGenerator(function() {
+        _region = _async_to_generator(function() {
             return __generator(this, function(_state) {
                 return [
                     2
@@ -3034,7 +3034,7 @@ export default async function() {
         return _ref.apply(this, arguments);
     }
     function _ref() {
-        _ref = _asyncToGenerator(function() {
+        _ref = _async_to_generator(function() {
             return __generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -3092,7 +3092,7 @@ function foo(x, y) {
   return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = _asyncToGenerator(function*(x, y, ...z) {
+    _foo = _async_to_generator(function*(x, y, ...z) {
         return 42;
     });
     return _foo.apply(this, arguments);
@@ -3114,7 +3114,7 @@ function foo(x, y) {
   return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = _wrapAsyncGenerator(function*(x, y, ...z) {
+    _foo = _wrap_async_generator(function*(x, y, ...z) {
         return 42;
     });
     return _foo.apply(this, arguments);
@@ -3133,7 +3133,7 @@ const foo = async function (x, y, ...z) {
 "#,
     r#"
 const foo = /*#__PURE__*/ function () {
-  var _ref = _asyncToGenerator(function* (x, y, ...z) {
+  var _ref = _async_to_generator(function* (x, y, ...z) {
       return 42;
   });
   return function foo(x, y) {
@@ -3154,7 +3154,7 @@ const foo = async function* (x, y, ...z) {
 "#,
     r#"
 const foo = /*#__PURE__*/ function () {
-    var _ref = _wrapAsyncGenerator(function* (x, y, ...z) {
+    var _ref = _wrap_async_generator(function* (x, y, ...z) {
         return 42;
     });
     return function foo(x, y) {
@@ -3178,7 +3178,7 @@ const foo = async function foo(x, y, ...z) {
 "#,
     r#"
 const foo = function () {
-  var _foo = _asyncToGenerator(function* (x, y, ...z) {
+  var _foo = _async_to_generator(function* (x, y, ...z) {
       if (x) {
           return foo(0, y);
       }
@@ -3206,7 +3206,7 @@ const foo = async function* foo(x, y, ...z) {
 "#,
     r#"
 const foo = function () {
-  var _foo = _wrapAsyncGenerator(function* (x, y, ...z) {
+  var _foo = _wrap_async_generator(function* (x, y, ...z) {
       if (x) {
           return foo(0, y);
       }
@@ -3232,7 +3232,7 @@ const foo = async (x, y, ...z) => {
     r#"
 var _this = this;
 const foo = /*#__PURE__*/ function () {
-    var _ref = _asyncToGenerator(function* (x, y, ...z) {
+    var _ref = _async_to_generator(function* (x, y, ...z) {
         return _this;
     });
 
@@ -3256,7 +3256,7 @@ const foo = async (x, y, ...z) => {
 var _this = this;
 
 const foo = /*#__PURE__*/ function () {
-  var _ref = _asyncToGenerator(function* (x, y, ...z) {
+  var _ref = _async_to_generator(function* (x, y, ...z) {
       return _this;
   });
   return function foo(x, y) {
@@ -3282,7 +3282,7 @@ function foo() {
   var _arguments = arguments;
 
   const bar = /*#__PURE__*/ function () {
-      var _ref = _asyncToGenerator(function* () {
+      var _ref = _async_to_generator(function* () {
           return _arguments;
       });
 
@@ -3319,7 +3319,7 @@ class Foo {
         var _newtarget = new.target;
 
         const foo = /*#__PURE__*/ function () {
-            var _ref = _asyncToGenerator(function* () {
+            var _ref = _async_to_generator(function* () {
                 return _newtarget;
             });
 
@@ -3333,7 +3333,7 @@ class Foo {
         var _this = this, _superprop_get_hello = () => super.hello;
 
         const world = /*#__PURE__*/ function () {
-            var _ref = _asyncToGenerator(function* () {
+            var _ref = _async_to_generator(function* () {
                 return _superprop_get_hello().call(_this);
             });
 
@@ -3362,12 +3362,12 @@ export default function foo(x) {
   return _foo.apply(this, arguments);
 }
 function _foo() {
-  _foo = _asyncToGenerator(function*(x) {
+  _foo = _async_to_generator(function*(x) {
       function bar(y) {
           return _bar.apply(this, arguments);
       }
       function _bar() {
-          _bar = _asyncToGenerator(function*(y) {
+          _bar = _async_to_generator(function*(y) {
               y(x);
           });
           return _bar.apply(this, arguments);
@@ -3394,14 +3394,14 @@ export default function(x) {
     return _ref.apply(this, arguments);
 }
 function _ref() {
-    _ref = _asyncToGenerator(function*(x) {
+    _ref = _async_to_generator(function*(x) {
         function bar(y) {
             return _bar.apply(this, arguments);
         }
         function _bar() {
-            _bar = _asyncToGenerator(function*(y) {
+            _bar = _async_to_generator(function*(y) {
                 (function() {
-                    var _ref = _asyncToGenerator(function*(z) {
+                    var _ref = _async_to_generator(function*(z) {
                         return x(y)(z);
                     });
                     return function(z) {
@@ -3426,8 +3426,8 @@ test!(
 (async (a = 10, ...rest) => {})()
 ",
     "
-_asyncToGenerator(function*(a = 10, ...rest) {})();
-_asyncToGenerator(function*(a = 10, ...rest) {})();
+_async_to_generator(function*(a = 10, ...rest) {})();
+_async_to_generator(function*(a = 10, ...rest) {})();
 "
 );
 
@@ -3448,7 +3448,7 @@ export class Quirk {
 export class Quirk {
   doStuff() {
     var _arguments = arguments;
-    return _asyncToGenerator(function*() {
+    return _async_to_generator(function*() {
       const args = _arguments;
       console.log(args);
       return {
@@ -3481,7 +3481,7 @@ class Foo {
     , _superprop_set_foo = (_value)=>super.foo = _value
     , _superprop_set = (_prop, _value)=>super[_prop] = _value
     ;
-    return _asyncToGenerator(function*() {
+    return _async_to_generator(function*() {
         var tmp;
         _superprop_set_foo(_superprop_get_foo() + 123);
         _superprop_set(tmp = 'abc', _superprop_get(tmp) * 456);
@@ -3508,7 +3508,7 @@ class A extends B {
 class A extends B {
   a() {
     var _this = this, _superprop_get_b = ()=>super.b;
-    _asyncToGenerator(function*() {
+    _async_to_generator(function*() {
       _superprop_get_b().call(_this);
     })();
   }
@@ -3543,7 +3543,7 @@ class A extends B {
           _superprop_set_bar = (_value) => super.bar = _value,
           _superprop_set = (_prop, _value) => super[_prop] = _value;
 
-      return _asyncToGenerator(function* () {
+      return _async_to_generator(function* () {
           _superprop_update_foo._++;
           --_superprop_update_bar._;
           _superprop_update('foo')._++;
@@ -3570,7 +3570,7 @@ const p = Z(
     "
 const Z = (f) => ((x) => f((y) => x(x)(y)))((x) => f((y) => x(x)(y)));
 
-const p = Z((f)=>_asyncToGenerator(function*(n = 0) {
+const p = Z((f)=>_async_to_generator(function*(n = 0) {
         return n <= 1 ? 1 : n * (yield f(n - 1));
     })
 )(5);
@@ -3592,7 +3592,7 @@ test!(
     function foo() {
         var _this = this;
         const bar = function() {
-            var _ref = _asyncToGenerator(function*(baz = _this.baz) {
+            var _ref = _async_to_generator(function*(baz = _this.baz) {
                 console.log(_this);
             });
             return function bar() {
@@ -3605,7 +3605,7 @@ test!(
 
 #[testing::fixture("tests/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
-    let input = read_to_string(&input).unwrap();
+    let input = read_to_string(input).unwrap();
     compare_stdout(
         Default::default(),
         |t| {
@@ -3628,7 +3628,7 @@ fn exec(input: PathBuf) {
 
 #[testing::fixture("tests/async-to-generator/**/exec.js")]
 fn exec_regenerator(input: PathBuf) {
-    let input = read_to_string(&input).unwrap();
+    let input = read_to_string(input).unwrap();
     compare_stdout(
         Default::default(),
         |t| {

@@ -11,7 +11,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 use crate::Function;
 
 #[ast_node("Ident")]
-#[derive(Eq, Hash)]
+#[derive(Eq, PartialOrd, Ord, Hash)]
 pub struct Ident {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
@@ -356,7 +356,7 @@ pub struct Number {
 
 impl Eq for Number {}
 
-#[allow(clippy::derive_hash_xor_eq)]
+#[allow(clippy::derived_hash_with_manual_eq)]
 #[allow(clippy::transmute_float_to_int)]
 impl Hash for Number {
     fn hash<H: Hasher>(&self, state: &mut H) {

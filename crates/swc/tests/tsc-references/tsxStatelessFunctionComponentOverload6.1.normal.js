@@ -5,7 +5,7 @@ define([
     "@swc/helpers/src/_object_spread.mjs",
     "@swc/helpers/src/_object_spread_props.mjs",
     "react"
-], function(require, exports, _objectSpread, _objectSpreadProps, _react) {
+], function(require, exports, _object_spread, _object_spread_props, _react) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -16,8 +16,8 @@ define([
             return MainButton;
         }
     });
-    _objectSpread = _objectSpread.default;
-    _objectSpreadProps = _objectSpreadProps.default;
+    _object_spread = _object_spread.default;
+    _object_spread_props = _object_spread_props.default;
     var obj = {
         children: "hi",
         to: "boo"
@@ -41,11 +41,11 @@ define([
         onClick: function(e) {}
     }, "Hello world");
     var b2 = /*#__PURE__*/ _react.createElement(MainButton, obj);
-    var b3 = /*#__PURE__*/ _react.createElement(MainButton, _objectSpread({
+    var b3 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread({
         to: 10000
     }, obj));
     var b4 = /*#__PURE__*/ _react.createElement(MainButton, obj1); // any; just pick the first overload
-    var b5 = /*#__PURE__*/ _react.createElement(MainButton, _objectSpreadProps(_objectSpread({}, obj1), {
+    var b5 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread_props(_object_spread({}, obj1), {
         to: "/to/somewhere"
     })); // should pick the second overload
     var b6 = /*#__PURE__*/ _react.createElement(MainButton, obj2);

@@ -1161,7 +1161,7 @@ test!(
         }
     });
     var _hooks = require("./hooks");
-    var _foo = _interopRequireDefault(require("./foo"));
+    var _foo = _interop_require_default(require("./foo"));
 
     var _s = $RefreshSig$();
 

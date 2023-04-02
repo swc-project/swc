@@ -24,7 +24,7 @@ impl<'a> VisitMut for ClassNameTdzFolder<'a> {
                         exprs: vec![
                             Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
-                                callee: helper!(class_name_tdz_error, "classNameTDZError"),
+                                callee: helper!(class_name_tdz_error, "class_name_tdz_error"),
                                 args: vec![Str {
                                     span: i.span,
                                     raw: None,

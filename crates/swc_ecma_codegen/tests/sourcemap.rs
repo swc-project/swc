@@ -1,5 +1,3 @@
-#![feature(bench_black_box)]
-
 use std::{fs::read_to_string, path::PathBuf};
 
 use rustc_hash::FxHashSet;

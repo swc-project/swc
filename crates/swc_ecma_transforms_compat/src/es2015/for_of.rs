@@ -49,7 +49,6 @@ use swc_trace_macro::swc_trace;
 ///   }
 /// }
 /// ```
-#[tracing::instrument(level = "info", skip_all)]
 pub fn for_of(c: Config) -> impl Fold + VisitMut {
     as_folder(ForOf {
         c,
@@ -216,7 +215,7 @@ impl ForOf {
                         span: DUMMY_SP,
                         callee: helper!(
                             create_for_of_iterator_helper_loose,
-                            "createForOfIteratorHelperLoose"
+                            "create_for_of_iterator_helper_loose"
                         ),
                         args: vec![right.as_arg()],
                         type_args: Default::default(),

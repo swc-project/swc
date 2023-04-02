@@ -1,9 +1,9 @@
 let A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        _classCallCheck(this, A);
+        _class_call_check(this, A);
     }
-    _createClass(A, null, [
+    _create_class(A, null, [
         {
             key: "b",
             get: function() {},

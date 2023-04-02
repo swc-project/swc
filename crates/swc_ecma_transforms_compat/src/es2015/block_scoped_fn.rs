@@ -4,7 +4,6 @@ use swc_ecma_utils::IdentUsageFinder;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn block_scoped_functions() -> impl Fold + VisitMut {
     as_folder(BlockScopedFns)
 }
@@ -212,7 +211,7 @@ function foo(scope) {
         hoisting_directives,
         "function foo() {
             'use strict';
-            function _interopRequireDefault(obj) {
+            function _interop_require_default(obj) {
               return obj && obj.__esModule ? obj : {
                 default: obj
               };
@@ -220,7 +219,7 @@ function foo(scope) {
         }",
         "function foo() {
             'use strict';
-            let _interopRequireDefault = function _interopRequireDefault(obj) {
+            let _interop_require_default = function _interop_require_default(obj) {
                 return obj && obj.__esModule ? obj : { default: obj };
             };
         }

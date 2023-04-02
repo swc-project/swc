@@ -12,4 +12,4 @@ _export(exports, {
     baz: ()=>_moduleWithGetter.baz,
     Foo: ()=>_moduleWithGetter.default
 });
-const _moduleWithGetter = /*#__PURE__*/ _interopRequireWildcard(require("./moduleWithGetter"));
+const _moduleWithGetter = /*#__PURE__*/ _interop_require_wildcard(require("./moduleWithGetter"));

@@ -1251,12 +1251,12 @@ function requester() {
             return _pureRequester.apply(this, arguments);
         }
         function _pureRequester() {
-            _pureRequester = _asyncToGenerator(function() {
+            _pureRequester = _async_to_generator(function() {
                 function refreshThenRequest() {
                     return _refreshThenRequest.apply(this, arguments);
                 }
                 function _refreshThenRequest() {
-                    _refreshThenRequest = _asyncToGenerator(function() {
+                    _refreshThenRequest = _async_to_generator(function() {
                         return __generator(this, function(_state) {
                             return [
                                 2
@@ -1387,12 +1387,12 @@ function foo(a) {
     return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = _asyncToGenerator(function(a) {
+    _foo = _async_to_generator(function(a) {
         function bar1(b) {
             return _bar1.apply(this, arguments);
         }
         function _bar1() {
-            _bar1 = _asyncToGenerator(function(b) {
+            _bar1 = _async_to_generator(function(b) {
                 return __generator(this, function(_state) {
                     return [
                         2,
@@ -1467,12 +1467,12 @@ async function init() {
         return _init.apply(this, arguments);
     }
     function _init() {
-        _init = _asyncToGenerator(function() {
+        _init = _async_to_generator(function() {
             function fib(n) {
                 return _fib.apply(this, arguments);
             }
             function _fib() {
-                _fib = _asyncToGenerator(function(n) {
+                _fib = _async_to_generator(function(n) {
                     var x, y;
                     return __generator(this, function(_state) {
                         switch(_state.label){
@@ -1522,7 +1522,7 @@ test!(
     issue_1125_2,
     "
     function _test() {
-        _test = _asyncToGenerator(function* () {
+        _test = _async_to_generator(function* () {
             try {
             yield 1;
             } finally {
@@ -1540,7 +1540,7 @@ test!(
     ",
     "
     function _test() {
-        _test = _asyncToGenerator(function() {
+        _test = _async_to_generator(function() {
             return __generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -1694,7 +1694,7 @@ test!(
     "
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(function(e) {
+            var _ref = _async_to_generator(function(e) {
                 return __generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -1736,7 +1736,7 @@ test!(
     "
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(function(e) {
+            var _ref = _async_to_generator(function(e) {
                 return __generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -1779,7 +1779,7 @@ test!(
     "
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(function(e) {
+            var _ref = _async_to_generator(function(e) {
                 return __generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -1825,7 +1825,7 @@ test!(
     "
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(function(e) {
+            var _ref = _async_to_generator(function(e) {
                 return __generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -2064,14 +2064,14 @@ test!(
     },
     issue_2024_1,
     "
-    _asyncToGenerator(function*() {
+    _async_to_generator(function*() {
         const sleep = ()=>new Promise((resolve)=>setTimeout(()=>resolve(undefined), 500));
         const result = (yield sleep()) || 'fallback';
         console.log(result);
     })();
     ",
     "
-    _asyncToGenerator(function() {
+    _async_to_generator(function() {
         var sleep, result;
         return __generator(this, function(_state) {
             switch(_state.label){

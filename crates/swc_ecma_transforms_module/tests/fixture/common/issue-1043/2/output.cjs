@@ -7,6 +7,6 @@ Object.defineProperty(exports, "id", {
     get: ()=>_interfaces.id
 });
 require("reflect-metadata");
-_exportStar(require("./http"), exports);
+_export_star(require("./http"), exports);
 const _interfaces = require("./interfaces");
-_exportStar(require("./pipes"), exports);
+_export_star(require("./pipes"), exports);

@@ -7,7 +7,6 @@ use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn safari_id_destructuring_collision_in_function_expression() -> impl Fold + VisitMut {
     as_folder(SafariIdDestructuringCollisionInFunctionExpression::default())
 }
@@ -178,32 +177,32 @@ mod tests {
         |_| chain!(tr(), HygieneTester),
         issue_4488_1,
         "
-        export default function _typeof() {
+        export default function _type_of() {
             if (Date.now() > 0) {
-                _typeof = function _typeof() {
+                _type_of = function _type_of() {
                     console.log(0);
                 };
             } else {
-                _typeof = function _typeof() {
+                _type_of = function _type_of() {
                     console.log(2);
                 };
             }
         
-            return _typeof();
+            return _type_of();
         }
         ",
         "
-        export default function _typeof__2() {
+        export default function _type_of__2() {
             if (Date__1.now() > 0) {
-                _typeof__2 = function _typeof__5() {
+                _type_of__2 = function _type_of__5() {
                     console__1.log(0);
                 };
             } else {
-                _typeof__2 = function _typeof__8() {
+                _type_of__2 = function _type_of__8() {
                     console__1.log(2);
                 };
             }
-            return _typeof__2();
+            return _type_of__2();
         }
         "
     );

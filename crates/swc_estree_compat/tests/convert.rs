@@ -85,11 +85,11 @@ fn fixtures() -> Result<(), Error> {
                             ..Default::default()
                         })
                     } else {
-                        Syntax::Es(EsConfig {
-                            ..Default::default()
-                        })
+                        Syntax::Es(Default::default())
                     };
                     run_test(input, output, syntax, is_module);
+
+                    Ok(())
                 })
             })),
         })

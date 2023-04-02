@@ -1,3 +1,5 @@
+use std::mem;
+
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
@@ -5,7 +7,6 @@ use swc_ecma_utils::{alias_ident_for, prepend_stmt};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn logical_assignments() -> impl Fold + VisitMut {
     as_folder(Operators::default())
 }
@@ -174,17 +175,25 @@ impl VisitMut for Operators {
         }
     }
 
+    /// [swc_ecma_ast::ModuleItem] is the top level Item in the current
+    /// implementation of JavaScript until the proposal for
+    /// [module-declarations] and [module-expressions] are officially added.
+    ///
+    /// [module declarations]: https://github.com/tc39/proposal-module-declarations.
+    /// [module-expressions]: https://github.com/tc39/proposal-module-expressions
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        let vars = self.vars.take();
         n.visit_mut_children_with(self);
 
-        if !self.vars.is_empty() {
+        let vars = mem::replace(&mut self.vars, vars);
+        if !vars.is_empty() {
             prepend_stmt(
                 n,
                 VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
-                    decls: self.vars.take(),
+                    decls: vars,
                 }
                 .into(),
             )
@@ -192,16 +201,18 @@ impl VisitMut for Operators {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        let vars = self.vars.take();
         n.visit_mut_children_with(self);
 
-        if !self.vars.is_empty() {
+        let vars = mem::replace(&mut self.vars, vars);
+        if !vars.is_empty() {
             prepend_stmt(
                 n,
                 VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
-                    decls: self.vars.take(),
+                    decls: vars,
                 }
                 .into(),
             )

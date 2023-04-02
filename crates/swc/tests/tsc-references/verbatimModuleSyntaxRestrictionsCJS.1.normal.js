@@ -27,8 +27,8 @@ _export(exports, {
     Values: ()=>Values,
     x: ()=>x
 });
-const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./decl"))); // error
+const _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard(require("./decl"))); // error
 const x = 1; // error
 var Values;
 (function(Values) {

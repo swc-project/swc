@@ -16,9 +16,9 @@ class B {
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 !function(x) {
     x.then((value)=>{
         new value.B().print();
     });
-}(Promise.resolve().then(()=>_interopRequireWildcard(require("./0"))));
+}(Promise.resolve().then(()=>_interop_require_wildcard(require("./0"))));

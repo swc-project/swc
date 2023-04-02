@@ -1,7 +1,6 @@
-import _typeof from './_type_of.mjs';
-import toPrimitive from './_to_primitive.mjs';
-
-export default function _toPropertyKey(arg) {
-  var key = toPrimitive(arg, "string");
-  return _typeof(key) === "symbol" ? key : String(key);
+import _to_primitive from "./_to_primitive.mjs";
+import _type_of from "./_type_of.mjs";
+export default function _to_property_key(arg) {
+    var key = _to_primitive(arg, "string");
+    return _type_of(key) === "symbol" ? key : String(key);
 }

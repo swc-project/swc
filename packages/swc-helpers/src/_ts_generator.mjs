@@ -1,1 +1,1 @@
-export { __generator as default } from 'tslib'
+export { __generator as default } from "tslib";

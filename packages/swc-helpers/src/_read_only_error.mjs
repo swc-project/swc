@@ -1,3 +1,3 @@
-export default function _readOnlyError(name) {
-  throw new TypeError("\"" + name + "\" is read-only");
+export default function _read_only_error(name) {
+    throw new TypeError("\"" + name + "\" is read-only");
 }

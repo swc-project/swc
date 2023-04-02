@@ -6,8 +6,8 @@ Object.defineProperty(exports, "default", {
     enumerable: true,
     get: ()=>NotOK
 });
-const _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-const _foo = /*#__PURE__*/ _interopRequireDefault(require("foo"));
+const _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
+const _foo = /*#__PURE__*/ _interop_require_default(require("foo"));
 class OK {
     constructor(){
         console.log(_foo.default);

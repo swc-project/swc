@@ -607,21 +607,21 @@ to!(
     export class Logger {
     constructor(loggerName, levelName, options = {
     }){
-        _classPrivateFieldInit(this, _level, {
+        _class_private_field_init(this, _level, {
             writable: true,
             value: void 0
         });
-        _classPrivateFieldInit(this, _handlers, {
+        _class_private_field_init(this, _handlers, {
             writable: true,
             value: void 0
         });
-        _classPrivateFieldInit(this, _loggerName, {
+        _class_private_field_init(this, _loggerName, {
             writable: true,
             value: void 0
         });
-        _classPrivateFieldSet(this, _loggerName, loggerName);
-        _classPrivateFieldSet(this, _level, getLevelByName(levelName));
-        _classPrivateFieldSet(this, _handlers, options.handlers || []);
+        _class_private_field_set(this, _loggerName, loggerName);
+        _class_private_field_set(this, _level, getLevelByName(levelName));
+        _class_private_field_set(this, _handlers, options.handlers || []);
     }
 }"
 );
@@ -3101,9 +3101,7 @@ test!(
 );
 
 test!(
-    Syntax::Typescript(TsConfig {
-        ..Default::default()
-    }),
+    Syntax::Typescript(Default::default()),
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
@@ -3130,14 +3128,14 @@ test!(
     "
     class Service {
       is(a) {
-        return _asyncToGenerator(function* () {
+        return _async_to_generator(function* () {
           return a.toUpperCase() === a;
         })();
       }
 
     }
 
-    _asyncToGenerator(function* () {
+    _async_to_generator(function* () {
       yield new Service().is('ABC');
     })();
     "
@@ -3159,9 +3157,7 @@ test!(
 );
 
 test!(
-    Syntax::Typescript(TsConfig {
-        ..Default::default()
-    }),
+    Syntax::Typescript(Default::default()),
     |_| chain!(tr(), nullish_coalescing(Default::default())),
     issue_1123_1,
     r#"
@@ -3211,9 +3207,7 @@ test!(
 
 // compile_to_class_constructor_collision_ignores_types
 test!(
-    Syntax::Typescript(TsConfig {
-        ..Default::default()
-    }),
+    Syntax::Typescript(Default::default()),
     |_| tr_config(
         Some(strip::Config {
             no_empty_export: true,
@@ -4041,11 +4035,11 @@ to!(
     var _store = new WeakMap(), _body = new WeakMap();
     export class Context {
         constructor(optionsOrContext){
-            _classPrivateFieldInit(this, _store, {
+            _class_private_field_init(this, _store, {
                 writable: true,
                 value: void 0
             });
-            _classPrivateFieldInit(this, _body, {
+            _class_private_field_init(this, _body, {
                 writable: true,
                 value: void 0
             });
@@ -4505,9 +4499,7 @@ test!(
 
 test_with_config!(
     issue_6023,
-    strip::Config {
-        ..Default::default()
-    },
+    Default::default(),
     "
     abstract class Shape {
         abstract height: number;

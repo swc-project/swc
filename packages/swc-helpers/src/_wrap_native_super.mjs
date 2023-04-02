@@ -1,42 +1,29 @@
-import construct from './_construct.mjs';
-import isNativeFunction from './_is_native_function.mjs';
-import getPrototypeOf from './_get_prototype_of.mjs';
-import setPrototypeOf from './_set_prototype_of.mjs';
-
-function wrapNativeSuper(Class) {
-  var _cache = typeof Map === "function" ? new Map() : undefined;
-
-  wrapNativeSuper = function wrapNativeSuper(Class) {
-    if (Class === null || !isNativeFunction(Class)) return Class;
-
-    if (typeof Class !== "function") {
-      throw new TypeError("Super expression must either be null or a function");
-    }
-
-    if (typeof _cache !== "undefined") {
-      if (_cache.has(Class)) return _cache.get(Class);
-
-      _cache.set(Class, Wrapper);
-    }
-
-    function Wrapper() {
-      return construct(Class, arguments, getPrototypeOf(this).constructor);
-    }
-
-    Wrapper.prototype = Object.create(Class.prototype, {
-      constructor: {
-        value: Wrapper,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    return setPrototypeOf(Wrapper, Class);
-  };
-
-  return wrapNativeSuper(Class);
+import _construct from "./_construct.mjs";
+import _get_prototype_of from "./_get_prototype_of.mjs";
+import _is_native_function from "./_is_native_function.mjs";
+import _set_prototype_of from "./_set_prototype_of.mjs";
+function wrap_native_super(Class) {
+    var _cache = typeof Map === "function" ? new Map() : undefined;
+    wrap_native_super = function (Class) {
+        if (Class === null || !_is_native_function(Class)) return Class;
+        if (typeof Class !== "function") {
+            throw new TypeError("Super expression must either be null or a function");
+        }
+        if (typeof _cache !== "undefined") {
+            if (_cache.has(Class)) return _cache.get(Class);
+            _cache.set(Class, Wrapper);
+        }
+        function Wrapper() {
+            return _construct(Class, arguments, _get_prototype_of(this).constructor);
+        }
+        Wrapper.prototype = Object.create(Class.prototype, {
+            constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true }
+        });
+        return _set_prototype_of(Wrapper, Class);
+    };
+    return wrap_native_super(Class);
 }
 
-export default function _wrapNativeSuper(Class) {
-  return wrapNativeSuper(Class);
+export default function _wrap_native_super(c) {
+    return wrap_native_super(c);
 }

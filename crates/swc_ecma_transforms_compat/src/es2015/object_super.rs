@@ -14,7 +14,6 @@ struct ObjectSuper {
     extra_vars: Vec<Ident>,
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn object_super() -> impl Fold + VisitMut {
     as_folder(ObjectSuper {
         extra_vars: Vec::new(),
@@ -178,7 +177,7 @@ impl SuperReplacer {
     fn get_proto(&mut self) -> ExprOrSpread {
         Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: helper!(get_prototype_of, "getPrototypeOf"),
+            callee: helper!(get_prototype_of, "get_prototype_of"),
             args: vec![self.get_obj_ref().as_arg()],
             type_args: Default::default(),
         })
@@ -206,7 +205,7 @@ impl SuperReplacer {
     /// ```
     /// # out
     /// ```js
-    /// _get(_getPrototypeOf(Clazz.prototype), 'foo', this).call(this, a)
+    /// _get(_get_prototype_of(Clazz.prototype), 'foo', this).call(this, a)
     /// ```
     fn visit_mut_super_member_call(&mut self, n: &mut Expr) {
         if let Expr::Call(CallExpr {
@@ -267,7 +266,7 @@ impl SuperReplacer {
     /// super.foo = bar
     /// # out
     /// ```js
-    /// _set(_getPrototypeOf(_obj), "foo", bar, this, true)
+    /// _set(_get_prototype_of(_obj), "foo", bar, this, true)
     /// ```
     fn visit_mut_super_member_set(&mut self, n: &mut Expr) {
         match n {
@@ -332,7 +331,7 @@ impl SuperReplacer {
     /// ```
     /// # out
     /// ```js
-    /// _get(_getPrototypeOf(Clazz.prototype), 'foo', this)
+    /// _get(_get_prototype_of(Clazz.prototype), 'foo', this)
     /// ```
     fn visit_mut_super_member_get(&mut self, n: &mut Expr) {
         if let Expr::SuperProp(SuperPropExpr {
@@ -514,7 +513,7 @@ mod tests {
         r#"var _obj;
         let obj = _obj = {
             a: function a() {
-                let c = _get(_getPrototypeOf(_obj), "x", this);
+                let c = _get(_get_prototype_of(_obj), "x", this);
             }
         };"#
     );
@@ -537,7 +536,7 @@ mod tests {
         r#"var _obj;
         let obj = _obj = {
             a: function a() {
-                _get(_getPrototypeOf(_obj), "y", this).call(this,1,2,3);
+                _get(_get_prototype_of(_obj), "y", this).call(this,1,2,3);
             }
         };"#
     );
@@ -561,7 +560,7 @@ mod tests {
         var _obj;
         let obj = _obj = {
             a: function a() {
-                _set(_getPrototypeOf(_obj), "x", 1, this, true);
+                _set(_get_prototype_of(_obj), "x", 1, this, true);
             }
         };"#
     );
@@ -590,10 +589,10 @@ mod tests {
         let obj = _obj = {
         b: function b() {
             var _obj1;
-            _get(_getPrototypeOf(_obj), "bar", this).call(this);
+            _get(_get_prototype_of(_obj), "bar", this).call(this);
             let o = _obj1 = {
                 d: function d() {
-                    _get(_getPrototypeOf(_obj1), "d", this).call(this);
+                    _get(_get_prototype_of(_obj1), "d", this).call(this);
                 }
             };
         }

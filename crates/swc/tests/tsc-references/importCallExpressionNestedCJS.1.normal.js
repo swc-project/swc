@@ -13,14 +13,14 @@ const _default = "./foo";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
-const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _async_to_generator = require("@swc/helpers/lib/_async_to_generator.js").default;
+const _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 function foo() {
     return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = _asyncToGenerator(function*() {
-        return yield Promise.resolve((yield Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./foo")))).default).then((p)=>/*#__PURE__*/ _interopRequireWildcard(require(p)));
+    _foo = _async_to_generator(function*() {
+        return yield Promise.resolve((yield Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard(require("./foo")))).default).then((p)=>/*#__PURE__*/ _interop_require_wildcard(require(p)));
     });
     return _foo.apply(this, arguments);
 }

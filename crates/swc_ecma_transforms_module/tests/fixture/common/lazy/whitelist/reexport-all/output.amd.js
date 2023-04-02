@@ -8,6 +8,6 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _exportStar(_white, exports);
-    _exportStar(_black, exports);
+    _export_star(_white, exports);
+    _export_star(_black, exports);
 });

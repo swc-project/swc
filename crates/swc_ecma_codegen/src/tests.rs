@@ -93,9 +93,7 @@ pub(crate) fn assert_min(from: &str, to: &str) {
             omit_last_semi: true,
             ..Default::default()
         },
-        Syntax::Es(EsConfig {
-            ..Default::default()
-        }),
+        Syntax::Es(Default::default()),
     );
 
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
@@ -308,9 +306,7 @@ fn export_namespace_from() {
         "export * as Foo from 'foo';",
         "export * as Foo from 'foo';",
         Default::default(),
-        Syntax::Es(EsConfig {
-            ..EsConfig::default()
-        }),
+        Syntax::Es(EsConfig::default()),
     );
 }
 
@@ -323,9 +319,7 @@ fn export_namespace_from_min() {
             minify: true,
             ..Default::default()
         },
-        Syntax::Es(EsConfig {
-            ..EsConfig::default()
-        }),
+        Syntax::Es(EsConfig::default()),
     );
 }
 

@@ -9,7 +9,7 @@
         "@swc/helpers/src/_ts_generator.mjs"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.testTs = {}, global.asyncToGeneratorMjs, global.classCallCheckMjs, global.interopRequireWildcardMjs, global.tsGeneratorMjs);
-})(this, function(exports, _asyncToGenerator, _classCallCheck, _interopRequireWildcard, _tsGenerator) {
+})(this, function(exports, _async_to_generator, _class_call_check, _interop_require_wildcard, _ts_generator) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -37,17 +37,17 @@
             return l;
         }
     });
-    _asyncToGenerator = _asyncToGenerator.default;
-    _classCallCheck = _classCallCheck.default;
-    _interopRequireWildcard = _interopRequireWildcard.default;
-    _tsGenerator = _tsGenerator.default;
+    _async_to_generator = _async_to_generator.default;
+    _class_call_check = _class_call_check.default;
+    _interop_require_wildcard = _interop_require_wildcard.default;
+    _ts_generator = _ts_generator.default;
     function fn() {
         return _fn.apply(this, arguments);
     }
     function _fn() {
-        _fn = _asyncToGenerator(function() {
+        _fn = _async_to_generator(function() {
             var req;
-            return _tsGenerator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [
@@ -67,13 +67,13 @@
     var cl1 = /*#__PURE__*/ function() {
         "use strict";
         function cl1() {
-            _classCallCheck(this, cl1);
+            _class_call_check(this, cl1);
         }
         var _proto = cl1.prototype;
         _proto.m = function m() {
-            return _asyncToGenerator(function() {
+            return _async_to_generator(function() {
                 var req;
-                return _tsGenerator(this, function(_state) {
+                return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
@@ -92,9 +92,9 @@
         return cl1;
     }();
     var obj = {
-        m: /*#__PURE__*/ _asyncToGenerator(function() {
+        m: /*#__PURE__*/ _async_to_generator(function() {
             var req;
-            return _tsGenerator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [
@@ -112,11 +112,11 @@
     };
     var cl2 = function cl2() {
         "use strict";
-        _classCallCheck(this, cl2);
+        _class_call_check(this, cl2);
         this.p = {
-            m: /*#__PURE__*/ _asyncToGenerator(function() {
+            m: /*#__PURE__*/ _async_to_generator(function() {
                 var req;
-                return _tsGenerator(this, function(_state) {
+                return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
@@ -134,9 +134,9 @@
         };
     };
     var l = function() {
-        var _ref = _asyncToGenerator(function() {
+        var _ref = _async_to_generator(function() {
             var req;
-            return _tsGenerator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [

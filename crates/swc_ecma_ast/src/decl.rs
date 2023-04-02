@@ -52,13 +52,13 @@ impl Take for Decl {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct FnDecl {
-    #[serde(rename = "identifier")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "identifier"))]
     pub ident: Ident,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub declare: bool,
 
-    #[serde(flatten)]
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[span]
     pub function: Box<Function>,
 }
@@ -77,13 +77,13 @@ impl Take for FnDecl {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ClassDecl {
-    #[serde(rename = "identifier")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "identifier"))]
     pub ident: Ident,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub declare: bool,
 
-    #[serde(flatten)]
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[span]
     pub class: Box<Class>,
 }
@@ -96,10 +96,10 @@ pub struct VarDecl {
 
     pub kind: VarDeclKind,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub declare: bool,
 
-    #[serde(rename = "declarations")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "declarations"))]
     pub decls: Vec<VarDeclarator>,
 }
 
@@ -134,15 +134,15 @@ pub enum VarDeclKind {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct VarDeclarator {
     pub span: Span,
-    #[serde(rename = "id")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "id"))]
     pub name: Pat,
 
     /// Initialization expression.
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub init: Option<Box<Expr>>,
 
     /// Typescript only
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub definite: bool,
 }
 

@@ -4,7 +4,7 @@
         "exports",
         "@swc/helpers/src/_class_call_check.mjs"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.exportClassNameWithObjectUMDTs = {}, global.classCallCheckMjs);
-}(this, function(exports1, _classCallCheck) {
+}(this, function(exports1, _class_call_check) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
@@ -13,9 +13,9 @@
         get: function() {
             return Object;
         }
-    }), _classCallCheck = _classCallCheck.default;
+    }), _class_call_check = _class_call_check.default;
     var Object = function Object() {
         "use strict";
-        _classCallCheck(this, Object);
+        _class_call_check(this, Object);
     };
 });

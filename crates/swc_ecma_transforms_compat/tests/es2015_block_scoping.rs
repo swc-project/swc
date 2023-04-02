@@ -279,13 +279,7 @@ test_exec!(
     ::swc_ecma_parser::Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     issue_723_2,
     "function foo() {
@@ -309,13 +303,7 @@ test!(
     Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     issue_1022_1,
     "
@@ -340,13 +328,7 @@ test!(
     Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     issue_1022_2,
     "
@@ -373,13 +355,7 @@ test!(
     Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     issue_1022_3,
     "
@@ -409,13 +385,7 @@ test!(
     Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     issue_1021_1,
     "
@@ -429,9 +399,9 @@ test!(
         var C = function() {
             "use strict";
             function C() {
-                _classCallCheck(this, C);
+                _class_call_check(this, C);
             }
-            _createClass(C, [
+            _create_class(C, [
                 {
                     key: "m",
                     value: function m() {
@@ -453,13 +423,7 @@ test!(
     Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     issue_1036_1,
     "
@@ -482,7 +446,7 @@ test!(
                     3
                 ]
             ].map(async function(param) {
-                var _param = _slicedToArray(param, 1), a = _param[0];
+                var _param = _sliced_to_array(param, 1), a = _param[0];
                 return Promise.resolve().then(function() {
                     return a * 2;
                 });
@@ -497,13 +461,7 @@ test!(
         let mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
-            es2015::es2015(
-                mark,
-                Some(comments.clone()),
-                es2015::Config {
-                    ..Default::default()
-                },
-            )
+            es2015::es2015(mark, Some(comments.clone()), Default::default(),)
         )
     },
     issue_1036_2,
@@ -519,7 +477,7 @@ test!(
         return _foo.apply(this, arguments);
     }
     function _foo() {
-        _foo = _asyncToGenerator(function() {
+        _foo = _async_to_generator(function() {
             return __generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -536,10 +494,10 @@ test!(
                                     3
                                 ]
                             ].map(function() {
-                                var _ref = _asyncToGenerator(function(param) {
+                                var _ref = _async_to_generator(function(param) {
                                     var _param, a;
                                     return __generator(this, function(_state) {
-                                        _param = _slicedToArray(param, 1), a = _param[0];
+                                        _param = _sliced_to_array(param, 1), a = _param[0];
                                         return [
                                             2,
                                             Promise.resolve().then(function() {
@@ -572,13 +530,7 @@ test_exec!(
         let mark = Mark::fresh(Mark::root());
         chain!(
             async_to_generator(Default::default(), Some(comments.clone()), mark),
-            es2015::es2015(
-                mark,
-                Some(comments.clone()),
-                es2015::Config {
-                    ..Default::default()
-                },
-            )
+            es2015::es2015(mark, Some(comments.clone()), Default::default(),)
         )
     },
     issue_1036_3,
@@ -725,13 +677,7 @@ test!(
         let mark = Mark::new();
         chain!(
             resolver(mark, Mark::new(), false),
-            es2015::es2015(
-                mark,
-                Some(comments.clone()),
-                es2015::Config {
-                    ..Default::default()
-                },
-            )
+            es2015::es2015(mark, Some(comments.clone()), Default::default(),)
         )
     },
     arguments_loop,
@@ -759,13 +705,7 @@ test!(
     ::swc_ecma_parser::Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     arguments_loop_member,
     "
@@ -794,13 +734,7 @@ compare_stdout!(
         let mark = Mark::fresh(Mark::root());
         chain!(
             resolver(mark, Mark::new(), false),
-            es2015::es2015(
-                mark,
-                Some(comments.clone()),
-                es2015::Config {
-                    ..Default::default()
-                },
-            )
+            es2015::es2015(mark, Some(comments.clone()), Default::default(),)
         )
     },
     arguments_arrow,
@@ -819,13 +753,7 @@ test!(
     ::swc_ecma_parser::Syntax::default(),
     |Tester { comments, .. }| {
         let mark = Mark::fresh(Mark::root());
-        es2015::es2015(
-            mark,
-            Some(comments.clone()),
-            es2015::Config {
-                ..Default::default()
-            },
-        )
+        es2015::es2015(mark, Some(comments.clone()), Default::default())
     },
     arguments_function,
     "
@@ -849,7 +777,7 @@ test!(
     |_| tr(),
     issue_1462_1,
     "
-    export default function _objectSpread(target) {
+    export default function _object_spread(target) {
         for (var i = 1; i < arguments.length; i++) {
             var source = arguments[i] != null ? arguments[i] : {};
             var ownKeys = Object.keys(source);
@@ -869,7 +797,7 @@ test!(
     }
     ",
     "
-    export default function _objectSpread(target) {
+    export default function _object_spread(target) {
         for (var i = 1; i < arguments.length; i++) {
             var source = arguments[i] != null ? arguments[i] : {};
             var ownKeys = Object.keys(source);
@@ -1085,7 +1013,7 @@ expect(expected).toEqual([10,10,10,10,10]);
 
 #[testing::fixture("tests/block-scoping/**/exec.js")]
 fn exec(input: PathBuf) {
-    let input = read_to_string(&input).unwrap();
+    let input = read_to_string(input).unwrap();
     compare_stdout(
         Default::default(),
         |_| {

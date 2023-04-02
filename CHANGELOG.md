@@ -5,7 +5,45 @@
 
 
 
+- **(es/compat)** Handle shorthand object prop while renaming (#7176) ([0a80e05](https://github.com/swc-project/swc/commit/0a80e0506b0fd58d31027c348ea0c957a5cc60f7))
+
+
+- **(es/helpers)** Use snake_case for helpers (#7147) ([3ca954b](https://github.com/swc-project/swc/commit/3ca954b9f9622ed400308f2af35242583a4bdc3d))
+
+
+- **(es/modules)** Hint nodejs for multiple `export *` (#7184) ([98f1493](https://github.com/swc-project/swc/commit/98f14931e7fa24b9d888eb5149c647840978b096))
+
+### Features
+
+
+
+- **(css/modules)** Preserve spans of CSS class names (#7185) ([df7b4e7](https://github.com/swc-project/swc/commit/df7b4e71d22a7174df6f4fe9691044560e8e7f65))
+
+
+- **(plugin/runner)** Improve cache path (#7188) ([976667f](https://github.com/swc-project/swc/commit/976667f7d98b821940c5325efc092e50c6554dc2))
+
+### Testing
+
+
+
+- **(es/plugin)** Enable E2E plugin test (#7178) ([a785f18](https://github.com/swc-project/swc/commit/a785f18740942c841fede3d625ec2fd4b090d020))
+
+## [1.3.44] - 2023-03-30
+
+### Bug Fixes
+
+
+
 - **(css/codegen)** Preserve `raw` of numbers (#7131) ([150c2b6](https://github.com/swc-project/swc/commit/150c2b6fbaef976c6ee97438d1b9b7ffe4b210be))
+
+
+- **(css/compat)** Remove usage of `box_syntax` (#7153) ([6f0bf66](https://github.com/swc-project/swc/commit/6f0bf665c29abaa64c60fb43053f96e465d3e041))
+
+
+- **(es/compat)** Handle import/export in `reserved_word` (#7165) ([065d11c](https://github.com/swc-project/swc/commit/065d11cb9bd49f36825b3b707e4e9ecfcc64e17b))
+
+
+- **(es/compat)** Fix the position for temp var injection (#7171) ([23fb8c5](https://github.com/swc-project/swc/commit/23fb8c5563a8e5f79d256bb27bdbdfd56944ccbc))
 
 
 - **(es/react)** Respect `import_source` in new jsx (#7128) ([5d7acfd](https://github.com/swc-project/swc/commit/5d7acfd9cbbb9780879d0d7a046f716572a477f7))
@@ -25,6 +63,15 @@
 
 - **(es)** Fix doc url (#7123) ([1e4abcb](https://github.com/swc-project/swc/commit/1e4abcb11d4c5884cc6559db8e86ecd7fbd96e5d))
 
+### Features
+
+
+
+- **(css/parser)** Add `legacy_ie` to the `ParserConfig` (#7109) ([5e58b3e](https://github.com/swc-project/swc/commit/5e58b3e5f6dfe6a7ede97c3e8a2f7436db964113))
+
+
+- **(es/react)** Support script within automatic runtime (#7126) ([05a2815](https://github.com/swc-project/swc/commit/05a2815e6ceb6d12e122be4e4ef84281d398f8c2))
+
 ### Miscellaneous Tasks
 
 
@@ -33,6 +80,9 @@
 
 ### Refactor
 
+
+
+- **(ast)** Make serde optional (#7138) ([30bc086](https://github.com/swc-project/swc/commit/30bc0860526c0983042c60a039a1f5acee47830c))
 
 
 - **(es)** Remove needless build scripts to reduce compile time (#7129) ([dfe1a3f](https://github.com/swc-project/swc/commit/dfe1a3f4964ba58fdd676c184fdff0919fa78b26))
@@ -45,6 +95,18 @@
 
 
 - **(macros)** Reduce compile time (#7132) ([2154a3f](https://github.com/swc-project/swc/commit/2154a3f117d9ea7cc2f12856d6e7f2b33a255d26))
+
+### Build
+
+
+
+- **(cargo)** Update `rustc` to `nightly-2023-03-28` (#7154) ([e445502](https://github.com/swc-project/swc/commit/e445502072d8ebfcbe0da0cb59f3d6a85d4a2087))
+
+
+- **(cargo)** Revert rustc upgrade (#7162) ([12546c8](https://github.com/swc-project/swc/commit/12546c853a67210e840efd61452041ef8db00d3a))
+
+
+- **(cargo)** Update `rustc` to `nightly-2023-03-20` (#7170) ([0259a74](https://github.com/swc-project/swc/commit/0259a7465fc5122cf2f297f962f7f0209f619251))
 
 ## [1.3.42] - 2023-03-22
 

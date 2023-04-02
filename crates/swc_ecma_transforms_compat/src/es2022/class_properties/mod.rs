@@ -43,7 +43,6 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export default class
-#[tracing::instrument(level = "info", skip_all)]
 pub fn class_properties<C: Comments>(cm: Option<C>, config: Config) -> impl Fold + VisitMut {
     as_folder(ClassProperties {
         c: config,
@@ -748,7 +747,7 @@ impl<C: Comments> ClassProperties<C> {
                                 span,
                                 callee: helper!(
                                     class_private_field_loose_key,
-                                    "classPrivateFieldLooseKey"
+                                    "class_private_field_loose_key"
                                 ),
                                 args: vec![ident.sym.as_arg()],
                                 type_args: Default::default(),
@@ -895,7 +894,7 @@ impl<C: Comments> ClassProperties<C> {
                                     span,
                                     callee: helper!(
                                         class_private_field_loose_key,
-                                        "classPrivateFieldLooseKey"
+                                        "class_private_field_loose_key"
                                     ),
                                     args: vec![weak_coll_var.sym.as_arg()],
                                     type_args: Default::default(),

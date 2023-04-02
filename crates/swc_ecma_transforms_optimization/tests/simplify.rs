@@ -3,7 +3,7 @@
 #![deny(warnings)]
 
 use swc_common::{chain, pass::Repeat, Mark};
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::{helpers::inject_helpers, resolver};
 use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es2022::class_properties, es3};
 use swc_ecma_transforms_module::{common_js::common_js, import_analysis::import_analyzer};
@@ -574,9 +574,7 @@ test!(
 );
 
 test!(
-    Syntax::Es(EsConfig {
-        ..Default::default()
-    }),
+    Syntax::Es(Default::default()),
     |t| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
@@ -625,8 +623,8 @@ Foo.bar = true;
 Object.defineProperty(exports, \"__esModule\", {
     value: true
 });
-var _foo = _interopRequireDefault(require(\"foo\"));
-function _interopRequireDefault(obj) {
+var _foo = _interop_require_default(require(\"foo\"));
+function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };

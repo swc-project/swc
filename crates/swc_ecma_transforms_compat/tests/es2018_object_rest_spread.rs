@@ -22,7 +22,7 @@ test!(
     issue_233,
     "const foo = () => ({ x, ...y }) => y",
     "const foo = ()=>(_param)=>{
-        var { x } = _param, y = _objectWithoutProperties(_param, [\"x\"]);
+        var { x } = _param, y = _object_without_properties(_param, [\"x\"]);
         return y;
     };"
 );
@@ -36,7 +36,7 @@ test!(
 }",
     "class Foo{
     constructor(_param){
-      var bar = _extends({}, _objectDestructuringEmpty(_param));
+      var bar = _extends({}, _object_destructuring_empty(_param));
     }
 }"
 );
@@ -85,7 +85,7 @@ const fn = ({ a, ...otherProps }) => otherProps;
 "#,
     r#"
 const fn = (_param)=>{
-  var { a  } = _param, otherProps = _objectWithoutProperties(_param, ["a"]);
+  var { a  } = _param, otherProps = _object_without_properties(_param, ["a"]);
   return otherProps;
 };
 "#
@@ -101,7 +101,7 @@ function foo([{...bar}]) {
 "#,
     r#"
 function foo([_param]) {
-  var bar = _extends({}, _objectDestructuringEmpty(_param));
+  var bar = _extends({}, _object_destructuring_empty(_param));
 }
 
 "#
@@ -115,7 +115,7 @@ test!(
 var { a , ...b } = _ref;
 "#,
     r#"
-var { a } = _ref, b = _objectWithoutProperties(_ref, ["a"]);
+var { a } = _ref, b = _object_without_properties(_ref, ["a"]);
 "#
 );
 
@@ -168,9 +168,9 @@ console.log({ a3, ...b3 } = c3);"#,
     r#"
 ({ a1  } = c1);
 var _c2;
-_c2 = c2, b2 = _objectWithoutProperties(_c2, ["a2"]), ({ a2  } = _c2), _c2;
+_c2 = c2, b2 = _object_without_properties(_c2, ["a2"]), ({ a2  } = _c2), _c2;
 var _c3;
-console.log(( _c3 = c3, b3 = _objectWithoutProperties(_c3, ["a3"]), { a3  } = _c3, _c3));
+console.log(( _c3 = c3, b3 = _object_without_properties(_c3, ["a3"]), { a3  } = _c3, _c3));
 "#
 );
 
@@ -192,19 +192,19 @@ try {} catch({ b }) {}
 try {
 } catch (_param) {
     var a34 = _extends({
-    }, _objectDestructuringEmpty(_param));
+    }, _object_destructuring_empty(_param));
 }
 try {
 } catch (_param) {
-    var { a1  } = _param, b1 = _objectWithoutProperties(_param, ["a1"]);
+    var { a1  } = _param, b1 = _object_without_properties(_param, ["a1"]);
 }
 try {
 } catch (_param) {
-    var { a2 , b2  } = _param, c2 = _objectWithoutProperties(_param, ["a2", "b2"]);
+    var { a2 , b2  } = _param, c2 = _object_without_properties(_param, ["a2", "b2"]);
 }
 try {
 } catch (_param) {
-    var { a2 , b2 , c2: { c3  }  } = _param, c4 = _objectWithoutProperties(_param.c2, ["c3"]);
+    var { a2 , b2 , c2: { c3  }  } = _param, c4 = _object_without_properties(_param.c2, ["c3"]);
 }
 try {
 } catch (a) {
@@ -230,7 +230,7 @@ export var [ dd, ee ] = ads;
 var {
   b
 } = asdf2,
-    c = _objectWithoutProperties(asdf2, ["b"]); // Skip
+    c = _object_without_properties(asdf2, ["b"]); // Skip
 
 export { b, c };
 export var {
@@ -243,12 +243,7 @@ export var [dd, ee] = ads;
 
 test!(
     syntax(),
-    |_| chain!(
-        tr(Default::default()),
-        spread(spread::Config {
-            ..Default::default()
-        })
-    ),
+    |_| chain!(tr(Default::default()), spread(Default::default())),
     rest_for_x,
     r#"
 // ForXStatement
@@ -277,12 +272,12 @@ for (var _ref of []) {
   var {
     a
   } = _ref,
-      b = _objectWithoutProperties(_ref, ["a"]);
+      b = _object_without_properties(_ref, ["a"]);
 }
 
 for (var _ref1 of []) {
   var _ref2;
-  _ref2 = _ref1, b = _objectWithoutProperties(_ref2, [
+  _ref2 = _ref1, b = _object_without_properties(_ref2, [
       "a"
   ]), ({ a  } = _ref2), _ref2;
 }
@@ -290,7 +285,7 @@ for (var _ref1 of []) {
 async function a() {
   for await (var _ref of []) {
       var _ref1;
-      _ref1 = _ref, b = _objectWithoutProperties(_ref1, [
+      _ref1 = _ref, b = _object_without_properties(_ref1, [
           "a"
       ]), ({ a  } = _ref1), _ref1;
   }
@@ -392,7 +387,7 @@ var _$a = {
     {
   [_ref]: y
 } = _$a,
-    x = _objectWithoutProperties(_$a, [_ref].map(_toPropertyKey));
+    x = _object_without_properties(_$a, [_ref].map(_to_property_key));
 
 expect(x).toEqual({
   a: 1
@@ -412,7 +407,7 @@ var _$ = {
   [_ref2]: y,
   [_ref3]: z
 } = _$,
-    rest = _objectWithoutProperties(_$, [_ref2, _ref3].map(_toPropertyKey));
+    rest = _object_without_properties(_$, [_ref2, _ref3].map(_to_property_key));
 
 expect(y).toBe(2);
 expect(z).toBe(3); // pure, computed property should remain as-is
@@ -426,7 +421,7 @@ var _$z = {
   [key]: y,
   z
 } = _$z);
-x = _objectWithoutProperties(_$z, [key, "z"].map(_toPropertyKey));
+x = _object_without_properties(_$z, [key, "z"].map(_to_property_key));
 _$z;
 expect(y).toBe("two");
 expect(x).toEqual({});
@@ -479,7 +474,7 @@ const {
     }
   }
 } = test,
-      other = _objectWithoutProperties(test.foo.bar.baz.a, ["x"]);"#
+      other = _object_without_properties(test.foo.bar.baz.a, ["x"]);"#
 );
 
 test!(
@@ -499,13 +494,13 @@ var _tmp;
 const _ref = {
 }, _key = (_param)=>{
     var rest = _extends({
-    }, _objectDestructuringEmpty(_param));
+    }, _object_destructuring_empty(_param));
     let b = _extends({
-    }, _objectDestructuringEmpty({
+    }, _object_destructuring_empty({
     }));
 }, _key1 = (_tmp = {
 }, d = _extends({
-}, _objectDestructuringEmpty(_tmp)), _tmp), { [_key]: a , [_key1]: c  } = _ref;
+}, _object_destructuring_empty(_tmp)), _tmp), { [_key]: a , [_key1]: c  } = _ref;
 
 "#
 );
@@ -545,13 +540,13 @@ var _tmp;
 const _ref = {
 }, { a =(_param)=>{
     var rest = _extends({
-    }, _objectDestructuringEmpty(_param));
+    }, _object_destructuring_empty(_param));
     let b = _extends({
-    }, _objectDestructuringEmpty({
+    }, _object_destructuring_empty({
     }));
 } , c =(_tmp = {
 }, d = _extends({
-}, _objectDestructuringEmpty(_tmp)), _tmp)  } = _ref;
+}, _object_destructuring_empty(_tmp)), _tmp)  } = _ref;
 
 "#
 );
@@ -593,8 +588,8 @@ test!(
 const { a: { ...bar }, b: { ...baz }, ...foo } = obj;
 "#,
     r#"
-const bar = _extends({}, _objectDestructuringEmpty(obj.a)), baz = _extends({}, _objectDestructuringEmpty(obj.b)), foo =
-    _objectWithoutProperties(obj, ["a", "b"]);
+const bar = _extends({}, _object_destructuring_empty(obj.a)), baz = _extends({}, _object_destructuring_empty(obj.b)), foo =
+    _object_without_properties(obj, ["a", "b"]);
 "#
 );
 
@@ -630,7 +625,7 @@ const {
     }
   }
 } = defunct,
-      other = _objectWithoutProperties(defunct.outer.inner, ["three"]);
+      other = _object_without_properties(defunct.outer.inner, ["three"]);
 "#
 );
 
@@ -765,7 +760,7 @@ const a = {
 const {
   [3]: omit
 } = a,
-      rest = _objectWithoutProperties(a, ["3"]);
+      rest = _object_without_properties(a, ["3"]);
 expect(rest).toEqual({
   "foo": "bar"
 });
@@ -790,7 +785,7 @@ const {
   [k4]: v4,
   [k5]: v5
 } = c,
-      vrest = _objectWithoutProperties(c, [k1, k2, k3, k4, k5].map(_toPropertyKey));
+      vrest = _object_without_properties(c, [k1, k2, k3, k4, k5].map(_to_property_key));
 expect(v1).toBe("1");
 expect(v2).toBe("2");
 expect(v3).toBe("3");
@@ -834,14 +829,14 @@ function b3({ b }) {}
 "#,
     r#"
 function a(_param) {
-  var a34 = _extends({}, _objectDestructuringEmpty(_param));
+  var a34 = _extends({}, _object_destructuring_empty(_param));
 }
 
 function a2(_param) {
   var {
     a1
   } = _param,
-      b1 = _objectWithoutProperties(_param, ["a1"]);
+      b1 = _object_without_properties(_param, ["a1"]);
 }
 
 function a3(_param) {
@@ -849,12 +844,12 @@ function a3(_param) {
     a2,
     b2
   } = _param,
-      c2 = _objectWithoutProperties(_param, ["a2", "b2"]);
+      c2 = _object_without_properties(_param, ["a2", "b2"]);
 }
 
 function a4(_param, _param1) {
-  var { a3 } = _param, c3 = _objectWithoutProperties(_param, ["a3"]),
-    { a5  } = _param1, c5 = _objectWithoutProperties(_param1, ["a5"]);
+  var { a3 } = _param, c3 = _object_without_properties(_param, ["a3"]),
+    { a5  } = _param1, c5 = _object_without_properties(_param1, ["a5"]);
 
 }
 
@@ -865,8 +860,8 @@ function a5(_param) {
       ba1
     }
   } = _param,
-      ba2 = _objectWithoutProperties(_param.b2, ["ba1"]),
-      c3 = _objectWithoutProperties(_param, ["a3", "b2"]);
+      ba2 = _object_without_properties(_param.b2, ["ba1"]),
+      c3 = _object_without_properties(_param, ["a3", "b2"]);
 }
 
 function a6(_param) {
@@ -876,25 +871,25 @@ function a6(_param) {
       ba1
     }
   } = _param,
-      ba2 = _objectWithoutProperties(_param.b2, ["ba1"]);
+      ba2 = _object_without_properties(_param.b2, ["ba1"]);
 }
 
 function a7(_param = {
 }) {
-    var { a1 =1  } = _param, b1 = _objectWithoutProperties(_param, ["a1"]);
+    var { a1 =1  } = _param, b1 = _object_without_properties(_param, ["a1"]);
 }
 
 function a8([_param]) {
     var a1 = _extends({
-    }, _objectDestructuringEmpty(_param));
+    }, _object_destructuring_empty(_param));
 }
 
 function a9([_param]) {
-  var { a1 } = _param, a2 = _objectWithoutProperties(_param, ["a1"]);
+  var { a1 } = _param, a2 = _object_without_properties(_param, ["a1"]);
 }
 
 function a10([a1, _param]) {
-  var a2 = _extends({}, _objectDestructuringEmpty(_param));
+  var a2 = _extends({}, _object_destructuring_empty(_param));
 }
 
 // Unchanged
@@ -957,7 +952,7 @@ let _ref = {},
     {
   [_Symbol$for]: foo
 } = _ref,
-    rest = _objectWithoutProperties(_ref, [_Symbol$for].map(_toPropertyKey));
+    rest = _object_without_properties(_ref, [_Symbol$for].map(_to_property_key));
 
 var _ref2 = {};
 
@@ -966,13 +961,13 @@ var _Symbol$for2 = Symbol.for("foo");
 ({
   [_Symbol$for2]: foo
 } = _ref2);
-rest = _objectWithoutProperties(_ref2, [_Symbol$for2].map(_toPropertyKey));
+rest = _object_without_properties(_ref2, [_Symbol$for2].map(_to_property_key));
 _ref2;
 
 if (_ref3 = {}, _Symbol$for3 = Symbol.for("foo"), ({
   [_Symbol$for3]: foo
-} = _ref3), rest = _objectWithoutProperties(_ref3,
-    [_Symbol$for3].map(_toPropertyKey)), _ref3) {}
+} = _ref3), rest = _object_without_properties(_ref3,
+    [_Symbol$for3].map(_to_property_key)), _ref3) {}
 "#
 );
 
@@ -995,39 +990,39 @@ const {w3, x3, y3, ...z4} = z;
 "#,
     r#"
 var z = {};
-var x = _extends({}, _objectDestructuringEmpty(z));
+var x = _extends({}, _object_destructuring_empty(z));
 var a = _extends({
-}, _objectDestructuringEmpty({
+}, _object_destructuring_empty({
     a: 1
 }));
 var x = _extends({
-}, _objectDestructuringEmpty(a.b));
+}, _object_destructuring_empty(a.b));
 var x = _extends({
-}, _objectDestructuringEmpty(a()));
+}, _object_destructuring_empty(a()));
 var {
   x1
 } = z,
-    y1 = _objectWithoutProperties(z, ["x1"]);
+    y1 = _object_without_properties(z, ["x1"]);
 x1++;
 var {
   [a]: b
 } = z,
-    c = _objectWithoutProperties(z, [a].map(_toPropertyKey));
+    c = _object_without_properties(z, [a].map(_to_property_key));
 var {
   x1
 } = z,
-    y1 = _objectWithoutProperties(z, ["x1"]);
+    y1 = _object_without_properties(z, ["x1"]);
 let {
   x2,
   y2
 } = z,
-    z2 = _objectWithoutProperties(z, ["x2", "y2"]);
+    z2 = _object_without_properties(z, ["x2", "y2"]);
 const {
   w3,
   x3,
   y3
 } = z,
-      z4 = _objectWithoutProperties(z, ["w3", "x3", "y3"]);
+      z4 = _object_without_properties(z, ["w3", "x3", "y3"]);
 "#
 );
 
@@ -1049,9 +1044,9 @@ let {
     [d]: f
   }
 } = complex,
-    asdf = _objectWithoutProperties(complex.x, ["a", d].map(_toPropertyKey)),
-    d = _extends({}, _objectDestructuringEmpty(complex.y)),
-    g = _objectWithoutProperties(complex, ["x", "y"]);
+    asdf = _object_without_properties(complex.x, ["a", d].map(_to_property_key)),
+    d = _extends({}, _object_destructuring_empty(complex.y)),
+    g = _object_without_properties(complex, ["x", "y"]);
 "#
 );
 
@@ -1063,7 +1058,7 @@ test!(
 let { x4: { ...y4 } } = z;
 "#,
     r#"
-let y4 = _extends({}, _objectDestructuringEmpty(z.x4));
+let y4 = _extends({}, _object_destructuring_empty(z.x4));
 "#
 );
 
@@ -1117,7 +1112,7 @@ let {
 let _ref = {
      a: [1, 2, 3, 4], d: "oyez"
 }, { a: [b, ...arrayRest] , c =function(...functionRest) {
-}  } = _ref, objectRest = _objectWithoutProperties(_ref, ["a", "c"]);
+}  } = _ref, objectRest = _object_without_properties(_ref, ["a", "c"]);
 "#
 );
 
@@ -1131,12 +1126,12 @@ z = { x, ...y };
 z = { x, w: { ...y } };
 "#,
     r#"
-z = _objectSpread({
+z = _object_spread({
   x
 }, y);
 z = {
   x,
-  w: _objectSpread({}, y)
+  w: _object_spread({}, y)
 };
 "#
 );
@@ -1155,7 +1150,7 @@ test!(
 ({ ...{ get foo () { return 'foo' } } });
 "#,
     r#"
-_objectSpreadProps(_objectSpread(_objectSpreadProps(_objectSpread({
+_object_spread_props(_object_spread(_object_spread_props(_object_spread({
     x
 }, y), {
     a
@@ -1163,13 +1158,13 @@ _objectSpreadProps(_objectSpread(_objectSpreadProps(_objectSpread({
     c
 });
 
-_objectSpread({}, Object.prototype);
+_object_spread({}, Object.prototype);
 
-_objectSpread({}, {
+_object_spread({}, {
   foo: 'bar'
 });
 
-_objectSpread({}, {
+_object_spread({}, {
   get foo() {
     return 'foo';
   }
@@ -1231,7 +1226,7 @@ test!(
     |_| tr(Default::default()),
     spread_variable_declaration,
     r#"var z = { ...x };"#,
-    r#"var z = _objectSpread({}, x);"#
+    r#"var z = _object_spread({}, x);"#
 );
 
 // object_spread_assignment
@@ -1246,12 +1241,12 @@ z = { x, w: { ...y } };
 
 "#,
     r#"
-z = _objectSpread({
+z = _object_spread({
   x
 }, y);
 z = {
   x,
-  w: _objectSpread({}, y)
+  w: _object_spread({}, y)
 };
 
 "#
@@ -1323,8 +1318,8 @@ z = {
 //    {
 //  [_Symbol$for]: foo
 //} = _ref,
-//    rest = _objectWithoutProperties(_ref,
-// [_Symbol$for].map(_toPropertyKey));
+//    rest = _object_without_properties(_ref,
+// [_Symbol$for].map(_to_property_key));
 //
 //var _ref2 = {};
 //
@@ -1333,14 +1328,14 @@ z = {
 //({
 //  [_Symbol$for2]: foo
 //} = _ref2);
-//rest = _objectWithoutProperties(_ref2,
-// [_Symbol$for2].map(_toPropertyKey));
+//rest = _object_without_properties(_ref2,
+// [_Symbol$for2].map(_to_property_key));
 //_ref2;
 //
 //if (_ref3 = {}, _Symbol$for3 = Symbol.for("foo"), ({
 //  [_Symbol$for3]: foo
-//} = _ref3), rest = _objectWithoutProperties(_ref3,
-//} [_Symbol$for3].map(_toPropertyKey)), _ref3) {}
+//} = _ref3), rest = _object_without_properties(_ref3,
+//} [_Symbol$for3].map(_to_property_key)), _ref3) {}
 //
 //"#);
 
@@ -1418,8 +1413,8 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //    {
 //  [_ref]: y
 //} = _$a,
-//    x = _objectWithoutProperties(_$a,
-// [_ref].map(_toPropertyKey));
+//    x = _object_without_properties(_$a,
+// [_ref].map(_to_property_key));
 //
 //expect(x).toEqual({
 //  a: 1
@@ -1439,8 +1434,8 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //  [_ref2]: y,
 //  [_ref3]: z
 //} = _$,
-//    rest = _objectWithoutProperties(_$, [_ref2,
-// _ref3].map(_toPropertyKey));
+//    rest = _object_without_properties(_$, [_ref2,
+// _ref3].map(_to_property_key));
 //
 //expect(y).toBe(2);
 //expect(z).toBe(3); // pure, computed property should remain as-is
@@ -1454,8 +1449,8 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //  [key]: y,
 //  z
 //} = _$z);
-//x = _objectWithoutProperties(_$z, [key,
-// "z"].map(_toPropertyKey));
+//x = _object_without_properties(_$z, [key,
+// "z"].map(_to_property_key));
 //_$z;
 //expect(y).toBe("two");
 //expect(x).toEqual({});
@@ -1490,7 +1485,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //  let {
 //    a1
 //  } = _ref2,
-//      b1 = _objectWithoutProperties(_ref2, ["a1"]);
+//      b1 = _object_without_properties(_ref2, ["a1"]);
 //}
 //
 //try {} catch (_ref3) {
@@ -1498,7 +1493,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //    a2,
 //    b2
 //  } = _ref3,
-//      c2 = _objectWithoutProperties(_ref3, ["a2", "b2"]);
+//      c2 = _object_without_properties(_ref3, ["a2", "b2"]);
 //}
 //
 //try {} catch (_ref4) {
@@ -1509,7 +1504,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //      c3
 //    }
 //  } = _ref4,
-//      c4 = _objectWithoutProperties(_ref4.c2, ["c3"]);
+//      c4 = _object_without_properties(_ref4.c2, ["c3"]);
 //} // Unchanged
 //
 //
@@ -1561,36 +1556,36 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //var {
 //  x1
 //} = z,
-//    y1 = _objectWithoutProperties(z, ["x1"]);
+//    y1 = _object_without_properties(z, ["x1"]);
 //x1++;
 //var {
 //  [a]: b
 //} = z,
-//    c = _objectWithoutProperties(z,
-// [a].map(_toPropertyKey)); var {
+//    c = _object_without_properties(z,
+// [a].map(_to_property_key)); var {
 //  x1
 //} = z,
-//    y1 = _objectWithoutProperties(z, ["x1"]);
+//    y1 = _object_without_properties(z, ["x1"]);
 //let {
 //  x2,
 //  y2
 //} = z,
-//    z2 = _objectWithoutProperties(z, ["x2", "y2"]);
+//    z2 = _object_without_properties(z, ["x2", "y2"]);
 //const {
 //  w3,
 //  x3,
 //  y3
 //} = z,
-//      z4 = _objectWithoutProperties(z, ["w3", "x3", "y3"]);
+//      z4 = _object_without_properties(z, ["w3", "x3", "y3"]);
 //let {
 //  x: {
 //    a: xa,
 //    [d]: f
 //  }
 //} = complex,
-//    asdf = _objectWithoutProperties(complex.x, ["a",
-// d].map(_toPropertyKey)),    d = _extends({},
-// complex.y),    g = _objectWithoutProperties(complex, ["x"]);
+//    asdf = _object_without_properties(complex.x, ["a",
+// d].map(_to_property_key)),    d = _extends({},
+// complex.y),    g = _object_without_properties(complex, ["x"]);
 //let {} = z,
 //    y4 = _extends({}, z.x4);
 //
@@ -1624,7 +1619,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //    a = get(),
 //    b
 //  } = _ref,
-//      z = _objectWithoutPropertiesLoose(_ref, ["a", "b", "c"]);
+//      z = _object_without_properties_loose(_ref, ["a", "b", "c"]);
 //
 //  const v = b + 3;
 //};
@@ -1653,9 +1648,9 @@ var l = foo(),
 const {
   x
 } = a,
-      y = _objectWithoutProperties(a, ["x"]),
+      y = _object_without_properties(a, ["x"]),
       z = foo(y);
-const s = _extends({}, _objectDestructuringEmpty(r)),
+const s = _extends({}, _object_destructuring_empty(r)),
       t = foo(s); // ordering is preserved
 
 var l = foo(),
@@ -1665,8 +1660,8 @@ var l = foo(),
     n
   }
 } = _bar,
-    o = _objectWithoutProperties(_bar.m, ["n"]),
-    p = _objectWithoutProperties(_bar, ["m"]),
+    o = _object_without_properties(_bar.m, ["n"]),
+    p = _object_without_properties(_bar, ["m"]),
     q = baz();
 "#
 );
@@ -1704,7 +1699,7 @@ var l = foo(),
 //  let {
 //    a1
 //  } = _ref2,
-//      b1 = _objectWithoutProperties(_ref2, ["a1"]);
+//      b1 = _object_without_properties(_ref2, ["a1"]);
 //}
 //
 //function a3(_ref3) {
@@ -1712,18 +1707,18 @@ var l = foo(),
 //    a2,
 //    b2
 //  } = _ref3,
-//      c2 = _objectWithoutProperties(_ref3, ["a2", "b2"]);
+//      c2 = _object_without_properties(_ref3, ["a2", "b2"]);
 //}
 //
 //function a4(_ref5, _ref4) {
 //  let {
 //    a3
 //  } = _ref5,
-//      c3 = _objectWithoutProperties(_ref5, ["a3"]);
+//      c3 = _object_without_properties(_ref5, ["a3"]);
 //  let {
 //    a5
 //  } = _ref4,
-//      c5 = _objectWithoutProperties(_ref4, ["a5"]);
+//      c5 = _object_without_properties(_ref4, ["a5"]);
 //}
 //
 //function a5(_ref6) {
@@ -1733,8 +1728,8 @@ var l = foo(),
 //      ba1
 //    }
 //  } = _ref6,
-//      ba2 = _objectWithoutProperties(_ref6.b2, ["ba1"]),
-//      c3 = _objectWithoutProperties(_ref6, ["a3", "b2"]);
+//      ba2 = _object_without_properties(_ref6.b2, ["ba1"]),
+//      c3 = _object_without_properties(_ref6, ["a3", "b2"]);
 //}
 //
 //function a6(_ref7) {
@@ -1744,14 +1739,14 @@ var l = foo(),
 //      ba1
 //    }
 //  } = _ref7,
-//      ba2 = _objectWithoutProperties(_ref7.b2, ["ba1"]);
+//      ba2 = _object_without_properties(_ref7.b2, ["ba1"]);
 //}
 //
 //function a7(_ref8 = {}) {
 //  let {
 //    a1 = 1
 //  } = _ref8,
-//      b1 = _objectWithoutProperties(_ref8, ["a1"]);
+//      b1 = _object_without_properties(_ref8, ["a1"]);
 //}
 //
 //function a8([_ref9]) {
@@ -1762,7 +1757,7 @@ var l = foo(),
 //  let {
 //    a1
 //  } = _ref10,
-//      a2 = _objectWithoutProperties(_ref10, ["a1"]);
+//      a2 = _object_without_properties(_ref10, ["a1"]);
 //}
 //
 //function a10([a1, _ref11]) {
@@ -1816,7 +1811,7 @@ var l = foo(),
 //  const {
 //    a
 //  } = _ref2,
-//        b = _objectWithoutProperties(_ref2, ["a"]);
+//        b = _object_without_properties(_ref2, ["a"]);
 //}
 //
 //for (var _ref3 of []) {
@@ -1824,7 +1819,7 @@ var l = foo(),
 //  var {
 //    a
 //  } = _ref4,
-//      b = _objectWithoutProperties(_ref4, ["a"]);
+//      b = _object_without_properties(_ref4, ["a"]);
 //}
 //
 //async function a() {
@@ -1833,7 +1828,7 @@ var l = foo(),
 //    var {
 //      a
 //    } = _ref6,
-//        b = _objectWithoutProperties(_ref6, ["a"]);
+//        b = _object_without_properties(_ref6, ["a"]);
 //  }
 //} // skip
 //
@@ -1919,7 +1914,7 @@ function fn0(obj0) {
           const {
             a
           } = obj2,
-                rest = _objectWithoutProperties(obj2, ["a"]);
+                rest = _object_without_properties(obj2, ["a"]);
           console.log(rest);
         }
       } = obj1;
@@ -1968,7 +1963,7 @@ function fn0(obj0) {
 //    }
 //  }
 //} = defunct,
-//      other = _objectWithoutProperties(defunct.outer.inner,
+//      other = _object_without_properties(defunct.outer.inner,
 // ["three"]);
 //
 //"#);
@@ -2000,7 +1995,7 @@ function fn0(obj0) {
 //  a: [b, ...arrayRest],
 //  c = function (...functionRest) {}
 //} = _a$d,
-//    objectRest = _objectWithoutProperties(_a$d, ["a", "c"]);
+//    objectRest = _object_without_properties(_a$d, ["a", "c"]);
 //
 //"#);
 
@@ -2022,19 +2017,19 @@ function fn0(obj0) {
 //const {
 //  b
 //} = _ref,
-//      c = _objectWithoutProperties(_ref, ["b"]),
+//      c = _object_without_properties(_ref, ["b"]),
 //      {
 //  d
 //} = _ref2,
-//      e = _objectWithoutProperties(_ref2, ["d"]),
+//      e = _object_without_properties(_ref2, ["d"]),
 //      {
 //  f
 //} = _ref3,
-//      g = _objectWithoutProperties(_ref3, ["f"]),
+//      g = _object_without_properties(_ref3, ["f"]),
 //      {
 //  j
 //} = _ref4,
-//      k = _objectWithoutProperties(_ref4, ["j"]);
+//      k = _object_without_properties(_ref4, ["j"]);
 //
 //"#);
 
@@ -2175,7 +2170,7 @@ expect(log).toEqual([1]);
 //var {
 //  b
 //} = asdf2,
-//    c = _objectWithoutProperties(asdf2, ["b"]); // Skip
+//    c = _object_without_properties(asdf2, ["b"]); // Skip
 //
 //export { b, c };
 //export var {
@@ -2258,7 +2253,7 @@ expect(log).toEqual([1]);
 //const {
 //  [3]: omit
 //} = a,
-//      rest = _objectWithoutProperties(a, ["3"]);
+//      rest = _object_without_properties(a, ["3"]);
 //expect(rest).toEqual({
 //  "foo": "bar"
 //});
@@ -2283,8 +2278,8 @@ expect(log).toEqual([1]);
 //  [k4]: v4,
 //  [k5]: v5
 //} = c,
-//      vrest = _objectWithoutProperties(c, [k1, k2, k3, k4,
-// k5].map(_toPropertyKey)); expect(v1).toBe("1");
+//      vrest = _object_without_properties(c, [k1, k2, k3, k4,
+// k5].map(_to_property_key)); expect(v1).toBe("1");
 //expect(v2).toBe("2");
 //expect(v3).toBe("3");
 //expect(v4).toBe("4");
@@ -2316,7 +2311,7 @@ var z = { ...x };
 
 "#,
     r#"
-var z = _objectSpread({}, x);
+var z = _object_spread({}, x);
 
 "#
 );
@@ -2342,17 +2337,17 @@ var z = _objectSpread({}, x);
 //const {
 //  b
 //} = _ref,
-//      c = _objectWithoutProperties(_ref, ["b"]);
+//      c = _object_without_properties(_ref, ["b"]);
 //let [d, _ref2] = x;
 //let {
 //  e
 //} = _ref2,
-//    f = _objectWithoutProperties(_ref2, ["e"]);
+//    f = _object_without_properties(_ref2, ["e"]);
 //[g, _ref3] = x;
 //var {
 //  h
 //} = _ref3,
-//    i = _objectWithoutProperties(_ref3, ["h"]);
+//    i = _object_without_properties(_ref3, ["h"]);
 //
 //"#);
 
@@ -2554,7 +2549,7 @@ test_exec!(
 //    }
 //  }
 //} = test,
-//      other = _objectWithoutProperties(test.foo.bar.baz.a, ["x"]);
+//      other = _object_without_properties(test.foo.bar.baz.a, ["x"]);
 //
 //"#);
 
@@ -2609,7 +2604,7 @@ Object.getOwnPropertyDescriptors = oldGOPDs;
 //  var {
 //    a
 //  } = _ref,
-//      b = _objectWithoutProperties(_ref, ["a"]);
+//      b = _object_without_properties(_ref, ["a"]);
 //}
 //
 //for (var _ref2 of []) {
@@ -2617,7 +2612,7 @@ Object.getOwnPropertyDescriptors = oldGOPDs;
 //  ({
 //    a
 //  } = _ref3);
-//  b = _objectWithoutProperties(_ref3, ["a"]);
+//  b = _object_without_properties(_ref3, ["a"]);
 //  _ref3;
 //}
 //
@@ -2627,7 +2622,7 @@ Object.getOwnPropertyDescriptors = oldGOPDs;
 //    ({
 //      a
 //    } = _ref5);
-//    b = _objectWithoutProperties(_ref5, ["a"]);
+//    b = _object_without_properties(_ref5, ["a"]);
 //    _ref5;
 //  }
 //} // skip
@@ -2689,8 +2684,8 @@ Object.getOwnPropertyDescriptors = oldGOPDs;
 //  [_ref]: state,
 //  [_ref2]: consents
 //} = input,
-//      rest = _objectWithoutProperties(input, ["given_name",
-// "last_name", `country`, _ref, _ref2].map(_toPropertyKey));
+//      rest = _object_without_properties(input, ["given_name",
+// "last_name", `country`, _ref, _ref2].map(_to_property_key));
 //
 //"#);
 
@@ -2711,7 +2706,7 @@ Object.getOwnPropertyDescriptors = oldGOPDs;
 //  ({
 //    a
 //  } = _ref2);
-//  b = _objectWithoutProperties(_ref2, ["a"]);
+//  b = _object_without_properties(_ref2, ["a"]);
 //  _ref2;
 //  void 0;
 //}
@@ -2734,10 +2729,10 @@ const { a } = foo(({ b, ...c }) => {
 
 "#,
     r#"
-const _foo = foo(), { s  } = _foo, t = _objectWithoutProperties(_foo, ["s"]);
-const _bar = bar(), { s: { q1  }  } = _bar, q2 = _objectWithoutProperties(_bar.s, ["q1"]), q3 = _objectWithoutProperties(_bar, ["s"]);
+const _foo = foo(), { s  } = _foo, t = _object_without_properties(_foo, ["s"]);
+const _bar = bar(), { s: { q1  }  } = _bar, q2 = _object_without_properties(_bar.s, ["q1"]), q3 = _object_without_properties(_bar, ["s"]);
 const _foo1 = foo((_param)=>{
-    var { b  } = _param, c = _objectWithoutProperties(_param, ["b"]);
+    var { b  } = _param, c = _object_without_properties(_param, ["b"]);
     console.log(b, c);
 }), { a  } = _foo1;
 "#
@@ -2754,7 +2749,7 @@ test!(
     r#"({ a, b, ...c } = obj);"#,
     r#"
 var _obj;
-_obj = obj, c = _objectWithoutPropertiesLoose(_obj, [
+_obj = obj, c = _object_without_properties_loose(_obj, [
     "a",
     "b"
 ]), ({ a , b  } = _obj), _obj;
@@ -2775,7 +2770,7 @@ test!(
 let {
   [a]: b
 } = obj,
-    c = _objectWithoutPropertiesLoose(obj, [a].map(_toPropertyKey));
+    c = _object_without_properties_loose(obj, [a].map(_to_property_key));
 "#
 );
 
@@ -2816,7 +2811,7 @@ let {
   },
   e
 } = obj,
-    d = _objectWithoutPropertiesLoose(obj.nested, ["b", "c"]);
+    d = _object_without_properties_loose(obj.nested, ["b", "c"]);
 "#
 );
 
@@ -2834,7 +2829,7 @@ var {
   a,
   b
 } = obj,
-    c = _objectWithoutPropertiesLoose(obj, ["a", "b"]);
+    c = _object_without_properties_loose(obj, ["a", "b"]);
 "#
 );
 
@@ -3045,7 +3040,7 @@ test!(
     var counter = 0;
     for (var _ref of [{ x: 1, y: 2 }]) {
         var _ref1;
-        _ref1 = _ref, src.y = _extends({}, _objectDestructuringEmpty(_ref1)), _ref1;
+        _ref1 = _ref, src.y = _extends({}, _object_destructuring_empty(_ref1)), _ref1;
         expect(src.y.x).toEqual(1);
         expect(src.y.y).toEqual(2);
 

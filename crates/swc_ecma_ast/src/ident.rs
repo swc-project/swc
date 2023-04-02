@@ -3,7 +3,6 @@ use std::fmt::Display;
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
 use scoped_tls::scoped_thread_local;
-use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
@@ -13,7 +12,7 @@ use unicode_id::UnicodeID;
 use crate::typescript::TsTypeAnn;
 
 /// Identifier used as a pattern.
-#[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan, Serialize, Deserialize)]
+#[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
     any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
@@ -27,12 +26,13 @@ use crate::typescript::TsTypeAnn;
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct BindingIdent {
     #[span]
-    #[serde(flatten)]
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub id: Ident,
-    #[serde(default, rename = "typeAnnotation")]
+    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
@@ -114,7 +114,7 @@ bridge_from!(BindingIdent, Ident, Id);
 #[derive(Eq, Hash)]
 pub struct Ident {
     pub span: Span,
-    #[serde(rename = "value")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
     #[cfg_attr(
         any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
         with(swc_atoms::EncodeJsWord)
@@ -122,7 +122,7 @@ pub struct Ident {
     pub sym: JsWord,
 
     /// TypeScript only. Used in case of an optional parameter.
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub optional: bool,
 }
 

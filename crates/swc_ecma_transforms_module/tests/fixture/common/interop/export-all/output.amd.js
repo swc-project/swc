@@ -14,6 +14,6 @@ define([
         enumerable: true,
         get: ()=>_default
     });
-    _react = /*#__PURE__*/ _interopRequireDefault(_exportStar(_react, exports));
+    _react = /*#__PURE__*/ _interop_require_default(_export_star(_react, exports));
     const _default = _react.default;
 });

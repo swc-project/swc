@@ -37,6 +37,7 @@ pub fn react<C>(
     comments: Option<C>,
     mut options: Options,
     top_level_mark: Mark,
+    unresolved_mark: Mark,
 ) -> impl Fold + VisitMut
 where
     C: Comments + Clone,
@@ -56,7 +57,13 @@ where
             comments.clone(),
             top_level_mark
         ),
-        jsx(cm, comments.clone(), options, top_level_mark),
+        jsx(
+            cm,
+            comments.clone(),
+            options,
+            top_level_mark,
+            unresolved_mark
+        ),
         display_name(),
         pure_annotations(comments),
     )

@@ -383,9 +383,9 @@ where
                     )
                 }
 
-                // _exportStar(mod, exports);
+                // _export_star(mod, exports);
                 let mut import_expr: Expr = if need_re_export {
-                    helper_expr!(export_star, "exportStar").as_call(
+                    helper_expr!(export_star, "export_star").as_call(
                         DUMMY_SP,
                         vec![mod_ident.clone().as_arg(), self.exports().as_arg()],
                     )
@@ -397,13 +397,13 @@ where
                 if need_interop {
                     import_expr = match import_interop {
                         ImportInterop::Swc if link_flag.interop() => if link_flag.namespace() {
-                            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+                            helper_expr!(interop_require_wildcard, "interop_require_wildcard")
                         } else {
-                            helper_expr!(interop_require_default, "interopRequireDefault")
+                            helper_expr!(interop_require_default, "interop_require_default")
                         }
                         .as_call(self.pure_span(), vec![import_expr.as_arg()]),
                         ImportInterop::Node if link_flag.namespace() => {
-                            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+                            helper_expr!(interop_require_wildcard, "interop_require_wildcard")
                                 .as_call(
                                     self.pure_span(),
                                     vec![import_expr.as_arg(), true.as_arg()],
@@ -515,9 +515,9 @@ pub(crate) fn amd_dynamic_import(
 
     let resolved_module: Expr = match import_interop {
         ImportInterop::None => module.clone().into(),
-        ImportInterop::Swc => helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+        ImportInterop::Swc => helper_expr!(interop_require_wildcard, "interop_require_wildcard")
             .as_call(pure_span, vec![module.clone().as_arg()]),
-        ImportInterop::Node => helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+        ImportInterop::Node => helper_expr!(interop_require_wildcard, "interop_require_wildcard")
             .as_call(pure_span, vec![module.clone().as_arg(), true.as_arg()]),
     };
 

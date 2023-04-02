@@ -15,8 +15,8 @@ System.register([
     var _class_call_check;
     return {
         setters: [
-            function(_classCallCheck) {
-                _class_call_check = _classCallCheck.default;
+            function(_class_call_check1) {
+                _class_call_check = _class_call_check1.default;
             }
         ],
         execute: function() {

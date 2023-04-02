@@ -22,6 +22,6 @@
         foo: ()=>_foo.default,
         bar: ()=>_bar.default
     });
-    _foo = /*#__PURE__*/ _interopRequireDefault(_foo);
-    _bar = /*#__PURE__*/ _interopRequireDefault(_bar);
+    _foo = /*#__PURE__*/ _interop_require_default(_foo);
+    _bar = /*#__PURE__*/ _interop_require_default(_bar);
 });

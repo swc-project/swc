@@ -293,10 +293,10 @@ impl Take for Null {
 pub struct Regex {
     pub span: Span,
 
-    #[serde(rename = "pattern")]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "pattern"))]
     pub exp: Atom,
 
-    #[serde(default)]
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub flags: Atom,
 }
 
@@ -354,7 +354,7 @@ impl EqIgnoreSpan for Number {
     }
 }
 
-#[allow(clippy::derive_hash_xor_eq)]
+#[allow(clippy::derived_hash_with_manual_eq)]
 #[allow(clippy::transmute_float_to_int)]
 impl Hash for Number {
     fn hash<H: Hasher>(&self, state: &mut H) {

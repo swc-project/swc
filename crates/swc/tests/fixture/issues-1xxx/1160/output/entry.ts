@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _defineProperty = require("@swc/helpers/lib/_define_property.js").default;
-const _tsDecorate = require("@swc/helpers/lib/_ts_decorate.js").default;
-const _tsMetadata = require("@swc/helpers/lib/_ts_metadata.js").default;
+const _define_property = require("@swc/helpers/lib/_define_property.js").default;
+const _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+const _ts_metadata = require("@swc/helpers/lib/_ts_metadata.js").default;
 var MyEnum;
 (function(MyEnum) {
     MyEnum["x"] = "xxx";
@@ -12,12 +12,12 @@ var MyEnum;
 })(MyEnum || (MyEnum = {}));
 class Xpto {
     constructor(){
-        _defineProperty(this, "value", void 0);
+        _define_property(this, "value", void 0);
     }
 }
-_tsDecorate([
+_ts_decorate([
     Decorator(),
-    _tsMetadata("design:type", String)
+    _ts_metadata("design:type", String)
 ], Xpto.prototype, "value", void 0);
 function Decorator() {
     return function(...args) {};

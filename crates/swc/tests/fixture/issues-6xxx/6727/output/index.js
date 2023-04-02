@@ -1,6 +1,6 @@
-var _async_to_generator = require("@swc/helpers").async_to_generator;
-var _type_of = require("@swc/helpers").type_of;
-var _ts_generator = require("@swc/helpers").ts_generator;
+var _async_to_generator = require("@swc/helpers/lib/_async_to_generator.js").default;
+var _type_of = require("@swc/helpers/lib/_type_of.js").default;
+var _ts_generator = require("@swc/helpers/lib/_ts_generator.js").default;
 require("core-js/modules/es.object.to-string.js");
 require("core-js/modules/es.promise.js");
 function a() {

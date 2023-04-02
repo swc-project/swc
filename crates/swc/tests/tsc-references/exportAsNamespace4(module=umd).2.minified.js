@@ -29,7 +29,7 @@
         "@swc/helpers/src/_interop_require_wildcard.mjs",
         "./0"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {}, global.interopRequireWildcardMjs, global["0"]);
-}(this, function(exports1, _interopRequireWildcard, _0) {
+}(this, function(exports1, _interop_require_wildcard, _0) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
@@ -38,7 +38,7 @@
         get: function() {
             return _0;
         }
-    }), _0 = (_interopRequireWildcard = _interopRequireWildcard.default)(_0);
+    }), _0 = (_interop_require_wildcard = _interop_require_wildcard.default)(_0);
 });
 //// [11.ts]
 !function(global, factory) {
@@ -47,7 +47,7 @@
         "@swc/helpers/src/_interop_require_wildcard.mjs",
         "./0"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.11Ts = {}, global.interopRequireWildcardMjs, global["0"]);
-}(this, function(exports1, _interopRequireWildcard, _0) {
+}(this, function(exports1, _interop_require_wildcard, _0) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
@@ -57,7 +57,7 @@
             return _default;
         }
     });
-    var _default = _0 = (_interopRequireWildcard = _interopRequireWildcard.default)(_0);
+    var _default = _0 = (_interop_require_wildcard = _interop_require_wildcard.default)(_0);
 });
 //// [2.ts]
 !function(global, factory) {
@@ -67,9 +67,9 @@
         "./1",
         "./11"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.2Ts = {}, global.interopRequireDefaultMjs, global["1"], global["11"]);
-}(this, function(exports1, _interopRequireDefault, _1, _11) {
+}(this, function(exports1, _interop_require_default, _1, _11) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
-    }), _1 = (_interopRequireDefault = _interopRequireDefault.default)(_1), _11 = _interopRequireDefault(_11), _1.default.a, _11.default.a, _1.default.b, _11.default.b;
+    }), _1 = (_interop_require_default = _interop_require_default.default)(_1), _11 = _interop_require_default(_11), _1.default.a, _11.default.a, _1.default.b, _11.default.b;
 });

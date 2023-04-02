@@ -6,6 +6,6 @@ Object.defineProperty(exports, "A", {
     enumerable: true,
     get: ()=>A
 });
-const _b = require("./B");
-console.log(_b.B);
+const _B = require("./B");
+console.log(_B.B);
 const A = 400;

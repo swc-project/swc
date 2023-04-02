@@ -1298,7 +1298,7 @@ impl Generator {
 
                 Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: helper!(define_property, "defineProperty"),
+                    callee: helper!(define_property, "define_property"),
                     args: vec![
                         temp.clone().as_arg(),
                         prop_name_to_expr_value(key).as_arg(),
@@ -1734,7 +1734,7 @@ impl Generator {
 
             self.emit_assignment(
                 PatOrExpr::Pat(keys_array.clone().into()),
-                Box::new(ArrayLit { ..Take::dummy() }.into()),
+                Box::new(ArrayLit::dummy().into()),
                 None,
             );
 

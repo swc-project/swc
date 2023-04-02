@@ -5,7 +5,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 let x01;
 let x02;
 let x03;
@@ -42,7 +42,7 @@ var myChoices;
 var myChoicesAndEmpty;
 var unknownChoices;
 var unknownChoicesAndEmpty;
-mock(Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./ex"))));
+mock(Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard(require("./ex"))));
 //// [ex.d.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

@@ -1,4 +1,4 @@
-use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2021;
 use swc_ecma_transforms_testing::{test, test_exec};
 use swc_ecma_visit::Fold;
@@ -8,9 +8,7 @@ fn tr() -> impl Fold {
 }
 
 fn syntax() -> Syntax {
-    Syntax::Typescript(TsConfig {
-        ..Default::default()
-    })
+    Syntax::Typescript(Default::default())
 }
 
 test!(
@@ -78,6 +76,23 @@ test!(
     "
     var _a;
     (_a = a).b ?? (_a.b = b);
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_7169,
+    "function myFunc(options) {
+      options.context ||= {}
+      const closure = function() {}
+    }",
+    "
+    function myFunc(options) {
+      var _options;
+      (_options = options).context || (_options.context = {});
+      const closure = function() {};
+    }
     "
 );
 

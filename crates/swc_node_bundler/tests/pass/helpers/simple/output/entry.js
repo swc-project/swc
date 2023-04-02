@@ -1,4 +1,4 @@
-function _classCallCheck(instance, Constructor) {
+function _class_call_check(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
@@ -11,7 +11,7 @@ var __decorate = this && this.__decorate || function(decorators, target, key, de
 };
 var Foo = function Foo() {
     "use strict";
-    _classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
 };
 Foo = __decorate([
     isDecorator

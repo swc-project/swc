@@ -1,8 +1,7 @@
-import arrayWithHoles from './_array_with_holes.mjs';
-import iterableToArrayLimit from './_iterable_to_array.mjs';
-import nonIterableRest from './_non_iterable_rest.mjs';
-import unsupportedIterableToArray from './_unsupported_iterable_to_array.mjs';
-
-export default function _slicedToArray(arr, i) {
-  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
+import _array_with_holes from "./_array_with_holes.mjs";
+import _iterable_to_array_limit from "./_iterable_to_array_limit.mjs";
+import _non_iterable_rest from "./_non_iterable_rest.mjs";
+import _unsupported_iterable_to_array from "./_unsupported_iterable_to_array.mjs";
+export default function _sliced_to_array(arr, i) {
+    return _array_with_holes(arr) || _iterable_to_array_limit(arr, i) || _unsupported_iterable_to_array(arr, i) || _non_iterable_rest();
 }

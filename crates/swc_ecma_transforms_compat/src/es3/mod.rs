@@ -11,7 +11,6 @@ mod prop_lits;
 mod reserved_word;
 
 /// Make output es3-compatible.
-#[tracing::instrument(level = "info", skip_all)]
 pub fn es3(preserve_import: bool) -> impl Fold {
     chain!(
         property_literals(),

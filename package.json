@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.3.42",
+    "version": "1.3.44",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -94,7 +94,7 @@
         "@napi-rs/cli": "^2.14.1",
         "@swc/core": "=1.2.220",
         "@swc/helpers": "^0.4.2",
-        "@swc/plugin-jest": "1.5.25",
+        "@swc/plugin-jest": "1.5.56",
         "@taplo/cli": "^0.3.2",
         "@types/jest": "^28.1.4",
         "@types/node": "^14.14.41",
@@ -133,6 +133,9 @@
         "ts-node": "^10.5.0",
         "typescript": "^4.5.2"
     },
+    "peerDependencies": {
+        "@swc/helpers": ">0.4.14 <0.5"
+    },
     "funding": {
         "type": "opencollective",
         "url": "https://opencollective.com/swc"
@@ -169,5 +172,5 @@
         "postinstall.js",
         "bindings/binding_core_wasm/pkg/binding_core_wasm.d.ts"
     ],
-    "packageManager": "yarn@3.3.0"
+    "packageManager": "yarn@3.5.0"
 }

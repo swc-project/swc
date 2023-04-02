@@ -6,11 +6,11 @@ Object.defineProperty(exports, "RequestHandler", {
     enumerable: true,
     get: ()=>RequestHandler
 });
-const _classPrivateFieldGet = require("@swc/helpers/lib/_class_private_field_get.js").default;
-const _classPrivateFieldInit = require("@swc/helpers/lib/_class_private_field_init.js").default;
-const _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-const _nodeFetch = /*#__PURE__*/ _interopRequireDefault(require("node-fetch"));
-const _abortSignal = require("./misc/AbortSignal");
+const _class_private_field_get = require("@swc/helpers/lib/_class_private_field_get.js").default;
+const _class_private_field_init = require("@swc/helpers/lib/_class_private_field_init.js").default;
+const _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
+const _nodefetch = /*#__PURE__*/ _interop_require_default(require("node-fetch"));
+const _AbortSignal = require("./misc/AbortSignal");
 const _errors = require("../../errors");
 const _utils = require("../../utils");
 const headers = [
@@ -29,7 +29,7 @@ class RequestHandler {
      * Whether this handler is inactive or not.
      * @return {boolean}
      */ get inactive() {
-        return !_classPrivateFieldGet(this, _queue).remaining && !this._limited;
+        return !_class_private_field_get(this, _queue).remaining && !this._limited;
     }
     /**
      * Whether the rate-limit bucket is currently limited.
@@ -86,7 +86,7 @@ class RequestHandler {
      *
      * @return {Promise<*>}
      */ async push(url, request) {
-        await _classPrivateFieldGet(this, _queue).wait();
+        await _class_private_field_get(this, _queue).wait();
         try {
             await this.rest.globalTimeout;
             if (this._limited) {
@@ -108,7 +108,7 @@ class RequestHandler {
             }
             return this._make(url, request);
         } finally{
-            _classPrivateFieldGet(this, _queue).next();
+            _class_private_field_get(this, _queue).next();
         }
     }
     /**
@@ -120,11 +120,11 @@ class RequestHandler {
      * @return {Promise<*>}
      * @private
      */ async _make(url, request, tries = 0) {
-        const signal = new _abortSignal.AbortSignal();
+        const signal = new _AbortSignal.AbortSignal();
         const timeout = _utils.Timers.setTimeout(()=>signal.abort(), this.rest.options.timeout);
         let res;
         try {
-            res = await (0, _nodeFetch.default)(url, {
+            res = await (0, _nodefetch.default)(url, {
                 ...request,
                 signal
             });
@@ -175,7 +175,7 @@ class RequestHandler {
      * @param {Rest} rest The REST Manager.
      * @param {string} id The ID of this request handler.
      */ constructor(rest, id){
-        _classPrivateFieldInit(this, _queue, {
+        _class_private_field_init(this, _queue, {
             writable: true,
             value: new _utils.AsyncQueue()
         });

@@ -21,21 +21,10 @@ fn pass_iframe_srcdoc(input: PathBuf) {
 
 #[testing::fixture("tests/iframe_srcdoc/**/*.html")]
 fn span_visualizer(input: PathBuf) {
-    document_span_visualizer(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-        false,
-    )
+    document_span_visualizer(input, Default::default(), false)
 }
 
 #[testing::fixture("tests/iframe_srcdoc/**/*.html")]
 fn dom_visualizer(input: PathBuf) {
-    document_dom_visualizer(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-    )
+    document_dom_visualizer(input, Default::default())
 }

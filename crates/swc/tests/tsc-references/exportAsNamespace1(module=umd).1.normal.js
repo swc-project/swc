@@ -36,7 +36,7 @@
         "./0"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.1Ts = {}, global.interopRequireWildcardMjs, global["0"]);
-})(this, function(exports, _interopRequireWildcard, _0) {
+})(this, function(exports, _interop_require_wildcard, _0) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -47,8 +47,8 @@
             return _0;
         }
     });
-    _interopRequireWildcard = _interopRequireWildcard.default;
-    _0 = /*#__PURE__*/ _interopRequireWildcard(_0);
+    _interop_require_wildcard = _interop_require_wildcard.default;
+    _0 = /*#__PURE__*/ _interop_require_wildcard(_0);
     ns.a;
     ns.b;
 });
@@ -61,13 +61,13 @@
         "./1"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.2Ts = {}, global.interopRequireWildcardMjs, global["1"]);
-})(this, function(exports, _interopRequireWildcard, _1) {
+})(this, function(exports, _interop_require_wildcard, _1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _interopRequireWildcard = _interopRequireWildcard.default;
-    _1 = /*#__PURE__*/ _interopRequireWildcard(_1);
+    _interop_require_wildcard = _interop_require_wildcard.default;
+    _1 = /*#__PURE__*/ _interop_require_wildcard(_1);
     _1.ns.a;
     _1.ns.b;
 });

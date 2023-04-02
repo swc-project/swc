@@ -23,7 +23,7 @@ define([
     "exports",
     "@swc/helpers/src/_class_call_check.mjs",
     "@swc/helpers/src/_interop_require_wildcard.mjs"
-], function(require, exports, _classCallCheck, _interopRequireWildcard) {
+], function(require, exports, _class_call_check, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -42,20 +42,20 @@ define([
             return D;
         }
     });
-    _classCallCheck = _classCallCheck.default;
-    _interopRequireWildcard = _interopRequireWildcard.default;
+    _class_call_check = _class_call_check.default;
+    _interop_require_wildcard = _interop_require_wildcard.default;
     new Promise(function(resolve, reject) {
         return require([
             "./0"
         ], function(m) {
-            return resolve(/*#__PURE__*/ _interopRequireWildcard(m));
+            return resolve(/*#__PURE__*/ _interop_require_wildcard(m));
         }, reject);
     });
     var p1 = new Promise(function(resolve, reject) {
         return require([
             "./0"
         ], function(m) {
-            return resolve(/*#__PURE__*/ _interopRequireWildcard(m));
+            return resolve(/*#__PURE__*/ _interop_require_wildcard(m));
         }, reject);
     });
     p1.then(function(zero) {
@@ -65,7 +65,7 @@ define([
         return require([
             "./0"
         ], function(m) {
-            return resolve(/*#__PURE__*/ _interopRequireWildcard(m));
+            return resolve(/*#__PURE__*/ _interop_require_wildcard(m));
         }, reject);
     });
     function foo() {
@@ -73,14 +73,14 @@ define([
             return require([
                 "./0"
             ], function(m) {
-                return resolve(/*#__PURE__*/ _interopRequireWildcard(m));
+                return resolve(/*#__PURE__*/ _interop_require_wildcard(m));
             }, reject);
         });
     }
     var C = /*#__PURE__*/ function() {
         "use strict";
         function C() {
-            _classCallCheck(this, C);
+            _class_call_check(this, C);
         }
         var _proto = C.prototype;
         _proto.method = function method() {
@@ -88,7 +88,7 @@ define([
                 return require([
                     "./0"
                 ], function(m) {
-                    return resolve(/*#__PURE__*/ _interopRequireWildcard(m));
+                    return resolve(/*#__PURE__*/ _interop_require_wildcard(m));
                 }, reject);
             });
         };
@@ -97,7 +97,7 @@ define([
     var D = /*#__PURE__*/ function() {
         "use strict";
         function D() {
-            _classCallCheck(this, D);
+            _class_call_check(this, D);
         }
         var _proto = D.prototype;
         _proto.method = function method() {
@@ -105,7 +105,7 @@ define([
                 return require([
                     "./0"
                 ], function(m) {
-                    return resolve(/*#__PURE__*/ _interopRequireWildcard(m));
+                    return resolve(/*#__PURE__*/ _interop_require_wildcard(m));
                 }, reject);
             });
         };

@@ -23,11 +23,11 @@
         "exports",
         "@swc/helpers/src/_interop_require_wildcard.mjs"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.2Ts = {}, global.interopRequireWildcardMjs);
-}(this, function(exports1, _interopRequireWildcard) {
+}(this, function(exports1, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
-    }), _interopRequireWildcard = _interopRequireWildcard.default, async function() {
+    }), _interop_require_wildcard = _interop_require_wildcard.default, async function() {
         class C extends (await import("./0")).B {
         }
         new C().print();

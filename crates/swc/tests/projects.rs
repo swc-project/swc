@@ -198,8 +198,8 @@ fn issue_225() {
     let s = file("tests/projects/issue-225/input.js").unwrap();
     println!("{}", s);
 
-    assert!(s.contains("function _interopRequireDefault"));
-    assert!(s.contains("_interopRequireDefault(require(\"foo\"))"));
+    assert!(s.contains("function _interop_require_default"));
+    assert!(s.contains("_interop_require_default(require(\"foo\"))"));
 }
 
 /// should handle exportNamespaceFrom configured by .swcrc
@@ -380,7 +380,7 @@ fn issue_605() {
     let f = file("tests/projects/issue-605/input.js").unwrap();
     println!("{}", f);
 
-    assert!(f.contains(r#"_exportStar(require("c"), exports);"#));
+    assert!(f.contains(r#"_export_star(require("c"), exports);"#));
 }
 
 #[test]
@@ -669,7 +669,7 @@ impl Fold for Panicking {
             panic!("visited: {}", sym)
         }
 
-        JSXOpeningElement { ..node }
+        node
     }
 }
 
@@ -964,9 +964,7 @@ fn issue_6009() {
             config: Config {
                 exclude,
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
-                        ..Default::default()
-                    })),
+                    syntax: Some(Syntax::Typescript(Default::default())),
                     ..Default::default()
                 },
                 ..Default::default()
