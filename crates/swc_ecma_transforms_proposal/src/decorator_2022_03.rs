@@ -753,7 +753,7 @@ impl VisitMut for Decorator202203 {
 
                 self.extra_lets.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(init_class.clone().into()),
+                    name: Pat::Ident(new_class_name.clone().into()),
                     init: None,
                     definite: false,
                 });
