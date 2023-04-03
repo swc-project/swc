@@ -2,7 +2,7 @@ use std::{iter::once, mem::transmute};
 
 use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, prepend_stmt, private_ident,
     prop_name_to_expr_value, quote_ident, ExprFactory, IdentExt,
@@ -34,6 +34,8 @@ struct Decorator202203 {
 
     class_lhs: Vec<Option<Pat>>,
     class_decorators: Vec<Option<ExprOrSpread>>,
+
+    extra_lets: Vec<VarDeclarator>,
 }
 
 impl Decorator202203 {
@@ -338,14 +340,6 @@ impl VisitMut for Decorator202203 {
         self.init_proto.take();
 
         self.extra_stmts = old_stmts;
-    }
-
-    fn visit_mut_class_decl(&mut self, c: &mut ClassDecl) {
-        if !c.class.decorators.is_empty() {
-            self.handle_class_decorator(&mut c.class, Some(&c.ident));
-        }
-
-        c.visit_mut_children_with(self);
     }
 
     fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
@@ -726,6 +720,115 @@ impl VisitMut for Decorator202203 {
             .collect();
 
         self.cur_inits.push((init, initialize_init))
+    }
+
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        if let Stmt::Decl(Decl::Class(c)) = s {
+            if !c.class.decorators.is_empty() {
+                let init_class = private_ident!("_initClass");
+
+                self.extra_vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(init_class.clone().into()),
+                    init: None,
+                    definite: false,
+                });
+
+                let new_class_name = private_ident!(format!("_{}", c.ident.sym));
+
+                self.extra_lets.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(init_class.clone().into()),
+                    init: None,
+                    definite: false,
+                });
+
+                self.class_lhs.push(Some(new_class_name.clone().into()));
+                self.class_lhs.push(Some(init_class.clone().into()));
+
+                self.class_decorators
+                    .extend(c.class.decorators.drain(..).map(|e| Some(e.expr.as_arg())));
+
+                let mut body = c.class.body.take();
+
+                for m in body.iter_mut() {
+                    match m {
+                        ClassMember::Method(m) => {}
+                        ClassMember::PrivateMethod(m) => {}
+                        ClassMember::ClassProp(m) => {}
+                        ClassMember::PrivateProp(m) => {}
+                        _ => {}
+                    }
+                }
+
+                c.visit_mut_with(self);
+
+                *s = NewExpr {
+                    span: DUMMY_SP,
+                    callee: ClassExpr {
+                        ident: None,
+                        class: Box::new(Class {
+                            span: DUMMY_SP,
+                            decorators: vec![],
+                            body: once(ClassMember::StaticBlock(StaticBlock {
+                                span: DUMMY_SP,
+                                body: BlockStmt {
+                                    span: DUMMY_SP,
+                                    stmts: vec![Stmt::Decl(Decl::Class(ClassDecl {
+                                        ident: c.ident.clone(),
+                                        declare: Default::default(),
+                                        class: c.class.take(),
+                                    }))],
+                                },
+                            }))
+                            .chain(body)
+                            .chain(once(ClassMember::Constructor(Constructor {
+                                span: DUMMY_SP,
+                                key: PropName::Ident(quote_ident!("constructor")),
+                                params: vec![],
+                                body: Some(BlockStmt {
+                                    span: DUMMY_SP,
+                                    stmts: vec![SeqExpr {
+                                        span: DUMMY_SP,
+                                        exprs: vec![
+                                            Box::new(Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: Callee::Super(Super { span: DUMMY_SP }),
+                                                args: vec![new_class_name.clone().as_arg()],
+                                                type_args: Default::default(),
+                                            })),
+                                            Box::new(Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: init_class.clone().as_callee(),
+                                                args: vec![],
+                                                type_args: Default::default(),
+                                            })),
+                                        ],
+                                    }
+                                    .into_stmt()],
+                                }),
+                                accessibility: Default::default(),
+                                is_optional: Default::default(),
+                            })))
+                            .collect(),
+                            super_class: Some(Box::new(helper_expr!(identity, "identity"))),
+                            is_abstract: Default::default(),
+                            type_params: Default::default(),
+                            super_type_params: Default::default(),
+                            implements: Default::default(),
+                        }),
+                    }
+                    .into(),
+                    args: Some(vec![]),
+                    type_args: Default::default(),
+                }
+                .into_stmt();
+
+                return;
+            }
+        }
+
+        s.visit_mut_children_with(self);
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
