@@ -581,10 +581,23 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        let old_extra_lets = self.extra_lets.take();
+
         let mut new = Vec::with_capacity(n.len());
 
         for mut n in n.take() {
             n.visit_mut_with(self);
+            if !self.extra_lets.is_empty() {
+                new.push(
+                    Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Let,
+                        decls: self.extra_lets.take(),
+                        declare: false,
+                    })))
+                    .into(),
+                )
+            }
             if !self.computed_key_inits.is_empty() {
                 new.push(
                     Stmt::Expr(ExprStmt {
@@ -611,6 +624,8 @@ impl VisitMut for Decorator202203 {
         }
 
         *n = new;
+
+        self.extra_lets = old_extra_lets;
     }
 
     fn visit_mut_private_prop(&mut self, p: &mut PrivateProp) {
@@ -832,6 +847,7 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        let old_extra_lets = self.extra_lets.take();
         let old_extra_stmts = self.extra_stmts.take();
         let old_extra_vars = self.extra_vars.take();
 
@@ -839,6 +855,14 @@ impl VisitMut for Decorator202203 {
 
         for mut n in n.take() {
             n.visit_mut_with(self);
+            if !self.extra_lets.is_empty() {
+                new.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    decls: self.extra_lets.take(),
+                    declare: false,
+                }))))
+            }
             if !self.computed_key_inits.is_empty() {
                 new.push(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
@@ -865,5 +889,6 @@ impl VisitMut for Decorator202203 {
 
         self.extra_vars = old_extra_vars;
         self.extra_stmts = old_extra_stmts;
+        self.extra_lets = old_extra_lets;
     }
 }
