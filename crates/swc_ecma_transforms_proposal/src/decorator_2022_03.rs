@@ -599,7 +599,11 @@ impl VisitMut for Decorator202203 {
             )
         };
 
-        self.cur_inits.push((init, vec![initialize_init]))
+        if p.is_static {
+            self.static_inits.push((init, vec![initialize_init]))
+        } else {
+            self.cur_inits.push((init, vec![initialize_init]))
+        }
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -776,7 +780,11 @@ impl VisitMut for Decorator202203 {
             .as_arg()
         };
 
-        self.cur_inits.push((init, vec![Some(initialize_init)]))
+        if p.is_static {
+            self.static_inits.push((init, vec![Some(initialize_init)]))
+        } else {
+            self.cur_inits.push((init, vec![Some(initialize_init)]))
+        }
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
