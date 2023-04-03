@@ -390,6 +390,8 @@ impl VisitMut for Decorator202203 {
                 return;
             }
 
+            let decorators = self.preserve_side_effect_of_decorators(p.function.decorators.take());
+
             let init = private_ident!(format!("_call_{}", p.key.id.sym));
 
             self.extra_vars.push(VarDeclarator {
@@ -407,7 +409,7 @@ impl VisitMut for Decorator202203 {
                     .get_or_insert_with(|| private_ident!("_initProto"));
             }
 
-            for mut dec in p.function.decorators.take() {
+            for dec in decorators {
                 let caller = FnExpr {
                     ident: None,
                     function: p.function.clone(),
@@ -417,7 +419,7 @@ impl VisitMut for Decorator202203 {
                     ArrayLit {
                         span: DUMMY_SP,
                         elems: vec![
-                            Some(dec.expr.take().as_arg()),
+                            dec,
                             Some(
                                 if p.is_static {
                                     match p.kind {
@@ -515,6 +517,8 @@ impl VisitMut for Decorator202203 {
             return;
         }
 
+        let decorators = self.preserve_side_effect_of_decorators(n.function.decorators.take());
+
         let (name, init) = self.initializer_name(&mut n.key, "call");
 
         if n.is_static {
@@ -525,12 +529,12 @@ impl VisitMut for Decorator202203 {
                 .get_or_insert_with(|| private_ident!("_initProto"));
         }
 
-        for mut dec in n.function.decorators.drain(..) {
+        for dec in decorators {
             let arg = Some(
                 ArrayLit {
                     span: DUMMY_SP,
                     elems: vec![
-                        Some(dec.expr.take().as_arg()),
+                        dec,
                         Some(
                             match (n.is_static, n.kind) {
                                 (true, MethodKind::Method) => 7,
@@ -562,6 +566,8 @@ impl VisitMut for Decorator202203 {
             return;
         }
 
+        let decorators = self.preserve_side_effect_of_decorators(p.decorators.take());
+
         let (name, init) = self.initializer_name(&mut p.key, "init");
 
         self.extra_vars.push(VarDeclarator {
@@ -580,15 +586,13 @@ impl VisitMut for Decorator202203 {
             type_args: Default::default(),
         })));
 
-        let initialize_init = p
-            .decorators
-            .take()
+        let initialize_init = decorators
             .into_iter()
             .map(|dec| {
                 ArrayLit {
                     span: DUMMY_SP,
                     elems: vec![
-                        Some(dec.expr.as_arg()),
+                        dec,
                         Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
                         Some(name.clone().as_arg()),
                     ],
@@ -679,6 +683,8 @@ impl VisitMut for Decorator202203 {
             return;
         }
 
+        let decorators = self.preserve_side_effect_of_decorators(p.decorators.take());
+
         let init = private_ident!(format!("_init_{}", p.key.id.sym));
 
         self.extra_vars.push(VarDeclarator {
@@ -697,9 +703,7 @@ impl VisitMut for Decorator202203 {
             type_args: Default::default(),
         })));
 
-        let initialize_init = p
-            .decorators
-            .take()
+        let initialize_init = decorators
             .into_iter()
             .map(|dec| {
                 let access_expr = Box::new(Expr::Member(MemberExpr {
@@ -754,7 +758,7 @@ impl VisitMut for Decorator202203 {
                 ArrayLit {
                     span: DUMMY_SP,
                     elems: vec![
-                        Some(dec.expr.as_arg()),
+                        dec,
                         Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
                         Some((&*p.key.id.sym).as_arg()),
                         Some(
