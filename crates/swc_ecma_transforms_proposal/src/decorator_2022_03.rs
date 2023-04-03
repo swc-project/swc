@@ -777,6 +777,8 @@ impl VisitMut for Decorator202203 {
 
                 let mut body = c.class.body.take();
 
+                let mut last_static_block = None;
+
                 for m in body.iter_mut() {
                     match m {
                         ClassMember::Method(m) => {
@@ -785,15 +787,58 @@ impl VisitMut for Decorator202203 {
                         ClassMember::PrivateMethod(m) => {
                             m.is_static = false;
                         }
-                        ClassMember::ClassProp(m) => {
-                            m.is_static = false;
+                        ClassMember::ClassProp(ClassProp {
+                            is_static, value, ..
+                        })
+                        | ClassMember::PrivateProp(PrivateProp {
+                            is_static, value, ..
+                        }) => {
+                            *is_static = false;
+
+                            if let Some(value) = value {
+                                if let Some(last_static_block) = last_static_block.take() {
+                                    **value = Expr::Seq(SeqExpr {
+                                        span: DUMMY_SP,
+                                        exprs: vec![
+                                            Box::new(Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: ArrowExpr {
+                                                    span: DUMMY_SP,
+                                                    params: vec![],
+                                                    body: Box::new(BlockStmtOrExpr::BlockStmt(
+                                                        BlockStmt {
+                                                            span: DUMMY_SP,
+                                                            stmts: last_static_block,
+                                                        },
+                                                    )),
+                                                    is_async: false,
+                                                    is_generator: false,
+                                                    type_params: Default::default(),
+                                                    return_type: Default::default(),
+                                                }
+                                                .as_callee(),
+                                                args: vec![],
+                                                type_args: Default::default(),
+                                            })),
+                                            value.take(),
+                                        ],
+                                    })
+                                }
+                            }
                         }
-                        ClassMember::PrivateProp(m) => {
-                            m.is_static = false;
-                        }
+                        ClassMember::StaticBlock(s) => match &mut last_static_block {
+                            None => {
+                                last_static_block = Some(s.body.stmts.take());
+                            }
+                            Some(v) => {
+                                v.append(&mut s.body.stmts);
+                            }
+                        },
                         _ => {}
                     }
                 }
+
+                body.retain(|m| !matches!(m, ClassMember::StaticBlock(..)));
 
                 c.visit_mut_with(self);
 
@@ -826,20 +871,41 @@ impl VisitMut for Decorator202203 {
                                     span: DUMMY_SP,
                                     stmts: vec![SeqExpr {
                                         span: DUMMY_SP,
-                                        exprs: vec![
+                                        exprs: once(Box::new(Expr::Call(CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: Callee::Super(Super { span: DUMMY_SP }),
+                                            args: vec![new_class_name.clone().as_arg()],
+                                            type_args: Default::default(),
+                                        })))
+                                        .chain(last_static_block.map(|stmts| {
                                             Box::new(Expr::Call(CallExpr {
                                                 span: DUMMY_SP,
-                                                callee: Callee::Super(Super { span: DUMMY_SP }),
-                                                args: vec![new_class_name.clone().as_arg()],
-                                                type_args: Default::default(),
-                                            })),
-                                            Box::new(Expr::Call(CallExpr {
-                                                span: DUMMY_SP,
-                                                callee: init_class.clone().as_callee(),
+                                                callee: ArrowExpr {
+                                                    span: DUMMY_SP,
+                                                    params: vec![],
+                                                    body: Box::new(BlockStmtOrExpr::BlockStmt(
+                                                        BlockStmt {
+                                                            span: DUMMY_SP,
+                                                            stmts,
+                                                        },
+                                                    )),
+                                                    is_async: false,
+                                                    is_generator: false,
+                                                    type_params: Default::default(),
+                                                    return_type: Default::default(),
+                                                }
+                                                .as_callee(),
                                                 args: vec![],
                                                 type_args: Default::default(),
-                                            })),
-                                        ],
+                                            }))
+                                        }))
+                                        .chain(once(Box::new(Expr::Call(CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: init_class.clone().as_callee(),
+                                            args: vec![],
+                                            type_args: Default::default(),
+                                        }))))
+                                        .collect(),
                                     }
                                     .into_stmt()],
                                 }),
