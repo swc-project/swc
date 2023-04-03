@@ -849,8 +849,6 @@ impl VisitMut for Decorator202203 {
                             | ClassMember::PrivateProp(PrivateProp {
                                 is_static, value, ..
                             }) => {
-                                *is_static = false;
-
                                 if let Some(value) = value {
                                     if let Some(last_static_block) = last_static_block.take() {
                                         **value = Expr::Seq(SeqExpr {
@@ -899,6 +897,8 @@ impl VisitMut for Decorator202203 {
                     });
 
                     body.visit_mut_with(self);
+
+                    self.cur_inits.splice(0..0, self.static_inits.drain(..));
 
                     c.visit_mut_with(self);
 
