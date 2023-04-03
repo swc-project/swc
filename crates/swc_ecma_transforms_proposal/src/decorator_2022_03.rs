@@ -57,12 +57,12 @@ impl Decorator202203 {
             return;
         }
 
-        let mut lhs = vec![];
+        let mut e_lhs = vec![];
         let mut combined_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
         let mut arrays = vec![];
 
         for (id, args) in inits {
-            lhs.push(Some(id.into()));
+            e_lhs.push(Some(id.into()));
 
             arrays.extend(args);
         }
@@ -75,7 +75,7 @@ impl Decorator202203 {
                 definite: false,
             });
 
-            lhs.push(Some(init_proto.into()));
+            e_lhs.push(Some(init_proto.into()));
             if for_static {
                 combined_args.push(
                     ArrayLit {
@@ -112,14 +112,28 @@ impl Decorator202203 {
             );
         }
 
+        let e_pat = if e_lhs.is_empty() {
+            None
+        } else {
+            Some(ObjectPatProp::KeyValue(KeyValuePatProp {
+                key: PropName::Ident(quote_ident!("e")),
+                value: Box::new(Pat::Array(ArrayPat {
+                    span: DUMMY_SP,
+                    elems: e_lhs,
+                    type_ann: Default::default(),
+                    optional: false,
+                })),
+            }))
+        };
+
         let expr = Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
-            left: PatOrExpr::Pat(Box::new(Pat::Array(ArrayPat {
+            left: PatOrExpr::Pat(Box::new(Pat::Object(ObjectPat {
                 span: DUMMY_SP,
-                elems: lhs,
-                type_ann: Default::default(),
+                props: e_pat.into_iter().collect(),
                 optional: false,
+                type_ann: None,
             }))),
             right: Box::new(
                 CallExpr {
