@@ -43,6 +43,16 @@ struct Decorator202203 {
 }
 
 impl Decorator202203 {
+    fn preserve_side_effect_of_decorators(
+        &mut self,
+        decorators: Vec<Decorator>,
+    ) -> Vec<Option<ExprOrSpread>> {
+        decorators
+            .into_iter()
+            .map(|e| Some(self.preserve_side_effect_of_decorator(e).as_arg()))
+            .collect()
+    }
+
     fn preserve_side_effect_of_decorator(&mut self, dec: Decorator) -> Box<Expr> {
         if dec.expr.is_ident() {
             return dec.expr;
@@ -304,11 +314,7 @@ impl Decorator202203 {
             definite: false,
         });
 
-        let decorators = class
-            .decorators
-            .drain(..)
-            .map(|e| Some(self.preserve_side_effect_of_decorator(e).as_arg()))
-            .collect::<Vec<_>>();
+        let decorators = self.preserve_side_effect_of_decorators(class.decorators.take());
         self.class_decorators.extend(decorators);
 
         {
@@ -778,12 +784,7 @@ impl VisitMut for Decorator202203 {
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         if let Stmt::Decl(Decl::Class(c)) = s {
             if !c.class.decorators.is_empty() {
-                let decorators = c
-                    .class
-                    .decorators
-                    .drain(..)
-                    .map(|e| Some(self.preserve_side_effect_of_decorator(e).as_arg()))
-                    .collect::<Vec<_>>();
+                let decorators = self.preserve_side_effect_of_decorators(c.class.decorators.take());
 
                 let init_class = private_ident!("_initClass");
 
