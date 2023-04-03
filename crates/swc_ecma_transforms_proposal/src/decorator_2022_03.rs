@@ -262,10 +262,14 @@ impl Decorator202203 {
             definite: false,
         });
 
-        let new_class_name = ident.map_or_else(
+        let new_class_name = ident.as_ref().map_or_else(
             || private_ident!("_class"),
             |i| private_ident!(format!("_{}", i.sym)),
         );
+
+        if let Some(ident) = ident {
+            replace_ident(&mut class.body, ident.to_id(), &new_class_name);
+        }
 
         self.class_lhs.push(Some(new_class_name.clone().into()));
         self.class_lhs.push(Some(init_class.clone().into()));
