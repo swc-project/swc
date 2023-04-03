@@ -1039,6 +1039,7 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        let old_pre_class_inits = self.pre_class_inits.take();
         let old_extra_lets = self.extra_lets.take();
         let old_extra_stmts = self.extra_stmts.take();
         let old_extra_vars = self.extra_vars.take();
@@ -1082,6 +1083,7 @@ impl VisitMut for Decorator202203 {
         self.extra_vars = old_extra_vars;
         self.extra_stmts = old_extra_stmts;
         self.extra_lets = old_extra_lets;
+        self.pre_class_inits = old_pre_class_inits;
     }
 }
 
