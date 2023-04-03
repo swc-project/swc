@@ -247,7 +247,7 @@ impl Decorator202203 {
         unreachable!()
     }
 
-    fn handle_class_decorator(&mut self, class: &mut Class, ident: Option<&Ident>) -> Ident {
+    fn handle_class_expr(&mut self, class: &mut Class, ident: Option<&Ident>) -> Ident {
         debug_assert!(
             !class.decorators.is_empty(),
             "handle_class_decorator should be called only when decorators are present"
@@ -567,7 +567,7 @@ impl VisitMut for Decorator202203 {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         if let Expr::Class(c) = e {
             if !c.class.decorators.is_empty() {
-                let new = self.handle_class_decorator(&mut c.class, c.ident.as_ref());
+                let new = self.handle_class_expr(&mut c.class, c.ident.as_ref());
 
                 c.visit_mut_with(self);
 
