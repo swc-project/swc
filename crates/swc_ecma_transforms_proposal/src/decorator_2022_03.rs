@@ -283,7 +283,7 @@ impl VisitMut for Decorator202203 {
             for mut dec in p.function.decorators.take() {
                 let caller = FnExpr {
                     ident: None,
-                    function: p.function.take(),
+                    function: p.function.clone(),
                 };
 
                 let arg = Some(
