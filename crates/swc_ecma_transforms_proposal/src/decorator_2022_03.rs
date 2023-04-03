@@ -756,7 +756,7 @@ impl VisitMut for Decorator202203 {
                     definite: false,
                 });
 
-                let inner_class_name = c.ident.clone().private();
+                let preserved_class_name = c.ident.clone().private();
                 let new_class_name = private_ident!(format!("_{}", c.ident.sym));
 
                 self.extra_lets.push(VarDeclarator {
@@ -856,7 +856,7 @@ impl VisitMut for Decorator202203 {
 
                     c.visit_mut_with(self);
 
-                    replace_ident(&mut c.class, c.ident.to_id(), &inner_class_name);
+                    replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
 
                     body.visit_mut_with(self);
 
@@ -872,7 +872,7 @@ impl VisitMut for Decorator202203 {
                                     body: BlockStmt {
                                         span: DUMMY_SP,
                                         stmts: vec![Stmt::Decl(Decl::Class(ClassDecl {
-                                            ident: inner_class_name,
+                                            ident: preserved_class_name,
                                             declare: Default::default(),
                                             class: c.class.take(),
                                         }))],
@@ -944,8 +944,8 @@ impl VisitMut for Decorator202203 {
                 } else {
                     c.visit_mut_with(self);
 
-                    c.ident = inner_class_name.clone();
-                    replace_ident(&mut c.class, c.ident.to_id(), &inner_class_name);
+                    c.ident = preserved_class_name.clone();
+                    replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
 
                     body.visit_mut_with(self);
 
