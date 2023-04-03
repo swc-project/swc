@@ -633,8 +633,8 @@ function applyDecs2203RFactory() {
     };
 }
 
-function apply_decs_2203_r(targetClass, memberDecs, classDecs) {
-    return (apply_decs_2203_r = applyDecs2203RFactory())(
+function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
+    return (_apply_decs_2203_r = applyDecs2203RFactory())(
         targetClass,
         memberDecs,
         classDecs
