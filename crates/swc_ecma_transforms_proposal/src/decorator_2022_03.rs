@@ -233,6 +233,24 @@ impl Decorator202203 {
 
         let init_class = private_ident!("_initClass");
 
+        {
+            let call_stmt = CallExpr {
+                span: DUMMY_SP,
+                callee: init_class.as_callee(),
+                args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                type_args: Default::default(),
+            }
+            .into_stmt();
+
+            class.body.push(ClassMember::StaticBlock(StaticBlock {
+                span: DUMMY_SP,
+                body: BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![call_stmt],
+                },
+            }));
+        }
+
         new_class_name
     }
 }
