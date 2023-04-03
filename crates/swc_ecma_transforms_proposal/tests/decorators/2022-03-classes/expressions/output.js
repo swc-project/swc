@@ -1,76 +1,97 @@
-var _initClass, _A, _initClass2, _C, _initClass3, _D, _initClass4, _decorated_class, _initClass5, _G, _initClass6, _decorated_class2, _initClass7, _H, _initClass8, _K;
-const dec = () => { };
+var _initClass, _A, _initClass1, _C, _initClass2, _class, _initClass3, _class1, _initClass4, _G, _initClass5, _class2, _initClass6, _class3, _initClass7, _K;
+const dec = ()=>{};
 const A = (class A {
-  static {
-    [_A, _initClass] = _applyDecs2203R(this, [], [dec]).c;
-  }
-  static {
-    _initClass();
-  }
+    static{
+        ({ c: [_A, _initClass]  } = _apply_decs_2203_r(this, [], [
+            dec
+        ]));
+    }
+    static{
+        _initClass();
+    }
 }, _A);
 const B = (class C {
-  static {
-    [_C, _initClass2] = _applyDecs2203R(this, [], [dec]).c;
-  }
-  static {
-    _initClass2();
-  }
+    static{
+        ({ c: [_C, _initClass1]  } = _apply_decs_2203_r(this, [], [
+            dec
+        ]));
+    }
+    static{
+        _initClass1();
+    }
 }, _C);
-const D = (class D {
-  static {
-    [_D, _initClass3] = _applyDecs2203R(this, [], [dec]).c;
-  }
-  static {
-    _initClass3();
-  }
-}, _D);
+const D = (class {
+    static{
+        ({ c: [_class, _initClass2]  } = _apply_decs_2203_r(this, [], [
+            dec
+        ]));
+    }
+    static{
+        _initClass2();
+    }
+}, _class);
 const E = ((class {
-  static {
-    [_decorated_class, _initClass4] = _applyDecs2203R(this, [], [dec]).c;
-  }
-  static {
-    _initClass4();
-  }
-}, _decorated_class), 123);
-const F = [(class G {
-  static {
-    [_G, _initClass5] = _applyDecs2203R(this, [], [dec]).c;
-  }
-  static {
-    _initClass5();
-  }
-}, _G), (class {
-  static {
-    [_decorated_class2, _initClass6] = _applyDecs2203R(this, [], [dec]).c;
-  }
-  static {
-    _initClass6();
-  }
-}, _decorated_class2)];
-const H = (class H extends I {
-  static {
-    [_H, _initClass7] = _applyDecs2203R(this, [], [dec]).c;
-  }
-  static {
-    _initClass7();
-  }
-}, _H);
+    static{
+        ({ c: [_class1, _initClass3]  } = _apply_decs_2203_r(this, [], [
+            dec
+        ]));
+    }
+    static{
+        _initClass3();
+    }
+}, _class1), 123);
+const F = [
+    (class G {
+        static{
+            ({ c: [_G, _initClass4]  } = _apply_decs_2203_r(this, [], [
+                dec
+            ]));
+        }
+        static{
+            _initClass4();
+        }
+    }, _G),
+    (class {
+        static{
+            ({ c: [_class2, _initClass5]  } = _apply_decs_2203_r(this, [], [
+                dec
+            ]));
+        }
+        static{
+            _initClass5();
+        }
+    }, _class2)
+];
+const H = (class extends I {
+    static{
+        ({ c: [_class3, _initClass6]  } = _apply_decs_2203_r(this, [], [
+            dec
+        ]));
+    }
+    static{
+        _initClass6();
+    }
+}, _class3);
 const J = (class K extends L {
-  static {
-    [_K, _initClass8] = _applyDecs2203R(this, [], [dec]).c;
-  }
-  static {
-    _initClass8();
-  }
+    static{
+        ({ c: [_K, _initClass7]  } = _apply_decs_2203_r(this, [], [
+            dec
+        ]));
+    }
+    static{
+        _initClass7();
+    }
 }, _K);
 function classFactory() {
-  var _initClass9, _decorated_class3;
-  return class {
-    static {
-      [_decorated_class3, _initClass9] = _applyDecs2203R(this, [], [dec]).c;
-    }
-    static {
-      _initClass9();
-    }
-  }, _decorated_class3;
+    var _initClass, _class;
+    return class {
+        static{
+            ({ c: [_class, _initClass]  } = _apply_decs_2203_r(this, [], [
+                dec
+            ]));
+        }
+        static{
+            _initClass();
+        }
+    }, _class;
 }

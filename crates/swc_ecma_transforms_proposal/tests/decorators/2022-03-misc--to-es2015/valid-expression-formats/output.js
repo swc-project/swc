@@ -1,35 +1,54 @@
-var _initClass, _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _initProto;
-const dec = () => { };
+var _dec, _dec1, _dec2, _dec3, _initClass, _dec4, _dec5, _dec6, _dec7;
+const dec = ()=>{};
 let _Foo;
-_dec = call();
-_dec2 = chain.expr();
-_dec3 = arbitrary + expr;
-_dec4 = array[expr];
-_dec5 = call();
-_dec6 = chain.expr();
-_dec7 = arbitrary + expr;
-_dec8 = array[expr];
-var _a = /*#__PURE__*/new WeakMap();
+_dec = call(), _dec1 = chain.expr(), _dec2 = arbitrary + expr, _dec3 = array[expr], _dec4 = call(), _dec5 = chain.expr(), _dec6 = arbitrary + expr, _dec7 = array[expr];
+var _a = /*#__PURE__*/ new WeakMap();
 class Foo {
-  constructor(...args) {
-    classPrivateFieldInitSpec(this, _a, {
-      writable: true,
-      value: void 0
-    });
-    _initProto(this);
-  }
-  method() { }
-  makeClass() {
-    var _dec9, _init_bar, _class;
-    return _dec9 = classPrivateFieldGet(this, _a), (_class = class Nested {
-      constructor() {
-        defineProperty(this, "bar", _init_bar(this));
-      }
-    }, [_init_bar] = _applyDecs2203R(_class, [[_dec9, 0, "bar"]], []).e, _class);
-  }
+    method() {}
+    makeClass() {
+        var _Nested, __;
+        var _dec8, _init_bar, _initProto;
+        _dec8 = _class_private_field_get(this, _a);
+        return _Nested = class Nested {
+            constructor(){
+                _define_property(this, "bar", _init_bar(this));
+                _initProto(this);
+            }
+        }, __ = {
+            writable: true,
+            value: (()=>{
+                ({ e: [_init_bar, _initProto] , c: [_Foo, _initClass]  } = _apply_decs_2203_r(_Nested, [
+                    [
+                        [
+                            dec,
+                            _dec4,
+                            _dec5,
+                            _dec6,
+                            _dec7
+                        ],
+                        2,
+                        "method"
+                    ]
+                ], [
+                    dec,
+                    _dec,
+                    _dec1,
+                    _dec2,
+                    _dec3
+                ]));
+            })()
+        }, _Nested;
+    }
+    constructor(){
+        _class_private_field_init(this, _a, {
+            writable: true,
+            value: void 0
+        });
+    }
 }
-({
-  e: [_initProto],
-  c: [_Foo, _initClass]
-} = _applyDecs2203R(Foo, [[[dec, _dec5, _dec6, _dec7, _dec8], 2, "method"]], [dec, _dec, _dec2, _dec3, _dec4]));
-_initClass();
+var __ = {
+    writable: true,
+    value: (()=>{
+        _initClass();
+    })()
+};

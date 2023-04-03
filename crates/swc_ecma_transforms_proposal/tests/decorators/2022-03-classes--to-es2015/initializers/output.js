@@ -1,22 +1,47 @@
-var _initClass, _temp, _initClass2, _temp2;
-const dec = () => { };
+var _class, __, _class1, __1;
+var _initClass, _initClass1;
+const dec = ()=>{};
 let _Foo;
-new (_temp = class extends identity {
-  constructor() {
-    (super(_Foo), defineProperty(this, "field", 123)), _initClass();
-  }
-}, (() => {
-  class Foo { }
-  [_Foo, _initClass] = _applyDecs2203R(Foo, [], [dec]).c;
-})(), _temp)();
+new (_class = class extends _identity {
+    constructor(){
+        var _temp;
+        _temp = super(_Foo), _define_property(this, "field", 123), _temp, _initClass();
+    }
+}, __ = {
+    writable: true,
+    value: (()=>{
+        class Foo {
+        }
+        var __ = {
+            writable: true,
+            value: (()=>{
+                ({ c: [_Foo, _initClass]  } = _apply_decs_2203_r(Foo, [], [
+                    dec
+                ]));
+            })()
+        };
+    })()
+}, _class)();
 let _Bar;
-new (_temp2 = class extends identity {
-  constructor() {
-    (super(_Bar), defineProperty(this, "field", ((() => {
-      this.otherField = 456;
-    })(), 123))), _initClass2();
-  }
-}, (() => {
-  class Bar extends _Foo { }
-  [_Bar, _initClass2] = _applyDecs2203R(Bar, [], [dec]).c;
-})(), _temp2)();
+new (_class1 = class extends _identity {
+    constructor(){
+        var _temp;
+        _temp = super(_Bar), _define_property(this, "field", ((()=>{
+            this.otherField = 456;
+        })(), 123)), _temp, _initClass1();
+    }
+}, __1 = {
+    writable: true,
+    value: (()=>{
+        class Bar extends _Foo {
+        }
+        var __ = {
+            writable: true,
+            value: (()=>{
+                ({ c: [_Bar, _initClass1]  } = _apply_decs_2203_r(Bar, [], [
+                    dec
+                ]));
+            })()
+        };
+    })()
+}, _class1)();

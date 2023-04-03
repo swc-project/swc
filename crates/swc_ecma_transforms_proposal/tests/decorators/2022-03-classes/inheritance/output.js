@@ -1,22 +1,24 @@
-var _initClass, _dec, _initClass2, _dec2;
-const dec = () => { };
+var _initClass, _initClass1;
+const dec = ()=>{};
 let _Bar;
-_dec = dec1;
 class Bar {
-  static {
-    [_Bar, _initClass] = _applyDecs2203R(this, [], [_dec]).c;
-  }
-  static {
-    _initClass();
-  }
+    static{
+        ({ c: [_Bar, _initClass]  } = _apply_decs_2203_r(this, [], [
+            dec1
+        ]));
+    }
+    static{
+        _initClass();
+    }
 }
 let _Foo;
-_dec2 = dec2;
 class Foo extends _Bar {
-  static {
-    [_Foo, _initClass2] = _applyDecs2203R(this, [], [_dec2]).c;
-  }
-  static {
-    _initClass2();
-  }
+    static{
+        ({ c: [_Foo, _initClass1]  } = _apply_decs_2203_r(this, [], [
+            dec2
+        ]));
+    }
+    static{
+        _initClass1();
+    }
 }

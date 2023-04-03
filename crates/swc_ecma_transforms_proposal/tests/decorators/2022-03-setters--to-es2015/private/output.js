@@ -1,22 +1,34 @@
 var _call_a, _initProto;
-const dec = () => { };
-var _a = /*#__PURE__*/new WeakMap();
+const dec = ()=>{};
+var _a = /*#__PURE__*/ new WeakMap();
 class Foo {
-  constructor(...args) {
-    classPrivateFieldInitSpec(this, _a, {
-      get: void 0,
-      set: _set_a
-    });
-    defineProperty(this, "value", 1);
-    _initProto(this);
-  }
-  setA(v) {
-    classPrivateFieldSet(this, _a, v);
-  }
+    setA(v) {
+        _class_private_field_set(this, _a, v);
+    }
+    constructor(){
+        _class_private_field_init(this, _a, {
+            get: void 0,
+            set: set_a
+        });
+        _define_property(this, "value", 1);
+        _initProto(this);
+    }
 }
-function _set_a(v) {
-  _call_a(this, v);
+var __ = {
+    writable: true,
+    value: (()=>{
+        ({ e: [_call_a, _initProto]  } = _apply_decs_2203_r(Foo, [
+            [
+                dec,
+                4,
+                "a",
+                function(v) {
+                    return this.value = v;
+                }
+            ]
+        ], []));
+    })()
+};
+function set_a(v) {
+    _call_a(this, v);
 }
-[_call_a, _initProto] = _applyDecs2203R(Foo, [[dec, 4, "a", function (v) {
-  return this.value = v;
-}]], []).e;

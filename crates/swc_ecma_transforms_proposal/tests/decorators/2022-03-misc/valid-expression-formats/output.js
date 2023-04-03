@@ -1,36 +1,42 @@
-var _initClass, _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _initProto;
-const dec = () => { };
+var _dec, _dec1, _dec2, _dec3, _initClass, _dec4, _dec5, _dec6, _dec7;
+const dec = ()=>{};
 let _Foo;
-_dec = call();
-_dec2 = chain.expr();
-_dec3 = arbitrary + expr;
-_dec4 = array[expr];
-_dec5 = call();
-_dec6 = chain.expr();
-_dec7 = arbitrary + expr;
-_dec8 = array[expr];
+_dec = call(), _dec1 = chain.expr(), _dec2 = arbitrary + expr, _dec3 = array[expr], _dec4 = call(), _dec5 = chain.expr(), _dec6 = arbitrary + expr, _dec7 = array[expr];
 class Foo {
-  static {
-    ({
-      e: [_initProto],
-      c: [_Foo, _initClass]
-    } = _applyDecs2203R(this, [[[dec, _dec5, _dec6, _dec7, _dec8], 2, "method"]], [dec, _dec, _dec2, _dec3, _dec4]));
-  }
-  constructor(...args) {
-    _initProto(this);
-  }
-  #a;
-  method() { }
-  makeClass() {
-    var _dec9, _init_bar;
-    return _dec9 = this.#a, class Nested {
-      static {
-        [_init_bar] = _applyDecs2203R(this, [[_dec9, 0, "bar"]], []).e;
-      }
-      bar = _init_bar(this);
-    };
-  }
-  static {
-    _initClass();
-  }
+    #a;
+    method() {}
+    makeClass() {
+        var _dec8, _init_bar, _initProto;
+        _dec8 = this.#a;
+        return class Nested {
+            static{
+                ({ e: [_init_bar, _initProto] , c: [_Foo, _initClass]  } = _apply_decs_2203_r(this, [
+                    [
+                        [
+                            dec,
+                            _dec4,
+                            _dec5,
+                            _dec6,
+                            _dec7
+                        ],
+                        2,
+                        "method"
+                    ]
+                ], [
+                    dec,
+                    _dec,
+                    _dec1,
+                    _dec2,
+                    _dec3
+                ]));
+            }
+            constructor(){
+                _initProto(this);
+            }
+            bar = _init_bar(this);
+        };
+    }
+    static{
+        _initClass();
+    }
 }

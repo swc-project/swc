@@ -5,7 +5,7 @@ class Foo {
 var __ = {
     writable: true,
     value: (()=>{
-        [_init_a, _init_b] = _applyDecs2203R(Foo, [
+        ({ e: [_init_a, _init_b]  } = _apply_decs_2203_r(Foo, [
             [
                 dec,
                 5,
@@ -28,7 +28,7 @@ var __ = {
                     _class_static_private_field_spec_set(this, Foo, _b, value);
                 }
             ]
-        ], []).e;
+        ], []));
     })()
 };
 var _a = {

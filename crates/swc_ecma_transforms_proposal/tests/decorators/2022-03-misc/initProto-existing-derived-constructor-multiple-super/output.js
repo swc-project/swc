@@ -1,28 +1,41 @@
-var _dec, _initProto, _dec2, _initProto2;
-const dec = () => { };
-_dec = deco;
+var _initProto, _initProto1;
+const dec = ()=>{};
 class A extends B {
-  static {
-    [_initProto] = _applyDecs2203R(this, [[_dec, 2, "method"]], []).e;
-  }
-  constructor() {
-    if (Math.random() > 0.5) {
-      _initProto(super(true));
-    } else {
-      _initProto(super(false));
+    static{
+        ({ e: [_initProto]  } = _apply_decs_2203_r(this, [
+            [
+                deco,
+                2,
+                "method"
+            ]
+        ], []));
     }
-  }
-  method() { }
+    constructor(){
+        if (Math.random() > 0.5) {
+            super(true);
+            _initProto(this);
+        } else {
+            super(false);
+            _initProto(this);
+        }
+    }
+    method() {}
 }
-_dec2 = deco;
 class C extends B {
-  static {
-    [_initProto2] = _applyDecs2203R(this, [[_dec2, 2, "method"]], []).e;
-  }
-  constructor() {
-    try {
-      _initProto2(super(_initProto2(super()), null.x));
-    } catch { }
-  }
-  method() { }
+    static{
+        ({ e: [_initProto1]  } = _apply_decs_2203_r(this, [
+            [
+                deco,
+                2,
+                "method"
+            ]
+        ], []));
+    }
+    constructor(){
+        try {
+            super(super(), null.x);
+            _initProto1(this);
+        } catch  {}
+    }
+    method() {}
 }

@@ -1,17 +1,19 @@
 var _initClass;
-const dec = () => { };
+const dec = ()=>{};
 let _Foo;
-new class extends identity {
-  static {
-    class Foo {
-      static {
-        [_Foo, _initClass] = _applyDecs2203R(this, [], [dec]).c;
-      }
+new class extends _identity {
+    static{
+        class Foo {
+            static{
+                ({ c: [_Foo, _initClass]  } = _apply_decs_2203_r(this, [], [
+                    dec
+                ]));
+            }
+        }
     }
-  }
-  foo = new _Foo();
-  constructor() {
-    super(_Foo), _initClass();
-  }
+    foo = new _Foo();
+    constructor(){
+        super(_Foo), _initClass();
+    }
 }();
 const foo = new _Foo();

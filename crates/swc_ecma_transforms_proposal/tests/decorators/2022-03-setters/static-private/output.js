@@ -1,17 +1,24 @@
 var _call_a, _initStatic;
-const dec = () => { };
+const dec = ()=>{};
 class Foo {
-  static {
-    [_call_a, _initStatic] = _applyDecs2203R(this, [[dec, 9, "a", function (v) {
-      return this.value = v;
-    }]], []).e;
-    _initStatic(this);
-  }
-  static value = 1;
-  static set #a(v) {
-    _call_a(this, v);
-  }
-  static setA(v) {
-    this.#a = v;
-  }
+    static{
+        ({ e: [_call_a, _initStatic]  } = _apply_decs_2203_r(this, [
+            [
+                dec,
+                9,
+                "a",
+                function(v) {
+                    return this.value = v;
+                }
+            ]
+        ], []));
+        _initStatic(this);
+    }
+    static value = 1;
+    static set #a(v) {
+        _call_a(this, v);
+    }
+    static setA(v) {
+        this.#a = v;
+    }
 }

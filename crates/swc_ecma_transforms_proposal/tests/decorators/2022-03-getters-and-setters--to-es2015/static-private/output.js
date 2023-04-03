@@ -1,29 +1,45 @@
-var _call_a, _call_a2, _initStatic;
-const dec = () => { };
+var _call_a, _call_a1, _initStatic;
+const dec = ()=>{};
 class Foo {
-  static getA() {
-    return classStaticPrivateFieldSpecGet(this, Foo, _a);
-  }
-  static setA(v) {
-    classStaticPrivateFieldSpecSet(this, Foo, _a, v);
-  }
-}
-function _get_a() {
-  return _call_a(this);
-}
-function _set_a(v) {
-  _call_a2(this, v);
+    static getA() {
+        return _class_static_private_field_spec_get(this, Foo, _a);
+    }
+    static setA(v) {
+        _class_static_private_field_spec_set(this, Foo, _a, v);
+    }
 }
 var _a = {
-  get: _get_a,
-  set: _set_a
+    get: get_a,
+    set: set_a
 };
-(() => {
-  [_call_a, _call_a2, _initStatic] = _applyDecs2203R(Foo, [[dec, 8, "a", function () {
-    return this.value;
-  }], [dec, 9, "a", function (v) {
-    this.value = v;
-  }]], []).e;
-  _initStatic(Foo);
-})();
-defineProperty(Foo, "value", 1);
+var __ = {
+    writable: true,
+    value: (()=>{
+        ({ e: [_call_a, _call_a1, _initStatic]  } = _apply_decs_2203_r(Foo, [
+            [
+                dec,
+                8,
+                "a",
+                function() {
+                    return this.value;
+                }
+            ],
+            [
+                dec,
+                9,
+                "a",
+                function(v) {
+                    this.value = v;
+                }
+            ]
+        ], []));
+        _initStatic(Foo);
+    })()
+};
+_define_property(Foo, "value", 1);
+function get_a() {
+    return _call_a(this);
+}
+function set_a(v) {
+    _call_a1(this, v);
+}

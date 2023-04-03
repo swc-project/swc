@@ -1,14 +1,16 @@
 var _initClass;
-const dec = () => { };
+const dec = ()=>{};
 let _Foo;
 class Foo extends Bar {
-  static {
-    [_Foo, _initClass] = _applyDecs2203R(this, [], [dec]).c;
-  }
-  constructor() {
-    let foo = super();
-  }
-  static {
-    _initClass();
-  }
+    static{
+        ({ c: [_Foo, _initClass]  } = _apply_decs_2203_r(this, [], [
+            dec
+        ]));
+    }
+    constructor(){
+        let foo = super();
+    }
+    static{
+        _initClass();
+    }
 }

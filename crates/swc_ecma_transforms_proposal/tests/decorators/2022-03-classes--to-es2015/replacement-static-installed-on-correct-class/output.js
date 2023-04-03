@@ -1,21 +1,33 @@
-var _initClass, _x, _m, _temp;
-const dec = () => { };
+var _x, _m, _class, __;
+var _initClass;
+const dec = ()=>{};
 let hasX, hasM;
 let _Foo;
-new (_x = /*#__PURE__*/new WeakMap(), _m = /*#__PURE__*/new WeakSet(), (_temp = class extends identity {
-  constructor() {
-    (super(_Foo), classPrivateMethodInitSpec(this, _m), classPrivateFieldInitSpec(this, _x, {
-      writable: true,
-      value: void 0
-    }), defineProperty(this, "x", void 0)), (() => {
-      hasX = o => _x.has(checkInRHS(o));
-      hasM = o => _m.has(checkInRHS(o));
-    })(), _initClass();
-  }
-}, (() => {
-  class Foo {
-    static m() { }
-  }
-  [_Foo, _initClass] = _applyDecs2203R(Foo, [], [dec]).c;
-})(), _temp))();
-function _m2() { }
+new (_x = /*#__PURE__*/ new WeakMap(), _m = /*#__PURE__*/ new WeakSet(), _class = class extends _identity {
+    constructor(){
+        var _temp;
+        _temp = super(_Foo), _class_private_method_init(this, _m), _class_private_field_init(this, _x, {
+            writable: true,
+            value: void 0
+        }), _define_property(this, "x", void 0), _temp, (()=>{
+            hasX = (o)=>_x.has(o);
+            hasM = (o)=>_m.has(o);
+        })(), _initClass();
+    }
+}, __ = {
+    writable: true,
+    value: (()=>{
+        class Foo {
+            static m() {}
+        }
+        var __ = {
+            writable: true,
+            value: (()=>{
+                ({ c: [_Foo, _initClass]  } = _apply_decs_2203_r(Foo, [], [
+                    dec
+                ]));
+            })()
+        };
+    })()
+}, _class)();
+function m() {}

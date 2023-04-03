@@ -1,12 +1,23 @@
-var _dec, _initProto;
-const dec = () => { };
-_dec = deco;
+var _initProto;
+const dec = ()=>{};
 class A extends B {
-  constructor() {
-    let a = 2;
-    _initProto(super(a));
-    foo();
-  }
-  method() { }
+    method() {}
+    constructor(){
+        let a = 2;
+        super(a);
+        _initProto(this);
+        foo();
+    }
 }
-[_initProto] = _applyDecs2203R(A, [[_dec, 2, "method"]], []).e;
+var __ = {
+    writable: true,
+    value: (()=>{
+        ({ e: [_initProto]  } = _apply_decs_2203_r(A, [
+            [
+                deco,
+                2,
+                "method"
+            ]
+        ], []));
+    })()
+};

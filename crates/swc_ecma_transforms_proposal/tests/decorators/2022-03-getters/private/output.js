@@ -1,19 +1,26 @@
 var _call_a, _initProto;
-const dec = () => { };
+const dec = ()=>{};
 class Foo {
-  static {
-    [_call_a, _initProto] = _applyDecs2203R(this, [[dec, 3, "a", function () {
-      return this.value;
-    }]], []).e;
-  }
-  constructor(...args) {
-    _initProto(this);
-  }
-  value = 1;
-  get #a() {
-    return _call_a(this);
-  }
-  getA() {
-    return this.#a;
-  }
+    static{
+        ({ e: [_call_a, _initProto]  } = _apply_decs_2203_r(this, [
+            [
+                dec,
+                3,
+                "a",
+                function() {
+                    return this.value;
+                }
+            ]
+        ], []));
+    }
+    constructor(){
+        _initProto(this);
+    }
+    value = 1;
+    get #a() {
+        return _call_a(this);
+    }
+    getA() {
+        return this.#a;
+    }
 }

@@ -8,7 +8,7 @@ class Foo {
 var __ = {
     writable: true,
     value: (()=>{
-        [_call_a, _initStatic] = _applyDecs2203R(Foo, [
+        ({ e: [_call_a, _initStatic]  } = _apply_decs_2203_r(Foo, [
             [
                 dec,
                 7,
@@ -17,7 +17,7 @@ var __ = {
                     return this.value;
                 }
             ]
-        ], []).e;
+        ], []));
         _initStatic(Foo);
     })()
 };
