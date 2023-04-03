@@ -26,6 +26,9 @@
 - **(css/modules)** Preserve spans of CSS class names (#7185) ([df7b4e7](https://github.com/swc-project/swc/commit/df7b4e71d22a7174df6f4fe9691044560e8e7f65))
 
 
+- **(es/compat)** Implement stage 3 decorator, without auto accessor (#6950) ([7a863ad](https://github.com/swc-project/swc/commit/7a863ad18ffeb45801cc17992634b5c62adfe88b))
+
+
 - **(plugin/runner)** Improve cache path (#7188) ([976667f](https://github.com/swc-project/swc/commit/976667f7d98b821940c5325efc092e50c6554dc2))
 
 ### Testing
