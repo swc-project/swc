@@ -854,11 +854,11 @@ impl VisitMut for Decorator202203 {
                         !matches!(m, ClassMember::StaticBlock(..) | ClassMember::Empty(..))
                     });
 
+                    body.visit_mut_with(self);
+
                     c.visit_mut_with(self);
 
                     replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
-
-                    body.visit_mut_with(self);
 
                     *s = NewExpr {
                         span: DUMMY_SP,
@@ -942,12 +942,12 @@ impl VisitMut for Decorator202203 {
                     }
                     .into_stmt();
                 } else {
+                    body.visit_mut_with(self);
+
                     c.visit_mut_with(self);
 
                     c.ident = preserved_class_name.clone();
                     replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
-
-                    body.visit_mut_with(self);
 
                     c.class.body.extend(body);
 
