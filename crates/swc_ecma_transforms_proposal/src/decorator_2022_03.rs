@@ -150,15 +150,12 @@ impl Decorator202203 {
                 optional: false,
                 type_ann: None,
             }))),
-            right: Box::new(
-                CallExpr {
-                    span: DUMMY_SP,
-                    callee: helper!(apply_decs_2203_r, "apply_decs_2203_r"),
-                    args: combined_args,
-                    type_args: Default::default(),
-                }
-                .make_member(quote_ident!("e")),
-            ),
+            right: Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(apply_decs_2203_r, "apply_decs_2203_r"),
+                args: combined_args,
+                type_args: Default::default(),
+            })),
         }));
 
         self.extra_stmts.push(Stmt::Expr(ExprStmt {
@@ -264,6 +261,9 @@ impl Decorator202203 {
             || private_ident!("_class"),
             |i| private_ident!(format!("_{}", i.sym)),
         );
+
+        self.class_lhs.push(Some(new_class_name.clone().into()));
+        self.class_lhs.push(Some(init_class.clone().into()));
 
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
