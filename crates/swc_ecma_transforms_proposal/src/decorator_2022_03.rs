@@ -314,7 +314,15 @@ impl VisitMut for Decorator202203 {
             if p.kind == MethodKind::Setter {
                 let call_stmt = Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
-                    expr: init.into(),
+                    expr: Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: init.as_callee(),
+                        args: vec![
+                            ThisExpr { span: DUMMY_SP }.as_arg(),
+                            p.function.params[0].pat.clone().expect_ident().id.as_arg(),
+                        ],
+                        type_args: Default::default(),
+                    })),
                 });
 
                 p.function.body = Some(BlockStmt {
