@@ -279,7 +279,7 @@ impl Decorator202203 {
             let call_stmt = CallExpr {
                 span: DUMMY_SP,
                 callee: init_class.as_callee(),
-                args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                args: vec![],
                 type_args: Default::default(),
             }
             .into_stmt();
