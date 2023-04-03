@@ -8,7 +8,7 @@ use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, prepend_stmt, private_ident,
     prop_name_to_expr_value, quote_ident, replace_ident, ExprFactory, IdentExt, IdentRenamer,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
 pub fn decorator_2022_03() -> impl VisitMut + Fold {
     as_folder(Decorator202203::default())
@@ -777,158 +777,178 @@ impl VisitMut for Decorator202203 {
 
                 let mut body = c.class.body.take();
 
-                let mut last_static_block = None;
-
-                for m in body.iter_mut() {
-                    match m {
-                        ClassMember::Method(method) => {
-                            if method.is_static {
-                                c.class.body.push(m.take());
-                            }
-                        }
-                        ClassMember::PrivateMethod(m) => {
-                            m.is_static = false;
-                        }
-                        ClassMember::ClassProp(ClassProp {
-                            is_static, value, ..
-                        })
-                        | ClassMember::PrivateProp(PrivateProp {
-                            is_static, value, ..
-                        }) => {
-                            *is_static = false;
-
-                            if let Some(value) = value {
-                                if let Some(last_static_block) = last_static_block.take() {
-                                    **value = Expr::Seq(SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs: vec![
-                                            Box::new(Expr::Call(CallExpr {
-                                                span: DUMMY_SP,
-                                                callee: ArrowExpr {
-                                                    span: DUMMY_SP,
-                                                    params: vec![],
-                                                    body: Box::new(BlockStmtOrExpr::BlockStmt(
-                                                        BlockStmt {
-                                                            span: DUMMY_SP,
-                                                            stmts: last_static_block,
-                                                        },
-                                                    )),
-                                                    is_async: false,
-                                                    is_generator: false,
-                                                    type_params: Default::default(),
-                                                    return_type: Default::default(),
-                                                }
-                                                .as_callee(),
-                                                args: vec![],
-                                                type_args: Default::default(),
-                                            })),
-                                            value.take(),
-                                        ],
-                                    })
-                                }
-                            }
-                        }
-                        ClassMember::StaticBlock(s) => match &mut last_static_block {
-                            None => {
-                                last_static_block = Some(s.body.stmts.take());
-                            }
-                            Some(v) => {
-                                v.append(&mut s.body.stmts);
-                            }
-                        },
-                        _ => {}
-                    }
-                }
-
-                body.retain(|m| {
-                    !matches!(m, ClassMember::StaticBlock(..) | ClassMember::Empty(..))
+                let has_static_member = body.iter().any(|m| match m {
+                    ClassMember::Method(m) => m.is_static,
+                    ClassMember::PrivateMethod(m) => m.is_static,
+                    ClassMember::ClassProp(ClassProp { is_static, .. })
+                    | ClassMember::PrivateProp(PrivateProp { is_static, .. }) => *is_static,
+                    ClassMember::StaticBlock(_) => true,
+                    _ => false,
                 });
 
-                c.visit_mut_with(self);
+                if has_static_member {
+                    let mut last_static_block = None;
 
-                replace_ident(&mut c.class, c.ident.to_id(), &inner_class_name);
+                    for m in body.iter_mut() {
+                        match m {
+                            ClassMember::Method(method) => {
+                                if method.is_static {
+                                    c.class.body.push(m.take());
+                                }
+                            }
+                            ClassMember::PrivateMethod(m) => {
+                                m.is_static = false;
+                            }
+                            ClassMember::ClassProp(ClassProp {
+                                is_static, value, ..
+                            })
+                            | ClassMember::PrivateProp(PrivateProp {
+                                is_static, value, ..
+                            }) => {
+                                *is_static = false;
 
-                *s = NewExpr {
-                    span: DUMMY_SP,
-                    callee: ClassExpr {
-                        ident: None,
-                        class: Box::new(Class {
-                            span: DUMMY_SP,
-                            decorators: vec![],
-                            body: once(ClassMember::StaticBlock(StaticBlock {
-                                span: DUMMY_SP,
-                                body: BlockStmt {
-                                    span: DUMMY_SP,
-                                    stmts: vec![Stmt::Decl(Decl::Class(ClassDecl {
-                                        ident: inner_class_name,
-                                        declare: Default::default(),
-                                        class: c.class.take(),
-                                    }))],
-                                },
-                            }))
-                            .chain(body)
-                            .chain(once(ClassMember::Constructor(Constructor {
-                                span: DUMMY_SP,
-                                key: PropName::Ident(quote_ident!("constructor")),
-                                params: vec![],
-                                body: Some(BlockStmt {
-                                    span: DUMMY_SP,
-                                    stmts: vec![SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs: once(Box::new(Expr::Call(CallExpr {
+                                if let Some(value) = value {
+                                    if let Some(last_static_block) = last_static_block.take() {
+                                        **value = Expr::Seq(SeqExpr {
                                             span: DUMMY_SP,
-                                            callee: Callee::Super(Super { span: DUMMY_SP }),
-                                            args: vec![new_class_name.clone().as_arg()],
-                                            type_args: Default::default(),
-                                        })))
-                                        .chain(last_static_block.map(|stmts| {
-                                            Box::new(Expr::Call(CallExpr {
-                                                span: DUMMY_SP,
-                                                callee: ArrowExpr {
+                                            exprs: vec![
+                                                Box::new(Expr::Call(CallExpr {
                                                     span: DUMMY_SP,
-                                                    params: vec![],
-                                                    body: Box::new(BlockStmtOrExpr::BlockStmt(
-                                                        BlockStmt {
-                                                            span: DUMMY_SP,
-                                                            stmts,
-                                                        },
-                                                    )),
-                                                    is_async: false,
-                                                    is_generator: false,
-                                                    type_params: Default::default(),
-                                                    return_type: Default::default(),
-                                                }
-                                                .as_callee(),
+                                                    callee: ArrowExpr {
+                                                        span: DUMMY_SP,
+                                                        params: vec![],
+                                                        body: Box::new(BlockStmtOrExpr::BlockStmt(
+                                                            BlockStmt {
+                                                                span: DUMMY_SP,
+                                                                stmts: last_static_block,
+                                                            },
+                                                        )),
+                                                        is_async: false,
+                                                        is_generator: false,
+                                                        type_params: Default::default(),
+                                                        return_type: Default::default(),
+                                                    }
+                                                    .as_callee(),
+                                                    args: vec![],
+                                                    type_args: Default::default(),
+                                                })),
+                                                value.take(),
+                                            ],
+                                        })
+                                    }
+                                }
+                            }
+                            ClassMember::StaticBlock(s) => match &mut last_static_block {
+                                None => {
+                                    last_static_block = Some(s.body.stmts.take());
+                                }
+                                Some(v) => {
+                                    v.append(&mut s.body.stmts);
+                                }
+                            },
+                            _ => {}
+                        }
+                    }
+
+                    body.retain(|m| {
+                        !matches!(m, ClassMember::StaticBlock(..) | ClassMember::Empty(..))
+                    });
+
+                    c.visit_mut_with(self);
+
+                    replace_ident(&mut c.class, c.ident.to_id(), &inner_class_name);
+
+                    body.visit_mut_with(self);
+
+                    *s = NewExpr {
+                        span: DUMMY_SP,
+                        callee: ClassExpr {
+                            ident: None,
+                            class: Box::new(Class {
+                                span: DUMMY_SP,
+                                decorators: vec![],
+                                body: once(ClassMember::StaticBlock(StaticBlock {
+                                    span: DUMMY_SP,
+                                    body: BlockStmt {
+                                        span: DUMMY_SP,
+                                        stmts: vec![Stmt::Decl(Decl::Class(ClassDecl {
+                                            ident: inner_class_name,
+                                            declare: Default::default(),
+                                            class: c.class.take(),
+                                        }))],
+                                    },
+                                }))
+                                .chain(body)
+                                .chain(once(ClassMember::Constructor(Constructor {
+                                    span: DUMMY_SP,
+                                    key: PropName::Ident(quote_ident!("constructor")),
+                                    params: vec![],
+                                    body: Some(BlockStmt {
+                                        span: DUMMY_SP,
+                                        stmts: vec![SeqExpr {
+                                            span: DUMMY_SP,
+                                            exprs: once(Box::new(Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: Callee::Super(Super { span: DUMMY_SP }),
+                                                args: vec![new_class_name.clone().as_arg()],
+                                                type_args: Default::default(),
+                                            })))
+                                            .chain(last_static_block.map(|stmts| {
+                                                Box::new(Expr::Call(CallExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: ArrowExpr {
+                                                        span: DUMMY_SP,
+                                                        params: vec![],
+                                                        body: Box::new(BlockStmtOrExpr::BlockStmt(
+                                                            BlockStmt {
+                                                                span: DUMMY_SP,
+                                                                stmts,
+                                                            },
+                                                        )),
+                                                        is_async: false,
+                                                        is_generator: false,
+                                                        type_params: Default::default(),
+                                                        return_type: Default::default(),
+                                                    }
+                                                    .as_callee(),
+                                                    args: vec![],
+                                                    type_args: Default::default(),
+                                                }))
+                                            }))
+                                            .chain(once(Box::new(Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: init_class.clone().as_callee(),
                                                 args: vec![],
                                                 type_args: Default::default(),
-                                            }))
-                                        }))
-                                        .chain(once(Box::new(Expr::Call(CallExpr {
-                                            span: DUMMY_SP,
-                                            callee: init_class.clone().as_callee(),
-                                            args: vec![],
-                                            type_args: Default::default(),
-                                        }))))
-                                        .collect(),
-                                    }
-                                    .into_stmt()],
-                                }),
-                                accessibility: Default::default(),
-                                is_optional: Default::default(),
-                            })))
-                            .collect(),
-                            super_class: Some(Box::new(helper_expr!(identity, "identity"))),
-                            is_abstract: Default::default(),
-                            type_params: Default::default(),
-                            super_type_params: Default::default(),
-                            implements: Default::default(),
-                        }),
+                                            }))))
+                                            .collect(),
+                                        }
+                                        .into_stmt()],
+                                    }),
+                                    accessibility: Default::default(),
+                                    is_optional: Default::default(),
+                                })))
+                                .collect(),
+                                super_class: Some(Box::new(helper_expr!(identity, "identity"))),
+                                is_abstract: Default::default(),
+                                type_params: Default::default(),
+                                super_type_params: Default::default(),
+                                implements: Default::default(),
+                            }),
+                        }
+                        .into(),
+                        args: Some(vec![]),
+                        type_args: Default::default(),
                     }
-                    .into(),
-                    args: Some(vec![]),
-                    type_args: Default::default(),
+                    .into_stmt();
+                } else {
+                    c.visit_mut_with(self);
+
+                    c.ident = inner_class_name.clone();
+                    replace_ident(&mut c.class, c.ident.to_id(), &inner_class_name);
+
+                    body.visit_mut_with(self);
                 }
-                .into_stmt();
 
                 return;
             }
