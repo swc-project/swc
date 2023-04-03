@@ -80,13 +80,13 @@ impl Decorator202203 {
                     .as_arg(),
                 );
             } else {
-                arrays.push(Some(
+                combined_args.push(
                     ArrayLit {
                         span: DUMMY_SP,
                         elems: self.init_proto_args.take(),
                     }
                     .as_arg(),
-                ));
+                );
             }
         }
 
