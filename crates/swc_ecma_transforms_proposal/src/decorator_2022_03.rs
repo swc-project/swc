@@ -326,38 +326,57 @@ impl VisitMut for Decorator202203 {
                 self.cur_inits.push((init.clone(), vec![]));
             }
 
-            if p.kind == MethodKind::Setter {
-                let call_stmt = Stmt::Expr(ExprStmt {
-                    span: DUMMY_SP,
-                    expr: Box::new(Expr::Call(CallExpr {
+            match p.kind {
+                MethodKind::Method => {
+                    *n = ClassMember::PrivateProp(PrivateProp {
+                        accessibility: Default::default(),
+                        span: p.span,
+                        key: p.key.clone(),
+                        is_optional: Default::default(),
+                        is_override: Default::default(),
+                        is_static: p.is_static,
+                        value: Some(init.into()),
+                        type_ann: Default::default(),
+                        decorators: Default::default(),
+                        definite: Default::default(),
+                        readonly: Default::default(),
+                    });
+                }
+                MethodKind::Getter => {
+                    let call_stmt = Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
-                        callee: init.as_callee(),
-                        args: vec![
-                            ThisExpr { span: DUMMY_SP }.as_arg(),
-                            p.function.params[0].pat.clone().expect_ident().id.as_arg(),
-                        ],
-                        type_args: Default::default(),
-                    })),
-                });
+                        arg: Some(Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: init.as_callee(),
+                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                            type_args: Default::default(),
+                        }))),
+                    });
 
-                p.function.body = Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![call_stmt],
-                });
-            } else {
-                *n = ClassMember::PrivateProp(PrivateProp {
-                    accessibility: Default::default(),
-                    span: p.span,
-                    key: p.key.clone(),
-                    is_optional: Default::default(),
-                    is_override: Default::default(),
-                    is_static: p.is_static,
-                    value: Some(init.into()),
-                    type_ann: Default::default(),
-                    decorators: Default::default(),
-                    definite: Default::default(),
-                    readonly: Default::default(),
-                });
+                    p.function.body = Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![call_stmt],
+                    });
+                }
+                MethodKind::Setter => {
+                    let call_stmt = Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: init.as_callee(),
+                            args: vec![
+                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                p.function.params[0].pat.clone().expect_ident().id.as_arg(),
+                            ],
+                            type_args: Default::default(),
+                        })),
+                    });
+
+                    p.function.body = Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![call_stmt],
+                    });
+                }
             }
         }
     }
