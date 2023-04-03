@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, prepend_stmt, private_ident,
-    prop_name_to_expr_value, quote_ident, ExprFactory,
+    prop_name_to_expr_value, quote_ident, ExprFactory, IdentExt,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -209,6 +209,31 @@ impl Decorator202203 {
         }
 
         unreachable!()
+    }
+
+    fn handle_class_decorator(&mut self, class: &mut Class, ident: Option<&Ident>) -> Ident {
+        debug_assert!(
+            !class.decorators.is_empty(),
+            "handle_class_decorator should be called only when decorators are present"
+        );
+
+        let new_class_name = ident
+            .cloned()
+            .unwrap_or_else(|| quote_ident!("_class"))
+            .private();
+
+        self.extra_vars.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(new_class_name.clone().into()),
+            init: None,
+            definite: false,
+        });
+
+        let mut decorators = class.decorators.take();
+
+        let init_class = private_ident!("_initClass");
+
+        new_class_name
     }
 }
 
@@ -472,6 +497,23 @@ impl VisitMut for Decorator202203 {
             .collect();
 
         self.cur_inits.push((init, initialize_init))
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if let Expr::Class(c) = e {
+            if !c.class.decorators.is_empty() {
+                let new = self.handle_class_decorator(&mut c.class, c.ident.as_ref());
+
+                *e = Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![Box::new(e.take()), Box::new(Expr::Ident(new))],
+                });
+
+                return;
+            }
+        }
+
+        e.visit_mut_children_with(self);
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
