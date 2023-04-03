@@ -310,19 +310,32 @@ impl VisitMut for Decorator202203 {
             } else {
                 self.cur_inits.push((init.clone(), vec![]));
             }
-            *n = ClassMember::PrivateProp(PrivateProp {
-                accessibility: Default::default(),
-                span: p.span,
-                key: p.key.clone(),
-                is_optional: Default::default(),
-                is_override: Default::default(),
-                is_static: p.is_static,
-                value: Some(init.into()),
-                type_ann: Default::default(),
-                decorators: Default::default(),
-                definite: Default::default(),
-                readonly: Default::default(),
-            });
+
+            if p.kind == MethodKind::Setter {
+                let call_stmt = Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: init.into(),
+                });
+
+                p.function.body = Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![call_stmt],
+                });
+            } else {
+                *n = ClassMember::PrivateProp(PrivateProp {
+                    accessibility: Default::default(),
+                    span: p.span,
+                    key: p.key.clone(),
+                    is_optional: Default::default(),
+                    is_override: Default::default(),
+                    is_static: p.is_static,
+                    value: Some(init.into()),
+                    type_ann: Default::default(),
+                    decorators: Default::default(),
+                    definite: Default::default(),
+                    readonly: Default::default(),
+                });
+            }
         }
     }
 
