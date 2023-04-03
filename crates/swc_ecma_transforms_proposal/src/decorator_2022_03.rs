@@ -781,8 +781,10 @@ impl VisitMut for Decorator202203 {
 
                 for m in body.iter_mut() {
                     match m {
-                        ClassMember::Method(m) => {
-                            m.is_static = false;
+                        ClassMember::Method(method) => {
+                            if method.is_static {
+                                c.class.body.push(m.take());
+                            }
                         }
                         ClassMember::PrivateMethod(m) => {
                             m.is_static = false;
@@ -838,7 +840,9 @@ impl VisitMut for Decorator202203 {
                     }
                 }
 
-                body.retain(|m| !matches!(m, ClassMember::StaticBlock(..)));
+                body.retain(|m| {
+                    !matches!(m, ClassMember::StaticBlock(..) | ClassMember::Empty(..))
+                });
 
                 c.visit_mut_with(self);
 
