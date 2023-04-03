@@ -17,7 +17,7 @@
         });
     }
     _export(exports, {
-        "$": ()=>_jquery,
+        $: ()=>_jquery,
         jquery: ()=>_jquery
     });
     _jquery(".hello");
