@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, prepend_stmt, private_ident,
-    prop_name_to_expr_value, quote_ident, ExprFactory, IdentRenamer,
+    prop_name_to_expr_value, quote_ident, replace_ident, ExprFactory, IdentExt, IdentRenamer,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -756,6 +756,7 @@ impl VisitMut for Decorator202203 {
                     definite: false,
                 });
 
+                let inner_class_name = c.ident.clone().private();
                 let new_class_name = private_ident!(format!("_{}", c.ident.sym));
 
                 self.extra_lets.push(VarDeclarator {
@@ -788,6 +789,8 @@ impl VisitMut for Decorator202203 {
 
                 c.visit_mut_with(self);
 
+                replace_ident(&mut c.class, c.ident.to_id(), &inner_class_name);
+
                 *s = NewExpr {
                     span: DUMMY_SP,
                     callee: ClassExpr {
@@ -800,7 +803,7 @@ impl VisitMut for Decorator202203 {
                                 body: BlockStmt {
                                     span: DUMMY_SP,
                                     stmts: vec![Stmt::Decl(Decl::Class(ClassDecl {
-                                        ident: c.ident.clone(),
+                                        ident: inner_class_name,
                                         declare: Default::default(),
                                         class: c.class.take(),
                                     }))],
