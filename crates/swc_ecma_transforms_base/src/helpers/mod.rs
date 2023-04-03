@@ -376,6 +376,9 @@ define_helpers!(Helpers {
     ts_metadata: (),
     ts_param: (),
     ts_values: (),
+
+    apply_decs_2203_r: (),
+    identity: (),
 });
 
 pub fn inject_helpers(global_mark: Mark) -> impl Fold + VisitMut {
