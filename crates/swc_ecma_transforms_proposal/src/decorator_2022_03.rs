@@ -217,6 +217,15 @@ impl Decorator202203 {
             "handle_class_decorator should be called only when decorators are present"
         );
 
+        let init_class = private_ident!("_initClass");
+
+        self.extra_vars.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(init_class.clone().into()),
+            init: None,
+            definite: false,
+        });
+
         let new_class_name = ident.map_or_else(
             || private_ident!("_class"),
             |i| private_ident!(format!("_{}", i.sym)),
@@ -230,8 +239,6 @@ impl Decorator202203 {
         });
 
         let mut decorators = class.decorators.take();
-
-        let init_class = private_ident!("_initClass");
 
         {
             let call_stmt = CallExpr {
