@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, prepend_stmt, private_ident,
-    prop_name_to_expr_value, quote_ident, ExprFactory, IdentExt, Remapper,
+    prop_name_to_expr_value, quote_ident, ExprFactory, IdentRenamer,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -38,7 +38,7 @@ struct Decorator202203 {
 
     extra_lets: Vec<VarDeclarator>,
 
-    rename_map: FxHashMap<Id, SyntaxContext>,
+    rename_map: FxHashMap<Id, Id>,
 }
 
 impl Decorator202203 {
@@ -629,7 +629,7 @@ impl VisitMut for Decorator202203 {
         *n = new;
 
         if !self.rename_map.is_empty() {
-            n.visit_mut_with(&mut Remapper::new(&self.rename_map));
+            n.visit_mut_with(&mut IdentRenamer::new(&self.rename_map));
         }
 
         self.extra_lets = old_extra_lets;
@@ -756,7 +756,7 @@ impl VisitMut for Decorator202203 {
                     definite: false,
                 });
 
-                let new_class_name = c.ident.clone().private();
+                let new_class_name = private_ident!(format!("_{}", c.ident.sym));
 
                 self.extra_lets.push(VarDeclarator {
                     span: DUMMY_SP,
@@ -766,7 +766,7 @@ impl VisitMut for Decorator202203 {
                 });
 
                 self.rename_map
-                    .insert(c.ident.to_id(), new_class_name.span.ctxt);
+                    .insert(c.ident.to_id(), new_class_name.to_id());
 
                 self.class_lhs.push(Some(new_class_name.clone().into()));
                 self.class_lhs.push(Some(init_class.clone().into()));
