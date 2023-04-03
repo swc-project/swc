@@ -902,6 +902,27 @@ impl VisitMut for Decorator202203 {
 
                     c.visit_mut_with(self);
 
+                    // Make static members non-static
+                    for m in body.iter_mut() {
+                        match m {
+                            ClassMember::Method(m) => {
+                                m.is_static = false;
+                            }
+                            ClassMember::PrivateMethod(m) => {
+                                m.is_static = false;
+                            }
+                            ClassMember::ClassProp(ClassProp {
+                                is_static, value, ..
+                            })
+                            | ClassMember::PrivateProp(PrivateProp {
+                                is_static, value, ..
+                            }) => {
+                                *is_static = false;
+                            }
+                            _ => {}
+                        }
+                    }
+
                     replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
 
                     *s = NewExpr {
