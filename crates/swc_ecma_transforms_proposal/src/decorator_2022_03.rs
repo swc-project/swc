@@ -8,7 +8,7 @@ use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, prepend_stmt, private_ident,
     prop_name_to_expr_value, quote_ident, replace_ident, ExprFactory, IdentExt, IdentRenamer,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn decorator_2022_03() -> impl VisitMut + Fold {
     as_folder(Decorator202203::default())
@@ -527,7 +527,7 @@ impl VisitMut for Decorator202203 {
         let decorators = self.preserve_side_effect_of_decorators(n.function.decorators.take());
         let dec = merge_decorators(decorators);
 
-        let (name, init) = self.initializer_name(&mut n.key, "call");
+        let (name, _init) = self.initializer_name(&mut n.key, "call");
 
         if n.is_static {
             self.init_static
@@ -851,12 +851,8 @@ impl VisitMut for Decorator202203 {
                             ClassMember::PrivateMethod(m) => {
                                 m.is_static = false;
                             }
-                            ClassMember::ClassProp(ClassProp {
-                                is_static, value, ..
-                            })
-                            | ClassMember::PrivateProp(PrivateProp {
-                                is_static, value, ..
-                            }) => {
+                            ClassMember::ClassProp(ClassProp { value, .. })
+                            | ClassMember::PrivateProp(PrivateProp { value, .. }) => {
                                 if let Some(value) = value {
                                     if let Some(last_static_block) = last_static_block.take() {
                                         **value = Expr::Seq(SeqExpr {
@@ -919,12 +915,8 @@ impl VisitMut for Decorator202203 {
                             ClassMember::PrivateMethod(m) => {
                                 m.is_static = false;
                             }
-                            ClassMember::ClassProp(ClassProp {
-                                is_static, value, ..
-                            })
-                            | ClassMember::PrivateProp(PrivateProp {
-                                is_static, value, ..
-                            }) => {
+                            ClassMember::ClassProp(ClassProp { is_static, .. })
+                            | ClassMember::PrivateProp(PrivateProp { is_static, .. }) => {
                                 *is_static = false;
                             }
                             _ => {}
@@ -963,7 +955,7 @@ impl VisitMut for Decorator202203 {
                                             exprs: once(Box::new(Expr::Call(CallExpr {
                                                 span: DUMMY_SP,
                                                 callee: Callee::Super(Super { span: DUMMY_SP }),
-                                                args: vec![new_class_name.clone().as_arg()],
+                                                args: vec![new_class_name.as_arg()],
                                                 type_args: Default::default(),
                                             })))
                                             .chain(last_static_block.map(|stmts| {
@@ -990,7 +982,7 @@ impl VisitMut for Decorator202203 {
                                             }))
                                             .chain(once(Box::new(Expr::Call(CallExpr {
                                                 span: DUMMY_SP,
-                                                callee: init_class.clone().as_callee(),
+                                                callee: init_class.as_callee(),
                                                 args: vec![],
                                                 type_args: Default::default(),
                                             }))))
@@ -1030,7 +1022,7 @@ impl VisitMut for Decorator202203 {
                             span: DUMMY_SP,
                             stmts: vec![CallExpr {
                                 span: DUMMY_SP,
-                                callee: init_class.clone().as_callee(),
+                                callee: init_class.as_callee(),
                                 args: vec![],
                                 type_args: Default::default(),
                             }

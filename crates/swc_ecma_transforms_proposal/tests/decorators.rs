@@ -1,14 +1,12 @@
+#![allow(unused)]
+
 use std::{
     path::{Path, PathBuf},
     rc::Rc,
 };
 
 use serde::Deserialize;
-use swc_common::{
-    chain,
-    comments::{Comments, SingleThreadedComments},
-    Mark,
-};
+use swc_common::{chain, comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
 use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
@@ -118,8 +116,8 @@ fn read_options_json(input: &Path) -> BabelTestOptions {
     read_options_json(options_path.parent().unwrap())
 }
 
-fn create_pass(comments: Rc<SingleThreadedComments>, input: &PathBuf) -> Box<dyn Fold> {
-    let options_json = read_options_json(&input);
+fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fold> {
+    let options_json = read_options_json(input);
 
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
