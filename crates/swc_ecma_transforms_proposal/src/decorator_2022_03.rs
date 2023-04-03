@@ -217,10 +217,10 @@ impl Decorator202203 {
             "handle_class_decorator should be called only when decorators are present"
         );
 
-        let new_class_name = ident
-            .cloned()
-            .unwrap_or_else(|| quote_ident!("_class"))
-            .private();
+        let new_class_name = ident.map_or_else(
+            || private_ident!("_class"),
+            |i| private_ident!(format!("_{}", i.sym)),
+        );
 
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
