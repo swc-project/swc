@@ -99,15 +99,16 @@ impl Decorator202203 {
                     .as_arg(),
                 );
             }
+        } else {
+            combined_args.push(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: arrays,
+                }
+                .as_arg(),
+            );
         }
 
-        combined_args.push(
-            ArrayLit {
-                span: DUMMY_SP,
-                elems: arrays,
-            }
-            .as_arg(),
-        );
         if !for_static {
             combined_args.push(
                 ArrayLit {
