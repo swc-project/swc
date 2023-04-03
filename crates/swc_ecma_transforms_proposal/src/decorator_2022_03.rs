@@ -31,6 +31,8 @@ struct Decorator202203 {
     extra_stmts: Vec<Stmt>,
 
     computed_key_inits: Vec<Box<Expr>>,
+
+    class_decorators: Vec<Option<ExprOrSpread>>,
 }
 
 impl Decorator202203 {
@@ -48,7 +50,10 @@ impl Decorator202203 {
             self.cur_inits.take()
         };
 
-        if inits.is_empty() && init_ident.is_none() {
+        if inits.is_empty()
+            && init_ident.is_none()
+            && (for_static || self.class_decorators.is_empty())
+        {
             return;
         }
 
@@ -101,7 +106,7 @@ impl Decorator202203 {
             combined_args.push(
                 ArrayLit {
                     span: DUMMY_SP,
-                    elems: vec![],
+                    elems: self.class_decorators.take(),
                 }
                 .as_arg(),
             );
@@ -238,7 +243,8 @@ impl Decorator202203 {
             definite: false,
         });
 
-        let mut decorators = class.decorators.take();
+        self.class_decorators
+            .extend(class.decorators.drain(..).map(|e| Some(e.expr.as_arg())));
 
         {
             let call_stmt = CallExpr {
@@ -528,6 +534,8 @@ impl VisitMut for Decorator202203 {
         if let Expr::Class(c) = e {
             if !c.class.decorators.is_empty() {
                 let new = self.handle_class_decorator(&mut c.class, c.ident.as_ref());
+
+                c.visit_mut_with(self);
 
                 *e = Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
