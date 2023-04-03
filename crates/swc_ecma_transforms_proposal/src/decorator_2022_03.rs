@@ -32,6 +32,7 @@ struct Decorator202203 {
 
     computed_key_inits: Vec<Box<Expr>>,
 
+    class_lhs: Vec<Option<Pat>>,
     class_decorators: Vec<Option<ExprOrSpread>>,
 }
 
@@ -126,12 +127,26 @@ impl Decorator202203 {
             }))
         };
 
+        let c_pat = if self.class_lhs.is_empty() {
+            None
+        } else {
+            Some(ObjectPatProp::KeyValue(KeyValuePatProp {
+                key: PropName::Ident(quote_ident!("c")),
+                value: Box::new(Pat::Array(ArrayPat {
+                    span: DUMMY_SP,
+                    elems: self.class_lhs.take(),
+                    type_ann: Default::default(),
+                    optional: false,
+                })),
+            }))
+        };
+
         let expr = Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
             left: PatOrExpr::Pat(Box::new(Pat::Object(ObjectPat {
                 span: DUMMY_SP,
-                props: e_pat.into_iter().collect(),
+                props: e_pat.into_iter().chain(c_pat).collect(),
                 optional: false,
                 type_ann: None,
             }))),
