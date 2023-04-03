@@ -391,6 +391,7 @@ impl VisitMut for Decorator202203 {
             }
 
             let decorators = self.preserve_side_effect_of_decorators(p.function.decorators.take());
+            let dec = merge_decorators(decorators);
 
             let init = private_ident!(format!("_call_{}", p.key.id.sym));
 
@@ -409,44 +410,42 @@ impl VisitMut for Decorator202203 {
                     .get_or_insert_with(|| private_ident!("_initProto"));
             }
 
-            for dec in decorators {
-                let caller = FnExpr {
-                    ident: None,
-                    function: p.function.clone(),
-                };
+            let caller = FnExpr {
+                ident: None,
+                function: p.function.clone(),
+            };
 
-                let arg = Some(
-                    ArrayLit {
-                        span: DUMMY_SP,
-                        elems: vec![
-                            dec,
-                            Some(
-                                if p.is_static {
-                                    match p.kind {
-                                        MethodKind::Method => 7,
-                                        MethodKind::Setter => 9,
-                                        MethodKind::Getter => 8,
-                                    }
-                                } else {
-                                    match p.kind {
-                                        MethodKind::Method => 2,
-                                        MethodKind::Setter => 4,
-                                        MethodKind::Getter => 3,
-                                    }
+            let arg = Some(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![
+                        dec,
+                        Some(
+                            if p.is_static {
+                                match p.kind {
+                                    MethodKind::Method => 7,
+                                    MethodKind::Setter => 9,
+                                    MethodKind::Getter => 8,
                                 }
-                                .as_arg(),
-                            ),
-                            Some(p.key.id.sym.clone().as_arg()),
-                            Some(caller.as_arg()),
-                        ],
-                    }
-                    .as_arg(),
-                );
-                if p.is_static {
-                    self.init_static_args.push(arg);
-                } else {
-                    self.init_proto_args.push(arg);
+                            } else {
+                                match p.kind {
+                                    MethodKind::Method => 2,
+                                    MethodKind::Setter => 4,
+                                    MethodKind::Getter => 3,
+                                }
+                            }
+                            .as_arg(),
+                        ),
+                        Some(p.key.id.sym.clone().as_arg()),
+                        Some(caller.as_arg()),
+                    ],
                 }
+                .as_arg(),
+            );
+            if p.is_static {
+                self.init_static_args.push(arg);
+            } else {
+                self.init_proto_args.push(arg);
             }
 
             if p.is_static {
@@ -518,6 +517,7 @@ impl VisitMut for Decorator202203 {
         }
 
         let decorators = self.preserve_side_effect_of_decorators(n.function.decorators.take());
+        let dec = merge_decorators(decorators);
 
         let (name, init) = self.initializer_name(&mut n.key, "call");
 
@@ -529,33 +529,31 @@ impl VisitMut for Decorator202203 {
                 .get_or_insert_with(|| private_ident!("_initProto"));
         }
 
-        for dec in decorators {
-            let arg = Some(
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: vec![
-                        dec,
-                        Some(
-                            match (n.is_static, n.kind) {
-                                (true, MethodKind::Method) => 7,
-                                (false, MethodKind::Method) => 2,
-                                (true, MethodKind::Setter) => 9,
-                                (false, MethodKind::Setter) => 4,
-                                (true, MethodKind::Getter) => 8,
-                                (false, MethodKind::Getter) => 3,
-                            }
-                            .as_arg(),
-                        ),
-                        Some(name.clone().as_arg()),
-                    ],
-                }
-                .as_arg(),
-            );
-            if n.is_static {
-                self.init_static_args.push(arg);
-            } else {
-                self.init_proto_args.push(arg);
+        let arg = Some(
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: vec![
+                    dec,
+                    Some(
+                        match (n.is_static, n.kind) {
+                            (true, MethodKind::Method) => 7,
+                            (false, MethodKind::Method) => 2,
+                            (true, MethodKind::Setter) => 9,
+                            (false, MethodKind::Setter) => 4,
+                            (true, MethodKind::Getter) => 8,
+                            (false, MethodKind::Getter) => 3,
+                        }
+                        .as_arg(),
+                    ),
+                    Some(name.as_arg()),
+                ],
             }
+            .as_arg(),
+        );
+        if n.is_static {
+            self.init_static_args.push(arg);
+        } else {
+            self.init_proto_args.push(arg);
         }
     }
 
@@ -567,6 +565,7 @@ impl VisitMut for Decorator202203 {
         }
 
         let decorators = self.preserve_side_effect_of_decorators(p.decorators.take());
+        let dec = merge_decorators(decorators);
 
         let (name, init) = self.initializer_name(&mut p.key, "init");
 
@@ -586,23 +585,21 @@ impl VisitMut for Decorator202203 {
             type_args: Default::default(),
         })));
 
-        let initialize_init = decorators
-            .into_iter()
-            .map(|dec| {
+        let initialize_init = {
+            Some(
                 ArrayLit {
                     span: DUMMY_SP,
                     elems: vec![
                         dec,
                         Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
-                        Some(name.clone().as_arg()),
+                        Some(name.as_arg()),
                     ],
                 }
-                .as_arg()
-            })
-            .map(Some)
-            .collect();
+                .as_arg(),
+            )
+        };
 
-        self.cur_inits.push((init, initialize_init))
+        self.cur_inits.push((init, vec![initialize_init]))
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -684,6 +681,7 @@ impl VisitMut for Decorator202203 {
         }
 
         let decorators = self.preserve_side_effect_of_decorators(p.decorators.take());
+        let dec = merge_decorators(decorators);
 
         let init = private_ident!(format!("_init_{}", p.key.id.sym));
 
@@ -703,86 +701,82 @@ impl VisitMut for Decorator202203 {
             type_args: Default::default(),
         })));
 
-        let initialize_init = decorators
-            .into_iter()
-            .map(|dec| {
-                let access_expr = Box::new(Expr::Member(MemberExpr {
-                    span: DUMMY_SP,
-                    obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                    prop: MemberProp::PrivateName(p.key.clone()),
-                }));
+        let initialize_init = {
+            let access_expr = Box::new(Expr::Member(MemberExpr {
+                span: DUMMY_SP,
+                obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                prop: MemberProp::PrivateName(p.key.clone()),
+            }));
 
-                let getter = Box::new(Function {
+            let getter = Box::new(Function {
+                span: DUMMY_SP,
+                body: Some(BlockStmt {
                     span: DUMMY_SP,
-                    body: Some(BlockStmt {
+                    stmts: vec![Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
-                        stmts: vec![Stmt::Return(ReturnStmt {
+                        arg: Some(access_expr.clone()),
+                    })],
+                }),
+                is_async: false,
+                is_generator: false,
+                decorators: Default::default(),
+                params: Default::default(),
+                type_params: Default::default(),
+                return_type: Default::default(),
+            });
+            let settter_arg = private_ident!("value");
+            let setter = Box::new(Function {
+                span: DUMMY_SP,
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            arg: Some(access_expr.clone()),
-                        })],
-                    }),
-                    is_async: false,
-                    is_generator: false,
-                    decorators: Default::default(),
-                    params: Default::default(),
-                    type_params: Default::default(),
-                    return_type: Default::default(),
-                });
-                let settter_arg = private_ident!("value");
-                let setter = Box::new(Function {
+                            op: op!("="),
+                            left: PatOrExpr::Expr(access_expr),
+                            right: Box::new(Expr::Ident(settter_arg.clone())),
+                        })),
+                    })],
+                }),
+                is_async: false,
+                is_generator: false,
+                decorators: Default::default(),
+                params: vec![Param {
                     span: DUMMY_SP,
-                    body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![Stmt::Expr(ExprStmt {
-                            span: DUMMY_SP,
-                            expr: Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                op: op!("="),
-                                left: PatOrExpr::Expr(access_expr),
-                                right: Box::new(Expr::Ident(settter_arg.clone())),
-                            })),
-                        })],
-                    }),
-                    is_async: false,
-                    is_generator: false,
                     decorators: Default::default(),
-                    params: vec![Param {
-                        span: DUMMY_SP,
-                        decorators: Default::default(),
-                        pat: Pat::Ident(settter_arg.into()),
-                    }],
-                    type_params: Default::default(),
-                    return_type: Default::default(),
-                });
+                    pat: Pat::Ident(settter_arg.into()),
+                }],
+                type_params: Default::default(),
+                return_type: Default::default(),
+            });
 
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: vec![
-                        dec,
-                        Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
-                        Some((&*p.key.id.sym).as_arg()),
-                        Some(
-                            FnExpr {
-                                ident: None,
-                                function: getter,
-                            }
-                            .as_arg(),
-                        ),
-                        Some(
-                            FnExpr {
-                                ident: None,
-                                function: setter,
-                            }
-                            .as_arg(),
-                        ),
-                    ],
-                }
-                .as_arg()
-            })
-            .map(Some)
-            .collect();
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: vec![
+                    dec,
+                    Some(if p.is_static { 5.as_arg() } else { 0.as_arg() }),
+                    Some((&*p.key.id.sym).as_arg()),
+                    Some(
+                        FnExpr {
+                            ident: None,
+                            function: getter,
+                        }
+                        .as_arg(),
+                    ),
+                    Some(
+                        FnExpr {
+                            ident: None,
+                            function: setter,
+                        }
+                        .as_arg(),
+                    ),
+                ],
+            }
+            .as_arg()
+        };
 
-        self.cur_inits.push((init, initialize_init))
+        self.cur_inits.push((init, vec![Some(initialize_init)]))
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
@@ -1060,4 +1054,18 @@ impl VisitMut for Decorator202203 {
         self.extra_stmts = old_extra_stmts;
         self.extra_lets = old_extra_lets;
     }
+}
+
+fn merge_decorators(decorators: Vec<Option<ExprOrSpread>>) -> Option<ExprOrSpread> {
+    if decorators.len() == 1 {
+        return decorators.into_iter().next().unwrap();
+    }
+
+    Some(
+        ArrayLit {
+            span: DUMMY_SP,
+            elems: decorators,
+        }
+        .as_arg(),
+    )
 }
