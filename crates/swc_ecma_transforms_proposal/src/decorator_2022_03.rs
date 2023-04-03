@@ -948,6 +948,22 @@ impl VisitMut for Decorator202203 {
                     replace_ident(&mut c.class, c.ident.to_id(), &inner_class_name);
 
                     body.visit_mut_with(self);
+
+                    c.class.body.extend(body);
+
+                    c.class.body.push(ClassMember::StaticBlock(StaticBlock {
+                        span: DUMMY_SP,
+                        body: BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![CallExpr {
+                                span: DUMMY_SP,
+                                callee: init_class.clone().as_callee(),
+                                args: vec![],
+                                type_args: Default::default(),
+                            }
+                            .into_stmt()],
+                        },
+                    }));
                 }
 
                 return;
