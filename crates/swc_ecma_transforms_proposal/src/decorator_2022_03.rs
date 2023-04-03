@@ -150,6 +150,14 @@ impl Decorator202203 {
                 }
                 .as_arg(),
             );
+        } else {
+            combined_args.push(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![],
+                }
+                .as_arg(),
+            );
         }
 
         let e_pat = if e_lhs.is_empty() {
@@ -166,7 +174,7 @@ impl Decorator202203 {
             }))
         };
 
-        let c_pat = if self.class_lhs.is_empty() {
+        let c_pat = if for_static || self.class_lhs.is_empty() {
             None
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
