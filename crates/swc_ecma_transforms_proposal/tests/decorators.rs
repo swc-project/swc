@@ -19,6 +19,7 @@ fn syntax_default() -> Syntax {
     Syntax::Es(EsConfig {
         decorators: true,
         auto_accessors: true,
+        allow_super_outside_method: true,
         ..Default::default()
     })
 }
