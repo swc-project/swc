@@ -43,6 +43,28 @@ struct Decorator202203 {
 }
 
 impl Decorator202203 {
+    fn preserve_side_effect_of_decorator(&mut self, dec: Decorator) -> Box<Expr> {
+        if dec.expr.is_ident() {
+            return dec.expr;
+        }
+
+        let ident = private_ident!("_dec");
+        self.extra_vars.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(ident.clone().into()),
+            init: None,
+            definite: false,
+        });
+        self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
+            span: DUMMY_SP,
+            op: op!("="),
+            left: ident.clone().into(),
+            right: dec.expr,
+        })));
+
+        ident.into()
+    }
+
     /// Moves `cur_inits` to `extra_stmts`.
     fn consume_inits(&mut self, for_static: bool) {
         let init_ident = if for_static {
@@ -282,8 +304,12 @@ impl Decorator202203 {
             definite: false,
         });
 
-        self.class_decorators
-            .extend(class.decorators.drain(..).map(|e| Some(e.expr.as_arg())));
+        let decorators = class
+            .decorators
+            .drain(..)
+            .map(|e| Some(self.preserve_side_effect_of_decorator(e).as_arg()))
+            .collect::<Vec<_>>();
+        self.class_decorators.extend(decorators);
 
         {
             let call_stmt = CallExpr {
@@ -752,6 +778,13 @@ impl VisitMut for Decorator202203 {
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         if let Stmt::Decl(Decl::Class(c)) = s {
             if !c.class.decorators.is_empty() {
+                let decorators = c
+                    .class
+                    .decorators
+                    .drain(..)
+                    .map(|e| Some(self.preserve_side_effect_of_decorator(e).as_arg()))
+                    .collect::<Vec<_>>();
+
                 let init_class = private_ident!("_initClass");
 
                 self.extra_vars.push(VarDeclarator {
@@ -777,8 +810,7 @@ impl VisitMut for Decorator202203 {
                 self.class_lhs.push(Some(new_class_name.clone().into()));
                 self.class_lhs.push(Some(init_class.clone().into()));
 
-                self.class_decorators
-                    .extend(c.class.decorators.drain(..).map(|e| Some(e.expr.as_arg())));
+                self.class_decorators.extend(decorators);
 
                 let mut body = c.class.body.take();
 
