@@ -340,6 +340,14 @@ impl VisitMut for Decorator202203 {
         self.extra_stmts = old_stmts;
     }
 
+    fn visit_mut_class_decl(&mut self, c: &mut ClassDecl) {
+        if !c.class.decorators.is_empty() {
+            self.handle_class_decorator(&mut c.class, Some(&c.ident));
+        }
+
+        c.visit_mut_children_with(self);
+    }
+
     fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
         n.visit_mut_children_with(self);
 
