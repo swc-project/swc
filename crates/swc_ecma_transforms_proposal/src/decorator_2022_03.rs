@@ -779,10 +779,18 @@ impl VisitMut for Decorator202203 {
 
                 for m in body.iter_mut() {
                     match m {
-                        ClassMember::Method(m) => {}
-                        ClassMember::PrivateMethod(m) => {}
-                        ClassMember::ClassProp(m) => {}
-                        ClassMember::PrivateProp(m) => {}
+                        ClassMember::Method(m) => {
+                            m.is_static = false;
+                        }
+                        ClassMember::PrivateMethod(m) => {
+                            m.is_static = false;
+                        }
+                        ClassMember::ClassProp(m) => {
+                            m.is_static = false;
+                        }
+                        ClassMember::PrivateProp(m) => {
+                            m.is_static = false;
+                        }
                         _ => {}
                     }
                 }
