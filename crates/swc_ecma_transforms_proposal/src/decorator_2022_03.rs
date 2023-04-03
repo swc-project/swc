@@ -31,7 +31,8 @@ struct Decorator202203 {
     /// Injected into static blocks.
     extra_stmts: Vec<Stmt>,
 
-    computed_key_inits: Vec<Box<Expr>>,
+    /// Prepended before the class
+    pre_class_inits: Vec<Box<Expr>>,
 
     class_lhs: Vec<Option<Pat>>,
     class_decorators: Vec<Option<ExprOrSpread>>,
@@ -204,13 +205,12 @@ impl Decorator202203 {
                     definite: false,
                 });
 
-                self.computed_key_inits
-                    .push(Box::new(Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: PatOrExpr::Pat(ident.clone().into()),
-                        right: Box::new(prop_name_to_expr_value(name.take())),
-                    })));
+                self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(ident.clone().into()),
+                    right: Box::new(prop_name_to_expr_value(name.take())),
+                })));
                 *name = PropName::Computed(ComputedPropName {
                     span: DUMMY_SP,
                     expr: ident.clone().into(),
@@ -606,11 +606,11 @@ impl VisitMut for Decorator202203 {
                     .into(),
                 )
             }
-            if !self.computed_key_inits.is_empty() {
+            if !self.pre_class_inits.is_empty() {
                 new.push(
                     Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
-                        expr: Expr::from_exprs(self.computed_key_inits.take()),
+                        expr: Expr::from_exprs(self.pre_class_inits.take()),
                     })
                     .into(),
                 )
@@ -995,10 +995,10 @@ impl VisitMut for Decorator202203 {
                     declare: false,
                 }))))
             }
-            if !self.computed_key_inits.is_empty() {
+            if !self.pre_class_inits.is_empty() {
                 new.push(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
-                    expr: Expr::from_exprs(self.computed_key_inits.take()),
+                    expr: Expr::from_exprs(self.pre_class_inits.take()),
                 }))
             }
             new.push(n.take());
