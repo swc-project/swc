@@ -1,6 +1,6 @@
 {
     "name": "@swc/helpers",
-    "version": "0.4.14",
+    "version": "0.5.0",
     "description": "External helpers for the swc project.",
     "module": "esm/index.js",
     "main": "cjs/index.cjs",
