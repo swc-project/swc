@@ -225,8 +225,8 @@ struct Scope<'a> {
     bindings_affected_by_eval: AHashSet<Id>,
     found_direct_eval: bool,
 
-    found_arguemnts: bool,
-    bindings_affected_by_arguements: Vec<Id>,
+    found_arguments: bool,
+    bindings_affected_by_arguments: Vec<Id>,
 
     /// Used to construct a graph.
     ///
@@ -295,15 +295,15 @@ impl Analyzer<'_> {
             self.scope.found_direct_eval = true;
         }
 
-        if child_scope.found_arguemnts {
+        if child_scope.found_arguments {
             // Parameters
 
-            for id in child_scope.bindings_affected_by_arguements {
+            for id in child_scope.bindings_affected_by_arguments {
                 self.data.used_names.entry(id).or_default().usage += 1;
             }
 
             if !matches!(kind, ScopeKind::Fn) {
-                self.scope.found_arguemnts = true;
+                self.scope.found_arguments = true;
             }
         }
     }
@@ -311,7 +311,7 @@ impl Analyzer<'_> {
     /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
         if id.0 == js_word!("arguments") {
-            self.scope.found_arguemnts = true;
+            self.scope.found_arguments = true;
         }
 
         if let Some(f) = &self.cur_fn_id {
@@ -493,8 +493,8 @@ impl Visit for Analyzer<'_> {
                 v.scope.bindings_affected_by_eval = collect_decls(n);
             }
 
-            if v.scope.found_arguemnts {
-                v.scope.bindings_affected_by_arguements = find_pat_ids(&n.params);
+            if v.scope.found_arguments {
+                v.scope.bindings_affected_by_arguments = find_pat_ids(&n.params);
             }
         })
     }
