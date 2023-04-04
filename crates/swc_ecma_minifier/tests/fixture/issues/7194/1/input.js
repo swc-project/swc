@@ -1,8 +1,8 @@
 function example() {
-    var MyEnum = /*#__PURE__*/function (MyEnum) {
-        MyEnum["First"] = "first";
-        MyEnum["Second"] = "second";
-        return MyEnum;
+    var MyEnum = /*#__PURE__*/function (MyEnumInner) {
+        MyEnumInner["First"] = "first";
+        MyEnumInner["Second"] = "second";
+        return MyEnumInner;
     }(MyEnum || {});
 
     return MyEnum
