@@ -1,4 +1,4 @@
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 const items = [];
 for (const _ref of items){
     var item = _ref;

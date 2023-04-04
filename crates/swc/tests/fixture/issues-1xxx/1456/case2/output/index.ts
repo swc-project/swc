@@ -3,16 +3,16 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
-const _ts_metadata = require("@swc/helpers/lib/_ts_metadata.js").default;
-const _ts_param = require("@swc/helpers/lib/_ts_param.js").default;
+const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
+const _ts_metadata = require("@swc/helpers/_/_ts_metadata");
+const _ts_param = require("@swc/helpers/_/_ts_param");
 class MyClass1 {
     constructor(param1){}
 }
-MyClass1 = _ts_decorate([
-    _ts_param(0, Inject()),
-    _ts_metadata("design:type", Function),
-    _ts_metadata("design:paramtypes", [
+MyClass1 = _ts_decorate._([
+    _ts_param._(0, Inject()),
+    _ts_metadata._("design:type", Function),
+    _ts_metadata._("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected
     ])
 ], MyClass1);
@@ -21,11 +21,11 @@ class MyClass2 {
         this.param1 = param1;
     }
 }
-MyClass2 = _ts_decorate([
-    _ts_param(0, Inject()),
-    _ts_param(1, Inject()),
-    _ts_metadata("design:type", Function),
-    _ts_metadata("design:paramtypes", [
+MyClass2 = _ts_decorate._([
+    _ts_param._(0, Inject()),
+    _ts_param._(1, Inject()),
+    _ts_metadata._("design:type", Function),
+    _ts_metadata._("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
         typeof Injected === "undefined" ? Object : Injected
     ])
@@ -35,11 +35,11 @@ class MyClass3 {
         this.param2 = param2;
     }
 }
-MyClass3 = _ts_decorate([
-    _ts_param(0, Inject()),
-    _ts_param(1, Inject()),
-    _ts_metadata("design:type", Function),
-    _ts_metadata("design:paramtypes", [
+MyClass3 = _ts_decorate._([
+    _ts_param._(0, Inject()),
+    _ts_param._(1, Inject()),
+    _ts_metadata._("design:type", Function),
+    _ts_metadata._("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
         typeof Injected === "undefined" ? Object : Injected
     ])

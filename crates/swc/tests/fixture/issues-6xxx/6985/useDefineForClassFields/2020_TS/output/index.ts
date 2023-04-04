@@ -1,6 +1,6 @@
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
-import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
-import _define_property from "@swc/helpers/src/_define_property.mjs";
+import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
+import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
 var _b = /*#__PURE__*/ new WeakMap();
 class Foo {
     constructor(foo){

@@ -6,8 +6,8 @@ Object.defineProperty(exports, "default", {
     enumerable: true,
     get: ()=>Foo
 });
-const _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
-const _react = /*#__PURE__*/ _interop_require_default(require("react"));
+const _interop_require_default = require("@swc/helpers/_/_interop_require_default");
+const _react = /*#__PURE__*/ _interop_require_default._(require("react"));
 function Foo() {
     return call(async (e)=>{
         await doSomething();

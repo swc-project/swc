@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
-import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _class_private_method_get } from "@swc/helpers/_/_class_private_method_get";
+import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
 var _get = /*#__PURE__*/ new WeakSet();
 var MyClass = function MyClass() {
     "use strict";
