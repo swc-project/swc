@@ -17,10 +17,10 @@ _export(exports, {
         return C1;
     }
 });
-var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default;
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var C1 = function C1() {
     "use strict";
-    _class_call_check(this, C1);
+    _class_call_check._(this, C1);
     this.m1 = 42;
 };
 (function() {

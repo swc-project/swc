@@ -1,6 +1,6 @@
 //// [privateNameReadonly.ts]
-import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
-import _read_only_error from "@swc/helpers/src/_read_only_error.mjs";
+import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
+import { _ as _read_only_error } from "@swc/helpers/_/_read_only_error";
 var _bar, _class;
 const C = (_bar = /*#__PURE__*/ new WeakSet(), _class = class {
     foo() {

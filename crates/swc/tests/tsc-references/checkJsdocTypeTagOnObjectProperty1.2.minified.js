@@ -1,6 +1,6 @@
 //// [checkJsdocTypeTagOnObjectProperty1.ts]
 //// [0.js]
-import _define_property from "@swc/helpers/src/_define_property.mjs";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
 var _obj, obj = (_define_property(_obj = {
     foo: void 0,
     bar: "42",

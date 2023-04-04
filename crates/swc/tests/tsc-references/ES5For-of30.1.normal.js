@@ -1,5 +1,5 @@
 //// [ES5For-of30.ts]
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 var a, b;
 var tuple = [
     2,

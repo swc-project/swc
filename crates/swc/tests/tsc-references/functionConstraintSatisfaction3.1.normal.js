@@ -1,6 +1,6 @@
 //// [functionConstraintSatisfaction3.ts]
 // satisfaction of a constraint to Function, no errors expected
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function foo(x) {
     return x;
 }

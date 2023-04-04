@@ -10,8 +10,8 @@ System.register([], function(_export, _context) {
 });
 //// [index.ts]
 System.register([
-    "@swc/helpers/src/_async_to_generator.mjs",
-    "@swc/helpers/src/_ts_generator.mjs"
+    "@swc/helpers/_/_async_to_generator",
+    "@swc/helpers/_/_ts_generator"
 ], function(_export, _context) {
     "use strict";
     var _async_to_generator, _ts_generator;
@@ -45,10 +45,10 @@ System.register([
     return {
         setters: [
             function(_async_to_generator1) {
-                _async_to_generator = _async_to_generator1.default;
+                _async_to_generator = _async_to_generator1._;
             },
             function(_ts_generator1) {
-                _ts_generator = _ts_generator1.default;
+                _ts_generator = _ts_generator1._;
             }
         ],
         execute: function() {}

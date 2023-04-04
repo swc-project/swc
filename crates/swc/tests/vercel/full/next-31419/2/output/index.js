@@ -1,25 +1,25 @@
-import r from "@swc/helpers/src/_async_to_generator.mjs";
+import { _ as n } from "@swc/helpers/_/_async_to_generator";
 Promise.all(assignAll).then(function() {
-    var n = r(function*(r) {
-        for(let r in obj){
-            let n = obj[r];
-            n.id, (yield listOfUser(n.id)).forEach((r)=>{
-                insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${n.id}', now());`;
+    var r = n(function*(n) {
+        for(let n in obj){
+            let r = obj[n];
+            r.id, (yield listOfUser(r.id)).forEach((n)=>{
+                insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${r.id}', now());`;
             });
         }
     });
-    return function(r) {
-        return n.apply(this, arguments);
+    return function(n) {
+        return r.apply(this, arguments);
     };
 }());
-export const listOfUser = function(n) {
+export const listOfUser = function(r) {
     var e;
-    return new Promise((e = r(function*(r, e) {
-        let t = `Select Distinct id from "TABLE" Where id = '${n}' And user_id IS not null`;
-        postgreSQL.query(t, null, function(n, t) {
-            n ? e(n) : r(t.rows);
+    return new Promise((e = n(function*(n, e) {
+        let t = `Select Distinct id from "TABLE" Where id = '${r}' And user_id IS not null`;
+        postgreSQL.query(t, null, function(r, t) {
+            r ? e(r) : n(t.rows);
         });
-    }), function(r, n) {
+    }), function(n, r) {
         return e.apply(this, arguments);
     }));
 };

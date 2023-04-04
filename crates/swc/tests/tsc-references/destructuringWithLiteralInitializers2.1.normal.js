@@ -1,5 +1,5 @@
 //// [destructuringWithLiteralInitializers2.ts]
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 function f00(param) {
     var _param = _sliced_to_array(param, 2), x = _param[0], y = _param[1];
 }

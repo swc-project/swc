@@ -1,4 +1,4 @@
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 var app;
 var ctx;
 x = function x() {

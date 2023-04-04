@@ -1,6 +1,6 @@
 //// [EnumAndModuleWithSameNameAndCommonRoot.ts]
 var enumdule;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(enumdule) {
     enumdule[enumdule.Red = 0] = "Red", enumdule[enumdule.Blue = 1] = "Blue";
 }(enumdule || (enumdule = {})), (enumdule || (enumdule = {})).Point = function Point(x, y) {

@@ -1,6 +1,6 @@
 //// [bug24024.js]
 // #24024
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var wat = require("./bug24024");
 module.exports = function C() {
     "use strict";

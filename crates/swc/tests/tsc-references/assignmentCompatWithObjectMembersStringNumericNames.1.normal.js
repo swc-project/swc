@@ -1,7 +1,7 @@
 //// [assignmentCompatWithObjectMembersStringNumericNames.ts]
 // members N and M of types S and T have the same name, same accessibility, same optionality, and N is assignable M
 // string named numeric properties work correctly, errors below unless otherwise noted
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var JustStrings;
 (function(JustStrings) {
     var S = function S() {

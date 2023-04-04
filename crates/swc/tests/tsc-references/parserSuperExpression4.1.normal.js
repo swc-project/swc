@@ -1,7 +1,7 @@
 //// [parserSuperExpression4.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
-import _set from "@swc/helpers/src/_set.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+import { _ as _set } from "@swc/helpers/_/_set";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

@@ -28,7 +28,7 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs",
+    "@swc/helpers/_/_interop_require_wildcard",
     "./0"
 ], function(require, exports, _interop_require_wildcard, _0) {
     "use strict";
@@ -41,14 +41,13 @@ define([
             return _0;
         }
     });
-    _interop_require_wildcard = _interop_require_wildcard.default;
-    _0 = /*#__PURE__*/ _interop_require_wildcard(_0);
+    _0 = /*#__PURE__*/ _interop_require_wildcard._(_0);
 });
 //// [11.ts]
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs",
+    "@swc/helpers/_/_interop_require_wildcard",
     "./0"
 ], function(require, exports, _interop_require_wildcard, _0) {
     "use strict";
@@ -61,15 +60,14 @@ define([
             return _default;
         }
     });
-    _interop_require_wildcard = _interop_require_wildcard.default;
-    _0 = /*#__PURE__*/ _interop_require_wildcard(_0);
+    _0 = /*#__PURE__*/ _interop_require_wildcard._(_0);
     var _default = _0;
 });
 //// [2.ts]
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_default.mjs",
+    "@swc/helpers/_/_interop_require_default",
     "./1",
     "./11"
 ], function(require, exports, _interop_require_default, _1, _11) {
@@ -77,9 +75,8 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _interop_require_default = _interop_require_default.default;
-    _1 = /*#__PURE__*/ _interop_require_default(_1);
-    _11 = /*#__PURE__*/ _interop_require_default(_11);
+    _1 = /*#__PURE__*/ _interop_require_default._(_1);
+    _11 = /*#__PURE__*/ _interop_require_default._(_11);
     _1.default.a;
     _11.default.a;
     _1.default.b;

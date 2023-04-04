@@ -1,9 +1,9 @@
 //// [destructuringEvaluationOrder.ts]
 // https://github.com/microsoft/TypeScript/issues/39205
-import _extends from "@swc/helpers/src/_extends.mjs";
-import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
-import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
+import { _ as _extends } from "@swc/helpers/_/_extends";
+import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
+import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
+import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
 let trace = [];
 let order = (n)=>trace.push(n);
 // order(0) should evaluate before order(1) because the first element is undefined

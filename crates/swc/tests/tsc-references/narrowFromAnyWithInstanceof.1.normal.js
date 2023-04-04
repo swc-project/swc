@@ -1,5 +1,5 @@
 //// [narrowFromAnyWithInstanceof.ts]
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 if (_instanceof(x, Function)) {
     x();
     x(1, 2, 3);

@@ -1,5 +1,5 @@
 //// [privateNameStaticFieldDestructuredBinding.ts]
-import _class_static_private_field_destructure from "@swc/helpers/src/_class_static_private_field_destructure.mjs";
+import { _ as _class_static_private_field_destructure } from "@swc/helpers/_/_class_static_private_field_destructure";
 class A {
     testObject() {
         return {

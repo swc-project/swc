@@ -1,5 +1,5 @@
 //// [literalTypesWidenInParameterPosition.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 new function D() {
     "use strict";
     var widen = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 2;

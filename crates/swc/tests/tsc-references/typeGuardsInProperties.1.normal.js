@@ -1,8 +1,8 @@
 //// [typeGuardsInProperties.ts]
 // Note that type guards affect types of variables and parameters only and 
 // have no effect on members of objects such as properties. 
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _create_class } from "@swc/helpers/_/_create_class";
 var num;
 var strOrNum;
 var C1 = /*#__PURE__*/ function() {

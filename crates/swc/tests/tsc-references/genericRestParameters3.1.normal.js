@@ -1,5 +1,5 @@
 //// [genericRestParameters3.ts]
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 f1("foo", "abc");
 f1("foo", 10, true);
 f1.apply(void 0, [

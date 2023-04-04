@@ -1,5 +1,5 @@
 //// [genericRestParameters2.ts]
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 f10(42, "hello"), f10(42, "hello", !0), f10(42, "hello", !0, !1), f10(t1[0], t1[1], t1[2], t1[3]), f10.apply(void 0, _to_consumable_array(t1)), f10.apply(void 0, [
     42
 ].concat(_to_consumable_array(t2))), f10.apply(void 0, [

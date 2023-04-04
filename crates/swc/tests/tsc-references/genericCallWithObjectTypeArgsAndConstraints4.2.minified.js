@@ -1,6 +1,6 @@
 //// [genericCallWithObjectTypeArgsAndConstraints4.ts]
 var c, d;
-import "@swc/helpers/src/_class_call_check.mjs";
+import "@swc/helpers/_/_class_call_check";
 function foo(t, t2) {
     return function(x) {
         return t2;

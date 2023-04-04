@@ -8,8 +8,8 @@ Object.defineProperty(exports, "default", {
         return Foo;
     }
 });
-var _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _react = /*#__PURE__*/ _interop_require_default(require("react"));
+var _interop_require_default = require("@swc/helpers/_/_interop_require_default");
+var _react = /*#__PURE__*/ _interop_require_default._(require("react"));
 function Foo() {
     return call(function(e) {
         doSomething();

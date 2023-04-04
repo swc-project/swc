@@ -18,11 +18,11 @@ class B {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 function foo(x) {
     x.then((value)=>{
         let b = new value.B();
         b.print();
     });
 }
-foo(Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard(require("./0"))));
+foo(Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0"))));

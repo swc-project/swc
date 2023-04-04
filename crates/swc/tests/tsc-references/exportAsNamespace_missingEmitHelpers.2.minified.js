@@ -15,4 +15,4 @@ Object.defineProperty(exports, "__esModule", {
         return _a;
     }
 });
-var _a = (0, require("@swc/helpers/lib/_interop_require_wildcard.js").default)(require("./a"));
+var _a = require("@swc/helpers/_/_interop_require_wildcard")._(require("./a"));

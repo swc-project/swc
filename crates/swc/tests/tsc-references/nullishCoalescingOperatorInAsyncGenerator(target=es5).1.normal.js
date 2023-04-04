@@ -1,7 +1,7 @@
 //// [nullishCoalescingOperatorInAsyncGenerator.ts]
 // https://github.com/microsoft/TypeScript/issues/37686
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function f(a) {
     return _f.apply(this, arguments);
 }

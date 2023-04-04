@@ -1,6 +1,6 @@
 //// [negateOperatorWithStringType.ts]
 // - operator on string type
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var STRING;
 var STRING1 = [
     "",

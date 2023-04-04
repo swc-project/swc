@@ -1,5 +1,5 @@
 //// [instantiatedModule.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (M || (M = {})).Point = 1;
 var M, M2, m2, a2, M3, m3, a3, m = M;
 M.Point, m.Point, function(M2) {

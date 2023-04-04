@@ -1,6 +1,6 @@
 //// [ES5SymbolProperty2.ts]
 var M;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(M) {
     var _$Symbol, C = function() {
         "use strict";

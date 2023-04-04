@@ -1,6 +1,6 @@
 //// [exportCodeGen.ts]
 var A, B, C, D, E, F;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (A || (A = {})).x = 12, B || (B = {}), C || (C = {}), (D || (D = {})).yes = function() {
     return !0;
 }, function(E) {

@@ -1,9 +1,9 @@
-import _assert_this_initialized from "@swc/helpers/src/_assert_this_initialized.mjs";
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
-import _wrap_native_super from "@swc/helpers/src/_wrap_native_super.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
+import { _ as _wrap_native_super } from "@swc/helpers/_/_wrap_native_super";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var CustomError = /*#__PURE__*/ function _target(Error1) {
     "use strict";
     _inherits(CustomError, Error1);

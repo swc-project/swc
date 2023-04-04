@@ -1,5 +1,5 @@
 //// [typeGuardsWithInstanceOfByConstructorSignature.ts]
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 var obj1;
 if (_instanceof(obj1, A)) {
     obj1.foo;

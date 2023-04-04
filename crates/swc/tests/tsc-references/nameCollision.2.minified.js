@@ -1,6 +1,6 @@
 //// [nameCollision.ts]
 var A, B, X, Y, D;
-import "@swc/helpers/src/_class_call_check.mjs";
+import "@swc/helpers/_/_class_call_check";
 A || (A = {}), B || (B = {}), B || (B = {}), function(X) {
     var Y;
     (Y = X.Y || (X.Y = {})).Z || (Y.Z = {});

@@ -1,4 +1,4 @@
 //// [privateNameStaticFieldUnaryMutation.ts]
-import "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
-import "@swc/helpers/src/_class_static_private_field_spec_set.mjs";
-import "@swc/helpers/src/_class_static_private_field_update.mjs";
+import "@swc/helpers/_/_class_static_private_field_spec_get";
+import "@swc/helpers/_/_class_static_private_field_spec_set";
+import "@swc/helpers/_/_class_static_private_field_update";

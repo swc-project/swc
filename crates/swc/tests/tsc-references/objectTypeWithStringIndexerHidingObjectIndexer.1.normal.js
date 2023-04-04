@@ -1,7 +1,7 @@
 //// [objectTypeWithStringIndexerHidingObjectIndexer.ts]
 // object types can define string indexers that are more specific than the default 'any' that would be returned
 // no errors expected below 
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var o = {};
 var r = o[""]; // should be Object
 var C = function C() {

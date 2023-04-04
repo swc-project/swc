@@ -24,11 +24,11 @@
 });
 //// [1.ts]
 !function(global, factory) {
-    "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/src/_interop_require_wildcard.mjs"), require("./0")) : "function" == typeof define && define.amd ? define([
+    "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_interop_require_wildcard"), require("./0")) : "function" == typeof define && define.amd ? define([
         "exports",
-        "@swc/helpers/src/_interop_require_wildcard.mjs",
+        "@swc/helpers/_/_interop_require_wildcard",
         "./0"
-    ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {}, global.interopRequireWildcardMjs, global["0"]);
+    ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {}, global.interopRequireWildcard, global["0"]);
 }(this, function(exports1, _interop_require_wildcard, _0) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {
@@ -38,15 +38,15 @@
         get: function() {
             return _0;
         }
-    }), _0 = (_interop_require_wildcard = _interop_require_wildcard.default)(_0);
+    }), _0 = _interop_require_wildcard._(_0);
 });
 //// [11.ts]
 !function(global, factory) {
-    "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/src/_interop_require_wildcard.mjs"), require("./0")) : "function" == typeof define && define.amd ? define([
+    "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_interop_require_wildcard"), require("./0")) : "function" == typeof define && define.amd ? define([
         "exports",
-        "@swc/helpers/src/_interop_require_wildcard.mjs",
+        "@swc/helpers/_/_interop_require_wildcard",
         "./0"
-    ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.11Ts = {}, global.interopRequireWildcardMjs, global["0"]);
+    ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.11Ts = {}, global.interopRequireWildcard, global["0"]);
 }(this, function(exports1, _interop_require_wildcard, _0) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {
@@ -57,19 +57,19 @@
             return _default;
         }
     });
-    var _default = _0 = (_interop_require_wildcard = _interop_require_wildcard.default)(_0);
+    var _default = _0 = _interop_require_wildcard._(_0);
 });
 //// [2.ts]
 !function(global, factory) {
-    "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/src/_interop_require_default.mjs"), require("./1"), require("./11")) : "function" == typeof define && define.amd ? define([
+    "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_interop_require_default"), require("./1"), require("./11")) : "function" == typeof define && define.amd ? define([
         "exports",
-        "@swc/helpers/src/_interop_require_default.mjs",
+        "@swc/helpers/_/_interop_require_default",
         "./1",
         "./11"
-    ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.2Ts = {}, global.interopRequireDefaultMjs, global["1"], global["11"]);
+    ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.2Ts = {}, global.interopRequireDefault, global["1"], global["11"]);
 }(this, function(exports1, _interop_require_default, _1, _11) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
-    }), _1 = (_interop_require_default = _interop_require_default.default)(_1), _11 = _interop_require_default(_11), _1.default.a, _11.default.a, _1.default.b, _11.default.b;
+    }), _1 = _interop_require_default._(_1), _11 = _interop_require_default._(_11), _1.default.a, _11.default.a, _1.default.b, _11.default.b;
 });

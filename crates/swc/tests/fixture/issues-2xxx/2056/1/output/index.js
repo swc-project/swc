@@ -24,8 +24,8 @@
 */ /**
  * @packageDocumentation
  * @module core/math
- */ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
-import _type_of from "@swc/helpers/src/_type_of.mjs";
+ */ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
+import { _ as _type_of } from "@swc/helpers/_/_type_of";
 import { CCClass } from "../data/class";
 import { Mat3 } from "./mat3";
 import { Quat } from "./quat";

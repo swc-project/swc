@@ -1,5 +1,5 @@
 //// [rectangle.js]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var Rectangle = function Rectangle() {
     "use strict";
     _class_call_check(this, Rectangle);
@@ -9,7 +9,7 @@ module.exports = {
     Rectangle: Rectangle
 };
 //// [index.js]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var Rectangle = require("./rectangle").Rectangle;
 var Render = /*#__PURE__*/ function() {
     "use strict";

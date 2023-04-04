@@ -1,2 +1,2 @@
 //// [emitStatementsBeforeSuperCallWithDefineFields.ts]
-import "@swc/helpers/src/_define_property.mjs";
+import "@swc/helpers/_/_define_property";

@@ -20,16 +20,16 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs"
+    "@swc/helpers/_/_interop_require_wildcard"
 ], function(require, exports, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _interop_require_wildcard = _interop_require_wildcard.default, function(x) {
+    }), function(x) {
         x.then((value)=>{
             new value.B().print();
         });
     }(new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(_interop_require_wildcard(m)), reject)));
+        ], (m)=>resolve(_interop_require_wildcard._(m)), reject)));
 });

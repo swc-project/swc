@@ -1,6 +1,6 @@
 //// [assignmentToParenthesizedIdentifiers.ts]
 var M, M2, E;
-import "@swc/helpers/src/_class_call_check.mjs";
+import "@swc/helpers/_/_class_call_check";
 !function(M) {
     var y;
     M.y = y;

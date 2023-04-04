@@ -1,7 +1,7 @@
 //// [classExtendsItselfIndirectly_file1.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = /*#__PURE__*/ function(E1) {
     "use strict";
     _inherits(C, E1);
@@ -14,9 +14,9 @@ var C = /*#__PURE__*/ function(E1) {
 } // error
 (E);
 //// [classExtendsItselfIndirectly_file2.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var D = /*#__PURE__*/ function(C1) {
     "use strict";
     _inherits(D, C1);
@@ -28,9 +28,9 @@ var D = /*#__PURE__*/ function(C1) {
     return D;
 }(C);
 //// [classExtendsItselfIndirectly_file3.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var E = /*#__PURE__*/ function(D1) {
     "use strict";
     _inherits(E, D1);
@@ -42,9 +42,9 @@ var E = /*#__PURE__*/ function(D1) {
     return E;
 }(D);
 //// [classExtendsItselfIndirectly_file4.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C2 = /*#__PURE__*/ function(E21) {
     "use strict";
     _inherits(C2, E21);
@@ -57,9 +57,9 @@ var C2 = /*#__PURE__*/ function(E21) {
 } // error
 (E2);
 //// [classExtendsItselfIndirectly_file5.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var D2 = /*#__PURE__*/ function(C21) {
     "use strict";
     _inherits(D2, C21);
@@ -71,9 +71,9 @@ var D2 = /*#__PURE__*/ function(C21) {
     return D2;
 }(C2);
 //// [classExtendsItselfIndirectly_file6.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var E2 = /*#__PURE__*/ function(D21) {
     "use strict";
     _inherits(E2, D21);

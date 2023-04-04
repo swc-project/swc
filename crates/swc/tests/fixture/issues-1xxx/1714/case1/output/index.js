@@ -8,6 +8,6 @@ Object.defineProperty(exports, "render", {
         return _customRender.customRender;
     }
 });
-var _export_star = require("@swc/helpers/lib/_export_star.js").default;
+var _export_star = require("@swc/helpers/_/_export_star");
 var _customRender = require("./customRender");
-_export_star(require("@testing-library/react"), exports);
+_export_star._(require("@testing-library/react"), exports);

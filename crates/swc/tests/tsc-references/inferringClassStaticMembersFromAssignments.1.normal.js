@@ -1,6 +1,6 @@
 //// [inferringClassStaticMembersFromAssignments.ts]
 //// [a.js]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 export var C1 = function C1() {
     "use strict";
     _class_call_check(this, C1);
@@ -16,7 +16,7 @@ C2.staticProp = 0;
 export var F2 = function F2() {};
 F2.staticProp = 0;
 //// [global.js]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C3 = function C3() {
     "use strict";
     _class_call_check(this, C3);

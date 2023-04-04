@@ -1,6 +1,6 @@
 //// [propertyAccessOnTypeParameterWithoutConstraints.ts]
 var i, a;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 new (function() {
     "use strict";
     function C() {

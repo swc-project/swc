@@ -13,11 +13,11 @@ _export(exports, {
     b: ()=>b,
     foo: ()=>foo
 });
-const _extends = require("@swc/helpers/lib/_extends.js").default;
-const _object_destructuring_empty = require("@swc/helpers/lib/_object_destructuring_empty.js").default;
+const _extends = require("@swc/helpers/_/_extends");
+const _object_destructuring_empty = require("@swc/helpers/_/_object_destructuring_empty");
 const a = 1;
 const b = 2;
-var foo = _extends({}, _object_destructuring_empty({
+var foo = _extends._({}, _object_destructuring_empty._({
     a: 1,
     b: 2
 }));

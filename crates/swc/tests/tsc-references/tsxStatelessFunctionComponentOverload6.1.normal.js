@@ -2,8 +2,8 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_object_spread.mjs",
-    "@swc/helpers/src/_object_spread_props.mjs",
+    "@swc/helpers/_/_object_spread",
+    "@swc/helpers/_/_object_spread_props",
     "react"
 ], function(require, exports, _object_spread, _object_spread_props, _react) {
     "use strict";
@@ -16,8 +16,6 @@ define([
             return MainButton;
         }
     });
-    _object_spread = _object_spread.default;
-    _object_spread_props = _object_spread_props.default;
     var obj = {
         children: "hi",
         to: "boo"
@@ -41,11 +39,11 @@ define([
         onClick: function(e) {}
     }, "Hello world");
     var b2 = /*#__PURE__*/ _react.createElement(MainButton, obj);
-    var b3 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread({
+    var b3 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread._({
         to: 10000
     }, obj));
     var b4 = /*#__PURE__*/ _react.createElement(MainButton, obj1); // any; just pick the first overload
-    var b5 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread_props(_object_spread({}, obj1), {
+    var b5 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread_props._(_object_spread._({}, obj1), {
         to: "/to/somewhere"
     })); // should pick the second overload
     var b6 = /*#__PURE__*/ _react.createElement(MainButton, obj2);

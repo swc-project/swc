@@ -1,6 +1,6 @@
 //// [scopeResolutionIdentifiers.ts]
 var M1, M2, M3;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(M1) {
     var s;
     M1.s = s;
