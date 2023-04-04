@@ -1530,7 +1530,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                     /// Visit children nodes with v and ast path appended
                     /// [AstParentNodeRef] describing `self`. The ast path will
-                    /// be resotred when this method returns.
+                    /// be restored when this method returns.
                     ///
                     /// This is the default implementaton of a handler method in
                     /// [VisitAstPath].
@@ -1636,7 +1636,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                     /// Visit children nodes with v and ast path appended
                     /// [AstKind] of `self`. The ast path will
-                    /// be resotred when this method returns.
+                    /// be restored when this method returns.
                     ///
                     /// This is the default implementaton of a handler method in
                     /// [FoldAstPath].
@@ -1704,7 +1704,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath);
 
                     /// Visit children nodes with v and ast path appended
-                    /// [AstKind] of `self`. The ast path will be resotred when
+                    /// [AstKind] of `self`. The ast path will be restored when
                     /// this method returns.
                     ///
                     /// This is the default implementaton of a handler method in
