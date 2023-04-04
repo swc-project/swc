@@ -1,7 +1,7 @@
 //// [variadicTuples1.ts]
 // Variadics in tuple types
-import _to_array from "@swc/helpers/src/_to_array.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import { _ as _to_array } from "@swc/helpers/_/_to_array";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 // Variadics in array literals
 function tup2(t, u) {
     return [

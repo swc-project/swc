@@ -1,6 +1,6 @@
 //// [importsNotUsedAsValues_error.ts]
 //// [/a.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var _default = function _default() {
     "use strict";
     _class_call_check(this, _default);

@@ -1,6 +1,6 @@
 //// [subtypingWithNumericIndexer5.ts]
 // Derived type indexer must be subtype of base type indexer
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var B = function B() {
     "use strict";
     _class_call_check(this, B);

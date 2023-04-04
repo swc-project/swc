@@ -1,2 +1,2 @@
 //// [instanceofOperatorWithLHSIsTypeParameter.ts]
-import "@swc/helpers/src/_instanceof.mjs";
+import "@swc/helpers/_/_instanceof";

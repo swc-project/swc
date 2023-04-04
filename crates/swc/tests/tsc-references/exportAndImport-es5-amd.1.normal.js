@@ -25,7 +25,7 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_default.mjs",
+    "@swc/helpers/_/_interop_require_default",
     "./m1"
 ], function(require, exports, _interop_require_default, _m1) {
     "use strict";
@@ -38,8 +38,7 @@ define([
             return f2;
         }
     });
-    _interop_require_default = _interop_require_default.default;
-    _m1 = /*#__PURE__*/ _interop_require_default(_m1);
+    _m1 = /*#__PURE__*/ _interop_require_default._(_m1);
     function f2() {
         (0, _m1.default)();
     }

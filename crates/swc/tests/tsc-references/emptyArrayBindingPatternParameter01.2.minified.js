@@ -1,2 +1,2 @@
 //// [emptyArrayBindingPatternParameter01.ts]
-import "@swc/helpers/src/_sliced_to_array.mjs";
+import "@swc/helpers/_/_sliced_to_array";

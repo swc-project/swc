@@ -1,5 +1,5 @@
 //// [fixSignatureCaching.ts]
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 !function(define1, undefined) {
     define1(function() {
         "use strict";

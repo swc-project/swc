@@ -1,12 +1,12 @@
 //// [C1.ts]
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 class C1 {
     f() {
         return _wrap_async_generator(function*() {})();
     }
 }
 //// [C2.ts]
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 class C2 {
     f() {
         return _wrap_async_generator(function*() {
@@ -15,7 +15,7 @@ class C2 {
     }
 }
 //// [C3.ts]
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 class C3 {
     f() {
         return _wrap_async_generator(function*() {
@@ -24,10 +24,10 @@ class C3 {
     }
 }
 //// [C4.ts]
-import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import { _ as _async_generator_delegate } from "@swc/helpers/_/_async_generator_delegate";
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 class C4 {
     f() {
         return _wrap_async_generator(function*() {
@@ -38,10 +38,10 @@ class C4 {
     }
 }
 //// [C5.ts]
-import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import { _ as _async_generator_delegate } from "@swc/helpers/_/_async_generator_delegate";
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 class C5 {
     f() {
         return _wrap_async_generator(function*() {
@@ -52,8 +52,8 @@ class C5 {
     }
 }
 //// [C6.ts]
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 class C6 {
     f() {
         return _wrap_async_generator(function*() {
@@ -62,7 +62,7 @@ class C6 {
     }
 }
 //// [C7.ts]
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 class C7 {
     f() {
         return _wrap_async_generator(function*() {
@@ -71,7 +71,7 @@ class C7 {
     }
 }
 //// [C8.ts]
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 class C8 {
     g() {}
     f() {
@@ -82,7 +82,7 @@ class C8 {
     }
 }
 //// [C9.ts]
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 class B9 {
     g() {}
 }

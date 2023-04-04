@@ -3,7 +3,7 @@
  * @callback Id
  * @param {T} t
  * @returns {T} Maybe just return 120 and cast it?
- */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+ */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var x = 1;
 /** @type {Id<string>} I actually wanted to write `const "120"` */ var one_twenty = function(s) {
     return "120";

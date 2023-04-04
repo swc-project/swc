@@ -20,28 +20,25 @@
 });
 //// [index.ts]
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/src/_async_to_generator.mjs"), require("@swc/helpers/src/_interop_require_wildcard.mjs"), require("@swc/helpers/src/_ts_generator.mjs"));
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_async_to_generator"), require("@swc/helpers/_/_interop_require_wildcard"), require("@swc/helpers/_/_ts_generator"));
     else if (typeof define === "function" && define.amd) define([
         "exports",
-        "@swc/helpers/src/_async_to_generator.mjs",
-        "@swc/helpers/src/_interop_require_wildcard.mjs",
-        "@swc/helpers/src/_ts_generator.mjs"
+        "@swc/helpers/_/_async_to_generator",
+        "@swc/helpers/_/_interop_require_wildcard",
+        "@swc/helpers/_/_ts_generator"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.indexTs = {}, global.asyncToGeneratorMjs, global.interopRequireWildcardMjs, global.tsGeneratorMjs);
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.indexTs = {}, global.asyncToGenerator, global.interopRequireWildcard, global.tsGenerator);
 })(this, function(exports, _async_to_generator, _interop_require_wildcard, _ts_generator) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _async_to_generator = _async_to_generator.default;
-    _interop_require_wildcard = _interop_require_wildcard.default;
-    _ts_generator = _ts_generator.default;
     function foo() {
         return _foo.apply(this, arguments);
     }
     function _foo() {
-        _foo = _async_to_generator(function() {
-            return _ts_generator(this, function(_state) {
+        _foo = _async_to_generator._(function() {
+            return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [

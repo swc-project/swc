@@ -2,14 +2,14 @@
 //super property access in constructor of class with no base type
 //super property access in instance member function of class with no base type
 //super property access in instance member accessor(get and set) of class with no base type
-import _assert_this_initialized from "@swc/helpers/src/_assert_this_initialized.mjs";
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _set from "@swc/helpers/src/_set.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _create_class } from "@swc/helpers/_/_create_class";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _set } from "@swc/helpers/_/_set";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var NoBase = /*#__PURE__*/ function() {
     "use strict";
     function NoBase() {

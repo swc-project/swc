@@ -1,6 +1,6 @@
 //// [mod1.js]
 // error
-/** @typedef {number} Foo */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+/** @typedef {number} Foo */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);

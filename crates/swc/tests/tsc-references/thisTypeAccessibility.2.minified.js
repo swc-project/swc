@@ -1,5 +1,5 @@
 //// [thisTypeAccessibility.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var MyClass = function MyClass() {
     "use strict";
     _class_call_check(this, MyClass), this.p = 123, this.pp = 123, this.ppp = 123;

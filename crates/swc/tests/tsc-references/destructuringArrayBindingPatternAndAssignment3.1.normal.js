@@ -1,5 +1,5 @@
 //// [destructuringArrayBindingPatternAndAssignment3.ts]
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 var _ref = [
     1
 ], a = _ref[0], tmp = _ref[1], b = tmp === void 0 ? a : tmp; // ok

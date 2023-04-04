@@ -1,7 +1,7 @@
 //// [functionExpressionContextualTyping1.ts]
 // When a function expression with no type parameters and no parameter type annotations 
 // is contextually typed (section 4.19) by a type T and a contextual signature S can be extracted from T
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var E;
 (function(E) {
     E[E["red"] = 0] = "red";

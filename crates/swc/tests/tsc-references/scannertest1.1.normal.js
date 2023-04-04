@@ -1,6 +1,6 @@
 //// [scannertest1.ts]
 ///<reference path='References.ts' />
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var CharacterInfo = /*#__PURE__*/ function() {
     "use strict";
     function CharacterInfo() {

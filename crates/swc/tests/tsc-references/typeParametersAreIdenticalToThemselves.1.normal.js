@@ -1,6 +1,6 @@
 //// [typeParametersAreIdenticalToThemselves.ts]
 // type parameters from the same declaration are identical to themself
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function foo1(x) {}
 function foo2(x) {}
 function foo3(x, y) {

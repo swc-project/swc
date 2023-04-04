@@ -1,6 +1,6 @@
 //// [exportImportAlias.ts]
 // expect no errors here
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A;
 (function(A) {
     var x = A.x = "hello world";

@@ -1,3 +1,3 @@
 //// [nullishCoalescingOperatorInAsyncGenerator.ts]
-import "@swc/helpers/src/_wrap_async_generator.mjs";
-import "@swc/helpers/src/_ts_generator.mjs";
+import "@swc/helpers/_/_wrap_async_generator";
+import "@swc/helpers/_/_ts_generator";

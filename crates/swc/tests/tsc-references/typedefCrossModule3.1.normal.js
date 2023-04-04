@@ -1,5 +1,5 @@
 //// [mod2.js]
-/** @typedef {number} Foo */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+/** @typedef {number} Foo */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var ns = {};
 ns.Foo = function _class() {
     "use strict";

@@ -25,7 +25,7 @@ function f() {}
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _m1 = /*#__PURE__*/ _interop_require_wildcard(require("./m1"));
+var _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+var _m1 = /*#__PURE__*/ _interop_require_wildcard._(require("./m1"));
 (0, _m1.f)();
 (0, _m1.default)();

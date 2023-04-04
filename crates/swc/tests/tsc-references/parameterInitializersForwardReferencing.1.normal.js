@@ -1,5 +1,5 @@
 //// [parameterInitializersForwardReferencing.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function left(a) {
     var b1 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, c1 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : b1;
     a;

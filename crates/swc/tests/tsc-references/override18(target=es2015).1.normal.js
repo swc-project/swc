@@ -1,5 +1,5 @@
 //// [override18.ts]
-import _define_property from "@swc/helpers/src/_define_property.mjs";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
 class A {
     constructor(){
         _define_property(this, "foo", void 0);

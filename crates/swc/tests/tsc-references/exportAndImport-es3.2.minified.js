@@ -21,7 +21,7 @@ Object.defineProperty(exports, "__esModule", {
         return f2;
     }
 });
-var _m1 = (0, require("@swc/helpers/lib/_interop_require_default.js").default)(require("./m1"));
+var _m1 = require("@swc/helpers/_/_interop_require_default")._(require("./m1"));
 function f2() {
     (0, _m1.default)();
 }

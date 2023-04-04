@@ -1,6 +1,6 @@
 //// [file1.ts]
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 function f1() {
     return _f1.apply(this, arguments);
 }
@@ -33,8 +33,8 @@ function _f1() {
     return _f1.apply(this, arguments);
 }
 //// [file2.ts]
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 function f2() {
     return _f2.apply(this, arguments);
 }
@@ -67,9 +67,9 @@ function _f2() {
     return _f2.apply(this, arguments);
 }
 //// [file3.ts]
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f3() {
     return _f3.apply(this, arguments);
 }
@@ -102,9 +102,9 @@ function _f3() {
     return _f3.apply(this, arguments);
 }
 //// [file4.ts]
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f4() {
     return _f4.apply(this, arguments);
 }
@@ -138,8 +138,8 @@ function _f4() {
 }
 //// [file5.ts]
 // https://github.com/Microsoft/TypeScript/issues/21363
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 function f5() {
     return _f5.apply(this, arguments);
 }
@@ -174,9 +174,9 @@ function _f5() {
 }
 //// [file6.ts]
 // https://github.com/Microsoft/TypeScript/issues/21363
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f6() {
     return _f6.apply(this, arguments);
 }
@@ -211,9 +211,9 @@ function _f6() {
 }
 //// [file7.ts]
 // https://github.com/microsoft/TypeScript/issues/36166
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f7() {
     return _f7.apply(this, arguments);
 }

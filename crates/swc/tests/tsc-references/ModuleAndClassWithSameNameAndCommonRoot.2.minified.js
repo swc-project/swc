@@ -6,7 +6,7 @@ var X;
 }(X || (X = {}));
 //// [classPoint.ts]
 var X;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(X) {
     (X.Y || (X.Y = {})).Point = function Point(x, y) {
         "use strict";
@@ -14,7 +14,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     };
 }(X || (X = {}));
 //// [simple.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (A || (A = {})).Instance = new A();
 var A = function A() {
     "use strict";

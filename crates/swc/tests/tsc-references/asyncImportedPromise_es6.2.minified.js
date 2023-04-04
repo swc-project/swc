@@ -12,4 +12,4 @@ class Task extends Promise {
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), require("@swc/helpers/lib/_async_to_generator.js").default;
+}), require("@swc/helpers/_/_async_to_generator");

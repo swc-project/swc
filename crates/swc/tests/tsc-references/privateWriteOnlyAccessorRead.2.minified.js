@@ -1,10 +1,10 @@
 //// [privateWriteOnlyAccessorRead.ts]
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
-import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
-import _extends from "@swc/helpers/src/_extends.mjs";
-import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
-import _write_only_error from "@swc/helpers/src/_write_only_error.mjs";
-import _class_private_field_destructure from "@swc/helpers/src/_class_private_field_destructure.mjs";
+import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
+import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
+import { _ as _extends } from "@swc/helpers/_/_extends";
+import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
+import { _ as _write_only_error } from "@swc/helpers/_/_write_only_error";
+import { _ as _class_private_field_destructure } from "@swc/helpers/_/_class_private_field_destructure";
 var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(), _valueCompound = new WeakMap();
 function set_value(v) {}
 function set_valueRest(v) {}

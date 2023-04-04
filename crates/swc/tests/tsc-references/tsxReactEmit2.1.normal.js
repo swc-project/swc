@@ -1,6 +1,6 @@
 //// [file.tsx]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
+import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
+import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
 var p1, p2, p3;
 var spreads1 = /*#__PURE__*/ React.createElement("div", p1, p2);
 var spreads2 = /*#__PURE__*/ React.createElement("div", p1, p2);

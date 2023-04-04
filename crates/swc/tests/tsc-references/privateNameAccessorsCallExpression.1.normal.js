@@ -1,6 +1,6 @@
 //// [privateNameAccessorsCallExpression.ts]
-import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
+import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 var _fieldFunc = /*#__PURE__*/ new WeakMap(), _fieldFunc2 = /*#__PURE__*/ new WeakMap();
 class A {
     test() {

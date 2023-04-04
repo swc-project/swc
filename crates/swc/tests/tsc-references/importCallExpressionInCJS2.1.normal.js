@@ -27,13 +27,13 @@ function backup() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 async function compute(promise) {
     let j = await promise;
     if (!j) {
-        j = await Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard(require("./1")));
+        j = await Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./1")));
         return j.backup();
     }
     return j.foo();
 }
-compute(Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard(require("./0"))));
+compute(Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0"))));

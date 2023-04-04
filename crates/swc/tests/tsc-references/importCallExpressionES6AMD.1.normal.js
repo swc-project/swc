@@ -19,7 +19,7 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs"
+    "@swc/helpers/_/_interop_require_wildcard"
 ], function(require, exports, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
@@ -35,36 +35,35 @@ define([
         p2: ()=>p2,
         D: ()=>D
     });
-    _interop_require_wildcard = _interop_require_wildcard.default;
     new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
+        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
     var p1 = new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
+        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
     p1.then((zero)=>{
         return zero.foo();
     });
     var p2 = new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
+        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
     function foo() {
         const p2 = new Promise((resolve, reject)=>require([
                 "./0"
-            ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
+            ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
     }
     class C {
         method() {
             const loadAsync = new Promise((resolve, reject)=>require([
                     "./0"
-                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
         }
     }
     class D {
         method() {
             const loadAsync = new Promise((resolve, reject)=>require([
                     "./0"
-                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
         }
     }
 });

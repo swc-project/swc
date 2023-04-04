@@ -1,5 +1,5 @@
 //// [privateNameStaticFieldCallExpression.ts]
-import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
+import { _ as _class_static_private_field_spec_get } from "@swc/helpers/_/_class_static_private_field_spec_get";
 class A {
     test() {
         var _class_static_private_field_spec_get1;

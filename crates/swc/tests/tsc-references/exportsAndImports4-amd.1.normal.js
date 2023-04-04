@@ -25,15 +25,14 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs",
+    "@swc/helpers/_/_interop_require_wildcard",
     "./t1"
 ], function(require, exports, _interop_require_wildcard, _t1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _interop_require_wildcard = _interop_require_wildcard.default;
-    var _t11 = /*#__PURE__*/ _interop_require_wildcard(_t1);
+    var _t11 = /*#__PURE__*/ _interop_require_wildcard._(_t1);
     _t1.default;
     _t11.default;
     _t11.default;
@@ -47,7 +46,7 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs",
+    "@swc/helpers/_/_interop_require_wildcard",
     "./t1"
 ], function(require, exports, _interop_require_wildcard, _t1) {
     "use strict";
@@ -86,8 +85,7 @@ define([
             return _t11.default;
         }
     });
-    _interop_require_wildcard = _interop_require_wildcard.default;
-    var _t11 = /*#__PURE__*/ _interop_require_wildcard(_t1);
+    var _t11 = /*#__PURE__*/ _interop_require_wildcard._(_t1);
     _t1.default;
     _t11.default;
     _t11.default;

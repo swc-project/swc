@@ -1,6 +1,6 @@
 //// [enumIsNotASubtypeOfAnythingButNumber.ts]
 // enums are only subtypes of number, any and no other types
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";

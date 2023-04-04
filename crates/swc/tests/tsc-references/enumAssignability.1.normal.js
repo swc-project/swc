@@ -1,6 +1,6 @@
 //// [enumAssignability.ts]
 // enums assignable to number, any, Object, errors unless otherwise noted
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";

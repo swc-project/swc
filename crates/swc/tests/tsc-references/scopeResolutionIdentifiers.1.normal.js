@@ -1,6 +1,6 @@
 //// [scopeResolutionIdentifiers.ts]
 // EveryType used in a nested scope of a different EveryType with the same name, type of the identifier is the one defined in the inner scope
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var s;
 var M1;
 (function(M1) {

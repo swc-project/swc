@@ -12,25 +12,25 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    "_": function() {
+    _: function() {
         return _;
     },
-    "__": function() {
+    __: function() {
         return __;
     },
-    "___": function() {
+    ___: function() {
         return ___;
     },
-    "_hi": function() {
+    _hi: function() {
         return _hi;
     },
-    "__proto": function() {
+    __proto: function() {
         return __proto;
     },
-    "__esmodule": function() {
+    __esmodule: function() {
         return __esmodule;
     },
-    "___hello": function() {
+    ___hello: function() {
         return ___hello;
     }
 });
@@ -61,9 +61,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var _m1 = require("./m1");
-(0, _m1["_"])();
-(0, _m1["__"])();
-(0, _m1["___hello"])();
-(0, _m1["__esmodule"])();
-(0, _m1["__proto"])();
-(0, _m1["_hi"])();
+(0, _m1._)();
+(0, _m1.__)();
+(0, _m1.___hello)();
+(0, _m1.__esmodule)();
+(0, _m1.__proto)();
+(0, _m1._hi)();

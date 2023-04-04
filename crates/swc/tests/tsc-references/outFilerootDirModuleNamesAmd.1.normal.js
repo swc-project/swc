@@ -2,7 +2,7 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_default.mjs",
+    "@swc/helpers/_/_interop_require_default",
     "./b"
 ], function(require, exports, _interop_require_default, _b) {
     "use strict";
@@ -13,8 +13,7 @@ define([
         enumerable: true,
         get: ()=>Foo
     });
-    _interop_require_default = _interop_require_default.default;
-    _b = /*#__PURE__*/ _interop_require_default(_b);
+    _b = /*#__PURE__*/ _interop_require_default._(_b);
     class Foo {
     }
     (0, _b.default)();
@@ -23,8 +22,8 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_default.mjs",
-    "@swc/helpers/src/_interop_require_wildcard.mjs",
+    "@swc/helpers/_/_interop_require_default",
+    "@swc/helpers/_/_interop_require_wildcard",
     "./a"
 ], function(require, exports, _interop_require_default, _interop_require_wildcard, _a) {
     "use strict";
@@ -35,14 +34,12 @@ define([
         enumerable: true,
         get: ()=>foo
     });
-    _interop_require_default = _interop_require_default.default;
-    _interop_require_wildcard = _interop_require_wildcard.default;
-    _a = /*#__PURE__*/ _interop_require_default(_a);
+    _a = /*#__PURE__*/ _interop_require_default._(_a);
     function foo() {
         new _a.default();
     }
     // https://github.com/microsoft/TypeScript/issues/37429
     new Promise((resolve, reject)=>require([
             "./a"
-        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
+        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
 });

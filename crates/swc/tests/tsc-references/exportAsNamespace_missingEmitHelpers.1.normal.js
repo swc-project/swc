@@ -16,6 +16,6 @@ Object.defineProperty(exports, "ns", {
         return _a;
     }
 });
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _a = /*#__PURE__*/ _interop_require_wildcard(require("./a"));
+var _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+var _a = /*#__PURE__*/ _interop_require_wildcard._(require("./a"));
  // Error

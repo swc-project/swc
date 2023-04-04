@@ -1,5 +1,5 @@
 //// [inferFromBindingPattern.ts]
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 var x1 = f1(); // string
 var _f2 = _sliced_to_array(f2(), 1), x2 = _f2[0]; // string
 var _f3 = f3(), x3 = _f3.x; // string

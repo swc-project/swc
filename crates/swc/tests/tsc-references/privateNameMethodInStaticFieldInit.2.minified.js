@@ -1,6 +1,6 @@
 //// [privateNameMethodInStaticFieldInit.ts]
-import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
-import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
+import { _ as _class_private_method_get } from "@swc/helpers/_/_class_private_method_get";
+import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
 var _ref, _method = new WeakSet();
 class C {
     constructor(){
