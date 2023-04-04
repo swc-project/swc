@@ -19,6 +19,9 @@
 
 - **(es/parser)** Fix infinite loop on jsx in js (#7191) ([414e669](https://github.com/swc-project/swc/commit/414e66910dc5d9fea254811618f69067ab4a7a67))
 
+
+- **(es/typescript)** Mark `A` as a type in `export { type A }` (#7196) ([ddfbc93](https://github.com/swc-project/swc/commit/ddfbc936244c1168c547e134f20d436bfb6227f9))
+
 ### Features
 
 
