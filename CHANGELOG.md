@@ -22,6 +22,9 @@
 
 - **(es/typescript)** Mark `A` as a type in `export { type A }` (#7196) ([ddfbc93](https://github.com/swc-project/swc/commit/ddfbc936244c1168c547e134f20d436bfb6227f9))
 
+
+- **(swc_core)** Fix a feature name (#7198) ([bfe6544](https://github.com/swc-project/swc/commit/bfe654438f15d875257caf7735f11a79e51780a5))
+
 ### Features
 
 

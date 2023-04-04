@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.73.5"
+version       = "0.73.6"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -43,7 +43,7 @@ common_perf = ["swc_common/perf"]
 
 # swc_ecma_loader/cache*
 ecma_loader_lru         = ["swc_ecma_loader/lru"]
-ecna_loader_parking_lot = ["swc_ecma_loader/parking_lot"]
+ecma_loader_parking_lot = ["swc_ecma_loader/parking_lot"]
 
 # swc_ecma_minifier/concurrent
 ecma_minifier_concurrent = ["swc_ecma_minifier/concurrent"]
