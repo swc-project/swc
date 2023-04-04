@@ -1205,20 +1205,17 @@ where
                 ..self.ctx
             };
 
-            if let Some(marks) = &self.marks {
+            if let Some(..) = &self.marks {
                 if let VarDeclarator {
                     name: Pat::Ident(id),
-                    init: Some(init),
+                    init: Some(..),
                     definite: false,
                     ..
                 } = e
                 {
-                    // TODO: merge with may_have_side_effects
-                    let can_ignore =
-                        matches!(&**init, Expr::Call(call) if call.span.has_mark(marks.pure));
                     let id = id.to_id();
                     self.used_recursively
-                        .insert(id.clone(), RecursiveUsage::Var { can_ignore });
+                        .insert(id.clone(), RecursiveUsage::Var { can_ignore: false });
                     e.init.visit_with(&mut *self.with_ctx(ctx));
                     self.used_recursively.remove(&id);
                     return;
