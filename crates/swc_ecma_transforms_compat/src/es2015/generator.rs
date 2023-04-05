@@ -1435,6 +1435,8 @@ impl Generator {
     }
 
     fn transform_and_emit_stmt(&mut self, node: Stmt) {
+        let _tracing = dev_span!("transform_and_emit_stmt");
+
         let saved_in_statement_containing_yield = self.in_statement_containing_yield;
         if !self.in_statement_containing_yield {
             self.in_statement_containing_yield = contains_yield(&node);
