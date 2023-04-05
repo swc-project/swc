@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Don't remove used var decl (#7200) ([73bc29e](https://github.com/swc-project/swc/commit/73bc29eeb0e0a758daff2ec9567d8949fb48fa50))
 
+### Refactor
+
+
+
+- **(macros/ast-node)** Drop `darling` to reduce compile time (#7214) ([3f61638](https://github.com/swc-project/swc/commit/3f61638cbfb1acc9fa59fa68434a182ba8bcfb2a))
+
 ## [1.3.45] - 2023-04-04
 
 ### Bug Fixes
