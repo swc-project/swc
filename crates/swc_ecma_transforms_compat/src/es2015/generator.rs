@@ -37,6 +37,16 @@ struct Wrapper {
     unresolved_ctxt: SyntaxContext,
 }
 
+macro_rules! dev_span {
+    ($($tt:tt)*) => {{
+        if cfg!(debug_assertions) {
+            Some(tracing::span!(tracing::Level::ERROR, $($tt)*).entered())
+        } else {
+            None
+        }
+    }};
+}
+
 impl VisitMut for Wrapper {
     noop_visit_mut_type!();
 
@@ -2015,6 +2025,8 @@ impl Generator {
     }
 
     fn transform_and_emit_try_stmt(&mut self, mut node: TryStmt) {
+        let _tracing = dev_span!("transform_and_emit_try_stmt");
+
         if contains_yield(&node) {
             // [source]
             //      try {
