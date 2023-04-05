@@ -139,7 +139,7 @@
     "peerDependenciesMeta": {
         "@swc/helpers": {
             "optional": true
-        },
+        }
     },
     "funding": {
         "type": "opencollective",
