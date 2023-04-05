@@ -2236,6 +2236,8 @@ impl Generator {
         let b = block.borrow();
         if let CodeBlock::With(block) = &*b {
             self.mark_label(block.end_label);
+        } else {
+            unreachable!()
         }
     }
 
@@ -2319,6 +2321,8 @@ impl Generator {
             self.mark_label(finally_label);
             block.state = ExceptionBlockState::Finally;
             block.finally_label = Some(finally_label);
+        } else {
+            unreachable!()
         }
     }
 
@@ -2337,6 +2341,8 @@ impl Generator {
             self.mark_label(block.end_label);
             self.emit_nop();
             block.state = ExceptionBlockState::Done;
+        } else {
+            unreachable!()
         }
     }
 
@@ -2377,6 +2383,8 @@ impl Generator {
             if !block.is_script {
                 self.mark_label(break_label);
             }
+        } else {
+            unreachable!()
         }
     }
 
@@ -2414,6 +2422,8 @@ impl Generator {
             if !block.is_script {
                 self.mark_label(break_label);
             }
+        } else {
+            unreachable!()
         }
     }
 
@@ -2469,6 +2479,8 @@ impl Generator {
                     if block.label_text == *label_text {
                         return true;
                     }
+                } else {
+                    unreachable!()
                 }
             } else {
                 break;
