@@ -2255,6 +2255,8 @@ impl Generator {
 
     /// Begins a code block for a generated `try` statement.
     fn begin_exception_block(&mut self) -> Label {
+        let _tracing = dev_span!("begin_exception_block");
+
         let start_label = self.define_label();
         let end_label = self.define_label();
         self.mark_label(start_label);
@@ -2319,6 +2321,8 @@ impl Generator {
 
     /// Enters the `finally` block of a generated `try` statement.
     fn begin_finally_block(&mut self) {
+        let _tracing = dev_span!("begin_finally_block");
+
         debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::Exception));
 
         let block = self.peek_block().unwrap();
