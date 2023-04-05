@@ -338,7 +338,7 @@ struct Generator {
     clauses: Option<Vec<SwitchCase>>,
     stmts: Option<Vec<Stmt>>,
     /// Index to `blocks`
-    exception_block_stack: Vec<Ptr<CodeBlock>>,
+    exception_block_stack: Option<Vec<Ptr<CodeBlock>>>,
     /// Index to `blocks`
     current_exception_block: Option<Ptr<CodeBlock>>,
     /// Index to `blocks`
@@ -3091,13 +3091,15 @@ impl Generator {
                     CodeBlock::Exception(_) => {
                         if block_action == BlockAction::Open {
                             self.exception_block_stack
+                                .get_or_insert_with(Default::default)
                                 .extend(self.current_exception_block.clone());
 
                             #[cfg(debug_assertions)]
                             debug!("Current exception block: open = Some({:?})", block);
                             self.current_exception_block = Some(block.clone());
                         } else if block_action == BlockAction::Close {
-                            self.current_exception_block = self.exception_block_stack.pop();
+                            self.current_exception_block =
+                                self.exception_block_stack.as_mut().unwrap().pop();
                             #[cfg(debug_assertions)]
                             debug!(
                                 "Current exception block: close = {:?}",
