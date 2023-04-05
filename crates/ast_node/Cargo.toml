@@ -13,13 +13,12 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-darling     = "0.13"
 pmutil      = "0.5.1"
 proc-macro2 = "1"
 quote       = "1"
 
 swc_macros_common = { version = "0.3.7", path = "../swc_macros_common" }
 
-    [dependencies.syn]
-    features = ["derive", "fold", "parsing", "printing", "visit-mut"]
-    version  = "1"
+  [dependencies.syn]
+  features = ["derive", "fold", "parsing", "printing", "visit-mut"]
+  version  = "1"

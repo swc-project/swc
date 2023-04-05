@@ -1,12 +1,9 @@
 #![allow(dead_code)]
 
-use darling::FromField;
 use pmutil::{smart_quote, Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
 use syn::*;
 
-#[derive(FromField)]
-#[darling(attributes(span))]
 struct MyField {
     /// Name of the field.
     pub ident: Option<Ident>,
@@ -14,11 +11,50 @@ struct MyField {
     pub ty: Type,
 
     /// `#[span(lo)]`
-    #[darling(default)]
     pub lo: bool,
     /// `#[span(hi)]`
-    #[darling(default)]
     pub hi: bool,
+}
+
+impl MyField {
+    fn from_field(f: &Field) -> Self {
+        let mut lo = false;
+        let mut hi = false;
+
+        for attr in &f.attrs {
+            if !is_attr_name(attr, "span") {
+                continue;
+            }
+
+            let meta = attr.parse_meta().unwrap();
+            match meta {
+                Meta::List(list) => {
+                    for nested in list.nested {
+                        match nested {
+                            NestedMeta::Meta(Meta::Path(ident)) => {
+                                if ident.is_ident("lo") {
+                                    lo = true;
+                                } else if ident.is_ident("hi") {
+                                    hi = true;
+                                } else {
+                                    panic!("Unknown span attribute: {:?}", ident)
+                                }
+                            }
+                            _ => panic!("Unknown span attribute"),
+                        }
+                    }
+                }
+                _ => panic!("Unknown span attribute"),
+            }
+        }
+
+        Self {
+            ident: f.ident.clone(),
+            ty: f.ty.clone(),
+            lo,
+            hi,
+        }
+    }
 }
 
 pub fn derive(input: DeriveInput) -> ItemImpl {
@@ -141,7 +177,7 @@ fn make_body_for_variant(v: &VariantBinder<'_>, bindings: Vec<BindedField<'_>>) 
 
     let fields: Vec<_> = bindings
         .iter()
-        .map(|b| (b, MyField::from_field(b.field()).unwrap()))
+        .map(|b| (b, MyField::from_field(b.field())))
         .collect();
 
     // TODO: Only one field should be `#[span(lo)]`.
