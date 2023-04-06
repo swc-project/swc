@@ -136,6 +136,11 @@
     "peerDependencies": {
         "@swc/helpers": "^0.5.0"
     },
+    "peerDependenciesMeta": {
+        "@swc/helpers": {
+            "optional": true
+        }
+    },
     "funding": {
         "type": "opencollective",
         "url": "https://opencollective.com/swc"
