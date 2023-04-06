@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Don't remove used var decl (#7200) ([73bc29e](https://github.com/swc-project/swc/commit/73bc29eeb0e0a758daff2ec9567d8949fb48fa50))
 
+
+- **(es/typescript)** Fix computation of enum bits (#7219) ([29bf176](https://github.com/swc-project/swc/commit/29bf1760befc5acf56841f4c369016e296184bdb))
+
 ### Refactor
 
 
