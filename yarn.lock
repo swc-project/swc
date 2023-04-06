@@ -2526,6 +2526,9 @@ __metadata:
       optional: true
     "@swc/core-win32-x64-msvc":
       optional: true
+  peerDependenciesMeta:
+    "@swc/helpers":
+      optional: true
   languageName: unknown
   linkType: soft
 
