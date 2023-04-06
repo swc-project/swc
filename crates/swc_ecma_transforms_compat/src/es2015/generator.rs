@@ -1620,6 +1620,8 @@ impl Generator {
     }
 
     fn transform_and_emit_while_stmt(&mut self, mut node: WhileStmt) {
+        let _tracing = dev_span!("transform_and_emit_while_stmt");
+
         if contains_yield(&node) {
             // [source]
             //      while (i < 10) {
@@ -2381,6 +2383,8 @@ impl Generator {
     /// - `continue_label`: A Label used to mark the operation to which to jump
     ///   when a `continue` statement targets this block.
     fn begin_loop_block(&mut self, continue_label: Label) -> Label {
+        let _tracing = dev_span!("begin_loop_block");
+
         let break_label = self.define_label();
         self.begin_block(CodeBlock::Loop(LoopBlock {
             is_script: false,
