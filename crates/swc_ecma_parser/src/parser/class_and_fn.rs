@@ -382,7 +382,10 @@ impl<I: Tokens> Parser<I> {
 
         if is!(self, GlimmerTemplateStart) {
             return match self.parse_glimmer_template() {
-                Ok(glimmer_template) => Ok(ClassMember::GlimmerTemplate(glimmer_template)),
+                Ok(glimmer_template) => Ok(ClassMember::GlimmerTemplate(GlimmerTemplateMember {
+                    span: glimmer_template.span,
+                    contents: glimmer_template.contents,
+                })),
                 Err(err) => Err(err),
             };
         }

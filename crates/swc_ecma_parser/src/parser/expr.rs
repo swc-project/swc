@@ -514,7 +514,7 @@ impl<I: Tokens> Parser<I> {
         syntax_error!(self, self.input.cur_span(), SyntaxError::TS1109)
     }
 
-    pub fn parse_glimmer_template(&mut self) -> PResult<GlimmerTemplate> {
+    pub fn parse_glimmer_template(&mut self) -> PResult<GlimmerTemplateExpression> {
         assert_and_bump!(self, GlimmerTemplateStart);
         let start = cur_pos!(self);
 
@@ -522,7 +522,7 @@ impl<I: Tokens> Parser<I> {
             Token::GlimmerTemplateContent { value } => {
                 let span = span!(self, start);
                 assert_and_bump!(self, GlimmerTemplateEnd);
-                return Ok(GlimmerTemplate {
+                return Ok(GlimmerTemplateExpression {
                     span,
                     contents: value.into(),
                 });

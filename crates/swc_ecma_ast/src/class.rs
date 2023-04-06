@@ -6,7 +6,6 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 use crate::{
     expr::Expr,
     function::{Function, ParamOrTsParamProp},
-    glimmer::GlimmerTemplate,
     ident::PrivateName,
     prop::PropName,
     stmt::BlockStmt,
@@ -61,6 +60,18 @@ impl Take for Class {
     }
 }
 
+#[ast_node("GlimmerTemplateMember")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct GlimmerTemplateMember {
+    pub span: Span,
+
+    #[cfg_attr(
+        any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+        with(swc_atoms::EncodeJsWord)
+    )]
+    pub contents: swc_atoms::JsWord,
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -91,7 +102,7 @@ pub enum ClassMember {
     AutoAccessor(AutoAccessor),
 
     #[tag("GlimmerTemplate")]
-    GlimmerTemplate(GlimmerTemplate),
+    GlimmerTemplate(GlimmerTemplateMember),
 }
 
 impl Take for ClassMember {

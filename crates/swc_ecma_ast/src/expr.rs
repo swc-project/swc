@@ -9,13 +9,12 @@ use serde::{
     Deserialize, Deserializer,
 };
 use string_enum::StringEnum;
-use swc_atoms::{js_word, Atom};
+use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 use crate::{
     class::Class,
     function::Function,
-    glimmer::GlimmerTemplate,
     ident::{Ident, PrivateName},
     jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
     lit::Lit,
@@ -145,7 +144,7 @@ pub enum Expr {
     JSXFragment(JSXFragment),
 
     #[tag("GlimmerTemplate")]
-    GlimmerTemplate(GlimmerTemplate),
+    GlimmerTemplate(GlimmerTemplateExpression),
 
     #[tag("TsTypeAssertion")]
     TsTypeAssertion(TsTypeAssertion),
@@ -523,6 +522,18 @@ pub struct FnExpr {
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[span]
     pub function: Box<Function>,
+}
+
+#[ast_node("GlimmerTemplateExpression")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct GlimmerTemplateExpression {
+    pub span: Span,
+
+    #[cfg_attr(
+        any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+        with(swc_atoms::EncodeJsWord)
+    )]
+    pub contents: JsWord,
 }
 
 impl Take for FnExpr {

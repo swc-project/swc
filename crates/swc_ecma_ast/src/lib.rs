@@ -18,19 +18,19 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 pub use self::{
     class::{
-        AutoAccessor, Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, Key,
-        MethodKind, PrivateMethod, PrivateProp, StaticBlock,
+        AutoAccessor, Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator,
+        GlimmerTemplateMember, Key, MethodKind, PrivateMethod, PrivateProp, StaticBlock,
     },
     decl::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::{
         ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr, CallExpr, Callee,
-        ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Import, MemberExpr, MemberProp,
-        MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, OptCall, OptChainBase, OptChainExpr,
-        ParenExpr, PatOrExpr, PropOrSpread, SeqExpr, SpreadElement, Super, SuperProp,
-        SuperPropExpr, TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
+        ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, GlimmerTemplateExpression, Import,
+        MemberExpr, MemberProp, MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, OptCall,
+        OptChainBase, OptChainExpr, ParenExpr, PatOrExpr, PropOrSpread, SeqExpr, SpreadElement,
+        Super, SuperProp, SuperPropExpr, TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr,
+        UpdateExpr, YieldExpr,
     },
     function::{Function, Param, ParamOrTsParamProp},
-    glimmer::GlimmerTemplate,
     ident::{BindingIdent, Id, Ident, IdentExt, PrivateName},
     jsx::{
         JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
@@ -86,7 +86,6 @@ mod class;
 mod decl;
 mod expr;
 mod function;
-mod glimmer;
 mod ident;
 mod jsx;
 mod list;
