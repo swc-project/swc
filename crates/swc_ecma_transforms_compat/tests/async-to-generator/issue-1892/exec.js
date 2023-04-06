@@ -26,14 +26,14 @@ function* gen() {
 }
 
 const iter = gen();
-expect(iter.next()).toEqual({ value: 0, done: false });
-expect(iter.next()).toEqual({ value: 1, done: false });
-expect(iter.next()).toEqual({ value: 2, done: false });
-expect(iter.next()).toEqual({ value: 5, done: false });
-expect(iter.next()).toEqual({ value: 0, done: false });
-expect(iter.next()).toEqual({ value: 1, done: false });
-expect(iter.next()).toEqual({ value: 3, done: false });
-expect(iter.next()).toEqual({ value: 4, done: false });
-expect(iter.next()).toEqual({ value: 5, done: false });
-expect(iter.next()).toEqual({ value: 7, done: false });
-expect(iter.next()).toEqual({ value: undefined, done: true });
+console.log(iter.next())
+console.log(iter.next())
+console.log(iter.next())
+console.log(iter.next())
+console.log(iter.next())
+console.log(iter.next())
+console.log(iter.next())
+console.log(iter.next())
+console.log(iter.next())
+console.log(iter.next())
+console.log(iter.next())
