@@ -1,5 +1,9 @@
 {
     "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "decorators": true
+        },
         "transform": {
             "decoratorVersion": "2022-03"
         }
