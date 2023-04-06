@@ -310,7 +310,7 @@ pub(super) trait ExprExt {
             | Expr::JSXElement(..)
             | Expr::JSXFragment(..) => false,
 
-            Expr::GlimmerTemplate(..) => false,
+            Expr::GlimmerTemplateExpression(..) => false,
 
             // typescript
             Expr::TsNonNull(TsNonNullExpr { ref expr, .. })

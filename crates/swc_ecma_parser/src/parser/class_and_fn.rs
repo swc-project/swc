@@ -381,13 +381,12 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         if is!(self, GlimmerTemplateStart) {
-            return match self.parse_glimmer_template() {
-                Ok(glimmer_template) => Ok(ClassMember::GlimmerTemplate(GlimmerTemplateMember {
+            return self.parse_glimmer_template().map(|glimmer_template| {
+                ClassMember::GlimmerTemplateMember(GlimmerTemplateMember {
                     span: glimmer_template.span,
                     contents: glimmer_template.contents,
-                })),
-                Err(err) => Err(err),
-            };
+                })
+            });
         }
 
         let decorators = self.parse_decorators(false)?;

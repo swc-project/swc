@@ -394,12 +394,9 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 Token::GlimmerTemplateStart => {
-                    return match self.parse_glimmer_template() {
-                        Ok(glimmer_template) => {
-                            Ok(Box::new(Expr::GlimmerTemplate(glimmer_template)))
-                        }
-                        Err(err) => Err(err),
-                    }
+                    return self.parse_glimmer_template().map(|glimmer_template| {
+                        Box::new(Expr::GlimmerTemplateExpression(glimmer_template))
+                    })
                 }
 
                 _ => {}

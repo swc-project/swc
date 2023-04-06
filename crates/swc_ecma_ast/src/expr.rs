@@ -144,7 +144,7 @@ pub enum Expr {
     JSXFragment(JSXFragment),
 
     #[tag("GlimmerTemplate")]
-    GlimmerTemplate(GlimmerTemplateExpression),
+    GlimmerTemplateExpression(GlimmerTemplateExpression),
 
     #[tag("TsTypeAssertion")]
     TsTypeAssertion(TsTypeAssertion),
@@ -271,7 +271,7 @@ impl Clone for Expr {
             JSXEmpty(e) => JSXEmpty(e.clone()),
             JSXElement(e) => JSXElement(e.clone()),
             JSXFragment(e) => JSXFragment(e.clone()),
-            GlimmerTemplate(e) => GlimmerTemplate(e.clone()),
+            GlimmerTemplateExpression(e) => GlimmerTemplateExpression(e.clone()),
             TsTypeAssertion(e) => TsTypeAssertion(e.clone()),
             TsConstAssertion(e) => TsConstAssertion(e.clone()),
             TsNonNull(e) => TsNonNull(e.clone()),

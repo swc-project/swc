@@ -102,7 +102,7 @@ pub enum ClassMember {
     AutoAccessor(AutoAccessor),
 
     #[tag("GlimmerTemplate")]
-    GlimmerTemplate(GlimmerTemplateMember),
+    GlimmerTemplateMember(GlimmerTemplateMember),
 }
 
 impl Take for ClassMember {
