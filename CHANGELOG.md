@@ -16,6 +16,12 @@
 
 - **(es/typescript)** Fix computation of enum bits (#7219) ([29bf176](https://github.com/swc-project/swc/commit/29bf1760befc5acf56841f4c369016e296184bdb))
 
+### Features
+
+
+
+- **(es)** Expose stage 3 decorator (#7220) ([a7a53c6](https://github.com/swc-project/swc/commit/a7a53c6208ae63a07b663049575f3b50f37d2f2a))
+
 ### Refactor
 
 
