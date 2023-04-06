@@ -2572,6 +2572,8 @@ impl Generator {
     fn create_label(&mut self, label: Option<Label>) -> Box<Expr> {
         if let Some(label) = label {
             if label.0 > 0 {
+                debug!("create_label: label={:?}", label);
+
                 if self.label_exprs.is_none() {
                     self.label_exprs = Some(Default::default());
                 }
