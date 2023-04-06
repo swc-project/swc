@@ -703,11 +703,20 @@ impl Options {
             })),
             // Decorators may use type information
             Optional::new(
-                decorators(decorators::Config {
-                    legacy: transform.legacy_decorator.into_bool(),
-                    emit_metadata: transform.decorator_metadata.into_bool(),
-                    use_define_for_class_fields: !assumptions.set_public_class_fields
-                }),
+                match transform.decorator_version.unwrap_or_default() {
+                    DecoratorVersion::V202112 => {
+                        Either::Left(decorators(decorators::Config {
+                            legacy: transform.legacy_decorator.into_bool(),
+                            emit_metadata: transform.decorator_metadata.into_bool(),
+                            use_define_for_class_fields: !assumptions.set_public_class_fields,
+                        }))
+                    }
+                    DecoratorVersion::V202203 => {
+                        Either::Right(
+                            swc_ecma_transforms::proposals::decorator_2022_03::decorator_2022_03(),
+                        )
+                    }
+                },
                 syntax.decorators()
             ),
             // The transform strips import assertions, so it's only enabled if
@@ -1552,6 +1561,18 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub use_define_for_class_fields: BoolConfig<true>,
+
+    #[serde(default)]
+    pub decorator_version: Option<DecoratorVersion>,
+}
+
+#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub enum DecoratorVersion {
+    #[default]
+    V202112,
+
+    V202203,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
