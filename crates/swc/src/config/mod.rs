@@ -1570,8 +1570,10 @@ pub struct TransformConfig {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub enum DecoratorVersion {
     #[default]
+    #[serde(rename = "2021-12")]
     V202112,
 
+    #[serde(rename = "2022-03")]
     V202203,
 }
 
