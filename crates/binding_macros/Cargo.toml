@@ -5,7 +5,7 @@ edition     = "2021"
 license     = "Apache-2.0"
 name        = "binding_macros"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.48.2"
+version     = "0.48.3"
 
 [lib]
 bench = false
@@ -33,10 +33,10 @@ binding_wasm = [
 
 [dependencies]
 # Common deps for the SWC imports
-swc                 = { optional = true, version = "0.259.2", path = "../swc" }
+swc                 = { optional = true, version = "0.259.3", path = "../swc" }
 swc_common          = { optional = true, version = "0.30.5", path = "../swc_common" }
 swc_ecma_ast        = { optional = true, version = "0.102.5", path = "../swc_ecma_ast" }
-swc_ecma_transforms = { optional = true, version = "0.216.1", path = "../swc_ecma_transforms" }
+swc_ecma_transforms = { optional = true, version = "0.216.2", path = "../swc_ecma_transforms" }
 swc_ecma_visit      = { optional = true, version = "0.88.5", path = "../swc_ecma_visit" }
 
 # Optional deps for the wasm binding macro
