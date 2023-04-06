@@ -379,6 +379,14 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_class_member);
 
         let start = cur_pos!(self);
+
+        if is!(self, GlimmerTemplateStart) {
+            return match self.parse_glimmer_template() {
+                Ok(glimmer_template) => Ok(ClassMember::GlimmerTemplate(glimmer_template)),
+                Err(err) => Err(err),
+            };
+        }
+
         let decorators = self.parse_decorators(false)?;
         let declare = self.syntax().typescript() && eat!(self, "declare");
         let accessibility = if self.input.syntax().typescript() {

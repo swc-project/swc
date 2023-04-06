@@ -393,6 +393,15 @@ impl<I: Tokens> Parser<I> {
                     return self.parse_paren_expr_or_arrow_fn(can_be_arrow, None);
                 }
 
+                Token::GlimmerTemplateStart => {
+                    return match self.parse_glimmer_template() {
+                        Ok(glimmer_template) => {
+                            Ok(Box::new(Expr::GlimmerTemplate(glimmer_template)))
+                        }
+                        Err(err) => Err(err),
+                    }
+                }
+
                 _ => {}
             }
         }
@@ -503,6 +512,25 @@ impl<I: Tokens> Parser<I> {
         }
 
         syntax_error!(self, self.input.cur_span(), SyntaxError::TS1109)
+    }
+
+    pub fn parse_glimmer_template(&mut self) -> PResult<GlimmerTemplate> {
+        assert_and_bump!(self, GlimmerTemplateStart);
+        let start = cur_pos!(self);
+
+        match bump!(self) {
+            Token::GlimmerTemplateContent { value } => {
+                let span = span!(self, start);
+                assert_and_bump!(self, GlimmerTemplateEnd);
+                return Ok(GlimmerTemplate {
+                    span,
+                    contents: value.into(),
+                });
+            }
+            _ => {
+                unexpected!(self, "glimmer template");
+            }
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

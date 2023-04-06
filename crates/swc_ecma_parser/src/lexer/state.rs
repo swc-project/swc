@@ -37,6 +37,15 @@ pub(super) struct State {
     syntax: Syntax,
 
     token_type: Option<TokenType>,
+
+    pub glimmer_template: GlimmerTemplateState,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+pub enum GlimmerTemplateState {
+    None,
+    Reading,
+    Ending,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -198,6 +207,14 @@ impl<'a> Iterator for Lexer<'a> {
         let mut start = self.cur_pos();
 
         let res = (|| -> Result<Option<_>, _> {
+            if self.state.glimmer_template == GlimmerTemplateState::Reading {
+                return Ok(Some(self.read_glimmer_template()?));
+            }
+
+            if self.state.glimmer_template == GlimmerTemplateState::Ending {
+                return Ok(Some(self.end_glimmer_template()?));
+            }
+
             if let Some(start) = self.state.next_regexp {
                 return Ok(Some(self.read_regexp(start)?));
             }
@@ -387,6 +404,7 @@ impl State {
             line_start: BytePos(0),
             cur_line: 1,
             syntax,
+            glimmer_template: GlimmerTemplateState::None,
         }
     }
 }

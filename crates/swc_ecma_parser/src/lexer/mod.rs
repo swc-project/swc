@@ -21,6 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
+    lexer::state::GlimmerTemplateState,
     token::*,
     Context, Syntax,
 };
@@ -634,6 +635,35 @@ impl<'a> Lexer<'a> {
         }))
     }
 
+    fn read_glimmer_template(&mut self) -> LexResult<Token> {
+        let start = self.cur_pos();
+        loop {
+            if !self.cur().is_some() {
+                return self.error(start, SyntaxError::Eof);
+            }
+            if self.is_str("</template>") {
+                self.state.glimmer_template = GlimmerTemplateState::Ending;
+                let slice_end = self.cur_pos();
+                return Ok(GlimmerTemplateContent {
+                    value: self.input.slice(start, slice_end).into(),
+                });
+            }
+            self.bump();
+        }
+    }
+
+    fn end_glimmer_template(&mut self) -> LexResult<Token> {
+        let start = self.cur_pos();
+        if !self.cur().is_some() || !self.is_str("</template>") {
+            return self.error(start, SyntaxError::Eof);
+        }
+        for _ in 0..11 {
+            self.bump();
+        }
+        self.state.glimmer_template = GlimmerTemplateState::None;
+        return Ok(GlimmerTemplateEnd);
+    }
+
     #[inline(never)]
     fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.cur() == Some('<') || self.cur() == Some('>'));
@@ -642,6 +672,15 @@ impl<'a> Lexer<'a> {
         let start = self.cur_pos();
         let c = self.cur().unwrap();
         self.bump();
+
+        if c == '<' && self.is_str("template>") {
+            // consume the rest of the opening <template> tag
+            for _ in 0..9 {
+                self.bump();
+            }
+            self.state.glimmer_template = GlimmerTemplateState::Reading;
+            return Ok(Some(GlimmerTemplateStart));
+        }
 
         // XML style comment. `<!--`
         if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {

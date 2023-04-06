@@ -15,6 +15,7 @@ use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanne
 use crate::{
     class::Class,
     function::Function,
+    glimmer::GlimmerTemplate,
     ident::{Ident, PrivateName},
     jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
     lit::Lit,
@@ -143,6 +144,9 @@ pub enum Expr {
     #[tag("JSXFragment")]
     JSXFragment(JSXFragment),
 
+    #[tag("GlimmerTemplate")]
+    GlimmerTemplate(GlimmerTemplate),
+
     #[tag("TsTypeAssertion")]
     TsTypeAssertion(TsTypeAssertion),
 
@@ -268,6 +272,7 @@ impl Clone for Expr {
             JSXEmpty(e) => JSXEmpty(e.clone()),
             JSXElement(e) => JSXElement(e.clone()),
             JSXFragment(e) => JSXFragment(e.clone()),
+            GlimmerTemplate(e) => GlimmerTemplate(e.clone()),
             TsTypeAssertion(e) => TsTypeAssertion(e.clone()),
             TsConstAssertion(e) => TsConstAssertion(e.clone()),
             TsNonNull(e) => TsNonNull(e.clone()),

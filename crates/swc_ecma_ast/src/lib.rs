@@ -30,6 +30,7 @@ pub use self::{
         SuperPropExpr, TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
     },
     function::{Function, Param, ParamOrTsParamProp},
+    glimmer::GlimmerTemplate,
     ident::{BindingIdent, Id, Ident, IdentExt, PrivateName},
     jsx::{
         JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
@@ -85,6 +86,7 @@ mod class;
 mod decl;
 mod expr;
 mod function;
+mod glimmer;
 mod ident;
 mod jsx;
 mod list;

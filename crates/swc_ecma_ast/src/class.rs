@@ -6,6 +6,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 use crate::{
     expr::Expr,
     function::{Function, ParamOrTsParamProp},
+    glimmer::GlimmerTemplate,
     ident::PrivateName,
     prop::PropName,
     stmt::BlockStmt,
@@ -88,6 +89,9 @@ pub enum ClassMember {
     /// Stage 3
     #[tag("AutoAccessor")]
     AutoAccessor(AutoAccessor),
+
+    #[tag("GlimmerTemplate")]
+    GlimmerTemplate(GlimmerTemplate),
 }
 
 impl Take for ClassMember {

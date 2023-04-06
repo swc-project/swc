@@ -300,6 +300,14 @@ macro_rules! tok {
         crate::token::Token::JSXTagEnd
     };
 
+    (GlimmerTemplateStart) => {
+        crate::token::Token::GlimmerTemplateStart
+    };
+
+    (GlimmerTemplateEnd) => {
+        crate::token::Token::GlimmerTemplateEnd
+    };
+
     // ----------
     // Typescript
     // ----------
