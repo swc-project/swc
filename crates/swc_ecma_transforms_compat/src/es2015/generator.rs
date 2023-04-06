@@ -66,6 +66,7 @@ impl VisitMut for Wrapper {
             f.is_generator = false;
 
             let mut stmts = v.build_stmts();
+            dbg!(&v.label_exprs);
             stmts.visit_mut_with(&mut InvalidToLit {
                 map: v.label_exprs.as_deref(),
             });
@@ -1638,7 +1639,9 @@ impl Generator {
             //  .mark endLabel
 
             let loop_label = self.define_label();
+            dbg!(loop_label);
             let end_label = self.begin_loop_block(loop_label);
+            dbg!(end_label);
             self.mark_label(loop_label);
             node.test.visit_mut_with(self);
             self.emit_break_when_false(end_label, node.test, None);
@@ -2262,7 +2265,9 @@ impl Generator {
         let _tracing = dev_span!("begin_exception_block");
 
         let start_label = self.define_label();
+        dbg!(start_label);
         let end_label = self.define_label();
+        dbg!(end_label);
         self.mark_label(start_label);
         self.begin_block(CodeBlock::Exception(ExceptionBlock {
             state: ExceptionBlockState::Try,
@@ -2335,9 +2340,11 @@ impl Generator {
             debug_assert!(block.state < ExceptionBlockState::Finally);
 
             let end_label = block.end_label;
+            dbg!(end_label);
             self.emit_break(end_label, None);
 
             let finally_label = self.define_label();
+            dbg!(finally_label);
             self.mark_label(finally_label);
             block.state = ExceptionBlockState::Finally;
             block.finally_label = Some(finally_label);
@@ -2843,6 +2850,7 @@ impl Generator {
 
     /// Flush the current label and advance to a new label.
     fn flush_label(&mut self) {
+        dbg!(self.label_number, self.stmts.is_none());
         if self.stmts.is_none() {
             return;
         }
@@ -3042,6 +3050,8 @@ impl Generator {
             return;
         }
 
+        dbg!(&self.label_number, op_index);
+
         for (label, label_offset) in self.label_offsets.clone().unwrap().into_iter().enumerate() {
             if label_offset as usize == op_index {
                 self.flush_label();
@@ -3074,6 +3084,7 @@ impl Generator {
     /// Updates literal expressions for labels with actual label numbers.
     fn update_label_expression(&mut self) {
         if self.label_exprs.is_some() && self.label_numbers.is_some() {
+            dbg!(self.label_numbers.as_ref().unwrap().len());
             for (label_number, labels) in self.label_numbers.as_ref().unwrap().iter().enumerate() {
                 for &label in labels {
                     let exprs = self.label_exprs.as_mut().unwrap().get_mut(label);
@@ -3117,6 +3128,11 @@ impl Generator {
                             self.exception_block_stack
                                 .get_or_insert_with(Default::default)
                                 .extend(self.current_exception_block.clone());
+
+                            // https://github.com/swc-project/swc/issues/5913
+                            if self.stmts.is_none() {
+                                self.stmts = Some(Default::default());
+                            }
 
                             #[cfg(debug_assertions)]
                             debug!("Current exception block: open = Some({:?})", block);
