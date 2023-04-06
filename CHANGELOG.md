@@ -5,6 +5,9 @@
 
 
 
+- **(bindings/node)** Make peer dependency of helpers optional (#7216) ([e86d598](https://github.com/swc-project/swc/commit/e86d59882a6644a63e98094127694f27b3c1b5a4))
+
+
 - **(es/minifier)** Don't remove used var decl (#7200) ([73bc29e](https://github.com/swc-project/swc/commit/73bc29eeb0e0a758daff2ec9567d8949fb48fa50))
 
 ### Refactor
