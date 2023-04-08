@@ -913,7 +913,7 @@ impl EmitterWriter {
         //                see how it *looks* with
         //                very *weird* formats
         //                see?
-        for &Message(ref text, ref style) in msg.iter() {
+        for Message(text, ref style) in msg.iter() {
             let lines = text.split('\n').collect::<Vec<_>>();
             if lines.len() > 1 {
                 for (i, line) in lines.iter().enumerate() {
@@ -976,7 +976,7 @@ impl EmitterWriter {
             if !level_str.is_empty() {
                 buffer.append(0, ": ", header_style);
             }
-            for &Message(ref text, _) in msg.iter() {
+            for Message(text, _) in msg.iter() {
                 buffer.append(0, text, header_style);
             }
         }
