@@ -29,7 +29,7 @@ fn build_fixture_binary(dir: &Path, target: Option<&str>) -> Result<(), Error> {
 }
 
 #[test]
-fn swc_core_napi_integartion_build() -> Result<(), Error> {
+fn swc_core_napi_integration_build() -> Result<(), Error> {
     build_fixture_binary(
         &PathBuf::from(env::var("CARGO_MANIFEST_DIR")?)
             .join("tests")
@@ -40,7 +40,7 @@ fn swc_core_napi_integartion_build() -> Result<(), Error> {
 }
 
 #[test]
-fn swc_core_wasm_integartion_build() -> Result<(), Error> {
+fn swc_core_wasm_integration_build() -> Result<(), Error> {
     build_fixture_binary(
         &PathBuf::from(env::var("CARGO_MANIFEST_DIR")?)
             .join("tests")
