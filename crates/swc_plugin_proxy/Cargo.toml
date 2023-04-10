@@ -5,7 +5,7 @@ edition     = "2021"
 license     = "Apache-2.0"
 name        = "swc_plugin_proxy"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.31.5"
+version     = "0.32.0"
 
 [lib]
 bench = false
@@ -46,6 +46,6 @@ rkyv-latest = { package = "rkyv-test", version = "=0.7.38-test.2", optional = tr
 tracing     = "0.1.32"
 
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
-swc_common        = { version = "0.30.5", path = "../swc_common" }
-swc_ecma_ast      = { version = "0.102.5", path = "../swc_ecma_ast" }
+swc_common        = { version = "0.31.0", path = "../swc_common" }
+swc_ecma_ast      = { version = "0.103.0", path = "../swc_ecma_ast" }
 swc_trace_macro   = { version = "0.1.2", path = "../swc_trace_macro" }

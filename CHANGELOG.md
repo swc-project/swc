@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(plugin/runner)** Update `wasmer` to `v3` (#7197) ([56bdacc](https://github.com/swc-project/swc/commit/56bdacc72df967bc613c5b067cf773f39c4bce00))
+
 ## [1.3.47] - 2023-04-10
 
 ### Bug Fixes
