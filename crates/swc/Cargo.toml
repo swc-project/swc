@@ -46,6 +46,11 @@ plugin_transform_schema_vtest = [
   "swc_plugin_runner/plugin_transform_schema_vtest",
 ]
 
+plugin_transform_host_js = ["swc_plugin_runner/plugin_transform_host_js"]
+plugin_transform_host_native = [
+  "swc_plugin_runner/plugin_transform_host_native",
+]
+
 [dependencies]
 ahash        = "0.7.4"
 anyhow       = "1"

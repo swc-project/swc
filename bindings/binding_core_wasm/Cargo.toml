@@ -17,7 +17,20 @@ default = ["swc_v1"]
 swc_v1  = []
 swc_v2  = []
 # This feature exists to allow cargo operations
-plugin = ["swc_core/plugin_transform_host_js"]
+# [TODO]: this is disabled due to signature mismatch between host_native and host_js,
+# which causes build errors like
+# .call(&mut self.store, ptr.0, ptr.1)
+#   |                  ^^^^ the trait `NativeWasmTypeInto` is not implemented for `u32`
+#   |
+#   = help: the following other types implement trait `NativeWasmTypeInto`:
+#             f32
+#             f64
+#             i32
+#             i64
+#             u128
+plugin = [
+  #"swc_core/plugin_transform_host_js"
+]
 
 [dependencies]
 anyhow = "1.0.66"
