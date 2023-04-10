@@ -84,8 +84,6 @@ fn invoke(input: PathBuf) -> Result<(), Error> {
         .into_iter()
         .collect();
 
-        info!("Creating cache");
-
         let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
             &path,
             &PLUGIN_MODULE_CACHE,
@@ -146,7 +144,7 @@ fn invoke(input: PathBuf) -> Result<(), Error> {
             )),
             Some(json!({ "pluginConfig": "testValue" })),
         )
-        .expect("Should load plugin");
+        .expect("Should load first plugin");
 
         serialized_program = plugin_transform_executor
             .transform(&serialized_program, Mark::new(), false)
@@ -164,7 +162,7 @@ fn invoke(input: PathBuf) -> Result<(), Error> {
             )),
             Some(json!({ "pluginConfig": "testValue" })),
         )
-        .expect("Should load plugin");
+        .expect("Should load second plugin");
 
         serialized_program = plugin_transform_executor
             .transform(&serialized_program, Mark::new(), false)

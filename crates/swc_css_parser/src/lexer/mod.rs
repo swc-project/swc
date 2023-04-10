@@ -2,7 +2,9 @@ use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
 use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{input::Input, BytePos, Span};
-use swc_css_ast::{matches_eq_ignore_ascii_case, DimensionToken, NumberType, Token, TokenAndSpan};
+use swc_css_ast::{
+    matches_eq_ignore_ascii_case, DimensionToken, NumberType, Token, TokenAndSpan, UrlKeyValue,
+};
 
 use crate::{
     error::{Error, ErrorKind},
@@ -755,7 +757,7 @@ where
                     Some(')') => {
                         return Ok(Token::Url {
                             value: (&**out).into(),
-                            raw: Box::new((name.1, (&**raw).into())),
+                            raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
                         });
                     }
 
@@ -766,7 +768,7 @@ where
 
                         return Ok(Token::Url {
                             value: (&**out).into(),
-                            raw: Box::new((name.1, (&**raw).into())),
+                            raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
                         });
                     }
 
@@ -800,7 +802,7 @@ where
 
                                 return Ok(Token::Url {
                                     value: (&**out).into(),
-                                    raw: Box::new((name.1, (&**raw).into())),
+                                    raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
                                 });
                             }
                             None => {
@@ -810,7 +812,7 @@ where
 
                                 return Ok(Token::Url {
                                     value: (&**out).into(),
-                                    raw: Box::new((name.1, (&**raw).into())),
+                                    raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
                                 });
                             }
                             _ => {}
