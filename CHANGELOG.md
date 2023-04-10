@@ -5,6 +5,9 @@
 
 
 
+- **(es)** Fix a crash related to an empty source map (#7229) ([c665918](https://github.com/swc-project/swc/commit/c6659183a616725b61733e584bbb6e540b9cbbde))
+
+
 - **(es/parser)** Use a hard error for missing r-paren in an if stmt (#7223) ([b1c40a4](https://github.com/swc-project/swc/commit/b1c40a411f01792f9b9f4bc9d5f08782fc6d6a1c))
 
 ### Testing
