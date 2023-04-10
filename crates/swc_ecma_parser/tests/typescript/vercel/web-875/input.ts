@@ -1,10 +1,6 @@
 
 
 export async function postProcessHTML(
-    pathname: string,
-    content: string,
-    renderOpts: RenderOpts,
-    { inAmpMode, hybridAmp }: { inAmpMode: boolean; hybridAmp: boolean }
 ) {
     const postProcessors: Array<PostProcessorFunction> = [
         process.env.NEXT_RUNTIME !== 'edge' && inAmpMode
@@ -63,10 +59,4 @@ export async function postProcessHTML(
             : null,
     ].filter(nonNullable)
 
-    for (const postProcessor of postProcessors) {
-        if (postProcessor) {
-            content = await postProcessor(content)
-        }
-    }
-    return content
 }
