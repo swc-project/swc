@@ -20,7 +20,8 @@ plugin_transform_host_js = [
 ]
 plugin_transform_host_native = [
   "wasmer/default",
-  "wasmer-wasix/default",
+  "wasmer-wasix/sys",
+  "wasmer-wasix/host-fs",
   "wasmer-compiler-cranelift/default",
 ]
 # Supports a cache allow to store compiled bytecode into filesystem location.
