@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Testing
+
+
+
+- **(es/plugin)** Enable E2E test again (#7236) ([695ce06](https://github.com/swc-project/swc/commit/695ce060e95ccdda50334468dc669da2df76c026))
+
 ## [1.3.49] - 2023-04-10
 
 ### Features
