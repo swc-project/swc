@@ -468,5 +468,30 @@
     "esnext.set.symmetric-difference.v2",
     "esnext.set.union.v2",
     "esnext.string.dedent"
+  ],
+  "3.28": [
+    "es.array.to-reversed",
+    "es.array.to-sorted",
+    "es.array.to-spliced",
+    "es.array.with",
+    "es.typed-array.to-reversed",
+    "es.typed-array.to-sorted",
+    "es.typed-array.with",
+    "esnext.array-buffer.detached",
+    "esnext.array-buffer.transfer",
+    "esnext.array-buffer.transfer-to-fixed-length",
+    "esnext.function.demethodize",
+    "esnext.iterator.range",
+    "esnext.json.is-raw-json",
+    "esnext.json.parse",
+    "esnext.json.raw-json",
+    "esnext.symbol.is-registered",
+    "esnext.symbol.is-well-known"
+  ],
+  "3.29": [
+    "web.url-search-params.size"
+  ],
+  "3.30": [
+    "web.url.can-parse"
   ]
 }

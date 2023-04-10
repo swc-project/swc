@@ -1,11 +1,51 @@
 # Changelog
 ## [unreleased]
 
+### Testing
+
+
+
+- **(es/plugin)** Enable E2E test again (#7236) ([695ce06](https://github.com/swc-project/swc/commit/695ce060e95ccdda50334468dc669da2df76c026))
+
+## [1.3.49] - 2023-04-10
+
+### Features
+
+
+
+- **(plugin/runner)** Update `wasmer` to `v3` (#7197) ([56bdacc](https://github.com/swc-project/swc/commit/56bdacc72df967bc613c5b067cf773f39c4bce00))
+
+### Refactor
+
+
+
+- **(plugin/runner)** Fix publish action (#7234) ([b868ed0](https://github.com/swc-project/swc/commit/b868ed02a35904bd6063709685d1470598cdaf81))
+
+## [1.3.47] - 2023-04-10
+
 ### Bug Fixes
 
 
 
+- **(bindings/node)** Make peer dependency of helpers optional (#7216) ([e86d598](https://github.com/swc-project/swc/commit/e86d59882a6644a63e98094127694f27b3c1b5a4))
+
+
+- **(es/compat)** Fix `finally` handling of `generator` (#7215) ([f5c62fb](https://github.com/swc-project/swc/commit/f5c62fbbf8ccbadec4daae4a2158b7b2fc707a2b))
+
+
 - **(es/minifier)** Don't remove used var decl (#7200) ([73bc29e](https://github.com/swc-project/swc/commit/73bc29eeb0e0a758daff2ec9567d8949fb48fa50))
+
+
+- **(es/testing)** Ensure that we call `fold_program` (#7222) ([e241201](https://github.com/swc-project/swc/commit/e241201bf76c3ae111d815dac7dbcc169d12dc25))
+
+
+- **(es/typescript)** Fix computation of enum bits (#7219) ([29bf176](https://github.com/swc-project/swc/commit/29bf1760befc5acf56841f4c369016e296184bdb))
+
+### Features
+
+
+
+- **(es)** Expose stage 3 decorator (#7220) ([a7a53c6](https://github.com/swc-project/swc/commit/a7a53c6208ae63a07b663049575f3b50f37d2f2a))
 
 ### Refactor
 

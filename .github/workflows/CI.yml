@@ -232,7 +232,7 @@ jobs:
             os: ubuntu-latest
             runner: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin-bytecheck
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin-bytecheck --exclude-features plugin_transform_host_js --exclude-features plugin_transform_host_native
           - crate: swc
             os: windows-latest
             runner: windows-latest

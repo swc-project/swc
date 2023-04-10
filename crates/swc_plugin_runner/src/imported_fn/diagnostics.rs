@@ -1,23 +1,22 @@
 use std::sync::Arc;
 
 use parking_lot::Mutex;
-use wasmer::{LazyInit, Memory};
+use wasmer::{FunctionEnvMut, Memory};
 
 use crate::memory_interop::copy_bytes_into_host;
 
 /// External environment to read swc_core diagnostics from the host.
-#[derive(wasmer::WasmerEnv, Clone)]
+#[derive(Clone)]
 pub struct DiagnosticContextHostEnvironment {
-    #[wasmer(export)]
-    pub memory: wasmer::LazyInit<Memory>,
+    pub memory: Option<Memory>,
     /// A buffer to store diagnostics data strings.
     pub core_diag_buffer: Arc<Mutex<Vec<u8>>>,
 }
 
 impl DiagnosticContextHostEnvironment {
-    pub fn new(core_diag_buffer: &Arc<Mutex<Vec<u8>>>) -> DiagnosticContextHostEnvironment {
+    pub fn new(core_diag_buffer: &Arc<Mutex<Vec<u8>>>) -> Self {
         DiagnosticContextHostEnvironment {
-            memory: LazyInit::default(),
+            memory: None,
             core_diag_buffer: core_diag_buffer.clone(),
         }
     }
@@ -25,10 +24,16 @@ impl DiagnosticContextHostEnvironment {
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn set_plugin_core_pkg_diagnostics(
-    env: &DiagnosticContextHostEnvironment,
-    bytes_ptr: u32,
-    bytes_ptr_len: u32,
+    mut env: FunctionEnvMut<DiagnosticContextHostEnvironment>,
+    bytes_ptr: i32,
+    bytes_ptr_len: i32,
 ) {
-    let memory = env.memory_ref().expect("Memory should be initialized");
-    (*env.core_diag_buffer.lock()) = copy_bytes_into_host(memory, bytes_ptr, bytes_ptr_len);
+    let memory = env
+        .data()
+        .memory
+        .as_ref()
+        .expect("Memory instance should be available, check initialization");
+
+    (*env.data_mut().core_diag_buffer.lock()) =
+        copy_bytes_into_host(&memory.view(&env), bytes_ptr, bytes_ptr_len);
 }
