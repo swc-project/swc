@@ -1082,6 +1082,57 @@
     "safari": "10.0",
     "samsung": "5.0"
   },
+  "es.array.to-reversed": {
+    "android": "110",
+    "bun": "0.1.1",
+    "chrome": "110",
+    "chrome-android": "110",
+    "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
+    "ios": "16.0",
+    "oculus": "26.0",
+    "opera": "96",
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.0",
+    "samsung": "21.0"
+  },
+  "es.array.to-sorted": {
+    "android": "110",
+    "bun": "0.1.1",
+    "chrome": "110",
+    "chrome-android": "110",
+    "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
+    "ios": "16.0",
+    "oculus": "26.0",
+    "opera": "96",
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.0",
+    "samsung": "21.0"
+  },
+  "es.array.to-spliced": {
+    "android": "110",
+    "bun": "0.1.1",
+    "chrome": "110",
+    "chrome-android": "110",
+    "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
+    "ios": "16.0",
+    "oculus": "26.0",
+    "opera": "96",
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.0",
+    "samsung": "21.0"
+  },
   "es.array.unscopables.flat": {
     "android": "73",
     "bun": "0.1.1",
@@ -1144,6 +1195,23 @@
     "react-native": "0.69",
     "safari": "16.0",
     "samsung": "10.0"
+  },
+  "es.array.with": {
+    "android": "110",
+    "bun": "0.1.1",
+    "chrome": "110",
+    "chrome-android": "110",
+    "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
+    "ios": "16.0",
+    "oculus": "26.0",
+    "opera": "96",
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.0",
+    "samsung": "21.0"
   },
   "es.array-buffer.constructor": {
     "android": "4.4",
@@ -3453,11 +3521,18 @@
     "samsung": "9.0"
   },
   "es.regexp.flags": {
+    "android": "111",
     "bun": "0.1.1",
+    "chrome": "111",
+    "chrome-android": "111",
+    "deno": "1.32",
+    "edge": "111",
+    "electron": "24.0",
     "firefox": "78",
     "firefox-android": "78",
     "hermes": "0.4",
     "ios": "11.3",
+    "opera": "97",
     "react-native": "0.69",
     "safari": "11.1"
   },
@@ -5069,6 +5144,40 @@
     "safari": "10.0",
     "samsung": "5.0"
   },
+  "es.typed-array.to-reversed": {
+    "android": "110",
+    "bun": "0.1.1",
+    "chrome": "110",
+    "chrome-android": "110",
+    "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
+    "ios": "16.0",
+    "oculus": "26.0",
+    "opera": "96",
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.0",
+    "samsung": "21.0"
+  },
+  "es.typed-array.to-sorted": {
+    "android": "110",
+    "bun": "0.1.1",
+    "chrome": "110",
+    "chrome-android": "110",
+    "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
+    "ios": "16.0",
+    "oculus": "26.0",
+    "opera": "96",
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.0",
+    "samsung": "21.0"
+  },
   "es.typed-array.to-string": {
     "android": "51",
     "bun": "0.1.1",
@@ -5090,6 +5199,23 @@
     "react-native": "0.69",
     "safari": "10.0",
     "samsung": "5.0"
+  },
+  "es.typed-array.with": {
+    "android": "110",
+    "bun": "0.1.9",
+    "chrome": "110",
+    "chrome-android": "110",
+    "deno": "1.27",
+    "edge": "110",
+    "electron": "23.0",
+    "ios": "16.4",
+    "oculus": "26.0",
+    "opera": "96",
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.4",
+    "samsung": "21.0"
   },
   "es.unescape": {
     "android": "3.0",
@@ -5180,7 +5306,9 @@
   },
   "esnext.suppressed-error.constructor": {},
   "esnext.array.from-async": {
-    "bun": "0.3.0"
+    "bun": "0.3.0",
+    "ios": "16.4",
+    "safari": "16.4"
   },
   "esnext.array.at": {
     "android": "92",
@@ -5250,12 +5378,16 @@
     "samsung": "18.0"
   },
   "esnext.array.group": {
-    "bun": "0.1.9"
+    "bun": "0.1.9",
+    "ios": "16.4",
+    "safari": "16.4"
   },
   "esnext.array.group-by": {},
   "esnext.array.group-by-to-map": {},
   "esnext.array.group-to-map": {
-    "bun": "0.1.9"
+    "bun": "0.1.9",
+    "ios": "16.4",
+    "safari": "16.4"
   },
   "esnext.array.is-template-object": {},
   "esnext.array.last-index": {},
@@ -5269,8 +5401,13 @@
     "edge": "110",
     "electron": "23.0",
     "ios": "16.0",
+    "oculus": "26.0",
     "opera": "96",
-    "safari": "16.0"
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.0",
+    "samsung": "21.0"
   },
   "esnext.array.to-sorted": {
     "android": "110",
@@ -5281,8 +5418,13 @@
     "edge": "110",
     "electron": "23.0",
     "ios": "16.0",
+    "oculus": "26.0",
     "opera": "96",
-    "safari": "16.0"
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.0",
+    "samsung": "21.0"
   },
   "esnext.array.to-spliced": {
     "android": "110",
@@ -5293,8 +5435,13 @@
     "edge": "110",
     "electron": "23.0",
     "ios": "16.0",
+    "oculus": "26.0",
     "opera": "96",
-    "safari": "16.0"
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.0",
+    "samsung": "21.0"
   },
   "esnext.array.unique-by": {},
   "esnext.array.with": {
@@ -5306,9 +5453,17 @@
     "edge": "110",
     "electron": "23.0",
     "ios": "16.0",
+    "oculus": "26.0",
     "opera": "96",
-    "safari": "16.0"
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.0",
+    "samsung": "21.0"
   },
+  "esnext.array-buffer.detached": {},
+  "esnext.array-buffer.transfer": {},
+  "esnext.array-buffer.transfer-to-fixed-length": {},
   "esnext.async-disposable-stack.constructor": {},
   "esnext.async-iterator.constructor": {},
   "esnext.async-iterator.as-indexed-pairs": {},
@@ -5330,6 +5485,7 @@
   "esnext.composite-key": {},
   "esnext.composite-symbol": {},
   "esnext.disposable-stack.constructor": {},
+  "esnext.function.demethodize": {},
   "esnext.function.is-callable": {},
   "esnext.function.is-constructor": {},
   "esnext.function.un-this": {},
@@ -5368,11 +5524,15 @@
   "esnext.iterator.from": {},
   "esnext.iterator.indexed": {},
   "esnext.iterator.map": {},
+  "esnext.iterator.range": {},
   "esnext.iterator.reduce": {},
   "esnext.iterator.some": {},
   "esnext.iterator.take": {},
   "esnext.iterator.to-array": {},
   "esnext.iterator.to-async": {},
+  "esnext.json.is-raw-json": {},
+  "esnext.json.parse": {},
+  "esnext.json.raw-json": {},
   "esnext.map.delete-all": {},
   "esnext.map.emplace": {},
   "esnext.map.every": {},
@@ -5492,29 +5652,50 @@
   "esnext.set.filter": {},
   "esnext.set.find": {},
   "esnext.set.from": {},
-  "esnext.set.intersection.v2": {},
+  "esnext.set.intersection.v2": {
+    "bun": "0.5.7"
+  },
   "esnext.set.intersection": {},
-  "esnext.set.is-disjoint-from.v2": {},
+  "esnext.set.is-disjoint-from.v2": {
+    "bun": "0.5.7"
+  },
   "esnext.set.is-disjoint-from": {},
-  "esnext.set.is-subset-of.v2": {},
+  "esnext.set.is-subset-of.v2": {
+    "bun": "0.5.7"
+  },
   "esnext.set.is-subset-of": {},
-  "esnext.set.is-superset-of.v2": {},
+  "esnext.set.is-superset-of.v2": {
+    "bun": "0.5.7"
+  },
   "esnext.set.is-superset-of": {},
   "esnext.set.join": {},
   "esnext.set.map": {},
   "esnext.set.of": {},
   "esnext.set.reduce": {},
   "esnext.set.some": {},
-  "esnext.set.symmetric-difference.v2": {},
+  "esnext.set.symmetric-difference.v2": {
+    "bun": "0.5.7"
+  },
   "esnext.set.symmetric-difference": {},
-  "esnext.set.union.v2": {},
+  "esnext.set.union.v2": {
+    "bun": "0.5.7"
+  },
   "esnext.set.union": {},
   "esnext.string.at": {},
   "esnext.string.cooked": {},
   "esnext.string.code-points": {},
   "esnext.string.dedent": {},
   "esnext.string.is-well-formed": {
-    "bun": "0.4.0"
+    "android": "111",
+    "bun": "0.4.0",
+    "chrome": "111",
+    "chrome-android": "111",
+    "deno": "1.32",
+    "edge": "111",
+    "electron": "24.0",
+    "ios": "16.4",
+    "opera": "97",
+    "safari": "16.4"
   },
   "esnext.string.match-all": {
     "android": "80",
@@ -5561,10 +5742,21 @@
     "samsung": "14.0"
   },
   "esnext.string.to-well-formed": {
-    "bun": "0.4.0"
+    "android": "111",
+    "bun": "0.5.7",
+    "chrome": "111",
+    "chrome-android": "111",
+    "deno": "1.32",
+    "edge": "111",
+    "electron": "24.0",
+    "ios": "16.4",
+    "opera": "97",
+    "safari": "16.4"
   },
   "esnext.symbol.async-dispose": {},
   "esnext.symbol.dispose": {},
+  "esnext.symbol.is-registered": {},
+  "esnext.symbol.is-well-known": {},
   "esnext.symbol.matcher": {},
   "esnext.symbol.metadata": {},
   "esnext.symbol.metadata-key": {},
@@ -5649,8 +5841,13 @@
     "edge": "110",
     "electron": "23.0",
     "ios": "16.0",
+    "oculus": "26.0",
     "opera": "96",
-    "safari": "16.0"
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.0",
+    "samsung": "21.0"
   },
   "esnext.typed-array.to-sorted": {
     "android": "110",
@@ -5661,8 +5858,13 @@
     "edge": "110",
     "electron": "23.0",
     "ios": "16.0",
+    "oculus": "26.0",
     "opera": "96",
-    "safari": "16.0"
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.0",
+    "samsung": "21.0"
   },
   "esnext.typed-array.to-spliced": {},
   "esnext.typed-array.unique-by": {},
@@ -5674,7 +5876,14 @@
     "deno": "1.27",
     "edge": "110",
     "electron": "23.0",
-    "opera": "96"
+    "ios": "16.4",
+    "oculus": "26.0",
+    "opera": "96",
+    "opera-android": "74",
+    "opera_mobile": "74",
+    "quest": "26.0",
+    "safari": "16.4",
+    "samsung": "21.0"
   },
   "esnext.weak-map.delete-all": {},
   "esnext.weak-map.from": {},
@@ -5907,6 +6116,7 @@
     "safari": "14.0",
     "samsung": "9.0"
   },
+  "web.url.can-parse": {},
   "web.url.to-json": {
     "android": "71",
     "bun": "0.1.1",
@@ -5946,5 +6156,11 @@
     "quest": "6.0",
     "safari": "14.0",
     "samsung": "9.0"
+  },
+  "web.url-search-params.size": {
+    "deno": "1.32",
+    "firefox": "112",
+    "firefox-android": "112",
+    "node": "19.8.0"
   }
 }

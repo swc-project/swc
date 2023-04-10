@@ -475,20 +475,8 @@ impl<'a, I: Tokens> Parser<I> {
                     },
                 )
             })?;
-        if !eat!(self, ')') {
-            self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
 
-            let span = span!(self, start);
-            return Ok(IfStmt {
-                span,
-                test,
-                cons: Box::new(Stmt::Expr(ExprStmt {
-                    span,
-                    expr: Box::new(Expr::Invalid(Invalid { span })),
-                })),
-                alt: Default::default(),
-            });
-        }
+        expect!(self, ')');
 
         let cons = {
             // Prevent stack overflow

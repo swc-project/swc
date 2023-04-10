@@ -7,7 +7,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_atoms"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.4.43"
+version       = "0.5.0"
 
 [lib]
 bench = false
@@ -22,14 +22,18 @@ rkyv-bytecheck-impl = ["__rkyv", "rkyv-latest"]
 [dependencies]
 bytecheck = { version = "0.6.9", optional = true }
 once_cell = "1"
-rkyv      = { package = "rkyv", version = "=0.7.40", optional = true }
+rkyv = { package = "rkyv", version = "=0.7.40", optional = true, features = [
+  "strict",
+] }
 # This is to avoid cargo version selection conflict between rkyv=0.7.40 and other versions, as it is strictly pinned
 # cannot be merged.
-rkyv-latest  = { package = "rkyv-test", version = "=0.7.38-test.2", optional = true }
-rustc-hash   = "1.1.0"
-serde        = "1"
+rkyv-latest = { package = "rkyv-test", version = "=0.7.38-test.2", optional = true, features = [
+  "strict",
+] }
+rustc-hash = "1.1.0"
+serde = "1"
 string_cache = "0.8.7"
-triomphe     = "0.1.8"
+triomphe = "0.1.8"
 
 [build-dependencies]
 string_cache_codegen = "0.5.2"

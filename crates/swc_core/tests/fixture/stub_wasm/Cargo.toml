@@ -24,7 +24,9 @@ swc_core = { path = "../../../../swc_core", features = [
   "binding_macro_wasm",
   "ecma_transforms",
   "ecma_visit",
-  "plugin_transform_host_js",
+  # Disabled for now, until resolve type mismatches. Refer bindings/binding_core_wasm/Cargo.toml
+  # for the detail.
+  # "plugin_transform_host_js",
 ] }
 tracing = { version = "0.1.37", features = ["max_level_off"] }
 wasm-bindgen = { version = "0.2.82", features = ["enable-interning"] }
