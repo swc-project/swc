@@ -20,8 +20,17 @@ plugin_transform_host_js = [
 ]
 plugin_transform_host_native = [
   "wasmer/default",
-  "wasmer-wasix/default",
   "wasmer-compiler-cranelift/default",
+
+  # wasmer-wasix/default minus wasmer-wasix/host-reqwest, to avoid unexpected openssl-sys build failure on certain platforms.
+  # [TODO]: revert to /default once issue is resolved
+  "wasmer-wasix/sys",
+  "wasmer-wasix/logging",
+  "wasmer-wasix/host-fs",
+  "wasmer-wasix/sys-poll",
+  "wasmer-wasix/sys-thread",
+  "wasmer-wasix/host-vnet",
+  "wasmer-wasix/host-threads",
 ]
 # Supports a cache allow to store compiled bytecode into filesystem location.
 # This feature implies in-memory cache support, but not via `memory_cache` feature.
