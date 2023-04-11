@@ -132,7 +132,17 @@ impl VisitMut for InfoMarker<'_> {
             n.span = n.span.apply_mark(self.marks.noinline);
         }
 
-        if self.has_pure(n.span) {
+        // We check callee in some cases because we move comments
+        // See https://github.com/swc-project/swc/issues/7241
+        if self.has_pure(n.span)
+            || match &n.callee {
+                Callee::Expr(e) => match &**e {
+                    Expr::Seq(callee) => self.has_pure(callee.span),
+                    _ => false,
+                },
+                _ => false,
+            }
+        {
             n.span = n.span.apply_mark(self.marks.pure);
         } else if let Some(pure_fns) = &self.pure_funcs {
             if let Callee::Expr(e) = &n.callee {
