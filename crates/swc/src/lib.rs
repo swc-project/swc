@@ -339,7 +339,12 @@ impl Compiler {
                                                 filename.display()
                                             ));
                                             if !map_path.exists() {
-                                                bail!("failed to find input source map file")
+                                                bail!(
+                                                    "failed to find input source map file {:?} in \
+                                                     {:?} file",
+                                                    map_path.display(),
+                                                    filename.display()
+                                                )
                                             }
                                         }
 
