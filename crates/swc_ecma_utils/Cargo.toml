@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_utils"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.116.2"
+version       = "0.116.3"
 
     [package.metadata.docs.rs]
     all-features = true
@@ -34,5 +34,5 @@ swc_ecma_ast   = { version = "0.103.0", path = "../swc_ecma_ast" }
 swc_ecma_visit = { version = "0.89.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_ecma_parser = { version = "0.133.2", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "0.133.3", path = "../swc_ecma_parser" }
 testing         = { version = "0.33.0", path = "../testing" }
