@@ -146,14 +146,6 @@ impl VisitMut for InfoMarker<'_> {
         }
     }
 
-    fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
-        n.visit_mut_children_with(self);
-
-        if self.has_pure(n.span) {
-            n.span = n.span.apply_mark(self.marks.pure);
-        }
-    }
-
     fn visit_mut_export_default_decl(&mut self, e: &mut ExportDefaultDecl) {
         self.state.is_in_export = true;
         e.visit_mut_children_with(self);
@@ -199,7 +191,7 @@ impl VisitMut for InfoMarker<'_> {
 
     fn visit_mut_lit(&mut self, _: &mut Lit) {}
 
-    fn visit_mut_script(&mut self, n: &mut Script) {
+    fn visit_mut_module(&mut self, n: &mut Module) {
         n.visit_mut_children_with(self);
 
         if self.state.is_bundle {
@@ -210,7 +202,15 @@ impl VisitMut for InfoMarker<'_> {
         }
     }
 
-    fn visit_mut_module(&mut self, n: &mut Module) {
+    fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
+        n.visit_mut_children_with(self);
+
+        if self.has_pure(n.span) {
+            n.span = n.span.apply_mark(self.marks.pure);
+        }
+    }
+
+    fn visit_mut_script(&mut self, n: &mut Script) {
         n.visit_mut_children_with(self);
 
         if self.state.is_bundle {
