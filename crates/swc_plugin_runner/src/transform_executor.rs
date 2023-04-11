@@ -128,13 +128,12 @@ impl TransformExecutor {
             |s, serialized_len| {
                 self.exported_plugin_alloc
                     .call(s, serialized_len.try_into().expect("booo"))
-                    .expect(
-                        format!(
+                    .unwrap_or_else(|_| {
+                        panic!(
                             "Should able to allocate memory for the size of {}",
                             serialized_len
                         )
-                        .as_str(),
-                    )
+                    })
             },
         );
 

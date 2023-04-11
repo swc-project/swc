@@ -16,6 +16,12 @@
 
 - **(es/parser)** Parse `const` type parameters in arrow function expressions (#7242) ([6614886](https://github.com/swc-project/swc/commit/66148861926a8e70cb75ff20cb2f0ff171c2e630))
 
+### Refactor
+
+
+
+- **(plugin/runner)** Fix clippy warnings (#7244) ([70b86db](https://github.com/swc-project/swc/commit/70b86dbe371fafc2dffde0573bc091860aa529b3))
+
 ### Testing
 
 

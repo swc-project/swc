@@ -113,10 +113,7 @@ where
         .as_ref()
         .expect("Alloc guest memory fn should be available, check initialization");
 
-    return unwrap_comments_storage_or_default(
-        |comments| f(comments, memory, alloc_guest_memory),
-        default,
-    );
+    unwrap_comments_storage_or_default(|comments| f(comments, memory, alloc_guest_memory), default)
 }
 
 /// Common logics for add_*_comment/comments.
@@ -190,7 +187,7 @@ pub fn take_leading_comments_proxy(
         .as_ref()
         .expect("Alloc guest memory fn should be available, check initialization");
 
-    return unwrap_comments_storage_or_default(
+    unwrap_comments_storage_or_default(
         |comments| {
             let leading_comments = comments.take_leading(BytePos(byte_pos));
             if let Some(leading_comments) = leading_comments {
@@ -211,7 +208,7 @@ pub fn take_leading_comments_proxy(
             }
         },
         0,
-    );
+    )
 }
 
 /// Ask to get leading_comments from currently scoped comments held by
@@ -235,7 +232,7 @@ pub fn get_leading_comments_proxy(
         .as_ref()
         .expect("Alloc guest memory fn should be available, check initialization");
 
-    return unwrap_comments_storage_or_default(
+    unwrap_comments_storage_or_default(
         |comments| {
             let leading_comments = comments.get_leading(BytePos(byte_pos));
             if let Some(leading_comments) = leading_comments {
@@ -256,7 +253,7 @@ pub fn get_leading_comments_proxy(
             }
         },
         0,
-    );
+    )
 }
 
 #[tracing::instrument(level = "info", skip_all)]
@@ -314,7 +311,7 @@ pub fn take_trailing_comments_proxy(
         .as_ref()
         .expect("Alloc guest memory fn should be available, check initialization");
 
-    return unwrap_comments_storage_or_default(
+    unwrap_comments_storage_or_default(
         |comments| {
             let trailing_comments = comments.take_trailing(BytePos(byte_pos));
             if let Some(leading_comments) = trailing_comments {
@@ -335,7 +332,7 @@ pub fn take_trailing_comments_proxy(
             }
         },
         0,
-    );
+    )
 }
 
 #[tracing::instrument(level = "info", skip_all)]
@@ -354,7 +351,7 @@ pub fn get_trailing_comments_proxy(
         .as_ref()
         .expect("Alloc guest memory fn should be available, check initialization");
 
-    return unwrap_comments_storage_or_default(
+    unwrap_comments_storage_or_default(
         |comments| {
             let trailing_comments = comments.get_trailing(BytePos(byte_pos));
             if let Some(leading_comments) = trailing_comments {
@@ -375,7 +372,7 @@ pub fn get_trailing_comments_proxy(
             }
         },
         0,
-    );
+    )
 }
 
 #[tracing::instrument(level = "info", skip_all)]

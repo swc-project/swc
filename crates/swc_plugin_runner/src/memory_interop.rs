@@ -5,7 +5,7 @@ use wasmer::{Memory, MemoryView, StoreMut, TypedFunction, WasmPtr};
 #[tracing::instrument(level = "info", skip_all)]
 pub fn copy_bytes_into_host(memory: &MemoryView, bytes_ptr: i32, bytes_ptr_len: i32) -> Vec<u8> {
     let ptr: WasmPtr<u8> = WasmPtr::new(bytes_ptr as _);
-    let derefed_ptr = ptr.deref(memory);
+    let _derefed_ptr = ptr.deref(memory);
     let values = ptr.slice(memory, bytes_ptr_len as u32).expect("xxx");
 
     values
@@ -75,7 +75,7 @@ pub fn allocate_return_values_into_guest(
         .expect("Should able to allocate memory in the plugin");
 
     let (allocated_ptr, allocated_ptr_len) =
-        write_into_memory_view(memory, store, serialized_bytes, |s, _| guest_memory_ptr);
+        write_into_memory_view(memory, store, serialized_bytes, |_, _| guest_memory_ptr);
 
     let allocated_bytes = AllocatedBytesPtr(allocated_ptr, allocated_ptr_len);
     // Retuning (allocated_ptr, len) into caller (plugin)
