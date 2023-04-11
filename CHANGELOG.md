@@ -16,6 +16,12 @@
 
 - **(es/parser)** Parse `const` type parameters in arrow function expressions (#7242) ([6614886](https://github.com/swc-project/swc/commit/66148861926a8e70cb75ff20cb2f0ff171c2e630))
 
+### Features
+
+
+
+- **(es/minifier)** Support `PURE` comment of seq exprs (#7245) ([559d120](https://github.com/swc-project/swc/commit/559d1202bc9a25c06eae01c6e033a44bb31aab62))
+
 ### Refactor
 
 
