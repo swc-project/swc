@@ -42,5 +42,6 @@
     "unsafe_undefined": false,
     "unused": false,
     "const_to_let": false,
-    "pristine_globals": false
+    "pristine_globals": false,
+    "defaults": true
 }
