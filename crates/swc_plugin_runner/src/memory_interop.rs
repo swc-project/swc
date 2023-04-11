@@ -5,8 +5,9 @@ use wasmer::{Memory, MemoryView, StoreMut, TypedFunction, WasmPtr};
 #[tracing::instrument(level = "info", skip_all)]
 pub fn copy_bytes_into_host(memory: &MemoryView, bytes_ptr: i32, bytes_ptr_len: i32) -> Vec<u8> {
     let ptr: WasmPtr<u8> = WasmPtr::new(bytes_ptr as _);
-    let _derefed_ptr = ptr.deref(memory);
-    let values = ptr.slice(memory, bytes_ptr_len as u32).expect("xxx");
+    let values = ptr
+        .slice(memory, bytes_ptr_len as u32)
+        .expect("Should able to get a slice from memory view");
 
     values
         .read_to_vec()
