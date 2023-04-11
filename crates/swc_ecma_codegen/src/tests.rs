@@ -868,3 +868,24 @@ fn ascii_only_tpl_lit() {
         },
     );
 }
+
+#[test]
+fn ascii_only_issue_7240() {
+    test_all(
+        r"
+        export default {
+            \u3131: '\u11B0',
+        }
+        ",
+        r"
+export default {
+    \u3131: '\u11B0'
+};
+        ",
+        r##"export default{\u3131:"\u11B0"}"##,
+        Config {
+            ascii_only: true,
+            ..Default::default()
+        },
+    );
+}
