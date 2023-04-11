@@ -90,7 +90,7 @@ pub fn get_transform_plugin_config(
             return 1;
         }
     }
-    return 0;
+    0
 }
 
 #[tracing::instrument(level = "info", skip_all)]
@@ -128,7 +128,7 @@ pub fn get_transform_context(
 
         return 1;
     }
-    return 0;
+    0
 }
 
 #[tracing::instrument(level = "info", skip_all)]
