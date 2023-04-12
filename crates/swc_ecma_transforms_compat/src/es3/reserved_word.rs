@@ -1,3 +1,4 @@
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -29,6 +30,56 @@ struct ReservedWord {
 #[swc_trace]
 impl VisitMut for ReservedWord {
     noop_visit_mut_type!();
+
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        let mut extra_exports = vec![];
+
+        n.iter_mut().for_each(|module_item| {
+            if let Some((ident, decl)) = match module_item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) => {
+                    let ident = decl
+                        .as_fn_decl()
+                        .filter(|fn_decl| fn_decl.ident.is_reserved_in_es3())
+                        .map(|fn_decl| fn_decl.ident.clone());
+
+                    ident.map(|ident| (ident, decl.take()))
+                }
+                _ => None,
+            } {
+                *module_item = ModuleItem::Stmt(decl.into());
+
+                let mut orig = ident.clone();
+                orig.visit_mut_with(self);
+
+                extra_exports.push(
+                    ExportNamedSpecifier {
+                        span: DUMMY_SP,
+                        orig: orig.into(),
+                        exported: Some(ident.into()),
+                        is_type_only: false,
+                    }
+                    .into(),
+                );
+            }
+
+            module_item.visit_mut_with(self);
+        });
+
+        if !extra_exports.is_empty() {
+            let module_item = ModuleItem::ModuleDecl(
+                NamedExport {
+                    span: DUMMY_SP,
+                    specifiers: extra_exports,
+                    src: None,
+                    type_only: false,
+                    asserts: None,
+                }
+                .into(),
+            );
+
+            n.push(module_item);
+        }
+    }
 
     fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
         if matches!(&n.orig, ModuleExportName::Ident(ident) if ident.is_reserved_in_es3()) {
@@ -128,6 +179,25 @@ function utf8CheckByte(_byte) {
         import { int as _int } from './a.js';
         console.log(_int);
         export { _int as int };
+        "#
+    );
+
+    test!(
+        Default::default(),
+        |_| reserved_words(false),
+        issue_7237,
+        r#"
+        export function char() {
+            console.log("char====char");
+            return "";
+        }
+        "#,
+        r#"
+        function _char() {
+            console.log("char====char");
+            return "";
+        }
+        export { _char as char };
         "#
     );
 }
