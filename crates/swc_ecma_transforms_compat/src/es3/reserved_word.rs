@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 /// babel: `@babel/plugin-transform-reserved-words`
@@ -19,84 +19,56 @@ use swc_trace_macro::swc_trace;
 /// var _abstract = 1;
 /// var x = _abstract + 1;
 /// ```
-pub fn reserved_words(preserve_import: bool) -> impl Fold {
-    ReservedWord { preserve_import }
+pub fn reserved_words(preserve_import: bool) -> impl VisitMut + Fold {
+    as_folder(ReservedWord { preserve_import })
 }
 struct ReservedWord {
     pub preserve_import: bool,
 }
 
 #[swc_trace]
-impl Fold for ReservedWord {
-    noop_fold_type!();
+impl VisitMut for ReservedWord {
+    noop_visit_mut_type!();
 
-    fn fold_export_named_specifier(&mut self, n: ExportNamedSpecifier) -> ExportNamedSpecifier {
-        let ident = match n.orig {
-            ModuleExportName::Ident(ident) if ident.is_reserved_in_es3() => ident,
-            _ => return n,
-        };
-
-        ExportNamedSpecifier {
-            orig: ident.clone().fold_with(self).into(),
-            exported: n.exported.or_else(|| Some(ident.into())),
-            ..n
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        if matches!(&n.orig, ModuleExportName::Ident(ident) if ident.is_reserved_in_es3()) {
+            n.exported.get_or_insert_with(|| n.orig.clone());
+            n.orig.visit_mut_with(self);
         }
     }
 
-    fn fold_named_export(&mut self, n: NamedExport) -> NamedExport {
+    fn visit_mut_named_export(&mut self, n: &mut NamedExport) {
         if n.src.is_none() {
-            return n.fold_children_with(self);
+            n.visit_mut_children_with(self);
+        }
+    }
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if self.preserve_import && i.sym == *"import" {
+            return;
         }
 
-        n
+        if i.is_reserved_in_es3() {
+            i.sym = format!("_{}", i.sym).into()
+        }
     }
 
-    fn fold_ident(&mut self, i: Ident) -> Ident {
-        fold_ident(self.preserve_import, i)
-    }
-
-    fn fold_import_named_specifier(&mut self, s: ImportNamedSpecifier) -> ImportNamedSpecifier {
+    fn visit_mut_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier) {
         if s.local.is_reserved_in_es3() {
-            ImportNamedSpecifier {
-                imported: s.imported.or_else(|| Some(s.local.clone().into())),
-                local: s.local.fold_with(self),
-                ..s
-            }
-        } else {
-            s
+            s.imported.get_or_insert_with(|| s.local.clone().into());
+            s.local.visit_mut_with(self);
         }
     }
 
-    fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
-        MemberExpr {
-            obj: e.obj.fold_with(self),
-            prop: if let MemberProp::Computed(c) = e.prop {
-                MemberProp::Computed(c.fold_with(self))
-            } else {
-                e.prop
-            },
-            ..e
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+
+        if let MemberProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
         }
     }
 
-    fn fold_prop_name(&mut self, n: PropName) -> PropName {
-        n
-    }
-}
-
-fn fold_ident(preserve_import: bool, i: Ident) -> Ident {
-    if preserve_import && i.sym == *"import" {
-        return i;
-    }
-
-    if i.is_reserved_in_es3() {
-        return Ident {
-            sym: format!("_{}", i.sym).into(),
-            ..i
-        };
-    }
-
-    i
+    fn visit_mut_prop_name(&mut self, _: &mut PropName) {}
 }
 
 #[cfg(test)]
@@ -109,9 +81,7 @@ mod tests {
         ($name:ident, $src:literal) => {
             test!(
                 ::swc_ecma_parser::Syntax::default(),
-                |_| ReservedWord {
-                    preserve_import: false
-                },
+                |_| reserved_words(false),
                 $name,
                 $src,
                 $src
@@ -121,9 +91,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| ReservedWord {
-            preserve_import: false
-        },
+        |_| reserved_words(false),
         babel_issue_6477,
         r#"
 function utf8CheckByte(byte) {
@@ -149,9 +117,7 @@ function utf8CheckByte(_byte) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| ReservedWord {
-            preserve_import: false
-        },
+        |_| reserved_words(false),
         issue_7164,
         r#"
         import { int } from './a.js'
