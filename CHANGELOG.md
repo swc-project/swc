@@ -26,6 +26,9 @@
 
 
 
+- **(es)** Provide more information when loading of input source map failed (#7249) ([f0e3b1d](https://github.com/swc-project/swc/commit/f0e3b1d09a69c3eb3035e2dbc00d537576b48a08))
+
+
 - **(es/minifier)** Support `PURE` comment of seq exprs (#7245) ([559d120](https://github.com/swc-project/swc/commit/559d1202bc9a25c06eae01c6e033a44bb31aab62))
 
 
