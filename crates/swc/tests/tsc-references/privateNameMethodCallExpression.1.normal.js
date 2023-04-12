@@ -1,6 +1,6 @@
 //// [privateNameMethodCallExpression.ts]
-import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
-import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
+import { _ as _class_private_method_get } from "@swc/helpers/_/_class_private_method_get";
+import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
 var _method = /*#__PURE__*/ new WeakSet(), _method2 = /*#__PURE__*/ new WeakSet();
 class AA {
     test() {

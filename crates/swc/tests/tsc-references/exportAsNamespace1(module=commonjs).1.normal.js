@@ -30,8 +30,8 @@ Object.defineProperty(exports, "ns", {
         return _0;
     }
 });
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _0 = /*#__PURE__*/ _interop_require_wildcard(require("./0"));
+var _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+var _0 = /*#__PURE__*/ _interop_require_wildcard._(require("./0"));
 ns.a;
 ns.b;
 //// [2.ts]
@@ -39,7 +39,7 @@ ns.b;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _1 = /*#__PURE__*/ _interop_require_wildcard(require("./1"));
+var _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+var _1 = /*#__PURE__*/ _interop_require_wildcard._(require("./1"));
 _1.ns.a;
 _1.ns.b;

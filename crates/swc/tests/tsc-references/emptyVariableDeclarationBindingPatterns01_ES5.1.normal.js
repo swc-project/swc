@@ -1,6 +1,6 @@
 //// [emptyVariableDeclarationBindingPatterns01_ES5.ts]
-import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 (function() {
     var f = function f() {
         var ref = _object_destructuring_empty(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a), _ref = _sliced_to_array(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), _ref1 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp = _ref1.p, ref1 = _object_destructuring_empty(tmp === void 0 ? a : tmp);

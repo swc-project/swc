@@ -1,6 +1,6 @@
 //// [objectTypesIdentityWithGenericConstructSignaturesDifferingTypeParameterCounts.ts]
 // object types are identical structurally
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var B = function B(x) {
     "use strict";
     _class_call_check(this, B);

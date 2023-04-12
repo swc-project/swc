@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "jquery", {
     enumerable: true,
-    get: ()=>exports["$"]
+    get: ()=>exports.$
 });
-exports["$"] = require("jquery");
-(0, exports["$"])(".hello");
+exports.$ = require("jquery");
+(0, exports.$)(".hello");

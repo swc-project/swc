@@ -27,7 +27,6 @@ use swc_ecma_visit::{
     Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::trace;
-use unicode_id::UnicodeID;
 
 #[allow(deprecated)]
 pub use self::{
@@ -2344,7 +2343,7 @@ pub fn is_valid_ident(s: &JsWord) -> bool {
 }
 
 pub fn is_valid_prop_ident(s: &str) -> bool {
-    s.starts_with(|c: char| c.is_id_start()) && s.chars().all(|c: char| c.is_id_continue())
+    s.starts_with(Ident::is_valid_start) && s.chars().all(Ident::is_valid_continue)
 }
 
 pub fn drop_span<T>(mut t: T) -> T
@@ -2903,6 +2902,51 @@ impl VisitMut for Remapper<'_> {
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if let Some(new_ctxt) = self.vars.get(&i.to_id()).copied() {
             i.span.ctxt = new_ctxt;
+        }
+    }
+}
+
+/// Replacer for [Id] => ]Id]
+pub struct IdentRenamer<'a> {
+    map: &'a FxHashMap<Id, Id>,
+}
+
+impl<'a> IdentRenamer<'a> {
+    pub fn new(map: &'a FxHashMap<Id, Id>) -> Self {
+        Self { map }
+    }
+}
+
+impl VisitMut for IdentRenamer<'_> {
+    noop_visit_mut_type!();
+
+    visit_mut_obj_and_computed!();
+
+    fn visit_mut_prop(&mut self, node: &mut Prop) {
+        match node {
+            Prop::Shorthand(i) => {
+                let cloned = i.clone();
+                i.visit_mut_with(self);
+                if i.sym != cloned.sym || i.span.ctxt != cloned.span.ctxt {
+                    *node = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident::new(
+                            cloned.sym,
+                            cloned.span.with_ctxt(SyntaxContext::empty()),
+                        )),
+                        value: Box::new(Expr::Ident(i.clone())),
+                    });
+                }
+            }
+            _ => {
+                node.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_ident(&mut self, node: &mut Ident) {
+        if let Some(new) = self.map.get(&node.to_id()) {
+            node.sym = new.0.clone();
+            node.span.ctxt = new.1;
         }
     }
 }

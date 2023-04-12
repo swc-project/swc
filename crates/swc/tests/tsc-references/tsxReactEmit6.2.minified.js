@@ -7,12 +7,15 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var M, _object_spread = require("@swc/helpers/lib/_object_spread.js").default, _object_spread_props = require("@swc/helpers/lib/_object_spread_props.js").default;
+var M, _object_spread = require("@swc/helpers/_/_object_spread"), _object_spread_props = require("@swc/helpers/_/_object_spread_props");
 !function(M) {
     var React1;
     M.React = React1;
-}(M || (M = {})), M || (M = {}), _object_spread_props(_object_spread({
-    x: ""
-}, void 0), {
-    y: ""
-});
+}(M || (M = {})), function(M) {
+    var foo;
+    _object_spread_props._(_object_spread._({
+        x: ""
+    }, foo), {
+        y: ""
+    });
+}(M || (M = {}));

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 function _ts_decorate() {
-    const data = require("@swc/helpers/lib/_ts_decorate.js").default;
+    const data = require("@swc/helpers/_/_ts_decorate");
     _ts_decorate = function() {
         return data;
     };
@@ -19,6 +19,6 @@ function _module() {
 class MyClass extends _module().Class {
     async method() {}
 }
-_ts_decorate()([
+_ts_decorate()._([
     _module().Class.Decorator()
 ], MyClass.prototype, "method", null);

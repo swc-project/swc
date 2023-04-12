@@ -1,6 +1,6 @@
 //// [functionLiteralForOverloads2.ts]
 // basic uses of function literals with constructor overloads
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C = function C(x) {
     "use strict";
     _class_call_check(this, C);

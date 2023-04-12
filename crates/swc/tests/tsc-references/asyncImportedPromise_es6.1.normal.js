@@ -14,10 +14,10 @@ class Task extends Promise {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _async_to_generator = require("@swc/helpers/lib/_async_to_generator.js").default;
+const _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 class Test {
     example() {
-        return _async_to_generator(function*() {
+        return _async_to_generator._(function*() {
             return;
         })();
     }

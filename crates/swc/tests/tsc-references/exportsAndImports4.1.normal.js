@@ -17,8 +17,8 @@ var _default = "hello";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _t1 = /*#__PURE__*/ _interop_require_wildcard(require("./t1"));
+var _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+var _t1 = /*#__PURE__*/ _interop_require_wildcard._(require("./t1"));
 var a = require("./t1");
 a.default;
 _t1.default;
@@ -65,8 +65,8 @@ _export(exports, {
         return _t1.default;
     }
 });
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _t1 = /*#__PURE__*/ _interop_require_wildcard(require("./t1"));
+var _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+var _t1 = /*#__PURE__*/ _interop_require_wildcard._(require("./t1"));
 var a = require("./t1");
 a.default;
 _t1.default;

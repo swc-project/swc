@@ -1,6 +1,6 @@
 //// [parserRealSource8.ts]
 var TypeScript;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(TypeScript1) {
     var pushAssignScope = function(scope, context, type, classType, fnc) {
         var chain = new ScopeChain(null, context.scopeChain, scope);

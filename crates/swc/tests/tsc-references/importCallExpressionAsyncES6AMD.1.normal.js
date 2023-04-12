@@ -2,8 +2,8 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_async_to_generator.mjs",
-    "@swc/helpers/src/_interop_require_wildcard.mjs"
+    "@swc/helpers/_/_async_to_generator",
+    "@swc/helpers/_/_interop_require_wildcard"
 ], function(require, exports, _async_to_generator, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
@@ -22,55 +22,53 @@ define([
         cl2: ()=>cl2,
         l: ()=>l
     });
-    _async_to_generator = _async_to_generator.default;
-    _interop_require_wildcard = _interop_require_wildcard.default;
     function fn() {
         return _fn.apply(this, arguments);
     }
     function _fn() {
-        _fn = _async_to_generator(function*() {
+        _fn = _async_to_generator._(function*() {
             const req = yield new Promise((resolve, reject)=>require([
                     "./test"
-                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject)) // ONE
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // ONE
             ;
         });
         return _fn.apply(this, arguments);
     }
     class cl1 {
         m() {
-            return _async_to_generator(function*() {
+            return _async_to_generator._(function*() {
                 const req = yield new Promise((resolve, reject)=>require([
                         "./test"
-                    ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject)) // TWO
+                    ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // TWO
                 ;
             })();
         }
     }
     const obj = {
-        m: /*#__PURE__*/ _async_to_generator(function*() {
+        m: /*#__PURE__*/ _async_to_generator._(function*() {
             const req = yield new Promise((resolve, reject)=>require([
                     "./test"
-                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject)) // THREE
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // THREE
             ;
         })
     };
     class cl2 {
         constructor(){
             this.p = {
-                m: /*#__PURE__*/ _async_to_generator(function*() {
+                m: /*#__PURE__*/ _async_to_generator._(function*() {
                     const req = yield new Promise((resolve, reject)=>require([
                             "./test"
-                        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject)) // FOUR
+                        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // FOUR
                     ;
                 })
             };
         }
     }
     const l = function() {
-        var _ref = _async_to_generator(function*() {
+        var _ref = _async_to_generator._(function*() {
             const req = yield new Promise((resolve, reject)=>require([
                     "./test"
-                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject)) // FIVE
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // FIVE
             ;
         });
         return function l() {

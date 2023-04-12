@@ -1,5 +1,5 @@
 //// [spreadTypeVariable.ts]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 function f1(arg) {
     return _object_spread({}, arg);
 }

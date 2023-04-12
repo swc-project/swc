@@ -1,6 +1,6 @@
 //// [variadicTuples1.ts]
-import "@swc/helpers/src/_to_array.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import "@swc/helpers/_/_to_array";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 function concat(t, u) {
     return _to_consumable_array(t).concat(_to_consumable_array(u));
 }

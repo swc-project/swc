@@ -1,5 +1,5 @@
-import _define_property from "@swc/helpers/src/_define_property.mjs";
-import _ts_decorate from "@swc/helpers/src/_ts_decorate.mjs";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
+import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 class A {
     constructor(){
         _define_property(this, "a", true);

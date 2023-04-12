@@ -6,7 +6,7 @@
 //      ElementList, Elisionopt   SpreadElement
 // SpreadElement:
 //      ...   AssignmentExpression
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 var a0 = [
     ,
     ,

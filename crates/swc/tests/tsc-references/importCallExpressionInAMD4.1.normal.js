@@ -53,7 +53,7 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs"
+    "@swc/helpers/_/_interop_require_wildcard"
 ], function(require, exports, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
@@ -63,47 +63,46 @@ define([
         enumerable: true,
         get: ()=>D
     });
-    _interop_require_wildcard = _interop_require_wildcard.default;
     class C {
         method() {
             const loadAsync = new Promise((resolve, reject)=>require([
                     "./0"
-                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
             this.myModule.then((Zero)=>{
                 console.log(Zero.foo());
             }, async (err)=>{
                 console.log(err);
                 let one = await new Promise((resolve, reject)=>require([
                         "./1"
-                    ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
+                    ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
                 console.log(one.backup());
             });
         }
         constructor(){
             this.myModule = new Promise((resolve, reject)=>require([
                     "./0"
-                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
         }
     }
     class D {
         method() {
             const loadAsync = new Promise((resolve, reject)=>require([
                     "./0"
-                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
             this.myModule.then((Zero)=>{
                 console.log(Zero.foo());
             }, async (err)=>{
                 console.log(err);
                 let one = await new Promise((resolve, reject)=>require([
                         "./1"
-                    ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
+                    ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
                 console.log(one.backup());
             });
         }
         constructor(){
             this.myModule = new Promise((resolve, reject)=>require([
                     "./0"
-                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard(m)), reject));
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
         }
     }
 });

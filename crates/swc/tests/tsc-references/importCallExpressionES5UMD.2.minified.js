@@ -19,11 +19,11 @@
 });
 //// [1.ts]
 !function(global, factory) {
-    "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/src/_class_call_check.mjs"), require("@swc/helpers/src/_interop_require_wildcard.mjs")) : "function" == typeof define && define.amd ? define([
+    "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_class_call_check"), require("@swc/helpers/_/_interop_require_wildcard")) : "function" == typeof define && define.amd ? define([
         "exports",
-        "@swc/helpers/src/_class_call_check.mjs",
-        "@swc/helpers/src/_interop_require_wildcard.mjs"
-    ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {}, global.classCallCheckMjs, global.interopRequireWildcardMjs);
+        "@swc/helpers/_/_class_call_check",
+        "@swc/helpers/_/_interop_require_wildcard"
+    ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {}, global.classCallCheck, global.interopRequireWildcard);
 }(this, function(exports1, _class_call_check, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {
@@ -40,13 +40,13 @@
         D: function() {
             return D;
         }
-    }), _class_call_check = _class_call_check.default, _interop_require_wildcard = _interop_require_wildcard.default, import("./0"), import("./0").then(function(zero) {
+    }), import("./0"), import("./0").then(function(zero) {
         return zero.foo();
     });
     var p2 = import("./0"), D = function() {
         "use strict";
         function D() {
-            _class_call_check(this, D);
+            _class_call_check._(this, D);
         }
         return D.prototype.method = function() {
             import("./0");

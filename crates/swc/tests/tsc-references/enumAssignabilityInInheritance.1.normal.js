@@ -1,6 +1,6 @@
 //// [enumAssignabilityInInheritance.ts]
 // enum is only a subtype of number, no types are subtypes of enum, all of these except the first are errors
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var E;
 (function(E) {
     E[E["A"] = 0] = "A";

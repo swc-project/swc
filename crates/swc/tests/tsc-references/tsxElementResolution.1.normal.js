@@ -1,5 +1,5 @@
 //// [tsxElementResolution.tsx]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var foundFirst = function foundFirst() {
     "use strict";
     _class_call_check(this, foundFirst);

@@ -2464,8 +2464,8 @@ __metadata:
     "@swc/core-win32-arm64-msvc": 1.2.146
     "@swc/core-win32-ia32-msvc": 1.2.146
     "@swc/core-win32-x64-msvc": 1.2.146
-    "@swc/helpers": ^0.4.2
-    "@swc/plugin-jest": 1.5.56
+    "@swc/helpers": ^0.5.0
+    "@swc/plugin-jest": 1.5.59
     "@taplo/cli": ^0.3.2
     "@types/jest": ^28.1.4
     "@types/node": ^14.14.41
@@ -2504,7 +2504,7 @@ __metadata:
     ts-node: ^10.5.0
     typescript: ^4.5.2
   peerDependencies:
-    "@swc/helpers": ">0.4.14 <0.5"
+    "@swc/helpers": ^0.5.0
   dependenciesMeta:
     "@swc/core-darwin-arm64":
       optional: true
@@ -2526,22 +2526,25 @@ __metadata:
       optional: true
     "@swc/core-win32-x64-msvc":
       optional: true
+  peerDependenciesMeta:
+    "@swc/helpers":
+      optional: true
   languageName: unknown
   linkType: soft
 
-"@swc/helpers@npm:^0.4.2":
-  version: 0.4.14
-  resolution: "@swc/helpers@npm:0.4.14"
+"@swc/helpers@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "@swc/helpers@npm:0.5.0"
   dependencies:
     tslib: ^2.4.0
-  checksum: 273fd3f3fc461a92f3790cc551ea054745c6d6959afbe1232e6d7aa1c722bbc114d308aab96bef5c78fc0303c85c7b472ef00e2253251cc89737f3b1af56e5a5
+  checksum: 61c9c7dddb707deb58b85328cfe9d211887145f1311ae6a6e6c0fa9f781fb29916a8669a7d479e46e26a32a89d6ef4f293a22dee4925e009c84051e9dd10e8b7
   languageName: node
   linkType: hard
 
-"@swc/plugin-jest@npm:1.5.56":
-  version: 1.5.56
-  resolution: "@swc/plugin-jest@npm:1.5.56"
-  checksum: a4b4a5576a420ab9208c5d5d7a3dd45d99704164e04763b23e780e85e9ad88d38a8e0ea23a2deeea3499847859169aea02326c47f40e68a5a9450269c3c75e3d
+"@swc/plugin-jest@npm:1.5.59":
+  version: 1.5.59
+  resolution: "@swc/plugin-jest@npm:1.5.59"
+  checksum: cc94723c12a6c9122a1ee3367fc55623858001435e3efaac009b8c0e1a125f97a9ac0ec773eaeb20e65a6b877204f4ea865f5fa70af1820d1ca869203f6e7561
   languageName: node
   linkType: hard
 

@@ -5,7 +5,7 @@ var K = require("./mod1").K;
     k.values();
 }
 //// [mod1.js]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 exports.K = /*#__PURE__*/ function() {
     "use strict";
     function K() {

@@ -307,7 +307,9 @@ macro_rules! build_transform_sync {
 
         let c = $crate::wasm::compiler();
 
-        #[cfg(feature = "plugin")]
+        //[TODO]: refer binding_core_wasm/Cargo.toml,
+        //disables via renaming feature to arbitary name
+        #[cfg(feature = "__plugin")]
         {
             if experimental_plugin_bytes_resolver.is_object() {
                 use $crate::wasm::js_sys::{Array, Object, Uint8Array};

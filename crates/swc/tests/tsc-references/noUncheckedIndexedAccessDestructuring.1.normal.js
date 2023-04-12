@@ -1,9 +1,9 @@
 //// [noUncheckedIndexedAccessDestructuring.ts]
-import _extends from "@swc/helpers/src/_extends.mjs";
-import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _to_array from "@swc/helpers/src/_to_array.mjs";
+import { _ as _extends } from "@swc/helpers/_/_extends";
+import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
+import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
+import { _ as _to_array } from "@swc/helpers/_/_to_array";
 // Declaration forms for array destructuring
 // Destructuring from a simple array -> include undefined
 var _strArray = _sliced_to_array(strArray, 1), s1 = _strArray[0];

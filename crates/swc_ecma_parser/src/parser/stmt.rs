@@ -101,7 +101,12 @@ impl<'a, I: Tokens> Parser<I> {
             return self.handle_import_export(top_level, decorators);
         }
 
-        self.parse_stmt_internal(start, include_decl, top_level, decorators)
+        let ctx = Context {
+            will_expect_colon_for_cond: false,
+            ..self.ctx()
+        };
+        self.with_ctx(ctx)
+            .parse_stmt_internal(start, include_decl, top_level, decorators)
             .map(From::from)
     }
 
@@ -470,20 +475,8 @@ impl<'a, I: Tokens> Parser<I> {
                     },
                 )
             })?;
-        if !eat!(self, ')') {
-            self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
 
-            let span = span!(self, start);
-            return Ok(IfStmt {
-                span,
-                test,
-                cons: Box::new(Stmt::Expr(ExprStmt {
-                    span,
-                    expr: Box::new(Expr::Invalid(Invalid { span })),
-                })),
-                alt: Default::default(),
-            });
-        }
+        expect!(self, ')');
 
         let cons = {
             // Prevent stack overflow

@@ -1,2 +1,6 @@
 lib/
 yarn.lock
+node_modules
+_/
+cjs/
+*.tgz

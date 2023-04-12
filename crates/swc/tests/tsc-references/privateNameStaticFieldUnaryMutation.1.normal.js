@@ -1,7 +1,7 @@
 //// [privateNameStaticFieldUnaryMutation.ts]
-import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
-import _class_static_private_field_spec_set from "@swc/helpers/src/_class_static_private_field_spec_set.mjs";
-import _class_static_private_field_update from "@swc/helpers/src/_class_static_private_field_update.mjs";
+import { _ as _class_static_private_field_spec_get } from "@swc/helpers/_/_class_static_private_field_spec_get";
+import { _ as _class_static_private_field_spec_set } from "@swc/helpers/_/_class_static_private_field_spec_set";
+import { _ as _class_static_private_field_update } from "@swc/helpers/_/_class_static_private_field_update";
 class C {
     test() {
         _class_static_private_field_update(this.getClass(), C, _test).value++;

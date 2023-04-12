@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
-import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
+import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
+import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
+import { _ as _create_class } from "@swc/helpers/_/_create_class";
 var _name = /*#__PURE__*/ new WeakMap();
 var Animal = /*#__PURE__*/ function() {
     "use strict";

@@ -1,6 +1,6 @@
 //// [jsxReactTestSuite.tsx]
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
+import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
+import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
 /*#__PURE__*/ React.createElement("div", null, "text");
 /*#__PURE__*/ React.createElement("div", null, this.props.children);
 /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("br", null)), /*#__PURE__*/ React.createElement(Component, null, foo, /*#__PURE__*/ React.createElement("br", null), bar), /*#__PURE__*/ React.createElement("br", null));

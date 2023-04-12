@@ -2,29 +2,29 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _async_iterator = require("@swc/helpers/lib/_async_iterator.js").default;
-var _async_to_generator = require("@swc/helpers/lib/_async_to_generator.js").default;
-var _define_property = require("@swc/helpers/lib/_define_property.js").default;
-var _ts_generator = require("@swc/helpers/lib/_ts_generator.js").default;
-_async_to_generator(function() {
+var _async_iterator = require("@swc/helpers/_/_async_iterator");
+var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
+var _define_property = require("@swc/helpers/_/_define_property");
+var _ts_generator = require("@swc/helpers/_/_ts_generator");
+_async_to_generator._(function() {
     var counter, resolve, promise, iterable, res, _i, _iter, v, oldresolve;
-    return _ts_generator(this, function(_state) {
+    return _ts_generator._(this, function(_state) {
         switch(_state.label){
             case 0:
                 counter = 0;
                 promise = new Promise(function(r) {
                     return resolve = r;
                 });
-                iterable = _define_property({}, Symbol.asyncIterator, function() {
+                iterable = _define_property._({}, Symbol.asyncIterator, function() {
                     return {
                         next: function next() {
                             return promise;
                         }
                     };
                 });
-                res = _async_to_generator(function() {
+                res = _async_to_generator._(function() {
                     var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, value, err;
-                    return _ts_generator(this, function(_state) {
+                    return _ts_generator._(this, function(_state) {
                         switch(_state.label){
                             case 0:
                                 _iteratorAbruptCompletion = false, _didIteratorError = false;
@@ -36,7 +36,7 @@ _async_to_generator(function() {
                                     7,
                                     12
                                 ]);
-                                _iterator = _async_iterator(iterable);
+                                _iterator = _async_iterator._(iterable);
                                 _state.label = 2;
                             case 2:
                                 return [

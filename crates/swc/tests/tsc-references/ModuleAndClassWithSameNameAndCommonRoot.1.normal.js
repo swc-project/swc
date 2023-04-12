@@ -10,7 +10,7 @@ var X;
     })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
 //// [classPoint.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var X;
 (function(X) {
     var Y;
@@ -25,7 +25,7 @@ var X;
     })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
 //// [simple.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (function(A1) {
     var Instance = A1.Instance = new A();
 })(A || (A = {}));

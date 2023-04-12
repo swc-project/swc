@@ -1,7 +1,7 @@
 //// [literalTypeWidening.ts]
 // Widening vs. non-widening literal types
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
+import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 function f1() {
     var c1 = "hello"; // Widening type "hello"
     var v1 = c1; // Type string

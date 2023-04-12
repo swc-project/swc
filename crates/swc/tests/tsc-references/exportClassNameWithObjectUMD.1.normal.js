@@ -1,11 +1,11 @@
 //// [exportClassNameWithObjectUMD.ts]
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/src/_class_call_check.mjs"));
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_class_call_check"));
     else if (typeof define === "function" && define.amd) define([
         "exports",
-        "@swc/helpers/src/_class_call_check.mjs"
+        "@swc/helpers/_/_class_call_check"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.exportClassNameWithObjectUMDTs = {}, global.classCallCheckMjs);
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.exportClassNameWithObjectUMDTs = {}, global.classCallCheck);
 })(this, function(exports, _class_call_check) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
@@ -17,9 +17,8 @@
             return Object;
         }
     });
-    _class_call_check = _class_call_check.default;
     var Object = function Object() {
         "use strict";
-        _class_call_check(this, Object);
+        _class_call_check._(this, Object);
     };
 });

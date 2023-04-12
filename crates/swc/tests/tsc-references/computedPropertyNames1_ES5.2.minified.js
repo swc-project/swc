@@ -1,5 +1,5 @@
 //// [computedPropertyNames1_ES5.ts]
-import _define_enumerable_properties from "@swc/helpers/src/_define_enumerable_properties.mjs";
+import { _ as _define_enumerable_properties } from "@swc/helpers/_/_define_enumerable_properties";
 var _mutatorMap = {};
 _mutatorMap[1] = _mutatorMap[1] || {}, _mutatorMap[1].get = function() {
     return 0;

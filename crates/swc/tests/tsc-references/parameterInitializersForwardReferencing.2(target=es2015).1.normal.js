@@ -1,6 +1,6 @@
 //// [parameterInitializersForwardReferencing.2.ts]
 // https://github.com/microsoft/TypeScript/issues/36295
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 function a() {}
 function b(_param = a()) {
     var { b =a()  } = _param, x = _object_without_properties(_param, [

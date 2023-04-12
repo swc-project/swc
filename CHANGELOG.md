@@ -5,6 +5,96 @@
 
 
 
+- **(es)** Fix a crash related to an empty source map (#7229) ([c665918](https://github.com/swc-project/swc/commit/c6659183a616725b61733e584bbb6e540b9cbbde))
+
+
+- **(es/codegen)** Respect `ascii_only` for identifiers (#7247) ([e35097f](https://github.com/swc-project/swc/commit/e35097fd8c036dfab9fcf923f01db562b003720b))
+
+
+- **(es/compat)** Handle export function in `reserved_word` (#7251) ([2e947e7](https://github.com/swc-project/swc/commit/2e947e7aeb1fd2989a10fb49a2ffa2ea35bc9941))
+
+
+- **(es/parser)** Use a hard error for missing r-paren in an if stmt (#7223) ([b1c40a4](https://github.com/swc-project/swc/commit/b1c40a411f01792f9b9f4bc9d5f08782fc6d6a1c))
+
+
+- **(es/parser)** Reset ctx for cond while parsing a stmt (#7232) ([01db30f](https://github.com/swc-project/swc/commit/01db30f91ec91d5dffe4c2ac1934965cc9c73cf8))
+
+
+- **(es/parser)** Parse `const` type parameters in arrow function expressions (#7242) ([6614886](https://github.com/swc-project/swc/commit/66148861926a8e70cb75ff20cb2f0ff171c2e630))
+
+### Features
+
+
+
+- **(es/minifier)** Support `PURE` comment of seq exprs (#7245) ([559d120](https://github.com/swc-project/swc/commit/559d1202bc9a25c06eae01c6e033a44bb31aab62))
+
+
+- **(plugin)** Enable validation (#7250) ([efad714](https://github.com/swc-project/swc/commit/efad714983459393639f4b026da7793807c1b401))
+
+### Refactor
+
+
+
+- **(plugin/runner)** Fix clippy warnings (#7244) ([70b86db](https://github.com/swc-project/swc/commit/70b86dbe371fafc2dffde0573bc091860aa529b3))
+
+### Testing
+
+
+
+- **(es/plugin)** Enable E2E test again (#7236) ([695ce06](https://github.com/swc-project/swc/commit/695ce060e95ccdda50334468dc669da2df76c026))
+
+## [1.3.49] - 2023-04-10
+
+### Features
+
+
+
+- **(plugin/runner)** Update `wasmer` to `v3` (#7197) ([56bdacc](https://github.com/swc-project/swc/commit/56bdacc72df967bc613c5b067cf773f39c4bce00))
+
+### Refactor
+
+
+
+- **(plugin/runner)** Fix publish action (#7234) ([b868ed0](https://github.com/swc-project/swc/commit/b868ed02a35904bd6063709685d1470598cdaf81))
+
+## [1.3.47] - 2023-04-10
+
+### Bug Fixes
+
+
+
+- **(bindings/node)** Make peer dependency of helpers optional (#7216) ([e86d598](https://github.com/swc-project/swc/commit/e86d59882a6644a63e98094127694f27b3c1b5a4))
+
+
+- **(es/compat)** Fix `finally` handling of `generator` (#7215) ([f5c62fb](https://github.com/swc-project/swc/commit/f5c62fbbf8ccbadec4daae4a2158b7b2fc707a2b))
+
+
+- **(es/minifier)** Don't remove used var decl (#7200) ([73bc29e](https://github.com/swc-project/swc/commit/73bc29eeb0e0a758daff2ec9567d8949fb48fa50))
+
+
+- **(es/testing)** Ensure that we call `fold_program` (#7222) ([e241201](https://github.com/swc-project/swc/commit/e241201bf76c3ae111d815dac7dbcc169d12dc25))
+
+
+- **(es/typescript)** Fix computation of enum bits (#7219) ([29bf176](https://github.com/swc-project/swc/commit/29bf1760befc5acf56841f4c369016e296184bdb))
+
+### Features
+
+
+
+- **(es)** Expose stage 3 decorator (#7220) ([a7a53c6](https://github.com/swc-project/swc/commit/a7a53c6208ae63a07b663049575f3b50f37d2f2a))
+
+### Refactor
+
+
+
+- **(macros/ast-node)** Drop `darling` to reduce compile time (#7214) ([3f61638](https://github.com/swc-project/swc/commit/3f61638cbfb1acc9fa59fa68434a182ba8bcfb2a))
+
+## [1.3.45] - 2023-04-04
+
+### Bug Fixes
+
+
+
 - **(es)** Allow missing `.map` file (#7141) ([3e6a186](https://github.com/swc-project/swc/commit/3e6a1869e84ec01125cf115c3d5f5c5c89645e1a))
 
 
@@ -19,11 +109,23 @@
 
 - **(es/parser)** Fix infinite loop on jsx in js (#7191) ([414e669](https://github.com/swc-project/swc/commit/414e66910dc5d9fea254811618f69067ab4a7a67))
 
+
+- **(es/typescript)** Mark `A` as a type in `export { type A }` (#7196) ([ddfbc93](https://github.com/swc-project/swc/commit/ddfbc936244c1168c547e134f20d436bfb6227f9))
+
+
+- **(swc_core)** Fix a feature name (#7198) ([bfe6544](https://github.com/swc-project/swc/commit/bfe654438f15d875257caf7735f11a79e51780a5))
+
 ### Features
 
 
 
 - **(css/modules)** Preserve spans of CSS class names (#7185) ([df7b4e7](https://github.com/swc-project/swc/commit/df7b4e71d22a7174df6f4fe9691044560e8e7f65))
+
+
+- **(es/compat)** Implement stage 3 decorator, without auto accessor (#6950) ([7a863ad](https://github.com/swc-project/swc/commit/7a863ad18ffeb45801cc17992634b5c62adfe88b))
+
+
+- **(es/helpers)** Use named export and unify import path (#7182) ([a13a78e](https://github.com/swc-project/swc/commit/a13a78e3fe2f81f0cbbe4a98da9cbb5a48b6cbed))
 
 
 - **(plugin/runner)** Improve cache path (#7188) ([976667f](https://github.com/swc-project/swc/commit/976667f7d98b821940c5325efc092e50c6554dc2))

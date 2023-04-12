@@ -2,7 +2,7 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_class_call_check.mjs"
+    "@swc/helpers/_/_class_call_check"
 ], function(require, exports, _class_call_check) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
@@ -22,10 +22,9 @@ define([
             return C1;
         }
     });
-    _class_call_check = _class_call_check.default;
     var C1 = function C1() {
         "use strict";
-        _class_call_check(this, C1);
+        _class_call_check._(this, C1);
         this.m1 = 42;
     };
     (function() {

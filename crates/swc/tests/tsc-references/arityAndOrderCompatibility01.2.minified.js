@@ -1,5 +1,5 @@
 //// [arityAndOrderCompatibility01.ts]
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 var y, z, _x = _sliced_to_array(void 0, 3);
 _x[0], _x[1], _x[2];
 var _y = _sliced_to_array(y, 3);

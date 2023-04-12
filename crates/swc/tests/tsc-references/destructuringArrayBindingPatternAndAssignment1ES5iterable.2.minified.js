@@ -1,7 +1,7 @@
 //// [destructuringArrayBindingPatternAndAssignment1ES5iterable.ts]
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _to_array from "@swc/helpers/src/_to_array.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
+import { _ as _to_array } from "@swc/helpers/_/_to_array";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 var _undefined = _sliced_to_array(void 0, 2);
 _undefined[0], _undefined[1];
 var _undefined1 = _sliced_to_array(void 0, 2);

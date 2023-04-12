@@ -1,8 +1,8 @@
 //// [arrowFunctionExpressions.ts]
 // ArrowFormalParameters => AssignmentExpression is equivalent to ArrowFormalParameters => { return AssignmentExpression; }
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _to_array from "@swc/helpers/src/_to_array.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
+import { _ as _to_array } from "@swc/helpers/_/_to_array";
 var a = function(p) {
     return p.length;
 };

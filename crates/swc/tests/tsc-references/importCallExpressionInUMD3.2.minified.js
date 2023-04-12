@@ -19,15 +19,15 @@
 });
 //// [2.ts]
 !function(global, factory) {
-    "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/src/_interop_require_wildcard.mjs")) : "function" == typeof define && define.amd ? define([
+    "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_interop_require_wildcard")) : "function" == typeof define && define.amd ? define([
         "exports",
-        "@swc/helpers/src/_interop_require_wildcard.mjs"
-    ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.2Ts = {}, global.interopRequireWildcardMjs);
+        "@swc/helpers/_/_interop_require_wildcard"
+    ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.2Ts = {}, global.interopRequireWildcard);
 }(this, function(exports1, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {
         value: !0
-    }), _interop_require_wildcard = _interop_require_wildcard.default, async function() {
+    }), async function() {
         class C extends (await import("./0")).B {
         }
         new C().print();

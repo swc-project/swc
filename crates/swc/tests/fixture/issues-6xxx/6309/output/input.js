@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _define_property from "@swc/helpers/src/_define_property.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
-import _set from "@swc/helpers/src/_set.mjs";
-import _update from "@swc/helpers/src/_update.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+import { _ as _set } from "@swc/helpers/_/_set";
+import { _ as _update } from "@swc/helpers/_/_update";
 var x = function x() {
     "use strict";
     _class_call_check(this, x);

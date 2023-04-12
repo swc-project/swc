@@ -1,10 +1,10 @@
 //// [defineProperty.ts]
-import _assert_this_initialized from "@swc/helpers/src/_assert_this_initialized.mjs";
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
-import _define_property from "@swc/helpers/src/_define_property.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _create_class } from "@swc/helpers/_/_create_class";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var x = "p";
 var _x = x;
 var _x1 = _x;

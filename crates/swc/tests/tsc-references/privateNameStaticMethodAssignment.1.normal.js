@@ -1,8 +1,8 @@
 //// [privateNameStaticMethodAssignment.ts]
-import _class_static_private_field_spec_set from "@swc/helpers/src/_class_static_private_field_spec_set.mjs";
-import _class_static_private_field_update from "@swc/helpers/src/_class_static_private_field_update.mjs";
-import _class_static_private_field_destructure from "@swc/helpers/src/_class_static_private_field_destructure.mjs";
-import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
+import { _ as _class_static_private_field_spec_set } from "@swc/helpers/_/_class_static_private_field_spec_set";
+import { _ as _class_static_private_field_update } from "@swc/helpers/_/_class_static_private_field_update";
+import { _ as _class_static_private_field_destructure } from "@swc/helpers/_/_class_static_private_field_destructure";
+import { _ as _class_static_private_method_get } from "@swc/helpers/_/_class_static_private_method_get";
 class A3 {
     constructor(a, b){
         _class_static_private_field_spec_set(A3, A3, _method, ()=>{} // Error, not writable 

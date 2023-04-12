@@ -1,6 +1,6 @@
 //// [privateNameMethodAssignment.ts]
-import "@swc/helpers/src/_class_private_field_update.mjs";
-import "@swc/helpers/src/_class_private_method_get.mjs";
-import "@swc/helpers/src/_class_private_method_init.mjs";
-import "@swc/helpers/src/_read_only_error.mjs";
-import "@swc/helpers/src/_class_private_field_destructure.mjs";
+import "@swc/helpers/_/_class_private_field_update";
+import "@swc/helpers/_/_class_private_method_get";
+import "@swc/helpers/_/_class_private_method_init";
+import "@swc/helpers/_/_read_only_error";
+import "@swc/helpers/_/_class_private_field_destructure";

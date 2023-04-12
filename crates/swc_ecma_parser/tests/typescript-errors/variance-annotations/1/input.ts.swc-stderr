@@ -1,4 +1,152 @@
 
+  x 'out' modifier already seen.
+   ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:1:1]
+ 1 | type Covariant<out T> = {
+   :                ^^^
+ 2 |     x: T;
+   `----
+
+  x 'in' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:10:1]
+ 10 | 
+ 11 | type Contravariant<in T> = {
+    :                    ^^
+ 12 |     f: (x: T) => void;
+    `----
+
+  x 'in' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:20:1]
+ 20 | 
+ 21 | type Invariant<in out T> = {
+    :                ^^
+ 22 |     f: (x: T) => T;
+    `----
+
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:20:1]
+ 20 | 
+ 21 | type Invariant<in out T> = {
+    :                   ^^^
+ 22 |     f: (x: T) => T;
+    `----
+
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:32:1]
+ 32 | 
+ 33 | type T10<out T> = T;
+    :          ^^^
+ 34 | type T11<in T> = keyof T;
+    `----
+
+  x 'in' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:33:1]
+ 33 | type T10<out T> = T;
+ 34 | type T11<in T> = keyof T;
+    :          ^^
+ 35 | type T12<out T, out K extends keyof T> = T[K];
+    `----
+
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:34:1]
+ 34 | type T11<in T> = keyof T;
+ 35 | type T12<out T, out K extends keyof T> = T[K];
+    :          ^^^
+ 36 | type T13<in out T> = T[keyof T];
+    `----
+
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:34:1]
+ 34 | type T11<in T> = keyof T;
+ 35 | type T12<out T, out K extends keyof T> = T[K];
+    :                 ^^^
+ 36 | type T13<in out T> = T[keyof T];
+    `----
+
+  x 'in' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:35:1]
+ 35 | type T12<out T, out K extends keyof T> = T[K];
+ 36 | type T13<in out T> = T[keyof T];
+    :          ^^
+    `----
+
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:35:1]
+ 35 | type T12<out T, out K extends keyof T> = T[K];
+ 36 | type T13<in out T> = T[keyof T];
+    :             ^^^
+    `----
+
+  x 'in' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:39:1]
+ 39 | 
+ 40 | type Covariant1<in T> = {  // Error
+    :                 ^^
+ 41 |     x: T;
+    `----
+
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:43:1]
+ 43 | 
+ 44 | type Contravariant1<out T> = keyof T;  // Error
+    :                     ^^^
+    `----
+
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:45:1]
+ 45 | 
+ 46 | type Contravariant2<out T> = {  // Error
+    :                     ^^^
+ 47 |     f: (x: T) => void;
+    `----
+
+  x 'in' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:49:1]
+ 49 | 
+ 50 | type Invariant1<in T> = {  // Error
+    :                 ^^
+ 51 |     f: (x: T) => T;
+    `----
+
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:53:1]
+ 53 | 
+ 54 | type Invariant2<out T> = {  // Error
+    :                 ^^^
+ 55 |     f: (x: T) => T;
+    `----
+
+  x 'in' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:59:1]
+ 59 | 
+ 60 | type Foo1<in T> = {  // Error
+    :           ^^
+ 61 |     x: T;
+    `----
+
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:70:1]
+ 70 | 
+ 71 | type Foo2<out T> = {  // Error
+    :           ^^^
+ 72 |     x: T;
+    `----
+
+  x 'in' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:81:1]
+ 81 | 
+ 82 | type Foo3<in out T> = {
+    :           ^^
+ 83 |     x: T;
+    `----
+
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:81:1]
+ 81 | 
+ 82 | type Foo3<in out T> = {
+    :              ^^^
+ 83 |     x: T;
+    `----
+
   x 'public' modifier cannot appear on a type parameter
     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:94:1]
  94 | 
@@ -11,8 +159,40 @@
     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:95:1]
  95 | type T20<public T> = T;  // Error
  96 | type T21<in out in T> = T;  // Error
+    :          ^^
+ 97 | type T22<in out out T> = T;  // Error
+    `----
+
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:95:1]
+ 95 | type T20<public T> = T;  // Error
+ 96 | type T21<in out in T> = T;  // Error
+    :             ^^^
+ 97 | type T22<in out out T> = T;  // Error
+    `----
+
+  x 'in' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:95:1]
+ 95 | type T20<public T> = T;  // Error
+ 96 | type T21<in out in T> = T;  // Error
     :                 ^^
  97 | type T22<in out out T> = T;  // Error
+    `----
+
+  x 'in' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:96:1]
+ 96 | type T21<in out in T> = T;  // Error
+ 97 | type T22<in out out T> = T;  // Error
+    :          ^^
+ 98 | type T23<out in T> = T;  // Error
+    `----
+
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:96:1]
+ 96 | type T21<in out in T> = T;  // Error
+ 97 | type T22<in out out T> = T;  // Error
+    :             ^^^
+ 98 | type T23<out in T> = T;  // Error
     `----
 
   x 'out' modifier already seen.
@@ -23,7 +203,14 @@
  98 | type T23<out in T> = T;  // Error
     `----
 
-  x 'in' modifier must precede 'out' modifier.
+  x 'out' modifier already seen.
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:97:1]
+ 97 | type T22<in out out T> = T;  // Error
+ 98 | type T23<out in T> = T;  // Error
+    :          ^^^
+    `----
+
+  x 'in' modifier already seen.
     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:97:1]
  97 | type T22<in out out T> = T;  // Error
  98 | type T23<out in T> = T;  // Error
@@ -59,4 +246,43 @@
  105 |     out b = 0;  // Error
      :     ^^^
  106 | }
+     `----
+
+  x 'out' modifier already seen.
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:109:1]
+ 109 | 
+ 110 | interface Baz<out T> {}
+     :               ^^^
+ 111 | interface Baz<in T> {}
+     `----
+
+  x 'in' modifier already seen.
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:110:1]
+ 110 | interface Baz<out T> {}
+ 111 | interface Baz<in T> {}
+     :               ^^
+     `----
+
+  x 'out' modifier already seen.
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:120:1]
+ 120 | 
+ 121 | interface Parent<out A> {
+     :                  ^^^
+ 122 |     child: Child<A> | null;
+     `----
+
+  x 'in' modifier already seen.
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:139:1]
+ 139 | 
+ 140 | declare class StateNode<TContext, in out TEvent extends { type: string }> {
+     :                                   ^^
+ 141 |     _storedEvent: TEvent;
+     `----
+
+  x 'out' modifier already seen.
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:139:1]
+ 139 | 
+ 140 | declare class StateNode<TContext, in out TEvent extends { type: string }> {
+     :                                      ^^^
+ 141 |     _storedEvent: TEvent;
      `----

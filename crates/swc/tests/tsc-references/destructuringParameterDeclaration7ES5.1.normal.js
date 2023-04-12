@@ -1,6 +1,6 @@
 //// [destructuringParameterDeclaration7ES5.ts]
-import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 function foo(param, param1) {
     var ref = _object_destructuring_empty(param), foo = param1.foo, bar = param1.bar;
 }

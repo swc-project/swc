@@ -1,5 +1,5 @@
 use swc_core::{
-    common::DUMMY_SP,
+    common::{SourceMapper, DUMMY_SP},
     ecma::{ast::*, atoms::*, visit::*},
     plugin::{
         errors::HANDLER,
@@ -9,7 +9,9 @@ use swc_core::{
     quote,
 };
 
-struct ConsoleOutputReplacer;
+struct ConsoleOutputReplacer {
+    metadata: TransformPluginProgramMetadata,
+}
 
 /// An example plugin replaces any `console.log(${text})` into
 /// `console.log('changed_via_plugin')`.
@@ -18,6 +20,10 @@ impl VisitMut for ConsoleOutputReplacer {
         if let Callee::Expr(expr) = &call.callee {
             if let Expr::Member(MemberExpr { obj, .. }) = &**expr {
                 if let Expr::Ident(ident) = &**obj {
+                    println!(
+                        "lookup_char_pos {:#?}",
+                        self.metadata.source_map.lookup_char_pos(ident.span.lo)
+                    );
                     if ident.sym == *"console" {
                         call.args[0].expr = Box::new(Expr::Lit(Lit::Str(Str {
                             span: DUMMY_SP,
@@ -101,5 +107,5 @@ pub fn process(program: Program, metadata: TransformPluginProgramMetadata) -> Pr
         panic!("Plugin config should be testValue");
     }
 
-    program.fold_with(&mut as_folder(ConsoleOutputReplacer))
+    program.fold_with(&mut as_folder(ConsoleOutputReplacer { metadata }))
 }

@@ -1,7 +1,7 @@
 //// [privateNameStaticEmitHelpers.ts]
 //// [main.ts]
-import _class_static_private_field_spec_set from "@swc/helpers/src/_class_static_private_field_spec_set.mjs";
-import _class_static_private_method_get from "@swc/helpers/src/_class_static_private_method_get.mjs";
+import { _ as _class_static_private_field_spec_set } from "@swc/helpers/_/_class_static_private_field_spec_set";
+import { _ as _class_static_private_method_get } from "@swc/helpers/_/_class_static_private_method_get";
 export class S {
 }
 var _c = {

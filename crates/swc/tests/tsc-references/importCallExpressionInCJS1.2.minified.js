@@ -17,6 +17,6 @@ Object.defineProperty(exports, "__esModule", {
     enumerable: !0,
     get: ()=>p2
 });
-const _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-Promise.resolve().then(()=>_interop_require_wildcard(require("./0"))), Promise.resolve().then(()=>_interop_require_wildcard(require("./0"))).then((zero)=>zero.foo());
-var p2 = Promise.resolve().then(()=>_interop_require_wildcard(require("./0")));
+const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+Promise.resolve().then(()=>_interop_require_wildcard._(require("./0"))), Promise.resolve().then(()=>_interop_require_wildcard._(require("./0"))).then((zero)=>zero.foo());
+var p2 = Promise.resolve().then(()=>_interop_require_wildcard._(require("./0")));

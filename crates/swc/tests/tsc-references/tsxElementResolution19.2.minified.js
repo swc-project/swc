@@ -10,7 +10,7 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_class_call_check.mjs"
+    "@swc/helpers/_/_class_call_check"
 ], function(require, exports, _class_call_check) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
@@ -20,22 +20,22 @@ define([
         get: function() {
             return MyClass;
         }
-    }), _class_call_check = _class_call_check.default;
+    });
     var MyClass = function MyClass() {
         "use strict";
-        _class_call_check(this, MyClass);
+        _class_call_check._(this, MyClass);
     };
 });
 //// [file2.tsx]
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs",
+    "@swc/helpers/_/_interop_require_wildcard",
     "react",
     "./file1"
 ], function(require, exports, _interop_require_wildcard, _react, _file1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _react = (_interop_require_wildcard = _interop_require_wildcard.default)(_react), _file1.MyClass;
+    }), _react = _interop_require_wildcard._(_react), _file1.MyClass;
 });

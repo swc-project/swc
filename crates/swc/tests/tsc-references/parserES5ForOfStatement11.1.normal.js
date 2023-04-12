@@ -1,5 +1,5 @@
 //// [parserES5ForOfStatement11.ts]
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     for(var _iterator = X[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){

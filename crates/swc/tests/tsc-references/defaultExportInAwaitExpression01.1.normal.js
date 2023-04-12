@@ -21,23 +21,21 @@
 });
 //// [b.ts]
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/src/_async_to_generator.mjs"), require("@swc/helpers/src/_interop_require_default.mjs"), require("./a"));
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_async_to_generator"), require("@swc/helpers/_/_interop_require_default"), require("./a"));
     else if (typeof define === "function" && define.amd) define([
         "exports",
-        "@swc/helpers/src/_async_to_generator.mjs",
-        "@swc/helpers/src/_interop_require_default.mjs",
+        "@swc/helpers/_/_async_to_generator",
+        "@swc/helpers/_/_interop_require_default",
         "./a"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.bTs = {}, global.asyncToGeneratorMjs, global.interopRequireDefaultMjs, global.a);
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.bTs = {}, global.asyncToGenerator, global.interopRequireDefault, global.a);
 })(this, function(exports, _async_to_generator, _interop_require_default, _a) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _async_to_generator = _async_to_generator.default;
-    _interop_require_default = _interop_require_default.default;
-    _a = /*#__PURE__*/ _interop_require_default(_a);
-    _async_to_generator(function*() {
+    _a = /*#__PURE__*/ _interop_require_default._(_a);
+    _async_to_generator._(function*() {
         const value = yield _a.default;
     })();
 });

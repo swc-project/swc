@@ -30,8 +30,8 @@ Object.defineProperty(exports, "default", {
         return _0;
     }
 });
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _0 = /*#__PURE__*/ _interop_require_wildcard(require("./0"));
+var _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+var _0 = /*#__PURE__*/ _interop_require_wildcard._(require("./0"));
 //// [11.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {
@@ -43,17 +43,17 @@ Object.defineProperty(exports, "default", {
         return _default;
     }
 });
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _0 = /*#__PURE__*/ _interop_require_wildcard(require("./0"));
+var _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+var _0 = /*#__PURE__*/ _interop_require_wildcard._(require("./0"));
 var _default = _0;
 //// [2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _1 = /*#__PURE__*/ _interop_require_default(require("./1"));
-var _11 = /*#__PURE__*/ _interop_require_default(require("./11"));
+var _interop_require_default = require("@swc/helpers/_/_interop_require_default");
+var _1 = /*#__PURE__*/ _interop_require_default._(require("./1"));
+var _11 = /*#__PURE__*/ _interop_require_default._(require("./11"));
 _1.default.a;
 _11.default.a;
 _1.default.b;

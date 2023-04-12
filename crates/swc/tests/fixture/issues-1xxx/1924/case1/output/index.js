@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _ts_generator = require("@swc/helpers/lib/_ts_generator.js").default;
+var _ts_generator = require("@swc/helpers/_/_ts_generator");
 function foo() {
-    return _ts_generator(this, function(_state) {
+    return _ts_generator._(this, function(_state) {
         return [
             2
         ];

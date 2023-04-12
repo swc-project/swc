@@ -1,9 +1,9 @@
 //// [first.js]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 function Wagon(numberOxen) {
     this.numberOxen = numberOxen;
 }
@@ -29,9 +29,9 @@ var db = new (function(Wagon) {
 }(Wagon))();
 db.numberOxen = db.foonly, Dragon;
 //// [second.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var c = new (function(Wagon1) {
     "use strict";
     _inherits(Conestoga, Wagon1);
@@ -46,9 +46,9 @@ var c = new (function(Wagon1) {
 }(Wagon))(!0);
 c.drunkOO, c.numberOxen;
 //// [generic.js]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 function Soup(flavour) {
     this.flavour = flavour;
 }

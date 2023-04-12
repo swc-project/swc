@@ -6,7 +6,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_ident, ExprFactory, FunctionFactory, IsDirective,
+    member_expr, private_ident, quote_expr, quote_ident, ExprFactory, FunctionFactory, IsDirective,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -172,12 +172,11 @@ where
             stmts.visit_mut_children_with(self);
         }
 
-        stmts.visit_mut_children_with(&mut ModuleRefRewriter {
-            import_map: module_map,
+        stmts.visit_mut_children_with(&mut ModuleRefRewriter::new(
+            module_map,
             lazy_record,
-            allow_top_level_this: self.config.allow_top_level_this,
-            is_global_this: true,
-        });
+            self.config.allow_top_level_this,
+        ));
 
         *n = stmts;
     }
@@ -268,25 +267,9 @@ where
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
-                // Optimize for `@swc/helpers`:
-                // if there is no named import/export
-                // avoid to generate
-                // ```
-                // var foo = require("@swc/helpers/foo");
-                // (0, foo.default)(bar);
-                // ```
-                // instead, we prefer
-                // ```
-                // var foo = require("@swc/helpers/foo").default;
-                // foo(bar);
-                // ```
-
-                let is_swc_default_helper =
-                    !link_flag.has_named() && src.starts_with("@swc/helpers/");
-
                 let is_node_default = !link_flag.has_named() && is_node;
 
-                if import_interop.is_none() || is_swc_default_helper {
+                if import_interop.is_none() {
                     link_flag -= LinkFlag::NAMESPACE;
                 }
 
@@ -300,7 +283,7 @@ where
                     &mod_ident,
                     &None,
                     &mut decl_mod_ident,
-                    is_swc_default_helper || is_node_default,
+                    is_node_default,
                 );
 
                 let is_lazy =
@@ -314,12 +297,6 @@ where
                 let import_expr =
                     self.resolver
                         .make_require_call(self.unresolved_mark, src, src_span);
-
-                let import_expr = if is_swc_default_helper {
-                    import_expr.make_member(quote_ident!("default"))
-                } else {
-                    import_expr
-                };
 
                 // _export_star(require("mod"), exports);
                 let import_expr = if link_flag.export_star() {
@@ -500,7 +477,8 @@ where
                     .map(|key| KeyValueProp {
                         key: key.into(),
                         // `cjs-module-lexer` only support identifier as value
-                        value: quote_ident!("_").into(),
+                        // `null` is treated as identifier in `cjs-module-lexer`
+                        value: quote_expr!(DUMMY_SP, null).into(),
                     })
                     .map(Prop::KeyValue)
                     .map(Box::new)

@@ -3,12 +3,12 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 0 && (module.exports = {
-    x: _,
-    y: _,
-    f1: _,
-    f2: _,
-    f3: _,
-    f4: _
+    x: null,
+    y: null,
+    f1: null,
+    f2: null,
+    f3: null,
+    f4: null
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {

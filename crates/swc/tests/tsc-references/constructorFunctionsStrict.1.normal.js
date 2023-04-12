@@ -1,5 +1,5 @@
 //// [a.js]
-/** @param {number} x */ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+/** @param {number} x */ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 function C(x) {
     this.x = x;
 }

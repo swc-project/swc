@@ -3973,7 +3973,7 @@
               "value": "T",
               "optional": false
             },
-            "in": false,
+            "in": true,
             "out": true,
             "const": false,
             "constraint": null,
@@ -4096,7 +4096,7 @@
               "value": "T",
               "optional": false
             },
-            "in": false,
+            "in": true,
             "out": false,
             "const": false,
             "constraint": null,
@@ -4171,7 +4171,7 @@
               "optional": false
             },
             "in": false,
-            "out": false,
+            "out": true,
             "const": false,
             "constraint": null,
             "default": null

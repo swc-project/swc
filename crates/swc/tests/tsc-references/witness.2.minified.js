@@ -1,5 +1,5 @@
 //// [witness.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var co2, cnd1, or1, or2, or3, and1, and3, propAcc1, M2, varInit = varInit;
 !function fnReturn1() {
     return fnReturn1();

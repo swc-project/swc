@@ -2,16 +2,14 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_object_spread.mjs",
-    "@swc/helpers/src/_object_spread_props.mjs",
+    "@swc/helpers/_/_object_spread",
+    "@swc/helpers/_/_object_spread_props",
     "react"
 ], function(require, exports, _object_spread, _object_spread_props, _react) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _object_spread = _object_spread.default;
-    _object_spread_props = _object_spread_props.default;
     var obj = {
         yy: 10,
         yy1: "hello"
@@ -28,16 +26,16 @@ define([
     var c1 = /*#__PURE__*/ _react.createElement(OneThing, null);
     var c2 = /*#__PURE__*/ _react.createElement(OneThing, obj);
     var c3 = /*#__PURE__*/ _react.createElement(OneThing, {});
-    var c4 = /*#__PURE__*/ _react.createElement(OneThing, _object_spread({}, obj1, obj));
-    var c5 = /*#__PURE__*/ _react.createElement(OneThing, _object_spread_props(_object_spread({}, obj1), {
+    var c4 = /*#__PURE__*/ _react.createElement(OneThing, _object_spread._({}, obj1, obj));
+    var c5 = /*#__PURE__*/ _react.createElement(OneThing, _object_spread_props._(_object_spread._({}, obj1), {
         yy: 42,
         yy1: "hi"
     }));
-    var c6 = /*#__PURE__*/ _react.createElement(OneThing, _object_spread_props(_object_spread({}, obj1), {
+    var c6 = /*#__PURE__*/ _react.createElement(OneThing, _object_spread_props._(_object_spread._({}, obj1), {
         yy: 10000,
         yy1: "true"
     }));
-    var c7 = /*#__PURE__*/ _react.createElement(OneThing, _object_spread(_object_spread_props(_object_spread({}, defaultObj), {
+    var c7 = /*#__PURE__*/ _react.createElement(OneThing, _object_spread._(_object_spread_props._(_object_spread._({}, defaultObj), {
         yy: true
     }), obj)); // No error. should pick second overload
     var c8 = /*#__PURE__*/ _react.createElement(OneThing, {
@@ -46,7 +44,7 @@ define([
     var c9 = /*#__PURE__*/ _react.createElement(OneThing, {
         "ignore-prop": 200
     });
-    var c10 = /*#__PURE__*/ _react.createElement(OneThing, _object_spread_props(_object_spread({}, obj2), {
+    var c10 = /*#__PURE__*/ _react.createElement(OneThing, _object_spread_props._(_object_spread._({}, obj2), {
         yy1: "boo"
     }));
 });

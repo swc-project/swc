@@ -1,10 +1,10 @@
 //// [unknownType1.ts]
 // In an intersection everything absorbs unknown
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _extends from "@swc/helpers/src/_extends.mjs";
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
-import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _extends } from "@swc/helpers/_/_extends";
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
+import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
+import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 // Only equality operators are allowed with unknown
 function f10(x) {
     x == 5;

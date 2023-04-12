@@ -163,12 +163,11 @@ where
             stmts.push(return_stmt.into())
         }
 
-        stmts.visit_mut_children_with(&mut ModuleRefRewriter {
+        stmts.visit_mut_children_with(&mut ModuleRefRewriter::new(
             import_map,
-            lazy_record: Default::default(),
-            allow_top_level_this: self.config.config.allow_top_level_this,
-            is_global_this: true,
-        });
+            Default::default(),
+            self.config.config.allow_top_level_this,
+        ));
 
         // ====================
         //  Emit
@@ -223,12 +222,9 @@ where
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
-                let is_swc_default_helper =
-                    !link_flag.has_named() && src.starts_with("@swc/helpers/");
-
                 let is_node_default = !link_flag.has_named() && import_interop.is_node();
 
-                if import_interop.is_none() || is_swc_default_helper {
+                if import_interop.is_none() {
                     link_flag -= LinkFlag::NAMESPACE;
                 }
 
@@ -251,18 +247,8 @@ where
                     &new_var_ident,
                     &Some(mod_ident.clone()),
                     &mut false,
-                    is_swc_default_helper || is_node_default,
+                    is_node_default,
                 );
-
-                if is_swc_default_helper {
-                    stmts.push(
-                        mod_ident
-                            .clone()
-                            .make_member(quote_ident!("default"))
-                            .make_assign_to(op!("="), mod_ident.clone().as_pat_or_expr())
-                            .into_stmt(),
-                    )
-                }
 
                 // _export_star(mod, exports);
                 let mut import_expr: Expr = if need_re_export {

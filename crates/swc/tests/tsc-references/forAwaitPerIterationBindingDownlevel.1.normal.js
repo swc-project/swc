@@ -1,9 +1,9 @@
 //// [forAwaitPerIterationBindingDownlevel.ts]
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 var sleep = function(tm) {
     return new Promise(function(resolve) {
         return setTimeout(resolve, tm);

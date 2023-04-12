@@ -1,5 +1,5 @@
 //// [classStaticBlock12.ts]
-import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
+import { _ as _class_static_private_field_spec_get } from "@swc/helpers/_/_class_static_private_field_spec_get";
 class C {
 }
 var _x = {

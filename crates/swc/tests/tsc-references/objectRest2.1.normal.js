@@ -1,7 +1,7 @@
 //// [objectRest2.ts]
 // test for #12203
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 function rootConnection(name) {
     return {
         resolve: function() {
