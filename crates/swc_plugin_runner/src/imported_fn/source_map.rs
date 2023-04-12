@@ -46,11 +46,16 @@ pub fn lookup_char_pos_proxy(
     byte_pos: u32,
     should_include_source_file: i32,
     allocated_ret_ptr: u32,
-) -> i32 {
+) -> u32 {
     let memory = env.data().memory.clone();
     let memory = memory
         .as_ref()
         .expect("Memory instance should be available, check initialization");
+
+    let alloc_guest_memory = env.data().alloc_guest_memory.clone();
+    let alloc_guest_memory = alloc_guest_memory
+        .as_ref()
+        .expect("Alloc guest memory fn should be available, check initialization");
 
     let original_loc = (env.data().source_map.lock()).lookup_char_pos(BytePos(byte_pos));
     let ret = PartialLoc {
@@ -67,18 +72,14 @@ pub fn lookup_char_pos_proxy(
     let serialized_loc_bytes =
         PluginSerializedBytes::try_serialize(&ret).expect("Should be serializable");
 
-    if let Some(alloc_guest_memory) = env.data().alloc_guest_memory.clone().as_ref() {
-        allocate_return_values_into_guest(
-            memory,
-            &mut env.as_store_mut(),
-            alloc_guest_memory,
-            allocated_ret_ptr,
-            &serialized_loc_bytes,
-        );
-        1
-    } else {
-        0
-    }
+    allocate_return_values_into_guest(
+        memory,
+        &mut env.as_store_mut(),
+        alloc_guest_memory,
+        allocated_ret_ptr,
+        &serialized_loc_bytes,
+    );
+    1
 }
 
 #[tracing::instrument(level = "info", skip_all)]

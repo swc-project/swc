@@ -38,6 +38,7 @@ is-macro = "0.2.1"
 num-bigint = { version = "0.4", features = ["serde"] }
 rkyv = { package = "rkyv", version = "=0.7.40", optional = true, features = [
   "strict",
+  "validation",
 ] }
 # This is to avoid cargo version selection conflict between rkyv=0.7.40 and other versions, as it is strictly pinned
 # cannot be merged.
