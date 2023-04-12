@@ -28,6 +28,9 @@
 
 - **(es/minifier)** Support `PURE` comment of seq exprs (#7245) ([559d120](https://github.com/swc-project/swc/commit/559d1202bc9a25c06eae01c6e033a44bb31aab62))
 
+
+- **(plugin)** Enable validation (#7250) ([efad714](https://github.com/swc-project/swc/commit/efad714983459393639f4b026da7793807c1b401))
+
 ### Refactor
 
 
