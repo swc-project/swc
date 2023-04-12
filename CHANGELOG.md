@@ -11,6 +11,9 @@
 - **(es/codegen)** Respect `ascii_only` for identifiers (#7247) ([e35097f](https://github.com/swc-project/swc/commit/e35097fd8c036dfab9fcf923f01db562b003720b))
 
 
+- **(es/compat)** Handle export function in `reserved_word` (#7251) ([2e947e7](https://github.com/swc-project/swc/commit/2e947e7aeb1fd2989a10fb49a2ffa2ea35bc9941))
+
+
 - **(es/parser)** Use a hard error for missing r-paren in an if stmt (#7223) ([b1c40a4](https://github.com/swc-project/swc/commit/b1c40a411f01792f9b9f4bc9d5f08782fc6d6a1c))
 
 
