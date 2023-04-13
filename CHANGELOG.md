@@ -32,6 +32,9 @@
 - **(es)** Provide more information when loading of input source map failed (#7249) ([f0e3b1d](https://github.com/swc-project/swc/commit/f0e3b1d09a69c3eb3035e2dbc00d537576b48a08))
 
 
+- **(es)** Use `minify.format.ascii_only` if `output.charset` is not specified (#7258) ([1fe5c3a](https://github.com/swc-project/swc/commit/1fe5c3a803daf247709ac51f8c637ba7e56181bc))
+
+
 - **(es/minifier)** Support `PURE` comment of seq exprs (#7245) ([559d120](https://github.com/swc-project/swc/commit/559d1202bc9a25c06eae01c6e033a44bb31aab62))
 
 
