@@ -1,7 +1,5 @@
 #![allow(clippy::vec_box)]
 use is_macro::Is;
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 #[cfg(feature = "serde-impl")]
 use serde::{
     self,
@@ -574,11 +572,11 @@ bridge_expr_from!(ClassExpr, Box<Class>);
 
 #[derive(Spanned, Clone, Debug, PartialEq)]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     archive(bound(
         serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",
@@ -939,7 +937,7 @@ pub struct MetaPropExpr {
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub enum MetaPropKind {
@@ -1120,11 +1118,11 @@ impl Take for Import {
 #[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     archive(bound(
         serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",

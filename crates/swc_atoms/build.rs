@@ -1,8 +1,5 @@
 use std::{env, path::Path};
 
-#[cfg(all(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"))]
-compile_error!("Cannot enable bytechcked, non-bytechecked rkyv both");
-
 fn main() {
     let strs = include_str!("words.txt")
         .lines()

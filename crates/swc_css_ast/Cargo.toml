@@ -12,14 +12,12 @@ version       = "0.137.1"
 bench = false
 
 [features]
-__rkyv              = []
-default             = []
-rkyv-bytecheck-impl = []
-rkyv-impl           = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
-serde-impl          = ["serde"]
+__rkyv     = []
+default    = []
+rkyv-impl  = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
+serde-impl = ["serde"]
 
 [dependencies]
-bytecheck = { version = "0.6.9", optional = true }
 is-macro = "0.2.0"
 rkyv = { version = "=0.7.40", optional = true, features = [
   "strict",

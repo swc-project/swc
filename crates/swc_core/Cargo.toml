@@ -257,20 +257,6 @@ __ecma_plugin_transform = [
   "swc_ecma_ast/rkyv-impl",
 ]
 
-__plugin_transform_bytecheck = [
-  # Dependent features
-  "ecma_visit",
-  "__common",
-  "ecma_ast",
-  "swc_ecma_ast/rkyv-bytecheck-impl",
-  "swc_atoms/rkyv-bytecheck-impl",
-  "swc_common/plugin-bytecheck-mode",
-  "swc_plugin_proxy/plugin-bytecheck-mode",
-  "swc_plugin_macro",
-  "swc_plugin",
-  "once_cell",
-]
-
 # Internal flags for any transform plugin host feature
 __plugin_transform_host = [
   # Dependent features
@@ -281,16 +267,6 @@ __plugin_transform_host = [
   "swc_plugin_runner/rkyv-impl", # TODO: we may simply flag around downlevel plugin feature
   "swc_plugin_proxy/plugin-rt",
   "swc/plugin",
-]
-
-# Internal flags for the transform plugin host, if it needs to enable bytecheck
-__plugin_transform_host_bytecheck = [
-  "__common",
-  "swc_atoms/rkyv-bytecheck-impl",
-  "swc_common/plugin-bytecheck-rt",
-  "swc_ecma_ast/rkyv-bytecheck-impl",
-  "swc_plugin_proxy/plugin-bytecheck-rt",
-  "swc/plugin-bytecheck",
 ]
 
 # Internal flags to control plugin environment
