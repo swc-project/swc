@@ -28,32 +28,19 @@ plugin-base      = ["__plugin", "anyhow", "rkyv-impl", "diagnostic-serde"]
 plugin-mode      = ["__plugin_mode", "plugin-base"]
 plugin-rt        = ["__plugin_rt", "plugin-base"]
 
-plugin-bytecheck-base = [
-  "__plugin",
-  "anyhow",
-  "rkyv-bytecheck-impl",
-  "diagnostic-serde",
-]
-plugin-bytecheck-mode = ["__plugin_mode", "plugin-bytecheck-base"]
-plugin-bytecheck-rt = ["__plugin_rt", "plugin-bytecheck-base"]
-
 plugin_transform_schema_v1    = []
 plugin_transform_schema_vtest = []
 
 tty-emitter = ["atty", "termcolor"]
 
-__rkyv = []
-# Enably rkyv serialization with stable version of rkyv.
+__rkyv    = []
 rkyv-impl = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl"]
-# Enable rkyv serialization with updated version of rkyv, along with bytecheck.
-rkyv-bytecheck-impl = ["__rkyv", "rkyv-latest", "swc_atoms/rkyv-bytecheck-impl"]
 
 [dependencies]
 ahash = "0.7.4"
 anyhow = { version = "1.0.45", optional = true }
 arbitrary = { version = "1", optional = true, features = ["derive"] }
 atty = { version = "0.2", optional = true }
-bytecheck = { version = "0.6.9", optional = true }
 cfg-if = "1.0.0"
 either = "1.5"
 new_debug_unreachable = "1.0.4"

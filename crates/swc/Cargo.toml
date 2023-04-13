@@ -33,10 +33,6 @@ plugin = [
   "swc_plugin_runner/rkyv-impl",
   "swc_plugin_proxy/plugin-rt",
 ]
-plugin-bytecheck = [
-  "swc_plugin_runner/rkyv-bytecheck-impl",
-  "swc_plugin_proxy/plugin-bytecheck-rt",
-]
 plugin_transform_schema_v1 = [
   "swc_common/plugin_transform_schema_v1",
   "swc_plugin_runner/plugin_transform_schema_v1",

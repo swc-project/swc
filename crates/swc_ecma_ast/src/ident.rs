@@ -1,7 +1,5 @@
 use std::fmt::Display;
 
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 use scoped_tls::scoped_thread_local;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -15,11 +13,11 @@ use crate::typescript::TsTypeAnn;
 #[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     archive(bound(
         serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",
@@ -115,10 +113,7 @@ bridge_from!(BindingIdent, Ident, Id);
 pub struct Ident {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
-    #[cfg_attr(
-        any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-        with(swc_atoms::EncodeJsWord)
-    )]
+    #[cfg_attr(any(feature = "rkyv-impl"), with(swc_atoms::EncodeJsWord))]
     pub sym: JsWord,
 
     /// TypeScript only. Used in case of an optional parameter.

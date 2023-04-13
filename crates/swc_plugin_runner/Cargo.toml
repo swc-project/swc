@@ -44,12 +44,7 @@ ecma = ["swc_ecma_ast/rkyv-impl"]
 # Enable CSS support
 css = ["swc_css_ast/rkyv-impl"]
 
-__rkyv = []
-rkyv-bytecheck-impl = [
-  "__rkyv",
-  "swc_common/plugin-bytecheck-rt",
-  "swc_plugin_proxy/plugin-bytecheck-rt",
-]
+__rkyv    = []
 rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
 [dependencies]
