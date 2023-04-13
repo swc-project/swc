@@ -36,7 +36,7 @@ bitflags = "1"
 bytecheck = { version = "0.6.9", optional = true }
 is-macro = "0.2.1"
 num-bigint = { version = "0.4", features = ["serde"] }
-rkyv = { package = "rkyv", version = "=0.7.40", optional = true, features = [
+rkyv = { package = "rkyv", version = "=0.7.41", optional = true, features = [
   "strict",
   "validation",
 ] }

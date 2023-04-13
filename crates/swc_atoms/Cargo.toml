@@ -22,7 +22,7 @@ rkyv-bytecheck-impl = ["__rkyv", "rkyv-latest"]
 [dependencies]
 bytecheck = { version = "0.6.9", optional = true }
 once_cell = "1"
-rkyv = { package = "rkyv", version = "=0.7.40", optional = true, features = [
+rkyv = { package = "rkyv", version = "=0.7.41", optional = true, features = [
   "strict",
   "validation",
 ] }

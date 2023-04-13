@@ -37,7 +37,7 @@ plugin-mode = ["__plugin_mode", "swc_common/plugin-base", "rkyv-impl"]
 
 [dependencies]
 
-rkyv = { package = "rkyv", version = "=0.7.40", optional = true, features = [
+rkyv = { package = "rkyv", version = "=0.7.41", optional = true, features = [
   "strict",
   "validation",
 ] }
