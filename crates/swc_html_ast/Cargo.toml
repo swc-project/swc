@@ -9,7 +9,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_html_ast"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.31.0"
+version = "0.31.1"
 
 [lib]
 bench = false
@@ -22,10 +22,13 @@ serde-impl          = ["serde"]
 
 [dependencies]
 bytecheck = { version = "0.6.9", optional = true }
-is-macro  = "0.2.0"
-rkyv      = { version = "=0.7.40", optional = true, features = ["strict"] }
-serde     = { version = "1.0.127", features = ["derive"], optional = true }
+is-macro = "0.2.0"
+rkyv = { version = "=0.7.40", optional = true, features = [
+  "strict",
+  "validation",
+] }
+serde = { version = "1.0.127", features = ["derive"], optional = true }
 
 string_enum = { version = "0.4.0", path = "../string_enum/" }
-swc_atoms   = { version = "0.5.0", path = "../swc_atoms" }
-swc_common  = { version = "0.31.0", path = "../swc_common" }
+swc_atoms   = { version = "0.5.1", path = "../swc_atoms" }
+swc_common  = { version = "0.31.1", path = "../swc_common" }

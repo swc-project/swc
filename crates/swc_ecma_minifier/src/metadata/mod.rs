@@ -132,7 +132,17 @@ impl VisitMut for InfoMarker<'_> {
             n.span = n.span.apply_mark(self.marks.noinline);
         }
 
-        if self.has_pure(n.span) {
+        // We check callee in some cases because we move comments
+        // See https://github.com/swc-project/swc/issues/7241
+        if self.has_pure(n.span)
+            || match &n.callee {
+                Callee::Expr(e) => match &**e {
+                    Expr::Seq(callee) => self.has_pure(callee.span),
+                    _ => false,
+                },
+                _ => false,
+            }
+        {
             n.span = n.span.apply_mark(self.marks.pure);
         } else if let Some(pure_fns) = &self.pure_funcs {
             if let Callee::Expr(e) = &n.callee {
@@ -143,14 +153,6 @@ impl VisitMut for InfoMarker<'_> {
                     };
                 })
             }
-        }
-    }
-
-    fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
-        n.visit_mut_children_with(self);
-
-        if self.has_pure(n.span) {
-            n.span = n.span.apply_mark(self.marks.pure);
         }
     }
 
@@ -199,7 +201,7 @@ impl VisitMut for InfoMarker<'_> {
 
     fn visit_mut_lit(&mut self, _: &mut Lit) {}
 
-    fn visit_mut_script(&mut self, n: &mut Script) {
+    fn visit_mut_module(&mut self, n: &mut Module) {
         n.visit_mut_children_with(self);
 
         if self.state.is_bundle {
@@ -210,7 +212,15 @@ impl VisitMut for InfoMarker<'_> {
         }
     }
 
-    fn visit_mut_module(&mut self, n: &mut Module) {
+    fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
+        n.visit_mut_children_with(self);
+
+        if self.has_pure(n.span) {
+            n.span = n.span.apply_mark(self.marks.pure);
+        }
+    }
+
+    fn visit_mut_script(&mut self, n: &mut Script) {
         n.visit_mut_children_with(self);
 
         if self.state.is_bundle {

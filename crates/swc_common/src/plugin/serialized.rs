@@ -140,12 +140,8 @@ where
 /// SharedSerializeRegistry which cannot be Infallible. Internally this does
 /// not call deserialize with Infallible deserializer, use
 /// SharedDeserializeMap instead.
-///
-/// # Safety
-/// This is unsafe by construting bytes slice from raw ptr also deserialize
-/// it without slice bound check.
 #[tracing::instrument(level = "info", skip_all)]
-pub unsafe fn deserialize_from_ptr_into_fallible<W>(
+pub fn deserialize_from_ptr_into_fallible<W>(
     raw_allocated_ptr: *const u8,
     raw_allocated_ptr_len: u32,
 ) -> Result<W, Error>
@@ -156,8 +152,7 @@ where
     let serialized =
         PluginSerializedBytes::from_raw_ptr(raw_allocated_ptr, raw_allocated_ptr_len as usize);
 
-    rkyv::from_bytes_unchecked(&serialized.field)
-        .map_err(|_err| Error::msg("Failed to deserialize given ptr"))
+    serialized.deserialize()
 }
 
 /*
