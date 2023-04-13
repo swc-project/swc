@@ -41,6 +41,9 @@
 
 
 
+- **(plugin)** Remove `bytecheck` flag (#7256) ([6bd58cb](https://github.com/swc-project/swc/commit/6bd58cbcfdef99604470a106853628e1cdb36cda))
+
+
 - **(plugin/runner)** Fix clippy warnings (#7244) ([70b86db](https://github.com/swc-project/swc/commit/70b86dbe371fafc2dffde0573bc091860aa529b3))
 
 ### Testing
