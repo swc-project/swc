@@ -29,6 +29,5 @@
     "module": {
         "type": "commonjs"
     },
-    "minify": true,
     "isModule": true
 }
