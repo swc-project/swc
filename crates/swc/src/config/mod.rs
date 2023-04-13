@@ -577,6 +577,14 @@ impl Options {
             _ => TsImportExportAssignConfig::Classic,
         };
 
+        let charset = cfg.jsc.output.charset.or_else(|| {
+            if js_minify.as_ref()?.format.ascii_only {
+                Some(OutputCharset::Ascii)
+            } else {
+                None
+            }
+        });
+
         let pass = PassBuilder::new(
             cm,
             handler,
@@ -782,7 +790,7 @@ impl Options {
             comments: comments.cloned(),
             preserve_comments,
             emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
-            output: cfg.jsc.output,
+            output: JscOutputConfig { charset },
         })
     }
 }
