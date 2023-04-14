@@ -75,6 +75,11 @@ fn case_inline() {
 }
 
 #[test]
+fn case_inline_extra_content() {
+    inline("tests/srcmap/case-inline-extra-content/index.js");
+}
+
+#[test]
 fn issue_622() {
     file("tests/srcmap/issue-622/index.js", Default::default()).unwrap();
 }
