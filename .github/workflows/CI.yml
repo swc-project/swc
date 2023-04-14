@@ -70,6 +70,11 @@ jobs:
           rm -rf tests
           ls -al
 
+      - name: Configure git
+        run: |
+          git config --global user.name 'SWC bot'
+          git config --global user.email 'bot@swc.rs'
+
       - name: Install cargo-crev
         uses: baptiste0928/cargo-install@v1.1.0
         with:
@@ -78,9 +83,6 @@ jobs:
 
       - name: Configure cargo-crev
         run: |
-          git config --global user.name 'SWC bot'
-          git config --global user.email 'bot@swc.rs'
-
           cargo crev trust --level high https://github.com/kdy1/crev-proofs
           cargo crev repo fetch all
 
