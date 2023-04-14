@@ -434,7 +434,7 @@ impl Visit for Analyzer {
 
     fn visit_var_decl(&mut self, n: &VarDecl) {
         let old_need_hoisted = self.var_belong_to_fn_scope;
-        self.var_belong_to_fn_scope = n.kind == VarDeclKind::Var || self.has_eval;
+        self.var_belong_to_fn_scope = n.kind == VarDeclKind::Var;
         n.visit_children_with(self);
         self.var_belong_to_fn_scope = old_need_hoisted;
     }
