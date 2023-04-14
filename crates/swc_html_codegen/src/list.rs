@@ -1,8 +1,9 @@
 #![allow(non_upper_case_globals)]
-use bitflags::bitflags;
+use bitflags::{__declare_public_bitflags, bitflags};
 use swc_common::add_bitflags;
 
 bitflags! {
+    #[derive(PartialEq, Eq, Copy, Clone)]
     pub struct ListFormat: u16 {
         const None = 0;
     }

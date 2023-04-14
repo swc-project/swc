@@ -124,7 +124,7 @@ macro_rules! make_impl_block {
         impl $STRUCT {
             $(
                 $(#[$attr])*
-                pub const $name: Self = $STRUCT { bits: $crate::value_of_bitflag!($($val)*) };
+                pub const $name: Self = Self::from_bits_retain(  $crate::value_of_bitflag!($($val)*) );
             )*
         }
     };
@@ -137,13 +137,13 @@ macro_rules! value_of_bitflag {
         $i:ident |
         $($rest:tt)*
     ) => {
-        Self::$i.bits | $crate::value_of_bitflag!($($rest)*)
+        Self::$i.bits() | $crate::value_of_bitflag!($($rest)*)
     };
 
     (
         $i:ident
     ) => {
-        Self::$i.bits
+        Self::$i.bits()
     };
 
     ($e:expr) => { $e };
