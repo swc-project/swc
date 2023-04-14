@@ -1,5 +1,5 @@
 #![allow(non_upper_case_globals)]
-use bitflags::{__declare_public_bitflags, bitflags};
+use bitflags::bitflags;
 use swc_common::add_bitflags;
 
 bitflags! {

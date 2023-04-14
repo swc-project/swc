@@ -3539,6 +3539,7 @@ dependencies = [
  "ast_node",
  "atty",
  "better_scoped_tls",
+ "bitflags 2.1.0",
  "cfg-if",
  "criterion",
  "either",
