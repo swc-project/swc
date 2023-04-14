@@ -1,5 +1,3 @@
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 #[cfg(feature = "__plugin_mode")]
 use swc_common::{
     comments::{Comment, Comments},

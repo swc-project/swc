@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.3.49",
+    "version": "1.3.50",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -56,7 +56,6 @@
         "build:wasm": "npm-run-all \"pack -- build ./bindings/binding_core_wasm --scope swc {1} -t {2} --features plugin\" --",
         "build": "tsc -d && napi build --platform --cargo-name binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts --cargo-cwd ./bindings -p binding_core_node --release",
         "build:dev": "tsc -d && napi build --platform --cargo-name binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts --cargo-cwd ./bindings -p binding_core_node",
-        "build:bytecheck": "tsc -d && napi build --platform --cargo-name binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts --cargo-cwd ./bindings --features swc_v1,plugin_bytecheck -p binding_core_node --cargo-flags=--no-default-features --release",
         "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --config ./node-swc/jest.config.js",
         "version": "napi version -p scripts/npm"
     },
