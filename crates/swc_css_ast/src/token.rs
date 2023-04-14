@@ -28,7 +28,7 @@ impl Take for TokenAndSpan {
 #[derive(Debug, Clone, PartialEq, EqIgnoreSpan, Hash)]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub struct UrlKeyValue(pub Atom, pub Atom);

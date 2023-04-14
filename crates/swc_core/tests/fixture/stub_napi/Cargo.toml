@@ -15,13 +15,6 @@ plugin  = ["swc_core/plugin_transform_host_native"]
 swc_v1  = ["swc_core/bundler_node_v1"]
 swc_v2  = ["swc_core/bundler_node_v2"]
 
-# Experiemntal bytechecked plugin serialization / deserialization.
-plugin_bytecheck = [
-  # "swc_core/__plugin_transform_host_bytecheck",
-  "swc_core/__plugin_transform_host_schema_v1",
-  "swc_core/__plugin_transform_env_native",
-]
-
 # Internal flag for testing purpose only.
 __plugin_transform_vtest = [
   "swc_core/__plugin_transform_host",

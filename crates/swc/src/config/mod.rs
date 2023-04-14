@@ -1,8 +1,5 @@
 #![cfg_attr(
-    any(
-        not(any(feature = "plugin", feature = "plugin-bytecheck")),
-        target_arch = "wasm32"
-    ),
+    any(not(any(feature = "plugin")), target_arch = "wasm32"),
     allow(unused)
 )]
 use std::{
@@ -580,6 +577,14 @@ impl Options {
             _ => TsImportExportAssignConfig::Classic,
         };
 
+        let charset = cfg.jsc.output.charset.or_else(|| {
+            if js_minify.as_ref()?.format.ascii_only {
+                Some(OutputCharset::Ascii)
+            } else {
+                None
+            }
+        });
+
         let pass = PassBuilder::new(
             cm,
             handler,
@@ -617,10 +622,7 @@ impl Options {
         // Embedded runtime plugin target, based on assumption we have
         // 1. filesystem access for the cache
         // 2. embedded runtime can compiles & execute wasm
-        #[cfg(all(
-            any(feature = "plugin", feature = "plugin-bytecheck"),
-            not(target_arch = "wasm32")
-        ))]
+        #[cfg(all(any(feature = "plugin"), not(target_arch = "wasm32")))]
         let plugins = {
             let plugin_resolver = CachingResolver::new(
                 40,
@@ -659,10 +661,7 @@ impl Options {
         // 1. no filesystem access, loading binary / cache management should be
         // performed externally
         // 2. native runtime compiles & execute wasm (i.e v8 on node, chrome)
-        #[cfg(all(
-            any(feature = "plugin", feature = "plugin-bytecheck"),
-            target_arch = "wasm32"
-        ))]
+        #[cfg(all(any(feature = "plugin"), target_arch = "wasm32"))]
         let plugins = {
             let transform_filename = match base {
                 FileName::Real(path) => path.as_os_str().to_str().map(String::from),
@@ -689,7 +688,7 @@ impl Options {
             )
         };
 
-        #[cfg(not(any(feature = "plugin", feature = "plugin-bytecheck")))]
+        #[cfg(not(any(feature = "plugin")))]
         let plugins = crate::plugin::plugins();
 
         let pass = chain!(
@@ -791,7 +790,7 @@ impl Options {
             comments: comments.cloned(),
             preserve_comments,
             emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
-            output: cfg.jsc.output,
+            output: JscOutputConfig { charset },
         })
     }
 }

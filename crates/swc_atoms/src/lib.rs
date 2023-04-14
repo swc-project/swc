@@ -14,8 +14,6 @@ use std::{
     rc::Rc,
 };
 
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 use rustc_hash::FxHashSet;
 use serde::Serializer;
 use triomphe::{Arc, HeaderWithLength, ThinArc};
