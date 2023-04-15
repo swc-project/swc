@@ -25,6 +25,12 @@
 
 - **(es/parser)** Remove `::` token as it's not used (#7268) ([635bf81](https://github.com/swc-project/swc/commit/635bf8116bb002d5d737f0e9dfbf5efd3a433e7d))
 
+### Build
+
+
+
+- **(cargo)** Update `bitflags` to v2 (#7270) ([c4cce12](https://github.com/swc-project/swc/commit/c4cce127587e304b938c43059992ff0ed6bd2821))
+
 ## [1.3.50] - 2023-04-13
 
 ### Bug Fixes
