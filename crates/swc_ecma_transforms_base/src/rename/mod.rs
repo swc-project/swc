@@ -113,7 +113,7 @@ where
         &self,
         node: &N,
         skip_one: bool,
-        is_module_or_script: bool,
+        top_level: bool,
         has_eval: bool,
     ) -> AHashMap<Id, JsWord>
     where
@@ -139,7 +139,7 @@ where
 
         let mut map = RenameMap::default();
 
-        let mut unresolved = if !is_module_or_script {
+        let mut unresolved = if !top_level {
             let mut unresolved = self.unresolved.clone();
             unresolved.extend(self.get_unresolved(node, has_eval));
             Cow::Owned(unresolved)
