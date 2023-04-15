@@ -1,4 +1,21 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es)** Allow extra comments after `sourceMappingURL` (#7262) ([219a738](https://github.com/swc-project/swc/commit/219a738a752e44bcbf5681f2f77766f5581439c3))
+
+
+- **(es/loader)** Fix browser overwrites not applying correctly (#7243) ([beefdd4](https://github.com/swc-project/swc/commit/beefdd459c1bdd96bcd5c83f8dc2e4c4c1be695d))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix crev action (#7272) ([578960d](https://github.com/swc-project/swc/commit/578960d32186f7d5fdf2dc99599aa49a01c5d7a3))
+
 ## [1.3.50] - 2023-04-13
 
 ### Bug Fixes
