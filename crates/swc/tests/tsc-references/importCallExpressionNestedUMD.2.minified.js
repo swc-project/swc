@@ -9,7 +9,9 @@
         value: !0
     }), Object.defineProperty(exports1, "default", {
         enumerable: !0,
-        get: ()=>_default
+        get: function() {
+            return _default;
+        }
     });
     let _default = "./foo";
 });

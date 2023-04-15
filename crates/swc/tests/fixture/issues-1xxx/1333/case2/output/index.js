@@ -8,7 +8,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "Shard", {
     enumerable: true,
-    get: ()=>Shard
+    get: function() {
+        return Shard;
+    }
 });
 const _class_private_field_get = require("@swc/helpers/_/_class_private_field_get");
 const _class_private_field_init = require("@swc/helpers/_/_class_private_field_init");

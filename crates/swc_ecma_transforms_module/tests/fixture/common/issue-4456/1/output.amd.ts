@@ -17,11 +17,21 @@ define([
         });
     }
     _export(exports, {
-        cx: ()=>_css.cx,
-        clsx: ()=>_css.cx,
-        keyframes: ()=>_css.keyframes,
-        breakpoints: ()=>breakpoints,
-        default: ()=>_default
+        cx: function() {
+            return _css.cx;
+        },
+        clsx: function() {
+            return _css.cx;
+        },
+        keyframes: function() {
+            return _css.keyframes;
+        },
+        breakpoints: function() {
+            return breakpoints;
+        },
+        default: function() {
+            return _default;
+        }
     });
     _styled = /*#__PURE__*/ _interop_require_default(_styled);
     interface IStyledProp {

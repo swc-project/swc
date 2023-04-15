@@ -12,7 +12,9 @@
     });
     Object.defineProperty(exports, "Foo", {
         enumerable: true,
-        get: ()=>_foo.Foo
+        get: function() {
+            return _foo.Foo;
+        }
     });
     _foo = /*#__PURE__*/ _interop_require_wildcard(_foo);
 });

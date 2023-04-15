@@ -9,7 +9,9 @@ define([
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>_default
+        get: function() {
+            return _default;
+        }
     });
     class _default {
     }
@@ -25,7 +27,9 @@ define([
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>_default
+        get: function() {
+            return _default;
+        }
     });
     function _default() {}
 });

@@ -12,7 +12,9 @@
     });
     Object.defineProperty(exports, "foo", {
         enumerable: true,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     });
     function foo() {
         return "foo";
@@ -33,7 +35,9 @@
     });
     Object.defineProperty(exports, "p2", {
         enumerable: true,
-        get: ()=>p2
+        get: function() {
+            return p2;
+        }
     });
     import("./0");
     var p1 = import("./0");

@@ -13,7 +13,9 @@
     });
     Object.defineProperty(exports, "Scope", {
         enumerable: true,
-        get: ()=>_interfaces.Scope
+        get: function() {
+            return _interfaces.Scope;
+        }
     });
     _export_star(_http, exports);
 });

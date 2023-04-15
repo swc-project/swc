@@ -16,9 +16,15 @@
         });
     }
     _export(exports, {
-        Foo: ()=>Foo,
-        foo: ()=>foo,
-        default: ()=>_default
+        Foo: function() {
+            return Foo;
+        },
+        foo: function() {
+            return foo;
+        },
+        default: function() {
+            return _default;
+        }
     });
     class Foo {
         [void 0] = this;

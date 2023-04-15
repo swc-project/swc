@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "Foo", {
     enumerable: true,
-    get: ()=>_foo.Foo
+    get: function() {
+        return _foo.Foo;
+    }
 });
 const _foo = /*#__PURE__*/ _interop_require_wildcard(require("foo"));

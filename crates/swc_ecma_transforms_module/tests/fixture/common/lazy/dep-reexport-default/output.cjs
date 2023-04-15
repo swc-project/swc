@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "default", {
     enumerable: true,
-    get: ()=>_foo().default
+    get: function() {
+        return _foo().default;
+    }
 });
 function _foo() {
     const data = /*#__PURE__*/ _interop_require_default(require("foo"));

@@ -15,7 +15,9 @@
     });
     Object.defineProperty(exports, "id", {
         enumerable: true,
-        get: ()=>_interfaces.id
+        get: function() {
+            return _interfaces.id;
+        }
     });
     _export_star(_http, exports);
     _export_star(_pipes, exports);

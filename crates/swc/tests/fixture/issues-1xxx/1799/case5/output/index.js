@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "default", {
     enumerable: true,
-    get: ()=>Foo
+    get: function() {
+        return Foo;
+    }
 });
 const _interop_require_default = require("@swc/helpers/_/_interop_require_default");
 const _react = /*#__PURE__*/ _interop_require_default._(require("react"));

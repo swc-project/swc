@@ -9,15 +9,33 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    node: ()=>_BodyNodesBuilder,
-    create: ()=>create,
-    trustBox: ()=>trustBox,
-    opener: ()=>opener,
-    stage: ()=>stage,
-    header: ()=>header,
-    source: ()=>source,
-    sources: ()=>sources,
-    seq: ()=>seq
+    node: function() {
+        return _BodyNodesBuilder;
+    },
+    create: function() {
+        return create;
+    },
+    trustBox: function() {
+        return trustBox;
+    },
+    opener: function() {
+        return opener;
+    },
+    stage: function() {
+        return stage;
+    },
+    header: function() {
+        return header;
+    },
+    source: function() {
+        return source;
+    },
+    sources: function() {
+        return sources;
+    },
+    seq: function() {
+        return seq;
+    }
 });
 const _class_private_field_get = require("@swc/helpers/_/_class_private_field_get");
 const _class_private_field_init = require("@swc/helpers/_/_class_private_field_init");

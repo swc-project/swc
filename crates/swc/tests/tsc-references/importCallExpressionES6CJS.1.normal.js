@@ -5,7 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "foo", {
     enumerable: true,
-    get: ()=>foo
+    get: function() {
+        return foo;
+    }
 });
 function foo() {
     return "foo";
@@ -22,8 +24,12 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    p2: ()=>p2,
-    D: ()=>D
+    p2: function() {
+        return p2;
+    },
+    D: function() {
+        return D;
+    }
 });
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0")));

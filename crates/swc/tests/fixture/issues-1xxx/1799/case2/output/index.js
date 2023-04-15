@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "default", {
     enumerable: true,
-    get: ()=>Foo
+    get: function() {
+        return Foo;
+    }
 });
 const _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 const _interop_require_default = require("@swc/helpers/_/_interop_require_default");

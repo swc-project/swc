@@ -9,8 +9,12 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    default: ()=>_default,
-    y: ()=>y
+    default: function() {
+        return _default;
+    },
+    y: function() {
+        return y;
+    }
 });
 const _foo = /*#__PURE__*/ _interop_require_default(require("foo"));
 const _bar = require("bar");

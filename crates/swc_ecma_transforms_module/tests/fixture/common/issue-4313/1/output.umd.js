@@ -11,7 +11,9 @@
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>_default
+        get: function() {
+            return _default;
+        }
     });
     const _default = {
         foo: "bar"

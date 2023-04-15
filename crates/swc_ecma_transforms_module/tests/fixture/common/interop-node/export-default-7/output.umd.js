@@ -11,7 +11,9 @@
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     });
     function foo() {}
 });

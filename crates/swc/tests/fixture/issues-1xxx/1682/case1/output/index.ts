@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "getPackage", {
     enumerable: true,
-    get: ()=>getPackage
+    get: function() {
+        return getPackage;
+    }
 });
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 const _path = require("path");

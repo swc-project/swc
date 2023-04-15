@@ -11,7 +11,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "elem", {
     enumerable: true,
-    get: ()=>elem
+    get: function() {
+        return elem;
+    }
 });
 const elem = {
     field: 'a'

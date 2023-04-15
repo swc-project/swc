@@ -9,7 +9,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "myTypes", {
     enumerable: true,
-    get: ()=>myTypes
+    get: function() {
+        return myTypes;
+    }
 });
 const myTypes = {
 };
@@ -25,8 +27,12 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    testFn: ()=>testFn,
-    testFnTypes: ()=>testFnTypes
+    testFn: function() {
+        return testFn;
+    },
+    testFnTypes: function() {
+        return testFnTypes;
+    }
 });
 /**
  * @namespace testFnTypes

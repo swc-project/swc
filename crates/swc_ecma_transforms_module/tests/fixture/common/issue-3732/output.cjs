@@ -10,8 +10,12 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    get: ()=>_get,
-    byID: ()=>byID
+    get: function() {
+        return _get;
+    },
+    byID: function() {
+        return byID;
+    }
 });
 const _get = /*#__PURE__*/ _interop_require_wildcard(require("./get"));
 const byID = (id)=>{

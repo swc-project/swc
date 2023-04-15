@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "ServiceError", {
     enumerable: true,
-    get: ()=>ServiceError
+    get: function() {
+        return ServiceError;
+    }
 });
 const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 const CD = ()=>{};

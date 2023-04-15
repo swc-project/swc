@@ -13,8 +13,12 @@ define([
         });
     }
     _export(exports, {
-        baz: ()=>baz,
-        qux: ()=>qux
+        baz: function() {
+            return baz;
+        },
+        qux: function() {
+            return qux;
+        }
     });
     const { foo: { bar: [baz, qux]  }  } = {};
 });

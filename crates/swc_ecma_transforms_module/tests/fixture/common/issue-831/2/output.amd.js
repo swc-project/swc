@@ -8,7 +8,9 @@ define([
     });
     Object.defineProperty(exports, "myGenerator", {
         enumerable: true,
-        get: ()=>myGenerator
+        get: function() {
+            return myGenerator;
+        }
     });
     function* myGenerator() {
         yield* [

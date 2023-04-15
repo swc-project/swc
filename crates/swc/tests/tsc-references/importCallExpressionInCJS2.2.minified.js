@@ -7,7 +7,9 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "foo", {
     enumerable: !0,
-    get: ()=>foo
+    get: function() {
+        return foo;
+    }
 });
 //// [1.ts]
 "use strict";
@@ -18,7 +20,9 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "backup", {
     enumerable: !0,
-    get: ()=>backup
+    get: function() {
+        return backup;
+    }
 });
 //// [2.ts]
 "use strict";
