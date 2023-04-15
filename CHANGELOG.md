@@ -19,6 +19,12 @@
 
 - **(ci)** Fix crev action (#7272) ([578960d](https://github.com/swc-project/swc/commit/578960d32186f7d5fdf2dc99599aa49a01c5d7a3))
 
+### Refactor
+
+
+
+- **(es/parser)** Remove `::` token as it's not used (#7268) ([635bf81](https://github.com/swc-project/swc/commit/635bf8116bb002d5d737f0e9dfbf5efd3a433e7d))
+
 ## [1.3.50] - 2023-04-13
 
 ### Bug Fixes
