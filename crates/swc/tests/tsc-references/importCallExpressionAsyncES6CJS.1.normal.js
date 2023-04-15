@@ -10,11 +10,21 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    fn: ()=>fn,
-    cl1: ()=>cl1,
-    obj: ()=>obj,
-    cl2: ()=>cl2,
-    l: ()=>l
+    fn: function() {
+        return fn;
+    },
+    cl1: function() {
+        return cl1;
+    },
+    obj: function() {
+        return obj;
+    },
+    cl2: function() {
+        return cl2;
+    },
+    l: function() {
+        return l;
+    }
 });
 const _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");

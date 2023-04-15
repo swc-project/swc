@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "AnElement", {
     enumerable: true,
-    get: ()=>AnElement
+    get: function() {
+        return AnElement;
+    }
 });
 const AnElement = ({ prop1 , prop2 , prop3 , num , data  })=>{
     return /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement(SomeElement, {

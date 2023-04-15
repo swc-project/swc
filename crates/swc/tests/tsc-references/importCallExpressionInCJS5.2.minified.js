@@ -10,8 +10,12 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    B: ()=>B,
-    foo: ()=>foo
+    B: function() {
+        return B;
+    },
+    foo: function() {
+        return foo;
+    }
 });
 class B {
     print() {
@@ -30,7 +34,9 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "backup", {
     enumerable: !0,
-    get: ()=>backup
+    get: function() {
+        return backup;
+    }
 });
 //// [2.ts]
 "use strict";
@@ -38,7 +44,9 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "D", {
     enumerable: !0,
-    get: ()=>D
+    get: function() {
+        return D;
+    }
 });
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 class D {

@@ -8,7 +8,9 @@ define([
         value: !0
     }), Object.defineProperty(exports, "default", {
         enumerable: !0,
-        get: ()=>Foo
+        get: function() {
+            return Foo;
+        }
     });
     class Foo {
     }
@@ -24,6 +26,8 @@ define([
         value: !0
     }), Object.defineProperty(exports, "default", {
         enumerable: !0,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     });
 });

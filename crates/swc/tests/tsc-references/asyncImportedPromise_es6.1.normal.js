@@ -5,7 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "Task", {
     enumerable: true,
-    get: ()=>Task
+    get: function() {
+        return Task;
+    }
 });
 class Task extends Promise {
 }

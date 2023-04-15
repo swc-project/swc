@@ -3,7 +3,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "AbstractProviderDeliveryService", {
     enumerable: true,
-    get: ()=>AbstractProviderDeliveryService
+    get: function() {
+        return AbstractProviderDeliveryService;
+    }
 });
 class AbstractProviderDeliveryService {
 }

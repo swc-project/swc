@@ -10,20 +10,48 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    E: ()=>E,
-    D: ()=>D,
-    M: ()=>M,
-    v: ()=>v,
-    f: ()=>f,
-    C: ()=>C,
-    a: ()=>a,
-    v1: ()=>v,
-    f1: ()=>f,
-    C1: ()=>C,
-    E1: ()=>E,
-    D1: ()=>D,
-    M1: ()=>M,
-    a1: ()=>a
+    E: function() {
+        return E;
+    },
+    D: function() {
+        return D;
+    },
+    M: function() {
+        return M;
+    },
+    v: function() {
+        return v;
+    },
+    f: function() {
+        return f;
+    },
+    C: function() {
+        return C;
+    },
+    a: function() {
+        return a;
+    },
+    v1: function() {
+        return v;
+    },
+    f1: function() {
+        return f;
+    },
+    C1: function() {
+        return C;
+    },
+    E1: function() {
+        return E;
+    },
+    D1: function() {
+        return D;
+    },
+    M1: function() {
+        return M;
+    },
+    a1: function() {
+        return a;
+    }
 });
 var E, D, M, v = 1;
 function f() {}
@@ -48,16 +76,36 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    v: ()=>_t1.v1,
-    f: ()=>_t1.f1,
-    C: ()=>_t1.C1,
-    I: ()=>_t1.I1,
-    E: ()=>_t1.E1,
-    D: ()=>_t1.D1,
-    M: ()=>_t1.M1,
-    N: ()=>_t1.N1,
-    T: ()=>_t1.T1,
-    a: ()=>_t1.a1
+    v: function() {
+        return _t1.v1;
+    },
+    f: function() {
+        return _t1.f1;
+    },
+    C: function() {
+        return _t1.C1;
+    },
+    I: function() {
+        return _t1.I1;
+    },
+    E: function() {
+        return _t1.E1;
+    },
+    D: function() {
+        return _t1.D1;
+    },
+    M: function() {
+        return _t1.M1;
+    },
+    N: function() {
+        return _t1.N1;
+    },
+    T: function() {
+        return _t1.T1;
+    },
+    a: function() {
+        return _t1.a1;
+    }
 });
 const _t1 = require("./t1");
 //// [t3.ts]
@@ -70,15 +118,35 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    v: ()=>_t1.v1,
-    f: ()=>_t1.f1,
-    C: ()=>_t1.C1,
-    I: ()=>_t1.I1,
-    E: ()=>_t1.E1,
-    D: ()=>_t1.D1,
-    M: ()=>_t1.M1,
-    N: ()=>_t1.N1,
-    T: ()=>_t1.T1,
-    a: ()=>_t1.a1
+    v: function() {
+        return _t1.v1;
+    },
+    f: function() {
+        return _t1.f1;
+    },
+    C: function() {
+        return _t1.C1;
+    },
+    I: function() {
+        return _t1.I1;
+    },
+    E: function() {
+        return _t1.E1;
+    },
+    D: function() {
+        return _t1.D1;
+    },
+    M: function() {
+        return _t1.M1;
+    },
+    N: function() {
+        return _t1.N1;
+    },
+    T: function() {
+        return _t1.T1;
+    },
+    a: function() {
+        return _t1.a1;
+    }
 });
 const _t1 = require("./t1");

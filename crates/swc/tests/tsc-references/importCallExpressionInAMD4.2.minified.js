@@ -16,8 +16,12 @@ define([
             get: all[name]
         });
     }(exports, {
-        B: ()=>B,
-        foo: ()=>foo
+        B: function() {
+            return B;
+        },
+        foo: function() {
+            return foo;
+        }
     });
     class B {
         print() {
@@ -41,7 +45,9 @@ define([
         value: !0
     }), Object.defineProperty(exports, "backup", {
         enumerable: !0,
-        get: ()=>backup
+        get: function() {
+            return backup;
+        }
     });
 });
 //// [2.ts]
@@ -55,7 +61,9 @@ define([
         value: !0
     }), Object.defineProperty(exports, "D", {
         enumerable: !0,
-        get: ()=>D
+        get: function() {
+            return D;
+        }
     });
     class D {
         method() {

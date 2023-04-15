@@ -9,7 +9,9 @@
         value: !0
     }), Object.defineProperty(exports1, "B", {
         enumerable: !0,
-        get: ()=>B
+        get: function() {
+            return B;
+        }
     });
     class B {
         print() {

@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "utilFn", {
     enumerable: true,
-    get: ()=>utilFn
+    get: function() {
+        return utilFn;
+    }
 });
 const _utilFile = require("../core/utils/utilFile");
 (0, _utilFile.test)();

@@ -6,6 +6,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "icons", {
         enumerable: true,
-        get: ()=>_gettingStartedIcons
+        get: function() {
+            return _gettingStartedIcons;
+        }
     });
 });
