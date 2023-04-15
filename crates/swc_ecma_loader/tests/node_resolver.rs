@@ -86,3 +86,22 @@ fn builtin_modules() {
     // Expect
     assert_eq!(resolved, FileName::Custom("node:path".to_string()));
 }
+
+#[test]
+fn browser_overwrite() {
+    inside_directory("/tests/browser_overwrite", || {
+        // Given
+        let node_resolver = NodeModulesResolver::new(TargetEnv::Browser, Default::default(), true);
+
+        // When
+        let resolved = node_resolver
+            .resolve(&FileName::Real(PathBuf::from("jquery")), "jquery")
+            .expect("should resolve");
+
+        // Expect
+        assert_eq!(
+            resolved,
+            FileName::Real(PathBuf::from("node_modules/jquery/browser.js"))
+        );
+    });
+}

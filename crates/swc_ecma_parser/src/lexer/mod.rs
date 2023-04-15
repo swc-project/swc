@@ -283,12 +283,6 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     fn read_token_colon(&mut self) -> LexResult<Token> {
         self.input.bump();
-
-        if self.syntax.fn_bind() && self.input.cur() == Some(':') {
-            self.input.bump();
-            return Ok(tok!("::"));
-        }
-
         Ok(tok!(':'))
     }
 

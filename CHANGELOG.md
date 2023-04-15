@@ -1,4 +1,30 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es)** Allow extra comments after `sourceMappingURL` (#7262) ([219a738](https://github.com/swc-project/swc/commit/219a738a752e44bcbf5681f2f77766f5581439c3))
+
+
+- **(es/helpers)** Do not duplicate property names (#7266) ([30a4e52](https://github.com/swc-project/swc/commit/30a4e52f74e9c2e6f919f41930f79b4a0c3eab76))
+
+
+- **(es/loader)** Fix browser overwrites not applying correctly (#7243) ([beefdd4](https://github.com/swc-project/swc/commit/beefdd459c1bdd96bcd5c83f8dc2e4c4c1be695d))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix crev action (#7272) ([578960d](https://github.com/swc-project/swc/commit/578960d32186f7d5fdf2dc99599aa49a01c5d7a3))
+
+### Refactor
+
+
+
+- **(es/parser)** Remove `::` token as it's not used (#7268) ([635bf81](https://github.com/swc-project/swc/commit/635bf8116bb002d5d737f0e9dfbf5efd3a433e7d))
+
 ## [1.3.50] - 2023-04-13
 
 ### Bug Fixes

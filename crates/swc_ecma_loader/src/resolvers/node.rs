@@ -300,7 +300,7 @@ impl NodeModulesResolver {
                                         .resolve_as_file(&path)
                                         .or_else(|_| self.resolve_as_directory(&path, false))
                                     {
-                                        file
+                                        file.map(|file| file.clean())
                                     } else {
                                         None
                                     }
@@ -316,6 +316,10 @@ impl NodeModulesResolver {
                                             .or_else(|_| self.resolve_as_directory(&path, false))?;
                                         if let Some(file) = file {
                                             let target = file.clean();
+                                            let target = target
+                                                .strip_prefix(current_dir().unwrap_or_default())
+                                                .map(|target| target.to_path_buf())
+                                                .unwrap_or(target);
 
                                             if let Some(source) = source {
                                                 bucket.rewrites.insert(source, target);
@@ -482,13 +486,15 @@ impl Resolve for NodeModulesResolver {
             // Handle path references for the `browser` package config
             if let TargetEnv::Browser = self.target_env {
                 if let FileName::Real(path) = &v {
-                    if let Some(pkg_base) = find_package_root(base) {
+                    if let Some(pkg_base) = find_package_root(path) {
+                        let pkg_base = to_absolute_path(&pkg_base).unwrap();
                         if let Some(item) = BROWSER_CACHE.get(&pkg_base) {
                             let value = item.value();
-                            if value.ignores.contains(path) {
+                            let path = to_absolute_path(path).unwrap();
+                            if value.ignores.contains(&path) {
                                 return Ok(FileName::Custom(path.display().to_string()));
                             }
-                            if let Some(rewrite) = value.rewrites.get(path) {
+                            if let Some(rewrite) = value.rewrites.get(&path) {
                                 return self.wrap(Some(rewrite.to_path_buf()));
                             }
                         }
