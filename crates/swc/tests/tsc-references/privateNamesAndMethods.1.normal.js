@@ -1,8 +1,8 @@
 //// [privateNamesAndMethods.ts]
 class A {
     #foo(a) {}
-    async #bar(a1) {}
-    async *#baz(a2) {
+    async #bar(a) {}
+    async *#baz(a) {
         return 3;
     }
     #_quux;
@@ -21,7 +21,7 @@ class A {
     }
 }
 class B extends A {
-    #foo(a3) {}
+    #foo(a) {}
     constructor(){
         super();
         this.#foo("str");
