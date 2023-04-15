@@ -16,7 +16,7 @@ bench = false
 debug = []
 
 [dependencies]
-bitflags = "1.2.1"
+bitflags = "2.1.0"
 lexical  = "6.1.0"
 serde    = "1.0.127"
 

@@ -7,8 +7,10 @@ fn main() {
     // NOOP
 }
 
-pub struct ListFormat {
-    bits: u32,
+bitflags::bitflags! {
+    pub struct ListFormat: u32 {
+        const None = 0;
+    }
 }
 
 add_bitflags!(
