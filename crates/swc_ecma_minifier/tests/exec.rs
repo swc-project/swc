@@ -10931,3 +10931,21 @@ fn issue_6914_3() {
         false,
     );
 }
+
+#[test]
+fn issue_7274() {
+    run_default_exec_test(
+        r###"
+        if (
+            // incorrect:
+            "😋📋👌".length === 3
+    
+            // correct:
+            // "😋📋👌".length === 6
+        ) {
+        // side effect
+        new Response(123);
+        }
+        "###,
+    );
+}
