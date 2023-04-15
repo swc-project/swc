@@ -10943,9 +10943,10 @@ fn issue_7274() {
             // correct:
             // "😋📋👌".length === 6
         ) {
-        // side effect
-        new Response(123);
+            // side effect
+            new Response(123);
         }
+        console.log('PASS');
         "###,
     );
 }
