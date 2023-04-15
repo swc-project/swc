@@ -5461,9 +5461,30 @@
     "safari": "16.0",
     "samsung": "21.0"
   },
-  "esnext.array-buffer.detached": {},
-  "esnext.array-buffer.transfer": {},
-  "esnext.array-buffer.transfer-to-fixed-length": {},
+  "esnext.array-buffer.detached": {
+    "android": "114",
+    "chrome": "114",
+    "chrome-android": "114",
+    "edge": "114",
+    "electron": "25.0",
+    "opera": "100"
+  },
+  "esnext.array-buffer.transfer": {
+    "android": "114",
+    "chrome": "114",
+    "chrome-android": "114",
+    "edge": "114",
+    "electron": "25.0",
+    "opera": "100"
+  },
+  "esnext.array-buffer.transfer-to-fixed-length": {
+    "android": "114",
+    "chrome": "114",
+    "chrome-android": "114",
+    "edge": "114",
+    "electron": "25.0",
+    "opera": "100"
+  },
   "esnext.async-disposable-stack.constructor": {},
   "esnext.async-iterator.constructor": {},
   "esnext.async-iterator.as-indexed-pairs": {},
@@ -5530,9 +5551,30 @@
   "esnext.iterator.take": {},
   "esnext.iterator.to-array": {},
   "esnext.iterator.to-async": {},
-  "esnext.json.is-raw-json": {},
-  "esnext.json.parse": {},
-  "esnext.json.raw-json": {},
+  "esnext.json.is-raw-json": {
+    "android": "114",
+    "chrome": "114",
+    "chrome-android": "114",
+    "edge": "114",
+    "electron": "25.0",
+    "opera": "100"
+  },
+  "esnext.json.parse": {
+    "android": "114",
+    "chrome": "114",
+    "chrome-android": "114",
+    "edge": "114",
+    "electron": "25.0",
+    "opera": "100"
+  },
+  "esnext.json.raw-json": {
+    "android": "114",
+    "chrome": "114",
+    "chrome-android": "114",
+    "edge": "114",
+    "electron": "25.0",
+    "opera": "100"
+  },
   "esnext.map.delete-all": {},
   "esnext.map.emplace": {},
   "esnext.map.every": {},
@@ -6158,9 +6200,15 @@
     "samsung": "9.0"
   },
   "web.url-search-params.size": {
+    "android": "113",
+    "chrome": "113",
+    "chrome-android": "113",
     "deno": "1.32",
+    "edge": "113",
+    "electron": "25.0",
     "firefox": "112",
     "firefox-android": "112",
-    "node": "19.8.0"
+    "node": "19.8.0",
+    "opera": "99"
   }
 }
