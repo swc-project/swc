@@ -4,7 +4,6 @@ use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::feature::FeatureFlag;
 use swc_ecma_utils::{
     is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, ExprFactory,
     FunctionFactory,
@@ -292,23 +291,7 @@ pub(crate) fn esm_export() -> Function {
     }
 }
 
-pub(crate) fn emit_export_stmts(
-    features: FeatureFlag,
-    exports: Ident,
-    mut prop_list: Vec<ObjPropKeyIdent>,
-) -> Vec<Stmt> {
-    let features = &features;
-    let support_arrow = caniuse!(features.ArrowFunctions);
-    let support_shorthand = caniuse!(features.ShorthandProperties);
-
-    let prop_auto = if support_arrow {
-        prop_arrow
-    } else if support_shorthand {
-        prop_method
-    } else {
-        prop_function
-    };
-
+pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ObjPropKeyIdent>) -> Vec<Stmt> {
     match prop_list.len() {
         0 | 1 => prop_list
             .pop()
@@ -316,7 +299,7 @@ pub(crate) fn emit_export_stmts(
                 object_define_enumerable(
                     exports.as_arg(),
                     quote_str!(obj_prop.span(), obj_prop.key()).as_arg(),
-                    prop_auto((js_word!("get"), DUMMY_SP, obj_prop.2.clone()).into()).into(),
+                    prop_function((js_word!("get"), DUMMY_SP, obj_prop.2.clone()).into()).into(),
                 )
                 .into_stmt()
             })
@@ -325,7 +308,7 @@ pub(crate) fn emit_export_stmts(
         _ => {
             let props = prop_list
                 .into_iter()
-                .map(prop_auto)
+                .map(prop_function)
                 .map(From::from)
                 .collect();
             let obj_lit = ObjectLit {
@@ -412,37 +395,6 @@ impl ObjPropKeyIdent {
     pub fn into_expr(self) -> Expr {
         self.2.into()
     }
-}
-
-/// ```javascript
-/// {
-///     key: () => expr,
-/// }
-/// ```
-pub(crate) fn prop_arrow(prop: ObjPropKeyIdent) -> Prop {
-    let key = prop_name(prop.key(), prop.span()).into();
-
-    KeyValueProp {
-        key,
-        value: Box::new(prop.into_expr().into_lazy_arrow(Default::default()).into()),
-    }
-    .into()
-}
-
-/// ```javascript
-/// {
-///     key() {
-///         return expr;
-///     },
-/// }
-/// ```
-pub(crate) fn prop_method(prop: ObjPropKeyIdent) -> Prop {
-    let key = prop_name(prop.key(), prop.span()).into();
-
-    prop.into_expr()
-        .into_lazy_fn(Default::default())
-        .into_method_prop(key)
-        .into()
 }
 
 /// ```javascript

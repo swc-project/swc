@@ -16,8 +16,12 @@
         });
     }
     _export(exports, {
-        bar: ()=>bar,
-        "default exports": ()=>foo
+        bar: function() {
+            return bar;
+        },
+        "default exports": function() {
+            return foo;
+        }
     });
     var foo, bar;
 });

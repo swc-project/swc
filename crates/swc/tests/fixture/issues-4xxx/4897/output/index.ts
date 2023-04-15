@@ -10,8 +10,12 @@ define([
         });
     }
     _export(exports, {
-        Foo: ()=>Foo,
-        boo: ()=>boo
+        Foo: function() {
+            return Foo;
+        },
+        boo: function() {
+            return boo;
+        }
     });
     function boo() {
         return Foo.Bar * 2;

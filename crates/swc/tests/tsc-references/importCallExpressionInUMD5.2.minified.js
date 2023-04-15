@@ -12,7 +12,9 @@
         value: !0
     }), Object.defineProperty(exports1, "foo", {
         enumerable: !0,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     });
 });
 //// [1.ts]

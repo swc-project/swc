@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "default", {
     enumerable: true,
-    get: ()=>_class
+    get: function() {
+        return _class;
+    }
 });
 const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 function test(constructor) {

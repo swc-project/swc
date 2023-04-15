@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "some exports", {
     enumerable: true,
-    get: ()=>_foo["some exports"]
+    get: function() {
+        return _foo["some exports"];
+    }
 });
 const _foo = require("foo");

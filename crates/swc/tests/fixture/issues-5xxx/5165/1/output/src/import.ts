@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "test", {
     enumerable: true,
-    get: ()=>test
+    get: function() {
+        return test;
+    }
 });
 const test = 'test';

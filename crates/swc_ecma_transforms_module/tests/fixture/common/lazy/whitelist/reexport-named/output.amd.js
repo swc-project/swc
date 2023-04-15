@@ -15,7 +15,11 @@ define([
         });
     }
     _export(exports, {
-        named1: ()=>_white.named1,
-        named2: ()=>_black.named2
+        named1: function() {
+            return _white.named1;
+        },
+        named2: function() {
+            return _black.named2;
+        }
     });
 });

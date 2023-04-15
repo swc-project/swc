@@ -12,7 +12,9 @@
         value: !0
     }), Object.defineProperty(exports1, "foo", {
         enumerable: !0,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     });
 });
 //// [1.ts]
@@ -27,7 +29,9 @@
         value: !0
     }), Object.defineProperty(exports1, "p2", {
         enumerable: !0,
-        get: ()=>p2
+        get: function() {
+            return p2;
+        }
     }), import("./0"), import("./0").then((zero)=>zero.foo());
     var p2 = import("./0");
 });

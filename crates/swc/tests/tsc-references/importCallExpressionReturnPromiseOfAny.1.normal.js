@@ -5,7 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "C", {
     enumerable: true,
-    get: ()=>C
+    get: function() {
+        return C;
+    }
 });
 class C {
 }

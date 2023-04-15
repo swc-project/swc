@@ -9,7 +9,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    foo: ()=>foo,
-    bar: ()=>bar
+    foo: function() {
+        return foo;
+    },
+    bar: function() {
+        return bar;
+    }
 });
 const { foo , ...bar } = {};

@@ -10,8 +10,12 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    a: ()=>a,
-    b: ()=>b
+    a: function() {
+        return a;
+    },
+    b: function() {
+        return b;
+    }
 });
 const a = 1, b = 2;
 //// [1.ts]
@@ -24,9 +28,15 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    a: ()=>_0.a,
-    b: ()=>_0.b,
-    ns: ()=>_0
+    a: function() {
+        return _0.a;
+    },
+    b: function() {
+        return _0.b;
+    },
+    ns: function() {
+        return _0;
+    }
 });
 const _export_star = require("@swc/helpers/_/_export_star"), _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard"), _0 = _interop_require_wildcard._(_export_star._(require("./0"), exports));
 //// [2.ts]
@@ -39,9 +49,17 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    a: ()=>_0.a,
-    b: ()=>_0.b,
-    c: ()=>_0.a,
-    d: ()=>_0.b
+    a: function() {
+        return _0.a;
+    },
+    b: function() {
+        return _0.b;
+    },
+    c: function() {
+        return _0.a;
+    },
+    d: function() {
+        return _0.b;
+    }
 });
 const _0 = require("./0");

@@ -11,7 +11,9 @@ define([
         value: !0
     }), Object.defineProperty(exports, "foo", {
         enumerable: !0,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     });
 });
 //// [1.ts]
@@ -29,8 +31,12 @@ define([
             get: all[name]
         });
     }(exports, {
-        p2: ()=>p2,
-        D: ()=>D
+        p2: function() {
+            return p2;
+        },
+        D: function() {
+            return D;
+        }
     }), new Promise((resolve, reject)=>require([
             "./0"
         ], (m)=>resolve(_interop_require_wildcard._(m)), reject)), new Promise((resolve, reject)=>require([

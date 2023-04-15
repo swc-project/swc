@@ -11,7 +11,9 @@ define([
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>Foo
+        get: function() {
+            return Foo;
+        }
     });
     _b = /*#__PURE__*/ _interop_require_default._(_b);
     class Foo {
@@ -32,7 +34,9 @@ define([
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     });
     _a = /*#__PURE__*/ _interop_require_default._(_a);
     function foo() {

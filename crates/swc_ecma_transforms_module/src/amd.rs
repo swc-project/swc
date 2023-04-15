@@ -51,7 +51,6 @@ where
         config,
         unresolved_mark,
         resolver: Resolver::Default,
-        available_features,
         comments,
 
         support_arrow: caniuse!(available_features.ArrowFunctions),
@@ -89,7 +88,6 @@ where
         resolver: Resolver::Real { base, resolver },
         comments,
 
-        available_features,
         support_arrow: caniuse!(available_features.ArrowFunctions),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
@@ -115,7 +113,6 @@ where
     resolver: Resolver,
     comments: Option<C>,
 
-    available_features: FeatureFlag,
     support_arrow: bool,
     const_var_kind: VarDeclKind,
 
@@ -423,10 +420,9 @@ where
         if !export_obj_prop_list.is_empty() && !is_export_assign {
             export_obj_prop_list.sort_by_key(|prop| prop.span());
 
-            let features = self.available_features;
             let exports = self.exports();
 
-            export_stmts = emit_export_stmts(features, exports, export_obj_prop_list);
+            export_stmts = emit_export_stmts(exports, export_obj_prop_list);
         }
 
         export_stmts.into_iter().chain(stmts)

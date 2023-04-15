@@ -12,8 +12,12 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    x: ()=>x,
-    y: ()=>y
+    x: function() {
+        return x;
+    },
+    y: function() {
+        return y;
+    }
 });
 var x = "x";
 var y = "y";
@@ -29,8 +33,12 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    y: ()=>_t1.x,
-    x: ()=>_t1.y
+    y: function() {
+        return _t1.x;
+    },
+    x: function() {
+        return _t1.y;
+    }
 });
 const _t1 = require("./t1");
 //// [t3.ts]
@@ -45,7 +53,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    y: ()=>_t1.x,
-    x: ()=>_t1.y
+    y: function() {
+        return _t1.x;
+    },
+    x: function() {
+        return _t1.y;
+    }
 });
 const _t1 = require("./t1");

@@ -6,9 +6,15 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    x: ()=>x,
-    y: ()=>y,
-    default: ()=>_default
+    x: function() {
+        return x;
+    },
+    y: function() {
+        return y;
+    },
+    default: function() {
+        return _default;
+    }
 });
 const _foo = require("foo");
 const _bar = require("bar");

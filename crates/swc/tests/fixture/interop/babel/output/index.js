@@ -9,9 +9,15 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    x: ()=>x,
-    y: ()=>y,
-    default: ()=>_default
+    x: function() {
+        return x;
+    },
+    y: function() {
+        return y;
+    },
+    default: function() {
+        return _default;
+    }
 });
 const _interop_require_default = require("@swc/helpers/_/_interop_require_default");
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");

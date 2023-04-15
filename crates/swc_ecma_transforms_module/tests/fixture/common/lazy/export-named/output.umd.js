@@ -12,6 +12,8 @@
     });
     Object.defineProperty(exports, "named1", {
         enumerable: true,
-        get: ()=>_external.named1
+        get: function() {
+            return _external.named1;
+        }
     });
 });

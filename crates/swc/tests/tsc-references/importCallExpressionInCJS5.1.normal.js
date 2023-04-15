@@ -12,8 +12,12 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    B: ()=>B,
-    foo: ()=>foo
+    B: function() {
+        return B;
+    },
+    foo: function() {
+        return foo;
+    }
 });
 class B {
     print() {
@@ -30,7 +34,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "backup", {
     enumerable: true,
-    get: ()=>backup
+    get: function() {
+        return backup;
+    }
 });
 function backup() {
     return "backup";
@@ -42,7 +48,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "D", {
     enumerable: true,
-    get: ()=>D
+    get: function() {
+        return D;
+    }
 });
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 class C {

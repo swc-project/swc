@@ -9,7 +9,9 @@ define([
     });
     Object.defineProperty(exports, "whatever", {
         enumerable: true,
-        get: ()=>whatever
+        get: function() {
+            return whatever;
+        }
     });
     _export_star(_anothermodule, exports);
     function whatever(notExportName) {

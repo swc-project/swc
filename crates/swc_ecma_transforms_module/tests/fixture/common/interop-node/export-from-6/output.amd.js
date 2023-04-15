@@ -14,7 +14,11 @@ define([
         });
     }
     _export(exports, {
-        bar: ()=>_foo.bar,
-        default: ()=>_foo.foo
+        bar: function() {
+            return _foo.bar;
+        },
+        default: function() {
+            return _foo.foo;
+        }
     });
 });

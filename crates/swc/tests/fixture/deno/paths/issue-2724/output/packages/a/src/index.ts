@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "displayA", {
     enumerable: true,
-    get: ()=>displayA
+    get: function() {
+        return displayA;
+    }
 });
 function displayA() {
     return "Display A";

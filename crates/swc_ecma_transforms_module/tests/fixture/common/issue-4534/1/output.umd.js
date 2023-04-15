@@ -17,8 +17,12 @@
         });
     }
     _export(exports, {
-        A: ()=>_A,
-        B: ()=>_A
+        A: function() {
+            return _A;
+        },
+        B: function() {
+            return _A;
+        }
     });
     _A = /*#__PURE__*/ _interop_require_wildcard(_A);
 });

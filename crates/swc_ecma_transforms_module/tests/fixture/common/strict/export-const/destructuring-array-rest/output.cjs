@@ -9,8 +9,14 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    foo: ()=>foo,
-    bar: ()=>bar,
-    baz: ()=>baz
+    foo: function() {
+        return foo;
+    },
+    bar: function() {
+        return bar;
+    },
+    baz: function() {
+        return baz;
+    }
 });
 const [foo, bar, ...baz] = [];

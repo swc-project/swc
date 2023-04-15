@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "whatever", {
     enumerable: true,
-    get: ()=>whatever
+    get: function() {
+        return whatever;
+    }
 });
 _export_star(require("another-module"), exports);
 function whatever(notExportName) {

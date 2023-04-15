@@ -16,11 +16,21 @@ define([
         });
     }
     _export(exports, {
-        fn: ()=>fn,
-        cl1: ()=>cl1,
-        obj: ()=>obj,
-        cl2: ()=>cl2,
-        l: ()=>l
+        fn: function() {
+            return fn;
+        },
+        cl1: function() {
+            return cl1;
+        },
+        obj: function() {
+            return obj;
+        },
+        cl2: function() {
+            return cl2;
+        },
+        l: function() {
+            return l;
+        }
     });
     function fn() {
         return _fn.apply(this, arguments);

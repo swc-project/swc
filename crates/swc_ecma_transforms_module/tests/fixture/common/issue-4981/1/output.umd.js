@@ -16,9 +16,15 @@
         });
     }
     _export(exports, {
-        a: ()=>a,
-        b: ()=>b,
-        c: ()=>c
+        a: function() {
+            return a;
+        },
+        b: function() {
+            return b;
+        },
+        c: function() {
+            return c;
+        }
     });
     var a = 1, b = 2;
     var c = 3;

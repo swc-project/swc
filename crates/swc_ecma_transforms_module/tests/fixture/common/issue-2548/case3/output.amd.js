@@ -14,9 +14,15 @@ define([
         });
     }
     _export(exports, {
-        X: ()=>_Z.default,
-        X2: ()=>_Z.X2,
-        Y: ()=>_Z.Y
+        X: function() {
+            return _Z.default;
+        },
+        X2: function() {
+            return _Z.X2;
+        },
+        Y: function() {
+            return _Z.Y;
+        }
     });
     _Z = /*#__PURE__*/ _interop_require_wildcard(_export_star(_Z, exports));
 });

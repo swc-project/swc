@@ -12,7 +12,9 @@
     });
     Object.defineProperty(exports, "fn", {
         enumerable: true,
-        get: ()=>fn
+        get: function() {
+            return fn;
+        }
     });
     const fn = ({ a =new _something.Foo()  })=>a;
 });

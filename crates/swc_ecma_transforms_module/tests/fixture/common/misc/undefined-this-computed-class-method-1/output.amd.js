@@ -8,7 +8,9 @@ define([
     });
     Object.defineProperty(exports, "C", {
         enumerable: true,
-        get: ()=>C
+        get: function() {
+            return C;
+        }
     });
     class C {
         [(void 0).name]() {}

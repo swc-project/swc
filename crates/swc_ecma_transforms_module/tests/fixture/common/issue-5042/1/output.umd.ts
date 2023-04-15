@@ -17,8 +17,12 @@
         });
     }
     _export(exports, {
-        $: ()=>_jquery,
-        jquery: ()=>_jquery
+        $: function() {
+            return _jquery;
+        },
+        jquery: function() {
+            return _jquery;
+        }
     });
     _jquery(".hello");
 });

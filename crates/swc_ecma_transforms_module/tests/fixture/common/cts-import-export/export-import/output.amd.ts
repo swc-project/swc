@@ -9,6 +9,8 @@ define([
     });
     Object.defineProperty(exports, "foo", {
         enumerable: true,
-        get: ()=>_foo
+        get: function() {
+            return _foo;
+        }
     });
 });

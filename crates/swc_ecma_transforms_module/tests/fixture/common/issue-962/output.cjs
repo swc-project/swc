@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "default", {
     enumerable: true,
-    get: ()=>_default
+    get: function() {
+        return _default;
+    }
 });
 const _root = /*#__PURE__*/ _interop_require_default(require("./_root.js"));
 const _stubFalse = /*#__PURE__*/ _interop_require_default(require("./stubFalse.js"));

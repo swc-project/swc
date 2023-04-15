@@ -9,7 +9,9 @@ define([
     });
     Object.defineProperty(exports, "flakySuite", {
         enumerable: true,
-        get: ()=>flakySuite
+        get: function() {
+            return flakySuite;
+        }
     });
     _testUtils = /*#__PURE__*/ _interop_require_wildcard(_testUtils);
     var flakySuite = _testUtils.flakySuite;

@@ -10,7 +10,9 @@ define([
         value: !0
     }), Object.defineProperty(exports, "default", {
         enumerable: !0,
-        get: ()=>Foo
+        get: function() {
+            return Foo;
+        }
     }), _b = _interop_require_default._(_b);
     class Foo {
     }
@@ -32,7 +34,9 @@ define([
         value: !0
     }), Object.defineProperty(exports, "default", {
         enumerable: !0,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     }), _a = _interop_require_default._(_a), new Promise((resolve, reject)=>require([
             "./a"
         ], (m)=>resolve(_interop_require_wildcard._(m)), reject));

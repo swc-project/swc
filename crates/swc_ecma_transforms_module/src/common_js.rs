@@ -368,7 +368,7 @@ where
                 }
             }
 
-            export_stmts.extend(emit_export_stmts(features, exports, export_obj_prop_list));
+            export_stmts.extend(emit_export_stmts(exports, export_obj_prop_list));
         }
 
         export_stmts.extend(lexer_reexport);

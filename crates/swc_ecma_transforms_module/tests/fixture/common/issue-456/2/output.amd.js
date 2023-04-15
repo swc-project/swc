@@ -6,7 +6,9 @@ define([
     "use strict";
     Object.defineProperty(exports, "foo", {
         enumerable: true,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     });
     const foo = function() {
         var e = 1;

@@ -12,6 +12,8 @@
     });
     Object.defineProperty(exports, "bar", {
         enumerable: true,
-        get: ()=>_foo.foo
+        get: function() {
+            return _foo.foo;
+        }
     });
 });
