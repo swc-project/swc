@@ -1,5 +1,5 @@
 //// [index1.js]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var Cls = function Cls() {
     "use strict";
     _class_call_check(this, Cls), this.x = 12;
@@ -7,7 +7,7 @@ var Cls = function Cls() {
 Cls.y = "ok";
 export default Cls;
 //// [index2.js]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C = function C() {
     "use strict";
     _class_call_check(this, C);

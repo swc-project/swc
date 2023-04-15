@@ -1,5 +1,5 @@
 //// [computedPropertyNames47_ES5.ts]
-import _define_property from "@swc/helpers/src/_define_property.mjs";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
 var E1;
 (function(E1) {
     E1[E1["x"] = 0] = "x";

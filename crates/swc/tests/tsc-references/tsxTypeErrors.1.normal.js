@@ -1,6 +1,6 @@
 //// [tsxTypeErrors.tsx]
 // A built-in element (OK)
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var a1 = /*#__PURE__*/ React.createElement("div", {
     id: "foo"
 });

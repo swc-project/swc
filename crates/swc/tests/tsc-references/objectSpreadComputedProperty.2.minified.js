@@ -1,4 +1,4 @@
 //// [objectSpreadComputedProperty.ts]
-import "@swc/helpers/src/_define_property.mjs";
-import "@swc/helpers/src/_object_spread.mjs";
-import "@swc/helpers/src/_object_spread_props.mjs";
+import "@swc/helpers/_/_define_property";
+import "@swc/helpers/_/_object_spread";
+import "@swc/helpers/_/_object_spread_props";

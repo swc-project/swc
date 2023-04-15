@@ -1,6 +1,6 @@
 class Foo {
 }
-_defineProperty(Foo, "bar", 42);
+_define_property(Foo, "bar", 42);
 (()=>{
     Foo.foo = Foo.bar;
 })();

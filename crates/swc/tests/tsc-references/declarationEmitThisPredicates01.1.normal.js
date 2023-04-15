@@ -17,27 +17,27 @@ _export(exports, {
         return D;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
-var _inherits = require("@swc/helpers/lib/_inherits.js").default;
-var _instanceof = require("@swc/helpers/lib/_instanceof.js").default;
-var _createSuper = require("@swc/helpers/lib/_create_super.js").default;
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
+var _inherits = require("@swc/helpers/_/_inherits");
+var _instanceof = require("@swc/helpers/_/_instanceof");
+var _create_super = require("@swc/helpers/_/_create_super");
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
+        _class_call_check._(this, C);
     }
     var _proto = C.prototype;
     _proto.m = function m() {
-        return _instanceof(this, D);
+        return _instanceof._(this, D);
     };
     return C;
 }();
 var D = /*#__PURE__*/ function(C) {
     "use strict";
-    _inherits(D, C);
-    var _super = _createSuper(D);
+    _inherits._(D, C);
+    var _super = _create_super._(D);
     function D() {
-        _classCallCheck(this, D);
+        _class_call_check._(this, D);
         return _super.apply(this, arguments);
     }
     return D;

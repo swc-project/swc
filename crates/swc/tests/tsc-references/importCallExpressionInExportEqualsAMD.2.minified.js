@@ -7,11 +7,11 @@ define([
 //// [index.ts]
 define([
     "require",
-    "@swc/helpers/src/_interop_require_wildcard.mjs"
-], function(require, _interopRequireWildcard) {
-    return _interopRequireWildcard = _interopRequireWildcard.default, async function() {
+    "@swc/helpers/_/_interop_require_wildcard"
+], function(require, _interop_require_wildcard) {
+    return async function() {
         await new Promise((resolve, reject)=>require([
                 "./something"
-            ], (m)=>resolve(_interopRequireWildcard(m)), reject));
+            ], (m)=>resolve(_interop_require_wildcard._(m)), reject));
     };
 });

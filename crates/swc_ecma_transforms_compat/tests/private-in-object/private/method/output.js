@@ -2,10 +2,10 @@ var _foo = /*#__PURE__*/ new WeakSet();
 let Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
-        _classCallCheck(this, Foo);
-        _classPrivateMethodInit(this, _foo);
+        _class_call_check(this, Foo);
+        _class_private_method_init(this, _foo);
     }
-    _createClass(Foo, [
+    _create_class(Foo, [
         {
             key: "test",
             value: function test(other) {

@@ -1,5 +1,5 @@
 //// [restElementWithAssignmentPattern4.ts]
-import _to_array from "@swc/helpers/src/_to_array.mjs";
+import { _ as _to_array } from "@swc/helpers/_/_to_array";
 var a, b;
 var tuple = [
     "",

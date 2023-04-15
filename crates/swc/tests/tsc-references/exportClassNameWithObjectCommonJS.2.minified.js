@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
         return Object;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, Object = function Object() {
+var _class_call_check = require("@swc/helpers/_/_class_call_check"), Object = function Object() {
     "use strict";
-    _classCallCheck(this, Object);
+    _class_call_check._(this, Object);
 };

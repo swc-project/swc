@@ -5,14 +5,14 @@
         "./Bar"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.bar);
-})(this, function(exports, _bar) {
+})(this, function(exports, _Bar) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     const makeX = (props)=>{
-        const _bar1 = props.bar;
-        const { list  } = _bar1;
-        return list.map(()=>_bar.bar);
+        const _bar = props.bar;
+        const { list  } = _bar;
+        return list.map(()=>_Bar.bar);
     };
 });

@@ -3,9 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var Thing = function Thing() {
-    _classCallCheck(this, Thing);
+    _class_call_check._(this, Thing);
 };
 module.exports = {
     Thing: Thing

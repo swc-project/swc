@@ -1,5 +1,5 @@
 //// [destructuringObjectBindingPatternAndAssignment7.ts]
-import _define_property from "@swc/helpers/src/_define_property.mjs";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
 var K;
 (function(K) {
     K["a"] = "a";

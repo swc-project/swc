@@ -1,5 +1,5 @@
 //// [computedPropertyNamesContextualType7_ES5.ts]
-import _define_property from "@swc/helpers/src/_define_property.mjs";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
 var _obj;
 foo((_obj = {
     0: function() {}

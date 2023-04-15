@@ -1,5 +1,5 @@
 //// [callWithSpread3.ts]
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 fs2.apply(void 0, [
     "a"
 ].concat(_to_consumable_array(s2))), fs2.apply(void 0, [

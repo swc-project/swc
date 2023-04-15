@@ -1,10 +1,10 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
-import _define_property from "@swc/helpers/src/_define_property.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _create_class } from "@swc/helpers/_/_create_class";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 var Foo = function Foo(v) {
     "use strict";
     _class_call_check(this, Foo);

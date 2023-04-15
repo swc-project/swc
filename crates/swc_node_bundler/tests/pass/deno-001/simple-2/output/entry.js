@@ -1,4 +1,4 @@
-function _defineProperty(obj, key, value) {
+function _define_property(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -14,12 +14,12 @@ function _defineProperty(obj, key, value) {
 function deferred() {}
 class MuxAsyncIterator {
     constructor(){
-        _defineProperty(this, "signal", deferred());
+        _define_property(this, "signal", deferred());
     }
 }
 class ServerRequest {
     constructor(){
-        _defineProperty(this, "done", deferred());
+        _define_property(this, "done", deferred());
     }
 }
 console.log(ServerRequest);

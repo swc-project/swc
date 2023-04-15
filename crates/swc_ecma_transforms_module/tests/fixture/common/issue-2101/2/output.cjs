@@ -7,4 +7,4 @@ Object.defineProperty(exports, "render", {
     get: ()=>_customRender.customRender
 });
 const _customRender = require("./customRender");
-_exportStar(require("@testing-library/react"), exports);
+_export_star(require("@testing-library/react"), exports);

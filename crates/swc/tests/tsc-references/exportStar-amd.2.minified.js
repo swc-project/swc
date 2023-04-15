@@ -79,25 +79,25 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_export_star.mjs",
+    "@swc/helpers/_/_export_star",
     "./t1",
     "./t2",
     "./t3"
-], function(require, exports, _exportStar, _t1, _t2, _t3) {
+], function(require, exports, _export_star, _t1, _t2, _t3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), (_exportStar = _exportStar.default)(_t1, exports), _exportStar(_t2, exports), _exportStar(_t3, exports);
+    }), _export_star._(_t1, exports), _export_star._(_t2, exports), _export_star._(_t3, exports);
 });
 //// [main.ts]
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs",
+    "@swc/helpers/_/_interop_require_wildcard",
     "./t4"
-], function(require, exports, _interopRequireWildcard, _t4) {
+], function(require, exports, _interop_require_wildcard, _t4) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), (_t4 = (_interopRequireWildcard = _interopRequireWildcard.default)(_t4)).default, _t4.x, _t4.y, _t4.z, _t4.foo;
+    }), (_t4 = _interop_require_wildcard._(_t4)).default, _t4.x, _t4.y, _t4.z, _t4.foo;
 });

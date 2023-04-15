@@ -10,7 +10,7 @@
         "./path/to/SDUs"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.ss, global.st, global.sc, global.s, global.ptus, global.sdus);
-})(this, function(exports, _ss, _st, _sc, _s, _ptus, _sdus) {
+})(this, function(exports, _SS, _ST, _SC, _S, _PTUs, _SDUs) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -24,26 +24,26 @@
     _export(exports, {
         SETs: ()=>SETs,
         SI: ()=>SI,
-        SSERT: ()=>_st.S_E_R_T,
-        ILIAN: ()=>_st.ILIAN,
-        IWI: ()=>_st.IWI,
-        SM: ()=>_st.SM,
-        VP: ()=>_st.VP,
-        SC: ()=>_sc.SC,
-        cSEP: ()=>_s.cSEP,
-        iCSEPFT: ()=>_s.iCSEPFT,
-        SASC: ()=>_s.SASC,
+        SSERT: ()=>_ST.S_E_R_T,
+        ILIAN: ()=>_ST.ILIAN,
+        IWI: ()=>_ST.IWI,
+        SM: ()=>_ST.SM,
+        VP: ()=>_ST.VP,
+        SC: ()=>_SC.SC,
+        cSEP: ()=>_S.cSEP,
+        iCSEPFT: ()=>_S.iCSEPFT,
+        SASC: ()=>_S.SASC,
         us: ()=>us,
         C: ()=>C
     });
     const SETs = {
-        [_st.S_E_T]: _st.S_E_T as typeof SSET
+        [_ST.S_E_T]: _ST.S_E_T as typeof SSET
     };
     const SI = {
-        [SETs[_st.S_E_T]]: _ss.SI
+        [SETs[_ST.S_E_T]]: _SS.SI
     };
     const iCSP = async ()=>{
-        return Promise.resolve(_s.cSP);
+        return Promise.resolve(_S.cSP);
     };
     p.eE({
         i: "s",
@@ -54,23 +54,23 @@
     const us = {
         e: {
             p: {
-                gTFNDP: _ptus.gTFNDP,
-                gTFPP: _ptus.gTFPP,
-                vT: _ptus.vT
+                gTFNDP: _PTUs.gTFNDP,
+                gTFPP: _PTUs.gTFPP,
+                vT: _PTUs.vT
             }
         },
         ds: {
-            D_C_E: _sdus.D_C_E,
-            cDC: _sdus.cDC,
-            cIRTI: _sdus.cIRTI,
-            CPC: _sdus.CPC,
-            rCW: _sdus.rCW,
-            SDC: _sdus.SDC,
-            WL: _sdus.WL,
-            TS: _sdus.TS
+            D_C_E: _SDUs.D_C_E,
+            cDC: _SDUs.cDC,
+            cIRTI: _SDUs.cIRTI,
+            CPC: _SDUs.CPC,
+            rCW: _SDUs.rCW,
+            SDC: _SDUs.SDC,
+            WL: _SDUs.WL,
+            TS: _SDUs.TS
         }
     };
     const C = {
-        ..._ptus.C
+        ..._PTUs.C
     };
 });

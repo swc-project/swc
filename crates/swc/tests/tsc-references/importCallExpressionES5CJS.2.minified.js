@@ -28,24 +28,24 @@ Object.defineProperty(exports, "__esModule", {
         return D;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _class_call_check = require("@swc/helpers/_/_class_call_check"), _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 Promise.resolve().then(function() {
-    return _interopRequireWildcard(require("./0"));
+    return _interop_require_wildcard._(require("./0"));
 }), Promise.resolve().then(function() {
-    return _interopRequireWildcard(require("./0"));
+    return _interop_require_wildcard._(require("./0"));
 }).then(function(zero) {
     return zero.foo();
 });
 var p2 = Promise.resolve().then(function() {
-    return _interopRequireWildcard(require("./0"));
+    return _interop_require_wildcard._(require("./0"));
 }), D = function() {
     "use strict";
     function D() {
-        _classCallCheck(this, D);
+        _class_call_check._(this, D);
     }
     return D.prototype.method = function() {
         Promise.resolve().then(function() {
-            return _interopRequireWildcard(require("./0"));
+            return _interop_require_wildcard._(require("./0"));
         });
     }, D;
 }();

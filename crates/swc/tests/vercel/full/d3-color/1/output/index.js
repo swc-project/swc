@@ -1,4 +1,4 @@
-import t from "@swc/helpers/src/_instanceof.mjs";
+import { _ as t } from "@swc/helpers/_/_instanceof";
 import i, { extend as h } from "./define.js";
 import { Color as e, rgbConvert as s, Rgb as r, darker as n, brighter as o } from "./color.js";
 import { deg2rad as a, rad2deg as u } from "./math.js";

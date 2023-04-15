@@ -247,7 +247,7 @@ impl VisitMut for TemplateLiteral {
                     is_generator: false,
                     params: vec![],
                     body: {
-                        // const data = _taggedTemplateLiteral(["first", "second"]);
+                        // const data = _tagged_template_literal(["first", "second"]);
                         let data_decl = VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Const,
@@ -261,10 +261,10 @@ impl VisitMut for TemplateLiteral {
                                     callee: if self.c.mutable_template {
                                         helper!(
                                             tagged_template_literal_loose,
-                                            "taggedTemplateLiteralLoose"
+                                            "tagged_template_literal_loose"
                                         )
                                     } else {
-                                        helper!(tagged_template_literal, "taggedTemplateLiteral")
+                                        helper!(tagged_template_literal, "tagged_template_literal")
                                     },
                                     args: {
                                         let has_escape =

@@ -1,4 +1,4 @@
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 import { jsx as c } from "react/jsx-runtime";
 import i from "react-markdown";
 var o = function(r) {

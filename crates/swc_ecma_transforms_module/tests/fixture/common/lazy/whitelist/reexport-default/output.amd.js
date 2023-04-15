@@ -11,5 +11,5 @@ define([
         enumerable: true,
         get: ()=>_white.default
     });
-    _white = /*#__PURE__*/ _interopRequireDefault(_white);
+    _white = /*#__PURE__*/ _interop_require_default(_white);
 });

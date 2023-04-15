@@ -16,7 +16,7 @@ _export(exports, {
     default: ()=>_default
 });
 require(".");
-const _styled = /*#__PURE__*/ _interopRequireDefault(require("@emotion/styled"));
+const _styled = /*#__PURE__*/ _interop_require_default(require("@emotion/styled"));
 const _breakpoints = require("@eduzz/houston-tokens/variables/breakpoints");
 const _css = require("@emotion/css");
 interface IStyledProp {

@@ -13,10 +13,10 @@ require("./a-ext").A;
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
 exports.B = function _class() {
     "use strict";
-    _classCallCheck(this, _class), this.x = 1;
+    _class_call_check._(this, _class), this.x = 1;
 };
 //// [b.js]
 "use strict";
@@ -63,9 +63,9 @@ Object.defineProperty(exports, "__esModule", {
         return E;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, E = function E() {
+var _class_call_check = require("@swc/helpers/_/_class_call_check"), E = function E() {
     "use strict";
-    _classCallCheck(this, E), this.x = 1;
+    _class_call_check._(this, E), this.x = 1;
 };
 //// [e.js]
 "use strict";
@@ -78,4 +78,4 @@ require("./e-ext").E;
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), require("@swc/helpers/lib/_class_call_check.js").default;
+}), require("@swc/helpers/_/_class_call_check");

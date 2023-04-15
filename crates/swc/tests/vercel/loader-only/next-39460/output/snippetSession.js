@@ -1,12 +1,12 @@
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
-import _type_of from "@swc/helpers/src/_type_of.mjs";
+ *--------------------------------------------------------------------------------------------*/ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _create_class } from "@swc/helpers/_/_create_class";
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
+import { _ as _type_of } from "@swc/helpers/_/_type_of";
 import { groupBy } from "../../../base/common/arrays.js";
 import { dispose } from "../../../base/common/lifecycle.js";
 import { getLeadingWhitespace } from "../../../base/common/strings.js";

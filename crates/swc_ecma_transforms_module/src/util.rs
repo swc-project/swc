@@ -1,4 +1,3 @@
-use inflector::Inflector;
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
@@ -117,17 +116,22 @@ impl Default for Lazy {
 }
 
 pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
-    if !src.contains('/') {
-        return format!("_{}", src.to_camel_case()).into();
-    }
-
+    let src = src.split('/').last().unwrap();
     let src = src
-        .starts_with("@swc/helpers/")
-        .then(|| src.strip_suffix(".mjs"))
-        .flatten()
+        .strip_suffix(".js")
+        .or_else(|| src.strip_suffix(".mjs"))
         .unwrap_or(src);
 
-    format!("_{}", src.split('/').last().unwrap().to_camel_case()).into()
+    let id = match Ident::verify_symbol(src) {
+        Ok(_) => src.into(),
+        Err(err) => err,
+    };
+
+    if !id.starts_with('_') {
+        format!("_{}", id).into()
+    } else {
+        id.into()
+    }
 }
 
 /// Creates

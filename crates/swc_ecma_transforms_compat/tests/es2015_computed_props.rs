@@ -21,9 +21,9 @@ test!(
 const b = {[a]: 1}
 export const c = {[a]: 1}
 ",
-    "const b = _defineProperty({
+    "const b = _define_property({
 }, a, 1);
-export const c = _defineProperty({
+export const c = _define_property({
 }, a, 1);"
 );
 
@@ -37,7 +37,7 @@ const b = {1n: 1, [x]: 'x', 2n: 2}
     "var _obj;
 const b = (_obj = {
     1n: 1
-}, _defineProperty(_obj, x, 'x'), _defineProperty(_obj, 2n, 2), _obj);"
+}, _define_property(_obj, x, 'x'), _define_property(_obj, 2n, 2), _obj);"
 );
 
 test!(
@@ -74,7 +74,7 @@ var obj = ( _obj = {
 }, _mutatorMap["test"] = _mutatorMap["test"] || {
 }, _mutatorMap["test"].set = function(x) {
     console.log(x);
-}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);"#
+}, _define_enumerable_properties(_obj, _mutatorMap), _obj);"#
 );
 
 test!(
@@ -92,7 +92,7 @@ const obj = (
     _obj = {},
     _mutatorMap[1] = _mutatorMap[1] || {},
     _mutatorMap[1].get = function() {},
-    _defineEnumerableProperties(_obj, _mutatorMap), 
+    _define_enumerable_properties(_obj, _mutatorMap), 
     _obj
 );
 "
@@ -166,7 +166,7 @@ const obj = {
         _mutatorMap[1].get = function () {
             return 42;
         },
-        _defineEnumerableProperties(_obj, _mutatorMap),
+        _define_enumerable_properties(_obj, _mutatorMap),
         _obj
     );
     return obj2;
@@ -182,7 +182,7 @@ test!(
     r#"foo({
   [bar]: "foobar"
 });"#,
-    r#"foo(_defineProperty({}, bar, "foobar"));
+    r#"foo(_define_property({}, bar, "foobar"));
 "#
 );
 
@@ -193,7 +193,7 @@ test!(
     r#"foo = {
   [bar]: "foobar"
 };"#,
-    r#"foo = _defineProperty({}, bar, "foobar");"#
+    r#"foo = _define_property({}, bar, "foobar");"#
 );
 
 test!(
@@ -210,9 +210,9 @@ test!(
 };"#,
     r#"var _obj;
 
-var obj = (_obj = {}, _defineProperty(_obj, foobar, function () {
+var obj = (_obj = {}, _define_property(_obj, foobar, function () {
   return "foobar";
-}), _defineProperty(_obj, "test", function () {
+}), _define_property(_obj, "test", function () {
   return "regular method after computed property";
 }), _obj);"#
 );
@@ -229,8 +229,8 @@ test!(
 };"#,
     r#"var _obj;
 
-var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), _defineProperty(_obj,
- "y" + bar, "noo"), _defineProperty(_obj, "foo", "foo"), _defineProperty(_obj, "bar", "bar"), _obj);"#
+var obj = (_obj = {}, _define_property(_obj, "x" + foo, "heh"), _define_property(_obj,
+ "y" + bar, "noo"), _define_property(_obj, "foo", "foo"), _define_property(_obj, "bar", "bar"), _obj);"#
 );
 
 test!(
@@ -243,8 +243,8 @@ test!(
 };"#,
     r#"var _obj;
 
-var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"),
-_defineProperty(_obj, "y" + bar, "noo"), _obj);"#
+var obj = (_obj = {}, _define_property(_obj, "x" + foo, "heh"),
+_define_property(_obj, "y" + bar, "noo"), _obj);"#
 );
 
 test!(
@@ -254,7 +254,7 @@ test!(
     r#"var obj = {
   ["x" + foo]: "heh"
 };"#,
-    r#"var obj = _defineProperty({}, "x" + foo, "heh");"#
+    r#"var obj = _define_property({}, "x" + foo, "heh");"#
 );
 
 test!(
@@ -273,10 +273,10 @@ var foo = {
 var _obj, _mutatorMap = {
 };
 var foo = ( _obj = {
-}, _defineProperty(_obj, Symbol.iterator, "foobar"), _mutatorMap[k] = _mutatorMap[k] || {
+}, _define_property(_obj, Symbol.iterator, "foobar"), _mutatorMap[k] = _mutatorMap[k] || {
 }, _mutatorMap[k].get = function() {
     return k;
-}, _defineEnumerableProperties(_obj, _mutatorMap), _obj);"#
+}, _define_enumerable_properties(_obj, _mutatorMap), _obj);"#
 );
 
 test_exec!(
@@ -303,7 +303,7 @@ test!(
     r#"var obj = {
   ["x" + foo.bar]: "heh"
 };"#,
-    r#"var obj = _defineProperty({}, "x" + foo.bar, "heh");"#
+    r#"var obj = _define_property({}, "x" + foo.bar, "heh");"#
 );
 
 test!(
@@ -325,8 +325,8 @@ test!(
 export function corge() {}
 ",
     "
-_defineProperty({
-    foo: _defineProperty({
+_define_property({
+    foo: _define_property({
         bar: null
     }, baz, null)
 }, bon, {
@@ -369,8 +369,8 @@ export function corge() {}
     "
 export function corge() {
 }
-_defineProperty({
-    foo: _defineProperty({
+_define_property({
+    foo: _define_property({
         bar: null
     }, baz, null)
 }, bon, {
@@ -400,8 +400,8 @@ export class Foo {}
     "
 export class Foo {}
 
-_defineProperty({
-    foo: _defineProperty({
+_define_property({
+    foo: _define_property({
         bar: null
     }, baz, null)
 }, bon, {
@@ -427,7 +427,7 @@ var obj = {
     r#"
 var _obj;
 
-var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), _defineProperty(_obj, "y" + bar, "noo"), _defineProperty(_obj, "foo", "foo"), _defineProperty(_obj, "bar", "bar"), _obj);
+var obj = (_obj = {}, _define_property(_obj, "x" + foo, "heh"), _define_property(_obj, "y" + bar, "noo"), _define_property(_obj, "foo", "foo"), _define_property(_obj, "bar", "bar"), _obj);
 
 "#
 );
@@ -444,7 +444,7 @@ var obj = {
 
 "#,
     r#"
-var obj = _defineProperty({}, "x" + foo, "heh");
+var obj = _define_property({}, "x" + foo, "heh");
 
 "#
 );
@@ -465,7 +465,7 @@ export default {
     r#"
 var _obj;
 
-export default (_obj = {}, _defineProperty(_obj, a, b), _defineProperty(_obj, c, d), _obj);
+export default (_obj = {}, _define_property(_obj, a, b), _define_property(_obj, c, d), _obj);
 
 "#
 );
@@ -485,7 +485,7 @@ var obj = {
     r#"
 var _obj;
 
-var obj = (_obj = {}, _defineProperty(_obj, "x" + foo, "heh"), _defineProperty(_obj, "y" + bar, "noo"), _obj);
+var obj = (_obj = {}, _define_property(_obj, "x" + foo, "heh"), _define_property(_obj, "y" + bar, "noo"), _obj);
 
 "#
 );
@@ -502,7 +502,7 @@ var obj = {
 
 "#,
     r#"
-var obj = _defineProperty({}, "x" + foo.bar, "heh");
+var obj = _define_property({}, "x" + foo.bar, "heh");
 
 "#
 );
@@ -526,9 +526,9 @@ var obj = {
     r#"
 var _obj;
 
-var obj = (_obj = {}, _defineProperty(_obj, foobar, function () {
+var obj = (_obj = {}, _define_property(_obj, foobar, function () {
   return "foobar";
-}), _defineProperty(_obj, "test", function () {
+}), _define_property(_obj, "test", function () {
   return "regular method after computed property";
 }), _obj);
 
@@ -547,7 +547,7 @@ foo = {
 
 "#,
     r#"
-foo = _defineProperty({}, bar, "foobar");
+foo = _define_property({}, bar, "foobar");
 
 "#
 );
@@ -564,7 +564,7 @@ foo({
 
 "#,
     r#"
-foo(_defineProperty({}, bar, "foobar"));
+foo(_define_property({}, bar, "foobar"));
 
 "#
 );
@@ -582,7 +582,7 @@ var obj = {
 
 "#,
     r#"
-var obj = _defineProperty({
+var obj = _define_property({
   first: "first"
 }, "second", "second");
 
@@ -601,7 +601,7 @@ var foo = {
 
 "#,
     r#"
-var foo = _defineProperty({}, bar, "foobar");
+var foo = _define_property({}, bar, "foobar");
 
 "#
 );

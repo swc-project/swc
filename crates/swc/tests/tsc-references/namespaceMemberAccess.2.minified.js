@@ -1,5 +1,5 @@
 //// [/a.ts]
-import "@swc/helpers/src/_class_call_check.mjs";
+import "@swc/helpers/_/_class_call_check";
 //// [/b.ts]
 import * as types from "./a";
 types.A, types.A;

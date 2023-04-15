@@ -25,9 +25,9 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs",
+    "@swc/helpers/_/_interop_require_wildcard",
     "./0"
-], function(require, exports, _interopRequireWildcard, _0) {
+], function(require, exports, _interop_require_wildcard, _0) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
@@ -36,17 +36,17 @@ define([
         get: function() {
             return _0;
         }
-    }), _0 = (_interopRequireWildcard = _interopRequireWildcard.default)(_0), ns.a, ns.b;
+    }), _0 = _interop_require_wildcard._(_0), ns.a, ns.b;
 });
 //// [2.ts]
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs",
+    "@swc/helpers/_/_interop_require_wildcard",
     "./1"
-], function(require, exports, _interopRequireWildcard, _1) {
+], function(require, exports, _interop_require_wildcard, _1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), (_1 = (_interopRequireWildcard = _interopRequireWildcard.default)(_1)).ns.a, _1.ns.b;
+    }), (_1 = _interop_require_wildcard._(_1)).ns.a, _1.ns.b;
 });

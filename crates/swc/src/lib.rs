@@ -309,7 +309,15 @@ impl Compiler {
             let read_sourcemap = || -> Result<Option<sourcemap::SourceMap>, Error> {
                 let s = "sourceMappingURL=";
                 let idx = fm.src.rfind(s);
-                let data_url = idx.map(|idx| &fm.src[idx + s.len()..]);
+
+                let data_url = idx.map(|idx| {
+                    let data_idx = idx + s.len();
+                    if let Some(end) = fm.src[data_idx..].find('\n').map(|i| i + data_idx + 1) {
+                        &fm.src[data_idx..end]
+                    } else {
+                        &fm.src[data_idx..]
+                    }
+                });
 
                 match read_inline_sourcemap(data_url) {
                     Ok(r) => Ok(r),
@@ -324,43 +332,73 @@ impl Compiler {
                                     }
                                 };
 
-                                let path = match data_url {
-                                    Some(data_url) => dir.join(data_url).display().to_string(),
-                                    None => {
-                                        format!("{}.map", dir.join(filename).display())
-                                    }
-                                };
-
-                                let file = File::open(&path)
-                                    .or_else(|err| {
-                                        // Old behavior. This check would prevent
-                                        // regressions.
-                                        let f = format!("{}.map", filename.display());
-
-                                        match File::open(f) {
-                                            Ok(v) => Ok(v),
-                                            Err(_) => Err(err),
+                                let map_path = match data_url {
+                                    Some(data_url) => {
+                                        let mut map_path = dir.join(data_url);
+                                        if !map_path.exists() {
+                                            // Old behavior. This check would prevent
+                                            // regressions.
+                                            // Perhaps it shouldn't be supported. Sometimes
+                                            // developers don't want to expose their source code.
+                                            // Map files are for internal troubleshooting
+                                            // convenience.
+                                            map_path = PathBuf::from(format!(
+                                                "{}.map",
+                                                filename.display()
+                                            ));
+                                            if !map_path.exists() {
+                                                bail!(
+                                                    "failed to find input source map file {:?} in \
+                                                     {:?} file",
+                                                    map_path.display(),
+                                                    filename.display()
+                                                )
+                                            }
                                         }
-                                    })
-                                    .context("failed to open input source map file");
 
-                                let file = if !is_default {
-                                    file?
-                                } else {
-                                    match file {
-                                        Ok(v) => v,
-                                        Err(_) => return Ok(None),
+                                        Some(map_path)
+                                    }
+                                    None => {
+                                        // Old behavior.
+                                        let map_path =
+                                            PathBuf::from(format!("{}.map", filename.display()));
+                                        if map_path.exists() {
+                                            Some(map_path)
+                                        } else {
+                                            None
+                                        }
                                     }
                                 };
 
-                                Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
-                                    || {
-                                        format!(
-                                            "failed to read input source map from file at {}",
-                                            path
-                                        )
-                                    },
-                                )?))
+                                match map_path {
+                                    Some(map_path) => {
+                                        let path = map_path.display().to_string();
+                                        let file = File::open(&path);
+
+                                        // Old behavior.
+                                        let file = if !is_default {
+                                            file?
+                                        } else {
+                                            match file {
+                                                Ok(v) => v,
+                                                Err(_) => return Ok(None),
+                                            }
+                                        };
+
+                                        Ok(Some(
+                                            sourcemap::SourceMap::from_reader(file).with_context(
+                                                || {
+                                                    format!(
+                                                        "failed to read input source map
+                                        from file at {}",
+                                                        path
+                                                    )
+                                                },
+                                            )?,
+                                        ))
+                                    }
+                                    None => Ok(None),
+                                }
                             }
                             _ => {
                                 tracing::error!("Failed to load source map for non-file input");
@@ -520,7 +558,7 @@ impl Compiler {
 
             let (code, map) = match source_map {
                 SourceMapsConfig::Bool(v) => {
-                    if v {
+                    if v && !src_map_buf.is_empty() {
                         let mut buf = vec![];
 
                         self.cm
@@ -545,7 +583,6 @@ impl Compiler {
                 }
                 SourceMapsConfig::Str(_) => {
                     let mut src = src;
-
                     let mut buf = vec![];
 
                     self.cm

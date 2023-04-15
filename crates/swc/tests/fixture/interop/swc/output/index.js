@@ -13,10 +13,10 @@ _export(exports, {
     y: ()=>y,
     default: ()=>_default
 });
-const _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-const _foo = /*#__PURE__*/ _interopRequireDefault(require("foo"));
-const _bar = /*#__PURE__*/ _interopRequireWildcard(require("bar"));
+const _interop_require_default = require("@swc/helpers/_/_interop_require_default");
+const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+const _foo = /*#__PURE__*/ _interop_require_default._(require("foo"));
+const _bar = /*#__PURE__*/ _interop_require_wildcard._(require("bar"));
 const x = {
     foo: _foo.default,
     bar: _bar.default

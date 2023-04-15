@@ -1,6 +1,6 @@
 //// [test.ts]
 System.register([
-    "@swc/helpers/src/_async_to_generator.mjs"
+    "@swc/helpers/_/_async_to_generator"
 ], function(_export, _context) {
     "use strict";
     var _async_to_generator, cl1, cl2, obj, l;
@@ -21,8 +21,8 @@ System.register([
     });
     return {
         setters: [
-            function(_asyncToGenerator) {
-                _async_to_generator = _asyncToGenerator.default;
+            function(_async_to_generator1) {
+                _async_to_generator = _async_to_generator1._;
             }
         ],
         execute: function() {

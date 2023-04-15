@@ -1,6 +1,6 @@
-import _ts_decorate from "@swc/helpers/src/_ts_decorate.mjs";
-import _ts_metadata from "@swc/helpers/src/_ts_metadata.mjs";
-import _ts_param from "@swc/helpers/src/_ts_param.mjs";
+import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
+import { _ as _ts_metadata } from "@swc/helpers/_/_ts_metadata";
+import { _ as _ts_param } from "@swc/helpers/_/_ts_param";
 import { Body, Controller, Delete, Param, Put, UseGuards, UseInterceptors } from '@nestjs/common';
 import { COMMENT_CONTROLLER_ROUTE, COMMENT_DELETE_ENDPOINT, COMMENT_UPDATE_ENDPOINT } from '@server/constants/controllers';
 import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';

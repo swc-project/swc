@@ -2,11 +2,11 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_async_to_generator.mjs",
-    "@swc/helpers/src/_class_call_check.mjs",
-    "@swc/helpers/src/_interop_require_wildcard.mjs",
-    "@swc/helpers/src/_ts_generator.mjs"
-], function(require, exports, _asyncToGenerator, _classCallCheck, _interopRequireWildcard, _tsGenerator) {
+    "@swc/helpers/_/_async_to_generator",
+    "@swc/helpers/_/_class_call_check",
+    "@swc/helpers/_/_interop_require_wildcard",
+    "@swc/helpers/_/_ts_generator"
+], function(require, exports, _async_to_generator, _class_call_check, _interop_require_wildcard, _ts_generator) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -34,17 +34,13 @@ define([
             return l;
         }
     });
-    _asyncToGenerator = _asyncToGenerator.default;
-    _classCallCheck = _classCallCheck.default;
-    _interopRequireWildcard = _interopRequireWildcard.default;
-    _tsGenerator = _tsGenerator.default;
     function fn() {
         return _fn.apply(this, arguments);
     }
     function _fn() {
-        _fn = _asyncToGenerator(function() {
+        _fn = _async_to_generator._(function() {
             var req;
-            return _tsGenerator(this, function(_state) {
+            return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [
@@ -53,7 +49,7 @@ define([
                                 return require([
                                     "./test"
                                 ], function(m) {
-                                    return resolve(/*#__PURE__*/ _interopRequireWildcard(m));
+                                    return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
                                 }, reject);
                             }) // ONE
                         ];
@@ -70,13 +66,13 @@ define([
     var cl1 = /*#__PURE__*/ function() {
         "use strict";
         function cl1() {
-            _classCallCheck(this, cl1);
+            _class_call_check._(this, cl1);
         }
         var _proto = cl1.prototype;
         _proto.m = function m() {
-            return _asyncToGenerator(function() {
+            return _async_to_generator._(function() {
                 var req;
-                return _tsGenerator(this, function(_state) {
+                return _ts_generator._(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
@@ -85,7 +81,7 @@ define([
                                     return require([
                                         "./test"
                                     ], function(m) {
-                                        return resolve(/*#__PURE__*/ _interopRequireWildcard(m));
+                                        return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
                                     }, reject);
                                 }) // TWO
                             ];
@@ -101,9 +97,9 @@ define([
         return cl1;
     }();
     var obj = {
-        m: /*#__PURE__*/ _asyncToGenerator(function() {
+        m: /*#__PURE__*/ _async_to_generator._(function() {
             var req;
-            return _tsGenerator(this, function(_state) {
+            return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [
@@ -112,7 +108,7 @@ define([
                                 return require([
                                     "./test"
                                 ], function(m) {
-                                    return resolve(/*#__PURE__*/ _interopRequireWildcard(m));
+                                    return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
                                 }, reject);
                             }) // THREE
                         ];
@@ -127,11 +123,11 @@ define([
     };
     var cl2 = function cl2() {
         "use strict";
-        _classCallCheck(this, cl2);
+        _class_call_check._(this, cl2);
         this.p = {
-            m: /*#__PURE__*/ _asyncToGenerator(function() {
+            m: /*#__PURE__*/ _async_to_generator._(function() {
                 var req;
-                return _tsGenerator(this, function(_state) {
+                return _ts_generator._(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
@@ -140,7 +136,7 @@ define([
                                     return require([
                                         "./test"
                                     ], function(m) {
-                                        return resolve(/*#__PURE__*/ _interopRequireWildcard(m));
+                                        return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
                                     }, reject);
                                 }) // FOUR
                             ];
@@ -155,9 +151,9 @@ define([
         };
     };
     var l = function() {
-        var _ref = _asyncToGenerator(function() {
+        var _ref = _async_to_generator._(function() {
             var req;
-            return _tsGenerator(this, function(_state) {
+            return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [
@@ -166,7 +162,7 @@ define([
                                 return require([
                                     "./test"
                                 ], function(m) {
-                                    return resolve(/*#__PURE__*/ _interopRequireWildcard(m));
+                                    return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
                                 }, reject);
                             }) // FIVE
                         ];

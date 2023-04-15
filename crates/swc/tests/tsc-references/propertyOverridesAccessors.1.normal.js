@@ -1,5 +1,5 @@
 //// [propertyOverridesAccessors.ts]
-import _define_property from "@swc/helpers/src/_define_property.mjs";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
 class A {
     get p() {
         return 'oh no';

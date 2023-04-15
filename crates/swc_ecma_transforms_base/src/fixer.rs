@@ -1165,13 +1165,13 @@ mod tests {
 
     identical!(
         regression_01,
-        "_set(_getPrototypeOf(Obj.prototype), _ref = proper.prop, (_superRef = \
-         +_get(_getPrototypeOf(Obj.prototype), _ref, this)) + 1, this, true), _superRef;"
+        "_set(_get_prototype_of(Obj.prototype), _ref = proper.prop, (_superRef = \
+         +_get(_get_prototype_of(Obj.prototype), _ref, this)) + 1, this, true), _superRef;"
     );
 
     identical!(
         regression_02,
-        "var obj = (_obj = {}, _defineProperty(_obj, 'first', 'first'), _defineProperty(_obj, \
+        "var obj = (_obj = {}, _define_property(_obj, 'first', 'first'), _define_property(_obj, \
          'second', 'second'), _obj);"
     );
 
@@ -1226,8 +1226,8 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     identical!(
         issue_201_01,
         "outer = {
-    inner: (_obj = {}, _defineProperty(_obj, ns.EXPORT1, true), _defineProperty(_obj, ns.EXPORT2, \
-         true), _obj)
+    inner: (_obj = {}, _define_property(_obj, ns.EXPORT1, true), _define_property(_obj, \
+         ns.EXPORT2, true), _obj)
 };"
     );
 
@@ -1677,19 +1677,19 @@ var store = global[SHARED] || (global[SHARED] = {});
 
             var _temp, _this, _ret;
 
-            _classCallCheck(this, ItemsList);
+            _class_call_check(this, ItemsList);
 
             for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
               args[_key] = arguments[_key];
             }
 
-            return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = \
+            return _ret = (_temp = (_this = _possible_constructor_return(this, (_ref = \
          ItemsList.__proto__ || Object.getPrototypeOf(ItemsList)).call.apply(_ref, \
          [this].concat(args))), _this), _this.storeHighlightedItemReference = function \
          (highlightedItem) {
               _this.props.onHighlightedItemChange(highlightedItem === null ? null : \
          highlightedItem.item);
-            }, _temp), _possibleConstructorReturn(_this, _ret);
+            }, _temp), _possible_constructor_return(_this, _ret);
           }
         "
     );
@@ -1700,8 +1700,8 @@ var store = global[SHARED] || (global[SHARED] = {});
         function ItemsList() {
             for(var _ref, _temp, _this, _len = arguments.length, args = Array(_len), _key = 0; \
          _key < _len; _key++)args[_key] = arguments[_key];
-            return _possibleConstructorReturn(_this, (_temp = (_this = \
-         _possibleConstructorReturn(this, (_ref = ItemsList.__proto__ || \
+            return _possible_constructor_return(_this, (_temp = (_this = \
+         _possible_constructor_return(this, (_ref = ItemsList.__proto__ || \
          Object.getPrototypeOf(ItemsList)).call.apply(_ref, [
                 this
             ].concat(args))), _this), _this.storeHighlightedItemReference = \

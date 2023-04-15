@@ -1,3 +1,3 @@
-function _AwaitValue(value) {
-  this.wrapped = value;
+function _await_value(value) {
+    this.wrapped = value;
 }

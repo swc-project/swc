@@ -15,28 +15,28 @@ var _default = "./foo";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
-var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default;
+var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
+var _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+var _ts_generator = require("@swc/helpers/_/_ts_generator");
 function foo() {
     return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = _asyncToGenerator(function() {
-        return _tsGenerator(this, function(_state) {
+    _foo = _async_to_generator._(function() {
+        return _ts_generator._(this, function(_state) {
             switch(_state.label){
                 case 0:
                     return [
                         4,
                         Promise.resolve().then(function() {
-                            return /*#__PURE__*/ _interopRequireWildcard(require("./foo"));
+                            return /*#__PURE__*/ _interop_require_wildcard._(require("./foo"));
                         })
                     ];
                 case 1:
                     return [
                         4,
                         Promise.resolve(_state.sent().default).then(function(p) {
-                            return /*#__PURE__*/ _interopRequireWildcard(require(p));
+                            return /*#__PURE__*/ _interop_require_wildcard._(require(p));
                         })
                     ];
                 case 2:

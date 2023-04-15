@@ -1,6 +1,6 @@
 //// [privateNamesUnique-5.ts]
 // same as privateNamesUnique-1, but with an interface
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 var _foo = /*#__PURE__*/ new WeakMap();
 class A {
     constructor(){

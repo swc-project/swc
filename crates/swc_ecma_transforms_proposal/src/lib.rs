@@ -6,6 +6,7 @@ pub use self::{
     import_assertions::import_assertions,
 };
 
+pub mod decorator_2022_03;
 pub mod decorators;
 mod export_default_from;
 mod import_assertions;

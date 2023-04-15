@@ -6,15 +6,32 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_plugin_runner"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.93.1"
+version       = "0.94.9"
 
 [lib]
 bench = false
 
 [features]
-default = ["filesystem_cache"]
+default = ["filesystem_cache", "plugin_transform_host_native"]
+plugin_transform_host_js = [
+  "wasmer/js-default",
+  "wasmer-wasix/js-default",
+  "wasmer-compiler-cranelift/wasm",
+]
+plugin_transform_host_native = [
+  "wasmer/default",
+  # wasmer-wasix/default except networking, to avoid unexpected openssl-sys build failure on certain platforms.
+  # [TODO]: revert to /default once issue is resolved"wasmer-wasix/sys",
+  "wasmer-wasix/sys",
+  "wasmer-wasix/logging",
+  "wasmer-wasix/host-fs",
+  "wasmer-wasix/sys-poll",
+  "wasmer-wasix/sys-thread",
+  "wasmer-wasix/host-threads",
+  "wasmer-compiler-cranelift/default",
+]
 # Supports a cache allow to store compiled bytecode into filesystem location.
-# This feature implies in-memory cache enabled always.
+# This feature implies in-memory cache support, but not via `memory_cache` feature.
 filesystem_cache = ["wasmer-cache"]
 # Supports a cache allow to store wasm module in-memory. This avoids recompilation
 # to the same module in a single procress lifecycle.
@@ -27,56 +44,47 @@ ecma = ["swc_ecma_ast/rkyv-impl"]
 # Enable CSS support
 css = ["swc_css_ast/rkyv-impl"]
 
-__rkyv = []
-rkyv-bytecheck-impl = [
-  "__rkyv",
-  "swc_common/plugin-bytecheck-rt",
-  "swc_plugin_proxy/plugin-bytecheck-rt",
-]
+__rkyv    = []
 rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
 [dependencies]
-anyhow      = "1.0.42"
-enumset     = "1.0.12"
-once_cell   = "1.10.0"
-parking_lot = "0.12.0"
-serde       = { version = "1.0.126", features = ["derive"] }
-serde_json  = "1.0.64"
-tracing     = "0.1.32"
-wasmer      = { version = "2.3.0", default-features = false }
-wasmer-wasi = { version = "2.3.0", default-features = false }
+anyhow       = "1.0.42"
+enumset      = "1.0.12"
+once_cell    = "1.10.0"
+parking_lot  = "0.12.0"
+serde        = { version = "1.0.126", features = ["derive"] }
+serde_json   = "1.0.64"
+tracing      = "0.1.32"
+wasmer       = { version = "3.2.0-beta.2", default-features = false }
+wasmer-wasix = { version = "0.2", default-features = false }
 
-swc_common = { version = "0.30.1", path = "../swc_common", features = [
+swc_common = { version = "0.31.3", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_css_ast = { version = "0.136.1", path = "../swc_css_ast", optional = true }
-swc_ecma_ast = { version = "0.102.1", path = "../swc_ecma_ast", optional = true }
-swc_plugin_proxy = { version = "0.31.1", path = "../swc_plugin_proxy" }
-
+swc_css_ast = { version = "0.137.3", path = "../swc_css_ast", optional = true }
+swc_ecma_ast = { version = "0.103.3", path = "../swc_ecma_ast", optional = true }
+swc_plugin_proxy = { version = "0.32.3", path = "../swc_plugin_proxy" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-wasmer-cache              = { version = "2.3.0", optional = true }
-wasmer-compiler-cranelift = { version = "2.3.0" }
-wasmer-engine-universal   = { version = "2.3.0" }
+wasmer-cache              = { version = "3.2.0-beta.2", optional = true }
+wasmer-compiler-cranelift = { version = "3.2.0-beta.2", default-features = false }
 
 [dev-dependencies]
-criterion   = "0.3"
-wasmer      = "2.3.0"
-wasmer-wasi = "2.3.0"
+criterion = "0.3"
 
-swc_atoms = { version = "0.4.40", path = '../swc_atoms' }
-swc_css_ast = { version = "0.136.1", path = "../swc_css_ast", features = [
+swc_atoms = { version = "0.5.3", path = '../swc_atoms' }
+swc_css_ast = { version = "0.137.3", path = "../swc_css_ast", features = [
   "rkyv-impl",
 ] }
-swc_css_parser = { version = "0.145.1", path = "../swc_css_parser" }
-swc_ecma_ast = { version = "0.102.1", path = "../swc_ecma_ast", features = [
+swc_css_parser = { version = "0.146.3", path = "../swc_css_parser" }
+swc_ecma_ast = { version = "0.103.3", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
-swc_ecma_loader = { version = "0.42.1", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "0.132.1", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "0.88.1", path = "../swc_ecma_visit" }
+swc_ecma_loader = { version = "0.43.4", path = "../swc_ecma_loader" }
+swc_ecma_parser = { version = "0.133.6", path = "../swc_ecma_parser" }
+swc_ecma_visit = { version = "0.89.3", path = "../swc_ecma_visit" }
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
-testing = { version = "0.32.1", path = "../testing" }
+testing = { version = "0.33.3", path = "../testing" }
 
 [[bench]]
 harness = false

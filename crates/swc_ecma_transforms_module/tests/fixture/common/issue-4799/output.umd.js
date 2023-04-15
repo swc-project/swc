@@ -5,13 +5,13 @@
         "./St"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.st);
-})(this, function(exports, _st) {
+})(this, function(exports, _St) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     Object.defineProperty(exports, "createP", {
         enumerable: true,
-        get: ()=>_st.createP
+        get: ()=>_St.createP
     });
 });

@@ -1,11 +1,11 @@
 //// [callWithSpread.ts]
 var _foo_apply, _foo_apply1, _foo_apply2, _foo_apply3, _xa_, _xa_1, _xa_2, a, obj, xa;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 function foo(x, y) {
     for(var _len = arguments.length, z = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
 }

@@ -1,19 +1,19 @@
-import t from "@swc/helpers/src/_async_to_generator.mjs";
-import r from "@swc/helpers/src/_sliced_to_array.mjs";
-import e from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as t } from "@swc/helpers/_/_async_to_generator";
+import { _ as e } from "@swc/helpers/_/_sliced_to_array";
+import { _ as r } from "@swc/helpers/_/_ts_generator";
 import { jsx as n, jsxs as s, Fragment as a } from "react/jsx-runtime";
-import * as c from "react";
-export default function i() {
-    var i = r(c.useState({
+import * as i from "react";
+export default function c() {
+    var c = e(i.useState({
         hits: []
-    }), 2), o = i[0], u = i[1], l = r(c.useState("react"), 2), h = l[0], f = l[1];
-    return c.useEffect(function() {
+    }), 2), o = c[0], u = c[1], l = e(i.useState("react"), 2), h = l[0], f = l[1];
+    return i.useEffect(function() {
         "" !== h && function() {
-            r.apply(this, arguments);
+            e.apply(this, arguments);
         }();
-        function r() {
-            return (r = t(function() {
-                return e(this, function(t) {
+        function e() {
+            return (e = t(function() {
+                return r(this, function(t) {
                     switch(t.label){
                         case 0:
                             return [

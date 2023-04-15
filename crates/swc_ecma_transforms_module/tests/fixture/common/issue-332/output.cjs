@@ -6,7 +6,7 @@ Object.defineProperty(exports, "bar", {
     enumerable: true,
     get: ()=>bar
 });
-const _foo = /*#__PURE__*/ _interopRequireDefault(require("foo"));
+const _foo = /*#__PURE__*/ _interop_require_default(require("foo"));
 const bar = {
     foo: _foo.default
 };

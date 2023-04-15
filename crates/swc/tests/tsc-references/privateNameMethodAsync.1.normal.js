@@ -1,6 +1,6 @@
 //// [privateNameMethodAsync.ts]
-import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
-import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
+import { _ as _class_private_method_get } from "@swc/helpers/_/_class_private_method_get";
+import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
 var _bar, _baz, _qux, _class;
 const C = (_bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(), _qux = /*#__PURE__*/ new WeakSet(), _class = class {
     async foo() {

@@ -1,5 +1,5 @@
 //// [/a.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 export var A = function A() {
     "use strict";
     _class_call_check(this, A);
@@ -13,7 +13,7 @@ export var C = function C() {
     _class_call_check(this, C);
 };
 //// [/b.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 export var C = function C() {
     "use strict";
     _class_call_check(this, C);

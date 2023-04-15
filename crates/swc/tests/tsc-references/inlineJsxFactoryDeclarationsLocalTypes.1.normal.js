@@ -3,8 +3,8 @@ export { };
 //// [renderer2.d.ts]
 export { };
 //// [component.tsx]
-/** @jsx predom */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+/** @jsx predom */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 var _this = this;
 import { predom } from "./renderer2";
 export var MySFC = function(props) {
@@ -50,8 +50,8 @@ export var tree = /*#__PURE__*/ predom(MySFC, {
 }));
 export default /*#__PURE__*/ predom("h", null);
 //// [index.tsx]
-/** @jsx dom */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+/** @jsx dom */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 import { dom } from "./renderer";
 import prerendered, { MySFC, MyClass, tree } from "./component";
 var elem = prerendered;

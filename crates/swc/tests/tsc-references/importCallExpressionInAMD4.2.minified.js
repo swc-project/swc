@@ -48,31 +48,31 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs"
-], function(require, exports, _interopRequireWildcard) {
+    "@swc/helpers/_/_interop_require_wildcard"
+], function(require, exports, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), Object.defineProperty(exports, "D", {
         enumerable: !0,
         get: ()=>D
-    }), _interopRequireWildcard = _interopRequireWildcard.default;
+    });
     class D {
         method() {
             new Promise((resolve, reject)=>require([
                     "./0"
-                ], (m)=>resolve(_interopRequireWildcard(m)), reject)), this.myModule.then((Zero)=>{
+                ], (m)=>resolve(_interop_require_wildcard._(m)), reject)), this.myModule.then((Zero)=>{
                 console.log(Zero.foo());
             }, async (err)=>{
                 console.log(err), console.log((await new Promise((resolve, reject)=>require([
                         "./1"
-                    ], (m)=>resolve(_interopRequireWildcard(m)), reject))).backup());
+                    ], (m)=>resolve(_interop_require_wildcard._(m)), reject))).backup());
             });
         }
         constructor(){
             this.myModule = new Promise((resolve, reject)=>require([
                     "./0"
-                ], (m)=>resolve(_interopRequireWildcard(m)), reject));
+                ], (m)=>resolve(_interop_require_wildcard._(m)), reject));
         }
     }
 });

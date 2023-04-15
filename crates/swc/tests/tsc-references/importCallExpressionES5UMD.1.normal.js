@@ -22,14 +22,14 @@
 });
 //// [1.ts]
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/src/_class_call_check.mjs"), require("@swc/helpers/src/_interop_require_wildcard.mjs"));
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_class_call_check"), require("@swc/helpers/_/_interop_require_wildcard"));
     else if (typeof define === "function" && define.amd) define([
         "exports",
-        "@swc/helpers/src/_class_call_check.mjs",
-        "@swc/helpers/src/_interop_require_wildcard.mjs"
+        "@swc/helpers/_/_class_call_check",
+        "@swc/helpers/_/_interop_require_wildcard"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.1Ts = {}, global.classCallCheckMjs, global.interopRequireWildcardMjs);
-})(this, function(exports, _classCallCheck, _interopRequireWildcard) {
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.1Ts = {}, global.classCallCheck, global.interopRequireWildcard);
+})(this, function(exports, _class_call_check, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -48,8 +48,6 @@
             return D;
         }
     });
-    _classCallCheck = _classCallCheck.default;
-    _interopRequireWildcard = _interopRequireWildcard.default;
     import("./0");
     var p1 = import("./0");
     p1.then(function(zero) {
@@ -62,7 +60,7 @@
     var C = /*#__PURE__*/ function() {
         "use strict";
         function C() {
-            _classCallCheck(this, C);
+            _class_call_check._(this, C);
         }
         var _proto = C.prototype;
         _proto.method = function method() {
@@ -73,7 +71,7 @@
     var D = /*#__PURE__*/ function() {
         "use strict";
         function D() {
-            _classCallCheck(this, D);
+            _class_call_check._(this, D);
         }
         var _proto = D.prototype;
         _proto.method = function method() {

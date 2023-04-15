@@ -1,5 +1,5 @@
 //// [asyncMethodWithSuperConflict_es6.ts]
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 class A {
     x() {}
     y() {}

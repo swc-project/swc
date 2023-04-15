@@ -22,7 +22,7 @@ module.exports = {
     taskNameToGroup: taskNameToGroup
 };
 //// [index.js]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var _require = require("./module.js"), taskGroups = _require.taskGroups, taskNameToGroup = _require.taskNameToGroup;
 /** @typedef {import('./module.js').TaskGroup} TaskGroup */ /**
  * @typedef TaskNode

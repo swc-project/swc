@@ -1,9 +1,9 @@
 //// [objectRest.ts]
 let nestedrest, complex;
-import _extends from "@swc/helpers/src/_extends.mjs";
-import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
-import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
+import { _ as _extends } from "@swc/helpers/_/_extends";
+import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
+import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
+import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
 var _tmp, _o, o = {
     a: 1,
     b: 'no'

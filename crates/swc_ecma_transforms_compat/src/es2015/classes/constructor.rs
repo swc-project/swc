@@ -166,7 +166,7 @@ pub(super) struct ConstructorFolder<'a> {
     pub super_is_callable_constructor: bool,
 }
 
-/// `None`: `return _possibleConstructorReturn`
+/// `None`: `return _possible_constructor_return`
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(super) enum SuperFoldingMode {
     /// `var _this;` followed by `_this = ...`
@@ -372,7 +372,7 @@ pub(super) enum ReturningMode {
 }
 
 pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
-    let callee = helper!(possible_constructor_return, "possibleConstructorReturn");
+    let callee = helper!(possible_constructor_return, "possible_constructor_return");
 
     Expr::Call(CallExpr {
         span: DUMMY_SP,
@@ -480,7 +480,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
                     if self.wrap_with_assertion {
                         *expr = Expr::Call(CallExpr {
                             span: DUMMY_SP,
-                            callee: helper!(assert_this_initialized, "assertThisInitialized"),
+                            callee: helper!(assert_this_initialized, "assert_this_initialized"),
                             args: vec![this.as_arg()],
                             type_args: Default::default(),
                         })
@@ -530,7 +530,7 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
 ///
 /// ```js
 /// var Example = function Example() {
-///     _classCallCheck(this, Example);
+///     _class_call_check(this, Example);
 ///     var Example1;
 /// };
 /// ```

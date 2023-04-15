@@ -1,6 +1,6 @@
 //// [taggedTemplateWithConstructableTag02.ts]
 var tag;
-import _tagged_template_literal from "@swc/helpers/src/_tagged_template_literal.mjs";
+import { _ as _tagged_template_literal } from "@swc/helpers/_/_tagged_template_literal";
 function _templateObject() {
     var data = _tagged_template_literal([
         "Hello world!"

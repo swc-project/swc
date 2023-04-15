@@ -9,8 +9,8 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    X: ()=>_z.default,
-    X2: ()=>_z.X2,
-    Y: ()=>_z.Y
+    X: ()=>_Z.default,
+    X2: ()=>_Z.X2,
+    Y: ()=>_Z.Y
 });
-const _z = /*#__PURE__*/ _interopRequireWildcard(_exportStar(require("./Z"), exports));
+const _Z = /*#__PURE__*/ _interop_require_wildcard(_export_star(require("./Z"), exports));

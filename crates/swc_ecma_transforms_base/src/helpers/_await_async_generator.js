@@ -1,3 +1,3 @@
-function _awaitAsyncGenerator(value) {
-  return new _AwaitValue(value);
+function _await_async_generator(value) {
+    return new _await_value(value);
 }

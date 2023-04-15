@@ -15,5 +15,5 @@ const resources = [
     {
         value: _consts.RESOURCE_INSTAGRAM,
         label: "Instagram"
-    }, 
+    }
 ];

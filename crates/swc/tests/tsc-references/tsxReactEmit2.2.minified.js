@@ -1,7 +1,7 @@
 //// [file.tsx]
 var p1, p2, p3;
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
+import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
+import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
 _object_spread({
     x: p3
 }, p1), _object_spread_props(_object_spread({}, p1), {

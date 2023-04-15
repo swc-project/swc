@@ -1,6 +1,6 @@
 //// [recursiveTypeReferences1.ts]
-import "@swc/helpers/src/_sliced_to_array.mjs";
-import "@swc/helpers/src/_to_consumable_array.mjs";
+import "@swc/helpers/_/_sliced_to_array";
+import "@swc/helpers/_/_to_consumable_array";
 flat([
     1,
     [

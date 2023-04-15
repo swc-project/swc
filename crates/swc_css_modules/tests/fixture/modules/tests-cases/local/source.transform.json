@@ -1,4 +1,10 @@
 {
+  "ghi": [
+    {
+      "type": "local",
+      "name": "__local__ghi"
+    }
+  ],
   "jkl": [
     {
       "type": "local",
@@ -15,12 +21,6 @@
     {
       "type": "local",
       "name": "__local__def"
-    }
-  ],
-  "ghi": [
-    {
-      "type": "local",
-      "name": "__local__ghi"
     }
   ]
 }

@@ -1251,12 +1251,12 @@ function requester() {
             return _pureRequester.apply(this, arguments);
         }
         function _pureRequester() {
-            _pureRequester = _asyncToGenerator(function() {
+            _pureRequester = _async_to_generator(function() {
                 function refreshThenRequest() {
                     return _refreshThenRequest.apply(this, arguments);
                 }
                 function _refreshThenRequest() {
-                    _refreshThenRequest = _asyncToGenerator(function() {
+                    _refreshThenRequest = _async_to_generator(function() {
                         return __generator(this, function(_state) {
                             return [
                                 2
@@ -1387,12 +1387,12 @@ function foo(a) {
     return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = _asyncToGenerator(function(a) {
+    _foo = _async_to_generator(function(a) {
         function bar1(b) {
             return _bar1.apply(this, arguments);
         }
         function _bar1() {
-            _bar1 = _asyncToGenerator(function(b) {
+            _bar1 = _async_to_generator(function(b) {
                 return __generator(this, function(_state) {
                     return [
                         2,
@@ -1467,12 +1467,12 @@ async function init() {
         return _init.apply(this, arguments);
     }
     function _init() {
-        _init = _asyncToGenerator(function() {
+        _init = _async_to_generator(function() {
             function fib(n) {
                 return _fib.apply(this, arguments);
             }
             function _fib() {
-                _fib = _asyncToGenerator(function(n) {
+                _fib = _async_to_generator(function(n) {
                     var x, y;
                     return __generator(this, function(_state) {
                         switch(_state.label){
@@ -1522,7 +1522,7 @@ test!(
     issue_1125_2,
     "
     function _test() {
-        _test = _asyncToGenerator(function* () {
+        _test = _async_to_generator(function* () {
             try {
             yield 1;
             } finally {
@@ -1540,7 +1540,7 @@ test!(
     ",
     "
     function _test() {
-        _test = _asyncToGenerator(function() {
+        _test = _async_to_generator(function() {
             return __generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -1694,7 +1694,7 @@ test!(
     "
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(function(e) {
+            var _ref = _async_to_generator(function(e) {
                 return __generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -1736,7 +1736,7 @@ test!(
     "
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(function(e) {
+            var _ref = _async_to_generator(function(e) {
                 return __generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -1779,7 +1779,7 @@ test!(
     "
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(function(e) {
+            var _ref = _async_to_generator(function(e) {
                 return __generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -1825,7 +1825,7 @@ test!(
     "
     export default function Foo() {
         return call(function() {
-            var _ref = _asyncToGenerator(function(e) {
+            var _ref = _async_to_generator(function(e) {
                 return __generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -1850,213 +1850,6 @@ test!(
 );
 
 test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_1892,
-    r#"
-    function *gen() {
-            var firstTime = true;
-        outer:
-        while (true) {
-              yield 0;
-          try {
-                while (true) {
-                  yield 1;
-              if (firstTime) {
-                    firstTime = false;
-                yield 2;
-                continue outer;
-              } else {
-                    yield 3;
-                break;
-              }
-            }
-            yield 4;
-            break;
-          } finally {
-                yield 5;
-          }
-          yield 6;
-        }
-        yield 7;
-      }
-
-    const iter = gen();
-    expect(iter.next()).toEqual({value: 0, done: false});
-    expect(iter.next()).toEqual({value: 1, done: false});
-    expect(iter.next()).toEqual({value: 2, done: false});
-    expect(iter.next()).toEqual({value: 5, done: false});
-    expect(iter.next()).toEqual({value: 0, done: false});
-    expect(iter.next()).toEqual({value: 1, done: false});
-    expect(iter.next()).toEqual({value: 3, done: false});
-    expect(iter.next()).toEqual({value: 4, done: false});
-    expect(iter.next()).toEqual({value: 5, done: false});
-    expect(iter.next()).toEqual({value: 7, done: false});
-    expect(iter.next()).toEqual({value: undefined, done: true});
-
-"#,
-    r#"
-    function gen() {
-        var firstTime;
-        return __generator(this, function(_state) {
-            switch(_state.label){
-                case 0:
-                    firstTime = true;
-                    _state.label = 1;
-                case 1:
-                    if (!true) return [
-                        3,
-                        15
-                    ];
-                    return [
-                        4,
-                        0
-                    ];
-                case 2:
-                    _state.sent();
-                    _state.label = 3;
-                case 3:
-                    _state.trys.push([
-                        3,
-                        ,
-                        11,
-                        13
-                    ]);
-                    if (!true) return [
-                        3,
-                        9
-                    ];
-                    return [
-                        4,
-                        1
-                    ];
-                case 4:
-                    _state.sent();
-                    if (!firstTime) return [
-                        3,
-                        6
-                    ];
-                    firstTime = false;
-                    return [
-                        4,
-                        2
-                    ];
-                case 5:
-                    _state.sent();
-                    return [
-                        3,
-                        1
-                    ];
-                case 6:
-                    return [
-                        4,
-                        3
-                    ];
-                case 7:
-                    _state.sent();
-                    return [
-                        3,
-                        9
-                    ];
-                case 8:
-                    return [
-                        3,
-                        3
-                    ];
-                case 9:
-                    return [
-                        4,
-                        4
-                    ];
-                case 10:
-                    _state.sent();
-                    return [
-                        3,
-                        15
-                    ];
-                case 11:
-                    return [
-                        4,
-                        5
-                    ];
-                case 12:
-                    _state.sent();
-                    return [
-                        7
-                    ];
-                case 13:
-                    return [
-                        4,
-                        6
-                    ];
-                case 14:
-                    _state.sent();
-                    return [
-                        3,
-                        1
-                    ];
-                case 15:
-                    return [
-                        4,
-                        7
-                    ];
-                case 16:
-                    _state.sent();
-                    return [
-                        2
-                    ];
-            }
-        });
-    }
-    const iter = gen();
-    expect(iter.next()).toEqual({
-        value: 0,
-        done: false
-    });
-    expect(iter.next()).toEqual({
-        value: 1,
-        done: false
-    });
-    expect(iter.next()).toEqual({
-        value: 2,
-        done: false
-    });
-    expect(iter.next()).toEqual({
-        value: 5,
-        done: false
-    });
-    expect(iter.next()).toEqual({
-        value: 0,
-        done: false
-    });
-    expect(iter.next()).toEqual({
-        value: 1,
-        done: false
-    });
-    expect(iter.next()).toEqual({
-        value: 3,
-        done: false
-    });
-    expect(iter.next()).toEqual({
-        value: 4,
-        done: false
-    });
-    expect(iter.next()).toEqual({
-        value: 5,
-        done: false
-    });
-    expect(iter.next()).toEqual({
-        value: 7,
-        done: false
-    });
-    expect(iter.next()).toEqual({
-        value: undefined,
-        done: true
-    });
-"#
-);
-
-test!(
     Syntax::default(),
     |_| {
         let mark = Mark::fresh(Mark::root());
@@ -2064,14 +1857,14 @@ test!(
     },
     issue_2024_1,
     "
-    _asyncToGenerator(function*() {
+    _async_to_generator(function*() {
         const sleep = ()=>new Promise((resolve)=>setTimeout(()=>resolve(undefined), 500));
         const result = (yield sleep()) || 'fallback';
         console.log(result);
     })();
     ",
     "
-    _asyncToGenerator(function() {
+    _async_to_generator(function() {
         var sleep, result;
         return __generator(this, function(_state) {
             switch(_state.label){

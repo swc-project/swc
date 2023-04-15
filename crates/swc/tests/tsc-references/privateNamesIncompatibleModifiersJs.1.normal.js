@@ -1,7 +1,7 @@
 //// [privateNamesIncompatibleModifiersJs.js]
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
-import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
-import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
+import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
+import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
+import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
 var /**
      * @public
      */ _a = /*#__PURE__*/ new WeakMap(), /**

@@ -1,5 +1,5 @@
 //// [emitExponentiationOperatorInTemplateString3.ts]
-import _type_of from "@swc/helpers/src/_type_of.mjs";
+import { _ as _type_of } from "@swc/helpers/_/_type_of";
 var t1 = 10;
 var t2 = 10;
 var s;

@@ -208,21 +208,10 @@ pub fn ast_node(
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
                 )]
                 #[cfg_attr(
-                    feature = "rkyv-bytecheck-impl",
-                    derive(rkyv_latest::Archive, rkyv_latest::Serialize, rkyv_latest::Deserialize)
-                )]
-                #[cfg_attr(
                     feature = "rkyv-impl",
                     archive(bound(
                         serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
                         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-                    ))
-                )]
-                #[cfg_attr(
-                    feature = "rkyv-bytecheck-impl",
-                    archive(bound(
-                        serialize = "__S: rkyv_latest::ser::Serializer + rkyv_latest::ser::ScratchSpace + rkyv_latest::ser::SharedSerializeRegistry",
-                        deserialize = "__D: rkyv_latest::de::SharedDeserializeRegistry"
                     ))
                 )]
                 #[cfg_attr(
@@ -284,24 +273,11 @@ pub fn ast_node(
                         derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
                     )]
                     #[cfg_attr(
-                        feature = "rkyv-bytecheck-impl",
-                        derive(rkyv_latest::Archive, rkyv_latest::Serialize, rkyv_latest::Deserialize)
-                    )]
-                    #[cfg_attr(
                         feature = "rkyv-impl",
                         archive(
                             bound(
                                 serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
                                 deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-                            )
-                        )
-                    )]
-                    #[cfg_attr(
-                        feature = "rkyv-bytecheck-impl",
-                        archive(
-                            bound(
-                                serialize = "__S: rkyv_latest::ser::Serializer + rkyv_latest::ser::ScratchSpace + rkyv_latest::ser::SharedSerializeRegistry",
-                                deserialize = "__D: rkyv_latest::de::SharedDeserializeRegistry"
                             )
                         )
                     )]

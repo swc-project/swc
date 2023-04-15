@@ -3813,7 +3813,7 @@ test!(
 function dec() {}
 
 // Create a local function binding so babel has to change the name of the helper
-function _defineProperty() {}
+function _define_property() {}
 
 class A {
 @dec a;
@@ -3830,24 +3830,24 @@ var _class, _descriptor, _descriptor2, _temp;
 function dec() {} // Create a local function binding so babel has to change the name of the helper
 
 
-function _defineProperty() {}
+function _define_property() {}
 
 let A = (_class = (_temp = function A() {
 "use strict";
 
-_classCallCheck(this, A);
+_class_call_check(this, A);
 
-_initializerDefineProperty(this, "a", _descriptor, this);
+_initializer_define_property(this, "a", _descriptor, this);
 
-_initializerDefineProperty(this, "b", _descriptor2, this);
+_initializer_define_property(this, "b", _descriptor2, this);
 
-_defineProperty2(this, "c", 456);
-}, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "a", [dec], {
+_define_property2(this, "c", 456);
+}, _temp), (_descriptor = _apply_decorated_descriptor(_class.prototype, "a", [dec], {
 configurable: true,
 enumerable: true,
 writable: true,
 initializer: null
-}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "b", [dec], {
+}), _descriptor2 = _apply_decorated_descriptor(_class.prototype, "b", [dec], {
 configurable: true,
 enumerable: true,
 writable: true,
@@ -3895,8 +3895,8 @@ class Demo {
 ",
     "
 \"use strict\";
-var _moduleAJs = require(\"./moduleA.js\");
-let Demo = _decorate([(0, _moduleAJs.default)('0.0.1')], function(_initialize) {
+var _moduleA = require(\"./moduleA.js\");
+let Demo = _decorate([(0, _moduleA.default)('0.0.1')], function(_initialize) {
   class Demo{
       constructor(){
           _initialize(this);
@@ -4313,17 +4313,17 @@ console.log(new Template().events());
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var _events = _interopRequireDefault(require("events"));
+var _events = _interop_require_default(require("events"));
 
 let Template =
 /*#__PURE__*/
 function () {
 "use strict";
 function Template() {
-  _classCallCheck(this, Template);
+  _class_call_check(this, Template);
 }
 
-_createClass(Template, [{
+_create_class(Template, [{
   key: "events",
   value: function events() {
     return _events.default;
@@ -4429,7 +4429,7 @@ test!(
                     ],
                     key: \"anotherMethod\",
                     value: function anotherMethod() {
-                        _get(_getPrototypeOf(OtherClass.prototype), \"someMethod\", \
+                        _get(_get_prototype_of(OtherClass.prototype), \"someMethod\", \
      this).call(this);
                     }
                 }

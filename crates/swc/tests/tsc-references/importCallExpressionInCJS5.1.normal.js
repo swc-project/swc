@@ -44,34 +44,34 @@ Object.defineProperty(exports, "D", {
     enumerable: true,
     get: ()=>D
 });
-const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 class C {
     method() {
-        const loadAsync = Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
+        const loadAsync = Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0")));
         this.myModule.then((Zero)=>{
             console.log(Zero.foo());
         }, async (err)=>{
             console.log(err);
-            let one = await Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./1")));
+            let one = await Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./1")));
             console.log(one.backup());
         });
     }
     constructor(){
-        this.myModule = Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
+        this.myModule = Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0")));
     }
 }
 class D {
     method() {
-        const loadAsync = Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
+        const loadAsync = Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0")));
         this.myModule.then((Zero)=>{
             console.log(Zero.foo());
         }, async (err)=>{
             console.log(err);
-            let one = await Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./1")));
+            let one = await Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./1")));
             console.log(one.backup());
         });
     }
     constructor(){
-        this.myModule = Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
+        this.myModule = Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0")));
     }
 }

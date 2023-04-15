@@ -19,5 +19,5 @@ var _default = {
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _m1 = (0, require("@swc/helpers/lib/_interop_require_default.js").default)(require("./m1"));
+var _m1 = require("@swc/helpers/_/_interop_require_default")._(require("./m1"));
 _m1.default.__esmodule, _m1.default.__proto__;

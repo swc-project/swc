@@ -7,8 +7,8 @@ export var Baz;
 export default class {
 }
 //// [locals.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -123,8 +123,8 @@ class C extends B {
 })();
 export { };
 //// [varInContainingScopeStaticField1.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var Reflect = null; // collision (es2015-es2021 only)
 class C extends B {
 }
@@ -133,8 +133,8 @@ class C extends B {
 })();
 export { };
 //// [varInContainingScopeStaticField2.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var { Reflect  } = {
     Reflect: null
 }; // collision (es2015-es2021 only)
@@ -145,8 +145,8 @@ class C extends B {
 })();
 export { };
 //// [varInContainingScopeStaticField3.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var [Reflect] = [
     null
 ]; // collision (es2015-es2021 only)
@@ -157,8 +157,8 @@ class C extends B {
 })();
 export { };
 //// [varInContainingScopeStaticBlock1.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var Reflect = null; // collision (es2015-es2021 only)
 class C extends B {
 }
@@ -167,8 +167,8 @@ class C extends B {
 })();
 export { };
 //// [varInContainingScopeStaticBlock2.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var { Reflect  } = {
     Reflect: null
 }; // collision (es2015-es2021 only)
@@ -179,8 +179,8 @@ class C extends B {
 })();
 export { };
 //// [varInContainingScopeStaticBlock3.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var [Reflect] = [
     null
 ]; // collision (es2015-es2021 only)
@@ -191,8 +191,8 @@ class C extends B {
 })();
 export { };
 //// [classDeclInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class Reflect {
 } // collision (es2015-es2021 only)
 class C extends B {
@@ -202,8 +202,8 @@ class C extends B {
 })();
 export { };
 //// [classDeclInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class Reflect {
 } // collision (es2015-es2021 only)
 class C extends B {
@@ -213,8 +213,8 @@ class C extends B {
 })();
 export { };
 //// [funcDeclInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 function Reflect() {} // collision (es2015-es2021 only)
 class C extends B {
 }
@@ -223,8 +223,8 @@ class C extends B {
 })();
 export { };
 //// [funcDeclInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 function Reflect() {} // collision (es2015-es2021 only)
 class C extends B {
 }
@@ -233,8 +233,8 @@ class C extends B {
 })();
 export { };
 //// [valueNamespaceInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -242,8 +242,8 @@ class C extends B {
 })();
 export { };
 //// [valueNamespaceInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -251,8 +251,8 @@ class C extends B {
 })();
 export { };
 //// [enumInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var Reflect// collision (es2015-es2021 only)
 ;
 (function(Reflect) {})(Reflect || (Reflect = {}));
@@ -263,8 +263,8 @@ class C extends B {
 })();
 export { };
 //// [enumInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var Reflect// collision (es2015-es2021 only)
 ;
 (function(Reflect) {})(Reflect || (Reflect = {}));
@@ -275,8 +275,8 @@ class C extends B {
 })();
 export { };
 //// [constEnumInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var Reflect// collision (es2015-es2021 only)
 ;
 (function(Reflect) {})(Reflect || (Reflect = {}));
@@ -287,8 +287,8 @@ class C extends B {
 })();
 export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var Reflect// collision (es2015-es2021 only)
 ;
 (function(Reflect) {})(Reflect || (Reflect = {}));
@@ -299,8 +299,8 @@ class C extends B {
 })();
 export { };
 //// [namespaceImportInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -308,8 +308,8 @@ class C extends B {
 })();
 export { };
 //// [namespaceImportInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -317,8 +317,8 @@ class C extends B {
 })();
 export { };
 //// [namedImportInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -326,8 +326,8 @@ class C extends B {
 })();
 export { };
 //// [namedImportInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -335,8 +335,8 @@ class C extends B {
 })();
 export { };
 //// [namedImportOfInterfaceInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -344,8 +344,8 @@ class C extends B {
 })();
 export { };
 //// [namedImportOfInterfaceInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -353,8 +353,8 @@ class C extends B {
 })();
 export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -362,8 +362,8 @@ class C extends B {
 })();
 export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -371,8 +371,8 @@ class C extends B {
 })();
 export { };
 //// [namedImportOfConstEnumInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -380,8 +380,8 @@ class C extends B {
 })();
 export { };
 //// [namedImportOfConstEnumInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -389,8 +389,8 @@ class C extends B {
 })();
 export { };
 //// [typeOnlyNamedImportInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -398,8 +398,8 @@ class C extends B {
 })();
 export { };
 //// [typeOnlyNamedImportInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -407,8 +407,8 @@ class C extends B {
 })();
 export { };
 //// [defaultImportInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -416,8 +416,8 @@ class C extends B {
 })();
 export { };
 //// [defaultImportInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -425,8 +425,8 @@ class C extends B {
 })();
 export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -434,8 +434,8 @@ class C extends B {
 })();
 export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -443,8 +443,8 @@ class C extends B {
 })();
 export { };
 //// [typeInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -452,8 +452,8 @@ class C extends B {
 })();
 export { };
 //// [typeInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -461,8 +461,8 @@ class C extends B {
 })();
 export { };
 //// [interfaceInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -470,8 +470,8 @@ class C extends B {
 })();
 export { };
 //// [interfaceInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -479,8 +479,8 @@ class C extends B {
 })();
 export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -488,8 +488,8 @@ class C extends B {
 })();
 export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 (()=>{
@@ -497,8 +497,8 @@ class C extends B {
 })();
 export { };
 //// [classExprInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 (class Reflect {
 }); // no collision
 class C extends B {
@@ -508,8 +508,8 @@ class C extends B {
 })();
 export { };
 //// [classExprInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 (class Reflect {
 }); // no collision
 class C extends B {
@@ -519,8 +519,8 @@ class C extends B {
 })();
 export { };
 //// [inContainingClassExprStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var _Reflect;
 _Reflect = class Reflect {
 }, (()=>{
@@ -532,8 +532,8 @@ _Reflect = class Reflect {
 })(), _Reflect;
 export { };
 //// [inContainingClassExprStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var _Reflect;
 _Reflect = class Reflect {
 }, (()=>{
@@ -545,8 +545,8 @@ _Reflect = class Reflect {
 })(), _Reflect;
 export { };
 //// [funcExprInContainingScopeStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 (function Reflect() {}); // no collision
 class C extends B {
 }
@@ -555,8 +555,8 @@ class C extends B {
 })();
 export { };
 //// [funcExprInContainingScopeStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 (function Reflect() {}); // no collision
 class C extends B {
 }
@@ -565,8 +565,8 @@ class C extends B {
 })();
 export { };
 //// [inContainingFuncExprStaticField.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 (function Reflect() {
     class C extends B {
     }
@@ -576,8 +576,8 @@ import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 });
 export { };
 //// [inContainingFuncExprStaticBlock.ts]
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 (function Reflect() {
     class C extends B {
     }

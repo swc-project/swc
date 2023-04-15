@@ -7,8 +7,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _mod = /*#__PURE__*/ _interopRequireDefault(require("mod"));
+var _interop_require_default = require("@swc/helpers/_/_interop_require_default");
+var _mod = /*#__PURE__*/ _interop_require_default._(require("mod"));
 // Should see mod_1['default'] in emit here
 /*#__PURE__*/ React.createElement(Foo, {
     handler: _mod.default

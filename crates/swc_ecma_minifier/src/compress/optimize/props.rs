@@ -195,6 +195,10 @@ where
     pub(super) fn replace_props(&mut self, e: &mut Expr) {
         let member = match e {
             Expr::Member(m) => m,
+            Expr::OptChain(m) => match &mut *m.base {
+                OptChainBase::Member(m) => m,
+                _ => return,
+            },
             _ => return,
         };
         if let Expr::Ident(obj) = &*member.obj {

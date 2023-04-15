@@ -21,17 +21,16 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs"
-], function(require, exports, _interopRequireWildcard) {
+    "@swc/helpers/_/_interop_require_wildcard"
+], function(require, exports, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _interopRequireWildcard = _interopRequireWildcard.default;
     async function foo() {
         class C extends (await new Promise((resolve, reject)=>require([
                 "./0"
-            ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject))).B {
+            ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject))).B {
         }
         var c = new C();
         c.print();

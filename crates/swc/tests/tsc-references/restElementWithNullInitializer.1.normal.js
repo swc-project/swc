@@ -1,5 +1,5 @@
 //// [restElementWithNullInitializer.ts]
-import _to_array from "@swc/helpers/src/_to_array.mjs";
+import { _ as _to_array } from "@swc/helpers/_/_to_array";
 function foo1() {
     var _ref = _to_array(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : null), r = _ref.slice(0);
 }

@@ -1,5 +1,5 @@
 //// [privateNameLateSuper.ts]
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 class B {
 }
 var _x = /*#__PURE__*/ new WeakMap();

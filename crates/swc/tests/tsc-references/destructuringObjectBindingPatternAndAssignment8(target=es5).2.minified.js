@@ -1,5 +1,5 @@
 //// [destructuringObjectBindingPatternAndAssignment8.ts]
-import _define_property from "@swc/helpers/src/_define_property.mjs";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
 var K = {
     a: "a",
     b: "b"

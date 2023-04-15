@@ -1,2 +1,2 @@
 //// [restElementWithNullInitializer.ts]
-import "@swc/helpers/src/_to_array.mjs";
+import "@swc/helpers/_/_to_array";

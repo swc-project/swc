@@ -1,9 +1,9 @@
 //// [foo_0.ts]
 "use strict";
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var Foo = function Foo(x) {
     "use strict";
-    _classCallCheck(this, Foo);
+    _class_call_check._(this, Foo);
 };
 module.exports = Foo;
 //// [foo_1.ts]

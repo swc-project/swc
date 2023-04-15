@@ -1,7 +1,7 @@
 //// [asyncArrowFunctionCapturesArguments_es5.ts]
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

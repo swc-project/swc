@@ -2,5 +2,5 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-_exportStar(require("white"), exports);
-_exportStar(require("black"), exports);
+_export_star(require("white"), exports);
+_export_star(require("black"), exports);

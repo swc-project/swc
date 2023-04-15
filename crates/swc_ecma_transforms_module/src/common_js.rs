@@ -6,7 +6,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_ident, ExprFactory, FunctionFactory, IsDirective,
+    member_expr, private_ident, quote_expr, quote_ident, ExprFactory, FunctionFactory, IsDirective,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -172,12 +172,11 @@ where
             stmts.visit_mut_children_with(self);
         }
 
-        stmts.visit_mut_children_with(&mut ModuleRefRewriter {
-            import_map: module_map,
+        stmts.visit_mut_children_with(&mut ModuleRefRewriter::new(
+            module_map,
             lazy_record,
-            allow_top_level_this: self.config.allow_top_level_this,
-            is_global_this: true,
-        });
+            self.config.allow_top_level_this,
+        ));
 
         *n = stmts;
     }
@@ -268,25 +267,9 @@ where
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
-                // Optimize for `@swc/helpers`:
-                // if there is no named import/export
-                // avoid to generate
-                // ```
-                // var foo = require("@swc/helpers/foo");
-                // (0, foo.default)(bar);
-                // ```
-                // instead, we prefer
-                // ```
-                // var foo = require("@swc/helpers/foo").default;
-                // foo(bar);
-                // ```
-
-                let is_swc_default_helper =
-                    !link_flag.has_named() && src.starts_with("@swc/helpers/");
-
                 let is_node_default = !link_flag.has_named() && is_node;
 
-                if import_interop.is_none() || is_swc_default_helper {
+                if import_interop.is_none() {
                     link_flag -= LinkFlag::NAMESPACE;
                 }
 
@@ -300,7 +283,7 @@ where
                     &mod_ident,
                     &None,
                     &mut decl_mod_ident,
-                    is_swc_default_helper || is_node_default,
+                    is_node_default,
                 );
 
                 let is_lazy =
@@ -315,15 +298,9 @@ where
                     self.resolver
                         .make_require_call(self.unresolved_mark, src, src_span);
 
-                let import_expr = if is_swc_default_helper {
-                    import_expr.make_member(quote_ident!("default"))
-                } else {
-                    import_expr
-                };
-
-                // _exportStar(require("mod"), exports);
+                // _export_star(require("mod"), exports);
                 let import_expr = if link_flag.export_star() {
-                    helper_expr!(export_star, "exportStar").as_call(
+                    helper_expr!(export_star, "export_star").as_call(
                         DUMMY_SP,
                         vec![import_expr.as_arg(), self.exports().as_arg()],
                     )
@@ -335,13 +312,13 @@ where
                 let import_expr = {
                     match import_interop {
                         ImportInterop::Swc if link_flag.interop() => if link_flag.namespace() {
-                            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+                            helper_expr!(interop_require_wildcard, "interop_require_wildcard")
                         } else {
-                            helper_expr!(interop_require_default, "interopRequireDefault")
+                            helper_expr!(interop_require_default, "interop_require_default")
                         }
                         .as_call(self.pure_span(), vec![import_expr.as_arg()]),
                         ImportInterop::Node if link_flag.namespace() => {
-                            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+                            helper_expr!(interop_require_wildcard, "interop_require_wildcard")
                                 .as_call(
                                     self.pure_span(),
                                     vec![import_expr.as_arg(), true.as_arg()],
@@ -500,7 +477,8 @@ where
                     .map(|key| KeyValueProp {
                         key: key.into(),
                         // `cjs-module-lexer` only support identifier as value
-                        value: quote_ident!("_").into(),
+                        // `null` is treated as identifier in `cjs-module-lexer`
+                        value: quote_expr!(DUMMY_SP, null).into(),
                     })
                     .map(Prop::KeyValue)
                     .map(Box::new)
@@ -530,41 +508,36 @@ where
 
     /// emit [cjs-module-lexer](https://github.com/nodejs/cjs-module-lexer) friendly exports list
     /// ```javascript
-    /// 0 && (__export(require("foo")));
+    /// 0 && __export(require("foo")) && __export(require("bar"));
     /// ```
     fn emit_lexer_ts_reexport(&self, link: &Link) -> Option<Stmt> {
-        let mut seq_list = vec![];
-        link.iter().for_each(|(src, LinkItem(_, _, link_flag))| {
-            if link_flag.export_star() {
+        link.iter()
+            .filter(|(.., LinkItem(.., link_flag))| link_flag.export_star())
+            .map(|(src, ..)| {
                 let import_expr =
                     self.resolver
                         .make_require_call(self.unresolved_mark, src.clone(), DUMMY_SP);
 
-                let export = Expr::Ident(quote_ident!("__export"))
-                    .as_call(DUMMY_SP, vec![import_expr.as_arg()]);
-
-                seq_list.push(Box::new(export));
-            }
-        });
-
-        if seq_list.is_empty() {
-            None
-        } else {
-            let seq_expr = SeqExpr {
-                span: DUMMY_SP,
-                exprs: seq_list,
-            }
-            .into();
-
-            let expr = BinExpr {
-                span: DUMMY_SP,
-                op: op!("&&"),
-                left: 0.into(),
-                right: seq_expr,
-            };
-
-            Some(expr.into_stmt())
-        }
+                Expr::Ident(quote_ident!("__export")).as_call(DUMMY_SP, vec![import_expr.as_arg()])
+            })
+            .reduce(|left, right| {
+                BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("&&"),
+                    left: left.into(),
+                    right: right.into(),
+                }
+                .into()
+            })
+            .map(|expr| {
+                BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("&&"),
+                    left: 0.into(),
+                    right: expr.into(),
+                }
+                .into_stmt()
+            })
     }
 
     fn pure_span(&self) -> Span {
@@ -614,10 +587,14 @@ pub(crate) fn cjs_dynamic_import(
 
         match import_interop {
             ImportInterop::None => require,
-            ImportInterop::Swc => helper_expr!(interop_require_wildcard, "interopRequireWildcard")
-                .as_call(pure_span, vec![require.as_arg()]),
-            ImportInterop::Node => helper_expr!(interop_require_wildcard, "interopRequireWildcard")
-                .as_call(pure_span, vec![require.as_arg(), true.as_arg()]),
+            ImportInterop::Swc => {
+                helper_expr!(interop_require_wildcard, "interop_require_wildcard")
+                    .as_call(pure_span, vec![require.as_arg()])
+            }
+            ImportInterop::Node => {
+                helper_expr!(interop_require_wildcard, "interop_require_wildcard")
+                    .as_call(pure_span, vec![require.as_arg(), true.as_arg()])
+            }
         }
     };
 

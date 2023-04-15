@@ -6,7 +6,7 @@ y.name;
 /** @type {Outer.Inner} should be instance type, not static type */ var x;
 x.name;
 //// [def.js]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var Outer = {};
 Outer.Inner = /*#__PURE__*/ function() {
     "use strict";
