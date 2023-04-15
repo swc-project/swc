@@ -67,10 +67,12 @@ modules.forEach((p) => {
 });
 
 indexCJS.push(
-    `module.exports = {`,
-    "/* @Annotate start: the CommonJS named exports for ESM import in node */",
+    `0 && (module.exports = {`,
+    "/* @Annotate_start: the CommonJS named exports for ESM import in node */",
     ...cjs_module_lexer,
-    "/* @Annotate end */",
+    "/* @Annotate_end */",
+    `});`,
+    `module.exports = {`,
     ...cjs_export_list,
     `};`,
 );
