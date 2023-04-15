@@ -16,6 +16,12 @@
 
 - **(es/renamer)** Ensure that param and function body are in same scope (#7271) ([93a264c](https://github.com/swc-project/swc/commit/93a264c9a4c8329eddbf02c02c979d5dee3f02b5))
 
+### Features
+
+
+
+- **(es/modules)** Use function instead of arrow function unconditionally (#7273) ([5d3313a](https://github.com/swc-project/swc/commit/5d3313aa7e696a5c4c28e513062b8ba92bd40e5f))
+
 ### Miscellaneous Tasks
 
 
