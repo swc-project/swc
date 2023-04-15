@@ -13,8 +13,12 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    nextOdd: ()=>nextOdd,
-    isOdd: ()=>isOdd
+    nextOdd: function() {
+        return nextOdd;
+    },
+    isOdd: function() {
+        return isOdd;
+    }
 });
 const _evens = require("./evens");
 function nextOdd(n) {

@@ -12,7 +12,9 @@
     });
     Object.defineProperty(exports, "setup", {
         enumerable: true,
-        get: ()=>setup
+        get: function() {
+            return setup;
+        }
     });
     function setup(url: string, obj: any) {
         const _queryString = (0, _url.queryString)(obj);

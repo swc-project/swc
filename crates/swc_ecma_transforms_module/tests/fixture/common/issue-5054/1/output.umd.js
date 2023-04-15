@@ -19,8 +19,12 @@
         });
     }
     _export(exports, {
-        default: ()=>_default,
-        y: ()=>y
+        default: function() {
+            return _default;
+        },
+        y: function() {
+            return y;
+        }
     });
     _foo = /*#__PURE__*/ _interop_require_default(_foo);
     _baz = /*#__PURE__*/ _interop_require_wildcard(_baz);

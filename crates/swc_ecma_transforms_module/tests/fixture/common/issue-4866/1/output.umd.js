@@ -16,8 +16,12 @@
         });
     }
     _export(exports, {
-        a: ()=>a,
-        b: ()=>b
+        a: function() {
+            return a;
+        },
+        b: function() {
+            return b;
+        }
     });
     let a, b;
     console.log([a, b] = [

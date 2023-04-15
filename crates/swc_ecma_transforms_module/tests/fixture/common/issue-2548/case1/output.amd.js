@@ -9,7 +9,9 @@ define([
     });
     Object.defineProperty(exports, "X", {
         enumerable: true,
-        get: ()=>_Z.default
+        get: function() {
+            return _Z.default;
+        }
     });
     _Z = /*#__PURE__*/ _interop_require_default(_Z);
 });

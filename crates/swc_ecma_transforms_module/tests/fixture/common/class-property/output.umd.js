@@ -12,7 +12,9 @@
     });
     Object.defineProperty(exports, "Foo", {
         enumerable: true,
-        get: ()=>Foo
+        get: function() {
+            return Foo;
+        }
     });
     class Foo {
         static prop = _simple.a;

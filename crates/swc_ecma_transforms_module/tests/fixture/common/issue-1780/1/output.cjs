@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "BIZ", {
     enumerable: true,
-    get: ()=>BIZ
+    get: function() {
+        return BIZ;
+    }
 });
 _export_star(require("./File1"), exports);
 _export_star(require("./File2"), exports);

@@ -11,7 +11,9 @@
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>MyClass
+        get: function() {
+            return MyClass;
+        }
     });
     const VALUE = "hello";
     class MyClass {

@@ -23,8 +23,12 @@
         });
     }
     _export(exports, {
-        test: ()=>test,
-        test2: ()=>test2
+        test: function() {
+            return test;
+        },
+        test2: function() {
+            return test2;
+        }
     });
     _foo2 = /*#__PURE__*/ _interop_require_default(_foo2);
     _foo3 = /*#__PURE__*/ _interop_require_wildcard(_foo3);

@@ -13,12 +13,24 @@ define([
         });
     }
     _export(exports, {
-        noassign: ()=>noassign,
-        warn: ()=>warn,
-        errors: ()=>errors,
-        addOne: ()=>addOne,
-        someFunc: ()=>someFunc,
-        test: ()=>test
+        noassign: function() {
+            return noassign;
+        },
+        warn: function() {
+            return warn;
+        },
+        errors: function() {
+            return errors;
+        },
+        addOne: function() {
+            return addOne;
+        },
+        someFunc: function() {
+            return someFunc;
+        },
+        test: function() {
+            return test;
+        }
     });
     function log() {
         console.log("unexported");

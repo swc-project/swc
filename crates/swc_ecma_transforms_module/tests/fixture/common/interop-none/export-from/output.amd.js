@@ -6,6 +6,8 @@ define([
     "use strict";
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>_foo.default
+        get: function() {
+            return _foo.default;
+        }
     });
 });

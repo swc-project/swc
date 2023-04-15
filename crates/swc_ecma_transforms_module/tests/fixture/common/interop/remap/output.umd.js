@@ -16,11 +16,21 @@
         });
     }
     _export(exports, {
-        test: ()=>test,
-        a: ()=>a,
-        c: ()=>b,
-        e: ()=>d,
-        f: ()=>d
+        test: function() {
+            return test;
+        },
+        a: function() {
+            return a;
+        },
+        c: function() {
+            return b;
+        },
+        e: function() {
+            return d;
+        },
+        f: function() {
+            return d;
+        }
     });
     var test = 2;
     test = 5;

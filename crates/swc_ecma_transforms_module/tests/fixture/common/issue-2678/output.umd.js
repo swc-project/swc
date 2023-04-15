@@ -16,9 +16,15 @@
         });
     }
     _export(exports, {
-        default: ()=>someCall,
-        warn: ()=>warn,
-        test: ()=>test
+        default: function() {
+            return someCall;
+        },
+        warn: function() {
+            return warn;
+        },
+        test: function() {
+            return test;
+        }
     });
     function someCall() {
         throw new Error("this should not be called");

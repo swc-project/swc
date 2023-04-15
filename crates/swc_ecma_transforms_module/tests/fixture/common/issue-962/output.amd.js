@@ -10,7 +10,9 @@ define([
     });
     Object.defineProperty(exports1, "default", {
         enumerable: true,
-        get: ()=>_default
+        get: function() {
+            return _default;
+        }
     });
     _root = /*#__PURE__*/ _interop_require_default(_root);
     _stubFalse = /*#__PURE__*/ _interop_require_default(_stubFalse);

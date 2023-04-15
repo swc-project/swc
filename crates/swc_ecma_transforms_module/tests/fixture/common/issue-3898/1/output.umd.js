@@ -11,7 +11,9 @@
     });
     Object.defineProperty(exports, "foo", {
         enumerable: true,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     });
     let foo = 1;
     foo = 2;

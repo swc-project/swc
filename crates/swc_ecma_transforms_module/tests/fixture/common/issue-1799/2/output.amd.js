@@ -8,7 +8,9 @@ define([
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>_default
+        get: function() {
+            return _default;
+        }
     });
     function _default() {
         return 500;

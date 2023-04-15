@@ -15,8 +15,12 @@ define([
         });
     }
     _export(exports, {
-        namespace1: ()=>_white,
-        namespace2: ()=>_black
+        namespace1: function() {
+            return _white;
+        },
+        namespace2: function() {
+            return _black;
+        }
     });
     _white = /*#__PURE__*/ _interop_require_wildcard(_white);
     _black = /*#__PURE__*/ _interop_require_wildcard(_black);

@@ -11,7 +11,9 @@
     });
     Object.defineProperty(exports, "good", {
         enumerable: true,
-        get: ()=>good
+        get: function() {
+            return good;
+        }
     });
     const good = {
         a (bad1) {

@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "setup", {
     enumerable: true,
-    get: ()=>setup
+    get: function() {
+        return setup;
+    }
 });
 const _url = require("./url");
 function setup(url: string, obj: any) {
