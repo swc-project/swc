@@ -485,11 +485,11 @@ pub struct LinkItem(pub Span, pub AHashSet<LinkSpecifier>, pub LinkFlag);
 use bitflags::bitflags;
 
 bitflags! {
-    #[derive(Default)]
+    #[derive(Default, Debug)]
     pub struct LinkFlag: u8 {
         const NAMED = 1 << 0;
         const DEFAULT = 1 << 1;
-        const NAMESPACE = Self::NAMED.bits | Self::DEFAULT.bits;
+        const NAMESPACE = Self::NAMED.bits() | Self::DEFAULT.bits();
         const EXPORT_STAR = 1 << 2;
         const IMPORT_EQUAL = 1 << 3;
     }

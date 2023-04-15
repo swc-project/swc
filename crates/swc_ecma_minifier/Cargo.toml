@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = "Apache-2.0"
 name          = "swc_ecma_minifier"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.180.10"
+version       = "0.180.13"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -53,19 +53,19 @@ tracing           = "0.1.32"
 
 swc_atoms = { version = "0.5.3", path = "../swc_atoms" }
 swc_cached = { version = "0.3.15", path = "../swc_cached" }
-swc_common = { version = "0.31.3", path = "../swc_common" }
+swc_common = { version = "0.31.4", path = "../swc_common" }
 swc_config = { version = "0.1.5", path = "../swc_config" }
-swc_ecma_ast = { version = "0.103.3", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "0.103.4", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_codegen = { version = "0.138.7", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "0.133.6", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.126.7", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "0.186.8", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_usage_analyzer = { version = "0.12.6", path = "../swc_ecma_usage_analyzer" }
-swc_ecma_utils = { version = "0.116.6", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.89.3", path = "../swc_ecma_visit" }
-swc_timer = { version = "0.19.3", path = "../swc_timer" }
+swc_ecma_codegen = { version = "0.138.9", path = "../swc_ecma_codegen" }
+swc_ecma_parser = { version = "0.133.8", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "0.126.9", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "0.186.11", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_usage_analyzer = { version = "0.12.8", path = "../swc_ecma_usage_analyzer" }
+swc_ecma_utils = { version = "0.116.8", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "0.89.4", path = "../swc_ecma_visit" }
+swc_timer = { version = "0.19.4", path = "../swc_timer" }
 
 [dev-dependencies]
 ansi_term         = "0.12.1"
@@ -76,7 +76,7 @@ walkdir           = "2"
 
 swc_ecma_testing = { version = "0.20.7", path = "../swc_ecma_testing" }
 swc_node_base    = { version = "0.5.8", path = "../swc_node_base" }
-testing          = { version = "0.33.3", path = "../testing" }
+testing          = { version = "0.33.4", path = "../testing" }
 
 [[bench]]
 harness = false

@@ -73,9 +73,6 @@ macro_rules! tok {
     (':') => {
         crate::token::Token::Colon
     };
-    ("::") => {
-        crate::token::Token::ColonColon
-    };
     ('.') => {
         crate::token::Token::Dot
     };
