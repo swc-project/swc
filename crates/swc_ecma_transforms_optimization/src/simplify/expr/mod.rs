@@ -154,7 +154,7 @@ impl SimplifyExpr {
                     self.changed = true;
 
                     *expr = Expr::Lit(Lit::Num(Number {
-                        value: value.chars().count() as f64,
+                        value: value.chars().map(|c| c.len_utf16()).sum::<usize>() as _,
                         span: *span,
                         raw: None,
                     }));
