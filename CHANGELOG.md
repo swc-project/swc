@@ -8,6 +8,9 @@
 - **(es)** Allow extra comments after `sourceMappingURL` (#7262) ([219a738](https://github.com/swc-project/swc/commit/219a738a752e44bcbf5681f2f77766f5581439c3))
 
 
+- **(es/helpers)** Do not duplicate property names (#7266) ([30a4e52](https://github.com/swc-project/swc/commit/30a4e52f74e9c2e6f919f41930f79b4a0c3eab76))
+
+
 - **(es/loader)** Fix browser overwrites not applying correctly (#7243) ([beefdd4](https://github.com/swc-project/swc/commit/beefdd459c1bdd96bcd5c83f8dc2e4c4c1be695d))
 
 ### Miscellaneous Tasks
