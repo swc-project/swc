@@ -184,7 +184,7 @@ adding labels to triage issues:
     an issue is **C-feature-request**, but is not **Feature accepted**,
     then it was not thoroughly discussed, and might need some additional design
     or perhaps should be implemented as an external subcommand first. Ping
-    `@swc-project/swc` if you want to send a PR for an such issue.
+    `@swc-project/swc` if you want to send a PR for such an issue.
 
 -   Green, **E**-prefixed labels explain the level of **experience** or
     **effort** necessary to fix the issue. [**E-mentor**][e-mentor] issues also
