@@ -1,7 +1,5 @@
 use std::{fmt::Write, mem};
 
-use once_cell::sync::Lazy;
-use regex::Regex;
 use sha1::{Digest, Sha1};
 use swc_common::{util::take::Take, SourceMap, SourceMapper, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -371,7 +369,14 @@ struct HookCollector<'a> {
     cm: &'a SourceMap,
 }
 
-static IS_HOOK_LIKE: Lazy<Regex> = Lazy::new(|| Regex::new("^use[A-Z]").unwrap());
+fn is_hook_like(s: &str) -> bool {
+    if let Some(s) = s.strip_prefix("use") {
+        s.chars().next().map(|c| c.is_uppercase()).unwrap_or(false)
+    } else {
+        false
+    }
+}
+
 impl<'a> HookCollector<'a> {
     fn get_hook_from_call_expr(&self, expr: &CallExpr, lhs: Option<&Pat>) -> Option<Hook> {
         let callee = if let Callee::Expr(callee) = &expr.callee {
@@ -396,7 +401,7 @@ impl<'a> HookCollector<'a> {
             }
             _ => None,
         }?;
-        let name = if IS_HOOK_LIKE.is_match(&ident.sym) {
+        let name = if is_hook_like(&ident.sym) {
             Some(ident)
         } else {
             None

@@ -4279,7 +4279,6 @@ dependencies = [
  "indexmap",
  "once_cell",
  "rayon",
- "regex",
  "serde",
  "sha-1",
  "string_enum",
