@@ -18,7 +18,7 @@
   CLASS = 10; // only used in assertValidReturnValue
 */
 
-export function _apply_decs_2203_r() {
+export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
     function createAddInitializerMethod(initializers, decoratorFinishedRef) {
         return function addInitializer(initializer) {
             assertNotFinished(decoratorFinishedRef, "addInitializer");
@@ -538,7 +538,7 @@ export function _apply_decs_2203_r() {
         };
     };
 
-    return _apply_decs_2203_r.apply(this, arguments);
+    return _apply_decs_2203_r(targetClass, memberDecs, classDecs);
 }
 
 export { _apply_decs_2203_r as _ };
