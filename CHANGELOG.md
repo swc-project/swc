@@ -19,6 +19,12 @@
 
 - **(preset-env)** Update static map (#7293) ([bc83cb2](https://github.com/swc-project/swc/commit/bc83cb2ecfcfcec0fef0e0b2f2450746ada4628c))
 
+### Build
+
+
+
+- **(cargo)** Bump up wasmer (#7294) ([39d415c](https://github.com/swc-project/swc/commit/39d415cc1623456255dc2c7b87594f7fd00ab87b))
+
 ## [1.3.51] - 2023-04-16
 
 ### Bug Fixes
