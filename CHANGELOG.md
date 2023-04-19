@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Fix a inliner bug related to `Script` (#7288) ([0aab90c](https://github.com/swc-project/swc/commit/0aab90c005b29b9fced96a04b84a49fe2298560e))
 
+
+- **(es/resolver)** Hoist parameter in arrow and constructor (#7292) ([7a00f2e](https://github.com/swc-project/swc/commit/7a00f2e95412b7dcbe9ce3b32d8b299104b2f5c5))
+
 ### Performance
 
 
