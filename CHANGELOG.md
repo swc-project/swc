@@ -1,4 +1,15 @@
 # Changelog
+## [unreleased]
+
+### Performance
+
+
+
+- **(es/react)** Don't use regex (#7284) ([248fd37](https://github.com/swc-project/swc/commit/248fd374e66bf33c3d40eff1fe2ab2d584aec507))
+
+
+- **(preset-env)** Update static map (#7293) ([bc83cb2](https://github.com/swc-project/swc/commit/bc83cb2ecfcfcec0fef0e0b2f2450746ada4628c))
+
 ## [1.3.51] - 2023-04-16
 
 ### Bug Fixes

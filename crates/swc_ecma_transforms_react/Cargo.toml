@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_react"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.172.13"
+version       = "0.172.14"
 
 [lib]
 bench = false
@@ -24,7 +24,6 @@ dashmap   = "5.1.0"
 indexmap  = "1.6.1"
 once_cell = "1.10.0"
 rayon     = { version = "1.5.1", optional = true }
-regex     = "1.4.2"
 serde     = { version = "1.0.118", features = ["derive"], optional = true }
 sha-1     = "=0.10.0"
 
