@@ -81,7 +81,7 @@ impl VisitMut for TypeOfSymbol {
 
                     let call = Expr::Call(CallExpr {
                         span: *span,
-                        callee: helper!(*span, type_of, "type_of"),
+                        callee: helper!(*span, type_of),
                         args: vec![arg.take().as_arg()],
 
                         type_args: Default::default(),
@@ -97,7 +97,7 @@ impl VisitMut for TypeOfSymbol {
                 _ => {
                     let call = Expr::Call(CallExpr {
                         span: *span,
-                        callee: helper!(*span, type_of, "type_of"),
+                        callee: helper!(*span, type_of),
                         args: vec![arg.take().as_arg()],
 
                         type_args: Default::default(),

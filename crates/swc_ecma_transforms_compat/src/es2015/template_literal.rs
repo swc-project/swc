@@ -259,12 +259,9 @@ impl VisitMut for TemplateLiteral {
                                 init: Some(Box::new(Expr::Call(CallExpr {
                                     span: DUMMY_SP,
                                     callee: if self.c.mutable_template {
-                                        helper!(
-                                            tagged_template_literal_loose,
-                                            "tagged_template_literal_loose"
-                                        )
+                                        helper!(tagged_template_literal_loose)
                                     } else {
-                                        helper!(tagged_template_literal, "tagged_template_literal")
+                                        helper!(tagged_template_literal)
                                     },
                                     args: {
                                         let has_escape =

@@ -177,7 +177,7 @@ impl SuperReplacer {
     fn get_proto(&mut self) -> ExprOrSpread {
         Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: helper!(get_prototype_of, "get_prototype_of"),
+            callee: helper!(get_prototype_of),
             args: vec![self.get_obj_ref().as_arg()],
             type_args: Default::default(),
         })
@@ -350,7 +350,7 @@ impl SuperReplacer {
     fn super_to_get_call(proto: ExprOrSpread, super_token: Span, prop: ExprOrSpread) -> Expr {
         Expr::Call(CallExpr {
             span: super_token,
-            callee: helper!(get, "get"),
+            callee: helper!(get),
             args: vec![proto, prop, ThisExpr { span: super_token }.as_arg()],
             type_args: Default::default(),
         })
@@ -373,7 +373,7 @@ impl SuperReplacer {
     ) -> Expr {
         Expr::Call(CallExpr {
             span: super_token,
-            callee: helper!(set, "set"),
+            callee: helper!(set),
             args: vec![
                 self.get_proto(),
                 prop,

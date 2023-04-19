@@ -384,19 +384,16 @@ impl VisitMut for ObjectRest {
                             name: *prop.arg,
                             init: Some(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
-                                callee: helper!(extends, "extends"),
+                                callee: helper!(extends),
                                 args: vec![
                                     ObjectLit {
                                         span: DUMMY_SP,
                                         props: vec![],
                                     }
                                     .as_arg(),
-                                    helper_expr!(
-                                        object_destructuring_empty,
-                                        "object_destructuring_empty"
-                                    )
-                                    .as_call(DUMMY_SP, vec![init.as_arg()])
-                                    .as_arg(),
+                                    helper_expr!(object_destructuring_empty)
+                                        .as_call(DUMMY_SP, vec![init.as_arg()])
+                                        .as_arg(),
                                 ],
                                 type_args: Default::default(),
                             }))),
@@ -948,14 +945,14 @@ fn object_without_properties(
     if excluded_props.is_empty() {
         return Expr::Call(CallExpr {
             span: DUMMY_SP,
-            callee: helper!(extends, "extends"),
+            callee: helper!(extends),
             args: vec![
                 ObjectLit {
                     span: DUMMY_SP,
                     props: vec![],
                 }
                 .as_arg(),
-                helper_expr!(object_destructuring_empty, "object_destructuring_empty")
+                helper_expr!(object_destructuring_empty)
                     .as_call(DUMMY_SP, vec![obj.as_arg()])
                     .as_arg(),
             ],
@@ -983,12 +980,9 @@ fn object_without_properties(
     Expr::Call(CallExpr {
         span: DUMMY_SP,
         callee: if no_symbol {
-            helper!(
-                object_without_properties_loose,
-                "object_without_properties_loose"
-            )
+            helper!(object_without_properties_loose)
         } else {
-            helper!(object_without_properties, "object_without_properties")
+            helper!(object_without_properties)
         },
         args: vec![
             obj.as_arg(),
@@ -1007,7 +1001,7 @@ fn object_without_properties(
                     }
                     .make_member(Ident::new("map".into(), DUMMY_SP))
                     .as_callee(),
-                    args: vec![helper_expr!(to_property_key, "to_property_key").as_arg()],
+                    args: vec![helper_expr!(to_property_key).as_arg()],
                     type_args: Default::default(),
                 }
                 .as_arg()
@@ -1114,9 +1108,9 @@ impl VisitMut for ObjectSpread {
             }
 
             let mut callee = if self.config.set_property {
-                helper!(extends, "extends")
+                helper!(extends)
             } else {
-                helper!(object_spread, "object_spread")
+                helper!(object_spread)
             };
 
             // { foo, ...x } => ({ foo }, x)
@@ -1149,7 +1143,7 @@ impl VisitMut for ObjectSpread {
                                 if !first && !self.config.pure_getters {
                                     buf = vec![Expr::Call(CallExpr {
                                         span: DUMMY_SP,
-                                        callee: helper!(object_spread_props, "object_spread_props"),
+                                        callee: helper!(object_spread_props),
                                         args: buf.take(),
                                         type_args: Default::default(),
                                     })
@@ -1165,7 +1159,7 @@ impl VisitMut for ObjectSpread {
 
                 if !obj.props.is_empty() {
                     if !self.config.pure_getters {
-                        callee = helper!(object_spread_props, "object_spread_props");
+                        callee = helper!(object_spread_props);
                     }
                     buf.push(obj.as_arg());
                 }

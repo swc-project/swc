@@ -239,7 +239,7 @@ impl VisitMut for ComputedProps {
                 if !self.c.loose && props_cnt == 1 {
                     single_cnt_prop = Some(Expr::Call(CallExpr {
                         span,
-                        callee: helper!(define_property, "define_property"),
+                        callee: helper!(define_property),
                         args: vec![exprs.pop().unwrap().as_arg(), key.as_arg(), value.as_arg()],
                         type_args: Default::default(),
                     }));
@@ -260,7 +260,7 @@ impl VisitMut for ComputedProps {
                 } else {
                     Box::new(Expr::Call(CallExpr {
                         span,
-                        callee: helper!(define_property, "define_property"),
+                        callee: helper!(define_property),
                         args: vec![obj_ident.clone().as_arg(), key.as_arg(), value.as_arg()],
                         type_args: Default::default(),
                     }))
@@ -290,7 +290,7 @@ impl VisitMut for ComputedProps {
                 });
                 exprs.push(Box::new(Expr::Call(CallExpr {
                     span: *span,
-                    callee: helper!(define_enumerable_properties, "define_enumerable_properties"),
+                    callee: helper!(define_enumerable_properties),
                     args: vec![obj_ident.clone().as_arg(), mutator_map.as_arg()],
                     type_args: Default::default(),
                 })));
