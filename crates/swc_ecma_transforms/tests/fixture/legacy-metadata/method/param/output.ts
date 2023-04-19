@@ -2,20 +2,20 @@ class Foo {
     foo(p: string, p2: string) {}
     static bar(p: string, p2: string) {}
 }
-__decorate([
-    __param(0, dec1()),
-    __param(1, dec2()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+_ts_decorate([
+    _ts_param(0, dec1()),
+    _ts_param(1, dec2()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         String,
         String
     ])
 ], Foo.prototype, "foo", null);
-__decorate([
-    __param(0, dec1()),
-    __param(1, dec2()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+_ts_decorate([
+    _ts_param(0, dec1()),
+    _ts_param(1, dec2()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         String,
         String
     ])

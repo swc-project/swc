@@ -3,6 +3,6 @@ _key = foo;
 class Foo {
     [_key]() {}
 }
-__decorate([
+_ts_decorate([
     dec
 ], Foo.prototype, _key, null);
