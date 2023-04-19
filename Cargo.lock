@@ -3222,9 +3222,9 @@ dependencies = [
 
 [[package]]
 name = "st-map"
-version = "0.1.7"
+version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2ddd6458f597ee896b852688d68638c2d671c0e7c51ef03217def16bceee7cec"
+checksum = "f09d891835f076b0d4a58dd4478fb54d47aa3da1f7a4c6e89ad6c791357ab5ed"
 dependencies = [
  "arrayvec",
  "static-map-macro",
@@ -3260,9 +3260,9 @@ dependencies = [
 
 [[package]]
 name = "static-map-macro"
-version = "0.2.4"
+version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7ca835306e87f68b38899c66d1af2765aed20bd2f79baa9f12f0b7ac3e55ea66"
+checksum = "b862d598fbc9f7085b017890e2e61433f501e7467f2c585323e1aa3c07ef8599"
 dependencies = [
  "pmutil",
  "proc-macro2",
