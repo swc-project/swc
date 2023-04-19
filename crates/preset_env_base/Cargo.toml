@@ -18,7 +18,7 @@ dashmap         = "5.1.0"
 once_cell       = "1.12.0"
 semver          = { version = "1.0.4", features = ["serde"] }
 serde           = { version = "1", features = ["derive"] }
-st-map          = "0.1.2"
+st-map          = "0.1.8"
 tracing         = { version = "0.1.32" }
 
 from_variant = { version = "0.1.5", path = "../from_variant" }
