@@ -25,10 +25,10 @@ function defaultArgFunction__2(a__9 = function() {
 }, b__9 = 1) {}
 function defaultArgArrow__2(a__11 = ()=>()=>b__11, b__11 = 3) {}
 class C__2 {
-    constructor(a__12 = b, b__12 = 1){}
+    constructor(a__12 = b__12, b__12 = 1){}
     method(a__13 = b__13, b__13 = 1) {}
 }
-var x__2 = (a__14 = b, b__14 = c, c__14 = d)=>{
+var x__2 = (a__14 = b__14, b__14 = c__14, c__14 = d)=>{
     var d__14;
 };
 function f__2(a__15, b__15 = function() {
