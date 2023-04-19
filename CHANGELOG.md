@@ -5,6 +5,14 @@
 
 
 
+- **(testing)** Fix path normalization on windows for testing diffs (#7299) ([3422923](https://github.com/swc-project/swc/commit/3422923cb004111f8c57501bb8b222905cf6bd09))
+
+## [1.3.52] - 2023-04-19
+
+### Bug Fixes
+
+
+
 - **(es/minifier)** Fix a inliner bug related to `Script` (#7288) ([0aab90c](https://github.com/swc-project/swc/commit/0aab90c005b29b9fced96a04b84a49fe2298560e))
 
 
