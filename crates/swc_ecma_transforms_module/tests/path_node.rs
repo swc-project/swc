@@ -108,7 +108,7 @@ fn paths_resolver(
 #[serde(rename_all = "camelCase")]
 struct TestConfig {
     #[serde(default)]
-    base_url: PathBuf,
+    base_url: Option<PathBuf>,
 
     paths: IndexMap<String, Vec<String>>,
 }
@@ -128,7 +128,7 @@ fn fixture(input_dir: PathBuf) {
 
             let rules = config.paths.into_iter().collect();
 
-            let resolver = paths_resolver(&config.base_url, rules);
+            let resolver = paths_resolver(config.base_url.unwrap_or(input_dir.clone()), rules);
 
             import_rewriter(FileName::Real(index_path.clone()), resolver)
         },
