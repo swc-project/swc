@@ -474,7 +474,7 @@ impl Resolve for NodeModulesResolver {
                 } else {
                     self.resolve_node_modules(base_dir, target)
                         .and_then(|path| {
-                            let file_path = path.context("Impossible to get the node_modules path");
+                            let file_path = path.context("failed to get the node_modules path");
                             let current_directory = current_dir()?;
                             let relative_path = diff_paths(file_path?, current_directory);
                             self.wrap(relative_path)
