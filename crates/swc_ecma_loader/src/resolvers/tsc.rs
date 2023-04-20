@@ -147,13 +147,6 @@ where
             }
         }
 
-        if let Ok(v) = self
-            .inner
-            .resolve(&self.base_url_filename, module_specifier)
-        {
-            return Ok(v);
-        }
-
         // https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping
         for (from, to) in &self.paths {
             match from {
@@ -229,6 +222,13 @@ where
                     }
                 }
             }
+        }
+
+        if let Ok(v) = self
+            .inner
+            .resolve(&self.base_url_filename, module_specifier)
+        {
+            return Ok(v);
         }
 
         self.inner.resolve(base, module_specifier)
