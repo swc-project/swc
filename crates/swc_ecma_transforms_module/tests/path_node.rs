@@ -4,6 +4,7 @@ use std::{
 };
 
 use indexmap::IndexMap;
+use serde::Deserialize;
 use swc_common::FileName;
 use swc_ecma_loader::resolvers::{node::NodeModulesResolver, tsc::TsConfigResolver};
 use swc_ecma_parser::Syntax;
@@ -103,6 +104,15 @@ fn paths_resolver(
     ))
 }
 
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct TestConfig {
+    #[serde(default)]
+    base_url: PathBuf,
+
+    paths: IndexMap<String, Vec<String>>,
+}
+
 #[testing::fixture("tests/paths/**/input")]
 fn fixture(input_dir: PathBuf) {
     let output_dir = input_dir.parent().unwrap().join("output");
@@ -112,13 +122,13 @@ fn fixture(input_dir: PathBuf) {
     test_fixture(
         Syntax::default(),
         &|_| {
-            let paths_json_path = input_dir.join("paths.json");
+            let paths_json_path = input_dir.join("config.json");
             let paths_json = std::fs::read_to_string(paths_json_path).unwrap();
-            let paths = serde_json::from_str::<IndexMap<String, Vec<String>>>(&paths_json).unwrap();
+            let config = serde_json::from_str::<TestConfig>(&paths_json).unwrap();
 
-            let rules = paths.into_iter().collect();
+            let rules = config.paths.into_iter().collect();
 
-            let resolver = paths_resolver(&input_dir, rules);
+            let resolver = paths_resolver(&config.base_url, rules);
 
             import_rewriter(FileName::Real(index_path.clone()), resolver)
         },
