@@ -110,6 +110,10 @@ struct TestConfig {
     #[serde(default)]
     base_url: Option<PathBuf>,
 
+    #[serde(default)]
+    input_file: Option<String>,
+
+    #[serde(default)]
     paths: IndexMap<String, Vec<String>>,
 }
 
@@ -121,7 +125,7 @@ fn fixture(input_dir: PathBuf) {
     let paths_json = std::fs::read_to_string(paths_json_path).unwrap();
     let config = serde_json::from_str::<TestConfig>(&paths_json).unwrap();
 
-    let index_path = input_dir.join("index.ts");
+    let index_path = input_dir.join(config.input_file.as_deref().unwrap_or("index.ts"));
 
     test_fixture(
         Syntax::default(),

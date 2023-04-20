@@ -1,3 +1,4 @@
 {
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "inputFile": "src/index.ts"
 }
