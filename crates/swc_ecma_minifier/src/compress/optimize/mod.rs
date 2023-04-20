@@ -2135,11 +2135,8 @@ where
 
             n.params.visit_mut_with(optimizer);
             if let Some(body) = n.body.as_mut() {
-                // Bypass visit_mut_stmts
-                for s in &mut body.stmts {
-                    s.visit_mut_with(optimizer);
-                }
-                optimizer.handle_stmts(&mut body.stmts, true);
+                // Bypass block scope handler.
+                body.visit_mut_children_with(optimizer);
                 #[cfg(debug_assertions)]
                 {
                     body.visit_with(&mut AssertValid);
