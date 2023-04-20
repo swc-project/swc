@@ -174,3 +174,24 @@ test!(
     switch ( 0 ) { case (_ref = 0) !== null && _ref !== void 0 ? _ref : 0: }
 "#
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_7290,
+    "
+    filter = clone(initialFilter)
+
+    filter.start_point ??= {
+        location: null,
+        radius: null
+    }
+    
+    filter.end_point ??= {
+        location: null,
+        radius: null
+    }
+    ",
+    "
+    "
+);
