@@ -1,6 +1,6 @@
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2020::nullish_coalescing::{nullish_coalescing, Config};
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 use swc_ecma_visit::Fold;
 
 fn tr(c: Config) -> impl Fold {
@@ -195,16 +195,40 @@ test!(
     "
     var filter = clone(initialFilter);
     var _filter_start_point;
-    (_filter_start_point = filter.start_point) !== null && _filter_start_point !== void 0 ? \
-     _filter_start_point : filter.start_point = {
-    location: null,
-    radius: null
+    _filter_start_point = (_filter_start_point = filter.start_point) !== null && \
+     _filter_start_point !== void 0 ? _filter_start_point : filter.start_point = {
+        location: null,
+        radius: null
     };
     var _filter_end_point;
-    (_filter_end_point = filter.end_point) !== null && _filter_end_point !== void 0 ? \
-     _filter_end_point : filter.end_point = {
-    location: null,
-    radius: null
+    _filter_end_point = (_filter_end_point = filter.end_point) !== null && _filter_end_point !== \
+     void 0 ? _filter_end_point : filter.end_point = {
+        location: null,
+        radius: null
     };
+    "
+);
+
+compare_stdout!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_7290_1,
+    "
+    var filter = {
+        start_point: 1
+    };
+
+    filter.start_point ??= {
+        location: null,
+        radius: null
+    }
+    
+    filter.end_point ??= {
+        location: null,
+        radius: null
+    }
+
+    console.log(filter.start_point)
+    console.log(filter.end_point)
     "
 );
