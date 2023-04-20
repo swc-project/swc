@@ -2136,7 +2136,9 @@ where
             n.params.visit_mut_with(optimizer);
             if let Some(body) = n.body.as_mut() {
                 // Bypass visit_mut_stmts
-                body.stmts.visit_mut_children_with(optimizer);
+                for s in &mut body.stmts {
+                    s.visit_mut_with(optimizer);
+                }
                 optimizer.handle_stmts(&mut body.stmts, true);
                 #[cfg(debug_assertions)]
                 {
