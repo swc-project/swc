@@ -1438,10 +1438,11 @@ impl ModuleConfig {
             }
             _ => base.clone(),
         };
+        let skip_resolver = base_url.as_os_str().is_empty() && paths.is_empty();
 
         match config {
             None | Some(ModuleConfig::Es6) | Some(ModuleConfig::NodeNext) => {
-                if paths.is_empty() {
+                if skip_resolver {
                     Box::new(noop())
                 } else {
                     let resolver = build_resolver(base_url, paths);
@@ -1450,7 +1451,7 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::CommonJs(config)) => {
-                if paths.is_empty() {
+                if skip_resolver {
                     Box::new(modules::common_js::common_js(
                         unresolved_mark,
                         config,
@@ -1470,7 +1471,7 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::Umd(config)) => {
-                if paths.is_empty() {
+                if skip_resolver {
                     Box::new(modules::umd::umd(
                         cm,
                         unresolved_mark,
@@ -1493,7 +1494,7 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::Amd(config)) => {
-                if paths.is_empty() {
+                if skip_resolver {
                     Box::new(modules::amd::amd(
                         unresolved_mark,
                         config,
@@ -1514,7 +1515,7 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::SystemJs(config)) => {
-                if paths.is_empty() {
+                if skip_resolver {
                     Box::new(modules::system_js::system_js(unresolved_mark, config))
                 } else {
                     let resolver = build_resolver(base_url, paths);
