@@ -117,18 +117,19 @@ struct TestConfig {
 fn fixture(input_dir: PathBuf) {
     let output_dir = input_dir.parent().unwrap().join("output");
 
+    let paths_json_path = input_dir.join("config.json");
+    let paths_json = std::fs::read_to_string(paths_json_path).unwrap();
+    let config = serde_json::from_str::<TestConfig>(&paths_json).unwrap();
+
     let index_path = input_dir.join("index.ts");
 
     test_fixture(
         Syntax::default(),
         &|_| {
-            let paths_json_path = input_dir.join("config.json");
-            let paths_json = std::fs::read_to_string(paths_json_path).unwrap();
-            let config = serde_json::from_str::<TestConfig>(&paths_json).unwrap();
+            let rules = config.paths.clone().into_iter().collect();
 
-            let rules = config.paths.into_iter().collect();
-
-            let resolver = paths_resolver(config.base_url.unwrap_or(input_dir.clone()), rules);
+            let resolver =
+                paths_resolver(config.base_url.clone().unwrap_or(input_dir.clone()), rules);
 
             import_rewriter(FileName::Real(index_path.clone()), resolver)
         },
