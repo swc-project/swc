@@ -180,7 +180,7 @@ test!(
     |_| tr(Default::default()),
     issue_7290,
     "
-    filter = clone(initialFilter)
+    var filter = clone(initialFilter)
 
     filter.start_point ??= {
         location: null,
@@ -193,5 +193,17 @@ test!(
     }
     ",
     "
+    var _filter_start_point, _filter_end_point;
+    var filter = clone(initialFilter);
+    (_filter_start_point = filter.start_point) !== null && _filter_start_point !== void 0 ? \
+     _filter_start_point : filter.start_point = {
+    location: null,
+    radius: null
+    };
+    (_filter_end_point = filter.end_point) !== null && _filter_end_point !== void 0 ? \
+     _filter_end_point : filter.end_point = {
+    location: null,
+    radius: null
+    };
     "
 );
