@@ -5,5 +5,5 @@ console.log((function() {
         190,
         239
     ];
-    return 1588444911;
+    return b = 1588444911;
 })().toString(16));
