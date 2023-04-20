@@ -4,7 +4,7 @@ function decorator(): PropertyDecorator {
 class Example {
     value?: `prefix${string}`;
 }
-__decorate([
+_ts_decorate([
     decorator(),
-    __metadata("design:type", String)
+    _ts_metadata("design:type", String)
 ], Example.prototype, "value", void 0);

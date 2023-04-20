@@ -178,7 +178,7 @@ impl VisitMut for Spread {
 
                 *e = Expr::Call(CallExpr {
                     span: *span,
-                    callee: helper!(construct, "construct"),
+                    callee: helper!(construct),
                     args: vec![callee.take().as_arg(), args.as_arg()],
                     type_args: Default::default(),
                 });
@@ -268,7 +268,7 @@ impl Spread {
                     } else {
                         CallExpr {
                             span,
-                            callee: helper!(to_consumable_array, "to_consumable_array"),
+                            callee: helper!(to_consumable_array),
                             args: vec![expr.as_arg()],
                             type_args: Default::default(),
                         }

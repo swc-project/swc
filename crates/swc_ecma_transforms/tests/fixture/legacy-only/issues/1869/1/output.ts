@@ -4,7 +4,7 @@ let TestClass = class TestClass {
         firstProp: TestClass.Something
     };
 };
-TestClass = __decorate([
+TestClass = _ts_decorate([
     someClassDecorator
 ], TestClass);
 function someClassDecorator(c) {

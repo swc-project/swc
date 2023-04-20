@@ -88,7 +88,7 @@ impl VisitMut for Wrapper {
             });
             let generator_object = Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: helper!(ts, ts_generator, "__generator"),
+                callee: helper!(ts, ts_generator),
                 args: vec![
                     ThisExpr { span: DUMMY_SP }.as_arg(),
                     FnExpr {
@@ -427,7 +427,7 @@ impl VisitMut for Generator {
                         .take()
                         .map(|e| CallExpr {
                             span: DUMMY_SP,
-                            callee: helper!(ts, ts_values, "__values"),
+                            callee: helper!(ts, ts_values),
                             args: vec![e.as_arg()],
                             type_args: Default::default(),
                         })
@@ -1308,7 +1308,7 @@ impl Generator {
 
                 Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: helper!(define_property, "define_property"),
+                    callee: helper!(define_property),
                     args: vec![
                         temp.clone().as_arg(),
                         prop_name_to_expr_value(key).as_arg(),

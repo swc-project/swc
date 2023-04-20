@@ -56,7 +56,7 @@ it("should respect custom transform option", async () => {
                 });
             };
         }
-        var __generator = this && this.__generator || function(thisArg, body) {
+        function _ts_generator(thisArg, body) {
             var f, y, t, g, _ = {
                 label: 0,
                 sent: function() {
@@ -150,7 +150,7 @@ it("should respect custom transform option", async () => {
                     done: true
                 };
             }
-        };
+        }
         const spread = 1;
         const { foo , ...rest } = {
             ...spread
@@ -160,7 +160,7 @@ it("should respect custom transform option", async () => {
         }
         function _bar() {
             _bar = _async_to_generator(function() {
-                return __generator(this, function(_state) {
+                return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
@@ -178,7 +178,7 @@ it("should respect custom transform option", async () => {
             return _bar.apply(this, arguments);
         }
         function baz() {
-            return __generator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [

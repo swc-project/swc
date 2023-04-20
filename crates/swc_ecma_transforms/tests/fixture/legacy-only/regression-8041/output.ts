@@ -1,6 +1,6 @@
 export default class _class {
     bar() {}
 }
-__decorate([
+_ts_decorate([
     foo
 ], _class.prototype, "bar", null);

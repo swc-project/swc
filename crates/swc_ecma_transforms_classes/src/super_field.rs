@@ -200,7 +200,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                         if self.constant_super {
                             CallExpr {
                                 span: DUMMY_SP,
-                                callee: helper!(assert_this_initialized, "assert_this_initialized"),
+                                callee: helper!(assert_this_initialized),
                                 args: vec![ident],
                                 type_args: Default::default(),
                             }
@@ -381,7 +381,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
             Expr::Call(CallExpr {
                 span: super_token,
-                callee: helper!(get, "get"),
+                callee: helper!(get),
                 args: vec![proto_arg.as_arg(), prop_arg, this_arg],
                 type_args: Default::default(),
             })
@@ -425,7 +425,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
             Expr::Call(CallExpr {
                 span: super_token,
-                callee: helper!(set, "set"),
+                callee: helper!(set),
                 args: vec![
                     proto_arg.as_arg(),
                     prop_arg,
@@ -448,7 +448,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
         let expr = Expr::Call(CallExpr {
             span: super_token,
-            callee: helper!(update, "update"),
+            callee: helper!(update),
             args: vec![
                 proto_arg.as_arg(),
                 prop_arg,
@@ -487,7 +487,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 exprs: vec![
                     Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: helper!(assert_this_initialized, "assert_this_initialized"),
+                        callee: helper!(assert_this_initialized),
                         args: vec![this.as_arg()],
                         type_args: Default::default(),
                     })

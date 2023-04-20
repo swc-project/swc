@@ -3,7 +3,7 @@ class ProductController {
     // ...
     }
 }
-__decorate([
+_ts_decorate([
     bar(),
-    __param(0, foo())
+    _ts_param(0, foo())
 ], ProductController.prototype, "findById", null);

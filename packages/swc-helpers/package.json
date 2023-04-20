@@ -53,6 +53,10 @@
             "import": "./esm/_apply_decorated_descriptor.js",
             "default": "./cjs/_apply_decorated_descriptor.cjs"
         },
+        "./_/_apply_decs_2203_r": {
+            "import": "./esm/_apply_decs_2203_r.js",
+            "default": "./cjs/_apply_decs_2203_r.cjs"
+        },
         "./_/_array_like_to_array": {
             "import": "./esm/_array_like_to_array.js",
             "default": "./cjs/_array_like_to_array.cjs"

@@ -843,7 +843,7 @@ test!(
             console.log(this.action);
         }
     }
-    __decorate([
+    _ts_decorate([
         DefineAction()
     ], Child.prototype, "action", void 0);
     

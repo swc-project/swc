@@ -16,33 +16,33 @@ export let AppController = class AppController {
         return res.redirect(state.returnUrl ?? "/");
     }
 };
-__decorate([
+_ts_decorate([
     Inject(),
-    __metadata("design:type", typeof AppService === "undefined" ? Object : AppService)
+    _ts_metadata("design:type", typeof AppService === "undefined" ? Object : AppService)
 ], AppController.prototype, "appService", void 0);
-__decorate([
+_ts_decorate([
     Inject(),
-    __metadata("design:type", typeof AppService === "undefined" ? Object : AppService)
+    _ts_metadata("design:type", typeof AppService === "undefined" ? Object : AppService)
 ], AppController.prototype, "appService2", void 0);
-__decorate([
+_ts_decorate([
     Get(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [])
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [])
 ], AppController.prototype, "getHello", null);
-__decorate([
+_ts_decorate([
     Get("/callback"),
-    __param(0, Res()),
-    __param(1, Session()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+    _ts_param(0, Res()),
+    _ts_param(1, Session()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         typeof express === "undefined" || typeof express.Response === "undefined" ? Object : express.Response,
         typeof express === "undefined" || typeof express.Express === "undefined" || typeof express.Express.Session === "undefined" ? Object : express.Express.Session
     ])
 ], AppController.prototype, "callback", null);
-AppController = __decorate([
+AppController = _ts_decorate([
     Controller(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         typeof AppService === "undefined" ? Object : AppService
     ])
 ], AppController);

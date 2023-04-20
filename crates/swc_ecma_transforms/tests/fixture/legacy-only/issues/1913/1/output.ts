@@ -6,6 +6,6 @@ class Store {
         console.log("run");
     };
 }
-__decorate([
+_ts_decorate([
     action
 ], Store.prototype, "doSomething", void 0);

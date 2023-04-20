@@ -5,9 +5,9 @@ enum MyEnum {
 class Xpto {
     value: MyEnum;
 }
-__decorate([
+_ts_decorate([
     Decorator(),
-    __metadata("design:type", String)
+    _ts_metadata("design:type", String)
 ], Xpto.prototype, "value", void 0);
 function Decorator() {
     return function(...args) {};

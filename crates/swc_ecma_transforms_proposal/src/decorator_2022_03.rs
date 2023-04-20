@@ -199,7 +199,7 @@ impl Decorator202203 {
             }))),
             right: Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: helper!(apply_decs_2203_r, "apply_decs_2203_r"),
+                callee: helper!(apply_decs_2203_r),
                 args: combined_args,
                 type_args: Default::default(),
             })),
@@ -994,7 +994,7 @@ impl VisitMut for Decorator202203 {
                                     is_optional: Default::default(),
                                 })))
                                 .collect(),
-                                super_class: Some(Box::new(helper_expr!(identity, "identity"))),
+                                super_class: Some(Box::new(helper_expr!(identity))),
                                 is_abstract: Default::default(),
                                 type_params: Default::default(),
                                 super_type_params: Default::default(),

@@ -472,7 +472,7 @@ test!(
             return localVar;
         }
     }
-    __decorate([
+    _ts_decorate([
         whatever
     ], X.prototype, \"anything\", void 0);
     "
