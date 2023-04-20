@@ -2713,13 +2713,11 @@ where
             return;
         }
 
-        let ctx = self.ctx;
-
-        self.with_ctx(ctx).inject_else(stmts);
-
-        self.with_ctx(ctx).handle_stmt_likes(stmts, false);
-
-        drop_invalid_stmts(stmts);
+        #[cfg(debug_assertions)]
+        {
+            stmts.visit_with(&mut AssertValid);
+        }
+        self.handle_stmts(stmts, false);
 
         if stmts.len() == 1 {
             if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
@@ -2730,12 +2728,6 @@ where
                 }
             }
         }
-
-        #[cfg(debug_assertions)]
-        {
-            stmts.visit_with(&mut AssertValid);
-        }
-        self.handle_stmts(stmts, false)
     }
 
     fn visit_mut_str(&mut self, s: &mut Str) {
