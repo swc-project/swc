@@ -1,11 +1,37 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(testing)** Fix path normalization on windows for testing diffs (#7299) ([3422923](https://github.com/swc-project/swc/commit/3422923cb004111f8c57501bb8b222905cf6bd09))
+
+## [1.3.52] - 2023-04-19
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix a inliner bug related to `Script` (#7288) ([0aab90c](https://github.com/swc-project/swc/commit/0aab90c005b29b9fced96a04b84a49fe2298560e))
+
+
+- **(es/resolver)** Hoist parameter in arrow and constructor (#7292) ([7a00f2e](https://github.com/swc-project/swc/commit/7a00f2e95412b7dcbe9ce3b32d8b299104b2f5c5))
+
 ### Performance
 
 
 
 - **(es/react)** Don't use regex (#7284) ([248fd37](https://github.com/swc-project/swc/commit/248fd374e66bf33c3d40eff1fe2ab2d584aec507))
+
+
+- **(preset-env)** Update static map (#7293) ([bc83cb2](https://github.com/swc-project/swc/commit/bc83cb2ecfcfcec0fef0e0b2f2450746ada4628c))
+
+### Build
+
+
+
+- **(cargo)** Bump up wasmer (#7294) ([39d415c](https://github.com/swc-project/swc/commit/39d415cc1623456255dc2c7b87594f7fd00ab87b))
 
 ## [1.3.51] - 2023-04-16
 

@@ -2218,6 +2218,16 @@ where
         }
     }
 
+    fn visit_mut_script(&mut self, s: &mut Script) {
+        s.visit_mut_children_with(self);
+
+        if self.vars.inline_with_multi_replacer(s) {
+            self.changed = true;
+        }
+
+        drop_invalid_stmts(&mut s.body);
+    }
+
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let ctx = Ctx {
             top_level: true,
