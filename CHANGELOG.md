@@ -7,6 +7,12 @@
 
 - **(testing)** Fix path normalization on windows for testing diffs (#7299) ([3422923](https://github.com/swc-project/swc/commit/3422923cb004111f8c57501bb8b222905cf6bd09))
 
+### Testing
+
+
+
+- **(es/compat)** Add a test for a wrong issue (#7300) ([38495a9](https://github.com/swc-project/swc/commit/38495a9835c47ded30d07d6c961a094e22146222))
+
 ## [1.3.52] - 2023-04-19
 
 ### Bug Fixes
