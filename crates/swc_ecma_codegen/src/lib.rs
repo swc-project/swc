@@ -1635,8 +1635,6 @@ where
         punct!(":");
         formatting_space!();
         emit!(node.alt);
-
-        srcmap!(node, false);
     }
 
     #[emitter]
@@ -3015,8 +3013,6 @@ where
             }
             emit!(alt);
         }
-
-        srcmap!(n, false);
     }
 
     #[emitter]
