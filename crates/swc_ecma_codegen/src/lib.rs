@@ -2956,7 +2956,6 @@ where
             emit!(label);
         }
 
-        srcmap!(n, false);
         semi!();
     }
 
