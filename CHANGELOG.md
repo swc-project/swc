@@ -5,6 +5,9 @@
 
 
 
+- **(es)** Fix a crash related to source map (#7307) ([e7f7b01](https://github.com/swc-project/swc/commit/e7f7b01f59b622c993ee584ae825a39c390b2570))
+
+
 - **(es/helpers)** Remove unnecessary parameters in `helper_expr!` macro (#7296) ([38dfb91](https://github.com/swc-project/swc/commit/38dfb91ebc04eecab97ec023c79b183958fda227))
 
 
