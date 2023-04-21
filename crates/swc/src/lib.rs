@@ -558,7 +558,7 @@ impl Compiler {
 
             let (code, map) = match source_map {
                 SourceMapsConfig::Bool(v) => {
-                    if v && !src_map_buf.is_empty() {
+                    if v {
                         let mut buf = vec![];
 
                         self.cm
