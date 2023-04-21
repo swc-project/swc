@@ -3114,8 +3114,6 @@ where
             }
         }
         semi!();
-
-        srcmap!(n, false);
     }
 
     #[emitter]
