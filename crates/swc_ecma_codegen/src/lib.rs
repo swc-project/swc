@@ -192,8 +192,6 @@ where
                 emit!(n.decl);
             }
         }
-
-        srcmap!(n, false);
     }
 
     #[emitter]
