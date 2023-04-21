@@ -34,7 +34,7 @@ plugin = []
 anyhow = "1.0.66"
 serde = { version = "1", features = ["derive"] }
 serde-wasm-bindgen = "0.4.5"
-swc_core = { version = "0.75.27", features = [
+swc_core = { version = "0.75.31", features = [
   "ecma_ast_serde",
   "common_perf",
   "binding_macro_wasm",
