@@ -981,8 +981,6 @@ where
                 emit!(i);
             }
         }
-
-        srcmap!(node, false);
     }
 
     #[emitter]
