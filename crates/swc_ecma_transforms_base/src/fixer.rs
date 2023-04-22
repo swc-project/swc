@@ -1000,6 +1000,11 @@ impl Fixer<'_> {
                     return;
                 }
 
+                // `(a?.b.c)() !== a?.b.c()`
+                if Self::contain_opt_chain(expr) {
+                    return;
+                }
+
                 let expr_span = expr.span();
                 let paren_span = *paren_span;
                 self.unwrap_expr(expr);
@@ -1008,6 +1013,17 @@ impl Fixer<'_> {
                 self.span_map.insert(expr_span, paren_span);
             }
             _ => {}
+        }
+    }
+
+    fn contain_opt_chain(e: &Expr) -> bool {
+        match e {
+            Expr::Member(member) => Self::contain_opt_chain(&member.obj),
+            Expr::OptChain(_) => true,
+            Expr::Call(CallExpr { callee, .. }) if callee.is_expr() => {
+                Self::contain_opt_chain(callee.as_expr().unwrap())
+            }
+            _ => false,
         }
     }
 
