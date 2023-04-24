@@ -16,6 +16,12 @@
 
 - **(es/compat)** Transform curried function call with optional chaining (#7313) ([66b5b11](https://github.com/swc-project/swc/commit/66b5b110bf94259e0e0223224940bb8d0384e9b6))
 
+### Testing
+
+
+
+- **(es)** Update tsc test suite (#7323) ([603f22d](https://github.com/swc-project/swc/commit/603f22de76eaeac1a64ee5e5f2e1dd095f908604))
+
 ## [1.3.53] - 2023-04-21
 
 ### Bug Fixes
