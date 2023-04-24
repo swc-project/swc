@@ -635,6 +635,7 @@ define!({
         Class(ClassDecl),
         Fn(FnDecl),
         Var(Box<VarDecl>),
+        Using(Box<UsingDecl>),
         TsInterface(Box<TsInterfaceDecl>),
         TsTypeAlias(Box<TsTypeAliasDecl>),
         TsEnum(Box<TsEnumDecl>),
@@ -1883,6 +1884,12 @@ define!({
     pub enum Key {
         Private(PrivateName),
         Public(PropName),
+    }
+
+    pub struct UsingDecl {
+        pub span: Span,
+
+        pub decls: Vec<VarDeclarator>,
     }
 });
 
