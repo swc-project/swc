@@ -1330,6 +1330,7 @@ export type Expression =
   | TsConstAssertion
   | TsNonNullExpression
   | TsAsExpression
+  | TsSatisfiesExpression
   | TsInstantiation
   | PrivateName
   | OptionalChainingExpression
@@ -2763,6 +2764,13 @@ export interface TsNamespaceExportDeclaration extends Node, HasSpan {
 
 export interface TsAsExpression extends ExpressionBase {
   type: "TsAsExpression";
+
+  expression: Expression;
+  typeAnnotation: TsType;
+}
+
+export interface TsSatisfiesExpression extends ExpressionBase {
+  type: "TsSatisfiesExpression";
 
   expression: Expression;
   typeAnnotation: TsType;
