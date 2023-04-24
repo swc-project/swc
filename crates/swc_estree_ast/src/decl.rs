@@ -282,3 +282,13 @@ pub struct EnumDeclaration {
     pub id: Identifier,
     pub body: EnumBody,
 }
+
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("EnumDeclaration")]
+pub struct UsingDeclaration {
+    #[serde(flatten)]
+    pub base: BaseNode,
+
+    #[serde(default)]
+    pub declarations: Vec<VariableDeclarator>,
+}
