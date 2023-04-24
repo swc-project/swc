@@ -28,6 +28,8 @@ pub enum Declaration {
     FuncDecl(FunctionDeclaration),
     #[tag("VariableDeclaration")]
     VarDecl(VariableDeclaration),
+    #[tag("UsingDeclaration")]
+    UsingDecl(UsingDeclaration),
     #[tag("ClassDeclaration")]
     ClassDecl(ClassDeclaration),
     #[tag("ExportAllDeclaration")]
