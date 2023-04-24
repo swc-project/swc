@@ -14,3 +14,14 @@ for (const zoneName of timezoneNames){
         timeZoneName: zoneName
     });
 }
+const enumerationKeys = [
+    'calendar',
+    'collation',
+    'currency',
+    'numberingSystem',
+    'timeZone',
+    'unit'
+];
+for (const key of enumerationKeys){
+    var supported = Intl.supportedValuesOf(key);
+}
