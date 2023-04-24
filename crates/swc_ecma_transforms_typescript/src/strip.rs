@@ -1547,6 +1547,9 @@ where
                 self.decl_names.insert(class.ident.to_id());
                 class.class.visit_with(self);
             }
+            Decl::Using(d) => {
+                d.decls.visit_with(self);
+            }
             Decl::Fn(f) => {
                 self.decl_names.insert(f.ident.to_id());
                 f.function.visit_with(self)
