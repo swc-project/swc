@@ -1,9 +1,9 @@
 import {
   Accessibility,
+  Argument,
   ArrayExpression,
   ArrayPattern,
   ArrowFunctionExpression,
-  Argument,
   AssignmentExpression,
   AssignmentPattern,
   AssignmentPatternProperty,
@@ -11,6 +11,7 @@ import {
   AwaitExpression,
   BigIntLiteral,
   BinaryExpression,
+  BindingIdentifier,
   BlockStatement,
   BooleanLiteral,
   BreakStatement,
@@ -40,6 +41,7 @@ import {
   ExportNamedDeclaration,
   ExportNamespaceSpecifier,
   ExportSpecifier,
+  ExprOrSpread,
   Expression,
   ExpressionStatement,
   Fn,
@@ -51,14 +53,15 @@ import {
   GetterProperty,
   Identifier,
   IfStatement,
+  Import,
   ImportDeclaration,
   ImportDefaultSpecifier,
   ImportNamespaceSpecifier,
   ImportSpecifier,
+  JSXAttrValue,
   JSXAttribute,
   JSXAttributeName,
   JSXAttributeOrSpread,
-  JSXAttrValue,
   JSXClosingElement,
   JSXClosingFragment,
   JSXElement,
@@ -94,6 +97,7 @@ import {
   ObjectPatternProperty,
   OptionalChainingCall,
   OptionalChainingExpression,
+  Param,
   ParenthesisExpression,
   Pattern,
   PrivateMethod,
@@ -113,6 +117,7 @@ import {
   StaticBlock,
   StringLiteral,
   Super,
+  SuperPropExpression,
   SwitchCase,
   SwitchStatement,
   TaggedTemplateExpression,
@@ -122,6 +127,7 @@ import {
   TryStatement,
   TsAsExpression,
   TsCallSignatureDeclaration,
+  TsConstAssertion,
   TsConstructSignatureDeclaration,
   TsEntityName,
   TsEnumDeclaration,
@@ -150,6 +156,7 @@ import {
   TsParameterPropertyParameter,
   TsPropertySignature,
   TsQualifiedName,
+  TsSatisfiesExpression,
   TsSetterSignature,
   TsType,
   TsTypeAliasDeclaration,
@@ -166,12 +173,6 @@ import {
   WhileStatement,
   WithStatement,
   YieldExpression,
-  Param,
-  ExprOrSpread,
-  TsConstAssertion,
-  Import,
-  SuperPropExpression,
-  BindingIdentifier,
 } from "./types";
 
 export class Visitor {
@@ -1143,6 +1144,8 @@ export class Visitor {
         return this.visitThisExpression(n);
       case "TsAsExpression":
         return this.visitTsAsExpression(n);
+      case "TsSatisfiesExpression":
+        return this.visitTsSatisfiesExpression(n);
       case "TsNonNullExpression":
         return this.visitTsNonNullExpression(n);
       case "TsTypeAssertion":
@@ -1241,6 +1244,12 @@ export class Visitor {
   }
 
   visitTsAsExpression(n: TsAsExpression): Expression {
+    n.expression = this.visitExpression(n.expression);
+    n.typeAnnotation = this.visitTsType(n.typeAnnotation);
+    return n;
+  }
+
+  visitTsSatisfiesExpression(n: TsSatisfiesExpression): Expression {
     n.expression = this.visitExpression(n.expression);
     n.typeAnnotation = this.visitTsType(n.typeAnnotation);
     return n;
