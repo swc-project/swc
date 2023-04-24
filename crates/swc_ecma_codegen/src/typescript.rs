@@ -578,12 +578,21 @@ where
             space!();
         }
 
-        keyword!("module");
-        space!();
-        emit!(n.id);
-        formatting_space!();
+        if n.global {
+            keyword!("global");
+        } else {
+            keyword!("module");
+            space!();
+            emit!(n.id);
+        }
 
-        if let Some(body) = &n.body {
+        if let Some(mut body) = n.body.as_ref() {
+            while let TsNamespaceBody::TsNamespaceDecl(decl) = body {
+                punct!(".");
+                emit!(decl.id);
+                body = &*decl.body;
+            }
+            formatting_space!();
             emit!(body);
         }
     }
