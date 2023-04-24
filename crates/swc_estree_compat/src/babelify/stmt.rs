@@ -56,6 +56,7 @@ impl Babelify for Stmt {
                 Decl::Class(d) => Statement::ClassDecl(d.babelify(ctx)),
                 Decl::Fn(d) => Statement::FuncDecl(d.babelify(ctx)),
                 Decl::Var(d) => Statement::VarDecl(d.babelify(ctx)),
+                Decl::Using(d) => Statement::UsingDecl(d.babelify(ctx)),
                 Decl::TsInterface(d) => Statement::TSInterfaceDecl(d.babelify(ctx)),
                 Decl::TsTypeAlias(d) => Statement::TSTypeAliasDecl(d.babelify(ctx)),
                 Decl::TsEnum(d) => Statement::TSEnumDecl(d.babelify(ctx)),

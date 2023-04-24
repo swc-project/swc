@@ -1,8 +1,8 @@
 use copyless::BoxHelper;
-use swc_ecma_ast::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator};
+use swc_ecma_ast::{ClassDecl, Decl, FnDecl, UsingDecl, VarDecl, VarDeclKind, VarDeclarator};
 use swc_estree_ast::{
-    ClassBody, ClassDeclaration, Declaration, FunctionDeclaration, VariableDeclaration,
-    VariableDeclarationKind, VariableDeclarator,
+    ClassBody, ClassDeclaration, Declaration, FunctionDeclaration, UsingDeclaration,
+    VariableDeclaration, VariableDeclarationKind, VariableDeclarator,
 };
 
 use crate::babelify::{extract_class_body_span, Babelify, Context};
@@ -15,6 +15,7 @@ impl Babelify for Decl {
             Decl::Class(d) => Declaration::ClassDecl(d.babelify(ctx)),
             Decl::Fn(d) => Declaration::FuncDecl(d.babelify(ctx)),
             Decl::Var(d) => Declaration::VarDecl(d.babelify(ctx)),
+            Decl::Using(d) => Declaration::UsingDecl(d.babelify(ctx)),
             Decl::TsInterface(d) => Declaration::TSInterfaceDecl(d.babelify(ctx)),
             Decl::TsTypeAlias(d) => Declaration::TSTypeAliasDecl(d.babelify(ctx)),
             Decl::TsEnum(d) => Declaration::TSEnumDecl(d.babelify(ctx)),
@@ -120,6 +121,17 @@ impl Babelify for VarDeclarator {
             id: self.name.babelify(ctx).into(),
             init: self.init.map(|i| Box::alloc().init(i.babelify(ctx).into())),
             definite: Some(self.definite),
+        }
+    }
+}
+
+impl Babelify for UsingDecl {
+    type Output = UsingDeclaration;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        UsingDeclaration {
+            base: ctx.base(self.span),
+            declarations: self.decls.babelify(ctx),
         }
     }
 }
