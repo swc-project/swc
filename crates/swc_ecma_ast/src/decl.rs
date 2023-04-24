@@ -160,7 +160,7 @@ impl Take for VarDeclarator {
 }
 
 #[ast_node("UsingDeclaration")]
-#[derive(EqIgnoreSpan)]
+#[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct UsingDecl {
     pub span: Span,
