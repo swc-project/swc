@@ -19,3 +19,6 @@ function validate(obj, bounds) {
     }
     return true;
 }
+function genericTest(objectWithUnderscoredKeys, key) {
+    const shouldBeTrue = objectWithUnderscoredKeys[`_${key}`];
+}
