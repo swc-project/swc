@@ -164,10 +164,15 @@ impl Take for VarDeclarator {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct UsingDecl {
     pub span: Span,
+
+    pub decls: Vec<VarDeclarator>,
 }
 
 impl Take for UsingDecl {
     fn dummy() -> Self {
-        Self { span: DUMMY_SP }
+        Self {
+            span: DUMMY_SP,
+            decls: Take::dummy(),
+        }
     }
 }
