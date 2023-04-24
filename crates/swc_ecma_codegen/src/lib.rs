@@ -495,20 +495,21 @@ where
     fn emit_lit(&mut self, node: &Lit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        srcmap!(node, true);
+
         match *node {
             Lit::Bool(Bool { value, span }) => {
                 if value {
-                    keyword!(span, "true")
+                    keyword!("true")
                 } else {
-                    keyword!(span, "false")
+                    keyword!("false")
                 }
             }
-            Lit::Null(Null { span }) => keyword!(span, "null"),
+            Lit::Null(Null { span }) => keyword!("null"),
             Lit::Str(ref s) => emit!(s),
             Lit::BigInt(ref s) => emit!(s),
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
-                srcmap!(n, true);
                 punct!("/");
                 self.wr.write_str(&n.exp)?;
                 punct!("/");
