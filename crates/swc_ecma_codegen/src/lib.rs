@@ -3,7 +3,6 @@
 #![deny(unused)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::nonminimal_bool)]
-#![allow(unused_variables)]
 
 use std::{borrow::Cow, fmt::Write, io};
 
@@ -340,7 +339,7 @@ where
     #[emitter]
     fn emit_export_specifier(&mut self, node: &ExportSpecifier) -> Result {
         match node {
-            ExportSpecifier::Default(ref node) => {
+            ExportSpecifier::Default(..) => {
                 unimplemented!("codegen of `export default from 'foo';`")
             }
             ExportSpecifier::Namespace(ref node) => emit!(node),
@@ -369,12 +368,12 @@ where
 
         srcmap!(node, true);
 
-        if let Some(ref exported) = node.exported {
+        if let Some(exported) = &node.exported {
             emit!(node.orig);
             space!();
             keyword!("as");
             space!();
-            emit!(node.exported);
+            emit!(exported);
         } else {
             emit!(node.orig);
         }
@@ -498,14 +497,14 @@ where
         srcmap!(node, true);
 
         match *node {
-            Lit::Bool(Bool { value, span }) => {
+            Lit::Bool(Bool { value, .. }) => {
                 if value {
                     keyword!("true")
                 } else {
                     keyword!("false")
                 }
             }
-            Lit::Null(Null { span }) => keyword!("null"),
+            Lit::Null(Null { .. }) => keyword!("null"),
             Lit::Str(ref s) => emit!(s),
             Lit::BigInt(ref s) => emit!(s),
             Lit::Num(ref n) => emit!(n),
@@ -1711,8 +1710,6 @@ where
 
         punct!("`");
 
-        let i = 0;
-
         for i in 0..(node.quasis.len() + node.exprs.len()) {
             if i % 2 == 0 {
                 emit!(node.quasis[i / 2]);
@@ -1768,8 +1765,6 @@ where
         srcmap!(self, node, true);
 
         punct!(self, "`");
-
-        let i = 0;
 
         for i in 0..(node.quasis.len() + node.exprs.len()) {
             if i % 2 == 0 {
@@ -2346,8 +2341,8 @@ where
         parent_node: Span,
         is_empty: bool,
         format: ListFormat,
-        start: usize,
-        count: usize,
+        _start: usize,
+        _count: usize,
     ) -> Result {
         if format.contains(ListFormat::BracketsMask) {
             if is_empty {
@@ -2651,9 +2646,9 @@ where
 
         emit!(node.key);
         formatting_space!();
-        if let Some(ref value) = node.value {
+        if let Some(value) = &node.value {
             punct!("=");
-            emit!(node.value);
+            emit!(value);
             formatting_space!();
         }
 
@@ -2717,8 +2712,6 @@ where
     #[emitter]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
-        let expr_span = e.expr.span();
-
         emit!(e.expr);
 
         semi!();
