@@ -217,7 +217,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.49.31"
+version = "0.49.32"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -891,7 +891,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.80.36"
+version = "0.80.37"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -3408,7 +3408,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.260.31"
+version = "0.260.32"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3478,7 +3478,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.213.23"
+version = "0.213.24"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3592,7 +3592,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.75.31"
+version = "0.75.32"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3848,7 +3848,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.138.11"
+version = "0.138.12"
 dependencies = [
  "base64 0.13.1",
  "criterion",
@@ -3908,7 +3908,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.81.13"
+version = "0.81.14"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3952,7 +3952,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.180.23"
+version = "0.180.24"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -4020,7 +4020,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.194.21"
+version = "0.194.22"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4085,7 +4085,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.217.20"
+version = "0.217.21"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -4110,7 +4110,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.126.13"
+version = "0.126.14"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.1.0",
@@ -4137,7 +4137,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.115.13"
+version = "0.115.14"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4149,7 +4149,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.152.14"
+version = "0.152.15"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -4189,7 +4189,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.169.17"
+version = "0.169.18"
 dependencies = [
  "Inflector",
  "ahash",
@@ -4219,7 +4219,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.186.20"
+version = "0.186.21"
 dependencies = [
  "ahash",
  "dashmap",
@@ -4250,7 +4250,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.160.16"
+version = "0.160.17"
 dependencies = [
  "either",
  "rustc-hash",
@@ -4274,7 +4274,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.172.19"
+version = "0.172.20"
 dependencies = [
  "ahash",
  "base64 0.13.1",
@@ -4303,7 +4303,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.129.13"
+version = "0.129.14"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4327,7 +4327,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.176.19"
+version = "0.176.20"
 dependencies = [
  "criterion",
  "serde",
@@ -4396,7 +4396,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.227.24"
+version = "0.227.25"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -4444,7 +4444,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.183.31"
+version = "0.183.32"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4492,7 +4492,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.123.23"
+version = "0.123.24"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4543,7 +4543,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.120.23"
+version = "0.120.24"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4629,7 +4629,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.47.31"
+version = "0.47.32"
 dependencies = [
  "anyhow",
  "dashmap",
