@@ -1673,7 +1673,7 @@ where
 
         if let Some(body) = &node.body {
             formatting_space!();
-            emit!(body);
+            self.emit_block_stmt_inner(body, true)?;
         } else {
             semi!();
         }
@@ -1683,9 +1683,11 @@ where
 
     #[emitter]
     fn emit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) -> Result {
-        match *node {
-            BlockStmtOrExpr::BlockStmt(ref block_stmt) => emit!(block_stmt),
-            BlockStmtOrExpr::Expr(ref expr) => {
+        match node {
+            BlockStmtOrExpr::BlockStmt(block) => {
+                self.emit_block_stmt_inner(block, true)?;
+            }
+            BlockStmtOrExpr::Expr(expr) => {
                 self.wr.increase_indent()?;
                 emit!(expr);
                 self.wr.decrease_indent()?;
@@ -2720,10 +2722,16 @@ where
     #[emitter]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn emit_block_stmt(&mut self, node: &BlockStmt) -> Result {
+        self.emit_block_stmt_inner(node, false)?;
+    }
+
+    fn emit_block_stmt_inner(&mut self, node: &BlockStmt, skip_first_src_map: bool) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
-        punct!("{");
+        if !skip_first_src_map {
+            srcmap!(self, node, true);
+        }
+        punct!(self, "{");
 
         let emit_new_line = !self.cfg.minify
             && !(node.stmts.is_empty() && is_empty_comments(&node.span(), &self.comments));
@@ -2738,8 +2746,10 @@ where
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
-        srcmap!(node, false, true);
-        punct!("}");
+        srcmap!(self, node, false, true);
+        punct!(self, "}");
+
+        Ok(())
     }
 
     #[emitter]
