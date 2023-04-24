@@ -301,6 +301,11 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
+            tok!("using") => {
+                let v = self.parse_using_decl()?;
+                return Ok(Stmt::Decl(Decl::Using(v)));
+            }
+
             tok!("interface") => {
                 if is_typescript
                     && peeked_is!(self, IdentName)
@@ -749,6 +754,36 @@ impl<'a, I: Tokens> Parser<I> {
         } else {
             Ok(None)
         }
+    }
+
+    pub(super) fn parse_using_decl(&mut self) -> PResult<Box<UsingDecl>> {
+        let start = cur_pos!(self);
+        assert_and_bump!(self, "using");
+
+        let mut decls = vec![];
+        let mut first = true;
+        while first || eat!(self, ',') {
+            if first {
+                first = false;
+            }
+
+            // Handle
+            //      var a,;
+            //
+            // NewLine is ok
+            if is_exact!(self, ';') || eof!(self) {
+                let span = self.input.prev_span();
+                self.emit_err(span, SyntaxError::TS1009);
+                break;
+            }
+
+            decls.push(self.parse_var_declarator(false, VarDeclKind::Var)?);
+        }
+
+        Ok(Box::new(UsingDecl {
+            span: span!(self, start),
+            decls,
+        }))
     }
 
     pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<Box<VarDecl>> {
