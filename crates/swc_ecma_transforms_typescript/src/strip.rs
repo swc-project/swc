@@ -406,6 +406,15 @@ where
                 }
             }
 
+            Decl::Using(ref var) => {
+                let mut names: Vec<Id> = vec![];
+                var.decls.visit_with(&mut VarCollector { to: &mut names });
+
+                for name in names {
+                    self.store(name.0.clone(), name.1, true);
+                }
+            }
+
             Decl::TsEnum(e) => {
                 // Currently swc cannot remove constant enums
                 self.store(e.id.sym.clone(), e.id.span.ctxt, true);
@@ -1765,7 +1774,7 @@ fn is_decl_concrete(d: &Decl) -> bool {
     match d {
         Decl::TsEnum(..) => true,
         Decl::TsTypeAlias(..) | Decl::TsInterface(..) => false,
-        Decl::Class(_) | Decl::Fn(_) | Decl::Var(_) => true,
+        Decl::Class(_) | Decl::Fn(_) | Decl::Var(_) | Decl::Using(..) => true,
         Decl::TsModule(b) => ts_module_has_concrete(b),
     }
 }
