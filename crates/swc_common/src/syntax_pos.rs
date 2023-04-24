@@ -816,6 +816,55 @@ impl Sub<BytePos> for NonNarrowChar {
     }
 }
 
+/// This is not a public interface, workaround for https://github.com/swc-project/swc/issues/7238
+#[doc(hidden)]
+#[cfg(feature = "rkyv-impl")]
+#[derive(Debug, Clone, Copy)]
+pub struct EncodeArcString;
+
+#[cfg(feature = "rkyv-impl")]
+impl rkyv::with::ArchiveWith<Lrc<String>> for EncodeArcString {
+    type Archived = rkyv::Archived<String>;
+    type Resolver = rkyv::Resolver<String>;
+
+    unsafe fn resolve_with(
+        field: &Lrc<String>,
+        pos: usize,
+        resolver: Self::Resolver,
+        out: *mut Self::Archived,
+    ) {
+        let s = field.to_string();
+        rkyv::Archive::resolve(&s, pos, resolver, out);
+    }
+}
+
+#[cfg(feature = "rkyv-impl")]
+impl<S> rkyv::with::SerializeWith<Lrc<String>, S> for EncodeArcString
+where
+    S: ?Sized + rkyv::ser::Serializer,
+{
+    fn serialize_with(field: &Lrc<String>, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+        rkyv::string::ArchivedString::serialize_from_str(field, serializer)
+    }
+}
+
+#[cfg(feature = "rkyv-impl")]
+impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Lrc<String>, D> for EncodeArcString
+where
+    D: ?Sized + rkyv::Fallible,
+{
+    fn deserialize_with(
+        field: &rkyv::Archived<String>,
+        deserializer: &mut D,
+    ) -> Result<Lrc<String>, D::Error> {
+        use rkyv::Deserialize;
+
+        let s: String = field.deserialize(deserializer)?;
+
+        Ok(s.into())
+    }
+}
+
 /// A single source in the SourceMap.
 #[cfg_attr(
     any(feature = "rkyv-impl"),
@@ -836,6 +885,7 @@ pub struct SourceFile {
     /// Indicates which crate this `SourceFile` was imported from.
     pub crate_of_origin: u32,
     /// The complete source code
+    #[cfg_attr(any(feature = "rkyv-impl"), with(EncodeArcString))]
     pub src: Lrc<String>,
     /// The source code's hash
     pub src_hash: u128,
