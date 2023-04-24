@@ -9,6 +9,19 @@ use swc_common::plugin::serialized::{deserialize_from_ptr, PluginSerializedBytes
 )]
 pub struct AllocatedBytesPtr(pub u32, pub u32);
 
+#[cfg(target_arch = "wasm32")]
+extern "C" {
+    fn __free(ptr: *mut u8, size: i32) -> i32;
+}
+#[cfg(target_arch = "wasm32")]
+impl Drop for AllocatedBytesPtr {
+    fn drop(&mut self) {
+        unsafe {
+            __free(self.0 as _, self.1 as _);
+        }
+    }
+}
+
 #[cfg(not(feature = "__rkyv"))]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
     unimplemented!("Plugin proxy does not work without serialization support")
