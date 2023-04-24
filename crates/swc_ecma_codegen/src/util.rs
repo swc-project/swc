@@ -230,7 +230,8 @@ impl StartsWithAlphaNum for Decl {
             | Decl::TsEnum(..)
             | Decl::TsInterface(..)
             | Decl::TsModule(..)
-            | Decl::TsTypeAlias(..) => true,
+            | Decl::TsTypeAlias(..)
+            | Decl::Using(..) => true,
         }
     }
 }
