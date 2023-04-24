@@ -18,7 +18,7 @@ pub use self::{
         AutoAccessor, Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, Key,
         MethodKind, PrivateMethod, PrivateProp, StaticBlock,
     },
-    decl::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator},
+    decl::{ClassDecl, Decl, FnDecl, UsingDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::{
         ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr, CallExpr, Callee,
         ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Import, MemberExpr, MemberProp,
