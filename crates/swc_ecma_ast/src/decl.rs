@@ -22,6 +22,9 @@ pub enum Decl {
     Fn(FnDecl),
     #[tag("VariableDeclaration")]
     Var(Box<VarDecl>),
+    #[tag("UsingDeclaration")]
+    Using(Box<UsingDecl>),
+
     #[tag("TsInterfaceDeclaration")]
     TsInterface(Box<TsInterfaceDecl>),
     #[tag("TsTypeAliasDeclaration")]
@@ -33,6 +36,7 @@ pub enum Decl {
 }
 
 bridge_decl_from!(Box<VarDecl>, VarDecl);
+bridge_decl_from!(Box<UsingDecl>, UsingDecl);
 bridge_decl_from!(Box<TsInterfaceDecl>, TsInterfaceDecl);
 bridge_decl_from!(Box<TsTypeAliasDecl>, TsTypeAliasDecl);
 bridge_decl_from!(Box<TsEnumDecl>, TsEnumDecl);
@@ -152,5 +156,18 @@ impl Take for VarDeclarator {
             init: Take::dummy(),
             definite: Default::default(),
         }
+    }
+}
+
+#[ast_node("UsingDeclaration")]
+#[derive(EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct UsingDecl {
+    pub span: Span,
+}
+
+impl Take for UsingDecl {
+    fn dummy() -> Self {
+        Self { span: DUMMY_SP }
     }
 }
