@@ -1,0 +1,4 @@
+{
+    "importInterop": "swc",
+    "exportInteropAnnotation": true
+}

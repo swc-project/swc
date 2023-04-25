@@ -22,6 +22,11 @@ pub struct Config {
     pub lazy: Lazy,
     #[serde(default)]
     pub import_interop: Option<ImportInterop>,
+    /// emit `cjs-module-lexer` annotation
+    /// hint the CommonJS named exports for ESM import in node
+    /// default `true` if import_interop is Node, else `false`
+    #[serde(default)]
+    pub export_interop_annotation: Option<bool>,
     #[serde(default)]
     /// Note: deprecated
     pub no_interop: bool,
@@ -39,6 +44,7 @@ impl Default for Config {
             strict_mode: default_strict_mode(),
             lazy: Lazy::default(),
             import_interop: None,
+            export_interop_annotation: None,
             no_interop: false,
             ignore_dynamic: false,
             preserve_import_meta: false,
@@ -74,6 +80,12 @@ impl Config {
     pub fn import_interop(&self) -> ImportInterop {
         self.import_interop
             .unwrap_or_else(|| self.no_interop.into())
+    }
+
+    #[inline(always)]
+    pub fn export_interop_annotation(&self) -> bool {
+        self.export_interop_annotation
+            .unwrap_or_else(|| self.import_interop == Some(ImportInterop::Node))
     }
 }
 
