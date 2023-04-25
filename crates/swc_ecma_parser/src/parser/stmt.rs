@@ -763,9 +763,6 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_using_decl(&mut self) -> PResult<Option<Box<UsingDecl>>> {
-        let start = cur_pos!(self);
-        assert_and_bump!(self, "using");
-
         // using
         // reader = init()
 
@@ -774,6 +771,9 @@ impl<'a, I: Tokens> Parser<I> {
         if self.input.had_line_break_before_cur() {
             return Ok(None);
         }
+
+        let start = cur_pos!(self);
+        assert_and_bump!(self, "using");
 
         let mut decls = vec![];
         let mut first = true;
