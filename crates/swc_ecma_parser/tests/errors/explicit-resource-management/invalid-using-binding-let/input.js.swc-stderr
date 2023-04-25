@@ -1,9 +1,8 @@
 
-  x Expected ';', '}' or <eof>
+  x `let` cannot be used as an identifier in strict mode
    ,-[$DIR/tests/errors/explicit-resource-management/invalid-using-binding-let/input.js:1:1]
  1 | {
  2 |   using let = h();
-   :   ^^|^^ ^^^
-   :     `-- This is the expression part of an expression statement
+   :         ^^^
  3 | }
    `----

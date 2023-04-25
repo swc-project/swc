@@ -1,9 +1,8 @@
 
-  x Expected ';', '}' or <eof>
+  x Using declaration only allows identifiers
    ,-[$DIR/tests/errors/explicit-resource-management/invalid-using-binding-pattern-declaration/input.js:1:1]
  1 | {
  2 |   using { foo } = f();
-   :   ^^|^^ ^
-   :     `-- This is the expression part of an expression statement
+   :   ^^^^^^^^^^^^^^^^^^^
  3 | }
    `----

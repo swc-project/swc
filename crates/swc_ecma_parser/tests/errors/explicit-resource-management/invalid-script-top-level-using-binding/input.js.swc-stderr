@@ -1,7 +1,6 @@
 
-  x Expected ';', '}' or <eof>
+  x Using declaration is not allowed
    ,-[$DIR/tests/errors/explicit-resource-management/invalid-script-top-level-using-binding/input.js:1:1]
  1 | using x = bar();
-   : ^^|^^ ^
-   :   `-- This is the expression part of an expression statement
+   : ^^^^^^^^^^^^^^^
    `----

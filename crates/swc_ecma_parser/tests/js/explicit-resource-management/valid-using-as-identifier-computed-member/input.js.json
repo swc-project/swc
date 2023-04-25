@@ -7,66 +7,63 @@
   },
   "body": [
     {
-      "type": "ExpressionStatement",
+      "type": "UsingDeclaration",
       "span": {
         "start": 1,
-        "end": 15,
+        "end": 14,
         "ctxt": 0
       },
-      "expression": {
-        "type": "AssignmentExpression",
-        "span": {
-          "start": 1,
-          "end": 14,
-          "ctxt": 0
-        },
-        "operator": "=",
-        "left": {
-          "type": "MemberExpression",
+      "decls": [
+        {
+          "type": "VariableDeclarator",
           "span": {
-            "start": 1,
-            "end": 10,
+            "start": 7,
+            "end": 14,
             "ctxt": 0
           },
-          "object": {
-            "type": "Identifier",
-            "span": {
-              "start": 1,
-              "end": 6,
-              "ctxt": 0
-            },
-            "value": "using",
-            "optional": false
-          },
-          "property": {
-            "type": "Computed",
+          "id": {
+            "type": "ArrayPattern",
             "span": {
               "start": 7,
               "end": 10,
               "ctxt": 0
             },
-            "expression": {
-              "type": "Identifier",
-              "span": {
-                "start": 8,
-                "end": 9,
-                "ctxt": 0
-              },
-              "value": "x",
-              "optional": false
-            }
-          }
-        },
-        "right": {
-          "type": "NumericLiteral",
-          "span": {
-            "start": 13,
-            "end": 14,
-            "ctxt": 0
+            "elements": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 8,
+                  "end": 9,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "optional": false,
+            "typeAnnotation": null
           },
-          "value": 0.0,
-          "raw": "0"
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 13,
+              "end": 14,
+              "ctxt": 0
+            },
+            "value": 0.0,
+            "raw": "0"
+          },
+          "definite": false
         }
+      ]
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 14,
+        "end": 15,
+        "ctxt": 0
       }
     },
     {
