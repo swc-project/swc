@@ -22,9 +22,13 @@ pub struct Config {
     pub lazy: Lazy,
     #[serde(default)]
     pub import_interop: Option<ImportInterop>,
-    /// emit `cjs-module-lexer` annotation
-    /// hint the CommonJS named exports for ESM import in node
-    /// default `true` if import_interop is Node, else `false`
+    /// Emits `cjs-module-lexer` annotation
+    /// `cjs-module-lexer` is used in Node.js core for detecting the named
+    /// exports available when importing a CJS module into ESM.
+    /// swc will emit `cjs-module-lexer` detectable annotion with this option
+    /// enabled.
+    ///
+    /// Defaults to `true` if import_interop is Node, else `false`
     #[serde(default)]
     pub export_interop_annotation: Option<bool>,
     #[serde(default)]

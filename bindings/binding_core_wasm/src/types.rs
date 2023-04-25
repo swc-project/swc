@@ -1066,6 +1066,14 @@ export interface BaseModuleConfig {
    */
   importInterop?: "swc" | "babel" | "node" | "none";
   /**
+   * Emits `cjs-module-lexer` annotation
+   * `cjs-module-lexer` is used in Node.js core for detecting the named exports available when importing a CJS module into ESM.
+   * swc will emit `cjs-module-lexer` detectable annotion with this option enabled.
+   * 
+   * Defaults to `true` if import_interop is Node, else `false`
+   */
+  exportInteropAnnotation?: boolean;
+  /**
    * If set to true, dynamic imports will be preserved.
    */
   ignoreDynamic?: boolean;
