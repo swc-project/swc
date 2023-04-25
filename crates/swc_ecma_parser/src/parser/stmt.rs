@@ -772,6 +772,10 @@ impl<'a, I: Tokens> Parser<I> {
             return Ok(None);
         }
 
+        if !peeked_is!(self, BindingIdent) {
+            return Ok(None);
+        }
+
         let start = cur_pos!(self);
         assert_and_bump!(self, "using");
 
