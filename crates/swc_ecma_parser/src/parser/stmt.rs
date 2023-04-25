@@ -784,7 +784,7 @@ impl<'a, I: Tokens> Parser<I> {
             self.emit_err(span!(self, start), SyntaxError::UsingDeclNotEnabled);
         }
 
-        if self.ctx().disallow_using {
+        if !self.ctx().allow_using_decl {
             self.emit_err(span!(self, start), SyntaxError::UsingDeclNotAllowed);
         }
 
@@ -1080,7 +1080,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_labelled_stmt(&mut self, l: Ident) -> PResult<Stmt> {
         let ctx = Context {
             is_break_allowed: true,
-            disallow_using: true,
+            allow_using_decl: false,
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
