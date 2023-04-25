@@ -850,12 +850,16 @@ where
 
     #[emitter]
     fn emit_glimmer_template_expr(&mut self, n: &GlimmerTemplateExpression) -> Result {
-        self.wr.write_str_lit(n.span, "<template goes here>")?;
+        self.wr.write_str_lit(n.span, "<template>")?;
+        self.wr.write_str_lit(n.span, &n.contents)?;
+        self.wr.write_str_lit(n.span, "</template>")?;
     }
 
     #[emitter]
     fn emit_glimmer_template_member(&mut self, n: &GlimmerTemplateMember) -> Result {
-        self.wr.write_str_lit(n.span, "<template goes here>")?;
+        self.wr.write_str_lit(n.span, "<template>")?;
+        self.wr.write_str_lit(n.span, &n.contents)?;
+        self.wr.write_str_lit(n.span, "</template>")?;
     }
 
     #[emitter]
