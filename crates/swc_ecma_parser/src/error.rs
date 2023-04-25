@@ -48,6 +48,7 @@ pub enum SyntaxError {
     UsingDeclNotAllowed,
     UsingDeclNotEnabled,
     InvalidNameInUsingDecl,
+    InitRequiredForUsingDecl,
 
     PrivateNameInInterface,
 
@@ -532,6 +533,9 @@ impl SyntaxError {
             }
             SyntaxError::InvalidNameInUsingDecl => {
                 "Using declaration only allows identifiers".into()
+            }
+            SyntaxError::InitRequiredForUsingDecl => {
+                "Using declaration requires initializer".into()
             }
             SyntaxError::InvalidSuperCall => "Invalid `super()`".into(),
             SyntaxError::InvalidSuper => "Invalid access to super".into(),

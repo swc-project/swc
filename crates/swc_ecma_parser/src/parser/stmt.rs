@@ -795,6 +795,10 @@ impl<'a, I: Tokens> Parser<I> {
                     self.emit_err(span!(self, start), SyntaxError::InvalidNameInUsingDecl);
                 }
             }
+
+            if decl.init.is_none() {
+                self.emit_err(span!(self, start), SyntaxError::InitRequiredForUsingDecl);
+            }
         }
 
         Ok(Box::new(UsingDecl {
