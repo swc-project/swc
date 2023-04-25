@@ -1,8 +1,9 @@
 
-  x Using declaration requires initializer
+  x Expected ';', '}' or <eof>
    ,-[$DIR/tests/errors/explicit-resource-management/invalid-duplicate-using-bindings/input.js:1:1]
  1 | {
  2 |   using f, f = foo();
-   :   ^^^^^^^^^^^^^^^^^^
+   :   ^^|^^ ^
+   :     `-- This is the expression part of an expression statement
  3 | }
    `----
