@@ -768,7 +768,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         // is two statements
         let _ = cur!(self, false);
-        if self.input.had_line_break_before_cur() {
+        if self.input.has_linebreak_between_cur_and_peeked() {
             return Ok(None);
         }
 
