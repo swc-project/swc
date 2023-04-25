@@ -1,32 +1,8 @@
 
-  x Using declaration is not allowed
-   ,-[$DIR/tests/errors/explicit-resource-management/invalid-duplicate-using-bindings/input.js:1:1]
- 1 | {
- 2 |   using f, f = foo();
-   :   ^^^^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
   x Using declaration requires initializer
    ,-[$DIR/tests/errors/explicit-resource-management/invalid-duplicate-using-bindings/input.js:1:1]
  1 | {
  2 |   using f, f = foo();
    :   ^^^^^^^^^^^^^^^^^^
  3 | }
-   `----
-
-  x Using declaration is not allowed
-   ,-[$DIR/tests/errors/explicit-resource-management/invalid-duplicate-using-bindings/input.js:4:1]
- 4 | {
- 5 |   using g = foo();
-   :   ^^^^^^^^^^^^^^^
- 6 |   using g = foo();
-   `----
-
-  x Using declaration is not allowed
-   ,-[$DIR/tests/errors/explicit-resource-management/invalid-duplicate-using-bindings/input.js:5:1]
- 5 |   using g = foo();
- 6 |   using g = foo();
-   :   ^^^^^^^^^^^^^^^
- 7 | }
    `----

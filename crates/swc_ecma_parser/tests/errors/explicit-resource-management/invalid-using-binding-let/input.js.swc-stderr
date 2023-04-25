@@ -6,11 +6,3 @@
    :         ^^^
  3 | }
    `----
-
-  x Using declaration is not allowed
-   ,-[$DIR/tests/errors/explicit-resource-management/invalid-using-binding-let/input.js:1:1]
- 1 | {
- 2 |   using let = h();
-   :   ^^^^^^^^^^^^^^^
- 3 | }
-   `----
