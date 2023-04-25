@@ -15,7 +15,7 @@
         "indentWidth": 4
     },
     "includes": [
-        "{esm,cjs,src,lib}/*.{js,mjs,cjs}",
+        "{esm,cjs,src}/*.{js,mjs,cjs}",
         "**/*.json"
     ],
     "excludes": [

@@ -10,7 +10,6 @@ await Promise.all([
     fs.remove(root("cjs")),
     fs.remove(root("_")),
     fs.remove(root("src")),
-    fs.remove(root("lib")),
 ]);
 
 let modules = await glob("*.js", { cwd: root("esm") });
@@ -37,7 +36,6 @@ main_package_json.exports = {
     "./esm/*": "./esm/*",
     "./cjs/*": "./cjs/*",
     "./src/*": "./src/*",
-    "./lib/*": "./lib/*",
     ".": { import: "./esm/index.js", default: "./cjs/index.cjs" },
     "./_": { import: "./esm/index.js", default: "./cjs/index.cjs" },
 };
@@ -67,11 +65,6 @@ modules.forEach((p) => {
 
     task_queue.push(
         fs.outputFile(root("src", `${importBinding}.mjs`), re_export_esm(importBinding), {
-            encoding: "utf-8",
-        }),
-    );
-    task_queue.push(
-        fs.outputFile(root("lib", `${importBinding}.js`), re_export_cjs(importBinding), {
             encoding: "utf-8",
         }),
     );
@@ -106,9 +99,6 @@ task_queue.push(
     fs.outputFile(root("src", "index.mjs"), `export * from "../esm/index.js"`, {
         "encoding": "utf-8",
     }),
-    fs.outputFile(root("lib", "index.js"), `module.exports = require("../cjs/index.cjs");`, {
-        "encoding": "utf-8",
-    }),
 );
 
 task_queue.push(...ast_grep());
@@ -128,18 +118,4 @@ if (errors.length > 0) {
 
 function re_export_esm(importBinding) {
     return `export { _ as default } from "../esm/${importBinding}.js"`;
-}
-
-function re_export_cjs(importBinding) {
-    return `"use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-Object.defineProperty(exports, "default", {
-    enumerable: true,
-    get: function() {
-        return require("../cjs/${importBinding}.cjs")._;
-    }
-});
-`;
 }
