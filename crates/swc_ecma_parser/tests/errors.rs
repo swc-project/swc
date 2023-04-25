@@ -64,6 +64,7 @@ where
 
 #[cfg(feature = "verify")]
 #[testing::fixture("tests/errors/**/*.js")]
+#[testing::fixture("tests/errors/**/*.mjs")]
 #[testing::fixture("tests/errors/**/*.ts")]
 #[testing::fixture("tests/errors/**/*.tsx")]
 fn error(entry: PathBuf) {
