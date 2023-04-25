@@ -42,6 +42,7 @@
         "./esm/*": "./esm/*",
         "./cjs/*": "./cjs/*",
         "./src/*": "./src/*",
+        "./lib/*": "./lib/*",
         ".": {
             "import": "./esm/index.js",
             "default": "./cjs/index.cjs"
