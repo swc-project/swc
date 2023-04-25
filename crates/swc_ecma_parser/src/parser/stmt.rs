@@ -1067,6 +1067,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_labelled_stmt(&mut self, l: Ident) -> PResult<Stmt> {
         let ctx = Context {
             is_break_allowed: true,
+            disallow_using: true,
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
