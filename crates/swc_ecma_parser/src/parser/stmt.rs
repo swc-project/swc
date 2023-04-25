@@ -333,7 +333,11 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!('{') => {
-                return self.parse_block(false).map(Stmt::Block);
+                let ctx = Context {
+                    allow_using_decl: true,
+                    ..self.ctx()
+                };
+                return self.with_ctx(ctx).parse_block(false).map(Stmt::Block);
             }
 
             _ => {}
