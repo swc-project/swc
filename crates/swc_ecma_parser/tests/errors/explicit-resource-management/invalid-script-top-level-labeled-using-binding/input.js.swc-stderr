@@ -1,0 +1,6 @@
+
+  x Using declaration is not allowed
+   ,-[$DIR/tests/errors/explicit-resource-management/invalid-script-top-level-labeled-using-binding/input.js:1:1]
+ 1 | label: using x = bar();
+   :        ^^^^^^^^^^^^^^^
+   `----

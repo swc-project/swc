@@ -1,0 +1,8 @@
+
+  x Using declaration is not allowed
+   ,-[$DIR/tests/errors/explicit-resource-management/invalid-labeled-using-binding/input.js:1:1]
+ 1 | {
+ 2 |   label: using x = bar();
+   :          ^^^^^^^^^^^^^^^
+ 3 | }
+   `----
