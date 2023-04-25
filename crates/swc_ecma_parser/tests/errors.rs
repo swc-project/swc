@@ -47,6 +47,7 @@ where
     } else {
         ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
             jsx: is_jsx,
+            using_decl: true,
             ..Default::default()
         })
     };
