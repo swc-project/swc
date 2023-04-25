@@ -303,7 +303,7 @@ pub struct ForStmt {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct ForInStmt {
     pub span: Span,
-    pub left: VarDeclOrPat,
+    pub left: ForHead,
     pub right: Box<Expr>,
     pub body: Box<Stmt>,
 }
@@ -320,7 +320,7 @@ pub struct ForOfStmt {
     /// for-await-of statements, e.g., `for await (const x of xs) {`
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "await"))]
     pub is_await: bool,
-    pub left: VarDeclOrPat,
+    pub left: ForHead,
     pub right: Box<Expr>,
     pub body: Box<Stmt>,
 }
@@ -376,10 +376,11 @@ pub struct CatchClause {
     pub body: BlockStmt,
 }
 
+/// A head for for-in and for-of loop.
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub enum VarDeclOrPat {
+pub enum ForHead {
     #[tag("VariableDeclaration")]
     VarDecl(Box<VarDecl>),
 
@@ -387,12 +388,12 @@ pub enum VarDeclOrPat {
     Pat(Box<Pat>),
 }
 
-bridge_from!(VarDeclOrPat, Box<VarDecl>, VarDecl);
-bridge_from!(VarDeclOrPat, Box<Pat>, Pat);
+bridge_from!(ForHead, Box<VarDecl>, VarDecl);
+bridge_from!(ForHead, Box<Pat>, Pat);
 
-impl Take for VarDeclOrPat {
+impl Take for ForHead {
     fn dummy() -> Self {
-        VarDeclOrPat::Pat(Take::dummy())
+        ForHead::Pat(Take::dummy())
     }
 }
 
