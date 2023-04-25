@@ -1,0 +1,8 @@
+
+  x Expected 'while', got ';'
+   ,-[$DIR/tests/errors/explicit-resource-management/invalid-in-single-statement-context/input.js:3:1]
+ 3 |   for (;;) using b;
+ 4 |   do using c; while (1);
+   :             ^
+ 5 |   if (1) using d;
+   `----

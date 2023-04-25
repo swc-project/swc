@@ -1,0 +1,8 @@
+
+  x `await` cannot be used as an identifier in an async context
+   ,-[$DIR/tests/errors/explicit-resource-management/invalid-using-binding-await-script/input.js:1:1]
+ 1 | {
+ 2 |   using await = h();
+   :         ^^^^^
+ 3 | }
+   `----
