@@ -403,6 +403,8 @@ pub struct Context {
     ignore_else_clause: bool,
 
     disallow_conditional_types: bool,
+
+    disallow_using: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default)]

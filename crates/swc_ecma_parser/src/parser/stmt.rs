@@ -780,6 +780,10 @@ impl<'a, I: Tokens> Parser<I> {
             decls.push(self.parse_var_declarator(false, VarDeclKind::Var)?);
         }
 
+        if self.ctx().disallow_using {
+            self.emit_err(span!(self, start), SyntaxError::UsingDeclNotAllowed);
+        }
+
         Ok(Box::new(UsingDecl {
             span: span!(self, start),
             decls,
