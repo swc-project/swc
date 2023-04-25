@@ -1,4 +1,18 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/helpers)** Add `src/*.mjs` entry back (#7328) ([84af855](https://github.com/swc-project/swc/commit/84af85563f91a9593e0eb319f46c49c1d4cf7895))
+
+### Features
+
+
+
+- **(es/module)** Add `export_interop_annotation` flag (#7330) ([caee073](https://github.com/swc-project/swc/commit/caee073935a9abb08f0b5e2e0e9160d80064995b))
+
 ## [1.3.54] - 2023-04-25
 
 ### Bug Fixes
