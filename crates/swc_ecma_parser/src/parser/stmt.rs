@@ -303,7 +303,9 @@ impl<'a, I: Tokens> Parser<I> {
 
             tok!("using") if include_decl => {
                 let v = self.parse_using_decl()?;
-                return Ok(Stmt::Decl(Decl::Using(v)));
+                if let Some(v) = v {
+                    return Ok(Stmt::Decl(Decl::Using(v)));
+                }
             }
 
             tok!("interface") => {
@@ -760,9 +762,18 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
-    pub(super) fn parse_using_decl(&mut self) -> PResult<Box<UsingDecl>> {
+    pub(super) fn parse_using_decl(&mut self) -> PResult<Option<Box<UsingDecl>>> {
         let start = cur_pos!(self);
         assert_and_bump!(self, "using");
+
+        // using
+        // reader = init()
+
+        // is two statements
+        let _ = cur!(self, false);
+        if self.input.had_line_break_before_cur() {
+            return Ok(None);
+        }
 
         let mut decls = vec![];
         let mut first = true;
@@ -805,10 +816,10 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        Ok(Box::new(UsingDecl {
+        Ok(Some(Box::new(UsingDecl {
             span: span!(self, start),
             decls,
-        }))
+        })))
     }
 
     pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<Box<VarDecl>> {
