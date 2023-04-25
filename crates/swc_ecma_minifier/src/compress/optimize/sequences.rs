@@ -1213,6 +1213,7 @@ where
             }
 
             Expr::Lit(..) => true,
+            Expr::GlimmerTemplateExpression(..) => true,
 
             Expr::Yield(..) | Expr::Await(..) => false,
 

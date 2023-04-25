@@ -41,7 +41,8 @@ impl_enum!(
         TsSatisfies,
         PrivateName,
         OptChain,
-        Invalid
+        Invalid,
+        GlimmerTemplateExpression
     ],
     true
 );
@@ -136,3 +137,5 @@ impl_enum!(JSXExpr, [Expr, JSXEmptyExpr]);
 impl_struct!(OptCall, [span, callee, args, type_args]);
 
 impl_enum!(Callee, [Super, Import, Expr]);
+
+impl_struct!(GlimmerTemplateExpression, [span, contents]);

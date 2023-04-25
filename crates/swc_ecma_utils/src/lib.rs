@@ -1516,6 +1516,8 @@ pub trait ExprExt {
                 expr.may_have_side_effects(ctx)
             }
 
+            Expr::GlimmerTemplateExpression(..) => false,
+
             Expr::Invalid(..) => true,
         }
     }
@@ -2592,6 +2594,8 @@ impl ExprCtx {
             Expr::OptChain(OptChainExpr { base: child, .. }) => {
                 self.extract_side_effects_to(to, (*child).into())
             }
+
+            Expr::GlimmerTemplateExpression(..) => {}
 
             Expr::Invalid(..) => unreachable!(),
         }

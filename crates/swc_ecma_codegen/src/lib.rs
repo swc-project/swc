@@ -802,6 +802,7 @@ where
             Expr::TsSatisfies(n) => {
                 emit!(n)
             }
+            Expr::GlimmerTemplateExpression(ref n) => emit!(n),
         }
 
         if self.comments.is_some() {
@@ -845,6 +846,16 @@ where
         self.emit_leading_comments_of_span(n.span, false)?;
 
         self.wr.write_str_lit(n.span, "<invalid>")?;
+    }
+
+    #[emitter]
+    fn emit_glimmer_template_expr(&mut self, n: &GlimmerTemplateExpression) -> Result {
+        self.wr.write_str_lit(n.span, "<template goes here>")?;
+    }
+
+    #[emitter]
+    fn emit_glimmer_template_member(&mut self, n: &GlimmerTemplateMember) -> Result {
+        self.wr.write_str_lit(n.span, "<template goes here>")?;
     }
 
     #[emitter]
@@ -1273,6 +1284,7 @@ where
             ClassMember::Empty(ref n) => emit!(n),
             ClassMember::StaticBlock(ref n) => emit!(n),
             ClassMember::AutoAccessor(ref n) => emit!(n),
+            ClassMember::GlimmerTemplateMember(ref n) => emit!(n),
         }
     }
 

@@ -731,6 +731,7 @@ impl VisitMut for TreeShaker {
                             .map_or(false, |e| e.may_have_side_effects(&self.expr_ctx)),
 
                         ClassMember::StaticBlock(_) => false,
+                        ClassMember::GlimmerTemplateMember(_) => false,
 
                         ClassMember::TsIndexSignature(_)
                         | ClassMember::Empty(_)

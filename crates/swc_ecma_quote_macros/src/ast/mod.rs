@@ -157,7 +157,8 @@ impl_enum!(
         TsIndexSignature,
         Empty,
         StaticBlock,
-        AutoAccessor
+        AutoAccessor,
+        GlimmerTemplateMember
     ]
 );
 impl_enum!(ObjectPatProp, [KeyValue, Assign, Rest]);

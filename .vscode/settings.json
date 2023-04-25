@@ -35,5 +35,6 @@
         "rust-analyzer",
         "rkyv-impl",
         "debug"
-    ]
+    ],
+    "editor.inlayHints.enabled": "off"
 }

@@ -82,3 +82,5 @@ impl_struct!(
         accessibility
     ]
 );
+
+impl_struct!(GlimmerTemplateMember, [span, contents]);

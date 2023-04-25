@@ -537,6 +537,7 @@ impl<C: Comments> ClassProperties<C> {
             ClassMember::ClassProp(_)
             | ClassMember::AutoAccessor(_)
             | ClassMember::PrivateProp(_)
+            | ClassMember::GlimmerTemplateMember(_)
             | ClassMember::StaticBlock(_) => true,
         });
 
@@ -933,6 +934,10 @@ impl<C: Comments> ClassProperties<C> {
 
                 ClassMember::StaticBlock(..) => {
                     unreachable!("static_blocks pass should remove this")
+                }
+
+                ClassMember::GlimmerTemplateMember(..) => {
+                    unreachable!("glimmer template compiler pass should remove this")
                 }
 
                 ClassMember::AutoAccessor(..) => {

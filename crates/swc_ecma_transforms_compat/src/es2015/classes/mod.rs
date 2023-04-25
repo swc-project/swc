@@ -563,6 +563,9 @@ where
                 ClassMember::StaticBlock(..) => unreachable!(
                     "classes pass: static blocks\nstatic_blocks pass should remove this"
                 ),
+                ClassMember::GlimmerTemplateMember(..) => unreachable!(
+                    "classes pass: glimmer template member\ntranspiler should remove this"
+                ),
                 ClassMember::AutoAccessor(..) => {
                     unreachable!(
                         "classes pass: auto accessor \nauto_accesssors pass should remove this"

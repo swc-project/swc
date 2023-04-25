@@ -149,6 +149,8 @@ impl StartsWithAlphaNum for Expr {
                 OptChainBase::Call(base) => base.callee.starts_with_alpha_num(),
             },
 
+            Expr::GlimmerTemplateExpression(..) => false,
+
             Expr::Invalid(..) => true,
         }
     }
