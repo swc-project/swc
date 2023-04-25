@@ -41,6 +41,7 @@
         "./package.json": "./package.json",
         "./esm/*": "./esm/*",
         "./cjs/*": "./cjs/*",
+        "./src/*": "./src/*",
         ".": {
             "import": "./esm/index.js",
             "default": "./cjs/index.cjs"
