@@ -2749,15 +2749,6 @@ checksum = "a49a831dc1e13c9392b660b162333d4cb0033bbbdfe6a1687177e59e89037c86"
 
 [[package]]
 name = "rend"
-version = "0.3.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "79af64b4b6362ffba04eef3a4e10829718a4896dac19daa741851c86781edf95"
-dependencies = [
- "bytecheck",
-]
-
-[[package]]
-name = "rend"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "581008d2099240d37fb08d77ad713bcaec2c4d89d50b5b21a8bb1996bbab68ab"
@@ -2812,22 +2803,8 @@ dependencies = [
  "hashbrown 0.12.3",
  "indexmap",
  "ptr_meta",
- "rend 0.4.0",
+ "rend",
  "rkyv_derive",
- "seahash",
-]
-
-[[package]]
-name = "rkyv-test"
-version = "0.7.38-test.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ddf47bca568385a5121422d265f8ea7ca2c8816141e29fd415498eabb150f14e"
-dependencies = [
- "bytecheck",
- "hashbrown 0.12.3",
- "ptr_meta",
- "rend 0.3.6",
- "rkyv_derive_test",
  "seahash",
 ]
 
@@ -2836,17 +2813,6 @@ name = "rkyv_derive"
 version = "0.7.41"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ac1c672430eb41556291981f45ca900a0239ad007242d1cb4b4167af842db666"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 1.0.109",
-]
-
-[[package]]
-name = "rkyv_derive_test"
-version = "0.7.38-test.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e573710463b17b3cc3c5de19cc12118a788392b056ff097c6ee700920a4545ce"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3467,6 +3433,7 @@ dependencies = [
 name = "swc_atoms"
 version = "0.5.3"
 dependencies = [
+ "bytecheck",
  "once_cell",
  "rkyv",
  "rustc-hash",
@@ -3543,6 +3510,7 @@ dependencies = [
  "atty",
  "better_scoped_tls",
  "bitflags 2.1.0",
+ "bytecheck",
  "cfg-if",
  "criterion",
  "either",
@@ -3553,7 +3521,6 @@ dependencies = [
  "parking_lot",
  "rayon",
  "rkyv",
- "rkyv-test",
  "rustc-hash",
  "serde",
  "serde_json",
