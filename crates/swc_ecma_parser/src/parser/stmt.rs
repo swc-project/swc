@@ -788,6 +788,15 @@ impl<'a, I: Tokens> Parser<I> {
             self.emit_err(span!(self, start), SyntaxError::UsingDeclNotAllowed);
         }
 
+        for decl in &decls {
+            match decl.name {
+                Pat::Ident(..) => {}
+                _ => {
+                    self.emit_err(span!(self, start), SyntaxError::InvalidNameInUsingDecl);
+                }
+            }
+        }
+
         Ok(Box::new(UsingDecl {
             span: span!(self, start),
             decls,

@@ -47,6 +47,7 @@ pub enum SyntaxError {
 
     UsingDeclNotAllowed,
     UsingDeclNotEnabled,
+    InvalidNameInUsingDecl,
 
     PrivateNameInInterface,
 
@@ -528,6 +529,9 @@ impl SyntaxError {
             SyntaxError::UsingDeclNotAllowed => "Using declaration is not allowed".into(),
             SyntaxError::UsingDeclNotEnabled => {
                 "Using declaration is not enabled. Set jsc.parser.usingDecl to true".into()
+            }
+            SyntaxError::InvalidNameInUsingDecl => {
+                "Using declaration only allows identifiers".into()
             }
             SyntaxError::InvalidSuperCall => "Invalid `super()`".into(),
             SyntaxError::InvalidSuper => "Invalid access to super".into(),
