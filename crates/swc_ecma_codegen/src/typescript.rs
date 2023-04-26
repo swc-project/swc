@@ -1122,4 +1122,14 @@ mod tests {
             "var memory:WebAssembly.Memory",
         );
     }
+
+    #[test]
+    fn type_arg() {
+        assert_min_typescript("do_stuff<T>()", "do_stuff<T>()");
+    }
+
+    #[test]
+    fn no_type_arg() {
+        assert_min_typescript("do_stuff()", "do_stuff()");
+    }
 }
