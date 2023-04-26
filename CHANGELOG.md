@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Emit type arguments for call expressions (#7335) ([7e99e5f](https://github.com/swc-project/swc/commit/7e99e5fd2c3d15aba6bf29958bd9305e29312e6a))
+
 ## [1.3.55] - 2023-04-25
 
 ### Bug Fixes
