@@ -1,0 +1,25 @@
+{
+    "jsc": {
+        "externalHelpers": true,
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "decorators": true,
+            "dynamicImport": true,
+            "decoratorsBeforeExport": true
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true
+        },
+        "minify": {
+            "compress": false
+        }
+    },
+    "isModule": "unknown",
+    "env": {
+        "mode": "usage",
+        "coreJs": "3",
+        "dynamicImport": true
+    }
+}
