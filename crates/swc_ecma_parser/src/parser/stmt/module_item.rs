@@ -417,6 +417,17 @@ impl<I: Tokens> Parser<I> {
         let mut export_default = None;
 
         if !type_only && eat!(self, "default") {
+            if is!(self, '@') {
+                let start = cur_pos!(self);
+                let after_decorators = self.parse_decorators(false)?;
+
+                if !decorators.is_empty() {
+                    syntax_error!(self, span!(self, start), SyntaxError::TS8038);
+                }
+
+                decorators = after_decorators;
+            }
+
             if self.input.syntax().typescript() {
                 if is!(self, "abstract")
                     && peeked_is!(self, "class")
