@@ -203,6 +203,14 @@ impl<'a> HookRegister<'a> {
 impl<'a> VisitMut for HookRegister<'a> {
     noop_visit_mut_type!();
 
+    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+        // Bypass visit_mut_block_stmt
+        match n {
+            BlockStmtOrExpr::BlockStmt(n) => n.visit_mut_children_with(self),
+            BlockStmtOrExpr::Expr(n) => n.visit_mut_with(self),
+        }
+    }
+
     fn visit_mut_block_stmt(&mut self, b: &mut BlockStmt) {
         let old_ident = self.ident.take();
         let old_stmts = self.extra_stmt.take();
