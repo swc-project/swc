@@ -327,7 +327,7 @@ impl<I: Tokens> Parser<I> {
         Ok(self.with_ctx(ctx).parse_binding_ident()?.id)
     }
 
-    fn parse_export(&mut self, decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
+    fn parse_export(&mut self, mut decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
         if !self.ctx().module {
             // Switch to module mode
             let ctx = Context {
@@ -475,6 +475,17 @@ impl<I: Tokens> Parser<I> {
                     expr,
                 }));
             }
+        }
+
+        if is!(self, '@') {
+            let start = cur_pos!(self);
+            let after_decorators = self.parse_decorators(false)?;
+
+            if !decorators.is_empty() {
+                syntax_error!(self, span!(self, start), SyntaxError::TS8038);
+            }
+
+            decorators = after_decorators;
         }
 
         let decl = if !type_only && is!(self, "class") {
