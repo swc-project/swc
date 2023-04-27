@@ -1529,9 +1529,7 @@ const a = (a) => {
             useE(()=>console.log(a)
             , []);
             return useState(123);
-        }, "useE{}\nuseState{(123)}", false, function () {
-        return [useE];
-    });
+        }, "useE{}\nuseState{(123)}", true);
 }
 "#
 );
