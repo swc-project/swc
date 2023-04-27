@@ -4,5 +4,4 @@
  3 | // error
  4 | @dec export @dec class C6 {}
    :             ^^^^
- 4 | 
    `----
