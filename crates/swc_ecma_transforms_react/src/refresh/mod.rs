@@ -14,10 +14,9 @@ use self::{
 pub mod options;
 use options::RefreshOptions;
 mod hook;
-mod util;
-
 #[cfg(test)]
 mod tests;
+mod util;
 
 struct Hoc {
     insert: bool,
