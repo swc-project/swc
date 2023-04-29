@@ -165,8 +165,7 @@ pub fn strip_with_config(config: Config, top_level_mark: Mark) -> impl Fold + Vi
             is_type_only_export: Default::default(),
             decl_names: Default::default(),
             in_var_pat: Default::default(),
-            keys: Default::default(),
-            exported_variable_to_is_type: Default::default(),
+            keys: Default::default()
         }),
         inline_enum(ts_enum_lit, ts_enum_config)
     )
@@ -237,7 +236,6 @@ where
             decl_names: Default::default(),
             in_var_pat: Default::default(),
             keys: Default::default(),
-            exported_variable_to_is_type: Default::default(),
         }),
         inline_enum(ts_enum_lit, ts_enum_config)
     )
@@ -294,10 +292,6 @@ where
     in_var_pat: bool,
 
     keys: Vec<VarDeclarator>,
-
-    /// Key is the `orig` in ExportNamedSpecifier
-    /// Value is `true` if the Key is a type
-    exported_variable_to_is_type: AHashMap<Id, bool>,
 }
 
 impl<C> Strip<C>
@@ -1683,24 +1677,6 @@ where
         self.is_type_only_export = old;
     }
 
-    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
-        let is_type = self.is_type_only_export || n.is_type_only;
-        if let ModuleExportName::Ident(local_ident) = &n.orig {
-            // If the stored exported `Id` is a value, we just leave it here.
-            // If the stored exported `Id` is both a type and value, we consider it's a
-            // value. See https://github.com/denoland/deno/issues/8978
-            let is_type_to_the_existed = self
-                .exported_variable_to_is_type
-                .entry(local_ident.to_id())
-                .or_insert(is_type);
-
-            if *is_type_to_the_existed && !is_type {
-                *is_type_to_the_existed = false
-            }
-        }
-        n.visit_children_with(self)
-    }
-
     fn visit_prop_name(&mut self, n: &PropName) {
         if let PropName::Computed(e) = n {
             e.visit_with(self)
@@ -2083,18 +2059,8 @@ where
 
         import.specifiers.retain(|s| match *s {
             ImportSpecifier::Named(ImportNamedSpecifier {
-                ref is_type_only,
-                ref local,
-                ..
-            }) if *is_type_only
-                || self
-                    .exported_variable_to_is_type
-                    .get(&local.to_id())
-                    .copied()
-                    .unwrap_or_default() =>
-            {
-                false
-            }
+                ref is_type_only, ..
+            }) if *is_type_only => false,
 
             ImportSpecifier::Default(ImportDefaultSpecifier { ref local, .. })
             | ImportSpecifier::Named(ImportNamedSpecifier { ref local, .. })
