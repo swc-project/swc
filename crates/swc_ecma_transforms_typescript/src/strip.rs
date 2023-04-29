@@ -1677,6 +1677,13 @@ where
         self.is_type_only_export = old;
     }
 
+    fn visit_export_named_specifier(&mut self, export: &ExportNamedSpecifier) {
+        let old = self.is_type_only_export;
+        self.is_type_only_export |= export.is_type_only;
+        export.visit_children_with(self);
+        self.is_type_only_export = old;
+    }
+
     fn visit_prop_name(&mut self, n: &PropName) {
         if let PropName::Computed(e) = n {
             e.visit_with(self)
