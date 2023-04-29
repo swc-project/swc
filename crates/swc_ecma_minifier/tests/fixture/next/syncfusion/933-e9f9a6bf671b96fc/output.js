@@ -16133,7 +16133,7 @@
                         var container3, template = (0, ej2_base.le)(args.template) ? null : args.template;
                         container.wrap.classList.add(CLS_SPINTEMPLATE), container3 = container.wrap, (0, ej2_base.le)(null) || container3.classList.add(null), container3.querySelector('.e-spinner-inner').innerHTML = template;
                     }
-                    container.wrap.classList.add(CLS_HIDESPIN), container = null;
+                    container.wrap.classList.add(CLS_HIDESPIN);
                 }
             }
             function random_generator() {

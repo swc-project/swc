@@ -25,4 +25,4 @@ import "@swc/helpers/_/_class_call_check";
     x: ""
 }, function(E) {
     E[E.A = 0] = "A";
-}(E || (E = {})), E = void 0, E = void 0;
+}(E || (E = {}));

@@ -7,8 +7,17 @@
 
 - **(es/codegen)** Emit type arguments for call expressions (#7335) ([7e99e5f](https://github.com/swc-project/swc/commit/7e99e5fd2c3d15aba6bf29958bd9305e29312e6a))
 
+
+- **(es/parser)** Parse decorators after `export` (#7340) ([985f0ca](https://github.com/swc-project/swc/commit/985f0cad06b9de5f9e98bed3ad62769e0f3c7528))
+
+
+- **(plugin/runner)** Revert #7341 (#7344) ([d6999ba](https://github.com/swc-project/swc/commit/d6999ba1ac454a1617bab00c740d99f81ff1a18d))
+
 ### Features
 
+
+
+- **(es/minifier)** Drop expressions using sequential inliner (#6936) ([246300a](https://github.com/swc-project/swc/commit/246300ae25be0cfdbbb266e02f80d06013a96d85))
 
 
 - **(plugin/runner)** Improve caching (#7341) ([245163a](https://github.com/swc-project/swc/commit/245163a77827767ab0b4df59d00597c4af62d745))
