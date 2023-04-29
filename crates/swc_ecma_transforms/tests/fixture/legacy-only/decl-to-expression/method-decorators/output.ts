@@ -1,12 +1,12 @@
 export default class A {
     foo() {}
 }
-__decorate([
+_ts_decorate([
     dec
 ], A.prototype, "foo", null);
 class B {
     foo() {}
 }
-__decorate([
+_ts_decorate([
     dec
 ], B.prototype, "foo", null);

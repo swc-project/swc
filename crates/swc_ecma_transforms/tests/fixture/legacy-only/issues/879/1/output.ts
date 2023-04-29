@@ -1,6 +1,6 @@
 export default class X {
     prop: string = "";
 }
-__decorate([
+_ts_decorate([
     networked
 ], X.prototype, "prop", void 0);

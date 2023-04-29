@@ -1,10 +1,10 @@
 class MyClass {
     constructor(param1: Injected){}
 }
-MyClass = __decorate([
-    __param(0, Inject()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+MyClass = _ts_decorate([
+    _ts_param(0, Inject()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected
     ])
 ], MyClass);

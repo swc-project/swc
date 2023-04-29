@@ -7,6 +7,6 @@ class Store extends BaseStore {
         console.log("run");
     };
 }
-__decorate([
+_ts_decorate([
     action
 ], Store.prototype, "doSomething", void 0);

@@ -27,7 +27,7 @@ function _async_to_generator(fn) {
         });
     };
 }
-var __generator = this && this.__generator || function(thisArg, body) {
+function _ts_generator(thisArg, body) {
     var f, y, t, g, _ = {
         label: 0,
         sent: function() {
@@ -121,13 +121,13 @@ var __generator = this && this.__generator || function(thisArg, body) {
             done: true
         };
     }
-};
+}
 function foo() {
     return _foo.apply(this, arguments);
 }
 function _foo() {
     _foo = _async_to_generator(function() {
-        return __generator(this, function(_state) {
+        return _ts_generator(this, function(_state) {
             return [
                 2
             ];
@@ -140,7 +140,7 @@ function main() {
 }
 function _main() {
     _main = _async_to_generator(function() {
-        return __generator(this, function(_state) {
+        return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
                     return [

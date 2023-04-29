@@ -435,7 +435,7 @@ where
                     params,
                     vec![CallExpr {
                         span: DUMMY_SP,
-                        callee: helper!(wrap_native_super, "wrap_native_super"),
+                        callee: helper!(wrap_native_super),
                         args: vec![super_class.as_arg()],
                         type_args: Default::default(),
                     }
@@ -585,7 +585,7 @@ where
             stmts.push(
                 CallExpr {
                     span: DUMMY_SP,
-                    callee: helper!(inherits, "inherits"),
+                    callee: helper!(inherits),
                     args: vec![class_name_sym.as_arg(), super_class_name_sym.as_arg()],
                     type_args: Default::default(),
                 }
@@ -610,7 +610,7 @@ where
                             name: var.clone().into(),
                             init: Some(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
-                                callee: helper!(create_super, "create_super"),
+                                callee: helper!(create_super),
                                 args: vec![class_name_sym.as_arg()],
                                 type_args: Default::default(),
                             }))),
@@ -996,7 +996,7 @@ where
 
             CallExpr {
                 span: DUMMY_SP,
-                callee: helper!(create_class, "create_class"),
+                callee: helper!(create_class),
                 args: iter::once(class_name_sym.as_arg())
                     .chain(iter::once(methods))
                     .chain(static_methods)
@@ -1220,7 +1220,7 @@ fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
 
     let class_call_check = CallExpr {
         span: DUMMY_SP,
-        callee: helper!(class_call_check, "class_call_check"),
+        callee: helper!(class_call_check),
         args: vec![
             Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
             class_name_sym.as_arg(),

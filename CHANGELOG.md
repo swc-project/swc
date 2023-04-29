@@ -5,7 +5,76 @@
 
 
 
+- **(es/codegen)** Emit type arguments for call expressions (#7335) ([7e99e5f](https://github.com/swc-project/swc/commit/7e99e5fd2c3d15aba6bf29958bd9305e29312e6a))
+
+
+- **(plugin/runner)** Revert #7341 (#7344) ([d6999ba](https://github.com/swc-project/swc/commit/d6999ba1ac454a1617bab00c740d99f81ff1a18d))
+
+### Features
+
+
+
+- **(plugin/runner)** Improve caching (#7341) ([245163a](https://github.com/swc-project/swc/commit/245163a77827767ab0b4df59d00597c4af62d745))
+
+## [1.3.55] - 2023-04-25
+
+### Bug Fixes
+
+
+
+- **(es/helpers)** Add `src/*.mjs` entry back (#7328) ([84af855](https://github.com/swc-project/swc/commit/84af85563f91a9593e0eb319f46c49c1d4cf7895))
+
+### Features
+
+
+
+- **(es/module)** Add `export_interop_annotation` flag (#7330) ([caee073](https://github.com/swc-project/swc/commit/caee073935a9abb08f0b5e2e0e9160d80064995b))
+
+## [1.3.54] - 2023-04-25
+
+### Bug Fixes
+
+
+
+- **(bindings/node)** Support `TsSatisfiesExpression` (#7317) ([761ef83](https://github.com/swc-project/swc/commit/761ef8389dd000e465bd385ec925654a8cb2ae09))
+
+
+- **(common)** Workaround the `Arc` and `rkyv` issue (#7321) ([577f81e](https://github.com/swc-project/swc/commit/577f81ec405f4f3a3e58e3f97c07d3720dd80912))
+
+
+- **(es/codegen)** Fix codegen of `TsModuleDecl` (#7319) ([0ca05d8](https://github.com/swc-project/swc/commit/0ca05d8b69b6301e2346e5de6c45a77c863676e9))
+
+
+- **(es/compat)** Transform curried function call with optional chaining (#7313) ([66b5b11](https://github.com/swc-project/swc/commit/66b5b110bf94259e0e0223224940bb8d0384e9b6))
+
+### Testing
+
+
+
+- **(es)** Update tsc test suite (#7323) ([603f22d](https://github.com/swc-project/swc/commit/603f22de76eaeac1a64ee5e5f2e1dd095f908604))
+
+## [1.3.53] - 2023-04-21
+
+### Bug Fixes
+
+
+
+- **(es)** Fix a crash related to source map (#7307) ([e7f7b01](https://github.com/swc-project/swc/commit/e7f7b01f59b622c993ee584ae825a39c390b2570))
+
+
+- **(es/helpers)** Remove unnecessary parameters in `helper_expr!` macro (#7296) ([38dfb91](https://github.com/swc-project/swc/commit/38dfb91ebc04eecab97ec023c79b183958fda227))
+
+
+- **(es/modules)** Support `jsc.baseUrl` without `jsc.paths` (#7302) ([9c279b8](https://github.com/swc-project/swc/commit/9c279b802b6a615fdba33a6f81866ce3ef606676))
+
+
+- **(es/parser)** Fix handling of `in` and `out` of typescript (#7308) ([6f81cb9](https://github.com/swc-project/swc/commit/6f81cb9c32219cd8e51a97c924e0b272fc25a0c1))
+
+
 - **(testing)** Fix path normalization on windows for testing diffs (#7299) ([3422923](https://github.com/swc-project/swc/commit/3422923cb004111f8c57501bb8b222905cf6bd09))
+
+### Miscellaneous Tasks
+- **general**: Update issue template to prevent useless issues (#7303) ([9816ba2](https://github.com/swc-project/swc/commit/9816ba27958af07399383fc995c49dc1ed3e3554))
 
 ### Testing
 

@@ -284,14 +284,13 @@ impl AssignFolder {
                 //      _object_destructuring_empty(_ref);
                 //
 
-                let expr = helper_expr!(object_destructuring_empty, "object_destructuring_empty")
-                    .as_call(
-                        DUMMY_SP,
-                        vec![decl
-                            .init
-                            .expect("destructuring must be initialized")
-                            .as_arg()],
-                    );
+                let expr = helper_expr!(object_destructuring_empty).as_call(
+                    DUMMY_SP,
+                    vec![decl
+                        .init
+                        .expect("destructuring must be initialized")
+                        .as_arg()],
+                );
 
                 let var_decl = VarDeclarator {
                     span: DUMMY_SP,
@@ -686,7 +685,7 @@ impl VisitMut for AssignFolder {
                                     {
                                         Box::new(Expr::Call(CallExpr {
                                             span: DUMMY_SP,
-                                            callee: helper!(to_array, "to_array"),
+                                            callee: helper!(to_array),
                                             args: vec![right.take().as_arg()],
                                             type_args: Default::default(),
                                         }))
@@ -694,7 +693,7 @@ impl VisitMut for AssignFolder {
                                         Box::new(
                                             CallExpr {
                                                 span: DUMMY_SP,
-                                                callee: helper!(sliced_to_array, "sliced_to_array"),
+                                                callee: helper!(sliced_to_array),
                                                 args: vec![
                                                     right.take().as_arg(),
                                                     elems.len().as_arg(),
@@ -784,7 +783,7 @@ impl VisitMut for AssignFolder {
                     let mut right = right.take();
                     right.visit_mut_with(self);
 
-                    *expr = helper_expr!(object_destructuring_empty, "object_destructuring_empty")
+                    *expr = helper_expr!(object_destructuring_empty)
                         .as_call(DUMMY_SP, vec![right.as_arg()]);
                 }
                 Pat::Object(ObjectPat { span, props, .. }) => {
@@ -1082,7 +1081,7 @@ fn make_ref_ident_for_array(
                         Some(std::usize::MAX) => Box::new(
                             CallExpr {
                                 span: DUMMY_SP,
-                                callee: helper!(to_array, "to_array"),
+                                callee: helper!(to_array),
                                 args: vec![v.as_arg()],
                                 type_args: Default::default(),
                             }
@@ -1091,7 +1090,7 @@ fn make_ref_ident_for_array(
                         Some(value) => Box::new(
                             CallExpr {
                                 span: DUMMY_SP,
-                                callee: helper!(sliced_to_array, "sliced_to_array"),
+                                callee: helper!(sliced_to_array),
                                 args: vec![v.as_arg(), value.as_arg()],
                                 type_args: Default::default(),
                             }

@@ -279,7 +279,7 @@ impl BlockScoping {
                                 op: op!("==="),
                                 left: {
                                     // _type_of(_ret)
-                                    let callee = helper!(type_of, "type_of");
+                                    let callee = helper!(type_of);
 
                                     Expr::Call(CallExpr {
                                         span: Default::default(),

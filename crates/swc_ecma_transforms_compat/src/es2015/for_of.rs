@@ -213,10 +213,7 @@ impl ForOf {
                     name: iterator.clone().into(),
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: helper!(
-                            create_for_of_iterator_helper_loose,
-                            "create_for_of_iterator_helper_loose"
-                        ),
+                        callee: helper!(create_for_of_iterator_helper_loose),
                         args: vec![right.as_arg()],
                         type_args: Default::default(),
                     }))),

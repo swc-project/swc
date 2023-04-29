@@ -6,7 +6,11 @@ import { errors } from "./errors.js";
 import { root } from "./utils.js";
 
 // clear generated content
-await Promise.all([fs.remove(root("cjs")), fs.remove(root("_"))]);
+await Promise.all([
+    fs.remove(root("cjs")),
+    fs.remove(root("_")),
+    fs.remove(root("src")),
+]);
 
 let modules = await glob("*.js", { cwd: root("esm") });
 
@@ -31,6 +35,7 @@ main_package_json.exports = {
     "./package.json": "./package.json",
     "./esm/*": "./esm/*",
     "./cjs/*": "./cjs/*",
+    "./src/*": "./src/*",
     ".": { import: "./esm/index.js", default: "./cjs/index.cjs" },
     "./_": { import: "./esm/index.js", default: "./cjs/index.cjs" },
 };
@@ -57,6 +62,12 @@ modules.forEach((p) => {
     if (importBinding === "index") {
         return;
     }
+
+    task_queue.push(
+        fs.outputFile(root("src", `${importBinding}.mjs`), re_export_esm(importBinding), {
+            encoding: "utf-8",
+        }),
+    );
 
     indexESM.push(`export { ${importBinding} } from "./${importBinding}.js";`);
 
@@ -85,6 +96,9 @@ task_queue.push(
     fs.outputFile(root("cjs", "index.cjs"), indexCJS.join("\n") + "\n", {
         encoding: "utf-8",
     }),
+    fs.outputFile(root("src", "index.mjs"), `export * from "../esm/index.js"`, {
+        "encoding": "utf-8",
+    }),
 );
 
 task_queue.push(...ast_grep());
@@ -100,4 +114,8 @@ if (errors.length > 0) {
     $.cwd = root(".");
     await $`dprint fmt`;
     await $`dprint fmt "scripts/*.js" -c scripts/.dprint.json`;
+}
+
+function re_export_esm(importBinding) {
+    return `export { _ as default } from "../esm/${importBinding}.js"`;
 }

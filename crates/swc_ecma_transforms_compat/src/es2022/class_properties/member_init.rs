@@ -103,7 +103,7 @@ impl MemberInitRecord {
                         )
                     } else {
                         (
-                            helper!(class_private_method_init, "class_private_method_init"),
+                            helper!(class_private_method_init),
                             vec![ThisExpr { span: DUMMY_SP }.as_arg(), name.as_arg()],
                         )
                     };
@@ -123,7 +123,7 @@ impl MemberInitRecord {
                         callee: if self.c.private_as_properties {
                             obj_def_prop()
                         } else {
-                            helper!(class_private_field_init, "class_private_field_init")
+                            helper!(class_private_field_init)
                         },
                         args: vec![
                             ThisExpr { span: DUMMY_SP }.as_arg(),
@@ -145,7 +145,7 @@ impl MemberInitRecord {
                         callee: if self.c.private_as_properties {
                             obj_def_prop()
                         } else {
-                            helper!(class_private_field_init, "class_private_field_init")
+                            helper!(class_private_field_init)
                         },
                         args: vec![
                             ThisExpr { span: DUMMY_SP }.as_arg(),
@@ -171,7 +171,7 @@ impl MemberInitRecord {
                     } else {
                         Expr::Call(CallExpr {
                             span,
-                            callee: helper!(define_property, "define_property"),
+                            callee: helper!(define_property),
                             args: vec![
                                 ThisExpr { span: DUMMY_SP }.as_arg(),
                                 prop_name_to_expr_value(name).as_arg(),
@@ -214,7 +214,7 @@ impl MemberInitRecord {
                         } else {
                             Expr::Call(CallExpr {
                                 span,
-                                callee: helper!(define_property, "define_property"),
+                                callee: helper!(define_property),
                                 args: vec![
                                     class_ident.clone().as_arg(),
                                     prop_name_to_expr_value(name).as_arg(),

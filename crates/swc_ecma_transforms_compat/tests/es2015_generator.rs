@@ -53,7 +53,7 @@ var o = {
     r#"
     var o = {
         foo () {
-            return __generator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 return [
                     2,
                     "foo"
@@ -126,7 +126,7 @@ test!(
 ",
     r#"
     function foo(a, b, c) {
-        return __generator(this, function(_state) {
+        return _ts_generator(this, function(_state) {
             return [
                 2
             ];
@@ -1022,12 +1022,12 @@ test!(
     }",
     "
     export function myGenerator() {
-        return __generator(this, function(_state) {
+        return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
                     return [
                         5,
-                        __values([
+                        _ts_values([
                             1,
                             2,
                             3
@@ -1114,7 +1114,7 @@ test!(
     ",
     r#"
     const x = function() {
-        return __generator(this, function(_state) {
+        return _ts_generator(this, function(_state) {
             return [
                 2,
                 Promise.all([
@@ -1128,7 +1128,7 @@ test!(
                         3
                     ]
                 ].map(function([a]) {
-                    return __generator(this, function(_state) {
+                    return _ts_generator(this, function(_state) {
                         Promise.resolve().then(()=>a * 2);
                         return [
                             2
@@ -1189,7 +1189,7 @@ function* foo() {
     r#"
     function foo() {
         function bar() {}
-        return __generator(this, function(_state) {
+        return _ts_generator(this, function(_state) {
             return [
                 2,
                 bar
@@ -1257,7 +1257,7 @@ function requester() {
                 }
                 function _refreshThenRequest() {
                     _refreshThenRequest = _async_to_generator(function() {
-                        return __generator(this, function(_state) {
+                        return _ts_generator(this, function(_state) {
                             return [
                                 2
                             ];
@@ -1265,7 +1265,7 @@ function requester() {
                     });
                     return _refreshThenRequest.apply(this, arguments);
                 }
-                return __generator(this, function(_state) {
+                return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
@@ -1393,7 +1393,7 @@ function _foo() {
         }
         function _bar1() {
             _bar1 = _async_to_generator(function(b) {
-                return __generator(this, function(_state) {
+                return _ts_generator(this, function(_state) {
                     return [
                         2,
                         a + b
@@ -1402,7 +1402,7 @@ function _foo() {
             });
             return _bar1.apply(this, arguments);
         }
-        return __generator(this, function(_state) {
+        return _ts_generator(this, function(_state) {
             return [
                 2,
                 bar1
@@ -1474,7 +1474,7 @@ async function init() {
             function _fib() {
                 _fib = _async_to_generator(function(n) {
                     var x, y;
-                    return __generator(this, function(_state) {
+                    return _ts_generator(this, function(_state) {
                         switch(_state.label){
                             case 0:
                                 if (n <= 1) {
@@ -1504,7 +1504,7 @@ async function init() {
                 });
                 return _fib.apply(this, arguments);
             }
-            return __generator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 return [
                     2,
                     fib
@@ -1541,7 +1541,7 @@ test!(
     "
     function _test() {
         _test = _async_to_generator(function() {
-            return __generator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         _state.trys.push([
@@ -1596,7 +1596,7 @@ test!(
     ",
     "
     function foo() {
-        return __generator(this, function(_state) {
+        return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
                     _state.trys.push([
@@ -1646,7 +1646,7 @@ test!(
     "
     function foo() {
         var e;
-        return __generator(this, function(_state) {
+        return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
                     _state.trys.push([
@@ -1695,7 +1695,7 @@ test!(
     export default function Foo() {
         return call(function() {
             var _ref = _async_to_generator(function(e) {
-                return __generator(this, function(_state) {
+                return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
@@ -1737,7 +1737,7 @@ test!(
     export default function Foo() {
         return call(function() {
             var _ref = _async_to_generator(function(e) {
-                return __generator(this, function(_state) {
+                return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
@@ -1780,7 +1780,7 @@ test!(
     export default function Foo() {
         return call(function() {
             var _ref = _async_to_generator(function(e) {
-                return __generator(this, function(_state) {
+                return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
@@ -1826,7 +1826,7 @@ test!(
     export default function Foo() {
         return call(function() {
             var _ref = _async_to_generator(function(e) {
-                return __generator(this, function(_state) {
+                return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
@@ -1866,7 +1866,7 @@ test!(
     "
     _async_to_generator(function() {
         var sleep, result;
-        return __generator(this, function(_state) {
+        return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
                     sleep = function() {
