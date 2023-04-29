@@ -14,11 +14,8 @@ g1(1), g2(1, 1), g2(1, 2), g3(1, "two"), g4(1), g5(1, 2), g6([
     return x;
 }), g8(1, function(x) {
     return x + 1;
-});
-var aa = [
+}), function(a, x) {
+    a.slice().push(1);
+}([
     0
-];
-aa = function(a, x) {
-    var result = a.slice();
-    return result.push(1), result;
-}(aa, 0);
+], 0);
