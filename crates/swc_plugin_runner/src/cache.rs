@@ -35,26 +35,18 @@ compile_error!(
 /// however it is not gauranteed to be compatible across wasmer's
 /// internal changes.
 /// https://github.com/wasmerio/wasmer/issues/2781
-const MODULE_SERIALIZATION_VERSION: &str = "v5";
+const MODULE_SERIALIZATION_VERSION: &str = "v6";
 
 /// A shared instance to plugin's module bytecode cache.
 pub static PLUGIN_MODULE_CACHE: Lazy<PluginModuleCache> = Lazy::new(Default::default);
 
-#[cfg(feature = "filesystem_cache")]
 #[derive(Default)]
 pub struct CacheInner {
+    #[cfg(feature = "filesystem_cache")]
     fs_cache: Option<FileSystemCache>,
     // A naive hashmap to the compiled plugin modules.
     // Current it doesn't have any invalidation or expiration logics like lru,
     // having a lot of plugins may create some memory pressure.
-    loaded_module_bytes: AHashMap<PathBuf, Module>,
-}
-
-#[cfg(feature = "memory_cache")]
-#[derive(Default)]
-pub struct CacheInner {
-    // Unlike sys::Module, we'll keep raw bytes from the module instead of js::Module which
-    // implies bindgen's JsValue
     loaded_module_bytes: AHashMap<PathBuf, Vec<u8>>,
 }
 
@@ -81,9 +73,11 @@ fn create_filesystem_cache(filesystem_cache_root: &Option<String>) -> Option<Fil
     if let Some(root_path) = &mut root_path {
         root_path.push("plugins");
         root_path.push(format!(
-            "{}_{}",
+            "{}_{}_{}_{}",
             MODULE_SERIALIZATION_VERSION,
-            option_env!("CARGO_PKG_RUST_VERSION").unwrap_or("default")
+            std::env::consts::OS,
+            std::env::consts::ARCH,
+            option_env!("CARGO_PKG_VERSION").unwrap_or("plugin_runner_unknown")
         ));
 
         return FileSystemCache::new(&root_path).ok();
@@ -146,21 +140,18 @@ impl PluginModuleCache {
         let binary_path = binary_path.to_path_buf();
         let mut inner_cache = self.inner.get().expect("Cache should be available").lock();
 
-        // if constructed Module is available in-memory, directly return it.
-        // Note we do not invalidate in-memory cache currently: if wasm binary is
-        // replaced in-process lifecycle (i.e devserver) it won't be reflected.
-
+        // if constructed module bytes for the given plugin path is available in-memory,
+        // directly return it. Note we do not invalidate in-memory cache
+        // currently: if wasm binary is replaced in-process lifecycle (i.e
+        // devserver) it won't be reflected.
         /*
-        [TODO]: This is currently disabled, since on the latest wasmer@3 subsequent
-        plugin load via in memory module causes intermittent heap_get_oob when
+        [NOTE]: Unlike wasmer@2, in wasmer@3 subsequent plugin load via in memory module causes intermittent heap_get_oob when
         host tries to allocate memory inside of the guest.
-
-        Current guess is memory instance is being corrupted by the previous run, but
-        until figure out root cause & fix will only use fs_cache directly.
+        */
         let in_memory_module = inner_cache.loaded_module_bytes.get(&binary_path);
-        if let Some(module) = in_memory_module {
-            return Ok(module.clone());
-        }*/
+        if let Some(module_bytes) = in_memory_module {
+            return Module::new(wasmer_store, module_bytes).context("Cannot compile plugin binary");
+        }
 
         let module_bytes =
             std::fs::read(&binary_path).context("Cannot read plugin from specified path")?;
@@ -174,8 +165,8 @@ impl PluginModuleCache {
             );
             let span_guard = span.enter();
             let _lock = self.instantiation_lock.lock();
-            let ret =
-                Module::new(wasmer_store, module_bytes).context("Cannot compile plugin binary");
+            let ret = Module::new(wasmer_store, module_bytes.clone())
+                .context("Cannot compile plugin binary");
             drop(span_guard);
             ret
         };
@@ -197,7 +188,7 @@ impl PluginModuleCache {
 
         inner_cache
             .loaded_module_bytes
-            .insert(binary_path, module.clone());
+            .insert(binary_path, module_bytes);
 
         Ok(module)
     }
