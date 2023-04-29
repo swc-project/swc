@@ -14,6 +14,9 @@
 
 
 
+- **(es/minifier)** Drop expressions using sequential inliner (#6936) ([246300a](https://github.com/swc-project/swc/commit/246300ae25be0cfdbbb266e02f80d06013a96d85))
+
+
 - **(plugin/runner)** Improve caching (#7341) ([245163a](https://github.com/swc-project/swc/commit/245163a77827767ab0b4df59d00597c4af62d745))
 
 ## [1.3.55] - 2023-04-25
