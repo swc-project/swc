@@ -7,6 +7,12 @@
 
 - **(es/codegen)** Emit type arguments for call expressions (#7335) ([7e99e5f](https://github.com/swc-project/swc/commit/7e99e5fd2c3d15aba6bf29958bd9305e29312e6a))
 
+### Features
+
+
+
+- **(plugin/runner)** Improve caching (#7341) ([245163a](https://github.com/swc-project/swc/commit/245163a77827767ab0b4df59d00597c4af62d745))
+
 ## [1.3.55] - 2023-04-25
 
 ### Bug Fixes
