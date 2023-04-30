@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Refactor
+
+
+
+- **(plugin/runner)** Refine cache location (#7346) ([91a3fbe](https://github.com/swc-project/swc/commit/91a3fbe460799ed604c2b43b4facaed60cfd6c87))
+
 ## [1.3.56] - 2023-04-29
 
 ### Bug Fixes
