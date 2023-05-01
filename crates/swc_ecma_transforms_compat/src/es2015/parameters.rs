@@ -437,6 +437,14 @@ impl VisitMut for Params {
         self.in_prop = old_in_prop;
     }
 
+    fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
+        m.visit_mut_children_with(self);
+
+        if let MethodKind::Setter = m.kind {
+            debug_assert!(m.function.params.len() == 1);
+        }
+    }
+
     // same for private prop
     fn visit_mut_private_prop(&mut self, prop: &mut PrivateProp) {
         let old_in_prop = self.in_prop;
