@@ -438,10 +438,29 @@ impl VisitMut for Params {
     }
 
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
-        m.visit_mut_children_with(self);
-
         if let MethodKind::Setter = m.kind {
-            debug_assert!(m.function.params.len() == 1);
+            let f = &mut m.function;
+
+            if f.body.is_none() {
+                return;
+            }
+
+            let old_in_subclass = self.in_subclass;
+            let old_in_prop = self.in_prop;
+            self.in_subclass = false;
+            self.in_prop = false;
+
+            f.visit_mut_children_with(self);
+
+            let mut body = f.body.take().unwrap();
+            self.visit_mut_fn_like(&mut f.params, &mut body, true);
+
+            f.body = Some(body);
+
+            self.in_subclass = old_in_subclass;
+            self.in_prop = old_in_prop;
+        } else {
+            m.visit_mut_children_with(self);
         }
     }
 
