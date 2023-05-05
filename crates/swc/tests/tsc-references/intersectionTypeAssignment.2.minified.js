@@ -1,3 +1,3 @@
 //// [intersectionTypeAssignment.ts]
-var a, b, x, y;
-a = x, x = a = y, y = a, b = x, x = b = y, y = x = y = b;
+var a, x, y;
+a = x, x = a = y, x = y = a;

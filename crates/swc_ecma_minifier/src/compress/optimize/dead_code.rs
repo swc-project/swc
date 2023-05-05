@@ -33,18 +33,21 @@ where
     ///     throw x();
     /// }
     /// ```
-    pub(super) fn optimize_in_fn_termination(&mut self, e: &mut Expr) {
+    /// # Returns
+    ///
+    /// returns true if `e` is changed.
+    pub(super) fn optimize_last_expr_before_termination(&mut self, e: &mut Expr) -> bool {
         if !self.options.dead_code {
-            return;
+            return false;
         }
 
         // A return statement in a try block may not terminate function.
         if self.ctx.in_try_block {
-            return;
+            return false;
         }
 
         if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) = e {
-            self.optimize_in_fn_termination(&mut assign.right);
+            self.optimize_last_expr_before_termination(&mut assign.right);
 
             // We only handle identifiers on lhs for now.
             if let Some(lhs) = assign.left.as_ident() {
@@ -53,7 +56,7 @@ where
                     .data
                     .vars
                     .get(&lhs.to_id())
-                    .map(|var| var.is_fn_local && !var.declared_as_fn_param)
+                    .map(|var| var.declared && var.is_fn_local && !var.declared_as_fn_param)
                     .unwrap_or(false)
                 {
                     report_change!(
@@ -62,7 +65,7 @@ where
                     );
                     self.changed = true;
                     *e = *assign.right.take();
-                    return;
+                    return true;
                 }
             }
         }
@@ -76,7 +79,7 @@ where
                         .data
                         .vars
                         .get(&lhs.to_id())
-                        .map(|var| var.is_fn_local)
+                        .map(|var| var.declared && var.is_fn_local)
                         .unwrap_or(false)
                     {
                         report_change!(
@@ -91,9 +94,12 @@ where
                             left: Box::new(Expr::Ident(lhs.clone())),
                             right: assign.right.take(),
                         });
+                        return true;
                     }
                 }
             }
         }
+
+        false
     }
 }
