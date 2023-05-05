@@ -7,6 +7,9 @@
 
 - **(es/compat)** Fix `is_setter` in `parameters` pass (#7348) ([e0de83e](https://github.com/swc-project/swc/commit/e0de83e862f7de765ba804e8c31a16660d7186b5))
 
+
+- **(xml/codegen)** Escape `<` and `>` in child (#7351) ([b180d09](https://github.com/swc-project/swc/commit/b180d09e1dd9c4269d7d690d892ef4fd1c5b6563))
+
 ### Refactor
 
 
