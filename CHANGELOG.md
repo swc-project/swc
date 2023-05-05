@@ -13,6 +13,12 @@
 
 - **(plugin/runner)** Refine cache location (#7346) ([91a3fbe](https://github.com/swc-project/swc/commit/91a3fbe460799ed604c2b43b4facaed60cfd6c87))
 
+### Build
+
+
+
+- **(cargo)** Update `wasmer` to `v3.3` (#7352) ([4e278be](https://github.com/swc-project/swc/commit/4e278befcf0071619ee583ffa7c8357ea4fd5c2f))
+
 ## [1.3.56] - 2023-04-29
 
 ### Bug Fixes
