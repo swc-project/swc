@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "fn", {
     enumerable: true,
-    get: ()=>fn
+    get: function() {
+        return fn;
+    }
 });
 const _something = require("something");
 const fn = ({ a =new _something.Foo()  })=>a;

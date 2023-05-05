@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
-var _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default;
-_asyncToGenerator(function() {
+var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
+var _ts_generator = require("@swc/helpers/_/_ts_generator");
+_async_to_generator._(function() {
     var sleep, result;
-    return _tsGenerator(this, function(_state) {
+    return _ts_generator._(this, function(_state) {
         switch(_state.label){
             case 0:
                 sleep = function() {

@@ -9,19 +9,25 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    default: ()=>_foo().default,
-    foo: ()=>_foo().default,
-    bar: ()=>_bar().default
+    default: function() {
+        return _foo().default;
+    },
+    foo: function() {
+        return _foo().default;
+    },
+    bar: function() {
+        return _bar().default;
+    }
 });
 function _foo() {
-    const data = /*#__PURE__*/ _interopRequireDefault(require("foo"));
+    const data = /*#__PURE__*/ _interop_require_default(require("foo"));
     _foo = function() {
         return data;
     };
     return data;
 }
 function _bar() {
-    const data = /*#__PURE__*/ _interopRequireDefault(require("bar"));
+    const data = /*#__PURE__*/ _interop_require_default(require("bar"));
     _bar = function() {
         return data;
     };

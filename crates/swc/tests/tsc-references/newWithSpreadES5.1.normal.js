@@ -1,7 +1,7 @@
 //// [newWithSpreadES5.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _construct from "@swc/helpers/src/_construct.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _construct } from "@swc/helpers/_/_construct";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 function f(x, y) {
     for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
         z[_key - 2] = arguments[_key];

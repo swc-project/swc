@@ -4,6 +4,6 @@ use swc_core::{
 };
 
 #[plugin_transform]
-pub fn process(program: Program, metadata: TransformPluginProgramMetadata) -> Program {
+pub fn process(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
     program
 }

@@ -1,8 +1,8 @@
 //// [objectSpread.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _define_property from "@swc/helpers/src/_define_property.mjs";
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
+import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
+import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
 var o = {
     a: 1,
     b: "no"

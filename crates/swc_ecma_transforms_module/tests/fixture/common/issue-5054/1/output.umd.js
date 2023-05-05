@@ -19,11 +19,15 @@
         });
     }
     _export(exports, {
-        default: ()=>_default,
-        y: ()=>y
+        default: function() {
+            return _default;
+        },
+        y: function() {
+            return y;
+        }
     });
-    _foo = /*#__PURE__*/ _interopRequireDefault(_foo);
-    _baz = /*#__PURE__*/ _interopRequireWildcard(_baz);
+    _foo = /*#__PURE__*/ _interop_require_default(_foo);
+    _baz = /*#__PURE__*/ _interop_require_wildcard(_baz);
     const _default = {
         foo: _foo.default,
         baz: _baz,

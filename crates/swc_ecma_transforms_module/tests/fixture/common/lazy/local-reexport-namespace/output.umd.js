@@ -12,7 +12,9 @@
     });
     Object.defineProperty(exports, "namespace", {
         enumerable: true,
-        get: ()=>_foo
+        get: function() {
+            return _foo;
+        }
     });
-    _foo = /*#__PURE__*/ _interopRequireWildcard(_foo);
+    _foo = /*#__PURE__*/ _interop_require_wildcard(_foo);
 });

@@ -1,6 +1,6 @@
 //// [enumAssignability.ts]
 var E, F, Others;
-import "@swc/helpers/src/_class_call_check.mjs";
+import "@swc/helpers/_/_class_call_check";
 !function(E) {
     E[E.A = 0] = "A";
 }(E || (E = {})), function(F) {

@@ -5,6 +5,7 @@ use swc_common::add_bitflags;
 
 bitflags! {
     /// Represents the formatting rule for a list of nodes.
+    #[derive(PartialEq, Eq, Copy, Clone)]
     pub struct ListFormat: u32 {
         /// Default value.
         const None = 0;

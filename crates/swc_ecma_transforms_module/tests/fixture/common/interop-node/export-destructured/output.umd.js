@@ -16,12 +16,24 @@
         });
     }
     _export(exports, {
-        x: ()=>x,
-        y: ()=>y,
-        f1: ()=>f1,
-        f2: ()=>f2,
-        f3: ()=>f3,
-        f4: ()=>f4
+        x: function() {
+            return x;
+        },
+        y: function() {
+            return y;
+        },
+        f1: function() {
+            return f1;
+        },
+        f2: function() {
+            return f2;
+        },
+        f3: function() {
+            return f3;
+        },
+        f4: function() {
+            return f4;
+        }
     });
     let x = 0;
     let y = 0;

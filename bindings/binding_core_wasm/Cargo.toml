@@ -6,7 +6,7 @@ license     = "Apache-2.0"
 name        = "binding_core_wasm"
 publish     = false
 repository  = "https://github.com/swc-project/swc.git"
-version     = "1.3.43"
+version     = "1.3.56"
 
 [lib]
 bench      = false
@@ -17,13 +17,24 @@ default = ["swc_v1"]
 swc_v1  = []
 swc_v2  = []
 # This feature exists to allow cargo operations
-plugin = ["swc_core/plugin_transform_host_js"]
+# [TODO]: this is disabled due to signature mismatch between host_native and host_js,
+# which causes build errors like
+# .call(&mut self.store, ptr.0, ptr.1)
+#   |                  ^^^^ the trait `NativeWasmTypeInto` is not implemented for `u32`
+#   |
+#   = help: the following other types implement trait `NativeWasmTypeInto`:
+#             f32
+#             f64
+#             i32
+#             i64
+#             u128
+plugin = []
 
 [dependencies]
 anyhow = "1.0.66"
 serde = { version = "1", features = ["derive"] }
 serde-wasm-bindgen = "0.4.5"
-swc_core = { version = "0.72.2", features = [
+swc_core = { version = "0.75.41", features = [
   "ecma_ast_serde",
   "common_perf",
   "binding_macro_wasm",

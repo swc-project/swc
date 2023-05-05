@@ -15,10 +15,16 @@ define([
         });
     }
     _export(exports, {
-        default: ()=>_foo.default,
-        foo: ()=>_foo.default,
-        bar: ()=>_bar.default
+        default: function() {
+            return _foo.default;
+        },
+        foo: function() {
+            return _foo.default;
+        },
+        bar: function() {
+            return _bar.default;
+        }
     });
-    _foo = /*#__PURE__*/ _interopRequireDefault(_foo);
-    _bar = /*#__PURE__*/ _interopRequireDefault(_bar);
+    _foo = /*#__PURE__*/ _interop_require_default(_foo);
+    _bar = /*#__PURE__*/ _interop_require_default(_bar);
 });

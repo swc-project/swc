@@ -9,7 +9,9 @@ define([
     });
     Object.defineProperty(exports, "foo", {
         enumerable: true,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     });
     function foo() {
         return "foo";
@@ -19,32 +21,33 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_wildcard.mjs"
-], function(require, exports, _interopRequireWildcard) {
+    "@swc/helpers/_/_interop_require_wildcard"
+], function(require, exports, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     Object.defineProperty(exports, "p2", {
         enumerable: true,
-        get: ()=>p2
+        get: function() {
+            return p2;
+        }
     });
-    _interopRequireWildcard = _interopRequireWildcard.default;
     new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
+        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
     var p1 = new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
+        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
     p1.then((zero)=>{
         return zero.foo();
     });
     var p2 = new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
+        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
     function foo() {
         const p2 = new Promise((resolve, reject)=>require([
                 "./0"
-            ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
+            ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
     }
 });

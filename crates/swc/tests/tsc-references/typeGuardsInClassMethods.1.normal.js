@@ -2,7 +2,7 @@
 // Note that type guards affect types of variables and parameters only and 
 // have no effect on members of objects such as properties. 
 // variables in global
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var num;
 var var1;
 var C1 = /*#__PURE__*/ function() {

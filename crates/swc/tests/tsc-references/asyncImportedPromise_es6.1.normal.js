@@ -5,7 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "Task", {
     enumerable: true,
-    get: ()=>Task
+    get: function() {
+        return Task;
+    }
 });
 class Task extends Promise {
 }
@@ -14,10 +16,10 @@ class Task extends Promise {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-const _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
+const _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 class Test {
     example() {
-        return _asyncToGenerator(function*() {
+        return _async_to_generator._(function*() {
             return;
         })();
     }

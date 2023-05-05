@@ -1,2 +1,2 @@
 "use strict";
-_exportStar(require("c"), exports);
+_export_star(require("c"), exports);

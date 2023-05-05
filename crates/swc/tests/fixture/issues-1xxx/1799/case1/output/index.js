@@ -8,14 +8,14 @@ Object.defineProperty(exports, "default", {
         return Foo;
     }
 });
-var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
-var _interopRequireDefault = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default;
-var _react = /*#__PURE__*/ _interopRequireDefault(require("react"));
+var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
+var _interop_require_default = require("@swc/helpers/_/_interop_require_default");
+var _ts_generator = require("@swc/helpers/_/_ts_generator");
+var _react = /*#__PURE__*/ _interop_require_default._(require("react"));
 function Foo() {
     return /*#__PURE__*/ _react.default.createElement("div", {
-        onClick: /*#__PURE__*/ _asyncToGenerator(function(e) {
-            return _tsGenerator(this, function(_state) {
+        onClick: /*#__PURE__*/ _async_to_generator._(function(e) {
+            return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [

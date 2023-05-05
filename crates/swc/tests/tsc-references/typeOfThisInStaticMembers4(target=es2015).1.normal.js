@@ -1,7 +1,7 @@
 //// [typeOfThisInStaticMembers4.ts]
-import _define_property from "@swc/helpers/src/_define_property.mjs";
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C {
 }
 _define_property(C, "a", 1);

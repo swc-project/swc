@@ -75,6 +75,7 @@ allow = [
   "Zlib",
   "MPL-2.0",
   "0BSD",
+  "LicenseRef-ring",                #ring
   "Unicode-DFS-2016",               #unicode-ident
 ]
 # List of explictly disallowed licenses
@@ -102,7 +103,7 @@ default = "deny"
 confidence-threshold = 0.8
 # Allow 1 or more licenses on a per-crate basis, so that particular licenses
 # aren't accepted for every possible crate as with the normal allow list
-exceptions = []
+exceptions = [{ allow = ["BUSL-1.1"], name = "webc" }]
 
   [[licenses.clarify]]
   # The name of the crate the clarification applies to
@@ -117,6 +118,11 @@ exceptions = []
   # and the crate will be checked normally, which may produce warnings or errors
   # depending on the rest of your configuration
   license-files = [{ path = "COPYRIGHT", hash = 972598577 }]
+
+  [[licenses.clarify]]
+  expression    = "LicenseRef-ring"
+  license-files = [{ path = "LICENSE", hash = 0xbd0eed23 }]
+  name          = "ring"
 
   # Some crates don't have (easily) machine readable licensing information,
   # adding a clarification entry for it allows you to manually specify the

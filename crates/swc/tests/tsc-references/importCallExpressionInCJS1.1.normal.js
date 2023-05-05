@@ -5,7 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "foo", {
     enumerable: true,
-    get: ()=>foo
+    get: function() {
+        return foo;
+    }
 });
 function foo() {
     return "foo";
@@ -17,15 +19,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "p2", {
     enumerable: true,
-    get: ()=>p2
+    get: function() {
+        return p2;
+    }
 });
-const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
-var p1 = Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
+const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0")));
+var p1 = Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0")));
 p1.then((zero)=>{
     return zero.foo();
 });
-var p2 = Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
+var p2 = Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0")));
 function foo() {
-    const p2 = Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./0")));
+    const p2 = Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0")));
 }

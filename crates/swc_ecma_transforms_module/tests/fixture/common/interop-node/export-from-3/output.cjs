@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 0 && (module.exports = {
-    bar: _,
-    foo: _
+    bar: null,
+    foo: null
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
@@ -13,7 +13,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    bar: ()=>_foo.bar,
-    foo: ()=>_foo.foo
+    bar: function() {
+        return _foo.bar;
+    },
+    foo: function() {
+        return _foo.foo;
+    }
 });
 const _foo = require("foo");

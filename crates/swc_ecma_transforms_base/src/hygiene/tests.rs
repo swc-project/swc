@@ -427,7 +427,7 @@ fn mark_root() {
                                     .fold_with(&mut marker(&[("foo", mark2)])),
                                 tester.parse_stmt(
                                     "actual3.js",
-                                    "_defineProperty(this, 'bar', foo);",
+                                    "_define_property(this, 'bar', foo);",
                                 )?,
                             ],
                         }),
@@ -444,7 +444,7 @@ fn mark_root() {
 var foo = 'bar';
 function Foo() {
     var foo1 = 'foo';
-    _defineProperty(this, 'bar', foo);
+    _define_property(this, 'bar', foo);
 }
             ",
     );
@@ -509,7 +509,7 @@ fn fn_args() {
                     body: Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![tester
-                            .parse_stmt("actual1.js", "_defineProperty(this, 'force', force);")?
+                            .parse_stmt("actual1.js", "_define_property(this, 'force', force);")?
                             .fold_with(&mut marker(&[("force", mark2)]))],
                     }),
                     params: vec![Param {
@@ -527,7 +527,7 @@ fn fn_args() {
         },
         "
         function Foo(force1) {
-            _defineProperty(this, 'force', force);
+            _define_property(this, 'force', force);
         }
         ",
     );
@@ -706,7 +706,7 @@ fn for_x() {
                     .parse_stmt(
                         "actual1.js",
                         "for (var _ref of []){
-                            var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
+                            var { a } = _ref, b = _object_without_properties(_ref, ['a']);
                         }",
                     )?
                     .fold_with(&mut marker(&[("_ref", mark1)])),
@@ -714,7 +714,7 @@ fn for_x() {
                     .parse_stmt(
                         "actual2.js",
                         "for (var _ref of []){
-                            var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
+                            var { a } = _ref, b = _object_without_properties(_ref, ['a']);
                         }",
                     )?
                     .fold_with(&mut marker(&[("_ref", mark2)])),
@@ -723,7 +723,7 @@ fn for_x() {
                         "actual3.js",
                         "async function a() {
                             for await (var _ref of []){
-                                var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
+                                var { a } = _ref, b = _object_without_properties(_ref, ['a']);
                             }
                         }",
                     )?
@@ -732,15 +732,15 @@ fn for_x() {
         },
         "
         for (var _ref of []){
-            var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
+            var { a } = _ref, b = _object_without_properties(_ref, ['a']);
         }
 
         for (var _ref1 of []){
-            var { a } = _ref1, b = _objectWithoutProperties(_ref1, ['a']);
+            var { a } = _ref1, b = _object_without_properties(_ref1, ['a']);
         }
         async function a() {
             for await (var _ref of []){
-                var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
+                var { a } = _ref, b = _object_without_properties(_ref, ['a']);
             }
         }
         ",
@@ -795,7 +795,7 @@ fn nested_fn_param_with_same_name() {
                     "actual1.js",
                     "
                     function _three() {
-                        _three = _asyncToGenerator(function*(a, param, c, param) {
+                        _three = _async_to_generator(function*(a, param, c, param) {
                         });
                         return _three.apply(this, arguments);
                     }
@@ -808,7 +808,7 @@ fn nested_fn_param_with_same_name() {
         },
         "
         function _three() {
-            _three = _asyncToGenerator(function*(a, param, c, param1) {
+            _three = _async_to_generator(function*(a, param, c, param1) {
             });
             return _three.apply(this, arguments);
         }
@@ -830,18 +830,18 @@ fn regression_001() {
                     "actual1.js",
                     "var Foo = function() {
     function Foo() {
-        _classCallCheck(this, Foo);
+        _class_call_check(this, Foo);
         foo.set(this, {
              writable: true, value: 0
         });
     }
-    _createClass(Foo, [{
+    _create_class(Foo, [{
              key: 'test', value: function test(other) {
                     var old, _obj, old, _obj;
-                     _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
-                     1), old;
-                     _classPrivateFieldSet(_obj = other.obj, foo, (old = \
-                     +_classPrivateFieldGet(_obj, foo)) + 1), old;
+                     _class_private_field_set(this, foo, (old = +_class_private_field_get(this, \
+                     foo)) + 1), old;
+                     _class_private_field_set(_obj = other.obj, foo, (old = \
+                     +_class_private_field_get(_obj, foo)) + 1), old;
                 }
         }]);
     return Foo;
@@ -855,18 +855,18 @@ fn regression_001() {
         },
         "var Foo = function() {
     function Foo() {
-        _classCallCheck(this, Foo);
+        _class_call_check(this, Foo);
         foo.set(this, {
              writable: true, value: 0
         });
     }
-    _createClass(Foo, [{
+    _create_class(Foo, [{
              key: 'test', value: function test(other) {
                 var old, _obj, old1, _obj1;
-                _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + 1), \
-         old;
-                _classPrivateFieldSet(_obj = other.obj, foo, (old1 = +_classPrivateFieldGet(_obj1, \
-         foo)) + 1), old1;
+                _class_private_field_set(this, foo, (old = +_class_private_field_get(this, foo)) + \
+         1), old;
+                _class_private_field_set(_obj = other.obj, foo, (old1 = \
+         +_class_private_field_get(_obj1, foo)) + 1), old1;
                 }
         }]);
     return Foo;
@@ -885,13 +885,13 @@ fn regression_002() {
             Ok(vec![tester
                 .parse_stmt(
                     "actual1.js",
-                    "_createClass(Foo, [{
+                    "_create_class(Foo, [{
              key: 'test', value: function test(other) {
                     var old, _obj, old, _obj;
-                     _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
-                     1), old;
-                     _classPrivateFieldSet(_obj = other.obj, foo, (old = \
-                     +_classPrivateFieldGet(_obj, foo)) + 1), old;
+                     _class_private_field_set(this, foo, (old = +_class_private_field_get(this, \
+                     foo)) + 1), old;
+                     _class_private_field_set(_obj = other.obj, foo, (old = \
+                     +_class_private_field_get(_obj, foo)) + 1), old;
                 }
         }])",
                 )?
@@ -900,13 +900,13 @@ fn regression_002() {
                     &[mark1, mark2, mark1, mark1, mark2, mark2],
                 )]))])
         },
-        "_createClass(Foo, [{
+        "_create_class(Foo, [{
              key: 'test', value: function test(other) {
                     var old, _obj, old1, _obj;
-                     _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
-         1), old;
-                     _classPrivateFieldSet(_obj = other.obj, foo, (old1 = \
-         +_classPrivateFieldGet(_obj, foo)) + 1), old1;
+                     _class_private_field_set(this, foo, (old = +_class_private_field_get(this, \
+         foo)) + 1), old;
+                     _class_private_field_set(_obj = other.obj, foo, (old1 = \
+         +_class_private_field_get(_obj, foo)) + 1), old1;
                 }
         }]);",
     );
@@ -923,10 +923,10 @@ fn regression_003() {
                 .parse_stmts(
                     "actual1.js",
                     "var old, _obj, old, _obj;
-                     _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
-                     1), old;
-                     _classPrivateFieldSet(_obj = other.obj, foo, (old = \
-                     +_classPrivateFieldGet(_obj, foo)) + 1), old;",
+                     _class_private_field_set(this, foo, (old = +_class_private_field_get(this, \
+                     foo)) + 1), old;
+                     _class_private_field_set(_obj = other.obj, foo, (old = \
+                     +_class_private_field_get(_obj, foo)) + 1), old;",
                 )?
                 .fold_with(&mut OnceMarker::new(&[(
                     "old",
@@ -934,10 +934,10 @@ fn regression_003() {
                 )])))
         },
         "var old, _obj, old1, _obj;
-                     _classPrivateFieldSet(this, foo, (old = +_classPrivateFieldGet(this, foo)) + \
-         1), old;
-                     _classPrivateFieldSet(_obj = other.obj, foo, (old1 = \
-         +_classPrivateFieldGet(_obj, foo)) + 1), old1;",
+                     _class_private_field_set(this, foo, (old = +_class_private_field_get(this, \
+         foo)) + 1), old;
+                     _class_private_field_set(_obj = other.obj, foo, (old1 = \
+         +_class_private_field_get(_obj, foo)) + 1), old1;",
     );
 }
 

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _instanceof = require("@swc/helpers/lib/_instanceof.js").default;
+var _instanceof = require("@swc/helpers/_/_instanceof");
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), exports.default = void 0;
@@ -116,7 +116,7 @@ var ItemsList = function(_Component) {
     function ItemsList() {
         var _this;
         !function(instance, Constructor) {
-            if (!_instanceof(instance, Constructor)) throw TypeError("Cannot call a class as a function");
+            if (!_instanceof._(instance, Constructor)) throw TypeError("Cannot call a class as a function");
         }(this, ItemsList);
         for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
         return _defineProperty(_assertThisInitialized(_this = _super.call.apply(_super, [

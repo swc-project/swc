@@ -44,4 +44,4 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), (0, (0, require("@swc/helpers/lib/_interop_require_default.js").default)(require("./m1")).default)();
+}), (0, require("@swc/helpers/_/_interop_require_default")._(require("./m1")).default)();

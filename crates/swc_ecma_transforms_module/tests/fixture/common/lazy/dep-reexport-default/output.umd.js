@@ -12,7 +12,9 @@
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>_foo.default
+        get: function() {
+            return _foo.default;
+        }
     });
-    _foo = /*#__PURE__*/ _interopRequireDefault(_foo);
+    _foo = /*#__PURE__*/ _interop_require_default(_foo);
 });

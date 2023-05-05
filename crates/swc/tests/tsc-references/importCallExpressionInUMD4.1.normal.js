@@ -17,8 +17,12 @@
         });
     }
     _export(exports, {
-        B: ()=>B,
-        foo: ()=>foo
+        B: function() {
+            return B;
+        },
+        foo: function() {
+            return foo;
+        }
     });
     class B {
         print() {
@@ -43,7 +47,9 @@
     });
     Object.defineProperty(exports, "backup", {
         enumerable: true,
-        get: ()=>backup
+        get: function() {
+            return backup;
+        }
     });
     function backup() {
         return "backup";
@@ -51,22 +57,23 @@
 });
 //// [2.ts]
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/src/_interop_require_wildcard.mjs"));
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_interop_require_wildcard"));
     else if (typeof define === "function" && define.amd) define([
         "exports",
-        "@swc/helpers/src/_interop_require_wildcard.mjs"
+        "@swc/helpers/_/_interop_require_wildcard"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.2Ts = {}, global.interopRequireWildcardMjs);
-})(this, function(exports, _interopRequireWildcard) {
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.2Ts = {}, global.interopRequireWildcard);
+})(this, function(exports, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     Object.defineProperty(exports, "D", {
         enumerable: true,
-        get: ()=>D
+        get: function() {
+            return D;
+        }
     });
-    _interopRequireWildcard = _interopRequireWildcard.default;
     class C {
         method() {
             const loadAsync = import("./0");

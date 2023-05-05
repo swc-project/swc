@@ -177,11 +177,11 @@ impl<'a> Tester<'a> {
             res?
         };
 
-        let module = module
+        let module = Program::Module(module)
             .fold_with(&mut tr)
             .fold_with(&mut as_folder(Normalizer));
 
-        Ok(module)
+        Ok(module.expect_module())
     }
 
     pub fn print(&mut self, module: &Module, comments: &Rc<SingleThreadedComments>) -> String {

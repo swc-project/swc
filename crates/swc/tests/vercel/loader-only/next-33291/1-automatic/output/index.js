@@ -1,6 +1,6 @@
-import _object_spread from "@swc/helpers/src/_object_spread.mjs";
-import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
+import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
+import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 import { createElement as _createElement } from "react";
 import Head from "next/head";

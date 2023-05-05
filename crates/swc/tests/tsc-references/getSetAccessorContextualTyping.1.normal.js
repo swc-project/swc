@@ -2,8 +2,8 @@
 // In the body of a get accessor with no return type annotation,
 // if a matching set accessor exists and that set accessor has a parameter type annotation,
 // return expressions are contextually typed by the type given in the set accessor's parameter type annotation.
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _create_class } from "@swc/helpers/_/_create_class";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

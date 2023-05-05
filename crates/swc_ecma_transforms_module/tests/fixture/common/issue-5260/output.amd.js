@@ -19,17 +19,29 @@ define([
         });
     }
     _export(exports, {
-        a: ()=>_a.X,
-        b: ()=>_b.X,
-        c: ()=>_c.default,
-        d: ()=>_d.default,
-        e: ()=>_e,
-        f: ()=>_f
+        a: function() {
+            return _a.X;
+        },
+        b: function() {
+            return _b.X;
+        },
+        c: function() {
+            return _c.default;
+        },
+        d: function() {
+            return _d.default;
+        },
+        e: function() {
+            return _e;
+        },
+        f: function() {
+            return _f;
+        }
     });
-    _c = /*#__PURE__*/ _interopRequireDefault(_c);
-    _d = /*#__PURE__*/ _interopRequireDefault(_d);
-    _e = /*#__PURE__*/ _interopRequireWildcard(_e);
-    _f = /*#__PURE__*/ _interopRequireWildcard(_f);
+    _c = /*#__PURE__*/ _interop_require_default(_c);
+    _d = /*#__PURE__*/ _interop_require_default(_d);
+    _e = /*#__PURE__*/ _interop_require_wildcard(_e);
+    _f = /*#__PURE__*/ _interop_require_wildcard(_f);
     // unresolved
     const x = X;
     const _a1 = a;

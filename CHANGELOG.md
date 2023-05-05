@@ -1,5 +1,342 @@
 # Changelog
-## [1.3.43] - 2023-03-29
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Fix `is_setter` in `parameters` pass (#7348) ([e0de83e](https://github.com/swc-project/swc/commit/e0de83e862f7de765ba804e8c31a16660d7186b5))
+
+### Refactor
+
+
+
+- **(plugin/runner)** Refine cache location (#7346) ([91a3fbe](https://github.com/swc-project/swc/commit/91a3fbe460799ed604c2b43b4facaed60cfd6c87))
+
+### Build
+
+
+
+- **(cargo)** Update `wasmer` to `v3.3` (#7352) ([4e278be](https://github.com/swc-project/swc/commit/4e278befcf0071619ee583ffa7c8357ea4fd5c2f))
+
+## [1.3.56] - 2023-04-29
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Emit type arguments for call expressions (#7335) ([7e99e5f](https://github.com/swc-project/swc/commit/7e99e5fd2c3d15aba6bf29958bd9305e29312e6a))
+
+
+- **(es/parser)** Parse decorators after `export` (#7340) ([985f0ca](https://github.com/swc-project/swc/commit/985f0cad06b9de5f9e98bed3ad62769e0f3c7528))
+
+
+- **(es/typescript)** Fix typescript strip pass (#7342) ([d061d29](https://github.com/swc-project/swc/commit/d061d295ff2ca6ebb03d9c62c367f42f7186c2d7))
+
+
+- **(plugin/runner)** Revert #7341 (#7344) ([d6999ba](https://github.com/swc-project/swc/commit/d6999ba1ac454a1617bab00c740d99f81ff1a18d))
+
+### Features
+
+
+
+- **(es/minifier)** Drop expressions using sequential inliner (#6936) ([246300a](https://github.com/swc-project/swc/commit/246300ae25be0cfdbbb266e02f80d06013a96d85))
+
+
+- **(plugin/runner)** Improve caching (#7341) ([245163a](https://github.com/swc-project/swc/commit/245163a77827767ab0b4df59d00597c4af62d745))
+
+## [1.3.55] - 2023-04-25
+
+### Bug Fixes
+
+
+
+- **(es/helpers)** Add `src/*.mjs` entry back (#7328) ([84af855](https://github.com/swc-project/swc/commit/84af85563f91a9593e0eb319f46c49c1d4cf7895))
+
+### Features
+
+
+
+- **(es/module)** Add `export_interop_annotation` flag (#7330) ([caee073](https://github.com/swc-project/swc/commit/caee073935a9abb08f0b5e2e0e9160d80064995b))
+
+## [1.3.54] - 2023-04-25
+
+### Bug Fixes
+
+
+
+- **(bindings/node)** Support `TsSatisfiesExpression` (#7317) ([761ef83](https://github.com/swc-project/swc/commit/761ef8389dd000e465bd385ec925654a8cb2ae09))
+
+
+- **(common)** Workaround the `Arc` and `rkyv` issue (#7321) ([577f81e](https://github.com/swc-project/swc/commit/577f81ec405f4f3a3e58e3f97c07d3720dd80912))
+
+
+- **(es/codegen)** Fix codegen of `TsModuleDecl` (#7319) ([0ca05d8](https://github.com/swc-project/swc/commit/0ca05d8b69b6301e2346e5de6c45a77c863676e9))
+
+
+- **(es/compat)** Transform curried function call with optional chaining (#7313) ([66b5b11](https://github.com/swc-project/swc/commit/66b5b110bf94259e0e0223224940bb8d0384e9b6))
+
+### Testing
+
+
+
+- **(es)** Update tsc test suite (#7323) ([603f22d](https://github.com/swc-project/swc/commit/603f22de76eaeac1a64ee5e5f2e1dd095f908604))
+
+## [1.3.53] - 2023-04-21
+
+### Bug Fixes
+
+
+
+- **(es)** Fix a crash related to source map (#7307) ([e7f7b01](https://github.com/swc-project/swc/commit/e7f7b01f59b622c993ee584ae825a39c390b2570))
+
+
+- **(es/helpers)** Remove unnecessary parameters in `helper_expr!` macro (#7296) ([38dfb91](https://github.com/swc-project/swc/commit/38dfb91ebc04eecab97ec023c79b183958fda227))
+
+
+- **(es/modules)** Support `jsc.baseUrl` without `jsc.paths` (#7302) ([9c279b8](https://github.com/swc-project/swc/commit/9c279b802b6a615fdba33a6f81866ce3ef606676))
+
+
+- **(es/parser)** Fix handling of `in` and `out` of typescript (#7308) ([6f81cb9](https://github.com/swc-project/swc/commit/6f81cb9c32219cd8e51a97c924e0b272fc25a0c1))
+
+
+- **(testing)** Fix path normalization on windows for testing diffs (#7299) ([3422923](https://github.com/swc-project/swc/commit/3422923cb004111f8c57501bb8b222905cf6bd09))
+
+### Miscellaneous Tasks
+- **general**: Update issue template to prevent useless issues (#7303) ([9816ba2](https://github.com/swc-project/swc/commit/9816ba27958af07399383fc995c49dc1ed3e3554))
+
+### Testing
+
+
+
+- **(es/compat)** Add a test for a wrong issue (#7300) ([38495a9](https://github.com/swc-project/swc/commit/38495a9835c47ded30d07d6c961a094e22146222))
+
+## [1.3.52] - 2023-04-19
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix a inliner bug related to `Script` (#7288) ([0aab90c](https://github.com/swc-project/swc/commit/0aab90c005b29b9fced96a04b84a49fe2298560e))
+
+
+- **(es/resolver)** Hoist parameter in arrow and constructor (#7292) ([7a00f2e](https://github.com/swc-project/swc/commit/7a00f2e95412b7dcbe9ce3b32d8b299104b2f5c5))
+
+### Performance
+
+
+
+- **(es/react)** Don't use regex (#7284) ([248fd37](https://github.com/swc-project/swc/commit/248fd374e66bf33c3d40eff1fe2ab2d584aec507))
+
+
+- **(preset-env)** Update static map (#7293) ([bc83cb2](https://github.com/swc-project/swc/commit/bc83cb2ecfcfcec0fef0e0b2f2450746ada4628c))
+
+### Build
+
+
+
+- **(cargo)** Bump up wasmer (#7294) ([39d415c](https://github.com/swc-project/swc/commit/39d415cc1623456255dc2c7b87594f7fd00ab87b))
+
+## [1.3.51] - 2023-04-16
+
+### Bug Fixes
+
+
+
+- **(es)** Allow extra comments after `sourceMappingURL` (#7262) ([219a738](https://github.com/swc-project/swc/commit/219a738a752e44bcbf5681f2f77766f5581439c3))
+
+
+- **(es/helpers)** Do not duplicate property names (#7266) ([30a4e52](https://github.com/swc-project/swc/commit/30a4e52f74e9c2e6f919f41930f79b4a0c3eab76))
+
+
+- **(es/loader)** Fix browser overwrites not applying correctly (#7243) ([beefdd4](https://github.com/swc-project/swc/commit/beefdd459c1bdd96bcd5c83f8dc2e4c4c1be695d))
+
+
+- **(es/minifier)** Use UTF16 length for `str.length` (#7275) ([4c06a56](https://github.com/swc-project/swc/commit/4c06a56e52184796280d9c19975f5317f3050cc9))
+
+
+- **(es/renamer)** Ensure that param and function body are in same scope (#7271) ([93a264c](https://github.com/swc-project/swc/commit/93a264c9a4c8329eddbf02c02c979d5dee3f02b5))
+
+### Features
+
+
+
+- **(es/modules)** Use function instead of arrow function unconditionally (#7273) ([5d3313a](https://github.com/swc-project/swc/commit/5d3313aa7e696a5c4c28e513062b8ba92bd40e5f))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix crev action (#7272) ([578960d](https://github.com/swc-project/swc/commit/578960d32186f7d5fdf2dc99599aa49a01c5d7a3))
+
+### Refactor
+
+
+
+- **(es/parser)** Remove `::` token as it's not used (#7268) ([635bf81](https://github.com/swc-project/swc/commit/635bf8116bb002d5d737f0e9dfbf5efd3a433e7d))
+
+### Build
+
+
+
+- **(cargo)** Update `bitflags` to v2 (#7270) ([c4cce12](https://github.com/swc-project/swc/commit/c4cce127587e304b938c43059992ff0ed6bd2821))
+
+## [1.3.50] - 2023-04-13
+
+### Bug Fixes
+
+
+
+- **(es)** Fix a crash related to an empty source map (#7229) ([c665918](https://github.com/swc-project/swc/commit/c6659183a616725b61733e584bbb6e540b9cbbde))
+
+
+- **(es/codegen)** Respect `ascii_only` for identifiers (#7247) ([e35097f](https://github.com/swc-project/swc/commit/e35097fd8c036dfab9fcf923f01db562b003720b))
+
+
+- **(es/compat)** Handle export function in `reserved_word` (#7251) ([2e947e7](https://github.com/swc-project/swc/commit/2e947e7aeb1fd2989a10fb49a2ffa2ea35bc9941))
+
+
+- **(es/minifier)** Fix handling of optional chaining when `hoist_props` is enabled (#7246) ([a44fea1](https://github.com/swc-project/swc/commit/a44fea1ec8f19a822d84c744b9e39c122026fd9d))
+
+
+- **(es/parser)** Use a hard error for missing r-paren in an if stmt (#7223) ([b1c40a4](https://github.com/swc-project/swc/commit/b1c40a411f01792f9b9f4bc9d5f08782fc6d6a1c))
+
+
+- **(es/parser)** Reset ctx for cond while parsing a stmt (#7232) ([01db30f](https://github.com/swc-project/swc/commit/01db30f91ec91d5dffe4c2ac1934965cc9c73cf8))
+
+
+- **(es/parser)** Parse `const` type parameters in arrow function expressions (#7242) ([6614886](https://github.com/swc-project/swc/commit/66148861926a8e70cb75ff20cb2f0ff171c2e630))
+
+### Features
+
+
+
+- **(es)** Provide more information when loading of input source map failed (#7249) ([f0e3b1d](https://github.com/swc-project/swc/commit/f0e3b1d09a69c3eb3035e2dbc00d537576b48a08))
+
+
+- **(es)** Use `minify.format.ascii_only` if `output.charset` is not specified (#7258) ([1fe5c3a](https://github.com/swc-project/swc/commit/1fe5c3a803daf247709ac51f8c637ba7e56181bc))
+
+
+- **(es/minifier)** Support `PURE` comment of seq exprs (#7245) ([559d120](https://github.com/swc-project/swc/commit/559d1202bc9a25c06eae01c6e033a44bb31aab62))
+
+
+- **(plugin)** Enable validation (#7250) ([efad714](https://github.com/swc-project/swc/commit/efad714983459393639f4b026da7793807c1b401))
+
+### Refactor
+
+
+
+- **(plugin)** Remove `bytecheck` flag (#7256) ([6bd58cb](https://github.com/swc-project/swc/commit/6bd58cbcfdef99604470a106853628e1cdb36cda))
+
+
+- **(plugin/runner)** Fix clippy warnings (#7244) ([70b86db](https://github.com/swc-project/swc/commit/70b86dbe371fafc2dffde0573bc091860aa529b3))
+
+### Testing
+
+
+
+- **(es/plugin)** Enable E2E test again (#7236) ([695ce06](https://github.com/swc-project/swc/commit/695ce060e95ccdda50334468dc669da2df76c026))
+
+### Build
+
+
+
+- **(plugin)** Update `rkyv` (#7257) ([ff3decc](https://github.com/swc-project/swc/commit/ff3decc7dbf7965085261b16efa1a7b251aec696))
+
+## [1.3.49] - 2023-04-10
+
+### Features
+
+
+
+- **(plugin/runner)** Update `wasmer` to `v3` (#7197) ([56bdacc](https://github.com/swc-project/swc/commit/56bdacc72df967bc613c5b067cf773f39c4bce00))
+
+### Refactor
+
+
+
+- **(plugin/runner)** Fix publish action (#7234) ([b868ed0](https://github.com/swc-project/swc/commit/b868ed02a35904bd6063709685d1470598cdaf81))
+
+## [1.3.47] - 2023-04-10
+
+### Bug Fixes
+
+
+
+- **(bindings/node)** Make peer dependency of helpers optional (#7216) ([e86d598](https://github.com/swc-project/swc/commit/e86d59882a6644a63e98094127694f27b3c1b5a4))
+
+
+- **(es/compat)** Fix `finally` handling of `generator` (#7215) ([f5c62fb](https://github.com/swc-project/swc/commit/f5c62fbbf8ccbadec4daae4a2158b7b2fc707a2b))
+
+
+- **(es/minifier)** Don't remove used var decl (#7200) ([73bc29e](https://github.com/swc-project/swc/commit/73bc29eeb0e0a758daff2ec9567d8949fb48fa50))
+
+
+- **(es/testing)** Ensure that we call `fold_program` (#7222) ([e241201](https://github.com/swc-project/swc/commit/e241201bf76c3ae111d815dac7dbcc169d12dc25))
+
+
+- **(es/typescript)** Fix computation of enum bits (#7219) ([29bf176](https://github.com/swc-project/swc/commit/29bf1760befc5acf56841f4c369016e296184bdb))
+
+### Features
+
+
+
+- **(es)** Expose stage 3 decorator (#7220) ([a7a53c6](https://github.com/swc-project/swc/commit/a7a53c6208ae63a07b663049575f3b50f37d2f2a))
+
+### Refactor
+
+
+
+- **(macros/ast-node)** Drop `darling` to reduce compile time (#7214) ([3f61638](https://github.com/swc-project/swc/commit/3f61638cbfb1acc9fa59fa68434a182ba8bcfb2a))
+
+## [1.3.45] - 2023-04-04
+
+### Bug Fixes
+
+
+
+- **(es)** Allow missing `.map` file (#7141) ([3e6a186](https://github.com/swc-project/swc/commit/3e6a1869e84ec01125cf115c3d5f5c5c89645e1a))
+
+
+- **(es/compat)** Handle shorthand object prop while renaming (#7176) ([0a80e05](https://github.com/swc-project/swc/commit/0a80e0506b0fd58d31027c348ea0c957a5cc60f7))
+
+
+- **(es/helpers)** Use snake_case for helpers (#7147) ([3ca954b](https://github.com/swc-project/swc/commit/3ca954b9f9622ed400308f2af35242583a4bdc3d))
+
+
+- **(es/modules)** Hint nodejs for multiple `export *` (#7184) ([98f1493](https://github.com/swc-project/swc/commit/98f14931e7fa24b9d888eb5149c647840978b096))
+
+
+- **(es/parser)** Fix infinite loop on jsx in js (#7191) ([414e669](https://github.com/swc-project/swc/commit/414e66910dc5d9fea254811618f69067ab4a7a67))
+
+
+- **(es/typescript)** Mark `A` as a type in `export { type A }` (#7196) ([ddfbc93](https://github.com/swc-project/swc/commit/ddfbc936244c1168c547e134f20d436bfb6227f9))
+
+
+- **(swc_core)** Fix a feature name (#7198) ([bfe6544](https://github.com/swc-project/swc/commit/bfe654438f15d875257caf7735f11a79e51780a5))
+
+### Features
+
+
+
+- **(css/modules)** Preserve spans of CSS class names (#7185) ([df7b4e7](https://github.com/swc-project/swc/commit/df7b4e71d22a7174df6f4fe9691044560e8e7f65))
+
+
+- **(es/compat)** Implement stage 3 decorator, without auto accessor (#6950) ([7a863ad](https://github.com/swc-project/swc/commit/7a863ad18ffeb45801cc17992634b5c62adfe88b))
+
+
+- **(es/helpers)** Use named export and unify import path (#7182) ([a13a78e](https://github.com/swc-project/swc/commit/a13a78e3fe2f81f0cbbe4a98da9cbb5a48b6cbed))
+
+
+- **(plugin/runner)** Improve cache path (#7188) ([976667f](https://github.com/swc-project/swc/commit/976667f7d98b821940c5325efc092e50c6554dc2))
+
+### Testing
+
+
+
+- **(es/plugin)** Enable E2E plugin test (#7178) ([a785f18](https://github.com/swc-project/swc/commit/a785f18740942c841fede3d625ec2fd4b090d020))
+
+## [1.3.44] - 2023-03-30
 
 ### Bug Fixes
 
@@ -9,6 +346,12 @@
 
 
 - **(css/compat)** Remove usage of `box_syntax` (#7153) ([6f0bf66](https://github.com/swc-project/swc/commit/6f0bf665c29abaa64c60fb43053f96e465d3e041))
+
+
+- **(es/compat)** Handle import/export in `reserved_word` (#7165) ([065d11c](https://github.com/swc-project/swc/commit/065d11cb9bd49f36825b3b707e4e9ecfcc64e17b))
+
+
+- **(es/compat)** Fix the position for temp var injection (#7171) ([23fb8c5](https://github.com/swc-project/swc/commit/23fb8c5563a8e5f79d256bb27bdbdfd56944ccbc))
 
 
 - **(es/react)** Respect `import_source` in new jsx (#7128) ([5d7acfd](https://github.com/swc-project/swc/commit/5d7acfd9cbbb9780879d0d7a046f716572a477f7))
@@ -66,6 +409,12 @@
 
 
 - **(cargo)** Update `rustc` to `nightly-2023-03-28` (#7154) ([e445502](https://github.com/swc-project/swc/commit/e445502072d8ebfcbe0da0cb59f3d6a85d4a2087))
+
+
+- **(cargo)** Revert rustc upgrade (#7162) ([12546c8](https://github.com/swc-project/swc/commit/12546c853a67210e840efd61452041ef8db00d3a))
+
+
+- **(cargo)** Update `rustc` to `nightly-2023-03-20` (#7170) ([0259a74](https://github.com/swc-project/swc/commit/0259a7465fc5122cf2f297f962f7f0209f619251))
 
 ## [1.3.42] - 2023-03-22
 

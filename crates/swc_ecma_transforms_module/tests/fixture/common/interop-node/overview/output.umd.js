@@ -11,7 +11,7 @@
         "foo5"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.foo, global.fooBar, global.fooBar, global.foo2, global.foo3, global.foo4, global.foo5);
-})(this, function(exports, _foo, _fooBar, _fooBar1, _foo2, _foo3, _foo4, _foo5) {
+})(this, function(exports, _foo, _foobar, _foobar1, _foo2, _foo3, _foo4, _foo5) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -23,11 +23,15 @@
         });
     }
     _export(exports, {
-        test: ()=>test,
-        test2: ()=>test2
+        test: function() {
+            return test;
+        },
+        test2: function() {
+            return test2;
+        }
     });
     _foo2 = _foo2;
-    _foo3 = /*#__PURE__*/ _interopRequireWildcard(_foo3, true);
+    _foo3 = /*#__PURE__*/ _interop_require_wildcard(_foo3, true);
     var test;
     var test2 = 5;
     _foo4.bar;

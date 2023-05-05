@@ -102,11 +102,13 @@ it("module config should merged correctly", async () => {
         });
         Object.defineProperty(exports, \\"default\\", {
             enumerable: true,
-            get: ()=>foo
+            get: function() {
+                return foo;
+            }
         });
-        const _jsxRuntime = require(\\"react/jsx-runtime\\");
+        const _jsxruntime = require(\\"react/jsx-runtime\\");
         function foo() {
-            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(\\"div\\", {
+            return /*#__PURE__*/ (0, _jsxruntime.jsx)(\\"div\\", {
                 children: \\"Hello\\"
             });
         }

@@ -16,8 +16,12 @@
         });
     }
     _export(exports, {
-        get: ()=>get,
-        default: ()=>_default
+        get: function() {
+            return get;
+        },
+        default: function() {
+            return _default;
+        }
     });
     function get(key) {
         console.log(key);

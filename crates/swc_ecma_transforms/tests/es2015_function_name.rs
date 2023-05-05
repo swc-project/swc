@@ -99,9 +99,9 @@ test!(
     r#"
 var Foo = function() {
   var Foo = function () {
-   _classCallCheck(this, Foo);
+   _class_call_check(this, Foo);
   };
-  _defineProperty(Foo, 'num', 0);
+  _define_property(Foo, 'num', 0);
   return Foo;
 }();
 expect(Foo.num).toBe(0);
@@ -111,9 +111,9 @@ expect(Foo.name).toBe('Foo');
     r#"
 var Foo = function() {
   var Foo = function Foo1() {
-   _classCallCheck(this, Foo);
+   _class_call_check(this, Foo);
   };
-  _defineProperty(Foo, 'num', 0);
+  _define_property(Foo, 'num', 0);
   return Foo;
 }();
 expect(Foo.num).toBe(0);
@@ -327,13 +327,13 @@ let Login =
 function (_React_Component) {
   "use strict";
   _inherits(Login, _React_Component);
-  var _super = _createSuper(Login);
+  var _super = _create_super(Login);
   function Login() {
-    _classCallCheck(this, Login);
+    _class_call_check(this, Login);
     return _super.apply(this, arguments);
   }
 
-  _createClass(Login, [{
+  _create_class(Login, [{
     key: "getForm",
     value: function getForm() {
       return (0, _store.getForm)().toJS();
@@ -574,18 +574,18 @@ var _this = this;
 
 // These are actually handled by transform-arrow-functions
 const _x = function x() {
-  _newArrowCheck(this, _this);
+  _new_arrow_check(this, _this);
   return _x;
 }.bind(this);
 
 const y = function y(x) {
-  _newArrowCheck(this, _this);
+  _new_arrow_check(this, _this);
   return x();
 }.bind(this);
 
 const z = {
   z: function z() {
-    _newArrowCheck(this, _this);
+    _new_arrow_check(this, _this);
     return y(_x);
   }.bind(this)
 }.z;
@@ -767,19 +767,19 @@ function dec() {}
 let A = (_class = (_temp = function A() {
 "use strict";
 
-_classCallCheck(this, A);
+_class_call_check(this, A);
 
-_initializerDefineProperty(this, "a", _descriptor, this);
+_initializer_define_property(this, "a", _descriptor, this);
 
-_initializerDefineProperty(this, "b", _descriptor2, this);
+_initializer_define_property(this, "b", _descriptor2, this);
 
-_defineProperty(this, "c", 456);
-}, _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, "a", [dec], {
+_define_property(this, "c", 456);
+}, _temp), (_descriptor = _apply_decorated_descriptor(_class.prototype, "a", [dec], {
 configurable: true,
 enumerable: true,
 writable: true,
 initializer: null
-}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "b", [dec], {
+}), _descriptor2 = _apply_decorated_descriptor(_class.prototype, "b", [dec], {
 configurable: true,
 enumerable: true,
 writable: true,
@@ -955,16 +955,16 @@ value: true
 });
 exports.default = void 0;
 
-var _last2 = _interopRequireDefault(require("lodash/last"));
+var _last2 = _interop_require_default(require("lodash/last"));
 
 let Container =
 /*#__PURE__*/
 function () {
 function Container() {
-_classCallCheck(this, Container);
+_class_call_check(this, Container);
 }
 
-_createClass(Container, [{
+_create_class(Container, [{
 key: "last",
 value: function last(key) {
   if (!this.has(key)) {

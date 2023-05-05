@@ -8,7 +8,7 @@ use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmts, DropSpan, ExprFactory};
+use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[macro_export]
@@ -70,15 +70,17 @@ macro_rules! add_import_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
         let enable = $b.load(Ordering::Relaxed);
         if enable {
-            let s = ImportSpecifier::Default(ImportDefaultSpecifier {
+            let s = ImportSpecifier::Named(ImportNamedSpecifier {
                 span: DUMMY_SP,
                 local: Ident::new(
                     concat!("_", stringify!($name)).into(),
                     DUMMY_SP.apply_mark($mark),
                 ),
+                imported: Some(quote_ident!("_").into()),
+                is_type_only: false,
             });
 
-            let src: Str = concat!("@swc/helpers/src/_", stringify!($name), ".mjs").into();
+            let src: Str = concat!("@swc/helpers/_/_", stringify!($name)).into();
 
             $buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                 span: DUMMY_SP,
@@ -128,7 +130,7 @@ impl Helpers {
 struct HelperMark(Mark);
 impl Default for HelperMark {
     fn default() -> Self {
-        HelperMark(Mark::fresh(Mark::root()))
+        HelperMark(Mark::new())
     }
 }
 
@@ -269,7 +271,7 @@ define_helpers!(Helpers {
         class_check_private_static_field_descriptor,
         class_apply_descriptor_update
     ),
-    construct: (set_prototype_of),
+    construct: (is_native_reflect_construct, set_prototype_of),
     create_class: (),
     decorate: (to_array, to_property_key),
     defaults: (),
@@ -376,21 +378,29 @@ define_helpers!(Helpers {
     ts_metadata: (),
     ts_param: (),
     ts_values: (),
+
+    apply_decs_2203_r: (),
+    identity: (),
 });
 
 pub fn inject_helpers(global_mark: Mark) -> impl Fold + VisitMut {
-    as_folder(InjectHelpers { global_mark })
+    as_folder(InjectHelpers {
+        global_mark,
+        helper_ctxt: None,
+    })
 }
 
 struct InjectHelpers {
     global_mark: Mark,
+    helper_ctxt: Option<SyntaxContext>,
 }
 
 impl InjectHelpers {
-    fn make_helpers_for_module(&self) -> Vec<ModuleItem> {
-        let (_, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
+    fn make_helpers_for_module(&mut self) -> Vec<ModuleItem> {
+        let (helper_mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
         if external {
             if self.is_helper_used() {
+                self.helper_ctxt = Some(SyntaxContext::empty().apply_mark(helper_mark));
                 self.build_imports()
             } else {
                 vec![]
@@ -403,14 +413,15 @@ impl InjectHelpers {
         }
     }
 
-    fn make_helpers_for_script(&self) -> Vec<Stmt> {
-        let external = HELPERS.with(|helper| helper.external());
+    fn make_helpers_for_script(&mut self) -> Vec<Stmt> {
+        let (helper_mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
 
         if external {
             if self.is_helper_used() {
+                self.helper_ctxt = Some(SyntaxContext::empty().apply_mark(helper_mark));
                 self.build_requires()
             } else {
-                vec![]
+                Default::default()
             }
         } else {
             self.build_helpers()
@@ -428,7 +439,7 @@ impl InjectHelpers {
             .as_callee(),
             args: vec![Str {
                 span: DUMMY_SP,
-                value: "@swc/helpers".into(),
+                value: format!("@swc/helpers/_/_{}", name).into(),
                 raw: None,
             }
             .as_arg()],
@@ -444,20 +455,28 @@ impl InjectHelpers {
                     name: Pat::Ident(
                         Ident::new(format!("_{}", name).into(), DUMMY_SP.apply_mark(mark)).into(),
                     ),
-                    init: Some(
-                        MemberExpr {
-                            span: DUMMY_SP,
-                            obj: c.into(),
-                            prop: Ident::new(name.into(), DUMMY_SP).into(),
-                        }
-                        .into(),
-                    ),
+                    init: Some(c.into()),
                     definite: false,
                 }],
             }
             .into(),
         );
         Stmt::Decl(decl)
+    }
+
+    fn map_helper_ref_ident(&mut self, ref_ident: &Ident) -> Option<Expr> {
+        self.helper_ctxt
+            .filter(|ctxt| ctxt == &ref_ident.span.ctxt)
+            .map(|_| {
+                let ident = ref_ident.clone().without_loc();
+
+                MemberExpr {
+                    span: ref_ident.span,
+                    obj: Box::new(ident.into()),
+                    prop: quote_ident!("_").into(),
+                }
+                .into()
+            })
     }
 }
 
@@ -472,8 +491,25 @@ impl VisitMut for InjectHelpers {
 
     fn visit_mut_script(&mut self, script: &mut Script) {
         let helpers = self.make_helpers_for_script();
+        let helpers_is_empty = helpers.is_empty();
 
         prepend_stmts(&mut script.body, helpers.into_iter());
+
+        if !helpers_is_empty {
+            script.visit_mut_children_with(self);
+        }
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        match n {
+            Expr::Ident(ref_ident) => {
+                if let Some(expr) = self.map_helper_ref_ident(ref_ident) {
+                    *n = expr;
+                }
+            }
+
+            _ => n.visit_mut_children_with(self),
+        };
     }
 }
 
@@ -551,7 +587,7 @@ impl VisitMut for Marker {
                 return;
             }
 
-            if &*i.id.sym != "_typeof" && !i.id.sym.starts_with("__") {
+            if !i.id.sym.starts_with("__") {
                 self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
             }
         }
@@ -579,16 +615,14 @@ mod tests {
                     }),
                     "output.js",
                     Default::default(),
-                    "import _throw from \"@swc/helpers/src/_throw.mjs\";
+                    "import { _ as _throw } from \"@swc/helpers/_/_throw\";
 _throw();",
                 )?;
                 enable_helper!(throw);
 
                 eprintln!("----- Actual -----");
 
-                let tr = as_folder(InjectHelpers {
-                    global_mark: Mark::fresh(Mark::root()),
-                });
+                let tr = as_folder(inject_helpers(Mark::new()));
                 let actual = tester
                     .apply_transform(tr, "input.js", Default::default(), input)?
                     .fold_with(&mut crate::hygiene::hygiene())
@@ -621,9 +655,7 @@ _throw();",
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                as_folder(InjectHelpers {
-                    global_mark: Mark::fresh(Mark::root()),
-                })
+                as_folder(inject_helpers(Mark::new()))
             },
             "'use strict'",
             "'use strict'
@@ -642,9 +674,7 @@ function _throw(e) {
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                as_folder(InjectHelpers {
-                    global_mark: Mark::fresh(Mark::root()),
-                })
+                as_folder(inject_helpers(Mark::new()))
             },
             "let _throw = null",
             "function _throw(e) {

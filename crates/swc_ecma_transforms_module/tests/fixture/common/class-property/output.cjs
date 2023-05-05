@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "Foo", {
     enumerable: true,
-    get: ()=>Foo
+    get: function() {
+        return Foo;
+    }
 });
 const _simple = require("./files_with_swcrc/simple");
 class Foo {

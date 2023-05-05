@@ -15,10 +15,14 @@ define([
         });
     }
     _export(exports, {
-        get: ()=>_get,
-        byID: ()=>byID
+        get: function() {
+            return _get;
+        },
+        byID: function() {
+            return byID;
+        }
     });
-    _get = /*#__PURE__*/ _interopRequireWildcard(_get);
+    _get = /*#__PURE__*/ _interop_require_wildcard(_get);
     const byID = (id)=>{
         // Do some async stuff
         return new Promise((resolve)=>setTimeout(()=>{

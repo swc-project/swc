@@ -1,7 +1,7 @@
 //// [nonPrimitiveNarrow.ts]
 var a, b;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 _instanceof(a, function Narrow() {
     "use strict";
     _class_call_check(this, Narrow);

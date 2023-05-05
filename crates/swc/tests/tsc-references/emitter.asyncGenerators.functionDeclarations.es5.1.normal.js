@@ -1,6 +1,6 @@
 //// [F1.ts]
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function f1() {
     return _f1.apply(this, arguments);
 }
@@ -15,8 +15,8 @@ function _f1() {
     return _f1.apply(this, arguments);
 }
 //// [F2.ts]
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function f2() {
     return _f2.apply(this, arguments);
 }
@@ -40,8 +40,8 @@ function _f2() {
     return _f2.apply(this, arguments);
 }
 //// [F3.ts]
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function f3() {
     return _f3.apply(this, arguments);
 }
@@ -66,12 +66,12 @@ function _f3() {
     return _f3.apply(this, arguments);
 }
 //// [F4.ts]
-import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-import _ts_values from "@swc/helpers/src/_ts_values.mjs";
+import { _ as _async_generator_delegate } from "@swc/helpers/_/_async_generator_delegate";
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+import { _ as _ts_values } from "@swc/helpers/_/_ts_values";
 function f4() {
     return _f4.apply(this, arguments);
 }
@@ -98,12 +98,12 @@ function _f4() {
     return _f4.apply(this, arguments);
 }
 //// [F5.ts]
-import _async_generator_delegate from "@swc/helpers/src/_async_generator_delegate.mjs";
-import _async_iterator from "@swc/helpers/src/_async_iterator.mjs";
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-import _ts_values from "@swc/helpers/src/_ts_values.mjs";
+import { _ as _async_generator_delegate } from "@swc/helpers/_/_async_generator_delegate";
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+import { _ as _ts_values } from "@swc/helpers/_/_ts_values";
 function f5() {
     return _f5.apply(this, arguments);
 }
@@ -143,9 +143,9 @@ function _f5() {
     return _f5.apply(this, arguments);
 }
 //// [F6.ts]
-import _await_async_generator from "@swc/helpers/src/_await_async_generator.mjs";
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function f6() {
     return _f6.apply(this, arguments);
 }
@@ -170,8 +170,8 @@ function _f6() {
     return _f6.apply(this, arguments);
 }
 //// [F7.ts]
-import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function f7() {
     return _f7.apply(this, arguments);
 }

@@ -235,11 +235,7 @@ impl Visit for Analyzer {
                     self.add_decl(id.to_id(), true);
                 }
 
-                self.with_fn_scope(|v| {
-                    f.function.decorators.visit_with(v);
-                    f.function.params.visit_with(v);
-                    v.visit_fn_body_within_same_scope(&f.function.body);
-                })
+                f.function.visit_with(self)
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
         }
@@ -305,12 +301,17 @@ impl Visit for Analyzer {
                 });
             })
         } else {
-            self.with_fn_scope(|v| {
-                f.function.decorators.visit_with(v);
-                f.function.params.visit_with(v);
-                v.visit_fn_body_within_same_scope(&f.function.body);
-            })
+            f.function.visit_with(self)
         }
+    }
+
+    // ensure param and function body always in same scope
+    fn visit_function(&mut self, f: &Function) {
+        self.with_fn_scope(|v| {
+            f.decorators.visit_with(v);
+            f.params.visit_with(v);
+            v.visit_fn_body_within_same_scope(&f.body);
+        })
     }
 
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
@@ -370,11 +371,7 @@ impl Visit for Analyzer {
     fn visit_method_prop(&mut self, f: &MethodProp) {
         f.key.visit_with(self);
 
-        self.with_fn_scope(|v| {
-            f.function.decorators.visit_with(v);
-            f.function.params.visit_with(v);
-            v.visit_fn_body_within_same_scope(&f.function.body);
-        })
+        f.function.visit_with(self)
     }
 
     fn visit_named_export(&mut self, n: &NamedExport) {

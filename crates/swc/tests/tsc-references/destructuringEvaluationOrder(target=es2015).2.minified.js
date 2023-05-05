@@ -1,8 +1,8 @@
 //// [destructuringEvaluationOrder.ts]
-import _extends from "@swc/helpers/src/_extends.mjs";
-import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
-import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
+import { _ as _extends } from "@swc/helpers/_/_extends";
+import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
+import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
+import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
 let trace = [], order = (n)=>trace.push(n), [{ [order(1)]: x  } = order(0)] = [], [{ [order(1)]: y  } = order(0)] = [
     {}
 ], _ref = {}, _order = order(0), _order1 = order(2), { [_order]: { [_order1]: z  } = order(1)  } = _ref;

@@ -10,9 +10,6 @@
 
 // Code for annotating snippets.
 
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
-
 use super::Level;
 
 #[derive(Clone, Debug, PartialOrd, Ord, PartialEq, Eq)]
@@ -184,7 +181,7 @@ pub struct StyledString {
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 pub enum Style {

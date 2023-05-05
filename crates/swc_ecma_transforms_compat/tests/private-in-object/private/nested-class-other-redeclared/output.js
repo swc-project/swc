@@ -2,30 +2,30 @@ var _foo = /*#__PURE__*/ new WeakMap(), _bar = /*#__PURE__*/ new WeakMap();
 let Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
-        _classCallCheck(this, Foo);
-        _classPrivateFieldInit(this, _foo, {
+        _class_call_check(this, Foo);
+        _class_private_field_init(this, _foo, {
             writable: true,
             value: 1
         });
-        _classPrivateFieldInit(this, _bar, {
+        _class_private_field_init(this, _bar, {
             writable: true,
             value: 1
         });
     }
-    _createClass(Foo, [
+    _create_class(Foo, [
         {
             key: "test",
             value: function test() {
                 var _bar1 = /*#__PURE__*/ new WeakMap();
                 let Nested = /*#__PURE__*/ function() {
                     function Nested() {
-                        _classCallCheck(this, Nested);
-                        _classPrivateFieldInit(this, _bar1, {
+                        _class_call_check(this, Nested);
+                        _class_private_field_init(this, _bar1, {
                             writable: true,
                             value: 2
                         });
                     }
-                    _createClass(Nested, [
+                    _create_class(Nested, [
                         {
                             key: "test",
                             value: function test() {

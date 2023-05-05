@@ -1,3 +1,3 @@
-function _readOnlyError(name) {
-  throw new TypeError("\"" + name + "\" is read-only");
+function _read_only_error(name) {
+    throw new TypeError("\"" + name + "\" is read-only");
 }

@@ -1,8 +1,8 @@
 //// [declarationsAndAssignments.ts]
 var M;
-import "@swc/helpers/src/_object_destructuring_empty.mjs";
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import "@swc/helpers/src/_to_array.mjs";
+import "@swc/helpers/_/_object_destructuring_empty";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
+import "@swc/helpers/_/_to_array";
 function f14(param) {
     var _param = _sliced_to_array(param, 2), _param_ = (_param[0], _sliced_to_array(_param[1], 2)), _param__ = (_param_[0], _param_[1]);
     _param__.x, _param__.y;

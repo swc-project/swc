@@ -1,6 +1,6 @@
-import r from "@swc/helpers/src/_async_to_generator.mjs";
-import n from "@swc/helpers/src/_ts_generator.mjs";
-import t from "@swc/helpers/src/_ts_values.mjs";
+import { _ as r } from "@swc/helpers/_/_async_to_generator";
+import { _ as n } from "@swc/helpers/_/_ts_generator";
+import { _ as t } from "@swc/helpers/_/_ts_values";
 Promise.all(assignAll).then(function() {
     var e = r(function(r) {
         var e, s, i, c, o;

@@ -1,5 +1,5 @@
 //// [source.js]
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 export function Vec(len) {
     this.storage = Array(len);
 }

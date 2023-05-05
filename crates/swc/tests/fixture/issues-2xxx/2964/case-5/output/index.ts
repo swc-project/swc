@@ -9,15 +9,21 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    a: ()=>a,
-    b: ()=>b,
-    foo: ()=>foo
+    a: function() {
+        return a;
+    },
+    b: function() {
+        return b;
+    },
+    foo: function() {
+        return foo;
+    }
 });
-const _extends = require("@swc/helpers/lib/_extends.js").default;
-const _objectDestructuringEmpty = require("@swc/helpers/lib/_object_destructuring_empty.js").default;
+const _extends = require("@swc/helpers/_/_extends");
+const _object_destructuring_empty = require("@swc/helpers/_/_object_destructuring_empty");
 const a = 1;
 const b = 2;
-var foo = _extends({}, _objectDestructuringEmpty({
+var foo = _extends._({}, _object_destructuring_empty._({
     a: 1,
     b: 2
 }));

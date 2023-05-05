@@ -1,10 +1,11 @@
-export default class A {
+let A = class A {
 };
-A = __decorate([
+A = _ts_decorate([
     dec
 ], A);
 let B = class B {
 };
-B = __decorate([
+B = _ts_decorate([
     dec
 ], B);
+export { A as default };

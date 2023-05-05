@@ -1,4 +1,4 @@
-var __generator = (this && this.__generator) || function (thisArg, body) {
+function _ts_generator(thisArg, body) {
     var f, y, t, g, _ = { label: 0, sent: function () { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] };
     return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
@@ -24,4 +24,4 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
-};
+}

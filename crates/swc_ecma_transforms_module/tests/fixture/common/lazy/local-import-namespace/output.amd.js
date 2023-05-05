@@ -7,6 +7,6 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _foo = /*#__PURE__*/ _interopRequireWildcard(_foo);
+    _foo = /*#__PURE__*/ _interop_require_wildcard(_foo);
     console.log(_foo);
 });

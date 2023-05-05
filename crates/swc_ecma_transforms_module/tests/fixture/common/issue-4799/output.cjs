@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "createP", {
     enumerable: true,
-    get: ()=>_st.createP
+    get: function() {
+        return _St.createP;
+    }
 });
-const _st = require("./St");
+const _St = require("./St");

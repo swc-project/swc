@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "foo", {
     enumerable: true,
-    get: ()=>foo
+    get: function() {
+        return foo;
+    }
 });
 function foo() {}

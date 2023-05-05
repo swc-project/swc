@@ -1,5 +1,5 @@
 //// [computedPropertyNames19_ES5.ts]
-import _define_property from "@swc/helpers/src/_define_property.mjs";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
 var M;
 (function(M) {
     var obj = _define_property({}, this.bar, 0);

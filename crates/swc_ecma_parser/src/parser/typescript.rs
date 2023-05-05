@@ -398,13 +398,12 @@ impl<I: Tokens> Parser<I> {
         )? {
             match modifer {
                 "const" => {
+                    is_const = true;
                     if !permit_const {
                         self.emit_err(
                             self.input.prev_span(),
                             SyntaxError::TS1277(js_word!("const")),
                         );
-                    } else {
-                        is_const = true;
                     }
                 }
                 "in" => {
@@ -417,18 +416,16 @@ impl<I: Tokens> Parser<I> {
                             self.input.prev_span(),
                             SyntaxError::TS1029(js_word!("in"), js_word!("out")),
                         );
-                    } else {
-                        is_in = true;
                     }
+                    is_in = true;
                 }
                 "out" => {
                     if !permit_in_out {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS1274(js_word!("out")));
                     } else if is_out {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("out")));
-                    } else {
-                        is_out = true;
                     }
+                    is_out = true;
                 }
                 other => self.emit_err(self.input.prev_span(), SyntaxError::TS1273(other.into())),
             };

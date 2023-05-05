@@ -1,5 +1,5 @@
 //// [bug25149.js]
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function f() {
     var o;
     return _ts_generator(this, function(_state) {
@@ -28,8 +28,8 @@ function f() {
 }
 //// [alsoFails.ts]
 // fails in Typescript too
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
-import _ts_values from "@swc/helpers/src/_ts_values.mjs";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+import { _ as _ts_values } from "@swc/helpers/_/_ts_values";
 function g() {
     var o;
     return _ts_generator(this, function(_state) {

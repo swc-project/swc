@@ -10,13 +10,27 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    v: ()=>v,
-    f: ()=>f,
-    C: ()=>C,
-    E: ()=>E,
-    D: ()=>D,
-    M: ()=>M,
-    a: ()=>a
+    v: function() {
+        return v;
+    },
+    f: function() {
+        return f;
+    },
+    C: function() {
+        return C;
+    },
+    E: function() {
+        return E;
+    },
+    D: function() {
+        return D;
+    },
+    M: function() {
+        return M;
+    },
+    a: function() {
+        return a;
+    }
 });
 var E, D, M, v = 1;
 function f() {}
@@ -41,16 +55,36 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    v: ()=>_t1.v,
-    f: ()=>_t1.f,
-    C: ()=>_t1.C,
-    I: ()=>_t1.I,
-    E: ()=>_t1.E,
-    D: ()=>_t1.D,
-    M: ()=>_t1.M,
-    N: ()=>_t1.N,
-    T: ()=>_t1.T,
-    a: ()=>_t1.a
+    v: function() {
+        return _t1.v;
+    },
+    f: function() {
+        return _t1.f;
+    },
+    C: function() {
+        return _t1.C;
+    },
+    I: function() {
+        return _t1.I;
+    },
+    E: function() {
+        return _t1.E;
+    },
+    D: function() {
+        return _t1.D;
+    },
+    M: function() {
+        return _t1.M;
+    },
+    N: function() {
+        return _t1.N;
+    },
+    T: function() {
+        return _t1.T;
+    },
+    a: function() {
+        return _t1.a;
+    }
 });
 const _t1 = require("./t1");
 //// [t3.ts]
@@ -63,15 +97,35 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    v: ()=>_t1.v,
-    f: ()=>_t1.f,
-    C: ()=>_t1.C,
-    I: ()=>_t1.I,
-    E: ()=>_t1.E,
-    D: ()=>_t1.D,
-    M: ()=>_t1.M,
-    N: ()=>_t1.N,
-    T: ()=>_t1.T,
-    a: ()=>_t1.a
+    v: function() {
+        return _t1.v;
+    },
+    f: function() {
+        return _t1.f;
+    },
+    C: function() {
+        return _t1.C;
+    },
+    I: function() {
+        return _t1.I;
+    },
+    E: function() {
+        return _t1.E;
+    },
+    D: function() {
+        return _t1.D;
+    },
+    M: function() {
+        return _t1.M;
+    },
+    N: function() {
+        return _t1.N;
+    },
+    T: function() {
+        return _t1.T;
+    },
+    a: function() {
+        return _t1.a;
+    }
 });
 const _t1 = require("./t1");

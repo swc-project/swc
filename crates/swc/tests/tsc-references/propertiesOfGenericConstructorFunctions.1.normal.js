@@ -4,7 +4,7 @@
  * @template V
  * @param {string} ik
  * @param {V} iv
- */ import _define_property from "@swc/helpers/src/_define_property.mjs";
+ */ import { _ as _define_property } from "@swc/helpers/_/_define_property";
 function Multimap(ik, iv) {
     /** @type {{ [s: string]: V }} */ this._map = {};
     // without type annotation

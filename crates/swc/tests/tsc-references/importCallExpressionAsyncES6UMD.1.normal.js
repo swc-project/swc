@@ -1,13 +1,13 @@
 //// [test.ts]
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/src/_async_to_generator.mjs"), require("@swc/helpers/src/_interop_require_wildcard.mjs"));
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_async_to_generator"), require("@swc/helpers/_/_interop_require_wildcard"));
     else if (typeof define === "function" && define.amd) define([
         "exports",
-        "@swc/helpers/src/_async_to_generator.mjs",
-        "@swc/helpers/src/_interop_require_wildcard.mjs"
+        "@swc/helpers/_/_async_to_generator",
+        "@swc/helpers/_/_interop_require_wildcard"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.testTs = {}, global.asyncToGeneratorMjs, global.interopRequireWildcardMjs);
-})(this, function(exports, _asyncToGenerator, _interopRequireWildcard) {
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.testTs = {}, global.asyncToGenerator, global.interopRequireWildcard);
+})(this, function(exports, _async_to_generator, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -19,19 +19,27 @@
         });
     }
     _export(exports, {
-        fn: ()=>fn,
-        cl1: ()=>cl1,
-        obj: ()=>obj,
-        cl2: ()=>cl2,
-        l: ()=>l
+        fn: function() {
+            return fn;
+        },
+        cl1: function() {
+            return cl1;
+        },
+        obj: function() {
+            return obj;
+        },
+        cl2: function() {
+            return cl2;
+        },
+        l: function() {
+            return l;
+        }
     });
-    _asyncToGenerator = _asyncToGenerator.default;
-    _interopRequireWildcard = _interopRequireWildcard.default;
     function fn() {
         return _fn.apply(this, arguments);
     }
     function _fn() {
-        _fn = _asyncToGenerator(function*() {
+        _fn = _async_to_generator._(function*() {
             const req = yield import('./test') // ONE
             ;
         });
@@ -39,14 +47,14 @@
     }
     class cl1 {
         m() {
-            return _asyncToGenerator(function*() {
+            return _async_to_generator._(function*() {
                 const req = yield import('./test') // TWO
                 ;
             })();
         }
     }
     const obj = {
-        m: /*#__PURE__*/ _asyncToGenerator(function*() {
+        m: /*#__PURE__*/ _async_to_generator._(function*() {
             const req = yield import('./test') // THREE
             ;
         })
@@ -54,7 +62,7 @@
     class cl2 {
         constructor(){
             this.p = {
-                m: /*#__PURE__*/ _asyncToGenerator(function*() {
+                m: /*#__PURE__*/ _async_to_generator._(function*() {
                     const req = yield import('./test') // FOUR
                     ;
                 })
@@ -62,7 +70,7 @@
         }
     }
     const l = function() {
-        var _ref = _asyncToGenerator(function*() {
+        var _ref = _async_to_generator._(function*() {
             const req = yield import('./test') // FIVE
             ;
         });

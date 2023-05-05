@@ -4,8 +4,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "A", {
     enumerable: true,
-    get: ()=>A
+    get: function() {
+        return A;
+    }
 });
-const _b = require("./B");
-console.log(_b.B);
+const _B = require("./B");
+console.log(_B.B);
 const A = 400;

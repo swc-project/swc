@@ -857,6 +857,10 @@ where
 
         emit!(node.callee);
 
+        if let Some(type_args) = &node.type_args {
+            emit!(type_args);
+        }
+
         punct!("(");
         self.emit_expr_or_spreads(node.span(), &node.args, ListFormat::CallExpressionArguments)?;
         punct!(")");
@@ -2128,8 +2132,17 @@ where
 
         srcmap!(ident, true);
         // TODO: span
-        self.wr
-            .write_symbol(DUMMY_SP, &handle_invalid_unicodes(&ident.sym))?;
+
+        if self.cfg.ascii_only {
+            self.wr.write_symbol(
+                DUMMY_SP,
+                &get_ascii_only_ident(&handle_invalid_unicodes(&ident.sym), self.cfg.target),
+            )?;
+        } else {
+            self.wr
+                .write_symbol(DUMMY_SP, &handle_invalid_unicodes(&ident.sym))?;
+        }
+
         if ident.optional {
             punct!("?");
         }
@@ -3579,8 +3592,155 @@ fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
     buf
 }
 
+fn get_ascii_only_ident(sym: &str, target: EsVersion) -> Cow<str> {
+    if sym.chars().all(|c| c.is_ascii()) {
+        return Cow::Borrowed(sym);
+    }
+
+    let mut buf = String::with_capacity(sym.len() + 8);
+    let mut iter = sym.chars().peekable();
+
+    while let Some(c) = iter.next() {
+        match c {
+            '\x00' => {
+                buf.push_str("\\x00");
+            }
+            '\u{0008}' => buf.push_str("\\b"),
+            '\u{000c}' => buf.push_str("\\f"),
+            '\n' => buf.push_str("\\n"),
+            '\r' => buf.push_str("\\r"),
+            '\u{000b}' => buf.push_str("\\v"),
+            '\t' => buf.push('\t'),
+            '\\' => {
+                let next = iter.peek();
+
+                match next {
+                    // TODO fix me - workaround for surrogate pairs
+                    Some('u') => {
+                        let mut inner_iter = iter.clone();
+
+                        inner_iter.next();
+
+                        let mut is_curly = false;
+                        let mut next = inner_iter.peek();
+
+                        if next == Some(&'{') {
+                            is_curly = true;
+
+                            inner_iter.next();
+                            next = inner_iter.peek();
+                        }
+
+                        if let Some(c @ 'D' | c @ 'd') = next {
+                            let mut inner_buf = String::new();
+
+                            inner_buf.push('\\');
+                            inner_buf.push('u');
+
+                            if is_curly {
+                                inner_buf.push('{');
+                            }
+
+                            inner_buf.push(*c);
+
+                            inner_iter.next();
+
+                            let mut is_valid = true;
+
+                            for _ in 0..3 {
+                                let c = inner_iter.next();
+
+                                match c {
+                                    Some('0'..='9') | Some('a'..='f') | Some('A'..='F') => {
+                                        inner_buf.push(c.unwrap());
+                                    }
+                                    _ => {
+                                        is_valid = false;
+
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if is_curly {
+                                inner_buf.push('}');
+                            }
+
+                            if is_valid {
+                                buf.push_str(&inner_buf);
+
+                                let end = if is_curly { 7 } else { 5 };
+
+                                for _ in 0..end {
+                                    iter.next();
+                                }
+                            }
+                        } else {
+                            buf.push_str("\\\\");
+                        }
+                    }
+                    _ => {
+                        buf.push_str("\\\\");
+                    }
+                }
+            }
+            '\'' => {
+                buf.push('\'');
+            }
+            '"' => {
+                buf.push('"');
+            }
+            '\x01'..='\x0f' => {
+                let _ = write!(buf, "\\x0{:x}", c as u8);
+            }
+            '\x10'..='\x1f' => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
+            }
+            '\x20'..='\x7e' => {
+                buf.push(c);
+            }
+            '\u{7f}'..='\u{ff}' => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
+            }
+            '\u{2028}' => {
+                buf.push_str("\\u2028");
+            }
+            '\u{2029}' => {
+                buf.push_str("\\u2029");
+            }
+            '\u{FEFF}' => {
+                buf.push_str("\\uFEFF");
+            }
+            _ => {
+                if c.is_ascii() {
+                    buf.push(c);
+                } else if c > '\u{FFFF}' {
+                    // if we've got this far the char isn't reserved and if the callee has specified
+                    // we should output unicode for non-ascii chars then we have
+                    // to make sure we output unicode that is safe for the target
+                    // Es5 does not support code point escapes and so surrograte formula must be
+                    // used
+                    if target <= EsVersion::Es5 {
+                        // https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
+                        let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
+                        let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
+
+                        let _ = write!(buf, "\\u{:04X}\\u{:04X}", h, l);
+                    } else {
+                        let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
+                    }
+                } else {
+                    let _ = write!(buf, "\\u{:04X}", c as u16);
+                }
+            }
+        }
+    }
+
+    Cow::Owned(buf)
+}
+
 fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
-    let mut buf = String::with_capacity(v.len());
+    let mut buf = String::with_capacity(v.len() + 2);
     let mut iter = v.chars().peekable();
 
     let mut single_quote_count = 0;

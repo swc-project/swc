@@ -29,14 +29,14 @@
 });
 //// [1.ts]
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/src/_interop_require_wildcard.mjs"), require("./0"));
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_interop_require_wildcard"), require("./0"));
     else if (typeof define === "function" && define.amd) define([
         "exports",
-        "@swc/helpers/src/_interop_require_wildcard.mjs",
+        "@swc/helpers/_/_interop_require_wildcard",
         "./0"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.1Ts = {}, global.interopRequireWildcardMjs, global["0"]);
-})(this, function(exports, _interopRequireWildcard, _0) {
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.1Ts = {}, global.interopRequireWildcard, global["0"]);
+})(this, function(exports, _interop_require_wildcard, _0) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -47,19 +47,18 @@
             return _0;
         }
     });
-    _interopRequireWildcard = _interopRequireWildcard.default;
-    _0 = /*#__PURE__*/ _interopRequireWildcard(_0);
+    _0 = /*#__PURE__*/ _interop_require_wildcard._(_0);
 });
 //// [11.ts]
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/src/_interop_require_wildcard.mjs"), require("./0"));
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_interop_require_wildcard"), require("./0"));
     else if (typeof define === "function" && define.amd) define([
         "exports",
-        "@swc/helpers/src/_interop_require_wildcard.mjs",
+        "@swc/helpers/_/_interop_require_wildcard",
         "./0"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.11Ts = {}, global.interopRequireWildcardMjs, global["0"]);
-})(this, function(exports, _interopRequireWildcard, _0) {
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.11Ts = {}, global.interopRequireWildcard, global["0"]);
+})(this, function(exports, _interop_require_wildcard, _0) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -70,28 +69,26 @@
             return _default;
         }
     });
-    _interopRequireWildcard = _interopRequireWildcard.default;
-    _0 = /*#__PURE__*/ _interopRequireWildcard(_0);
+    _0 = /*#__PURE__*/ _interop_require_wildcard._(_0);
     var _default = _0;
 });
 //// [2.ts]
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/src/_interop_require_default.mjs"), require("./1"), require("./11"));
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_interop_require_default"), require("./1"), require("./11"));
     else if (typeof define === "function" && define.amd) define([
         "exports",
-        "@swc/helpers/src/_interop_require_default.mjs",
+        "@swc/helpers/_/_interop_require_default",
         "./1",
         "./11"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.2Ts = {}, global.interopRequireDefaultMjs, global["1"], global["11"]);
-})(this, function(exports, _interopRequireDefault, _1, _11) {
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.2Ts = {}, global.interopRequireDefault, global["1"], global["11"]);
+})(this, function(exports, _interop_require_default, _1, _11) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _interopRequireDefault = _interopRequireDefault.default;
-    _1 = /*#__PURE__*/ _interopRequireDefault(_1);
-    _11 = /*#__PURE__*/ _interopRequireDefault(_11);
+    _1 = /*#__PURE__*/ _interop_require_default._(_1);
+    _11 = /*#__PURE__*/ _interop_require_default._(_11);
     _1.default.a;
     _11.default.a;
     _1.default.b;

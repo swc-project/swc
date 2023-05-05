@@ -1,6 +1,6 @@
 //// [typeFromPropertyAssignment35.ts]
 //// [bug26877.js]
-/** @param {Emu.D} x */ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+/** @param {Emu.D} x */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function ollKorrect(x) {
     x._model;
     var y = new Emu.D();

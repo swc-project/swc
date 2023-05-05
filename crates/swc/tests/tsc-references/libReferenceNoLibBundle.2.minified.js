@@ -16,7 +16,9 @@ define([
         value: !0
     }), Object.defineProperty(exports, "elem", {
         enumerable: !0,
-        get: ()=>elem
+        get: function() {
+            return elem;
+        }
     });
     let elem = {
         field: 'a'

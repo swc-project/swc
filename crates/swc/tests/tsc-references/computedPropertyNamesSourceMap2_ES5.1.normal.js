@@ -1,6 +1,6 @@
 //// [computedPropertyNamesSourceMap2_ES5.ts]
-import _define_enumerable_properties from "@swc/helpers/src/_define_enumerable_properties.mjs";
-import _define_property from "@swc/helpers/src/_define_property.mjs";
+import { _ as _define_enumerable_properties } from "@swc/helpers/_/_define_enumerable_properties";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
 var _obj, _mutatorMap = {};
 var v = (_obj = {}, _define_property(_obj, "hello", function() {
     debugger;

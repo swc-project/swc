@@ -1,7 +1,7 @@
 //// [destructuringParameterDeclaration3ES5iterable.ts]
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _to_array from "@swc/helpers/src/_to_array.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
+import { _ as _to_array } from "@swc/helpers/_/_to_array";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 function a10(param) {
     var _param = _to_array(param), _param_ = (_param[0], _param[1], _sliced_to_array(_param[2], 1));
     _sliced_to_array(_param_[0], 1)[0], _param.slice(3);

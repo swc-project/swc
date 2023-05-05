@@ -1,8 +1,8 @@
-import e from "@swc/helpers/src/_async_to_generator.mjs";
-import t from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as e } from "@swc/helpers/_/_async_to_generator";
+import { _ as t } from "@swc/helpers/_/_ts_generator";
 import { displayContent as a } from "./fouc";
-import r from "./on-demand-entries-client";
-import { addMessageListener as n, connectHMR as c } from "./error-overlay/websocket";
+import n from "./on-demand-entries-client";
+import { addMessageListener as r, connectHMR as c } from "./error-overlay/websocket";
 var o = JSON.parse(document.getElementById("__NEXT_DATA__").textContent);
 window.__NEXT_DATA__ = o;
 var s = o.assetPrefix, i = o.page;
@@ -53,7 +53,7 @@ function p() {
         });
     })).apply(this, arguments);
 }
-n(function(e) {
+r(function(e) {
     if ("\uD83D\uDC93" !== e.data) try {
         var t = JSON.parse(e.data);
         if ("sync" === t.action || "built" === t.action) {
@@ -68,4 +68,4 @@ n(function(e) {
 }), c({
     assetPrefix: s,
     path: "/_next/webpack-hmr"
-}), a(), r(o.page);
+}), a(), n(o.page);

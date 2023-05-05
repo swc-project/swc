@@ -25,7 +25,7 @@ test!(
     issue_270,
     "instance[name](...args);",
     "var _instance;
-(_instance = instance)[name].apply(_instance, _toConsumableArray(args));"
+(_instance = instance)[name].apply(_instance, _to_consumable_array(args));"
 );
 
 test!(
@@ -33,7 +33,7 @@ test!(
     |_| tr(),
     custom_call,
     "ca(a, b, c, ...d, e)",
-    "ca.apply(void 0, [a, b, c].concat(_toConsumableArray(d), [e]));"
+    "ca.apply(void 0, [a, b, c].concat(_to_consumable_array(d), [e]));"
 );
 
 test!(
@@ -41,7 +41,7 @@ test!(
     |_| tr(),
     custom_call_multi_spread,
     "ca(a, b, ...d, e, f, ...h)",
-    "ca.apply(void 0, [a, b].concat(_toConsumableArray(d), [e, f], _toConsumableArray(h)));"
+    "ca.apply(void 0, [a, b].concat(_to_consumable_array(d), [e, f], _to_consumable_array(h)));"
 );
 
 test!(
@@ -57,7 +57,7 @@ test!(
     |_| tr(),
     custom_array,
     "[a, b, c, ...d, e]",
-    "[a, b, c].concat(_toConsumableArray(d), [e])"
+    "[a, b, c].concat(_to_consumable_array(d), [e])"
 );
 
 test!(
@@ -65,7 +65,7 @@ test!(
     |_| tr(),
     custom_array_empty,
     "[a,, b, c, ...d,,, e]",
-    "[a,, b, c].concat(_toConsumableArray(d), [,, e])"
+    "[a,, b, c].concat(_to_consumable_array(d), [,, e])"
 );
 
 test!(
@@ -196,7 +196,7 @@ class Foo {
     r#"
 class Foo {
   bar() {
-    super.bar.apply(this, [arg1, arg2].concat(_toConsumableArray(args)));
+    super.bar.apply(this, [arg1, arg2].concat(_to_consumable_array(args)));
   }
 
 }
@@ -214,7 +214,7 @@ var lyrics = [...parts, "head", "and", "toes"];
 
 "#,
     r#"
-var lyrics = _toConsumableArray(parts).concat(["head", "and", "toes"]);
+var lyrics = _to_consumable_array(parts).concat(["head", "and", "toes"]);
 
 "#
 );
@@ -251,7 +251,7 @@ var obj = {
 switch (true) {
   case true:
     var _obj_obj;
-    (_obj_obj = obj.obj).fn.apply(_obj_obj, _toConsumableArray(args));
+    (_obj_obj = obj.obj).fn.apply(_obj_obj, _to_consumable_array(args));
 
     break;
 }
@@ -269,7 +269,7 @@ add(foo, ...numbers, bar);
 
 "#,
     r#"
-add.apply(void 0, [foo].concat(_toConsumableArray(numbers), [bar]));
+add.apply(void 0, [foo].concat(_to_consumable_array(numbers), [bar]));
 
 "#
 );
@@ -287,9 +287,9 @@ foob.test.add(foo, bar, ...numbers);
     r#"
 var _foob, _foob_test;
 
-(_foob = foob).add.apply(_foob, [foo, bar].concat(_toConsumableArray(numbers)));
+(_foob = foob).add.apply(_foob, [foo, bar].concat(_to_consumable_array(numbers)));
 
-(_foob_test = foob.test).add.apply(_foob_test, [foo, bar].concat(_toConsumableArray(numbers)));
+(_foob_test = foob.test).add.apply(_foob_test, [foo, bar].concat(_to_consumable_array(numbers)));
 
 "#
 );
@@ -306,7 +306,7 @@ obj[method](foo, bar, ...args);
     r#"
 var _obj;
 
-(_obj = obj)[method].apply(_obj, [foo, bar].concat(_toConsumableArray(args)));
+(_obj = obj)[method].apply(_obj, [foo, bar].concat(_to_consumable_array(args)));
 
 "#
 );
@@ -323,7 +323,7 @@ add(foo, bar, ...numbers);
 
 "#,
     r#"
-add.apply(void 0, [foo, bar].concat(_toConsumableArray(numbers)));
+add.apply(void 0, [foo, bar].concat(_to_consumable_array(numbers)));
 
 "#
 );
@@ -338,7 +338,7 @@ var a = [b, ...c, d];
 
 "#,
     r#"
-var a = [b].concat(_toConsumableArray(c), [d]);
+var a = [b].concat(_to_consumable_array(c), [d]);
 
 "#
 );
@@ -353,7 +353,7 @@ var arr = [ 'a',, 'b', ...c ];
 
 "#,
     r#"
-var arr = ['a',, 'b'].concat(_toConsumableArray(c));
+var arr = ['a',, 'b'].concat(_to_consumable_array(c));
 
 "#
 );
@@ -380,7 +380,7 @@ arr.concat = () => {
   throw new Error('Should not be called');
 };
 
-const x = _toConsumableArray(arr);
+const x = _to_consumable_array(arr);
 
 "#
 );
@@ -424,7 +424,7 @@ add(foo, ...numbers, bar, what, ...test);
 
 "#,
     r#"
-add.apply(void 0, [foo].concat(_toConsumableArray(numbers), [bar, what], _toConsumableArray(test)));
+add.apply(void 0, [foo].concat(_to_consumable_array(numbers), [bar, what], _to_consumable_array(test)));
 
 "#
 );
@@ -491,7 +491,7 @@ var a = [b, ...c, d, e, ...f];
 
 "#,
     r#"
-var a = [b].concat(_toConsumableArray(c), [d, e], _toConsumableArray(f));
+var a = [b].concat(_to_consumable_array(c), [d, e], _to_consumable_array(f));
 
 "#
 );
@@ -525,7 +525,7 @@ var lyrics = ["head", "and", "toes", ...parts];
 
 "#,
     r#"
-var lyrics = ["head", "and", "toes"].concat(_toConsumableArray(parts));
+var lyrics = ["head", "and", "toes"].concat(_to_consumable_array(parts));
 
 "#
 );
@@ -543,8 +543,8 @@ new Numbers(1, ...nums);
 
 "#,
     r#"
-_construct(Numbers, _toConsumableArray(nums));
-_construct(Numbers, [1].concat(_toConsumableArray(nums)));
+_construct(Numbers, _to_consumable_array(nums));
+_construct(Numbers, [1].concat(_to_consumable_array(nums)));
 
 "#
 );
@@ -559,7 +559,7 @@ var arr = [ 'a',, 'b', ...c ];
 
 "#,
     r#"
-var arr = ['a',, 'b'].concat(_toConsumableArray(c));
+var arr = ['a',, 'b'].concat(_to_consumable_array(c));
 
 "#
 );
@@ -593,8 +593,8 @@ foob.test.add(foo, bar, ...numbers);
 "#,
     r#"
 var _foob, _foob_test;
-(_foob = foob).add.apply(_foob, [foo, bar].concat(_toConsumableArray(numbers)));
-(_foob_test = foob.test).add.apply(_foob_test, [foo, bar].concat(_toConsumableArray(numbers)))
+(_foob = foob).add.apply(_foob, [foo, bar].concat(_to_consumable_array(numbers)));
+(_foob_test = foob.test).add.apply(_foob_test, [foo, bar].concat(_to_consumable_array(numbers)))
 "#
 );
 
@@ -623,7 +623,7 @@ add(...numbers);
 
 "#,
     r#"
-add.apply(void 0, _toConsumableArray(numbers));
+add.apply(void 0, _to_consumable_array(numbers));
 
 "#
 );
@@ -673,7 +673,7 @@ add(foo, ...numbers, bar);
 
 "#,
     r#"
-add.apply(void 0, [foo].concat(_toConsumableArray(numbers), [bar]));
+add.apply(void 0, [foo].concat(_to_consumable_array(numbers), [bar]));
 
 "#
 );
@@ -688,7 +688,7 @@ add(...numbers, foo, bar);
 
 "#,
     r#"
-add.apply(void 0, _toConsumableArray(numbers).concat([foo, bar]));
+add.apply(void 0, _to_consumable_array(numbers).concat([foo, bar]));
 
 "#
 );
@@ -709,7 +709,7 @@ class Foo {
     r#"
 class Foo {
   bar() {
-    super.bar.apply(this, _toConsumableArray(args));
+    super.bar.apply(this, _to_consumable_array(args));
   }
 
 }
@@ -729,8 +729,8 @@ foob.test.add(...numbers);
 "#,
     r#"
 var _foob, _foob_test;
-(_foob = foob).add.apply(_foob, _toConsumableArray(numbers));
-(_foob_test = foob.test).add.apply(_foob_test, _toConsumableArray(numbers));
+(_foob = foob).add.apply(_foob, _to_consumable_array(numbers));
+(_foob_test = foob.test).add.apply(_foob_test, _to_consumable_array(numbers));
 "#
 );
 
@@ -744,7 +744,7 @@ var a = [b, ...c, d];
 
 "#,
     r#"
-var a = [b].concat(_toConsumableArray(c), [d]);
+var a = [b].concat(_to_consumable_array(c), [d]);
 
 "#
 );
@@ -759,7 +759,7 @@ var lyrics = ["head", "and", "toes", ...parts];
 
 "#,
     r#"
-var lyrics = ["head", "and", "toes"].concat(_toConsumableArray(parts));
+var lyrics = ["head", "and", "toes"].concat(_to_consumable_array(parts));
 
 "#
 );
@@ -781,7 +781,7 @@ export default function () {
 const E_ARR = [];
 export default function () {
   const someVar = E_ARR;
-  return _toConsumableArray(someVar);
+  return _to_consumable_array(someVar);
 }
 
 "#
@@ -797,7 +797,7 @@ add(foo, ...numbers, bar, what, ...test);
 
 "#,
     r#"
-add.apply(void 0, [foo].concat(_toConsumableArray(numbers), [bar, what], _toConsumableArray(test)));
+add.apply(void 0, [foo].concat(_to_consumable_array(numbers), [bar, what], _to_consumable_array(test)));
 
 "#
 );
@@ -849,7 +849,7 @@ class Foo {
     r#"
 class Foo {
   bar() {
-    super.bar.apply(this, [arg1, arg2].concat(_toConsumableArray(args)));
+    super.bar.apply(this, [arg1, arg2].concat(_to_consumable_array(args)));
   }
 
 }
@@ -869,7 +869,7 @@ obj[method](...args);
     r#"
 var _obj;
 
-(_obj = obj)[method].apply(_obj, _toConsumableArray(args));
+(_obj = obj)[method].apply(_obj, _to_consumable_array(args));
 
 "#
 );
@@ -934,7 +934,7 @@ f.apply(void 0, [
     {
         x: 0
     }
-].concat(_toConsumableArray([
+].concat(_to_consumable_array([
     1,
     2
 ]), [
@@ -956,20 +956,20 @@ test!(
     r#"
 f.apply(void 0, [
     1
-].concat(_toConsumableArray([
+].concat(_to_consumable_array([
     2,
     3
-]), _toConsumableArray(_toConsumableArray([
+]), _to_consumable_array(_to_consumable_array([
     4,
     5
-])), _toConsumableArray([
+])), _to_consumable_array([
     6
-].concat(_toConsumableArray([
+].concat(_to_consumable_array([
     7
 ])))));
 f.apply(void 0, [
     1
-].concat(Array.from("123"), _toConsumableArray(Array.from("456").concat(Array.from("789")))));
+].concat(Array.from("123"), _to_consumable_array(Array.from("456").concat(Array.from("789")))));
 "#
 );
 
@@ -984,19 +984,19 @@ test!(
     "
     f.apply(void 0, [
         1
-    ].concat(_toConsumableArray([
+    ].concat(_to_consumable_array([
         2,
         ,
         3
-    ]), _toConsumableArray(_toConsumableArray([
+    ]), _to_consumable_array(_to_consumable_array([
         4,
         ,
     ]))));
-    f.apply(void 0, _toConsumableArray([
+    f.apply(void 0, _to_consumable_array([
         2,
         ,
         3
-    ]).concat(_toConsumableArray(_toConsumableArray([
+    ]).concat(_to_consumable_array(_to_consumable_array([
         4,
         ,
     ]))));

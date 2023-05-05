@@ -9,15 +9,21 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    noop: ()=>noop,
-    badIstanbul: ()=>badIstanbul,
-    downloadDocument: ()=>downloadDocument
+    noop: function() {
+        return noop;
+    },
+    badIstanbul: function() {
+        return badIstanbul;
+    },
+    downloadDocument: function() {
+        return downloadDocument;
+    }
 });
-const _objectWithoutProperties = require("@swc/helpers/lib/_object_without_properties.js").default;
+const _object_without_properties = require("@swc/helpers/_/_object_without_properties");
 //top comment
 const noop = ()=>{};
 /* istanbul ignore next */ const badIstanbul = (test)=>{
-    const { value  } = test, pixelParams = _objectWithoutProperties(test, [
+    const { value  } = test, pixelParams = _object_without_properties._(test, [
         "value"
     ]);
     console.log("fail");

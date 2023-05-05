@@ -535,14 +535,16 @@ where
                                 op!("/") => l / r,
 
                                 // TODO
-                                op!("&") => ((l.round() as i64) & (r.round() as i64)) as _,
-                                op!("|") => ((l.round() as i64) | (r.round() as i64)) as _,
-                                op!("^") => ((l.round() as i64) ^ (r.round() as i64)) as _,
-
-                                op!("<<") => ((l.round() as i64) << (r.round() as i64)) as _,
-                                op!(">>") => ((l.round() as i64) >> (r.round() as i64)) as _,
+                                op!("&") => ((l.trunc() as i32) & (r.trunc() as i32)) as _,
+                                op!("|") => ((l.trunc() as i32) | (r.trunc() as i32)) as _,
+                                op!("^") => ((l.trunc() as i32) ^ (r.trunc() as i32)) as _,
+                                op!("<<") => (l.trunc() as i32).wrapping_shl(r.trunc() as u32) as _,
+                                op!(">>") => (l.trunc() as i32).wrapping_shr(r.trunc() as u32) as _,
                                 // TODO: Verify this
-                                op!(">>>") => ((l.round() as u64) >> (r.round() as u64)) as _,
+                                op!(">>>") => {
+                                    (l.trunc() as u32).wrapping_shr(r.trunc() as u32) as _
+                                }
+
                                 _ => return Err(()),
                             },
                             raw: None,
@@ -1671,6 +1673,13 @@ where
     fn visit_named_export(&mut self, export: &NamedExport) {
         let old = self.is_type_only_export;
         self.is_type_only_export = export.type_only;
+        export.visit_children_with(self);
+        self.is_type_only_export = old;
+    }
+
+    fn visit_export_named_specifier(&mut self, export: &ExportNamedSpecifier) {
+        let old = self.is_type_only_export;
+        self.is_type_only_export |= export.is_type_only;
         export.visit_children_with(self);
         self.is_type_only_export = old;
     }

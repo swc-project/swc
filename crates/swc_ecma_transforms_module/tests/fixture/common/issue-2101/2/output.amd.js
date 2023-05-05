@@ -10,7 +10,9 @@ define([
     });
     Object.defineProperty(exports, "render", {
         enumerable: true,
-        get: ()=>_customRender.customRender
+        get: function() {
+            return _customRender.customRender;
+        }
     });
-    _exportStar(_react, exports);
+    _export_star(_react, exports);
 });

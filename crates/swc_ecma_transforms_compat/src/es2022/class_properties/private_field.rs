@@ -225,7 +225,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
 
                 *e = Expr::Call(CallExpr {
-                    callee: helper!(class_private_field_loose_base, "classPrivateFieldLooseBase"),
+                    callee: helper!(class_private_field_loose_base),
                     span: *span,
                     args: vec![obj.take().as_arg(), ident.clone().as_arg()],
                     type_args: None,
@@ -323,10 +323,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 if kind.is_static {
                     *e = Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: helper!(
-                            class_static_private_field_spec_set,
-                            "classStaticPrivateFieldSpecSet"
-                        ),
+                        callee: helper!(class_static_private_field_spec_set),
                         args: vec![
                             this.as_arg(),
                             class_name.clone().as_arg(),
@@ -339,7 +336,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 } else if kind.is_readonly() {
                     let err = Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: helper!(read_only_error, "readOnlyError"),
+                        callee: helper!(read_only_error),
                         args: vec![format!("#{}", n.id.sym).as_arg()],
                         type_args: None,
                     })
@@ -349,7 +346,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         exprs: vec![this, value, err],
                     });
                 } else {
-                    let set = helper!(class_private_field_set, "classPrivateFieldSet");
+                    let set = helper!(class_private_field_set);
 
                     *e = Expr::Call(CallExpr {
                         span: DUMMY_SP,
@@ -601,10 +598,7 @@ impl<'a> PrivateAccessVisitor<'a> {
         if kind.is_static {
             match self.private_access_type {
                 PrivateAccessType::DestructureSet => {
-                    let set = helper!(
-                        class_static_private_field_destructure,
-                        "classStaticPrivateFieldDestructureSet"
-                    );
+                    let set = helper!(class_static_private_field_destructure);
 
                     return (
                         CallExpr {
@@ -623,10 +617,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                     );
                 }
                 PrivateAccessType::Update => {
-                    let set = helper!(
-                        class_static_private_field_update,
-                        "classStaticPrivateFieldUpdate"
-                    );
+                    let set = helper!(class_static_private_field_update);
 
                     return (
                         CallExpr {
@@ -648,10 +639,7 @@ impl<'a> PrivateAccessVisitor<'a> {
             }
 
             if kind.is_method() {
-                let h = helper!(
-                    class_static_private_method_get,
-                    "classStaticPrivateMethodGet"
-                );
+                let h = helper!(class_static_private_method_get);
 
                 return (
                     Expr::Call(CallExpr {
@@ -668,10 +656,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                 );
             }
 
-            let get = helper!(
-                class_static_private_field_spec_get,
-                "classStaticPrivateFieldSpecGet"
-            );
+            let get = helper!(class_static_private_field_spec_get);
 
             (
                 Expr::Call(CallExpr {
@@ -685,10 +670,7 @@ impl<'a> PrivateAccessVisitor<'a> {
         } else {
             match self.private_access_type {
                 PrivateAccessType::DestructureSet => {
-                    let set = helper!(
-                        class_private_field_destructure,
-                        "classPrivateFieldDestructureSet"
-                    );
+                    let set = helper!(class_private_field_destructure);
 
                     (
                         CallExpr {
@@ -703,7 +685,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                     )
                 }
                 PrivateAccessType::Update => {
-                    let set = helper!(class_private_field_update, "classPrivateFieldUpdate");
+                    let set = helper!(class_private_field_update);
 
                     (
                         CallExpr {
@@ -719,7 +701,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                 }
 
                 PrivateAccessType::Get if kind.is_writeonly() => {
-                    let helper = helper!(write_only_error, "writeOnlyError");
+                    let helper = helper!(write_only_error);
                     let expr = Box::new(
                         CallExpr {
                             span: DUMMY_SP,
@@ -741,11 +723,11 @@ impl<'a> PrivateAccessVisitor<'a> {
 
                 PrivateAccessType::Get => {
                     let get = if self.c.private_as_properties {
-                        helper!(class_private_field_loose_base, "classPrivateFieldLooseBase")
+                        helper!(class_private_field_loose_base)
                     } else if kind.is_method() {
-                        helper!(class_private_method_get, "classPrivateMethodGet")
+                        helper!(class_private_method_get)
                     } else {
-                        helper!(class_private_field_get, "classPrivateFieldGet")
+                        helper!(class_private_field_get)
                     };
 
                     match &*obj {

@@ -1,5 +1,5 @@
 //// [privateNamesUnique-5.ts]
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 var _foo1 = new WeakMap();
 new class {
     constructor(){

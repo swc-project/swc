@@ -1,10 +1,10 @@
 //// [callWithSpread.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
-import _inherits from "@swc/helpers/src/_inherits.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
-import _create_super from "@swc/helpers/src/_create_super.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
+import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var _obj, _obj1, _obj2, _obj3, _foo_apply, _obj4, _foo_apply1, _obj5, _obj6, _obj7, _obj8, _foo_apply2, _obj9, _foo_apply3, _xa_, _xa_1, _xa_2;
 function foo(x, y) {
     for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){

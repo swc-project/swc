@@ -10,6 +10,6 @@
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _bar = /*#__PURE__*/ _interopRequireDefault(_bar);
+    _bar = /*#__PURE__*/ _interop_require_default(_bar);
     import(_bar.default);
 });

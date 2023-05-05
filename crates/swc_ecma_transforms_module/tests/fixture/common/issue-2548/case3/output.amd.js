@@ -2,7 +2,7 @@ define([
     "require",
     "exports",
     "./Z"
-], function(require, exports, _z) {
+], function(require, exports, _Z) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -14,9 +14,15 @@ define([
         });
     }
     _export(exports, {
-        X: ()=>_z.default,
-        X2: ()=>_z.X2,
-        Y: ()=>_z.Y
+        X: function() {
+            return _Z.default;
+        },
+        X2: function() {
+            return _Z.X2;
+        },
+        Y: function() {
+            return _Z.Y;
+        }
     });
-    _z = /*#__PURE__*/ _interopRequireWildcard(_exportStar(_z, exports));
+    _Z = /*#__PURE__*/ _interop_require_wildcard(_export_star(_Z, exports));
 });

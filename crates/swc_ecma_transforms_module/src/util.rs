@@ -1,11 +1,9 @@
-use inflector::Inflector;
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::feature::FeatureFlag;
 use swc_ecma_utils::{
     is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, ExprFactory,
     FunctionFactory,
@@ -24,6 +22,15 @@ pub struct Config {
     pub lazy: Lazy,
     #[serde(default)]
     pub import_interop: Option<ImportInterop>,
+    /// Emits `cjs-module-lexer` annotation
+    /// `cjs-module-lexer` is used in Node.js core for detecting the named
+    /// exports available when importing a CJS module into ESM.
+    /// swc will emit `cjs-module-lexer` detectable annotation with this option
+    /// enabled.
+    ///
+    /// Defaults to `true` if import_interop is Node, else `false`
+    #[serde(default)]
+    pub export_interop_annotation: Option<bool>,
     #[serde(default)]
     /// Note: deprecated
     pub no_interop: bool,
@@ -41,6 +48,7 @@ impl Default for Config {
             strict_mode: default_strict_mode(),
             lazy: Lazy::default(),
             import_interop: None,
+            export_interop_annotation: None,
             no_interop: false,
             ignore_dynamic: false,
             preserve_import_meta: false,
@@ -76,6 +84,12 @@ impl Config {
     pub fn import_interop(&self) -> ImportInterop {
         self.import_interop
             .unwrap_or_else(|| self.no_interop.into())
+    }
+
+    #[inline(always)]
+    pub fn export_interop_annotation(&self) -> bool {
+        self.export_interop_annotation
+            .unwrap_or_else(|| self.import_interop == Some(ImportInterop::Node))
     }
 }
 
@@ -117,17 +131,22 @@ impl Default for Lazy {
 }
 
 pub(super) fn local_name_for_src(src: &JsWord) -> JsWord {
-    if !src.contains('/') {
-        return format!("_{}", src.to_camel_case()).into();
-    }
-
+    let src = src.split('/').last().unwrap();
     let src = src
-        .starts_with("@swc/helpers/")
-        .then(|| src.strip_suffix(".mjs"))
-        .flatten()
+        .strip_suffix(".js")
+        .or_else(|| src.strip_suffix(".mjs"))
         .unwrap_or(src);
 
-    format!("_{}", src.split('/').last().unwrap().to_camel_case()).into()
+    let id = match Ident::verify_symbol(src) {
+        Ok(_) => src.into(),
+        Err(err) => err,
+    };
+
+    if !id.starts_with('_') {
+        format!("_{}", id).into()
+    } else {
+        id.into()
+    }
 }
 
 /// Creates
@@ -288,23 +307,7 @@ pub(crate) fn esm_export() -> Function {
     }
 }
 
-pub(crate) fn emit_export_stmts(
-    features: FeatureFlag,
-    exports: Ident,
-    mut prop_list: Vec<ObjPropKeyIdent>,
-) -> Vec<Stmt> {
-    let features = &features;
-    let support_arrow = caniuse!(features.ArrowFunctions);
-    let support_shorthand = caniuse!(features.ShorthandProperties);
-
-    let prop_auto = if support_arrow {
-        prop_arrow
-    } else if support_shorthand {
-        prop_method
-    } else {
-        prop_function
-    };
-
+pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ObjPropKeyIdent>) -> Vec<Stmt> {
     match prop_list.len() {
         0 | 1 => prop_list
             .pop()
@@ -312,7 +315,7 @@ pub(crate) fn emit_export_stmts(
                 object_define_enumerable(
                     exports.as_arg(),
                     quote_str!(obj_prop.span(), obj_prop.key()).as_arg(),
-                    prop_auto((js_word!("get"), DUMMY_SP, obj_prop.2.clone()).into()).into(),
+                    prop_function((js_word!("get"), DUMMY_SP, obj_prop.2.clone()).into()).into(),
                 )
                 .into_stmt()
             })
@@ -321,7 +324,7 @@ pub(crate) fn emit_export_stmts(
         _ => {
             let props = prop_list
                 .into_iter()
-                .map(prop_auto)
+                .map(prop_function)
                 .map(From::from)
                 .collect();
             let obj_lit = ObjectLit {
@@ -408,37 +411,6 @@ impl ObjPropKeyIdent {
     pub fn into_expr(self) -> Expr {
         self.2.into()
     }
-}
-
-/// ```javascript
-/// {
-///     key: () => expr,
-/// }
-/// ```
-pub(crate) fn prop_arrow(prop: ObjPropKeyIdent) -> Prop {
-    let key = prop_name(prop.key(), prop.span()).into();
-
-    KeyValueProp {
-        key,
-        value: Box::new(prop.into_expr().into_lazy_arrow(Default::default()).into()),
-    }
-    .into()
-}
-
-/// ```javascript
-/// {
-///     key() {
-///         return expr;
-///     },
-/// }
-/// ```
-pub(crate) fn prop_method(prop: ObjPropKeyIdent) -> Prop {
-    let key = prop_name(prop.key(), prop.span()).into();
-
-    prop.into_expr()
-        .into_lazy_fn(Default::default())
-        .into_method_prop(key)
-        .into()
 }
 
 /// ```javascript

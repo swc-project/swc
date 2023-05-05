@@ -19,23 +19,20 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_async_to_generator.mjs",
-    "@swc/helpers/src/_interop_require_wildcard.mjs",
-    "@swc/helpers/src/_ts_generator.mjs"
-], function(require, exports, _asyncToGenerator, _interopRequireWildcard, _tsGenerator) {
+    "@swc/helpers/_/_async_to_generator",
+    "@swc/helpers/_/_interop_require_wildcard",
+    "@swc/helpers/_/_ts_generator"
+], function(require, exports, _async_to_generator, _interop_require_wildcard, _ts_generator) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _asyncToGenerator = _asyncToGenerator.default;
-    _interopRequireWildcard = _interopRequireWildcard.default;
-    _tsGenerator = _tsGenerator.default;
     function foo() {
         return _foo.apply(this, arguments);
     }
     function _foo() {
-        _foo = _asyncToGenerator(function() {
-            return _tsGenerator(this, function(_state) {
+        _foo = _async_to_generator._(function() {
+            return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [
@@ -44,7 +41,7 @@ define([
                                 return require([
                                     "./foo"
                                 ], function(m) {
-                                    return resolve(/*#__PURE__*/ _interopRequireWildcard(m));
+                                    return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
                                 }, reject);
                             })
                         ];
@@ -55,7 +52,7 @@ define([
                                 return require([
                                     _state.sent().default
                                 ], function(m) {
-                                    return resolve(/*#__PURE__*/ _interopRequireWildcard(m));
+                                    return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
                                 }, reject);
                             })
                         ];

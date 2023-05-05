@@ -9,14 +9,13 @@
 });
 //// [index.ts]
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") module.exports = factory(require("@swc/helpers/src/_interop_require_wildcard.mjs"));
+    if (typeof module === "object" && typeof module.exports === "object") module.exports = factory(require("@swc/helpers/_/_interop_require_wildcard"));
     else if (typeof define === "function" && define.amd) define([
-        "@swc/helpers/src/_interop_require_wildcard.mjs"
+        "@swc/helpers/_/_interop_require_wildcard"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) module.exports = factory(global.interopRequireWildcardMjs);
-})(this, function(_interopRequireWildcard) {
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) module.exports = factory(global.interopRequireWildcard);
+})(this, function(_interop_require_wildcard) {
     "use strict";
-    _interopRequireWildcard = _interopRequireWildcard.default;
     return async function() {
         const something = await import("./something");
     };

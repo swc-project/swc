@@ -5,7 +5,7 @@ class Person {
         console.log("Hello World!");
     }
 }
-__decorate([
+_ts_decorate([
     Debounce(Person.debounceTime)
 ], Person.prototype, "save", null);
 const p = new Person();

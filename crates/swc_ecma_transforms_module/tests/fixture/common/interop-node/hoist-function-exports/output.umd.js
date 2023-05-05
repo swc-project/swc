@@ -17,8 +17,12 @@
         });
     }
     _export(exports, {
-        nextOdd: ()=>nextOdd,
-        isOdd: ()=>isOdd
+        nextOdd: function() {
+            return nextOdd;
+        },
+        isOdd: function() {
+            return isOdd;
+        }
     });
     function nextOdd(n) {
         return (0, _evens.isEven)(n) ? n + 1 : n + 2;

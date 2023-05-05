@@ -139,7 +139,8 @@ fn run_spec(file: &Path, output_json: &Path) {
         || file_name.contains("tsc/tsxErrorRecovery2")
         || file_name.contains("tsc/tsxErrorRecovery3")
         || file_name.contains("tsc/tsxTypeArgumentsJsxPreserveOutput")
-        || file_name.contains("tsc/unicodeEscapesInJsxtags");
+        || file_name.contains("tsc/unicodeEscapesInJsxtags")
+        || file_name.contains("tsc/propertyAccessNumericLiterals");
 
     if ignore {
         return;

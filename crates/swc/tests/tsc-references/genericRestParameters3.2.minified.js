@@ -1,5 +1,5 @@
 //// [genericRestParameters3.ts]
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 function bar() {
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     return args;

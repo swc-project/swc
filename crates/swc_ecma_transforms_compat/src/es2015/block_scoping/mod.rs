@@ -270,7 +270,7 @@ impl BlockScoping {
                 ];
 
                 if flow_helper.has_return {
-                    // if (_typeof(_ret) === "object") return _ret.v;
+                    // if (_type_of(_ret) === "object") return _ret.v;
                     stmts.push(
                         IfStmt {
                             span: DUMMY_SP,
@@ -278,8 +278,8 @@ impl BlockScoping {
                                 span: DUMMY_SP,
                                 op: op!("==="),
                                 left: {
-                                    // _typeof(_ret)
-                                    let callee = helper!(type_of, "typeof");
+                                    // _type_of(_ret)
+                                    let callee = helper!(type_of);
 
                                     Expr::Call(CallExpr {
                                         span: Default::default(),

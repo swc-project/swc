@@ -1,4 +1,4 @@
-import _define_property from "@swc/helpers/src/_define_property.mjs";
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
 let _ref = `lit${"lit"}`, _ref1 = `tpl${`tpl`}`, _ref2 = `lit${1 + 1}`, _ref3 = `complex${"123".length()}`;
 class Foo {
     constructor(){

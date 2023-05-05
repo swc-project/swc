@@ -1,4 +1,4 @@
 //// [ExportObjectLiteralAndObjectTypeLiteralWithAccessibleTypesInNestedMemberTypeAnnotations.ts]
 var A;
-import "@swc/helpers/src/_class_call_check.mjs";
+import "@swc/helpers/_/_class_call_check";
 (A || (A = {})).UnitSquare = null;

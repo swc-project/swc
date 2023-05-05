@@ -51,7 +51,6 @@ where
         config,
         unresolved_mark,
         resolver: Resolver::Default,
-        available_features,
         comments,
 
         support_arrow: caniuse!(available_features.ArrowFunctions),
@@ -89,7 +88,6 @@ where
         resolver: Resolver::Real { base, resolver },
         comments,
 
-        available_features,
         support_arrow: caniuse!(available_features.ArrowFunctions),
         const_var_kind: if caniuse!(available_features.BlockScoping) {
             VarDeclKind::Const
@@ -115,7 +113,6 @@ where
     resolver: Resolver,
     comments: Option<C>,
 
-    available_features: FeatureFlag,
     support_arrow: bool,
     const_var_kind: VarDeclKind,
 
@@ -190,12 +187,11 @@ where
             stmts.visit_mut_children_with(self);
         }
 
-        stmts.visit_mut_children_with(&mut ModuleRefRewriter {
+        stmts.visit_mut_children_with(&mut ModuleRefRewriter::new(
             import_map,
-            lazy_record: Default::default(),
-            allow_top_level_this: self.config.allow_top_level_this,
-            is_global_this: true,
-        });
+            Default::default(),
+            self.config.allow_top_level_this,
+        ));
 
         // ====================
         //  Emit
@@ -342,12 +338,9 @@ where
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
-                let is_swc_default_helper =
-                    !link_flag.has_named() && src.starts_with("@swc/helpers/");
-
                 let is_node_default = !link_flag.has_named() && import_interop.is_node();
 
-                if import_interop.is_none() || is_swc_default_helper {
+                if import_interop.is_none() {
                     link_flag -= LinkFlag::NAMESPACE;
                 }
 
@@ -370,22 +363,12 @@ where
                     &new_var_ident,
                     &Some(mod_ident.clone()),
                     &mut false,
-                    is_swc_default_helper || is_node_default,
+                    is_node_default,
                 );
 
-                if is_swc_default_helper {
-                    stmts.push(
-                        mod_ident
-                            .clone()
-                            .make_member(quote_ident!("default"))
-                            .make_assign_to(op!("="), mod_ident.clone().as_pat_or_expr())
-                            .into_stmt(),
-                    )
-                }
-
-                // _exportStar(mod, exports);
+                // _export_star(mod, exports);
                 let mut import_expr: Expr = if need_re_export {
-                    helper_expr!(export_star, "exportStar").as_call(
+                    helper_expr!(export_star).as_call(
                         DUMMY_SP,
                         vec![mod_ident.clone().as_arg(), self.exports().as_arg()],
                     )
@@ -397,18 +380,15 @@ where
                 if need_interop {
                     import_expr = match import_interop {
                         ImportInterop::Swc if link_flag.interop() => if link_flag.namespace() {
-                            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+                            helper_expr!(interop_require_wildcard)
                         } else {
-                            helper_expr!(interop_require_default, "interopRequireDefault")
+                            helper_expr!(interop_require_default)
                         }
                         .as_call(self.pure_span(), vec![import_expr.as_arg()]),
-                        ImportInterop::Node if link_flag.namespace() => {
-                            helper_expr!(interop_require_wildcard, "interopRequireWildcard")
-                                .as_call(
-                                    self.pure_span(),
-                                    vec![import_expr.as_arg(), true.as_arg()],
-                                )
-                        }
+                        ImportInterop::Node if link_flag.namespace() => helper_expr!(
+                            interop_require_wildcard
+                        )
+                        .as_call(self.pure_span(), vec![import_expr.as_arg(), true.as_arg()]),
                         _ => import_expr,
                     }
                 };
@@ -437,10 +417,9 @@ where
         if !export_obj_prop_list.is_empty() && !is_export_assign {
             export_obj_prop_list.sort_by_key(|prop| prop.span());
 
-            let features = self.available_features;
             let exports = self.exports();
 
-            export_stmts = emit_export_stmts(features, exports, export_obj_prop_list);
+            export_stmts = emit_export_stmts(exports, export_obj_prop_list);
         }
 
         export_stmts.into_iter().chain(stmts)
@@ -515,9 +494,10 @@ pub(crate) fn amd_dynamic_import(
 
     let resolved_module: Expr = match import_interop {
         ImportInterop::None => module.clone().into(),
-        ImportInterop::Swc => helper_expr!(interop_require_wildcard, "interopRequireWildcard")
-            .as_call(pure_span, vec![module.clone().as_arg()]),
-        ImportInterop::Node => helper_expr!(interop_require_wildcard, "interopRequireWildcard")
+        ImportInterop::Swc => {
+            helper_expr!(interop_require_wildcard).as_call(pure_span, vec![module.clone().as_arg()])
+        }
+        ImportInterop::Node => helper_expr!(interop_require_wildcard)
             .as_call(pure_span, vec![module.clone().as_arg(), true.as_arg()]),
     };
 

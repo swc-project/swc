@@ -12,12 +12,12 @@ Object.defineProperty(exports, "__esModule", {
         return App;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, _inherits = require("@swc/helpers/lib/_inherits.js").default, _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default, _createSuper = require("@swc/helpers/lib/_create_super.js").default, _react = _interopRequireWildcard(require("react")), _button = require("./button"), App = function(_React_Component) {
+var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard"), _create_super = require("@swc/helpers/_/_create_super"), _react = _interop_require_wildcard._(require("react")), _button = require("./button"), App = function(_React_Component) {
     "use strict";
-    _inherits(App, _React_Component);
-    var _super = _createSuper(App);
+    _inherits._(App, _React_Component);
+    var _super = _create_super._(App);
     function App() {
-        return _classCallCheck(this, App), _super.apply(this, arguments);
+        return _class_call_check._(this, App), _super.apply(this, arguments);
     }
     return App.prototype.render = function() {
         return _react.createElement(_button.Button, null);
@@ -33,12 +33,12 @@ Object.defineProperty(exports, "__esModule", {
         return Button;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, _inherits = require("@swc/helpers/lib/_inherits.js").default, _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default, _createSuper = require("@swc/helpers/lib/_create_super.js").default, _react = _interopRequireWildcard(require("react")), Button = function(_React_Component) {
+var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard"), _create_super = require("@swc/helpers/_/_create_super"), _react = _interop_require_wildcard._(require("react")), Button = function(_React_Component) {
     "use strict";
-    _inherits(Button, _React_Component);
-    var _super = _createSuper(Button);
+    _inherits._(Button, _React_Component);
+    var _super = _create_super._(Button);
     function Button() {
-        return _classCallCheck(this, Button), _super.apply(this, arguments);
+        return _class_call_check._(this, Button), _super.apply(this, arguments);
     }
     return Button.prototype.render = function() {
         return _react.createElement("button", null, "Some button");

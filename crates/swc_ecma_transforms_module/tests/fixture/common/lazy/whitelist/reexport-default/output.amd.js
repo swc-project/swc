@@ -9,7 +9,9 @@ define([
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>_white.default
+        get: function() {
+            return _white.default;
+        }
     });
-    _white = /*#__PURE__*/ _interopRequireDefault(_white);
+    _white = /*#__PURE__*/ _interop_require_default(_white);
 });

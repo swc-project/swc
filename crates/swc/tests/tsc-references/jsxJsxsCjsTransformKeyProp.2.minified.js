@@ -3,11 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default, _objectSpreadProps = require("@swc/helpers/lib/_object_spread_props.js").default, props = {
+var _object_spread = require("@swc/helpers/_/_object_spread"), _object_spread_props = require("@swc/helpers/_/_object_spread_props"), props = {
     answer: 42
 };
-_objectSpread({
+_object_spread._({
     key: "foo"
-}, props), _objectSpreadProps(_objectSpread({}, props), {
+}, props), _object_spread_props._(_object_spread._({}, props), {
     key: "bar"
 });

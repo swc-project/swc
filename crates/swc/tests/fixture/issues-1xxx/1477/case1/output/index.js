@@ -1,6 +1,6 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function f(a, b) {
     return _f.apply(this, arguments);
 }

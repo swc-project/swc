@@ -9,10 +9,10 @@ Object.defineProperty(exports, "C1", {
         return C1;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var C1 = function C1() {
     "use strict";
-    _classCallCheck(this, C1);
+    _class_call_check._(this, C1);
     this.m1 = 42;
 };
 (function() {

@@ -9,7 +9,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    A: ()=>_a,
-    B: ()=>_a
+    A: function() {
+        return _A;
+    },
+    B: function() {
+        return _A;
+    }
 });
-const _a = /*#__PURE__*/ _interopRequireWildcard(require("./A"));
+const _A = /*#__PURE__*/ _interop_require_wildcard(require("./A"));

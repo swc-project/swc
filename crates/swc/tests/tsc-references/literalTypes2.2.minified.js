@@ -1,5 +1,5 @@
 //// [literalTypes2.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(E) {
     E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
 }(E || (E = {}));
@@ -14,11 +14,8 @@ g1(1), g2(1, 1), g2(1, 2), g3(1, "two"), g4(1), g5(1, 2), g6([
     return x;
 }), g8(1, function(x) {
     return x + 1;
-});
-var aa = [
+}), function(a, x) {
+    a.slice().push(1);
+}([
     0
-];
-aa = function(a, x) {
-    var result = a.slice();
-    return result.push(1), result;
-}(aa, 0);
+], 0);

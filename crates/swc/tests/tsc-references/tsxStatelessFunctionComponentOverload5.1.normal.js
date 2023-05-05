@@ -2,10 +2,10 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_object_spread.mjs",
-    "@swc/helpers/src/_object_spread_props.mjs",
+    "@swc/helpers/_/_object_spread",
+    "@swc/helpers/_/_object_spread_props",
     "react"
-], function(require, exports, _objectSpread, _objectSpreadProps, _react) {
+], function(require, exports, _object_spread, _object_spread_props, _react) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -16,8 +16,6 @@ define([
             return MainButton;
         }
     });
-    _objectSpread = _objectSpread.default;
-    _objectSpreadProps = _objectSpreadProps.default;
     var obj0 = {
         to: "world"
     };
@@ -41,20 +39,20 @@ define([
         to: "/some/path",
         onClick: function(e) {}
     }, "GO"); // extra property;
-    var b1 = /*#__PURE__*/ _react.createElement(MainButton, _objectSpread({
+    var b1 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread._({
         onClick: function(e) {}
     }, obj0), "Hello world"); // extra property;
-    var b2 = /*#__PURE__*/ _react.createElement(MainButton, _objectSpread({
+    var b2 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread._({
         to: "10000"
     }, obj2)); // extra property
     var b3 = /*#__PURE__*/ _react.createElement(MainButton, {
         to: "10000",
         onClick: function(k) {}
     }); // extra property
-    var b4 = /*#__PURE__*/ _react.createElement(MainButton, _objectSpreadProps(_objectSpread({}, obj3), {
+    var b4 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread_props._(_object_spread._({}, obj3), {
         to: true
     })); // Should error because Incorrect type; but attributes are any so everything is allowed
-    var b5 = /*#__PURE__*/ _react.createElement(MainButton, _objectSpread({
+    var b5 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread._({
         onClick: function onClick(e) {}
     }, obj0)); // Spread retain method declaration (see GitHub #13365), so now there is an extra attributes
     var b6 = /*#__PURE__*/ _react.createElement(MainButton, {

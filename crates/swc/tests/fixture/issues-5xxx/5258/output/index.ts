@@ -1,16 +1,16 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_define_property.mjs",
-    "@swc/helpers/src/_ts_decorate.mjs"
-], function(require, exports, _defineProperty, _tsDecorate) {
+    "@swc/helpers/_/_define_property",
+    "@swc/helpers/_/_ts_decorate"
+], function(require, exports, _define_property, _ts_decorate) {
     "use strict";
     Object.defineProperty(exports, "FileSystemError", {
         enumerable: true,
-        get: ()=>FileSystemError
+        get: function() {
+            return FileSystemError;
+        }
     });
-    _defineProperty = _defineProperty.default;
-    _tsDecorate = _tsDecorate.default;
     function es5ClassCompat(target) {
         function _() {
             return Reflect.construct(target, arguments, this.constructor);
@@ -41,7 +41,7 @@ define([
         }
         constructor(uriOrMessage, code = FileSystemProviderErrorCode.Unknown, terminator){
             super(URI.isUri(uriOrMessage) ? uriOrMessage.toString(true) : uriOrMessage);
-            _defineProperty(this, "code", void 0);
+            _define_property._(this, "code", void 0);
             this.code = terminator?.name ?? 'Unknown';
             markAsFileSystemProviderError(this, code);
             if (typeof Object.setPrototypeOf === 'function') {
@@ -52,7 +52,7 @@ define([
             }
         }
     };
-    FileSystemError = _tsDecorate([
+    FileSystemError = _ts_decorate._([
         es5ClassCompat
     ], FileSystemError);
 });

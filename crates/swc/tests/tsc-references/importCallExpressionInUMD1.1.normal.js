@@ -12,7 +12,9 @@
     });
     Object.defineProperty(exports, "foo", {
         enumerable: true,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     });
     function foo() {
         return "foo";
@@ -20,22 +22,23 @@
 });
 //// [1.ts]
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/src/_interop_require_wildcard.mjs"));
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_interop_require_wildcard"));
     else if (typeof define === "function" && define.amd) define([
         "exports",
-        "@swc/helpers/src/_interop_require_wildcard.mjs"
+        "@swc/helpers/_/_interop_require_wildcard"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.1Ts = {}, global.interopRequireWildcardMjs);
-})(this, function(exports, _interopRequireWildcard) {
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.1Ts = {}, global.interopRequireWildcard);
+})(this, function(exports, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     Object.defineProperty(exports, "p2", {
         enumerable: true,
-        get: ()=>p2
+        get: function() {
+            return p2;
+        }
     });
-    _interopRequireWildcard = _interopRequireWildcard.default;
     import("./0");
     var p1 = import("./0");
     p1.then((zero)=>{

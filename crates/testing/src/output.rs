@@ -53,14 +53,13 @@ impl fmt::Debug for NormalizedOutput {
 }
 
 fn normalize_input(input: String, skip_last_newline: bool) -> String {
-    let manifest_dirs = vec![
+    let manifest_dirs = [
         adjust_canonicalization(paths::manifest_dir()),
         paths::manifest_dir().to_string_lossy().to_string(),
-        adjust_canonicalization(paths::manifest_dir()).replace('\\', "\\\\"),
-        paths::manifest_dir()
-            .to_string_lossy()
-            .replace('\\', "\\\\"),
-    ];
+    ]
+    .into_iter()
+    .flat_map(|dir| [dir.replace('\\', "\\\\"), dir.replace('\\', "/"), dir])
+    .collect::<Vec<_>>();
 
     let input = input.replace("\r\n", "\n");
 

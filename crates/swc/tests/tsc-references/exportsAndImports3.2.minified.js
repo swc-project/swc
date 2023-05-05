@@ -53,11 +53,11 @@ Object.defineProperty(exports, "__esModule", {
         return a;
     }
 });
-var E, D, M, _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, v = 1;
+var E, D, M, _class_call_check = require("@swc/helpers/_/_class_call_check"), v = 1;
 function f() {}
 var C = function C() {
     "use strict";
-    _classCallCheck(this, C);
+    _class_call_check._(this, C);
 };
 !function(E) {
     E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";

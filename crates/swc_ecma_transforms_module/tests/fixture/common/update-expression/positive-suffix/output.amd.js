@@ -13,8 +13,12 @@ define([
         });
     }
     _export(exports, {
-        diffLevel: ()=>diffLevel,
-        diff: ()=>diff
+        diffLevel: function() {
+            return diffLevel;
+        },
+        diff: function() {
+            return diff;
+        }
     });
     let diffLevel = 0;
     function diff() {

@@ -2,7 +2,7 @@ define([
     "require",
     "exports",
     "./dep.js"
-], function(require, exports, _depJs) {
+], function(require, exports, _dep) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

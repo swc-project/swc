@@ -7,7 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "default", {
     enumerable: true,
-    get: ()=>_default
+    get: function() {
+        return _default;
+    }
 });
 const _default = esmy;
 //// [/ambient.d.ts]
@@ -24,11 +26,15 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    Values: ()=>Values,
-    x: ()=>x
+    Values: function() {
+        return Values;
+    },
+    x: function() {
+        return x;
+    }
 });
-const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require("./decl"))); // error
+const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./decl"))); // error
 const x = 1; // error
 var Values;
 (function(Values) {
@@ -55,7 +61,9 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "default" // error
 , {
     enumerable: true,
-    get: ()=>_default
+    get: function() {
+        return _default;
+    }
 });
 const _default = 1;
 //// [/main5.ts]
@@ -66,7 +74,9 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "default" // error
 , {
     enumerable: true,
-    get: ()=>C
+    get: function() {
+        return C;
+    }
 });
 class C {
 }

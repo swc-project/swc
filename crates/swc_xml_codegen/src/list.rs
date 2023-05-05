@@ -3,6 +3,7 @@ use bitflags::bitflags;
 use swc_common::add_bitflags;
 
 bitflags! {
+    #[derive(PartialEq, Eq, Clone, Copy)]
     pub struct ListFormat: u16 {
         const None = 0;
     }

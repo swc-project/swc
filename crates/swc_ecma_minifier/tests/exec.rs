@@ -386,11 +386,11 @@ console.log((x() || false) && y());"###;
 
 #[test]
 fn vercel_001() {
-    let src = r###"function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+    let src = r###"function _interop_require_default(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _class_call_check(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _possible_constructor_return(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -400,15 +400,15 @@ function ItemsList() {
 
     var _temp, _this, _ret;
 
-    _classCallCheck(this, ItemsList);
+    _class_call_check(this, ItemsList);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ItemsList.__proto__ || Object.getPrototypeOf(ItemsList)).call.apply(_ref, [this].concat(args))), _this), _this.storeHighlightedItemReference = function (highlightedItem) {
+    return _ret = (_temp = (_this = _possible_constructor_return(this, (_ref = ItemsList.__proto__ || Object.getPrototypeOf(ItemsList)).call.apply(_ref, [this].concat(args))), _this), _this.storeHighlightedItemReference = function (highlightedItem) {
         _this.props.onHighlightedItemChange(highlightedItem === null ? null : highlightedItem.item);
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    }, _temp), _possible_constructor_return(_this, _ret);
 }
 
 
@@ -424,17 +424,17 @@ console.log('PASS')"###;
 
 #[test]
 fn vercel_002() {
-    let src = r###"function _interopRequireDefault(obj) {
+    let src = r###"function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
 }
-function _classCallCheck(instance, Constructor) {
+function _class_call_check(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function _possibleConstructorReturn(self, call) {
+function _possible_constructor_return(self, call) {
     if (!self) {
         throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
     }
@@ -455,15 +455,15 @@ function _inherits(subClass, superClass) {
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 function ItemsList() {
-    _classCallCheck(this, ItemsList);
+    _class_call_check(this, ItemsList);
     for (var _ref, _temp, _this, _ret, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
     }
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ItemsList.__proto__ || Object.getPrototypeOf(ItemsList)).call.apply(_ref, [
+    return _ret = (_temp = (_this = _possible_constructor_return(this, (_ref = ItemsList.__proto__ || Object.getPrototypeOf(ItemsList)).call.apply(_ref, [
         this
     ].concat(args))), _this), _this.storeHighlightedItemReference = function (highlightedItem) {
         _this.props.onHighlightedItemChange(null === highlightedItem ? null : highlightedItem.item);
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    }, _temp), _possible_constructor_return(_this, _ret);
 }
 new ItemsList();
 console.log("PASS");"###;
@@ -9426,7 +9426,7 @@ new cls().it();"###;
 
 #[test]
 fn issues_2011_2() {
-    let src = r###"function _classCallCheck(instance, Constructor) {
+    let src = r###"function _class_call_check(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
@@ -9440,12 +9440,12 @@ function _defineProperties(target, props) {
         Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-function _createClass(Constructor, protoProps, staticProps) {
+function _create_class(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-function _defineProperty(obj, key, value) {
+function _define_property(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
             value: value,
@@ -9460,17 +9460,17 @@ function _defineProperty(obj, key, value) {
 }
 var ClassA = function ClassA() {
     "use strict";
-    _classCallCheck(this, ClassA);
+    _class_call_check(this, ClassA);
     console.log('Class A');
 };
 var cls = function () {
     var ClassB = /*#__PURE__*/ function () {
         "use strict";
         function ClassB() {
-            _classCallCheck(this, ClassB);
+            _class_call_check(this, ClassB);
             console.log('Claas B');
         }
-        _createClass(ClassB, [
+        _create_class(ClassB, [
             {
                 key: "it",
                 value: function it() {
@@ -9482,7 +9482,7 @@ var cls = function () {
         ]);
         return ClassB;
     }();
-    _defineProperty(ClassB, "MyA", ClassA);
+    _define_property(ClassB, "MyA", ClassA);
     return ClassB;
 }();
 new cls().it();"###;
@@ -10929,5 +10929,24 @@ fn issue_6914_3() {
         }
         "###,
         false,
+    );
+}
+
+#[test]
+fn issue_7274() {
+    run_default_exec_test(
+        r###"
+        if (
+            // incorrect:
+            "😋📋👌".length === 3
+    
+            // correct:
+            // "😋📋👌".length === 6
+        ) {
+            // side effect
+            new Response(123);
+        }
+        console.log('PASS');
+        "###,
     );
 }

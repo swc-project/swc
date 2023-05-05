@@ -1,5 +1,5 @@
 //// [objectRestParameter.ts]
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 function cloneAgain(_param) {
     var { a  } = _param, clone = _object_without_properties(_param, [
         "a"

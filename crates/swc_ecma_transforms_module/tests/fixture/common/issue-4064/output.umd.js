@@ -6,16 +6,18 @@
         "./File2"
     ], factory);
     else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.file1, global.file2);
-})(this, function(exports, _file1, _file2) {
+})(this, function(exports, _File1, _File2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     Object.defineProperty(exports, "BIZ", {
         enumerable: true,
-        get: ()=>BIZ
+        get: function() {
+            return BIZ;
+        }
     });
-    _exportStar(_file1, exports);
-    _exportStar(_file2, exports);
+    _export_star(_File1, exports);
+    _export_star(_File2, exports);
     const BIZ = "biz";
 });

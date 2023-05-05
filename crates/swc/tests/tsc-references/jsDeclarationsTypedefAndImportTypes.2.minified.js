@@ -1,5 +1,5 @@
 //// [conn.js]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var Conn = function() {
     "use strict";
     function Conn() {
@@ -9,7 +9,7 @@ var Conn = function() {
 }();
 module.exports = Conn;
 //// [usage.js]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 module.exports = {
     Wrap: function Wrap(c) {
         "use strict";

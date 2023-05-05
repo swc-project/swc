@@ -1,8 +1,8 @@
 {
-  "body": [
+  "header-baz": [
     {
       "type": "local",
-      "name": "__local__body"
+      "name": "__local__header-baz"
     }
   ],
   "footer": [
@@ -11,10 +11,10 @@
       "name": "__local__footer"
     }
   ],
-  "header-baz": [
+  "body": [
     {
       "type": "local",
-      "name": "__local__header-baz"
+      "name": "__local__body"
     }
   ]
 }

@@ -1,12 +1,12 @@
 //// [classStaticBlock24.ts]
 (function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/src/_class_call_check.mjs"));
+    if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_class_call_check"));
     else if (typeof define === "function" && define.amd) define([
         "exports",
-        "@swc/helpers/src/_class_call_check.mjs"
+        "@swc/helpers/_/_class_call_check"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.classStaticBlock24Ts = {}, global.classCallCheckMjs);
-})(this, function(exports, _classCallCheck) {
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.classStaticBlock24Ts = {}, global.classCallCheck);
+})(this, function(exports, _class_call_check) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -17,10 +17,9 @@
             return C;
         }
     });
-    _classCallCheck = _classCallCheck.default;
     var C = function C() {
         "use strict";
-        _classCallCheck(this, C);
+        _class_call_check._(this, C);
     };
     (function() {
         C.x = 1;

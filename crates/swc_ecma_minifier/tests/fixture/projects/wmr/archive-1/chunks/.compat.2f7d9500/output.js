@@ -2087,13 +2087,13 @@ function _toConsumableArray$2(
     arr
 ) {
     return (
-        _arrayWithoutHoles$2(
+        _array_without_holes$2(
             arr
         ) ||
         _iterableToArray$2(
             arr
         ) ||
-        _unsupportedIterableToArray$2(
+        _unsupported_iterable_to_array$2(
             arr
         ) ||
         _nonIterableSpread$2(
@@ -2106,11 +2106,11 @@ function _nonIterableSpread$2(
         "Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."
     );
 }
-function _unsupportedIterableToArray$2(
+function _unsupported_iterable_to_array$2(
     o, minLen
 ) {
     if (o) {
-        if ("string" == typeof o) return _arrayLikeToArray$2(
+        if ("string" == typeof o) return _array_like_to_array$2(
             o,
             minLen
         );
@@ -2130,7 +2130,7 @@ function _unsupportedIterableToArray$2(
                   /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(
                       n
                   )
-                    ? _arrayLikeToArray$2(
+                    ? _array_like_to_array$2(
                         o,
                         minLen
                     )
@@ -2148,16 +2148,16 @@ function _iterableToArray$2(
             iter
         );
 }
-function _arrayWithoutHoles$2(
+function _array_without_holes$2(
     arr
 ) {
     if (Array.isArray(
         arr
-    )) return _arrayLikeToArray$2(
+    )) return _array_like_to_array$2(
         arr
     );
 }
-function _arrayLikeToArray$2(
+function _array_like_to_array$2(
     arr, len
 ) {
     (null == len || len > arr.length) && (len = arr.length);
@@ -2166,7 +2166,7 @@ function _arrayLikeToArray$2(
     ); i < len; i++) arr2[i] = arr[i];
     return arr2;
 }
-function _defineProperty$c(
+function _define_property$c(
     obj, key, value
 ) {
     return (
@@ -2192,7 +2192,7 @@ var CALENDAR_TYPES = {
         US: "US",
     },
     CALENDAR_TYPE_LOCALES =
-        (_defineProperty$c(
+        (_define_property$c(
             (_CALENDAR_TYPE_LOCALE = {
             }),
             CALENDAR_TYPES.US,
@@ -2218,7 +2218,7 @@ var CALENDAR_TYPES = {
                 "pt-BR",
             ]
         ),
-        _defineProperty$c(
+        _define_property$c(
             _CALENDAR_TYPE_LOCALE,
             CALENDAR_TYPES.ARABIC,
             [
@@ -2243,7 +2243,7 @@ var CALENDAR_TYPES = {
                 "ps-AR",
             ]
         ),
-        _defineProperty$c(
+        _define_property$c(
             _CALENDAR_TYPE_LOCALE,
             CALENDAR_TYPES.HEBREW,
             [
@@ -3445,7 +3445,7 @@ function ownKeys$b(
     }
     return keys;
 }
-function _objectSpread$b(
+function _object_spread$b(
     target
 ) {
     for (var i = 1; i < arguments.length; i++) {
@@ -3463,7 +3463,7 @@ function _objectSpread$b(
                 function (
                     key
                 ) {
-                    _defineProperty$b(
+                    _define_property$b(
                         target,
                         key,
                         source[key]
@@ -3498,7 +3498,7 @@ function _objectSpread$b(
     }
     return target;
 }
-function _defineProperty$b(
+function _define_property$b(
     obj, key, value
 ) {
     return (
@@ -3517,14 +3517,14 @@ function _defineProperty$b(
         obj
     );
 }
-function _objectWithoutProperties$8(
+function _object_without_properties$8(
     source, excluded
 ) {
     if (null == source) return {
     };
     var key,
         i,
-        target = _objectWithoutPropertiesLoose$8(
+        target = _object_without_properties_loose$8(
             source,
             excluded
         );
@@ -3545,7 +3545,7 @@ function _objectWithoutProperties$8(
     }
     return target;
 }
-function _objectWithoutPropertiesLoose$8(
+function _object_without_properties_loose$8(
     source, excluded
 ) {
     if (null == source) return {
@@ -3582,7 +3582,7 @@ function Flex(
         offset = _ref.offset,
         style = _ref.style,
         wrap = _ref.wrap,
-        otherProps = _objectWithoutProperties$8(
+        otherProps = _object_without_properties$8(
             _ref,
             [
                 "children",
@@ -3599,7 +3599,7 @@ function Flex(
         _extends$c(
             {
                 className: className,
-                style: _objectSpread$b(
+                style: _object_spread$b(
                     {
                         display: "flex",
                         flexDirection: direction,
@@ -3617,8 +3617,8 @@ function Flex(
             ) {
                 return React.cloneElement(
                     child,
-                    _objectSpread$b(
-                        _objectSpread$b(
+                    _object_spread$b(
+                        _object_spread$b(
                             {
                             },
                             child.props
@@ -3652,13 +3652,13 @@ function _toConsumableArray$1(
     arr
 ) {
     return (
-        _arrayWithoutHoles$1(
+        _array_without_holes$1(
             arr
         ) ||
         _iterableToArray$1(
             arr
         ) ||
-        _unsupportedIterableToArray$1(
+        _unsupported_iterable_to_array$1(
             arr
         ) ||
         _nonIterableSpread$1(
@@ -3671,11 +3671,11 @@ function _nonIterableSpread$1(
         "Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."
     );
 }
-function _unsupportedIterableToArray$1(
+function _unsupported_iterable_to_array$1(
     o, minLen
 ) {
     if (o) {
-        if ("string" == typeof o) return _arrayLikeToArray$1(
+        if ("string" == typeof o) return _array_like_to_array$1(
             o,
             minLen
         );
@@ -3695,7 +3695,7 @@ function _unsupportedIterableToArray$1(
                   /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(
                       n
                   )
-                    ? _arrayLikeToArray$1(
+                    ? _array_like_to_array$1(
                         o,
                         minLen
                     )
@@ -3713,16 +3713,16 @@ function _iterableToArray$1(
             iter
         );
 }
-function _arrayWithoutHoles$1(
+function _array_without_holes$1(
     arr
 ) {
     if (Array.isArray(
         arr
-    )) return _arrayLikeToArray$1(
+    )) return _array_like_to_array$1(
         arr
     );
 }
-function _arrayLikeToArray$1(
+function _array_like_to_array$1(
     arr, len
 ) {
     (null == len || len > arr.length) && (len = arr.length);
@@ -3949,7 +3949,7 @@ function ownKeys$a(
     }
     return keys;
 }
-function _objectSpread$a(
+function _object_spread$a(
     target
 ) {
     for (var i = 1; i < arguments.length; i++) {
@@ -3967,7 +3967,7 @@ function _objectSpread$a(
                 function (
                     key
                 ) {
-                    _defineProperty$a(
+                    _define_property$a(
                         target,
                         key,
                         source[key]
@@ -4002,7 +4002,7 @@ function _objectSpread$a(
     }
     return target;
 }
-function _defineProperty$a(
+function _define_property$a(
     obj, key, value
 ) {
     return (
@@ -4043,14 +4043,14 @@ function _extends$b(
         arguments
     );
 }
-function _objectWithoutProperties$7(
+function _object_without_properties$7(
     source, excluded
 ) {
     if (null == source) return {
     };
     var key,
         i,
-        target = _objectWithoutPropertiesLoose$7(
+        target = _object_without_properties_loose$7(
             source,
             excluded
         );
@@ -4071,7 +4071,7 @@ function _objectWithoutProperties$7(
     }
     return target;
 }
-function _objectWithoutPropertiesLoose$7(
+function _object_without_properties_loose$7(
     source, excluded
 ) {
     if (null == source) return {
@@ -4108,7 +4108,7 @@ function TileGroup(
             Tile = _ref.tile,
             value = _ref.value,
             valueType = _ref.valueType,
-            tileProps = _objectWithoutProperties$7(
+            tileProps = _object_without_properties$7(
                 _ref,
                 [
                     "className",
@@ -4196,7 +4196,7 @@ function ownKeys$9(
     }
     return keys;
 }
-function _objectSpread$9(
+function _object_spread$9(
     target
 ) {
     for (var i = 1; i < arguments.length; i++) {
@@ -4214,7 +4214,7 @@ function _objectSpread$9(
                 function (
                     key
                 ) {
-                    _defineProperty$9(
+                    _define_property$9(
                         target,
                         key,
                         source[key]
@@ -4272,7 +4272,7 @@ function _typeof$1(
         obj
     );
 }
-function _classCallCheck$1(
+function _class_call_check$1(
     instance, Constructor
 ) {
     if (!(instance instanceof Constructor))
@@ -4295,7 +4295,7 @@ function _defineProperties$1(
         );
     }
 }
-function _createClass$1(
+function _create_class$1(
     Constructor, protoProps, staticProps
 ) {
     return (
@@ -4327,15 +4327,15 @@ function _inherits$1(
             },
         }
     )),
-    superClass && _setPrototypeOf$1(
+    superClass && _set_prototype_of$1(
         subClass,
         superClass
     );
 }
-function _setPrototypeOf$1(
+function _set_prototype_of$1(
     o, p
 ) {
-    return (_setPrototypeOf$1 =
+    return (_set_prototype_of$1 =
         Object.setPrototypeOf ||
         function (
             o, p
@@ -4346,19 +4346,19 @@ function _setPrototypeOf$1(
         p
     );
 }
-function _createSuper$1(
+function _create_super$1(
     Derived
 ) {
-    var hasNativeReflectConstruct = _isNativeReflectConstruct$1(
+    var hasNativeReflectConstruct = _is_native_reflect_construct$1(
     );
     return function (
     ) {
         var result,
-            Super = _getPrototypeOf$1(
+            Super = _get_prototype_of$1(
                 Derived
             );
         if (hasNativeReflectConstruct) {
-            var NewTarget = _getPrototypeOf$1(
+            var NewTarget = _get_prototype_of$1(
                 this
             ).constructor;
             result = Reflect.construct(
@@ -4370,24 +4370,24 @@ function _createSuper$1(
             this,
             arguments
         );
-        return _possibleConstructorReturn$1(
+        return _possible_constructor_return$1(
             this,
             result
         );
     };
 }
-function _possibleConstructorReturn$1(
+function _possible_constructor_return$1(
     self, call
 ) {
     return !call || ("object" !== _typeof$1(
         call
     ) && "function" != typeof call)
-        ? _assertThisInitialized$1(
+        ? _assert_this_initialized$1(
             self
         )
         : call;
 }
-function _assertThisInitialized$1(
+function _assert_this_initialized$1(
     self
 ) {
     if (void 0 === self)
@@ -4396,7 +4396,7 @@ function _assertThisInitialized$1(
         );
     return self;
 }
-function _isNativeReflectConstruct$1(
+function _is_native_reflect_construct$1(
 ) {
     if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
     if (Reflect.construct.sham) return !1;
@@ -4417,10 +4417,10 @@ function _isNativeReflectConstruct$1(
         return !1;
     }
 }
-function _getPrototypeOf$1(
+function _get_prototype_of$1(
     o
 ) {
-    return (_getPrototypeOf$1 = Object.setPrototypeOf
+    return (_get_prototype_of$1 = Object.setPrototypeOf
         ? Object.getPrototypeOf
         : function (
             o
@@ -4432,7 +4432,7 @@ function _getPrototypeOf$1(
         o
     );
 }
-function _defineProperty$9(
+function _define_property$9(
     obj, key, value
 ) {
     return (
@@ -4509,8 +4509,8 @@ function getValue$1(
     ),
     wrap: PropTypes.bool,
 }),
-(TileGroup.propTypes = _objectSpread$a(
-    _objectSpread$a(
+(TileGroup.propTypes = _object_spread$a(
+    _object_spread$a(
         {
         },
         tileGroupProps
@@ -4536,13 +4536,13 @@ var Tile = (function (
         Tile,
         _
     );
-    var _super = _createSuper$1(
+    var _super = _create_super$1(
         Tile
     );
     function Tile(
     ) {
         var _this;
-        _classCallCheck$1(
+        _class_call_check$1(
             this,
             Tile
         );
@@ -4555,8 +4555,8 @@ var Tile = (function (
         )
             args[_key] = arguments[_key];
         return (
-            _defineProperty$9(
-                _assertThisInitialized$1(
+            _define_property$9(
+                _assert_this_initialized$1(
                     (_this = _super.call.apply(
                         _super,
                         [this,].concat(
@@ -4572,7 +4572,7 @@ var Tile = (function (
         );
     }
     return (
-        _createClass$1(
+        _create_class$1(
             Tile,
             [
                 {
@@ -4729,7 +4729,7 @@ function ownKeys$8(
     }
     return keys;
 }
-function _objectSpread$8(
+function _object_spread$8(
     target
 ) {
     for (var i = 1; i < arguments.length; i++) {
@@ -4747,7 +4747,7 @@ function _objectSpread$8(
                 function (
                     key
                 ) {
-                    _defineProperty$8(
+                    _define_property$8(
                         target,
                         key,
                         source[key]
@@ -4782,7 +4782,7 @@ function _objectSpread$8(
     }
     return target;
 }
-function _defineProperty$8(
+function _define_property$8(
     obj, key, value
 ) {
     return (
@@ -4823,14 +4823,14 @@ function _extends$a(
         arguments
     );
 }
-function _objectWithoutProperties$6(
+function _object_without_properties$6(
     source, excluded
 ) {
     if (null == source) return {
     };
     var key,
         i,
-        target = _objectWithoutPropertiesLoose$6(
+        target = _object_without_properties_loose$6(
             source,
             excluded
         );
@@ -4851,7 +4851,7 @@ function _objectWithoutProperties$6(
     }
     return target;
 }
-function _objectWithoutPropertiesLoose$6(
+function _object_without_properties_loose$6(
     source, excluded
 ) {
     if (null == source) return {
@@ -4870,8 +4870,8 @@ function _objectWithoutPropertiesLoose$6(
         ) >= 0 || (target[key] = source[key]);
     return target;
 }
-Tile.propTypes = _objectSpread$9(
-    _objectSpread$9(
+Tile.propTypes = _object_spread$9(
+    _object_spread$9(
         {
         },
         tileProps
@@ -4893,7 +4893,7 @@ function Decade(
         _ref$formatYear = _ref.formatYear,
         formatYear$1 =
             void 0 === _ref$formatYear ? formatYear : _ref$formatYear,
-        otherProps = _objectWithoutProperties$6(
+        otherProps = _object_without_properties$6(
             _ref,
             [
                 "classes",
@@ -4953,7 +4953,7 @@ function ownKeys$7(
     }
     return keys;
 }
-function _objectSpread$7(
+function _object_spread$7(
     target
 ) {
     for (var i = 1; i < arguments.length; i++) {
@@ -4971,7 +4971,7 @@ function _objectSpread$7(
                 function (
                     key
                 ) {
-                    _defineProperty$7(
+                    _define_property$7(
                         target,
                         key,
                         source[key]
@@ -5006,7 +5006,7 @@ function _objectSpread$7(
     }
     return target;
 }
-function _defineProperty$7(
+function _define_property$7(
     obj, key, value
 ) {
     return (
@@ -5114,7 +5114,7 @@ function ownKeys$6(
     }
     return keys;
 }
-function _objectSpread$6(
+function _object_spread$6(
     target
 ) {
     for (var i = 1; i < arguments.length; i++) {
@@ -5132,7 +5132,7 @@ function _objectSpread$6(
                 function (
                     key
                 ) {
-                    _defineProperty$6(
+                    _define_property$6(
                         target,
                         key,
                         source[key]
@@ -5167,7 +5167,7 @@ function _objectSpread$6(
     }
     return target;
 }
-function _defineProperty$6(
+function _define_property$6(
     obj, key, value
 ) {
     return (
@@ -5208,14 +5208,14 @@ function _extends$8(
         arguments
     );
 }
-function _objectWithoutProperties$5(
+function _object_without_properties$5(
     source, excluded
 ) {
     if (null == source) return {
     };
     var key,
         i,
-        target = _objectWithoutPropertiesLoose$5(
+        target = _object_without_properties_loose$5(
             source,
             excluded
         );
@@ -5236,7 +5236,7 @@ function _objectWithoutProperties$5(
     }
     return target;
 }
-function _objectWithoutPropertiesLoose$5(
+function _object_without_properties_loose$5(
     source, excluded
 ) {
     if (null == source) return {
@@ -5255,8 +5255,8 @@ function _objectWithoutPropertiesLoose$5(
         ) >= 0 || (target[key] = source[key]);
     return target;
 }
-(Decade.propTypes = _objectSpread$8(
-    _objectSpread$8(
+(Decade.propTypes = _object_spread$8(
+    _object_spread$8(
         {
         },
         tileProps
@@ -5267,7 +5267,7 @@ function _objectWithoutPropertiesLoose$5(
         formatYear: PropTypes.func,
     }
 )),
-(Decades.propTypes = _objectSpread$7(
+(Decades.propTypes = _object_spread$7(
     {
     },
     tileGroupProps
@@ -5280,7 +5280,7 @@ function Year(
         _ref$formatYear = _ref.formatYear,
         formatYear$1 =
             void 0 === _ref$formatYear ? formatYear : _ref$formatYear,
-        otherProps = _objectWithoutProperties$5(
+        otherProps = _object_without_properties$5(
             _ref,
             [
                 "classes",
@@ -5339,7 +5339,7 @@ function ownKeys$5(
     }
     return keys;
 }
-function _objectSpread$5(
+function _object_spread$5(
     target
 ) {
     for (var i = 1; i < arguments.length; i++) {
@@ -5357,7 +5357,7 @@ function _objectSpread$5(
                 function (
                     key
                 ) {
-                    _defineProperty$5(
+                    _define_property$5(
                         target,
                         key,
                         source[key]
@@ -5392,7 +5392,7 @@ function _objectSpread$5(
     }
     return target;
 }
-function _defineProperty$5(
+function _define_property$5(
     obj, key, value
 ) {
     return (
@@ -5518,7 +5518,7 @@ function ownKeys$4(
     }
     return keys;
 }
-function _objectSpread$4(
+function _object_spread$4(
     target
 ) {
     for (var i = 1; i < arguments.length; i++) {
@@ -5536,7 +5536,7 @@ function _objectSpread$4(
                 function (
                     key
                 ) {
-                    _defineProperty$4(
+                    _define_property$4(
                         target,
                         key,
                         source[key]
@@ -5571,7 +5571,7 @@ function _objectSpread$4(
     }
     return target;
 }
-function _defineProperty$4(
+function _define_property$4(
     obj, key, value
 ) {
     return (
@@ -5612,14 +5612,14 @@ function _extends$6(
         arguments
     );
 }
-function _objectWithoutProperties$4(
+function _object_without_properties$4(
     source, excluded
 ) {
     if (null == source) return {
     };
     var key,
         i,
-        target = _objectWithoutPropertiesLoose$4(
+        target = _object_without_properties_loose$4(
             source,
             excluded
         );
@@ -5640,7 +5640,7 @@ function _objectWithoutProperties$4(
     }
     return target;
 }
-function _objectWithoutPropertiesLoose$4(
+function _object_without_properties_loose$4(
     source, excluded
 ) {
     if (null == source) return {
@@ -5659,8 +5659,8 @@ function _objectWithoutPropertiesLoose$4(
         ) >= 0 || (target[key] = source[key]);
     return target;
 }
-(Year.propTypes = _objectSpread$6(
-    _objectSpread$6(
+(Year.propTypes = _object_spread$6(
+    _object_spread$6(
         {
         },
         tileProps
@@ -5671,7 +5671,7 @@ function _objectWithoutPropertiesLoose$4(
         formatYear: PropTypes.func,
     }
 )),
-(Years.propTypes = _objectSpread$5(
+(Years.propTypes = _object_spread$5(
     {
     },
     tileGroupProps
@@ -5689,7 +5689,7 @@ function Month(
             void 0 === _ref$formatMonthYear
                 ? formatMonthYear
                 : _ref$formatMonthYear,
-        otherProps = _objectWithoutProperties$4(
+        otherProps = _object_without_properties$4(
             _ref,
             [
                 "classes",
@@ -5750,7 +5750,7 @@ function ownKeys$3(
     }
     return keys;
 }
-function _objectSpread$3(
+function _object_spread$3(
     target
 ) {
     for (var i = 1; i < arguments.length; i++) {
@@ -5768,7 +5768,7 @@ function _objectSpread$3(
                 function (
                     key
                 ) {
-                    _defineProperty$3(
+                    _define_property$3(
                         target,
                         key,
                         source[key]
@@ -5803,7 +5803,7 @@ function _objectSpread$3(
     }
     return target;
 }
-function _defineProperty$3(
+function _define_property$3(
     obj, key, value
 ) {
     return (
@@ -5928,7 +5928,7 @@ function ownKeys$2(
     }
     return keys;
 }
-function _objectSpread$2(
+function _object_spread$2(
     target
 ) {
     for (var i = 1; i < arguments.length; i++) {
@@ -5946,7 +5946,7 @@ function _objectSpread$2(
                 function (
                     key
                 ) {
-                    _defineProperty$2(
+                    _define_property$2(
                         target,
                         key,
                         source[key]
@@ -5981,7 +5981,7 @@ function _objectSpread$2(
     }
     return target;
 }
-function _defineProperty$2(
+function _define_property$2(
     obj, key, value
 ) {
     return (
@@ -6022,14 +6022,14 @@ function _extends$4(
         arguments
     );
 }
-function _objectWithoutProperties$3(
+function _object_without_properties$3(
     source, excluded
 ) {
     if (null == source) return {
     };
     var key,
         i,
-        target = _objectWithoutPropertiesLoose$3(
+        target = _object_without_properties_loose$3(
             source,
             excluded
         );
@@ -6050,7 +6050,7 @@ function _objectWithoutProperties$3(
     }
     return target;
 }
-function _objectWithoutPropertiesLoose$3(
+function _object_without_properties_loose$3(
     source, excluded
 ) {
     if (null == source) return {
@@ -6069,8 +6069,8 @@ function _objectWithoutPropertiesLoose$3(
         ) >= 0 || (target[key] = source[key]);
     return target;
 }
-(Month.propTypes = _objectSpread$4(
-    _objectSpread$4(
+(Month.propTypes = _object_spread$4(
+    _object_spread$4(
         {
         },
         tileProps
@@ -6082,8 +6082,8 @@ function _objectWithoutPropertiesLoose$3(
         formatMonthYear: PropTypes.func,
     }
 )),
-(Months.propTypes = _objectSpread$3(
-    _objectSpread$3(
+(Months.propTypes = _object_spread$3(
+    _object_spread$3(
         {
         },
         tileGroupProps
@@ -6108,7 +6108,7 @@ function Day(
         calendarType = _ref.calendarType,
         classes = _ref.classes,
         currentMonthIndex = _ref.currentMonthIndex,
-        otherProps = _objectWithoutProperties$3(
+        otherProps = _object_without_properties$3(
             _ref,
             [
                 "formatDay",
@@ -6187,7 +6187,7 @@ function ownKeys$1(
     }
     return keys;
 }
-function _objectSpread$1(
+function _object_spread$1(
     target
 ) {
     for (var i = 1; i < arguments.length; i++) {
@@ -6205,7 +6205,7 @@ function _objectSpread$1(
                 function (
                     key
                 ) {
-                    _defineProperty$1(
+                    _define_property$1(
                         target,
                         key,
                         source[key]
@@ -6240,7 +6240,7 @@ function _objectSpread$1(
     }
     return target;
 }
-function _defineProperty$1(
+function _define_property$1(
     obj, key, value
 ) {
     return (
@@ -6281,14 +6281,14 @@ function _extends$3(
         arguments
     );
 }
-function _objectWithoutProperties$2(
+function _object_without_properties$2(
     source, excluded
 ) {
     if (null == source) return {
     };
     var key,
         i,
-        target = _objectWithoutPropertiesLoose$2(
+        target = _object_without_properties_loose$2(
             source,
             excluded
         );
@@ -6309,7 +6309,7 @@ function _objectWithoutProperties$2(
     }
     return target;
 }
-function _objectWithoutPropertiesLoose$2(
+function _object_without_properties_loose$2(
     source, excluded
 ) {
     if (null == source) return {
@@ -6335,7 +6335,7 @@ function Days(
         calendarType = props.calendarType,
         showFixedNumberOfWeeks = props.showFixedNumberOfWeeks,
         showNeighboringMonth = props.showNeighboringMonth,
-        otherProps = _objectWithoutProperties$2(
+        otherProps = _object_without_properties$2(
             props,
             [
                 "showFixedNumberOfWeeks",
@@ -6425,8 +6425,8 @@ function Days(
         )
     );
 }
-(Day.propTypes = _objectSpread$2(
-    _objectSpread$2(
+(Day.propTypes = _object_spread$2(
+    _object_spread$2(
         {
         },
         tileProps
@@ -6439,7 +6439,7 @@ function Days(
         formatLongDate: PropTypes.func,
     }
 )),
-(Days.propTypes = _objectSpread$1(
+(Days.propTypes = _object_spread$1(
     {
         calendarType: isCalendarType.isRequired,
         showFixedNumberOfWeeks: PropTypes.bool,
@@ -6708,14 +6708,14 @@ function _extends$1(
         arguments
     );
 }
-function _objectWithoutProperties$1(
+function _object_without_properties$1(
     source, excluded
 ) {
     if (null == source) return {
     };
     var key,
         i,
-        target = _objectWithoutPropertiesLoose$1(
+        target = _object_without_properties_loose$1(
             source,
             excluded
         );
@@ -6736,7 +6736,7 @@ function _objectWithoutProperties$1(
     }
     return target;
 }
-function _objectWithoutPropertiesLoose$1(
+function _object_without_properties_loose$1(
     source, excluded
 ) {
     if (null == source) return {
@@ -6789,7 +6789,7 @@ function MonthView(
         formatShortWeekday = props.formatShortWeekday,
         onClickWeekNumber = props.onClickWeekNumber,
         showWeekNumbers = props.showWeekNumbers,
-        childProps = _objectWithoutProperties$1(
+        childProps = _object_without_properties$1(
             props,
             [
                 "calendarType",
@@ -6906,7 +6906,7 @@ function _typeof(
         obj
     );
 }
-function _classCallCheck(
+function _class_call_check(
     instance, Constructor
 ) {
     if (!(instance instanceof Constructor))
@@ -6929,7 +6929,7 @@ function _defineProperties(
         );
     }
 }
-function _createClass(
+function _create_class(
     Constructor, protoProps, staticProps
 ) {
     return (
@@ -6961,15 +6961,15 @@ function _inherits(
             },
         }
     )),
-    superClass && _setPrototypeOf(
+    superClass && _set_prototype_of(
         subClass,
         superClass
     );
 }
-function _setPrototypeOf(
+function _set_prototype_of(
     o, p
 ) {
-    return (_setPrototypeOf =
+    return (_set_prototype_of =
         Object.setPrototypeOf ||
         function (
             o, p
@@ -6980,19 +6980,19 @@ function _setPrototypeOf(
         p
     );
 }
-function _createSuper(
+function _create_super(
     Derived
 ) {
-    var hasNativeReflectConstruct = _isNativeReflectConstruct(
+    var hasNativeReflectConstruct = _is_native_reflect_construct(
     );
     return function (
     ) {
         var result,
-            Super = _getPrototypeOf(
+            Super = _get_prototype_of(
                 Derived
             );
         if (hasNativeReflectConstruct) {
-            var NewTarget = _getPrototypeOf(
+            var NewTarget = _get_prototype_of(
                 this
             ).constructor;
             result = Reflect.construct(
@@ -7004,24 +7004,24 @@ function _createSuper(
             this,
             arguments
         );
-        return _possibleConstructorReturn(
+        return _possible_constructor_return(
             this,
             result
         );
     };
 }
-function _possibleConstructorReturn(
+function _possible_constructor_return(
     self, call
 ) {
     return !call || ("object" !== _typeof(
         call
     ) && "function" != typeof call)
-        ? _assertThisInitialized(
+        ? _assert_this_initialized(
             self
         )
         : call;
 }
-function _assertThisInitialized(
+function _assert_this_initialized(
     self
 ) {
     if (void 0 === self)
@@ -7030,7 +7030,7 @@ function _assertThisInitialized(
         );
     return self;
 }
-function _isNativeReflectConstruct(
+function _is_native_reflect_construct(
 ) {
     if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
     if (Reflect.construct.sham) return !1;
@@ -7051,10 +7051,10 @@ function _isNativeReflectConstruct(
         return !1;
     }
 }
-function _getPrototypeOf(
+function _get_prototype_of(
     o
 ) {
-    return (_getPrototypeOf = Object.setPrototypeOf
+    return (_get_prototype_of = Object.setPrototypeOf
         ? Object.getPrototypeOf
         : function (
             o
@@ -7094,7 +7094,7 @@ function ownKeys(
     }
     return keys;
 }
-function _objectSpread(
+function _object_spread(
     target
 ) {
     for (var i = 1; i < arguments.length; i++) {
@@ -7112,7 +7112,7 @@ function _objectSpread(
                 function (
                     key
                 ) {
-                    _defineProperty(
+                    _define_property(
                         target,
                         key,
                         source[key]
@@ -7147,7 +7147,7 @@ function _objectSpread(
     }
     return target;
 }
-function _defineProperty(
+function _define_property(
     obj, key, value
 ) {
     return (
@@ -7166,14 +7166,14 @@ function _defineProperty(
         obj
     );
 }
-function _objectWithoutProperties(
+function _object_without_properties(
     source, excluded
 ) {
     if (null == source) return {
     };
     var key,
         i,
-        target = _objectWithoutPropertiesLoose(
+        target = _object_without_properties_loose(
             source,
             excluded
         );
@@ -7194,7 +7194,7 @@ function _objectWithoutProperties(
     }
     return target;
 }
-function _objectWithoutPropertiesLoose(
+function _object_without_properties_loose(
     source, excluded
 ) {
     if (null == source) return {
@@ -7213,17 +7213,17 @@ function _objectWithoutPropertiesLoose(
         ) >= 0 || (target[key] = source[key]);
     return target;
 }
-function _toConsumableArray(
+function _to_consumable_array(
     arr
 ) {
     return (
-        _arrayWithoutHoles(
+        _array_without_holes(
             arr
         ) ||
         _iterableToArray(
             arr
         ) ||
-        _unsupportedIterableToArray(
+        _unsupported_iterable_to_array(
             arr
         ) ||
         _nonIterableSpread(
@@ -7236,11 +7236,11 @@ function _nonIterableSpread(
         "Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."
     );
 }
-function _unsupportedIterableToArray(
+function _unsupported_iterable_to_array(
     o, minLen
 ) {
     if (o) {
-        if ("string" == typeof o) return _arrayLikeToArray(
+        if ("string" == typeof o) return _array_like_to_array(
             o,
             minLen
         );
@@ -7260,7 +7260,7 @@ function _unsupportedIterableToArray(
                   /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(
                       n
                   )
-                    ? _arrayLikeToArray(
+                    ? _array_like_to_array(
                         o,
                         minLen
                     )
@@ -7278,16 +7278,16 @@ function _iterableToArray(
             iter
         );
 }
-function _arrayWithoutHoles(
+function _array_without_holes(
     arr
 ) {
     if (Array.isArray(
         arr
-    )) return _arrayLikeToArray(
+    )) return _array_like_to_array(
         arr
     );
 }
-function _arrayLikeToArray(
+function _array_like_to_array(
     arr, len
 ) {
     (null == len || len > arr.length) && (len = arr.length);
@@ -7348,7 +7348,7 @@ var defaultMaxDate = new Date(
     baseClassName = "react-calendar",
     allViews = ["century", "decade", "year", "month",],
     allValueTypes = [].concat(
-        _toConsumableArray(
+        _to_consumable_array(
             allViews.slice(
                 1
             )
@@ -7523,7 +7523,7 @@ function getInitialActiveStartDate(
         minDetail = props.minDetail,
         value = props.value,
         view = props.view,
-        otherProps = _objectWithoutProperties(
+        otherProps = _object_without_properties(
             props,
             [
                 "activeStartDate",
@@ -7548,7 +7548,7 @@ function getInitialActiveStartDate(
             valueFrom
         )
         : getActiveStartDate(
-            _objectSpread(
+            _object_spread(
                 {
                     maxDetail: maxDetail,
                     minDetail: minDetail,
@@ -7573,13 +7573,13 @@ var getIsSingleValue = function (
             Calendar,
             _
         );
-        var _super = _createSuper(
+        var _super = _create_super(
             Calendar
         );
         function Calendar(
         ) {
             var _this;
-            _classCallCheck(
+            _class_call_check(
                 this,
                 Calendar
             );
@@ -7592,8 +7592,8 @@ var getIsSingleValue = function (
             )
                 _args[_key] = arguments[_key];
             return (
-                _defineProperty(
-                    _assertThisInitialized(
+                _define_property(
+                    _assert_this_initialized(
                         (_this = _super.call.apply(
                             _super,
                             [this,].concat(
@@ -7608,8 +7608,8 @@ var getIsSingleValue = function (
                         view: _this.props.defaultView,
                     }
                 ),
-                _defineProperty(
-                    _assertThisInitialized(
+                _define_property(
+                    _assert_this_initialized(
                         _this
                     ),
                     "setStateAndCallCallbacks",
@@ -7617,7 +7617,7 @@ var getIsSingleValue = function (
                         nextState, event, callback
                     ) {
                         var _assertThisInitialize =
-                                _assertThisInitialized(
+                                _assert_this_initialized(
                                     _this
                                 ),
                             previousActiveStartDate =
@@ -7702,8 +7702,8 @@ var getIsSingleValue = function (
                         );
                     }
                 ),
-                _defineProperty(
-                    _assertThisInitialized(
+                _define_property(
+                    _assert_this_initialized(
                         _this
                     ),
                     "setActiveStartDate",
@@ -7717,8 +7717,8 @@ var getIsSingleValue = function (
                         );
                     }
                 ),
-                _defineProperty(
-                    _assertThisInitialized(
+                _define_property(
+                    _assert_this_initialized(
                         _this
                     ),
                     "drillDown",
@@ -7731,7 +7731,7 @@ var getIsSingleValue = function (
                                 event
                             );
                             var _assertThisInitialize2 =
-                                    _assertThisInitialized(
+                                    _assert_this_initialized(
                                         _this
                                     ),
                                 view = _assertThisInitialize2.view,
@@ -7751,8 +7751,8 @@ var getIsSingleValue = function (
                         }
                     }
                 ),
-                _defineProperty(
-                    _assertThisInitialized(
+                _define_property(
+                    _assert_this_initialized(
                         _this
                     ),
                     "drillUp",
@@ -7760,7 +7760,7 @@ var getIsSingleValue = function (
                     ) {
                         if (_this.drillUpAvailable) {
                             var _assertThisInitialize3 =
-                                    _assertThisInitialized(
+                                    _assert_this_initialized(
                                         _this
                                     ),
                                 activeStartDate =
@@ -7786,8 +7786,8 @@ var getIsSingleValue = function (
                         }
                     }
                 ),
-                _defineProperty(
-                    _assertThisInitialized(
+                _define_property(
+                    _assert_this_initialized(
                         _this
                     ),
                     "onChange",
@@ -7801,7 +7801,7 @@ var getIsSingleValue = function (
                             event
                         ), selectRange)) {
                             var _assertThisInitialize4 =
-                                    _assertThisInitialized(
+                                    _assert_this_initialized(
                                         _this
                                     ),
                                 previousValue = _assertThisInitialize4.value,
@@ -7822,8 +7822,8 @@ var getIsSingleValue = function (
                             value
                         );
                         var nextActiveStartDate = getActiveStartDate(
-                            _objectSpread(
-                                _objectSpread(
+                            _object_spread(
+                                _object_spread(
                                     {
                                     },
                                     _this.props
@@ -7846,15 +7846,15 @@ var getIsSingleValue = function (
                         );
                     }
                 ),
-                _defineProperty(
-                    _assertThisInitialized(
+                _define_property(
+                    _assert_this_initialized(
                         _this
                     ),
                     "onClickTile",
                     function (
                         value, event
                     ) {
-                        var view = _assertThisInitialized(
+                        var view = _assert_this_initialized(
                                 _this
                             ).view,
                             _this$props2 = _this.props,
@@ -7889,8 +7889,8 @@ var getIsSingleValue = function (
                         );
                     }
                 ),
-                _defineProperty(
-                    _assertThisInitialized(
+                _define_property(
+                    _assert_this_initialized(
                         _this
                     ),
                     "onMouseOver",
@@ -7913,8 +7913,8 @@ var getIsSingleValue = function (
                         );
                     }
                 ),
-                _defineProperty(
-                    _assertThisInitialized(
+                _define_property(
+                    _assert_this_initialized(
                         _this
                     ),
                     "onMouseLeave",
@@ -7931,7 +7931,7 @@ var getIsSingleValue = function (
             );
         }
         return (
-            _createClass(
+            _create_class(
                 Calendar,
                 [
                     {

@@ -1,4 +1,10 @@
 {
+  "bar": [
+    {
+      "type": "local",
+      "name": "__local__bar"
+    }
+  ],
   "two": [
     {
       "type": "local",
@@ -15,12 +21,6 @@
     {
       "type": "local",
       "name": "__local__one"
-    }
-  ],
-  "bar": [
-    {
-      "type": "local",
-      "name": "__local__bar"
     }
   ]
 }

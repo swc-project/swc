@@ -1,10 +1,10 @@
 //// [thisAndSuperInStaticMembers2.ts]
-import _extends from "@swc/helpers/src/_extends.mjs";
-import _get from "@swc/helpers/src/_get.mjs";
-import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
-import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
-import _set from "@swc/helpers/src/_set.mjs";
-import _update from "@swc/helpers/src/_update.mjs";
+import { _ as _extends } from "@swc/helpers/_/_extends";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
+import { _ as _set } from "@swc/helpers/_/_set";
+import { _ as _update } from "@swc/helpers/_/_update";
 class C extends B {
     constructor(...args){
         super(...args);

@@ -2,25 +2,25 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
-var _createClass = require("@swc/helpers/lib/_create_class.js").default;
-var _get = require("@swc/helpers/lib/_get.js").default;
-var _getPrototypeOf = require("@swc/helpers/lib/_get_prototype_of.js").default;
-var _inherits = require("@swc/helpers/lib/_inherits.js").default;
-var _createSuper = require("@swc/helpers/lib/_create_super.js").default;
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
+var _create_class = require("@swc/helpers/_/_create_class");
+var _get = require("@swc/helpers/_/_get");
+var _get_prototype_of = require("@swc/helpers/_/_get_prototype_of");
+var _inherits = require("@swc/helpers/_/_inherits");
+var _create_super = require("@swc/helpers/_/_create_super");
 var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement1) {
     "use strict";
-    _inherits(ColouredCanvasElement, CanvasElement1);
-    var _super = _createSuper(ColouredCanvasElement);
+    _inherits._(ColouredCanvasElement, CanvasElement1);
+    var _super = _create_super._(ColouredCanvasElement);
     function ColouredCanvasElement() {
-        _classCallCheck(this, ColouredCanvasElement);
+        _class_call_check._(this, ColouredCanvasElement);
         return _super.apply(this, arguments);
     }
-    _createClass(ColouredCanvasElement, [
+    _create_class._(ColouredCanvasElement, [
         {
             key: "createFacets",
             value: function createFacets(hidden) {
-                hidden = _get(_getPrototypeOf(ColouredCanvasElement.prototype), "createFacets", this).call(this, hidden);
+                hidden = _get._(_get_prototype_of._(ColouredCanvasElement.prototype), "createFacets", this).call(this, hidden);
             }
         }
     ]);

@@ -26,13 +26,13 @@ os:
 check:
   swc:
     # plugin feature is verified by other tasks
-    - "cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin-bytecheck"
+    - "cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest"
   swc_bundler:
     - "cargo hack check --feature-powerset --no-dev-deps"
   swc_common:
-    - "cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest --exclude-features __plugin --exclude-features __plugin_mode --exclude-features __plugin_rt --exclude-features __rkyv --exclude-features plugin-bytecheck-base --exclude-features plugin-bytecheck-mode --exclude-features plugin-bytecheck-rt --exclude-features rkyv-bytecheck-impl --exclude-features rkyv-impl"
+    - "cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest --exclude-features __plugin --exclude-features __plugin_mode --exclude-features __plugin_rt --exclude-features __rkyv --exclude-features rkyv-impl"
   swc_ecma_ast:
-    - "cargo hack check --feature-powerset --no-dev-deps --exclude-features __rkyv --exclude-features rkyv-bytecheck-impl"
+    - "cargo hack check --feature-powerset --no-dev-deps --exclude-features __rkyv"
   swc_ecma_loader:
     - "cargo hack check --feature-powerset --no-dev-deps"
   swc_ecma_transforms:

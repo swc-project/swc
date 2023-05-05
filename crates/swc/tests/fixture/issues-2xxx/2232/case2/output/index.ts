@@ -1,6 +1,6 @@
-import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
-import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 var resolver = {
     sendSomeMessage: function sendSomeMessage(_parent, _param, _param1) {
         return _async_to_generator(function() {

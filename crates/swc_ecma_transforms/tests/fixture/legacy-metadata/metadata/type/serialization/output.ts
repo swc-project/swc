@@ -11,11 +11,11 @@ let Sample = class Sample {
      * Assignments
      */ assignments(p0: string = "abc") {}
 };
-__decorate([
+_ts_decorate([
     Decorate,
-    __param(0, Arg()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+    _ts_param(0, Arg()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         typeof Symbol === "undefined" ? Object : Symbol,
         Object,
         Object,
@@ -36,25 +36,25 @@ __decorate([
         typeof BigInt === "undefined" ? Object : BigInt
     ])
 ], Sample.prototype, "method", null);
-__decorate([
+_ts_decorate([
     Decorate(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         typeof Decorate === "undefined" || typeof Decorate.Name === "undefined" ? Object : Decorate.Name,
         typeof Decorate === "undefined" || typeof Decorate.Name === "undefined" ? Object : Decorate.Name
     ])
 ], Sample.prototype, "method2", null);
-__decorate([
+_ts_decorate([
     Decorate(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         String
     ])
 ], Sample.prototype, "assignments", null);
-Sample = __decorate([
+Sample = _ts_decorate([
     Decorate(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         typeof String === "undefined" ? Object : String,
         typeof Number === "undefined" ? Object : Number,
         Number,

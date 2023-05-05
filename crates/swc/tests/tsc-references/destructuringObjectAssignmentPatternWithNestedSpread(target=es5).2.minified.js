@@ -1,6 +1,6 @@
 //// [destructuringObjectAssignmentPatternWithNestedSpread.ts]
 var _c, ref1, d;
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 _object_without_properties((_c = {
     x: {
         a: 1,

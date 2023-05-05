@@ -35,7 +35,7 @@ compile_error!(
 /// however it is not gauranteed to be compatible across wasmer's
 /// internal changes.
 /// https://github.com/wasmerio/wasmer/issues/2781
-const MODULE_SERIALIZATION_VERSION: &str = "v4";
+const MODULE_SERIALIZATION_VERSION: &str = "v6";
 
 /// A shared instance to plugin's module bytecode cache.
 pub static PLUGIN_MODULE_CACHE: Lazy<PluginModuleCache> = Lazy::new(Default::default);
@@ -80,7 +80,13 @@ fn create_filesystem_cache(filesystem_cache_root: &Option<String>) -> Option<Fil
 
     if let Some(root_path) = &mut root_path {
         root_path.push("plugins");
-        root_path.push(MODULE_SERIALIZATION_VERSION);
+        root_path.push(format!(
+            "{}_{}_{}_{}",
+            MODULE_SERIALIZATION_VERSION,
+            std::env::consts::OS,
+            std::env::consts::ARCH,
+            option_env!("CARGO_PKG_VERSION").unwrap_or("plugin_runner_unknown")
+        ));
 
         return FileSystemCache::new(&root_path).ok();
     }
@@ -108,7 +114,7 @@ pub fn init_plugin_module_cache_once(filesystem_cache_root: &Option<String>) {
 }
 
 #[cfg(feature = "memory_cache")]
-pub fn init_plugin_module_cache_once() {
+pub fn init_plugin_module_cache_once(_unused_cache_root: &Option<String>) {
     PLUGIN_MODULE_CACHE.inner.get_or_init(|| {
         Mutex::new(CacheInner {
             loaded_module_bytes: Default::default(),
@@ -138,23 +144,29 @@ impl PluginModuleCache {
     /// In actual transform, `plugins` is also being called per each transform.
     #[cfg(feature = "filesystem_cache")]
     #[tracing::instrument(level = "info", skip_all)]
-    pub fn load_module(&self, binary_path: &Path) -> Result<Module, Error> {
+    pub fn load_module(&self, wasmer_store: &Store, binary_path: &Path) -> Result<Module, Error> {
         let binary_path = binary_path.to_path_buf();
         let mut inner_cache = self.inner.get().expect("Cache should be available").lock();
 
         // if constructed Module is available in-memory, directly return it.
         // Note we do not invalidate in-memory cache currently: if wasm binary is
         // replaced in-process lifecycle (i.e devserver) it won't be reflected.
+
+        /*
+        [TODO]: This is currently disabled, since on the latest wasmer@3 subsequent
+        plugin load via in memory module causes intermittent heap_get_oob when
+        host tries to allocate memory inside of the guest.
+
+        Current guess is memory instance is being corrupted by the previous run, but
+        until figure out root cause & fix will only use fs_cache directly.
         let in_memory_module = inner_cache.loaded_module_bytes.get(&binary_path);
         if let Some(module) = in_memory_module {
             return Ok(module.clone());
-        }
+        }*/
 
         let module_bytes =
             std::fs::read(&binary_path).context("Cannot read plugin from specified path")?;
         let module_bytes_hash = Hash::generate(&module_bytes);
-
-        let wasmer_store = new_store();
 
         let load_cold_wasm_bytes = || {
             let span = tracing::span!(
@@ -165,7 +177,7 @@ impl PluginModuleCache {
             let span_guard = span.enter();
             let _lock = self.instantiation_lock.lock();
             let ret =
-                Module::new(&wasmer_store, module_bytes).context("Cannot compile plugin binary");
+                Module::new(wasmer_store, module_bytes).context("Cannot compile plugin binary");
             drop(span_guard);
             ret
         };
@@ -173,7 +185,7 @@ impl PluginModuleCache {
         // Try to load compiled bytes from filesystem cache if available.
         // Otherwise, cold compile instead.
         let module = if let Some(fs_cache) = &mut inner_cache.fs_cache {
-            let load_result = unsafe { fs_cache.load(&wasmer_store, module_bytes_hash) };
+            let load_result = unsafe { fs_cache.load(wasmer_store, module_bytes_hash) };
             if let Ok(module) = load_result {
                 module
             } else {
@@ -194,7 +206,7 @@ impl PluginModuleCache {
 
     #[cfg(feature = "memory_cache")]
     #[tracing::instrument(level = "info", skip_all)]
-    pub fn load_module(&self, binary_path: &Path) -> Result<Module, Error> {
+    pub fn load_module(&self, wasmer_store: &Store, binary_path: &Path) -> Result<Module, Error> {
         let binary_path = binary_path.to_path_buf();
         let mut inner_cache = self.inner.get().expect("Cache should be available").lock();
 
@@ -209,9 +221,7 @@ impl PluginModuleCache {
 
         //TODO: In native runtime we have to reconstruct module using raw bytes in
         // memory cache. requires https://github.com/wasmerio/wasmer/pull/2821
-
-        let wasmer_store = new_store();
-        let module = Module::new(&wasmer_store, in_memory_module_bytes)?;
+        let module = Module::new(wasmer_store, in_memory_module_bytes)?;
 
         Ok(module)
     }
@@ -238,29 +248,4 @@ impl PluginModuleCache {
                 .insert(binary_path, module_bytes);
         }
     }
-}
-
-/// Creates an instnace of  [Store].
-///
-/// This function exists because we need to disable simd.
-#[cfg(not(target_arch = "wasm32"))]
-#[allow(unused_mut)]
-fn new_store() -> Store {
-    // Use empty enumset to disable simd.
-    let mut set = EnumSet::new();
-    #[cfg(target_arch = "x86_64")]
-    set.insert(CpuFeature::SSE2);
-    let target = Target::new(Triple::host(), set);
-
-    let config = wasmer_compiler_cranelift::Cranelift::default();
-    let engine = wasmer_engine_universal::Universal::new(config)
-        .target(target)
-        .engine();
-    let tunables = BaseTunables::for_target(engine.target());
-    Store::new_with_tunables(&engine, tunables)
-}
-
-#[cfg(target_arch = "wasm32")]
-fn new_store() -> Store {
-    Store::default()
 }

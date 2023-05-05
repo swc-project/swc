@@ -607,21 +607,21 @@ to!(
     export class Logger {
     constructor(loggerName, levelName, options = {
     }){
-        _classPrivateFieldInit(this, _level, {
+        _class_private_field_init(this, _level, {
             writable: true,
             value: void 0
         });
-        _classPrivateFieldInit(this, _handlers, {
+        _class_private_field_init(this, _handlers, {
             writable: true,
             value: void 0
         });
-        _classPrivateFieldInit(this, _loggerName, {
+        _class_private_field_init(this, _loggerName, {
             writable: true,
             value: void 0
         });
-        _classPrivateFieldSet(this, _loggerName, loggerName);
-        _classPrivateFieldSet(this, _level, getLevelByName(levelName));
-        _classPrivateFieldSet(this, _handlers, options.handlers || []);
+        _class_private_field_set(this, _loggerName, loggerName);
+        _class_private_field_set(this, _level, getLevelByName(levelName));
+        _class_private_field_set(this, _handlers, options.handlers || []);
     }
 }"
 );
@@ -843,7 +843,7 @@ test!(
             console.log(this.action);
         }
     }
-    __decorate([
+    _ts_decorate([
         DefineAction()
     ], Child.prototype, "action", void 0);
     
@@ -3128,14 +3128,14 @@ test!(
     "
     class Service {
       is(a) {
-        return _asyncToGenerator(function* () {
+        return _async_to_generator(function* () {
           return a.toUpperCase() === a;
         })();
       }
 
     }
 
-    _asyncToGenerator(function* () {
+    _async_to_generator(function* () {
       yield new Service().is('ABC');
     })();
     "
@@ -4035,11 +4035,11 @@ to!(
     var _store = new WeakMap(), _body = new WeakMap();
     export class Context {
         constructor(optionsOrContext){
-            _classPrivateFieldInit(this, _store, {
+            _class_private_field_init(this, _store, {
                 writable: true,
                 value: void 0
             });
-            _classPrivateFieldInit(this, _body, {
+            _class_private_field_init(this, _body, {
                 writable: true,
                 value: void 0
             });

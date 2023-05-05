@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "Task", {
     enumerable: !0,
-    get: ()=>Task
+    get: function() {
+        return Task;
+    }
 });
 class Task extends Promise {
 }
@@ -12,4 +14,4 @@ class Task extends Promise {
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), require("@swc/helpers/lib/_async_to_generator.js").default;
+}), require("@swc/helpers/_/_async_to_generator");

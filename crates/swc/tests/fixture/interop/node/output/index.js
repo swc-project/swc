@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 0 && (module.exports = {
-    x: _,
-    y: _,
-    default: _
+    x: null,
+    y: null,
+    default: null
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
@@ -14,13 +14,19 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    x: ()=>x,
-    y: ()=>y,
-    default: ()=>_default
+    x: function() {
+        return x;
+    },
+    y: function() {
+        return y;
+    },
+    default: function() {
+        return _default;
+    }
 });
-const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 const _foo = require("foo");
-const _bar = /*#__PURE__*/ _interopRequireWildcard(require("bar"), true);
+const _bar = /*#__PURE__*/ _interop_require_wildcard._(require("bar"), true);
 const x = {
     foo: _foo,
     bar: _bar.default

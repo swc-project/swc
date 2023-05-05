@@ -17,7 +17,11 @@
         });
     }
     _export(exports, {
-        bar: ()=>_foo.bar,
-        foo: ()=>_foo.foo
+        bar: function() {
+            return _foo.bar;
+        },
+        foo: function() {
+            return _foo.foo;
+        }
     });
 });

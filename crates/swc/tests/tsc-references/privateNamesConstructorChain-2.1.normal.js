@@ -1,8 +1,8 @@
 //// [privateNamesConstructorChain-2.ts]
-import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
-import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
-import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
-import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
+import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
+import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
+import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
+import { _ as _class_static_private_field_spec_get } from "@swc/helpers/_/_class_static_private_field_spec_get";
 var _foo = /*#__PURE__*/ new WeakMap();
 class Parent {
     accessChildProps() {

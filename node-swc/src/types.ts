@@ -996,11 +996,11 @@ export interface BaseModuleConfig {
    *
    * "use strict";
    *
-   * function _interopRequireDefault(obj) {
+   * function _interop_require_default(obj) {
    *   return obj && obj.__esModule ? obj : { default: obj };
    * }
    *
-   * var _foo = _interopRequireDefault(require("foo"));
+   * var _foo = _interop_require_default(require("foo"));
    * var _bar = require("bar");
    *
    * _foo.default;
@@ -1040,7 +1040,7 @@ export interface BaseModuleConfig {
    * - `none`
    *
    * If you know that the imported file has been transformed with a compiler that stores the `default` export on
-   * `exports.default` (such as swc or Babel), you can safely omit the `_interopRequireDefault` helper.
+   * `exports.default` (such as swc or Babel), you can safely omit the `_interop_require_default` helper.
    *
    * ```javascript
    * import foo from "foo";
@@ -1060,6 +1060,14 @@ export interface BaseModuleConfig {
    * ```
    */
   importInterop?: "swc" | "babel" | "node" | "none";
+  /**
+   * Emits `cjs-module-lexer` annotation
+   * `cjs-module-lexer` is used in Node.js core for detecting the named exports available when importing a CJS module into ESM.
+   * swc will emit `cjs-module-lexer` detectable annotation with this option enabled.
+   * 
+   * Defaults to `true` if import_interop is Node, else `false`
+   */
+  exportInteropAnnotation?: boolean;
   /**
    * If set to true, dynamic imports will be preserved.
    */
@@ -1330,6 +1338,7 @@ export type Expression =
   | TsConstAssertion
   | TsNonNullExpression
   | TsAsExpression
+  | TsSatisfiesExpression
   | TsInstantiation
   | PrivateName
   | OptionalChainingExpression
@@ -2763,6 +2772,13 @@ export interface TsNamespaceExportDeclaration extends Node, HasSpan {
 
 export interface TsAsExpression extends ExpressionBase {
   type: "TsAsExpression";
+
+  expression: Expression;
+  typeAnnotation: TsType;
+}
+
+export interface TsSatisfiesExpression extends ExpressionBase {
+  type: "TsSatisfiesExpression";
 
   expression: Expression;
   typeAnnotation: TsType;

@@ -1,6 +1,6 @@
 //// [file.tsx]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 var p;
 var selfClosed1 = /*#__PURE__*/ React.createElement("div", null);
 var selfClosed2 = /*#__PURE__*/ React.createElement("div", {

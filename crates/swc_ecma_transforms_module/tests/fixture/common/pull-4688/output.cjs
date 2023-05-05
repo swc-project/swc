@@ -9,8 +9,12 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    format: ()=>format,
-    default: ()=>defaultLocale
+    format: function() {
+        return format;
+    },
+    default: function() {
+        return defaultLocale;
+    }
 });
 var format;
 function defaultLocale(definition) {

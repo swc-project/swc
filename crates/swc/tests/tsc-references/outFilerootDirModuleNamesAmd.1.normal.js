@@ -2,19 +2,20 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_default.mjs",
+    "@swc/helpers/_/_interop_require_default",
     "./b"
-], function(require, exports, _interopRequireDefault, _b) {
+], function(require, exports, _interop_require_default, _b) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>Foo
+        get: function() {
+            return Foo;
+        }
     });
-    _interopRequireDefault = _interopRequireDefault.default;
-    _b = /*#__PURE__*/ _interopRequireDefault(_b);
+    _b = /*#__PURE__*/ _interop_require_default._(_b);
     class Foo {
     }
     (0, _b.default)();
@@ -23,26 +24,26 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_default.mjs",
-    "@swc/helpers/src/_interop_require_wildcard.mjs",
+    "@swc/helpers/_/_interop_require_default",
+    "@swc/helpers/_/_interop_require_wildcard",
     "./a"
-], function(require, exports, _interopRequireDefault, _interopRequireWildcard, _a) {
+], function(require, exports, _interop_require_default, _interop_require_wildcard, _a) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     });
-    _interopRequireDefault = _interopRequireDefault.default;
-    _interopRequireWildcard = _interopRequireWildcard.default;
-    _a = /*#__PURE__*/ _interopRequireDefault(_a);
+    _a = /*#__PURE__*/ _interop_require_default._(_a);
     function foo() {
         new _a.default();
     }
     // https://github.com/microsoft/TypeScript/issues/37429
     new Promise((resolve, reject)=>require([
             "./a"
-        ], (m)=>resolve(/*#__PURE__*/ _interopRequireWildcard(m)), reject));
+        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
 });

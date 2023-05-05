@@ -70,17 +70,20 @@ jobs:
           rm -rf tests
           ls -al
 
-      - name: Install cargo-crev
-        uses: baptiste0928/cargo-install@v1.1.0
-        with:
-          crate: cargo-crev
-          version: "0.23.1"
-
-      - name: Configure cargo-crev
+      - name: Configure git
         run: |
           git config --global user.name 'SWC bot'
           git config --global user.email 'bot@swc.rs'
 
+      - name: Install cargo-crev
+        uses: baptiste0928/cargo-install@v1.1.0
+        with:
+          crate: cargo-crev
+          version: "=0.23.5"
+          locked: true
+
+      - name: Configure cargo-crev
+        run: |
           cargo crev trust --level high https://github.com/kdy1/crev-proofs
           cargo crev repo fetch all
 
@@ -232,7 +235,7 @@ jobs:
             os: ubuntu-latest
             runner: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin-bytecheck
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin_transform_host_js --exclude-features plugin_transform_host_native
           - crate: swc
             os: windows-latest
             runner: windows-latest
@@ -251,7 +254,7 @@ jobs:
             os: ubuntu-latest
             runner: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest --exclude-features __plugin --exclude-features __plugin_mode --exclude-features __plugin_rt --exclude-features __rkyv --exclude-features plugin-bytecheck-base --exclude-features plugin-bytecheck-mode --exclude-features plugin-bytecheck-rt --exclude-features rkyv-bytecheck-impl --exclude-features rkyv-impl
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest --exclude-features __plugin --exclude-features __plugin_mode --exclude-features __plugin_rt --exclude-features __rkyv --exclude-features rkyv-impl
           - crate: swc_common
             os: windows-latest
             runner: windows-latest
@@ -310,7 +313,7 @@ jobs:
             os: ubuntu-latest
             runner: ubuntu-latest
             check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features __rkyv --exclude-features rkyv-bytecheck-impl
+              cargo hack check --feature-powerset --no-dev-deps --exclude-features __rkyv
           - crate: swc_ecma_codegen
             os: ubuntu-latest
             runner: ubuntu-latest

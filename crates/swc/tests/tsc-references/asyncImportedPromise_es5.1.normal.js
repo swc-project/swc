@@ -9,37 +9,37 @@ Object.defineProperty(exports, "Task", {
         return Task;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
-var _inherits = require("@swc/helpers/lib/_inherits.js").default;
-var _wrapNativeSuper = require("@swc/helpers/lib/_wrap_native_super.js").default;
-var _createSuper = require("@swc/helpers/lib/_create_super.js").default;
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
+var _inherits = require("@swc/helpers/_/_inherits");
+var _wrap_native_super = require("@swc/helpers/_/_wrap_native_super");
+var _create_super = require("@swc/helpers/_/_create_super");
 var Task = /*#__PURE__*/ function(Promise1) {
     "use strict";
-    _inherits(Task, Promise1);
-    var _super = _createSuper(Task);
+    _inherits._(Task, Promise1);
+    var _super = _create_super._(Task);
     function Task() {
-        _classCallCheck(this, Task);
+        _class_call_check._(this, Task);
         return _super.apply(this, arguments);
     }
     return Task;
-}(_wrapNativeSuper(Promise));
+}(_wrap_native_super._(Promise));
 //// [test.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
-var _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default;
+var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
+var _ts_generator = require("@swc/helpers/_/_ts_generator");
 var Test = /*#__PURE__*/ function() {
     "use strict";
     function Test() {
-        _classCallCheck(this, Test);
+        _class_call_check._(this, Test);
     }
     var _proto = Test.prototype;
     _proto.example = function example() {
-        return _asyncToGenerator(function() {
-            return _tsGenerator(this, function(_state) {
+        return _async_to_generator._(function() {
+            return _ts_generator._(this, function(_state) {
                 return [
                     2
                 ];

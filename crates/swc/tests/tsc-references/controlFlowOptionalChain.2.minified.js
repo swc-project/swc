@@ -1,6 +1,6 @@
 //// [controlFlowOptionalChain.ts]
-import "@swc/helpers/src/_instanceof.mjs";
-import "@swc/helpers/src/_type_of.mjs";
+import "@swc/helpers/_/_instanceof";
+import "@swc/helpers/_/_type_of";
 function someFunction(someOptionalObject) {
     (null == someOptionalObject ? void 0 : someOptionalObject.someProperty) !== lastSomeProperty && (console.log(someOptionalObject), console.log(someOptionalObject.someProperty), lastSomeProperty = null == someOptionalObject ? void 0 : someOptionalObject.someProperty);
 }

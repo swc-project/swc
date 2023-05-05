@@ -1,10 +1,9 @@
 //// [foo_0.ts]
 define([
     "require",
-    "@swc/helpers/src/_class_call_check.mjs"
-], function(require, _classCallCheck) {
+    "@swc/helpers/_/_class_call_check"
+], function(require, _class_call_check) {
     "use strict";
-    _classCallCheck = _classCallCheck.default;
     var E1;
     (function(E1) {
         E1[E1["A"] = 0] = "A";
@@ -13,7 +12,7 @@ define([
     })(E1 || (E1 = {}));
     var C1 = function C1() {
         "use strict";
-        _classCallCheck(this, C1);
+        _class_call_check._(this, C1);
     };
     return C1;
 });

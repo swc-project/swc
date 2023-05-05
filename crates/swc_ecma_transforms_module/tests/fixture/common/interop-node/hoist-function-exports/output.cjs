@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 0 && (module.exports = {
-    nextOdd: _,
-    isOdd: _
+    nextOdd: null,
+    isOdd: null
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
@@ -13,8 +13,12 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    nextOdd: ()=>nextOdd,
-    isOdd: ()=>isOdd
+    nextOdd: function() {
+        return nextOdd;
+    },
+    isOdd: function() {
+        return isOdd;
+    }
 });
 const _evens = require("./evens");
 function nextOdd(n) {

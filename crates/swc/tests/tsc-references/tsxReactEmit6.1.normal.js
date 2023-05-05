@@ -7,8 +7,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default;
-var _objectSpreadProps = require("@swc/helpers/lib/_object_spread_props.js").default;
+var _object_spread = require("@swc/helpers/_/_object_spread");
+var _object_spread_props = require("@swc/helpers/_/_object_spread_props");
 var M;
 (function(M) {
     var React1;
@@ -18,7 +18,7 @@ var M;
     // Should emit M.React.createElement
     //  and M.React.__spread
     var foo;
-    var spread1 = /*#__PURE__*/ React.createElement("div", _objectSpreadProps(_objectSpread({
+    var spread1 = /*#__PURE__*/ React.createElement("div", _object_spread_props._(_object_spread._({
         x: ""
     }, foo), {
         y: ""

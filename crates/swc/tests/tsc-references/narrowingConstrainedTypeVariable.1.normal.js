@@ -1,7 +1,7 @@
 //// [narrowingConstrainedTypeVariable.ts]
 // Repro from #20138
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 var C = function C() {
     "use strict";
     _class_call_check(this, C);

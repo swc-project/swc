@@ -1,9 +1,9 @@
 //// [privateNameMethodAssignment.ts]
-import _class_private_field_update from "@swc/helpers/src/_class_private_field_update.mjs";
-import _class_private_method_get from "@swc/helpers/src/_class_private_method_get.mjs";
-import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
-import _read_only_error from "@swc/helpers/src/_read_only_error.mjs";
-import _class_private_field_destructure from "@swc/helpers/src/_class_private_field_destructure.mjs";
+import { _ as _class_private_field_update } from "@swc/helpers/_/_class_private_field_update";
+import { _ as _class_private_method_get } from "@swc/helpers/_/_class_private_method_get";
+import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
+import { _ as _read_only_error } from "@swc/helpers/_/_read_only_error";
+import { _ as _class_private_field_destructure } from "@swc/helpers/_/_class_private_field_destructure";
 var _method = /*#__PURE__*/ new WeakSet();
 class A3 {
     constructor(a, b){

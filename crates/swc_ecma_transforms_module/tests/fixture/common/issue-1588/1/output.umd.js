@@ -10,7 +10,7 @@
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _react = /*#__PURE__*/ _interopRequireWildcard(_react);
+    _react = /*#__PURE__*/ _interop_require_wildcard(_react);
     class X extends _react.Component {
     }
     _react.default.render();

@@ -1,4 +1,4 @@
 //// [a.js]
 var ja, da;
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 ja.y, da.x;

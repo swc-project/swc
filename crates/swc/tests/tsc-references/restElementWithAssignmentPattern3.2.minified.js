@@ -1,7 +1,7 @@
 //// [restElementWithAssignmentPattern3.ts]
 var ref1;
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _to_array from "@swc/helpers/src/_to_array.mjs";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
+import { _ as _to_array } from "@swc/helpers/_/_to_array";
 (ref1 = _sliced_to_array(_to_array([
     "",
     1

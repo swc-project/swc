@@ -4,5 +4,5 @@ define([
     "c"
 ], function(require, exports, _c) {
     "use strict";
-    _exportStar(_c, exports);
+    _export_star(_c, exports);
 });

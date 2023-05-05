@@ -1,6 +1,6 @@
 //// [assignmentCompatWithGenericCallSignaturesWithOptionalParameters.ts]
 // call signatures in derived types must have the same or fewer optional parameters as the target for assignment
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var ClassTypeParam;
 (function(ClassTypeParam) {
     var Base = function Base() {

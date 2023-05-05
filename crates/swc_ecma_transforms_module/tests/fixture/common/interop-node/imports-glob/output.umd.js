@@ -10,5 +10,5 @@
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _foo = /*#__PURE__*/ _interopRequireWildcard(_foo, true);
+    _foo = /*#__PURE__*/ _interop_require_wildcard(_foo, true);
 });

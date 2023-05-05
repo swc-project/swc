@@ -32,7 +32,7 @@ pub struct SuperFieldAccessFolder<'a> {
 
     pub folding_constructor: bool,
 
-    /// True while folding **injected** `_defineProperty` call
+    /// True while folding **injected** `_define_property` call
     pub in_injected_define_property_call: bool,
 
     /// True while folding a function / class.
@@ -52,7 +52,7 @@ pub struct SuperFieldAccessFolder<'a> {
 macro_rules! mark_nested {
     ($name:ident, $T:tt) => {
         fn $name(&mut self, n: &mut $T) {
-            // injected `_defineProperty` should be handled like method
+            // injected `_define_property` should be handled like method
             if self.folding_constructor && !self.in_injected_define_property_call {
                 let old = self.in_nested_scope;
                 self.in_nested_scope = true;
@@ -85,7 +85,7 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
                     "_this"
                 ));
             }
-            // We pretend method folding mode for while folding injected `_defineProperty`
+            // We pretend method folding mode for while folding injected `_define_property`
             // calls.
             Expr::Call(CallExpr {
                 callee: Callee::Expr(expr),
@@ -93,7 +93,7 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
             }) if matches!(
                 &**expr,
                 Expr::Ident(Ident {
-                    sym: js_word!("_defineProperty"),
+                    sym: js_word!("_define_property"),
                     ..
                 })
             ) =>
@@ -176,7 +176,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
     /// ```
     /// # out
     /// ```js
-    /// _get(_getPrototypeOf(Clazz.prototype), 'foo', this).call(this, a)
+    /// _get(_get_prototype_of(Clazz.prototype), 'foo', this).call(this, a)
     /// ```
     fn visit_mut_super_member_call(&mut self, n: &mut Expr) {
         if let Expr::Call(CallExpr {
@@ -200,7 +200,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                         if self.constant_super {
                             CallExpr {
                                 span: DUMMY_SP,
-                                callee: helper!(assert_this_initialized, "assertThisInitialized"),
+                                callee: helper!(assert_this_initialized),
                                 args: vec![ident],
                                 type_args: Default::default(),
                             }
@@ -246,7 +246,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
     /// super.foo = bar
     /// # out
     /// ```js
-    /// _set(_getPrototypeOf(Clazz.prototype), "foo", bar, this, true)
+    /// _set(_get_prototype_of(Clazz.prototype), "foo", bar, this, true)
     /// ```
     fn visit_mut_super_member_set(&mut self, n: &mut Expr) {
         if let Expr::Assign(AssignExpr {
@@ -297,7 +297,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
     /// ```
     /// # out
     /// ```js
-    /// _get(_getPrototypeOf(Clazz.prototype), 'foo', this)
+    /// _get(_get_prototype_of(Clazz.prototype), 'foo', this)
     /// ```
     fn visit_mut_super_member_get(&mut self, n: &mut Expr) {
         if let Expr::SuperProp(SuperPropExpr {
@@ -381,7 +381,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
             Expr::Call(CallExpr {
                 span: super_token,
-                callee: helper!(get, "get"),
+                callee: helper!(get),
                 args: vec![proto_arg.as_arg(), prop_arg, this_arg],
                 type_args: Default::default(),
             })
@@ -425,7 +425,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
             Expr::Call(CallExpr {
                 span: super_token,
-                callee: helper!(set, "set"),
+                callee: helper!(set),
                 args: vec![
                     proto_arg.as_arg(),
                     prop_arg,
@@ -448,7 +448,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
         let expr = Expr::Call(CallExpr {
             span: super_token,
-            callee: helper!(update, "update"),
+            callee: helper!(update),
             args: vec![
                 proto_arg.as_arg(),
                 prop_arg,
@@ -487,7 +487,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                 exprs: vec![
                     Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: helper!(assert_this_initialized, "assertThisInitialized"),
+                        callee: helper!(assert_this_initialized),
                         args: vec![this.as_arg()],
                         type_args: Default::default(),
                     })

@@ -6,7 +6,7 @@
 // The resulting type an array literal expression is determined as follows:
 //     - If the array literal contains no spread elements and is contextually typed by a tuple-like type,
 //       the resulting type is a tuple type constructed from the types of the element expressions.
-import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 var a0 = []; // Error
 var a1 = [
     "string",

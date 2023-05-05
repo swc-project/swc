@@ -1,8 +1,8 @@
 {
-  "bulb": [
+  "1a2b3c": [
     {
       "type": "local",
-      "name": "__local__bulb"
+      "name": "__local__1a2b3c"
     }
   ],
   "class": [
@@ -125,10 +125,10 @@
       "name": "__local__test"
     }
   ],
-  "1a2b3c": [
+  "bulb": [
     {
       "type": "local",
-      "name": "__local__1a2b3c"
+      "name": "__local__bulb"
     }
   ]
 }

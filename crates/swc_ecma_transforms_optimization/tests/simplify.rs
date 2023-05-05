@@ -623,8 +623,8 @@ Foo.bar = true;
 Object.defineProperty(exports, \"__esModule\", {
     value: true
 });
-var _foo = _interopRequireDefault(require(\"foo\"));
-function _interopRequireDefault(obj) {
+var _foo = _interop_require_default(require(\"foo\"));
+function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };

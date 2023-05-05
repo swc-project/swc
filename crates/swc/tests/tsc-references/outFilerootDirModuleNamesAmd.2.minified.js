@@ -2,16 +2,18 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_default.mjs",
+    "@swc/helpers/_/_interop_require_default",
     "./b"
-], function(require, exports, _interopRequireDefault, _b) {
+], function(require, exports, _interop_require_default, _b) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), Object.defineProperty(exports, "default", {
         enumerable: !0,
-        get: ()=>Foo
-    }), _b = (_interopRequireDefault = _interopRequireDefault.default)(_b);
+        get: function() {
+            return Foo;
+        }
+    }), _b = _interop_require_default._(_b);
     class Foo {
     }
     (0, _b.default)();
@@ -20,10 +22,10 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_interop_require_default.mjs",
-    "@swc/helpers/src/_interop_require_wildcard.mjs",
+    "@swc/helpers/_/_interop_require_default",
+    "@swc/helpers/_/_interop_require_wildcard",
     "./a"
-], function(require, exports, _interopRequireDefault, _interopRequireWildcard, _a) {
+], function(require, exports, _interop_require_default, _interop_require_wildcard, _a) {
     "use strict";
     function foo() {
         new _a.default();
@@ -32,8 +34,10 @@ define([
         value: !0
     }), Object.defineProperty(exports, "default", {
         enumerable: !0,
-        get: ()=>foo
-    }), _interopRequireDefault = _interopRequireDefault.default, _interopRequireWildcard = _interopRequireWildcard.default, _a = _interopRequireDefault(_a), new Promise((resolve, reject)=>require([
+        get: function() {
+            return foo;
+        }
+    }), _a = _interop_require_default._(_a), new Promise((resolve, reject)=>require([
             "./a"
-        ], (m)=>resolve(_interopRequireWildcard(m)), reject));
+        ], (m)=>resolve(_interop_require_wildcard._(m)), reject));
 });

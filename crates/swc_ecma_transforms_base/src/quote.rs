@@ -1,73 +1,37 @@
 /// Not a public api.
 #[doc(hidden)]
 #[macro_export]
-macro_rules! external_name {
-    ("typeof") => {
-        "typeOf"
-    };
-    ("instanceof") => {
-        "_instanceof"
-    };
-    ("throw") => {
-        "_throw"
-    };
-    ($s:literal) => {
-        $s
-    };
-}
-
-/// Not a public api.
-#[doc(hidden)]
-#[macro_export]
 macro_rules! helper_expr {
-    (ts, $field_name:ident, $s:tt) => {{
-        $crate::helper_expr!(ts, ::swc_common::DUMMY_SP, $field_name, $s)
+    (ts, $field_name:ident) => {{
+        $crate::helper_expr!(ts, ::swc_common::DUMMY_SP, $field_name)
     }};
 
-    (ts, $span:expr, $field_name:ident, $s:tt) => {{
+    (ts, $span:expr, $field_name:ident) => {{
         use swc_ecma_utils::{quote_ident, ExprFactory};
 
-        debug_assert!(
-            $s.starts_with("__"),
-            "ts helper! macro should be invoked with '__' prefix"
-        );
         let mark = $crate::enable_helper!($field_name);
         let span = $span.apply_mark(mark);
-        let external = $crate::helpers::HELPERS.with(|helper| helper.external());
 
-        if external {
-            Expr::from(swc_ecma_utils::quote_ident!(
-                span,
-                concat!("_", stringify!($field_name))
-            ))
-        } else {
-            Expr::from(swc_ecma_utils::quote_ident!(span, $s))
-        }
+        Expr::from(swc_ecma_utils::quote_ident!(
+            span,
+            concat!("_", stringify!($field_name))
+        ))
     }};
 
-    ($field_name:ident, $s:tt) => {{
-        $crate::helper_expr!(::swc_common::DUMMY_SP, $field_name, $s)
+    ($field_name:ident) => {{
+        $crate::helper_expr!(::swc_common::DUMMY_SP, $field_name)
     }};
 
-    ($span:expr, $field_name:ident, $s:tt) => {{
+    ($span:expr, $field_name:ident) => {{
         use swc_ecma_utils::{quote_ident, ExprFactory};
 
-        debug_assert!(
-            !$s.starts_with("_"),
-            "helper! macro should not invoked with '_' prefix"
-        );
         let mark = $crate::enable_helper!($field_name);
         let span = $span.apply_mark(mark);
-        let external = $crate::helpers::HELPERS.with(|helper| helper.external());
 
-        if external {
-            Expr::from(swc_ecma_utils::quote_ident!(
-                span,
-                concat!("_", stringify!($field_name))
-            ))
-        } else {
-            Expr::from(swc_ecma_utils::quote_ident!(span, concat!("_", $s)))
-        }
+        Expr::from(swc_ecma_utils::quote_ident!(
+            span,
+            concat!("_", stringify!($field_name))
+        ))
     }};
 }
 

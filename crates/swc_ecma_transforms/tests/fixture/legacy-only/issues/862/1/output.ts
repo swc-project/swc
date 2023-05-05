@@ -6,30 +6,26 @@ export let Product = class Product extends TimestampedEntity {
     /* ANCHOR: Relations ------------------------------------------------------ */ orders: Order[];
     discounts: Discount[];
 };
-__decorate([
+_ts_decorate([
     PrimaryGeneratedColumn("uuid")
 ], Product.prototype, "id", void 0);
-__decorate([
+_ts_decorate([
     Column()
 ], Product.prototype, "price", void 0);
-__decorate([
+_ts_decorate([
     Column({
         enum: ProductType
     })
 ], Product.prototype, "type", void 0);
-__decorate([
+_ts_decorate([
     Column()
 ], Product.prototype, "productEntityId", void 0);
-__decorate([
-    OneToMany(()=>Order
-    , (order)=>order.product
-    )
+_ts_decorate([
+    OneToMany(()=>Order, (order)=>order.product)
 ], Product.prototype, "orders", void 0);
-__decorate([
-    OneToMany(()=>Discount
-    , (discount)=>discount.product
-    )
+_ts_decorate([
+    OneToMany(()=>Discount, (discount)=>discount.product)
 ], Product.prototype, "discounts", void 0);
-Product = __decorate([
+Product = _ts_decorate([
     Entity()
 ], Product);

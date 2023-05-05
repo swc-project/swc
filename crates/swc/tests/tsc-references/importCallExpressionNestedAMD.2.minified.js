@@ -8,7 +8,9 @@ define([
         value: !0
     }), Object.defineProperty(exports, "default", {
         enumerable: !0,
-        get: ()=>_default
+        get: function() {
+            return _default;
+        }
     });
     let _default = "./foo";
 });
@@ -16,11 +18,11 @@ define([
 define([
     "require",
     "exports",
-    "@swc/helpers/src/_async_to_generator.mjs",
-    "@swc/helpers/src/_interop_require_wildcard.mjs"
-], function(require, exports, _asyncToGenerator, _interopRequireWildcard) {
+    "@swc/helpers/_/_async_to_generator",
+    "@swc/helpers/_/_interop_require_wildcard"
+], function(require, exports, _async_to_generator, _interop_require_wildcard) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _asyncToGenerator = _asyncToGenerator.default, _interopRequireWildcard = _interopRequireWildcard.default;
+    });
 });

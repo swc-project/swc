@@ -1,6 +1,7 @@
 use bitflags::bitflags;
 
 bitflags! {
+    #[derive(Debug, Clone, Copy)]
     pub struct Features: u64 {
         const NESTING = 1 << 0;
         const CUSTOM_MEDIA = 1 << 1;

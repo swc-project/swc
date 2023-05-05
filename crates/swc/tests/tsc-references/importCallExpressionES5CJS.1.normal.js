@@ -31,34 +31,34 @@ _export(exports, {
         return D;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
-var _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
+var _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 Promise.resolve().then(function() {
-    return /*#__PURE__*/ _interopRequireWildcard(require("./0"));
+    return /*#__PURE__*/ _interop_require_wildcard._(require("./0"));
 });
 var p1 = Promise.resolve().then(function() {
-    return /*#__PURE__*/ _interopRequireWildcard(require("./0"));
+    return /*#__PURE__*/ _interop_require_wildcard._(require("./0"));
 });
 p1.then(function(zero) {
     return zero.foo();
 });
 var p2 = Promise.resolve().then(function() {
-    return /*#__PURE__*/ _interopRequireWildcard(require("./0"));
+    return /*#__PURE__*/ _interop_require_wildcard._(require("./0"));
 });
 function foo() {
     var p2 = Promise.resolve().then(function() {
-        return /*#__PURE__*/ _interopRequireWildcard(require("./0"));
+        return /*#__PURE__*/ _interop_require_wildcard._(require("./0"));
     });
 }
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        _classCallCheck(this, C);
+        _class_call_check._(this, C);
     }
     var _proto = C.prototype;
     _proto.method = function method() {
         var loadAsync = Promise.resolve().then(function() {
-            return /*#__PURE__*/ _interopRequireWildcard(require("./0"));
+            return /*#__PURE__*/ _interop_require_wildcard._(require("./0"));
         });
     };
     return C;
@@ -66,12 +66,12 @@ var C = /*#__PURE__*/ function() {
 var D = /*#__PURE__*/ function() {
     "use strict";
     function D() {
-        _classCallCheck(this, D);
+        _class_call_check._(this, D);
     }
     var _proto = D.prototype;
     _proto.method = function method() {
         var loadAsync = Promise.resolve().then(function() {
-            return /*#__PURE__*/ _interopRequireWildcard(require("./0"));
+            return /*#__PURE__*/ _interop_require_wildcard._(require("./0"));
         });
     };
     return D;

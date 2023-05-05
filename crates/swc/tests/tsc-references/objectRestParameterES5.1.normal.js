@@ -1,7 +1,7 @@
 //// [objectRestParameterES5.ts]
-import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import _create_class from "@swc/helpers/src/_create_class.mjs";
-import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _create_class } from "@swc/helpers/_/_create_class";
+import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 function cloneAgain(_param) {
     var a = _param.a, clone = _object_without_properties(_param, [
         "a"

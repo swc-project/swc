@@ -9,8 +9,8 @@ Object.defineProperty(exports, "Object", {
         return Object;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var Object = function Object() {
     "use strict";
-    _classCallCheck(this, Object);
+    _class_call_check._(this, Object);
 };

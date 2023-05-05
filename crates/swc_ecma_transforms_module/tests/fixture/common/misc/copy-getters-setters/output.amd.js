@@ -14,8 +14,12 @@ define([
         });
     }
     _export(exports, {
-        baz: ()=>_moduleWithGetter.baz,
-        Foo: ()=>_moduleWithGetter.default
+        baz: function() {
+            return _moduleWithGetter.baz;
+        },
+        Foo: function() {
+            return _moduleWithGetter.default;
+        }
     });
-    _moduleWithGetter = /*#__PURE__*/ _interopRequireWildcard(_moduleWithGetter);
+    _moduleWithGetter = /*#__PURE__*/ _interop_require_wildcard(_moduleWithGetter);
 });

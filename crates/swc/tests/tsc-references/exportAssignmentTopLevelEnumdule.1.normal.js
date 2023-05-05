@@ -19,13 +19,13 @@ define([
     "require",
     "exports",
     "./foo_0"
-], function(require, exports, _foo0) {
+], function(require, exports, _foo_0) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
     var color;
-    if (color === _foo0.green) {
-        color = _foo0.answer;
+    if (color === _foo_0.green) {
+        color = _foo_0.answer;
     }
 });
