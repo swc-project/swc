@@ -10,6 +10,12 @@
 
 - **(xml/codegen)** Escape `<` and `>` in child (#7351) ([b180d09](https://github.com/swc-project/swc/commit/b180d09e1dd9c4269d7d690d892ef4fd1c5b6563))
 
+### Features
+
+
+
+- **(plugin)** Enable bytecheck (#7280) ([d2c1f45](https://github.com/swc-project/swc/commit/d2c1f45f5a1a1d72fa6d6fa28bd84f242d5aff81))
+
 ### Refactor
 
 
