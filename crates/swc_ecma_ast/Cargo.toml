@@ -16,16 +16,23 @@ version       = "0.103.5"
 bench = false
 
 [features]
-__rkyv     = []
-default    = []
-fuzzing    = ["arbitrary", "swc_common/arbitrary"]
-rkyv-impl  = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
+__rkyv = []
+default = []
+fuzzing = ["arbitrary", "swc_common/arbitrary"]
+rkyv-impl = [
+  "__rkyv",
+  "rkyv",
+  "bytecheck",
+  "swc_atoms/rkyv-impl",
+  "swc_common/rkyv-impl",
+]
 serde-impl = ["serde"]
 
 [dependencies]
 arbitrary = { version = "1", optional = true, features = ["derive"] }
-bitflags = "2.1.0"
-bytecheck = { version = "0.6.9", optional = true }
+bitflags  = "2.1.0"
+# bytecheck version should be in sync with rkyv version. Do not bump individually.
+bytecheck = { version = "0.6.10", optional = true }
 is-macro = "0.2.1"
 num-bigint = { version = "0.4", features = ["serde"] }
 rkyv = { package = "rkyv", version = "=0.7.41", optional = true, features = [
