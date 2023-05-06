@@ -9,4 +9,5 @@
     <foo attributeName="He said >OK>"/>
     <foo attributeName="He said 'OK'"/>
     <foo attributeName="He said &amp;OK&amp;"/>
+    <foo>He said &gt;OK&gt;</foo>
 </note>

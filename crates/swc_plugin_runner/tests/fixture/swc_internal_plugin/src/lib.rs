@@ -70,6 +70,10 @@ pub fn process(program: Program, metadata: TransformPluginProgramMetadata) -> Pr
         name = Ident::new("ref".into(), DUMMY_SP)
     );
 
+    let filename = metadata
+        .get_context(&TransformPluginMetadataContextKind::Filename)
+        .expect("Filename should exists");
+
     let env = metadata
         .get_context(&TransformPluginMetadataContextKind::Env)
         .expect("Metadata should exists");

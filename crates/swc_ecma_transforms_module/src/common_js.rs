@@ -253,14 +253,15 @@ where
         is_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
         let import_interop = self.config.import_interop();
+        let export_interop_annotation = self.config.export_interop_annotation();
         let is_node = import_interop.is_node();
 
         let mut stmts = Vec::with_capacity(link.len());
 
         let mut export_obj_prop_list = export.into_iter().map(From::from).collect();
 
-        let lexer_reexport = if is_node {
-            self.emit_lexer_ts_reexport(&link)
+        let lexer_reexport = if export_interop_annotation {
+            self.emit_lexer_reexport(&link)
         } else {
             None
         };
@@ -355,7 +356,7 @@ where
             let mut features = self.available_features;
             let exports = self.exports();
 
-            if is_node {
+            if export_interop_annotation {
                 if export_obj_prop_list.len() > 1 {
                     export_stmts.extend(self.emit_lexer_exports_init(&export_obj_prop_list));
                 } else {
@@ -507,7 +508,7 @@ where
     /// ```javascript
     /// 0 && __export(require("foo")) && __export(require("bar"));
     /// ```
-    fn emit_lexer_ts_reexport(&self, link: &Link) -> Option<Stmt> {
+    fn emit_lexer_reexport(&self, link: &Link) -> Option<Stmt> {
         link.iter()
             .filter(|(.., LinkItem(.., link_flag))| link_flag.export_star())
             .map(|(src, ..)| {
