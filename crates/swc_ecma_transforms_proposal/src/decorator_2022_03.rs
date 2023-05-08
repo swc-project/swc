@@ -886,11 +886,9 @@ impl VisitMut for Decorator202203 {
                             new.push(ClassMember::PrivateMethod(setter));
                         }
                         Key::Public(key) => {
-                            let key = key.expect_ident();
-
                             let getter = ClassMethod {
                                 span: DUMMY_SP,
-                                key: PropName::Ident(key.clone()),
+                                key: key.clone(),
                                 function: getter_function,
                                 kind: MethodKind::Getter,
                                 is_static: accessor.is_static,
@@ -901,7 +899,7 @@ impl VisitMut for Decorator202203 {
                             };
                             let setter = ClassMethod {
                                 span: DUMMY_SP,
-                                key: PropName::Ident(key.clone()),
+                                key: key.clone(),
                                 function: setter_function,
                                 kind: MethodKind::Setter,
                                 is_static: accessor.is_static,
