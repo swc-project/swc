@@ -770,7 +770,13 @@ impl VisitMut for Decorator202203 {
                 ClassMember::AutoAccessor(accessor) => {
                     let private_field = PrivateProp {
                         span: DUMMY_SP,
-                        key: {},
+                        key: match &accessor.key {
+                            Key::Private(k) => PrivateName {
+                                span: k.span,
+                                id: Ident::new(format!("__{}", k.id.sym).into(), k.id.span),
+                            },
+                            Key::Public(k) => match k {},
+                        },
                         value: accessor.value,
                         type_ann: None,
                         is_static: accessor.is_static,
