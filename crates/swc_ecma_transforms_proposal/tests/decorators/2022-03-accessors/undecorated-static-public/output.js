@@ -2,25 +2,25 @@ var _computedKey;
 const dec = ()=>{};
 _computedKey = 'c';
 class Foo {
-    static #___init_a;
+    static #___private_a;
     static get a() {
-        return this.#___init_a;
+        return this.#___private_a;
     }
     static set a(_v) {
-        this.#___init_a = _v;
+        this.#___private_a = _v;
     }
-    static #___init_b = 123;
+    static #___private_b = 123;
     static get b() {
-        return this.#___init_b;
+        return this.#___private_b;
     }
     static set b(_v) {
-        this.#___init_b = _v;
+        this.#___private_b = _v;
     }
-    static #___init_computedKey = 456;
+    static #___private_computedKey = 456;
     static get [_computedKey]() {
-        return this.#___init_computedKey;
+        return this.#___private_computedKey;
     }
     static set [_computedKey](_v) {
-        this.#___init_computedKey = _v;
+        this.#___private_computedKey = _v;
     }
 }
