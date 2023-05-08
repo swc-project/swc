@@ -766,9 +766,21 @@ impl VisitMut for Decorator202203 {
         let mut new = Vec::with_capacity(members.len());
 
         for mut m in members.take() {
-            match &m {
+            match m {
                 ClassMember::AutoAccessor(accessor) => {
-                    let private_field = PrivateProp {};
+                    let private_field = PrivateProp {
+                        span: DUMMY_SP,
+                        key: match &accessor.key {},
+                        value: accessor.value,
+                        type_ann: None,
+                        is_static: accessor.is_static,
+                        decorators: Default::default(),
+                        accessibility: Default::default(),
+                        is_optional: false,
+                        is_override: false,
+                        readonly: false,
+                        definite: false,
+                    };
 
                     let getter_function = Box::new(Function {});
                     let setter_function = Box::new(Function {});
