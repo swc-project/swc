@@ -345,6 +345,249 @@ impl Decorator202203 {
 
         new_class_name
     }
+
+    fn handle_class_decl(&mut self, c: &mut ClassDecl) -> Option<Stmt> {
+        if !c.class.decorators.is_empty() {
+            let decorators = self.preserve_side_effect_of_decorators(c.class.decorators.take());
+
+            let init_class = private_ident!("_initClass");
+
+            self.extra_vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(init_class.clone().into()),
+                init: None,
+                definite: false,
+            });
+
+            let preserved_class_name = c.ident.clone().private();
+            let new_class_name = private_ident!(format!("_{}", c.ident.sym));
+
+            self.extra_lets.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(new_class_name.clone().into()),
+                init: None,
+                definite: false,
+            });
+
+            self.rename_map
+                .insert(c.ident.to_id(), new_class_name.to_id());
+
+            self.class_lhs.push(Some(new_class_name.clone().into()));
+            self.class_lhs.push(Some(init_class.clone().into()));
+
+            self.class_decorators.extend(decorators);
+
+            let mut body = c.class.body.take();
+
+            let has_static_member = body.iter().any(|m| match m {
+                ClassMember::Method(m) => m.is_static,
+                ClassMember::PrivateMethod(m) => m.is_static,
+                ClassMember::ClassProp(ClassProp { is_static, .. })
+                | ClassMember::PrivateProp(PrivateProp { is_static, .. }) => *is_static,
+                ClassMember::StaticBlock(_) => true,
+                _ => false,
+            });
+
+            if has_static_member {
+                let mut last_static_block = None;
+
+                for m in body.iter_mut() {
+                    match m {
+                        ClassMember::Method(method) => {
+                            if method.is_static {
+                                c.class.body.push(m.take());
+                            }
+                        }
+                        ClassMember::PrivateMethod(m) => {
+                            m.is_static = false;
+                        }
+                        ClassMember::ClassProp(ClassProp { value, .. })
+                        | ClassMember::PrivateProp(PrivateProp { value, .. }) => {
+                            if let Some(value) = value {
+                                if let Some(last_static_block) = last_static_block.take() {
+                                    **value = Expr::Seq(SeqExpr {
+                                        span: DUMMY_SP,
+                                        exprs: vec![
+                                            Box::new(Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: ArrowExpr {
+                                                    span: DUMMY_SP,
+                                                    params: vec![],
+                                                    body: Box::new(BlockStmtOrExpr::BlockStmt(
+                                                        BlockStmt {
+                                                            span: DUMMY_SP,
+                                                            stmts: last_static_block,
+                                                        },
+                                                    )),
+                                                    is_async: false,
+                                                    is_generator: false,
+                                                    type_params: Default::default(),
+                                                    return_type: Default::default(),
+                                                }
+                                                .as_callee(),
+                                                args: vec![],
+                                                type_args: Default::default(),
+                                            })),
+                                            value.take(),
+                                        ],
+                                    })
+                                }
+                            }
+                        }
+                        ClassMember::StaticBlock(s) => match &mut last_static_block {
+                            None => {
+                                last_static_block = Some(s.body.stmts.take());
+                            }
+                            Some(v) => {
+                                v.append(&mut s.body.stmts);
+                            }
+                        },
+                        _ => {}
+                    }
+                }
+
+                body.retain(|m| {
+                    !matches!(m, ClassMember::StaticBlock(..) | ClassMember::Empty(..))
+                });
+
+                body.visit_mut_with(self);
+
+                self.cur_inits.splice(0..0, self.static_inits.drain(..));
+
+                c.visit_mut_with(self);
+
+                // Make static members non-static
+                for m in body.iter_mut() {
+                    match m {
+                        ClassMember::Method(m) => {
+                            m.is_static = false;
+                        }
+                        ClassMember::PrivateMethod(m) => {
+                            m.is_static = false;
+                        }
+                        ClassMember::ClassProp(ClassProp { is_static, .. })
+                        | ClassMember::PrivateProp(PrivateProp { is_static, .. }) => {
+                            *is_static = false;
+                        }
+                        _ => {}
+                    }
+                }
+
+                replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
+
+                return Some(
+                    NewExpr {
+                        span: DUMMY_SP,
+                        callee: ClassExpr {
+                            ident: None,
+                            class: Box::new(Class {
+                                span: DUMMY_SP,
+                                decorators: vec![],
+                                body: once(ClassMember::StaticBlock(StaticBlock {
+                                    span: DUMMY_SP,
+                                    body: BlockStmt {
+                                        span: DUMMY_SP,
+                                        stmts: vec![Stmt::Decl(Decl::Class(ClassDecl {
+                                            ident: preserved_class_name,
+                                            declare: Default::default(),
+                                            class: c.class.take(),
+                                        }))],
+                                    },
+                                }))
+                                .chain(body)
+                                .chain(once(ClassMember::Constructor(Constructor {
+                                    span: DUMMY_SP,
+                                    key: PropName::Ident(quote_ident!("constructor")),
+                                    params: vec![],
+                                    body: Some(BlockStmt {
+                                        span: DUMMY_SP,
+                                        stmts: vec![SeqExpr {
+                                            span: DUMMY_SP,
+                                            exprs: once(Box::new(Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: Callee::Super(Super { span: DUMMY_SP }),
+                                                args: vec![new_class_name.as_arg()],
+                                                type_args: Default::default(),
+                                            })))
+                                            .chain(last_static_block.map(|stmts| {
+                                                Box::new(Expr::Call(CallExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: ArrowExpr {
+                                                        span: DUMMY_SP,
+                                                        params: vec![],
+                                                        body: Box::new(BlockStmtOrExpr::BlockStmt(
+                                                            BlockStmt {
+                                                                span: DUMMY_SP,
+                                                                stmts,
+                                                            },
+                                                        )),
+                                                        is_async: false,
+                                                        is_generator: false,
+                                                        type_params: Default::default(),
+                                                        return_type: Default::default(),
+                                                    }
+                                                    .as_callee(),
+                                                    args: vec![],
+                                                    type_args: Default::default(),
+                                                }))
+                                            }))
+                                            .chain(once(Box::new(Expr::Call(CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: init_class.as_callee(),
+                                                args: vec![],
+                                                type_args: Default::default(),
+                                            }))))
+                                            .collect(),
+                                        }
+                                        .into_stmt()],
+                                    }),
+                                    accessibility: Default::default(),
+                                    is_optional: Default::default(),
+                                })))
+                                .collect(),
+                                super_class: Some(Box::new(helper_expr!(identity))),
+                                is_abstract: Default::default(),
+                                type_params: Default::default(),
+                                super_type_params: Default::default(),
+                                implements: Default::default(),
+                            }),
+                        }
+                        .into(),
+                        args: Some(vec![]),
+                        type_args: Default::default(),
+                    }
+                    .into_stmt(),
+                );
+            } else {
+                body.visit_mut_with(self);
+
+                c.visit_mut_with(self);
+
+                c.ident = preserved_class_name.clone();
+                replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
+
+                c.class.body.extend(body);
+
+                c.class.body.push(ClassMember::StaticBlock(StaticBlock {
+                    span: DUMMY_SP,
+                    body: BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![CallExpr {
+                            span: DUMMY_SP,
+                            callee: init_class.as_callee(),
+                            args: vec![],
+                            type_args: Default::default(),
+                        }
+                        .into_stmt()],
+                    },
+                }));
+
+                return Some(Stmt::Decl(Decl::Class(c.take())));
+            }
+        }
+
+        None
+    }
 }
 
 impl VisitMut for Decorator202203 {
@@ -797,240 +1040,10 @@ impl VisitMut for Decorator202203 {
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         if let Stmt::Decl(Decl::Class(c)) = s {
-            if !c.class.decorators.is_empty() {
-                let decorators = self.preserve_side_effect_of_decorators(c.class.decorators.take());
+            let new_stmt = self.handle_class_decl(c);
 
-                let init_class = private_ident!("_initClass");
-
-                self.extra_vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(init_class.clone().into()),
-                    init: None,
-                    definite: false,
-                });
-
-                let preserved_class_name = c.ident.clone().private();
-                let new_class_name = private_ident!(format!("_{}", c.ident.sym));
-
-                self.extra_lets.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(new_class_name.clone().into()),
-                    init: None,
-                    definite: false,
-                });
-
-                self.rename_map
-                    .insert(c.ident.to_id(), new_class_name.to_id());
-
-                self.class_lhs.push(Some(new_class_name.clone().into()));
-                self.class_lhs.push(Some(init_class.clone().into()));
-
-                self.class_decorators.extend(decorators);
-
-                let mut body = c.class.body.take();
-
-                let has_static_member = body.iter().any(|m| match m {
-                    ClassMember::Method(m) => m.is_static,
-                    ClassMember::PrivateMethod(m) => m.is_static,
-                    ClassMember::ClassProp(ClassProp { is_static, .. })
-                    | ClassMember::PrivateProp(PrivateProp { is_static, .. }) => *is_static,
-                    ClassMember::StaticBlock(_) => true,
-                    _ => false,
-                });
-
-                if has_static_member {
-                    let mut last_static_block = None;
-
-                    for m in body.iter_mut() {
-                        match m {
-                            ClassMember::Method(method) => {
-                                if method.is_static {
-                                    c.class.body.push(m.take());
-                                }
-                            }
-                            ClassMember::PrivateMethod(m) => {
-                                m.is_static = false;
-                            }
-                            ClassMember::ClassProp(ClassProp { value, .. })
-                            | ClassMember::PrivateProp(PrivateProp { value, .. }) => {
-                                if let Some(value) = value {
-                                    if let Some(last_static_block) = last_static_block.take() {
-                                        **value = Expr::Seq(SeqExpr {
-                                            span: DUMMY_SP,
-                                            exprs: vec![
-                                                Box::new(Expr::Call(CallExpr {
-                                                    span: DUMMY_SP,
-                                                    callee: ArrowExpr {
-                                                        span: DUMMY_SP,
-                                                        params: vec![],
-                                                        body: Box::new(BlockStmtOrExpr::BlockStmt(
-                                                            BlockStmt {
-                                                                span: DUMMY_SP,
-                                                                stmts: last_static_block,
-                                                            },
-                                                        )),
-                                                        is_async: false,
-                                                        is_generator: false,
-                                                        type_params: Default::default(),
-                                                        return_type: Default::default(),
-                                                    }
-                                                    .as_callee(),
-                                                    args: vec![],
-                                                    type_args: Default::default(),
-                                                })),
-                                                value.take(),
-                                            ],
-                                        })
-                                    }
-                                }
-                            }
-                            ClassMember::StaticBlock(s) => match &mut last_static_block {
-                                None => {
-                                    last_static_block = Some(s.body.stmts.take());
-                                }
-                                Some(v) => {
-                                    v.append(&mut s.body.stmts);
-                                }
-                            },
-                            _ => {}
-                        }
-                    }
-
-                    body.retain(|m| {
-                        !matches!(m, ClassMember::StaticBlock(..) | ClassMember::Empty(..))
-                    });
-
-                    body.visit_mut_with(self);
-
-                    self.cur_inits.splice(0..0, self.static_inits.drain(..));
-
-                    c.visit_mut_with(self);
-
-                    // Make static members non-static
-                    for m in body.iter_mut() {
-                        match m {
-                            ClassMember::Method(m) => {
-                                m.is_static = false;
-                            }
-                            ClassMember::PrivateMethod(m) => {
-                                m.is_static = false;
-                            }
-                            ClassMember::ClassProp(ClassProp { is_static, .. })
-                            | ClassMember::PrivateProp(PrivateProp { is_static, .. }) => {
-                                *is_static = false;
-                            }
-                            _ => {}
-                        }
-                    }
-
-                    replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
-
-                    *s = NewExpr {
-                        span: DUMMY_SP,
-                        callee: ClassExpr {
-                            ident: None,
-                            class: Box::new(Class {
-                                span: DUMMY_SP,
-                                decorators: vec![],
-                                body: once(ClassMember::StaticBlock(StaticBlock {
-                                    span: DUMMY_SP,
-                                    body: BlockStmt {
-                                        span: DUMMY_SP,
-                                        stmts: vec![Stmt::Decl(Decl::Class(ClassDecl {
-                                            ident: preserved_class_name,
-                                            declare: Default::default(),
-                                            class: c.class.take(),
-                                        }))],
-                                    },
-                                }))
-                                .chain(body)
-                                .chain(once(ClassMember::Constructor(Constructor {
-                                    span: DUMMY_SP,
-                                    key: PropName::Ident(quote_ident!("constructor")),
-                                    params: vec![],
-                                    body: Some(BlockStmt {
-                                        span: DUMMY_SP,
-                                        stmts: vec![SeqExpr {
-                                            span: DUMMY_SP,
-                                            exprs: once(Box::new(Expr::Call(CallExpr {
-                                                span: DUMMY_SP,
-                                                callee: Callee::Super(Super { span: DUMMY_SP }),
-                                                args: vec![new_class_name.as_arg()],
-                                                type_args: Default::default(),
-                                            })))
-                                            .chain(last_static_block.map(|stmts| {
-                                                Box::new(Expr::Call(CallExpr {
-                                                    span: DUMMY_SP,
-                                                    callee: ArrowExpr {
-                                                        span: DUMMY_SP,
-                                                        params: vec![],
-                                                        body: Box::new(BlockStmtOrExpr::BlockStmt(
-                                                            BlockStmt {
-                                                                span: DUMMY_SP,
-                                                                stmts,
-                                                            },
-                                                        )),
-                                                        is_async: false,
-                                                        is_generator: false,
-                                                        type_params: Default::default(),
-                                                        return_type: Default::default(),
-                                                    }
-                                                    .as_callee(),
-                                                    args: vec![],
-                                                    type_args: Default::default(),
-                                                }))
-                                            }))
-                                            .chain(once(Box::new(Expr::Call(CallExpr {
-                                                span: DUMMY_SP,
-                                                callee: init_class.as_callee(),
-                                                args: vec![],
-                                                type_args: Default::default(),
-                                            }))))
-                                            .collect(),
-                                        }
-                                        .into_stmt()],
-                                    }),
-                                    accessibility: Default::default(),
-                                    is_optional: Default::default(),
-                                })))
-                                .collect(),
-                                super_class: Some(Box::new(helper_expr!(identity))),
-                                is_abstract: Default::default(),
-                                type_params: Default::default(),
-                                super_type_params: Default::default(),
-                                implements: Default::default(),
-                            }),
-                        }
-                        .into(),
-                        args: Some(vec![]),
-                        type_args: Default::default(),
-                    }
-                    .into_stmt();
-                } else {
-                    body.visit_mut_with(self);
-
-                    c.visit_mut_with(self);
-
-                    c.ident = preserved_class_name.clone();
-                    replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
-
-                    c.class.body.extend(body);
-
-                    c.class.body.push(ClassMember::StaticBlock(StaticBlock {
-                        span: DUMMY_SP,
-                        body: BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![CallExpr {
-                                span: DUMMY_SP,
-                                callee: init_class.as_callee(),
-                                args: vec![],
-                                type_args: Default::default(),
-                            }
-                            .into_stmt()],
-                        },
-                    }));
-                }
-
+            if let Some(new_stmt) = new_stmt {
+                *s = new_stmt;
                 return;
             }
         }
