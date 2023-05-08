@@ -885,9 +885,9 @@ impl VisitMut for Decorator202203 {
                                 elems: vec![
                                     dec,
                                     Some(if accessor.is_static {
-                                        5.as_arg()
+                                        6.as_arg()
                                     } else {
-                                        0.as_arg()
+                                        1.as_arg()
                                     }),
                                     Some(name.as_arg()),
                                     Some(
@@ -913,6 +913,14 @@ impl VisitMut for Decorator202203 {
                             self.static_inits.push((init, vec![Some(initialize_init)]))
                         } else {
                             self.cur_inits.push((init, vec![Some(initialize_init)]))
+                        }
+
+                        if accessor.is_static {
+                            self.init_static
+                                .get_or_insert_with(|| private_ident!("_initStatic"));
+                        } else {
+                            self.init_proto
+                                .get_or_insert_with(|| private_ident!("_initProto"));
                         }
                     }
 
