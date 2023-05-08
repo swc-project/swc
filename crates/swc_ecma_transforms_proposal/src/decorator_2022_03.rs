@@ -1,6 +1,7 @@
 use std::{iter::once, mem::transmute};
 
 use rustc_hash::FxHashMap;
+use swc_atoms::JsWord;
 use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
@@ -758,6 +759,7 @@ impl VisitMut for Decorator202203 {
                 ClassMember::AutoAccessor(mut accessor) => {
                     let name;
                     let init;
+                    let field_name_like: JsWord;
                     let private_field = PrivateProp {
                         span: DUMMY_SP,
                         key: match &mut accessor.key {
@@ -768,6 +770,7 @@ impl VisitMut for Decorator202203 {
                                     raw: None,
                                 })));
                                 init = private_ident!(format!("_init_{}", k.id.sym));
+                                field_name_like = format!("__{}", k.id.sym).into();
 
                                 PrivateName {
                                     span: k.span,
@@ -776,13 +779,14 @@ impl VisitMut for Decorator202203 {
                             }
                             Key::Public(k) => {
                                 (name, init) = self.initializer_name(k, "init");
+                                field_name_like = format!("__{}", init.sym)
+                                    .replacen("init", "private", 1)
+                                    .into();
 
                                 PrivateName {
                                     span: init.span.with_ctxt(SyntaxContext::empty()),
                                     id: Ident::new(
-                                        format!("__{}", init.sym)
-                                            .replacen("init", "private", 1)
-                                            .into(),
+                                        field_name_like.clone(),
                                         init.span.with_ctxt(SyntaxContext::empty()),
                                     ),
                                 }
@@ -810,7 +814,7 @@ impl VisitMut for Decorator202203 {
                         definite: false,
                     };
 
-                    let getter_function = Box::new(Function {
+                    let mut getter_function = Box::new(Function {
                         params: Default::default(),
                         decorators: Default::default(),
                         span: DUMMY_SP,
@@ -830,7 +834,7 @@ impl VisitMut for Decorator202203 {
                         type_params: None,
                         return_type: None,
                     });
-                    let setter_function = {
+                    let mut setter_function = {
                         let param = private_ident!("_v");
 
                         Box::new(Function {
@@ -880,12 +884,20 @@ impl VisitMut for Decorator202203 {
                             definite: false,
                         });
 
+                        let (getter_var, setter_var) = match &accessor.key {
+                            Key::Private(_) => (
+                                Some(private_ident!(format!("_get_{}", field_name_like))),
+                                Some(private_ident!(format!("_set_{}", field_name_like))),
+                            ),
+                            Key::Public(_) => Default::default(),
+                        };
+
                         let initialize_init = {
                             ArrayLit {
                                 span: DUMMY_SP,
                                 elems: match &accessor.key {
                                     Key::Private(_) => {
-                                        vec![
+                                        let data = vec![
                                             dec,
                                             Some(if accessor.is_static {
                                                 6.as_arg()
@@ -896,18 +908,54 @@ impl VisitMut for Decorator202203 {
                                             Some(
                                                 FnExpr {
                                                     ident: None,
-                                                    function: getter_function.clone(),
+                                                    function: getter_function,
                                                 }
                                                 .as_arg(),
                                             ),
                                             Some(
                                                 FnExpr {
                                                     ident: None,
-                                                    function: setter_function.clone(),
+                                                    function: setter_function,
                                                 }
                                                 .as_arg(),
                                             ),
-                                        ]
+                                        ];
+
+                                        getter_function = Box::new(Function {
+                                            params: vec![],
+                                            decorators: Default::default(),
+                                            span: DUMMY_SP,
+                                            body: Some(BlockStmt {
+                                                span: DUMMY_SP,
+                                                stmts: vec![],
+                                            }),
+                                            is_generator: false,
+                                            is_async: false,
+                                            type_params: Default::default(),
+                                            return_type: Default::default(),
+                                        });
+
+                                        let param = private_ident!("_v");
+
+                                        setter_function = Box::new(Function {
+                                            params: vec![Param {
+                                                span: DUMMY_SP,
+                                                decorators: Default::default(),
+                                                pat: param.clone().into(),
+                                            }],
+                                            decorators: Default::default(),
+                                            span: DUMMY_SP,
+                                            body: Some(BlockStmt {
+                                                span: DUMMY_SP,
+                                                stmts: vec![],
+                                            }),
+                                            is_generator: false,
+                                            is_async: false,
+                                            type_params: Default::default(),
+                                            return_type: Default::default(),
+                                        });
+
+                                        data
                                     }
                                     Key::Public(_) => {
                                         vec![
@@ -926,9 +974,21 @@ impl VisitMut for Decorator202203 {
                         };
 
                         if accessor.is_static {
-                            self.static_inits.push((init, vec![Some(initialize_init)]))
+                            self.static_inits.push((init, vec![Some(initialize_init)]));
+                            self.static_inits.extend(
+                                getter_var
+                                    .into_iter()
+                                    .chain(setter_var)
+                                    .map(|id| (id, vec![])),
+                            );
                         } else {
-                            self.cur_inits.push((init, vec![Some(initialize_init)]))
+                            self.cur_inits.push((init, vec![Some(initialize_init)]));
+                            self.cur_inits.extend(
+                                getter_var
+                                    .into_iter()
+                                    .chain(setter_var)
+                                    .map(|id| (id, vec![])),
+                            );
                         }
 
                         if accessor.is_static {
