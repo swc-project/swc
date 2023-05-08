@@ -767,15 +767,25 @@ impl VisitMut for Decorator202203 {
 
         for mut m in members.take() {
             match m {
-                ClassMember::AutoAccessor(accessor) => {
+                ClassMember::AutoAccessor(mut accessor) => {
                     let private_field = PrivateProp {
                         span: DUMMY_SP,
-                        key: match &accessor.key {
+                        key: match &mut accessor.key {
                             Key::Private(k) => PrivateName {
                                 span: k.span,
                                 id: Ident::new(format!("__{}", k.id.sym).into(), k.id.span),
                             },
-                            Key::Public(k) => match k {},
+                            Key::Public(k) => {
+                                let (_, init) = self.initializer_name(&mut k, "init");
+
+                                PrivateName {
+                                    span: init.span.with_ctxt(SyntaxContext::empty()),
+                                    id: Ident::new(
+                                        format!("__{}", init.sym).into(),
+                                        init.span.with_ctxt(SyntaxContext::empty()),
+                                    ),
+                                }
+                            }
                         },
                         value: accessor.value,
                         type_ann: None,
@@ -849,8 +859,11 @@ impl VisitMut for Decorator202203 {
                             };
                         }
                         Key::Public(key) => {
+                            let key = key.expect_ident();
+
                             let getter = ClassMethod {
                                 span: DUMMY_SP,
+                                key: PropName::Ident(key.clone()),
                                 function: getter_function,
                                 kind: MethodKind::Getter,
                                 is_static: accessor.is_static,
@@ -861,6 +874,7 @@ impl VisitMut for Decorator202203 {
                             };
                             let setter = ClassMethod {
                                 span: DUMMY_SP,
+                                key: PropName::Ident(key.clone()),
                                 function: setter_function,
                                 kind: MethodKind::Setter,
                                 is_static: accessor.is_static,
