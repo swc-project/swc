@@ -12,6 +12,11 @@ class Foo {
             static{
                 ({ e: [_init_bar, _initProto] , c: [_Foo, _initClass]  } = _apply_decs_2203_r(this, [
                     [
+                        _dec8,
+                        0,
+                        "bar"
+                    ],
+                    [
                         [
                             dec,
                             _dec4,
