@@ -927,7 +927,20 @@ impl VisitMut for Decorator202203 {
                                             span: DUMMY_SP,
                                             body: Some(BlockStmt {
                                                 span: DUMMY_SP,
-                                                stmts: vec![],
+                                                stmts: vec![Stmt::Return(ReturnStmt {
+                                                    span: DUMMY_SP,
+                                                    arg: Some(Box::new(Expr::Call(CallExpr {
+                                                        span: DUMMY_SP,
+                                                        callee: getter_var
+                                                            .clone()
+                                                            .unwrap()
+                                                            .as_callee(),
+                                                        args: vec![
+                                                            ThisExpr { span: DUMMY_SP }.as_arg()
+                                                        ],
+                                                        type_args: Default::default(),
+                                                    }))),
+                                                })],
                                             }),
                                             is_generator: false,
                                             is_async: false,
@@ -947,7 +960,21 @@ impl VisitMut for Decorator202203 {
                                             span: DUMMY_SP,
                                             body: Some(BlockStmt {
                                                 span: DUMMY_SP,
-                                                stmts: vec![],
+                                                stmts: vec![Stmt::Expr(ExprStmt {
+                                                    span: DUMMY_SP,
+                                                    expr: Box::new(Expr::Call(CallExpr {
+                                                        span: DUMMY_SP,
+                                                        callee: setter_var
+                                                            .clone()
+                                                            .unwrap()
+                                                            .as_callee(),
+                                                        args: vec![
+                                                            ThisExpr { span: DUMMY_SP }.as_arg(),
+                                                            param.as_arg(),
+                                                        ],
+                                                        type_args: Default::default(),
+                                                    })),
+                                                })],
                                             }),
                                             is_generator: false,
                                             is_async: false,
