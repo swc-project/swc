@@ -776,7 +776,7 @@ impl VisitMut for Decorator202203 {
                                 id: Ident::new(format!("__{}", k.id.sym).into(), k.id.span),
                             },
                             Key::Public(k) => {
-                                let (_, init) = self.initializer_name(&mut k, "init");
+                                let (_, init) = self.initializer_name(k, "init");
 
                                 PrivateName {
                                     span: init.span.with_ctxt(SyntaxContext::empty()),
@@ -804,7 +804,14 @@ impl VisitMut for Decorator202203 {
                         span: DUMMY_SP,
                         body: Some(BlockStmt {
                             span: DUMMY_SP,
-                            stmts: (),
+                            stmts: vec![Stmt::Return(ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(Box::new(Expr::Member(MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: ThisExpr { span: DUMMY_SP }.into(),
+                                    prop: MemberProp::PrivateName(private_field.key.clone()),
+                                }))),
+                            })],
                         }),
                         is_generator: false,
                         is_async: false,
@@ -824,7 +831,23 @@ impl VisitMut for Decorator202203 {
                             span: DUMMY_SP,
                             body: Some(BlockStmt {
                                 span: DUMMY_SP,
-                                stmts: (),
+                                stmts: vec![Stmt::Expr(ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: Box::new(Expr::Assign(AssignExpr {
+                                        span: DUMMY_SP,
+                                        op: op!("="),
+                                        left: swc_ecma_ast::PatOrExpr::Expr(Box::new(
+                                            Expr::Member(MemberExpr {
+                                                span: DUMMY_SP,
+                                                obj: ThisExpr { span: DUMMY_SP }.into(),
+                                                prop: MemberProp::PrivateName(
+                                                    private_field.key.clone(),
+                                                ),
+                                            }),
+                                        )),
+                                        right: param.clone().into(),
+                                    })),
+                                })],
                             }),
                             is_generator: false,
                             is_async: false,
@@ -885,6 +908,8 @@ impl VisitMut for Decorator202203 {
                             };
                         }
                     }
+
+                    continue;
                 }
 
                 _ => {
