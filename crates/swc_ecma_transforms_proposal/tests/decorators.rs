@@ -18,6 +18,7 @@ fn syntax_default() -> Syntax {
         decorators: true,
         auto_accessors: true,
         allow_super_outside_method: true,
+        decorators_before_export: true,
         ..Default::default()
     })
 }
