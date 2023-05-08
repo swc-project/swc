@@ -86,6 +86,16 @@ pub struct ClassDecl {
     pub class: Box<Class>,
 }
 
+impl Take for ClassDecl {
+    fn dummy() -> Self {
+        ClassDecl {
+            ident: Take::dummy(),
+            declare: Default::default(),
+            class: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("VariableDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]

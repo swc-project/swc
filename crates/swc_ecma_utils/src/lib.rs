@@ -2949,6 +2949,25 @@ impl VisitMut for IdentRenamer<'_> {
             node.span.ctxt = new.1;
         }
     }
+
+    fn visit_mut_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
+        if node.exported.is_some() {
+            node.orig.visit_mut_children_with(self);
+            return;
+        }
+
+        match &mut node.orig {
+            ModuleExportName::Ident(orig) => {
+                if let Some(new) = self.map.get(&orig.to_id()) {
+                    node.exported = Some(ModuleExportName::Ident(orig.clone()));
+
+                    orig.sym = new.0.clone();
+                    orig.span.ctxt = new.1;
+                }
+            }
+            ModuleExportName::Str(_) => {}
+        }
+    }
 }
 
 #[cfg(test)]
