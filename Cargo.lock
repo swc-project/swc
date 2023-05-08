@@ -217,7 +217,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.49.45"
+version = "0.49.46"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -891,7 +891,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.80.50"
+version = "0.80.51"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -1656,7 +1656,7 @@ dependencies = [
 
 [[package]]
 name = "jsdoc"
-version = "0.102.13"
+version = "0.102.14"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -3374,7 +3374,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.260.45"
+version = "0.260.46"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3445,7 +3445,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.213.33"
+version = "0.213.34"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3559,7 +3559,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.75.45"
+version = "0.75.46"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3796,7 +3796,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.103.6"
+version = "0.103.7"
 dependencies = [
  "arbitrary",
  "bitflags 2.1.0",
@@ -3815,7 +3815,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.138.16"
+version = "0.138.17"
 dependencies = [
  "base64 0.13.1",
  "criterion",
@@ -3850,7 +3850,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_dep_graph"
-version = "0.105.13"
+version = "0.105.14"
 dependencies = [
  "pretty_assertions",
  "swc_atoms",
@@ -3863,7 +3863,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "0.102.13"
+version = "0.102.14"
 dependencies = [
  "phf",
  "swc_atoms",
@@ -3875,7 +3875,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.81.19"
+version = "0.81.20"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3919,7 +3919,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.180.33"
+version = "0.180.34"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3962,7 +3962,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.133.13"
+version = "0.133.14"
 dependencies = [
  "criterion",
  "either",
@@ -3987,7 +3987,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.194.30"
+version = "0.194.31"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4015,7 +4015,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote"
-version = "0.49.13"
+version = "0.49.14"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4026,7 +4026,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.44.13"
+version = "0.44.14"
 dependencies = [
  "anyhow",
  "pmutil",
@@ -4052,7 +4052,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.217.29"
+version = "0.217.30"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -4077,7 +4077,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.126.19"
+version = "0.126.20"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.1.0",
@@ -4104,7 +4104,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.115.19"
+version = "0.115.20"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4116,7 +4116,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.152.21"
+version = "0.152.22"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -4156,7 +4156,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.169.25"
+version = "0.169.26"
 dependencies = [
  "Inflector",
  "ahash",
@@ -4186,7 +4186,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.186.29"
+version = "0.186.30"
 dependencies = [
  "ahash",
  "dashmap",
@@ -4217,7 +4217,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.160.23"
+version = "0.160.24"
 dependencies = [
  "either",
  "rustc-hash",
@@ -4241,7 +4241,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.172.27"
+version = "0.172.28"
 dependencies = [
  "ahash",
  "base64 0.13.1",
@@ -4270,7 +4270,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.129.19"
+version = "0.129.20"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4294,7 +4294,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.176.28"
+version = "0.176.29"
 dependencies = [
  "criterion",
  "serde",
@@ -4315,7 +4315,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.12.13"
+version = "0.12.14"
 dependencies = [
  "ahash",
  "indexmap",
@@ -4331,7 +4331,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.116.13"
+version = "0.116.14"
 dependencies = [
  "indexmap",
  "num_cpus",
@@ -4350,7 +4350,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.89.6"
+version = "0.89.7"
 dependencies = [
  "num-bigint",
  "serde",
@@ -4363,7 +4363,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.227.34"
+version = "0.227.35"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -4411,7 +4411,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.183.45"
+version = "0.183.46"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4459,7 +4459,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.123.33"
+version = "0.123.34"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4510,7 +4510,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.120.33"
+version = "0.120.34"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4596,7 +4596,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.47.45"
+version = "0.47.46"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -4663,7 +4663,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.32.6"
+version = "0.32.7"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -4675,7 +4675,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.94.22"
+version = "0.94.23"
 dependencies = [
  "anyhow",
  "criterion",
