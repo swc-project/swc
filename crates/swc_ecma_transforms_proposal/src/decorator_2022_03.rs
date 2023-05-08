@@ -800,6 +800,7 @@ impl VisitMut for Decorator202203 {
                             let getter = ClassMethod {
                                 span: DUMMY_SP,
                                 function: getter_function,
+                                kind: MethodKind::Getter,
                                 is_static: accessor.is_static,
                                 accessibility: None,
                                 is_abstract: false,
@@ -809,6 +810,7 @@ impl VisitMut for Decorator202203 {
                             let setter = ClassMethod {
                                 span: DUMMY_SP,
                                 function: setter_function,
+                                kind: MethodKind::Setter,
                                 is_static: accessor.is_static,
                                 accessibility: None,
                                 is_abstract: false,
