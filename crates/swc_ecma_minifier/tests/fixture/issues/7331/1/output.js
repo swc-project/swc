@@ -1,6 +1,5 @@
 export default function() {
-    (function(arg) {
-        var arg = arg.slice();
-        return arg;
-    })([]);
+    var arg;
+    var arg;
+    arg = (arg = []).slice();
 }
