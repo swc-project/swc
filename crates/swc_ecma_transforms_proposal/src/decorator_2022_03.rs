@@ -105,6 +105,8 @@ impl Decorator202203 {
         for (id, args) in inits {
             e_lhs.push(Some(id.into()));
 
+            dbg!(&args);
+
             arrays.extend(args);
         }
 
@@ -118,31 +120,19 @@ impl Decorator202203 {
 
             e_lhs.push(Some(init_proto.into()));
             if for_static {
-                combined_args.push(
-                    ArrayLit {
-                        span: DUMMY_SP,
-                        elems: self.init_static_args.take(),
-                    }
-                    .as_arg(),
-                );
+                arrays.append(&mut self.init_static_args);
             } else {
-                combined_args.push(
-                    ArrayLit {
-                        span: DUMMY_SP,
-                        elems: self.init_proto_args.take(),
-                    }
-                    .as_arg(),
-                );
+                arrays.append(&mut self.init_proto_args);
             }
-        } else {
-            combined_args.push(
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: arrays,
-                }
-                .as_arg(),
-            );
         }
+
+        combined_args.push(
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: arrays,
+            }
+            .as_arg(),
+        );
 
         if !for_static {
             combined_args.push(
