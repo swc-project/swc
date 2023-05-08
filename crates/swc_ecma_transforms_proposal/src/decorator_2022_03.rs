@@ -762,6 +762,48 @@ impl VisitMut for Decorator202203 {
         }
     }
 
+    fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
+        let mut new = Vec::with_capacity(members.len());
+
+        for mut m in members.take() {
+            match &m {
+                ClassMember::AutoAccessor(accessor) => {
+                    let private_field = PrivateProp {};
+
+                    let getter_function = Function {};
+                    let setter_function = Function {};
+
+                    match accessor.key {
+                        Key::Private(key) => {
+                            let getter = PrivateMethod {
+                                function: getter_function,
+                            };
+                            let setter = PrivateMethod {
+                                function: setter_function,
+                            };
+                        }
+                        Key::Public(key) => {
+                            let getter = ClassMethod {
+                                function: getter_function,
+                            };
+                            let setter = ClassMethod {
+                                function: setter_function,
+                            };
+                        }
+                    }
+                }
+
+                _ => {
+                    m.visit_mut_with(self);
+                }
+            }
+
+            new.push(m);
+        }
+
+        *members = new;
+    }
+
     fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
         n.visit_mut_children_with(self);
 
