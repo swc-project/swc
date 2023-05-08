@@ -728,6 +728,15 @@ where
             }
         }
 
+        for pid in param_ids {
+            if let Some(usage) = self.data.vars.get(&pid.to_id()) {
+                if usage.declared_count > 1 {
+                    log_abort!("iife: [x] Cannot inline because of usage of `{}`", pid);
+                    return false;
+                }
+            }
+        }
+
         // Abort on eval.
         // See https://github.com/swc-project/swc/pull/6478
         //
