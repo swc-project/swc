@@ -105,8 +105,6 @@ impl Decorator202203 {
         for (id, args) in inits {
             e_lhs.push(Some(id.into()));
 
-            dbg!(&args);
-
             arrays.extend(args);
         }
 
