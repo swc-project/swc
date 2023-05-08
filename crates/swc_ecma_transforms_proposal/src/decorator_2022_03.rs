@@ -777,6 +777,7 @@ impl VisitMut for Decorator202203 {
                         Key::Private(key) => {
                             let getter = PrivateMethod {
                                 span: DUMMY_SP,
+                                key: key.clone(),
                                 function: getter_function,
                                 kind: MethodKind::Getter,
                                 is_static: accessor.is_static,
@@ -787,6 +788,7 @@ impl VisitMut for Decorator202203 {
                             };
                             let setter = PrivateMethod {
                                 span: DUMMY_SP,
+                                key: key.clone(),
                                 function: setter_function,
                                 kind: MethodKind::Setter,
                                 is_static: accessor.is_static,
