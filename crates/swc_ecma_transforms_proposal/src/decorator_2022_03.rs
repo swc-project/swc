@@ -787,7 +787,7 @@ impl VisitMut for Decorator202203 {
                                 }
                             }
                             Key::Public(k) => {
-                                (name, init) = self.initializer_name(k, "init");
+                                (name, init) = self.initializer_name(k, "__");
 
                                 PrivateName {
                                     span: init.span.with_ctxt(SyntaxContext::empty()),
