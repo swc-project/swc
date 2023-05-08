@@ -770,23 +770,27 @@ impl VisitMut for Decorator202203 {
                 ClassMember::AutoAccessor(accessor) => {
                     let private_field = PrivateProp {};
 
-                    let getter_function = Function {};
-                    let setter_function = Function {};
+                    let getter_function = Box::new(Function {});
+                    let setter_function = Box::new(Function {});
 
                     match accessor.key {
                         Key::Private(key) => {
                             let getter = PrivateMethod {
+                                span: DUMMY_SP,
                                 function: getter_function,
                                 kind: MethodKind::Getter,
                                 is_static: accessor.is_static,
+                                accessibility: None,
                                 is_abstract: false,
                                 is_optional: false,
                                 is_override: false,
                             };
                             let setter = PrivateMethod {
+                                span: DUMMY_SP,
                                 function: setter_function,
                                 kind: MethodKind::Setter,
                                 is_static: accessor.is_static,
+                                accessibility: None,
                                 is_abstract: false,
                                 is_optional: false,
                                 is_override: false,
@@ -794,15 +798,19 @@ impl VisitMut for Decorator202203 {
                         }
                         Key::Public(key) => {
                             let getter = ClassMethod {
+                                span: DUMMY_SP,
                                 function: getter_function,
                                 is_static: accessor.is_static,
+                                accessibility: None,
                                 is_abstract: false,
                                 is_optional: false,
                                 is_override: false,
                             };
                             let setter = ClassMethod {
+                                span: DUMMY_SP,
                                 function: setter_function,
                                 is_static: accessor.is_static,
+                                accessibility: None,
                                 is_abstract: false,
                                 is_optional: false,
                                 is_override: false,
