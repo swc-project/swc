@@ -770,7 +770,7 @@ impl VisitMut for Decorator202203 {
                 ClassMember::AutoAccessor(accessor) => {
                     let private_field = PrivateProp {
                         span: DUMMY_SP,
-                        key: match &accessor.key {},
+                        key: {},
                         value: accessor.value,
                         type_ann: None,
                         is_static: accessor.is_static,
@@ -782,8 +782,40 @@ impl VisitMut for Decorator202203 {
                         definite: false,
                     };
 
-                    let getter_function = Box::new(Function {});
-                    let setter_function = Box::new(Function {});
+                    let getter_function = Box::new(Function {
+                        params: Default::default(),
+                        decorators: Default::default(),
+                        span: DUMMY_SP,
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: (),
+                        }),
+                        is_generator: false,
+                        is_async: false,
+                        type_params: None,
+                        return_type: None,
+                    });
+                    let setter_function = {
+                        let param = private_ident!("_v");
+
+                        Box::new(Function {
+                            params: vec![Param {
+                                span: DUMMY_SP,
+                                decorators: Default::default(),
+                                pat: param.clone().into(),
+                            }],
+                            decorators: Default::default(),
+                            span: DUMMY_SP,
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: (),
+                            }),
+                            is_generator: false,
+                            is_async: false,
+                            type_params: None,
+                            return_type: None,
+                        })
+                    };
 
                     match accessor.key {
                         Key::Private(key) => {
