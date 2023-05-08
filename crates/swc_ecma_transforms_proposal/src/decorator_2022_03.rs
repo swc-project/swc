@@ -39,6 +39,8 @@ struct Decorator202203 {
 
     extra_lets: Vec<VarDeclarator>,
 
+    extra_exports: Vec<ExportSpecifier>,
+
     rename_map: FxHashMap<Id, Id>,
 }
 
@@ -876,6 +878,36 @@ impl VisitMut for Decorator202203 {
         e.visit_mut_children_with(self);
     }
 
+    fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
+        match s {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                span,
+                decl: Decl::Class(c),
+            })) => {
+                let ident = c.ident.clone();
+                let span = *span;
+                let new_stmt = self.handle_class_decl(c);
+
+                if let Some(new_stmt) = new_stmt {
+                    *s = ModuleItem::Stmt(new_stmt);
+                    self.extra_exports
+                        .push(ExportSpecifier::Named(ExportNamedSpecifier {
+                            span,
+                            orig: ModuleExportName::Ident(ident),
+                            exported: None,
+                            is_type_only: false,
+                        }));
+                    return;
+                }
+
+                s.visit_mut_children_with(self);
+            }
+            _ => {
+                s.visit_mut_children_with(self);
+            }
+        }
+    }
+
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         let old_extra_lets = self.extra_lets.take();
 
@@ -917,6 +949,18 @@ impl VisitMut for Decorator202203 {
                 }
                 .into(),
             );
+        }
+
+        if !self.extra_exports.is_empty() {
+            new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                NamedExport {
+                    span: DUMMY_SP,
+                    specifiers: self.extra_exports.take(),
+                    src: None,
+                    type_only: false,
+                    asserts: None,
+                },
+            )));
         }
 
         *n = new;
