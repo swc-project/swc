@@ -768,15 +768,26 @@ impl VisitMut for Decorator202203 {
         for mut m in members.take() {
             match m {
                 ClassMember::AutoAccessor(mut accessor) => {
+                    let name;
+                    let init;
                     let private_field = PrivateProp {
                         span: DUMMY_SP,
                         key: match &mut accessor.key {
-                            Key::Private(k) => PrivateName {
-                                span: k.span,
-                                id: Ident::new(format!("__{}", k.id.sym).into(), k.id.span),
-                            },
+                            Key::Private(k) => {
+                                name = Box::new(Expr::Lit(Lit::Str(Str {
+                                    span: DUMMY_SP,
+                                    value: k.id.sym.clone(),
+                                    raw: None,
+                                })));
+                                init = private_ident!(format!("_init_{}", k.id.sym));
+
+                                PrivateName {
+                                    span: k.span,
+                                    id: Ident::new(format!("__{}", k.id.sym).into(), k.id.span),
+                                }
+                            }
                             Key::Public(k) => {
-                                let (_, init) = self.initializer_name(k, "init");
+                                (name, init) = self.initializer_name(k, "init");
 
                                 PrivateName {
                                     span: init.span.with_ctxt(SyntaxContext::empty()),
@@ -855,6 +866,55 @@ impl VisitMut for Decorator202203 {
                             return_type: None,
                         })
                     };
+
+                    if !accessor.decorators.is_empty() {
+                        let decorators =
+                            self.preserve_side_effect_of_decorators(accessor.decorators.take());
+                        let dec = merge_decorators(decorators);
+
+                        self.extra_vars.push(VarDeclarator {
+                            span: accessor.span,
+                            name: Pat::Ident(init.clone().into()),
+                            init: None,
+                            definite: false,
+                        });
+
+                        let initialize_init = {
+                            ArrayLit {
+                                span: DUMMY_SP,
+                                elems: vec![
+                                    dec,
+                                    Some(if accessor.is_static {
+                                        5.as_arg()
+                                    } else {
+                                        0.as_arg()
+                                    }),
+                                    Some(name.as_arg()),
+                                    Some(
+                                        FnExpr {
+                                            ident: None,
+                                            function: getter_function.clone(),
+                                        }
+                                        .as_arg(),
+                                    ),
+                                    Some(
+                                        FnExpr {
+                                            ident: None,
+                                            function: setter_function.clone(),
+                                        }
+                                        .as_arg(),
+                                    ),
+                                ],
+                            }
+                            .as_arg()
+                        };
+
+                        if accessor.is_static {
+                            self.static_inits.push((init, vec![Some(initialize_init)]))
+                        } else {
+                            self.cur_inits.push((init, vec![Some(initialize_init)]))
+                        }
+                    }
 
                     match accessor.key {
                         Key::Private(key) => {
