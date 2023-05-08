@@ -124,7 +124,7 @@ pub fn get_transform_context(
         &serialized,
     );
 
-    return 1;
+    1
 }
 
 #[tracing::instrument(level = "info", skip_all)]
