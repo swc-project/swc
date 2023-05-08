@@ -782,7 +782,9 @@ impl VisitMut for Decorator202203 {
                                 PrivateName {
                                     span: init.span.with_ctxt(SyntaxContext::empty()),
                                     id: Ident::new(
-                                        format!("__{}", init.sym).into(),
+                                        format!("__{}", init.sym)
+                                            .replacen("init", "private", 1)
+                                            .into(),
                                         init.span.with_ctxt(SyntaxContext::empty()),
                                     ),
                                 }
