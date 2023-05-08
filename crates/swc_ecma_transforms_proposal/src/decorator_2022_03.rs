@@ -883,29 +883,44 @@ impl VisitMut for Decorator202203 {
                         let initialize_init = {
                             ArrayLit {
                                 span: DUMMY_SP,
-                                elems: vec![
-                                    dec,
-                                    Some(if accessor.is_static {
-                                        6.as_arg()
-                                    } else {
-                                        1.as_arg()
-                                    }),
-                                    Some(name.as_arg()),
-                                    Some(
-                                        FnExpr {
-                                            ident: None,
-                                            function: getter_function.clone(),
-                                        }
-                                        .as_arg(),
-                                    ),
-                                    Some(
-                                        FnExpr {
-                                            ident: None,
-                                            function: setter_function.clone(),
-                                        }
-                                        .as_arg(),
-                                    ),
-                                ],
+                                elems: match &accessor.key {
+                                    Key::Private(_) => {
+                                        vec![
+                                            dec,
+                                            Some(if accessor.is_static {
+                                                6.as_arg()
+                                            } else {
+                                                1.as_arg()
+                                            }),
+                                            Some(name.as_arg()),
+                                            Some(
+                                                FnExpr {
+                                                    ident: None,
+                                                    function: getter_function.clone(),
+                                                }
+                                                .as_arg(),
+                                            ),
+                                            Some(
+                                                FnExpr {
+                                                    ident: None,
+                                                    function: setter_function.clone(),
+                                                }
+                                                .as_arg(),
+                                            ),
+                                        ]
+                                    }
+                                    Key::Public(_) => {
+                                        vec![
+                                            dec,
+                                            Some(if accessor.is_static {
+                                                6.as_arg()
+                                            } else {
+                                                1.as_arg()
+                                            }),
+                                            Some(name.as_arg()),
+                                        ]
+                                    }
+                                },
                             }
                             .as_arg()
                         };
