@@ -777,33 +777,35 @@ impl VisitMut for Decorator202203 {
                         Key::Private(key) => {
                             let getter = PrivateMethod {
                                 function: getter_function,
+                                kind: MethodKind::Getter,
+                                is_static: accessor.is_static,
                                 is_abstract: false,
                                 is_optional: false,
                                 is_override: false,
-                                is_static: accessor.is_static,
                             };
                             let setter = PrivateMethod {
                                 function: setter_function,
+                                kind: MethodKind::Setter,
+                                is_static: accessor.is_static,
                                 is_abstract: false,
                                 is_optional: false,
                                 is_override: false,
-                                is_static: accessor.is_static,
                             };
                         }
                         Key::Public(key) => {
                             let getter = ClassMethod {
                                 function: getter_function,
+                                is_static: accessor.is_static,
                                 is_abstract: false,
                                 is_optional: false,
                                 is_override: false,
-                                is_static: accessor.is_static,
                             };
                             let setter = ClassMethod {
                                 function: setter_function,
+                                is_static: accessor.is_static,
                                 is_abstract: false,
                                 is_optional: false,
                                 is_override: false,
-                                is_static: accessor.is_static,
                             };
                         }
                     }
