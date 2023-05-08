@@ -880,6 +880,10 @@ impl VisitMut for Decorator202203 {
                                 is_optional: false,
                                 is_override: false,
                             };
+
+                            new.push(ClassMember::PrivateProp(private_field));
+                            new.push(ClassMember::PrivateMethod(getter));
+                            new.push(ClassMember::PrivateMethod(setter));
                         }
                         Key::Public(key) => {
                             let key = key.expect_ident();
@@ -906,6 +910,10 @@ impl VisitMut for Decorator202203 {
                                 is_optional: false,
                                 is_override: false,
                             };
+
+                            new.push(ClassMember::PrivateProp(private_field));
+                            new.push(ClassMember::Method(getter));
+                            new.push(ClassMember::Method(setter));
                         }
                     }
 
