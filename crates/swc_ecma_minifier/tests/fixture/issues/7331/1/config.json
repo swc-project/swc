@@ -1,5 +1,5 @@
 {
-    "defaults": true,
+    "inline": true,
     "toplevel": true,
     "passes": 1
 }
