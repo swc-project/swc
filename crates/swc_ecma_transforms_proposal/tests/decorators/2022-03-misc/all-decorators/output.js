@@ -23,7 +23,7 @@ new class extends _identity {
                     ]
                 ], []));
                 _initStatic(this);
-                ({ e: [_init_i, _init_m, _init_n, _init_r, _init_a, _init_d, _init_e, _call_f, _call_g, _call_g1, _init_h, _call_o, _call_p, _call_q, _initProto] , c: [_Class, _initClass]  } = _apply_decs_2203_r(this, [
+                ({ e: [_init_i, _init_m, _init_n, _init_r, _get___r, _set___r, _init_a, _init_d, _init_e, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _call_o, _call_p, _call_q, _initProto] , c: [_Class, _initClass]  } = _apply_decs_2203_r(this, [
                     [
                         dec,
                         5,
@@ -172,10 +172,10 @@ new class extends _identity {
     }
     #__h = _init_h(this);
     get #h() {
-        return this.#__h;
+        return _get___h(this);
     }
     set #h(_v) {
-        this.#__h = _v;
+        _set___h(this, _v);
     }
     i = _init_i(this);
     #___private_m = _init_m(this);
@@ -195,10 +195,10 @@ new class extends _identity {
     }
     #__r = _init_r(this);
     get #r() {
-        return this.#__r;
+        return _get___r(this);
     }
     set #r(_v) {
-        this.#__r = _v;
+        _set___r(this, _v);
     }
     constructor(){
         super(_Class), _initClass();
