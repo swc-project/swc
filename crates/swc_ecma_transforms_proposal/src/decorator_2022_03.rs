@@ -798,7 +798,18 @@ impl VisitMut for Decorator202203 {
                                 }
                             }
                         },
-                        value: accessor.value,
+                        value: if accessor.decorators.is_empty() {
+                            accessor.value
+                        } else {
+                            Some(Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: init.clone().as_callee(),
+                                args: once(ThisExpr { span: DUMMY_SP }.as_arg())
+                                    .chain(accessor.value.take().map(|v| v.as_arg()))
+                                    .collect(),
+                                type_args: Default::default(),
+                            })))
+                        },
                         type_ann: None,
                         is_static: accessor.is_static,
                         decorators: Default::default(),
