@@ -1258,13 +1258,14 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let init = self.include_in_expr(false).parse_for_head_prefix()?;
 
-        let is_using_decl = match *init {
-            Expr::Ident(Ident {
-                sym: js_word!("using"),
-                ..
-            }) => is!(self, BindingIdent) && (peeked_is!(self, "of") || peeked_is!(self, "in")),
-            _ => false,
-        };
+        let is_using_decl = self.input.syntax().using_decl()
+            && match *init {
+                Expr::Ident(Ident {
+                    sym: js_word!("using"),
+                    ..
+                }) => is!(self, BindingIdent) && (peeked_is!(self, "of") || peeked_is!(self, "in")),
+                _ => false,
+            };
 
         if is_using_decl {
             let name = self.parse_binding_ident()?;
