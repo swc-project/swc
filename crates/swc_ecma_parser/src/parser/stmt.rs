@@ -1282,6 +1282,8 @@ impl<'a, I: Tokens> Parser<I> {
                 decls: vec![decl],
             });
 
+            cur!(self, true)?;
+
             return self.parse_for_each_head(ForHead::UsingDecl(pat));
         };
 
