@@ -355,7 +355,7 @@ impl Visit for VarWithOutInitCounter {
         n.visit_children_with(self);
     }
 
-    fn visit_var_decl_or_pat(&mut self, _: &ForHead) {}
+    fn visit_for_head(&mut self, _: &ForHead) {}
 }
 
 /// Moves all variable without initializer.
@@ -425,7 +425,7 @@ impl VisitMut for VarMover {
         self.var_decl_kind = old;
     }
 
-    fn visit_mut_var_decl_or_pat(&mut self, _: &mut ForHead) {}
+    fn visit_mut_for_head(&mut self, _: &mut ForHead) {}
 
     fn visit_mut_var_declarators(&mut self, d: &mut Vec<VarDeclarator>) {
         d.visit_mut_children_with(self);
