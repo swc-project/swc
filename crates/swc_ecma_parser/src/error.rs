@@ -46,6 +46,7 @@ pub enum SyntaxError {
     DeclNotAllowed,
 
     UsingDeclNotAllowed,
+    UsingDeclNotAllowedForInLoop,
     UsingDeclNotEnabled,
     InvalidNameInUsingDecl,
     InitRequiredForUsingDecl,
@@ -528,6 +529,9 @@ impl SyntaxError {
             }
             SyntaxError::DeclNotAllowed => "Declaration is not allowed".into(),
             SyntaxError::UsingDeclNotAllowed => "Using declaration is not allowed".into(),
+            SyntaxError::UsingDeclNotAllowedForInLoop => {
+                "Using declaration is not allowed in for-in loop".into()
+            }
             SyntaxError::UsingDeclNotEnabled => {
                 "Using declaration is not enabled. Set jsc.parser.usingDecl to true".into()
             }

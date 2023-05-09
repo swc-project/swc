@@ -1315,6 +1315,10 @@ impl<'a, I: Tokens> Parser<I> {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
             Ok(TempForHead::ForOf { left, right })
         } else {
+            if let ForHead::UsingDecl(d) = &left {
+                self.emit_err(d.span, SyntaxError::UsingDeclNotAllowed)
+            }
+
             let right = self.include_in_expr(true).parse_expr()?;
             Ok(TempForHead::ForIn { left, right })
         }
