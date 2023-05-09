@@ -466,84 +466,80 @@ impl Decorator202203 {
 
                 replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
 
+                let class = Box::new(Class {
+                    span: DUMMY_SP,
+                    decorators: vec![],
+                    body: once(ClassMember::StaticBlock(StaticBlock {
+                        span: DUMMY_SP,
+                        body: BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![Stmt::Decl(Decl::Class(ClassDecl {
+                                ident: preserved_class_name,
+                                declare: Default::default(),
+                                class: c.class.take(),
+                            }))],
+                        },
+                    }))
+                    .chain(body)
+                    .chain(once(ClassMember::Constructor(Constructor {
+                        span: DUMMY_SP,
+                        key: PropName::Ident(quote_ident!("constructor")),
+                        params: vec![],
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: once(Box::new(Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: Callee::Super(Super { span: DUMMY_SP }),
+                                    args: vec![new_class_name.as_arg()],
+                                    type_args: Default::default(),
+                                })))
+                                .chain(last_static_block.map(|stmts| {
+                                    Box::new(Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: ArrowExpr {
+                                            span: DUMMY_SP,
+                                            params: vec![],
+                                            body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                                                span: DUMMY_SP,
+                                                stmts,
+                                            })),
+                                            is_async: false,
+                                            is_generator: false,
+                                            type_params: Default::default(),
+                                            return_type: Default::default(),
+                                        }
+                                        .as_callee(),
+                                        args: vec![],
+                                        type_args: Default::default(),
+                                    }))
+                                }))
+                                .chain(once(Box::new(Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: init_class.as_callee(),
+                                    args: vec![],
+                                    type_args: Default::default(),
+                                }))))
+                                .collect(),
+                            }
+                            .into_stmt()],
+                        }),
+                        accessibility: Default::default(),
+                        is_optional: Default::default(),
+                    })))
+                    .collect(),
+                    super_class: Some(Box::new(helper_expr!(identity))),
+                    is_abstract: Default::default(),
+                    type_params: Default::default(),
+                    super_type_params: Default::default(),
+                    implements: Default::default(),
+                });
+
                 return Some(
                     NewExpr {
                         span: DUMMY_SP,
-                        callee: ClassExpr {
-                            ident: None,
-                            class: Box::new(Class {
-                                span: DUMMY_SP,
-                                decorators: vec![],
-                                body: once(ClassMember::StaticBlock(StaticBlock {
-                                    span: DUMMY_SP,
-                                    body: BlockStmt {
-                                        span: DUMMY_SP,
-                                        stmts: vec![Stmt::Decl(Decl::Class(ClassDecl {
-                                            ident: preserved_class_name,
-                                            declare: Default::default(),
-                                            class: c.class.take(),
-                                        }))],
-                                    },
-                                }))
-                                .chain(body)
-                                .chain(once(ClassMember::Constructor(Constructor {
-                                    span: DUMMY_SP,
-                                    key: PropName::Ident(quote_ident!("constructor")),
-                                    params: vec![],
-                                    body: Some(BlockStmt {
-                                        span: DUMMY_SP,
-                                        stmts: vec![SeqExpr {
-                                            span: DUMMY_SP,
-                                            exprs: once(Box::new(Expr::Call(CallExpr {
-                                                span: DUMMY_SP,
-                                                callee: Callee::Super(Super { span: DUMMY_SP }),
-                                                args: vec![new_class_name.as_arg()],
-                                                type_args: Default::default(),
-                                            })))
-                                            .chain(last_static_block.map(|stmts| {
-                                                Box::new(Expr::Call(CallExpr {
-                                                    span: DUMMY_SP,
-                                                    callee: ArrowExpr {
-                                                        span: DUMMY_SP,
-                                                        params: vec![],
-                                                        body: Box::new(BlockStmtOrExpr::BlockStmt(
-                                                            BlockStmt {
-                                                                span: DUMMY_SP,
-                                                                stmts,
-                                                            },
-                                                        )),
-                                                        is_async: false,
-                                                        is_generator: false,
-                                                        type_params: Default::default(),
-                                                        return_type: Default::default(),
-                                                    }
-                                                    .as_callee(),
-                                                    args: vec![],
-                                                    type_args: Default::default(),
-                                                }))
-                                            }))
-                                            .chain(once(Box::new(Expr::Call(CallExpr {
-                                                span: DUMMY_SP,
-                                                callee: init_class.as_callee(),
-                                                args: vec![],
-                                                type_args: Default::default(),
-                                            }))))
-                                            .collect(),
-                                        }
-                                        .into_stmt()],
-                                    }),
-                                    accessibility: Default::default(),
-                                    is_optional: Default::default(),
-                                })))
-                                .collect(),
-                                super_class: Some(Box::new(helper_expr!(identity))),
-                                is_abstract: Default::default(),
-                                type_params: Default::default(),
-                                super_type_params: Default::default(),
-                                implements: Default::default(),
-                            }),
-                        }
-                        .into(),
+                        callee: ClassExpr { ident: None, class }.into(),
                         args: Some(vec![]),
                         type_args: Default::default(),
                     }
