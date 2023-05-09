@@ -1,11 +1,32 @@
-var _initClass, _init_a, _init_d, _init_e, _call_f, _call_g, _call_g1, _init_h, _init_i, _init_m, _init_n, _call_o, _call_p, _call_q, _init_r, _initStatic, _initProto;
+var _initClass, _init_a, _init_d, _init_e, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _init_i, _init_n, _call_o, _call_p, _call_q, _init_m, _init_r, _get___r, _set___r, _initStatic, _initProto;
 const dec = ()=>{};
 let _Class;
 new class extends _identity {
+    constructor(...args){
+        super(...args);
+        super(_Class);
+        _initClass();
+    }
     static{
         class Class {
             static{
-                ({ e: [_initStatic]  } = _apply_decs_2203_r(this, [
+                ({ e: [_init_m, _init_r, _get___r, _set___r, _initStatic]  } = _apply_decs_2203_r(this, [
+                    [
+                        dec,
+                        6,
+                        "m"
+                    ],
+                    [
+                        dec,
+                        6,
+                        "r",
+                        function() {
+                            return this.#__r;
+                        },
+                        function(_v) {
+                            this.#__r = _v;
+                        }
+                    ],
                     [
                         dec,
                         7,
@@ -23,16 +44,11 @@ new class extends _identity {
                     ]
                 ], []));
                 _initStatic(this);
-                ({ e: [_init_i, _init_m, _init_n, _init_r, _get___r, _set___r, _init_a, _init_d, _init_e, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _call_o, _call_p, _call_q, _initProto] , c: [_Class, _initClass]  } = _apply_decs_2203_r(this, [
+                ({ e: [_init_i, _init_n, _init_a, _init_d, _init_e, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _call_o, _call_p, _call_q, _initProto] , c: [_Class, _initClass]  } = _apply_decs_2203_r(this, [
                     [
                         dec,
                         5,
                         "i"
-                    ],
-                    [
-                        dec,
-                        6,
-                        "m"
                     ],
                     [
                         dec,
@@ -43,17 +59,6 @@ new class extends _identity {
                         },
                         function(value) {
                             this.#n = value;
-                        }
-                    ],
-                    [
-                        dec,
-                        6,
-                        "r",
-                        function() {
-                            return this.#__r;
-                        },
-                        function(_v) {
-                            this.#__r = _v;
                         }
                     ],
                     [
@@ -149,6 +154,20 @@ new class extends _identity {
             static j() {}
             static get k() {}
             static set l(v) {}
+            static #___private_m = _init_m(this);
+            static get m() {
+                return this.#___private_m;
+            }
+            static set m(_v) {
+                this.#___private_m = _v;
+            }
+            static #__r = _init_r(this);
+            static get #r() {
+                return _get___r(this);
+            }
+            static set #r(_v) {
+                _set___r(this, _v);
+            }
         }
     }
     a = _init_a(this);
@@ -178,13 +197,6 @@ new class extends _identity {
         _set___h(this, _v);
     }
     i = _init_i(this);
-    #___private_m = _init_m(this);
-    get m() {
-        return this.#___private_m;
-    }
-    set m(_v) {
-        this.#___private_m = _v;
-    }
     #n = _init_n(this);
     #o = _call_o;
     get #p() {
@@ -192,15 +204,5 @@ new class extends _identity {
     }
     set #q(v) {
         _call_q(this, v);
-    }
-    #__r = _init_r(this);
-    get #r() {
-        return _get___r(this);
-    }
-    set #r(_v) {
-        _set___r(this, _v);
-    }
-    constructor(){
-        super(_Class), _initClass();
     }
 }();

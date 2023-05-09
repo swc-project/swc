@@ -1,4 +1,4 @@
-var _init_a, _init_b, _initStatic;
+var _init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initStatic;
 const dec = ()=>{};
 class Foo {
 }

@@ -2,6 +2,14 @@ var _initClass;
 const dec = ()=>{};
 let _Foo;
 new class extends _identity {
+    constructor(...args){
+        super(...args);
+        super(_Foo);
+        (()=>{
+            this;
+        })();
+        _initClass();
+    }
     static{
         class Foo {
             static{
@@ -14,9 +22,4 @@ new class extends _identity {
     field = ((()=>{
         this;
     })(), this);
-    constructor(){
-        super(_Foo), (()=>{
-            this;
-        })(), _initClass();
-    }
 }();

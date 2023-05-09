@@ -3,9 +3,12 @@ var _initClass, _initClass1;
 const dec = ()=>{};
 let _Foo;
 new (_class = class extends _identity {
-    constructor(){
-        var _temp;
-        _temp = super(_Foo), _define_property(this, "field", 123), _temp, _initClass();
+    constructor(...args){
+        super(...args);
+        _define_property(this, "field", 123);
+        super(_Foo);
+        _define_property(this, "field", 123);
+        _initClass();
     }
 }, __ = {
     writable: true,
@@ -24,11 +27,16 @@ new (_class = class extends _identity {
 }, _class)();
 let _Bar;
 new (_class1 = class extends _identity {
-    constructor(){
-        var _temp;
-        _temp = super(_Bar), _define_property(this, "field", ((()=>{
+    constructor(...args){
+        super(...args);
+        _define_property(this, "field", ((()=>{
             this.otherField = 456;
-        })(), 123)), _temp, _initClass1();
+        })(), 123));
+        super(_Bar);
+        _define_property(this, "field", ((()=>{
+            this.otherField = 456;
+        })(), 123));
+        _initClass1();
     }
 }, __1 = {
     writable: true,

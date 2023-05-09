@@ -3,13 +3,19 @@ var _initClass;
 const dec = ()=>{};
 let _Foo;
 new (_class = class extends _identity {
-    constructor(){
-        var _temp;
-        _temp = super(_Foo), _define_property(this, "field", ((()=>{
+    constructor(...args){
+        super(...args);
+        _define_property(this, "field", ((()=>{
             this;
-        })(), this)), _temp, (()=>{
+        })(), this));
+        super(_Foo);
+        _define_property(this, "field", ((()=>{
             this;
-        })(), _initClass();
+        })(), this));
+        (()=>{
+            this;
+        })();
+        _initClass();
     }
 }, __ = {
     writable: true,
