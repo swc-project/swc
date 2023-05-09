@@ -1251,11 +1251,11 @@ impl<'a, I: Tokens> Parser<I> {
             return self.parse_normal_for_head(Some(VarDeclOrExpr::VarDecl(decl)));
         }
 
-        let init = if eat_exact!(self, ';') {
+        if eat_exact!(self, ';') {
             return self.parse_normal_for_head(None);
-        } else {
-            self.include_in_expr(false).parse_for_head_prefix()?
-        };
+        }
+
+        let init = self.include_in_expr(false).parse_for_head_prefix()?;
 
         // for (a of b)
         if is_one_of!(self, "of", "in") {
