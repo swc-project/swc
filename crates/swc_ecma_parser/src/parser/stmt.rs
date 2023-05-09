@@ -1310,8 +1310,8 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_for_each_head(&mut self, left: ForHead) -> PResult<TempForHead> {
-        let of = bump!(self) == tok!("of");
-        if of {
+        let is_of = bump!(self) == tok!("of");
+        if is_of {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
             Ok(TempForHead::ForOf { left, right })
         } else {
