@@ -1427,8 +1427,9 @@ define!({
         pub param: Option<Pat>,
         pub body: BlockStmt,
     }
-    pub enum VarDeclOrPat {
+    pub enum ForHead {
         VarDecl(Box<VarDecl>),
+        UsingDecl(Box<UsingDecl>),
         Pat(Box<Pat>),
     }
     pub enum VarDeclOrExpr {
