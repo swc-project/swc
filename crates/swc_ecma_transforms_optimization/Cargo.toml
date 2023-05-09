@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_optimization"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.186.30"
+version       = "0.186.31"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
@@ -43,10 +43,10 @@ swc_ecma_visit             = { version = "0.89.7", path = "../swc_ecma_visit" }
 swc_fast_graph             = { version = "0.19.6", path = "../swc_fast_graph" }
 
 [dev-dependencies]
-swc_ecma_transforms_compat     = { version = "0.152.22", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_module     = { version = "0.169.26", path = "../swc_ecma_transforms_module" }
-swc_ecma_transforms_proposal   = { version = "0.160.24", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_react      = { version = "0.172.28", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_compat     = { version = "0.152.23", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_module     = { version = "0.169.27", path = "../swc_ecma_transforms_module" }
+swc_ecma_transforms_proposal   = { version = "0.160.25", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_react      = { version = "0.172.29", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_testing    = { version = "0.129.20", path = "../swc_ecma_transforms_testing" }
-swc_ecma_transforms_typescript = { version = "0.176.29", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_typescript = { version = "0.176.30", path = "../swc_ecma_transforms_typescript" }
 testing                        = { version = "0.33.7", path = "../testing" }
