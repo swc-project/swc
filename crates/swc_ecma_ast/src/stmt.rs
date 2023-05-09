@@ -6,6 +6,7 @@ use crate::{
     expr::Expr,
     ident::Ident,
     pat::Pat,
+    UsingDecl,
 };
 
 /// Use when only block statements are allowed.
@@ -383,6 +384,9 @@ pub struct CatchClause {
 pub enum ForHead {
     #[tag("VariableDeclaration")]
     VarDecl(Box<VarDecl>),
+
+    #[tag("UsingDeclaration")]
+    UsingDecl(Box<UsingDecl>),
 
     #[tag("*")]
     Pat(Box<Pat>),
