@@ -1254,7 +1254,7 @@ impl<'a, I: Tokens> Parser<I> {
         let init = if eat_exact!(self, ';') {
             return self.parse_normal_for_head(None);
         } else {
-            self.include_in_expr(false).parse_for_in_of_head()?
+            self.include_in_expr(false).parse_for_head_prefix()?
         };
 
         // for (a of b)

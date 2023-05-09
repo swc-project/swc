@@ -1618,7 +1618,7 @@ impl<I: Tokens> Parser<I> {
         Ok(callee)
     }
 
-    pub(super) fn parse_for_in_of_head(&mut self) -> PResult<Box<Expr>> {
+    pub(super) fn parse_for_head_prefix(&mut self) -> PResult<Box<Expr>> {
         self.parse_expr()
     }
 
