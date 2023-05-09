@@ -922,6 +922,19 @@ impl VisitMut for Decorator202203 {
                                             ),
                                         ];
 
+                                        self.extra_vars.push(VarDeclarator {
+                                            span: DUMMY_SP,
+                                            name: Pat::Ident(getter_var.clone().unwrap().into()),
+                                            init: None,
+                                            definite: false,
+                                        });
+                                        self.extra_vars.push(VarDeclarator {
+                                            span: DUMMY_SP,
+                                            name: Pat::Ident(setter_var.clone().unwrap().into()),
+                                            init: None,
+                                            definite: false,
+                                        });
+
                                         getter_function = Box::new(Function {
                                             params: vec![],
                                             decorators: Default::default(),
