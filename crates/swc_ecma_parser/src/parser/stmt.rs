@@ -1316,7 +1316,7 @@ impl<'a, I: Tokens> Parser<I> {
             Ok(TempForHead::ForOf { left, right })
         } else {
             if let ForHead::UsingDecl(d) = &left {
-                self.emit_err(d.span, SyntaxError::UsingDeclNotAllowed)
+                self.emit_err(d.span, SyntaxError::UsingDeclNotAllowedForForInLoop)
             }
 
             let right = self.include_in_expr(true).parse_expr()?;

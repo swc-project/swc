@@ -46,7 +46,7 @@ pub enum SyntaxError {
     DeclNotAllowed,
 
     UsingDeclNotAllowed,
-    UsingDeclNotAllowedForInLoop,
+    UsingDeclNotAllowedForForInLoop,
     UsingDeclNotEnabled,
     InvalidNameInUsingDecl,
     InitRequiredForUsingDecl,
@@ -529,7 +529,7 @@ impl SyntaxError {
             }
             SyntaxError::DeclNotAllowed => "Declaration is not allowed".into(),
             SyntaxError::UsingDeclNotAllowed => "Using declaration is not allowed".into(),
-            SyntaxError::UsingDeclNotAllowedForInLoop => {
+            SyntaxError::UsingDeclNotAllowedForForInLoop => {
                 "Using declaration is not allowed in for-in loop".into()
             }
             SyntaxError::UsingDeclNotEnabled => {
