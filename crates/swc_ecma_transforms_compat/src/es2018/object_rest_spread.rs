@@ -160,6 +160,10 @@ macro_rules! impl_for_for_stmt {
                     }
                     .into()
                 }
+
+                ForHead::UsingDecl(..) => {
+                    unreachable!("using declaration must be removed by previous pass")
+                }
             };
             for_stmt.left = left;
 

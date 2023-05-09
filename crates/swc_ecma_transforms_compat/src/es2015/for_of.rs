@@ -360,6 +360,10 @@ impl ForOf {
                     right: step_value,
                 }
                 .into_stmt(),
+
+                ForHead::UsingDecl(..) => {
+                    unreachable!("using declaration must be removed by previous pass")
+                }
             },
         );
 

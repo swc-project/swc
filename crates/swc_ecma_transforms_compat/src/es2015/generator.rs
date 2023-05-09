@@ -1799,6 +1799,10 @@ impl Generator {
                     initializer.visit_mut_with(self);
                     *initializer
                 }
+
+                ForHead::UsingDecl(..) => {
+                    unreachable!("using declaration must be removed by previous pass")
+                }
             };
             self.emit_assignment(
                 PatOrExpr::Pat(Box::new(variable)),

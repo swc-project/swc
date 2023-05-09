@@ -621,6 +621,10 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     })),
                 }));
             }
+
+            ForHead::UsingDecl(..) => {
+                unreachable!("using declaration must be removed by previous pass")
+            }
         }
 
         for_loop_body.extend(orig_body);
