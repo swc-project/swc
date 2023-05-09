@@ -8,6 +8,21 @@ new class extends _identity {
                 ({ e: [_init_m, _init_r, _get___r, _set___r, _initStatic]  } = _apply_decs_2203_r(this, [
                     [
                         dec,
+                        7,
+                        "j"
+                    ],
+                    [
+                        dec,
+                        8,
+                        "k"
+                    ],
+                    [
+                        dec,
+                        9,
+                        "l"
+                    ],
+                    [
+                        dec,
                         6,
                         "m"
                     ],
@@ -21,21 +36,6 @@ new class extends _identity {
                         function(_v) {
                             this.#__r = _v;
                         }
-                    ],
-                    [
-                        dec,
-                        7,
-                        "j"
-                    ],
-                    [
-                        dec,
-                        8,
-                        "k"
-                    ],
-                    [
-                        dec,
-                        9,
-                        "l"
                     ]
                 ], []));
                 _initStatic(this);
@@ -63,6 +63,21 @@ new class extends _identity {
                     ],
                     [
                         dec,
+                        2,
+                        "b"
+                    ],
+                    [
+                        dec,
+                        3,
+                        "c"
+                    ],
+                    [
+                        dec,
+                        4,
+                        "c"
+                    ],
+                    [
+                        dec,
                         1,
                         "d"
                     ],
@@ -76,32 +91,6 @@ new class extends _identity {
                         function(value) {
                             this.#e = value;
                         }
-                    ],
-                    [
-                        dec,
-                        1,
-                        "h",
-                        function() {
-                            return this.#__h;
-                        },
-                        function(_v) {
-                            this.#__h = _v;
-                        }
-                    ],
-                    [
-                        dec,
-                        2,
-                        "b"
-                    ],
-                    [
-                        dec,
-                        3,
-                        "c"
-                    ],
-                    [
-                        dec,
-                        4,
-                        "c"
                     ],
                     [
                         dec,
@@ -120,6 +109,17 @@ new class extends _identity {
                         4,
                         "g",
                         function(v) {}
+                    ],
+                    [
+                        dec,
+                        1,
+                        "h",
+                        function() {
+                            return this.#__h;
+                        },
+                        function(_v) {
+                            this.#__h = _v;
+                        }
                     ],
                     [
                         dec,
