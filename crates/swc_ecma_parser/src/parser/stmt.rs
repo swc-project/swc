@@ -1266,9 +1266,7 @@ impl<'a, I: Tokens> Parser<I> {
             _ => false,
         };
 
-        let init = if !is_using_decl {
-            init
-        } else {
+        if is_using_decl {
             let name = self.parse_binding_ident()?;
             let decl = VarDeclarator {
                 name: Pat::Ident(name),
@@ -1285,7 +1283,7 @@ impl<'a, I: Tokens> Parser<I> {
             cur!(self, true)?;
 
             return self.parse_for_each_head(ForHead::UsingDecl(pat));
-        };
+        }
 
         // for (a of b)
         if is_one_of!(self, "of", "in") {
