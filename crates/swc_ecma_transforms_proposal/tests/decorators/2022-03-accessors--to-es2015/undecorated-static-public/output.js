@@ -1,36 +1,33 @@
-var _computedKey;
-const dec = ()=>{};
-_computedKey = 'c';
-let _computedKey1 = _computedKey, _computedKey2 = _computedKey;
+const dec = () => { };
 class Foo {
-    static get a() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_a);
-    }
-    static set a(_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_a, _v);
-    }
-    static get b() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_b);
-    }
-    static set b(_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_b, _v);
-    }
-    static get [_computedKey1]() {
-        return _class_static_private_field_spec_get(this, Foo, ____private_computedKey);
-    }
-    static set [_computedKey2](_v) {
-        _class_static_private_field_spec_set(this, Foo, ____private_computedKey, _v);
-    }
+  static get a() {
+    return classStaticPrivateFieldSpecGet(this, Foo, _A);
+  }
+  static set a(v) {
+    classStaticPrivateFieldSpecSet(this, Foo, _A, v);
+  }
+  static get b() {
+    return classStaticPrivateFieldSpecGet(this, Foo, _B);
+  }
+  static set b(v) {
+    classStaticPrivateFieldSpecSet(this, Foo, _B, v);
+  }
+  static get ['c']() {
+    return classStaticPrivateFieldSpecGet(this, Foo, _C);
+  }
+  static set ['c'](v) {
+    classStaticPrivateFieldSpecSet(this, Foo, _C, v);
+  }
 }
-var ____private_a = {
-    writable: true,
-    value: void 0
+var _A = {
+  writable: true,
+  value: void 0
 };
-var ____private_b = {
-    writable: true,
-    value: 123
+var _B = {
+  writable: true,
+  value: 123
 };
-var ____private_computedKey = {
-    writable: true,
-    value: 456
+var _C = {
+  writable: true,
+  value: 456
 };

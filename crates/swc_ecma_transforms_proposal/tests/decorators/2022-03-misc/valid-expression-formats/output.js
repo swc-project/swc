@@ -21,11 +21,6 @@ class Foo {
                         ],
                         2,
                         "method"
-                    ],
-                    [
-                        _dec8,
-                        0,
-                        "bar"
                     ]
                 ], [
                     dec,
