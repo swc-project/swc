@@ -1,6 +1,0 @@
-
-  x Expected ')', got 'of'
-   ,-[$DIR/tests/errors/explicit-resource-management/invalid-for-await-using-binding-of-of/input.mjs:1:1]
- 1 | for await (using of of of);
-   :                        ^^
-   `----
