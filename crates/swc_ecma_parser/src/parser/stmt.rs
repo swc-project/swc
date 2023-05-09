@@ -1255,7 +1255,35 @@ impl<'a, I: Tokens> Parser<I> {
             return self.parse_normal_for_head(None);
         }
 
+        let start = cur_pos!(self);
         let init = self.include_in_expr(false).parse_for_head_prefix()?;
+
+        let is_using_decl = match *init {
+            Expr::Ident(Ident {
+                sym: js_word!("using"),
+                ..
+            }) => is!(self, BindingIdent) && (peeked_is!(self, "of") || peeked_is!(self, "in")),
+            _ => false,
+        };
+
+        let init = if !is_using_decl {
+            init
+        } else {
+            let name = self.parse_binding_ident()?;
+            let decl = VarDeclarator {
+                name: Pat::Ident(name),
+                span: span!(self, start),
+                init: None,
+                definite: false,
+            };
+
+            let pat = Box::new(UsingDecl {
+                span: span!(self, start),
+                decls: vec![decl],
+            });
+
+            return self.parse_for_each_head(ForHead::UsingDecl(pat));
+        };
 
         // for (a of b)
         if is_one_of!(self, "of", "in") {
