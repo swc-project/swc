@@ -308,6 +308,9 @@ impl Babelify for ForHead {
         match self {
             ForHead::VarDecl(v) => ForStmtLeft::VarDecl(v.babelify(ctx)),
             ForHead::Pat(p) => ForStmtLeft::LVal(p.babelify(ctx).into()),
+            _ => {
+                todo!("ForHead::UsingDecl({self:?})")
+            }
         }
     }
 }

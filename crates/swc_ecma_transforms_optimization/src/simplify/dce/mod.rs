@@ -1009,7 +1009,7 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_for_head(&mut self, n: &mut ForHead) {
         match n {
-            ForHead::VarDecl(..) => {}
+            ForHead::VarDecl(..) | ForHead::UsingDecl(..) => {}
             ForHead::Pat(v) => {
                 v.visit_mut_with(self);
             }

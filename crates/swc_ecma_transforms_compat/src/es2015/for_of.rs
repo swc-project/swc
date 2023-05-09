@@ -173,6 +173,10 @@ impl ForOf {
                     }
                     .into_stmt(),
                 ),
+
+                ForHead::UsingDecl(..) => {
+                    unreachable!("using declaration must be removed by previous pass")
+                }
             }
 
             let stmt = Stmt::For(ForStmt {
@@ -269,6 +273,10 @@ impl ForOf {
                     }
                     .into_stmt(),
                 ),
+
+                ForHead::UsingDecl(..) => {
+                    unreachable!("using declaration must be removed by previous pass")
+                }
             }
 
             // !(_step = _iterator()).done;
