@@ -19,8 +19,8 @@ pub fn decorator_2022_03() -> impl VisitMut + Fold {
 struct Decorator202203 {
     /// Variables without initializer.
     extra_vars: Vec<VarDeclarator>,
-    static_inits: Vec<(Ident, Vec<Option<ExprOrSpread>>)>,
-    cur_inits: Vec<(Ident, Vec<Option<ExprOrSpread>>)>,
+    static_lhs: Vec<Ident>,
+    proto_lhs: Vec<Ident>,
 
     /// If not empty, `initProto` should be injected to the constructor.
     init_proto: Option<Ident>,
@@ -87,9 +87,9 @@ impl Decorator202203 {
         };
 
         let inits = if for_static {
-            self.static_inits.take()
+            self.static_lhs.take()
         } else {
-            self.cur_inits.take()
+            self.proto_lhs.take()
         };
 
         if inits.is_empty()
@@ -101,12 +101,14 @@ impl Decorator202203 {
 
         let mut e_lhs = vec![];
         let mut combined_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
-        let mut arrays = vec![];
+        let arrays = if for_static {
+            self.init_static_args.take()
+        } else {
+            self.init_proto_args.take()
+        };
 
-        for (id, args) in inits {
+        for id in inits {
             e_lhs.push(Some(id.into()));
-
-            arrays.extend(args);
         }
 
         if let Some(init_proto) = init_ident.clone() {
@@ -118,11 +120,6 @@ impl Decorator202203 {
             });
 
             e_lhs.push(Some(init_proto.into()));
-            if for_static {
-                arrays.append(&mut self.init_static_args);
-            } else {
-                arrays.append(&mut self.init_proto_args);
-            }
         }
 
         combined_args.push(
@@ -448,7 +445,9 @@ impl Decorator202203 {
 
                 body.visit_mut_with(self);
 
-                self.cur_inits.splice(0..0, self.static_inits.drain(..));
+                self.proto_lhs.splice(0..0, self.static_lhs.drain(..));
+                self.init_proto_args
+                    .splice(0..0, self.init_static_args.drain(..));
 
                 c.visit_mut_with(self);
 
@@ -692,9 +691,9 @@ impl VisitMut for Decorator202203 {
             }
 
             if p.is_static {
-                self.static_inits.push((init.clone(), vec![]));
+                self.static_lhs.push(init.clone());
             } else {
-                self.cur_inits.push((init.clone(), vec![]));
+                self.proto_lhs.push(init.clone());
             }
 
             match p.kind {
@@ -1015,21 +1014,15 @@ impl VisitMut for Decorator202203 {
                         };
 
                         if accessor.is_static {
-                            self.static_inits.push((init, vec![Some(initialize_init)]));
-                            self.static_inits.extend(
-                                getter_var
-                                    .into_iter()
-                                    .chain(setter_var)
-                                    .map(|id| (id, vec![])),
-                            );
+                            self.static_lhs.push(init);
+                            self.init_static_args.push(Some(initialize_init));
+                            self.static_lhs
+                                .extend(getter_var.into_iter().chain(setter_var));
                         } else {
-                            self.cur_inits.push((init, vec![Some(initialize_init)]));
-                            self.cur_inits.extend(
-                                getter_var
-                                    .into_iter()
-                                    .chain(setter_var)
-                                    .map(|id| (id, vec![])),
-                            );
+                            self.proto_lhs.push(init);
+                            self.init_proto_args.push(Some(initialize_init));
+                            self.proto_lhs
+                                .extend(getter_var.into_iter().chain(setter_var));
                         }
 
                         if accessor.is_static {
@@ -1205,9 +1198,11 @@ impl VisitMut for Decorator202203 {
         };
 
         if p.is_static {
-            self.static_inits.push((init, vec![initialize_init]))
+            self.static_lhs.push(init);
+            self.init_static_args.push(initialize_init);
         } else {
-            self.cur_inits.push((init, vec![initialize_init]))
+            self.proto_lhs.push(init);
+            self.init_proto_args.push(initialize_init);
         }
     }
 
@@ -1428,9 +1423,11 @@ impl VisitMut for Decorator202203 {
         };
 
         if p.is_static {
-            self.static_inits.push((init, vec![Some(initialize_init)]))
+            self.static_lhs.push(init);
+            self.init_static_args.push(Some(initialize_init));
         } else {
-            self.cur_inits.push((init, vec![Some(initialize_init)]))
+            self.proto_lhs.push(init);
+            self.init_proto_args.push(Some(initialize_init));
         }
     }
 
