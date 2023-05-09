@@ -1244,7 +1244,7 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
 
-                return self.parse_for_each_head(VarDeclOrPat::VarDecl(decl));
+                return self.parse_for_each_head(ForHead::VarDecl(decl));
             }
 
             expect_exact!(self, ';');
@@ -1272,7 +1272,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            return self.parse_for_each_head(VarDeclOrPat::Pat(Box::new(pat)));
+            return self.parse_for_each_head(ForHead::Pat(Box::new(pat)));
         }
 
         expect_exact!(self, ';');
@@ -1281,7 +1281,7 @@ impl<'a, I: Tokens> Parser<I> {
         self.parse_normal_for_head(Some(VarDeclOrExpr::Expr(init)))
     }
 
-    fn parse_for_each_head(&mut self, left: VarDeclOrPat) -> PResult<TempForHead> {
+    fn parse_for_each_head(&mut self, left: ForHead) -> PResult<TempForHead> {
         let of = bump!(self) == tok!("of");
         if of {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
@@ -1319,11 +1319,11 @@ enum TempForHead {
         update: Option<Box<Expr>>,
     },
     ForIn {
-        left: VarDeclOrPat,
+        left: ForHead,
         right: Box<Expr>,
     },
     ForOf {
-        left: VarDeclOrPat,
+        left: ForHead,
         right: Box<Expr>,
     },
 }
@@ -1493,7 +1493,7 @@ mod tests {
             Stmt::ForOf(ForOfStmt {
                 span,
                 is_await: true,
-                left: VarDeclOrPat::VarDecl(Box::new(VarDecl {
+                left: ForHead::VarDecl(Box::new(VarDecl {
                     span,
                     kind: VarDeclKind::Const,
                     decls: vec![VarDeclarator {
