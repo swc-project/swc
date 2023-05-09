@@ -2,11 +2,6 @@ var _initClass, _init_a, _init_d, _init_e, _call_f, _call_g, _call_g1, _init_h, 
 const dec = ()=>{};
 let _Class;
 new class extends _identity {
-    constructor(...args){
-        super(...args);
-        super(_Class);
-        _initClass();
-    }
     static{
         class Class {
             static{
@@ -204,5 +199,8 @@ new class extends _identity {
     }
     set #q(v) {
         _call_q(this, v);
+    }
+    constructor(){
+        super(_Class), _initClass();
     }
 }();

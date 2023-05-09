@@ -2,11 +2,6 @@ var _initClass;
 const dec = ()=>{};
 let _Foo;
 new class extends _identity {
-    constructor(...args){
-        super(...args);
-        super(_Foo);
-        _initClass();
-    }
     static{
         class Foo {
             static{
@@ -17,5 +12,8 @@ new class extends _identity {
         }
     }
     foo = new _Foo();
+    constructor(){
+        super(_Foo), _initClass();
+    }
 }();
 const foo = new _Foo();
