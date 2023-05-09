@@ -1406,14 +1406,14 @@ define!({
     }
     pub struct ForInStmt {
         pub span: Span,
-        pub left: VarDeclOrPat,
+        pub left: ForHead,
         pub right: Box<Expr>,
         pub body: Box<Stmt>,
     }
     pub struct ForOfStmt {
         pub span: Span,
         pub is_await: bool,
-        pub left: VarDeclOrPat,
+        pub left: ForHead,
         pub right: Box<Expr>,
         pub body: Box<Stmt>,
     }
