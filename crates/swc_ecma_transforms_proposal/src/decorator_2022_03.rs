@@ -471,7 +471,7 @@ impl Decorator202203 {
 
                 replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
 
-                let mut class = Box::new(Class {
+                let class = Box::new(Class {
                     span: DUMMY_SP,
                     decorators: vec![],
                     body: once(ClassMember::StaticBlock(StaticBlock {
@@ -486,6 +486,53 @@ impl Decorator202203 {
                         },
                     }))
                     .chain(body)
+                    .chain(once(ClassMember::Constructor(Constructor {
+                        span: DUMMY_SP,
+                        key: PropName::Ident(quote_ident!("constructor")),
+                        params: vec![],
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: once(Box::new(Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: Callee::Super(Super { span: DUMMY_SP }),
+                                    args: vec![new_class_name.as_arg()],
+                                    type_args: Default::default(),
+                                })))
+                                .chain(last_static_block.map(|stmts| {
+                                    Box::new(Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: ArrowExpr {
+                                            span: DUMMY_SP,
+                                            params: vec![],
+                                            body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                                                span: DUMMY_SP,
+                                                stmts,
+                                            })),
+                                            is_async: false,
+                                            is_generator: false,
+                                            type_params: Default::default(),
+                                            return_type: Default::default(),
+                                        }
+                                        .as_callee(),
+                                        args: vec![],
+                                        type_args: Default::default(),
+                                    }))
+                                }))
+                                .chain(once(Box::new(Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: init_class.as_callee(),
+                                    args: vec![],
+                                    type_args: Default::default(),
+                                }))))
+                                .collect(),
+                            }
+                            .into_stmt()],
+                        }),
+                        accessibility: Default::default(),
+                        is_optional: Default::default(),
+                    })))
                     .collect(),
                     super_class: Some(Box::new(helper_expr!(identity))),
                     is_abstract: Default::default(),
@@ -493,47 +540,6 @@ impl Decorator202203 {
                     super_type_params: Default::default(),
                     implements: Default::default(),
                 });
-
-                {
-                    let c = self.ensure_constructor(&mut class);
-
-                    inject_after_super(
-                        c,
-                        once(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: Callee::Super(Super { span: DUMMY_SP }),
-                            args: vec![new_class_name.as_arg()],
-                            type_args: Default::default(),
-                        })))
-                        .chain(last_static_block.map(|stmts| {
-                            Box::new(Expr::Call(CallExpr {
-                                span: DUMMY_SP,
-                                callee: ArrowExpr {
-                                    span: DUMMY_SP,
-                                    params: vec![],
-                                    body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
-                                        span: DUMMY_SP,
-                                        stmts,
-                                    })),
-                                    is_async: false,
-                                    is_generator: false,
-                                    type_params: Default::default(),
-                                    return_type: Default::default(),
-                                }
-                                .as_callee(),
-                                args: vec![],
-                                type_args: Default::default(),
-                            }))
-                        }))
-                        .chain(once(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: init_class.as_callee(),
-                            args: vec![],
-                            type_args: Default::default(),
-                        }))))
-                        .collect(),
-                    )
-                }
 
                 return Some(
                     NewExpr {
@@ -915,19 +921,6 @@ impl VisitMut for Decorator202203 {
                                                 .as_arg(),
                                             ),
                                         ];
-
-                                        self.extra_vars.push(VarDeclarator {
-                                            span: DUMMY_SP,
-                                            name: Pat::Ident(getter_var.clone().unwrap().into()),
-                                            init: None,
-                                            definite: false,
-                                        });
-                                        self.extra_vars.push(VarDeclarator {
-                                            span: DUMMY_SP,
-                                            name: Pat::Ident(setter_var.clone().unwrap().into()),
-                                            init: None,
-                                            definite: false,
-                                        });
 
                                         getter_function = Box::new(Function {
                                             params: vec![],
