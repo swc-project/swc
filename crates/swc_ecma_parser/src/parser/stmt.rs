@@ -1170,7 +1170,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let span = span!(self, start);
         Ok(match head {
-            ForHead::For { init, test, update } => {
+            TempForHead::For { init, test, update } => {
                 if let Some(await_token) = await_token {
                     syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
@@ -1183,7 +1183,7 @@ impl<'a, I: Tokens> Parser<I> {
                     body,
                 })
             }
-            ForHead::ForIn { left, right } => {
+            TempForHead::ForIn { left, right } => {
                 if let Some(await_token) = await_token {
                     syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
@@ -1195,7 +1195,7 @@ impl<'a, I: Tokens> Parser<I> {
                     body,
                 })
             }
-            ForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
+            TempForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
                 span,
                 is_await: await_token.is_some(),
                 left,
@@ -1205,7 +1205,7 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_for_head(&mut self) -> PResult<ForHead> {
+    fn parse_for_head(&mut self) -> PResult<TempForHead> {
         let strict = self.ctx().strict;
 
         if is_one_of!(self, "const", "var")
@@ -1281,18 +1281,18 @@ impl<'a, I: Tokens> Parser<I> {
         self.parse_normal_for_head(Some(VarDeclOrExpr::Expr(init)))
     }
 
-    fn parse_for_each_head(&mut self, left: VarDeclOrPat) -> PResult<ForHead> {
+    fn parse_for_each_head(&mut self, left: VarDeclOrPat) -> PResult<TempForHead> {
         let of = bump!(self) == tok!("of");
         if of {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
-            Ok(ForHead::ForOf { left, right })
+            Ok(TempForHead::ForOf { left, right })
         } else {
             let right = self.include_in_expr(true).parse_expr()?;
-            Ok(ForHead::ForIn { left, right })
+            Ok(TempForHead::ForIn { left, right })
         }
     }
 
-    fn parse_normal_for_head(&mut self, init: Option<VarDeclOrExpr>) -> PResult<ForHead> {
+    fn parse_normal_for_head(&mut self, init: Option<VarDeclOrExpr>) -> PResult<TempForHead> {
         let test = if eat_exact!(self, ';') {
             None
         } else {
@@ -1307,12 +1307,12 @@ impl<'a, I: Tokens> Parser<I> {
             self.include_in_expr(true).parse_expr().map(Some)?
         };
 
-        Ok(ForHead::For { init, test, update })
+        Ok(TempForHead::For { init, test, update })
     }
 }
 
 #[allow(clippy::enum_variant_names)]
-enum ForHead {
+enum TempForHead {
     For {
         init: Option<VarDeclOrExpr>,
         test: Option<Box<Expr>>,
@@ -1970,14 +1970,14 @@ export default function waitUntil(callback, options = {}) {
         assert!(trailing.borrow().is_empty());
         assert_eq!(leading.borrow().len(), 1);
     }
-    fn parse_for_head(str: &'static str) -> ForHead {
+    fn parse_for_head(str: &'static str) -> TempForHead {
         test_parser(str, Syntax::default(), |p| p.parse_for_head())
     }
 
     #[test]
     fn for_array_binding_pattern() {
         match parse_for_head("let [, , t] = simple_array; t < 10; t++") {
-            ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
+            TempForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
                 v,
                 VarDeclOrExpr::VarDecl(Box::new(VarDecl {
                     span,
@@ -2009,7 +2009,7 @@ export default function waitUntil(callback, options = {}) {
     #[test]
     fn for_object_binding_pattern() {
         match parse_for_head("let {num} = obj; num < 11; num++") {
-            ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
+            TempForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
                 v,
                 VarDeclOrExpr::VarDecl(Box::new(VarDecl {
                     span,
