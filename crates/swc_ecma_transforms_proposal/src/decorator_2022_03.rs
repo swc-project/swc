@@ -389,6 +389,11 @@ impl Decorator202203 {
                                 c.class.body.push(m.take());
                             }
                         }
+                        ClassMember::AutoAccessor(acc) => {
+                            if acc.is_static {
+                                c.class.body.push(m.take());
+                            }
+                        }
                         ClassMember::PrivateMethod(m) => {
                             m.is_static = false;
                         }
