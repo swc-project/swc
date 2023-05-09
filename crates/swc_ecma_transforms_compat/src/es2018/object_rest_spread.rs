@@ -66,7 +66,7 @@ macro_rules! impl_for_for_stmt {
             let mut stmt = None;
 
             let left = match &mut for_stmt.left {
-                VarDeclOrPat::VarDecl(var_decl) => {
+                ForHead::VarDecl(var_decl) => {
                     let ref_ident = private_ident!("_ref");
 
                     // Unpack variables
@@ -105,7 +105,7 @@ macro_rules! impl_for_for_stmt {
                     }
                     .into()
                 }
-                VarDeclOrPat::Pat(pat) => {
+                ForHead::Pat(pat) => {
                     let var_ident = private_ident!("_ref");
                     let index = self.vars.len();
                     let pat = pat.take();

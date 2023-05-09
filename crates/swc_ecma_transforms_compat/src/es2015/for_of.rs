@@ -140,7 +140,7 @@ impl ForOf {
             };
 
             match left {
-                VarDeclOrPat::VarDecl(var) => {
+                ForHead::VarDecl(var) => {
                     assert_eq!(
                         var.decls.len(),
                         1,
@@ -163,7 +163,7 @@ impl ForOf {
                     )
                 }
 
-                VarDeclOrPat::Pat(pat) => prepend_stmt(
+                ForHead::Pat(pat) => prepend_stmt(
                     &mut body.stmts,
                     AssignExpr {
                         span: DUMMY_SP,
@@ -236,7 +236,7 @@ impl ForOf {
             };
 
             match left {
-                VarDeclOrPat::VarDecl(var) => {
+                ForHead::VarDecl(var) => {
                     assert_eq!(
                         var.decls.len(),
                         1,
@@ -259,7 +259,7 @@ impl ForOf {
                     )
                 }
 
-                VarDeclOrPat::Pat(pat) => prepend_stmt(
+                ForHead::Pat(pat) => prepend_stmt(
                     &mut body.stmts,
                     AssignExpr {
                         span: DUMMY_SP,
@@ -332,7 +332,7 @@ impl ForOf {
         body.stmts.insert(
             0,
             match left {
-                VarDeclOrPat::VarDecl(mut var) => {
+                ForHead::VarDecl(mut var) => {
                     assert_eq!(var.decls.len(), 1);
                     VarDecl {
                         span: var.span,
@@ -345,7 +345,7 @@ impl ForOf {
                     }
                     .into()
                 }
-                VarDeclOrPat::Pat(pat) => AssignExpr {
+                ForHead::Pat(pat) => AssignExpr {
                     span: DUMMY_SP,
                     left: PatOrExpr::Pat(pat),
                     op: op!("="),

@@ -54,7 +54,7 @@ macro_rules! impl_for_for_stmt {
     ($name:ident, $T:tt) => {
         fn $name(&mut self, for_stmt: &mut $T) {
             let (left, stmt) = match &mut for_stmt.left {
-                VarDeclOrPat::VarDecl(var_decl) => {
+                ForHead::VarDecl(var_decl) => {
                     let has_complex = var_decl.decls.iter().any(|d| match d.name {
                         Pat::Ident(_) => false,
                         _ => true,
@@ -99,13 +99,13 @@ macro_rules! impl_for_for_stmt {
                     .into();
                     (left, stmt)
                 }
-                VarDeclOrPat::Pat(pat) => match **pat {
+                ForHead::Pat(pat) => match **pat {
                     Pat::Ident(..) => {
                         return;
                     }
                     _ => {
                         let left_ident = make_ref_ident_for_for_stmt();
-                        let left = VarDeclOrPat::Pat(left_ident.clone().into());
+                        let left = ForHead::Pat(left_ident.clone().into());
                         // Unpack variables
                         let stmt = AssignExpr {
                             span: DUMMY_SP,

@@ -592,7 +592,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         }
 
         match s.left {
-            VarDeclOrPat::VarDecl(v) => {
+            ForHead::VarDecl(v) => {
                 let var = v.decls.into_iter().next().unwrap();
                 let var_decl = VarDeclarator {
                     span: DUMMY_SP,
@@ -610,7 +610,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     .into(),
                 );
             }
-            VarDeclOrPat::Pat(p) => {
+            ForHead::Pat(p) => {
                 for_loop_body.push(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
                     expr: Box::new(Expr::Assign(AssignExpr {

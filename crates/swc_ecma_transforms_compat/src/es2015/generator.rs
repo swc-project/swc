@@ -949,7 +949,7 @@ impl VisitMut for Generator {
             self.begin_script_loop_block();
         }
 
-        if let VarDeclOrPat::VarDecl(initializer) = &mut node.left {
+        if let ForHead::VarDecl(initializer) = &mut node.left {
             for variable in &initializer.decls {
                 self.hoist_variable_declaration(variable.name.as_ident().unwrap());
             }
@@ -1755,7 +1755,7 @@ impl Generator {
             node.right.visit_mut_with(self);
             self.emit_stmt(Stmt::ForIn(ForInStmt {
                 span: DUMMY_SP,
-                left: VarDeclOrPat::Pat(key.clone().into()),
+                left: ForHead::Pat(key.clone().into()),
                 right: node.right.take(),
                 body: Box::new(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
@@ -1788,14 +1788,14 @@ impl Generator {
             );
 
             let variable = match node.left {
-                VarDeclOrPat::VarDecl(initializer) => {
+                ForHead::VarDecl(initializer) => {
                     for variable in initializer.decls.iter() {
                         self.hoist_variable_declaration(variable.name.as_ident().unwrap());
                     }
 
                     initializer.decls[0].name.clone()
                 }
-                VarDeclOrPat::Pat(mut initializer) => {
+                ForHead::Pat(mut initializer) => {
                     initializer.visit_mut_with(self);
                     *initializer
                 }

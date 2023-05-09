@@ -1855,9 +1855,9 @@ impl VisitMut for Hoister<'_, '_> {
         }
     }
 
-    fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
+    fn visit_mut_var_decl_or_pat(&mut self, n: &mut ForHead) {
         match n {
-            VarDeclOrPat::VarDecl(v)
+            ForHead::VarDecl(v)
                 if matches!(
                     &**v,
                     VarDecl {
@@ -1874,7 +1874,7 @@ impl VisitMut for Hoister<'_, '_> {
             //     console.log(a);
             //   }
             // }
-            VarDeclOrPat::Pat(..) => {}
+            ForHead::Pat(..) => {}
             _ => {
                 n.visit_mut_children_with(self);
             }

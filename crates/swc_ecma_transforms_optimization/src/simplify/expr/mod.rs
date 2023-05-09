@@ -1616,7 +1616,7 @@ impl VisitMut for SimplifyExpr {
         self.is_modifying = old;
     }
 
-    fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
+    fn visit_mut_var_decl_or_pat(&mut self, n: &mut ForHead) {
         let old = self.is_modifying;
         self.is_modifying = true;
         n.visit_mut_children_with(self);
