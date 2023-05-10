@@ -25,6 +25,7 @@ struct Decorator202203 {
     /// If not empty, `initProto` should be injected to the constructor.
     init_proto: Option<Ident>,
     init_proto_args: Vec<Option<ExprOrSpread>>,
+    is_init_proto_called: bool,
 
     init_static: Option<Ident>,
     init_static_args: Vec<Option<ExprOrSpread>>,
@@ -590,18 +591,20 @@ impl VisitMut for Decorator202203 {
 
         n.visit_mut_children_with(self);
 
-        if let Some(init_proto) = self.init_proto.clone() {
-            let c = self.ensure_constructor(n);
+        if !self.is_init_proto_called {
+            if let Some(init_proto) = self.init_proto.clone() {
+                let c = self.ensure_constructor(n);
 
-            inject_after_super(
-                c,
-                vec![Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: init_proto.as_callee(),
-                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                    type_args: Default::default(),
-                }))],
-            )
+                inject_after_super(
+                    c,
+                    vec![Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: init_proto.as_callee(),
+                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                        type_args: Default::default(),
+                    }))],
+                )
+            }
         }
 
         self.consume_inits();
@@ -619,7 +622,8 @@ impl VisitMut for Decorator202203 {
             );
         }
 
-        self.init_proto.take();
+        self.init_proto = None;
+        self.is_init_proto_called = false;
 
         self.extra_stmts = old_stmts;
     }
@@ -776,7 +780,7 @@ impl VisitMut for Decorator202203 {
             }
         }
 
-        for mut m in members.take() {
+        for m in members.take() {
             match m {
                 ClassMember::AutoAccessor(mut accessor) => {
                     let name;
@@ -817,14 +821,36 @@ impl VisitMut for Decorator202203 {
                         value: if accessor.decorators.is_empty() {
                             accessor.value
                         } else {
-                            Some(Box::new(Expr::Call(CallExpr {
+                            let init_proto = match self.init_proto.clone() {
+                                Some(init) => {
+                                    if self.is_init_proto_called {
+                                        None
+                                    } else {
+                                        self.is_init_proto_called = true;
+
+                                        Some(Box::new(Expr::Call(CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: init.clone().as_callee(),
+                                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                            type_args: Default::default(),
+                                        })))
+                                    }
+                                }
+                                None => None,
+                            };
+
+                            let init_call = Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: init.clone().as_callee(),
                                 args: once(ThisExpr { span: DUMMY_SP }.as_arg())
                                     .chain(accessor.value.take().map(|v| v.as_arg()))
                                     .collect(),
                                 type_args: Default::default(),
-                            })))
+                            }));
+
+                            Some(Expr::from_exprs(
+                                init_proto.into_iter().chain(once(init_call)).collect(),
+                            ))
                         },
                         type_ann: None,
                         is_static: accessor.is_static,
