@@ -859,15 +859,15 @@ impl VisitMut for Decorator202203 {
                         value: if accessor.decorators.is_empty() {
                             accessor.value
                         } else {
-                            let init_proto: Ident = self
-                                .init_proto
-                                .get_or_insert_with(|| private_ident!("_initProto"))
-                                .clone();
-
-                            let init_proto = if self.is_init_proto_called {
+                            let init_proto = if self.is_init_proto_called || accessor.is_static {
                                 None
                             } else {
                                 self.is_init_proto_called = true;
+
+                                let init_proto = self
+                                    .init_proto
+                                    .get_or_insert_with(|| private_ident!("_initProto"))
+                                    .clone();
 
                                 Some(Box::new(Expr::Call(CallExpr {
                                     span: DUMMY_SP,
