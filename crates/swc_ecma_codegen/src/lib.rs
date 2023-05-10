@@ -2676,10 +2676,11 @@ where
     }
 
     #[emitter]
-    fn emit_var_decl_or_pat(&mut self, node: &VarDeclOrPat) -> Result {
-        match *node {
-            VarDeclOrPat::Pat(ref n) => emit!(n),
-            VarDeclOrPat::VarDecl(ref n) => emit!(n),
+    fn emit_for_head(&mut self, node: &ForHead) -> Result {
+        match node {
+            ForHead::Pat(n) => emit!(n),
+            ForHead::VarDecl(n) => emit!(n),
+            ForHead::UsingDecl(n) => emit!(n),
         }
     }
 }

@@ -27,7 +27,7 @@
  3 | `-> }
    `----
 
-  x VarDeclOrPat
+  x ForHead
    ,-[$DIR/tests/span/js/stmt/for-of.js:1:1]
  1 | for await (const a of foo) {
    :            ^^^^^^^

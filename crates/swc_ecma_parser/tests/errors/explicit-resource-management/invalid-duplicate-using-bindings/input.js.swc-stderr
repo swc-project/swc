@@ -1,0 +1,8 @@
+
+  x Using declaration requires initializer
+   ,-[$DIR/tests/errors/explicit-resource-management/invalid-duplicate-using-bindings/input.js:1:1]
+ 1 | {
+ 2 |   using f, f = foo();
+   :   ^^^^^^^^^^^^^^^^^^
+ 3 | }
+   `----

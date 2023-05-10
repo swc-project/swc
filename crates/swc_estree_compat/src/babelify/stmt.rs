@@ -1,8 +1,8 @@
 use copyless::BoxHelper;
 use swc_ecma_ast::{
     BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt, EmptyStmt,
-    ExprStmt, ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt, Stmt, SwitchCase,
-    SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, VarDeclOrPat, WhileStmt, WithStmt,
+    ExprStmt, ForHead, ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt, Stmt,
+    SwitchCase, SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, WhileStmt, WithStmt,
 };
 use swc_estree_ast::{
     BlockStatement, BreakStatement, CatchClause as BabelCatchClause, ContinueStatement,
@@ -56,6 +56,7 @@ impl Babelify for Stmt {
                 Decl::Class(d) => Statement::ClassDecl(d.babelify(ctx)),
                 Decl::Fn(d) => Statement::FuncDecl(d.babelify(ctx)),
                 Decl::Var(d) => Statement::VarDecl(d.babelify(ctx)),
+                Decl::Using(d) => Statement::UsingDecl(d.babelify(ctx)),
                 Decl::TsInterface(d) => Statement::TSInterfaceDecl(d.babelify(ctx)),
                 Decl::TsTypeAlias(d) => Statement::TSTypeAliasDecl(d.babelify(ctx)),
                 Decl::TsEnum(d) => Statement::TSEnumDecl(d.babelify(ctx)),
@@ -300,13 +301,16 @@ impl Babelify for CatchClause {
     }
 }
 
-impl Babelify for VarDeclOrPat {
+impl Babelify for ForHead {
     type Output = ForStmtLeft;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            VarDeclOrPat::VarDecl(v) => ForStmtLeft::VarDecl(v.babelify(ctx)),
-            VarDeclOrPat::Pat(p) => ForStmtLeft::LVal(p.babelify(ctx).into()),
+            ForHead::VarDecl(v) => ForStmtLeft::VarDecl(v.babelify(ctx)),
+            ForHead::Pat(p) => ForStmtLeft::LVal(p.babelify(ctx).into()),
+            _ => {
+                todo!("ForHead::UsingDecl({self:?})")
+            }
         }
     }
 }

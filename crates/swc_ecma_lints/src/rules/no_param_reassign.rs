@@ -255,7 +255,7 @@ impl Visit for NoParamReassign {
     }
 
     fn visit_for_of_stmt(&mut self, for_of_stmt: &ForOfStmt) {
-        if let VarDeclOrPat::Pat(pat) = &for_of_stmt.left {
+        if let ForHead::Pat(pat) = &for_of_stmt.left {
             self.check_pat(pat);
         }
 
@@ -263,7 +263,7 @@ impl Visit for NoParamReassign {
     }
 
     fn visit_for_in_stmt(&mut self, for_in_stmt: &ForInStmt) {
-        if let VarDeclOrPat::Pat(pat) = &for_in_stmt.left {
+        if let ForHead::Pat(pat) = &for_in_stmt.left {
             self.check_pat(pat);
         }
 

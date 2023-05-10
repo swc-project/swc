@@ -47,6 +47,7 @@ where
     } else {
         ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
             jsx: is_jsx,
+            using_decl: true,
             ..Default::default()
         })
     };
@@ -64,6 +65,7 @@ where
 
 #[cfg(feature = "verify")]
 #[testing::fixture("tests/errors/**/*.js")]
+#[testing::fixture("tests/errors/**/*.mjs")]
 #[testing::fixture("tests/errors/**/*.ts")]
 #[testing::fixture("tests/errors/**/*.tsx")]
 fn error(entry: PathBuf) {

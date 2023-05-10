@@ -12,7 +12,7 @@ where
 {
     #[emitter]
     fn emit_decl(&mut self, node: &Decl) -> Result {
-        match *node {
+        match node {
             Decl::Class(ref n) => emit!(n),
             Decl::Fn(ref n) => emit!(n),
 
@@ -21,6 +21,7 @@ where
                 formatting_semi!();
                 srcmap!(n, false);
             }
+            Decl::Using(n) => emit!(n),
             Decl::TsEnum(ref n) => emit!(n),
             Decl::TsInterface(ref n) => emit!(n),
             Decl::TsModule(ref n) => emit!(n),
@@ -31,6 +32,20 @@ where
     #[emitter]
     fn emit_class_decl(&mut self, node: &ClassDecl) -> Result {
         self.emit_class_decl_inner(node, false)?;
+    }
+
+    #[emitter]
+    fn emit_using_decl(&mut self, node: &UsingDecl) -> Result {
+        self.emit_leading_comments_of_span(node.span(), false)?;
+
+        keyword!("using");
+        space!();
+
+        self.emit_list(
+            node.span,
+            Some(&node.decls),
+            ListFormat::VariableDeclarationList,
+        )?;
     }
 
     pub(super) fn emit_class_decl_inner(

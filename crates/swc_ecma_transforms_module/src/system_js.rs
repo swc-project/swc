@@ -446,8 +446,8 @@ impl SystemJs {
         }
     }
 
-    fn hoist_for_var_decl(&mut self, var_decl_or_pat: VarDeclOrPat) -> VarDeclOrPat {
-        if let VarDeclOrPat::VarDecl(mut var_decl) = var_decl_or_pat {
+    fn hoist_for_var_decl(&mut self, var_decl_or_pat: ForHead) -> ForHead {
+        if let ForHead::VarDecl(mut var_decl) = var_decl_or_pat {
             if var_decl.kind == VarDeclKind::Var {
                 let var_declarator = var_decl.decls.remove(0);
                 let mut tos: Vec<Id> = vec![];
@@ -469,9 +469,9 @@ impl SystemJs {
                         .push(Ident::new(to.0, DUMMY_SP.with_ctxt(to.1)));
                 }
 
-                VarDeclOrPat::Pat(var_declarator.name.into())
+                ForHead::Pat(var_declarator.name.into())
             } else {
-                VarDeclOrPat::VarDecl(var_decl)
+                ForHead::VarDecl(var_decl)
             }
         } else {
             var_decl_or_pat

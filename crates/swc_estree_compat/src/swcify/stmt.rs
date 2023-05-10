@@ -2,12 +2,12 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
     BlockStmt, BreakStmt, ClassDecl, ClassExpr, ContinueStmt, DebuggerStmt, Decl, DefaultDecl,
     DoWhileStmt, EmptyStmt, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
-    ExportNamedSpecifier, Expr, ExprStmt, FnDecl, FnExpr, ForInStmt, ForOfStmt, ForStmt, IfStmt,
-    ImportDecl, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, KeyValueProp,
+    ExportNamedSpecifier, Expr, ExprStmt, FnDecl, FnExpr, ForHead, ForInStmt, ForOfStmt, ForStmt,
+    IfStmt, ImportDecl, ImportNamedSpecifier, ImportSpecifier, ImportStarAsSpecifier, KeyValueProp,
     LabeledStmt, Lit, ModuleDecl, ModuleItem, NamedExport, ObjectLit, Pat, Prop, PropName,
     PropOrSpread, ReturnStmt, Stmt, SwitchStmt, ThrowStmt, TryStmt, TsExportAssignment,
     TsInterfaceDecl, TsModuleDecl, TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclOrExpr,
-    VarDeclOrPat, VarDeclarator, WhileStmt, WithStmt,
+    VarDeclarator, WhileStmt, WithStmt,
 };
 use swc_estree_ast::{
     BlockStatement, BreakStatement, ClassDeclaration, ContinueStatement, DebuggerStatement,
@@ -178,12 +178,12 @@ impl Swcify for ForInStatement {
 }
 
 impl Swcify for ForStmtLeft {
-    type Output = VarDeclOrPat;
+    type Output = ForHead;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            ForStmtLeft::VarDecl(v) => VarDeclOrPat::VarDecl(v.swcify(ctx).into()),
-            ForStmtLeft::LVal(v) => VarDeclOrPat::Pat(v.swcify(ctx).into()),
+            ForStmtLeft::VarDecl(v) => ForHead::VarDecl(v.swcify(ctx).into()),
+            ForStmtLeft::LVal(v) => ForHead::Pat(v.swcify(ctx).into()),
         }
     }
 }

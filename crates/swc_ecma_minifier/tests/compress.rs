@@ -1651,8 +1651,8 @@ impl Visit for Shower<'_> {
         n.visit_children_with(self)
     }
 
-    fn visit_var_decl_or_pat(&mut self, n: &VarDeclOrPat) {
-        self.show("VarDeclOrPat", n);
+    fn visit_for_head(&mut self, n: &ForHead) {
+        self.show("ForHead", n);
         n.visit_children_with(self)
     }
 

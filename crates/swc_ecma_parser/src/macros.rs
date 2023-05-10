@@ -417,6 +417,9 @@ macro_rules! tok {
     ("protected") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("protected")))
     };
+    ("using") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("using")))
+    };
 }
 
 macro_rules! token_including_semi {
