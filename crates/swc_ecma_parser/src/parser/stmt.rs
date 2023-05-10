@@ -1263,7 +1263,11 @@ impl<'a, I: Tokens> Parser<I> {
                 Expr::Ident(Ident {
                     sym: js_word!("using"),
                     ..
-                }) => is!(self, BindingIdent) && (peeked_is!(self, "of") || peeked_is!(self, "in")),
+                }) => {
+                    is!(self, BindingIdent)
+                        && !is!(self, "of")
+                        && (peeked_is!(self, "of") || peeked_is!(self, "in"))
+                }
                 _ => false,
             };
 
