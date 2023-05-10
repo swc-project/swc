@@ -79,74 +79,64 @@ impl Decorator202203 {
     }
 
     /// Moves `cur_inits` to `extra_stmts`.
-    fn consume_inits(&mut self, for_static: bool) {
-        let init_ident = if for_static {
-            self.init_static.take()
-        } else {
-            self.init_proto.take()
-        };
-
-        let inits = if for_static {
-            self.static_lhs.take()
-        } else {
-            self.proto_lhs.take()
-        };
-
-        if inits.is_empty()
-            && init_ident.is_none()
-            && (for_static || self.class_decorators.is_empty())
+    fn consume_inits(&mut self) {
+        if self.init_proto_args.is_empty()
+            && self.init_static_args.is_empty()
+            && self.init_proto.is_none()
+            && self.init_static.is_none()
+            && self.class_decorators.is_empty()
         {
             return;
         }
 
         let mut e_lhs = vec![];
         let mut combined_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
-        let arrays = if for_static {
-            self.init_static_args.take()
-        } else {
-            self.init_proto_args.take()
-        };
 
-        for id in inits {
+        for id in self.static_lhs.drain(..).chain(self.proto_lhs.drain(..)) {
             e_lhs.push(Some(id.into()));
         }
 
-        if let Some(init_proto) = init_ident.clone() {
+        if let Some(init) = self.init_proto.clone() {
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(init_proto.clone().into()),
+                name: Pat::Ident(init.clone().into()),
                 init: None,
                 definite: false,
             });
 
-            e_lhs.push(Some(init_proto.into()));
+            e_lhs.push(Some(init.into()));
+        }
+
+        if let Some(init) = self.init_static.clone() {
+            self.extra_vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(init.clone().into()),
+                init: None,
+                definite: false,
+            });
+
+            e_lhs.push(Some(init.into()));
         }
 
         combined_args.push(
             ArrayLit {
                 span: DUMMY_SP,
-                elems: arrays,
+                elems: self
+                    .init_static_args
+                    .drain(..)
+                    .chain(self.init_proto_args.drain(..))
+                    .collect(),
             }
             .as_arg(),
         );
 
-        if !for_static {
-            combined_args.push(
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: self.class_decorators.take(),
-                }
-                .as_arg(),
-            );
-        } else {
-            combined_args.push(
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: vec![],
-                }
-                .as_arg(),
-            );
-        }
+        combined_args.push(
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: self.class_decorators.take(),
+            }
+            .as_arg(),
+        );
 
         let e_pat = if e_lhs.is_empty() {
             None
@@ -162,7 +152,7 @@ impl Decorator202203 {
             }))
         };
 
-        let c_pat = if for_static || self.class_lhs.is_empty() {
+        let c_pat = if self.class_lhs.is_empty() {
             None
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
@@ -198,18 +188,16 @@ impl Decorator202203 {
             expr,
         }));
 
-        if for_static {
-            if let Some(init) = init_ident {
-                self.extra_stmts.push(Stmt::Expr(ExprStmt {
+        if let Some(init) = self.init_static.take() {
+            self.extra_stmts.push(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    expr: Box::new(Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: init.as_callee(),
-                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                        type_args: Default::default(),
-                    })),
-                }));
-            }
+                    callee: init.as_callee(),
+                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                    type_args: Default::default(),
+                })),
+            }));
         }
     }
 
@@ -608,8 +596,7 @@ impl VisitMut for Decorator202203 {
             )
         }
 
-        self.consume_inits(true);
-        self.consume_inits(false);
+        self.consume_inits();
 
         if !self.extra_stmts.is_empty() {
             n.body.insert(
