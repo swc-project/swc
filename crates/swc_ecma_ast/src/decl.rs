@@ -90,6 +90,16 @@ pub struct ClassDecl {
     pub class: Box<Class>,
 }
 
+impl Take for ClassDecl {
+    fn dummy() -> Self {
+        ClassDecl {
+            ident: Take::dummy(),
+            declare: Default::default(),
+            class: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("VariableDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -122,6 +132,8 @@ impl Take for VarDecl {
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
 pub enum VarDeclKind {
     /// `var`
     Var,

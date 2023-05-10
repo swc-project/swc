@@ -1,4 +1,4 @@
-export default class A {
+let A = class A {
 };
 A = _ts_decorate([
     dec
@@ -8,3 +8,4 @@ let B = class B {
 B = _ts_decorate([
     dec
 ], B);
+export { A as default };

@@ -114,21 +114,17 @@ pub fn get_transform_context(
         .metadata_context
         .get(&TransformPluginMetadataContextKind::from(key));
 
-    if let Some(value) = value {
-        let serialized =
-            PluginSerializedBytes::try_serialize(&value).expect("Should be serializable");
+    let serialized = PluginSerializedBytes::try_serialize(&value).expect("Should be serializable");
 
-        allocate_return_values_into_guest(
-            memory,
-            &mut env.as_store_mut(),
-            alloc_guest_memory,
-            allocated_ret_ptr,
-            &serialized,
-        );
+    allocate_return_values_into_guest(
+        memory,
+        &mut env.as_store_mut(),
+        alloc_guest_memory,
+        allocated_ret_ptr,
+        &serialized,
+    );
 
-        return 1;
-    }
-    0
+    1
 }
 
 #[tracing::instrument(level = "info", skip_all)]

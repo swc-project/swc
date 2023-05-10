@@ -276,6 +276,7 @@ pub enum SyntaxError {
     TS2499,
     TS2703,
     TS4112,
+    TS8038,
     TSTypeAnnotationAfterAssign,
     TsNonNullAssertionNotAllowed(JsWord),
 
@@ -709,6 +710,9 @@ impl SyntaxError {
                 .into(),
             SyntaxError::TS4112 => "This member cannot have an 'override' modifier because its \
                                     containing class does not extend another class."
+                .into(),
+            SyntaxError::TS8038 => "Decorators may not appear after `export` or `export default` \
+                                    if they also appear before `export`."
                 .into(),
             SyntaxError::TSTypeAnnotationAfterAssign => {
                 "Type annotations must come before default assignments".into()

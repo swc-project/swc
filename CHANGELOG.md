@@ -1,4 +1,84 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es/compat)** Partially support auto accessors (#7364) ([97ec259](https://github.com/swc-project/swc/commit/97ec25914451d931918287591d8d3f08648a65b9))
+
+## [1.3.57] - 2023-05-09
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Fix `is_setter` in `parameters` pass (#7348) ([e0de83e](https://github.com/swc-project/swc/commit/e0de83e862f7de765ba804e8c31a16660d7186b5))
+
+
+- **(xml/codegen)** Escape `<` and `>` in child (#7351) ([b180d09](https://github.com/swc-project/swc/commit/b180d09e1dd9c4269d7d690d892ef4fd1c5b6563))
+
+### Features
+
+
+
+- **(es/compat)** Support `export class` from stage 3 decorator pass (#7363) ([9c052db](https://github.com/swc-project/swc/commit/9c052db796473a4a7253d643426a7c2c765d9640))
+
+
+- **(plugin)** Enable bytecheck (#7280) ([d2c1f45](https://github.com/swc-project/swc/commit/d2c1f45f5a1a1d72fa6d6fa28bd84f242d5aff81))
+
+### Refactor
+
+
+
+- **(plugin/runner)** Refine cache location (#7346) ([91a3fbe](https://github.com/swc-project/swc/commit/91a3fbe460799ed604c2b43b4facaed60cfd6c87))
+
+### Build
+
+
+
+- **(cargo)** Update `wasmer` to `v3.3` (#7352) ([4e278be](https://github.com/swc-project/swc/commit/4e278befcf0071619ee583ffa7c8357ea4fd5c2f))
+
+## [1.3.56] - 2023-04-29
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Emit type arguments for call expressions (#7335) ([7e99e5f](https://github.com/swc-project/swc/commit/7e99e5fd2c3d15aba6bf29958bd9305e29312e6a))
+
+
+- **(es/parser)** Parse decorators after `export` (#7340) ([985f0ca](https://github.com/swc-project/swc/commit/985f0cad06b9de5f9e98bed3ad62769e0f3c7528))
+
+
+- **(es/typescript)** Fix typescript strip pass (#7342) ([d061d29](https://github.com/swc-project/swc/commit/d061d295ff2ca6ebb03d9c62c367f42f7186c2d7))
+
+
+- **(plugin/runner)** Revert #7341 (#7344) ([d6999ba](https://github.com/swc-project/swc/commit/d6999ba1ac454a1617bab00c740d99f81ff1a18d))
+
+### Features
+
+
+
+- **(es/minifier)** Drop expressions using sequential inliner (#6936) ([246300a](https://github.com/swc-project/swc/commit/246300ae25be0cfdbbb266e02f80d06013a96d85))
+
+
+- **(plugin/runner)** Improve caching (#7341) ([245163a](https://github.com/swc-project/swc/commit/245163a77827767ab0b4df59d00597c4af62d745))
+
+## [1.3.55] - 2023-04-25
+
+### Bug Fixes
+
+
+
+- **(es/helpers)** Add `src/*.mjs` entry back (#7328) ([84af855](https://github.com/swc-project/swc/commit/84af85563f91a9593e0eb319f46c49c1d4cf7895))
+
+### Features
+
+
+
+- **(es/module)** Add `export_interop_annotation` flag (#7330) ([caee073](https://github.com/swc-project/swc/commit/caee073935a9abb08f0b5e2e0e9160d80064995b))
+
 ## [1.3.54] - 2023-04-25
 
 ### Bug Fixes
