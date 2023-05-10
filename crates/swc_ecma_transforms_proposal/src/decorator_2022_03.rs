@@ -365,15 +365,14 @@ impl Decorator202203 {
 
                 for m in body.iter_mut() {
                     match m {
-                        ClassMember::Method(method) => {
-                            if method.is_static {
-                                c.class.body.push(m.take());
-                            }
-                        }
-                        ClassMember::AutoAccessor(acc) => {
-                            if acc.is_static {
-                                c.class.body.push(m.take());
-                            }
+                        ClassMember::Method(ClassMethod {
+                            is_static: true, ..
+                        })
+                        | ClassMember::Constructor(..)
+                        | ClassMember::AutoAccessor(AutoAccessor {
+                            is_static: true, ..
+                        }) => {
+                            c.class.body.push(m.take());
                         }
                         ClassMember::PrivateMethod(m) => {
                             m.is_static = false;
@@ -530,6 +529,12 @@ impl Decorator202203 {
                     .into_stmt(),
                 );
             } else {
+                for m in body.iter_mut() {
+                    if let ClassMember::Constructor(..) = m {
+                        c.class.body.push(m.take());
+                    }
+                }
+
                 body.visit_mut_with(self);
 
                 c.visit_mut_with(self);
