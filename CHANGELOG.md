@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/compat)** Partially support auto accessors (#7364) ([97ec259](https://github.com/swc-project/swc/commit/97ec25914451d931918287591d8d3f08648a65b9))
+
+## [1.3.57] - 2023-05-09
+
 ### Bug Fixes
 
 
@@ -12,6 +20,9 @@
 
 ### Features
 
+
+
+- **(es/compat)** Support `export class` from stage 3 decorator pass (#7363) ([9c052db](https://github.com/swc-project/swc/commit/9c052db796473a4a7253d643426a7c2c765d9640))
 
 
 - **(plugin)** Enable bytecheck (#7280) ([d2c1f45](https://github.com/swc-project/swc/commit/d2c1f45f5a1a1d72fa6d6fa28bd84f242d5aff81))
