@@ -213,6 +213,15 @@ impl Decorator202203 {
                 }))),
                 Ident::new(format!("_{prefix}_{}", i.sym).into(), i.span.private()),
             ),
+            PropName::Computed(c) if c.expr.is_ident() => match &*c.expr {
+                Expr::Ident(i) => (
+                    Box::new(Expr::Ident(i.clone())),
+                    Ident::new(format!("_{prefix}_{}", i.sym).into(), i.span.private()),
+                ),
+                _ => {
+                    unreachable!()
+                }
+            },
             _ => {
                 let ident = private_ident!("_computedKey");
                 self.extra_vars.push(VarDeclarator {
@@ -585,6 +594,7 @@ impl Decorator202203 {
     fn process_prop_name(&mut self, name: &mut PropName) {
         match name {
             PropName::Ident(..) => {}
+            PropName::Computed(c) if c.expr.is_ident() => {}
             _ => {
                 let ident = private_ident!("_computedKey");
                 self.extra_vars.push(VarDeclarator {
