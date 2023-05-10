@@ -2,7 +2,7 @@ use std::{iter::once, mem::transmute};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
@@ -52,13 +52,13 @@ impl Decorator202203 {
     ) -> Vec<Option<ExprOrSpread>> {
         decorators
             .into_iter()
-            .map(|e| Some(self.preserve_side_effect_of_decorator(e).as_arg()))
+            .map(|e| Some(self.preserve_side_effect_of_decorator(e.expr).as_arg()))
             .collect()
     }
 
-    fn preserve_side_effect_of_decorator(&mut self, dec: Decorator) -> Box<Expr> {
-        if dec.expr.is_ident() || dec.expr.is_arrow() || dec.expr.is_fn_expr() {
-            return dec.expr;
+    fn preserve_side_effect_of_decorator(&mut self, dec: Box<Expr>) -> Box<Expr> {
+        if dec.is_ident() || dec.is_arrow() || dec.is_fn_expr() {
+            return dec;
         }
 
         let ident = private_ident!("_dec");
@@ -72,7 +72,7 @@ impl Decorator202203 {
             span: DUMMY_SP,
             op: op!("="),
             left: ident.clone().into(),
-            right: dec.expr,
+            right: dec,
         })));
 
         ident.into()
@@ -572,6 +572,14 @@ impl Decorator202203 {
 
         None
     }
+
+    fn process_decorators(&mut self, decorators: &mut [Decorator]) {
+        decorators.iter_mut().for_each(|dec| {
+            let e = self.preserve_side_effect_of_decorator(dec.expr.take());
+
+            dec.expr = e;
+        })
+    }
 }
 
 impl VisitMut for Decorator202203 {
@@ -745,6 +753,28 @@ impl VisitMut for Decorator202203 {
 
     fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
         let mut new = Vec::with_capacity(members.len());
+
+        for mut m in members.iter_mut() {
+            match &mut m {
+                ClassMember::Method(m) => {
+                    self.process_decorators(&mut m.function.decorators);
+                }
+                ClassMember::PrivateMethod(m) => {
+                    self.process_decorators(&mut m.function.decorators);
+                }
+                ClassMember::ClassProp(m) => {
+                    self.process_decorators(&mut m.decorators);
+                }
+                ClassMember::PrivateProp(m) => {
+                    self.process_decorators(&mut m.decorators);
+                }
+                ClassMember::AutoAccessor(m) => {
+                    self.process_decorators(&mut m.decorators);
+                }
+
+                _ => {}
+            }
+        }
 
         for mut m in members.take() {
             match m {
@@ -1088,9 +1118,15 @@ impl VisitMut for Decorator202203 {
                     continue;
                 }
 
-                _ => {
-                    m.visit_mut_with(self);
-                }
+                _ => {}
+            }
+
+            new.push(m);
+        }
+
+        for mut m in new.take() {
+            if !m.span().is_dummy() {
+                m.visit_mut_with(self);
             }
 
             new.push(m);
