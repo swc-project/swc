@@ -1,37 +1,34 @@
-const dec = () => { };
-var _A = /*#__PURE__*/new WeakMap();
-var _a = /*#__PURE__*/new WeakMap();
-var _B = /*#__PURE__*/new WeakMap();
-var _b = /*#__PURE__*/new WeakMap();
+const dec = ()=>{};
+var ___a = /*#__PURE__*/ new WeakMap(), _a = /*#__PURE__*/ new WeakMap(), ___b = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakMap();
 class Foo {
-  constructor() {
-    classPrivateFieldInitSpec(this, _b, {
-      get: _get_b,
-      set: _set_b
-    });
-    classPrivateFieldInitSpec(this, _a, {
-      get: _get_a,
-      set: _set_a
-    });
-    classPrivateFieldInitSpec(this, _A, {
-      writable: true,
-      value: void 0
-    });
-    classPrivateFieldInitSpec(this, _B, {
-      writable: true,
-      value: 123
-    });
-  }
+    constructor(){
+        _class_private_field_init(this, _a, {
+            get: get_a,
+            set: set_a
+        });
+        _class_private_field_init(this, _b, {
+            get: get_b,
+            set: set_b
+        });
+        _class_private_field_init(this, ___a, {
+            writable: true,
+            value: void 0
+        });
+        _class_private_field_init(this, ___b, {
+            writable: true,
+            value: 123
+        });
+    }
 }
-function _get_a() {
-  return classPrivateFieldGet(this, _A);
+function get_a() {
+    return _class_private_field_get(this, ___a);
 }
-function _set_a(v) {
-  classPrivateFieldSet(this, _A, v);
+function set_a(_v) {
+    _class_private_field_set(this, ___a, _v);
 }
-function _get_b() {
-  return classPrivateFieldGet(this, _B);
+function get_b() {
+    return _class_private_field_get(this, ___b);
 }
-function _set_b(v) {
-  classPrivateFieldSet(this, _B, v);
+function set_b(_v) {
+    _class_private_field_set(this, ___b, _v);
 }
