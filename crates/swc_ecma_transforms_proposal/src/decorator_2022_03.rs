@@ -581,6 +581,32 @@ impl Decorator202203 {
             dec.expr = e;
         })
     }
+
+    fn process_prop_name(&mut self, name: &mut PropName) {
+        match name {
+            PropName::Ident(..) => {}
+            _ => {
+                let ident = private_ident!("_computedKey");
+                self.extra_vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(ident.clone().into()),
+                    init: None,
+                    definite: false,
+                });
+
+                self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(ident.clone().into()),
+                    right: Box::new(prop_name_to_expr_value(name.take())),
+                })));
+                *name = PropName::Computed(ComputedPropName {
+                    span: DUMMY_SP,
+                    expr: ident.into(),
+                });
+            }
+        }
+    }
 }
 
 impl VisitMut for Decorator202203 {
@@ -762,12 +788,14 @@ impl VisitMut for Decorator202203 {
             match &mut m {
                 ClassMember::Method(m) => {
                     self.process_decorators(&mut m.function.decorators);
+                    self.process_prop_name(&mut m.key);
                 }
                 ClassMember::PrivateMethod(m) => {
                     self.process_decorators(&mut m.function.decorators);
                 }
                 ClassMember::ClassProp(m) => {
                     self.process_decorators(&mut m.decorators);
+                    self.process_prop_name(&mut m.key);
                 }
                 ClassMember::PrivateProp(m) => {
                     self.process_decorators(&mut m.decorators);
