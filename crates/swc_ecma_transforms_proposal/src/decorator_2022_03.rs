@@ -780,7 +780,7 @@ impl VisitMut for Decorator202203 {
             }
         }
 
-        for m in members.take() {
+        for mut m in members.take() {
             match m {
                 ClassMember::AutoAccessor(mut accessor) => {
                     let name;
@@ -1144,6 +1144,10 @@ impl VisitMut for Decorator202203 {
                     continue;
                 }
 
+                ClassMember::Method(..) | ClassMember::PrivateMethod(..) => {
+                    m.visit_mut_with(self);
+                }
+
                 _ => {}
             }
 
@@ -1151,8 +1155,14 @@ impl VisitMut for Decorator202203 {
         }
 
         for mut m in new.take() {
-            if !m.span().is_dummy() {
-                m.visit_mut_with(self);
+            match m {
+                ClassMember::Method(..) | ClassMember::PrivateMethod(..) => {}
+
+                _ => {
+                    if !m.span().is_dummy() {
+                        m.visit_mut_with(self);
+                    }
+                }
             }
 
             new.push(m);
