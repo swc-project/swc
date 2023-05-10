@@ -875,12 +875,11 @@ where
                     for decl in &var.decls {
                         let ids: Vec<Id> = find_pat_ids(&decl.name);
 
-                        remap.extend(ids.into_iter().map(|id| {
-                            (
-                                id,
-                                SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
-                            )
-                        }));
+                        for id in ids {
+                            remap
+                                .entry(id)
+                                .or_insert_with(|| SyntaxContext::empty().apply_mark(Mark::new()));
+                        }
                     }
                 }
             }
