@@ -821,22 +821,22 @@ impl VisitMut for Decorator202203 {
                         value: if accessor.decorators.is_empty() {
                             accessor.value
                         } else {
-                            let init_proto = match self.init_proto.clone() {
-                                Some(init) => {
-                                    if self.is_init_proto_called {
-                                        None
-                                    } else {
-                                        self.is_init_proto_called = true;
+                            let init_proto: Ident = self
+                                .init_proto
+                                .get_or_insert_with(|| private_ident!("_initProto"))
+                                .clone();
 
-                                        Some(Box::new(Expr::Call(CallExpr {
-                                            span: DUMMY_SP,
-                                            callee: init.clone().as_callee(),
-                                            args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                                            type_args: Default::default(),
-                                        })))
-                                    }
-                                }
-                                None => None,
+                            let init_proto = if self.is_init_proto_called {
+                                None
+                            } else {
+                                self.is_init_proto_called = true;
+
+                                Some(Box::new(Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: init_proto.clone().as_callee(),
+                                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                    type_args: Default::default(),
+                                })))
                             };
 
                             let init_call = Box::new(Expr::Call(CallExpr {
