@@ -439,6 +439,8 @@ impl Decorator202203 {
                     }
                 }
 
+                self.is_init_proto_called = true;
+
                 // Drop static blocks
                 body.retain(|m| {
                     !matches!(m, ClassMember::StaticBlock(..) | ClassMember::Empty(..))
