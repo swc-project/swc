@@ -446,10 +446,14 @@ impl Decorator202203 {
                 c.visit_mut_with(self);
 
                 // Make static members non-static
-                for m in body.iter_mut() {
-                    match m {
+                for member in body.iter_mut() {
+                    match member {
                         ClassMember::Method(m) => {
-                            m.is_static = false;
+                            if !m.is_static {
+                                c.class.body.push(member.take());
+                            } else {
+                                m.is_static = false;
+                            }
                         }
                         ClassMember::PrivateMethod(m) => {
                             m.is_static = false;
