@@ -442,10 +442,6 @@ impl Decorator202203 {
 
                 body.visit_mut_with(self);
 
-                self.proto_lhs.splice(0..0, self.static_lhs.drain(..));
-                self.init_proto_args
-                    .splice(0..0, self.init_static_args.drain(..));
-
                 c.visit_mut_with(self);
 
                 // Make static members non-static
