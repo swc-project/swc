@@ -436,6 +436,7 @@ impl Decorator202203 {
                     }
                 }
 
+                // Drop static blocks
                 body.retain(|m| {
                     !matches!(m, ClassMember::StaticBlock(..) | ClassMember::Empty(..))
                 });
