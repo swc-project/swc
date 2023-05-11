@@ -16,6 +16,12 @@
 
 - **(es/parser)** Implement explicit resource management (#7322) ([041b491](https://github.com/swc-project/swc/commit/041b49146627000971ef05f60e11f916182c67f1))
 
+### Miscellaneous Tasks
+
+
+
+- **(es)** Enable tracing spans for release builds (#7379) ([166e77c](https://github.com/swc-project/swc/commit/166e77c2b39b4390bb09f3a93f58148a5de40efa))
+
 ## [1.3.57] - 2023-05-09
 
 ### Bug Fixes
