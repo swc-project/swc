@@ -623,6 +623,32 @@ impl Decorator202203 {
             }
         }
     }
+
+    fn process_decorators_of_class_members(&mut self, members: &mut [ClassMember]) {
+        for mut m in members {
+            match &mut m {
+                ClassMember::Method(m) => {
+                    self.process_decorators(&mut m.function.decorators);
+                    self.process_prop_name(&mut m.key);
+                }
+                ClassMember::PrivateMethod(m) => {
+                    self.process_decorators(&mut m.function.decorators);
+                }
+                ClassMember::ClassProp(m) => {
+                    self.process_decorators(&mut m.decorators);
+                    self.process_prop_name(&mut m.key);
+                }
+                ClassMember::PrivateProp(m) => {
+                    self.process_decorators(&mut m.decorators);
+                }
+                ClassMember::AutoAccessor(m) => {
+                    self.process_decorators(&mut m.decorators);
+                }
+
+                _ => {}
+            }
+        }
+    }
 }
 
 impl VisitMut for Decorator202203 {
@@ -800,29 +826,7 @@ impl VisitMut for Decorator202203 {
     fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
         let mut new = Vec::with_capacity(members.len());
 
-        for mut m in members.iter_mut() {
-            match &mut m {
-                ClassMember::Method(m) => {
-                    self.process_decorators(&mut m.function.decorators);
-                    self.process_prop_name(&mut m.key);
-                }
-                ClassMember::PrivateMethod(m) => {
-                    self.process_decorators(&mut m.function.decorators);
-                }
-                ClassMember::ClassProp(m) => {
-                    self.process_decorators(&mut m.decorators);
-                    self.process_prop_name(&mut m.key);
-                }
-                ClassMember::PrivateProp(m) => {
-                    self.process_decorators(&mut m.decorators);
-                }
-                ClassMember::AutoAccessor(m) => {
-                    self.process_decorators(&mut m.decorators);
-                }
-
-                _ => {}
-            }
-        }
+        self.process_decorators_of_class_members(members);
 
         for mut m in members.take() {
             match m {
