@@ -382,6 +382,9 @@ impl Decorator202203 {
                         ClassMember::Method(ClassMethod {
                             is_static: true, ..
                         })
+                        | ClassMember::PrivateMethod(PrivateMethod {
+                            is_static: true, ..
+                        })
                         | ClassMember::Constructor(..)
                         | ClassMember::AutoAccessor(AutoAccessor {
                             is_static: true, ..
