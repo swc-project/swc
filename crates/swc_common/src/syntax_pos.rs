@@ -836,6 +836,8 @@ impl Sub<BytePos> for NonNarrowChar {
 #[doc(hidden)]
 #[cfg(feature = "rkyv-impl")]
 #[derive(Debug, Clone, Copy)]
+#[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct EncodeArcString;
 
 #[cfg(feature = "rkyv-impl")]
