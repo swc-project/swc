@@ -377,6 +377,8 @@ impl Decorator202203 {
             if has_static_member {
                 let mut last_static_block = None;
 
+                self.process_decorators_of_class_members(&mut body);
+
                 for m in body.iter_mut() {
                     match m {
                         ClassMember::Method(ClassMethod {
