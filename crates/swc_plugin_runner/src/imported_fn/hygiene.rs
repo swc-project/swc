@@ -1,5 +1,7 @@
 use swc_common::{
-    hygiene::MutableMarkContext, plugin::serialized::PluginSerializedBytes, Mark, SyntaxContext,
+    hygiene::MutableMarkContext,
+    plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
+    Mark, SyntaxContext,
 };
 use wasmer::{AsStoreMut, FunctionEnvMut};
 
@@ -46,7 +48,11 @@ pub fn mark_is_descendant_of_proxy(
 
     let return_value = self_mark.is_descendant_of(ancestor);
 
-    let context = MutableMarkContext(self_mark.as_u32(), 0, return_value as u32);
+    let context = VersionedSerializable::new(MutableMarkContext(
+        self_mark.as_u32(),
+        0,
+        return_value as u32,
+    ));
     let serialized_bytes =
         PluginSerializedBytes::try_serialize(&context).expect("Should be serializable");
 
@@ -75,7 +81,8 @@ pub fn mark_least_ancestor_proxy(
 
     let return_value = Mark::least_ancestor(a, b).as_u32();
 
-    let context = MutableMarkContext(a.as_u32(), b.as_u32(), return_value);
+    let context =
+        VersionedSerializable::new(MutableMarkContext(a.as_u32(), b.as_u32(), return_value));
     let serialized_bytes =
         PluginSerializedBytes::try_serialize(&context).expect("Should be serializable");
 
@@ -109,7 +116,11 @@ pub fn syntax_context_remove_mark_proxy(
 
     let return_value = self_mark.remove_mark();
 
-    let context = MutableMarkContext(self_mark.as_u32(), 0, return_value.as_u32());
+    let context = VersionedSerializable::new(MutableMarkContext(
+        self_mark.as_u32(),
+        0,
+        return_value.as_u32(),
+    ));
     let serialized_bytes =
         PluginSerializedBytes::try_serialize(&context).expect("Should be serializable");
 

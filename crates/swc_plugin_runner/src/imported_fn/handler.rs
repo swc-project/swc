@@ -26,8 +26,10 @@ pub fn emit_diagnostics(
             let diagnostic = PluginSerializedBytes::deserialize::<Diagnostic>(&serialized)
                 .expect("Should able to be deserialized into diagnostic");
 
-            let mut builder =
-                swc_common::errors::DiagnosticBuilder::new_diagnostic(handler, diagnostic);
+            let mut builder = swc_common::errors::DiagnosticBuilder::new_diagnostic(
+                handler,
+                diagnostic.into_inner(),
+            );
             builder.emit();
         })
     }
