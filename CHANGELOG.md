@@ -22,6 +22,12 @@
 
 - **(es)** Enable tracing spans for release builds (#7379) ([166e77c](https://github.com/swc-project/swc/commit/166e77c2b39b4390bb09f3a93f58148a5de40efa))
 
+### Refactor
+
+
+
+- **(common)** Derive `ByteCheck` for `ArcString` (#7380) ([9b3a41c](https://github.com/swc-project/swc/commit/9b3a41c57df4ead8e64c33ee247e8cd029792b16))
+
 ## [1.3.57] - 2023-05-09
 
 ### Bug Fixes

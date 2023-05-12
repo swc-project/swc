@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license       = "Apache-2.0"
 name          = "swc_bundler"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.214.1"
+version       = "0.214.2"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -39,17 +39,17 @@ relative-path = "1.2"
 tracing       = "0.1.32"
 
 swc_atoms                        = { version = "0.5.5", path = "../swc_atoms" }
-swc_common                       = { version = "0.31.7", path = "../swc_common" }
-swc_ecma_ast                     = { version = "0.104.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen                 = { version = "0.139.1", path = "../swc_ecma_codegen" }
-swc_ecma_loader                  = { version = "0.43.9", path = "../swc_ecma_loader" }
-swc_ecma_parser                  = { version = "0.134.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base         = { version = "0.127.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "0.187.1", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils                   = { version = "0.117.0", path = "../swc_ecma_utils" }
-swc_ecma_visit                   = { version = "0.90.0", path = "../swc_ecma_visit" }
-swc_fast_graph                   = { version = "0.19.7", path = "../swc_fast_graph/" }
-swc_graph_analyzer               = { version = "0.20.8", path = "../swc_graph_analyzer/" }
+swc_common                       = { version = "0.31.8", path = "../swc_common" }
+swc_ecma_ast                     = { version = "0.104.1", path = "../swc_ecma_ast" }
+swc_ecma_codegen                 = { version = "0.139.2", path = "../swc_ecma_codegen" }
+swc_ecma_loader                  = { version = "0.43.10", path = "../swc_ecma_loader" }
+swc_ecma_parser                  = { version = "0.134.1", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base         = { version = "0.127.2", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "0.187.2", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_utils                   = { version = "0.117.1", path = "../swc_ecma_utils" }
+swc_ecma_visit                   = { version = "0.90.1", path = "../swc_ecma_visit" }
+swc_fast_graph                   = { version = "0.19.8", path = "../swc_fast_graph/" }
+swc_graph_analyzer               = { version = "0.20.9", path = "../swc_graph_analyzer/" }
 
 [dev-dependencies]
 hex        = "0.4"
@@ -60,15 +60,15 @@ sha-1      = "0.10"
 tempfile   = "3.4.0"
 url        = "2.1.1"
 
-swc_ecma_loader = { version = "0.43.9", path = "../swc_ecma_loader", features = [
+swc_ecma_loader = { version = "0.43.10", path = "../swc_ecma_loader", features = [
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "0.181.1", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "0.181.2", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_transforms_proposal = { version = "0.161.1", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_react = { version = "0.173.1", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "0.177.1", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_proposal = { version = "0.161.2", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_react = { version = "0.173.2", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_typescript = { version = "0.177.2", path = "../swc_ecma_transforms_typescript" }
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
-testing = { version = "0.33.8", path = "../testing" }
+testing = { version = "0.33.9", path = "../testing" }

@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_css_codegen"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.147.8"
+version       = "0.147.9"
 
 [lib]
 bench = false
@@ -19,15 +19,15 @@ rustc-hash = "1.1.0"
 serde      = "1.0.127"
 
 swc_atoms              = { version = "0.5.5", path = "../swc_atoms" }
-swc_common             = { version = "0.31.7", path = "../swc_common" }
-swc_css_ast            = { version = "0.137.7", path = "../swc_css_ast" }
+swc_common             = { version = "0.31.8", path = "../swc_common" }
+swc_css_ast            = { version = "0.137.8", path = "../swc_css_ast" }
 swc_css_codegen_macros = { version = "0.2.1", path = "../swc_css_codegen_macros" }
-swc_css_utils          = { version = "0.134.7", path = "../swc_css_utils" }
+swc_css_utils          = { version = "0.134.8", path = "../swc_css_utils" }
 
 [dev-dependencies]
-swc_common = { version = "0.31.7", path = "../swc_common", features = [
+swc_common = { version = "0.31.8", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_css_parser = { version = "0.146.8", path = "../swc_css_parser" }
-swc_css_visit = { version = "0.136.7", path = "../swc_css_visit" }
-testing = { version = "0.33.8", path = "../testing" }
+swc_css_parser = { version = "0.146.9", path = "../swc_css_parser" }
+swc_css_visit = { version = "0.136.8", path = "../swc_css_visit" }
+testing = { version = "0.33.9", path = "../testing" }
