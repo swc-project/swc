@@ -482,7 +482,15 @@ impl Decorator202203 {
                 replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
 
                 if let Some(last) = last_static_block {
-                    let mut constructor = self.ensure_constructor(&mut c.class);
+                    let constructor = self.ensure_constructor(&mut c.class);
+
+                    let super_call = CallExpr {
+                        span: DUMMY_SP,
+                        callee: Callee::Super(Super { span: DUMMY_SP }),
+                        args: vec![c.ident.clone().as_arg()],
+                        type_args: Default::default(),
+                    }
+                    .into();
 
                     let static_call = CallExpr {
                         span: DUMMY_SP,
@@ -501,8 +509,25 @@ impl Decorator202203 {
                         .as_callee(),
                         args: vec![],
                         type_args: Default::default(),
-                    };
-                    inject_after_super(constructor, vec![static_call.into()]);
+                    }
+                    .into();
+
+                    let init_class_call = CallExpr {
+                        span: DUMMY_SP,
+                        callee: init_class.clone().as_callee(),
+                        args: Vec::new(),
+                        type_args: Default::default(),
+                    }
+                    .into();
+
+                    constructor.body.as_mut().unwrap().stmts.insert(
+                        0,
+                        SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: vec![super_call, static_call, init_class_call],
+                        }
+                        .into_stmt(),
+                    );
                 }
 
                 let class = Box::new(Class {
