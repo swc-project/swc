@@ -481,6 +481,30 @@ impl Decorator202203 {
 
                 replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
 
+                if let Some(last) = last_static_block {
+                    let mut constructor = self.ensure_constructor(&mut c.class);
+
+                    let static_call = CallExpr {
+                        span: DUMMY_SP,
+                        callee: ArrowExpr {
+                            span: DUMMY_SP,
+                            params: vec![],
+                            body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: last,
+                            })),
+                            is_async: false,
+                            is_generator: false,
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        }
+                        .as_callee(),
+                        args: vec![],
+                        type_args: Default::default(),
+                    };
+                    inject_after_super(constructor, vec![static_call.into()]);
+                }
+
                 let class = Box::new(Class {
                     span: DUMMY_SP,
                     decorators: Vec::new(),
