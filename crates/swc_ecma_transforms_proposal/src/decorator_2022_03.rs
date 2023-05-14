@@ -274,6 +274,40 @@ impl Decorator202203 {
         unreachable!()
     }
 
+    fn ensure_identity_constructor<'a>(&mut self, c: &'a mut Class) -> &'a mut Constructor {
+        for member in c.body.iter_mut() {
+            if let ClassMember::Constructor(constructor) = member {
+                return unsafe {
+                    // Safety: We need polonius
+                    transmute::<&mut Constructor, &'a mut Constructor>(constructor)
+                };
+            }
+        }
+
+        c.body.insert(
+            0,
+            ClassMember::Constructor(Constructor {
+                span: DUMMY_SP,
+                key: PropName::Ident(quote_ident!("constructor")),
+                params: vec![],
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![],
+                }),
+                accessibility: Default::default(),
+                is_optional: Default::default(),
+            }),
+        );
+
+        for member in c.body.iter_mut() {
+            if let ClassMember::Constructor(constructor) = member {
+                return constructor;
+            }
+        }
+
+        unreachable!()
+    }
+
     fn handle_class_expr(&mut self, class: &mut Class, ident: Option<&Ident>) -> Ident {
         debug_assert!(
             !class.decorators.is_empty(),
@@ -487,7 +521,7 @@ impl Decorator202203 {
                 replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
 
                 {
-                    let constructor = self.ensure_constructor(&mut c.class);
+                    let constructor = self.ensure_identity_constructor(&mut c.class);
 
                     let super_call = CallExpr {
                         span: DUMMY_SP,
