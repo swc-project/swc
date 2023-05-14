@@ -576,7 +576,7 @@ impl<I: Tokens> Parser<I> {
 
             if is_one_of!(
                 p, '<', // invalid syntax
-                '>', ">>", '+', '-', // becomes relational expression
+                '>', '=', ">>", ">=", '+', '-', // becomes relational expression
                 /* these should be type arguments in function call or template,
                  * not instantiation expression */
                 '(', '`'
