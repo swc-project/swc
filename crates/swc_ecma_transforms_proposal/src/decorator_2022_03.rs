@@ -438,7 +438,7 @@ impl Decorator202203 {
                     class: Box::new(Class {
                         span: DUMMY_SP,
                         decorators: vec![],
-                        body: vec![],
+                        body,
                         super_class: None,
                         is_abstract: Default::default(),
                         type_params: Default::default(),
@@ -447,9 +447,9 @@ impl Decorator202203 {
                     }),
                 };
 
-                body.visit_mut_with(self);
+                inner_class.class.visit_mut_with(self);
 
-                for m in body.iter_mut() {
+                for m in inner_class.class.body.iter_mut() {
                     let mut should_move = false;
 
                     match m {
@@ -470,8 +470,6 @@ impl Decorator202203 {
                         c.class.body.push(m.take())
                     }
                 }
-
-                inner_class.class.body.extend(body);
 
                 c.class.body.insert(
                     0,
