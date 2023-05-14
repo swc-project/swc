@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Fix remapping of vars upon inlining (#7362) ([1dced17](https://github.com/swc-project/swc/commit/1dced17998a625e30d4a8ef653aef9e2caa7627d))
 
+
+- **(es/parser)** Fix `>=` with type instantiate (#7388) ([fa7a352](https://github.com/swc-project/swc/commit/fa7a3521f531caa32439fa6f4c338a2a7d859e05))
+
 ### Features
 
 
