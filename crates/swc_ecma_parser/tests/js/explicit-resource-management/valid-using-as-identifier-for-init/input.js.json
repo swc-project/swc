@@ -1,0 +1,78 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 41,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForStatement",
+      "span": {
+        "start": 1,
+        "end": 41,
+        "ctxt": 0
+      },
+      "init": {
+        "type": "Identifier",
+        "span": {
+          "start": 9,
+          "end": 14,
+          "ctxt": 0
+        },
+        "value": "using",
+        "optional": false
+      },
+      "test": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 18,
+          "end": 38,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 18,
+            "end": 24,
+            "ctxt": 0
+          },
+          "value": "reader",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "CallExpression",
+          "span": {
+            "start": 27,
+            "end": 38,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 27,
+              "end": 36,
+              "ctxt": 0
+            },
+            "value": "getReader",
+            "optional": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
+      },
+      "update": null,
+      "body": {
+        "type": "EmptyStatement",
+        "span": {
+          "start": 40,
+          "end": 41,
+          "ctxt": 0
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

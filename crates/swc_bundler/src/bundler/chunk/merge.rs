@@ -892,7 +892,8 @@ where
                             Decl::TsInterface(_)
                             | Decl::TsTypeAlias(_)
                             | Decl::TsEnum(_)
-                            | Decl::TsModule(_) => continue,
+                            | Decl::TsModule(_)
+                            | Decl::Using(..) => continue,
                         };
 
                         tracing::trace!(

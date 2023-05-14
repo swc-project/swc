@@ -28,7 +28,7 @@ impl_struct!(ReturnStmt, [span, arg]);
 impl_struct!(ExprStmt, [span, expr]);
 
 impl_enum!(VarDeclOrExpr, [VarDecl, Expr]);
-impl_enum!(VarDeclOrPat, [VarDecl, Pat]);
+impl_enum!(ForHead, [VarDecl, UsingDecl, Pat]);
 
 impl_struct!(SwitchCase, [span, test, cons]);
 

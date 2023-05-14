@@ -1,11 +1,38 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix remapping of vars upon inlining (#7362) ([1dced17](https://github.com/swc-project/swc/commit/1dced17998a625e30d4a8ef653aef9e2caa7627d))
+
+
+- **(es/parser)** Fix `>=` with type instantiate (#7388) ([fa7a352](https://github.com/swc-project/swc/commit/fa7a3521f531caa32439fa6f4c338a2a7d859e05))
+
 ### Features
 
 
 
 - **(es/compat)** Partially support auto accessors (#7364) ([97ec259](https://github.com/swc-project/swc/commit/97ec25914451d931918287591d8d3f08648a65b9))
+
+
+- **(es/parser)** Implement explicit resource management (#7322) ([041b491](https://github.com/swc-project/swc/commit/041b49146627000971ef05f60e11f916182c67f1))
+
+
+- **(swc_core)** Allow native env plugin to use memory cache (#7390) ([e3868a7](https://github.com/swc-project/swc/commit/e3868a7e00bfb5d7a4677b8be0b64a87e9bf200d))
+
+### Miscellaneous Tasks
+
+
+
+- **(es)** Enable tracing spans for release builds (#7379) ([166e77c](https://github.com/swc-project/swc/commit/166e77c2b39b4390bb09f3a93f58148a5de40efa))
+
+### Refactor
+
+
+
+- **(common)** Derive `ByteCheck` for `ArcString` (#7380) ([9b3a41c](https://github.com/swc-project/swc/commit/9b3a41c57df4ead8e64c33ee247e8cd029792b16))
 
 ## [1.3.57] - 2023-05-09
 

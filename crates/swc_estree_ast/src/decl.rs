@@ -28,6 +28,8 @@ pub enum Declaration {
     FuncDecl(FunctionDeclaration),
     #[tag("VariableDeclaration")]
     VarDecl(VariableDeclaration),
+    #[tag("UsingDeclaration")]
+    UsingDecl(UsingDeclaration),
     #[tag("ClassDeclaration")]
     ClassDecl(ClassDeclaration),
     #[tag("ExportAllDeclaration")]
@@ -281,4 +283,14 @@ pub struct EnumDeclaration {
     pub base: BaseNode,
     pub id: Identifier,
     pub body: EnumBody,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("EnumDeclaration")]
+pub struct UsingDeclaration {
+    #[serde(flatten)]
+    pub base: BaseNode,
+
+    #[serde(default)]
+    pub declarations: Vec<VariableDeclarator>,
 }

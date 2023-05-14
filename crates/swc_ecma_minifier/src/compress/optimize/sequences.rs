@@ -2216,6 +2216,8 @@ where
                             if !usage.reassigned() && usage.usage_count == 1 && usage.declared {
                                 can_remove = true;
                             }
+                        } else {
+                            return Ok(false);
                         }
 
                         (left_id.clone(), Some(right))

@@ -20,6 +20,7 @@ use crate::{
         TSInterfaceDeclaration, TSModuleDeclaration, TSNamespaceExportDeclaration,
         TSTypeAliasDeclaration,
     },
+    UsingDeclaration,
 };
 
 #[derive(Debug, Clone, PartialEq)]
@@ -103,6 +104,8 @@ pub enum Statement {
     TypeAlias(TypeAlias),
     #[tag("EnumDeclaration")]
     EnumDecl(EnumDeclaration),
+    #[tag("UsingDeclaration")]
+    UsingDecl(UsingDeclaration),
     #[tag("TSDeclareFunction")]
     TSDeclFunc(TSDeclareFunction),
     #[tag("TSInterfaceDeclaration")]
