@@ -459,9 +459,6 @@ impl Decorator202203 {
                                 p.is_static = false;
                             }
                         }
-                        ClassMember::Constructor(..) => {
-                            should_move = true;
-                        }
 
                         _ => {}
                     }
