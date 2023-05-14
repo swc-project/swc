@@ -477,56 +477,58 @@ impl Decorator202203 {
 
                 replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
 
-                let constructor = self.ensure_constructor(&mut c.class);
+                {
+                    let constructor = self.ensure_constructor(&mut c.class);
 
-                let super_call = CallExpr {
-                    span: DUMMY_SP,
-                    callee: Callee::Super(Super { span: DUMMY_SP }),
-                    args: vec![c.ident.clone().as_arg()],
-                    type_args: Default::default(),
-                }
-                .into();
-                let static_call = last_static_block.map(|last| {
-                    CallExpr {
+                    let super_call = CallExpr {
                         span: DUMMY_SP,
-                        callee: ArrowExpr {
-                            span: DUMMY_SP,
-                            params: vec![],
-                            body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
-                                span: DUMMY_SP,
-                                stmts: last,
-                            })),
-                            is_async: false,
-                            is_generator: false,
-                            type_params: Default::default(),
-                            return_type: Default::default(),
-                        }
-                        .as_callee(),
-                        args: vec![],
+                        callee: Callee::Super(Super { span: DUMMY_SP }),
+                        args: vec![c.ident.clone().as_arg()],
                         type_args: Default::default(),
                     }
-                    .into()
-                });
+                    .into();
+                    let static_call = last_static_block.map(|last| {
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: ArrowExpr {
+                                span: DUMMY_SP,
+                                params: vec![],
+                                body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                                    span: DUMMY_SP,
+                                    stmts: last,
+                                })),
+                                is_async: false,
+                                is_generator: false,
+                                type_params: Default::default(),
+                                return_type: Default::default(),
+                            }
+                            .as_callee(),
+                            args: vec![],
+                            type_args: Default::default(),
+                        }
+                        .into()
+                    });
 
-                let init_class_call = CallExpr {
-                    span: DUMMY_SP,
-                    callee: init_class.as_callee(),
-                    args: Vec::new(),
-                    type_args: Default::default(),
-                }
-                .into();
-
-                constructor.body.as_mut().unwrap().stmts.insert(
-                    0,
-                    SeqExpr {
+                    let init_class_call = CallExpr {
                         span: DUMMY_SP,
-                        exprs: once(super_call)
-                            .chain(static_call)
-                            .chain(once(init_class_call))
-                            .collect(),
+                        callee: init_class.as_callee(),
+                        args: Vec::new(),
+                        type_args: Default::default(),
                     }
-                    .into_stmt(),
-                );
+                    .into();
+
+                    constructor.body.as_mut().unwrap().stmts.insert(
+                        0,
+                        SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: once(super_call)
+                                .chain(static_call)
+                                .chain(once(init_class_call))
+                                .collect(),
+                        }
+                        .into_stmt(),
+                    );
+                }
 
                 let class = Box::new(Class {
                     span: DUMMY_SP,
