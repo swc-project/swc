@@ -448,6 +448,29 @@ impl Decorator202203 {
                 };
 
                 body.visit_mut_with(self);
+
+                for m in body.iter_mut() {
+                    let mut should_move = false;
+
+                    match m {
+                        ClassMember::PrivateProp(p) => {
+                            if p.is_static {
+                                should_move = true;
+                                p.is_static = false;
+                            }
+                        }
+                        ClassMember::Constructor(..) => {
+                            should_move = true;
+                        }
+
+                        _ => {}
+                    }
+
+                    if should_move {
+                        c.class.body.push(m.take())
+                    }
+                }
+
                 inner_class.class.body.extend(body);
 
                 c.class.body.insert(
@@ -466,7 +489,7 @@ impl Decorator202203 {
                 let class = Box::new(Class {
                     span: DUMMY_SP,
                     decorators: Vec::new(),
-                    body: { vec![] },
+                    body: c.class.body.take(),
                     super_class: Some(Box::new(helper_expr!(identity))),
                     is_abstract: Default::default(),
                     type_params: Default::default(),
