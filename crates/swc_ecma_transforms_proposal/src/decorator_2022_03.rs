@@ -358,7 +358,7 @@ impl Decorator202203 {
             self.rename_map
                 .insert(c.ident.to_id(), new_class_name.to_id());
 
-            self.class_lhs.push(Some(new_class_name.clone().into()));
+            self.class_lhs.push(Some(new_class_name.into()));
             self.class_lhs.push(Some(init_class.clone().into()));
 
             self.class_decorators.extend(decorators);
@@ -452,15 +452,11 @@ impl Decorator202203 {
                 for m in inner_class.class.body.iter_mut() {
                     let mut should_move = false;
 
-                    match m {
-                        ClassMember::PrivateProp(p) => {
-                            if p.is_static {
-                                should_move = true;
-                                p.is_static = false;
-                            }
+                    if let ClassMember::PrivateProp(p) = m {
+                        if p.is_static {
+                            should_move = true;
+                            p.is_static = false;
                         }
-
-                        _ => {}
                     }
 
                     if should_move {
@@ -490,35 +486,31 @@ impl Decorator202203 {
                     type_args: Default::default(),
                 }
                 .into();
-                let static_call = if let Some(last) = last_static_block {
-                    Some(
-                        CallExpr {
+                let static_call = last_static_block.map(|last| {
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: ArrowExpr {
                             span: DUMMY_SP,
-                            callee: ArrowExpr {
+                            params: vec![],
+                            body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                                 span: DUMMY_SP,
-                                params: vec![],
-                                body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
-                                    span: DUMMY_SP,
-                                    stmts: last,
-                                })),
-                                is_async: false,
-                                is_generator: false,
-                                type_params: Default::default(),
-                                return_type: Default::default(),
-                            }
-                            .as_callee(),
-                            args: vec![],
-                            type_args: Default::default(),
+                                stmts: last,
+                            })),
+                            is_async: false,
+                            is_generator: false,
+                            type_params: Default::default(),
+                            return_type: Default::default(),
                         }
-                        .into(),
-                    )
-                } else {
-                    None
-                };
+                        .as_callee(),
+                        args: vec![],
+                        type_args: Default::default(),
+                    }
+                    .into()
+                });
 
                 let init_class_call = CallExpr {
                     span: DUMMY_SP,
-                    callee: init_class.clone().as_callee(),
+                    callee: init_class.as_callee(),
                     args: Vec::new(),
                     type_args: Default::default(),
                 }
