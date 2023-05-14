@@ -431,6 +431,58 @@ impl Decorator202203 {
                 body.retain(|m| {
                     !matches!(m, ClassMember::StaticBlock(..) | ClassMember::Empty(..))
                 });
+
+                let mut inner_class = ClassDecl {
+                    ident: c.ident.clone(),
+                    declare: Default::default(),
+                    class: Box::new(Class {
+                        span: DUMMY_SP,
+                        decorators: vec![],
+                        body: vec![],
+                        super_class: None,
+                        is_abstract: Default::default(),
+                        type_params: Default::default(),
+                        super_type_params: Default::default(),
+                        implements: Default::default(),
+                    }),
+                };
+
+                body.visit_mut_with(self);
+                inner_class.class.body.extend(body);
+
+                c.class.body.insert(
+                    0,
+                    ClassMember::StaticBlock(StaticBlock {
+                        span: DUMMY_SP,
+                        body: BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![Stmt::Decl(Decl::Class(inner_class))],
+                        },
+                    }),
+                );
+
+                replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
+
+                let class = Box::new(Class {
+                    span: DUMMY_SP,
+                    decorators: Vec::new(),
+                    body: { vec![] },
+                    super_class: Some(Box::new(helper_expr!(identity))),
+                    is_abstract: Default::default(),
+                    type_params: Default::default(),
+                    super_type_params: Default::default(),
+                    implements: Default::default(),
+                });
+
+                return Some(
+                    NewExpr {
+                        span: DUMMY_SP,
+                        callee: ClassExpr { ident: None, class }.into(),
+                        args: Some(vec![]),
+                        type_args: Default::default(),
+                    }
+                    .into_stmt(),
+                );
             } else {
                 for m in body.iter_mut() {
                     if let ClassMember::Constructor(..) = m {
