@@ -452,11 +452,20 @@ impl Decorator202203 {
                 for m in inner_class.class.body.iter_mut() {
                     let mut should_move = false;
 
-                    if let ClassMember::PrivateProp(p) = m {
-                        if p.is_static {
-                            should_move = true;
-                            p.is_static = false;
+                    match m {
+                        ClassMember::PrivateProp(p) => {
+                            if p.is_static {
+                                should_move = true;
+                                p.is_static = false;
+                            }
                         }
+                        ClassMember::PrivateMethod(p) => {
+                            if p.is_static {
+                                should_move = true;
+                                p.is_static = false;
+                            }
+                        }
+                        _ => (),
                     }
 
                     if should_move {
