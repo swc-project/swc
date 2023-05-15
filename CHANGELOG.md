@@ -23,6 +23,9 @@
 - **(es/parser)** Implement explicit resource management (#7322) ([041b491](https://github.com/swc-project/swc/commit/041b49146627000971ef05f60e11f916182c67f1))
 
 
+- **(plugin)** Add versioned wrapper struct (#7382) ([bba1fad](https://github.com/swc-project/swc/commit/bba1fad35ceda0011e0cd427c670209ac4eb6ed2))
+
+
 - **(swc_core)** Allow native env plugin to use memory cache (#7390) ([e3868a7](https://github.com/swc-project/swc/commit/e3868a7e00bfb5d7a4677b8be0b64a87e9bf200d))
 
 ### Miscellaneous Tasks
