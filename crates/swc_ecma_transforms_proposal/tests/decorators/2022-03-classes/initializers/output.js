@@ -2,6 +2,9 @@ var _initClass, _initClass1;
 const dec = ()=>{};
 let _Foo;
 new class extends _identity {
+    constructor(){
+        super(_Foo), _initClass();
+    }
     static{
         class Foo {
             static{
@@ -9,28 +12,25 @@ new class extends _identity {
                     dec
                 ]));
             }
+            static field = 123;
         }
-    }
-    field = 123;
-    constructor(){
-        super(_Foo), _initClass();
     }
 }();
 let _Bar;
 new class extends _identity {
+    constructor(){
+        super(_Bar), _initClass1();
+    }
     static{
-        class Bar extends _Foo {
+        class Bar {
             static{
                 ({ c: [_Bar, _initClass1]  } = _apply_decs_2203_r(this, [], [
                     dec
                 ]));
             }
+            static field = ((()=>{
+                this.otherField = 456;
+            })(), 123);
         }
-    }
-    field = ((()=>{
-        this.otherField = 456;
-    })(), 123);
-    constructor(){
-        super(_Bar), _initClass1();
     }
 }();

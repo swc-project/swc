@@ -31,10 +31,6 @@ fn exec(input: PathBuf) {
 fn exec_inner(input: PathBuf) {
     let code = std::fs::read_to_string(&input).unwrap();
 
-    if code.contains("accessor ") {
-        return;
-    }
-
     swc_ecma_transforms_testing::exec_tr(
         "decorator",
         Syntax::Typescript(TsConfig {
@@ -53,9 +49,6 @@ fn fixture(input: PathBuf) {
 
 fn fixture_inner(input: PathBuf) {
     let src = std::fs::read_to_string(&input).unwrap();
-    if src.contains("accessor ") {
-        return;
-    }
 
     let output = input.with_file_name("output.js");
 

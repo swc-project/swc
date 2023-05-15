@@ -83,7 +83,10 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         )
         .unwrap();
 
-        let program = PluginSerializedBytes::try_serialize(&parsed).expect("Should serializable");
+        let program = PluginSerializedBytes::try_serialize(
+            &swc_common::plugin::serialized::VersionedSerializable::new(parsed.clone()),
+        )
+        .expect("Should serializable");
         let experimental_metadata: AHashMap<String, String> = [
             (
                 "TestExperimental".to_string(),
@@ -117,7 +120,8 @@ fn internal(input: PathBuf) -> Result<(), Error> {
 
         let program: Program = program_bytes
             .deserialize()
-            .expect("Should able to deserialize");
+            .expect("Should able to deserialize")
+            .into_inner();
 
         assert_eq!(parsed, program);
 
@@ -138,8 +142,10 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         )
         .unwrap();
 
-        let mut serialized_program =
-            PluginSerializedBytes::try_serialize(&parsed).expect("Should serializable");
+        let mut serialized_program = PluginSerializedBytes::try_serialize(
+            &swc_common::plugin::serialized::VersionedSerializable::new(parsed.clone()),
+        )
+        .expect("Should serializable");
 
         let experimental_metadata: AHashMap<String, String> = [
             (
@@ -188,7 +194,8 @@ fn internal(input: PathBuf) -> Result<(), Error> {
 
         let program: Program = serialized_program
             .deserialize()
-            .expect("Should able to deserialize");
+            .expect("Should able to deserialize")
+            .into_inner();
 
         assert_eq!(parsed, program);
 

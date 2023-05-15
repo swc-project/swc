@@ -11,7 +11,7 @@ use std::{
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 #[cfg(feature = "__rkyv")]
-use swc_common::plugin::serialized::PluginSerializedBytes;
+use swc_common::plugin::serialized::{PluginSerializedBytes, VersionedSerializable};
 use swc_common::{
     collections::AHashMap, plugin::metadata::TransformPluginMetadataContext, FileName,
     FilePathMapping, Globals, Mark, SourceMap, GLOBALS,
@@ -62,6 +62,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
             )
             .unwrap();
 
+            let program = VersionedSerializable::new(program);
             let program_ser = PluginSerializedBytes::try_serialize(&program).unwrap();
 
             let mut transform_plugin_executor =
@@ -82,7 +83,8 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                 )
                 .unwrap();
 
-            let experimental_metadata: AHashMap<String, String> = AHashMap::default();
+            let experimental_metadata: VersionedSerializable<AHashMap<String, String>> =
+                VersionedSerializable::new(AHashMap::default());
             let _experimental_metadata =
                 PluginSerializedBytes::try_serialize(&experimental_metadata)
                     .expect("Should be a hashmap");
