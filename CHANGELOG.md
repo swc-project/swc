@@ -17,6 +17,9 @@
 - **(es/compat)** Partially support auto accessors (#7364) ([97ec259](https://github.com/swc-project/swc/commit/97ec25914451d931918287591d8d3f08648a65b9))
 
 
+- **(es/compat)** Implement auto accessors fully (#7370) ([cad18fa](https://github.com/swc-project/swc/commit/cad18fae4b93a916ad2c45b8741e08baeea78b98))
+
+
 - **(es/parser)** Implement explicit resource management (#7322) ([041b491](https://github.com/swc-project/swc/commit/041b49146627000971ef05f60e11f916182c67f1))
 
 
