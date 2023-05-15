@@ -44,7 +44,8 @@ where
     F: FnOnce(u32) -> u32,
 {
     // Allocate AllocatedBytesPtr to get return value from the host
-    let allocated_bytes_ptr = AllocatedBytesPtr(0, 0);
+    let allocated_bytes_ptr =
+        swc_common::plugin::serialized::VersionedSerializable::new(AllocatedBytesPtr(0, 0));
     let serialized_allocated_bytes_ptr = PluginSerializedBytes::try_serialize(&allocated_bytes_ptr)
         .expect("Should able to serialize AllocatedBytesPtr");
     let (serialized_allocated_bytes_raw_ptr, serialized_allocated_bytes_raw_ptr_size) =
@@ -69,6 +70,7 @@ where
                 .expect("Should able to convert ptr length"),
         )
         .expect("Should able to deserialize AllocatedBytesPtr")
+        .into_inner()
     })
 }
 
@@ -98,5 +100,6 @@ where
             allocated_returned_value_ptr.1,
         )
         .expect("Returned value should be serializable")
+        .into_inner()
     })
 }

@@ -94,7 +94,8 @@ impl RustPlugins {
             },
             || {
                 let span = tracing::span!(tracing::Level::INFO, "serialize_program").entered();
-                let mut serialized_program = PluginSerializedBytes::try_serialize(&n)?;
+                let program = swc_common::plugin::serialized::VersionedSerializable::new(n);
+                let mut serialized = PluginSerializedBytes::try_serialize(&program)?;
                 drop(span);
 
                 // Run plugin transformation against current program.
@@ -137,9 +138,9 @@ impl RustPlugins {
                         )
                         .entered();
 
-                        serialized_program = transform_plugin_executor
+                        serialized = transform_plugin_executor
                             .transform(
-                                &serialized_program,
+                                &serialized,
                                 self.unresolved_mark,
                                 should_enable_comments_proxy,
                             )
@@ -156,7 +157,7 @@ impl RustPlugins {
 
                 // Plugin transformation is done. Deserialize transformed bytes back
                 // into Program
-                serialized_program.deserialize()
+                serialized.deserialize().map(|v| v.into_inner())
             },
         )
     }
@@ -179,7 +180,8 @@ impl RustPlugins {
                 inner: self.comments.clone(),
             },
             || {
-                let mut serialized_program = PluginSerializedBytes::try_serialize(&n)?;
+                let program = swc_common::plugin::serialized::VersionedSerializable::new(n);
+                let mut serialized = PluginSerializedBytes::try_serialize(&program)?;
 
                 if let Some(plugins) = &mut self.plugins {
                     for p in plugins.drain(..) {
@@ -192,9 +194,9 @@ impl RustPlugins {
                                 Some(p.1),
                             )?;
 
-                        serialized_program = transform_plugin_executor
+                        serialized = transform_plugin_executor
                             .transform(
-                                &serialized_program,
+                                &serialized,
                                 self.unresolved_mark,
                                 should_enable_comments_proxy,
                             )
@@ -204,7 +206,7 @@ impl RustPlugins {
                     }
                 }
 
-                serialized_program.deserialize()
+                serialized_program.deserialize().map(|v| v.into_inner())
             },
         )
     }

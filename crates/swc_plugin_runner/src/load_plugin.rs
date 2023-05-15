@@ -175,7 +175,8 @@ pub fn load_plugin(
 
             let diag_result: PluginCorePkgDiagnostics =
                 PluginSerializedBytes::from_slice(&(&(*diagnostics_buffer.lock()))[..])
-                    .deserialize()?;
+                    .deserialize()?
+                    .into_inner();
 
             Ok((instance, transform_result, diag_result, wasi_env))
         }
