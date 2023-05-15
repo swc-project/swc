@@ -28,6 +28,9 @@
 
 - **(swc_core)** Allow native env plugin to use memory cache (#7390) ([e3868a7](https://github.com/swc-project/swc/commit/e3868a7e00bfb5d7a4677b8be0b64a87e9bf200d))
 
+
+- **(swc_core)** Expose plugin proxy to the host env (#7391) ([05b4c11](https://github.com/swc-project/swc/commit/05b4c1149781ab1f69a93a54a462413af2603a3a))
+
 ### Miscellaneous Tasks
 
 
