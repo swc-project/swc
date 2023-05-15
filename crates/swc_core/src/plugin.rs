@@ -33,8 +33,18 @@ pub mod metadata {
 }
 
 /// Proxy to the host's data not attached to the AST, like sourcemap / comments.
-#[cfg(any(docsrs, feature = "__common_plugin_transform"))]
-#[cfg_attr(docsrs, doc(cfg(feature = "__common_plugin_transform")))]
+#[cfg(any(
+    docsrs,
+    feature = "__common_plugin_transform",
+    feature = "__plugin_transform_host"
+))]
+#[cfg_attr(
+    docsrs,
+    doc(cfg(any(
+        feature = "__common_plugin_transform",
+        feature = "__plugin_transform_host"
+    )))
+)]
 pub mod proxies {
     pub use swc_plugin_proxy::*;
 }
