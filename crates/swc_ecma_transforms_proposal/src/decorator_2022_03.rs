@@ -2,7 +2,7 @@ use std::{iter::once, mem::transmute};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
-use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
@@ -25,6 +25,7 @@ struct Decorator202203 {
     /// If not empty, `initProto` should be injected to the constructor.
     init_proto: Option<Ident>,
     init_proto_args: Vec<Option<ExprOrSpread>>,
+    is_init_proto_called: bool,
 
     init_static: Option<Ident>,
     init_static_args: Vec<Option<ExprOrSpread>>,
@@ -52,13 +53,13 @@ impl Decorator202203 {
     ) -> Vec<Option<ExprOrSpread>> {
         decorators
             .into_iter()
-            .map(|e| Some(self.preserve_side_effect_of_decorator(e).as_arg()))
+            .map(|e| Some(self.preserve_side_effect_of_decorator(e.expr).as_arg()))
             .collect()
     }
 
-    fn preserve_side_effect_of_decorator(&mut self, dec: Decorator) -> Box<Expr> {
-        if dec.expr.is_ident() || dec.expr.is_arrow() || dec.expr.is_fn_expr() {
-            return dec.expr;
+    fn preserve_side_effect_of_decorator(&mut self, dec: Box<Expr>) -> Box<Expr> {
+        if dec.is_ident() || dec.is_arrow() || dec.is_fn_expr() {
+            return dec;
         }
 
         let ident = private_ident!("_dec");
@@ -72,81 +73,71 @@ impl Decorator202203 {
             span: DUMMY_SP,
             op: op!("="),
             left: ident.clone().into(),
-            right: dec.expr,
+            right: dec,
         })));
 
         ident.into()
     }
 
     /// Moves `cur_inits` to `extra_stmts`.
-    fn consume_inits(&mut self, for_static: bool) {
-        let init_ident = if for_static {
-            self.init_static.take()
-        } else {
-            self.init_proto.take()
-        };
-
-        let inits = if for_static {
-            self.static_lhs.take()
-        } else {
-            self.proto_lhs.take()
-        };
-
-        if inits.is_empty()
-            && init_ident.is_none()
-            && (for_static || self.class_decorators.is_empty())
+    fn consume_inits(&mut self) {
+        if self.init_proto_args.is_empty()
+            && self.init_static_args.is_empty()
+            && self.init_proto.is_none()
+            && self.init_static.is_none()
+            && self.class_decorators.is_empty()
         {
             return;
         }
 
         let mut e_lhs = vec![];
         let mut combined_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
-        let arrays = if for_static {
-            self.init_static_args.take()
-        } else {
-            self.init_proto_args.take()
-        };
 
-        for id in inits {
+        for id in self.static_lhs.drain(..).chain(self.proto_lhs.drain(..)) {
             e_lhs.push(Some(id.into()));
         }
 
-        if let Some(init_proto) = init_ident.clone() {
+        if let Some(init) = self.init_proto.clone() {
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(init_proto.clone().into()),
+                name: Pat::Ident(init.clone().into()),
                 init: None,
                 definite: false,
             });
 
-            e_lhs.push(Some(init_proto.into()));
+            e_lhs.push(Some(init.into()));
+        }
+
+        if let Some(init) = self.init_static.clone() {
+            self.extra_vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(init.clone().into()),
+                init: None,
+                definite: false,
+            });
+
+            e_lhs.push(Some(init.into()));
         }
 
         combined_args.push(
             ArrayLit {
                 span: DUMMY_SP,
-                elems: arrays,
+                elems: self
+                    .init_static_args
+                    .drain(..)
+                    .chain(self.init_proto_args.drain(..))
+                    .collect(),
             }
             .as_arg(),
         );
 
-        if !for_static {
-            combined_args.push(
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: self.class_decorators.take(),
-                }
-                .as_arg(),
-            );
-        } else {
-            combined_args.push(
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: vec![],
-                }
-                .as_arg(),
-            );
-        }
+        combined_args.push(
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: self.class_decorators.take(),
+            }
+            .as_arg(),
+        );
 
         let e_pat = if e_lhs.is_empty() {
             None
@@ -162,7 +153,7 @@ impl Decorator202203 {
             }))
         };
 
-        let c_pat = if for_static || self.class_lhs.is_empty() {
+        let c_pat = if self.class_lhs.is_empty() {
             None
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
@@ -198,18 +189,16 @@ impl Decorator202203 {
             expr,
         }));
 
-        if for_static {
-            if let Some(init) = init_ident {
-                self.extra_stmts.push(Stmt::Expr(ExprStmt {
+        if let Some(init) = self.init_static.take() {
+            self.extra_stmts.push(Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    expr: Box::new(Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: init.as_callee(),
-                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                        type_args: Default::default(),
-                    })),
-                }));
-            }
+                    callee: init.as_callee(),
+                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                    type_args: Default::default(),
+                })),
+            }));
         }
     }
 
@@ -224,6 +213,15 @@ impl Decorator202203 {
                 }))),
                 Ident::new(format!("_{prefix}_{}", i.sym).into(), i.span.private()),
             ),
+            PropName::Computed(c) if c.expr.is_ident() => match &*c.expr {
+                Expr::Ident(i) => (
+                    Box::new(Expr::Ident(i.clone())),
+                    Ident::new(format!("_{prefix}_{}", i.sym).into(), i.span.private()),
+                ),
+                _ => {
+                    unreachable!()
+                }
+            },
             _ => {
                 let ident = private_ident!("_computedKey");
                 self.extra_vars.push(VarDeclarator {
@@ -266,6 +264,40 @@ impl Decorator202203 {
 
         c.body
             .insert(0, default_constructor(c.super_class.is_some()).into());
+
+        for member in c.body.iter_mut() {
+            if let ClassMember::Constructor(constructor) = member {
+                return constructor;
+            }
+        }
+
+        unreachable!()
+    }
+
+    fn ensure_identity_constructor<'a>(&mut self, c: &'a mut Class) -> &'a mut Constructor {
+        for member in c.body.iter_mut() {
+            if let ClassMember::Constructor(constructor) = member {
+                return unsafe {
+                    // Safety: We need polonius
+                    transmute::<&mut Constructor, &'a mut Constructor>(constructor)
+                };
+            }
+        }
+
+        c.body.insert(
+            0,
+            ClassMember::Constructor(Constructor {
+                span: DUMMY_SP,
+                key: PropName::Ident(quote_ident!("constructor")),
+                params: vec![],
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![],
+                }),
+                accessibility: Default::default(),
+                is_optional: Default::default(),
+            }),
+        );
 
         for member in c.body.iter_mut() {
             if let ClassMember::Constructor(constructor) = member {
@@ -360,7 +392,7 @@ impl Decorator202203 {
             self.rename_map
                 .insert(c.ident.to_id(), new_class_name.to_id());
 
-            self.class_lhs.push(Some(new_class_name.clone().into()));
+            self.class_lhs.push(Some(new_class_name.into()));
             self.class_lhs.push(Some(init_class.clone().into()));
 
             self.class_decorators.extend(decorators);
@@ -379,21 +411,11 @@ impl Decorator202203 {
             if has_static_member {
                 let mut last_static_block = None;
 
+                self.process_decorators_of_class_members(&mut body);
+
+                // Move static blocks into property initializers
                 for m in body.iter_mut() {
                     match m {
-                        ClassMember::Method(method) => {
-                            if method.is_static {
-                                c.class.body.push(m.take());
-                            }
-                        }
-                        ClassMember::AutoAccessor(acc) => {
-                            if acc.is_static {
-                                c.class.body.push(m.take());
-                            }
-                        }
-                        ClassMember::PrivateMethod(m) => {
-                            m.is_static = false;
-                        }
                         ClassMember::ClassProp(ClassProp { value, .. })
                         | ClassMember::PrivateProp(PrivateProp { value, .. }) => {
                             if let Some(value) = value {
@@ -439,100 +461,122 @@ impl Decorator202203 {
                     }
                 }
 
+                // Drop static blocks
                 body.retain(|m| {
                     !matches!(m, ClassMember::StaticBlock(..) | ClassMember::Empty(..))
                 });
 
-                body.visit_mut_with(self);
+                let mut inner_class = ClassDecl {
+                    ident: c.ident.clone(),
+                    declare: Default::default(),
+                    class: Box::new(Class {
+                        span: DUMMY_SP,
+                        decorators: vec![],
+                        body,
+                        super_class: None,
+                        is_abstract: Default::default(),
+                        type_params: Default::default(),
+                        super_type_params: Default::default(),
+                        implements: Default::default(),
+                    }),
+                };
 
-                self.proto_lhs.splice(0..0, self.static_lhs.drain(..));
-                self.init_proto_args
-                    .splice(0..0, self.init_static_args.drain(..));
+                inner_class.class.visit_mut_with(self);
 
-                c.visit_mut_with(self);
+                for m in inner_class.class.body.iter_mut() {
+                    let mut should_move = false;
 
-                // Make static members non-static
-                for m in body.iter_mut() {
                     match m {
-                        ClassMember::Method(m) => {
-                            m.is_static = false;
+                        ClassMember::PrivateProp(p) => {
+                            if p.is_static {
+                                should_move = true;
+                                p.is_static = false;
+                            }
                         }
-                        ClassMember::PrivateMethod(m) => {
-                            m.is_static = false;
+                        ClassMember::PrivateMethod(p) => {
+                            if p.is_static {
+                                should_move = true;
+                                p.is_static = false;
+                            }
                         }
-                        ClassMember::ClassProp(ClassProp { is_static, .. })
-                        | ClassMember::PrivateProp(PrivateProp { is_static, .. }) => {
-                            *is_static = false;
-                        }
-                        _ => {}
+                        _ => (),
+                    }
+
+                    if should_move {
+                        c.class.body.push(m.take())
                     }
                 }
 
-                replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
-
-                let class = Box::new(Class {
-                    span: DUMMY_SP,
-                    decorators: vec![],
-                    body: once(ClassMember::StaticBlock(StaticBlock {
+                c.class.body.insert(
+                    0,
+                    ClassMember::StaticBlock(StaticBlock {
                         span: DUMMY_SP,
                         body: BlockStmt {
                             span: DUMMY_SP,
-                            stmts: vec![Stmt::Decl(Decl::Class(ClassDecl {
-                                ident: preserved_class_name,
-                                declare: Default::default(),
-                                class: c.class.take(),
-                            }))],
+                            stmts: vec![Stmt::Decl(Decl::Class(inner_class))],
                         },
-                    }))
-                    .chain(body)
-                    .chain(once(ClassMember::Constructor(Constructor {
+                    }),
+                );
+
+                replace_ident(&mut c.class, c.ident.to_id(), &preserved_class_name);
+
+                {
+                    let constructor = self.ensure_identity_constructor(&mut c.class);
+
+                    let super_call = CallExpr {
                         span: DUMMY_SP,
-                        key: PropName::Ident(quote_ident!("constructor")),
-                        params: vec![],
-                        body: Some(BlockStmt {
+                        callee: Callee::Super(Super { span: DUMMY_SP }),
+                        args: vec![c.ident.clone().as_arg()],
+                        type_args: Default::default(),
+                    }
+                    .into();
+                    let static_call = last_static_block.map(|last| {
+                        CallExpr {
                             span: DUMMY_SP,
-                            stmts: vec![SeqExpr {
+                            callee: ArrowExpr {
                                 span: DUMMY_SP,
-                                exprs: once(Box::new(Expr::Call(CallExpr {
+                                params: vec![],
+                                body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
                                     span: DUMMY_SP,
-                                    callee: Callee::Super(Super { span: DUMMY_SP }),
-                                    args: vec![new_class_name.as_arg()],
-                                    type_args: Default::default(),
-                                })))
-                                .chain(last_static_block.map(|stmts| {
-                                    Box::new(Expr::Call(CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: ArrowExpr {
-                                            span: DUMMY_SP,
-                                            params: vec![],
-                                            body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
-                                                span: DUMMY_SP,
-                                                stmts,
-                                            })),
-                                            is_async: false,
-                                            is_generator: false,
-                                            type_params: Default::default(),
-                                            return_type: Default::default(),
-                                        }
-                                        .as_callee(),
-                                        args: vec![],
-                                        type_args: Default::default(),
-                                    }))
-                                }))
-                                .chain(once(Box::new(Expr::Call(CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: init_class.as_callee(),
-                                    args: vec![],
-                                    type_args: Default::default(),
-                                }))))
-                                .collect(),
+                                    stmts: last,
+                                })),
+                                is_async: false,
+                                is_generator: false,
+                                type_params: Default::default(),
+                                return_type: Default::default(),
                             }
-                            .into_stmt()],
-                        }),
-                        accessibility: Default::default(),
-                        is_optional: Default::default(),
-                    })))
-                    .collect(),
+                            .as_callee(),
+                            args: vec![],
+                            type_args: Default::default(),
+                        }
+                        .into()
+                    });
+
+                    let init_class_call = CallExpr {
+                        span: DUMMY_SP,
+                        callee: init_class.as_callee(),
+                        args: Vec::new(),
+                        type_args: Default::default(),
+                    }
+                    .into();
+
+                    constructor.body.as_mut().unwrap().stmts.insert(
+                        0,
+                        SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: once(super_call)
+                                .chain(static_call)
+                                .chain(once(init_class_call))
+                                .collect(),
+                        }
+                        .into_stmt(),
+                    );
+                }
+
+                let class = Box::new(Class {
+                    span: DUMMY_SP,
+                    decorators: Vec::new(),
+                    body: c.class.body.take(),
                     super_class: Some(Box::new(helper_expr!(identity))),
                     is_abstract: Default::default(),
                     type_params: Default::default(),
@@ -550,6 +594,12 @@ impl Decorator202203 {
                     .into_stmt(),
                 );
             } else {
+                for m in body.iter_mut() {
+                    if let ClassMember::Constructor(..) = m {
+                        c.class.body.push(m.take());
+                    }
+                }
+
                 body.visit_mut_with(self);
 
                 c.visit_mut_with(self);
@@ -579,6 +629,67 @@ impl Decorator202203 {
 
         None
     }
+
+    fn process_decorators(&mut self, decorators: &mut [Decorator]) {
+        decorators.iter_mut().for_each(|dec| {
+            let e = self.preserve_side_effect_of_decorator(dec.expr.take());
+
+            dec.expr = e;
+        })
+    }
+
+    fn process_prop_name(&mut self, name: &mut PropName) {
+        match name {
+            PropName::Ident(..) => {}
+            PropName::Computed(c) if c.expr.is_ident() => {}
+            _ => {
+                let ident = private_ident!("_computedKey");
+                self.extra_vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(ident.clone().into()),
+                    init: None,
+                    definite: false,
+                });
+
+                self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(ident.clone().into()),
+                    right: Box::new(prop_name_to_expr_value(name.take())),
+                })));
+                *name = PropName::Computed(ComputedPropName {
+                    span: DUMMY_SP,
+                    expr: ident.into(),
+                });
+            }
+        }
+    }
+
+    fn process_decorators_of_class_members(&mut self, members: &mut [ClassMember]) {
+        for mut m in members {
+            match &mut m {
+                ClassMember::Method(m) => {
+                    self.process_decorators(&mut m.function.decorators);
+                    self.process_prop_name(&mut m.key);
+                }
+                ClassMember::PrivateMethod(m) => {
+                    self.process_decorators(&mut m.function.decorators);
+                }
+                ClassMember::ClassProp(m) => {
+                    self.process_decorators(&mut m.decorators);
+                    self.process_prop_name(&mut m.key);
+                }
+                ClassMember::PrivateProp(m) => {
+                    self.process_decorators(&mut m.decorators);
+                }
+                ClassMember::AutoAccessor(m) => {
+                    self.process_decorators(&mut m.decorators);
+                }
+
+                _ => {}
+            }
+        }
+    }
 }
 
 impl VisitMut for Decorator202203 {
@@ -589,22 +700,23 @@ impl VisitMut for Decorator202203 {
 
         n.visit_mut_children_with(self);
 
-        if let Some(init_proto) = self.init_proto.clone() {
-            let c = self.ensure_constructor(n);
+        if !self.is_init_proto_called {
+            if let Some(init_proto) = self.init_proto.clone() {
+                let c = self.ensure_constructor(n);
 
-            inject_after_super(
-                c,
-                vec![Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: init_proto.as_callee(),
-                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                    type_args: Default::default(),
-                }))],
-            )
+                inject_after_super(
+                    c,
+                    vec![Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: init_proto.as_callee(),
+                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                        type_args: Default::default(),
+                    }))],
+                )
+            }
         }
 
-        self.consume_inits(true);
-        self.consume_inits(false);
+        self.consume_inits();
 
         if !self.extra_stmts.is_empty() {
             n.body.insert(
@@ -619,7 +731,8 @@ impl VisitMut for Decorator202203 {
             );
         }
 
-        self.init_proto.take();
+        self.init_proto = None;
+        self.is_init_proto_called = false;
 
         self.extra_stmts = old_stmts;
     }
@@ -754,6 +867,8 @@ impl VisitMut for Decorator202203 {
     fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
         let mut new = Vec::with_capacity(members.len());
 
+        self.process_decorators_of_class_members(members);
+
         for mut m in members.take() {
             match m {
                 ClassMember::AutoAccessor(mut accessor) => {
@@ -795,14 +910,36 @@ impl VisitMut for Decorator202203 {
                         value: if accessor.decorators.is_empty() {
                             accessor.value
                         } else {
-                            Some(Box::new(Expr::Call(CallExpr {
+                            let init_proto = if self.is_init_proto_called || accessor.is_static {
+                                None
+                            } else {
+                                self.is_init_proto_called = true;
+
+                                let init_proto = self
+                                    .init_proto
+                                    .get_or_insert_with(|| private_ident!("_initProto"))
+                                    .clone();
+
+                                Some(Box::new(Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: init_proto.clone().as_callee(),
+                                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                    type_args: Default::default(),
+                                })))
+                            };
+
+                            let init_call = Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: init.clone().as_callee(),
                                 args: once(ThisExpr { span: DUMMY_SP }.as_arg())
                                     .chain(accessor.value.take().map(|v| v.as_arg()))
                                     .collect(),
                                 type_args: Default::default(),
-                            })))
+                            }));
+
+                            Some(Expr::from_exprs(
+                                init_proto.into_iter().chain(once(init_call)).collect(),
+                            ))
                         },
                         type_ann: None,
                         is_static: accessor.is_static,
@@ -1096,8 +1233,24 @@ impl VisitMut for Decorator202203 {
                     continue;
                 }
 
-                _ => {
+                ClassMember::Method(..) | ClassMember::PrivateMethod(..) => {
                     m.visit_mut_with(self);
+                }
+
+                _ => {}
+            }
+
+            new.push(m);
+        }
+
+        for mut m in new.take() {
+            match m {
+                ClassMember::Method(..) | ClassMember::PrivateMethod(..) => {}
+
+                _ => {
+                    if !m.span().is_dummy() {
+                        m.visit_mut_with(self);
+                    }
                 }
             }
 

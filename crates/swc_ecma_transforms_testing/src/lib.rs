@@ -539,8 +539,9 @@ fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
         fs::write(&success_cache, "").unwrap();
         return Ok(());
     }
+    let dir_name = path.display().to_string();
     ::std::mem::forget(tmp_dir);
-    panic!("Execution failed")
+    panic!("Execution failed: {dir_name}")
 }
 
 fn stdout_of(code: &str) -> Result<String, Error> {
