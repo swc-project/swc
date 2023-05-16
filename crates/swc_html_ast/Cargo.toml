@@ -21,7 +21,7 @@ serde-impl = ["serde"]
 
 [dependencies]
 is-macro = "0.2.0"
-rkyv = { version = "=0.7.41", optional = true, features = [
+rkyv = { version = "=0.7.42", optional = true, features = [
   "strict",
   "validation",
 ] }
