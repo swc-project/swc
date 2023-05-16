@@ -7,6 +7,12 @@
 
 - **(es/codegen)** Do not create duplicate source map entry (#7309) ([40ba242](https://github.com/swc-project/swc/commit/40ba242076f9c39cd19fe2a040fdf10867c67b9f))
 
+### Miscellaneous Tasks
+
+
+
+- **(plugin)** Update `rkyv` to `v0.7.42` (#7397) ([3a0565f](https://github.com/swc-project/swc/commit/3a0565f3778648f2ae57043c8e1bf8c15832b61e))
+
 ### Testing
 
 
