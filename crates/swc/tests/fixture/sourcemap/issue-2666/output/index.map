@@ -1,5 +1,5 @@
 {
-  "mappings": "AAAA,IAAI,IAAI,EAAE;IACN,IAAIA,IAAIC,OAAOC,GAAG;AACtB,CAAC",
+  "mappings": "AAAA,IAAI,MAAM;IACN,IAAIA,IAAIC,OAAOC;AACnB",
   "names": [
     "h",
     "Symbol",

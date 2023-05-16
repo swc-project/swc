@@ -19,7 +19,7 @@ struct Builder {
 }
 
 impl Builder {
-    pub fn with<'a, F, Ret>(self, src: &str, s: &'a mut Vec<u8>, op: F) -> Ret
+    pub fn with<'a, F, Ret>(self, _: &str, s: &'a mut Vec<u8>, op: F) -> Ret
     where
         F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>, SourceMap>) -> Ret,
         Ret: 'static,

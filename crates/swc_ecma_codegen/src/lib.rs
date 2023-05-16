@@ -3,7 +3,6 @@
 #![deny(unused)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::nonminimal_bool)]
-#![allow(unused_variables)]
 
 use std::{borrow::Cow, fmt::Write, io};
 
@@ -192,8 +191,6 @@ where
                 emit!(n.decl);
             }
         }
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -234,8 +231,6 @@ where
             DefaultDecl::Fn(ref n) => emit!(n),
             DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
         }
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -344,7 +339,7 @@ where
     #[emitter]
     fn emit_export_specifier(&mut self, node: &ExportSpecifier) -> Result {
         match node {
-            ExportSpecifier::Default(ref node) => {
+            ExportSpecifier::Default(..) => {
                 unimplemented!("codegen of `export default from 'foo';`")
             }
             ExportSpecifier::Namespace(ref node) => emit!(node),
@@ -373,12 +368,12 @@ where
 
         srcmap!(node, true);
 
-        if let Some(ref exported) = node.exported {
+        if let Some(exported) = &node.exported {
             emit!(node.orig);
             space!();
             keyword!("as");
             space!();
-            emit!(node.exported);
+            emit!(exported);
         } else {
             emit!(node.orig);
         }
@@ -499,20 +494,21 @@ where
     fn emit_lit(&mut self, node: &Lit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        srcmap!(node, true);
+
         match *node {
-            Lit::Bool(Bool { value, span }) => {
+            Lit::Bool(Bool { value, .. }) => {
                 if value {
-                    keyword!(span, "true")
+                    keyword!("true")
                 } else {
-                    keyword!(span, "false")
+                    keyword!("false")
                 }
             }
-            Lit::Null(Null { span }) => keyword!(span, "null"),
+            Lit::Null(Null { .. }) => keyword!("null"),
             Lit::Str(ref s) => emit!(s),
             Lit::BigInt(ref s) => emit!(s),
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
-                srcmap!(n, true);
                 punct!("/");
                 self.wr.write_str(&n.exp)?;
                 punct!("/");
@@ -963,8 +959,6 @@ where
                 emit!(private);
             }
         }
-
-        srcmap!(node, false);
     }
 
     #[emitter]
@@ -985,8 +979,6 @@ where
                 emit!(i);
             }
         }
-
-        srcmap!(node, false);
     }
 
     #[emitter]
@@ -1074,8 +1066,6 @@ where
 
             emit!(e);
         }
-
-        srcmap!(node, false);
     }
 
     #[emitter]
@@ -1639,8 +1629,6 @@ where
         punct!(":");
         formatting_space!();
         emit!(node.alt);
-
-        srcmap!(node, false);
     }
 
     #[emitter]
@@ -1689,7 +1677,7 @@ where
 
         if let Some(body) = &node.body {
             formatting_space!();
-            emit!(body);
+            self.emit_block_stmt_inner(body, true)?;
         } else {
             semi!();
         }
@@ -1699,9 +1687,11 @@ where
 
     #[emitter]
     fn emit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) -> Result {
-        match *node {
-            BlockStmtOrExpr::BlockStmt(ref block_stmt) => emit!(block_stmt),
-            BlockStmtOrExpr::Expr(ref expr) => {
+        match node {
+            BlockStmtOrExpr::BlockStmt(block) => {
+                self.emit_block_stmt_inner(block, true)?;
+            }
+            BlockStmtOrExpr::Expr(expr) => {
                 self.wr.increase_indent()?;
                 emit!(expr);
                 self.wr.decrease_indent()?;
@@ -1725,8 +1715,6 @@ where
         srcmap!(node, true);
 
         punct!("`");
-
-        let i = 0;
 
         for i in 0..(node.quasis.len() + node.exprs.len()) {
             if i % 2 == 0 {
@@ -1783,8 +1771,6 @@ where
         srcmap!(self, node, true);
 
         punct!(self, "`");
-
-        let i = 0;
 
         for i in 0..(node.quasis.len() + node.exprs.len()) {
             if i % 2 == 0 {
@@ -2361,8 +2347,8 @@ where
         parent_node: Span,
         is_empty: bool,
         format: ListFormat,
-        start: usize,
-        count: usize,
+        _start: usize,
+        _count: usize,
     ) -> Result {
         if format.contains(ListFormat::BracketsMask) {
             if is_empty {
@@ -2666,9 +2652,9 @@ where
 
         emit!(node.key);
         formatting_space!();
-        if let Some(ref value) = node.value {
+        if let Some(value) = &node.value {
             punct!("=");
-            emit!(node.value);
+            emit!(value);
             formatting_space!();
         }
 
@@ -2733,8 +2719,6 @@ where
     #[emitter]
     #[tracing::instrument(skip_all)]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
-        let expr_span = e.expr.span();
-
         emit!(e.expr);
 
         semi!();
@@ -2743,10 +2727,16 @@ where
     #[emitter]
     #[tracing::instrument(skip_all)]
     fn emit_block_stmt(&mut self, node: &BlockStmt) -> Result {
+        self.emit_block_stmt_inner(node, false)?;
+    }
+
+    fn emit_block_stmt_inner(&mut self, node: &BlockStmt, skip_first_src_map: bool) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
-        punct!("{");
+        if !skip_first_src_map {
+            srcmap!(self, node, true);
+        }
+        punct!(self, "{");
 
         let emit_new_line = !self.cfg.minify
             && !(node.stmts.is_empty() && is_empty_comments(&node.span(), &self.comments));
@@ -2761,8 +2751,10 @@ where
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
-        srcmap!(node, false, true);
-        punct!("}");
+        srcmap!(self, node, false, true);
+        punct!(self, "}");
+
+        Ok(())
     }
 
     #[emitter]
@@ -2965,7 +2957,6 @@ where
             emit!(label);
         }
 
-        srcmap!(n, false);
         semi!();
     }
 
@@ -2982,7 +2973,6 @@ where
             emit!(label);
         }
 
-        srcmap!(n, false);
         semi!();
     }
 
@@ -3021,8 +3011,6 @@ where
             }
             emit!(alt);
         }
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -3133,8 +3121,6 @@ where
             }
         }
         semi!();
-
-        srcmap!(n, false);
     }
 
     #[emitter]
