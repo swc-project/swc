@@ -46,7 +46,7 @@ swc_ecma_visit                   = { version = "0.90.2", path = "../swc_ecma_vis
 
 [dev-dependencies]
 pretty_assertions = "1.1"
-sourcemap         = "6"
+sourcemap         = "6.2"
 tempfile          = "3"
 
 swc_ecma_codegen            = { version = "0.139.4", path = "../swc_ecma_codegen" }

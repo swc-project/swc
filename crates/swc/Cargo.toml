@@ -63,7 +63,7 @@ regex        = "1"
 rustc-hash   = "1.1.0"
 serde        = { version = "1", features = ["derive"] }
 serde_json   = "1"
-sourcemap    = "6"
+sourcemap    = "6.2"
 tracing      = "0.1.32"
 url          = "2.3.1"
 
