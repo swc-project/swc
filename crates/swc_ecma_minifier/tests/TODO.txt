@@ -251,15 +251,12 @@ issue_203/compress_new_function_with_destruct/input.js
 issue_203/compress_new_function_with_destruct_arrows/input.js
 issue_22/return_with_no_value_in_if_body/input.js
 issue_281/collapse_vars_constants/input.js
-issue_281/issue_1758/input.js
 issue_2871/comparison_with_undefined/input.js
 issue_417/test_unexpected_crash/input.js
 issue_417/test_unexpected_crash_2/input.js
 issue_44/issue_44_valid_ast_1/input.js
 issue_44/issue_44_valid_ast_2/input.js
 issue_640/conditional/input.js
-issue_640/negate_iife_1/input.js
-issue_640/negate_iife_3/input.js
 issue_747/dont_reuse_prop/input.js
 issue_747/unmangleable_props_should_always_be_reserved/input.js
 issue_751/negate_booleans_1/input.js
@@ -349,7 +346,6 @@ reduce_vars/perf_3/input.js
 reduce_vars/perf_7/input.js
 reduce_vars/pure_getters_2/input.js
 reduce_vars/pure_getters_3/input.js
-reduce_vars/recursive_inlining_3/input.js
 reduce_vars/redefine_farg_1/input.js
 reduce_vars/redefine_farg_2/input.js
 reduce_vars/redefine_farg_3/input.js
@@ -366,6 +362,4 @@ template_string/regex_2/input.js
 template_string/side_effects/input.js
 template_string/template_evaluate_undefined/input.js
 transform/label_if_break/input.js
-typeof/issue_2728_3/input.js
-typeof/issue_2728_4/input.js
 typeof/typeof_defun_1/input.js
