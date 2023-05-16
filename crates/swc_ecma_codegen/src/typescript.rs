@@ -431,7 +431,6 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         punct!("`");
-        let i = 0;
 
         for i in 0..(node.quasis.len() + node.types.len()) {
             if i % 2 == 0 {
@@ -484,7 +483,7 @@ where
         punct!("[");
         emit!(n.type_param.name);
 
-        if let Some(constraints) = &n.type_param.constraint {
+        if let Some(..) = &n.type_param.constraint {
             space!();
             keyword!("in");
             space!();
