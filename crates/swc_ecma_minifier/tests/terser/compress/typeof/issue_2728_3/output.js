@@ -1,4 +1,3 @@
-(function () {
-    function arguments() {}
+(function() {
     console.log("function");
 })();
