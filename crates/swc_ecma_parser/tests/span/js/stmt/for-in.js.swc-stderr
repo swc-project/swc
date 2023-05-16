@@ -39,7 +39,7 @@
  6 | `-> }
    `----
 
-  x VarDeclOrPat
+  x ForHead
    ,-[$DIR/tests/span/js/stmt/for-in.js:1:1]
  1 | for (const a in [1, 2, 3]) {
    :      ^^^^^^^

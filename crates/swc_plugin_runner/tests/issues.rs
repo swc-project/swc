@@ -73,6 +73,8 @@ impl Visit for TestVisitor {
 #[cfg(feature = "__rkyv")]
 #[test]
 fn issue_6404() -> Result<(), Error> {
+    use swc_common::plugin::serialized::VersionedSerializable;
+
     let plugin_path = build_plugin(
         &PathBuf::from(env::var("CARGO_MANIFEST_DIR")?)
             .join("tests")
@@ -98,7 +100,8 @@ fn issue_6404() -> Result<(), Error> {
         )
         .unwrap();
 
-        let program = PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
+        let program = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(program))
+            .expect("Should serializable");
         let experimental_metadata: AHashMap<String, String> = [
             (
                 "TestExperimental".to_string(),
@@ -134,7 +137,8 @@ fn issue_6404() -> Result<(), Error> {
 
         let _: Program = program_bytes
             .deserialize()
-            .expect("Should able to deserialize");
+            .expect("Should able to deserialize")
+            .into_inner();
 
         Ok(())
     })

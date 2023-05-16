@@ -25,5 +25,5 @@ Point || (Point = {}), function(A) {
             };
         }, Point;
     }();
-    A.Point = Point, Point = A.Point || (A.Point = {});
+    A.Point = Point, A.Point || (A.Point = {});
 }(A || (A = {}));

@@ -80,8 +80,10 @@ impl EqIgnoreSpan for BigInt {
     }
 }
 
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "rkyv-impl")]
 #[derive(Debug, Clone, Copy)]
+#[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct EncodeBigInt;
 
 #[cfg(any(feature = "rkyv-impl"))]

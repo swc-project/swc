@@ -3,7 +3,7 @@ use std::sync::Arc;
 use parking_lot::Mutex;
 use swc_common::plugin::{
     metadata::{TransformPluginMetadataContext, TransformPluginMetadataContextKind},
-    serialized::PluginSerializedBytes,
+    serialized::{PluginSerializedBytes, VersionedSerializable},
 };
 use wasmer::{AsStoreMut, FunctionEnvMut, Memory, TypedFunction};
 
@@ -77,7 +77,8 @@ pub fn get_transform_plugin_config(
         let config = serde_json::to_string(config_value).ok();
         if let Some(config) = config {
             let serialized =
-                PluginSerializedBytes::try_serialize(&config).expect("Should be serializable");
+                PluginSerializedBytes::try_serialize(&VersionedSerializable::new(config))
+                    .expect("Should be serializable");
 
             allocate_return_values_into_guest(
                 memory,
@@ -109,26 +110,23 @@ pub fn get_transform_context(
         .as_ref()
         .expect("Alloc guest memory fn should be available, check initialization");
 
-    let value = env
-        .data()
-        .metadata_context
-        .get(&TransformPluginMetadataContextKind::from(key));
+    let value = VersionedSerializable::new(
+        env.data()
+            .metadata_context
+            .get(&TransformPluginMetadataContextKind::from(key)),
+    );
 
-    if let Some(value) = value {
-        let serialized =
-            PluginSerializedBytes::try_serialize(&value).expect("Should be serializable");
+    let serialized = PluginSerializedBytes::try_serialize(&value).expect("Should be serializable");
 
-        allocate_return_values_into_guest(
-            memory,
-            &mut env.as_store_mut(),
-            alloc_guest_memory,
-            allocated_ret_ptr,
-            &serialized,
-        );
+    allocate_return_values_into_guest(
+        memory,
+        &mut env.as_store_mut(),
+        alloc_guest_memory,
+        allocated_ret_ptr,
+        &serialized,
+    );
 
-        return 1;
-    }
-    0
+    1
 }
 
 #[tracing::instrument(level = "info", skip_all)]
@@ -149,7 +147,8 @@ pub fn get_experimental_transform_context(
     let context_key_buffer = env.data().mutable_context_key_buffer.lock().clone();
     let key: String = PluginSerializedBytes::from_slice(&context_key_buffer[..])
         .deserialize()
-        .expect("Should able to deserialize");
+        .expect("Should able to deserialize")
+        .into_inner();
 
     let value = env
         .data()
@@ -159,8 +158,8 @@ pub fn get_experimental_transform_context(
         .map(|v| v.to_string());
 
     if let Some(value) = value {
-        let serialized =
-            PluginSerializedBytes::try_serialize(&value).expect("Should be serializable");
+        let serialized = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(value))
+            .expect("Should be serializable");
 
         allocate_return_values_into_guest(
             memory,
@@ -191,7 +190,8 @@ pub fn get_raw_experiemtal_transform_context(
         .as_ref()
         .expect("Alloc guest memory fn should be available, check initialization");
 
-    let experimental_context = env.data().metadata_context.experimental.clone();
+    let experimental_context =
+        VersionedSerializable::new(env.data().metadata_context.experimental.clone());
     let serialized_experimental_context_bytes =
         PluginSerializedBytes::try_serialize(&experimental_context)
             .expect("Should be serializable");

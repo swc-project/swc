@@ -577,12 +577,21 @@ where
             space!();
         }
 
-        keyword!("module");
-        space!();
-        emit!(n.id);
-        formatting_space!();
+        if n.global {
+            keyword!("global");
+        } else {
+            keyword!("module");
+            space!();
+            emit!(n.id);
+        }
 
-        if let Some(body) = &n.body {
+        if let Some(mut body) = n.body.as_ref() {
+            while let TsNamespaceBody::TsNamespaceDecl(decl) = body {
+                punct!(".");
+                emit!(decl.id);
+                body = &*decl.body;
+            }
+            formatting_space!();
             emit!(body);
         }
     }
@@ -1111,5 +1120,15 @@ mod tests {
             "var memory: WebAssembly.Memory;",
             "var memory:WebAssembly.Memory",
         );
+    }
+
+    #[test]
+    fn type_arg() {
+        assert_min_typescript("do_stuff<T>()", "do_stuff<T>()");
+    }
+
+    #[test]
+    fn no_type_arg() {
+        assert_min_typescript("do_stuff()", "do_stuff()");
     }
 }

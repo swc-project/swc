@@ -1,0 +1,9 @@
+
+  x Expected ';', '}' or <eof>
+   ,-[$DIR/tests/errors/explicit-resource-management/invalid-using-binding-await-module/input.js:1:1]
+ 1 | {
+ 2 |   using await = h();
+   :   ^^|^^ ^^^^^
+   :     `-- This is the expression part of an expression statement
+ 3 | }
+   `----

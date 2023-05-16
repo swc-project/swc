@@ -1,4 +1,4 @@
-use swc_common::plugin::serialized::PluginSerializedBytes;
+use swc_common::plugin::serialized::{PluginSerializedBytes, VersionedSerializable};
 use swc_plugin_proxy::AllocatedBytesPtr;
 use wasmer::{Memory, MemoryView, StoreMut, TypedFunction, WasmPtr};
 
@@ -78,7 +78,8 @@ pub fn allocate_return_values_into_guest(
     let (allocated_ptr, allocated_ptr_len) =
         write_into_memory_view(memory, store, serialized_bytes, |_, _| guest_memory_ptr);
 
-    let allocated_bytes = AllocatedBytesPtr(allocated_ptr, allocated_ptr_len);
+    let allocated_bytes =
+        VersionedSerializable::new(AllocatedBytesPtr(allocated_ptr, allocated_ptr_len));
     // Retuning (allocated_ptr, len) into caller (plugin)
     let comment_ptr_serialized =
         PluginSerializedBytes::try_serialize(&allocated_bytes).expect("Should be serializable");

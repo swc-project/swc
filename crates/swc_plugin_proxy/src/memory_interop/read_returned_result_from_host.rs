@@ -7,7 +7,22 @@ use swc_common::plugin::serialized::{deserialize_from_ptr, PluginSerializedBytes
     feature = "__rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "__rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "__rkyv", archive_attr(repr(C)))]
 pub struct AllocatedBytesPtr(pub u32, pub u32);
+
+#[cfg(target_arch = "wasm32")]
+extern "C" {
+    fn __free(ptr: *mut u8, size: i32) -> i32;
+}
+#[cfg(target_arch = "wasm32")]
+impl Drop for AllocatedBytesPtr {
+    fn drop(&mut self) {
+        unsafe {
+            __free(self.0 as _, self.1 as _);
+        }
+    }
+}
 
 #[cfg(not(feature = "__rkyv"))]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
@@ -29,7 +44,8 @@ where
     F: FnOnce(u32) -> u32,
 {
     // Allocate AllocatedBytesPtr to get return value from the host
-    let allocated_bytes_ptr = AllocatedBytesPtr(0, 0);
+    let allocated_bytes_ptr =
+        swc_common::plugin::serialized::VersionedSerializable::new(AllocatedBytesPtr(0, 0));
     let serialized_allocated_bytes_ptr = PluginSerializedBytes::try_serialize(&allocated_bytes_ptr)
         .expect("Should able to serialize AllocatedBytesPtr");
     let (serialized_allocated_bytes_raw_ptr, serialized_allocated_bytes_raw_ptr_size) =
@@ -54,6 +70,7 @@ where
                 .expect("Should able to convert ptr length"),
         )
         .expect("Should able to deserialize AllocatedBytesPtr")
+        .into_inner()
     })
 }
 
@@ -83,5 +100,6 @@ where
             allocated_returned_value_ptr.1,
         )
         .expect("Returned value should be serializable")
+        .into_inner()
     })
 }

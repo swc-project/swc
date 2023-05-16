@@ -22,6 +22,9 @@ pub enum Decl {
     Fn(FnDecl),
     #[tag("VariableDeclaration")]
     Var(Box<VarDecl>),
+    #[tag("UsingDeclaration")]
+    Using(Box<UsingDecl>),
+
     #[tag("TsInterfaceDeclaration")]
     TsInterface(Box<TsInterfaceDecl>),
     #[tag("TsTypeAliasDeclaration")]
@@ -33,6 +36,7 @@ pub enum Decl {
 }
 
 bridge_decl_from!(Box<VarDecl>, VarDecl);
+bridge_decl_from!(Box<UsingDecl>, UsingDecl);
 bridge_decl_from!(Box<TsInterfaceDecl>, TsInterfaceDecl);
 bridge_decl_from!(Box<TsTypeAliasDecl>, TsTypeAliasDecl);
 bridge_decl_from!(Box<TsEnumDecl>, TsEnumDecl);
@@ -86,6 +90,16 @@ pub struct ClassDecl {
     pub class: Box<Class>,
 }
 
+impl Take for ClassDecl {
+    fn dummy() -> Self {
+        ClassDecl {
+            ident: Take::dummy(),
+            declare: Default::default(),
+            class: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("VariableDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -118,6 +132,8 @@ impl Take for VarDecl {
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
 pub enum VarDeclKind {
     /// `var`
     Var,
@@ -151,6 +167,24 @@ impl Take for VarDeclarator {
             name: Take::dummy(),
             init: Take::dummy(),
             definite: Default::default(),
+        }
+    }
+}
+
+#[ast_node("UsingDeclaration")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct UsingDecl {
+    pub span: Span,
+
+    pub decls: Vec<VarDeclarator>,
+}
+
+impl Take for UsingDecl {
+    fn dummy() -> Self {
+        Self {
+            span: DUMMY_SP,
+            decls: Take::dummy(),
         }
     }
 }

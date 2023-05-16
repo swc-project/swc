@@ -26,28 +26,6 @@ impl From<u32> for TransformPluginMetadataContextKind {
     }
 }
 
-/*
-impl TransformPluginMetadataContextKind {
-    pub fn from(key: u32) -> TransformPluginMetadataContextKind {
-        match key {
-            1 => TransformPluginMetadataContextKind::Filename,
-            2 => TransformPluginMetadataContextKind::Env,
-            3 => TransformPluginMetadataContextKind::Cwd,
-            _ => panic!("Invalid TransformPluginMetadataContextKind key"),
-        }
-    }
-}
-
-impl Into<u32> for TransformPluginMetadataContextKind {
-    fn into(self) -> u32 {
-        match self {
-            TransformPluginMetadataContextKind::Filename => 1,
-            TransformPluginMetadataContextKind::Env => 2,
-            TransformPluginMetadataContextKind::Cwd => 3,
-        }
-    }
-}*/
-
 /// Host side metadata context plugin may need to access.
 /// This is a global context - any plugin in single transform will have same
 /// values.

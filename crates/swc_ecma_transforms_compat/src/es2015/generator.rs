@@ -949,7 +949,7 @@ impl VisitMut for Generator {
             self.begin_script_loop_block();
         }
 
-        if let VarDeclOrPat::VarDecl(initializer) = &mut node.left {
+        if let ForHead::VarDecl(initializer) = &mut node.left {
             for variable in &initializer.decls {
                 self.hoist_variable_declaration(variable.name.as_ident().unwrap());
             }
@@ -965,7 +965,7 @@ impl VisitMut for Generator {
         }
     }
 
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
         match node {
             Stmt::Break(b) => {
@@ -1755,7 +1755,7 @@ impl Generator {
             node.right.visit_mut_with(self);
             self.emit_stmt(Stmt::ForIn(ForInStmt {
                 span: DUMMY_SP,
-                left: VarDeclOrPat::Pat(key.clone().into()),
+                left: ForHead::Pat(key.clone().into()),
                 right: node.right.take(),
                 body: Box::new(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
@@ -1788,16 +1788,20 @@ impl Generator {
             );
 
             let variable = match node.left {
-                VarDeclOrPat::VarDecl(initializer) => {
+                ForHead::VarDecl(initializer) => {
                     for variable in initializer.decls.iter() {
                         self.hoist_variable_declaration(variable.name.as_ident().unwrap());
                     }
 
                     initializer.decls[0].name.clone()
                 }
-                VarDeclOrPat::Pat(mut initializer) => {
+                ForHead::Pat(mut initializer) => {
                     initializer.visit_mut_with(self);
                     *initializer
+                }
+
+                ForHead::UsingDecl(..) => {
+                    unreachable!("using declaration must be removed by previous pass")
                 }
             };
             self.emit_assignment(
@@ -3037,7 +3041,7 @@ impl Generator {
         });
     }
 
-    #[cfg_attr(debug_assertions, tracing::instrument(skip(self)))]
+    #[tracing::instrument(skip(self))]
     fn try_enter_label(&mut self, op_index: usize) {
         if self.label_offsets.is_none() {
             return;
@@ -3091,7 +3095,7 @@ impl Generator {
     }
 
     /// Tries to enter or leave a code block.
-    #[cfg_attr(debug_assertions, tracing::instrument(skip(self)))]
+    #[tracing::instrument(skip(self))]
     fn try_enter_or_leave_block(&mut self, op_index: usize) {
         if let Some(blocks) = &self.blocks {
             while self.block_index < self.block_actions.as_ref().unwrap().len()
@@ -3158,7 +3162,7 @@ impl Generator {
 
     /// Writes an operation as a statement to the current label's statement
     /// list.
-    #[cfg_attr(debug_assertions, tracing::instrument(skip(self)))]
+    #[tracing::instrument(skip(self))]
     fn write_operation(&mut self, op_index: usize) {
         if cfg!(debug_assertions) {
             debug!("Writing operation {}", op_index);

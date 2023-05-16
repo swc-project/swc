@@ -621,7 +621,7 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>)
+    pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: ModuleItemExt,
     {
@@ -680,6 +680,9 @@ where
             }
         }
 
+        if will_terminate {
+            buf.push(Mergable::Drop);
+        }
         exprs.push(buf);
 
         #[cfg(feature = "debug")]
@@ -897,19 +900,29 @@ where
 
                     // Merge sequentially
 
-                    if self.merge_sequential_expr(
-                        a,
-                        match &mut a2[j - idx] {
-                            Mergable::Var(b) => match b.init.as_deref_mut() {
-                                Some(v) => v,
-                                None => continue,
-                            },
-                            Mergable::Expr(e) => e,
-                            Mergable::FnDecl(..) => continue,
+                    match &mut a2[j - idx] {
+                        Mergable::Var(b) => match b.init.as_deref_mut() {
+                            Some(b) => {
+                                if self.merge_sequential_expr(a, b)? {
+                                    did_work = true;
+                                    break;
+                                }
+                            }
+                            None => continue,
                         },
-                    )? {
-                        did_work = true;
-                        break;
+                        Mergable::Expr(b) => {
+                            if self.merge_sequential_expr(a, b)? {
+                                did_work = true;
+                                break;
+                            }
+                        }
+                        Mergable::FnDecl(..) => continue,
+                        Mergable::Drop => {
+                            if self.drop_mergable_seq(a)? {
+                                did_work = true;
+                                break;
+                            }
+                        }
                     }
 
                     // This logic is required to handle
@@ -994,6 +1007,8 @@ where
                                 break;
                             }
                         }
+
+                        Mergable::Drop => break,
                     }
                 }
             }
@@ -1057,6 +1072,16 @@ where
         }
     }
 
+    fn drop_mergable_seq(&mut self, a: &mut Mergable) -> Result<bool, ()> {
+        if let Mergable::Expr(a) = a {
+            if self.optimize_last_expr_before_termination(a) {
+                return Ok(true);
+            }
+        }
+
+        Ok(false)
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn is_skippable_for_seq(&self, a: Option<&Mergable>, e: &Expr) -> bool {
         if self.ctx.in_try_block {
@@ -1102,6 +1127,8 @@ where
                                 return false;
                             }
                         }
+
+                        Mergable::Drop => return false,
                     }
 
                     // We can't proceed if the rhs (a.id = b.right) is
@@ -1166,6 +1193,8 @@ where
                                 need_all: true,
                             },
                         )),
+
+                        Mergable::Drop => return false,
                     };
 
                     if let Some(ids_used_by_a_init) = ids_used_by_a_init {
@@ -1265,6 +1294,7 @@ where
                                 return false;
                             }
                         }
+                        Mergable::Drop => return false,
                     }
                 }
 
@@ -1474,6 +1504,7 @@ where
                 Mergable::Expr(e) => dump(*e, false),
                 Mergable::Var(e) => dump(*e, false),
                 Mergable::FnDecl(e) => dump(*e, false),
+                Mergable::Drop => return Ok(false),
             };
 
             Some(
@@ -1523,6 +1554,7 @@ where
                     return Ok(false);
                 }
             }
+            Mergable::Drop => return Ok(false),
         }
 
         {
@@ -1561,6 +1593,8 @@ where
                     // viewed as a variable with an identifier name and a
                     // function expression as a initialized.
                 }
+
+                Mergable::Drop => return Ok(false),
             }
         }
 
@@ -1628,6 +1662,7 @@ where
                     Mergable::Var(a) => idents_used_by_ignoring_nested(&a.init),
                     Mergable::Expr(a) => idents_used_by_ignoring_nested(&**a),
                     Mergable::FnDecl(a) => idents_used_by_ignoring_nested(&**a),
+                    Mergable::Drop => return Ok(false),
                 };
                 if obj_ids.intersection(&a_ids).next().is_some() {
                     return Ok(false);
@@ -1951,6 +1986,7 @@ where
                     crate::debug::dump(&*b, false)
                 );
             }
+            Mergable::Drop => return Ok(false),
         }
 
         if self.replace_seq_update(a, b)? {
@@ -2180,6 +2216,8 @@ where
                             if !usage.reassigned() && usage.usage_count == 1 && usage.declared {
                                 can_remove = true;
                             }
+                        } else {
+                            return Ok(false);
                         }
 
                         (left_id.clone(), Some(right))
@@ -2249,6 +2287,8 @@ where
                     return Ok(false);
                 }
             }
+
+            Mergable::Drop => return Ok(false),
         };
 
         if let Some(a_right) = a_right {
@@ -2316,6 +2356,10 @@ where
                             ident: Some(a.ident.take()),
                             function: a.function.take(),
                         }))
+                    }
+
+                    Mergable::Drop => {
+                        unreachable!()
                     }
                 }
             };
@@ -2516,6 +2560,7 @@ enum Mergable<'a> {
     Var(&'a mut VarDeclarator),
     Expr(&'a mut Expr),
     FnDecl(&'a mut FnDecl),
+    Drop,
 }
 
 impl Mergable<'_> {
@@ -2530,6 +2575,7 @@ impl Mergable<'_> {
                 _ => None,
             },
             Mergable::FnDecl(f) => Some(f.ident.to_id()),
+            Mergable::Drop => None,
         }
     }
 }

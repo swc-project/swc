@@ -2279,7 +2279,7 @@ Elements.prototype = {
                 html1,
                 wrap1[2]
             ].flatten().join(""); level1--;)target1 = target1.firstChild;
-            this.empty().adopt(target1.childNodes), supportsHTML5Elements1 || fragment1.removeChild(wrapper1), wrapper1 = null;
+            this.empty().adopt(target1.childNodes), supportsHTML5Elements1 || fragment1.removeChild(wrapper1);
         };
     }(Element.Properties.html.set));
     var testForm1 = document.createElement("form");

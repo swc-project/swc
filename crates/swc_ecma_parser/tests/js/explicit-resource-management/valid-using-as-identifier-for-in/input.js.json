@@ -1,0 +1,247 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 92,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForInStatement",
+      "span": {
+        "start": 1,
+        "end": 19,
+        "ctxt": 0
+      },
+      "left": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 11,
+          "ctxt": 0
+        },
+        "value": "using",
+        "optional": false,
+        "typeAnnotation": null
+      },
+      "right": {
+        "type": "ArrayExpression",
+        "span": {
+          "start": 15,
+          "end": 17,
+          "ctxt": 0
+        },
+        "elements": []
+      },
+      "body": {
+        "type": "EmptyStatement",
+        "span": {
+          "start": 18,
+          "end": 19,
+          "ctxt": 0
+        }
+      }
+    },
+    {
+      "type": "ForInStatement",
+      "span": {
+        "start": 20,
+        "end": 42,
+        "ctxt": 0
+      },
+      "left": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 25,
+          "end": 34,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 25,
+            "end": 30,
+            "ctxt": 0
+          },
+          "value": "using",
+          "optional": false
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 31,
+            "end": 34,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        }
+      },
+      "right": {
+        "type": "ArrayExpression",
+        "span": {
+          "start": 38,
+          "end": 40,
+          "ctxt": 0
+        },
+        "elements": []
+      },
+      "body": {
+        "type": "EmptyStatement",
+        "span": {
+          "start": 41,
+          "end": 42,
+          "ctxt": 0
+        }
+      }
+    },
+    {
+      "type": "ForInStatement",
+      "span": {
+        "start": 43,
+        "end": 67,
+        "ctxt": 0
+      },
+      "left": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 48,
+          "end": 59,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "CallExpression",
+          "span": {
+            "start": 48,
+            "end": 55,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 48,
+              "end": 53,
+              "ctxt": 0
+            },
+            "value": "using",
+            "optional": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 56,
+            "end": 59,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        }
+      },
+      "right": {
+        "type": "ArrayExpression",
+        "span": {
+          "start": 63,
+          "end": 65,
+          "ctxt": 0
+        },
+        "elements": []
+      },
+      "body": {
+        "type": "EmptyStatement",
+        "span": {
+          "start": 66,
+          "end": 67,
+          "ctxt": 0
+        }
+      }
+    },
+    {
+      "type": "ForInStatement",
+      "span": {
+        "start": 68,
+        "end": 92,
+        "ctxt": 0
+      },
+      "left": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 73,
+          "end": 84,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "TaggedTemplateExpression",
+          "span": {
+            "start": 73,
+            "end": 80,
+            "ctxt": 0
+          },
+          "tag": {
+            "type": "Identifier",
+            "span": {
+              "start": 73,
+              "end": 78,
+              "ctxt": 0
+            },
+            "value": "using",
+            "optional": false
+          },
+          "typeParameters": null,
+          "template": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 78,
+              "end": 80,
+              "ctxt": 0
+            },
+            "expressions": [],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 79,
+                  "end": 79,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": "",
+                "raw": ""
+              }
+            ]
+          }
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 81,
+            "end": 84,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        }
+      },
+      "right": {
+        "type": "ArrayExpression",
+        "span": {
+          "start": 88,
+          "end": 90,
+          "ctxt": 0
+        },
+        "elements": []
+      },
+      "body": {
+        "type": "EmptyStatement",
+        "span": {
+          "start": 91,
+          "end": 92,
+          "ctxt": 0
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

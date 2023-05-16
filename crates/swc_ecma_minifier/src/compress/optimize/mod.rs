@@ -328,8 +328,49 @@ impl<M> Optimizer<'_, M>
 where
     M: Mode,
 {
+    fn handle_stmts(&mut self, stmts: &mut Vec<Stmt>, will_terminate: bool) {
+        // Skip if `use asm` exists.
+        if maybe_par!(
+            stmts.iter().any(|stmt| match stmt.as_stmt() {
+                Some(Stmt::Expr(stmt)) => match &*stmt.expr {
+                    Expr::Lit(Lit::Str(Str { raw, .. })) => {
+                        matches!(raw, Some(value) if value == "\"use asm\"" || value == "'use asm'")
+                    }
+                    _ => false,
+                },
+                _ => false,
+            }),
+            *crate::LIGHT_TASK_PARALLELS
+        ) {
+            return;
+        }
+
+        let ctx = Ctx { ..self.ctx };
+
+        self.with_ctx(ctx).inject_else(stmts);
+
+        self.with_ctx(ctx).handle_stmt_likes(stmts, will_terminate);
+
+        drop_invalid_stmts(stmts);
+
+        if stmts.len() == 1 {
+            if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
+                if let Expr::Lit(Lit::Str(s)) = &**expr {
+                    if s.value == *"use strict" {
+                        stmts.clear();
+                    }
+                }
+            }
+        }
+
+        #[cfg(debug_assertions)]
+        {
+            stmts.visit_with(&mut AssertValid);
+        }
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
+    fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
         Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer<ProgramData>> + VisitWith<AssertValid>,
@@ -407,7 +448,7 @@ where
             stmts.visit_with(&mut AssertValid);
         }
 
-        self.merge_sequences_in_stmts(stmts);
+        self.merge_sequences_in_stmts(stmts, will_terminate);
 
         #[cfg(debug_assertions)]
         {
@@ -2094,8 +2135,7 @@ where
 
             n.params.visit_mut_with(optimizer);
             if let Some(body) = n.body.as_mut() {
-                // Bypass block scope handler.
-                body.visit_mut_children_with(optimizer);
+                optimizer.handle_stmts(&mut body.stmts, true);
                 #[cfg(debug_assertions)]
                 {
                     body.visit_with(&mut AssertValid);
@@ -2234,7 +2274,7 @@ where
             skip_standalone: true,
             ..self.ctx
         };
-        self.with_ctx(ctx).handle_stmt_likes(stmts);
+        self.with_ctx(ctx).handle_stmt_likes(stmts, true);
 
         if self.vars.inline_with_multi_replacer(stmts) {
             self.changed = true;
@@ -2345,7 +2385,7 @@ where
         n.visit_mut_children_with(self);
 
         if let Some(arg) = &mut n.arg {
-            self.optimize_in_fn_termination(arg);
+            self.optimize_last_expr_before_termination(arg);
         }
     }
 
@@ -2671,13 +2711,11 @@ where
             return;
         }
 
-        let ctx = self.ctx;
-
-        self.with_ctx(ctx).inject_else(stmts);
-
-        self.with_ctx(ctx).handle_stmt_likes(stmts);
-
-        drop_invalid_stmts(stmts);
+        #[cfg(debug_assertions)]
+        {
+            stmts.visit_with(&mut AssertValid);
+        }
+        self.handle_stmts(stmts, false);
 
         if stmts.len() == 1 {
             if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
@@ -2687,11 +2725,6 @@ where
                     }
                 }
             }
-        }
-
-        #[cfg(debug_assertions)]
-        {
-            stmts.visit_with(&mut AssertValid);
         }
     }
 
@@ -2740,7 +2773,7 @@ where
     fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
         n.visit_mut_children_with(self);
 
-        self.optimize_in_fn_termination(&mut n.arg);
+        self.optimize_last_expr_before_termination(&mut n.arg);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

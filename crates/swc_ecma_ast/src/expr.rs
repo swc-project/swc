@@ -583,6 +583,8 @@ bridge_expr_from!(ClassExpr, Box<Class>);
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize))]
@@ -940,6 +942,8 @@ pub struct MetaPropExpr {
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
 pub enum MetaPropKind {
     /// `new.target`
     NewTarget,
@@ -1129,6 +1133,8 @@ impl Take for Import {
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct ExprOrSpread {
     #[cfg_attr(feature = "serde-impl", serde(default))]

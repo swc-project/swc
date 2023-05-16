@@ -540,6 +540,7 @@ fn mark(item: &mut ModuleItem, ctxt: SyntaxContext) {
                 Decl::Class(ClassDecl { class: v, .. }) => v.span.ctxt = ctxt,
                 Decl::Fn(FnDecl { function: v, .. }) => v.span.ctxt = ctxt,
                 Decl::Var(v) => v.span.ctxt = ctxt,
+                Decl::Using(u) => u.span.ctxt = ctxt,
                 Decl::TsInterface(v) => v.span.ctxt = ctxt,
                 Decl::TsTypeAlias(v) => v.span.ctxt = ctxt,
                 Decl::TsEnum(v) => v.span.ctxt = ctxt,

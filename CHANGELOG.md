@@ -1,5 +1,144 @@
 # Changelog
-## [unreleased]
+## [1.3.58] - 2023-05-15
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix remapping of vars upon inlining (#7362) ([1dced17](https://github.com/swc-project/swc/commit/1dced17998a625e30d4a8ef653aef9e2caa7627d))
+
+
+- **(es/parser)** Fix `>=` with type instantiate (#7388) ([fa7a352](https://github.com/swc-project/swc/commit/fa7a3521f531caa32439fa6f4c338a2a7d859e05))
+
+### Features
+
+
+
+- **(es/compat)** Partially support auto accessors (#7364) ([97ec259](https://github.com/swc-project/swc/commit/97ec25914451d931918287591d8d3f08648a65b9))
+
+
+- **(es/compat)** Implement auto accessors fully (#7370) ([cad18fa](https://github.com/swc-project/swc/commit/cad18fae4b93a916ad2c45b8741e08baeea78b98))
+
+
+- **(es/parser)** Implement explicit resource management (#7322) ([041b491](https://github.com/swc-project/swc/commit/041b49146627000971ef05f60e11f916182c67f1))
+
+
+- **(plugin)** Add versioned wrapper struct (#7382) ([bba1fad](https://github.com/swc-project/swc/commit/bba1fad35ceda0011e0cd427c670209ac4eb6ed2))
+
+
+- **(swc_core)** Allow native env plugin to use memory cache (#7390) ([e3868a7](https://github.com/swc-project/swc/commit/e3868a7e00bfb5d7a4677b8be0b64a87e9bf200d))
+
+
+- **(swc_core)** Expose plugin proxy to the host env (#7391) ([05b4c11](https://github.com/swc-project/swc/commit/05b4c1149781ab1f69a93a54a462413af2603a3a))
+
+### Miscellaneous Tasks
+
+
+
+- **(es)** Enable tracing spans for release builds (#7379) ([166e77c](https://github.com/swc-project/swc/commit/166e77c2b39b4390bb09f3a93f58148a5de40efa))
+
+### Refactor
+
+
+
+- **(common)** Derive `ByteCheck` for `ArcString` (#7380) ([9b3a41c](https://github.com/swc-project/swc/commit/9b3a41c57df4ead8e64c33ee247e8cd029792b16))
+
+## [1.3.57] - 2023-05-09
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Fix `is_setter` in `parameters` pass (#7348) ([e0de83e](https://github.com/swc-project/swc/commit/e0de83e862f7de765ba804e8c31a16660d7186b5))
+
+
+- **(xml/codegen)** Escape `<` and `>` in child (#7351) ([b180d09](https://github.com/swc-project/swc/commit/b180d09e1dd9c4269d7d690d892ef4fd1c5b6563))
+
+### Features
+
+
+
+- **(es/compat)** Support `export class` from stage 3 decorator pass (#7363) ([9c052db](https://github.com/swc-project/swc/commit/9c052db796473a4a7253d643426a7c2c765d9640))
+
+
+- **(plugin)** Enable bytecheck (#7280) ([d2c1f45](https://github.com/swc-project/swc/commit/d2c1f45f5a1a1d72fa6d6fa28bd84f242d5aff81))
+
+### Refactor
+
+
+
+- **(plugin/runner)** Refine cache location (#7346) ([91a3fbe](https://github.com/swc-project/swc/commit/91a3fbe460799ed604c2b43b4facaed60cfd6c87))
+
+### Build
+
+
+
+- **(cargo)** Update `wasmer` to `v3.3` (#7352) ([4e278be](https://github.com/swc-project/swc/commit/4e278befcf0071619ee583ffa7c8357ea4fd5c2f))
+
+## [1.3.56] - 2023-04-29
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Emit type arguments for call expressions (#7335) ([7e99e5f](https://github.com/swc-project/swc/commit/7e99e5fd2c3d15aba6bf29958bd9305e29312e6a))
+
+
+- **(es/parser)** Parse decorators after `export` (#7340) ([985f0ca](https://github.com/swc-project/swc/commit/985f0cad06b9de5f9e98bed3ad62769e0f3c7528))
+
+
+- **(es/typescript)** Fix typescript strip pass (#7342) ([d061d29](https://github.com/swc-project/swc/commit/d061d295ff2ca6ebb03d9c62c367f42f7186c2d7))
+
+
+- **(plugin/runner)** Revert #7341 (#7344) ([d6999ba](https://github.com/swc-project/swc/commit/d6999ba1ac454a1617bab00c740d99f81ff1a18d))
+
+### Features
+
+
+
+- **(es/minifier)** Drop expressions using sequential inliner (#6936) ([246300a](https://github.com/swc-project/swc/commit/246300ae25be0cfdbbb266e02f80d06013a96d85))
+
+
+- **(plugin/runner)** Improve caching (#7341) ([245163a](https://github.com/swc-project/swc/commit/245163a77827767ab0b4df59d00597c4af62d745))
+
+## [1.3.55] - 2023-04-25
+
+### Bug Fixes
+
+
+
+- **(es/helpers)** Add `src/*.mjs` entry back (#7328) ([84af855](https://github.com/swc-project/swc/commit/84af85563f91a9593e0eb319f46c49c1d4cf7895))
+
+### Features
+
+
+
+- **(es/module)** Add `export_interop_annotation` flag (#7330) ([caee073](https://github.com/swc-project/swc/commit/caee073935a9abb08f0b5e2e0e9160d80064995b))
+
+## [1.3.54] - 2023-04-25
+
+### Bug Fixes
+
+
+
+- **(bindings/node)** Support `TsSatisfiesExpression` (#7317) ([761ef83](https://github.com/swc-project/swc/commit/761ef8389dd000e465bd385ec925654a8cb2ae09))
+
+
+- **(common)** Workaround the `Arc` and `rkyv` issue (#7321) ([577f81e](https://github.com/swc-project/swc/commit/577f81ec405f4f3a3e58e3f97c07d3720dd80912))
+
+
+- **(es/codegen)** Fix codegen of `TsModuleDecl` (#7319) ([0ca05d8](https://github.com/swc-project/swc/commit/0ca05d8b69b6301e2346e5de6c45a77c863676e9))
+
+
+- **(es/compat)** Transform curried function call with optional chaining (#7313) ([66b5b11](https://github.com/swc-project/swc/commit/66b5b110bf94259e0e0223224940bb8d0384e9b6))
+
+### Testing
+
+
+
+- **(es)** Update tsc test suite (#7323) ([603f22d](https://github.com/swc-project/swc/commit/603f22de76eaeac1a64ee5e5f2e1dd095f908604))
+
+## [1.3.53] - 2023-04-21
 
 ### Bug Fixes
 
@@ -12,6 +151,9 @@
 
 
 - **(es/modules)** Support `jsc.baseUrl` without `jsc.paths` (#7302) ([9c279b8](https://github.com/swc-project/swc/commit/9c279b802b6a615fdba33a6f81866ce3ef606676))
+
+
+- **(es/parser)** Fix handling of `in` and `out` of typescript (#7308) ([6f81cb9](https://github.com/swc-project/swc/commit/6f81cb9c32219cd8e51a97c924e0b272fc25a0c1))
 
 
 - **(testing)** Fix path normalization on windows for testing diffs (#7299) ([3422923](https://github.com/swc-project/swc/commit/3422923cb004111f8c57501bb8b222905cf6bd09))

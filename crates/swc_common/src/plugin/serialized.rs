@@ -10,6 +10,8 @@ use rkyv::Deserialize;
     feature = "__plugin",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "__plugin", archive(check_bytes))]
+#[cfg_attr(feature = "__plugin", archive_attr(repr(u32)))]
 /// Enum for possible errors while running transform via plugin.
 /// This error indicates internal operation failure either in plugin_runner
 /// or plugin_macro. Plugin's transform fn itself does not allow to return
@@ -57,7 +59,7 @@ impl PluginSerializedBytes {
      * to implement TryFrom trait
      */
     #[tracing::instrument(level = "info", skip_all)]
-    pub fn try_serialize<W>(t: &W) -> Result<Self, Error>
+    pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
     where
         W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
     {
@@ -97,14 +99,14 @@ impl PluginSerializedBytes {
     }
 
     #[tracing::instrument(level = "info", skip_all)]
-    pub fn deserialize<W>(&self) -> Result<W, Error>
+    pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
         W: rkyv::Archive,
         W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
     {
         use anyhow::Context;
 
-        let archived = unsafe { rkyv::archived_root::<W>(&self.field[..]) };
+        let archived = unsafe { rkyv::archived_root::<VersionedSerializable<W>>(&self.field[..]) };
 
         archived
             .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
@@ -122,7 +124,7 @@ impl PluginSerializedBytes {
 pub unsafe fn deserialize_from_ptr<W>(
     raw_allocated_ptr: *const u8,
     raw_allocated_ptr_len: u32,
-) -> Result<W, Error>
+) -> Result<VersionedSerializable<W>, Error>
 where
     W: rkyv::Archive,
     W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
@@ -133,37 +135,30 @@ where
     serialized.deserialize()
 }
 
-/// Deserialize `Fallible` struct from raw ptr. This is similar to
-/// `deserialize_from_ptr` but for the struct requires bounds to the
-/// SharedSerializeRegistry which cannot be Infallible. Internally this does
-/// not call deserialize with Infallible deserializer, use
-/// SharedDeserializeMap instead.
-#[tracing::instrument(level = "info", skip_all)]
-pub fn deserialize_from_ptr_into_fallible<W>(
-    raw_allocated_ptr: *const u8,
-    raw_allocated_ptr_len: u32,
-) -> Result<W, Error>
-where
-    W: rkyv::Archive,
-    W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
-{
-    let serialized =
-        PluginSerializedBytes::from_raw_ptr(raw_allocated_ptr, raw_allocated_ptr_len as usize);
-
-    serialized.deserialize()
-}
-
-/*
 /// A wrapper type for the structures to be passed into plugins
 /// serializes the contained value out-of-line so that newer
 /// versions can be viewed as the older version.
 ///
-#[derive(Archive, Deserialize, Serialize)]
-pub struct VersionedSerializable<T>(#[with(AsBox)] T);
+/// First field indicate version of struct type (schema). Any consumers like
+/// swc_plugin_macro can use this to validate compatiblility before attempt to
+/// serialize.
+#[cfg_attr(
+    feature = "__plugin",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[repr(transparent)]
+#[cfg_attr(feature = "__plugin", archive(check_bytes))]
+#[cfg_attr(feature = "__plugin", archive_attr(repr(transparent)))]
+#[derive(Debug)]
+pub struct VersionedSerializable<T>(
+    // [NOTE]: https://github.com/rkyv/rkyv/issues/373#issuecomment-1546360897
+    //#[cfg_attr(feature = "__plugin", with(rkyv::with::AsBox))]
+    pub T,
+);
 
 impl<T> VersionedSerializable<T> {
     pub fn new(value: T) -> Self {
-        VersionedSerializable(value)
+        Self(value)
     }
 
     pub fn inner(&self) -> &T {
@@ -174,4 +169,3 @@ impl<T> VersionedSerializable<T> {
         self.0
     }
 }
- */

@@ -301,6 +301,13 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
+            tok!("using") if include_decl => {
+                let v = self.parse_using_decl()?;
+                if let Some(v) = v {
+                    return Ok(Stmt::Decl(Decl::Using(v)));
+                }
+            }
+
             tok!("interface") => {
                 if is_typescript
                     && peeked_is!(self, IdentName)
@@ -328,7 +335,11 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!('{') => {
-                return self.parse_block(false).map(Stmt::Block);
+                let ctx = Context {
+                    allow_using_decl: true,
+                    ..self.ctx()
+                };
+                return self.with_ctx(ctx).parse_block(false).map(Stmt::Block);
             }
 
             _ => {}
@@ -751,6 +762,70 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
+    pub(super) fn parse_using_decl(&mut self) -> PResult<Option<Box<UsingDecl>>> {
+        // using
+        // reader = init()
+
+        // is two statements
+        let _ = cur!(self, false);
+        if self.input.has_linebreak_between_cur_and_peeked() {
+            return Ok(None);
+        }
+
+        if !peeked_is!(self, BindingIdent) {
+            return Ok(None);
+        }
+
+        let start = cur_pos!(self);
+        assert_and_bump!(self, "using");
+
+        let mut decls = vec![];
+        let mut first = true;
+        while first || eat!(self, ',') {
+            if first {
+                first = false;
+            }
+
+            // Handle
+            //      var a,;
+            //
+            // NewLine is ok
+            if is_exact!(self, ';') || eof!(self) {
+                let span = self.input.prev_span();
+                self.emit_err(span, SyntaxError::TS1009);
+                break;
+            }
+
+            decls.push(self.parse_var_declarator(false, VarDeclKind::Var)?);
+        }
+
+        if !self.syntax().using_decl() {
+            self.emit_err(span!(self, start), SyntaxError::UsingDeclNotEnabled);
+        }
+
+        if !self.ctx().allow_using_decl {
+            self.emit_err(span!(self, start), SyntaxError::UsingDeclNotAllowed);
+        }
+
+        for decl in &decls {
+            match decl.name {
+                Pat::Ident(..) => {}
+                _ => {
+                    self.emit_err(span!(self, start), SyntaxError::InvalidNameInUsingDecl);
+                }
+            }
+
+            if decl.init.is_none() {
+                self.emit_err(span!(self, start), SyntaxError::InitRequiredForUsingDecl);
+            }
+        }
+
+        Ok(Some(Box::new(UsingDecl {
+            span: span!(self, start),
+            decls,
+        })))
+    }
+
     pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<Box<VarDecl>> {
         let start = cur_pos!(self);
         let kind = match bump!(self) {
@@ -1024,6 +1099,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_labelled_stmt(&mut self, l: Ident) -> PResult<Stmt> {
         let ctx = Context {
             is_break_allowed: true,
+            allow_using_decl: false,
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
@@ -1094,7 +1170,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let span = span!(self, start);
         Ok(match head {
-            ForHead::For { init, test, update } => {
+            TempForHead::For { init, test, update } => {
                 if let Some(await_token) = await_token {
                     syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
@@ -1107,7 +1183,7 @@ impl<'a, I: Tokens> Parser<I> {
                     body,
                 })
             }
-            ForHead::ForIn { left, right } => {
+            TempForHead::ForIn { left, right } => {
                 if let Some(await_token) = await_token {
                     syntax_error!(self, await_token, SyntaxError::AwaitForStmt);
                 }
@@ -1119,7 +1195,7 @@ impl<'a, I: Tokens> Parser<I> {
                     body,
                 })
             }
-            ForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
+            TempForHead::ForOf { left, right } => Stmt::ForOf(ForOfStmt {
                 span,
                 is_await: await_token.is_some(),
                 left,
@@ -1129,7 +1205,7 @@ impl<'a, I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_for_head(&mut self) -> PResult<ForHead> {
+    fn parse_for_head(&mut self) -> PResult<TempForHead> {
         let strict = self.ctx().strict;
 
         if is_one_of!(self, "const", "var")
@@ -1168,18 +1244,51 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
 
-                return self.parse_for_each_head(VarDeclOrPat::VarDecl(decl));
+                return self.parse_for_each_head(ForHead::VarDecl(decl));
             }
 
             expect_exact!(self, ';');
             return self.parse_normal_for_head(Some(VarDeclOrExpr::VarDecl(decl)));
         }
 
-        let init = if eat_exact!(self, ';') {
+        if eat_exact!(self, ';') {
             return self.parse_normal_for_head(None);
-        } else {
-            self.include_in_expr(false).parse_expr_or_pat()?
-        };
+        }
+
+        let start = cur_pos!(self);
+        let init = self.include_in_expr(false).parse_for_head_prefix()?;
+
+        let is_using_decl = self.input.syntax().using_decl()
+            && match *init {
+                Expr::Ident(Ident {
+                    sym: js_word!("using"),
+                    ..
+                }) => {
+                    is!(self, BindingIdent)
+                        && !is!(self, "of")
+                        && (peeked_is!(self, "of") || peeked_is!(self, "in"))
+                }
+                _ => false,
+            };
+
+        if is_using_decl {
+            let name = self.parse_binding_ident()?;
+            let decl = VarDeclarator {
+                name: Pat::Ident(name),
+                span: span!(self, start),
+                init: None,
+                definite: false,
+            };
+
+            let pat = Box::new(UsingDecl {
+                span: span!(self, start),
+                decls: vec![decl],
+            });
+
+            cur!(self, true)?;
+
+            return self.parse_for_each_head(ForHead::UsingDecl(pat));
+        }
 
         // for (a of b)
         if is_one_of!(self, "of", "in") {
@@ -1196,7 +1305,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            return self.parse_for_each_head(VarDeclOrPat::Pat(Box::new(pat)));
+            return self.parse_for_each_head(ForHead::Pat(Box::new(pat)));
         }
 
         expect_exact!(self, ';');
@@ -1205,18 +1314,22 @@ impl<'a, I: Tokens> Parser<I> {
         self.parse_normal_for_head(Some(VarDeclOrExpr::Expr(init)))
     }
 
-    fn parse_for_each_head(&mut self, left: VarDeclOrPat) -> PResult<ForHead> {
-        let of = bump!(self) == tok!("of");
-        if of {
+    fn parse_for_each_head(&mut self, left: ForHead) -> PResult<TempForHead> {
+        let is_of = bump!(self) == tok!("of");
+        if is_of {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
-            Ok(ForHead::ForOf { left, right })
+            Ok(TempForHead::ForOf { left, right })
         } else {
+            if let ForHead::UsingDecl(d) = &left {
+                self.emit_err(d.span, SyntaxError::UsingDeclNotAllowedForForInLoop)
+            }
+
             let right = self.include_in_expr(true).parse_expr()?;
-            Ok(ForHead::ForIn { left, right })
+            Ok(TempForHead::ForIn { left, right })
         }
     }
 
-    fn parse_normal_for_head(&mut self, init: Option<VarDeclOrExpr>) -> PResult<ForHead> {
+    fn parse_normal_for_head(&mut self, init: Option<VarDeclOrExpr>) -> PResult<TempForHead> {
         let test = if eat_exact!(self, ';') {
             None
         } else {
@@ -1231,23 +1344,23 @@ impl<'a, I: Tokens> Parser<I> {
             self.include_in_expr(true).parse_expr().map(Some)?
         };
 
-        Ok(ForHead::For { init, test, update })
+        Ok(TempForHead::For { init, test, update })
     }
 }
 
 #[allow(clippy::enum_variant_names)]
-enum ForHead {
+enum TempForHead {
     For {
         init: Option<VarDeclOrExpr>,
         test: Option<Box<Expr>>,
         update: Option<Box<Expr>>,
     },
     ForIn {
-        left: VarDeclOrPat,
+        left: ForHead,
         right: Box<Expr>,
     },
     ForOf {
-        left: VarDeclOrPat,
+        left: ForHead,
         right: Box<Expr>,
     },
 }
@@ -1417,7 +1530,7 @@ mod tests {
             Stmt::ForOf(ForOfStmt {
                 span,
                 is_await: true,
-                left: VarDeclOrPat::VarDecl(Box::new(VarDecl {
+                left: ForHead::VarDecl(Box::new(VarDecl {
                     span,
                     kind: VarDeclKind::Const,
                     decls: vec![VarDeclarator {
@@ -1894,14 +2007,14 @@ export default function waitUntil(callback, options = {}) {
         assert!(trailing.borrow().is_empty());
         assert_eq!(leading.borrow().len(), 1);
     }
-    fn parse_for_head(str: &'static str) -> ForHead {
+    fn parse_for_head(str: &'static str) -> TempForHead {
         test_parser(str, Syntax::default(), |p| p.parse_for_head())
     }
 
     #[test]
     fn for_array_binding_pattern() {
         match parse_for_head("let [, , t] = simple_array; t < 10; t++") {
-            ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
+            TempForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
                 v,
                 VarDeclOrExpr::VarDecl(Box::new(VarDecl {
                     span,
@@ -1933,7 +2046,7 @@ export default function waitUntil(callback, options = {}) {
     #[test]
     fn for_object_binding_pattern() {
         match parse_for_head("let {num} = obj; num < 11; num++") {
-            ForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
+            TempForHead::For { init: Some(v), .. } => assert_eq_ignore_span!(
                 v,
                 VarDeclOrExpr::VarDecl(Box::new(VarDecl {
                     span,

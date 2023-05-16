@@ -407,7 +407,6 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
                 "in" => {
-                    is_in = true;
                     if !permit_in_out {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS1274(js_word!("in")));
                     } else if is_in {
@@ -418,14 +417,15 @@ impl<I: Tokens> Parser<I> {
                             SyntaxError::TS1029(js_word!("in"), js_word!("out")),
                         );
                     }
+                    is_in = true;
                 }
                 "out" => {
-                    is_out = true;
                     if !permit_in_out {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS1274(js_word!("out")));
                     } else if is_out {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("out")));
                     }
+                    is_out = true;
                 }
                 other => self.emit_err(self.input.prev_span(), SyntaxError::TS1273(other.into())),
             };
@@ -576,7 +576,7 @@ impl<I: Tokens> Parser<I> {
 
             if is_one_of!(
                 p, '<', // invalid syntax
-                '>', ">>", '+', '-', // becomes relational expression
+                '>', '=', ">>", ">=", '+', '-', // becomes relational expression
                 /* these should be type arguments in function call or template,
                  * not instantiation expression */
                 '(', '`'
@@ -2328,17 +2328,8 @@ impl<I: Tokens> Parser<I> {
         match &*expr.sym {
             "declare" => {
                 let decl = self.try_parse_ts_declare(start, decorators)?;
-                if let Some(mut decl) = decl {
-                    match &mut decl {
-                        Decl::Class(ClassDecl { declare, .. })
-                        | Decl::Fn(FnDecl { declare, .. }) => *declare = true,
-                        Decl::Var(v) => v.declare = true,
-                        Decl::TsInterface(v) => v.declare = true,
-                        Decl::TsTypeAlias(v) => v.declare = true,
-                        Decl::TsEnum(v) => v.declare = true,
-                        Decl::TsModule(v) => v.declare = true,
-                    }
-                    Ok(Some(decl))
+                if let Some(decl) = decl {
+                    Ok(Some(make_decl_declare(decl)))
                 } else {
                     Ok(None)
                 }
@@ -2824,6 +2815,7 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
         Decl::TsTypeAlias(ref mut a) => a.declare = true,
         Decl::TsEnum(ref mut e) => e.declare = true,
         Decl::TsModule(ref mut m) => m.declare = true,
+        Decl::Using(..) => unreachable!("Using is not a valid declaration for `declare` keyword"),
     }
 
     decl

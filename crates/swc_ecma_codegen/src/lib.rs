@@ -490,7 +490,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_lit(&mut self, node: &Lit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -525,7 +525,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -573,7 +573,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_num_lit(&mut self, num: &Number) -> Result {
         self.emit_num_lit_internal(num, false)?;
     }
@@ -753,7 +753,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_expr(&mut self, node: &Expr) -> Result {
         match node {
             Expr::Array(ref n) => emit!(n),
@@ -852,6 +852,10 @@ where
         srcmap!(node, true);
 
         emit!(node.callee);
+
+        if let Some(type_args) = &node.type_args {
+            emit!(type_args);
+        }
 
         punct!("(");
         self.emit_expr_or_spreads(node.span(), &node.args, ListFormat::CallExpressionArguments)?;
@@ -1251,7 +1255,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_class_member(&mut self, node: &ClassMember) -> Result {
         match *node {
             ClassMember::Constructor(ref n) => emit!(n),
@@ -1556,7 +1560,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -2658,10 +2662,11 @@ where
     }
 
     #[emitter]
-    fn emit_var_decl_or_pat(&mut self, node: &VarDeclOrPat) -> Result {
-        match *node {
-            VarDeclOrPat::Pat(ref n) => emit!(n),
-            VarDeclOrPat::VarDecl(ref n) => emit!(n),
+    fn emit_for_head(&mut self, node: &ForHead) -> Result {
+        match node {
+            ForHead::Pat(n) => emit!(n),
+            ForHead::VarDecl(n) => emit!(n),
+            ForHead::UsingDecl(n) => emit!(n),
         }
     }
 }
@@ -2712,7 +2717,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
         emit!(e.expr);
 
@@ -2720,7 +2725,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_block_stmt(&mut self, node: &BlockStmt) -> Result {
         self.emit_block_stmt_inner(node, false)?;
     }
@@ -3119,7 +3124,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_try_stmt(&mut self, n: &TryStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 

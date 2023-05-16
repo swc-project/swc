@@ -563,6 +563,10 @@ where
                 // Variable declarations are handled by other functions.
             }
 
+            Decl::Using(..) => {
+                // TODO: Optimize
+            }
+
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => {
                 // Nothing to do. We might change this to unreachable!()
             }
