@@ -7,6 +7,9 @@
 
 - **(es/codegen)** Do not create duplicate source map entry (#7309) ([40ba242](https://github.com/swc-project/swc/commit/40ba242076f9c39cd19fe2a040fdf10867c67b9f))
 
+
+- **(es/parser)** Fix parsing of `module` identifier (#7400) ([1d3f320](https://github.com/swc-project/swc/commit/1d3f32056c7a63b327b2ccf6131479f851a2e870))
+
 ### Miscellaneous Tasks
 
 
@@ -17,7 +20,13 @@
 
 
 
+- **(css/module)** Add a test for a fixed issue (#7399) ([6b92eec](https://github.com/swc-project/swc/commit/6b92eecd398e94a8d58b6b5e49679f7977a17703))
+
+
 - **(es/minifier)** Enable more terser tests (#7396) ([f9cdd74](https://github.com/swc-project/swc/commit/f9cdd741c288bee59aa9120b0a5c6f7ca284bd31))
+
+
+- **(es/parser)** Add a test for a fixed issue (#7398) ([eaba323](https://github.com/swc-project/swc/commit/eaba323581d2aa2b578c600f44f9b41b103d35b3))
 
 ## [1.3.58] - 2023-05-15
 

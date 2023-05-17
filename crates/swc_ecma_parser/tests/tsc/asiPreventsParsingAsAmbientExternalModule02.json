@@ -132,15 +132,49 @@
         },
         "body": [
           {
-            "type": "TsModuleDeclaration",
+            "type": "ExpressionStatement",
             "span": {
               "start": 67,
-              "end": 247,
+              "end": 74,
               "ctxt": 0
             },
-            "declare": true,
-            "global": false,
-            "id": {
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 67,
+                "end": 74,
+                "ctxt": 0
+              },
+              "value": "declare",
+              "optional": false
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 130,
+              "end": 136,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 130,
+                "end": 136,
+                "ctxt": 0
+              },
+              "value": "module",
+              "optional": false
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 192,
+              "end": 212,
+              "ctxt": 0
+            },
+            "expression": {
               "type": "StringLiteral",
               "span": {
                 "start": 192,
@@ -149,16 +183,16 @@
               },
               "value": "my external module",
               "raw": "\"my external module\""
-            },
-            "body": {
-              "type": "TsModuleBlock",
-              "span": {
-                "start": 244,
-                "end": 247,
-                "ctxt": 0
-              },
-              "body": []
             }
+          },
+          {
+            "type": "BlockStatement",
+            "span": {
+              "start": 244,
+              "end": 247,
+              "ctxt": 0
+            },
+            "stmts": []
           }
         ]
       }
