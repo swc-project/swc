@@ -680,6 +680,7 @@ impl<I: Tokens> Parser<I> {
             None
         };
         let obj = if let Some(type_args) = type_args {
+            trace_cur!(self, parse_member_expr_or_new_expr__with_type_args);
             Box::new(Expr::TsInstantiation(TsInstantiation {
                 expr: obj,
                 type_args,
