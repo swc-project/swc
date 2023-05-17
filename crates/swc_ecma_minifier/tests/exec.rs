@@ -10979,7 +10979,7 @@ fn issue_7402_1() {
         })()
         
         const out = [1, 2, 3]
-        console.lov(myFunc(out))
+        console.log(myFunc(out))
         "###,
     )
 }
