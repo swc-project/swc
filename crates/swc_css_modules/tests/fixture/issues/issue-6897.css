@@ -1,0 +1,4 @@
+.a:global(.b) {}
+.a {
+  &:global(.b) {}
+}
