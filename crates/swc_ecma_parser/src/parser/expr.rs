@@ -1211,6 +1211,18 @@ impl<I: Tokens> Parser<I> {
                         )
                         .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
                         .map(Some)
+                    } else if is!(p, '=') {
+                        Ok(Some((
+                            Box::new(Expr::TsInstantiation(TsInstantiation {
+                                span: span!(p, start),
+                                expr: match mut_obj_opt {
+                                    Some(Callee::Expr(obj)) => obj.take(),
+                                    _ => unreachable!(),
+                                },
+                                type_args,
+                            })),
+                            true,
+                        )))
                     } else if no_call {
                         unexpected!(p, "`")
                     } else {
