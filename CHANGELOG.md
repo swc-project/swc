@@ -11,6 +11,9 @@
 - **(es/codegen)** Do not create duplicate source map entry (#7309) ([40ba242](https://github.com/swc-project/swc/commit/40ba242076f9c39cd19fe2a040fdf10867c67b9f))
 
 
+- **(es/compat)** Mark reserved function names private (#7298) ([dba78a0](https://github.com/swc-project/swc/commit/dba78a0031b97a4c152b506ae2072438cdba92b2))
+
+
 - **(es/parser)** Fix parsing of `module` identifier (#7400) ([1d3f320](https://github.com/swc-project/swc/commit/1d3f32056c7a63b327b2ccf6131479f851a2e870))
 
 ### Miscellaneous Tasks
