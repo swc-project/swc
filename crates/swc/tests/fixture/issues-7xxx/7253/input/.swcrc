@@ -1,0 +1,9 @@
+{
+    "jsc": {
+      "parser": {
+        "syntax": "ecmascript",
+        "jsx": false
+      },
+      "target": "es5"
+    }
+}
