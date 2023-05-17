@@ -701,21 +701,25 @@ where
             if let MemberProp::Computed(ref mut prop) = me.prop {
                 if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
                     if let Expr::Ident(obj) = &*me.obj {
-                        let new = self.vars.lits_for_array_access.get(&obj.to_id());
+                        if let Some(usage) = self.data.vars.get(&obj.to_id()) {
+                            if !usage.mutated {
+                                let new = self.vars.lits_for_array_access.get(&obj.to_id());
 
-                        if let Some(new) = new {
-                            report_change!("inline: Inlined array access");
-                            self.changed = true;
+                                if let Some(new) = new {
+                                    report_change!("inline: Inlined array access");
+                                    self.changed = true;
 
-                            me.obj = new.clone();
-                            // TODO(kdy1): Optimize performance by skipping visiting of children
-                            // nodes.
-                            e.visit_mut_with(&mut expr_simplifier(
-                                self.marks.unresolved_mark,
-                                Default::default(),
-                            ));
+                                    me.obj = new.clone();
+                                    // TODO(kdy1): Optimize performance by skipping visiting of
+                                    // children nodes.
+                                    e.visit_mut_with(&mut expr_simplifier(
+                                        self.marks.unresolved_mark,
+                                        Default::default(),
+                                    ));
+                                }
+                                return;
+                            }
                         }
-                        return;
                     }
                 }
             }
