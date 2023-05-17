@@ -1640,7 +1640,7 @@
             return s.length ? s.pop() + " " : "";
         }
         return function(a, b) {
-            var a1, b1, a2, b2, s = [], q = [];
+            var a1, b1, s, a2, b2, s1, s2 = [], q = [];
             return a = parse(a), b = parse(b), !function(xa, ya, xb, yb, s, q) {
                 if (xa !== xb || ya !== yb) {
                     var i = s.push("translate(", null, pxComma, null, pxParen);
@@ -1652,13 +1652,13 @@
                         x: interpolateNumber(ya, yb)
                     });
                 } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-            }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
+            }(a.translateX, a.translateY, b.translateX, b.translateY, s2, q), a1 = a.rotate, b1 = b.rotate, s = s2, a1 !== b1 ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                 i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                 x: interpolateNumber(a1, b1)
-            })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), (a2 = a.skewX) !== (b2 = b.skewX) ? q.push({
-                i: s.push(pop(s) + "skewX(", null, degParen) - 2,
+            })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), a2 = a.skewX, b2 = b.skewX, s1 = s2, a2 !== b2 ? q.push({
+                i: s1.push(pop(s1) + "skewX(", null, degParen) - 2,
                 x: interpolateNumber(a2, b2)
-            }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
+            }) : b2 && s1.push(pop(s1) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
                 if (xa !== xb || ya !== yb) {
                     var i = s.push(pop(s) + "scale(", null, ",", null, ")");
                     q.push({
@@ -1669,9 +1669,9 @@
                         x: interpolateNumber(ya, yb)
                     });
                 } else (1 !== xb || 1 !== yb) && s.push(pop(s) + "scale(" + xb + "," + yb + ")");
-            }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s, q), a = b = null, function(t) {
-                for(var o, i = -1, n = q.length; ++i < n;)s[(o = q[i]).i] = o.x(t);
-                return s.join("");
+            }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s2, q), a = b = null, function(t) {
+                for(var o, i = -1, n = q.length; ++i < n;)s2[(o = q[i]).i] = o.x(t);
+                return s2.join("");
             };
         };
     }
@@ -1967,10 +1967,10 @@
     function attrTweenNS(fullname, value) {
         var t0, i0;
         function tween() {
-            var i = value.apply(this, arguments);
-            return i !== i0 && (t0 = (i0 = i) && function(t) {
-                this.setAttributeNS(fullname.space, fullname.local, i.call(this, t));
-            }), t0;
+            var fullname1, i = value.apply(this, arguments);
+            return i !== i0 && (t0 = (i0 = i) && (fullname1 = fullname, function(t) {
+                this.setAttributeNS(fullname1.space, fullname1.local, i.call(this, t));
+            })), t0;
         }
         return tween._value = value, tween;
     }

@@ -4351,12 +4351,12 @@
                 }, _proto.buildCSSClass = function() {
                     return _ModalDialog.prototype.buildCSSClass.call(this) + " vjs-text-track-settings";
                 }, _proto.getValues = function() {
-                    var fn, _this3 = this;
-                    return fn = function(accum, config, key) {
+                    var object, fn, _this3 = this;
+                    return object = selectConfigs, fn = function(accum, config, key) {
                         var el, parser, value = (el = _this3.$(config.selector), parser = config.parser, parseOptionValue(el.options[el.options.selectedIndex].value, parser));
                         return void 0 !== value && (accum[key] = value), accum;
-                    }, keys(selectConfigs).reduce(function(accum, key) {
-                        return fn(accum, selectConfigs[key], key);
+                    }, keys(object).reduce(function(accum, key) {
+                        return fn(accum, object[key], key);
                     }, {});
                 }, _proto.setValues = function(values) {
                     var _this4 = this;
@@ -13397,7 +13397,8 @@
                             ntoh(encrypted32[i - 1])
                         ]), this.asyncStream_.push(this.decryptChunk_(encrypted32.subarray(i, i + step), key, initVector, decrypted));
                         this.asyncStream_.push(function() {
-                            done(null, decrypted.subarray(0, decrypted.byteLength - decrypted[decrypted.byteLength - 1]));
+                            var padded;
+                            done(null, (padded = decrypted).subarray(0, padded.byteLength - padded[padded.byteLength - 1]));
                         });
                     }
                     return Decrypter.prototype.decryptChunk_ = function(encrypted, key, initVector, decrypted) {
@@ -13607,15 +13608,15 @@
                     "AUDIO",
                     "SUBTITLES"
                 ].forEach(function(type) {
-                    var settings1;
-                    mediaTypes[type].activeGroup = function(track) {
-                        var masterPlaylistLoader = settings.masterPlaylistLoader, groups = settings.mediaTypes[type].groups, media = masterPlaylistLoader.media();
+                    var settings1, settings2, settings3, settings4;
+                    mediaTypes[type].activeGroup = (settings1 = settings, function(track) {
+                        var masterPlaylistLoader = settings1.masterPlaylistLoader, groups = settings1.mediaTypes[type].groups, media = masterPlaylistLoader.media();
                         if (!media) return null;
                         var variants = null;
                         media.attributes[type] && (variants = groups[media.attributes[type]]);
                         var groupKeys = Object.keys(groups);
                         if (!variants) {
-                            if ("AUDIO" === type && groupKeys.length > 1 && isAudioOnly(settings.master)) for(var i = 0; i < groupKeys.length; i++){
+                            if ("AUDIO" === type && groupKeys.length > 1 && isAudioOnly(settings1.master)) for(var i = 0; i < groupKeys.length; i++){
                                 var groupPropertyList = groups[groupKeys[i]];
                                 if (groupMatch(groupPropertyList, media)) {
                                     variants = groupPropertyList;
@@ -13627,8 +13628,8 @@
                         return void 0 === track ? variants : null !== track && variants && variants.filter(function(props) {
                             return props.id === track.id;
                         })[0] || null;
-                    }, mediaTypes[type].activeTrack = activeTrack[type](type, settings), mediaTypes[type].onGroupChanged = function() {
-                        var _settings$segmentLoad = settings.segmentLoaders, segmentLoader = _settings$segmentLoad[type], mainSegmentLoader = _settings$segmentLoad.main, mediaType = settings.mediaTypes[type], activeTrack = mediaType.activeTrack(), activeGroup = mediaType.getActiveGroup(), previousActiveLoader = mediaType.activePlaylistLoader, lastGroup = mediaType.lastGroup_;
+                    }), mediaTypes[type].activeTrack = activeTrack[type](type, settings), mediaTypes[type].onGroupChanged = (settings2 = settings, function() {
+                        var _settings$segmentLoad = settings2.segmentLoaders, segmentLoader = _settings$segmentLoad[type], mainSegmentLoader = _settings$segmentLoad.main, mediaType = settings2.mediaTypes[type], activeTrack = mediaType.activeTrack(), activeGroup = mediaType.getActiveGroup(), previousActiveLoader = mediaType.activePlaylistLoader, lastGroup = mediaType.lastGroup_;
                         if ((!activeGroup || !lastGroup || activeGroup.id !== lastGroup.id) && (mediaType.lastGroup_ = activeGroup, mediaType.lastTrack_ = activeTrack, stopLoaders(segmentLoader, mediaType), activeGroup && !activeGroup.isMasterPlaylist)) {
                             if (!activeGroup.playlistLoader) {
                                 previousActiveLoader && mainSegmentLoader.resetEverything();
@@ -13636,15 +13637,15 @@
                             }
                             segmentLoader.resyncLoader(), startLoaders(activeGroup.playlistLoader, mediaType);
                         }
-                    }, mediaTypes[type].onGroupChanging = (settings1 = settings, function() {
-                        var segmentLoader = settings1.segmentLoaders[type];
-                        settings1.mediaTypes[type].lastGroup_ = null, segmentLoader.abort(), segmentLoader.pause();
-                    }), mediaTypes[type].onTrackChanged = function() {
-                        var masterPlaylistLoader = settings.masterPlaylistLoader, _settings$segmentLoad2 = settings.segmentLoaders, segmentLoader = _settings$segmentLoad2[type], mainSegmentLoader = _settings$segmentLoad2.main, mediaType = settings.mediaTypes[type], activeTrack = mediaType.activeTrack(), activeGroup = mediaType.getActiveGroup(), previousActiveLoader = mediaType.activePlaylistLoader, lastTrack = mediaType.lastTrack_;
+                    }), mediaTypes[type].onGroupChanging = (settings3 = settings, function() {
+                        var segmentLoader = settings3.segmentLoaders[type];
+                        settings3.mediaTypes[type].lastGroup_ = null, segmentLoader.abort(), segmentLoader.pause();
+                    }), mediaTypes[type].onTrackChanged = (settings4 = settings, function() {
+                        var masterPlaylistLoader = settings4.masterPlaylistLoader, _settings$segmentLoad2 = settings4.segmentLoaders, segmentLoader = _settings$segmentLoad2[type], mainSegmentLoader = _settings$segmentLoad2.main, mediaType = settings4.mediaTypes[type], activeTrack = mediaType.activeTrack(), activeGroup = mediaType.getActiveGroup(), previousActiveLoader = mediaType.activePlaylistLoader, lastTrack = mediaType.lastTrack_;
                         if ((!lastTrack || !activeTrack || lastTrack.id !== activeTrack.id) && (mediaType.lastGroup_ = activeGroup, mediaType.lastTrack_ = activeTrack, stopLoaders(segmentLoader, mediaType), activeGroup)) {
                             if (activeGroup.isMasterPlaylist) {
                                 if (!activeTrack || !lastTrack || activeTrack.id === lastTrack.id) return;
-                                var mpc = settings.vhs.masterPlaylistController_, newPlaylist = mpc.selectPlaylist();
+                                var mpc = settings4.vhs.masterPlaylistController_, newPlaylist = mpc.selectPlaylist();
                                 if (mpc.media() === newPlaylist) return;
                                 mediaType.logger_("track change. Switching master audio from " + lastTrack.id + " to " + activeTrack.id), masterPlaylistLoader.pause(), mainSegmentLoader.resetEverything(), mpc.fastQualityChange_(newPlaylist);
                                 return;
@@ -13662,7 +13663,7 @@
                             }
                             segmentLoader.track && segmentLoader.track(activeTrack), segmentLoader.resetEverything(), startLoaders(activeGroup.playlistLoader, mediaType);
                         }
-                    }, mediaTypes[type].getActiveGroup = getActiveGroup(type, settings);
+                    }), mediaTypes[type].getActiveGroup = getActiveGroup(type, settings);
                 });
                 var audioGroup = mediaTypes.AUDIO.activeGroup();
                 if (audioGroup) {

@@ -3858,11 +3858,11 @@
         },
         goLineEnd: function(cm) {
             return cm.extendSelectionsBy(function(range) {
-                var lineN, line, visual;
-                return lineN = range.head.line, (visual = function(line) {
+                var cm1, lineN, line, visual;
+                return cm1 = cm, lineN = range.head.line, (visual = function(line) {
                     for(var merged; merged = collapsedSpanAtSide(line, !1);)line = merged.find(1, !0).line;
                     return line;
-                }(line = getLine(cm.doc, lineN))) != line && (lineN = lineNo(visual)), endOfLine(!0, cm, line, lineN, -1);
+                }(line = getLine(cm1.doc, lineN))) != line && (lineN = lineNo(visual)), endOfLine(!0, cm1, line, lineN, -1);
             }, {
                 origin: "+move",
                 bias: -1

@@ -2982,8 +2982,8 @@
             }, l = function(n, y, T, C) {
                 var w, P;
                 return function(I) {
-                    var n1;
-                    y.value >= 0 && (I || C) && ((P = y.value - (w || 0)) || void 0 === w) && (w = y.value, y.delta = P, y.rating = (n1 = y.value) > T[1] ? "poor" : n1 > T[0] ? "needs-improvement" : "good", n(y));
+                    var n1, y1;
+                    y.value >= 0 && (I || C) && ((P = y.value - (w || 0)) || void 0 === w) && (w = y.value, y.delta = P, y.rating = (n1 = y.value) > (y1 = T)[1] ? "poor" : n1 > y1[0] ? "needs-improvement" : "good", n(y));
                 };
             }, N = -1, v = function() {
                 return "hidden" !== document.visibilityState || document.prerendering ? 1 / 0 : 0;

@@ -2885,11 +2885,12 @@
                 isLocal ? attachedTransform.parent = this : attachedTransform.parent = null;
                 var innerOrigin = !1;
                 if (attachedTransform.x = textEl.x, attachedTransform.y = textEl.y, attachedTransform.originX = textEl.originX, attachedTransform.originY = textEl.originY, attachedTransform.rotation = textEl.rotation, attachedTransform.scaleX = textEl.scaleX, attachedTransform.scaleY = textEl.scaleY, null != textConfig.position) {
-                    textConfig.layoutRect ? tmpBoundingRect.copy(textConfig.layoutRect) : tmpBoundingRect.copy(this.getBoundingRect()), isLocal || tmpBoundingRect.applyTransform(this.transform), this.calculateTextPosition ? this.calculateTextPosition(tmpTextPosCalcRes, textConfig, tmpBoundingRect) : calculateTextPosition(tmpTextPosCalcRes, textConfig, tmpBoundingRect), attachedTransform.x = tmpTextPosCalcRes.x, attachedTransform.y = tmpTextPosCalcRes.y, textAlign = tmpTextPosCalcRes.align, textVerticalAlign = tmpTextPosCalcRes.verticalAlign;
+                    var layoutRect = tmpBoundingRect;
+                    textConfig.layoutRect ? layoutRect.copy(textConfig.layoutRect) : layoutRect.copy(this.getBoundingRect()), isLocal || layoutRect.applyTransform(this.transform), this.calculateTextPosition ? this.calculateTextPosition(tmpTextPosCalcRes, textConfig, layoutRect) : calculateTextPosition(tmpTextPosCalcRes, textConfig, layoutRect), attachedTransform.x = tmpTextPosCalcRes.x, attachedTransform.y = tmpTextPosCalcRes.y, textAlign = tmpTextPosCalcRes.align, textVerticalAlign = tmpTextPosCalcRes.verticalAlign;
                     var textOrigin = textConfig.origin;
                     if (textOrigin && null != textConfig.rotation) {
                         var relOriginX = void 0, relOriginY = void 0;
-                        'center' === textOrigin ? (relOriginX = 0.5 * tmpBoundingRect.width, relOriginY = 0.5 * tmpBoundingRect.height) : (relOriginX = parsePercent(textOrigin[0], tmpBoundingRect.width), relOriginY = parsePercent(textOrigin[1], tmpBoundingRect.height)), innerOrigin = !0, attachedTransform.originX = -attachedTransform.x + relOriginX + (isLocal ? 0 : tmpBoundingRect.x), attachedTransform.originY = -attachedTransform.y + relOriginY + (isLocal ? 0 : tmpBoundingRect.y);
+                        'center' === textOrigin ? (relOriginX = 0.5 * layoutRect.width, relOriginY = 0.5 * layoutRect.height) : (relOriginX = parsePercent(textOrigin[0], layoutRect.width), relOriginY = parsePercent(textOrigin[1], layoutRect.height)), innerOrigin = !0, attachedTransform.originX = -attachedTransform.x + relOriginX + (isLocal ? 0 : layoutRect.x), attachedTransform.originY = -attachedTransform.y + relOriginY + (isLocal ? 0 : layoutRect.y);
                     }
                 }
                 null != textConfig.rotation && (attachedTransform.rotation = textConfig.rotation);
@@ -3740,8 +3741,8 @@
                     function mount(nativeEventName) {
                         mountSingleDOMEventListener(scope, nativeEventName, function(event) {
                             if (event = getNativeEvent(event), !isLocalEl(instance, event.target)) {
-                                var event1;
-                                event1 = event, event = normalizeEvent(instance.dom, new FakeGlobalEvent(instance, event1), !0), scope.domHandlers[nativeEventName].call(instance, event);
+                                var instance1, event1;
+                                instance1 = instance, event1 = event, event = normalizeEvent(instance1.dom, new FakeGlobalEvent(instance1, event1), !0), scope.domHandlers[nativeEventName].call(instance, event);
                             }
                         }, {
                             capture: !0
@@ -8961,8 +8962,8 @@
         option && option.downplay && !option.blur && (option.blur = option.downplay, deprecateReplaceLog('downplay', 'blur', 'sunburst'));
     }
     function globalBackwardCompat(option, isTheme) {
-        var axes;
-        each(toArr(option.series), function(seriesOpt) {
+        var option1, axes;
+        each(toArr((option1 = option).series), function(seriesOpt) {
             isObject$1(seriesOpt) && function(seriesOpt) {
                 if (isObject$1(seriesOpt)) {
                     compatEC2ItemStyle(seriesOpt), removeEC3NormalStatus(seriesOpt), compatTextStyle(seriesOpt, 'label'), compatTextStyle(seriesOpt, 'upperLabel'), compatTextStyle(seriesOpt, 'edgeLabel'), seriesOpt.emphasis && (compatTextStyle(seriesOpt.emphasis, 'label'), compatTextStyle(seriesOpt.emphasis, 'upperLabel'), compatTextStyle(seriesOpt.emphasis, 'edgeLabel'));
@@ -8998,31 +8999,31 @@
             'parallelAxis',
             'radar'
         ], isTheme && axes.push('valueAxis', 'categoryAxis', 'logAxis', 'timeAxis'), each(axes, function(axisName) {
-            each(toArr(option[axisName]), function(axisOpt) {
+            each(toArr(option1[axisName]), function(axisOpt) {
                 axisOpt && (compatTextStyle(axisOpt, 'axisLabel'), compatTextStyle(axisOpt.axisPointer, 'label'));
             });
-        }), each(toArr(option.parallel), function(parallelOpt) {
+        }), each(toArr(option1.parallel), function(parallelOpt) {
             var parallelAxisDefault = parallelOpt && parallelOpt.parallelAxisDefault;
             compatTextStyle(parallelAxisDefault, 'axisLabel'), compatTextStyle(parallelAxisDefault && parallelAxisDefault.axisPointer, 'label');
-        }), each(toArr(option.calendar), function(calendarOpt) {
+        }), each(toArr(option1.calendar), function(calendarOpt) {
             convertNormalEmphasis(calendarOpt, 'itemStyle'), compatTextStyle(calendarOpt, 'dayLabel'), compatTextStyle(calendarOpt, 'monthLabel'), compatTextStyle(calendarOpt, 'yearLabel');
-        }), each(toArr(option.radar), function(radarOpt) {
+        }), each(toArr(option1.radar), function(radarOpt) {
             compatTextStyle(radarOpt, 'name'), radarOpt.name && null == radarOpt.axisName && (radarOpt.axisName = radarOpt.name, delete radarOpt.name, deprecateLog('name property in radar component has been changed to axisName')), null != radarOpt.nameGap && null == radarOpt.axisNameGap && (radarOpt.axisNameGap = radarOpt.nameGap, delete radarOpt.nameGap, deprecateLog('nameGap property in radar component has been changed to axisNameGap'));
-        }), each(toArr(option.geo), function(geoOpt) {
+        }), each(toArr(option1.geo), function(geoOpt) {
             isObject$1(geoOpt) && (compatEC3CommonStyles(geoOpt), each(toArr(geoOpt.regions), function(regionObj) {
                 compatEC3CommonStyles(regionObj);
             }));
-        }), each(toArr(option.timeline), function(timelineOpt) {
+        }), each(toArr(option1.timeline), function(timelineOpt) {
             compatEC3CommonStyles(timelineOpt), convertNormalEmphasis(timelineOpt, 'label'), convertNormalEmphasis(timelineOpt, 'itemStyle'), convertNormalEmphasis(timelineOpt, 'controlStyle', !0);
             var data = timelineOpt.data;
             isArray(data) && each(data, function(item) {
                 isObject(item) && (convertNormalEmphasis(item, 'label'), convertNormalEmphasis(item, 'itemStyle'));
             });
-        }), each(toArr(option.toolbox), function(toolboxOpt) {
+        }), each(toArr(option1.toolbox), function(toolboxOpt) {
             convertNormalEmphasis(toolboxOpt, 'iconStyle'), each(toolboxOpt.feature, function(featureOpt) {
                 convertNormalEmphasis(featureOpt, 'iconStyle');
             });
-        }), compatTextStyle(toObj(option.axisPointer), 'label'), compatTextStyle(toObj(option.tooltip).axisPointer, 'label'), option.series = normalizeToArray(option.series), each(option.series, function(seriesOpt) {
+        }), compatTextStyle(toObj(option1.axisPointer), 'label'), compatTextStyle(toObj(option1.tooltip).axisPointer, 'label'), option.series = normalizeToArray(option.series), each(option.series, function(seriesOpt) {
             if (isObject(seriesOpt)) {
                 var option, seriesType = seriesOpt.type;
                 if ('line' === seriesType) null != seriesOpt.clipOverflow && (seriesOpt.clip = seriesOpt.clipOverflow, deprecateReplaceLog('clipOverflow', 'clip', 'line'));
@@ -13543,7 +13544,7 @@
                     clearStates(componentModel, componentView), componentView.render(componentModel, ecModel, api, payload), updateZ(componentModel, componentView), updateStates(componentModel, componentView);
                 });
             }, renderSeries = function(ecIns, ecModel, api, payload, dirtyMap) {
-                var storage, elCount, scheduler = ecIns._scheduler, labelManager = ecIns._labelManager;
+                var ecIns1, storage, elCount, scheduler = ecIns._scheduler, labelManager = ecIns._labelManager;
                 labelManager.clearLabels();
                 var unfinished = !1;
                 ecModel.eachSeries(function(seriesModel) {
@@ -13558,11 +13559,11 @@
                 }), scheduler.unfinished = unfinished || scheduler.unfinished, labelManager.updateLayoutConfig(api), labelManager.layout(api), labelManager.processLabelsOverall(), ecModel.eachSeries(function(seriesModel) {
                     var chartView = ecIns._chartsMap[seriesModel.__viewId];
                     updateZ(seriesModel, chartView), updateStates(seriesModel, chartView);
-                }), storage = ecIns._zr.storage, elCount = 0, storage.traverse(function(el) {
+                }), storage = (ecIns1 = ecIns)._zr.storage, elCount = 0, storage.traverse(function(el) {
                     !el.isGroup && elCount++;
                 }), !(elCount > ecModel.get('hoverLayerThreshold')) || env1.node || env1.worker || ecModel.eachSeries(function(seriesModel) {
                     if (!seriesModel.preventUsingHoverLayer) {
-                        var chartView = ecIns._chartsMap[seriesModel.__viewId];
+                        var chartView = ecIns1._chartsMap[seriesModel.__viewId];
                         chartView.__alive && chartView.group.traverse(function(el) {
                             el.states.emphasis && (el.states.emphasis.hoverLayer = !0);
                         });
@@ -18397,8 +18398,8 @@
             group.removeClipPath();
             var roundCap = seriesModel.get('roundCap', !0), drawBackground = seriesModel.get('showBackground', !0), backgroundModel = seriesModel.getModel('backgroundStyle'), barBorderRadius = backgroundModel.get('borderRadius') || 0, bgEls = [], oldBgEls = this._backgroundEls, isInitSort = payload && payload.isInitSort, isChangeOrder = payload && 'changeAxisOrder' === payload.type;
             function createBackground(dataIndex) {
-                var isHorizontalOrRadial1, bgLayout = getLayout[coord.type](data, dataIndex), bgEl = (isHorizontalOrRadial1 = isHorizontalOrRadial, new ('polar' === coord.type ? Sector : Rect)({
-                    shape: createBackgroundShape(isHorizontalOrRadial1, bgLayout, coord),
+                var coord1, isHorizontalOrRadial1, bgLayout = getLayout[coord.type](data, dataIndex), bgEl = (coord1 = coord, isHorizontalOrRadial1 = isHorizontalOrRadial, new ('polar' === coord1.type ? Sector : Rect)({
+                    shape: createBackgroundShape(isHorizontalOrRadial1, bgLayout, coord1),
                     silent: !0,
                     z2: 0
                 }));
@@ -18720,10 +18721,10 @@
     var PI2$8 = 2 * Math.PI, RADIAN = Math.PI / 180;
     function pieLayout(seriesType, ecModel, api) {
         ecModel.eachSeriesByType(seriesType, function(seriesModel) {
-            var data = seriesModel.getData(), valueDim = data.mapDimension('value'), viewRect = getLayoutRect(seriesModel.getBoxLayoutParams(), {
-                width: api.getWidth(),
-                height: api.getHeight()
-            }), center = seriesModel.get('center'), radius = seriesModel.get('radius');
+            var api1, data = seriesModel.getData(), valueDim = data.mapDimension('value'), viewRect = (api1 = api, getLayoutRect(seriesModel.getBoxLayoutParams(), {
+                width: api1.getWidth(),
+                height: api1.getHeight()
+            })), center = seriesModel.get('center'), radius = seriesModel.get('radius');
             isArray(radius) || (radius = [
                 0,
                 radius
@@ -20495,18 +20496,18 @@
                 each(axes, function(axis, axisIndex) {
                     data.each(data.mapDimension(axes[axisIndex].dim), function(val, dataIndex) {
                         points[dataIndex] = points[dataIndex] || [];
-                        var point = coordSys.dataToPoint(val, axisIndex);
+                        var coordSys1, point = coordSys.dataToPoint(val, axisIndex);
                         points[dataIndex][axisIndex] = isValidPoint(point) ? point : [
-                            coordSys.cx,
-                            coordSys.cy
+                            (coordSys1 = coordSys).cx,
+                            coordSys1.cy
                         ];
                     });
                 }), data.each(function(idx) {
-                    var firstPoint = find(points[idx], function(point) {
+                    var coordSys1, firstPoint = find(points[idx], function(point) {
                         return isValidPoint(point);
                     }) || [
-                        coordSys.cx,
-                        coordSys.cy
+                        (coordSys1 = coordSys).cx,
+                        coordSys1.cy
                     ];
                     points[idx].push(firstPoint.slice()), data.setItemLayout(idx, points[idx]);
                 });
@@ -24330,7 +24331,7 @@
         return ecModel.eachSeriesByType('graph', function(seriesModel) {
             var coordSysType = seriesModel.get('coordinateSystem');
             if (!coordSysType || 'view' === coordSysType) {
-                var data_1 = seriesModel.getData(), positions = data_1.mapArray(function(idx) {
+                var api1, data_1 = seriesModel.getData(), positions = data_1.mapArray(function(idx) {
                     var itemModel = data_1.getItemModel(idx);
                     return [
                         +itemModel.get('x'),
@@ -24338,12 +24339,12 @@
                     ];
                 }), min = [], max = [];
                 fromPoints(positions, min, max), max[0] - min[0] == 0 && (max[0] += 1, min[0] -= 1), max[1] - min[1] == 0 && (max[1] += 1, min[1] -= 1);
-                var aspect = (max[0] - min[0]) / (max[1] - min[1]), viewRect = getLayoutRect(extend(seriesModel.getBoxLayoutParams(), {
+                var aspect = (max[0] - min[0]) / (max[1] - min[1]), viewRect = (api1 = api, getLayoutRect(extend(seriesModel.getBoxLayoutParams(), {
                     aspect: aspect
                 }), {
-                    width: api.getWidth(),
-                    height: api.getHeight()
-                });
+                    width: api1.getWidth(),
+                    height: api1.getHeight()
+                }));
                 isNaN(aspect) && (min = [
                     viewRect.x,
                     viewRect.y
@@ -25755,10 +25756,10 @@
     }(SeriesModel);
     function funnelLayout(ecModel, api) {
         ecModel.eachSeriesByType('funnel', function(seriesModel) {
-            var data = seriesModel.getData(), valueDim = data.mapDimension('value'), sort = seriesModel.get('sort'), viewRect = getLayoutRect(seriesModel.getBoxLayoutParams(), {
-                width: api.getWidth(),
-                height: api.getHeight()
-            }), orient = seriesModel.get('orient'), viewWidth = viewRect.width, viewHeight = viewRect.height, indices = function(data, sort) {
+            var api1, data = seriesModel.getData(), valueDim = data.mapDimension('value'), sort = seriesModel.get('sort'), viewRect = (api1 = api, getLayoutRect(seriesModel.getBoxLayoutParams(), {
+                width: api1.getWidth(),
+                height: api1.getHeight()
+            })), orient = seriesModel.get('orient'), viewWidth = viewRect.width, viewHeight = viewRect.height, indices = function(data, sort) {
                 for(var valueDim = data.mapDimension('value'), valueArr = data.mapArray(valueDim, function(val) {
                     return val;
                 }), indices = [], isAscending = 'ascending' === sort, i = 0, len = data.count(); i < len; i++)indices[i] = i;
@@ -25918,7 +25919,7 @@
                 dataGroup.remove(line);
             }).execute(), !this._initialized) {
                 this._initialized = !0;
-                var parallelModel, rect, rectEl, dim, clipPath = (parallelModel = coordSys.model, rect = coordSys.getRect(), rectEl = new Rect({
+                var coordSys1, parallelModel, rect, rectEl, dim, clipPath = (parallelModel = (coordSys1 = coordSys).model, rect = coordSys1.getRect(), rectEl = new Rect({
                     shape: {
                         x: rect.x,
                         y: rect.y,
@@ -27368,10 +27369,10 @@
     }(SeriesModel);
     function sankeyLayout(ecModel, api) {
         ecModel.eachSeriesByType('sankey', function(seriesModel) {
-            var orient, keyAttr, nodeWidth = seriesModel.get('nodeWidth'), nodeGap = seriesModel.get('nodeGap'), layoutInfo = getLayoutRect(seriesModel.getBoxLayoutParams(), {
-                width: api.getWidth(),
-                height: api.getHeight()
-            });
+            var api1, orient, keyAttr, nodeWidth = seriesModel.get('nodeWidth'), nodeGap = seriesModel.get('nodeGap'), layoutInfo = (api1 = api, getLayoutRect(seriesModel.getBoxLayoutParams(), {
+                width: api1.getWidth(),
+                height: api1.getHeight()
+            }));
             seriesModel.layoutInfo = layoutInfo;
             var width = layoutInfo.width, height = layoutInfo.height, graph = seriesModel.getGraph(), nodes = graph.nodes, edges = graph.edges;
             each(nodes, function(node) {
@@ -32342,10 +32343,10 @@
         create: function(ecModel, api) {
             var polarList = [];
             return ecModel.eachComponent('polar', function(polarModel, idx) {
-                var polar, center, width, height, radiusAxis, size, radius, parsedRadius, polar1 = new Polar(idx + '');
+                var polar, api1, center, width, height, radiusAxis, size, radius, parsedRadius, polar1 = new Polar(idx + '');
                 polar1.update = updatePolarScale;
                 var radiusAxis1 = polar1.getRadiusAxis(), angleAxis = polar1.getAngleAxis(), radiusAxisModel = polarModel.findAxisModel('radiusAxis'), angleAxisModel = polarModel.findAxisModel('angleAxis');
-                setAxis(radiusAxis1, radiusAxisModel), setAxis(angleAxis, angleAxisModel), polar = polar1, center = polarModel.get('center'), width = api.getWidth(), height = api.getHeight(), polar.cx = parsePercent$1(center[0], width), polar.cy = parsePercent$1(center[1], height), radiusAxis = polar.getRadiusAxis(), size = Math.min(width, height) / 2, null == (radius = polarModel.get('radius')) ? radius = [
+                setAxis(radiusAxis1, radiusAxisModel), setAxis(angleAxis, angleAxisModel), polar = polar1, api1 = api, center = polarModel.get('center'), width = api1.getWidth(), height = api1.getHeight(), polar.cx = parsePercent$1(center[0], width), polar.cy = parsePercent$1(center[1], height), radiusAxis = polar.getRadiusAxis(), size = Math.min(width, height) / 2, null == (radius = polarModel.get('radius')) ? radius = [
                     0,
                     '100%'
                 ] : isArray(radius) || (radius = [
@@ -32587,11 +32588,11 @@
         }
         return __extends(RadiusAxisView, _super), RadiusAxisView.prototype.render = function(radiusAxisModel, ecModel) {
             if (this.group.removeAll(), radiusAxisModel.get('show')) {
-                var oldAxisGroup = this._axisGroup, newAxisGroup = this._axisGroup = new Group();
+                var polar, oldAxisGroup = this._axisGroup, newAxisGroup = this._axisGroup = new Group();
                 this.group.add(newAxisGroup);
-                var radiusAxis = radiusAxisModel.axis, polar = radiusAxis.polar, angleAxis = polar.getAngleAxis(), ticksCoords = radiusAxis.getTicksCoords(), minorTicksCoords = radiusAxis.getMinorTicksCoords(), axisAngle = angleAxis.getExtent()[0], radiusExtent = radiusAxis.getExtent(), layout = {
+                var radiusAxis = radiusAxisModel.axis, polar1 = radiusAxis.polar, angleAxis = polar1.getAngleAxis(), ticksCoords = radiusAxis.getTicksCoords(), minorTicksCoords = radiusAxis.getMinorTicksCoords(), axisAngle = angleAxis.getExtent()[0], radiusExtent = radiusAxis.getExtent(), layout = {
                     position: [
-                        polar.cx,
+                        (polar = polar1).cx,
                         polar.cy
                     ],
                     rotation: axisAngle / 180 * Math.PI,
@@ -32605,7 +32606,7 @@
                     radiusAxisModel.get([
                         name,
                         'show'
-                    ]) && !radiusAxis.scale.isBlank() && axisElementBuilders$1[name](this.group, radiusAxisModel, polar, axisAngle, radiusExtent, ticksCoords, minorTicksCoords);
+                    ]) && !radiusAxis.scale.isBlank() && axisElementBuilders$1[name](this.group, radiusAxisModel, polar1, axisAngle, radiusExtent, ticksCoords, minorTicksCoords);
                 }, this);
             }
         }, RadiusAxisView.type = 'radiusAxis', RadiusAxisView;
@@ -33204,7 +33205,8 @@
             0,
             1
         ], function(hvIdx) {
-            return (null != raw[HV_NAMES[hvIdx][0]] || null != raw[HV_NAMES[hvIdx][1]] && null != raw[HV_NAMES[hvIdx][2]]) && (cellSizeArr[hvIdx] = 'auto'), null != cellSizeArr[hvIdx] && 'auto' !== cellSizeArr[hvIdx];
+            var option;
+            return (null != (option = raw)[HV_NAMES[hvIdx][0]] || null != option[HV_NAMES[hvIdx][1]] && null != option[HV_NAMES[hvIdx][2]]) && (cellSizeArr[hvIdx] = 'auto'), null != cellSizeArr[hvIdx] && 'auto' !== cellSizeArr[hvIdx];
         });
         mergeLayoutParam(target, raw, {
             type: 'box',
@@ -34397,15 +34399,15 @@
             return null !== _super && _super.apply(this, arguments) || this;
         }
         return __extends(ToolboxView, _super), ToolboxView.prototype.render = function(toolboxModel, ecModel, api, payload) {
-            var boxLayoutParams, padding, viewportSize, rect, group = this.group;
+            var componentModel, api1, boxLayoutParams, padding, viewportSize, rect, group = this.group;
             if (group.removeAll(), toolboxModel.get('show')) {
                 var itemSize = +toolboxModel.get('itemSize'), featureOpts = toolboxModel.get('feature') || {}, features1 = this._features || (this._features = {}), featureNames = [];
                 each(featureOpts, function(opt, name) {
                     featureNames.push(name);
-                }), new DataDiffer(this._featureNames || [], featureNames).add(processFeature).update(processFeature).remove(curry(processFeature, null)).execute(), this._featureNames = featureNames, boxLayoutParams = toolboxModel.getBoxLayoutParams(), padding = toolboxModel.get('padding'), rect = getLayoutRect(boxLayoutParams, viewportSize = {
-                    width: api.getWidth(),
-                    height: api.getHeight()
-                }, padding), boxLayout(toolboxModel.get('orient'), group, toolboxModel.get('itemGap'), rect.width, rect.height), positionElement(group, boxLayoutParams, viewportSize, padding), group.add(makeBackground(group.getBoundingRect(), toolboxModel)), group.eachChild(function(icon) {
+                }), new DataDiffer(this._featureNames || [], featureNames).add(processFeature).update(processFeature).remove(curry(processFeature, null)).execute(), this._featureNames = featureNames, componentModel = toolboxModel, api1 = api, boxLayoutParams = componentModel.getBoxLayoutParams(), padding = componentModel.get('padding'), rect = getLayoutRect(boxLayoutParams, viewportSize = {
+                    width: api1.getWidth(),
+                    height: api1.getHeight()
+                }, padding), boxLayout(componentModel.get('orient'), group, componentModel.get('itemGap'), rect.width, rect.height), positionElement(group, boxLayoutParams, viewportSize, padding), group.add(makeBackground(group.getBoundingRect(), toolboxModel)), group.eachChild(function(icon) {
                     var titleText = icon.__title, emphasisState = icon.ensureState('emphasis'), emphasisTextConfig = emphasisState.textConfig || (emphasisState.textConfig = {}), textContent = icon.getTextContent(), emphasisTextState = textContent && textContent.states.emphasis;
                     if (emphasisTextState && !isFunction(emphasisTextState) && titleText) {
                         var emphasisTextStyle = emphasisTextState.style || (emphasisTextState.style = {}), rect = getBoundingRect(titleText, ZRText.makeFont(emphasisTextStyle)), offsetX = icon.x + group.x, offsetY = icon.y + group.y + itemSize, needPutOnTop = !1;
@@ -37376,7 +37378,7 @@
                 mpModel && (updateMarkerLayout(mpModel.getData(), seriesModel, api), this.markerGroupMap.get(seriesModel.id).updateLayout());
             }, this);
         }, MarkPointView.prototype.renderSeries = function(seriesModel, mpModel, ecModel, api) {
-            var coordDimsInfos, mpData, dataOpt, coordSys = seriesModel.coordinateSystem, seriesId = seriesModel.id, seriesData = seriesModel.getData(), symbolDrawMap = this.markerGroupMap, symbolDraw = symbolDrawMap.get(seriesId) || symbolDrawMap.set(seriesId, new SymbolDraw()), mpData1 = (coordDimsInfos = coordSys ? map(coordSys && coordSys.dimensions, function(coordDim) {
+            var mpModel1, coordDimsInfos, mpData, dataOpt, coordSys = seriesModel.coordinateSystem, seriesId = seriesModel.id, seriesData = seriesModel.getData(), symbolDrawMap = this.markerGroupMap, symbolDraw = symbolDrawMap.get(seriesId) || symbolDrawMap.set(seriesId, new SymbolDraw()), mpData1 = (mpModel1 = mpModel, coordDimsInfos = coordSys ? map(coordSys && coordSys.dimensions, function(coordDim) {
                 var info = seriesModel.getData().getDimensionInfo(seriesModel.getData().mapDimension(coordDim)) || {};
                 return defaults({
                     name: coordDim
@@ -37386,7 +37388,7 @@
                     name: 'value',
                     type: 'float'
                 }
-            ], mpData = new List(coordDimsInfos, mpModel), dataOpt = map(mpModel.get('data'), curry(dataTransform, seriesModel)), coordSys && (dataOpt = filter(dataOpt, curry(dataFilter$1, coordSys))), mpData.initData(dataOpt, null, coordSys ? dimValueGetter : function(item) {
+            ], mpData = new List(coordDimsInfos, mpModel1), dataOpt = map(mpModel1.get('data'), curry(dataTransform, seriesModel)), coordSys && (dataOpt = filter(dataOpt, curry(dataFilter$1, coordSys))), mpData.initData(dataOpt, null, coordSys ? dimValueGetter : function(item) {
                 return item.value;
             }), mpData);
             mpModel.setData(mpData1), updateMarkerLayout(mpModel.getData(), seriesModel, api), mpData1.each(function(idx) {
@@ -37543,10 +37545,10 @@
                 }
             }, this);
         }, MarkLineView.prototype.renderSeries = function(seriesModel, mlModel, ecModel, api) {
-            var coordDimsInfos, fromData, toData, lineData, optData, dimValueGetter$1, coordSys = seriesModel.coordinateSystem, seriesId = seriesModel.id, seriesData = seriesModel.getData(), lineDrawMap = this.markerGroupMap, lineDraw = lineDrawMap.get(seriesId) || lineDrawMap.set(seriesId, new LineDraw());
+            var seriesModel1, mlModel1, coordDimsInfos, fromData, toData, lineData, optData, dimValueGetter$1, coordSys = seriesModel.coordinateSystem, seriesId = seriesModel.id, seriesData = seriesModel.getData(), lineDrawMap = this.markerGroupMap, lineDraw = lineDrawMap.get(seriesId) || lineDrawMap.set(seriesId, new LineDraw());
             this.group.add(lineDraw.group);
-            var mlData = (coordDimsInfos = coordSys ? map(coordSys && coordSys.dimensions, function(coordDim) {
-                var info = seriesModel.getData().getDimensionInfo(seriesModel.getData().mapDimension(coordDim)) || {};
+            var mlData = (seriesModel1 = seriesModel, mlModel1 = mlModel, coordDimsInfos = coordSys ? map(coordSys && coordSys.dimensions, function(coordDim) {
+                var info = seriesModel1.getData().getDimensionInfo(seriesModel1.getData().mapDimension(coordDim)) || {};
                 return defaults({
                     name: coordDim
                 }, info);
@@ -37555,7 +37557,7 @@
                     name: 'value',
                     type: 'float'
                 }
-            ], fromData = new List(coordDimsInfos, mlModel), toData = new List(coordDimsInfos, mlModel), lineData = new List([], mlModel), optData = map(mlModel.get('data'), curry(markLineTransform, seriesModel, coordSys, mlModel)), coordSys && (optData = filter(optData, curry(markLineFilter, coordSys))), dimValueGetter$1 = coordSys ? dimValueGetter : function(item) {
+            ], fromData = new List(coordDimsInfos, mlModel1), toData = new List(coordDimsInfos, mlModel1), lineData = new List([], mlModel1), optData = map(mlModel1.get('data'), curry(markLineTransform, seriesModel1, coordSys, mlModel1)), coordSys && (optData = filter(optData, curry(markLineFilter, coordSys))), dimValueGetter$1 = coordSys ? dimValueGetter : function(item) {
                 return item.value;
             }, fromData.initData(map(optData, function(item) {
                 return item[0];
@@ -37739,12 +37741,12 @@
                 }
             }, this);
         }, MarkAreaView.prototype.renderSeries = function(seriesModel, maModel, ecModel, api) {
-            var coordDimsInfos, areaData, optData, coordSys = seriesModel.coordinateSystem, seriesId = seriesModel.id, seriesData = seriesModel.getData(), areaGroupMap = this.markerGroupMap, polygonGroup = areaGroupMap.get(seriesId) || areaGroupMap.set(seriesId, {
+            var coordSys, seriesModel1, maModel1, coordDimsInfos, areaData, optData, coordSys1 = seriesModel.coordinateSystem, seriesId = seriesModel.id, seriesData = seriesModel.getData(), areaGroupMap = this.markerGroupMap, polygonGroup = areaGroupMap.get(seriesId) || areaGroupMap.set(seriesId, {
                 group: new Group()
             });
             this.group.add(polygonGroup.group), this.markKeep(polygonGroup);
-            var areaData1 = (coordSys ? (coordDimsInfos = map(coordSys && coordSys.dimensions, function(coordDim) {
-                var data = seriesModel.getData(), info = data.getDimensionInfo(data.mapDimension(coordDim)) || {};
+            var areaData1 = (coordSys = coordSys1, seriesModel1 = seriesModel, maModel1 = maModel, coordSys ? (coordDimsInfos = map(coordSys && coordSys.dimensions, function(coordDim) {
+                var data = seriesModel1.getData(), info = data.getDimensionInfo(data.mapDimension(coordDim)) || {};
                 return defaults({
                     name: coordDim
                 }, info);
@@ -37758,12 +37760,12 @@
                     name: dim,
                     type: coordDimsInfos[idx % 2].type
                 };
-            }), maModel)) : (coordDimsInfos = [
+            }), maModel1)) : (coordDimsInfos = [
                 {
                     name: 'value',
                     type: 'float'
                 }
-            ], areaData = new List(coordDimsInfos, maModel)), optData = map(maModel.get('data'), curry(markAreaTransform, seriesModel, coordSys, maModel)), coordSys && (optData = filter(optData, curry(markAreaFilter, coordSys))), areaData.initData(optData, null, coordSys ? function(item, dimName, dataIndex, dimIndex) {
+            ], areaData = new List(coordDimsInfos, maModel1)), optData = map(maModel1.get('data'), curry(markAreaTransform, seriesModel1, coordSys, maModel1)), coordSys && (optData = filter(optData, curry(markAreaFilter, coordSys))), areaData.initData(optData, null, coordSys ? function(item, dimName, dataIndex, dimIndex) {
                 return item.coord[Math.floor(dimIndex / 2)][dimIndex % 2];
             } : function(item) {
                 return item.value;
@@ -37771,7 +37773,7 @@
             maModel.setData(areaData1), areaData1.each(function(idx) {
                 var points = map(dimPermutations, function(dim) {
                     return getSingleMarkerEndPoint(areaData1, idx, dim, seriesModel, api);
-                }), xAxisScale = coordSys.getAxis('x').scale, yAxisScale = coordSys.getAxis('y').scale, xAxisExtent = xAxisScale.getExtent(), yAxisExtent = yAxisScale.getExtent(), xPointExtent = [
+                }), xAxisScale = coordSys1.getAxis('x').scale, yAxisScale = coordSys1.getAxis('y').scale, xAxisExtent = xAxisScale.getExtent(), yAxisExtent = yAxisScale.getExtent(), xPointExtent = [
                     xAxisScale.parse(areaData1.get('x0', idx)),
                     xAxisScale.parse(areaData1.get('x1', idx))
                 ], yPointExtent = [
@@ -37838,24 +37840,24 @@
                 'all',
                 'inverse'
             ]), isArray(selector) && each(selector, function(item, index) {
-                var type;
+                var ecModel1, type;
                 isString(item) && (item = {
                     type: item
-                }), selector[index] = merge(item, 'all' === (type = item.type) ? {
+                }), selector[index] = merge(item, (ecModel1 = ecModel, 'all' === (type = item.type) ? {
                     type: 'all',
-                    title: ecModel.getLocale([
+                    title: ecModel1.getLocale([
                         'legend',
                         'selector',
                         'all'
                     ])
                 } : 'inverse' === type ? {
                     type: 'inverse',
-                    title: ecModel.getLocale([
+                    title: ecModel1.getLocale([
                         'legend',
                         'selector',
                         'inverse'
                     ])
-                } : void 0);
+                } : void 0));
             });
         }, LegendModel.prototype.optionUpdated = function() {
             this._updateData(this.ecModel);
@@ -38625,13 +38627,13 @@
                     subType: 'inside'
                 }, function(dataZoomModel) {
                     each(collectReferCoordSysModelInfo(dataZoomModel).infoList, function(dzCoordSysInfo) {
-                        var coordSysModel, coordSysRecord, controller, coordSysUid = dzCoordSysInfo.model.uid, coordSysRecord1 = coordSysRecordMap.get(coordSysUid) || coordSysRecordMap.set(coordSysUid, (controller = (coordSysRecord = {
+                        var api1, coordSysModel, coordSysRecord, controller, coordSysUid = dzCoordSysInfo.model.uid, coordSysRecord1 = coordSysRecordMap.get(coordSysUid) || coordSysRecordMap.set(coordSysUid, (api1 = api, controller = (coordSysRecord = {
                             model: coordSysModel = dzCoordSysInfo.model,
                             containsPoint: curry(containsPoint, coordSysModel),
-                            dispatchAction: curry(dispatchAction$1, api),
+                            dispatchAction: curry(dispatchAction$1, api1),
                             dataZoomInfoMap: null,
                             controller: null
-                        }).controller = new RoamController(api.getZr()), each([
+                        }).controller = new RoamController(api1.getZr()), each([
                             'pan',
                             'zoom',
                             'scrollMove'

@@ -38,7 +38,7 @@ function _setPrototypeOf(o, p) {
 }
 var ItemsList = function(Component) {
     "use strict";
-    var protoProps, staticProps;
+    var Constructor, protoProps, staticProps;
     function ItemsList() {
         var _this, call;
         return !function(instance, Constructor) {
@@ -59,7 +59,7 @@ var ItemsList = function(Component) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(ItemsList, Component), protoProps = [
+    }(ItemsList, Component), Constructor = ItemsList, protoProps = [
         {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
@@ -95,7 +95,7 @@ var ItemsList = function(Component) {
                 }));
             }
         }
-    ], _defineProperties(ItemsList.prototype, protoProps), staticProps && _defineProperties(ItemsList, staticProps), ItemsList;
+    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ItemsList;
 }(Component);
 ItemsList.propTypes = {
     items: PropTypes.array.isRequired,

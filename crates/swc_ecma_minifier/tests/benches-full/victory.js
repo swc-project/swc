@@ -2265,7 +2265,7 @@
                     return s.length ? s.pop() + " " : "";
                 }
                 return function(a, b) {
-                    var a1, b1, a2, b2, s = [], q = [];
+                    var a1, b1, s, a2, b2, s1, s2 = [], q = [];
                     return a = parse(a), b = parse(b), !function(xa, ya, xb, yb, s, q) {
                         if (xa !== xb || ya !== yb) {
                             var i = s.push("translate(", null, pxComma, null, pxParen);
@@ -2277,13 +2277,13 @@
                                 x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
                             });
                         } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-                    }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
+                    }(a.translateX, a.translateY, b.translateX, b.translateY, s2, q), a1 = a.rotate, b1 = b.rotate, s = s2, a1 !== b1 ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                         i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a1, b1)
-                    })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), (a2 = a.skewX) !== (b2 = b.skewX) ? q.push({
-                        i: s.push(pop(s) + "skewX(", null, degParen) - 2,
+                    })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), a2 = a.skewX, b2 = b.skewX, s1 = s2, a2 !== b2 ? q.push({
+                        i: s1.push(pop(s1) + "skewX(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a2, b2)
-                    }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
+                    }) : b2 && s1.push(pop(s1) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
                         if (xa !== xb || ya !== yb) {
                             var i = s.push(pop(s) + "scale(", null, ",", null, ")");
                             q.push({
@@ -2294,9 +2294,9 @@
                                 x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
                             });
                         } else (1 !== xb || 1 !== yb) && s.push(pop(s) + "scale(" + xb + "," + yb + ")");
-                    }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s, q), a = b = null, function(t) {
-                        for(var o, i = -1, n = q.length; ++i < n;)s[(o = q[i]).i] = o.x(t);
-                        return s.join("");
+                    }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s2, q), a = b = null, function(t) {
+                        for(var o, i = -1, n = q.length; ++i < n;)s2[(o = q[i]).i] = o.x(t);
+                        return s2.join("");
                     };
                 };
             }
@@ -9477,20 +9477,20 @@
                     scale: props.scale && props.scale[otherAxis] ? _defineProperty({}, otherAxis, props.scale[otherAxis]) : void 0
                 };
                 return ticks.reduce(function(childProps, tickValue, index) {
-                    var props, tick, tick1 = stringTicks ? stringTicks[index] : tickValue, text = tickFormat(tickValue, index, ticks), styles = (props = lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, sharedProps, {
+                    var style1, props, tick, globalTransform1, tick1 = stringTicks ? stringTicks[index] : tickValue, text = tickFormat(tickValue, index, ticks), styles = (style1 = style, props = lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, sharedProps, {
                         tick: tick1,
                         tickValue: tickValue,
                         index: index,
                         text: text
                     }), {
-                        tickStyle: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.evaluateStyle(style.ticks, props),
-                        labelStyle: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.evaluateStyle(style.tickLabels, props),
-                        gridStyle: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.evaluateStyle(style.grid, props)
+                        tickStyle: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.evaluateStyle(style1.ticks, props),
+                        labelStyle: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.evaluateStyle(style1.tickLabels, props),
+                        gridStyle: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.evaluateStyle(style1.grid, props)
                     }), tickLayout = {
                         position: getTickPosition(styles, orientation, isVertical),
-                        transform: (tick = scale[axis](tickValue), {
-                            x: isVertical ? globalTransform.x : tick + globalTransform.x,
-                            y: isVertical ? tick + globalTransform.y : globalTransform.y
+                        transform: (tick = scale[axis](tickValue), globalTransform1 = globalTransform, {
+                            x: isVertical ? globalTransform1.x : tick + globalTransform1.x,
+                            y: isVertical ? tick + globalTransform1.y : globalTransform1.y
                         })
                     }, gridLayout = {
                         edge: gridEdge,
@@ -9534,7 +9534,7 @@
                 height: 300,
                 padding: 50
             }, VictoryAxis = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryAxis() {
                     var call;
                     return !function(instance, Constructor) {
@@ -9554,7 +9554,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryAxis, _React$Component), protoProps = [
+                }(VictoryAxis, _React$Component), Constructor = VictoryAxis, protoProps = [
                     {
                         key: "renderLine",
                         value: function(props) {
@@ -9658,7 +9658,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.groupComponent, {}, children);
                         }
                     }
-                ], _defineProperties(VictoryAxis.prototype, protoProps), staticProps && _defineProperties(VictoryAxis, staticProps), VictoryAxis;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryAxis;
             }(react__WEBPACK_IMPORTED_MODULE_3___default.a.Component);
             Object.defineProperty(VictoryAxis, "animationWhitelist", {
                 configurable: !0,
@@ -11846,7 +11846,7 @@
             var brushContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var Constructor, protoProps, staticProps;
                     function VictoryBrushContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -11866,7 +11866,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryBrushContainer, _base), protoProps = [
+                    }(VictoryBrushContainer, _base), Constructor = VictoryBrushContainer, protoProps = [
                         {
                             key: "getSelectBox",
                             value: function(props, coordinates) {
@@ -11951,7 +11951,7 @@
                                 return _toConsumableArray(react__WEBPACK_IMPORTED_MODULE_3___default.a.Children.toArray(props.children)).concat(_toConsumableArray(this.getRect(props)));
                             }
                         }
-                    ], _defineProperties(VictoryBrushContainer.prototype, protoProps), staticProps && _defineProperties(VictoryBrushContainer, staticProps), VictoryBrushContainer;
+                    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryBrushContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -12164,7 +12164,7 @@
                     fill: "none"
                 }
             }, VictoryBrushLine = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryBrushLine() {
                     var call;
                     return !function(instance, Constructor) {
@@ -12184,7 +12184,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryBrushLine, _React$Component), protoProps = [
+                }(VictoryBrushLine, _React$Component), Constructor = VictoryBrushLine, protoProps = [
                     {
                         key: "getRectDimensions",
                         value: function(props, brushWidth, domain) {
@@ -12323,7 +12323,7 @@
                             return react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement("g", this.props.events, this.renderLine(this.props), this.renderBrushArea(this.props), this.renderBrush(this.props), this.renderHandles(this.props));
                         }
                     }
-                ], _defineProperties(VictoryBrushLine.prototype, protoProps), staticProps && _defineProperties(VictoryBrushLine, staticProps), VictoryBrushLine;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryBrushLine;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryBrushLine, "propTypes", {
                 configurable: !0,
@@ -14037,7 +14037,7 @@
                 return self1;
             }
             var VictoryAnimation = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryAnimation(props, context) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -14060,7 +14060,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryAnimation, _React$Component), protoProps = [
+                }(VictoryAnimation, _React$Component), Constructor = VictoryAnimation, protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -14144,7 +14144,7 @@
                             return this.props.children(this.state.data, this.state.animationInfo);
                         }
                     }
-                ], _defineProperties(VictoryAnimation.prototype, protoProps), staticProps && _defineProperties(VictoryAnimation, staticProps), VictoryAnimation;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryAnimation;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryAnimation, "displayName", {
                 configurable: !0,
@@ -14249,7 +14249,7 @@
                 }
             }
             var VictoryClipContainer = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryClipContainer(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -14269,7 +14269,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryClipContainer, _React$Component), protoProps = [
+                }(VictoryClipContainer, _React$Component), Constructor = VictoryClipContainer, protoProps = [
                     {
                         key: "calculateAttributes",
                         value: function(props) {
@@ -14395,7 +14395,7 @@
                             return this.renderClippedGroup(clipProps, this.clipId);
                         }
                     }
-                ], _defineProperties(VictoryClipContainer.prototype, protoProps), staticProps && _defineProperties(VictoryClipContainer, staticProps), VictoryClipContainer;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryClipContainer;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryClipContainer, "displayName", {
                 configurable: !0,
@@ -14497,7 +14497,7 @@
                 }
             }
             var VictoryContainer = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryContainer(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -14529,7 +14529,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryContainer, _React$Component), protoProps = [
+                }(VictoryContainer, _React$Component), Constructor = VictoryContainer, protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -14644,7 +14644,7 @@
                             return this.renderContainer(this.props, svgProps, style);
                         }
                     }
-                ], _defineProperties(VictoryContainer.prototype, protoProps), staticProps && _defineProperties(VictoryContainer, staticProps), VictoryContainer;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryContainer;
             }(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
             Object.defineProperty(VictoryContainer, "displayName", {
                 configurable: !0,
@@ -16523,7 +16523,7 @@
                 return self1;
             }
             var VictoryTransition = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryTransition(props, context) {
                     !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
@@ -16544,7 +16544,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryTransition, _React$Component), protoProps = [
+                }(VictoryTransition, _React$Component), Constructor = VictoryTransition, protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -16669,7 +16669,7 @@
                             });
                         }
                     }
-                ], _defineProperties(VictoryTransition.prototype, protoProps), staticProps && _defineProperties(VictoryTransition, staticProps), VictoryTransition;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryTransition;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryTransition, "displayName", {
                 configurable: !0,
@@ -16737,7 +16737,7 @@
             ];
             __webpack_exports__.default = function(WrappedComponent, options) {
                 return function(_WrappedComponent) {
-                    var protoProps, staticProps;
+                    var Constructor, protoProps, staticProps;
                     function addEvents(props) {
                         !function(instance, Constructor) {
                             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
@@ -16759,7 +16759,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(addEvents, _WrappedComponent), protoProps = [
+                    }(addEvents, _WrappedComponent), Constructor = addEvents, protoProps = [
                         {
                             key: "shouldComponentUpdate",
                             value: function(nextProps) {
@@ -16963,7 +16963,7 @@
                                 return this.renderContainer(groupComponent, children);
                             }
                         }
-                    ], _defineProperties(addEvents.prototype, protoProps), staticProps && _defineProperties(addEvents, staticProps), addEvents;
+                    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), addEvents;
                 }(WrappedComponent);
             };
         },
@@ -17532,7 +17532,7 @@
             }
             function formatData(dataset, props, expectedKeys) {
                 if (!(Array.isArray(dataset) || _immutable__WEBPACK_IMPORTED_MODULE_17__.default.isIterable(dataset)) || 1 > getLength(dataset)) return [];
-                var stringMap, hasEventKeyAccessor, key, eventKeyAccessor, defaultKeys = [
+                var stringMap, props1, hasEventKeyAccessor, key, eventKeyAccessor, defaultKeys = [
                     "x",
                     "y",
                     "y0"
@@ -17573,7 +17573,7 @@
                     }, {}), formattedDatum = lodash_assign__WEBPACK_IMPORTED_MODULE_12___default()({}, processedValues, datum);
                     return lodash_isEmpty__WEBPACK_IMPORTED_MODULE_4___default()(formattedDatum) || dataArr.push(formattedDatum), dataArr;
                 }, []), props.sortKey, props.sortOrder), props);
-                return hasEventKeyAccessor = !!props.eventKey, key = props.eventKey, eventKeyAccessor = lodash_isFunction__WEBPACK_IMPORTED_MODULE_8___default()(key) ? key : null == key ? function() {} : lodash_property__WEBPACK_IMPORTED_MODULE_6___default()(key), cleanedData.map(function(datum, index) {
+                return hasEventKeyAccessor = !!(props1 = props).eventKey, key = props1.eventKey, eventKeyAccessor = lodash_isFunction__WEBPACK_IMPORTED_MODULE_8___default()(key) ? key : null == key ? function() {} : lodash_property__WEBPACK_IMPORTED_MODULE_6___default()(key), cleanedData.map(function(datum, index) {
                     if (void 0 !== datum.eventKey || !hasEventKeyAccessor) return datum;
                     var eventKey = eventKeyAccessor(datum, index);
                     return void 0 !== eventKey ? lodash_assign__WEBPACK_IMPORTED_MODULE_12___default()({
@@ -22401,13 +22401,13 @@
                 }
             }
             var Timer = function() {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function Timer() {
                     !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, Timer), this.shouldAnimate = !0, this.subscribers = [], this.loop = this.loop.bind(this), this.timer = null, this.activeSubscriptions = 0;
                 }
-                return protoProps = [
+                return Constructor = Timer, protoProps = [
                     {
                         key: "bypassAnimation",
                         value: function() {
@@ -22458,7 +22458,7 @@
                             null !== id && this.subscribers[id - 1] && (delete this.subscribers[id - 1], this.activeSubscriptions--), 0 === this.activeSubscriptions && this.stop();
                         }
                     }
-                ], _defineProperties(Timer.prototype, protoProps), staticProps && _defineProperties(Timer, staticProps), Timer;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Timer;
             }();
         },
         "../../victory-core/es/victory-util/transitions.js": function(module1, __webpack_exports__, __webpack_require__) {
@@ -23278,7 +23278,7 @@
             var cursorContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var Constructor, protoProps, staticProps;
                     function VictoryCursorContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -23298,7 +23298,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryCursorContainer, _base), protoProps = [
+                    }(VictoryCursorContainer, _base), Constructor = VictoryCursorContainer, protoProps = [
                         {
                             key: "getCursorPosition",
                             value: function(props) {
@@ -23382,7 +23382,7 @@
                                 return _toConsumableArray(react__WEBPACK_IMPORTED_MODULE_4___default.a.Children.toArray(props.children)).concat(_toConsumableArray(this.getCursorElements(props)));
                             }
                         }
-                    ], _defineProperties(VictoryCursorContainer.prototype, protoProps), staticProps && _defineProperties(VictoryCursorContainer, staticProps), VictoryCursorContainer;
+                    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryCursorContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -27964,7 +27964,7 @@
             var selectionContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var Constructor, protoProps, staticProps;
                     function VictorySelectionContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -27984,7 +27984,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictorySelectionContainer, _base), protoProps = [
+                    }(VictorySelectionContainer, _base), Constructor = VictorySelectionContainer, protoProps = [
                         {
                             key: "getRect",
                             value: function(props) {
@@ -28017,7 +28017,7 @@
                                 ]);
                             }
                         }
-                    ], _defineProperties(VictorySelectionContainer.prototype, protoProps), staticProps && _defineProperties(VictorySelectionContainer, staticProps), VictorySelectionContainer;
+                    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictorySelectionContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -28115,7 +28115,7 @@
                 return self1;
             }
             var VictorySharedEvents = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictorySharedEvents(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -28132,7 +28132,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictorySharedEvents, _React$Component), protoProps = [
+                }(VictorySharedEvents, _React$Component), Constructor = VictorySharedEvents, protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -28357,7 +28357,7 @@
                             });
                         }
                     }
-                ], _defineProperties(VictorySharedEvents.prototype, protoProps), staticProps && _defineProperties(VictorySharedEvents, staticProps), VictorySharedEvents;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictorySharedEvents;
             }(react__WEBPACK_IMPORTED_MODULE_7___default.a.Component);
             Object.defineProperty(VictorySharedEvents, "displayName", {
                 configurable: !0,
@@ -28492,8 +28492,8 @@
                         };
                     });
                 })).map(function(d, i) {
-                    var xOffset;
-                    return xOffset = props1.xOffset || 0, datasets[i].map(function(datum) {
+                    var datasets1, xOffset;
+                    return datasets1 = datasets, xOffset = props1.xOffset || 0, datasets1[i].map(function(datum) {
                         var yOffset = function(datum, index, datasets) {
                             if (datum.y0) return datum.y0;
                             var y = datum._y, group = datum._group, firstDatasetBaseline = datasets[0].map(function(d) {
@@ -28510,7 +28510,7 @@
                             return previousPoints.some(function(point) {
                                 return point instanceof Date;
                             }) ? new Date(y0) : y0;
-                        }(datum, i, datasets) || 0;
+                        }(datum, i, datasets1) || 0;
                         return lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, datum, {
                             _y0: datum._y instanceof Date ? yOffset ? new Date(yOffset) : datum._y : yOffset,
                             _y1: null === datum._y ? null : datum._y instanceof Date ? new Date(+datum._y + +yOffset) : datum._y + yOffset,
@@ -28902,7 +28902,7 @@
                 pointerLength: 10,
                 pointerWidth: 10
             }, VictoryTooltip = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryTooltip(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -28922,7 +28922,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryTooltip, _React$Component), protoProps = [
+                }(VictoryTooltip, _React$Component), Constructor = VictoryTooltip, protoProps = [
                     {
                         key: "getDefaultOrientation",
                         value: function(props) {
@@ -29242,7 +29242,7 @@
                             return this.renderTooltip(props);
                         }
                     }
-                ], _defineProperties(VictoryTooltip.prototype, protoProps), staticProps && _defineProperties(VictoryTooltip, staticProps), VictoryTooltip;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryTooltip;
             }(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
             Object.defineProperty(VictoryTooltip, "displayName", {
                 configurable: !0,
@@ -29518,7 +29518,7 @@
             var voronoiContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var Constructor, protoProps, staticProps;
                     function VictoryVoronoiContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -29538,7 +29538,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryVoronoiContainer, _base), protoProps = [
+                    }(VictoryVoronoiContainer, _base), Constructor = VictoryVoronoiContainer, protoProps = [
                         {
                             key: "getDimension",
                             value: function(props) {
@@ -29674,7 +29674,7 @@
                                 ]);
                             }
                         }
-                    ], _defineProperties(VictoryVoronoiContainer.prototype, protoProps), staticProps && _defineProperties(VictoryVoronoiContainer, staticProps), VictoryVoronoiContainer;
+                    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryVoronoiContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -30340,7 +30340,7 @@
             var zoomContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var Constructor, protoProps, staticProps;
                     function VictoryZoomContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -30360,7 +30360,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryZoomContainer, _base), protoProps = [
+                    }(VictoryZoomContainer, _base), Constructor = VictoryZoomContainer, protoProps = [
                         {
                             key: "clipDataComponents",
                             value: function(children, props) {
@@ -30434,7 +30434,7 @@
                                 return this.clipDataComponents(children, props);
                             }
                         }
-                    ], _defineProperties(VictoryZoomContainer.prototype, protoProps), staticProps && _defineProperties(VictoryZoomContainer, staticProps), VictoryZoomContainer;
+                    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryZoomContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,

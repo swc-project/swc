@@ -4585,8 +4585,8 @@
                     containerStyle,
                     toastSpacing
                 ]), toastStyle = react.useMemo(function() {
-                    var isRighty, isLefty, alignItems;
-                    return isRighty = position.includes("right"), isLefty = position.includes("left"), alignItems = "center", isRighty && (alignItems = "flex-end"), isLefty && (alignItems = "flex-start"), {
+                    var position1, isRighty, isLefty, alignItems;
+                    return isRighty = (position1 = position).includes("right"), isLefty = position1.includes("left"), alignItems = "center", isRighty && (alignItems = "flex-end"), isLefty && (alignItems = "flex-start"), {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: alignItems

@@ -1436,13 +1436,13 @@
                 }(t), eC, eO, ev, function e(t) {
                     return function(r) {
                         if (!r.children) return r;
-                        var n = a.compose(e(t), a.compose(function(e) {
-                            var r, n = (r = e.props, a.mapValues(r, function(e, r) {
-                                var n = a.matchPercent(e);
-                                return n && eD.includes(r) ? n.percent * t.height : n && ew.includes(r) ? n.percent * t.width : e;
+                        var n, i = a.compose(e(t), (n = t, a.compose(function(e) {
+                            var t, r = (t = e.props, a.mapValues(t, function(e, t) {
+                                var r = a.matchPercent(e);
+                                return r && eD.includes(t) ? r.percent * n.height : r && ew.includes(t) ? r.percent * n.width : e;
                             }));
                             return Object.assign({}, e, {
-                                props: n = a.evolve({
+                                props: r = a.evolve({
                                     x: parseFloat,
                                     x1: parseFloat,
                                     x2: parseFloat,
@@ -1463,11 +1463,11 @@
                                     stopOpacity: eA,
                                     stopColor: l.transformColor,
                                     transform: l.processTransform
-                                }, n)
+                                }, r)
                             });
-                        }, eP, eT, ek)), i = r.children.map(n);
+                        }, eP, eT, ek))), o = r.children.map(i);
                         return Object.assign({}, r, {
-                            children: i
+                            children: o
                         });
                     };
                 }(r))(e);
@@ -15683,14 +15683,14 @@
                             });
                         }
                         var E = function(e) {
-                            var t, r;
-                            function u(e) {
+                            var t, r, u;
+                            function l(e) {
                                 if (!function(e, t) {
                                     if (!(e instanceof t)) throw TypeError("Cannot call a class as a function");
-                                }(this, u), "object" !== f(e) || null === e) throw new p("options", "Object", e);
-                                var t, r = e.message, i = e.operator, l = e.stackStartFn, s = e.actual, d = e.expected, E = Error.stackTraceLimit;
-                                if (Error.stackTraceLimit = 0, null != r) t = o(this, c(u).call(this, String(r)));
-                                else if (n.stderr && n.stderr.isTTY && (n.stderr && n.stderr.getColorDepth && 1 !== n.stderr.getColorDepth() ? (y = "[34m", g = "[32m", b = "[39m", v = "[31m") : (y = "", g = "", b = "", v = "")), "object" === f(s) && null !== s && "object" === f(d) && null !== d && "stack" in s && s instanceof Error && "stack" in d && d instanceof Error && (s = D(s), d = D(d)), "deepStrictEqual" === i || "strictEqual" === i) t = o(this, c(u).call(this, function(e, t, r) {
+                                }(this, l), "object" !== f(e) || null === e) throw new p("options", "Object", e);
+                                var t, r = e.message, i = e.operator, u = e.stackStartFn, s = e.actual, d = e.expected, E = Error.stackTraceLimit;
+                                if (Error.stackTraceLimit = 0, null != r) t = o(this, c(l).call(this, String(r)));
+                                else if (n.stderr && n.stderr.isTTY && (n.stderr && n.stderr.getColorDepth && 1 !== n.stderr.getColorDepth() ? (y = "[34m", g = "[32m", b = "[39m", v = "[31m") : (y = "", g = "", b = "", v = "")), "object" === f(s) && null !== s && "object" === f(d) && null !== d && "stack" in s && s instanceof Error && "stack" in d && d instanceof Error && (s = D(s), d = D(d)), "deepStrictEqual" === i || "strictEqual" === i) t = o(this, c(l).call(this, function(e, t, r) {
                                     var i = "", o = "", a = 0, u = "", l = !1, s = w(e), c = s.split("\n"), d = w(t).split("\n"), p = 0, D = "";
                                     if ("strictEqual" === r && "object" === f(e) && "object" === f(t) && null !== e && null !== t && (r = "strictEqualObject"), 1 === c.length && 1 === d.length && c[0] !== d[0]) {
                                         var E = c[0].length + d[0].length;
@@ -15730,17 +15730,17 @@
                                 else if ("notDeepStrictEqual" === i || "notStrictEqual" === i) {
                                     var _ = m[i], x = w(s).split("\n");
                                     if ("notStrictEqual" === i && "object" === f(s) && null !== s && (_ = m.notStrictEqualObject), x.length > 30) for(x[26] = "".concat(y, "...").concat(b); x.length > 27;)x.pop();
-                                    t = 1 === x.length ? o(this, c(u).call(this, "".concat(_, " ").concat(x[0]))) : o(this, c(u).call(this, "".concat(_, "\n\n").concat(x.join("\n"), "\n")));
+                                    t = 1 === x.length ? o(this, c(l).call(this, "".concat(_, " ").concat(x[0]))) : o(this, c(l).call(this, "".concat(_, "\n\n").concat(x.join("\n"), "\n")));
                                 } else {
                                     var S = w(s), A = "", k = m[i];
-                                    "notDeepEqual" === i || "notEqual" === i ? (S = "".concat(m[i], "\n\n").concat(S)).length > 1024 && (S = "".concat(S.slice(0, 1021), "...")) : (A = "".concat(w(d)), S.length > 512 && (S = "".concat(S.slice(0, 509), "...")), A.length > 512 && (A = "".concat(A.slice(0, 509), "...")), "deepEqual" === i || "equal" === i ? S = "".concat(k, "\n\n").concat(S, "\n\nshould equal\n\n") : A = " ".concat(i, " ").concat(A)), t = o(this, c(u).call(this, "".concat(S).concat(A)));
+                                    "notDeepEqual" === i || "notEqual" === i ? (S = "".concat(m[i], "\n\n").concat(S)).length > 1024 && (S = "".concat(S.slice(0, 1021), "...")) : (A = "".concat(w(d)), S.length > 512 && (S = "".concat(S.slice(0, 509), "...")), A.length > 512 && (A = "".concat(A.slice(0, 509), "...")), "deepEqual" === i || "equal" === i ? S = "".concat(k, "\n\n").concat(S, "\n\nshould equal\n\n") : A = " ".concat(i, " ").concat(A)), t = o(this, c(l).call(this, "".concat(S).concat(A)));
                                 }
                                 return Error.stackTraceLimit = E, t.generatedMessage = !r, Object.defineProperty(a(t), "name", {
                                     value: "AssertionError [ERR_ASSERTION]",
                                     enumerable: !1,
                                     writable: !0,
                                     configurable: !0
-                                }), t.code = "ERR_ASSERTION", t.actual = s, t.expected = d, t.operator = i, Error.captureStackTrace && Error.captureStackTrace(a(t), l), t.stack, t.name = "AssertionError", o(t);
+                                }), t.code = "ERR_ASSERTION", t.actual = s, t.expected = d, t.operator = i, Error.captureStackTrace && Error.captureStackTrace(a(t), u), t.stack, t.name = "AssertionError", o(t);
                             }
                             return !function(e, t) {
                                 if ("function" != typeof t && null !== t) throw TypeError("Super expression must either be null or a function");
@@ -15751,7 +15751,7 @@
                                         configurable: !0
                                     }
                                 }), t && s(e, t);
-                            }(u, e), t = [
+                            }(l, e), t = l, r = [
                                 {
                                     key: "toString",
                                     value: function() {
@@ -15783,7 +15783,7 @@
                                         }));
                                     }
                                 }
-                            ], i(u.prototype, t), r && i(u, r), u;
+                            ], i(t.prototype, r), u && i(t, u), l;
                         }(u(Error));
                         e.exports = E;
                     },
@@ -20443,15 +20443,16 @@
                         }
                         e.exports = o, e.exports.once = function(e, t) {
                             return new Promise(function(r, n) {
-                                function i(r) {
-                                    e.removeListener(t, o), n(r);
+                                var i;
+                                function o(r) {
+                                    e.removeListener(t, a), n(r);
                                 }
-                                function o() {
-                                    "function" == typeof e.removeListener && e.removeListener("error", i), r([].slice.call(arguments));
+                                function a() {
+                                    "function" == typeof e.removeListener && e.removeListener("error", o), r([].slice.call(arguments));
                                 }
-                                y(e, t, o, {
+                                y(e, t, a, {
                                     once: !0
-                                }), "error" !== t && "function" == typeof e.on && y(e, "error", i, {
+                                }), "error" !== t && "function" == typeof (i = e).on && y(i, "error", o, {
                                     once: !0
                                 });
                             });
@@ -21046,58 +21047,58 @@
                         }, A.prototype._read = function(e) {
                             _(this, new w("_read()"));
                         }, A.prototype.pipe = function(e, t) {
-                            var r = this, i = this._readableState;
-                            switch(i.pipesCount){
+                            var r, i = this, o = this._readableState;
+                            switch(o.pipesCount){
                                 case 0:
-                                    i.pipes = e;
+                                    o.pipes = e;
                                     break;
                                 case 1:
-                                    i.pipes = [
-                                        i.pipes,
+                                    o.pipes = [
+                                        o.pipes,
                                         e
                                     ];
                                     break;
                                 default:
-                                    i.pipes.push(e);
+                                    o.pipes.push(e);
                             }
-                            i.pipesCount += 1, a("pipe count=%d opts=%j", i.pipesCount, t);
-                            var o = t && !1 === t.end || e === n.stdout || e === n.stderr ? y : u;
-                            function u() {
+                            o.pipesCount += 1, a("pipe count=%d opts=%j", o.pipesCount, t);
+                            var u = t && !1 === t.end || e === n.stdout || e === n.stderr ? g : l;
+                            function l() {
                                 a("onend"), e.end();
                             }
-                            i.endEmitted ? n.nextTick(o) : r.once("end", o), e.on("unpipe", function t(n, o) {
-                                a("onunpipe"), n === r && o && !1 === o.hasUnpiped && (o.hasUnpiped = !0, a("cleanup"), e.removeListener("close", p), e.removeListener("finish", h), e.removeListener("drain", l), e.removeListener("error", d), e.removeListener("unpipe", t), r.removeListener("end", u), r.removeListener("end", y), r.removeListener("data", f), s = !0, i.awaitDrain && (!e._writableState || e._writableState.needDrain) && l());
+                            o.endEmitted ? n.nextTick(u) : i.once("end", u), e.on("unpipe", function t(r, n) {
+                                a("onunpipe"), r === i && n && !1 === n.hasUnpiped && (n.hasUnpiped = !0, a("cleanup"), e.removeListener("close", h), e.removeListener("finish", y), e.removeListener("drain", s), e.removeListener("error", p), e.removeListener("unpipe", t), i.removeListener("end", l), i.removeListener("end", g), i.removeListener("data", d), f = !0, o.awaitDrain && (!e._writableState || e._writableState.needDrain) && s());
                             });
-                            var l = function() {
+                            var s = (r = i, function() {
                                 var e = r._readableState;
                                 a("pipeOnDrain", e.awaitDrain), e.awaitDrain && e.awaitDrain--, 0 === e.awaitDrain && c(r, "data") && (e.flowing = !0, M(r));
-                            };
-                            e.on("drain", l);
-                            var s = !1;
-                            function f(t) {
-                                a("ondata");
-                                var n = e.write(t);
-                                a("dest.write", n), !1 === n && ((1 === i.pipesCount && i.pipes === e || i.pipesCount > 1 && -1 !== z(i.pipes, e)) && !s && (a("false write response, pause", i.awaitDrain), i.awaitDrain++), r.pause());
-                            }
+                            });
+                            e.on("drain", s);
+                            var f = !1;
                             function d(t) {
-                                a("onerror", t), y(), e.removeListener("error", d), 0 === c(e, "error") && _(e, t);
+                                a("ondata");
+                                var r = e.write(t);
+                                a("dest.write", r), !1 === r && ((1 === o.pipesCount && o.pipes === e || o.pipesCount > 1 && -1 !== z(o.pipes, e)) && !f && (a("false write response, pause", o.awaitDrain), o.awaitDrain++), i.pause());
                             }
-                            function p() {
-                                e.removeListener("finish", h), y();
+                            function p(t) {
+                                a("onerror", t), g(), e.removeListener("error", p), 0 === c(e, "error") && _(e, t);
                             }
                             function h() {
-                                a("onfinish"), e.removeListener("close", p), y();
+                                e.removeListener("finish", y), g();
                             }
                             function y() {
-                                a("unpipe"), r.unpipe(e);
+                                a("onfinish"), e.removeListener("close", h), g();
                             }
-                            return r.on("data", f), function(e, t, r) {
+                            function g() {
+                                a("unpipe"), i.unpipe(e);
+                            }
+                            return i.on("data", d), function(e, t, r) {
                                 if ("function" == typeof e.prependListener) return e.prependListener(t, r);
                                 e._events && e._events[t] ? Array.isArray(e._events[t]) ? e._events[t].unshift(r) : e._events[t] = [
                                     r,
                                     e._events[t]
                                 ] : e.on(t, r);
-                            }(e, "error", d), e.once("close", p), e.once("finish", h), e.emit("pipe", r), i.flowing || (a("pipe resume"), r.resume()), e;
+                            }(e, "error", p), e.once("close", h), e.once("finish", y), e.emit("pipe", i), o.flowing || (a("pipe resume"), i.resume()), e;
                         }, A.prototype.unpipe = function(e) {
                             var t = this._readableState, r = {
                                 hasUnpiped: !1
@@ -21532,13 +21533,13 @@
                         }
                         var o = r(300).Buffer, a = r(837).inspect, u = a && a.custom || "inspect";
                         e.exports = function() {
-                            var e, t;
-                            function r() {
+                            var e, t, r;
+                            function l() {
                                 !function(e, t) {
                                     if (!(e instanceof t)) throw TypeError("Cannot call a class as a function");
-                                }(this, r), this.head = null, this.tail = null, this.length = 0;
+                                }(this, l), this.head = null, this.tail = null, this.length = 0;
                             }
-                            return e = [
+                            return e = l, t = [
                                 {
                                     key: "push",
                                     value: function(e) {
@@ -21658,7 +21659,7 @@
                                         }));
                                     }
                                 }
-                            ], i(r.prototype, e), t && i(r, t), r;
+                            ], i(e.prototype, t), r && i(e, r), l;
                         }();
                     },
                     364: function(e) {
@@ -21701,22 +21702,22 @@
                                     a.apply(this, t);
                                 }
                             };
-                            var a, u, l = r.readable || !1 !== r.readable && t.readable, s = r.writable || !1 !== r.writable && t.writable, c = function() {
-                                t.writable || d();
-                            }, f = t._writableState && t._writableState.finished, d = function() {
-                                s = !1, f = !0, l || o.call(t);
-                            }, p = t._readableState && t._readableState.endEmitted, h = function() {
-                                l = !1, p = !0, s || o.call(t);
-                            }, y = function(e) {
+                            var a, u, l, s = r.readable || !1 !== r.readable && t.readable, c = r.writable || !1 !== r.writable && t.writable, f = function() {
+                                t.writable || p();
+                            }, d = t._writableState && t._writableState.finished, p = function() {
+                                c = !1, d = !0, s || o.call(t);
+                            }, h = t._readableState && t._readableState.endEmitted, y = function() {
+                                s = !1, h = !0, c || o.call(t);
+                            }, g = function(e) {
                                 o.call(t, e);
-                            }, g = function() {
-                                var e;
-                                return l && !p ? (t._readableState && t._readableState.ended || (e = new n()), o.call(t, e)) : s && !f ? (t._writableState && t._writableState.ended || (e = new n()), o.call(t, e)) : void 0;
                             }, v = function() {
-                                t.req.on("finish", d);
+                                var e;
+                                return s && !h ? (t._readableState && t._readableState.ended || (e = new n()), o.call(t, e)) : c && !d ? (t._writableState && t._writableState.ended || (e = new n()), o.call(t, e)) : void 0;
+                            }, b = function() {
+                                t.req.on("finish", p);
                             };
-                            return t.setHeader && "function" == typeof t.abort ? (t.on("complete", d), t.on("abort", g), t.req ? v() : t.on("request", v)) : s && !t._writableState && (t.on("end", c), t.on("close", c)), t.on("end", h), t.on("finish", d), !1 !== r.error && t.on("error", y), t.on("close", g), function() {
-                                t.removeListener("complete", d), t.removeListener("abort", g), t.removeListener("request", v), t.req && t.req.removeListener("finish", d), t.removeListener("end", c), t.removeListener("close", c), t.removeListener("finish", d), t.removeListener("end", h), t.removeListener("error", y), t.removeListener("close", g);
+                            return (l = t).setHeader && "function" == typeof l.abort ? (t.on("complete", p), t.on("abort", v), t.req ? b() : t.on("request", b)) : c && !t._writableState && (t.on("end", f), t.on("close", f)), t.on("end", y), t.on("finish", p), !1 !== r.error && t.on("error", g), t.on("close", v), function() {
+                                t.removeListener("complete", p), t.removeListener("abort", v), t.removeListener("request", b), t.req && t.req.removeListener("finish", p), t.removeListener("end", f), t.removeListener("close", f), t.removeListener("finish", p), t.removeListener("end", y), t.removeListener("error", g), t.removeListener("close", v);
                             };
                         };
                     },

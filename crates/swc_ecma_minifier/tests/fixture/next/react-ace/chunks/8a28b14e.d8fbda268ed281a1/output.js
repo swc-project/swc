@@ -759,17 +759,17 @@
                 "use strict";
                 var event = require("../lib/event"), useragent = require("../lib/useragent"), dom = require("../lib/dom"), lang = require("../lib/lang"), clipboard = require("../clipboard"), BROKEN_SETDATA = useragent.isChrome < 18, USE_IE_MIME_TYPE = useragent.isIE, HAS_FOCUS_ARGS = useragent.isChrome > 63, KEYS = require("../lib/keys"), MODS = KEYS.KEY_MODS, isIOS = useragent.isIOS, valueResetRegex = isIOS ? /\s/ : /\n/, isMobile = useragent.isMobile;
                 exports.TextInput = function(parentNode, host) {
-                    var typingResetTimeout, typing, detectArrowKeys, closeTimeout, text = dom.createElement("textarea");
-                    text.className = "ace_text-input", text.setAttribute("wrap", "off"), text.setAttribute("autocorrect", "off"), text.setAttribute("autocapitalize", "off"), text.setAttribute("spellcheck", !1), text.style.opacity = "0", parentNode.insertBefore(text, parentNode.firstChild);
+                    var host1, text, typingResetTimeout, typing, detectArrowKeys, closeTimeout, text1 = dom.createElement("textarea");
+                    text1.className = "ace_text-input", text1.setAttribute("wrap", "off"), text1.setAttribute("autocorrect", "off"), text1.setAttribute("autocapitalize", "off"), text1.setAttribute("spellcheck", !1), text1.style.opacity = "0", parentNode.insertBefore(text1, parentNode.firstChild);
                     var copied = !1, pasted = !1, inComposition = !1, sendingText = !1, tempStyle = "";
-                    isMobile || (text.style.fontSize = "1px");
+                    isMobile || (text1.style.fontSize = "1px");
                     var commandMode = !1, ignoreFocusEvents = !1, lastValue = "", lastSelectionStart = 0, lastSelectionEnd = 0, lastRestoreEnd = 0;
                     try {
-                        var isFocused = document.activeElement === text;
+                        var isFocused = document.activeElement === text1;
                     } catch (e) {}
-                    event.addListener(text, "blur", function(e) {
+                    event.addListener(text1, "blur", function(e) {
                         ignoreFocusEvents || (host.onBlur(e), isFocused = !1);
-                    }, host), event.addListener(text, "focus", function(e) {
+                    }, host), event.addListener(text1, "focus", function(e) {
                         if (!ignoreFocusEvents) {
                             if (isFocused = !0, useragent.isEdge) try {
                                 if (!document.hasFocus()) return;
@@ -777,43 +777,43 @@
                             host.onFocus(e), useragent.isEdge ? setTimeout(resetSelection) : resetSelection();
                         }
                     }, host), this.$focusScroll = !1, this.focus = function() {
-                        if (tempStyle || HAS_FOCUS_ARGS || "browser" == this.$focusScroll) return text.focus({
+                        if (tempStyle || HAS_FOCUS_ARGS || "browser" == this.$focusScroll) return text1.focus({
                             preventScroll: !0
                         });
-                        var top = text.style.top;
-                        text.style.position = "fixed", text.style.top = "0px";
+                        var top = text1.style.top;
+                        text1.style.position = "fixed", text1.style.top = "0px";
                         try {
-                            var isTransformed = 0 != text.getBoundingClientRect().top;
+                            var isTransformed = 0 != text1.getBoundingClientRect().top;
                         } catch (e) {
                             return;
                         }
                         var ancestors = [];
-                        if (isTransformed) for(var t = text.parentElement; t && 1 == t.nodeType;)ancestors.push(t), t.setAttribute("ace_nocontext", !0), t = !t.parentElement && t.getRootNode ? t.getRootNode().host : t.parentElement;
-                        text.focus({
+                        if (isTransformed) for(var t = text1.parentElement; t && 1 == t.nodeType;)ancestors.push(t), t.setAttribute("ace_nocontext", !0), t = !t.parentElement && t.getRootNode ? t.getRootNode().host : t.parentElement;
+                        text1.focus({
                             preventScroll: !0
                         }), isTransformed && ancestors.forEach(function(p) {
                             p.removeAttribute("ace_nocontext");
                         }), setTimeout(function() {
-                            text.style.position = "", "0px" == text.style.top && (text.style.top = top);
+                            text1.style.position = "", "0px" == text1.style.top && (text1.style.top = top);
                         }, 0);
                     }, this.blur = function() {
-                        text.blur();
+                        text1.blur();
                     }, this.isFocused = function() {
                         return isFocused;
                     }, host.on("beforeEndOperation", function() {
                         var curOp = host.curOp, commandName = curOp && curOp.command && curOp.command.name;
                         if ("insertstring" != commandName) {
                             var isUserAction = commandName && (curOp.docChanged || curOp.selectionChanged);
-                            inComposition && isUserAction && (lastValue = text.value = "", onCompositionEnd()), resetSelection();
+                            inComposition && isUserAction && (lastValue = text1.value = "", onCompositionEnd()), resetSelection();
                         }
                     });
                     var resetSelection = isIOS ? function(value) {
                         if (isFocused && (!copied || value) && !sendingText) {
                             value || (value = "");
                             var newValue = "\n ab" + value + "cde fg\n";
-                            newValue != text.value && (text.value = lastValue = newValue);
+                            newValue != text1.value && (text1.value = lastValue = newValue);
                             var selectionEnd = 4 + (value.length || (host.selection.isEmpty() ? 0 : 1));
-                            (4 != lastSelectionStart || lastSelectionEnd != selectionEnd) && text.setSelectionRange(4, selectionEnd), lastSelectionStart = 4, lastSelectionEnd = selectionEnd;
+                            (4 != lastSelectionStart || lastSelectionEnd != selectionEnd) && text1.setSelectionRange(4, selectionEnd), lastSelectionStart = 4, lastSelectionEnd = selectionEnd;
                         }
                     } : function() {
                         if (!inComposition && !sendingText && (isFocused || afterContextMenu)) {
@@ -831,8 +831,8 @@
                                 line.length > 400 && (selectionStart < 400 && selectionEnd < 400 ? line = line.slice(0, 400) : (line = "\n", selectionStart == selectionEnd ? selectionStart = selectionEnd = 0 : (selectionStart = 0, selectionEnd = 1)));
                             }
                             var newValue = line + "\n\n";
-                            if (newValue != lastValue && (text.value = lastValue = newValue, lastSelectionStart = lastSelectionEnd = newValue.length), afterContextMenu && (lastSelectionStart = text.selectionStart, lastSelectionEnd = text.selectionEnd), lastSelectionEnd != selectionEnd || lastSelectionStart != selectionStart || text.selectionEnd != lastSelectionEnd) try {
-                                text.setSelectionRange(selectionStart, selectionEnd), lastSelectionStart = selectionStart, lastSelectionEnd = selectionEnd;
+                            if (newValue != lastValue && (text1.value = lastValue = newValue, lastSelectionStart = lastSelectionEnd = newValue.length), afterContextMenu && (lastSelectionStart = text1.selectionStart, lastSelectionEnd = text1.selectionEnd), lastSelectionEnd != selectionEnd || lastSelectionStart != selectionStart || text1.selectionEnd != lastSelectionEnd) try {
+                                text1.setSelectionRange(selectionStart, selectionEnd), lastSelectionStart = selectionStart, lastSelectionEnd = selectionEnd;
                             } catch (e) {}
                             inComposition = !1;
                         }
@@ -846,7 +846,7 @@
                     };
                     var afterContextMenu = !1, sendText = function(value, fromInput) {
                         if (afterContextMenu && (afterContextMenu = !1), pasted) return resetSelection(), value && host.onPaste(value), pasted = !1, "";
-                        for(var selectionStart = text.selectionStart, selectionEnd = text.selectionEnd, extendLeft = lastSelectionStart, extendRight = lastValue.length - lastSelectionEnd, inserted = value, restoreStart = value.length - selectionStart, restoreEnd = value.length - selectionEnd, i = 0; extendLeft > 0 && lastValue[i] == value[i];)i++, extendLeft--;
+                        for(var selectionStart = text1.selectionStart, selectionEnd = text1.selectionEnd, extendLeft = lastSelectionStart, extendRight = lastValue.length - lastSelectionEnd, inserted = value, restoreStart = value.length - selectionStart, restoreEnd = value.length - selectionEnd, i = 0; extendLeft > 0 && lastValue[i] == value[i];)i++, extendLeft--;
                         for(inserted = inserted.slice(i), i = 1; extendRight > 0 && lastValue.length - i > lastSelectionStart - 1 && lastValue[lastValue.length - i] == value[value.length - i];)i++, extendRight--;
                         restoreStart -= i - 1, restoreEnd -= i - 1;
                         var endIndex = inserted.length - i + 1;
@@ -865,7 +865,7 @@
                             if ("historyUndo" == e.inputType) return host.execCommand("undo");
                             if ("historyRedo" == e.inputType) return host.execCommand("redo");
                         }
-                        var data = text.value, inserted = sendText(data, !0);
+                        var data = text1.value, inserted = sendText(data, !0);
                         (data.length > 500 || valueResetRegex.test(inserted) || isMobile && lastSelectionStart < 1 && lastSelectionStart == lastSelectionEnd) && resetSelection();
                     }, handleClipboardData = function(e, data, forceIEMime) {
                         var clipboardData = e.clipboardData || window.clipboardData;
@@ -883,7 +883,7 @@
                         if (!data) return event.preventDefault(e);
                         handleClipboardData(e, data) ? (isIOS && (resetSelection(data), copied = data, setTimeout(function() {
                             copied = !1;
-                        }, 10)), isCut ? host.onCut() : host.onCopy(), event.preventDefault(e)) : (copied = !0, text.value = data, text.select(), setTimeout(function() {
+                        }, 10)), isCut ? host.onCut() : host.onCopy(), event.preventDefault(e)) : (copied = !0, text1.value = data, text1.select(), setTimeout(function() {
                             copied = !1, resetSelection(), isCut ? host.onCut() : host.onCopy();
                         }));
                     }, onCut = function(e) {
@@ -892,11 +892,17 @@
                         doCopy(e, !1);
                     }, onPaste = function(e) {
                         var data = handleClipboardData(e);
-                        clipboard.pasteCancelled() || ("string" == typeof data ? (data && host.onPaste(data, e), useragent.isIE && setTimeout(resetSelection), event.preventDefault(e)) : (text.value = "", pasted = !0));
+                        clipboard.pasteCancelled() || ("string" == typeof data ? (data && host.onPaste(data, e), useragent.isIE && setTimeout(resetSelection), event.preventDefault(e)) : (text1.value = "", pasted = !0));
                     };
-                    event.addCommandKeyListener(text, host.onCommandKey.bind(host), host), event.addListener(text, "select", function(e) {
-                        !inComposition && (copied ? copied = !1 : 0 === text.selectionStart && text.selectionEnd >= lastValue.length && text.value === lastValue && lastValue && text.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection());
-                    }, host), event.addListener(text, "input", onInput, host), event.addListener(text, "cut", onCut, host), event.addListener(text, "copy", onCopy, host), event.addListener(text, "paste", onPaste, host), "oncut" in text && "oncopy" in text && "onpaste" in text || event.addListener(parentNode, "keydown", function(e) {
+                    event.addCommandKeyListener(text1, host.onCommandKey.bind(host), host), event.addListener(text1, "select", function(e) {
+                        if (!inComposition) {
+                            if (copied) copied = !1;
+                            else {
+                                var text;
+                                0 === (text = text1).selectionStart && text.selectionEnd >= lastValue.length && text.value === lastValue && lastValue && text.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text1.selectionStart != lastSelectionStart && resetSelection();
+                            }
+                        }
+                    }, host), event.addListener(text1, "input", onInput, host), event.addListener(text1, "cut", onCut, host), event.addListener(text1, "copy", onCopy, host), event.addListener(text1, "paste", onPaste, host), "oncut" in text1 && "oncopy" in text1 && "onpaste" in text1 || event.addListener(parentNode, "keydown", function(e) {
                         if ((!useragent.isMac || e.metaKey) && e.ctrlKey) switch(e.keyCode){
                             case 67:
                                 onCopy(e);
@@ -911,70 +917,70 @@
                     var onCompositionUpdate = function() {
                         if (inComposition && host.onCompositionUpdate && !host.$readOnly) {
                             if (commandMode) return cancelComposition();
-                            inComposition.useTextareaForIME ? host.onCompositionUpdate(text.value) : (sendText(text.value), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd));
+                            inComposition.useTextareaForIME ? host.onCompositionUpdate(text1.value) : (sendText(text1.value), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd));
                         }
                     }, onCompositionEnd = function(e) {
                         host.onCompositionEnd && !host.$readOnly && (inComposition = !1, host.onCompositionEnd(), host.off("mousedown", cancelComposition), e && onInput());
                     };
                     function cancelComposition() {
-                        ignoreFocusEvents = !0, text.blur(), text.focus(), ignoreFocusEvents = !1;
+                        ignoreFocusEvents = !0, text1.blur(), text1.focus(), ignoreFocusEvents = !1;
                     }
                     var syncComposition = lang.delayedCall(onCompositionUpdate, 50).schedule.bind(null, null);
                     function onContextMenuClose() {
                         clearTimeout(closeTimeout), closeTimeout = setTimeout(function() {
-                            tempStyle && (text.style.cssText = tempStyle, tempStyle = ""), host.renderer.$isMousePressed = !1, host.renderer.$keepTextAreaAtCursor && host.renderer.$moveTextAreaToCursor();
+                            tempStyle && (text1.style.cssText = tempStyle, tempStyle = ""), host.renderer.$isMousePressed = !1, host.renderer.$keepTextAreaAtCursor && host.renderer.$moveTextAreaToCursor();
                         }, 0);
                     }
-                    event.addListener(text, "compositionstart", function(e) {
+                    event.addListener(text1, "compositionstart", function(e) {
                         if (!inComposition && host.onCompositionStart && !host.$readOnly && (inComposition = {}, !commandMode)) {
                             e.data && (inComposition.useTextareaForIME = !1), setTimeout(onCompositionUpdate, 0), host._signal("compositionStart"), host.on("mousedown", cancelComposition);
                             var range = host.getSelectionRange();
-                            range.end.row = range.start.row, range.end.column = range.start.column, inComposition.markerRange = range, inComposition.selectionStart = lastSelectionStart, host.onCompositionStart(inComposition), inComposition.useTextareaForIME ? (lastValue = text.value = "", lastSelectionStart = 0, lastSelectionEnd = 0) : (text.msGetInputContext && (inComposition.context = text.msGetInputContext()), text.getInputContext && (inComposition.context = text.getInputContext()));
+                            range.end.row = range.start.row, range.end.column = range.start.column, inComposition.markerRange = range, inComposition.selectionStart = lastSelectionStart, host.onCompositionStart(inComposition), inComposition.useTextareaForIME ? (lastValue = text1.value = "", lastSelectionStart = 0, lastSelectionEnd = 0) : (text1.msGetInputContext && (inComposition.context = text1.msGetInputContext()), text1.getInputContext && (inComposition.context = text1.getInputContext()));
                         }
-                    }, host), event.addListener(text, "compositionupdate", onCompositionUpdate, host), event.addListener(text, "keyup", function(e) {
-                        27 == e.keyCode && text.value.length < text.selectionStart && (inComposition || (lastValue = text.value), lastSelectionStart = lastSelectionEnd = -1, resetSelection()), syncComposition();
-                    }, host), event.addListener(text, "keydown", syncComposition, host), event.addListener(text, "compositionend", onCompositionEnd, host), this.getElement = function() {
-                        return text;
+                    }, host), event.addListener(text1, "compositionupdate", onCompositionUpdate, host), event.addListener(text1, "keyup", function(e) {
+                        27 == e.keyCode && text1.value.length < text1.selectionStart && (inComposition || (lastValue = text1.value), lastSelectionStart = lastSelectionEnd = -1, resetSelection()), syncComposition();
+                    }, host), event.addListener(text1, "keydown", syncComposition, host), event.addListener(text1, "compositionend", onCompositionEnd, host), this.getElement = function() {
+                        return text1;
                     }, this.setCommandMode = function(value) {
-                        commandMode = value, text.readOnly = !1;
+                        commandMode = value, text1.readOnly = !1;
                     }, this.setReadOnly = function(readOnly) {
-                        commandMode || (text.readOnly = readOnly);
+                        commandMode || (text1.readOnly = readOnly);
                     }, this.setCopyWithEmptySelection = function(value) {}, this.onContextMenu = function(e) {
                         afterContextMenu = !0, resetSelection(), host._emit("nativecontextmenu", {
                             target: host,
                             domEvent: e
                         }), this.moveToMouse(e, !0);
                     }, this.moveToMouse = function(e, bringToFront) {
-                        tempStyle || (tempStyle = text.style.cssText), text.style.cssText = (bringToFront ? "z-index:100000;" : "") + (useragent.isIE ? "opacity:0.1;" : "") + "text-indent: -" + (lastSelectionStart + lastSelectionEnd) * host.renderer.characterWidth * 0.5 + "px;";
-                        var rect = host.container.getBoundingClientRect(), style = dom.computedStyle(host.container), top = rect.top + (parseInt(style.borderTopWidth) || 0), left = rect.left + (parseInt(rect.borderLeftWidth) || 0), maxTop = rect.bottom - top - text.clientHeight - 2, move = function(e) {
-                            dom.translate(text, e.clientX - left - 2, Math.min(e.clientY - top - 2, maxTop));
+                        tempStyle || (tempStyle = text1.style.cssText), text1.style.cssText = (bringToFront ? "z-index:100000;" : "") + (useragent.isIE ? "opacity:0.1;" : "") + "text-indent: -" + (lastSelectionStart + lastSelectionEnd) * host.renderer.characterWidth * 0.5 + "px;";
+                        var rect = host.container.getBoundingClientRect(), style = dom.computedStyle(host.container), top = rect.top + (parseInt(style.borderTopWidth) || 0), left = rect.left + (parseInt(rect.borderLeftWidth) || 0), maxTop = rect.bottom - top - text1.clientHeight - 2, move = function(e) {
+                            dom.translate(text1, e.clientX - left - 2, Math.min(e.clientY - top - 2, maxTop));
                         };
                         move(e), "mousedown" == e.type && (host.renderer.$isMousePressed = !0, clearTimeout(closeTimeout), useragent.isWin && event.capture(host.container, move, onContextMenuClose));
                     }, this.onContextMenuClose = onContextMenuClose;
                     var onContextMenu = function(e) {
                         host.textInput.onContextMenu(e), onContextMenuClose();
                     };
-                    event.addListener(text, "mouseup", onContextMenu, host), event.addListener(text, "mousedown", function(e) {
+                    event.addListener(text1, "mouseup", onContextMenu, host), event.addListener(text1, "mousedown", function(e) {
                         e.preventDefault(), onContextMenuClose();
-                    }, host), event.addListener(host.renderer.scroller, "contextmenu", onContextMenu, host), event.addListener(text, "contextmenu", onContextMenu, host), isIOS && (typingResetTimeout = null, typing = !1, text.addEventListener("keydown", function(e) {
+                    }, host), event.addListener(host.renderer.scroller, "contextmenu", onContextMenu, host), event.addListener(text1, "contextmenu", onContextMenu, host), isIOS && (host1 = host, typingResetTimeout = null, typing = !1, (text = text1).addEventListener("keydown", function(e) {
                         typingResetTimeout && clearTimeout(typingResetTimeout), typing = !0;
                     }, !0), text.addEventListener("keyup", function(e) {
                         typingResetTimeout = setTimeout(function() {
                             typing = !1;
                         }, 100);
                     }, !0), detectArrowKeys = function(e) {
-                        if (document.activeElement === text && !typing && !inComposition && !host.$mouseHandler.isMousePressed && !copied) {
+                        if (document.activeElement === text && !typing && !inComposition && !host1.$mouseHandler.isMousePressed && !copied) {
                             var selectionStart = text.selectionStart, selectionEnd = text.selectionEnd, key = null, modifier = 0;
                             if (0 == selectionStart ? key = KEYS.up : 1 == selectionStart ? key = KEYS.home : selectionEnd > lastSelectionEnd && "\n" == lastValue[selectionEnd] ? key = KEYS.end : selectionStart < lastSelectionStart && " " == lastValue[selectionStart - 1] ? (key = KEYS.left, modifier = MODS.option) : selectionStart < lastSelectionStart || selectionStart == lastSelectionStart && lastSelectionEnd != lastSelectionStart && selectionStart == selectionEnd ? key = KEYS.left : selectionEnd > lastSelectionEnd && lastValue.slice(0, selectionEnd).split("\n").length > 2 ? key = KEYS.down : selectionEnd > lastSelectionEnd && " " == lastValue[selectionEnd - 1] ? (key = KEYS.right, modifier = MODS.option) : (selectionEnd > lastSelectionEnd || selectionEnd == lastSelectionEnd && lastSelectionEnd != lastSelectionStart && selectionStart == selectionEnd) && (key = KEYS.right), selectionStart !== selectionEnd && (modifier |= MODS.shift), key) {
-                                if (!host.onCommandKey({}, modifier, key) && host.commands) {
+                                if (!host1.onCommandKey({}, modifier, key) && host1.commands) {
                                     key = KEYS.keyCodeToString(key);
-                                    var command = host.commands.findKeyCommand(modifier, key);
-                                    command && host.execCommand(command);
+                                    var command = host1.commands.findKeyCommand(modifier, key);
+                                    command && host1.execCommand(command);
                                 }
                                 lastSelectionStart = selectionStart, lastSelectionEnd = selectionEnd, resetSelection("");
                             }
                         }
-                    }, document.addEventListener("selectionchange", detectArrowKeys), host.on("destroy", function() {
+                    }, document.addEventListener("selectionchange", detectArrowKeys), host1.on("destroy", function() {
                         document.removeEventListener("selectionchange", detectArrowKeys);
                     }));
                 }, exports.$setUserAgentForTests = function(_isMobile, _isIOS) {

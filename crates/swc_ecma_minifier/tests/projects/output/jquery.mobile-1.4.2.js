@@ -5,7 +5,7 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var $, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $1, window1, compensateToolbars, $2, undefined1, uuid, slice, _cleanData, $3, rcapitals, replaceFunction, $4, bool, docElem, refNode, fakeBody, div, $5, support, $6, self, $win, dummyFnToInitNavigate, undefined2, path, $base, dialogHashKey, undefined3, $7, path1, initialHref, $8, undefined4, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, $9, baseElement, base, $10, undefined5, originalWidget, keepNativeFactoryDefault, orig, $11, undefined6, pageTransitionQueue, isPageTransitioning, $12, window2, $13, $14, $15, $16, undefined7, rInitialLetter, iconposClass, $17, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $18, undefined8, rDividerListItem, origDefaultFilterCallback;
+    var $, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $1, window1, compensateToolbars, $2, undefined1, uuid, slice, _cleanData, $3, rcapitals, replaceFunction, $4, doc, bool, docElem, refNode, fakeBody, div, $5, support, $6, self, $win, dummyFnToInitNavigate, undefined2, path, $base, dialogHashKey, undefined3, $7, path1, initialHref, $8, undefined4, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, $9, baseElement, base, $10, undefined5, originalWidget, keepNativeFactoryDefault, orig, $11, undefined6, pageTransitionQueue, isPageTransitioning, $12, window2, $13, $14, $15, $16, undefined7, rInitialLetter, iconposClass, $17, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $18, undefined8, rDividerListItem, origDefaultFilterCallback;
     jQuery.mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
@@ -567,7 +567,7 @@
                 hash !== history_hash && (iframe_doc.title = doc.title, iframe_doc.open(), domain && iframe_doc.write('<script>document.domain="' + domain + '"</script>'), iframe_doc.close(), iframe.location.hash = hash);
             }), self;
         }();
-    }(jQuery, this), $4 = jQuery, window.matchMedia = window.matchMedia || (refNode = (docElem = document1.documentElement).firstElementChild || docElem.firstChild, fakeBody = document1.createElement("body"), (div = document1.createElement("div")).id = "mq-test-1", div.style.cssText = "position:absolute;top:-100em", fakeBody.style.background = "none", fakeBody.appendChild(div), function(q) {
+    }(jQuery, this), $4 = jQuery, window.matchMedia = window.matchMedia || (refNode = (docElem = (doc = document1).documentElement).firstElementChild || docElem.firstChild, fakeBody = doc.createElement("body"), (div = doc.createElement("div")).id = "mq-test-1", div.style.cssText = "position:absolute;top:-100em", fakeBody.style.background = "none", fakeBody.appendChild(div), function(q) {
         return div.innerHTML = '&shy;<style media="' + q + '"> #mq-test-1 { width: 42px; }</style>', docElem.insertBefore(fakeBody, refNode), bool = 42 === div.offsetWidth, docElem.removeChild(fakeBody), {
             matches: bool,
             media: q

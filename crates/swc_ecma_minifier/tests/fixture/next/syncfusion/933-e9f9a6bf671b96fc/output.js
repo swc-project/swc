@@ -10375,7 +10375,7 @@
                     return (0, ej2_base.le)(option.text) || (buttonProps.buttonModel.content = option.text), (0, ej2_base.le)(option.icon) || (buttonProps.buttonModel.iconCss = option.icon), (0, ej2_base.le)(option.cssClass) || (buttonProps.buttonModel.cssClass = option.cssClass), (0, ej2_base.le)(option.click) || (buttonProps.click = option.click), buttonProps;
                 }
                 DialogUtility.alert = function(args) {
-                    var options, options1, alertButtonModel, alertDialogObj, dialogElement = (0, ej2_base.az)('div', {
+                    var options, options1, option, alertButtonModel, alertDialogObj, dialogElement = (0, ej2_base.az)('div', {
                         className: DLG_UTIL_ALERT
                     });
                     return document.body.appendChild(dialogElement), (alertDialogObj = 'string' == typeof args ? createDialog({
@@ -10397,7 +10397,7 @@
                                 }
                             }
                         ]
-                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), alertButtonModel = [
+                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), option = args, alertButtonModel = [
                         {
                             buttonModel: {
                                 isPrimary: !0,
@@ -10407,11 +10407,11 @@
                                 this.hide();
                             }
                         }
-                    ], (0, ej2_base.le)(args.okButton) ? options1.buttons = alertButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, alertButtonModel[0]), options = options1), dialogElement)).close = function() {
+                    ], (0, ej2_base.le)(option.okButton) ? options1.buttons = alertButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], option.okButton, alertButtonModel[0]), options = options1), dialogElement)).close = function() {
                         args && args.close && args.close.apply(alertDialogObj), alertDialogObj.destroy(), alertDialogObj.element.classList.contains('e-dlg-modal') ? (alertDialogObj.element.parentElement.remove(), alertDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : alertDialogObj.element.remove();
                     }, alertDialogObj;
                 }, DialogUtility.confirm = function(args) {
-                    var options, options1, okButtonModel, cancelButtonModel, confirmDialogObj, dialogElement = (0, ej2_base.az)('div', {
+                    var options, options1, option, okButtonModel, cancelButtonModel, confirmDialogObj, dialogElement = (0, ej2_base.az)('div', {
                         className: DLG_UTIL_CONFIRM
                     });
                     return document.body.appendChild(dialogElement), (confirmDialogObj = 'string' == typeof args ? createDialog({
@@ -10441,7 +10441,7 @@
                                 }
                             }
                         ]
-                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), okButtonModel = {
+                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), option = args, okButtonModel = {
                         buttonModel: {
                             isPrimary: !0,
                             content: 'OK'
@@ -10456,7 +10456,7 @@
                         click: function() {
                             this.hide();
                         }
-                    }, (0, ej2_base.le)(args.okButton) ? options1.buttons[0] = okButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, okButtonModel), (0, ej2_base.le)(args.cancelButton) ? options1.buttons[1] = cancelButtonModel : options1.buttons[1] = formButtonModel(options1.buttons[1], args.cancelButton, cancelButtonModel), options = options1), dialogElement)).close = function() {
+                    }, (0, ej2_base.le)(option.okButton) ? options1.buttons[0] = okButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], option.okButton, okButtonModel), (0, ej2_base.le)(option.cancelButton) ? options1.buttons[1] = cancelButtonModel : options1.buttons[1] = formButtonModel(options1.buttons[1], option.cancelButton, cancelButtonModel), options = options1), dialogElement)).close = function() {
                         args && args.close && args.close.apply(confirmDialogObj), confirmDialogObj.destroy(), confirmDialogObj.element.classList.contains('e-dlg-modal') ? (confirmDialogObj.element.parentElement.remove(), confirmDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : confirmDialogObj.element.remove();
                     }, confirmDialogObj;
                 };

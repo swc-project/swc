@@ -627,9 +627,9 @@
             if (!isObject(value)) return value;
             var isArr = isArray(value);
             if (isArr) {
-                if (length = value.length, result1 = new value.constructor(length), length && 'string' == typeof value[0] && hasOwnProperty.call(value, 'index') && (result1.index = value.index, result1.input = value.input), result = result1, !isDeep) return copyArray(value, result);
+                if (length = (array = value).length, result1 = new array.constructor(length), length && 'string' == typeof array[0] && hasOwnProperty.call(array, 'index') && (result1.index = array.index, result1.input = array.input), result = result1, !isDeep) return copyArray(value, result);
             } else {
-                var length, result1, object1, object2, object3, tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
+                var array, length, result1, object1, object2, object3, tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
                 if (isBuffer(value)) return cloneBuffer(value, isDeep);
                 if (tag == objectTag || tag == argsTag || isFunc && !object) {
                     if (result = isFlat || isFunc ? {} : initCloneObject(value), !isDeep) return isFlat ? (object1 = (object3 = result) && copyObject(value, keysIn(value), object3), copyObject(value, getSymbolsIn(value), object1)) : (object2 = baseAssign(result, value), copyObject(value, getSymbols(value), object2));

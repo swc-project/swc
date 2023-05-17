@@ -3278,7 +3278,7 @@
                     return "RepresentationID" === identifier ? value : (width = format ? parseInt(width, 10) : 1, value.length >= width) ? value : "" + Array(width - value.length + 1).join("0") + value;
                 });
             }, segmentsFromTemplate = function(attributes, segmentTimeline) {
-                var templateValues = {
+                var attributes1, templateValues = {
                     RepresentationID: attributes.id,
                     Bandwidth: attributes.bandwidth || 0
                 }, _attributes$initializ = attributes.initialization, initialization = void 0 === _attributes$initializ ? {
@@ -3289,12 +3289,12 @@
                     source: constructTemplateUrl(initialization.sourceURL, templateValues),
                     range: initialization.range
                 });
-                return (attributes.duration || segmentTimeline ? attributes.duration ? parseByDuration(attributes) : parseByTimeline(attributes, segmentTimeline) : [
+                return ((attributes1 = attributes).duration || segmentTimeline ? attributes1.duration ? parseByDuration(attributes1) : parseByTimeline(attributes1, segmentTimeline) : [
                     {
-                        number: attributes.startNumber || 1,
-                        duration: attributes.sourceDuration,
+                        number: attributes1.startNumber || 1,
+                        duration: attributes1.sourceDuration,
                         time: 0,
-                        timeline: attributes.periodIndex
+                        timeline: attributes1.periodIndex
                     }
                 ]).map(function(segment) {
                     templateValues.Number = segment.number, templateValues.Time = segment.time;

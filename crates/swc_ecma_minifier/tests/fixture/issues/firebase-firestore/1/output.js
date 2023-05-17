@@ -2350,7 +2350,8 @@
                     return this.In.getAllMutationBatchesAffectingDocumentKeys(t, e).next((t)=>this.bn(e, t));
                 }
                 getDocumentsMatchingQuery(t, e, n) {
-                    return Pt.isDocumentKey(e.path) && null === e.collectionGroup && 0 === e.filters.length ? this.Vn(t, e.path) : null !== e.collectionGroup ? this.Sn(t, e, n) : this.Dn(t, e, n);
+                    var t1;
+                    return (t1 = e, Pt.isDocumentKey(t1.path) && null === t1.collectionGroup && 0 === t1.filters.length) ? this.Vn(t, e.path) : null !== e.collectionGroup ? this.Sn(t, e, n) : this.Dn(t, e, n);
                 }
                 Vn(t, e) {
                     return this.An(t, new Pt(e)).next((t)=>{
@@ -2362,8 +2363,8 @@
                     const s = e.collectionGroup;
                     let i = En;
                     return this.Ht.getCollectionParents(t, s).next((r)=>js.forEach(r, (r)=>{
-                            var e1;
-                            const o = (e1 = r.child(s), new fe(e1, null, e.explicitOrderBy.slice(), e.filters.slice(), e.limit, e.limitType, e.startAt, e.endAt));
+                            var t1, e1;
+                            const o = (t1 = e, e1 = r.child(s), new fe(e1, null, t1.explicitOrderBy.slice(), t1.filters.slice(), t1.limit, t1.limitType, t1.startAt, t1.endAt));
                             return this.Dn(t, o, n).next((t)=>{
                                 t.forEach((t, e)=>{
                                     i = i.insert(t, e);
@@ -2413,7 +2414,8 @@
                     this.On = t;
                 }
                 getDocumentsMatchingQuery(t, e, n, s) {
-                    return 0 === e.filters.length && null === e.limit && null == e.startAt && null == e.endAt && (0 === e.explicitOrderBy.length || 1 === e.explicitOrderBy.length && e.explicitOrderBy[0].field.isKeyField()) || n.isEqual(rt.min()) ? this.Fn(t, e) : this.On.Pn(t, s).next((i)=>{
+                    var t1;
+                    return 0 === (t1 = e).filters.length && null === t1.limit && null == t1.startAt && null == t1.endAt && (0 === t1.explicitOrderBy.length || 1 === t1.explicitOrderBy.length && t1.explicitOrderBy[0].field.isKeyField()) || n.isEqual(rt.min()) ? this.Fn(t, e) : this.On.Pn(t, s).next((i)=>{
                         const r = this.Mn(e, i);
                         return (_e(e) || me(e)) && this.Ln(e.limitType, r, s, n) ? this.Fn(t, e) : (x() <= _firebase_logger__WEBPACK_IMPORTED_MODULE_2__.in.DEBUG && $("QueryEngine", "Re-using previous result from %s to execute query: %s", n.toString(), be(e)), this.On.getDocumentsMatchingQuery(t, e, n).next((t)=>(r.forEach((e)=>{
                                 t = t.insert(e.key, e);
@@ -2497,18 +2499,20 @@
                     return js.resolve(this.Yn.get(e));
                 }
                 saveBundleMetadata(t, e) {
+                    var n;
                     return this.Yn.set(e.id, {
-                        id: e.id,
-                        version: e.version,
-                        createTime: jn(e.createTime)
+                        id: (n = e).id,
+                        version: n.version,
+                        createTime: jn(n.createTime)
                     }), js.resolve();
                 }
                 getNamedQuery(t, e) {
                     return js.resolve(this.Xn.get(e));
                 }
                 saveNamedQuery(t, e) {
+                    var t1;
                     return this.Xn.set(e.name, {
-                        name: e.name,
+                        name: (t1 = e).name,
                         query: function(t) {
                             var e;
                             const e1 = function(t) {
@@ -2604,8 +2608,8 @@
                                 structuredQuery: t.structuredQuery
                             });
                             return "LAST" === t.limitType ? (e = e1.limit, new fe(e1.path, e1.collectionGroup, e1.explicitOrderBy.slice(), e1.filters.slice(), e, "L", e1.startAt, e1.endAt)) : e1;
-                        }(e.bundledQuery),
-                        readTime: jn(e.readTime)
+                        }(t1.bundledQuery),
+                        readTime: jn(t1.readTime)
                     }), js.resolve();
                 }
             }
@@ -4086,7 +4090,7 @@
                         const n = t, s = e.snapshotVersion;
                         let i = n.Un;
                         return n.persistence.runTransaction("Apply remote event", "readwrite-primary", (t)=>{
-                            var n1, i1;
+                            var e1, n1, i1;
                             let r;
                             const r1 = n.jn.newChangeBuffer({
                                 trackRemovals: !0
@@ -4099,18 +4103,19 @@
                                 o.push(n.ze.removeMatchingKeys(t, e.removedDocuments, r).next(()=>n.ze.addMatchingKeys(t, e.addedDocuments, r)));
                                 const a = e.resumeToken;
                                 if (a.approximateByteSize() > 0) {
+                                    var n1;
                                     const u = c.withResumeToken(a, s).withSequenceNumber(t.currentSequenceNumber);
-                                    i = i.insert(r, u), u.resumeToken.approximateByteSize() > 0 || L(), (0 === c.resumeToken.approximateByteSize() || u.snapshotVersion.toMicroseconds() - c.snapshotVersion.toMicroseconds() >= 3e8 || e.addedDocuments.size + e.modifiedDocuments.size + e.removedDocuments.size > 0) && o.push(n.ze.updateTargetData(t, u));
+                                    i = i.insert(r, u), n1 = e, u.resumeToken.approximateByteSize() > 0 || L(), (0 === c.resumeToken.approximateByteSize() || u.snapshotVersion.toMicroseconds() - c.snapshotVersion.toMicroseconds() >= 3e8 || n1.addedDocuments.size + n1.modifiedDocuments.size + n1.removedDocuments.size > 0) && o.push(n.ze.updateTargetData(t, u));
                                 }
                             });
                             let c = pn;
                             if (e.documentUpdates.forEach((s, i)=>{
                                 e.resolvedLimboDocuments.has(s) && o.push(n.persistence.referenceDelegate.updateLimboDocument(t, s));
-                            }), o.push((n1 = e.documentUpdates, i1 = void 0, r = Pn(), n1.forEach((t)=>r = r.add(t)), r1.getEntries(t, r).next((t)=>{
+                            }), o.push((e1 = r1, n1 = e.documentUpdates, i1 = void 0, r = Pn(), n1.forEach((t)=>r = r.add(t)), e1.getEntries(t, r).next((t)=>{
                                 let r = pn;
                                 return n1.forEach((n, o)=>{
                                     const c = t.get(n), a = (null == i1 ? void 0 : i1.get(n)) || s;
-                                    o.isNoDocument() && o.version.isEqual(rt.min()) ? (r1.removeEntry(n, a), r = r.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (r1.addEntry(o, a), r = r.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
+                                    o.isNoDocument() && o.version.isEqual(rt.min()) ? (e1.removeEntry(n, a), r = r.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (e1.addEntry(o, a), r = r.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
                                 }), r;
                             })).next((t)=>{
                                 c = t;
@@ -4939,8 +4944,9 @@
                 }
             }
             function lh(t) {
+                var t1;
                 t = ga(t, Aa);
-                const e = ga(t.firestore, ka), n = (e._firestoreClient || Ma(e), e._firestoreClient.verifyNotTerminated(), e._firestoreClient), s = new ah(e);
+                const e = ga(t.firestore, ka), n = ((t1 = e)._firestoreClient || Ma(t1), t1._firestoreClient.verifyNotTerminated(), t1._firestoreClient), s = new ah(e);
                 return function(t) {
                     if (me(t) && 0 === t.explicitOrderBy.length) throw new j(K.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
                 }(t._query), (function(t, e, n = {}) {
