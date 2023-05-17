@@ -569,6 +569,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(super) fn try_parse_ts_type_args(&mut self) -> Option<Box<TsTypeParamInstantiation>> {
+        trace_cur!(self, try_parse_ts_type_args);
         debug_assert!(self.input.syntax().typescript());
 
         self.try_parse_ts(|p| {
