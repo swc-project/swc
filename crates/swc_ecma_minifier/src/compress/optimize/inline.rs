@@ -188,10 +188,6 @@ where
                         .vars
                         .get(&id.to_id())
                         .filter(|a| {
-                            if !a.is_fn_local && usage.mutated {
-                                return false;
-                            }
-
                             !a.reassigned() && a.declared && {
                                 // Function declarations are hoisted
                                 //
