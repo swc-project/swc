@@ -10950,3 +10950,36 @@ fn issue_7274() {
         "###,
     );
 }
+
+#[test]
+fn issue_7402_1() {
+    run_default_exec_test(
+        r###"
+        function mutate(out) {
+            out[0] = 1
+            out[1] = 2
+            out[2] = 3
+        
+            return out
+        }
+        
+        const myFunc = (function () {
+            const temp = [0, 0, 0]
+        
+            return function (out) {
+                const scaling = temp
+                mutate(scaling)
+        
+                out[0] = 1 / scaling[0]
+                out[1] = 1 / scaling[1]
+                out[2] = 1 / scaling[2]
+        
+                return out
+            }
+        })()
+        
+        const out = [1, 2, 3]
+        console.lov(myFunc(out))
+        "###,
+    )
+}
