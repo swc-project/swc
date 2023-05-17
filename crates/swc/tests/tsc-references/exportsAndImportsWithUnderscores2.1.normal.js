@@ -13,8 +13,8 @@ Object.defineProperty(exports, "default", {
 });
 var R;
 var _default = R = {
-    __esmodule: true,
-    __proto__: {}
+    "__esmodule": true,
+    "__proto__": {}
 };
 //// [m2.ts]
 "use strict";

@@ -16,7 +16,7 @@ function _templateObject1() {
         "",
         ""
     ]);
-    _templateObject1 = function _templateObject1() {
+    _templateObject1 = function _templateObject() {
         return data;
     };
     return data;
@@ -27,7 +27,7 @@ function _templateObject2() {
         "",
         ""
     ]);
-    _templateObject2 = function _templateObject2() {
+    _templateObject2 = function _templateObject() {
         return data;
     };
     return data;
@@ -38,7 +38,7 @@ function _templateObject3() {
         "",
         ""
     ]);
-    _templateObject3 = function _templateObject3() {
+    _templateObject3 = function _templateObject() {
         return data;
     };
     return data;
@@ -49,7 +49,7 @@ function _templateObject4() {
         "",
         ""
     ]);
-    _templateObject4 = function _templateObject4() {
+    _templateObject4 = function _templateObject() {
         return data;
     };
     return data;
@@ -60,7 +60,7 @@ function _templateObject5() {
         "",
         ""
     ]);
-    _templateObject5 = function _templateObject5() {
+    _templateObject5 = function _templateObject() {
         return data;
     };
     return data;
@@ -70,7 +70,7 @@ function _templateObject6() {
         "",
         ""
     ]);
-    _templateObject6 = function _templateObject6() {
+    _templateObject6 = function _templateObject() {
         return data;
     };
     return data;
@@ -82,7 +82,7 @@ function _templateObject7() {
         "",
         ""
     ]);
-    _templateObject7 = function _templateObject7() {
+    _templateObject7 = function _templateObject() {
         return data;
     };
     return data;
@@ -94,7 +94,7 @@ function _templateObject8() {
         "",
         ""
     ]);
-    _templateObject8 = function _templateObject8() {
+    _templateObject8 = function _templateObject() {
         return data;
     };
     return data;
@@ -104,7 +104,7 @@ function _templateObject9() {
         "",
         ""
     ]);
-    _templateObject9 = function _templateObject9() {
+    _templateObject9 = function _templateObject() {
         return data;
     };
     return data;
@@ -116,7 +116,7 @@ function _templateObject10() {
         "",
         ""
     ]);
-    _templateObject10 = function _templateObject10() {
+    _templateObject10 = function _templateObject() {
         return data;
     };
     return data;
@@ -128,7 +128,7 @@ function _templateObject11() {
         "",
         ""
     ]);
-    _templateObject11 = function _templateObject11() {
+    _templateObject11 = function _templateObject() {
         return data;
     };
     return data;
@@ -137,7 +137,7 @@ function _templateObject12() {
     var data = _tagged_template_literal([
         ""
     ]);
-    _templateObject12 = function _templateObject12() {
+    _templateObject12 = function _templateObject() {
         return data;
     };
     return data;
@@ -148,7 +148,7 @@ function _templateObject13() {
         "",
         ""
     ]);
-    _templateObject13 = function _templateObject13() {
+    _templateObject13 = function _templateObject() {
         return data;
     };
     return data;
@@ -159,7 +159,7 @@ function _templateObject14() {
         "",
         ""
     ]);
-    _templateObject14 = function _templateObject14() {
+    _templateObject14 = function _templateObject() {
         return data;
     };
     return data;
@@ -170,7 +170,7 @@ function _templateObject15() {
         "",
         ""
     ]);
-    _templateObject15 = function _templateObject15() {
+    _templateObject15 = function _templateObject() {
         return data;
     };
     return data;
@@ -181,7 +181,7 @@ function _templateObject16() {
         "",
         ""
     ]);
-    _templateObject16 = function _templateObject16() {
+    _templateObject16 = function _templateObject() {
         return data;
     };
     return data;
@@ -192,7 +192,7 @@ function _templateObject17() {
         "",
         ""
     ]);
-    _templateObject17 = function _templateObject17() {
+    _templateObject17 = function _templateObject() {
         return data;
     };
     return data;
@@ -203,7 +203,7 @@ function _templateObject18() {
         "",
         ""
     ]);
-    _templateObject18 = function _templateObject18() {
+    _templateObject18 = function _templateObject() {
         return data;
     };
     return data;
@@ -214,7 +214,7 @@ function _templateObject19() {
         "",
         ""
     ]);
-    _templateObject19 = function _templateObject19() {
+    _templateObject19 = function _templateObject() {
         return data;
     };
     return data;
@@ -224,7 +224,7 @@ function _templateObject20() {
         "",
         ""
     ]);
-    _templateObject20 = function _templateObject20() {
+    _templateObject20 = function _templateObject() {
         return data;
     };
     return data;
@@ -234,7 +234,7 @@ function _templateObject21() {
         "",
         ""
     ]);
-    _templateObject21 = function _templateObject21() {
+    _templateObject21 = function _templateObject() {
         return data;
     };
     return data;
