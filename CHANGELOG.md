@@ -5,6 +5,9 @@
 
 
 
+- **(common)** Disable `tracing/release_max_level_info` (#7401) ([95291f2](https://github.com/swc-project/swc/commit/95291f2c5daaf039623b4db4668a91104c0c0124))
+
+
 - **(es/codegen)** Do not create duplicate source map entry (#7309) ([40ba242](https://github.com/swc-project/swc/commit/40ba242076f9c39cd19fe2a040fdf10867c67b9f))
 
 
