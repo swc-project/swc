@@ -149,12 +149,12 @@ where
     }
 
     #[emitter]
-    fn emit_jsx_opening_fragment(&mut self, node: &JSXOpeningFragment) -> Result {
+    fn emit_jsx_opening_fragment(&mut self, _: &JSXOpeningFragment) -> Result {
         punct!("<>")
     }
 
     #[emitter]
-    fn emit_jsx_closing_fragment(&mut self, node: &JSXClosingFragment) -> Result {
+    fn emit_jsx_closing_fragment(&mut self, _: &JSXClosingFragment) -> Result {
         punct!("</>")
     }
 
@@ -166,7 +166,7 @@ where
     }
 
     #[emitter]
-    fn emit_jsx_empty_expr(&mut self, node: &JSXEmptyExpr) -> Result {}
+    fn emit_jsx_empty_expr(&mut self, _: &JSXEmptyExpr) -> Result {}
 
     #[emitter]
     fn emit_jsx_text(&mut self, node: &JSXText) -> Result {
