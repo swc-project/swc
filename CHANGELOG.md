@@ -17,6 +17,9 @@
 
 
 
+- **(css/module)** Add a test for a fixed issue (#7399) ([6b92eec](https://github.com/swc-project/swc/commit/6b92eecd398e94a8d58b6b5e49679f7977a17703))
+
+
 - **(es/minifier)** Enable more terser tests (#7396) ([f9cdd74](https://github.com/swc-project/swc/commit/f9cdd741c288bee59aa9120b0a5c6f7ca284bd31))
 
 
