@@ -124,6 +124,11 @@ where
                             _ => false,
                         })
                     {
+                        report_change!(
+                            "inline: Decided to store '{}{:?}' for array access",
+                            ident.sym,
+                            ident.span.ctxt
+                        );
                         self.vars
                             .lits_for_array_access
                             .insert(ident.to_id(), Box::new(init.clone()));
@@ -173,7 +178,8 @@ where
                 self.mode.store(ident.to_id(), &*init);
             }
 
-            // Mutation of properties are ok
+            // Caution: for most case mutation of properties are ok, however if
+            // new variant is added for multi inline, think carefully
             if is_inline_enabled
                 && usage.declared_count == 1
                 && (usage.can_inline_var())
@@ -224,6 +230,7 @@ where
                     Expr::Arrow(arr) => {
                         !(usage.used_as_arg && ref_count > 1)
                             && is_arrow_simple_enough_for_copy(arr)
+                            && !usage.has_property_mutation
                     }
                     _ => false,
                 }
@@ -325,10 +332,6 @@ where
                                 return;
                             }
                         }
-                    }
-
-                    Expr::Arrow(..) if usage.callee_count == 0 => {
-                        return;
                     }
 
                     Expr::Arrow(f) => {

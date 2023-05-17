@@ -622,7 +622,7 @@
             return number == number && (undefined !== upper && (number = number <= upper ? number : upper), undefined !== lower && (number = number >= lower ? number : lower)), number;
         }
         function baseClone(value, bitmask, customizer, key, object, stack) {
-            var result, isDeep = 1 & bitmask, isFlat = 2 & bitmask;
+            var result, isDeep = 1 & bitmask, isFlat = 2 & bitmask, isFull = 4 & bitmask;
             if (customizer && (result = object ? customizer(value, key, object, stack) : customizer(value)), undefined !== result) return result;
             if (!isObject(value)) return value;
             var isArr = isArray(value);
@@ -678,7 +678,7 @@
             }) : isMap(value) && value.forEach(function(subValue, key) {
                 result.set(key, baseClone(subValue, bitmask, customizer, key, value, stack));
             });
-            var props = isArr ? undefined : (4 & bitmask ? isFlat ? getAllKeysIn : getAllKeys : isFlat ? keysIn : keys)(value);
+            var keysFunc = isFull ? isFlat ? getAllKeysIn : getAllKeys : isFlat ? keysIn : keys, props = isArr ? undefined : keysFunc(value);
             return arrayEach(props || value, function(subValue, key) {
                 props && (subValue = value[key = subValue]), assignValue(result, key, baseClone(subValue, bitmask, customizer, key, value, stack));
             }), result;
@@ -1136,6 +1136,13 @@
         }
         var baseSetData = metaMap ? function(func, data) {
             return metaMap.set(func, data), func;
+        } : identity, baseSetToString = defineProperty ? function(func, string) {
+            return defineProperty(func, 'toString', {
+                configurable: !0,
+                enumerable: !1,
+                value: constant(string),
+                writable: !0
+            });
         } : identity;
         function baseShuffle(collection) {
             return shuffleSelf(values(collection));
@@ -1480,16 +1487,16 @@
             };
         }
         function createRecurry(func, bitmask, wrapFunc, placeholder, thisArg, partials, holders, argPos, ary, arity) {
-            var isCurry = 8 & bitmask;
+            var isCurry = 8 & bitmask, newHolders = isCurry ? holders : undefined, newHoldersRight = isCurry ? undefined : holders, newPartials = isCurry ? partials : undefined, newPartialsRight = isCurry ? undefined : partials;
             bitmask |= isCurry ? 32 : 64, 4 & (bitmask &= ~(isCurry ? 64 : 32)) || (bitmask &= -4);
             var newData = [
                 func,
                 bitmask,
                 thisArg,
-                isCurry ? partials : undefined,
-                isCurry ? holders : undefined,
-                isCurry ? undefined : partials,
-                isCurry ? undefined : holders,
+                newPartials,
+                newHolders,
+                newPartialsRight,
+                newHoldersRight,
                 argPos,
                 ary,
                 arity
@@ -1741,14 +1748,7 @@
         }
         var setData = shortOut(baseSetData), setTimeout = ctxSetTimeout || function(func, wait) {
             return root.setTimeout(func, wait);
-        }, setToString = shortOut(defineProperty ? function(func, string) {
-            return defineProperty(func, 'toString', {
-                configurable: !0,
-                enumerable: !1,
-                value: constant(string),
-                writable: !0
-            });
-        } : identity);
+        }, setToString = shortOut(baseSetToString);
         function setWrapToString(wrapper, reference, bitmask) {
             var details, match, source = reference + '';
             return setToString(wrapper, function(source, details) {
@@ -2413,7 +2413,7 @@
             });
         }, lodash.conforms = function(source) {
             var source1, props;
-            return props = keys(source1 = baseClone(source, 1)), function(object) {
+            return source1 = baseClone(source, 1), props = keys(source1), function(object) {
                 return baseConformsTo(object, source1, props);
             };
         }, lodash.constant = constant, lodash.countBy = countBy, lodash.create = function(prototype, properties) {

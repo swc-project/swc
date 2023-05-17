@@ -61,19 +61,19 @@
                     });
                 }, [
                     configContext
-                ]), rest = all, layout = sizes ? "responsive" : "intrinsic";
-                "layout" in rest && (rest.layout && (layout = rest.layout), delete rest.layout);
+                ]), layout = sizes ? "responsive" : "intrinsic";
+                "layout" in all && (all.layout && (layout = all.layout), delete all.layout);
                 var loader = defaultImageLoader;
-                if ("loader" in rest) {
-                    if (rest.loader) {
-                        var customImageLoader = rest.loader;
+                if ("loader" in all) {
+                    if (all.loader) {
+                        var customImageLoader = all.loader;
                         loader = function(obj) {
                             return obj.config, customImageLoader(_object_without_properties_loose(obj, [
                                 "config"
                             ]));
                         };
                     }
-                    delete rest.loader;
+                    delete all.loader;
                 }
                 var staticSrc = "";
                 if ("object" == typeof (src = src1) && (isStaticRequire(src) || void 0 !== src.src)) {
@@ -187,7 +187,7 @@
                     setIntersection: setIntersection,
                     isVisible: isVisible,
                     noscriptSizes: sizes
-                }, rest);
+                }, all);
                 return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("span", {
                     style: wrapperStyle
                 }, hasSizer ? _react.default.createElement("span", {

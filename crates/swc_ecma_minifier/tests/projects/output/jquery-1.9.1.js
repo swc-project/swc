@@ -601,11 +601,11 @@
             });
         },
         addClass: function(value) {
-            var classes, elem, cur, clazz, j, i = 0, len = this.length;
+            var classes, elem, cur, clazz, j, i = 0, len = this.length, proceed = "string" == typeof value && value;
             if (jQuery.isFunction(value)) return this.each(function(j) {
                 jQuery(this).addClass(value.call(this, j, this.className));
             });
-            if ("string" == typeof value && value) {
+            if (proceed) {
                 for(classes = (value || "").match(core_rnotwhite) || []; i < len; i++)if (cur = 1 === (elem = this[i]).nodeType && (elem.className ? (" " + elem.className + " ").replace(rclass, " ") : " ")) {
                     for(j = 0; clazz = classes[j++];)0 > cur.indexOf(" " + clazz + " ") && (cur += clazz + " ");
                     elem.className = jQuery.trim(cur);

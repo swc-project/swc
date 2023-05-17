@@ -602,12 +602,11 @@
                 value: !0
             }), exports.normalizePathTrailingSlash = void 0;
             var _removeTrailingSlash = __webpack_require__(6316), _parsePath = __webpack_require__(4943);
-            const normalizePathTrailingSlash = (path)=>{
+            exports.normalizePathTrailingSlash = (path)=>{
                 if (!path.startsWith("/")) return path;
                 const { pathname , query , hash  } = _parsePath.parsePath(path);
                 return "".concat(_removeTrailingSlash.removeTrailingSlash(pathname)).concat(query).concat(hash);
-            };
-            exports.normalizePathTrailingSlash = normalizePathTrailingSlash, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         },
@@ -674,10 +673,9 @@
             function onReport(metric) {
                 userReportHandler && userReportHandler(metric);
             }
-            var _default = (onPerfEntry)=>{
+            exports.default = (onPerfEntry)=>{
                 userReportHandler = onPerfEntry, isRegistered || (isRegistered = !0, _webVitals.onCLS(onReport), _webVitals.onFID(onReport), _webVitals.onFCP(onReport), _webVitals.onLCP(onReport), _webVitals.onTTFB(onReport), _webVitals.onINP(onReport));
-            };
-            exports.default = _default, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         },
@@ -687,7 +685,7 @@
                 value: !0
             }), exports.Portal = void 0;
             var _react = __webpack_require__(7294), _reactDom = __webpack_require__(3935);
-            const Portal = (param)=>{
+            exports.Portal = (param)=>{
                 let { children , type  } = param;
                 const [portalNode, setPortalNode] = _react.useState(null);
                 return _react.useEffect(()=>{
@@ -698,8 +696,7 @@
                 }, [
                     type
                 ]), portalNode ? _reactDom.createPortal(children, portalNode) : null;
-            };
-            exports.Portal = Portal, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         },
@@ -1729,14 +1726,14 @@
                 let { route , router  } = param, cancelled = !1;
                 const cancel = router.clc = ()=>{
                     cancelled = !0;
-                }, handleCancelled = ()=>{
+                };
+                return ()=>{
                     if (cancelled) {
                         const error = Error('Abort fetching component for route: "'.concat(route, '"'));
                         throw error.cancelled = !0, error;
                     }
                     cancel === router.clc && (router.clc = null);
                 };
-                return handleCancelled;
             };
             class Router {
                 reload() {
@@ -2836,7 +2833,7 @@
                 return urlNoQuery.replace(/\\/g, "/").replace(/\/\/+/g, "/") + (urlParts[1] ? "?".concat(urlParts.slice(1).join("?")) : "");
             }, exports.loadGetInitialProps = loadGetInitialProps, exports.ST = exports.SP = exports.warnOnce = exports.isAbsoluteUrl = void 0;
             var _async_to_generator = __webpack_require__(932).Z;
-            const ABSOLUTE_URL_REGEX = /^[a-zA-Z][a-zA-Z\d+\-.]*?:/, isAbsoluteUrl = (url)=>ABSOLUTE_URL_REGEX.test(url);
+            const ABSOLUTE_URL_REGEX = /^[a-zA-Z][a-zA-Z\d+\-.]*?:/;
             function getLocationOrigin() {
                 const { protocol , hostname , port  } = window.location;
                 return "".concat(protocol, "//").concat(hostname).concat(port ? ":" + port : "");
@@ -2865,8 +2862,7 @@
                     return props;
                 })).apply(this, arguments);
             }
-            exports.isAbsoluteUrl = isAbsoluteUrl;
-            let warnOnce = (_)=>{};
+            exports.isAbsoluteUrl = (url)=>ABSOLUTE_URL_REGEX.test(url);
             const SP = "undefined" != typeof performance;
             exports.SP = SP;
             const ST = SP && [
@@ -2888,7 +2884,7 @@
                 constructor(){
                     super(), this.code = "ENOENT", this.message = "Cannot find the middleware module";
                 }
-            }, exports.warnOnce = warnOnce;
+            }, exports.warnOnce = (_)=>{};
         },
         8018: function(module) {
             var n, y, T, C, w, P, I, k, o, c, u, f, s, d, l, N, v, m, h, g, j, q, E, x, z, L, S, b, A, F, J, K, Q, M, B, D, U, R, V, W, H, O, X, _, Y, G;

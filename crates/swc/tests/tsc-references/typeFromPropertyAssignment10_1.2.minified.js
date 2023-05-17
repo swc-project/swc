@@ -11,8 +11,7 @@ Outer.app.SomeView = function() {}, Outer.app.Inner = class {
 };
 //// [application.js]
 Outer.app.Application = function() {
-    var me = this;
-    me.view = new Outer.app.SomeView();
+    this.view = new Outer.app.SomeView();
 };
 //// [main.js]
 var x;
