@@ -187,16 +187,21 @@ where
                         .data
                         .vars
                         .get(&id.to_id())
-                        .filter(|a| {
-                            !a.reassigned() && a.declared && {
+                        .filter(|init_usage| {
+                            if !init_usage.is_fn_local && usage.mutated && usage.has_property_access
+                            {
+                                return false;
+                            }
+
+                            !init_usage.reassigned() && init_usage.declared && {
                                 // Function declarations are hoisted
                                 //
                                 // As we copy expressions, this can cause a problem.
                                 // See https://github.com/swc-project/swc/issues/6463
                                 //
                                 // We check callee_count of `usage` because we copy simple functions
-                                !a.used_above_decl
-                                    || !a.declared_as_fn_decl
+                                !init_usage.used_above_decl
+                                    || !init_usage.declared_as_fn_decl
                                     || usage.callee_count == 0
                             }
                         })
