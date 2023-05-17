@@ -105,15 +105,31 @@
       ]
     },
     {
-      "type": "TsModuleDeclaration",
+      "type": "ExpressionStatement",
       "span": {
         "start": 38,
-        "end": 135,
+        "end": 44,
         "ctxt": 0
       },
-      "declare": false,
-      "global": false,
-      "id": {
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 38,
+          "end": 44,
+          "ctxt": 0
+        },
+        "value": "module",
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 89,
+        "end": 90,
+        "ctxt": 0
+      },
+      "expression": {
         "type": "Identifier",
         "span": {
           "start": 89,
@@ -122,16 +138,16 @@
         },
         "value": "m",
         "optional": false
-      },
-      "body": {
-        "type": "TsModuleBlock",
-        "span": {
-          "start": 132,
-          "end": 135,
-          "ctxt": 0
-        },
-        "body": []
       }
+    },
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 132,
+        "end": 135,
+        "ctxt": 0
+      },
+      "stmts": []
     }
   ],
   "interpreter": null
