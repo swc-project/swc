@@ -25,6 +25,12 @@
 
 - **(plugin)** Update `rkyv` to `v0.7.42` (#7397) ([3a0565f](https://github.com/swc-project/swc/commit/3a0565f3778648f2ae57043c8e1bf8c15832b61e))
 
+### Refactor
+
+
+
+- **(plugin/runner)** Revise cache, module loading (#7408) ([ac5ab60](https://github.com/swc-project/swc/commit/ac5ab607c94d418dde0ceb4f303cb7d432551565))
+
 ### Testing
 
 
