@@ -911,8 +911,8 @@
         };
         var pollTimeout, pollFns = [];
         self.addPollFn = function(fn) {
-            var setTimeout2;
-            return isUndefined(pollTimeout) && (setTimeout2 = setTimeout1, function check() {
+            var interval, setTimeout2;
+            return isUndefined(pollTimeout) && (interval = 100, setTimeout2 = setTimeout1, function check() {
                 forEach(pollFns, function(pollFn) {
                     pollFn();
                 }), pollTimeout = setTimeout2(check, 100);
@@ -2721,7 +2721,7 @@
                         return isolate ? ((child = new Scope()).$root = this.$root, child.$$asyncQueue = this.$$asyncQueue, child.$$postDigestQueue = this.$$postDigestQueue) : ((ChildScope = function() {}).prototype = this, (child = new ChildScope()).$id = nextUid()), child.this = child, child.$$listeners = {}, child.$parent = this, child.$$watchers = child.$$nextSibling = child.$$childHead = child.$$childTail = null, child.$$prevSibling = this.$$childTail, this.$$childHead ? (this.$$childTail.$$nextSibling = child, this.$$childTail = child) : this.$$childHead = this.$$childTail = child, child;
                     },
                     $watch: function(watchExp, listener, objectEquality) {
-                        var scope = this, get = compileToFn(watchExp, "watch"), array = scope.$$watchers, watcher = {
+                        var get = compileToFn(watchExp, "watch"), array = this.$$watchers, watcher = {
                             fn: listener,
                             last: initWatchVal,
                             get: get,
@@ -2740,7 +2740,7 @@
                                 originalFn.call(this, newVal, oldVal, scope), arrayRemove(array, watcher);
                             };
                         }
-                        return array || (array = scope.$$watchers = []), array.unshift(watcher), function() {
+                        return array || (array = this.$$watchers = []), array.unshift(watcher), function() {
                             arrayRemove(array, watcher);
                         };
                     },

@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_plugin_runner"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.95.4"
+version       = "0.95.6"
 
 [lib]
 bench = false
@@ -31,11 +31,8 @@ plugin_transform_host_native = [
   "wasmer-compiler-cranelift/default",
 ]
 # Supports a cache allow to store compiled bytecode into filesystem location.
-# This feature implies in-memory cache support, but not via `memory_cache` feature.
-filesystem_cache = ["wasmer-cache"]
-# Supports a cache allow to store wasm module in-memory. This avoids recompilation
-# to the same module in a single procress lifecycle.
-memory_cache                  = []
+# This feature implies in-memory cache support. This is not supported on wasm32 target.
+filesystem_cache              = ["wasmer-cache"]
 plugin_transform_schema_v1    = ["swc_common/plugin_transform_schema_v1"]
 plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 
@@ -81,7 +78,7 @@ swc_ecma_ast = { version = "0.104.3", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
 swc_ecma_loader = { version = "0.43.12", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "0.134.4", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "0.134.5", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "0.90.3", path = "../swc_ecma_visit" }
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
 testing = { version = "0.33.11", path = "../testing" }

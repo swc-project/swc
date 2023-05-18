@@ -15,7 +15,7 @@ function _templateObject1() {
         "def",
         "ghi"
     ]);
-    _templateObject1 = function _templateObject1() {
+    _templateObject1 = function _templateObject() {
         return data;
     };
     return data;
@@ -24,7 +24,7 @@ function _templateObject2() {
     var data = _tagged_template_literal([
         "abc"
     ]);
-    _templateObject2 = function _templateObject2() {
+    _templateObject2 = function _templateObject() {
         return data;
     };
     return data;
@@ -35,7 +35,7 @@ function _templateObject3() {
         "def",
         "ghi"
     ]);
-    _templateObject3 = function _templateObject3() {
+    _templateObject3 = function _templateObject() {
         return data;
     };
     return data;
@@ -44,7 +44,7 @@ function _templateObject4() {
     var data = _tagged_template_literal([
         "abc"
     ]);
-    _templateObject4 = function _templateObject4() {
+    _templateObject4 = function _templateObject() {
         return data;
     };
     return data;
@@ -55,7 +55,7 @@ function _templateObject5() {
         "def",
         "ghi"
     ]);
-    _templateObject5 = function _templateObject5() {
+    _templateObject5 = function _templateObject() {
         return data;
     };
     return data;
@@ -64,7 +64,7 @@ function _templateObject6() {
     var data = _tagged_template_literal([
         "abc"
     ]);
-    _templateObject6 = function _templateObject6() {
+    _templateObject6 = function _templateObject() {
         return data;
     };
     return data;
@@ -75,7 +75,7 @@ function _templateObject7() {
         "def",
         "ghi"
     ]);
-    _templateObject7 = function _templateObject7() {
+    _templateObject7 = function _templateObject() {
         return data;
     };
     return data;
@@ -84,7 +84,7 @@ function _templateObject8() {
     var data = _tagged_template_literal([
         "abc"
     ]);
-    _templateObject8 = function _templateObject8() {
+    _templateObject8 = function _templateObject() {
         return data;
     };
     return data;
@@ -95,7 +95,7 @@ function _templateObject9() {
         "def",
         "ghi"
     ]);
-    _templateObject9 = function _templateObject9() {
+    _templateObject9 = function _templateObject() {
         return data;
     };
     return data;
@@ -106,7 +106,7 @@ function _templateObject10() {
         "def",
         "ghi"
     ]);
-    _templateObject10 = function _templateObject10() {
+    _templateObject10 = function _templateObject() {
         return data;
     };
     return data;
@@ -117,7 +117,7 @@ function _templateObject11() {
         "def",
         "ghi"
     ]);
-    _templateObject11 = function _templateObject11() {
+    _templateObject11 = function _templateObject() {
         return data;
     };
     return data;

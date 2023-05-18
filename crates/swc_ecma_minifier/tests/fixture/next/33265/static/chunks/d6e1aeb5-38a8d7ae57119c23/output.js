@@ -3090,8 +3090,8 @@
                         className: "vjs-mouse-display"
                     });
                 }, _proto.update = function(rangeBarRect, rangeBarPoint, vertical) {
-                    var _this2 = this;
-                    this.getChild("volumeLevelTooltip").updateVolume(rangeBarRect, rangeBarPoint, vertical, 100 * rangeBarPoint, function() {
+                    var _this2 = this, volume = 100 * rangeBarPoint;
+                    this.getChild("volumeLevelTooltip").updateVolume(rangeBarRect, rangeBarPoint, vertical, volume, function() {
                         vertical ? _this2.el_.style.bottom = rangeBarRect.height * rangeBarPoint + "px" : _this2.el_.style.left = rangeBarRect.width * rangeBarPoint + "px";
                     });
                 }, MouseVolumeLevelDisplay;
@@ -3221,7 +3221,10 @@
                     return "vjs-mute-control " + _Button.prototype.buildCSSClass.call(this);
                 }, _proto.handleClick = function(event) {
                     var vol = this.player_.volume(), lastVolume = this.player_.lastVolume_();
-                    0 === vol ? (this.player_.volume(lastVolume < 0.1 ? 0.1 : lastVolume), this.player_.muted(!1)) : this.player_.muted(!this.player_.muted());
+                    if (0 === vol) {
+                        var volumeToSet = lastVolume < 0.1 ? 0.1 : lastVolume;
+                        this.player_.volume(volumeToSet), this.player_.muted(!1);
+                    } else this.player_.muted(!this.player_.muted());
                 }, _proto.update = function(event) {
                     this.updateIcon_(), this.updateControlText_();
                 }, _proto.updateIcon_ = function() {
@@ -5209,8 +5212,8 @@
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(Player, _Component);
                 var _proto = Player.prototype;
                 return _proto.dispose = function() {
-                    var player, _this2 = this;
-                    this.trigger("dispose"), this.off("dispose"), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), this.fsApi_.fullscreenchange, this.boundDocumentFullscreenChange_), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "keydown", this.boundFullWindowOnEscKey_), this.styleEl_ && this.styleEl_.parentNode && (this.styleEl_.parentNode.removeChild(this.styleEl_), this.styleEl_ = null), Player.players[this.id_] = null, this.tag && this.tag.player && (this.tag.player = null), this.el_ && this.el_.player && (this.el_.player = null), this.tech_ && (this.tech_.dispose(), this.isPosterFromTech_ = !1, this.poster_ = ""), this.playerElIngest_ && (this.playerElIngest_ = null), this.tag && (this.tag = null), player = this, middlewareInstances[player.id()] = null, ALL.names.forEach(function(name) {
+                    var _this2 = this;
+                    this.trigger("dispose"), this.off("dispose"), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), this.fsApi_.fullscreenchange, this.boundDocumentFullscreenChange_), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "keydown", this.boundFullWindowOnEscKey_), this.styleEl_ && this.styleEl_.parentNode && (this.styleEl_.parentNode.removeChild(this.styleEl_), this.styleEl_ = null), Player.players[this.id_] = null, this.tag && this.tag.player && (this.tag.player = null), this.el_ && this.el_.player && (this.el_.player = null), this.tech_ && (this.tech_.dispose(), this.isPosterFromTech_ = !1, this.poster_ = ""), this.playerElIngest_ && (this.playerElIngest_ = null), this.tag && (this.tag = null), middlewareInstances[this.id()] = null, ALL.names.forEach(function(name) {
                         var list = _this2[ALL[name].getterName]();
                         list && list.off && list.off();
                     }), _Component.prototype.dispose.call(this);
@@ -5764,18 +5767,18 @@
                         "textarea"
                     ].indexOf(tagName)) || ("function" == typeof userActions.hotkeys ? userActions.hotkeys.call(this, event) : this.handleHotkeys(event)));
                 }, _proto.handleHotkeys = function(event) {
-                    var hotkeys = this.options_.userActions ? this.options_.userActions.hotkeys : {}, _hotkeys$fullscreenKe = hotkeys.fullscreenKey, _hotkeys$muteKey = hotkeys.muteKey, _hotkeys$playPauseKey = hotkeys.playPauseKey;
-                    if ((void 0 === _hotkeys$fullscreenKe ? function(keydownEvent) {
+                    var hotkeys = this.options_.userActions ? this.options_.userActions.hotkeys : {}, _hotkeys$fullscreenKe = hotkeys.fullscreenKey, fullscreenKey = void 0 === _hotkeys$fullscreenKe ? function(keydownEvent) {
                         return keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(keydownEvent, "f");
-                    } : _hotkeys$fullscreenKe).call(this, event)) {
+                    } : _hotkeys$fullscreenKe, _hotkeys$muteKey = hotkeys.muteKey, muteKey = void 0 === _hotkeys$muteKey ? function(keydownEvent) {
+                        return keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(keydownEvent, "m");
+                    } : _hotkeys$muteKey, _hotkeys$playPauseKey = hotkeys.playPauseKey, playPauseKey = void 0 === _hotkeys$playPauseKey ? function(keydownEvent) {
+                        return keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(keydownEvent, "k") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(keydownEvent, "Space");
+                    } : _hotkeys$playPauseKey;
+                    if (fullscreenKey.call(this, event)) {
                         event.preventDefault(), event.stopPropagation();
                         var FSToggle = Component$1.getComponent("FullscreenToggle");
                         !1 !== global_document__WEBPACK_IMPORTED_MODULE_1___default()[this.fsApi_.fullscreenEnabled] && FSToggle.prototype.handleClick.call(this, event);
-                    } else (void 0 === _hotkeys$muteKey ? function(keydownEvent) {
-                        return keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(keydownEvent, "m");
-                    } : _hotkeys$muteKey).call(this, event) ? (event.preventDefault(), event.stopPropagation(), Component$1.getComponent("MuteToggle").prototype.handleClick.call(this, event)) : (void 0 === _hotkeys$playPauseKey ? function(keydownEvent) {
-                        return keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(keydownEvent, "k") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(keydownEvent, "Space");
-                    } : _hotkeys$playPauseKey).call(this, event) && (event.preventDefault(), event.stopPropagation(), Component$1.getComponent("PlayToggle").prototype.handleClick.call(this, event));
+                    } else muteKey.call(this, event) ? (event.preventDefault(), event.stopPropagation(), Component$1.getComponent("MuteToggle").prototype.handleClick.call(this, event)) : playPauseKey.call(this, event) && (event.preventDefault(), event.stopPropagation(), Component$1.getComponent("PlayToggle").prototype.handleClick.call(this, event));
                 }, _proto.canPlayType = function(type) {
                     for(var can, i = 0, j = this.options_.techOrder; i < j.length; i++){
                         var techName = j[i], tech = Tech.getTech(techName);
@@ -6633,8 +6636,8 @@
                 liveEdgeDelay: liveEdgeDelay,
                 duration: duration,
                 seekable: function(playlist, expired, liveEdgePadding) {
-                    var seekableEnd = playlistEnd(playlist, expired, !0, liveEdgePadding);
-                    return null === seekableEnd ? createTimeRange() : createTimeRange(expired || 0, seekableEnd);
+                    var seekableStart = expired || 0, seekableEnd = playlistEnd(playlist, expired, !0, liveEdgePadding);
+                    return null === seekableEnd ? createTimeRange() : createTimeRange(seekableStart, seekableEnd);
                 },
                 getMediaInfoForTime: function(_ref4) {
                     for(var playlist = _ref4.playlist, currentTime = _ref4.currentTime, startingSegmentIndex = _ref4.startingSegmentIndex, startingPartIndex = _ref4.startingPartIndex, startTime = _ref4.startTime, experimentalExactManifestTimings = _ref4.experimentalExactManifestTimings, time = currentTime - startTime, partsAndSegments = getPartsAndSegments(playlist), startIndex = 0, i = 0; i < partsAndSegments.length; i++){
@@ -13607,7 +13610,6 @@
                     "AUDIO",
                     "SUBTITLES"
                 ].forEach(function(type) {
-                    var settings1;
                     mediaTypes[type].activeGroup = function(track) {
                         var masterPlaylistLoader = settings.masterPlaylistLoader, groups = settings.mediaTypes[type].groups, media = masterPlaylistLoader.media();
                         if (!media) return null;
@@ -13636,10 +13638,10 @@
                             }
                             segmentLoader.resyncLoader(), startLoaders(activeGroup.playlistLoader, mediaType);
                         }
-                    }, mediaTypes[type].onGroupChanging = (settings1 = settings, function() {
-                        var segmentLoader = settings1.segmentLoaders[type];
-                        settings1.mediaTypes[type].lastGroup_ = null, segmentLoader.abort(), segmentLoader.pause();
-                    }), mediaTypes[type].onTrackChanged = function() {
+                    }, mediaTypes[type].onGroupChanging = function() {
+                        var segmentLoader = settings.segmentLoaders[type];
+                        settings.mediaTypes[type].lastGroup_ = null, segmentLoader.abort(), segmentLoader.pause();
+                    }, mediaTypes[type].onTrackChanged = function() {
                         var masterPlaylistLoader = settings.masterPlaylistLoader, _settings$segmentLoad2 = settings.segmentLoaders, segmentLoader = _settings$segmentLoad2[type], mainSegmentLoader = _settings$segmentLoad2.main, mediaType = settings.mediaTypes[type], activeTrack = mediaType.activeTrack(), activeGroup = mediaType.getActiveGroup(), previousActiveLoader = mediaType.activePlaylistLoader, lastTrack = mediaType.lastTrack_;
                         if ((!lastTrack || !activeTrack || lastTrack.id !== activeTrack.id) && (mediaType.lastGroup_ = activeGroup, mediaType.lastTrack_ = activeTrack, stopLoaders(segmentLoader, mediaType), activeGroup)) {
                             if (activeGroup.isMasterPlaylist) {

@@ -15,7 +15,10 @@ path  = "./src/main.rs"
 
 [features]
 default = []
-plugin  = ["swc_core/plugin_transform_host_native"]
+plugin = [
+  "swc_core/plugin_transform_host_native",
+  "swc_core/plugin_transform_host_native_filesystem_cache",
+]
 
 [dependencies]
 anyhow = "1.0.66"

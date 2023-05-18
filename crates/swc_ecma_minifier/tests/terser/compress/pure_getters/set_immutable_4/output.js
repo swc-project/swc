@@ -1,3 +1,2 @@
 "use strict";
-var a = 1;
-(a.foo += ""), a.foo ? console.log("FAIL") : console.log("PASS");
+1..foo += "", 1..foo ? console.log("FAIL") : console.log("PASS");

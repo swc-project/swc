@@ -57,7 +57,7 @@ test!(
     r#"number = function (x) {
   return x;
 };"#,
-    r#"number = function number(x) {
+    r#"number = function number1(x) {
   return x;
 };"#
 );

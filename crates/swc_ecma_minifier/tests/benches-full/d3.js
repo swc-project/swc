@@ -1708,8 +1708,8 @@
             return i.duration = 1000 * S * rho / Math.SQRT2, i;
         }
         return zoom.rho = function(_) {
-            var _1 = Math.max(1e-3, +_), _2 = _1 * _1;
-            return zoomRho(_1, _2, _2 * _2);
+            var _1 = Math.max(1e-3, +_), _2 = _1 * _1, _4 = _2 * _2;
+            return zoomRho(_1, _2, _4);
         }, zoom;
     }(Math.SQRT2, 2, 4);
     function hsl$1(hue) {
@@ -3439,8 +3439,9 @@
             ids[j + 1] = temp;
         }
         else {
+            const median = left + right >> 1;
             let i = left + 1, j = right;
-            swap$1(ids, left + right >> 1, i), dists[ids[left]] > dists[ids[right]] && swap$1(ids, left, right), dists[ids[i]] > dists[ids[right]] && swap$1(ids, i, right), dists[ids[left]] > dists[ids[i]] && swap$1(ids, left, i);
+            swap$1(ids, median, i), dists[ids[left]] > dists[ids[right]] && swap$1(ids, left, right), dists[ids[i]] > dists[ids[right]] && swap$1(ids, i, right), dists[ids[left]] > dists[ids[i]] && swap$1(ids, left, i);
             const temp = ids[i], tempDist = dists[temp];
             for(;;){
                 do i++;
@@ -4939,16 +4940,16 @@
                 0
             ], n2 = cartesianCross(pa, pb), n2n2 = cartesianDot(n2, n2), n1n2 = n2[0], determinant = n2n2 - n1n2 * n1n2;
             if (!determinant) return !two && a;
-            var n1xn2 = cartesianCross(n1, n2), A = cartesianScale(n1, cr * n2n2 / determinant);
-            cartesianAddInPlace(A, cartesianScale(n2, -cr * n1n2 / determinant));
+            var c1 = cr * n2n2 / determinant, c2 = -cr * n1n2 / determinant, n1xn2 = cartesianCross(n1, n2), A = cartesianScale(n1, c1);
+            cartesianAddInPlace(A, cartesianScale(n2, c2));
             var w = cartesianDot(A, n1xn2), uu = cartesianDot(n1xn2, n1xn2), t2 = w * w - uu * (cartesianDot(A, A) - 1);
             if (!(t2 < 0)) {
                 var t = sqrt(t2), q = cartesianScale(n1xn2, (-w - t) / uu);
                 if (cartesianAddInPlace(q, A), q = spherical(q), !two) return q;
                 var z, lambda0 = a[0], lambda1 = b[0], phi0 = a[1], phi1 = b[1];
                 lambda1 < lambda0 && (z = lambda0, lambda0 = lambda1, lambda1 = z);
-                var delta = lambda1 - lambda0, polar = 1e-6 > abs$2(delta - pi$3);
-                if (!polar && phi1 < phi0 && (z = phi0, phi0 = phi1, phi1 = z), polar || delta < 1e-6 ? polar ? phi0 + phi1 > 0 ^ q[1] < (1e-6 > abs$2(q[0] - lambda0) ? phi0 : phi1) : phi0 <= q[1] && q[1] <= phi1 : delta > pi$3 ^ (lambda0 <= q[0] && q[0] <= lambda1)) {
+                var delta = lambda1 - lambda0, polar = 1e-6 > abs$2(delta - pi$3), meridian = polar || delta < 1e-6;
+                if (!polar && phi1 < phi0 && (z = phi0, phi0 = phi1, phi1 = z), meridian ? polar ? phi0 + phi1 > 0 ^ q[1] < (1e-6 > abs$2(q[0] - lambda0) ? phi0 : phi1) : phi0 <= q[1] && q[1] <= phi1 : delta > pi$3 ^ (lambda0 <= q[0] && q[0] <= lambda1)) {
                     var q1 = cartesianScale(n1xn2, (-w + t) / uu);
                     return cartesianAddInPlace(q1, A), [
                         q,
@@ -8160,7 +8161,15 @@
             var r = Math.sqrt(size / a$1), x0 = r / 2, y0 = r * k, y1 = r * k + r, x2 = -x0;
             context.moveTo(x0, y0), context.lineTo(x0, y1), context.lineTo(x2, y1), context.lineTo(-0.5 * x0 - s * y0, s * x0 + -0.5 * y0), context.lineTo(-0.5 * x0 - s * y1, s * x0 + -0.5 * y1), context.lineTo(-0.5 * x2 - s * y1, s * x2 + -0.5 * y1), context.lineTo(-0.5 * x0 + s * y0, -0.5 * y0 - s * x0), context.lineTo(-0.5 * x0 + s * y1, -0.5 * y1 - s * x0), context.lineTo(-0.5 * x2 + s * y1, -0.5 * y1 - s * x2), context.closePath();
         }
-    };
+    }, symbols = [
+        circle$2,
+        cross$2,
+        diamond,
+        square$1,
+        star,
+        triangle,
+        wye
+    ];
     function noop$3() {}
     function point$1(that, x, y) {
         that._context.bezierCurveTo((2 * that._x0 + that._x1) / 3, (2 * that._y0 + that._y1) / 3, (that._x0 + 2 * that._x1) / 3, (that._y0 + 2 * that._y1) / 3, (that._x0 + 4 * that._x1 + x) / 6, (that._y0 + 4 * that._y1 + y) / 6);
@@ -10607,15 +10616,7 @@
         }, symbol.context = function(_) {
             return arguments.length ? (context = null == _ ? null : _, symbol) : context;
         }, symbol;
-    }, exports1.symbolCircle = circle$2, exports1.symbolCross = cross$2, exports1.symbolDiamond = diamond, exports1.symbolSquare = square$1, exports1.symbolStar = star, exports1.symbolTriangle = triangle, exports1.symbolWye = wye, exports1.symbols = [
-        circle$2,
-        cross$2,
-        diamond,
-        square$1,
-        star,
-        triangle,
-        wye
-    ], exports1.text = text, exports1.thresholdFreedmanDiaconis = function(values, min, max) {
+    }, exports1.symbolCircle = circle$2, exports1.symbolCross = cross$2, exports1.symbolDiamond = diamond, exports1.symbolSquare = square$1, exports1.symbolStar = star, exports1.symbolTriangle = triangle, exports1.symbolWye = wye, exports1.symbols = symbols, exports1.text = text, exports1.thresholdFreedmanDiaconis = function(values, min, max) {
         return Math.ceil((max - min) / (2 * (quantile(values, 0.75) - quantile(values, 0.25)) * Math.pow(count(values), -1 / 3)));
     }, exports1.thresholdScott = function(values, min, max) {
         return Math.ceil((max - min) / (3.5 * deviation(values) * Math.pow(count(values), -1 / 3)));

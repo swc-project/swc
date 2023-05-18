@@ -2,7 +2,9 @@
 
 use std::ops::{Deref, DerefMut};
 
-use swc_ecma_ast::VarDeclKind;
+use swc_common::SyntaxContext;
+use swc_ecma_ast::{Expr, Ident, MemberExpr, VarDeclKind};
+use swc_ecma_utils::{ExprCtx, ExprExt};
 
 use super::{storage::Storage, UsageAnalyzer};
 
@@ -16,6 +18,81 @@ where
         WithCtx {
             analyzer: self,
             orig_ctx,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+
+pub enum CalleeKind {
+    NoMutate,
+    Unknown,
+}
+
+impl CalleeKind {
+    pub fn from_expr(expr: &Expr, expr_ctx: &ExprCtx) -> Self {
+        fn is_global_fn_wont_mutate(s: &Ident, unresolved: SyntaxContext) -> bool {
+            s.span.ctxt == unresolved
+                && matches!(
+                    &*s.sym,
+                    "JSON"
+                    // | "Array"
+                    | "String"
+                    // | "Object"
+                    | "Number"
+                    | "Date"
+                    | "BigInt"
+                    | "Boolean"
+                    | "Math"
+                    | "Error"
+                    | "console"
+                    | "clearInterval"
+                    | "clearTimeout"
+                    | "setInterval"
+                    | "setTimeout"
+                    | "btoa"
+                    | "decodeURI"
+                    | "decodeURIComponent"
+                    | "encodeURI"
+                    | "encodeURIComponent"
+                    | "escape"
+                    | "eval"
+                    | "EvalError"
+                    | "Function"
+                    | "isFinite"
+                    | "isNaN"
+                    | "parseFloat"
+                    | "parseInt"
+                    | "RegExp"
+                    | "RangeError"
+                    | "ReferenceError"
+                    | "SyntaxError"
+                    | "TypeError"
+                    | "unescape"
+                    | "URIError"
+                    | "atob"
+                    | "globalThis"
+                    | "NaN"
+                    | "Symbol"
+                    | "Promise"
+                )
+        }
+
+        if expr.is_pure_callee(expr_ctx) {
+            Self::NoMutate
+        } else {
+            match expr {
+                Expr::Ident(i) if is_global_fn_wont_mutate(i, expr_ctx.unresolved_ctxt) => {
+                    Self::NoMutate
+                }
+                Expr::Member(MemberExpr { obj, .. }) => match &**obj {
+                    Expr::Ident(i) if is_global_fn_wont_mutate(i, expr_ctx.unresolved_ctxt) => {
+                        Self::NoMutate
+                    }
+                    _ => Self::Unknown,
+                },
+                _ => Self::Unknown,
+            }
         }
     }
 }
@@ -41,7 +118,7 @@ pub struct Ctx {
 
     /// `true` for arguments of [swc_ecma_ast::Expr::Call] or
     /// [swc_ecma_ast::Expr::New]
-    pub in_call_arg: bool,
+    pub in_call_arg_of: Option<CalleeKind>,
 
     /// `false` for `array` in `array.length.
     pub is_exact_arg: bool,

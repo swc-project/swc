@@ -68,21 +68,21 @@ var e, t = require("@firebase/util"), n = require("tslib"), r = require("@fireba
         };
     }, e;
 }(), s = ((e = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", e["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", e), c = new t.ErrorFactory("app-compat", "Firebase", s), u = function e() {
-    var r, i, a, s, u = (r = p, i = function(e) {
-        if (e = e || o._DEFAULT_ENTRY_NAME, !t.contains(a, e)) throw c.create("no-app", {
+    var r, i, a, s = (r = function(e) {
+        if (e = e || o._DEFAULT_ENTRY_NAME, !t.contains(i, e)) throw c.create("no-app", {
             appName: e
         });
-        return a[e];
-    }, a = {}, (s = {
+        return i[e];
+    }, i = {}, (a = {
         __esModule: !0,
         initializeApp: function(e, n) {
             void 0 === n && (n = {});
-            var i = o.initializeApp(e, n);
-            if (t.contains(a, i.name)) return a[i.name];
-            var p = new r(i, s);
-            return a[i.name] = p, p;
+            var r = o.initializeApp(e, n);
+            if (t.contains(i, r.name)) return i[r.name];
+            var s = new p(r, a);
+            return i[r.name] = s, s;
         },
-        app: i,
+        app: r,
         registerVersion: o.registerVersion,
         setLogLevel: o.setLogLevel,
         onLog: o.onLog,
@@ -90,45 +90,45 @@ var e, t = require("@firebase/util"), n = require("tslib"), r = require("@fireba
         SDK_VERSION: o.SDK_VERSION,
         INTERNAL: {
             registerComponent: function(e) {
-                var n = e.name, a = n.replace("-compat", "");
+                var n = e.name, i = n.replace("-compat", "");
                 if (o._registerComponent(e) && "PUBLIC" === e.type) {
-                    var p = function(e) {
-                        if (void 0 === e && (e = i()), "function" != typeof e[a]) throw c.create("invalid-app-argument", {
+                    var s = function(e) {
+                        if (void 0 === e && (e = r()), "function" != typeof e[i]) throw c.create("invalid-app-argument", {
                             appName: n
                         });
-                        return e[a]();
+                        return e[i]();
                     };
-                    void 0 !== e.serviceProps && t.deepExtend(p, e.serviceProps), s[a] = p, r.prototype[a] = function() {
+                    void 0 !== e.serviceProps && t.deepExtend(s, e.serviceProps), a[i] = s, p.prototype[i] = function() {
                         for(var t = [], r = 0; r < arguments.length; r++)t[r] = arguments[r];
                         return this._getService.bind(this, n).apply(this, e.multipleInstances ? t : []);
                     };
                 }
-                return "PUBLIC" === e.type ? s[a] : null;
+                return "PUBLIC" === e.type ? a[i] : null;
             },
             removeApp: function(e) {
-                delete a[e];
+                delete i[e];
             },
             useAsService: function(e, t) {
                 return "serverAuth" === t ? null : t;
             },
             modularAPIs: o
         }
-    }).default = s, Object.defineProperty(s, "apps", {
+    }).default = a, Object.defineProperty(a, "apps", {
         get: function() {
-            return Object.keys(a).map(function(e) {
-                return a[e];
+            return Object.keys(i).map(function(e) {
+                return i[e];
             });
         }
-    }), i.App = r, s);
-    return u.INTERNAL = n.__assign(n.__assign({}, u.INTERNAL), {
+    }), r.App = p, a);
+    return s.INTERNAL = n.__assign(n.__assign({}, s.INTERNAL), {
         createFirebaseNamespace: e,
         extendNamespace: function(e) {
-            t.deepExtend(u, e);
+            t.deepExtend(s, e);
         },
         createSubscribe: t.createSubscribe,
         ErrorFactory: t.ErrorFactory,
         deepExtend: t.deepExtend
-    }), u;
+    }), s;
 }(), l = new a.Logger("@firebase/app-compat");
 if (t.isBrowser() && void 0 !== self.firebase) {
     l.warn("\n    Warning: Firebase is already defined in the global scope. Please make sure\n    Firebase library is only loaded once.\n  ");
