@@ -7792,27 +7792,65 @@
                     }
                   ],
                   "body": {
-                    "type": "BinaryExpression",
+                    "type": "TsTypeAssertion",
                     "span": {
-                      "start": 3342,
+                      "start": 3328,
                       "end": 3348,
                       "ctxt": 0
                     },
-                    "operator": ">>",
-                    "left": {
-                      "type": "Invalid",
-                      "span": {
-                        "start": 3342,
-                        "end": 3344,
-                        "ctxt": 0
-                      }
-                    },
-                    "right": {
+                    "expression": {
                       "type": "NullLiteral",
                       "span": {
                         "start": 3344,
                         "end": 3348,
                         "ctxt": 0
+                      }
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 3329,
+                        "end": 3343,
+                        "ctxt": 0
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3329,
+                          "end": 3334,
+                          "ctxt": 0
+                        },
+                        "value": "Array",
+                        "optional": false
+                      },
+                      "typeParams": {
+                        "type": "TsTypeParameterInstantiation",
+                        "span": {
+                          "start": 3334,
+                          "end": 3343,
+                          "ctxt": 0
+                        },
+                        "params": [
+                          {
+                            "type": "TsTypeReference",
+                            "span": {
+                              "start": 3335,
+                              "end": 3342,
+                              "ctxt": 0
+                            },
+                            "typeName": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 3335,
+                                "end": 3342,
+                                "ctxt": 0
+                              },
+                              "value": "Derived",
+                              "optional": false
+                            },
+                            "typeParams": null
+                          }
+                        ]
                       }
                     }
                   },

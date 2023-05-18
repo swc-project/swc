@@ -42091,22 +42091,13 @@
                 "ctxt": 0
               },
               "expression": {
-                "type": "BinaryExpression",
+                "type": "TsTypeAssertion",
                 "span": {
-                  "start": 15998,
+                  "start": 15987,
                   "end": 16009,
                   "ctxt": 0
                 },
-                "operator": ">>",
-                "left": {
-                  "type": "Invalid",
-                  "span": {
-                    "start": 15998,
-                    "end": 16000,
-                    "ctxt": 0
-                  }
-                },
-                "right": {
+                "expression": {
                   "type": "Identifier",
                   "span": {
                     "start": 16000,
@@ -42115,6 +42106,53 @@
                   },
                   "value": "undefined",
                   "optional": false
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 15988,
+                    "end": 15999,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 15988,
+                      "end": 15993,
+                      "ctxt": 0
+                    },
+                    "value": "Array",
+                    "optional": false
+                  },
+                  "typeParams": {
+                    "type": "TsTypeParameterInstantiation",
+                    "span": {
+                      "start": 15993,
+                      "end": 15999,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "TsTypeReference",
+                        "span": {
+                          "start": 15994,
+                          "end": 15998,
+                          "ctxt": 0
+                        },
+                        "typeName": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 15994,
+                            "end": 15998,
+                            "ctxt": 0
+                          },
+                          "value": "Base",
+                          "optional": false
+                        },
+                        "typeParams": null
+                      }
+                    ]
+                  }
                 }
               }
             },
