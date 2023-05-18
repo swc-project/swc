@@ -520,7 +520,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 192,
-            "end": 216,
+            "end": 217,
             "ctxt": 0
           },
           "id": {
@@ -538,7 +538,7 @@
             "type": "NewExpression",
             "span": {
               "start": 197,
-              "end": 204,
+              "end": 217,
               "ctxt": 0
             },
             "callee": {
@@ -551,7 +551,7 @@
               "value": "Foo",
               "optional": false
             },
-            "arguments": null,
+            "arguments": [],
             "typeArguments": {
               "type": "TsTypeParameterInstantiation",
               "span": {
