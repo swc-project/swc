@@ -1,0 +1,137 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 27,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 27,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1,
+          "end": 27,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 1,
+            "end": 3,
+            "ctxt": 0
+          },
+          "value": "fn",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 4,
+                "end": 9,
+                "ctxt": 0
+              },
+              "operator": "<",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 4,
+                  "end": 5,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 8,
+                  "end": 9,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "optional": false
+              }
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 11,
+                "end": 16,
+                "ctxt": 0
+              },
+              "operator": "<",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 11,
+                  "end": 12,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 15,
+                  "end": 16,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "optional": false
+              }
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 18,
+                "end": 26,
+                "ctxt": 0
+              },
+              "operator": ">>>=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 18,
+                  "end": 19,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 25,
+                  "end": 26,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "optional": false
+              }
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}
