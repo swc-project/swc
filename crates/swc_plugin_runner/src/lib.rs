@@ -1,9 +1,7 @@
 #![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
 
-use std::{path::Path, sync::Arc};
+use std::sync::Arc;
 
-use anyhow::Error;
-use once_cell::sync::Lazy;
 use swc_common::{plugin::metadata::TransformPluginMetadataContext, SourceMap};
 use transform_executor::TransformExecutor;
 
@@ -12,37 +10,39 @@ mod host_environment;
 #[cfg(feature = "__rkyv")]
 mod imported_fn;
 #[cfg(feature = "__rkyv")]
-mod load_plugin;
-#[cfg(feature = "__rkyv")]
 mod memory_interop;
+pub mod plugin_module_bytes;
 mod transform_executor;
 
+use plugin_module_bytes::PluginModuleBytes;
+
 /**
- * Attempt to create a executor to run plugin binaries.
- * Internally this will try to load binary from given cache which can fail,
- * returns error in that case.
- *
- * Note you CANNOT reuse executor once trasform has been executed: executor
- * is stateful.
+ * Creates an executor to run plugin binaries.
  */
 #[cfg(feature = "__rkyv")]
 pub fn create_plugin_transform_executor(
-    path: &Path,
-    cache: &Lazy<cache::PluginModuleCache>,
     source_map: &Arc<SourceMap>,
+    unresolved_mark: &swc_common::Mark,
     metadata_context: &Arc<TransformPluginMetadataContext>,
+    plugin_module: Box<dyn PluginModuleBytes>,
     plugin_config: Option<serde_json::Value>,
-) -> Result<TransformExecutor, Error> {
-    TransformExecutor::new(path, cache, source_map, metadata_context, plugin_config)
+) -> TransformExecutor {
+    TransformExecutor::new(
+        plugin_module,
+        source_map,
+        unresolved_mark,
+        metadata_context,
+        plugin_config,
+    )
 }
 
 #[cfg(not(feature = "__rkyv"))]
 pub fn create_plugin_transform_executor(
-    path: &Path,
-    cache: &Lazy<cache::PluginModuleCache>,
     source_map: &Arc<SourceMap>,
+    unresolved_mark: &swc_common::Mark,
     metadata_context: &Arc<TransformPluginMetadataContext>,
+    plugin_module: Box<dyn PluginModuleBytes>,
     plugin_config: Option<serde_json::Value>,
-) -> Result<TransformExecutor, Error> {
+) -> TransformExecutor {
     unimplemented!("Transform plugin cannot be used without serialization support")
 }

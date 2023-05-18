@@ -200,19 +200,10 @@ plugin_transform_host_native = [
   "__plugin_transform_host",
   "__plugin_transform_host_schema_v1",
   "__plugin_transform_env_native",
-  "swc_plugin_runner/filesystem_cache",
 ]
-# For the environment who have its own caching mechanism doesn't want
-# to have cache out of its control.
-# [TODO]: ideally `plugin_transform_host_native` should be a feature
-# agnostic to the caching mechanism with explicit opt in for the caching options,
-# but that's a breaking changes for the future version.
-plugin_transform_host_native_memory_cache = [
-  # Dependent features
-  "__plugin_transform_host",
-  "__plugin_transform_host_schema_v1",
-  "__plugin_transform_env_native",
-  "swc_plugin_runner/memory_cache",
+# Enables FileSystemCache support for the plugin runner.
+plugin_transform_host_native_filesystem_cache = [
+  "swc_plugin_runner/filesystem_cache",
 ]
 
 ### Internal features that public features are relying on.
@@ -290,7 +281,6 @@ __plugin_transform_env_native = [
 
 __plugin_transform_env_js = [
   "swc/plugin_transform_host_js",
-  "swc_plugin_runner/memory_cache",
   "swc_plugin_runner/plugin_transform_host_js",
 ]
 
