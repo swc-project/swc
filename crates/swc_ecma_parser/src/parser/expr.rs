@@ -1103,6 +1103,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_subscripts(
         &mut self,
         mut obj: Callee,
@@ -1119,6 +1120,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// returned bool is true if this method should be called again.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_subscript(
         &mut self,
         start: BytePos,
