@@ -1126,6 +1126,7 @@ impl<I: Tokens> Parser<I> {
         no_call: bool,
         no_computed_member: bool,
     ) -> PResult<(Box<Expr>, bool)> {
+        trace_cur!(self, parse_subscript);
         let _ = cur!(self, false);
 
         if self.input.syntax().typescript() {
