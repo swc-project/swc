@@ -565,6 +565,15 @@ impl<I: Tokens> Parser<I> {
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
+        let ctx = Context {
+            should_not_lex_lt_or_gt_as_type: true,
+            ..self.ctx()
+        };
+        self.with_ctx(ctx)
+            .parse_member_expr_or_new_expr_inner(is_new_expr)
+    }
+
+    fn parse_member_expr_or_new_expr_inner(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_member_expr_or_new_expr);
 
         let start = cur_pos!(self);
