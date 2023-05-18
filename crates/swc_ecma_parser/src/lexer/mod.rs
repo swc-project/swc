@@ -637,6 +637,14 @@ impl<'a> Lexer<'a> {
         let c = self.cur().unwrap();
         self.bump();
 
+        if self.syntax.typescript() && self.ctx.in_type {
+            if c == '<' {
+                return Ok(Some(tok!('<')));
+            } else if c == '>' && !self.is(b'=') && !self.is_str(">=") && !self.is_str(">>=") {
+                return Ok(Some(tok!('>')));
+            }
+        }
+
         // XML style comment. `<!--`
         if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
             self.skip_line_comment(3);
