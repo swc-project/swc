@@ -293,7 +293,7 @@
                 ]), (0, A.useEffect)(()=>{
                     let m = null != r ? r : "";
                     !m && t && (m = `[data-tooltip-id='${t}']`);
-                    let S = (S)=>{
+                    let S = new MutationObserver((S)=>{
                         let h = [];
                         S.forEach((S)=>{
                             if ("attributes" === S.type && "data-tooltip-id" === S.attributeName && S.target.getAttribute("data-tooltip-id") === t && h.push(S.target), "childList" === S.type && (_ && [
@@ -310,8 +310,8 @@
                                 ...m,
                                 ...h
                             ]);
-                    }, h = new MutationObserver(S);
-                    return h.observe(document.body, {
+                    });
+                    return S.observe(document.body, {
                         childList: !0,
                         subtree: !0,
                         attributes: !0,
@@ -319,7 +319,7 @@
                             "data-tooltip-id"
                         ]
                     }), ()=>{
-                        h.disconnect();
+                        S.disconnect();
                     };
                 }, [
                     t,

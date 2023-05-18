@@ -4,7 +4,7 @@
     ], factory) : factory((global1 = 'undefined' != typeof globalThis ? globalThis : global1 || self).echarts = {});
 }(this, function(exports1) {
     'use strict';
-    var ua, env, browser, firefox, ie, edge, weChat, style, mouseHandlerNames, pointerEventNameMap, pointerHandlerNames, target, classAttr, target1, subTypeDefaulters, _super, mainType, creator, _ctx, _cachedFont, requestAnimationFrame, reCreateSeriesIndices, assertSeriesInitialized, initBase, _a, _b, _c, providerMethods, mountMethods, seriesType, nodeParsers, prepare, prepareView, updateDirectly, updateMethods, doConvertPixel, updateStreamModes, doDispatchAction, flushPendingActions, triggerUpdatedEvent, bindRenderedEvent, bindMouseEvent, clearColorPalette, render, renderComponents, renderSeries, performPostUpdateFuncs, createExtensionAPI, enableConnect, setTransitionOpt, markStatusToUpdate, applyChangedStates, defaultDimValueGetters, prepareInvertedIndex, getIndicesCtor, prepareStorage, getRawIndexWithoutIndices, getRawIndexWithIndices, getId, getIdNameFromStore, makeIdFromName, normalizeDimensions, validateDimensions, cloneListForMapAndSample, getInitialExtent, setItemDataAndSeriesIndex, transferProperties, checkNonStyleTansitionRefer, checkTransformPropRefer, extendStatics = function(d, b) {
+    var ua, browser, firefox, ie, edge, weChat, style, mouseHandlerNames, pointerEventNameMap, pointerHandlerNames, classAttr, subTypeDefaulters, _super, mainType, creator, _ctx, _cachedFont, requestAnimationFrame, reCreateSeriesIndices, assertSeriesInitialized, initBase, _a, _b, _c, providerMethods, mountMethods, seriesType, nodeParsers, prepare, prepareView, updateDirectly, updateMethods, doConvertPixel, updateStreamModes, doDispatchAction, flushPendingActions, triggerUpdatedEvent, bindRenderedEvent, bindMouseEvent, clearColorPalette, render, renderComponents, renderSeries, performPostUpdateFuncs, createExtensionAPI, enableConnect, setTransitionOpt, markStatusToUpdate, applyChangedStates, defaultDimValueGetters, prepareInvertedIndex, getIndicesCtor, prepareStorage, getRawIndexWithoutIndices, getRawIndexWithIndices, getId, getIdNameFromStore, makeIdFromName, normalizeDimensions, validateDimensions, cloneListForMapAndSample, getInitialExtent, setItemDataAndSeriesIndex, transferProperties, checkNonStyleTansitionRefer, checkTransformPropRefer, extendStatics = function(d, b) {
         return (extendStatics = Object.setPrototypeOf || ({
             __proto__: []
         }) instanceof Array && function(d, b) {
@@ -32,10 +32,10 @@
     }
     var Browser = function() {
         this.firefox = !1, this.ie = !1, this.edge = !1, this.newEdge = !1, this.weChat = !1;
-    }, env1 = new function() {
+    }, env = new function() {
         this.browser = new Browser(), this.node = !1, this.wxa = !1, this.worker = !1, this.canvasSupported = !1, this.svgSupported = !1, this.touchEventsSupported = !1, this.pointerEventsSupported = !1, this.domSupported = !1, this.transformSupported = !1, this.transform3dSupported = !1;
     }();
-    'object' == typeof wx && 'function' == typeof wx.getSystemInfoSync ? (env1.wxa = !0, env1.canvasSupported = !0, env1.touchEventsSupported = !0) : 'undefined' == typeof document && 'undefined' != typeof self ? (env1.worker = !0, env1.canvasSupported = !0) : 'undefined' == typeof navigator ? (env1.node = !0, env1.canvasSupported = !0, env1.svgSupported = !0) : (ua = navigator.userAgent, browser = (env = env1).browser, firefox = ua.match(/Firefox\/([\d.]+)/), ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/), edge = ua.match(/Edge?\/([\d.]+)/), weChat = /micromessenger/i.test(ua), firefox && (browser.firefox = !0, browser.version = firefox[1]), ie && (browser.ie = !0, browser.version = ie[1]), edge && (browser.edge = !0, browser.version = edge[1], browser.newEdge = +edge[1].split('.')[0] > 18), weChat && (browser.weChat = !0), env.canvasSupported = !!document.createElement('canvas').getContext, env.svgSupported = 'undefined' != typeof SVGRect, env.touchEventsSupported = 'ontouchstart' in window && !browser.ie && !browser.edge, env.pointerEventsSupported = 'onpointerdown' in window && (browser.edge || browser.ie && +browser.version >= 11), env.domSupported = 'undefined' != typeof document, style = document.documentElement.style, env.transform3dSupported = (browser.ie && 'transition' in style || browser.edge || 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix() || 'MozPerspective' in style) && !('OTransition' in style), env.transformSupported = env.transform3dSupported || browser.ie && +browser.version >= 9);
+    'object' == typeof wx && 'function' == typeof wx.getSystemInfoSync ? (env.wxa = !0, env.canvasSupported = !0, env.touchEventsSupported = !0) : 'undefined' == typeof document && 'undefined' != typeof self ? (env.worker = !0, env.canvasSupported = !0) : 'undefined' == typeof navigator ? (env.node = !0, env.canvasSupported = !0, env.svgSupported = !0) : (ua = navigator.userAgent, browser = env.browser, firefox = ua.match(/Firefox\/([\d.]+)/), ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/), edge = ua.match(/Edge?\/([\d.]+)/), weChat = /micromessenger/i.test(ua), firefox && (browser.firefox = !0, browser.version = firefox[1]), ie && (browser.ie = !0, browser.version = ie[1]), edge && (browser.edge = !0, browser.version = edge[1], browser.newEdge = +edge[1].split('.')[0] > 18), weChat && (browser.weChat = !0), env.canvasSupported = !!document.createElement('canvas').getContext, env.svgSupported = 'undefined' != typeof SVGRect, env.touchEventsSupported = 'ontouchstart' in window && !browser.ie && !browser.edge, env.pointerEventsSupported = 'onpointerdown' in window && (browser.edge || browser.ie && +browser.version >= 11), env.domSupported = 'undefined' != typeof document, style = document.documentElement.style, env.transform3dSupported = (browser.ie && 'transition' in style || browser.edge || 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix() || 'MozPerspective' in style) && !('OTransition' in style), env.transformSupported = env.transform3dSupported || browser.ie && +browser.version >= 9);
     var BUILTIN_OBJECT = {
         '[object Function]': !0,
         '[object RegExp]': !0,
@@ -564,7 +564,10 @@
     function determinant(rows, rank, rowStart, rowMask, colMask, detCache) {
         var cacheKey = rowMask + '-' + colMask, fullRank = rows.length;
         if (detCache.hasOwnProperty(cacheKey)) return detCache[cacheKey];
-        if (1 === rank) return rows[rowStart][Math.round(Math.log((1 << fullRank) - 1 & ~colMask) / LN2)];
+        if (1 === rank) {
+            var colStart = Math.round(Math.log((1 << fullRank) - 1 & ~colMask) / LN2);
+            return rows[rowStart][colStart];
+        }
         for(var subRowMask = rowMask | 1 << rowStart, subRowStart = rowStart + 1; rowMask & 1 << subRowStart;)subRowStart++;
         for(var sum = 0, j = 0, colLocalIdx = 0; j < fullRank; j++){
             var colTag = 1 << j;
@@ -665,7 +668,7 @@
     }
     var EVENT_SAVED_PROP = '___zrEVENTSAVED', _calcOut = [];
     function transformCoordWithViewport(out, el, inX, inY, inverse) {
-        if (el.getBoundingClientRect && env1.domSupported && !isCanvasEl(el)) {
+        if (el.getBoundingClientRect && env.domSupported && !isCanvasEl(el)) {
             var saved = el[EVENT_SAVED_PROP] || (el[EVENT_SAVED_PROP] = {}), transformer = function(markers, saved, inverse) {
                 for(var transformerName = inverse ? 'invTrans' : 'trans', transformer = saved[transformerName], oldSrcCoords = saved.srcCoords, srcCoords = [], destCoords = [], oldCoordTheSame = !0, i = 0; i < 4; i++){
                     var rect = markers[i].getBoundingClientRect(), ii = 2 * i, x = rect.left, y = rect.top;
@@ -711,10 +714,10 @@
     }
     var isDomLevel2 = 'undefined' != typeof window && !!window.addEventListener, MOUSE_EVENT_REG = /^(?:mouse|pointer|contextmenu|drag|drop)|click/, _calcOut$1 = [];
     function clientToLocal(el, e, out, calculate) {
-        return out = out || {}, calculate || !env1.canvasSupported ? calculateZrXY(el, e, out) : env1.browser.firefox && null != e.layerX && e.layerX !== e.offsetX ? (out.zrX = e.layerX, out.zrY = e.layerY) : null != e.offsetX ? (out.zrX = e.offsetX, out.zrY = e.offsetY) : calculateZrXY(el, e, out), out;
+        return out = out || {}, calculate || !env.canvasSupported ? calculateZrXY(el, e, out) : env.browser.firefox && null != e.layerX && e.layerX !== e.offsetX ? (out.zrX = e.layerX, out.zrY = e.layerY) : null != e.offsetX ? (out.zrX = e.offsetX, out.zrY = e.offsetY) : calculateZrXY(el, e, out), out;
     }
     function calculateZrXY(el, e, out) {
-        if (env1.domSupported && el.getBoundingClientRect) {
+        if (env.domSupported && el.getBoundingClientRect) {
             var ex = e.clientX, ey = e.clientY;
             if (isCanvasEl(el)) {
                 var box = el.getBoundingClientRect();
@@ -2407,15 +2410,14 @@
                 return a.time - b.time;
             });
             for(var arrDim = this.arrDim, kfsLen = kfs.length, lastKf = kfs[kfsLen - 1], i = 0; i < kfsLen; i++)kfs[i].percent = kfs[i].time / this.maxTime, arrDim > 0 && i !== kfsLen - 1 && function(val0, val1, arrDim) {
-                var arr0 = val0;
-                if (arr0.push && val1.push) {
-                    var arr0Len = arr0.length, arr1Len = val1.length;
+                if (val0.push && val1.push) {
+                    var arr0Len = val0.length, arr1Len = val1.length;
                     if (arr0Len !== arr1Len) {
-                        if (arr0Len > arr1Len) arr0.length = arr1Len;
-                        else for(var i = arr0Len; i < arr1Len; i++)arr0.push(1 === arrDim ? val1[i] : arraySlice.call(val1[i]));
+                        if (arr0Len > arr1Len) val0.length = arr1Len;
+                        else for(var i = arr0Len; i < arr1Len; i++)val0.push(1 === arrDim ? val1[i] : arraySlice.call(val1[i]));
                     }
-                    for(var len2 = arr0[0] && arr0[0].length, i = 0; i < arr0.length; i++)if (1 === arrDim) isNaN(arr0[i]) && (arr0[i] = val1[i]);
-                    else for(var j = 0; j < len2; j++)isNaN(arr0[i][j]) && (arr0[i][j] = val1[i][j]);
+                    for(var len2 = val0[0] && val0[0].length, i = 0; i < val0.length; i++)if (1 === arrDim) isNaN(val0[i]) && (val0[i] = val1[i]);
+                    else for(var j = 0; j < len2; j++)isNaN(val0[i][j]) && (val0[i][j] = val1[i][j]);
                 }
             }(kfs[i].value, lastKf.value, arrDim);
             if (additiveTrack && this.needsAnimate() && additiveTrack.needsAnimate() && arrDim === additiveTrack.arrDim && this.isValueColor === additiveTrack.isValueColor && !additiveTrack._finished) {
@@ -3149,7 +3151,7 @@
                     });
                 }
             }
-            Object.defineProperty && (!env1.browser.ie || env1.browser.version > 8) && (createLegacyProperty('position', '_legacyPos', 'x', 'y'), createLegacyProperty('scale', '_legacyScale', 'scaleX', 'scaleY'), createLegacyProperty('origin', '_legacyOrigin', 'originX', 'originY'));
+            Object.defineProperty && (!env.browser.ie || env.browser.version > 8) && (createLegacyProperty('position', '_legacyPos', 'x', 'y'), createLegacyProperty('scale', '_legacyScale', 'scaleX', 'scaleY'), createLegacyProperty('origin', '_legacyOrigin', 'originX', 'originY'));
         }(), Element;
     }();
     function animateTo(animatable, target, cfg, animationProps, reverse) {
@@ -3480,7 +3482,7 @@
         }, Storage.prototype.updateDisplayList = function(includeIgnore) {
             this._displayListLen = 0;
             for(var roots = this._roots, displayList = this._displayList, i = 0, len = roots.length; i < len; i++)this._updateAndAddDisplayable(roots[i], null, includeIgnore);
-            displayList.length = this._displayListLen, env1.canvasSupported && sort(displayList, shapeCompareFunc);
+            displayList.length = this._displayListLen, env.canvasSupported && sort(displayList, shapeCompareFunc);
         }, Storage.prototype._updateAndAddDisplayable = function(el, clipPaths, includeIgnore) {
             if (!el.ignore || includeIgnore) {
                 el.beforeUpdate(), el.update(), el.afterUpdate();
@@ -3496,10 +3498,7 @@
                         el.__dirty && (child.__dirty |= Element.REDARAW_BIT), this._updateAndAddDisplayable(child, clipPaths, includeIgnore);
                     }
                     el.__dirty = 0;
-                } else {
-                    var disp = el;
-                    clipPaths && clipPaths.length ? disp.__clipPaths = clipPaths : disp.__clipPaths && disp.__clipPaths.length > 0 && (disp.__clipPaths = []), isNaN(disp.z) && (logInvalidZError(), disp.z = 0), isNaN(disp.z2) && (logInvalidZError(), disp.z2 = 0), isNaN(disp.zlevel) && (logInvalidZError(), disp.zlevel = 0), this._displayList[this._displayListLen++] = disp;
-                }
+                } else clipPaths && clipPaths.length ? el.__clipPaths = clipPaths : el.__clipPaths && el.__clipPaths.length > 0 && (el.__clipPaths = []), isNaN(el.z) && (logInvalidZError(), el.z = 0), isNaN(el.z2) && (logInvalidZError(), el.z2 = 0), isNaN(el.zlevel) && (logInvalidZError(), el.zlevel = 0), this._displayList[this._displayListLen++] = el;
                 var decalEl = el.getDecalElement && el.getDecalElement();
                 decalEl && this._updateAndAddDisplayable(decalEl, clipPaths, includeIgnore);
                 var textGuide = el.getTextGuideLine();
@@ -3578,7 +3577,7 @@
             var animator = new Animator(target, options.loop);
             return this.addAnimator(animator), animator;
         }, Animation;
-    }(Eventful), globalEventSupported = env1.domSupported, localNativeListenerNames = (pointerEventNameMap = {
+    }(Eventful), globalEventSupported = env.domSupported, localNativeListenerNames = (pointerEventNameMap = {
         pointerdown: 1,
         pointerup: 1,
         pointermove: 1,
@@ -3710,15 +3709,14 @@
     }, HandlerDomProxy = function(_super) {
         function HandlerDomProxy(dom, painterRoot) {
             var scope, domHandlers, _this = _super.call(this) || this;
-            return _this.__pointerCapturing = !1, _this.dom = dom, _this.painterRoot = painterRoot, _this._localHandlerScope = new DOMHandlerScope(dom, localDOMHandlers), globalEventSupported && (_this._globalHandlerScope = new DOMHandlerScope(document, globalDOMHandlers)), domHandlers = (scope = _this._localHandlerScope).domHandlers, env1.pointerEventsSupported ? each(localNativeListenerNames.pointer, function(nativeEventName) {
+            return _this.__pointerCapturing = !1, _this.dom = dom, _this.painterRoot = painterRoot, _this._localHandlerScope = new DOMHandlerScope(dom, localDOMHandlers), globalEventSupported && (_this._globalHandlerScope = new DOMHandlerScope(document, globalDOMHandlers)), domHandlers = (scope = _this._localHandlerScope).domHandlers, env.pointerEventsSupported ? each(localNativeListenerNames.pointer, function(nativeEventName) {
                 mountSingleDOMEventListener(scope, nativeEventName, function(event) {
                     domHandlers[nativeEventName].call(_this, event);
                 });
-            }) : (env1.touchEventsSupported && each(localNativeListenerNames.touch, function(nativeEventName) {
+            }) : (env.touchEventsSupported && each(localNativeListenerNames.touch, function(nativeEventName) {
                 mountSingleDOMEventListener(scope, nativeEventName, function(event) {
-                    var scope1;
-                    domHandlers[nativeEventName].call(_this, event), (scope1 = scope).touching = !0, null != scope1.touchTimer && (clearTimeout(scope1.touchTimer), scope1.touchTimer = null), scope1.touchTimer = setTimeout(function() {
-                        scope1.touching = !1, scope1.touchTimer = null;
+                    domHandlers[nativeEventName].call(_this, event), scope.touching = !0, null != scope.touchTimer && (clearTimeout(scope.touchTimer), scope.touchTimer = null), scope.touchTimer = setTimeout(function() {
+                        scope.touching = !1, scope.touchTimer = null;
                     }, 700);
                 });
             }), each(localNativeListenerNames.mouse, function(nativeEventName) {
@@ -3736,7 +3734,7 @@
                 this.__pointerCapturing = isPointerCapturing;
                 var globalHandlerScope = this._globalHandlerScope;
                 isPointerCapturing ? function(instance, scope) {
-                    env1.pointerEventsSupported ? each(globalNativeListenerNames.pointer, mount) : env1.touchEventsSupported || each(globalNativeListenerNames.mouse, mount);
+                    env.pointerEventsSupported ? each(globalNativeListenerNames.pointer, mount) : env.touchEventsSupported || each(globalNativeListenerNames.mouse, mount);
                     function mount(nativeEventName) {
                         mountSingleDOMEventListener(scope, nativeEventName, function(event) {
                             if (event = getNativeEvent(event), !isLocalEl(instance, event.target)) {
@@ -3825,7 +3823,7 @@
         }, Group;
     }(Element);
     Group.prototype.type = 'group';
-    var useVML = !env1.canvasSupported, painterCtors = {}, instances = {}, ZRender = function() {
+    var useVML = !env.canvasSupported, painterCtors = {}, instances = {}, ZRender = function() {
         function ZRender(id, dom, opts) {
             var _this = this;
             this._sleepAfterStill = 10, this._stillFrameAccum = 0, this._needsRefresh = !0, this._needsRefreshHover = !0, this._darkMode = !1, opts = opts || {}, this.dom = dom, this.id = id;
@@ -3835,7 +3833,7 @@
             opts.useDirtyRect = null != opts.useDirtyRect && opts.useDirtyRect;
             var painter = new painterCtors[rendererType](dom, storage, opts, id);
             this.storage = storage, this.painter = painter;
-            var handerProxy = env1.node || env1.worker ? null : new HandlerDomProxy(painter.getViewportRoot(), painter.root);
+            var handerProxy = env.node || env.worker ? null : new HandlerDomProxy(painter.getViewportRoot(), painter.root);
             this.handler = new Handler(storage, painter, handerProxy, painter.root), this.animation = new Animation({
                 stage: {
                     update: function() {
@@ -4163,7 +4161,7 @@
         return !isObject(dataItem) || isArray(dataItem) || dataItem instanceof Date ? dataItem : dataItem.value;
     }
     function mappingToExists(existings, newCmptOptions, mode) {
-        var existings1, newCmptOptions1, result, newCmptOptions2, idMap, isNormalMergeMode = 'normalMerge' === mode, isReplaceMergeMode = 'replaceMerge' === mode;
+        var existings1, newCmptOptions1, newCmptOptions2, idMap, isNormalMergeMode = 'normalMerge' === mode, isReplaceMergeMode = 'replaceMerge' === mode, isReplaceAllMode = 'replaceAll' === mode;
         existings = existings || [], newCmptOptions = (newCmptOptions || []).slice();
         var existingIdIdxMap = createHashMap();
         each(newCmptOptions, function(cmptOption, index) {
@@ -4174,7 +4172,7 @@
             }
             null == cmptOption.id || isStringSafe(idOrName = cmptOption.id) || isNumeric(idOrName) || warnInvalidateIdOrName(cmptOption.id), null == cmptOption.name || isStringSafe(idOrName1 = cmptOption.name) || isNumeric(idOrName1) || warnInvalidateIdOrName(cmptOption.name);
         });
-        var result1 = function(existings, existingIdIdxMap, mode) {
+        var result = function(existings, existingIdIdxMap, mode) {
             var result = [];
             if ('replaceAll' === mode) return result;
             for(var index = 0; index < existings.length; index++){
@@ -4192,11 +4190,11 @@
             if (cmptOption && null != cmptOption.id) {
                 var optionId = makeComparableKey(cmptOption.id), existingIdx = existingIdIdxMap.get(optionId);
                 if (null != existingIdx) {
-                    var resultItem = result1[existingIdx];
+                    var resultItem = result[existingIdx];
                     assert(!resultItem.newOption, 'Duplicated option on id "' + optionId + '".'), resultItem.newOption = cmptOption, resultItem.existing = existings1[existingIdx], newCmptOptions1[index] = null;
                 }
             }
-        })), isNormalMergeMode && (result = result1, each(newCmptOptions2 = newCmptOptions, function(cmptOption, index) {
+        })), isNormalMergeMode && each(newCmptOptions2 = newCmptOptions, function(cmptOption, index) {
             if (cmptOption && null != cmptOption.name) for(var i = 0; i < result.length; i++){
                 var existing = result[i].existing;
                 if (!result[i].newOption && existing && (null == existing.id || null == cmptOption.id) && !isComponentIdInternal(cmptOption) && !isComponentIdInternal(existing) && keyExistAndEqual('name', existing, cmptOption)) {
@@ -4204,30 +4202,30 @@
                     return;
                 }
             }
-        })), isNormalMergeMode || isReplaceMergeMode ? each(newCmptOptions, function(cmptOption) {
+        }), isNormalMergeMode || isReplaceMergeMode ? each(newCmptOptions, function(cmptOption) {
             if (cmptOption) {
-                for(var resultItem, nextIdx = 0; (resultItem = result1[nextIdx]) && (resultItem.newOption || isComponentIdInternal(resultItem.existing) || resultItem.existing && null != cmptOption.id && !keyExistAndEqual('id', cmptOption, resultItem.existing));)nextIdx++;
-                resultItem ? (resultItem.newOption = cmptOption, resultItem.brandNew = isReplaceMergeMode) : result1.push({
+                for(var resultItem, nextIdx = 0; (resultItem = result[nextIdx]) && (resultItem.newOption || isComponentIdInternal(resultItem.existing) || resultItem.existing && null != cmptOption.id && !keyExistAndEqual('id', cmptOption, resultItem.existing));)nextIdx++;
+                resultItem ? (resultItem.newOption = cmptOption, resultItem.brandNew = isReplaceMergeMode) : result.push({
                     newOption: cmptOption,
                     brandNew: isReplaceMergeMode,
                     existing: null,
                     keyInfo: null
                 }), nextIdx++;
             }
-        }) : 'replaceAll' === mode && each(newCmptOptions, function(cmptOption) {
-            result1.push({
+        }) : isReplaceAllMode && each(newCmptOptions, function(cmptOption) {
+            result.push({
                 newOption: cmptOption,
                 brandNew: !0,
                 existing: null,
                 keyInfo: null
             });
-        }), idMap = createHashMap(), each(result1, function(item) {
+        }), idMap = createHashMap(), each(result, function(item) {
             var existing = item.existing;
             existing && idMap.set(existing.id, item);
-        }), each(result1, function(item) {
+        }), each(result, function(item) {
             var opt = item.newOption;
             assert(!opt || null == opt.id || !idMap.get(opt.id) || idMap.get(opt.id) === item, 'id duplicates: ' + (opt && opt.id)), opt && null != opt.id && idMap.set(opt.id, item), item.keyInfo || (item.keyInfo = {});
-        }), each(result1, function(item, index) {
+        }), each(result, function(item, index) {
             var existing = item.existing, opt = item.newOption, keyInfo = item.keyInfo;
             if (isObject(opt)) {
                 if (keyInfo.name = null != opt.name ? makeComparableKey(opt.name) : existing ? existing.name : DUMMY_COMPONENT_NAME_PREFIX + index, existing) keyInfo.id = makeComparableKey(existing.id);
@@ -4239,7 +4237,7 @@
                 }
                 idMap.set(keyInfo.id, item);
             }
-        }), result1;
+        }), result;
     }
     function keyExistAndEqual(attr, obj1, obj2) {
         var key1 = convertOptionIdName(obj1[attr], null), key2 = convertOptionIdName(obj2[attr], null);
@@ -4279,15 +4277,15 @@
     }
     var innerUniqueIndex = getRandomIdBase();
     function parseFinder(ecModel, finderInput, opt) {
-        var _a = preParseFinder(finderInput, opt), mainTypeSpecified = _a.mainTypeSpecified, queryOptionMap = _a.queryOptionMap, result = _a.others, defaultMainType = opt ? opt.defaultMainType : null;
+        var _a = preParseFinder(finderInput, opt), mainTypeSpecified = _a.mainTypeSpecified, queryOptionMap = _a.queryOptionMap, others = _a.others, defaultMainType = opt ? opt.defaultMainType : null;
         return !mainTypeSpecified && defaultMainType && queryOptionMap.set(defaultMainType, {}), queryOptionMap.each(function(queryOption, mainType) {
             var queryResult = queryReferringComponents(ecModel, mainType, queryOption, {
                 useDefault: defaultMainType === mainType,
                 enableAll: !opt || null == opt.enableAll || opt.enableAll,
                 enableNone: !opt || null == opt.enableNone || opt.enableNone
             });
-            result[mainType + 'Models'] = queryResult.models, result[mainType + 'Model'] = queryResult.models[0];
-        }), result;
+            others[mainType + 'Models'] = queryResult.models, others[mainType + 'Model'] = queryResult.models[0];
+        }), others;
     }
     function preParseFinder(finderInput, opt) {
         if (isString(finderInput)) {
@@ -4412,8 +4410,8 @@
             var componentFullType = clz.type || clz.prototype.type;
             if (componentFullType) {
                 assert(/^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)?$/.test(componentFullType), 'componentType "' + componentFullType + '" illegal'), clz.prototype.type = componentFullType;
-                var componentTypeInfo, container, componentTypeInfo1 = parseClassType(componentFullType);
-                componentTypeInfo1.sub ? componentTypeInfo1.sub !== IS_CONTAINER && (((container = storage[(componentTypeInfo = componentTypeInfo1).main]) && container[IS_CONTAINER] || ((container = storage[componentTypeInfo.main] = {})[IS_CONTAINER] = !0), container)[componentTypeInfo1.sub] = clz) : (storage[componentTypeInfo1.main] && console.warn(componentTypeInfo1.main + ' exists.'), storage[componentTypeInfo1.main] = clz);
+                var container, componentTypeInfo = parseClassType(componentFullType);
+                componentTypeInfo.sub ? componentTypeInfo.sub !== IS_CONTAINER && (((container = storage[componentTypeInfo.main]) && container[IS_CONTAINER] || ((container = storage[componentTypeInfo.main] = {})[IS_CONTAINER] = !0), container)[componentTypeInfo.sub] = clz) : (storage[componentTypeInfo.main] && console.warn(componentTypeInfo.main + ' exists.'), storage[componentTypeInfo.main] = clz);
             }
             return clz;
         }, target.getClass = function(mainType, subType, throwWhenNotFound) {
@@ -4737,7 +4735,7 @@
         return 3 * (((p1 - p0) * onet + 2 * (p2 - p1) * t) * onet + (p3 - p2) * t * t);
     }
     function cubicRootAt(p0, p1, p2, p3, val, roots) {
-        var a = p3 + 3 * (p1 - p2) - p0, b = 3 * (p2 - 2 * p1 + p0), c = 3 * (p1 - p0), d = p0 - val, A = b * b - 3 * a * c, B = b * c - 9 * a * d, n = 0;
+        var a = p3 + 3 * (p1 - p2) - p0, b = 3 * (p2 - 2 * p1 + p0), c = 3 * (p1 - p0), d = p0 - val, A = b * b - 3 * a * c, B = b * c - 9 * a * d, C = c * c - 3 * b * d, n = 0;
         if (isAroundZero(A) && isAroundZero(B)) {
             if (isAroundZero(b)) roots[0] = 0;
             else {
@@ -4745,7 +4743,7 @@
                 t1 >= 0 && t1 <= 1 && (roots[n++] = t1);
             }
         } else {
-            var disc = B * B - 4 * A * (c * c - 3 * b * d);
+            var disc = B * B - 4 * A * C;
             if (isAroundZero(disc)) {
                 var K = B / A, t1 = -b / a + K, t2 = -K / 2;
                 t1 >= 0 && t1 <= 1 && (roots[n++] = t1), t2 >= 0 && t2 <= 1 && (roots[n++] = t2);
@@ -5466,8 +5464,9 @@
             var normalState = this._normalState;
             toState.shape && !normalState.shape && (normalState.shape = extend({}, this.shape));
         }, Path.prototype._applyStateObj = function(stateName, state, normalState, keepCurrentStates, transition, animationCfg) {
-            var targetShape;
-            if (_super.prototype._applyStateObj.call(this, stateName, state, normalState, keepCurrentStates, transition, animationCfg), state && state.shape ? transition ? keepCurrentStates ? targetShape = state.shape : (targetShape = extend({}, normalState.shape), extend(targetShape, state.shape)) : (targetShape = extend({}, keepCurrentStates ? this.shape : normalState.shape), extend(targetShape, state.shape)) : state && keepCurrentStates || (targetShape = normalState.shape), targetShape) {
+            _super.prototype._applyStateObj.call(this, stateName, state, normalState, keepCurrentStates, transition, animationCfg);
+            var targetShape, needsRestoreToNormal = !(state && keepCurrentStates);
+            if (state && state.shape ? transition ? keepCurrentStates ? targetShape = state.shape : (targetShape = extend({}, normalState.shape), extend(targetShape, state.shape)) : (targetShape = extend({}, keepCurrentStates ? this.shape : normalState.shape), extend(targetShape, state.shape)) : needsRestoreToNormal && (targetShape = normalState.shape), targetShape) {
                 if (transition) {
                     this.shape = extend({}, this.shape);
                     for(var targetShapePrimaryProps = {}, shapeKeys = keys(targetShape), i = 0; i < shapeKeys.length; i++){
@@ -5705,10 +5704,10 @@
         }, ZRText.prototype._updatePlainTexts = function() {
             var fill, style = this.style, textFont = style.font || DEFAULT_FONT, textPadding = style.padding, contentBlock = function(text, style) {
                 null != text && (text += '');
-                var lines, overflow = style.overflow, padding = style.padding, font = style.font, calculatedLineHeight = getLineHeight(font), lineHeight = retrieve2(style.lineHeight, calculatedLineHeight), truncateLineOverflow = 'truncate' === style.lineOverflow, width = style.width, contentHeight = (lines = null != width && 'break' === overflow || 'breakAll' === overflow ? text ? wrapText(text, style.font, width, 'breakAll' === overflow, 0).lines : [] : text ? text.split('\n') : []).length * lineHeight, height = retrieve2(style.height, contentHeight);
+                var lines, overflow = style.overflow, padding = style.padding, font = style.font, truncate = 'truncate' === overflow, calculatedLineHeight = getLineHeight(font), lineHeight = retrieve2(style.lineHeight, calculatedLineHeight), truncateLineOverflow = 'truncate' === style.lineOverflow, width = style.width, contentHeight = (lines = null != width && 'break' === overflow || 'breakAll' === overflow ? text ? wrapText(text, style.font, width, 'breakAll' === overflow, 0).lines : [] : text ? text.split('\n') : []).length * lineHeight, height = retrieve2(style.height, contentHeight);
                 contentHeight > height && truncateLineOverflow && (lines = lines.slice(0, Math.floor(height / lineHeight)));
                 var outerHeight = height, outerWidth = width;
-                if (padding && (outerHeight += padding[0] + padding[2], null != outerWidth && (outerWidth += padding[1] + padding[3])), text && 'truncate' === overflow && null != outerWidth) for(var options = prepareTruncateOptions(width, font, style.ellipsis, {
+                if (padding && (outerHeight += padding[0] + padding[2], null != outerWidth && (outerWidth += padding[1] + padding[3])), text && truncate && null != outerWidth) for(var options = prepareTruncateOptions(width, font, style.ellipsis, {
                     minChar: style.truncateMinChar,
                     placeholder: style.placeholder
                 }), i = 0; i < lines.length; i++)lines[i] = truncateSingleLine(lines[i], options);
@@ -6109,8 +6108,8 @@
         }
     }
     function setAsHighDownDispatcher(el, asDispatcher) {
-        var disable = !1 === asDispatcher, extendedEl = el;
-        el.highDownSilentOnTouch && (extendedEl.__highDownSilentOnTouch = el.highDownSilentOnTouch), (!disable || extendedEl.__highDownDispatcher) && (extendedEl.__highByOuter = extendedEl.__highByOuter || 0, extendedEl.__highDownDispatcher = !disable);
+        var disable = !1 === asDispatcher;
+        el.highDownSilentOnTouch && (el.__highDownSilentOnTouch = el.highDownSilentOnTouch), (!disable || el.__highDownDispatcher) && (el.__highByOuter = el.__highByOuter || 0, el.__highDownDispatcher = !disable);
     }
     function isHighDownDispatcher(el) {
         return !!(el && el.__highDownDispatcher);
@@ -6570,8 +6569,8 @@
         }, Arc.prototype.getDefaultShape = function() {
             return new ArcShape();
         }, Arc.prototype.buildPath = function(ctx, shape) {
-            var x = shape.cx, y = shape.cy, r = Math.max(shape.r, 0), startAngle = shape.startAngle, endAngle = shape.endAngle, clockwise = shape.clockwise;
-            ctx.moveTo(Math.cos(startAngle) * r + x, Math.sin(startAngle) * r + y), ctx.arc(x, y, r, startAngle, endAngle, !clockwise);
+            var x = shape.cx, y = shape.cy, r = Math.max(shape.r, 0), startAngle = shape.startAngle, endAngle = shape.endAngle, clockwise = shape.clockwise, unitX = Math.cos(startAngle), unitY = Math.sin(startAngle);
+            ctx.moveTo(unitX * r + x, unitY * r + y), ctx.arc(x, y, r, startAngle, endAngle, !clockwise);
         }, Arc;
     }(Path);
     Arc.prototype.type = 'arc';
@@ -7367,7 +7366,7 @@
         }, Model.prototype.resolveParentPath = function(path) {
             return path;
         }, Model.prototype.isAnimationEnabled = function() {
-            if (!env1.node && this.option) {
+            if (!env.node && this.option) {
                 if (null != this.option.animation) return !!this.option.animation;
                 if (this.parentModel) return this.parentModel.isAnimationEnabled();
             }
@@ -7378,10 +7377,10 @@
             return null == obj && parentModel && (obj = parentModel._doGet(this.resolveParentPath(pathArr), parentModel.parentModel)), obj;
         }, Model;
     }();
-    enableClassExtend(Model), target = Model, classAttr = [
+    enableClassExtend(Model), classAttr = [
         '__\0is_clz',
         classBase++
-    ].join('_'), target.prototype[classAttr] = !0, assert(!target.isInstance, 'The method "is" can not be defined.'), target.isInstance = function(obj) {
+    ].join('_'), Model.prototype[classAttr] = !0, assert(!Model.isInstance, 'The method "is" can not be defined.'), Model.isInstance = function(obj) {
         return !!(obj && obj[classAttr]);
     }, mixin(Model, LineStyleMixin), mixin(Model, ItemStyleMixin), mixin(Model, AreaStyleMixin), mixin(Model, TextStyleMixin);
     var base = Math.round(10 * Math.random());
@@ -7394,7 +7393,7 @@
     function inheritDefaultOption(superOption, subOption) {
         return merge(merge({}, superOption, !0), subOption, !0);
     }
-    var localeStorage = {}, localeModels = {}, SYSTEM_LANG = env1.domSupported && (document.documentElement.lang || navigator.language || navigator.browserLanguage).toUpperCase().indexOf('ZH') > -1 ? 'ZH' : 'EN';
+    var localeStorage = {}, localeModels = {}, SYSTEM_LANG = env.domSupported && (document.documentElement.lang || navigator.language || navigator.browserLanguage).toUpperCase().indexOf('ZH') > -1 ? 'ZH' : 'EN';
     function registerLocale(locale, localeObj) {
         localeModels[locale = locale.toUpperCase()] = new Model(localeObj), localeStorage[locale] = localeObj;
     }
@@ -7770,8 +7769,8 @@
         }
     }
     function format(time, template, isUTC, lang) {
-        var date = parseDate(time), y = date[fullYearGetterName(isUTC)](), M = date[monthGetterName(isUTC)]() + 1, d = date[dateGetterName(isUTC)](), e = date['get' + (isUTC ? 'UTC' : '') + 'Day'](), H = date[hoursGetterName(isUTC)](), h = (H - 1) % 12 + 1, m = date[minutesGetterName(isUTC)](), s = date[secondsGetterName(isUTC)](), S = date[millisecondsGetterName(isUTC)](), timeModel = (lang instanceof Model ? lang : localeModels[lang || SYSTEM_LANG] || localeModels.EN).getModel('time'), month = timeModel.get('month'), monthAbbr = timeModel.get('monthAbbr'), dayOfWeek = timeModel.get('dayOfWeek'), dayOfWeekAbbr = timeModel.get('dayOfWeekAbbr');
-        return (template || '').replace(/{yyyy}/g, y + '').replace(/{yy}/g, y % 100 + '').replace(/{Q}/g, Math.floor((M - 1) / 4) + 1 + '').replace(/{MMMM}/g, month[M - 1]).replace(/{MMM}/g, monthAbbr[M - 1]).replace(/{MM}/g, pad(M, 2)).replace(/{M}/g, M + '').replace(/{dd}/g, pad(d, 2)).replace(/{d}/g, d + '').replace(/{eeee}/g, dayOfWeek[e]).replace(/{ee}/g, dayOfWeekAbbr[e]).replace(/{e}/g, e + '').replace(/{HH}/g, pad(H, 2)).replace(/{H}/g, H + '').replace(/{hh}/g, pad(h + '', 2)).replace(/{h}/g, h + '').replace(/{mm}/g, pad(m, 2)).replace(/{m}/g, m + '').replace(/{ss}/g, pad(s, 2)).replace(/{s}/g, s + '').replace(/{SSS}/g, pad(S, 3)).replace(/{S}/g, S + '');
+        var date = parseDate(time), y = date[fullYearGetterName(isUTC)](), M = date[monthGetterName(isUTC)]() + 1, q = Math.floor((M - 1) / 4) + 1, d = date[dateGetterName(isUTC)](), e = date['get' + (isUTC ? 'UTC' : '') + 'Day'](), H = date[hoursGetterName(isUTC)](), h = (H - 1) % 12 + 1, m = date[minutesGetterName(isUTC)](), s = date[secondsGetterName(isUTC)](), S = date[millisecondsGetterName(isUTC)](), timeModel = (lang instanceof Model ? lang : localeModels[lang || SYSTEM_LANG] || localeModels.EN).getModel('time'), month = timeModel.get('month'), monthAbbr = timeModel.get('monthAbbr'), dayOfWeek = timeModel.get('dayOfWeek'), dayOfWeekAbbr = timeModel.get('dayOfWeekAbbr');
+        return (template || '').replace(/{yyyy}/g, y + '').replace(/{yy}/g, y % 100 + '').replace(/{Q}/g, q + '').replace(/{MMMM}/g, month[M - 1]).replace(/{MMM}/g, monthAbbr[M - 1]).replace(/{MM}/g, pad(M, 2)).replace(/{M}/g, M + '').replace(/{dd}/g, pad(d, 2)).replace(/{d}/g, d + '').replace(/{eeee}/g, dayOfWeek[e]).replace(/{ee}/g, dayOfWeekAbbr[e]).replace(/{e}/g, e + '').replace(/{HH}/g, pad(H, 2)).replace(/{H}/g, H + '').replace(/{hh}/g, pad(h + '', 2)).replace(/{h}/g, h + '').replace(/{mm}/g, pad(m, 2)).replace(/{m}/g, m + '').replace(/{ss}/g, pad(s, 2)).replace(/{s}/g, s + '').replace(/{SSS}/g, pad(S, 3)).replace(/{S}/g, S + '');
     }
     function getUnitFromValue(value, isUTC) {
         var date = parseDate(value), M = date[monthGetterName(isUTC)]() + 1, d = date[dateGetterName(isUTC)](), h = date[hoursGetterName(isUTC)](), m = date[minutesGetterName(isUTC)](), s = date[secondsGetterName(isUTC)](), isSecond = 0 === date[millisecondsGetterName(isUTC)](), isMinute = isSecond && 0 === s, isHour = isMinute && 0 === m, isDay = isHour && 0 === h, isMonth = isDay && 1 === d;
@@ -8093,9 +8092,10 @@
             }
             return fields.defaultOption;
         }, ComponentModel.prototype.getReferringComponents = function(mainType, opt) {
+            var indexKey = mainType + 'Index', idKey = mainType + 'Id';
             return queryReferringComponents(this.ecModel, mainType, {
-                index: this.get(mainType + 'Index', !0),
-                id: this.get(mainType + 'Id', !0)
+                index: this.get(indexKey, !0),
+                id: this.get(idKey, !0)
             }, opt);
         }, ComponentModel.prototype.getBoxLayoutParams = function() {
             return {
@@ -8108,13 +8108,13 @@
             };
         }, ComponentModel.protoInitialize = void ((proto = ComponentModel.prototype).type = 'component', proto.id = '', proto.name = '', proto.mainType = '', proto.subType = '', proto.componentIndex = 0), ComponentModel;
     }(Model);
-    mountExtend(ComponentModel, Model), enableClassManagement(ComponentModel), subTypeDefaulters = {}, (target1 = ComponentModel).registerSubTypeDefaulter = function(componentType, defaulter) {
+    mountExtend(ComponentModel, Model), enableClassManagement(ComponentModel), subTypeDefaulters = {}, ComponentModel.registerSubTypeDefaulter = function(componentType, defaulter) {
         subTypeDefaulters[parseClassType(componentType).main] = defaulter;
-    }, target1.determineSubType = function(componentType, option) {
+    }, ComponentModel.determineSubType = function(componentType, option) {
         var type = option.type;
         if (!type) {
             var componentTypeMain = parseClassType(componentType).main;
-            target1.hasSubTypes(componentType) && subTypeDefaulters[componentTypeMain] && (type = subTypeDefaulters[componentTypeMain](option));
+            ComponentModel.hasSubTypes(componentType) && subTypeDefaulters[componentTypeMain] && (type = subTypeDefaulters[componentTypeMain](option));
         }
         return type;
     }, function(entity, dependencyGetter) {
@@ -8572,7 +8572,7 @@
                 each(mappingResult, function(resultItem, index) {
                     var componentModel = resultItem.existing, newCmptOption = resultItem.newOption;
                     if (newCmptOption) {
-                        var ComponentModelClass = ComponentModel.getClass(mainType, resultItem.keyInfo.subType, 'series' !== mainType);
+                        var isSeriesType = 'series' === mainType, ComponentModelClass = ComponentModel.getClass(mainType, resultItem.keyInfo.subType, !isSeriesType);
                         if (!ComponentModelClass) {
                             var subType = resultItem.keyInfo.subType, seriesImportName = BUILTIN_CHARTS_MAP[subType];
                             componetsMissingLogPrinted[subType] || (componetsMissingLogPrinted[subType] = !0, seriesImportName ? error("Series " + subType + " is used but not imported.\nimport { " + seriesImportName + " } from 'echarts/charts';\necharts.use([" + seriesImportName + "]);") : error("Unkown series " + subType));
@@ -8717,9 +8717,9 @@
             ecModel.option = {}, ecModel.option[OPTION_INNER_KEY] = 1, ecModel._componentsMap = createHashMap({
                 series: []
             }), ecModel._componentsCount = createHashMap();
-            var option, theme, notMergeColorLayer, airaOption = baseOption.aria;
-            isObject(airaOption) && null == airaOption.enabled && (airaOption.enabled = !0), option = baseOption, theme = ecModel._theme.option, notMergeColorLayer = option.color && !option.colorLayer, each(theme, function(themeItem, name) {
-                ('colorLayer' !== name || !notMergeColorLayer) && (ComponentModel.hasClass(name) || ('object' == typeof themeItem ? option[name] = option[name] ? merge(option[name], themeItem, !1) : clone(themeItem) : null != option[name] || (option[name] = themeItem)));
+            var theme, notMergeColorLayer, airaOption = baseOption.aria;
+            isObject(airaOption) && null == airaOption.enabled && (airaOption.enabled = !0), theme = ecModel._theme.option, notMergeColorLayer = baseOption.color && !baseOption.colorLayer, each(theme, function(themeItem, name) {
+                ('colorLayer' !== name || !notMergeColorLayer) && (ComponentModel.hasClass(name) || ('object' == typeof themeItem ? baseOption[name] = baseOption[name] ? merge(baseOption[name], themeItem, !1) : clone(themeItem) : null != baseOption[name] || (baseOption[name] = themeItem)));
             }), merge(baseOption, globalDefault, !1), ecModel._mergeOption(baseOption, null);
         }), GlobalModel;
     }(Model);
@@ -9024,7 +9024,7 @@
             });
         }), compatTextStyle(toObj(option.axisPointer), 'label'), compatTextStyle(toObj(option.tooltip).axisPointer, 'label'), option.series = normalizeToArray(option.series), each(option.series, function(seriesOpt) {
             if (isObject(seriesOpt)) {
-                var option, seriesType = seriesOpt.type;
+                var seriesType = seriesOpt.type;
                 if ('line' === seriesType) null != seriesOpt.clipOverflow && (seriesOpt.clip = seriesOpt.clipOverflow, deprecateReplaceLog('clipOverflow', 'clip', 'line'));
                 else if ('pie' === seriesType || 'gauge' === seriesType) {
                     null != seriesOpt.clockWise && (seriesOpt.clockwise = seriesOpt.clockWise, deprecateReplaceLog('clockWise', 'clockwise')), compatPieLabel(seriesOpt.label);
@@ -9049,7 +9049,7 @@
                     highlightPolicy && (seriesOpt.emphasis = seriesOpt.emphasis || {}, !seriesOpt.emphasis.focus) && (seriesOpt.emphasis.focus = highlightPolicy, deprecateReplaceLog('highlightPolicy', 'emphasis.focus', 'sunburst')), compatSunburstState(seriesOpt), function traverseTree(data, cb) {
                         if (data) for(var i = 0; i < data.length; i++)cb(data[i]), data[i] && traverseTree(data[i].children, cb);
                     }(seriesOpt.data, compatSunburstState);
-                } else 'graph' === seriesType || 'sankey' === seriesType ? (option = seriesOpt) && null != option.focusNodeAdjacency && (option.emphasis = option.emphasis || {}, null == option.emphasis.focus && (deprecateReplaceLog('focusNodeAdjacency', 'emphasis: { focus: \'adjacency\'}', 'graph/sankey'), option.emphasis.focus = 'adjacency')) : 'map' === seriesType && (seriesOpt.mapType && !seriesOpt.map && (deprecateReplaceLog('mapType', 'map', 'map'), seriesOpt.map = seriesOpt.mapType), seriesOpt.mapLocation && (deprecateLog('`mapLocation` is not used anymore.'), defaults(seriesOpt, seriesOpt.mapLocation)));
+                } else 'graph' === seriesType || 'sankey' === seriesType ? seriesOpt && null != seriesOpt.focusNodeAdjacency && (seriesOpt.emphasis = seriesOpt.emphasis || {}, null == seriesOpt.emphasis.focus && (deprecateReplaceLog('focusNodeAdjacency', 'emphasis: { focus: \'adjacency\'}', 'graph/sankey'), seriesOpt.emphasis.focus = 'adjacency')) : 'map' === seriesType && (seriesOpt.mapType && !seriesOpt.map && (deprecateReplaceLog('mapType', 'map', 'map'), seriesOpt.map = seriesOpt.mapType), seriesOpt.mapLocation && (deprecateLog('`mapLocation` is not used anymore.'), defaults(seriesOpt, seriesOpt.mapLocation)));
                 null != seriesOpt.hoverAnimation && (seriesOpt.emphasis = seriesOpt.emphasis || {}, seriesOpt.emphasis && null == seriesOpt.emphasis.scale && (deprecateReplaceLog('hoverAnimation', 'emphasis.scale'), seriesOpt.emphasis.scale = seriesOpt.hoverAnimation)), compatLayoutProperties(seriesOpt);
             }
         }), option.dataRange && (option.visualMap = option.dataRange), each(COMPATITABLE_COMPONENTS, function(componentName) {
@@ -10022,7 +10022,7 @@
                 multipleSeries: multipleSeries
             });
         }, SeriesModel.prototype.isAnimationEnabled = function() {
-            if (env1.node) return !1;
+            if (env.node) return !1;
             var animationEnabled = this.getShallow('animation');
             return animationEnabled && this.getData().count() > this.getShallow('animationThreshold') && (animationEnabled = !1), !!animationEnabled;
         }, SeriesModel.prototype.restoreData = function() {
@@ -12072,7 +12072,7 @@
         return points;
     }
     function parseAttributes(xmlNode, el, defsUsePending, onlyInlineStyle, isTextGroup) {
-        var disp = el, inheritedStyle = disp.__inheritedStyle = disp.__inheritedStyle || {}, selfStyle = {};
+        var inheritedStyle = el.__inheritedStyle = el.__inheritedStyle || {}, selfStyle = {};
         1 !== xmlNode.nodeType || (function(xmlNode, node) {
             var transform = xmlNode.getAttribute('transform');
             if (transform) {
@@ -12117,7 +12117,7 @@
                 var svgAttrName = SELF_STYLE_ATTRIBUTES_MAP_KEYS[i], attrValue = xmlNode.getAttribute(svgAttrName);
                 null != attrValue && (selfStyleResult[SELF_STYLE_ATTRIBUTES_MAP[svgAttrName]] = attrValue);
             }
-        }(xmlNode, inheritedStyle, selfStyle)), disp.style = disp.style || {}, null != inheritedStyle.fill && (disp.style.fill = getFillStrokeStyle(disp, 'fill', inheritedStyle.fill, defsUsePending)), null != inheritedStyle.stroke && (disp.style.stroke = getFillStrokeStyle(disp, 'stroke', inheritedStyle.stroke, defsUsePending)), each([
+        }(xmlNode, inheritedStyle, selfStyle)), el.style = el.style || {}, null != inheritedStyle.fill && (el.style.fill = getFillStrokeStyle(el, 'fill', inheritedStyle.fill, defsUsePending)), null != inheritedStyle.stroke && (el.style.stroke = getFillStrokeStyle(el, 'stroke', inheritedStyle.stroke, defsUsePending)), each([
             'lineWidth',
             'opacity',
             'fillOpacity',
@@ -12125,7 +12125,7 @@
             'miterLimit',
             'fontSize'
         ], function(propName) {
-            null != inheritedStyle[propName] && (disp.style[propName] = parseFloat(inheritedStyle[propName]));
+            null != inheritedStyle[propName] && (el.style[propName] = parseFloat(inheritedStyle[propName]));
         }), each([
             'lineDashOffset',
             'lineCap',
@@ -12135,10 +12135,10 @@
             'fontStyle',
             'textAlign'
         ], function(propName) {
-            null != inheritedStyle[propName] && (disp.style[propName] = inheritedStyle[propName]);
-        }), isTextGroup && (disp.__selfStyle = selfStyle), inheritedStyle.lineDash && (disp.style.lineDash = map(splitNumberSequence(inheritedStyle.lineDash), function(str) {
+            null != inheritedStyle[propName] && (el.style[propName] = inheritedStyle[propName]);
+        }), isTextGroup && (el.__selfStyle = selfStyle), inheritedStyle.lineDash && (el.style.lineDash = map(splitNumberSequence(inheritedStyle.lineDash), function(str) {
             return parseFloat(str);
-        })), ('hidden' === inheritedStyle.visibility || 'collapse' === inheritedStyle.visibility) && (disp.invisible = !0), 'none' === inheritedStyle.display && (disp.ignore = !0), disp.z = -10000, disp.z2 = -1000;
+        })), ('hidden' === inheritedStyle.visibility || 'collapse' === inheritedStyle.visibility) && (el.invisible = !0), 'none' === inheritedStyle.display && (el.ignore = !0), el.z = -10000, el.z2 = -1000;
     }
     var urlRegex = /^url\(\s*#(.*?)\)/;
     function getFillStrokeStyle(el, method, str, defsUsePending) {
@@ -12361,14 +12361,14 @@
     function parseGeoJSON(geoJson, nameProperty) {
         return map(filter((geoJson = function(json) {
             if (!json.UTF8Encoding) return json;
-            var jsonCompressed = json, encodeScale = jsonCompressed.UTF8Scale;
+            var encodeScale = json.UTF8Scale;
             null == encodeScale && (encodeScale = 1024);
-            for(var features = jsonCompressed.features, f = 0; f < features.length; f++){
+            for(var features = json.features, f = 0; f < features.length; f++){
                 var geometry = features[f].geometry;
                 if ('Polygon' === geometry.type) for(var coordinates = geometry.coordinates, c = 0; c < coordinates.length; c++)coordinates[c] = decodePolygon(coordinates[c], geometry.encodeOffsets[c], encodeScale);
                 else if ('MultiPolygon' === geometry.type) for(var coordinates = geometry.coordinates, c = 0; c < coordinates.length; c++)for(var coordinate = coordinates[c], c2 = 0; c2 < coordinate.length; c2++)coordinate[c2] = decodePolygon(coordinate[c2], geometry.encodeOffsets[c][c2], encodeScale);
             }
-            return jsonCompressed.UTF8Encoding = !1, jsonCompressed;
+            return json.UTF8Encoding = !1, json;
         }(geoJson)).features, function(featureObj) {
             return featureObj.geometry && featureObj.properties && featureObj.geometry.coordinates.length > 0;
         }), function(featureObj) {
@@ -12989,9 +12989,9 @@
         }, ECharts.prototype.getDevicePixelRatio = function() {
             return this._zr.painter.dpr || hasWindow && window.devicePixelRatio || 1;
         }, ECharts.prototype.getRenderedCanvas = function(opts) {
-            if (env1.canvasSupported) return (opts = extend({}, opts || {})).pixelRatio = opts.pixelRatio || this.getDevicePixelRatio(), opts.backgroundColor = opts.backgroundColor || this._model.get('backgroundColor'), this._zr.painter.getRenderedCanvas(opts);
+            if (env.canvasSupported) return (opts = extend({}, opts || {})).pixelRatio = opts.pixelRatio || this.getDevicePixelRatio(), opts.backgroundColor = opts.backgroundColor || this._model.get('backgroundColor'), this._zr.painter.getRenderedCanvas(opts);
         }, ECharts.prototype.getSvgDataURL = function() {
-            if (env1.svgSupported) {
+            if (env.svgSupported) {
                 var zr = this._zr;
                 return each(zr.storage.getDisplayList(), function(el) {
                     el.stopAnimation(null, !0);
@@ -13020,7 +13020,7 @@
                 disposedWarning(this.id);
                 return;
             }
-            if (env1.canvasSupported) {
+            if (env.canvasSupported) {
                 var isSvg = 'svg' === opts.type, groupId = this.group, mathMin = Math.min, mathMax = Math.max, MAX_NUMBER = 1 / 0;
                 if (!connectedGroups[groupId]) return this.getDataURL(opts);
                 var left_1 = MAX_NUMBER, top_1 = MAX_NUMBER, right_1 = -MAX_NUMBER, bottom_1 = -MAX_NUMBER, canvasList_1 = [], dpr_1 = opts && opts.pixelRatio || this.getDevicePixelRatio();
@@ -13210,7 +13210,7 @@
                 var silent = opt.silent;
                 doDispatchAction.call(this, payload, silent);
                 var flush = opt.flush;
-                flush ? this._zr.flush() : !1 !== flush && env1.browser.weChat && this._throttledZrFlush(), flushPendingActions.call(this, silent), triggerUpdatedEvent.call(this, silent);
+                flush ? this._zr.flush() : !1 !== flush && env.browser.weChat && this._throttledZrFlush(), flushPendingActions.call(this, silent), triggerUpdatedEvent.call(this, silent);
             }
         }, ECharts.prototype.updateLabelLayout = function() {
             var labelManager = this._labelManager;
@@ -13368,7 +13368,7 @@
                     if (ecModel) {
                         ecModel.setUpdatePayload(payload), scheduler.restoreData(ecModel, payload), scheduler.performSeriesTasks(ecModel), coordSysMgr.create(ecModel, api), scheduler.performDataProcessorTasks(ecModel, payload), updateStreamModes(this, ecModel), coordSysMgr.update(ecModel, api), clearColorPalette(ecModel), scheduler.performVisualTasks(ecModel, payload), render(this, ecModel, api, payload);
                         var backgroundColor = ecModel.get('backgroundColor') || 'transparent', darkMode = ecModel.get('darkMode');
-                        if (env1.canvasSupported) zr.setBackgroundColor(backgroundColor), null != darkMode && 'auto' !== darkMode && zr.setDarkMode(darkMode);
+                        if (env.canvasSupported) zr.setBackgroundColor(backgroundColor), null != darkMode && 'auto' !== darkMode && zr.setDarkMode(darkMode);
                         else {
                             var colorArr = parse(backgroundColor);
                             backgroundColor = stringify(colorArr, 'rgb'), 0 === colorArr[3] && (backgroundColor = 'transparent');
@@ -13550,7 +13550,7 @@
                     var blendMode, chartView = ecIns._chartsMap[seriesModel.__viewId];
                     chartView.__alive = !0;
                     var renderTask = chartView.renderTask;
-                    scheduler.updatePayload(renderTask, payload), clearStates(seriesModel, chartView), dirtyMap && dirtyMap.get(seriesModel.uid) && renderTask.dirty(), renderTask.perform(scheduler.getPerformArgs(renderTask)) && (unfinished = !0), seriesModel.__transientTransitionOpt = null, chartView.group.silent = !!seriesModel.get('silent'), blendMode = seriesModel.get('blendMode') || null, !env1.canvasSupported && blendMode && 'source-over' !== blendMode && console.warn('Only canvas support blendMode'), chartView.group.traverse(function(el) {
+                    scheduler.updatePayload(renderTask, payload), clearStates(seriesModel, chartView), dirtyMap && dirtyMap.get(seriesModel.uid) && renderTask.dirty(), renderTask.perform(scheduler.getPerformArgs(renderTask)) && (unfinished = !0), seriesModel.__transientTransitionOpt = null, chartView.group.silent = !!seriesModel.get('silent'), blendMode = seriesModel.get('blendMode') || null, !env.canvasSupported && blendMode && 'source-over' !== blendMode && console.warn('Only canvas support blendMode'), chartView.group.traverse(function(el) {
                         el.isGroup || (el.style.blend = blendMode), el.eachPendingDisplayable && el.eachPendingDisplayable(function(displayable) {
                             displayable.style.blend = blendMode;
                         });
@@ -13560,7 +13560,7 @@
                     updateZ(seriesModel, chartView), updateStates(seriesModel, chartView);
                 }), storage = ecIns._zr.storage, elCount = 0, storage.traverse(function(el) {
                     !el.isGroup && elCount++;
-                }), !(elCount > ecModel.get('hoverLayerThreshold')) || env1.node || env1.worker || ecModel.eachSeries(function(seriesModel) {
+                }), !(elCount > ecModel.get('hoverLayerThreshold')) || env.node || env.worker || ecModel.eachSeries(function(seriesModel) {
                     if (!seriesModel.preventUsingHoverLayer) {
                         var chartView = ecIns._chartsMap[seriesModel.__viewId];
                         chartView.__alive && chartView.group.traverse(function(el) {
@@ -13801,14 +13801,14 @@
         reset: function(seriesModel, ecModel) {
             var data = seriesModel.getData();
             if (seriesModel.legendSymbol && data.setVisual('legendSymbol', seriesModel.legendSymbol), seriesModel.hasSymbolVisual) {
-                var symbolType = seriesModel.get('symbol'), symbolSize = seriesModel.get('symbolSize'), keepAspect = seriesModel.get('symbolKeepAspect'), symbolRotate = seriesModel.get('symbolRotate'), symbolOffset = seriesModel.get('symbolOffset'), hasSymbolTypeCallback = isFunction(symbolType), hasSymbolSizeCallback = isFunction(symbolSize), hasSymbolRotateCallback = isFunction(symbolRotate), hasSymbolOffsetCallback = isFunction(symbolOffset), seriesSymbol = !hasSymbolTypeCallback && symbolType ? symbolType : seriesModel.defaultSymbol;
+                var symbolType = seriesModel.get('symbol'), symbolSize = seriesModel.get('symbolSize'), keepAspect = seriesModel.get('symbolKeepAspect'), symbolRotate = seriesModel.get('symbolRotate'), symbolOffset = seriesModel.get('symbolOffset'), hasSymbolTypeCallback = isFunction(symbolType), hasSymbolSizeCallback = isFunction(symbolSize), hasSymbolRotateCallback = isFunction(symbolRotate), hasSymbolOffsetCallback = isFunction(symbolOffset), seriesSymbol = !hasSymbolTypeCallback && symbolType ? symbolType : seriesModel.defaultSymbol, seriesSymbolSize = hasSymbolSizeCallback ? null : symbolSize, seriesSymbolRotate = hasSymbolRotateCallback ? null : symbolRotate, seriesSymbolOffset = hasSymbolOffsetCallback ? null : symbolOffset;
                 if (data.setVisual({
                     legendSymbol: seriesModel.legendSymbol || seriesSymbol,
                     symbol: seriesSymbol,
-                    symbolSize: hasSymbolSizeCallback ? null : symbolSize,
+                    symbolSize: seriesSymbolSize,
                     symbolKeepAspect: keepAspect,
-                    symbolRotate: hasSymbolRotateCallback ? null : symbolRotate,
-                    symbolOffset: hasSymbolOffsetCallback ? null : symbolOffset
+                    symbolRotate: seriesSymbolRotate,
+                    symbolOffset: seriesSymbolOffset
                 }), !ecModel.isSeriesFiltered(seriesModel)) return {
                     dataEach: hasSymbolTypeCallback || hasSymbolSizeCallback || hasSymbolRotateCallback || hasSymbolOffsetCallback ? function(data, idx) {
                         var rawValue = seriesModel.getRawValue(idx), params = seriesModel.getDataParams(idx);
@@ -16241,8 +16241,8 @@
             svgEl || (svgEl = createElement('path'), el.__svgEl = svgEl), el.path || el.createPathProxy();
             var path = el.path;
             el.shapeChanged() && (path.beginPath(), el.buildPath(path, el.shape), el.pathUpdated());
-            var pathVersion = path.getVersion(), elExt = el, svgPathBuilder = elExt.__svgPathBuilder;
-            (elExt.__svgPathVersion !== pathVersion || !svgPathBuilder || el.style.strokePercent < 1) && (svgPathBuilder || (svgPathBuilder = elExt.__svgPathBuilder = new SVGPathRebuilder()), svgPathBuilder.reset(), path.rebuildPath(svgPathBuilder, el.style.strokePercent), svgPathBuilder.generateStr(), elExt.__svgPathVersion = pathVersion), attr(svgEl, 'd', svgPathBuilder.getStr()), bindStyle(svgEl, style, el), setTransform(svgEl, el.transform);
+            var pathVersion = path.getVersion(), svgPathBuilder = el.__svgPathBuilder;
+            (el.__svgPathVersion !== pathVersion || !svgPathBuilder || el.style.strokePercent < 1) && (svgPathBuilder || (svgPathBuilder = el.__svgPathBuilder = new SVGPathRebuilder()), svgPathBuilder.reset(), path.rebuildPath(svgPathBuilder, el.style.strokePercent), svgPathBuilder.generateStr(), el.__svgPathVersion = pathVersion), attr(svgEl, 'd', svgPathBuilder.getStr()), bindStyle(svgEl, style, el), setTransform(svgEl, el.transform);
         }
     }, svgImage = {
         brush: function(el) {
@@ -16564,7 +16564,9 @@
             var domChild = shadowDom.children[0], style = displayable.style, globalScale = displayable.getGlobalScale(), scaleX = globalScale[0], scaleY = globalScale[1];
             if (scaleX && scaleY) {
                 var offsetX = style.shadowOffsetX || 0, offsetY = style.shadowOffsetY || 0, blur = style.shadowBlur, color = style.shadowColor;
-                domChild.setAttribute('dx', offsetX / scaleX + ''), domChild.setAttribute('dy', offsetY / scaleY + ''), domChild.setAttribute('flood-color', color), domChild.setAttribute('stdDeviation', blur / 2 / scaleX + ' ' + blur / 2 / scaleY), shadowDom.setAttribute('x', '-100%'), shadowDom.setAttribute('y', '-100%'), shadowDom.setAttribute('width', '300%'), shadowDom.setAttribute('height', '300%'), displayable._shadowDom = shadowDom;
+                domChild.setAttribute('dx', offsetX / scaleX + ''), domChild.setAttribute('dy', offsetY / scaleY + ''), domChild.setAttribute('flood-color', color);
+                var stdDx = blur / 2 / scaleX, stdDy = blur / 2 / scaleY;
+                domChild.setAttribute('stdDeviation', stdDx + ' ' + stdDy), shadowDom.setAttribute('x', '-100%'), shadowDom.setAttribute('y', '-100%'), shadowDom.setAttribute('width', '300%'), shadowDom.setAttribute('height', '300%'), displayable._shadowDom = shadowDom;
                 var id = shadowDom.getAttribute('id');
                 svgElement.style.filter = 'url(#' + id + ')';
             }
@@ -16896,9 +16898,9 @@
             this._prevDisplayList = [];
             var layers = this._layers;
             if (singleCanvas) {
-                var rootCanvas = root, width = rootCanvas.width, height = rootCanvas.height;
-                null != opts.width && (width = opts.width), null != opts.height && (height = opts.height), this.dpr = opts.devicePixelRatio || 1, rootCanvas.width = width * this.dpr, rootCanvas.height = height * this.dpr, this._width = width, this._height = height;
-                var mainLayer = new Layer(rootCanvas, this, this.dpr);
+                var width = root.width, height = root.height;
+                null != opts.width && (width = opts.width), null != opts.height && (height = opts.height), this.dpr = opts.devicePixelRatio || 1, root.width = width * this.dpr, root.height = height * this.dpr, this._width = width, this._height = height;
+                var mainLayer = new Layer(root, this, this.dpr);
                 mainLayer.__builtin__ = !0, mainLayer.initContext(), layers[314159] = mainLayer, mainLayer.zlevel = 314159, zlevelList.push(314159), this._domRoot = root;
             } else {
                 this._width = this._getSize(0), this._height = this._getSize(1);
@@ -17012,7 +17014,7 @@
                 } else ctx.save(), repaint(), ctx.restore();
                 layer.__drawIndex = i, layer.__drawIndex < layer.__endIndex && (finished = !1);
             }(k);
-            return env1.wxa && each(this._layers, function(layer) {
+            return env.wxa && each(this._layers, function(layer) {
                 layer && layer.ctx && layer.ctx.draw && layer.ctx.draw();
             }), {
                 finished: finished,
@@ -17512,7 +17514,7 @@
         }, SymbolDraw;
     }();
     function prepareDataCoordInfo(coordSys, data, valueOrigin) {
-        var valueStart, extent, baseAxis = coordSys.getBaseAxis(), valueAxis = coordSys.getOtherAxis(baseAxis), valueStart1 = (valueStart = 0, extent = valueAxis.scale.getExtent(), 'start' === valueOrigin ? valueStart = extent[0] : 'end' === valueOrigin ? valueStart = extent[1] : extent[0] > 0 ? valueStart = extent[0] : extent[1] < 0 && (valueStart = extent[1]), valueStart), baseAxisDim = baseAxis.dim, valueAxisDim = valueAxis.dim, valueDim = data.mapDimension(valueAxisDim), baseDim = data.mapDimension(baseAxisDim), dims = map(coordSys.dimensions, function(coordDim) {
+        var valueStart, extent, baseAxis = coordSys.getBaseAxis(), valueAxis = coordSys.getOtherAxis(baseAxis), valueStart1 = (valueStart = 0, extent = valueAxis.scale.getExtent(), 'start' === valueOrigin ? valueStart = extent[0] : 'end' === valueOrigin ? valueStart = extent[1] : extent[0] > 0 ? valueStart = extent[0] : extent[1] < 0 && (valueStart = extent[1]), valueStart), baseAxisDim = baseAxis.dim, valueAxisDim = valueAxis.dim, valueDim = data.mapDimension(valueAxisDim), baseDim = data.mapDimension(baseAxisDim), baseDataOffset = 'x' === valueAxisDim || 'radius' === valueAxisDim ? 1 : 0, dims = map(coordSys.dimensions, function(coordDim) {
             return data.mapDimension(coordDim);
         }), stacked = !1, stackResultDim = data.getCalculationInfo('stackResultDimension');
         return isDimensionStacked(data, dims[0]) && (stacked = !0, dims[0] = stackResultDim), isDimensionStacked(data, dims[1]) && (stacked = !0, dims[1] = stackResultDim), {
@@ -17523,7 +17525,7 @@
             stacked: !!stacked,
             valueDim: valueDim,
             baseDim: baseDim,
-            baseDataOffset: 'x' === valueAxisDim || 'radius' === valueAxisDim ? 1 : 0,
+            baseDataOffset: baseDataOffset,
             stackedOverDimension: data.getCalculationInfo('stackedOverDimension')
         };
     }
@@ -18661,11 +18663,11 @@
         }, LargePath;
     }(Path);
     function createLarge(seriesModel, group, incremental) {
-        var el, globalStyle, data = seriesModel.getData(), startPoint = [], baseDimIdx = data.getLayout('valueAxisHorizontal') ? 1 : 0;
+        var globalStyle, data = seriesModel.getData(), startPoint = [], baseDimIdx = data.getLayout('valueAxisHorizontal') ? 1 : 0;
         startPoint[1 - baseDimIdx] = data.getLayout('valueAxisStart');
         var largeDataIndices = data.getLayout('largeDataIndices'), barWidth = data.getLayout('barWidth'), backgroundModel = seriesModel.getModel('backgroundStyle');
         if (seriesModel.get('showBackground', !0)) {
-            var el1, borderColor, itemStyle, points = data.getLayout('largeBackgroundPoints'), backgroundStartPoint = [];
+            var borderColor, itemStyle, points = data.getLayout('largeBackgroundPoints'), backgroundStartPoint = [];
             backgroundStartPoint[1 - baseDimIdx] = data.getLayout('backgroundStart');
             var bgEl = new LargePath({
                 shape: {
@@ -18675,15 +18677,15 @@
                 silent: !0,
                 z2: 0
             });
-            bgEl.__startPoint = backgroundStartPoint, bgEl.__baseDimIdx = baseDimIdx, bgEl.__largeDataIndices = largeDataIndices, bgEl.__barWidth = barWidth, el1 = bgEl, borderColor = backgroundModel.get('borderColor') || backgroundModel.get('color'), itemStyle = backgroundModel.getItemStyle(), el1.useStyle(itemStyle), el1.style.fill = null, el1.style.stroke = borderColor, el1.style.lineWidth = data.getLayout('barWidth'), group.add(bgEl);
+            bgEl.__startPoint = backgroundStartPoint, bgEl.__baseDimIdx = baseDimIdx, bgEl.__largeDataIndices = largeDataIndices, bgEl.__barWidth = barWidth, borderColor = backgroundModel.get('borderColor') || backgroundModel.get('color'), itemStyle = backgroundModel.getItemStyle(), bgEl.useStyle(itemStyle), bgEl.style.fill = null, bgEl.style.stroke = borderColor, bgEl.style.lineWidth = data.getLayout('barWidth'), group.add(bgEl);
         }
-        var el2 = new LargePath({
+        var el = new LargePath({
             shape: {
                 points: data.getLayout('largePoints')
             },
             incremental: !!incremental
         });
-        el2.__startPoint = startPoint, el2.__baseDimIdx = baseDimIdx, el2.__largeDataIndices = largeDataIndices, el2.__barWidth = barWidth, group.add(el2), el = el2, globalStyle = data.getVisual('style'), el.useStyle(extend({}, globalStyle)), el.style.fill = null, el.style.stroke = globalStyle.fill, el.style.lineWidth = data.getLayout('barWidth'), getECData(el2).seriesIndex = seriesModel.seriesIndex, seriesModel.get('silent') || (el2.on('mousedown', largePathUpdateDataIndex), el2.on('mousemove', largePathUpdateDataIndex));
+        el.__startPoint = startPoint, el.__baseDimIdx = baseDimIdx, el.__largeDataIndices = largeDataIndices, el.__barWidth = barWidth, group.add(el), globalStyle = data.getVisual('style'), el.useStyle(extend({}, globalStyle)), el.style.fill = null, el.style.stroke = globalStyle.fill, el.style.lineWidth = data.getLayout('barWidth'), getECData(el).seriesIndex = seriesModel.seriesIndex, seriesModel.get('silent') || (el.on('mousedown', largePathUpdateDataIndex), el.on('mousemove', largePathUpdateDataIndex));
     }
     var largePathUpdateDataIndex = throttle(function(event) {
         var dataIndex = function(largePath, x, y) {
@@ -18858,47 +18860,47 @@
             return _this.setTextContent(text), _this.updateData(data, idx, startAngle, !0), _this;
         }
         return __extends(PiePiece, _super), PiePiece.prototype.updateData = function(data, idx, startAngle, firstCreate) {
-            var sector = this, seriesModel = data.hostModel, itemModel = data.getItemModel(idx), emphasisModel = itemModel.getModel('emphasis'), layout = data.getItemLayout(idx), sectorShape = extend(getSectorCornerRadius(itemModel.getModel('itemStyle'), layout) || {}, layout);
+            var seriesModel = data.hostModel, itemModel = data.getItemModel(idx), emphasisModel = itemModel.getModel('emphasis'), layout = data.getItemLayout(idx), sectorShape = extend(getSectorCornerRadius(itemModel.getModel('itemStyle'), layout) || {}, layout);
             if (isNaN(sectorShape.startAngle)) {
-                sector.setShape(sectorShape);
+                this.setShape(sectorShape);
                 return;
             }
-            firstCreate ? (sector.setShape(sectorShape), 'scale' === seriesModel.getShallow('animationType') ? (sector.shape.r = layout.r0, initProps(sector, {
+            firstCreate ? (this.setShape(sectorShape), 'scale' === seriesModel.getShallow('animationType') ? (this.shape.r = layout.r0, initProps(this, {
                 shape: {
                     r: layout.r
                 }
-            }, seriesModel, idx)) : null != startAngle ? (sector.setShape({
+            }, seriesModel, idx)) : null != startAngle ? (this.setShape({
                 startAngle: startAngle,
                 endAngle: startAngle
-            }), initProps(sector, {
+            }), initProps(this, {
                 shape: {
                     startAngle: layout.startAngle,
                     endAngle: layout.endAngle
                 }
-            }, seriesModel, idx)) : (sector.shape.endAngle = layout.startAngle, updateProps(sector, {
+            }, seriesModel, idx)) : (this.shape.endAngle = layout.startAngle, updateProps(this, {
                 shape: {
                     endAngle: layout.endAngle
                 }
-            }, seriesModel, idx))) : updateProps(sector, {
+            }, seriesModel, idx))) : updateProps(this, {
                 shape: sectorShape
-            }, seriesModel, idx), sector.useStyle(data.getItemVisual(idx, 'style')), setStatesStylesFromModel(sector, itemModel);
+            }, seriesModel, idx), this.useStyle(data.getItemVisual(idx, 'style')), setStatesStylesFromModel(this, itemModel);
             var midAngle = (layout.startAngle + layout.endAngle) / 2, offset = seriesModel.get('selectedOffset'), dx = Math.cos(midAngle) * offset, dy = Math.sin(midAngle) * offset, cursorStyle = itemModel.getShallow('cursor');
-            cursorStyle && sector.attr('cursor', cursorStyle), this._updateLabel(seriesModel, data, idx), sector.ensureState('emphasis').shape = __assign({
+            cursorStyle && this.attr('cursor', cursorStyle), this._updateLabel(seriesModel, data, idx), this.ensureState('emphasis').shape = __assign({
                 r: layout.r + (emphasisModel.get('scale') && emphasisModel.get('scaleSize') || 0)
-            }, getSectorCornerRadius(emphasisModel.getModel('itemStyle'), layout)), extend(sector.ensureState('select'), {
+            }, getSectorCornerRadius(emphasisModel.getModel('itemStyle'), layout)), extend(this.ensureState('select'), {
                 x: dx,
                 y: dy,
                 shape: getSectorCornerRadius(itemModel.getModel([
                     'select',
                     'itemStyle'
                 ]), layout)
-            }), extend(sector.ensureState('blur'), {
+            }), extend(this.ensureState('blur'), {
                 shape: getSectorCornerRadius(itemModel.getModel([
                     'blur',
                     'itemStyle'
                 ]), layout)
             });
-            var labelLine = sector.getTextGuideLine(), labelText = sector.getTextContent();
+            var labelLine = this.getTextGuideLine(), labelText = this.getTextContent();
             labelLine && extend(labelLine.ensureState('select'), {
                 x: dx,
                 y: dy
@@ -19782,18 +19784,18 @@
             var axesList = this._axesList;
             function adjustAxes() {
                 each(axesList, function(axis) {
-                    var axis1, coordBase, axisExtent, axisExtentSum, isHorizontal = axis.isHorizontal(), extent = isHorizontal ? [
+                    var coordBase, axisExtent, axisExtentSum, isHorizontal = axis.isHorizontal(), extent = isHorizontal ? [
                         0,
                         gridRect.width
                     ] : [
                         0,
                         gridRect.height
                     ], idx = axis.inverse ? 1 : 0;
-                    axis.setExtent(extent[idx], extent[1 - idx]), axis1 = axis, coordBase = isHorizontal ? gridRect.x : gridRect.y, axisExtentSum = (axisExtent = axis1.getExtent())[0] + axisExtent[1], axis1.toGlobalCoord = 'x' === axis1.dim ? function(coord) {
+                    axis.setExtent(extent[idx], extent[1 - idx]), coordBase = isHorizontal ? gridRect.x : gridRect.y, axisExtentSum = (axisExtent = axis.getExtent())[0] + axisExtent[1], axis.toGlobalCoord = 'x' === axis.dim ? function(coord) {
                         return coord + coordBase;
                     } : function(coord) {
                         return axisExtentSum - coord + coordBase;
-                    }, axis1.toLocalCoord = 'x' === axis1.dim ? function(coord) {
+                    }, axis.toLocalCoord = 'x' === axis.dim ? function(coord) {
                         return coord - coordBase;
                     } : function(coord) {
                         return axisExtentSum - coord + coordBase;
@@ -19819,8 +19821,8 @@
                                 var label = labelFormatter(realNumberScaleTicks ? realNumberScaleTicks[i] : {
                                     value: categoryScaleExtent[0] + i
                                 }, i), singleRect = function(textRect, rotate) {
-                                    var rotateRadians = rotate * Math.PI / 180, beforeWidth = textRect.width, beforeHeight = textRect.height;
-                                    return new BoundingRect(textRect.x, textRect.y, beforeWidth * Math.abs(Math.cos(rotateRadians)) + Math.abs(beforeHeight * Math.sin(rotateRadians)), beforeWidth * Math.abs(Math.sin(rotateRadians)) + Math.abs(beforeHeight * Math.cos(rotateRadians)));
+                                    var rotateRadians = rotate * Math.PI / 180, beforeWidth = textRect.width, beforeHeight = textRect.height, afterWidth = beforeWidth * Math.abs(Math.cos(rotateRadians)) + Math.abs(beforeHeight * Math.sin(rotateRadians)), afterHeight = beforeWidth * Math.abs(Math.sin(rotateRadians)) + Math.abs(beforeHeight * Math.cos(rotateRadians));
+                                    return new BoundingRect(textRect.x, textRect.y, afterWidth, afterHeight);
                                 }(axisLabelModel.getTextRect(label), axisLabelModel.get('rotate') || 0);
                                 rect ? rect.union(singleRect) : rect = singleRect;
                             }
@@ -21306,10 +21308,10 @@
     function resetLabelForRegion(viewBuildCtx, el, regionName, regionModel, mapOrGeoModel, dataIdx, labelXY) {
         var data = viewBuildCtx.data, isGeo = viewBuildCtx.isGeo, isDataNaN = data && isNaN(data.get(data.mapDimension('value'), dataIdx)), itemLayout = data && data.getItemLayout(dataIdx);
         if (isGeo || isDataNaN || itemLayout && itemLayout.showLabel) {
-            var labelFetcher = void 0;
+            var query = isGeo ? regionName : dataIdx, labelFetcher = void 0;
             (!data || dataIdx >= 0) && (labelFetcher = mapOrGeoModel), setLabelStyle(el, getLabelStatesModels(regionModel), {
                 labelFetcher: labelFetcher,
-                labelDataIndex: isGeo ? regionName : dataIdx,
+                labelDataIndex: query,
                 defaultText: regionName
             }, labelXY ? {
                 normal: {
@@ -22470,10 +22472,10 @@
         }, Tree.createTree = function(dataRoot, hostModel, beforeLink) {
             var tree = new Tree(hostModel), listData = [], dimMax = 1;
             (function buildHierarchy(dataNode, parentNode) {
-                var child, children, value = dataNode.value;
+                var children, value = dataNode.value;
                 dimMax = Math.max(dimMax, isArray(value) ? value.length : 1), listData.push(dataNode);
                 var node = new TreeNode(convertOptionIdName(dataNode.name, ''), tree);
-                parentNode ? (child = node, children = parentNode.children, child.parentNode !== parentNode && (children.push(child), child.parentNode = parentNode)) : tree.root = node, tree._nodes.push(node);
+                parentNode ? (children = parentNode.children, node.parentNode !== parentNode && (children.push(node), node.parentNode = parentNode)) : tree.root = node, tree._nodes.push(node);
                 var children1 = dataNode.children;
                 if (children1) for(var i = 0; i < children1.length; i++)buildHierarchy(children1[i], node);
             })(dataRoot), tree.root.updateDepthAndHeight(0);
@@ -22586,10 +22588,9 @@
                 var virtualRoot = seriesModel.getData().tree.root, realRoot = virtualRoot.children[0];
                 if (realRoot) {
                     !function(inRoot) {
-                        var node, children, root = inRoot;
-                        root.hierNode = {
+                        inRoot.hierNode = {
                             defaultAncestor: null,
-                            ancestor: root,
+                            ancestor: inRoot,
                             prelim: 0,
                             modifier: 0,
                             change: 0,
@@ -22597,8 +22598,8 @@
                             i: 0,
                             thread: null
                         };
-                        for(var nodes = [
-                            root
+                        for(var node, children, nodes = [
+                            inRoot
                         ]; node = nodes.pop();)if (children = node.children, node.isExpand && children.length) for(var n = children.length, i = n - 1; i >= 0; i--){
                             var child = children[i];
                             child.hierNode = {
@@ -23168,8 +23169,8 @@
                             }
                         }
                         function giveGraphic(storageName, Ctor, depth, z) {
-                            var lasts, element, lastCfg, element1 = null != oldRawIndex && oldStorage[storageName][oldRawIndex], lasts1 = lastsForAnimation[storageName];
-                            return element1 ? (oldStorage[storageName][oldRawIndex] = null, lasts = lasts1, element = element1, lastCfg = lasts[thisRawIndex] = {}, element instanceof Group ? (lastCfg.oldX = element.x, lastCfg.oldY = element.y) : lastCfg.oldShape = extend({}, element.shape)) : thisInvisible || ((element1 = new Ctor()) instanceof Displayable && (element1.z2 = 100 * depth + z), function(lasts, element) {
+                            var element, lastCfg, element1 = null != oldRawIndex && oldStorage[storageName][oldRawIndex], lasts = lastsForAnimation[storageName];
+                            return element1 ? (oldStorage[storageName][oldRawIndex] = null, element = element1, lastCfg = lasts[thisRawIndex] = {}, element instanceof Group ? (lastCfg.oldX = element.x, lastCfg.oldY = element.y) : lastCfg.oldShape = extend({}, element.shape)) : thisInvisible || ((element1 = new Ctor()) instanceof Displayable && (element1.z2 = 100 * depth + z), function(lasts, element) {
                                 var lastCfg = lasts[thisRawIndex] = {}, parentNode = thisNode.parentNode, isGroup = element instanceof Group;
                                 if (parentNode && (!reRoot || 'drillDown' === reRoot.direction)) {
                                     var parentOldX = 0, parentOldY = 0, parentOldBg = lastsForAnimation.background[parentNode.getRawIndex()];
@@ -23181,7 +23182,7 @@
                                     };
                                 }
                                 lastCfg.fadein = !isGroup;
-                            }(lasts1, element1)), thisStorage[storageName][thisRawIndex] = element1;
+                            }(lasts, element1)), thisStorage[storageName][thisRawIndex] = element1;
                         }
                     }(seriesModel, thisStorage, oldStorage, reRoot, lastsForAnimation, willInvisibleEls, thisNode, oldNode, parentGroup, depth);
                     group && dualTravel(thisNode && thisNode.viewChildren || [], oldNode && oldNode.viewChildren || [], group, sameTree, depth + 1);
@@ -23408,12 +23409,12 @@
     }
     var VisualMapping = function() {
         function VisualMapping(option) {
-            var thisOption, pieceList, mappingMethod = option.mappingMethod, visualType = option.type, thisOption1 = this.option = clone(option);
+            var pieceList, mappingMethod = option.mappingMethod, visualType = option.type, thisOption = this.option = clone(option);
             this.type = visualType, this.mappingMethod = mappingMethod, this._normalizeData = normalizers[mappingMethod];
             var visualHandler = VisualMapping.visualHandlers[visualType];
-            this.applyVisual = visualHandler.applyVisual, this.getColorMapper = visualHandler.getColorMapper, this._normalizedToVisual = visualHandler._normalizedToVisual[mappingMethod], 'piecewise' === mappingMethod ? (normalizeVisualRange(thisOption1), pieceList = (thisOption = thisOption1).pieceList, thisOption.hasSpecialVisual = !1, each(pieceList, function(piece, index) {
+            this.applyVisual = visualHandler.applyVisual, this.getColorMapper = visualHandler.getColorMapper, this._normalizedToVisual = visualHandler._normalizedToVisual[mappingMethod], 'piecewise' === mappingMethod ? (normalizeVisualRange(thisOption), pieceList = thisOption.pieceList, thisOption.hasSpecialVisual = !1, each(pieceList, function(piece, index) {
                 piece.originIndex = index, null != piece.visual && (thisOption.hasSpecialVisual = !0);
-            })) : 'category' === mappingMethod ? thisOption1.categories ? function(thisOption) {
+            })) : 'category' === mappingMethod ? thisOption.categories ? function(thisOption) {
                 var categories = thisOption.categories, categoryMap = thisOption.categoryMap = {}, visual = thisOption.visual;
                 if (each(categories, function(cate, index) {
                     categoryMap[cate] = index;
@@ -23425,7 +23426,7 @@
                     }) : visualArr_1[-1] = visual, visual = setVisualToOption(thisOption, visualArr_1);
                 }
                 for(var i = categories.length - 1; i >= 0; i--)null == visual[i] && (delete categoryMap[categories[i]], categories.pop());
-            }(thisOption1) : normalizeVisualRange(thisOption1, !0) : (assert('linear' !== mappingMethod || thisOption1.dataExtent), normalizeVisualRange(thisOption1));
+            }(thisOption) : normalizeVisualRange(thisOption, !0) : (assert('linear' !== mappingMethod || thisOption.dataExtent), normalizeVisualRange(thisOption));
         }
         return VisualMapping.prototype.mapValueToVisual = function(value) {
             var normalized = this._normalizeData(value);
@@ -24249,11 +24250,11 @@
                             ignoreForceLayout: edgeModel.get('ignoreForceLayout')
                         };
                     }), forceInstance = function(inNodes, inEdges, opts) {
-                        for(var beforeStepCallback, afterStepCallback, nodes = inNodes, rect = opts.rect, width = rect.width, height = rect.height, center = [
+                        for(var beforeStepCallback, afterStepCallback, rect = opts.rect, width = rect.width, height = rect.height, center = [
                             rect.x + width / 2,
                             rect.y + height / 2
-                        ], gravity = null == opts.gravity ? 0.1 : opts.gravity, i = 0; i < nodes.length; i++){
-                            var n = nodes[i];
+                        ], gravity = null == opts.gravity ? 0.1 : opts.gravity, i = 0; i < inNodes.length; i++){
+                            var n = inNodes[i];
                             n.p || (n.p = create(width * (Math.random() - 0.5) + center[0], height * (Math.random() - 0.5) + center[1])), n.pp = clone$1(n.p), n.edges = null;
                         }
                         var initialFriction = null == opts.friction ? 0.6 : opts.friction, friction = initialFriction;
@@ -24262,10 +24263,10 @@
                                 friction = 0.8 * initialFriction;
                             },
                             setFixed: function(idx) {
-                                nodes[idx].fixed = !0;
+                                inNodes[idx].fixed = !0;
                             },
                             setUnfixed: function(idx) {
-                                nodes[idx].fixed = !1;
+                                inNodes[idx].fixed = !1;
                             },
                             beforeStep: function(cb) {
                                 beforeStepCallback = cb;
@@ -24274,8 +24275,8 @@
                                 afterStepCallback = cb;
                             },
                             step: function(cb) {
-                                beforeStepCallback && beforeStepCallback(nodes, inEdges);
-                                for(var v12 = [], nLen = nodes.length, i = 0; i < inEdges.length; i++){
+                                beforeStepCallback && beforeStepCallback(inNodes, inEdges);
+                                for(var v12 = [], nLen = inNodes.length, i = 0; i < inEdges.length; i++){
                                     var e = inEdges[i];
                                     if (!e.ignoreForceLayout) {
                                         var n1 = e.n1, n2 = e.n2;
@@ -24285,11 +24286,11 @@
                                     }
                                 }
                                 for(var i = 0; i < nLen; i++){
-                                    var n = nodes[i];
+                                    var n = inNodes[i];
                                     n.fixed || (sub(v12, center, n.p), scaleAndAdd(n.p, n.p, v12, gravity * friction));
                                 }
-                                for(var i = 0; i < nLen; i++)for(var n1 = nodes[i], j = i + 1; j < nLen; j++){
-                                    var n2 = nodes[j];
+                                for(var i = 0; i < nLen; i++)for(var n1 = inNodes[i], j = i + 1; j < nLen; j++){
+                                    var n2 = inNodes[j];
                                     sub(v12, n2.p, n1.p);
                                     var d = len(v12);
                                     0 === d && (set(v12, Math.random() - 0.5, Math.random() - 0.5), d = 1);
@@ -24297,11 +24298,11 @@
                                     n1.fixed || scaleAndAdd(n1.pp, n1.pp, v12, repFact), n2.fixed || scaleAndAdd(n2.pp, n2.pp, v12, -repFact);
                                 }
                                 for(var v = [], i = 0; i < nLen; i++){
-                                    var n = nodes[i];
+                                    var n = inNodes[i];
                                     n.fixed || (sub(v, n.p, n.pp), scaleAndAdd(n.p, n.p, v, friction), copy(n.pp, n.p));
                                 }
                                 var finished = (friction *= 0.992) < 0.01;
-                                afterStepCallback && afterStepCallback(nodes, inEdges, finished), cb && cb(finished);
+                                afterStepCallback && afterStepCallback(inNodes, inEdges, finished), cb && cb(finished);
                             }
                         };
                     }(nodes_1, edges, {
@@ -24594,8 +24595,8 @@
         return LineDraw.prototype.isPersistent = function() {
             return !0;
         }, LineDraw.prototype.updateData = function(lineData) {
-            var _this = this, lineDraw = this, group = lineDraw.group, oldLineData = lineDraw._lineData;
-            lineDraw._lineData = lineData, oldLineData || group.removeAll();
+            var _this = this, group = this.group, oldLineData = this._lineData;
+            this._lineData = lineData, oldLineData || group.removeAll();
             var seriesScope = makeSeriesScope$1(lineData);
             lineData.diff(oldLineData).add(function(idx) {
                 _this._doAdd(lineData, idx, seriesScope);
@@ -25047,8 +25048,8 @@
         }, GraphSeriesModel.prototype.getInitialData = function(option, ecModel) {
             var edges = option.edges || option.links || [], nodes = option.data || option.nodes || [], self1 = this;
             if (nodes && edges) {
-                seriesModel = this, getAutoCurvenessParams(seriesModel) && (seriesModel.__curvenessList = [], seriesModel.__edgeMap = {}, createCurveness(seriesModel));
-                var seriesModel, graph = createGraphFromNodeEdge(nodes, edges, this, !0, function(nodeData, edgeData) {
+                getAutoCurvenessParams(this) && (this.__curvenessList = [], this.__edgeMap = {}, createCurveness(this));
+                var graph = createGraphFromNodeEdge(nodes, edges, this, !0, function(nodeData, edgeData) {
                     nodeData.wrapMethod('getItemModel', function(model) {
                         var categoryModel = self1._categoriesModels[model.getShallow('category')];
                         return categoryModel && (categoryModel.parentModel = model.parentModel, model.parentModel = categoryModel), model;
@@ -25213,14 +25214,14 @@
         }
         return __extends(GaugeView, _super), GaugeView.prototype.render = function(seriesModel, ecModel, api) {
             this.group.removeAll();
-            var center, width, height, colorList = seriesModel.get([
+            var center, size, colorList = seriesModel.get([
                 'axisLine',
                 'lineStyle',
                 'color'
-            ]), posInfo = (center = seriesModel.get('center'), width = api.getWidth(), height = api.getHeight(), {
+            ]), posInfo = (center = seriesModel.get('center'), size = Math.min(api.getWidth(), api.getHeight()), {
                 cx: parsePercent$1(center[0], api.getWidth()),
                 cy: parsePercent$1(center[1], api.getHeight()),
-                r: parsePercent$1(seriesModel.get('radius'), Math.min(width, height) / 2)
+                r: parsePercent$1(seriesModel.get('radius'), size / 2)
             });
             this._renderMain(seriesModel, ecModel, api, colorList, posInfo), this._data = seriesModel.getData();
         }, GaugeView.prototype.dispose = function() {}, GaugeView.prototype._renderMain = function(seriesModel, ecModel, api, colorList, posInfo) {
@@ -25618,23 +25619,23 @@
             return _this.setTextContent(text), _this.setTextGuideLine(labelLine), _this.updateData(data, idx, !0), _this;
         }
         return __extends(FunnelPiece, _super), FunnelPiece.prototype.updateData = function(data, idx, firstCreate) {
-            var polygon = this, seriesModel = data.hostModel, itemModel = data.getItemModel(idx), layout = data.getItemLayout(idx), emphasisModel = itemModel.getModel('emphasis'), opacity = itemModel.get(opacityAccessPath);
-            opacity = null == opacity ? 1 : opacity, polygon.useStyle(data.getItemVisual(idx, 'style')), polygon.style.lineJoin = 'round', firstCreate ? (polygon.setShape({
+            var seriesModel = data.hostModel, itemModel = data.getItemModel(idx), layout = data.getItemLayout(idx), emphasisModel = itemModel.getModel('emphasis'), opacity = itemModel.get(opacityAccessPath);
+            opacity = null == opacity ? 1 : opacity, this.useStyle(data.getItemVisual(idx, 'style')), this.style.lineJoin = 'round', firstCreate ? (this.setShape({
                 points: layout.points
-            }), polygon.style.opacity = 0, initProps(polygon, {
+            }), this.style.opacity = 0, initProps(this, {
                 style: {
                     opacity: opacity
                 }
-            }, seriesModel, idx)) : updateProps(polygon, {
+            }, seriesModel, idx)) : updateProps(this, {
                 style: {
                     opacity: opacity
                 },
                 shape: {
                     points: layout.points
                 }
-            }, seriesModel, idx), setStatesStylesFromModel(polygon, itemModel), this._updateLabel(data, idx), enableHoverEmphasis(this, emphasisModel.get('focus'), emphasisModel.get('blurScope'));
+            }, seriesModel, idx), setStatesStylesFromModel(this, itemModel), this._updateLabel(data, idx), enableHoverEmphasis(this, emphasisModel.get('focus'), emphasisModel.get('blurScope'));
         }, FunnelPiece.prototype._updateLabel = function(data, idx) {
-            var polygon = this, labelLine = this.getTextGuideLine(), labelText = polygon.getTextContent(), seriesModel = data.hostModel, itemModel = data.getItemModel(idx), labelLayout = data.getItemLayout(idx).label, style = data.getItemVisual(idx, 'style'), visualColor = style.fill;
+            var labelLine = this.getTextGuideLine(), labelText = this.getTextContent(), seriesModel = data.hostModel, itemModel = data.getItemModel(idx), labelLayout = data.getItemLayout(idx).label, style = data.getItemVisual(idx, 'style'), visualColor = style.fill;
             setLabelStyle(labelText, getLabelStatesModels(itemModel), {
                 labelFetcher: data.hostModel,
                 labelDataIndex: idx,
@@ -25645,7 +25646,7 @@
                     align: labelLayout.textAlign,
                     verticalAlign: labelLayout.verticalAlign
                 }
-            }), polygon.setTextConfig({
+            }), this.setTextConfig({
                 local: !0,
                 inside: !!labelLayout.inside,
                 insideStroke: visualColor,
@@ -25654,7 +25655,7 @@
             var linePoints = labelLayout.linePoints;
             labelLine.setShape({
                 points: linePoints
-            }), polygon.textGuideLineConfig = {
+            }), this.textGuideLineConfig = {
                 anchor: linePoints ? new Point(linePoints[0][0], linePoints[0][1]) : null
             }, updateProps(labelText, {
                 style: {
@@ -25666,7 +25667,7 @@
                 originX: labelLayout.x,
                 originY: labelLayout.y,
                 z2: 10
-            }), setLabelLineStyle(polygon, getLabelLineStatesModels(itemModel), {
+            }), setLabelLineStyle(this, getLabelLineStatesModels(itemModel), {
                 stroke: visualColor
             });
         }, FunnelPiece;
@@ -29149,7 +29150,7 @@
         }, PictorialBarView.type = 'pictorialBar', PictorialBarView;
     }(ChartView);
     function getSymbolMeta(data, dataIndex, itemModel, opt) {
-        var boundingLength, pxSign, outputSymbolMeta, parsedSymbolSize, valueDim, categoryDim, categorySize, symbolSize, symbolScale, symbolScale1, outputSymbolMeta1, valueLineWidth, layout = data.getItemLayout(dataIndex), symbolRepeat = itemModel.get('symbolRepeat'), symbolClip = itemModel.get('symbolClip'), symbolPosition = itemModel.get('symbolPosition') || 'start', rotation = (itemModel.get('symbolRotate') || 0) * Math.PI / 180 || 0, symbolPatternSize = itemModel.get('symbolPatternSize') || 2, isAnimationEnabled = itemModel.isAnimationEnabled(), symbolMeta = {
+        var boundingLength, pxSign, parsedSymbolSize, valueDim, categoryDim, categorySize, symbolSize, symbolScale, symbolScale1, valueLineWidth, layout = data.getItemLayout(dataIndex), symbolRepeat = itemModel.get('symbolRepeat'), symbolClip = itemModel.get('symbolClip'), symbolPosition = itemModel.get('symbolPosition') || 'start', rotation = (itemModel.get('symbolRotate') || 0) * Math.PI / 180 || 0, symbolPatternSize = itemModel.get('symbolPatternSize') || 2, isAnimationEnabled = itemModel.isAnimationEnabled(), symbolMeta = {
             dataIndex: dataIndex,
             layout: layout,
             itemModel: itemModel,
@@ -29177,20 +29178,20 @@
                 symbolBoundingExtent[1] < symbolBoundingExtent[0] && symbolBoundingExtent.reverse(), boundingLength = symbolBoundingExtent[pxSignIdx];
             } else boundingLength = null != symbolBoundingData ? convertToCoordOnAxis(valueAxis, symbolBoundingData) - zeroPx : symbolRepeat ? opt.coordSysExtent[valueDim.index][pxSignIdx] - zeroPx : layout[valueDim.wh];
             outputSymbolMeta.boundingLength = boundingLength, symbolRepeat && (outputSymbolMeta.repeatCutLength = layout[valueDim.wh]), outputSymbolMeta.pxSign = boundingLength > 0 ? 1 : boundingLength < 0 ? -1 : 0;
-        })(itemModel, symbolRepeat, layout, opt, symbolMeta), boundingLength = symbolMeta.boundingLength, pxSign = symbolMeta.pxSign, outputSymbolMeta = symbolMeta, valueDim = opt.valueDim, categorySize = Math.abs(layout[(categoryDim = opt.categoryDim).wh]), (parsedSymbolSize = isArray(symbolSize = data.getItemVisual(dataIndex, 'symbolSize')) ? symbolSize.slice() : null == symbolSize ? [
+        })(itemModel, symbolRepeat, layout, opt, symbolMeta), boundingLength = symbolMeta.boundingLength, pxSign = symbolMeta.pxSign, valueDim = opt.valueDim, categorySize = Math.abs(layout[(categoryDim = opt.categoryDim).wh]), (parsedSymbolSize = isArray(symbolSize = data.getItemVisual(dataIndex, 'symbolSize')) ? symbolSize.slice() : null == symbolSize ? [
             '100%',
             '100%'
         ] : [
             symbolSize,
             symbolSize
-        ])[categoryDim.index] = parsePercent$1(parsedSymbolSize[categoryDim.index], categorySize), parsedSymbolSize[valueDim.index] = parsePercent$1(parsedSymbolSize[valueDim.index], symbolRepeat ? categorySize : Math.abs(boundingLength)), outputSymbolMeta.symbolSize = parsedSymbolSize, symbolScale = outputSymbolMeta.symbolScale = [
+        ])[categoryDim.index] = parsePercent$1(parsedSymbolSize[categoryDim.index], categorySize), parsedSymbolSize[valueDim.index] = parsePercent$1(parsedSymbolSize[valueDim.index], symbolRepeat ? categorySize : Math.abs(boundingLength)), symbolMeta.symbolSize = parsedSymbolSize, symbolScale = symbolMeta.symbolScale = [
             parsedSymbolSize[0] / symbolPatternSize,
             parsedSymbolSize[1] / symbolPatternSize
-        ], symbolScale[valueDim.index] *= (opt.isHorizontal ? -1 : 1) * pxSign, symbolScale1 = symbolMeta.symbolScale, outputSymbolMeta1 = symbolMeta, (valueLineWidth = itemModel.get(BAR_BORDER_WIDTH_QUERY) || 0) && (pathForLineWidth.attr({
+        ], symbolScale[valueDim.index] *= (opt.isHorizontal ? -1 : 1) * pxSign, symbolScale1 = symbolMeta.symbolScale, (valueLineWidth = itemModel.get(BAR_BORDER_WIDTH_QUERY) || 0) && (pathForLineWidth.attr({
             scaleX: symbolScale1[0],
             scaleY: symbolScale1[1],
             rotation: rotation
-        }), pathForLineWidth.updateTransform(), valueLineWidth /= pathForLineWidth.getLineScale(), valueLineWidth *= symbolScale1[opt.valueDim.index]), outputSymbolMeta1.valueLineWidth = valueLineWidth;
+        }), pathForLineWidth.updateTransform(), valueLineWidth /= pathForLineWidth.getLineScale(), valueLineWidth *= symbolScale1[opt.valueDim.index]), symbolMeta.valueLineWidth = valueLineWidth;
         var symbolSize1 = symbolMeta.symbolSize, symbolOffset = itemModel.get('symbolOffset');
         return isArray(symbolOffset) && (symbolOffset = [
             parsePercent$1(symbolOffset[0], symbolSize1[0]),
@@ -29750,10 +29751,8 @@
                 function processNode(newIdx, oldIdx) {
                     (function(newNode, oldNode) {
                         if (renderLabelForZeroData || !newNode || newNode.getValue() || (newNode = null), newNode !== virtualRoot && oldNode !== virtualRoot) {
-                            if (oldNode && oldNode.piece) {
-                                var node;
-                                newNode ? (oldNode.piece.updateData(!1, newNode, seriesModel, ecModel, api), data.setItemGraphicEl(newNode.dataIndex, oldNode.piece)) : !!(node = oldNode) && node.piece && (group.remove(node.piece), node.piece = null);
-                            } else if (newNode) {
+                            if (oldNode && oldNode.piece) newNode ? (oldNode.piece.updateData(!1, newNode, seriesModel, ecModel, api), data.setItemGraphicEl(newNode.dataIndex, oldNode.piece)) : !!oldNode && oldNode.piece && (group.remove(oldNode.piece), oldNode.piece = null);
+                            else if (newNode) {
                                 var piece = new SunburstPiece(newNode, seriesModel, ecModel, api);
                                 group.add(piece), data.setItemGraphicEl(newNode.dataIndex, piece);
                             }
@@ -30063,14 +30062,13 @@
         richItem && (richItem.font = richItem.textFont || richItem.font, hasOwn(richItem, 'textStrokeWidth') && (out.lineWidth = richItem.textStrokeWidth), hasOwn(richItem, 'textAlign') && (out.align = richItem.textAlign), hasOwn(richItem, 'textVerticalAlign') && (out.verticalAlign = richItem.textVerticalAlign), hasOwn(richItem, 'textLineHeight') && (out.lineHeight = richItem.textLineHeight), hasOwn(richItem, 'textWidth') && (out.width = richItem.textWidth), hasOwn(richItem, 'textHeight') && (out.height = richItem.textHeight), hasOwn(richItem, 'textBackgroundColor') && (out.backgroundColor = richItem.textBackgroundColor), hasOwn(richItem, 'textPadding') && (out.padding = richItem.textPadding), hasOwn(richItem, 'textBorderColor') && (out.borderColor = richItem.textBorderColor), hasOwn(richItem, 'textBorderWidth') && (out.borderWidth = richItem.textBorderWidth), hasOwn(richItem, 'textBorderRadius') && (out.borderRadius = richItem.textBorderRadius), hasOwn(richItem, 'textBoxShadowColor') && (out.shadowColor = richItem.textBoxShadowColor), hasOwn(richItem, 'textBoxShadowBlur') && (out.shadowBlur = richItem.textBoxShadowBlur), hasOwn(richItem, 'textBoxShadowOffsetX') && (out.shadowOffsetX = richItem.textBoxShadowOffsetX), hasOwn(richItem, 'textBoxShadowOffsetY') && (out.shadowOffsetY = richItem.textBoxShadowOffsetY));
     }
     function convertToEC4StyleForCustomSerise(itemStl, txStl, txCfg) {
-        var out = itemStl;
-        out.textPosition = out.textPosition || txCfg.position || 'inside', null != txCfg.offset && (out.textOffset = txCfg.offset), null != txCfg.rotation && (out.textRotation = txCfg.rotation), null != txCfg.distance && (out.textDistance = txCfg.distance);
-        var isInside = out.textPosition.indexOf('inside') >= 0, hostFill = itemStl.fill || '#000';
-        convertToEC4RichItem(out, txStl);
-        var textFillNotSet = null == out.textFill;
-        return isInside ? textFillNotSet && (out.textFill = txCfg.insideFill || '#fff', !out.textStroke && txCfg.insideStroke && (out.textStroke = txCfg.insideStroke), out.textStroke || (out.textStroke = hostFill), null == out.textStrokeWidth && (out.textStrokeWidth = 2)) : (textFillNotSet && (out.textFill = itemStl.fill || txCfg.outsideFill || '#000'), !out.textStroke && txCfg.outsideStroke && (out.textStroke = txCfg.outsideStroke)), out.text = txStl.text, out.rich = txStl.rich, each(txStl.rich, function(richItem) {
+        itemStl.textPosition = itemStl.textPosition || txCfg.position || 'inside', null != txCfg.offset && (itemStl.textOffset = txCfg.offset), null != txCfg.rotation && (itemStl.textRotation = txCfg.rotation), null != txCfg.distance && (itemStl.textDistance = txCfg.distance);
+        var isInside = itemStl.textPosition.indexOf('inside') >= 0, hostFill = itemStl.fill || '#000';
+        convertToEC4RichItem(itemStl, txStl);
+        var textFillNotSet = null == itemStl.textFill;
+        return isInside ? textFillNotSet && (itemStl.textFill = txCfg.insideFill || '#fff', !itemStl.textStroke && txCfg.insideStroke && (itemStl.textStroke = txCfg.insideStroke), itemStl.textStroke || (itemStl.textStroke = hostFill), null == itemStl.textStrokeWidth && (itemStl.textStrokeWidth = 2)) : (textFillNotSet && (itemStl.textFill = itemStl.fill || txCfg.outsideFill || '#000'), !itemStl.textStroke && txCfg.outsideStroke && (itemStl.textStroke = txCfg.outsideStroke)), itemStl.text = txStl.text, itemStl.rich = txStl.rich, each(txStl.rich, function(richItem) {
             convertToEC4RichItem(richItem, richItem);
-        }), out;
+        }), itemStl;
     }
     function convertToEC4RichItem(out, richItem) {
         richItem && (hasOwn(richItem, 'fill') && (out.textFill = richItem.fill), hasOwn(richItem, 'stroke') && (out.textStroke = richItem.fill), hasOwn(richItem, 'lineWidth') && (out.textStrokeWidth = richItem.lineWidth), hasOwn(richItem, 'font') && (out.font = richItem.font), hasOwn(richItem, 'fontStyle') && (out.fontStyle = richItem.fontStyle), hasOwn(richItem, 'fontWeight') && (out.fontWeight = richItem.fontWeight), hasOwn(richItem, 'fontSize') && (out.fontSize = richItem.fontSize), hasOwn(richItem, 'fontFamily') && (out.fontFamily = richItem.fontFamily), hasOwn(richItem, 'align') && (out.textAlign = richItem.align), hasOwn(richItem, 'verticalAlign') && (out.textVerticalAlign = richItem.verticalAlign), hasOwn(richItem, 'lineHeight') && (out.textLineHeight = richItem.lineHeight), hasOwn(richItem, 'width') && (out.textWidth = richItem.width), hasOwn(richItem, 'height') && (out.textHeight = richItem.height), hasOwn(richItem, 'backgroundColor') && (out.textBackgroundColor = richItem.backgroundColor), hasOwn(richItem, 'padding') && (out.textPadding = richItem.padding), hasOwn(richItem, 'borderColor') && (out.textBorderColor = richItem.borderColor), hasOwn(richItem, 'borderWidth') && (out.textBorderWidth = richItem.borderWidth), hasOwn(richItem, 'borderRadius') && (out.textBorderRadius = richItem.borderRadius), hasOwn(richItem, 'shadowColor') && (out.textBoxShadowColor = richItem.shadowColor), hasOwn(richItem, 'shadowBlur') && (out.textBoxShadowBlur = richItem.shadowBlur), hasOwn(richItem, 'shadowOffsetX') && (out.textBoxShadowOffsetX = richItem.shadowOffsetX), hasOwn(richItem, 'shadowOffsetY') && (out.textBoxShadowOffsetY = richItem.shadowOffsetY), hasOwn(richItem, 'textShadowColor') && (out.textShadowColor = richItem.textShadowColor), hasOwn(richItem, 'textShadowBlur') && (out.textShadowBlur = richItem.textShadowBlur), hasOwn(richItem, 'textShadowOffsetX') && (out.textShadowOffsetX = richItem.textShadowOffsetX), hasOwn(richItem, 'textShadowOffsetY') && (out.textShadowOffsetY = richItem.textShadowOffsetY));
@@ -30126,8 +30124,8 @@
                     for(var step = (anticlockwise ? -1 : 1) * Math.PI / 2, angle = startAngle; anticlockwise ? angle > endAngle : angle < endAngle; angle += step){
                         var nextAngle = anticlockwise ? Math.max(angle + step, endAngle) : Math.min(angle + step, endAngle);
                         !function(startAngle, endAngle, cx, cy, rx, ry) {
-                            var len = 4 * Math.tan(Math.abs(endAngle - startAngle) / 4) / 3, dir = endAngle < startAngle ? -1 : 1, c1 = Math.cos(startAngle), s1 = Math.sin(startAngle), c2 = Math.cos(endAngle), s2 = Math.sin(endAngle), x4 = c2 * rx + cx, y4 = s2 * ry + cy, hx = rx * len * dir, hy = ry * len * dir;
-                            currentSubpath.push(c1 * rx + cx - hx * s1, s1 * ry + cy + hy * c1, x4 + hx * s2, y4 - hy * c2, x4, y4);
+                            var len = 4 * Math.tan(Math.abs(endAngle - startAngle) / 4) / 3, dir = endAngle < startAngle ? -1 : 1, c1 = Math.cos(startAngle), s1 = Math.sin(startAngle), c2 = Math.cos(endAngle), s2 = Math.sin(endAngle), x1 = c1 * rx + cx, y1 = s1 * ry + cy, x4 = c2 * rx + cx, y4 = s2 * ry + cy, hx = rx * len * dir, hy = ry * len * dir;
+                            currentSubpath.push(x1 - hx * s1, y1 + hy * c1, x4 + hx * s2, y4 - hy * c2, x4, y4);
                         }(angle, nextAngle, cx, cy, rx, ry);
                     }
                     break;
@@ -30204,8 +30202,7 @@
                 updateIndividualMorphingPath(path, morphingData, morphT);
                 return;
             }
-            var morphingPath = path;
-            morphingPath.__oldBuildPath = morphingPath.buildPath, morphingPath.buildPath = morphingPathBuildPath, updateIndividualMorphingPath(morphingPath, morphingData, morphT);
+            path.__oldBuildPath = path.buildPath, path.buildPath = morphingPathBuildPath, updateIndividualMorphingPath(path, morphingData, morphT);
         }(toPath, function(fromArr, toArr, searchAngleIteration, searchAngleRange) {
             for(var fromNeedsReverse, result = [], i = 0; i < fromArr.length; i++){
                 var fromSubpathBezier = fromArr[i], toSubpathBezier = toArr[i], fromCp = centroid(fromSubpathBezier), toCp = centroid(toSubpathBezier);
@@ -30259,8 +30256,7 @@
                 toPath.dirtyShape(), oldDuring && oldDuring(p);
             },
             done: function() {
-                var path;
-                isIndividualMorphingPath(path = toPath) && (path.buildPath = path.__oldBuildPath, path.__oldBuildPath = path.__morphingData = null), toPath.createPathProxy(), toPath.dirtyShape(), oldDone && oldDone();
+                isIndividualMorphingPath(toPath) && (toPath.buildPath = toPath.__oldBuildPath, toPath.__oldBuildPath = toPath.__morphingData = null), toPath.createPathProxy(), toPath.dirtyShape(), oldDone && oldDone();
             },
             aborted: function() {
                 oldAborted && oldAborted();
@@ -30303,12 +30299,7 @@
                     oldDuring && oldDuring(p);
                 },
                 done: function() {
-                    ++doneCount === toPathSplittedList.length && (function(path) {
-                        if (isCombiningPath(path)) {
-                            var combiningPath = path;
-                            updateCombiningPathSubList(combiningPath, null), combiningPath.addSelfToZr = combiningPath.__oldAddSelfToZr, combiningPath.removeSelfFromZr = combiningPath.__oldRemoveSelfFromZr, combiningPath.buildPath = combiningPath.__oldBuildPath, combiningPath.childrenRef = combiningPath.__combiningSubList = combiningPath.__oldAddSelfToZr = combiningPath.__oldRemoveSelfFromZr = combiningPath.__oldBuildPath = null;
-                        }
-                    }(toPath), oldDone && oldDone());
+                    ++doneCount === toPathSplittedList.length && (isCombiningPath(toPath) && (updateCombiningPathSubList(toPath, null), toPath.addSelfToZr = toPath.__oldAddSelfToZr, toPath.removeSelfFromZr = toPath.__oldRemoveSelfFromZr, toPath.buildPath = toPath.__oldBuildPath, toPath.childrenRef = toPath.__combiningSubList = toPath.__oldAddSelfToZr = toPath.__oldRemoveSelfFromZr = toPath.__oldBuildPath = null), oldDone && oldDone());
                 },
                 aborted: function() {
                     !abortedCalled && (abortedCalled = !0, oldAborted && oldAborted());
@@ -30322,8 +30313,7 @@
                     updateCombiningPathSubList(path, combiningSubList);
                     return;
                 }
-                var combiningPath = path;
-                updateCombiningPathSubList(combiningPath, combiningSubList), combiningPath.__oldAddSelfToZr = path.addSelfToZr, combiningPath.__oldRemoveSelfFromZr = path.removeSelfFromZr, combiningPath.addSelfToZr = combiningAddSelfToZr, combiningPath.removeSelfFromZr = combiningRemoveSelfFromZr, combiningPath.__oldBuildPath = combiningPath.buildPath, combiningPath.buildPath = noop, combiningPath.childrenRef = combiningChildrenRef;
+                updateCombiningPathSubList(path, combiningSubList), path.__oldAddSelfToZr = path.addSelfToZr, path.__oldRemoveSelfFromZr = path.removeSelfFromZr, path.addSelfToZr = combiningAddSelfToZr, path.removeSelfFromZr = combiningRemoveSelfFromZr, path.__oldBuildPath = path.buildPath, path.buildPath = noop, path.childrenRef = combiningChildrenRef;
             }(toPath, toPathSplittedList), {
                 fromIndividuals: fromIndividuals,
                 toIndividuals: toPathSplittedList,
@@ -30694,11 +30684,7 @@
         var transFromProps = {}, allPropsFinal = {}, elDisplayable = el.isGroup ? null : el;
         isMorphTo || prepareShapeOrExtraTransitionFrom('shape', el, null, elOption, transFromProps, isInit), prepareShapeOrExtraAllPropsFinal('shape', elOption, allPropsFinal), isMorphTo || prepareShapeOrExtraTransitionFrom('extra', el, null, elOption, transFromProps, isInit), prepareShapeOrExtraAllPropsFinal('extra', elOption, allPropsFinal), isMorphTo || prepareTransformTransitionFrom(el, null, elOption, transFromProps, isInit), setLagecyTransformProp(elOption, allPropsFinal, 'position'), setLagecyTransformProp(elOption, allPropsFinal, 'scale'), setLagecyTransformProp(elOption, allPropsFinal, 'origin'), setTransformProp(elOption, allPropsFinal, 'x'), setTransformProp(elOption, allPropsFinal, 'y'), setTransformProp(elOption, allPropsFinal, 'scaleX'), setTransformProp(elOption, allPropsFinal, 'scaleY'), setTransformProp(elOption, allPropsFinal, 'originX'), setTransformProp(elOption, allPropsFinal, 'originY'), setTransformProp(elOption, allPropsFinal, 'rotation');
         var txCfgOpt = attachedTxInfo && attachedTxInfo.normal.cfg;
-        if (txCfgOpt && el.setTextConfig(txCfgOpt), 'text' === el.type && styleOpt) {
-            var textOptionStyle = styleOpt;
-            hasOwn(textOptionStyle, 'textFill') && (textOptionStyle.fill = textOptionStyle.textFill), hasOwn(textOptionStyle, 'textStroke') && (textOptionStyle.stroke = textOptionStyle.textStroke);
-        }
-        if (styleOpt) {
+        if (txCfgOpt && el.setTextConfig(txCfgOpt), 'text' === el.type && styleOpt && (hasOwn(styleOpt, 'textFill') && (styleOpt.fill = styleOpt.textFill), hasOwn(styleOpt, 'textStroke') && (styleOpt.stroke = styleOpt.textStroke)), styleOpt) {
             var decalPattern = void 0, decalObj = isPath$1(el) ? styleOpt.decal : null;
             api && decalObj && (decalObj.dirty = !0, decalPattern = createOrUpdatePatternFromDecal(decalObj, api)), styleOpt.__decalPattern = decalPattern;
         }
@@ -30889,11 +30875,11 @@
         if ('transition' === key || 'enterFrom' === key || 'leaveTo' === key) throw Error('key must not be "' + key + '"');
     }
     function duringCall() {
-        var scope = this, el = scope.el;
+        var el = this.el;
         if (el) {
-            var newstUserDuring = inner$9(el).userDuring, scopeUserDuring = scope.userDuring;
+            var newstUserDuring = inner$9(el).userDuring, scopeUserDuring = this.userDuring;
             if (newstUserDuring !== scopeUserDuring) {
-                scope.el = scope.userDuring = null;
+                this.el = this.userDuring = null;
                 return;
             }
             tmpDuringScope.el = el, tmpDuringScope.isShapeDirty = !1, tmpDuringScope.isStyleDirty = !1, scopeUserDuring(customDuringAPI), tmpDuringScope.isShapeDirty && el.dirtyShape && el.dirtyShape(), tmpDuringScope.isStyleDirty && el.dirtyStyle && el.dirtyStyle();
@@ -31087,14 +31073,14 @@
         }
         return !function(el, elOption, seriesModel, attachedTxInfo) {
             if (!el.isGroup) {
-                var elDisplayable = el, currentZ = seriesModel.currentZ, currentZLevel = seriesModel.currentZLevel;
-                elDisplayable.z = currentZ, elDisplayable.zlevel = currentZLevel;
+                var currentZ = seriesModel.currentZ, currentZLevel = seriesModel.currentZLevel;
+                el.z = currentZ, el.zlevel = currentZLevel;
                 var optZ2 = elOption.z2;
-                null != optZ2 && (elDisplayable.z2 = optZ2 || 0);
+                null != optZ2 && (el.z2 = optZ2 || 0);
                 for(var i = 0; i < STATES.length; i++)(function(elDisplayable, elOption, state) {
                     var isNormal = state === NORMAL, elStateOpt = isNormal ? elOption : retrieveStateOption(elOption, state), optZ2 = elStateOpt ? elStateOpt.z2 : null;
                     null != optZ2 && ((isNormal ? elDisplayable : elDisplayable.ensureState(state)).z2 = optZ2 || 0);
-                })(elDisplayable, elOption, STATES[i]);
+                })(el, elOption, STATES[i]);
             }
         }(el, elOption, seriesModel), 'group' === elOption.type && function(api, el, dataIndex, elOption, seriesModel, morphPreparation) {
             var newChildren = elOption.children, newLen = newChildren ? newChildren.length : 0, mergeChildren = elOption.$mergeChildren, byName = 'byName' === mergeChildren || elOption.diffChildrenByName, notMerge = !1 === mergeChildren;
@@ -31457,7 +31443,7 @@
         return 'line' === axisPointerType ? (style = styleModel.getLineStyle()).fill = null : 'shadow' === axisPointerType && ((style = styleModel.getAreaStyle()).stroke = null), style;
     }
     function buildLabelElOption(elOption, axisModel, axisPointerModel, api, labelPos) {
-        var position, viewWidth, viewHeight, text = getValueLabel(axisPointerModel.get('value'), axisModel.axis, axisModel.ecModel, axisPointerModel.get('seriesDataIndices'), {
+        var viewWidth, viewHeight, text = getValueLabel(axisPointerModel.get('value'), axisModel.axis, axisModel.ecModel, axisPointerModel.get('seriesDataIndices'), {
             precision: axisPointerModel.get([
                 'label',
                 'precision'
@@ -31466,18 +31452,18 @@
                 'label',
                 'formatter'
             ])
-        }), labelModel = axisPointerModel.getModel('label'), paddings = normalizeCssArray(labelModel.get('padding') || 0), font = labelModel.getFont(), textRect = getBoundingRect(text, font), position1 = labelPos.position, width = textRect.width + paddings[1] + paddings[3], height = textRect.height + paddings[0] + paddings[2], align = labelPos.align;
-        'right' === align && (position1[0] -= width), 'center' === align && (position1[0] -= width / 2);
+        }), labelModel = axisPointerModel.getModel('label'), paddings = normalizeCssArray(labelModel.get('padding') || 0), font = labelModel.getFont(), textRect = getBoundingRect(text, font), position = labelPos.position, width = textRect.width + paddings[1] + paddings[3], height = textRect.height + paddings[0] + paddings[2], align = labelPos.align;
+        'right' === align && (position[0] -= width), 'center' === align && (position[0] -= width / 2);
         var verticalAlign = labelPos.verticalAlign;
-        'bottom' === verticalAlign && (position1[1] -= height), 'middle' === verticalAlign && (position1[1] -= height / 2), position = position1, viewWidth = api.getWidth(), viewHeight = api.getHeight(), position[0] = Math.min(position[0] + width, viewWidth) - width, position[1] = Math.min(position[1] + height, viewHeight) - height, position[0] = Math.max(position[0], 0), position[1] = Math.max(position[1], 0);
+        'bottom' === verticalAlign && (position[1] -= height), 'middle' === verticalAlign && (position[1] -= height / 2), viewWidth = api.getWidth(), viewHeight = api.getHeight(), position[0] = Math.min(position[0] + width, viewWidth) - width, position[1] = Math.min(position[1] + height, viewHeight) - height, position[0] = Math.max(position[0], 0), position[1] = Math.max(position[1], 0);
         var bgColor = labelModel.get('backgroundColor');
         bgColor && 'auto' !== bgColor || (bgColor = axisModel.get([
             'axisLine',
             'lineStyle',
             'color'
         ])), elOption.label = {
-            x: position1[0],
-            y: position1[1],
+            x: position[0],
+            y: position[1],
             style: createTextStyle(labelModel, {
                 text: text,
                 font: font,
@@ -31699,7 +31685,7 @@
         }, AxisPointerModel;
     }(ComponentModel), inner$b = makeInner();
     function register(key, api, handler) {
-        if (!env1.node) {
+        if (!env.node) {
             var zr = api.getZr();
             inner$b(zr).records || (inner$b(zr).records = {}), function(zr, api) {
                 inner$b(zr).initialized || (inner$b(zr).initialized = !0, useHandler('click', curry(doEnter, 'click')), useHandler('mousemove', curry(doEnter, 'mousemove')), useHandler('globalout', onLeave));
@@ -31730,7 +31716,7 @@
         record.handler(currTrigger, e, dispatchAction);
     }
     function unregister(key, api) {
-        if (!env1.node) {
+        if (!env.node) {
             var zr = api.getZr();
             (inner$b(zr).records || {})[key] && (inner$b(zr).records[key] = null);
         }
@@ -32342,10 +32328,10 @@
         create: function(ecModel, api) {
             var polarList = [];
             return ecModel.eachComponent('polar', function(polarModel, idx) {
-                var polar, center, width, height, radiusAxis, size, radius, parsedRadius, polar1 = new Polar(idx + '');
-                polar1.update = updatePolarScale;
-                var radiusAxis1 = polar1.getRadiusAxis(), angleAxis = polar1.getAngleAxis(), radiusAxisModel = polarModel.findAxisModel('radiusAxis'), angleAxisModel = polarModel.findAxisModel('angleAxis');
-                setAxis(radiusAxis1, radiusAxisModel), setAxis(angleAxis, angleAxisModel), polar = polar1, center = polarModel.get('center'), width = api.getWidth(), height = api.getHeight(), polar.cx = parsePercent$1(center[0], width), polar.cy = parsePercent$1(center[1], height), radiusAxis = polar.getRadiusAxis(), size = Math.min(width, height) / 2, null == (radius = polarModel.get('radius')) ? radius = [
+                var center, width, height, radiusAxis, size, radius, parsedRadius, polar = new Polar(idx + '');
+                polar.update = updatePolarScale;
+                var radiusAxis1 = polar.getRadiusAxis(), angleAxis = polar.getAngleAxis(), radiusAxisModel = polarModel.findAxisModel('radiusAxis'), angleAxisModel = polarModel.findAxisModel('angleAxis');
+                setAxis(radiusAxis1, radiusAxisModel), setAxis(angleAxis, angleAxisModel), center = polarModel.get('center'), width = api.getWidth(), height = api.getHeight(), polar.cx = parsePercent$1(center[0], width), polar.cy = parsePercent$1(center[1], height), radiusAxis = polar.getRadiusAxis(), size = Math.min(width, height) / 2, null == (radius = polarModel.get('radius')) ? radius = [
                     0,
                     '100%'
                 ] : isArray(radius) || (radius = [
@@ -32354,7 +32340,7 @@
                 ]), parsedRadius = [
                     parsePercent$1(radius[0], size),
                     parsePercent$1(radius[1], size)
-                ], radiusAxis.inverse ? radiusAxis.setExtent(parsedRadius[1], parsedRadius[0]) : radiusAxis.setExtent(parsedRadius[0], parsedRadius[1]), polarList.push(polar1), polarModel.coordinateSystem = polar1, polar1.model = polarModel;
+                ], radiusAxis.inverse ? radiusAxis.setExtent(parsedRadius[1], parsedRadius[0]) : radiusAxis.setExtent(parsedRadius[0], parsedRadius[1]), polarList.push(polar), polarModel.coordinateSystem = polar, polar.model = polarModel;
             }), ecModel.eachSeries(function(seriesModel) {
                 if ('polar' === seriesModel.get('coordinateSystem')) {
                     var polarModel = seriesModel.getReferringComponents('polar', SINGLE_REFERRING).models[0];
@@ -33705,7 +33691,7 @@
             this._flatten(newList, flattenedList, null);
             var mappingResult = mappingToExists(existList, flattenedList, 'normalMerge'), elOptionsToUpdate = this._elOptionsToUpdate = [];
             each(mappingResult, function(resultItem, index) {
-                var newElOption = resultItem.newOption;
+                var existItem, newElOption = resultItem.newOption;
                 assert(isObject(newElOption) || resultItem.existing, 'Empty graphic option definition'), newElOption && (elOptionsToUpdate.push(newElOption), function(resultItem, newElOption) {
                     var existElOption = resultItem.existing;
                     if (newElOption.id = resultItem.keyInfo.id, !newElOption.type && existElOption && (newElOption.type = existElOption.type), null == newElOption.parentId) {
@@ -33723,21 +33709,16 @@
                             }), copyLayoutParams(newElOption, existElOption);
                         } else existList[index] = newElOptCopy;
                     } else 'replace' === $action ? existList[index] = newElOptCopy : 'remove' === $action && existElOption && (existList[index] = null);
-                }(existList, index, newElOption), function(existItem, newElOption) {
-                    if (existItem && (existItem.hv = newElOption.hv = [
-                        isSetLoc(newElOption, [
-                            'left',
-                            'right'
-                        ]),
-                        isSetLoc(newElOption, [
-                            'top',
-                            'bottom'
-                        ])
-                    ], 'group' === existItem.type)) {
-                        var existingGroupOpt = existItem, newGroupOpt = newElOption;
-                        null == existingGroupOpt.width && (existingGroupOpt.width = newGroupOpt.width = 0), null == existingGroupOpt.height && (existingGroupOpt.height = newGroupOpt.height = 0);
-                    }
-                }(existList[index], newElOption));
+                }(existList, index, newElOption), (existItem = existList[index]) && (existItem.hv = newElOption.hv = [
+                    isSetLoc(newElOption, [
+                        'left',
+                        'right'
+                    ]),
+                    isSetLoc(newElOption, [
+                        'top',
+                        'bottom'
+                    ])
+                ], 'group' === existItem.type && (null == existItem.width && (existItem.width = newElOption.width = 0), null == existItem.height && (existItem.height = newElOption.height = 0))));
             }, this);
             for(var i = existList.length - 1; i >= 0; i--)null == existList[i] ? existList.splice(i, 1) : delete existList[i].$action;
         }, GraphicComponentModel.prototype._flatten = function(optionList, result, parentOption) {
@@ -34176,10 +34157,10 @@
                     1 / 0,
                     -1 / 0
                 ], each(targetSeries, function(seriesModel) {
-                    var dataExtent1, data;
-                    dataExtent1 = dataExtent, (data = seriesModel.getData()) && each(getDataDimensionsOnAxis(data, axisDim), function(dim) {
+                    var data;
+                    (data = seriesModel.getData()) && each(getDataDimensionsOnAxis(data, axisDim), function(dim) {
                         var seriesExtent = data.getApproximateExtent(dim);
-                        seriesExtent[0] < dataExtent1[0] && (dataExtent1[0] = seriesExtent[0]), seriesExtent[1] > dataExtent1[1] && (dataExtent1[1] = seriesExtent[1]);
+                        seriesExtent[0] < dataExtent[0] && (dataExtent[0] = seriesExtent[0]), seriesExtent[1] > dataExtent[1] && (dataExtent[1] = seriesExtent[1]);
                     });
                 }), [
                     (rawExtentResult = ensureScaleRawExtentInfo((axisModel = this.getAxisModel()).axis.scale, axisModel, dataExtent).calculate()).min,
@@ -34422,10 +34403,10 @@
                 });
             }
             function processFeature(newIndex, oldIndex) {
-                var featureModel, feature, iconsMap, titlesMap, iconStyleModel, iconStyleEmphasisModel, icons, titles, iconPaths, feature1, featureName = featureNames[newIndex], oldName = featureNames[oldIndex], featureOpt = featureOpts[featureName], featureModel1 = new Model(featureOpt, toolboxModel, toolboxModel.ecModel);
+                var feature, iconsMap, titlesMap, iconStyleModel, iconStyleEmphasisModel, icons, titles, iconPaths, feature1, featureName = featureNames[newIndex], oldName = featureNames[oldIndex], featureOpt = featureOpts[featureName], featureModel = new Model(featureOpt, toolboxModel, toolboxModel.ecModel);
                 if (payload && null != payload.newTitle && payload.featureName === featureName && (featureOpt.title = payload.newTitle), featureName && !oldName) {
                     if (0 === featureName.indexOf('my')) feature1 = {
-                        onclick: featureModel1.option.onclick,
+                        onclick: featureModel.option.onclick,
                         featureName: featureName
                     };
                     else {
@@ -34435,17 +34416,17 @@
                     }
                     features1[featureName] = feature1;
                 } else if (!(feature1 = features1[oldName])) return;
-                if (feature1.uid = getUID('toolbox-feature'), feature1.model = featureModel1, feature1.ecModel = ecModel, feature1.api = api, feature1 instanceof ToolboxFeature) {
+                if (feature1.uid = getUID('toolbox-feature'), feature1.model = featureModel, feature1.ecModel = ecModel, feature1.api = api, feature1 instanceof ToolboxFeature) {
                     if (!featureName && oldName) {
                         feature1.dispose && feature1.dispose(ecModel, api);
                         return;
                     }
-                    if (!featureModel1.get('show') || feature1.unusable) {
+                    if (!featureModel.get('show') || feature1.unusable) {
                         feature1.remove && feature1.remove(ecModel, api);
                         return;
                     }
                 }
-                featureModel = featureModel1, feature = feature1, iconStyleModel = featureModel.getModel('iconStyle'), iconStyleEmphasisModel = featureModel.getModel([
+                feature = feature1, iconStyleModel = featureModel.getModel('iconStyle'), iconStyleEmphasisModel = featureModel.getModel([
                     'emphasis',
                     'iconStyle'
                 ]), icons = feature instanceof ToolboxFeature && feature.getIcons ? feature.getIcons() : featureModel.get('icon'), titles = featureModel.get('title') || {}, 'string' == typeof icons ? (iconsMap = {})[featureName] = icons : iconsMap = icons, 'string' == typeof titles ? (titlesMap = {})[featureName] = titles : titlesMap = titles, iconPaths = featureModel.iconPaths = {}, each(iconsMap, function(iconStr, iconName) {
@@ -34490,10 +34471,10 @@
                         'iconStatus',
                         iconName
                     ]) ? enterEmphasis : leaveEmphasis)(path), group.add(path), path.on('click', bind(feature.onclick, feature, ecModel, api, iconName)), iconPaths[iconName] = path;
-                }), featureModel1.setIconStatus = function(iconName, status) {
+                }), featureModel.setIconStatus = function(iconName, status) {
                     var option = this.option, iconPaths = this.iconPaths;
                     option.iconStatus = option.iconStatus || {}, option.iconStatus[iconName] = status, iconPaths[iconName] && ('emphasis' === status ? enterEmphasis : leaveEmphasis)(iconPaths[iconName]);
-                }, feature1 instanceof ToolboxFeature && feature1.render && feature1.render(featureModel1, ecModel, api, payload);
+                }, feature1 instanceof ToolboxFeature && feature1.render && feature1.render(featureModel, ecModel, api, payload);
             }
         }, ToolboxView.prototype.updateView = function(toolboxModel, ecModel, api, payload) {
             each(this._features, function(feature) {
@@ -34520,7 +34501,7 @@
                 excludeComponents: model.get('excludeComponents'),
                 pixelRatio: model.get('pixelRatio')
             });
-            if ('function' != typeof MouseEvent || !env1.browser.newEdge && (env1.browser.ie || env1.browser.edge)) {
+            if ('function' != typeof MouseEvent || !env.browser.newEdge && (env.browser.ie || env.browser.edge)) {
                 if (window.navigator.msSaveOrOpenBlob || isSvg) {
                     var parts = url.split(','), base64Encoded = parts[0].indexOf('base64') > -1, bstr = isSvg ? decodeURIComponent(parts[1]) : parts[1];
                     base64Encoded && (bstr = atob(bstr));
@@ -34574,7 +34555,7 @@
             };
         }, SaveAsImage;
     }(ToolboxFeature);
-    SaveAsImage.prototype.unusable = !env1.canvasSupported;
+    SaveAsImage.prototype.unusable = !env.canvasSupported;
     var INNER_STACK_KEYWORD = '__ec_magicType_stack__', radioTypes = [
         [
             'line',
@@ -35400,7 +35381,7 @@
         return null != confineOption ? !!confineOption : 'richText' === tooltipModel.get('renderMode');
     }
     function testStyle(styleProps) {
-        if (env1.domSupported) {
+        if (env.domSupported) {
             for(var style = document.documentElement.style, i = 0, len = styleProps.length; i < len; i++)if (styleProps[i] in style) return styleProps[i];
         }
     }
@@ -35427,10 +35408,10 @@
         'OTransition',
         'MozTransition',
         'msTransition'
-    ]), 'transition'), CSS_TRANSFORM_VENDOR = toCSSVendorPrefix(TRANSFORM_VENDOR, 'transform'), gCssText = "position:absolute;display:block;border-style:solid;white-space:nowrap;z-index:9999999;" + (env1.transform3dSupported ? 'will-change:transform;' : '');
+    ]), 'transition'), CSS_TRANSFORM_VENDOR = toCSSVendorPrefix(TRANSFORM_VENDOR, 'transform'), gCssText = "position:absolute;display:block;border-style:solid;white-space:nowrap;z-index:9999999;" + (env.transform3dSupported ? 'will-change:transform;' : '');
     function assembleTransform(x, y, toString) {
         var x0 = x.toFixed(0) + 'px', y0 = y.toFixed(0) + 'px';
-        if (!env1.transformSupported) return toString ? "top:" + y0 + ";left:" + x0 + ";" : [
+        if (!env.transformSupported) return toString ? "top:" + y0 + ";left:" + x0 + ";" : [
             [
                 'top',
                 y0
@@ -35440,7 +35421,7 @@
                 x0
             ]
         ];
-        var is3d = env1.transform3dSupported, translate = "translate" + (is3d ? '3d' : '') + "(" + x0 + "," + y0 + (is3d ? ',0' : '') + ")";
+        var is3d = env.transform3dSupported, translate = "translate" + (is3d ? '3d' : '') + "(" + x0 + "," + y0 + (is3d ? ',0' : '') + ")";
         return toString ? 'top:0;left:0;' + CSS_TRANSFORM_VENDOR + ':' + translate + ';' : [
             [
                 'top',
@@ -35475,7 +35456,7 @@
                 0,
                 0,
                 0
-            ], this._enterable = !0, this._firstShow = !0, this._longHide = !0, env1.wxa) return null;
+            ], this._enterable = !0, this._firstShow = !0, this._longHide = !0, env.wxa) return null;
             var el = document.createElement('div');
             el.domBelongToZr = !0, this.el = el;
             var zr = this._zr = api.getZr(), appendToBody = this._appendToBody = opt && opt.appendToBody;
@@ -35498,7 +35479,7 @@
         }, TooltipHTMLContent.prototype.show = function(tooltipModel, nearPointColor) {
             clearTimeout(this._hideTimeout), clearTimeout(this._longHideTimeout);
             var enableTransition, onlyFade, cssText, transitionDuration, backgroundColor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, textStyleModel, padding, transitionCurve, transitionOption, transitionText, cssText1, fontSize, color, shadowColor1, shadowBlur1, shadowOffsetX1, shadowOffsetY1, el = this.el, style = el.style, styleCoord = this._styleCoord;
-            el.innerHTML ? style.cssText = gCssText + (enableTransition = !this._firstShow, onlyFade = this._longHide, cssText = [], transitionDuration = tooltipModel.get('transitionDuration'), backgroundColor = tooltipModel.get('backgroundColor'), shadowBlur = tooltipModel.get('shadowBlur'), shadowColor = tooltipModel.get('shadowColor'), shadowOffsetX = tooltipModel.get('shadowOffsetX'), shadowOffsetY = tooltipModel.get('shadowOffsetY'), textStyleModel = tooltipModel.getModel('textStyle'), padding = getPaddingFromTooltipModel(tooltipModel, 'html'), cssText.push('box-shadow:' + (shadowOffsetX + "px " + shadowOffsetY + "px ") + shadowBlur + "px " + shadowColor), enableTransition && transitionDuration && cssText.push((transitionText = "opacity" + (transitionOption = " " + transitionDuration / 2 + "s " + (transitionCurve = 'cubic-bezier(0.23,1,0.32,1)')) + ",visibility" + transitionOption, onlyFade || (transitionOption = " " + transitionDuration + "s " + transitionCurve, transitionText += env1.transformSupported ? "," + TRANSFORM_VENDOR + transitionOption : ",left" + transitionOption + ",top" + transitionOption), CSS_TRANSITION_VENDOR + ':' + transitionText)), backgroundColor && (env1.canvasSupported ? cssText.push('background-color:' + backgroundColor) : (cssText.push('background-color:#' + toHex(backgroundColor)), cssText.push('filter:alpha(opacity=70)'))), each([
+            el.innerHTML ? style.cssText = gCssText + (enableTransition = !this._firstShow, onlyFade = this._longHide, cssText = [], transitionDuration = tooltipModel.get('transitionDuration'), backgroundColor = tooltipModel.get('backgroundColor'), shadowBlur = tooltipModel.get('shadowBlur'), shadowColor = tooltipModel.get('shadowColor'), shadowOffsetX = tooltipModel.get('shadowOffsetX'), shadowOffsetY = tooltipModel.get('shadowOffsetY'), textStyleModel = tooltipModel.getModel('textStyle'), padding = getPaddingFromTooltipModel(tooltipModel, 'html'), cssText.push('box-shadow:' + (shadowOffsetX + "px " + shadowOffsetY + "px ") + shadowBlur + "px " + shadowColor), enableTransition && transitionDuration && cssText.push((transitionText = "opacity" + (transitionOption = " " + transitionDuration / 2 + "s " + (transitionCurve = 'cubic-bezier(0.23,1,0.32,1)')) + ",visibility" + transitionOption, onlyFade || (transitionOption = " " + transitionDuration + "s " + transitionCurve, transitionText += env.transformSupported ? "," + TRANSFORM_VENDOR + transitionOption : ",left" + transitionOption + ",top" + transitionOption), CSS_TRANSITION_VENDOR + ':' + transitionText)), backgroundColor && (env.canvasSupported ? cssText.push('background-color:' + backgroundColor) : (cssText.push('background-color:#' + toHex(backgroundColor)), cssText.push('filter:alpha(opacity=70)'))), each([
                 'width',
                 'color',
                 'radius'
@@ -35561,7 +35542,7 @@
             this.moveTo(ratioX * this._zr.getWidth(), ratioY * this._zr.getHeight());
         }, TooltipHTMLContent.prototype.hide = function() {
             var _this = this, style = this.el.style;
-            style.visibility = 'hidden', style.opacity = '0', env1.transform3dSupported && (style.willChange = ''), this._show = !1, this._longHideTimeout = setTimeout(function() {
+            style.visibility = 'hidden', style.opacity = '0', env.transform3dSupported && (style.willChange = ''), this._show = !1, this._longHideTimeout = setTimeout(function() {
                 return _this._longHide = !0;
             }, 500);
         }, TooltipHTMLContent.prototype.hideLater = function(time) {
@@ -35689,14 +35670,14 @@
             return _this.type = TooltipView.type, _this;
         }
         return __extends(TooltipView, _super), TooltipView.prototype.init = function(ecModel, api) {
-            if (!env1.node) {
+            if (!env.node) {
                 var tooltipModel = ecModel.getComponent('tooltip'), renderMode = tooltipModel.get('renderMode');
-                this._renderMode = 'auto' === renderMode ? env1.domSupported ? 'html' : 'richText' : renderMode || 'html', this._tooltipContent = 'richText' === this._renderMode ? new TooltipRichContent(api) : new TooltipHTMLContent(api.getDom(), api, {
+                this._renderMode = 'auto' === renderMode ? env.domSupported ? 'html' : 'richText' : renderMode || 'html', this._tooltipContent = 'richText' === this._renderMode ? new TooltipRichContent(api) : new TooltipHTMLContent(api.getDom(), api, {
                     appendToBody: tooltipModel.get('appendToBody', !0)
                 });
             }
         }, TooltipView.prototype.render = function(tooltipModel, ecModel, api) {
-            if (!env1.node) {
+            if (!env.node) {
                 this.group.removeAll(), this._tooltipModel = tooltipModel, this._ecModel = ecModel, this._api = api, this._alwaysShowContent = tooltipModel.get('alwaysShowContent');
                 var tooltipContent = this._tooltipContent;
                 tooltipContent.update(tooltipModel), tooltipContent.setEnterable(tooltipModel.get('enterable')), this._initGlobalListener(), this._keepShow();
@@ -35719,7 +35700,7 @@
                 });
             }
         }, TooltipView.prototype.manuallyShowTip = function(tooltipModel, ecModel, api, payload) {
-            if (payload.from !== this.uid && !env1.node) {
+            if (payload.from !== this.uid && !env.node) {
                 var dispatchAction = makeDispatchAction$1(payload, api);
                 this._ticket = '';
                 var dataByCoordSys = payload.dataByCoordSys, cmptRef = function(payload, ecModel, api) {
@@ -35749,17 +35730,15 @@
                         position: payload.position,
                         positionDefault: 'bottom'
                     }, dispatchAction);
-                } else if (payload.tooltip && null != payload.x && null != payload.y) {
-                    var el = proxyRect;
-                    el.x = payload.x, el.y = payload.y, el.update(), getECData(el).tooltipConfig = {
-                        name: null,
-                        option: payload.tooltip
-                    }, this._tryShow({
-                        offsetX: payload.x,
-                        offsetY: payload.y,
-                        target: el
-                    }, dispatchAction);
-                } else if (dataByCoordSys) this._tryShow({
+                } else if (payload.tooltip && null != payload.x && null != payload.y) proxyRect.x = payload.x, proxyRect.y = payload.y, proxyRect.update(), getECData(proxyRect).tooltipConfig = {
+                    name: null,
+                    option: payload.tooltip
+                }, this._tryShow({
+                    offsetX: payload.x,
+                    offsetY: payload.y,
+                    target: proxyRect
+                }, dispatchAction);
+                else if (dataByCoordSys) this._tryShow({
                     offsetX: payload.x,
                     offsetY: payload.y,
                     position: payload.position,
@@ -35850,7 +35829,7 @@
             }), articleMarkup.blocks.reverse(), markupTextArrLegacy.reverse();
             var positionExpr = e.position, builtMarkupText = buildTooltipMarkup(articleMarkup, markupStyleCreator, renderMode, singleTooltipModel.get('order'), ecModel.get('useUTC'), singleTooltipModel.get('textStyle'));
             builtMarkupText && markupTextArrLegacy.unshift(builtMarkupText);
-            var allMarkupText = markupTextArrLegacy.join('richText' === renderMode ? '\n\n' : '<br/>');
+            var blockBreak = 'richText' === renderMode ? '\n\n' : '<br/>', allMarkupText = markupTextArrLegacy.join(blockBreak);
             this._showOrMove(singleTooltipModel, function() {
                 this._updateContentNotChangedOnAxis(dataByCoordSys) ? this._updatePosition(singleTooltipModel, positionExpr, point[0], point[1], this._tooltipContent, cbParamsList) : this._showTooltipContent(singleTooltipModel, allMarkupText, cbParamsList, Math.random() + '', point[0], point[1], positionExpr, null, markupStyleCreator);
             });
@@ -36004,7 +35983,7 @@
                 from: this.uid
             });
         }, TooltipView.prototype.dispose = function(ecModel, api) {
-            env1.node || (this._tooltipContent.dispose(), unregister('itemTooltip', api));
+            env.node || (this._tooltipContent.dispose(), unregister('itemTooltip', api));
         }, TooltipView.type = 'tooltip', TooltipView;
     }(ComponentView);
     function buildTooltipModel(modelCascade, globalTooltipModel, defaultTooltipOption) {
@@ -36033,7 +36012,7 @@
     function brushPreprocessor(option, isNew) {
         var brushComponents = normalizeToArray(option ? option.brush : []);
         if (brushComponents.length) {
-            var arr, map, brushComponentSpecifiedBtns = [];
+            var map, brushComponentSpecifiedBtns = [];
             each(brushComponents, function(brushOpt) {
                 var tbs = brushOpt.hasOwnProperty('toolbox') ? brushOpt.toolbox : [];
                 tbs instanceof Array && (brushComponentSpecifiedBtns = brushComponentSpecifiedBtns.concat(tbs));
@@ -36045,10 +36024,10 @@
                 toolbox
             ]);
             var toolboxFeature = toolbox.feature || (toolbox.feature = {}), toolboxBrush = toolboxFeature.brush || (toolboxFeature.brush = {}), brushTypes = toolboxBrush.type || (toolboxBrush.type = []);
-            brushTypes.push.apply(brushTypes, brushComponentSpecifiedBtns), map = {}, each(arr = brushTypes, function(val) {
+            brushTypes.push.apply(brushTypes, brushComponentSpecifiedBtns), map = {}, each(brushTypes, function(val) {
                 map[val] = 1;
-            }), arr.length = 0, each(map, function(flag, val) {
-                arr.push(val);
+            }), brushTypes.length = 0, each(map, function(flag, val) {
+                brushTypes.push(val);
             }), isNew && !brushTypes.length && brushTypes.push.apply(brushTypes, DEFAULT_TOOLBOX_BTNS);
         }
     }
@@ -36993,10 +36972,10 @@
             ]).getItemStyle(), playState = timelineModel.getPlayState(), inverse = timelineModel.get('inverse', !0);
             function makeBtn(position, iconName, onclick, willRotate) {
                 if (position) {
-                    var rect, opts, style, icon, iconSize = parsePercent(retrieve2(timelineModel.get([
+                    var objPath, rect, opts, style, icon, iconSize = parsePercent(retrieve2(timelineModel.get([
                         'controlStyle',
                         iconName + 'BtnSize'
-                    ]), controlSize), controlSize), btn = (rect = [
+                    ]), controlSize), controlSize), btn = (objPath = iconName + 'Icon', rect = [
                         0,
                         -iconSize / 2,
                         iconSize,
@@ -37012,7 +36991,7 @@
                         onclick: onclick
                     }).style, icon = createIcon(timelineModel.get([
                         'controlStyle',
-                        iconName + 'Icon'
+                        objPath
                     ]), opts || {}, new BoundingRect(rect[0], rect[1], rect[2], rect[3])), style && icon.setStyle(style), icon);
                     btn.ensureState('emphasis').style = hoverStyle, group.add(btn), enableHoverEmphasis(btn);
                 }
@@ -37180,7 +37159,7 @@
             if ('marker' === this.type) throw Error('Marker component is abstract component. Use markLine, markPoint, markArea instead.');
             this.mergeDefaultAndTheme(option, ecModel), this._mergeOption(option, ecModel, !1, !0);
         }, MarkerModel.prototype.isAnimationEnabled = function() {
-            if (env1.node) return !1;
+            if (env.node) return !1;
             var hostSeries = this.__hostSeries;
             return this.getShallow('animation') && hostSeries && hostSeries.isAnimationEnabled();
         }, MarkerModel.prototype.mergeOption = function(newOpt, ecModel) {
@@ -37739,7 +37718,7 @@
                 }
             }, this);
         }, MarkAreaView.prototype.renderSeries = function(seriesModel, maModel, ecModel, api) {
-            var coordDimsInfos, areaData, optData, coordSys = seriesModel.coordinateSystem, seriesId = seriesModel.id, seriesData = seriesModel.getData(), areaGroupMap = this.markerGroupMap, polygonGroup = areaGroupMap.get(seriesId) || areaGroupMap.set(seriesId, {
+            var coordDimsInfos, areaData, optData, dimValueGetter, coordSys = seriesModel.coordinateSystem, seriesId = seriesModel.id, seriesData = seriesModel.getData(), areaGroupMap = this.markerGroupMap, polygonGroup = areaGroupMap.get(seriesId) || areaGroupMap.set(seriesId, {
                 group: new Group()
             });
             this.group.add(polygonGroup.group), this.markKeep(polygonGroup);
@@ -37763,11 +37742,11 @@
                     name: 'value',
                     type: 'float'
                 }
-            ], areaData = new List(coordDimsInfos, maModel)), optData = map(maModel.get('data'), curry(markAreaTransform, seriesModel, coordSys, maModel)), coordSys && (optData = filter(optData, curry(markAreaFilter, coordSys))), areaData.initData(optData, null, coordSys ? function(item, dimName, dataIndex, dimIndex) {
+            ], areaData = new List(coordDimsInfos, maModel)), optData = map(maModel.get('data'), curry(markAreaTransform, seriesModel, coordSys, maModel)), coordSys && (optData = filter(optData, curry(markAreaFilter, coordSys))), dimValueGetter = coordSys ? function(item, dimName, dataIndex, dimIndex) {
                 return item.coord[Math.floor(dimIndex / 2)][dimIndex % 2];
             } : function(item) {
                 return item.value;
-            }), areaData.hasItemOption = !0, areaData);
+            }, areaData.initData(optData, null, dimValueGetter), areaData.hasItemOption = !0, areaData);
             maModel.setData(areaData1), areaData1.each(function(idx) {
                 var points = map(dimPermutations, function(dim) {
                     return getSingleMarkerEndPoint(areaData1, idx, dim, seriesModel, api);
@@ -38325,8 +38304,8 @@
             createPageButton('pagePrev', 0);
             var pageTextStyleModel = legendModel.getModel('pageTextStyle');
             function createPageButton(name, iconIdx) {
-                var icon = createIcon(legendModel.get('pageIcons', !0)[legendModel.getOrient().name][iconIdx], {
-                    onclick: bind(self1._pageGo, self1, name + 'DataIndex', legendModel, api)
+                var pageDataIndexName = name + 'DataIndex', icon = createIcon(legendModel.get('pageIcons', !0)[legendModel.getOrient().name][iconIdx], {
+                    onclick: bind(self1._pageGo, self1, pageDataIndexName, legendModel, api)
                 }, {
                     x: -pageIconSizeArr[0] / 2,
                     y: -pageIconSizeArr[1] / 2,
@@ -38785,8 +38764,8 @@
         }, SliderZoomView.prototype.dispose = function() {
             this._clear(), _super.prototype.dispose.apply(this, arguments);
         }, SliderZoomView.prototype._clear = function() {
-            obj = this, (fn = obj[fnAttr = '_dispatchZoomAction']) && fn[ORIGIN_METHOD] && (obj[fnAttr] = fn[ORIGIN_METHOD]);
-            var obj, fnAttr, fn, zr = this.api.getZr();
+            (fn = this[fnAttr = '_dispatchZoomAction']) && fn[ORIGIN_METHOD] && (this[fnAttr] = fn[ORIGIN_METHOD]);
+            var fnAttr, fn, zr = this.api.getZr();
             zr.off('mousemove', this._onBrush), zr.off('mouseup', this._onBrushEnd);
         }, SliderZoomView.prototype._buildView = function() {
             var thisGroup = this.group;
@@ -39397,7 +39376,7 @@
             this.mergeDefaultAndTheme(option, ecModel);
         }, VisualMapModel.prototype.optionUpdated = function(newOption, isInit) {
             var thisOption = this.option;
-            env1.canvasSupported || (thisOption.realtime = !1), isInit || replaceVisualOption(thisOption, newOption, this.replacableOptionKeys), this.textStyleModel = this.getModel('textStyle'), this.resetItemSize(), this.completeVisualOption();
+            env.canvasSupported || (thisOption.realtime = !1), isInit || replaceVisualOption(thisOption, newOption, this.replacableOptionKeys), this.textStyleModel = this.getModel('textStyle'), this.resetItemSize(), this.completeVisualOption();
         }, VisualMapModel.prototype.resetVisual = function(supplementVisualOption) {
             var stateList = this.stateList;
             supplementVisualOption = bind(supplementVisualOption, this), this.controllerVisuals = createVisualMappings(this.option.controller, stateList, supplementVisualOption), this.targetVisuals = createVisualMappings(this.option.target, stateList, supplementVisualOption);
@@ -39824,11 +39803,11 @@
             }, handleLabel.stateTransition = {
                 duration: 200
             }, this.group.add(handleLabel);
-            var shapes = this._shapes;
-            shapes.handleThumbs[handleIndex] = handleThumb, shapes.handleLabelPoints[handleIndex] = [
+            var handleLabelPoint = [
                 handleSize,
                 0
-            ], shapes.handleLabels[handleIndex] = handleLabel;
+            ], shapes = this._shapes;
+            shapes.handleThumbs[handleIndex] = handleThumb, shapes.handleLabelPoints[handleIndex] = handleLabelPoint, shapes.handleLabels[handleIndex] = handleLabel;
         }, ContinuousView.prototype._createIndicator = function(visualMapModel, mainGroup, itemSize, textSize, orient) {
             var scale = parsePercent(visualMapModel.get('indicatorSize'), itemSize[0]), indicator = createSymbol(visualMapModel.get('indicatorIcon'), -scale / 2, -scale / 2, scale, scale, null, !0);
             indicator.attr({
@@ -41287,7 +41266,7 @@
         zrender: '5.1.0'
     }, exports1.disConnect = disConnect, exports1.disconnect = disConnect, exports1.dispose = function(chart) {
         'string' == typeof chart ? chart = instances$1[chart] : chart instanceof ECharts || (chart = getInstanceByDom(chart)), chart instanceof ECharts && !chart.isDisposed() && chart.dispose();
-    }, exports1.env = env1, exports1.extendChartView = function(proto) {
+    }, exports1.env = env, exports1.extendChartView = function(proto) {
         var View = ChartView.extend(proto);
         return ChartView.registerClass(View), View;
     }, exports1.extendComponentModel = function(proto) {

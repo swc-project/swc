@@ -34,7 +34,6 @@ pub fn is_global_var_with_pure_property_access(s: &JsWord) -> bool {
             | "Function"
             | "isFinite"
             | "isNaN"
-            | "JSON"
             | "parseFloat"
             | "parseInt"
             | "RegExp"

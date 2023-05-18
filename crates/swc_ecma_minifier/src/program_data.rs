@@ -16,7 +16,7 @@ use swc_ecma_usage_analyzer::{
     analyzer::{
         analyze_with_storage,
         storage::{ScopeDataLike, Storage, VarDataLike},
-        Ctx, ScopeKind, UsageAnalyzer,
+        CalleeKind, Ctx, ScopeKind, UsageAnalyzer,
     },
     marks::Marks,
 };
@@ -122,7 +122,7 @@ pub(crate) struct VarUsageInfo {
 
     /// `infects_to`. This should be renamed, but it will be done with another
     /// PR. (because it's hard to review)
-    infects: Vec<Access>,
+    infects_to: Vec<Access>,
 
     pub(crate) used_in_non_child_fn: bool,
     /// Only **string** properties.
@@ -161,7 +161,7 @@ impl Default for VarUsageInfo {
             used_as_arg: Default::default(),
             indexed_with_dynamic_key: Default::default(),
             pure_fn: Default::default(),
-            infects: Default::default(),
+            infects_to: Default::default(),
             used_in_non_child_fn: Default::default(),
             accessed_props: Default::default(),
             used_recursively: Default::default(),
@@ -176,7 +176,7 @@ impl VarUsageInfo {
     }
 
     pub(crate) fn is_infected(&self) -> bool {
-        !self.infects.is_empty()
+        !self.infects_to.is_empty()
     }
 
     pub(crate) fn reassigned(&self) -> bool {
@@ -189,8 +189,7 @@ impl VarUsageInfo {
     }
 
     pub(crate) fn can_inline_var(&self) -> bool {
-        !self.mutated
-            || (self.assign_count == 0 && !self.reassigned() && !self.has_property_mutation)
+        !self.mutated || (self.assign_count == 0 && !self.reassigned())
     }
 
     pub(crate) fn can_inline_fn_once(&self) -> bool {
@@ -278,7 +277,7 @@ impl Storage for ProgramData {
                     e.get_mut().mutation_by_call_count += var_info.mutation_by_call_count;
                     e.get_mut().usage_count += var_info.usage_count;
 
-                    e.get_mut().infects.extend(var_info.infects);
+                    e.get_mut().infects_to.extend(var_info.infects_to);
 
                     e.get_mut().no_side_effect_for_member_access =
                         e.get_mut().no_side_effect_for_member_access
@@ -458,7 +457,7 @@ impl VarDataLike for VarUsageInfo {
     }
 
     fn add_infects_to(&mut self, other: Access) {
-        self.infects.push(other);
+        self.infects_to.push(other);
     }
 
     fn prevent_inline(&mut self) {
@@ -512,7 +511,7 @@ impl ProgramData {
                             return Err(());
                         }
                         if let Some(info) = self.vars.get(&iid.0) {
-                            let infects = &info.infects;
+                            let infects = &info.infects_to;
                             if !infects.is_empty() {
                                 let old_len = ids.len();
 
@@ -629,8 +628,20 @@ impl ProgramData {
             }
         }
 
+        let call_may_mutate = ctx.in_call_arg_of == Some(CalleeKind::Unknown);
+
         // Passing object as a argument is possibly modification.
-        e.mutated |= is_modify || (ctx.in_call_arg && ctx.is_exact_arg);
+        e.mutated |= is_modify || (call_may_mutate && ctx.is_exact_arg);
+        let mut to_mark_mutate = Vec::new();
+        if call_may_mutate && ctx.is_exact_arg {
+            e.has_property_mutation = true;
+            for (other, kind) in e.infects_to.clone() {
+                if kind == AccessKind::Reference {
+                    to_mark_mutate.push(other)
+                }
+            }
+        }
+
         e.executed_multiple_time |= ctx.executed_multiple_time;
         e.used_in_cond |= ctx.in_cond;
 
@@ -655,15 +666,31 @@ impl ProgramData {
                 }
             }
 
-            for other in e.infects.clone() {
+            for other in e.infects_to.clone() {
                 self.report(other.0, ctx, true, dejavu)
             }
         } else {
-            if ctx.in_call_arg && ctx.is_exact_arg {
+            if call_may_mutate && ctx.is_exact_arg {
                 e.mutation_by_call_count += 1;
             }
 
             e.usage_count += 1;
+        }
+
+        for other in to_mark_mutate {
+            let other = self.vars.entry(other).or_insert_with(|| {
+                // trace!("insert({}{:?})", i.0, i.1);
+
+                let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
+
+                VarUsageInfo {
+                    is_fn_local: true,
+                    used_above_decl: !simple_assign,
+                    ..Default::default()
+                }
+            });
+
+            other.has_property_mutation = true;
         }
     }
 }

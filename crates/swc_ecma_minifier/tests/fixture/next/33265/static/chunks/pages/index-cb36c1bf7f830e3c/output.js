@@ -1105,8 +1105,8 @@
             function _addNamedNode(el, list, newAttr, oldAttr) {
                 if (oldAttr ? list[_findNodeIndex(list, oldAttr)] = newAttr : list[list.length++] = newAttr, el) {
                     newAttr.ownerElement = el;
-                    var el1, newAttr1, doc = el.ownerDocument;
-                    doc && (oldAttr && _onRemoveAttribute(doc, el, oldAttr), el1 = el, newAttr1 = newAttr, doc && doc._inc++, newAttr1.namespaceURI === NAMESPACE.XMLNS && (el1._nsMap[newAttr1.prefix ? newAttr1.localName : ""] = newAttr1.value));
+                    var doc = el.ownerDocument;
+                    doc && (oldAttr && _onRemoveAttribute(doc, el, oldAttr), doc && doc._inc++, newAttr.namespaceURI === NAMESPACE.XMLNS && (el._nsMap[newAttr.prefix ? newAttr.localName : ""] = newAttr.value));
                 }
             }
             function _removeNamedNode(el, list, attr) {
@@ -2617,7 +2617,11 @@
                                     "BYTERANGE-START",
                                     "BYTERANGE-LENGTH"
                                 ].forEach(function(key) {
-                                    event.attributes.hasOwnProperty(key) && (event.attributes[key] = parseInt(event.attributes[key], 10), event.attributes.byterange = event.attributes.byterange || {}, event.attributes.byterange["BYTERANGE-LENGTH" === key ? "length" : "offset"] = event.attributes[key], delete event.attributes[key]);
+                                    if (event.attributes.hasOwnProperty(key)) {
+                                        event.attributes[key] = parseInt(event.attributes[key], 10);
+                                        var subkey = "BYTERANGE-LENGTH" === key ? "length" : "offset";
+                                        event.attributes.byterange = event.attributes.byterange || {}, event.attributes.byterange[subkey] = event.attributes[key], delete event.attributes[key];
+                                    }
                                 }), _this2.trigger("data", event);
                                 return;
                             }
@@ -3463,10 +3467,10 @@
                 return "number" == typeof attributes.start ? attributes.start : priorPeriodAttributes && "number" == typeof priorPeriodAttributes.start && "number" == typeof priorPeriodAttributes.duration ? priorPeriodAttributes.start + priorPeriodAttributes.duration : priorPeriodAttributes || "static" !== mpdType ? null : 0;
             }, inheritAttributes = function(mpd, options) {
                 void 0 === options && (options = {});
-                var _options = options, _options$manifestUri = _options.manifestUri, _options$NOW = _options.NOW, NOW = void 0 === _options$NOW ? Date.now() : _options$NOW, _options$clientOffset = _options.clientOffset, periodNodes = findChildren(mpd, "Period");
+                var _options = options, _options$manifestUri = _options.manifestUri, manifestUri = void 0 === _options$manifestUri ? "" : _options$manifestUri, _options$NOW = _options.NOW, NOW = void 0 === _options$NOW ? Date.now() : _options$NOW, _options$clientOffset = _options.clientOffset, periodNodes = findChildren(mpd, "Period");
                 if (!periodNodes.length) throw Error(errors.INVALID_NUMBER_OF_PERIOD);
                 var locations = findChildren(mpd, "Location"), mpdAttributes = parseAttributes(mpd), mpdBaseUrls = buildBaseUrls([
-                    void 0 === _options$manifestUri ? "" : _options$manifestUri
+                    manifestUri
                 ], findChildren(mpd, "BaseURL"));
                 mpdAttributes.type = mpdAttributes.type || "static", mpdAttributes.sourceDuration = mpdAttributes.mediaPresentationDuration || 0, mpdAttributes.NOW = NOW, mpdAttributes.clientOffset = void 0 === _options$clientOffset ? 0 : _options$clientOffset, locations.length && (mpdAttributes.locations = locations.map(getContent));
                 var periods = [];
@@ -4818,13 +4822,12 @@
                     return this;
                 },
                 flush: function() {
-                    var self1 = this;
                     try {
-                        if (self1.buffer += self1.decoder.decode(), (self1.cue || "HEADER" === self1.state) && (self1.buffer += "\n\n", self1.parse()), "INITIAL" === self1.state) throw new ParsingError(ParsingError.Errors.BadSignature);
+                        if (this.buffer += this.decoder.decode(), (this.cue || "HEADER" === this.state) && (this.buffer += "\n\n", this.parse()), "INITIAL" === this.state) throw new ParsingError(ParsingError.Errors.BadSignature);
                     } catch (e) {
-                        self1.reportOrThrowError(e);
+                        this.reportOrThrowError(e);
                     }
-                    return self1.onflush && self1.onflush(), this;
+                    return this.onflush && this.onflush(), this;
                 }
             }, module.exports = WebVTT1;
         },
