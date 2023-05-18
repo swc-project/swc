@@ -1173,7 +1173,11 @@ impl<I: Tokens> Parser<I> {
 
                 let mut_obj_opt = &mut obj_opt;
 
-                let result = self.try_parse_ts(|p| {
+                let ctx: Context = Context {
+                    should_not_lex_lt_or_gt_as_type: true,
+                    ..self.ctx()
+                };
+                let result = self.with_ctx(ctx).try_parse_ts(|p| {
                     if !no_call
                         && p.at_possible_async(match &mut_obj_opt {
                             Some(Callee::Expr(ref expr)) => expr,
