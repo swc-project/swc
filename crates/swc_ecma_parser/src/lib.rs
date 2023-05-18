@@ -383,6 +383,8 @@ pub struct Context {
 
     in_type: bool,
     /// Typescript extension.
+    should_not_lex_lt_or_gt_as_type: bool,
+    /// Typescript extension.
     in_declare: bool,
 
     /// If true, `:` should not be treated as a type annotation.
