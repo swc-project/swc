@@ -217,8 +217,8 @@ impl<'a> Iterator for Lexer<'a> {
                 start = self.input.cur_pos();
             };
 
-            let c = match self.input.cur() {
-                Some(c) => c,
+            match self.input.cur() {
+                Some(..) => {}
                 // End of input.
                 None => {
                     if let Some(comments) = self.comments.as_mut() {
@@ -322,16 +322,6 @@ impl<'a> Iterator for Lexer<'a> {
             }) = self.state.context.current()
             {
                 return self.read_tmpl_token(start_pos_of_tpl).map(Some);
-            }
-
-            if self.syntax.typescript() && self.ctx.in_type {
-                if c == '<' {
-                    self.input.bump();
-                    return Ok(Some(tok!('<')));
-                } else if c == '>' {
-                    self.input.bump();
-                    return Ok(Some(tok!('>')));
-                }
             }
 
             self.read_token()
