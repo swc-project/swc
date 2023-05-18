@@ -1570,7 +1570,7 @@
             return is("name", "assert") && !has_newline_before(S.token) ? (next(), object_or_destructuring_()) : null;
         }
         function map_names(is_import) {
-            var names, name, name1, foreign_name, foreign_type, start, end;
+            var names, name, name1, foreign_name, foreign_type, type, start, end;
             if (is("punc", "{")) {
                 for(next(), names = []; !is("punc", "}");)names.push(function(is_import) {
                     function make_symbol(type) {
@@ -1590,7 +1590,7 @@
                 }(is_import)), is("punc", ",") && next();
                 next();
             } else is("operator", "*") && (next(), is_import && is("name", "as") && (next(), name = as_symbol(is_import ? AST_SymbolImport : AST_SymbolExportForeign)), names = [
-                (name1 = name, foreign_type = is_import ? AST_SymbolImportForeign : AST_SymbolExportForeign, start = S.token, end = prev(), name1 = name1 || new (is_import ? AST_SymbolImport : AST_SymbolExport)({
+                (name1 = name, foreign_type = is_import ? AST_SymbolImportForeign : AST_SymbolExportForeign, type = is_import ? AST_SymbolImport : AST_SymbolExport, start = S.token, end = prev(), name1 = name1 || new type({
                     name: "*",
                     start: start,
                     end: end
@@ -4293,7 +4293,10 @@
         } : function() {
             might_need_space = !0;
         }, indent = options.beautify ? function(half) {
-            options.beautify && print(" ".repeat(options.indent_start + indentation - (half ? 0.5 : 0) * options.indent_level));
+            if (options.beautify) {
+                var back;
+                print((back = half ? 0.5 : 0, " ".repeat(options.indent_start + indentation - back * options.indent_level)));
+            }
         } : noop, with_indent = options.beautify ? function(col, cont) {
             !0 === col && (col = next_indent());
             var save_indentation = indentation;
@@ -4986,45 +4989,45 @@
             throw Error(`mkshallow: Unexpected instruction: ${props[key]}`);
         }).join(" && ");
         return Function("other", "return " + comparisons);
-    };
+    }, pass_through = ()=>!0;
     AST_Node.prototype.shallow_cmp = function() {
         throw Error("did not find a shallow_cmp function for " + this.constructor.name);
-    }, AST_Debugger.prototype.shallow_cmp = ()=>!0, AST_Directive.prototype.shallow_cmp = mkshallow({
+    }, AST_Debugger.prototype.shallow_cmp = pass_through, AST_Directive.prototype.shallow_cmp = mkshallow({
         value: "eq"
-    }), AST_SimpleStatement.prototype.shallow_cmp = ()=>!0, AST_Block.prototype.shallow_cmp = ()=>!0, AST_EmptyStatement.prototype.shallow_cmp = ()=>!0, AST_LabeledStatement.prototype.shallow_cmp = mkshallow({
+    }), AST_SimpleStatement.prototype.shallow_cmp = pass_through, AST_Block.prototype.shallow_cmp = pass_through, AST_EmptyStatement.prototype.shallow_cmp = pass_through, AST_LabeledStatement.prototype.shallow_cmp = mkshallow({
         "label.name": "eq"
-    }), AST_Do.prototype.shallow_cmp = ()=>!0, AST_While.prototype.shallow_cmp = ()=>!0, AST_For.prototype.shallow_cmp = mkshallow({
+    }), AST_Do.prototype.shallow_cmp = pass_through, AST_While.prototype.shallow_cmp = pass_through, AST_For.prototype.shallow_cmp = mkshallow({
         init: "exist",
         condition: "exist",
         step: "exist"
-    }), AST_ForIn.prototype.shallow_cmp = ()=>!0, AST_ForOf.prototype.shallow_cmp = ()=>!0, AST_With.prototype.shallow_cmp = ()=>!0, AST_Toplevel.prototype.shallow_cmp = ()=>!0, AST_Expansion.prototype.shallow_cmp = ()=>!0, AST_Lambda.prototype.shallow_cmp = mkshallow({
+    }), AST_ForIn.prototype.shallow_cmp = pass_through, AST_ForOf.prototype.shallow_cmp = pass_through, AST_With.prototype.shallow_cmp = pass_through, AST_Toplevel.prototype.shallow_cmp = pass_through, AST_Expansion.prototype.shallow_cmp = pass_through, AST_Lambda.prototype.shallow_cmp = mkshallow({
         is_generator: "eq",
         async: "eq"
     }), AST_Destructuring.prototype.shallow_cmp = mkshallow({
         is_array: "eq"
-    }), AST_PrefixedTemplateString.prototype.shallow_cmp = ()=>!0, AST_TemplateString.prototype.shallow_cmp = ()=>!0, AST_TemplateSegment.prototype.shallow_cmp = mkshallow({
+    }), AST_PrefixedTemplateString.prototype.shallow_cmp = pass_through, AST_TemplateString.prototype.shallow_cmp = pass_through, AST_TemplateSegment.prototype.shallow_cmp = mkshallow({
         value: "eq"
-    }), AST_Jump.prototype.shallow_cmp = ()=>!0, AST_LoopControl.prototype.shallow_cmp = ()=>!0, AST_Await.prototype.shallow_cmp = ()=>!0, AST_Yield.prototype.shallow_cmp = mkshallow({
+    }), AST_Jump.prototype.shallow_cmp = pass_through, AST_LoopControl.prototype.shallow_cmp = pass_through, AST_Await.prototype.shallow_cmp = pass_through, AST_Yield.prototype.shallow_cmp = mkshallow({
         is_star: "eq"
     }), AST_If.prototype.shallow_cmp = mkshallow({
         alternative: "exist"
-    }), AST_Switch.prototype.shallow_cmp = ()=>!0, AST_SwitchBranch.prototype.shallow_cmp = ()=>!0, AST_Try.prototype.shallow_cmp = mkshallow({
+    }), AST_Switch.prototype.shallow_cmp = pass_through, AST_SwitchBranch.prototype.shallow_cmp = pass_through, AST_Try.prototype.shallow_cmp = mkshallow({
         bcatch: "exist",
         bfinally: "exist"
     }), AST_Catch.prototype.shallow_cmp = mkshallow({
         argname: "exist"
-    }), AST_Finally.prototype.shallow_cmp = ()=>!0, AST_Definitions.prototype.shallow_cmp = ()=>!0, AST_VarDef.prototype.shallow_cmp = mkshallow({
+    }), AST_Finally.prototype.shallow_cmp = pass_through, AST_Definitions.prototype.shallow_cmp = pass_through, AST_VarDef.prototype.shallow_cmp = mkshallow({
         value: "exist"
-    }), AST_NameMapping.prototype.shallow_cmp = ()=>!0, AST_Import.prototype.shallow_cmp = mkshallow({
+    }), AST_NameMapping.prototype.shallow_cmp = pass_through, AST_Import.prototype.shallow_cmp = mkshallow({
         imported_name: "exist",
         imported_names: "exist"
-    }), AST_ImportMeta.prototype.shallow_cmp = ()=>!0, AST_Export.prototype.shallow_cmp = mkshallow({
+    }), AST_ImportMeta.prototype.shallow_cmp = pass_through, AST_Export.prototype.shallow_cmp = mkshallow({
         exported_definition: "exist",
         exported_value: "exist",
         exported_names: "exist",
         module_name: "eq",
         is_default: "eq"
-    }), AST_Call.prototype.shallow_cmp = ()=>!0, AST_Sequence.prototype.shallow_cmp = ()=>!0, AST_PropAccess.prototype.shallow_cmp = ()=>!0, AST_Chain.prototype.shallow_cmp = ()=>!0, AST_Dot.prototype.shallow_cmp = mkshallow({
+    }), AST_Call.prototype.shallow_cmp = pass_through, AST_Sequence.prototype.shallow_cmp = pass_through, AST_PropAccess.prototype.shallow_cmp = pass_through, AST_Chain.prototype.shallow_cmp = pass_through, AST_Dot.prototype.shallow_cmp = mkshallow({
         property: "eq"
     }), AST_DotHash.prototype.shallow_cmp = mkshallow({
         property: "eq"
@@ -5032,7 +5035,7 @@
         operator: "eq"
     }), AST_Binary.prototype.shallow_cmp = mkshallow({
         operator: "eq"
-    }), AST_Conditional.prototype.shallow_cmp = ()=>!0, AST_Array.prototype.shallow_cmp = ()=>!0, AST_Object.prototype.shallow_cmp = ()=>!0, AST_ObjectProperty.prototype.shallow_cmp = ()=>!0, AST_ObjectKeyVal.prototype.shallow_cmp = mkshallow({
+    }), AST_Conditional.prototype.shallow_cmp = pass_through, AST_Array.prototype.shallow_cmp = pass_through, AST_Object.prototype.shallow_cmp = pass_through, AST_ObjectProperty.prototype.shallow_cmp = pass_through, AST_ObjectKeyVal.prototype.shallow_cmp = mkshallow({
         key: "eq"
     }), AST_ObjectSetter.prototype.shallow_cmp = mkshallow({
         static: "eq"
@@ -5049,7 +5052,7 @@
         static: "eq"
     }), AST_Symbol.prototype.shallow_cmp = mkshallow({
         name: "eq"
-    }), AST_NewTarget.prototype.shallow_cmp = ()=>!0, AST_This.prototype.shallow_cmp = ()=>!0, AST_Super.prototype.shallow_cmp = ()=>!0, AST_String.prototype.shallow_cmp = mkshallow({
+    }), AST_NewTarget.prototype.shallow_cmp = pass_through, AST_This.prototype.shallow_cmp = pass_through, AST_Super.prototype.shallow_cmp = pass_through, AST_String.prototype.shallow_cmp = mkshallow({
         value: "eq"
     }), AST_Number.prototype.shallow_cmp = mkshallow({
         value: "eq"
@@ -5057,7 +5060,7 @@
         value: "eq"
     }), AST_RegExp.prototype.shallow_cmp = function(other) {
         return this.value.flags === other.value.flags && this.value.source === other.value.source;
-    }, AST_Atom.prototype.shallow_cmp = ()=>!0;
+    }, AST_Atom.prototype.shallow_cmp = pass_through;
     let function_defs = null, unmangleable_names = null;
     class SymbolDef {
         constructor(scope, orig, init){
@@ -5692,11 +5695,10 @@
     function make_nested_lookup(obj) {
         const out = new Map();
         for (var key of Object.keys(obj))out.set(key, makePredicate(obj[key]));
-        const does_have = (global_name, fname)=>{
+        return (global_name, fname)=>{
             const inner_map = out.get(global_name);
             return null != inner_map && inner_map.has(fname);
         };
-        return does_have;
     }
     const pure_prop_access_globals = new Set([
         "Number",

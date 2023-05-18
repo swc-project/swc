@@ -226,8 +226,8 @@
                     return it.fromMillis(t.getTime());
                 }
                 static fromMillis(t) {
-                    const e = Math.floor(t / 1e3);
-                    return new it(e, Math.floor(1e6 * (t - 1e3 * e)));
+                    const e = Math.floor(t / 1e3), n = Math.floor(1e6 * (t - 1e3 * e));
+                    return new it(e, n);
                 }
                 toDate() {
                     return new Date(this.toMillis());
@@ -835,12 +835,11 @@
                 return new jt(t, e, n, s, i, r, o);
             }
             function Wt(t) {
-                const e = t;
-                if (null === e.A) {
-                    let t = e.path.canonicalString();
-                    null !== e.collectionGroup && (t += "|cg:" + e.collectionGroup), t += "|f:" + e.filters.map((t)=>t.field.canonicalString() + t.op.toString() + xt(t.value)).join(",") + "|ob:" + e.orderBy.map((t)=>t.field.canonicalString() + t.dir).join(","), At(e.limit) || (t += "|l:" + e.limit), e.startAt && (t += "|lb:" + ce(e.startAt)), e.endAt && (t += "|ub:" + ce(e.endAt)), e.A = t;
+                if (null === t.A) {
+                    let t1 = t.path.canonicalString();
+                    null !== t.collectionGroup && (t1 += "|cg:" + t.collectionGroup), t1 += "|f:" + t.filters.map((t)=>t.field.canonicalString() + t.op.toString() + xt(t.value)).join(",") + "|ob:" + t.orderBy.map((t)=>t.field.canonicalString() + t.dir).join(","), At(t.limit) || (t1 += "|l:" + t.limit), t.startAt && (t1 += "|lb:" + ce(t.startAt)), t.endAt && (t1 += "|ub:" + ce(t.endAt)), t.A = t1;
                 }
-                return e.A;
+                return t.A;
             }
             function zt(t, e) {
                 var n, s, t1, e1;
@@ -1004,40 +1003,38 @@
                 return !At(t.limit) && "L" === t.limitType;
             }
             function Te(t) {
-                const e = t;
-                if (null === e.V) {
-                    e.V = [];
-                    const t = function(t) {
+                if (null === t.V) {
+                    t.V = [];
+                    const t1 = function(t) {
                         for (const e of t.filters)if (e.v()) return e.field;
                         return null;
-                    }(e), n = e.explicitOrderBy.length > 0 ? e.explicitOrderBy[0].field : null;
-                    if (null !== t && null === n) t.isKeyField() || e.V.push(new ae(t)), e.V.push(new ae(ft.keyField(), "asc"));
+                    }(t), n = t.explicitOrderBy.length > 0 ? t.explicitOrderBy[0].field : null;
+                    if (null !== t1 && null === n) t1.isKeyField() || t.V.push(new ae(t1)), t.V.push(new ae(ft.keyField(), "asc"));
                     else {
-                        let t = !1;
-                        for (const n of e.explicitOrderBy)e.V.push(n), n.field.isKeyField() && (t = !0);
-                        if (!t) {
-                            const t = e.explicitOrderBy.length > 0 ? e.explicitOrderBy[e.explicitOrderBy.length - 1].dir : "asc";
-                            e.V.push(new ae(ft.keyField(), t));
+                        let t1 = !1;
+                        for (const n of t.explicitOrderBy)t.V.push(n), n.field.isKeyField() && (t1 = !0);
+                        if (!t1) {
+                            const t1 = t.explicitOrderBy.length > 0 ? t.explicitOrderBy[t.explicitOrderBy.length - 1].dir : "asc";
+                            t.V.push(new ae(ft.keyField(), t1));
                         }
                     }
                 }
-                return e.V;
+                return t.V;
             }
             function Ee(t) {
-                const e = t;
-                if (!e.S) {
-                    if ("F" === e.limitType) e.S = Qt(e.path, e.collectionGroup, Te(e), e.filters, e.limit, e.startAt, e.endAt);
+                if (!t.S) {
+                    if ("F" === t.limitType) t.S = Qt(t.path, t.collectionGroup, Te(t), t.filters, t.limit, t.startAt, t.endAt);
                     else {
-                        const t = [];
-                        for (const n of Te(e)){
+                        const t1 = [];
+                        for (const n of Te(t)){
                             const e = "desc" === n.dir ? "asc" : "desc";
-                            t.push(new ae(n.field, e));
+                            t1.push(new ae(n.field, e));
                         }
-                        const n = e.endAt ? new oe(e.endAt.position, !e.endAt.before) : null, s = e.startAt ? new oe(e.startAt.position, !e.startAt.before) : null;
-                        e.S = Qt(e.path, e.collectionGroup, t, e.filters, e.limit, n, s);
+                        const n = t.endAt ? new oe(t.endAt.position, !t.endAt.before) : null, s = t.startAt ? new oe(t.startAt.position, !t.startAt.before) : null;
+                        t.S = Qt(t.path, t.collectionGroup, t1, t.filters, t.limit, n, s);
                     }
                 }
-                return e.S;
+                return t.S;
             }
             function Ae(t, e) {
                 return zt(Ee(t), Ee(e)) && t.limitType === e.limitType;
@@ -2444,36 +2441,35 @@
                 }
             }
             async function hr(t, e) {
-                const n = t;
-                let s = n.In, i = n.Qn;
-                const r = await n.persistence.runTransaction("Handle user change", "readonly", (t)=>{
+                let s = t.In, i = t.Qn;
+                const r = await t.persistence.runTransaction("Handle user change", "readonly", (t1)=>{
                     let r;
-                    return n.In.getAllMutationBatches(t).next((o)=>(r = o, s = n.persistence.getMutationQueue(e), i = new rr(n.jn, s, n.persistence.getIndexManager()), s.getAllMutationBatches(t))).next((e)=>{
+                    return t.In.getAllMutationBatches(t1).next((o)=>(r = o, s = t.persistence.getMutationQueue(e), i = new rr(t.jn, s, t.persistence.getIndexManager()), s.getAllMutationBatches(t1))).next((e)=>{
                         const n = [], s = [];
                         let o = Pn();
                         for (const t of r)for (const e of (n.push(t.batchId), t.mutations))o = o.add(e.key);
                         for (const t of e)for (const e of (s.push(t.batchId), t.mutations))o = o.add(e.key);
-                        return i.Pn(t, o).next((t)=>({
+                        return i.Pn(t1, o).next((t)=>({
                                 Wn: t,
                                 removedBatchIds: n,
                                 addedBatchIds: s
                             }));
                     });
                 });
-                return n.In = s, n.Qn = i, n.Bn.$n(n.Qn), r;
+                return t.In = s, t.Qn = i, t.Bn.$n(t.Qn), r;
             }
             function fr(t) {
                 return t.persistence.runTransaction("Get last remote snapshot version", "readonly", (t1)=>t.ze.getLastRemoteSnapshotVersion(t1));
             }
             async function gr(t, e, n) {
-                const s = t, i = s.Un.get(e);
+                const i = t.Un.get(e);
                 try {
-                    n || await s.persistence.runTransaction("Release target", n ? "readwrite" : "readwrite-primary", (t)=>s.persistence.referenceDelegate.removeTarget(t, i));
+                    n || await t.persistence.runTransaction("Release target", n ? "readwrite" : "readwrite-primary", (t1)=>t.persistence.referenceDelegate.removeTarget(t1, i));
                 } catch (t) {
                     if (!Hs(t)) throw t;
                     $("LocalStore", `Failed to update sequence numbers for target ${e}: ${t}`);
                 }
-                s.Un = s.Un.remove(e), s.qn.delete(i.target);
+                t.Un = t.Un.remove(e), t.qn.delete(i.target);
             }
             function yr(t, e, n) {
                 let i = rt.min(), r = Pn();
@@ -2900,8 +2896,8 @@
             }
             class Cr {
                 constructor(t, e){
-                    var t1, e1;
-                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new Dr(this), this.Ht = new pi(), this.He = (t1 = this.Ht, e1 = (t)=>this.referenceDelegate.Ps(t), new Vr(t1, e1)), this.N = new ri(e), this.Je = new Rr(this.N);
+                    var t1;
+                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new Dr(this), this.Ht = new pi(), this.He = (t1 = this.Ht, new Vr(t1, (t)=>this.referenceDelegate.Ps(t))), this.N = new ri(e), this.Je = new Rr(this.N);
                 }
                 start() {
                     return Promise.resolve();
@@ -4038,23 +4034,18 @@
                 }
             }
             async function nc(t, e) {
+                var t1, e1;
                 let s, i;
-                const n = function(t) {
-                    const e = t;
-                    return e.remoteStore.remoteSyncer.applyRemoteEvent = oc.bind(null, e), e.remoteStore.remoteSyncer.getRemoteKeysForTarget = Ec.bind(null, e), e.remoteStore.remoteSyncer.rejectListen = ac.bind(null, e), e.$o.Rr = qo.bind(null, e.eventManager), e.$o.Go = Ko.bind(null, e.eventManager), e;
-                }(t), r = n.Oo.get(e);
+                const n = (t.remoteStore.remoteSyncer.applyRemoteEvent = oc.bind(null, t), t.remoteStore.remoteSyncer.getRemoteKeysForTarget = Ec.bind(null, t), t.remoteStore.remoteSyncer.rejectListen = ac.bind(null, t), t.$o.Rr = qo.bind(null, t.eventManager), t.$o.Go = Ko.bind(null, t.eventManager), t), r = n.Oo.get(e);
                 if (r) s = r.targetId, n.sharedClientState.addLocalQueryTarget(s), i = r.view.xo();
                 else {
-                    const t = await function(t, e) {
-                        const n = t;
-                        return n.persistence.runTransaction("Allocate target", "readwrite", (t)=>{
-                            let s;
-                            return n.ze.getTargetData(t, e).next((i)=>i ? (s = i, js.resolve(s)) : n.ze.allocateTargetId(t).next((i)=>(s = new ii(e, i, 0, t.currentSequenceNumber), n.ze.addTargetData(t, s).next(()=>s))));
-                        }).then((t)=>{
-                            const s = n.Un.get(t.targetId);
-                            return (null === s || t.snapshotVersion.compareTo(s.snapshotVersion) > 0) && (n.Un = n.Un.insert(t.targetId, t), n.qn.set(e, t.targetId)), t;
-                        });
-                    }(n.localStore, Ee(e)), r = n.sharedClientState.addLocalQueryTarget(t.targetId);
+                    const t = await (t1 = n.localStore, e1 = Ee(e), t1.persistence.runTransaction("Allocate target", "readwrite", (t)=>{
+                        let s;
+                        return t1.ze.getTargetData(t, e1).next((i)=>i ? (s = i, js.resolve(s)) : t1.ze.allocateTargetId(t).next((i)=>(s = new ii(e1, i, 0, t.currentSequenceNumber), t1.ze.addTargetData(t, s).next(()=>s))));
+                    }).then((t)=>{
+                        const s = t1.Un.get(t.targetId);
+                        return (null === s || t.snapshotVersion.compareTo(s.snapshotVersion) > 0) && (t1.Un = t1.Un.insert(t.targetId, t), t1.qn.set(e1, t.targetId)), t;
+                    })), r = n.sharedClientState.addLocalQueryTarget(t.targetId);
                     s = t.targetId, i = await sc(n, e, s, "current" === r), n.isPrimaryClient && co(n.remoteStore, t);
                 }
                 return i;
@@ -4083,43 +4074,43 @@
             async function oc(t, e) {
                 try {
                     const t1 = await function(t, e) {
-                        const n = t, s = e.snapshotVersion;
-                        let i = n.Un;
-                        return n.persistence.runTransaction("Apply remote event", "readwrite-primary", (t)=>{
-                            var n1, i1;
+                        const s = e.snapshotVersion;
+                        let i = t.Un;
+                        return t.persistence.runTransaction("Apply remote event", "readwrite-primary", (t1)=>{
+                            var n, i1;
                             let r;
-                            const r1 = n.jn.newChangeBuffer({
+                            const r1 = t.jn.newChangeBuffer({
                                 trackRemovals: !0
                             });
-                            i = n.Un;
+                            i = t.Un;
                             const o = [];
                             e.targetChanges.forEach((e, r)=>{
                                 const c = i.get(r);
                                 if (!c) return;
-                                o.push(n.ze.removeMatchingKeys(t, e.removedDocuments, r).next(()=>n.ze.addMatchingKeys(t, e.addedDocuments, r)));
+                                o.push(t.ze.removeMatchingKeys(t1, e.removedDocuments, r).next(()=>t.ze.addMatchingKeys(t1, e.addedDocuments, r)));
                                 const a = e.resumeToken;
                                 if (a.approximateByteSize() > 0) {
-                                    const u = c.withResumeToken(a, s).withSequenceNumber(t.currentSequenceNumber);
-                                    i = i.insert(r, u), u.resumeToken.approximateByteSize() > 0 || L(), (0 === c.resumeToken.approximateByteSize() || u.snapshotVersion.toMicroseconds() - c.snapshotVersion.toMicroseconds() >= 3e8 || e.addedDocuments.size + e.modifiedDocuments.size + e.removedDocuments.size > 0) && o.push(n.ze.updateTargetData(t, u));
+                                    const u = c.withResumeToken(a, s).withSequenceNumber(t1.currentSequenceNumber);
+                                    i = i.insert(r, u), u.resumeToken.approximateByteSize() > 0 || L(), (0 === c.resumeToken.approximateByteSize() || u.snapshotVersion.toMicroseconds() - c.snapshotVersion.toMicroseconds() >= 3e8 || e.addedDocuments.size + e.modifiedDocuments.size + e.removedDocuments.size > 0) && o.push(t.ze.updateTargetData(t1, u));
                                 }
                             });
                             let c = pn;
                             if (e.documentUpdates.forEach((s, i)=>{
-                                e.resolvedLimboDocuments.has(s) && o.push(n.persistence.referenceDelegate.updateLimboDocument(t, s));
-                            }), o.push((n1 = e.documentUpdates, i1 = void 0, r = Pn(), n1.forEach((t)=>r = r.add(t)), r1.getEntries(t, r).next((t)=>{
+                                e.resolvedLimboDocuments.has(s) && o.push(t.persistence.referenceDelegate.updateLimboDocument(t1, s));
+                            }), o.push((n = e.documentUpdates, i1 = void 0, r = Pn(), n.forEach((t)=>r = r.add(t)), r1.getEntries(t1, r).next((t)=>{
                                 let r = pn;
-                                return n1.forEach((n, o)=>{
+                                return n.forEach((n, o)=>{
                                     const c = t.get(n), a = (null == i1 ? void 0 : i1.get(n)) || s;
                                     o.isNoDocument() && o.version.isEqual(rt.min()) ? (r1.removeEntry(n, a), r = r.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (r1.addEntry(o, a), r = r.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
                                 }), r;
                             })).next((t)=>{
                                 c = t;
                             })), !s.isEqual(rt.min())) {
-                                const e = n.ze.getLastRemoteSnapshotVersion(t).next((e)=>n.ze.setTargetsMetadata(t, t.currentSequenceNumber, s));
+                                const e = t.ze.getLastRemoteSnapshotVersion(t1).next((e)=>t.ze.setTargetsMetadata(t1, t1.currentSequenceNumber, s));
                                 o.push(e);
                             }
-                            return js.waitFor(o).next(()=>r1.apply(t)).next(()=>n.Qn.vn(t, c)).next(()=>c);
-                        }).then((t)=>(n.Un = i, t));
+                            return js.waitFor(o).next(()=>r1.apply(t1)).next(()=>t.Qn.vn(t1, c)).next(()=>c);
+                        }).then((t1)=>(t.Un = i, t1));
                     }(t.localStore, e);
                     e.targetChanges.forEach((t1, e)=>{
                         const s = t.Bo.get(e);
@@ -4130,32 +4121,27 @@
                 }
             }
             function cc(t, e, n) {
-                const s = t;
-                if (s.isPrimaryClient && 0 === n || !s.isPrimaryClient && 1 === n) {
-                    const t = [];
-                    s.Oo.forEach((n, s)=>{
+                var t1;
+                if (t.isPrimaryClient && 0 === n || !t.isPrimaryClient && 1 === n) {
+                    let s;
+                    const t2 = [];
+                    t.Oo.forEach((n, s)=>{
                         const i = s.view.io(e);
-                        i.snapshot && t.push(i.snapshot);
-                    }), function(t, e) {
-                        const n = t;
-                        n.onlineState = e;
-                        let s = !1;
-                        n.queries.forEach((t, n)=>{
-                            for (const t of n.listeners)t.io(e) && (s = !0);
-                        }), s && jo(n);
-                    }(s.eventManager, e), t.length && s.$o.Rr(t), s.onlineState = e, s.isPrimaryClient && s.sharedClientState.setOnlineState(e);
+                        i.snapshot && t2.push(i.snapshot);
+                    }), (t1 = t.eventManager).onlineState = e, s = !1, t1.queries.forEach((t, n)=>{
+                        for (const t of n.listeners)t.io(e) && (s = !0);
+                    }), s && jo(t1), t2.length && t.$o.Rr(t2), t.onlineState = e, t.isPrimaryClient && t.sharedClientState.setOnlineState(e);
                 }
             }
             async function ac(t, e, n) {
-                const s = t;
-                s.sharedClientState.updateQueryState(e, "rejected", n);
-                const i = s.Bo.get(e), r = i && i.key;
+                t.sharedClientState.updateQueryState(e, "rejected", n);
+                const i = t.Bo.get(e), r = i && i.key;
                 if (r) {
-                    let t = new wn(Pt.comparator);
-                    t = t.insert(r, Kt.newNoDocument(r, rt.min()));
-                    const n = Pn().add(r), i = new Sn(rt.min(), new Map(), new gn(et), t, n);
-                    await oc(s, i), s.Lo = s.Lo.remove(r), s.Bo.delete(e), yc(s);
-                } else await gr(s.localStore, e, !1).then(()=>wc(s, e, n)).catch(Fi);
+                    let t1 = new wn(Pt.comparator);
+                    t1 = t1.insert(r, Kt.newNoDocument(r, rt.min()));
+                    const n = Pn().add(r), i = new Sn(rt.min(), new Map(), new gn(et), t1, n);
+                    await oc(t, i), t.Lo = t.Lo.remove(r), t.Bo.delete(e), yc(t);
+                } else await gr(t.localStore, e, !1).then(()=>wc(t, e, n)).catch(Fi);
             }
             function wc(t, e, n = null) {
                 for (const s of (t.sharedClientState.removeLocalQueryTarget(e), t.Fo.get(e)))t.Oo.delete(s), n && t.$o.Go(s, n);
@@ -4194,32 +4180,30 @@
                         }
                     }));
                 }), await Promise.all(o), t.$o.Rr(i), await async function(t, e) {
-                    const n = t;
                     try {
-                        await n.persistence.runTransaction("notifyLocalViewChanges", "readwrite", (t)=>js.forEach(e, (e)=>js.forEach(e.Nn, (s)=>n.persistence.referenceDelegate.addReference(t, e.targetId, s)).next(()=>js.forEach(e.xn, (s)=>n.persistence.referenceDelegate.removeReference(t, e.targetId, s)))));
+                        await t.persistence.runTransaction("notifyLocalViewChanges", "readwrite", (t1)=>js.forEach(e, (e)=>js.forEach(e.Nn, (s)=>t.persistence.referenceDelegate.addReference(t1, e.targetId, s)).next(()=>js.forEach(e.xn, (s)=>t.persistence.referenceDelegate.removeReference(t1, e.targetId, s)))));
                     } catch (t) {
                         if (!Hs(t)) throw t;
                         $("LocalStore", "Failed to update sequence numbers: " + t);
                     }
-                    for (const t of e){
-                        const e = t.targetId;
-                        if (!t.fromCache) {
-                            const t = n.Un.get(e), s = t.snapshotVersion, i = t.withLastLimboFreeSnapshotVersion(s);
-                            n.Un = n.Un.insert(e, i);
+                    for (const t1 of e){
+                        const e = t1.targetId;
+                        if (!t1.fromCache) {
+                            const t1 = t.Un.get(e), s = t1.snapshotVersion, i = t1.withLastLimboFreeSnapshotVersion(s);
+                            t.Un = t.Un.insert(e, i);
                         }
                     }
                 }(t.localStore, r));
             }
             async function Tc(t, e) {
-                const n = t;
-                if (!n.currentUser.isEqual(e)) {
+                if (!t.currentUser.isEqual(e)) {
                     $("SyncEngine", "User change. New user:", e.toKey());
-                    const t = await hr(n.localStore, e);
-                    n.currentUser = e, n.Ko.forEach((t)=>{
+                    const t1 = await hr(t.localStore, e);
+                    t.currentUser = e, t.Ko.forEach((t)=>{
                         t.forEach((t)=>{
                             t.reject(new j(K.CANCELLED, "'waitForPendingWrites' promise is rejected due to a user change."));
                         });
-                    }), n.Ko.clear(), n.sharedClientState.handleUserChange(e, t.removedBatchIds, t.addedBatchIds), await pc(n, t.Wn);
+                    }), t.Ko.clear(), t.sharedClientState.handleUserChange(e, t1.removedBatchIds, t1.addedBatchIds), await pc(t, t1.Wn);
                 }
             }
             function Ec(t, e) {
@@ -4274,8 +4258,8 @@
                     return t2 = t.credentials, new no(t2, n, e);
                 }
                 createRemoteStore(t) {
-                    var e, n, s, i, r;
-                    return e = this.localStore, n = this.datastore, s = t.asyncQueue, i = (t)=>cc(this.syncEngine, t, 0), r = Qr.bt() ? new Qr() : new jr(), new io(e, n, s, i, r);
+                    var e, n, s, r;
+                    return e = this.localStore, n = this.datastore, s = t.asyncQueue, r = Qr.bt() ? new Qr() : new jr(), new io(e, n, s, (t)=>cc(this.syncEngine, t, 0), r);
                 }
                 createSyncEngine(t, e) {
                     return function(t, e, n, s, i, r, o) {

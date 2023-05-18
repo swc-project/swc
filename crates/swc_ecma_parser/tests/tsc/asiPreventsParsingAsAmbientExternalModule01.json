@@ -105,15 +105,49 @@
       ]
     },
     {
-      "type": "TsModuleDeclaration",
+      "type": "ExpressionStatement",
       "span": {
         "start": 44,
-        "end": 212,
+        "end": 51,
         "ctxt": 0
       },
-      "declare": true,
-      "global": false,
-      "id": {
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 44,
+          "end": 51,
+          "ctxt": 0
+        },
+        "value": "declare",
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 103,
+        "end": 109,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 103,
+          "end": 109,
+          "ctxt": 0
+        },
+        "value": "module",
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 161,
+        "end": 181,
+        "ctxt": 0
+      },
+      "expression": {
         "type": "StringLiteral",
         "span": {
           "start": 161,
@@ -122,16 +156,16 @@
         },
         "value": "my external module",
         "raw": "\"my external module\""
-      },
-      "body": {
-        "type": "TsModuleBlock",
-        "span": {
-          "start": 209,
-          "end": 212,
-          "ctxt": 0
-        },
-        "body": []
       }
+    },
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 209,
+        "end": 212,
+        "ctxt": 0
+      },
+      "stmts": []
     }
   ],
   "interpreter": null

@@ -2556,7 +2556,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            js_word!("module") => {
+            js_word!("module") if !self.input.had_line_break_before_cur() => {
                 if next {
                     bump!(self);
                 }

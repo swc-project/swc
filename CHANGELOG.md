@@ -5,7 +5,19 @@
 
 
 
+- **(common)** Disable `tracing/release_max_level_info` (#7401) ([95291f2](https://github.com/swc-project/swc/commit/95291f2c5daaf039623b4db4668a91104c0c0124))
+
+
 - **(es/codegen)** Do not create duplicate source map entry (#7309) ([40ba242](https://github.com/swc-project/swc/commit/40ba242076f9c39cd19fe2a040fdf10867c67b9f))
+
+
+- **(es/compat)** Mark reserved function names private (#7298) ([dba78a0](https://github.com/swc-project/swc/commit/dba78a0031b97a4c152b506ae2072438cdba92b2))
+
+
+- **(es/minifier)** Mark all function params as potential property mutation (#7409) ([5dbbbea](https://github.com/swc-project/swc/commit/5dbbbea2efb84e7f187859ba03fd548af92c613f))
+
+
+- **(es/parser)** Fix parsing of `module` identifier (#7400) ([1d3f320](https://github.com/swc-project/swc/commit/1d3f32056c7a63b327b2ccf6131479f851a2e870))
 
 ### Miscellaneous Tasks
 
@@ -15,6 +27,9 @@
 
 ### Testing
 
+
+
+- **(css/module)** Add a test for a fixed issue (#7399) ([6b92eec](https://github.com/swc-project/swc/commit/6b92eecd398e94a8d58b6b5e49679f7977a17703))
 
 
 - **(es/minifier)** Enable more terser tests (#7396) ([f9cdd74](https://github.com/swc-project/swc/commit/f9cdd741c288bee59aa9120b0a5c6f7ca284bd31))

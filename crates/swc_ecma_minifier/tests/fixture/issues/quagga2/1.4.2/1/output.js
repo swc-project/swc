@@ -250,7 +250,7 @@
             }
             function otsuThreshold(imageWrapper, targetWrapper) {
                 var threshold = function(imageWrapper) {
-                    var hist, bitsPerPixel = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 8;
+                    var hist, bitsPerPixel = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 8, bitShift = 8 - bitsPerPixel;
                     function px(init, end) {
                         for(var sum = 0, i = init; i <= end; i++)sum += hist[i];
                         return sum;
@@ -270,7 +270,7 @@
                         }(imageWrapper, bitsPerPixel);
                         for(var k = 1; k < max; k++)0 == (p12 = (p1 = px(0, k)) * (p2 = px(k + 1, max))) && (p12 = 1), m12 = mx(0, k) * p2 - mx(k + 1, max) * p1, vet[k] = m12 * m12 / p12;
                         return array_helper.a.maxIndex(vet);
-                    }() << 8 - bitsPerPixel;
+                    }() << bitShift;
                 }(imageWrapper);
                 return !function(imageWrapper, threshold, targetWrapper) {
                     targetWrapper || (targetWrapper = imageWrapper);
@@ -2156,8 +2156,7 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var constant = __webpack_require__(149), defineProperty = __webpack_require__(49), identity = __webpack_require__(57);
-            module1.exports = defineProperty ? function(func, string) {
+            var constant = __webpack_require__(149), defineProperty = __webpack_require__(49), identity = __webpack_require__(57), baseSetToString = defineProperty ? function(func, string) {
                 return defineProperty(func, "toString", {
                     configurable: !0,
                     enumerable: !1,
@@ -2165,6 +2164,7 @@
                     writable: !0
                 });
             } : identity;
+            module1.exports = baseSetToString;
         },
         function(module1, exports1) {
             module1.exports = function(value) {
@@ -2621,8 +2621,8 @@
                 "use strict";
                 var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
                 function wrap(innerFn, outerFn, self1, tryLocsList) {
-                    var context, state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context1 = new Context(tryLocsList || []);
-                    return generator._invoke = (context = context1, state = GenStateSuspendedStart, function(method, arg) {
+                    var state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context = new Context(tryLocsList || []);
+                    return generator._invoke = (state = GenStateSuspendedStart, function(method, arg) {
                         if (state === GenStateExecuting) throw Error("Generator is already running");
                         if (state === GenStateCompleted) {
                             if ("throw" === method) throw arg;
@@ -6790,7 +6790,10 @@
                 classCallCheck_default()(this, CanvasContainer), defineProperty_default()(this, "ctx", void 0), defineProperty_default()(this, "dom", void 0), this.ctx = new QuaggaContext_CanvasInfo(), this.dom = new QuaggaContext_CanvasInfo();
             }, barcode_locator = __webpack_require__(23);
             function getViewPort_getViewPort(target) {
-                return "undefined" == typeof document ? null : target instanceof HTMLElement && target.nodeName && 1 === target.nodeType ? target : document.querySelector("string" == typeof target ? target : "#interactive.viewport");
+                if ("undefined" == typeof document) return null;
+                if (target instanceof HTMLElement && target.nodeName && 1 === target.nodeType) return target;
+                var selector = "string" == typeof target ? target : "#interactive.viewport";
+                return document.querySelector(selector);
             }
             function getCanvasAndContext(selector, className) {
                 var canvas, canvas1 = ((canvas = document.querySelector(selector)) || ((canvas = document.createElement("canvas")).className = className), canvas), context = canvas1.getContext("2d");
@@ -7120,9 +7123,9 @@
                 }, _that.getData = function() {
                     return _data;
                 }, _that.grab = function() {
-                    var canvas, ctxData, doHalfSample = _streamConfig.halfSample, frame = inputStream.getFrame(), drawable = frame, drawAngle = 0;
+                    var ctxData, doHalfSample = _streamConfig.halfSample, frame = inputStream.getFrame(), drawable = frame, drawAngle = 0;
                     if (drawable) {
-                        if ((canvas = _canvas).width !== _canvasSize.x && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.width = _canvasSize.x), canvas.height !== _canvasSize.y && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.height = _canvasSize.y), "ImageStream" === _streamConfig.type && (drawable = frame.img, frame.tags && frame.tags.orientation)) switch(frame.tags.orientation){
+                        if (_canvas.width !== _canvasSize.x && (console.log("WARNING: canvas-size needs to be adjusted"), _canvas.width = _canvasSize.x), _canvas.height !== _canvasSize.y && (console.log("WARNING: canvas-size needs to be adjusted"), _canvas.height = _canvasSize.y), "ImageStream" === _streamConfig.type && (drawable = frame.img, frame.tags && frame.tags.orientation)) switch(frame.tags.orientation){
                             case 6:
                                 drawAngle = 90 * TO_RADIANS;
                                 break;

@@ -1,4 +1,8 @@
 //// [asiPreventsParsingAsNamespace02.ts]
 var module;
 var m;
- // this is a block body
+module // this is the identifier 'namespace'
+;
+m // this is the identifier 'm'
+;
+{} // this is a block body

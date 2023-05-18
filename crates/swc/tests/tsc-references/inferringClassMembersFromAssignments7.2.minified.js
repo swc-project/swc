@@ -10,8 +10,7 @@ var c = new (function() {
         };
     }
     return C.prototype.mreal = function() {
-        var self = this;
-        self.y = 2;
+        this.y = 2;
     }, C;
 }())();
 c.x, c.y, c.m();

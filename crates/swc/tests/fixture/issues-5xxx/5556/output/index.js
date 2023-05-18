@@ -1,7 +1,7 @@
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 var app;
 var ctx;
-x = function x() {
+x = function x1() {
     var y = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function(app) {
         return {
             schedule: {
