@@ -902,7 +902,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 520,
-            "end": 553,
+            "end": 552,
             "ctxt": 0
           },
           "id": {
@@ -920,7 +920,7 @@
             "type": "NewExpression",
             "span": {
               "start": 529,
-              "end": 553,
+              "end": 537,
               "ctxt": 0
             },
             "callee": {
@@ -933,7 +933,7 @@
               "value": "List",
               "optional": false
             },
-            "arguments": [],
+            "arguments": null,
             "typeArguments": {
               "type": "TsTypeParameterInstantiation",
               "span": {
@@ -1000,7 +1000,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 559,
-            "end": 596,
+            "end": 595,
             "ctxt": 0
           },
           "id": {
@@ -1018,7 +1018,7 @@
             "type": "NewExpression",
             "span": {
               "start": 570,
-              "end": 596,
+              "end": 578,
               "ctxt": 0
             },
             "callee": {
@@ -1031,7 +1031,7 @@
               "value": "List",
               "optional": false
             },
-            "arguments": [],
+            "arguments": null,
             "typeArguments": {
               "type": "TsTypeParameterInstantiation",
               "span": {

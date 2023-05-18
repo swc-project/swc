@@ -1924,7 +1924,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 720,
-            "end": 749,
+            "end": 748,
             "ctxt": 0
           },
           "id": {
@@ -1942,7 +1942,7 @@
             "type": "NewExpression",
             "span": {
               "start": 727,
-              "end": 749,
+              "end": 736,
               "ctxt": 0
             },
             "callee": {
@@ -1955,7 +1955,7 @@
               "value": "Array",
               "optional": false
             },
-            "arguments": [],
+            "arguments": null,
             "typeArguments": {
               "type": "TsTypeParameterInstantiation",
               "span": {

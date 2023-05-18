@@ -13245,65 +13245,27 @@
               }
             ],
             "body": {
-              "type": "TsTypeAssertion",
+              "type": "BinaryExpression",
               "span": {
-                "start": 5171,
+                "start": 5185,
                 "end": 5191,
                 "ctxt": 0
               },
-              "expression": {
+              "operator": ">>",
+              "left": {
+                "type": "Invalid",
+                "span": {
+                  "start": 5185,
+                  "end": 5187,
+                  "ctxt": 0
+                }
+              },
+              "right": {
                 "type": "NullLiteral",
                 "span": {
                   "start": 5187,
                   "end": 5191,
                   "ctxt": 0
-                }
-              },
-              "typeAnnotation": {
-                "type": "TsTypeReference",
-                "span": {
-                  "start": 5172,
-                  "end": 5186,
-                  "ctxt": 0
-                },
-                "typeName": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 5172,
-                    "end": 5177,
-                    "ctxt": 0
-                  },
-                  "value": "Array",
-                  "optional": false
-                },
-                "typeParams": {
-                  "type": "TsTypeParameterInstantiation",
-                  "span": {
-                    "start": 5177,
-                    "end": 5186,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "TsTypeReference",
-                      "span": {
-                        "start": 5178,
-                        "end": 5185,
-                        "ctxt": 0
-                      },
-                      "typeName": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 5178,
-                          "end": 5185,
-                          "ctxt": 0
-                        },
-                        "value": "Derived",
-                        "optional": false
-                      },
-                      "typeParams": null
-                    }
-                  ]
                 }
               }
             },
@@ -13562,65 +13524,27 @@
               }
             ],
             "body": {
-              "type": "TsTypeAssertion",
+              "type": "BinaryExpression",
               "span": {
-                "start": 5247,
+                "start": 5261,
                 "end": 5267,
                 "ctxt": 0
               },
-              "expression": {
+              "operator": ">>",
+              "left": {
+                "type": "Invalid",
+                "span": {
+                  "start": 5261,
+                  "end": 5263,
+                  "ctxt": 0
+                }
+              },
+              "right": {
                 "type": "NullLiteral",
                 "span": {
                   "start": 5263,
                   "end": 5267,
                   "ctxt": 0
-                }
-              },
-              "typeAnnotation": {
-                "type": "TsTypeReference",
-                "span": {
-                  "start": 5248,
-                  "end": 5262,
-                  "ctxt": 0
-                },
-                "typeName": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 5248,
-                    "end": 5253,
-                    "ctxt": 0
-                  },
-                  "value": "Array",
-                  "optional": false
-                },
-                "typeParams": {
-                  "type": "TsTypeParameterInstantiation",
-                  "span": {
-                    "start": 5253,
-                    "end": 5262,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "TsTypeReference",
-                      "span": {
-                        "start": 5254,
-                        "end": 5261,
-                        "ctxt": 0
-                      },
-                      "typeName": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 5254,
-                          "end": 5261,
-                          "ctxt": 0
-                        },
-                        "value": "Derived",
-                        "optional": false
-                      },
-                      "typeParams": null
-                    }
-                  ]
                 }
               }
             },
@@ -14239,65 +14163,27 @@
               }
             ],
             "body": {
-              "type": "TsTypeAssertion",
+              "type": "BinaryExpression",
               "span": {
-                "start": 5487,
+                "start": 5501,
                 "end": 5507,
                 "ctxt": 0
               },
-              "expression": {
+              "operator": ">>",
+              "left": {
+                "type": "Invalid",
+                "span": {
+                  "start": 5501,
+                  "end": 5503,
+                  "ctxt": 0
+                }
+              },
+              "right": {
                 "type": "NullLiteral",
                 "span": {
                   "start": 5503,
                   "end": 5507,
                   "ctxt": 0
-                }
-              },
-              "typeAnnotation": {
-                "type": "TsTypeReference",
-                "span": {
-                  "start": 5488,
-                  "end": 5502,
-                  "ctxt": 0
-                },
-                "typeName": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 5488,
-                    "end": 5493,
-                    "ctxt": 0
-                  },
-                  "value": "Array",
-                  "optional": false
-                },
-                "typeParams": {
-                  "type": "TsTypeParameterInstantiation",
-                  "span": {
-                    "start": 5493,
-                    "end": 5502,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "TsTypeReference",
-                      "span": {
-                        "start": 5494,
-                        "end": 5501,
-                        "ctxt": 0
-                      },
-                      "typeName": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 5494,
-                          "end": 5501,
-                          "ctxt": 0
-                        },
-                        "value": "Derived",
-                        "optional": false
-                      },
-                      "typeParams": null
-                    }
-                  ]
                 }
               }
             },
