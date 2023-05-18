@@ -631,7 +631,12 @@ impl<I: Tokens> Parser<I> {
 
             let type_args = if self.input.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts(|p| {
-                    let args = p.parse_ts_type_args()?;
+                    let ctx = Context {
+                        should_not_lex_lt_or_gt_as_type: false,
+                        ..p.ctx()
+                    };
+
+                    let args = p.with_ctx(ctx).parse_ts_type_args()?;
                     if !is!(p, '(') {
                         // This will fail
                         expect!(p, '(');
