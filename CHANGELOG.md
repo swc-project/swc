@@ -19,6 +19,9 @@
 
 - **(es/parser)** Fix parsing of `module` identifier (#7400) ([1d3f320](https://github.com/swc-project/swc/commit/1d3f32056c7a63b327b2ccf6131479f851a2e870))
 
+
+- **(es/parser)** Fix parsing of `>` in typescript mode (#7407) ([57ad722](https://github.com/swc-project/swc/commit/57ad722d06084671ef18f4eb1dae53afbb737c3d))
+
 ### Miscellaneous Tasks
 
 
