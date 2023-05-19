@@ -9302,7 +9302,7 @@
         },
         4756: function(e, t, r) {
             var n, i;
-            void 0 !== (n = "function" == typeof (i = function() {
+            void 0 !== (i = "function" == typeof (n = function() {
                 var e = "debug", t = "hyphenChar", n = "minWordLength", i = "object" == typeof r.g ? r.g : "object" == typeof window ? window : "object" == typeof this ? this : {};
                 function o(e) {
                     var t = {};
@@ -9432,14 +9432,14 @@
                         }(i, y, f[D], s, b, v, m, c);
                     };
                 };
-            }) ? i.apply(t, []) : i) && (e.exports = n);
+            }) ? n.apply(t, []) : n) && (e.exports = i);
         },
         3202: function(e, t, r) {
             e.exports = r(4756);
         },
         1487: function(e, t) {
             var r, n;
-            void 0 !== (r = "function" == typeof (n = function() {
+            void 0 !== (n = "function" == typeof (r = function() {
                 return {
                     patterns: [
                         " ",
@@ -14401,7 +14401,7 @@
                         ""
                     ]
                 };
-            }) ? n.apply(t, []) : n) && (e.exports = r);
+            }) ? r.apply(t, []) : r) && (e.exports = n);
         },
         5717: function(e) {
             "function" == typeof Object.create ? e.exports = function(e, t) {

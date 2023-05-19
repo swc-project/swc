@@ -2369,14 +2369,14 @@
                         }).next(()=>i));
                 }
                 Dn(t, e, n) {
-                    let s;
-                    return this.He.getDocumentsMatchingQuery(t, e, n).next((n)=>(s = n, this.In.getAllMutationBatchesAffectingQuery(t, e))).next((e)=>this.Cn(t, e, s).next((t)=>{
-                            for (const t1 of (s = t, e))for (const e of t1.mutations){
+                    let s, i;
+                    return this.He.getDocumentsMatchingQuery(t, e, n).next((n)=>(s = n, this.In.getAllMutationBatchesAffectingQuery(t, e))).next((e)=>(i = e, this.Cn(t, i, s).next((t)=>{
+                            for (const t1 of (s = t, i))for (const e of t1.mutations){
                                 const n = e.key;
                                 let i = s.get(n);
                                 null == i && (i = Kt.newInvalidDocument(n), s = s.insert(n, i)), Ye(e, i, t1.localWriteTime), i.isFoundDocument() || (s = s.remove(n));
                             }
-                        })).next(()=>(s.forEach((t, n)=>{
+                        }))).next(()=>(s.forEach((t, n)=>{
                             Pe(e, n) || (s = s.remove(t));
                         }), s));
                 }

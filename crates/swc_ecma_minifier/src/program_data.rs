@@ -99,6 +99,11 @@ pub(crate) struct VarUsageInfo {
     /// functions.
     pub(crate) is_fn_local: bool,
 
+    used_in_non_child_fn: bool,
+
+    /// `true` if all its assign happens in the same function scope it's defined
+    pub(crate) assigned_fn_local: bool,
+
     pub(crate) executed_multiple_time: bool,
     pub(crate) used_in_cond: bool,
 
@@ -123,8 +128,6 @@ pub(crate) struct VarUsageInfo {
     /// `infects_to`. This should be renamed, but it will be done with another
     /// PR. (because it's hard to review)
     infects_to: Vec<Access>,
-
-    pub(crate) used_in_non_child_fn: bool,
     /// Only **string** properties.
     pub(crate) accessed_props: Box<AHashMap<JsWord, u32>>,
 
@@ -166,6 +169,7 @@ impl Default for VarUsageInfo {
             accessed_props: Default::default(),
             used_recursively: Default::default(),
             is_top_level: Default::default(),
+            assigned_fn_local: true,
         }
     }
 }
@@ -232,6 +236,8 @@ impl Storage for ProgramData {
             match self.vars.entry(id.clone()) {
                 Entry::Occupied(mut e) => {
                     e.get_mut().inline_prevented |= var_info.inline_prevented;
+                    let var_assigned = var_info.assign_count > 0
+                        || (var_info.var_initialized && !e.get().var_initialized);
 
                     if var_info.var_initialized {
                         if e.get().var_initialized || e.get().ref_count > 0 {
@@ -294,6 +300,8 @@ impl Storage for ProgramData {
                     e.get_mut().is_fn_local &= var_info.is_fn_local;
                     e.get_mut().used_in_non_child_fn |= var_info.used_in_non_child_fn;
 
+                    e.get_mut().assigned_fn_local &= var_info.assigned_fn_local;
+
                     for (k, v) in *var_info.accessed_props {
                         *e.get_mut().accessed_props.entry(k).or_default() += v;
                     }
@@ -303,6 +311,10 @@ impl Storage for ProgramData {
                             e.get_mut().is_fn_local = false;
                             if !var_info.used_recursively {
                                 e.get_mut().used_in_non_child_fn = true
+                            }
+
+                            if var_assigned {
+                                e.get_mut().assigned_fn_local = false
                             }
                         }
                         ScopeKind::Block => {
@@ -608,7 +620,6 @@ impl ProgramData {
             let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
 
             VarUsageInfo {
-                is_fn_local: true,
                 used_above_decl: !simple_assign,
                 ..Default::default()
             }
@@ -684,7 +695,6 @@ impl ProgramData {
                 let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
 
                 VarUsageInfo {
-                    is_fn_local: true,
                     used_above_decl: !simple_assign,
                     ..Default::default()
                 }
