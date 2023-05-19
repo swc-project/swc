@@ -44,17 +44,9 @@ pub struct PluginModuleCacheInner {
     fs_cache_hash_store: AHashMap<String, Hash>,
     // Generic in-memory cache to the raw bytes, either read by fs or supplied by bindgen.
     memory_cache_store: AHashMap<String, Vec<u8>>,
-    /*
-    A naive hashmap to the compiled plugin modules.
-    Current it doesn't have any invalidation or expiration logics like lru,
-    having a lot of plugins may create some memory pressure.
-    [TODO]: This is currently disabled, since on the latest wasmer@3 subsequent
-    plugin load via in memory module causes intermittent heap_get_oob when
-    host tries to allocate memory inside of the guest.
-
-    Current guess is memory instance is being corrupted by the previous run, but
-    until figure out root cause & fix will only use fs_cache directly.
-    */
+    // A naive hashmap to the compiled plugin modules.
+    // Current it doesn't have any invalidation or expiration logics like lru,
+    // having a lot of plugins may create some memory pressure.
     compiled_module_bytes: AHashMap<String, (wasmer::Store, wasmer::Module)>,
 }
 
@@ -75,11 +67,27 @@ impl PluginModuleCacheInner {
         is_in_cache
     }
 
+    /// Insert raw plugin module bytes into cache does not have compiled
+    /// wasmer::Module. The bytes stored in this type of cache will return
+    /// RawPluginModuleBytes. It is strongly recommend to avoid using this
+    /// type of cache as much as possible, since module compilation time for
+    /// the wasm is noticeably expensive and caching raw bytes only cuts off
+    /// the reading time for the plugin module.
     pub fn insert_raw_bytes(&mut self, key: String, value: Vec<u8>) {
         self.memory_cache_store.insert(key, value);
     }
 
-    fn insert_compiled_module_bytes(
+    /// Insert already compiled wasmer::Module into cache.
+    /// The module stored in this cache will return CompiledPluginModuleBytes,
+    /// which costs near-zero time when calling its `compile_module` method as
+    /// it clones precompiled module directly.
+    ///
+    /// In genearl it is recommended to use either using filesystemcache
+    /// `store_bytes_from_path` which internally calls this or directly call
+    /// this to store compiled module bytes. CompiledModuleBytes provides way to
+    /// create it via RawModuleBytes, so there's no practical reason to
+    /// store raw bytes most cases.
+    pub fn insert_compiled_module_bytes(
         &mut self,
         key: String,
         value: (wasmer::Store, wasmer::Module),
@@ -106,9 +114,8 @@ impl PluginModuleCacheInner {
                 self.fs_cache_hash_store
                     .insert(key.to_string(), module_bytes_hash);
 
-                // [TODO]: reenable this
-                // self.insert_compiled_module_bytes(key.to_string(), (store,
-                // module));
+                // Also store in memory for the in-process cache.
+                self.insert_compiled_module_bytes(key.to_string(), (store, module));
             }
 
             // Store raw bytes into memory cache.
