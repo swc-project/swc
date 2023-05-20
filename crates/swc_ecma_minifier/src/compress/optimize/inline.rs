@@ -182,14 +182,14 @@ where
             // new variant is added for multi inline, think carefully
             if is_inline_enabled
                 && usage.declared_count == 1
-                && (usage.can_inline_var())
+                && usage.can_inline_var()
                 && match init {
                     Expr::Ident(Ident {
                         sym: js_word!("eval"),
                         ..
                     }) => false,
 
-                    Expr::Ident(id) if !id.eq_ignore_span(ident) => self
+                    Expr::Ident(id) if !id.eq_ignore_span(ident) && usage.assigned_fn_local => self
                         .data
                         .vars
                         .get(&id.to_id())
@@ -362,6 +362,10 @@ where
                     }
 
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
+                        if !usage.assigned_fn_local {
+                            return;
+                        }
+
                         if let Some(init_usage) = self.data.vars.get(&id.to_id()) {
                             if init_usage.reassigned() || !init_usage.declared {
                                 return;
