@@ -211,7 +211,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.50.14"
+version = "0.50.15"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3400,7 +3400,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.261.14"
+version = "0.261.15"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3585,7 +3585,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.76.17"
+version = "0.76.18"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4437,7 +4437,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.184.14"
+version = "0.184.15"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4622,7 +4622,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.48.14"
+version = "0.48.15"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -4701,7 +4701,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.95.8"
+version = "0.95.9"
 dependencies = [
  "anyhow",
  "criterion",
