@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(plugin/runner)** Enable in-memory precompiled module cache (#7420) ([f8fe365](https://github.com/swc-project/swc/commit/f8fe365c3b888bbe49e011a616b6926c9ef24fa2))
+
 ## [1.3.59] - 2023-05-19
 
 ### Bug Fixes
