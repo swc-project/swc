@@ -47,7 +47,7 @@ impl VisitMut for Rename {
                 match p.value.take() {
                     Some(default) => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(orig.into()),
+                            key: PropName::Ident(orig),
                             value: Box::new(Pat::Assign(AssignPat {
                                 span: DUMMY_SP,
                                 left: Box::new(Pat::Ident(p.key.clone().into())),
@@ -58,7 +58,7 @@ impl VisitMut for Rename {
                     }
                     None => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(orig.into()),
+                            key: PropName::Ident(orig),
                             value: Box::new(Pat::Ident(p.key.clone().into())),
                         });
                     }
