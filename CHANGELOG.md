@@ -19,6 +19,9 @@
 
 - **(plugin/runner)** Add attributes to the module bytes (#7419) ([c03a74c](https://github.com/swc-project/swc/commit/c03a74c19819cb0cfc8a47cd9b2c1e558355d40d))
 
+
+- **(swc_core)** Make `common_plugin_transform` agnostic to mode (#7422) ([cfdd407](https://github.com/swc-project/swc/commit/cfdd40789673eef32a9b9365456860a7cb511000))
+
 ## [1.3.59] - 2023-05-19
 
 ### Bug Fixes
