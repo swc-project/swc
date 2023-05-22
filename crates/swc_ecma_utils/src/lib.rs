@@ -2922,6 +2922,71 @@ impl VisitMut for IdentRenamer<'_> {
 
     visit_mut_obj_and_computed!();
 
+    fn visit_mut_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
+        if node.exported.is_some() {
+            node.orig.visit_mut_children_with(self);
+            return;
+        }
+
+        match &mut node.orig {
+            ModuleExportName::Ident(orig) => {
+                if let Some(new) = self.map.get(&orig.to_id()) {
+                    node.exported = Some(ModuleExportName::Ident(orig.clone()));
+
+                    orig.sym = new.0.clone();
+                    orig.span.ctxt = new.1;
+                }
+            }
+            ModuleExportName::Str(_) => {}
+        }
+    }
+
+    fn visit_mut_ident(&mut self, node: &mut Ident) {
+        if let Some(new) = self.map.get(&node.to_id()) {
+            node.sym = new.0.clone();
+            node.span.ctxt = new.1;
+        }
+    }
+
+    fn visit_mut_object_pat_prop(&mut self, i: &mut ObjectPatProp) {
+        match i {
+            ObjectPatProp::Assign(p) => {
+                p.value.visit_mut_with(self);
+
+                let orig = p.key.clone();
+                p.key.visit_mut_with(self);
+
+                if orig.to_id() == p.key.to_id() {
+                    return;
+                }
+
+                match p.value.take() {
+                    Some(default) => {
+                        *i = ObjectPatProp::KeyValue(KeyValuePatProp {
+                            key: PropName::Ident(orig),
+                            value: Box::new(Pat::Assign(AssignPat {
+                                span: DUMMY_SP,
+                                left: Box::new(Pat::Ident(p.key.clone().into())),
+                                right: default,
+                                type_ann: Default::default(),
+                            })),
+                        });
+                    }
+                    None => {
+                        *i = ObjectPatProp::KeyValue(KeyValuePatProp {
+                            key: PropName::Ident(orig),
+                            value: Box::new(Pat::Ident(p.key.clone().into())),
+                        });
+                    }
+                }
+            }
+
+            _ => {
+                i.visit_mut_children_with(self);
+            }
+        }
+    }
+
     fn visit_mut_prop(&mut self, node: &mut Prop) {
         match node {
             Prop::Shorthand(i) => {
@@ -2940,32 +3005,6 @@ impl VisitMut for IdentRenamer<'_> {
             _ => {
                 node.visit_mut_children_with(self);
             }
-        }
-    }
-
-    fn visit_mut_ident(&mut self, node: &mut Ident) {
-        if let Some(new) = self.map.get(&node.to_id()) {
-            node.sym = new.0.clone();
-            node.span.ctxt = new.1;
-        }
-    }
-
-    fn visit_mut_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
-        if node.exported.is_some() {
-            node.orig.visit_mut_children_with(self);
-            return;
-        }
-
-        match &mut node.orig {
-            ModuleExportName::Ident(orig) => {
-                if let Some(new) = self.map.get(&orig.to_id()) {
-                    node.exported = Some(ModuleExportName::Ident(orig.clone()));
-
-                    orig.sym = new.0.clone();
-                    orig.span.ctxt = new.1;
-                }
-            }
-            ModuleExportName::Str(_) => {}
         }
     }
 }

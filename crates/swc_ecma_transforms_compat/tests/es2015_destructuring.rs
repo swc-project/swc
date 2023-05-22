@@ -2280,3 +2280,22 @@ test!(
     "let [] = [...[1, 2, 3]];",
     "let _ref = [...[1, 2, 3]];"
 );
+
+test_exec!(
+    syntax(),
+    |_| tr(),
+    issue_7418,
+    r###"
+    const truc = { as: "OK"}
+
+    function x(as) {
+        return function g() {
+        const { as } = truc
+        console.log(as)
+        }
+        as
+    }
+
+    x()();
+    "###
+);

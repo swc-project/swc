@@ -1,4 +1,24 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Fix destructuring handling of `block_scoping` (#7425) ([66d52ec](https://github.com/swc-project/swc/commit/66d52ec849f3ed2b33db0a3738f5692cb8fa2400))
+
+### Features
+
+
+
+- **(plugin/runner)** Enable in-memory precompiled module cache (#7420) ([f8fe365](https://github.com/swc-project/swc/commit/f8fe365c3b888bbe49e011a616b6926c9ef24fa2))
+
+### Refactor
+
+
+
+- **(plugin/runner)** Add attributes to the module bytes (#7419) ([c03a74c](https://github.com/swc-project/swc/commit/c03a74c19819cb0cfc8a47cd9b2c1e558355d40d))
+
 ## [1.3.59] - 2023-05-19
 
 ### Bug Fixes

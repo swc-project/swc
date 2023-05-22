@@ -1,4 +1,5 @@
 use anyhow::Error;
+use serde::{Deserialize, Serialize};
 use wasmer::{Module, Store};
 
 /// Creates an instnace of [Store].
@@ -44,7 +45,7 @@ pub trait PluginModuleBytes {
 }
 
 /// A struct for the plugin contains raw bytes can be compiled into Wasm Module.
-#[derive(Clone)]
+#[derive(Debug, Clone, Eq, Serialize, Deserialize, PartialEq)]
 pub struct RawPluginModuleBytes {
     plugin_name: String,
     bytes: Vec<u8>,
@@ -74,18 +75,29 @@ impl RawPluginModuleBytes {
 /// A struct for the plugin contains pre-compiled binary.
 /// This is for the cases would like to reuse the compiled module, or either
 /// load from FileSystemCache.
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct CompiledPluginModuleBytes {
     plugin_name: String,
-    bytes: wasmer::Module,
-    store: wasmer::Store,
+    #[serde(skip)]
+    bytes: Option<wasmer::Module>,
+    #[serde(skip)]
+    store: Option<wasmer::Store>,
 }
+
+impl Eq for CompiledPluginModuleBytes {}
 
 impl Clone for CompiledPluginModuleBytes {
     fn clone(&self) -> Self {
         Self {
             plugin_name: self.plugin_name.clone(),
             bytes: self.bytes.clone(),
-            store: Store::new(self.store.engine().clone()),
+            store: Some(Store::new(
+                self.store
+                    .as_ref()
+                    .expect("Store should be available")
+                    .engine()
+                    .clone(),
+            )),
         }
     }
 }
@@ -94,8 +106,8 @@ impl CompiledPluginModuleBytes {
     pub fn new(identifier: String, bytes: wasmer::Module, store: wasmer::Store) -> Self {
         Self {
             plugin_name: identifier,
-            bytes,
-            store,
+            bytes: Some(bytes),
+            store: Some(store),
         }
     }
 }
@@ -115,6 +127,18 @@ impl PluginModuleBytes for CompiledPluginModuleBytes {
     }
 
     fn compile_module(&self) -> Result<(Store, Module), Error> {
-        Ok((Store::new(self.store.engine().clone()), self.bytes.clone()))
+        Ok((
+            Store::new(
+                self.store
+                    .as_ref()
+                    .expect("Store should be available")
+                    .engine()
+                    .clone(),
+            ),
+            self.bytes
+                .as_ref()
+                .expect("Module should be available")
+                .clone(),
+        ))
     }
 }
