@@ -297,7 +297,7 @@ impl TransformExecutor {
         let memory = instance.exports.get_memory("memory")?;
         import_object.define("env", "memory", memory.clone());
 
-        let alloc = instance.exports.get_typed_function(&mut store, "__alloc")?;
+        let alloc = instance.exports.get_typed_function(&store, "__alloc")?;
 
         // Unlike wasmer@2, have to manually `import` memory / necessary functions from
         // the guest into env.
