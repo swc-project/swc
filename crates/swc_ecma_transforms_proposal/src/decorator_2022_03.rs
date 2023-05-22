@@ -473,7 +473,7 @@ impl Decorator202203 {
                         span: DUMMY_SP,
                         decorators: vec![],
                         body,
-                        super_class: None,
+                        super_class: c.class.super_class.take(),
                         is_abstract: Default::default(),
                         type_params: Default::default(),
                         super_type_params: Default::default(),
