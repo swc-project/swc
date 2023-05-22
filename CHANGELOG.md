@@ -7,6 +7,9 @@
 
 - **(es/compat)** Fix destructuring handling of `block_scoping` (#7425) ([66d52ec](https://github.com/swc-project/swc/commit/66d52ec849f3ed2b33db0a3738f5692cb8fa2400))
 
+
+- **(swc_core)** Correctly expose plugin with host (#7427) ([558ca40](https://github.com/swc-project/swc/commit/558ca40b99bd3e9ac9a1742223dd9d3ef84061cb))
+
 ### Features
 
 
