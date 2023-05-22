@@ -392,7 +392,7 @@ impl Decorator202203 {
             self.rename_map
                 .insert(c.ident.to_id(), new_class_name.to_id());
 
-            self.class_lhs.push(Some(new_class_name.into()));
+            self.class_lhs.push(Some(new_class_name.clone().into()));
             self.class_lhs.push(Some(init_class.clone().into()));
 
             self.class_decorators.extend(decorators);
@@ -465,6 +465,16 @@ impl Decorator202203 {
                 body.retain(|m| {
                     !matches!(m, ClassMember::StaticBlock(..) | ClassMember::Empty(..))
                 });
+
+                for m in body.iter_mut() {
+                    match m {
+                        ClassMember::ClassProp(..) | ClassMember::PrivateProp(..) => {
+                            replace_ident(m, c.ident.to_id(), &new_class_name);
+                        }
+
+                        _ => {}
+                    }
+                }
 
                 let mut inner_class = ClassDecl {
                     ident: c.ident.clone(),
