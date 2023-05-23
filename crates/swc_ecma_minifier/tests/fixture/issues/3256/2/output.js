@@ -1,4 +1,4 @@
-const adler32 = (adler, buf, len, pos)=>{
+export default ((adler, buf, len, pos)=>{
     let s1 = 0xffff & adler | 0, s2 = adler >>> 16 & 0xffff | 0, n = 0;
     for(; 0 !== len;){
         n = len > 2000 ? 2000 : len, len -= n;
@@ -7,5 +7,4 @@ const adler32 = (adler, buf, len, pos)=>{
         s1 %= 65521, s2 %= 65521;
     }
     return s1 | s2 << 16 | 0;
-};
-export default adler32;
+});

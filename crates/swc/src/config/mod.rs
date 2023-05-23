@@ -80,6 +80,33 @@ use crate::{
 #[cfg(test)]
 mod tests;
 
+#[cfg(feature = "plugin")]
+/// A shared instance to plugin's module bytecode cache.
+pub static PLUGIN_MODULE_CACHE: Lazy<swc_plugin_runner::cache::PluginModuleCache> =
+    Lazy::new(Default::default);
+
+/// Create a new cache instance if not initialized. This can be called multiple
+/// time, but any subsequent call will be ignored.
+///
+/// This fn have a side effect to create path to cache if given path is not
+/// resolvable if fs_cache_store is enabled. If root is not specified, it'll
+/// generate default root for cache location.
+///
+/// If cache failed to initialize filesystem cache for given location
+/// it'll be serve in-memory cache only.
+#[cfg(feature = "plugin")]
+pub fn init_plugin_module_cache_once(
+    enable_fs_cache_store: bool,
+    fs_cache_store_root: &Option<String>,
+) {
+    PLUGIN_MODULE_CACHE.inner.get_or_init(|| {
+        parking_lot::Mutex::new(swc_plugin_runner::cache::PluginModuleCache::create_inner(
+            enable_fs_cache_store,
+            fs_cache_store_root,
+        ))
+    });
+}
+
 #[derive(Clone, Debug, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum IsModule {
     Bool(bool),
@@ -619,77 +646,102 @@ impl Options {
 
         let keep_import_assertions = experimental.keep_import_assertions.into_bool();
 
-        // Embedded runtime plugin target, based on assumption we have
-        // 1. filesystem access for the cache
-        // 2. embedded runtime can compiles & execute wasm
-        #[cfg(all(any(feature = "plugin"), not(target_arch = "wasm32")))]
-        let plugins = {
-            let plugin_resolver = CachingResolver::new(
-                40,
-                NodeModulesResolver::new(TargetEnv::Node, Default::default(), true),
-            );
-
+        #[cfg(feature = "plugin")]
+        let plugin_transforms = {
             let transform_filename = match base {
                 FileName::Real(path) => path.as_os_str().to_str().map(String::from),
                 FileName::Custom(filename) => Some(filename.to_owned()),
                 _ => None,
             };
-
             let transform_metadata_context = Arc::new(TransformPluginMetadataContext::new(
                 transform_filename,
                 self.env_name.to_owned(),
                 None,
             ));
 
-            if experimental.plugins.is_some() {
-                swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
+            // Embedded runtime plugin target, based on assumption we have
+            // 1. filesystem access for the cache
+            // 2. embedded runtime can compiles & execute wasm
+            #[cfg(all(any(feature = "plugin"), not(target_arch = "wasm32")))]
+            {
+                use swc_ecma_loader::resolve::Resolve;
+
+                // Currently swc enables filesystemcache by default on Embedded runtime plugin
+                // target.
+                init_plugin_module_cache_once(true, &experimental.cache_root);
+
+                let plugin_resolver = CachingResolver::new(
+                    40,
+                    NodeModulesResolver::new(TargetEnv::Node, Default::default(), true),
+                );
+
+                if let Some(plugins) = &experimental.plugins {
+                    // Populate cache to the plugin modules if not loaded
+                    for plugin_config in plugins.iter() {
+                        let plugin_name = &plugin_config.0;
+
+                        if !PLUGIN_MODULE_CACHE
+                            .inner
+                            .get()
+                            .unwrap()
+                            .lock()
+                            .contains(&plugin_name)
+                        {
+                            let resolved_path = plugin_resolver.resolve(
+                                &FileName::Real(PathBuf::from(&plugin_name)),
+                                &plugin_name,
+                            )?;
+
+                            let path = if let FileName::Real(value) = resolved_path {
+                                value
+                            } else {
+                                anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
+                            };
+
+                            let mut inner_cache = PLUGIN_MODULE_CACHE
+                                .inner
+                                .get()
+                                .expect("Cache should be available")
+                                .lock();
+                            inner_cache.store_bytes_from_path(&path, &plugin_name)?;
+                        }
+                    }
+                }
+
+                crate::plugin::plugins(
+                    experimental.plugins,
+                    transform_metadata_context,
+                    comments.cloned(),
+                    cm.clone(),
+                    unresolved_mark,
+                )
             }
 
-            let comments = comments.cloned();
-            let source_map = cm.clone();
-            crate::plugin::plugins(
-                experimental.plugins,
-                transform_metadata_context,
-                Some(plugin_resolver),
-                comments,
-                source_map,
-                unresolved_mark,
-            )
+            // Native runtime plugin target, based on assumption we have
+            // 1. no filesystem access, loading binary / cache management should be
+            // performed externally
+            // 2. native runtime compiles & execute wasm (i.e v8 on node, chrome)
+            #[cfg(all(any(feature = "plugin"), target_arch = "wasm32"))]
+            {
+                handler.warn(
+                    "Currently @swc/wasm does not support plugins, plugin transform will be \
+                     skipped. Refer https://github.com/swc-project/swc/issues/3934 for the details.",
+                );
+
+                noop()
+            }
         };
 
-        // Native runtime plugin target, based on assumption we have
-        // 1. no filesystem access, loading binary / cache management should be
-        // performed externally
-        // 2. native runtime compiles & execute wasm (i.e v8 on node, chrome)
-        #[cfg(all(any(feature = "plugin"), target_arch = "wasm32"))]
-        let plugins = {
-            let transform_filename = match base {
-                FileName::Real(path) => path.as_os_str().to_str().map(String::from),
-                FileName::Custom(filename) => Some(filename.to_owned()),
-                _ => None,
-            };
-
-            let transform_metadata_context = Arc::new(TransformPluginMetadataContext::new(
-                transform_filename,
-                self.env_name.to_owned(),
-                None,
-            ));
-
-            swc_plugin_runner::cache::init_plugin_module_cache_once();
-            let comments = comments.cloned();
-            let source_map = cm.clone();
-            crate::plugin::plugins(
-                experimental.plugins,
-                transform_metadata_context,
-                None,
-                comments,
-                source_map,
-                unresolved_mark,
-            )
+        #[cfg(not(feature = "plugin"))]
+        let plugin_transforms = {
+            if experimental.plugins.is_some() {
+                handler.warn(
+                    "Plugin is not supported with current @swc/core. Plugin transform will be \
+                     skipped.",
+                );
+            }
+            noop()
         };
-
-        #[cfg(not(any(feature = "plugin")))]
-        let plugins = crate::plugin::plugins();
 
         let pass = chain!(
             lint_to_fold(swc_ecma_lints::rules::all(LintParams {
@@ -753,7 +805,7 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            plugins,
+            plugin_transforms,
             custom_before_pass(&program),
             // handle jsx
             Optional::new(

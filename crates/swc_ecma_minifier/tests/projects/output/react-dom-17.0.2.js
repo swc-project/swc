@@ -634,8 +634,8 @@
     }
     function initWrapperState(element, props) {
         checkControlledValueProps("input", props), void 0 === props.checked || void 0 === props.defaultChecked || didWarnCheckedDefaultChecked || (error("%s contains an input of type %s with both checked and defaultChecked props. Input elements must be either controlled or uncontrolled (specify either the checked prop, or the defaultChecked prop, but not both). Decide between using a controlled or uncontrolled input element and remove one of these props. More info: https://reactjs.org/link/controlled-components", getCurrentFiberOwnerNameInDevOrNull() || "A component", props.type), didWarnCheckedDefaultChecked = !0), void 0 === props.value || void 0 === props.defaultValue || didWarnValueDefaultValue || (error("%s contains an input of type %s with both value and defaultValue props. Input elements must be either controlled or uncontrolled (specify either the value prop, or the defaultValue prop, but not both). Decide between using a controlled or uncontrolled input element and remove one of these props. More info: https://reactjs.org/link/controlled-components", getCurrentFiberOwnerNameInDevOrNull() || "A component", props.type), didWarnValueDefaultValue = !0);
-        var node = element, defaultValue = null == props.defaultValue ? "" : props.defaultValue;
-        node._wrapperState = {
+        var defaultValue = null == props.defaultValue ? "" : props.defaultValue;
+        element._wrapperState = {
             initialChecked: null != props.checked ? props.checked : props.defaultChecked,
             initialValue: getToStringValue(null != props.value ? props.value : defaultValue),
             controlled: isControlled(props)
@@ -646,26 +646,25 @@
         null != checked && setValueForProperty(element, "checked", checked, !1);
     }
     function updateWrapper(element, props) {
-        var node = element, controlled = isControlled(props);
-        node._wrapperState.controlled || !controlled || didWarnUncontrolledToControlled || (error("A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components"), didWarnUncontrolledToControlled = !0), !node._wrapperState.controlled || controlled || didWarnControlledToUncontrolled || (error("A component is changing a controlled input to be uncontrolled. This is likely caused by the value changing from a defined to undefined, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components"), didWarnControlledToUncontrolled = !0), updateChecked(element, props);
+        var controlled = isControlled(props);
+        element._wrapperState.controlled || !controlled || didWarnUncontrolledToControlled || (error("A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components"), didWarnUncontrolledToControlled = !0), !element._wrapperState.controlled || controlled || didWarnControlledToUncontrolled || (error("A component is changing a controlled input to be uncontrolled. This is likely caused by the value changing from a defined to undefined, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components"), didWarnControlledToUncontrolled = !0), updateChecked(element, props);
         var value = getToStringValue(props.value), type = props.type;
-        if (null != value) "number" === type ? (0 === value && "" === node.value || node.value != value) && (node.value = "" + value) : node.value !== "" + value && (node.value = "" + value);
+        if (null != value) "number" === type ? (0 === value && "" === element.value || element.value != value) && (element.value = "" + value) : element.value !== "" + value && (element.value = "" + value);
         else if ("submit" === type || "reset" === type) {
-            node.removeAttribute("value");
+            element.removeAttribute("value");
             return;
         }
-        props.hasOwnProperty("value") ? setDefaultValue(node, props.type, value) : props.hasOwnProperty("defaultValue") && setDefaultValue(node, props.type, getToStringValue(props.defaultValue)), null == props.checked && null != props.defaultChecked && (node.defaultChecked = !!props.defaultChecked);
+        props.hasOwnProperty("value") ? setDefaultValue(element, props.type, value) : props.hasOwnProperty("defaultValue") && setDefaultValue(element, props.type, getToStringValue(props.defaultValue)), null == props.checked && null != props.defaultChecked && (element.defaultChecked = !!props.defaultChecked);
     }
     function postMountWrapper(element, props, isHydrating) {
-        var node = element;
         if (props.hasOwnProperty("value") || props.hasOwnProperty("defaultValue")) {
             var type = props.type;
             if (("submit" === type || "reset" === type) && (void 0 === props.value || null === props.value)) return;
-            var initialValue = "" + node._wrapperState.initialValue;
-            isHydrating || initialValue === node.value || (node.value = initialValue), node.defaultValue = initialValue;
+            var initialValue = "" + element._wrapperState.initialValue;
+            isHydrating || initialValue === element.value || (element.value = initialValue), element.defaultValue = initialValue;
         }
-        var name = node.name;
-        "" !== name && (node.name = ""), node.defaultChecked = !node.defaultChecked, node.defaultChecked = !!node._wrapperState.initialChecked, "" !== name && (node.name = name);
+        var name = element.name;
+        "" !== name && (element.name = ""), element.defaultChecked = !element.defaultChecked, element.defaultChecked = !!element._wrapperState.initialChecked, "" !== name && (element.name = name);
     }
     function setDefaultValue(node, type, value) {
         ("number" !== type || getActiveElement(node.ownerDocument) !== node) && (null == value ? node.defaultValue = "" + node._wrapperState.initialValue : node.defaultValue !== "" + value && (node.defaultValue = "" + value));
@@ -696,7 +695,7 @@
     function updateOptions(node, multiple, propValue, setDefaultSelected) {
         var options = node.options;
         if (multiple) {
-            for(var selectedValues = propValue, selectedValue = {}, i = 0; i < selectedValues.length; i++)selectedValue["$" + selectedValues[i]] = !0;
+            for(var selectedValue = {}, i = 0; i < propValue.length; i++)selectedValue["$" + propValue[i]] = !0;
             for(var _i = 0; _i < options.length; _i++){
                 var selected = selectedValue.hasOwnProperty("$" + options[_i].value);
                 options[_i].selected !== selected && (options[_i].selected = selected), selected && setDefaultSelected && (options[_i].defaultSelected = !0);
@@ -718,7 +717,6 @@
         });
     }
     function initWrapperState$1(element, props) {
-        var node = element;
         !function(props) {
             checkControlledValueProps("select", props);
             for(var i = 0; i < valuePropNames.length; i++){
@@ -728,7 +726,7 @@
                     props.multiple && !isArray ? error("The `%s` prop supplied to <select> must be an array if `multiple` is true.%s", propName, getDeclarationErrorAddendum()) : !props.multiple && isArray && error("The `%s` prop supplied to <select> must be a scalar value if `multiple` is false.%s", propName, getDeclarationErrorAddendum());
                 }
             }
-        }(props), node._wrapperState = {
+        }(props), element._wrapperState = {
             wasMultiple: !!props.multiple
         }, void 0 === props.value || void 0 === props.defaultValue || didWarnValueDefaultValue$1 || (error("Select elements must be either controlled or uncontrolled (specify either the value prop, or the defaultValue prop, but not both). Decide between using a controlled or uncontrolled select element and remove one of these props. More info: https://reactjs.org/link/controlled-components"), didWarnValueDefaultValue$1 = !0);
     }
@@ -742,7 +740,6 @@
         });
     }
     function initWrapperState$2(element, props) {
-        var node = element;
         checkControlledValueProps("textarea", props), void 0 === props.value || void 0 === props.defaultValue || didWarnValDefaultVal || (error("%s contains a textarea with both value and defaultValue props. Textarea elements must be either controlled or uncontrolled (specify either the value prop, or the defaultValue prop, but not both). Decide between using a controlled or uncontrolled textarea and remove one of these props. More info: https://reactjs.org/link/controlled-components", getCurrentFiberOwnerNameInDevOrNull() || "A component"), didWarnValDefaultVal = !0);
         var initialValue = props.value;
         if (null == initialValue) {
@@ -757,21 +754,21 @@
             }
             null == defaultValue && (defaultValue = ""), initialValue = defaultValue;
         }
-        node._wrapperState = {
+        element._wrapperState = {
             initialValue: getToStringValue(initialValue)
         };
     }
     function updateWrapper$1(element, props) {
-        var node = element, value = getToStringValue(props.value), defaultValue = getToStringValue(props.defaultValue);
+        var value = getToStringValue(props.value), defaultValue = getToStringValue(props.defaultValue);
         if (null != value) {
             var newValue = "" + value;
-            newValue !== node.value && (node.value = newValue), null == props.defaultValue && node.defaultValue !== newValue && (node.defaultValue = newValue);
+            newValue !== element.value && (element.value = newValue), null == props.defaultValue && element.defaultValue !== newValue && (element.defaultValue = newValue);
         }
-        null != defaultValue && (node.defaultValue = "" + defaultValue);
+        null != defaultValue && (element.defaultValue = "" + defaultValue);
     }
     function postMountWrapper$3(element, props) {
-        var node = element, textContent = node.textContent;
-        textContent === node._wrapperState.initialValue && "" !== textContent && null !== textContent && (node.value = textContent);
+        var textContent = element.textContent;
+        textContent === element._wrapperState.initialValue && "" !== textContent && null !== textContent && (element.value = textContent);
     }
     var HTML_NAMESPACE = "http://www.w3.org/1999/xhtml", MATH_NAMESPACE = "http://www.w3.org/1998/Math/MathML", SVG_NAMESPACE = "http://www.w3.org/2000/svg", Namespaces = {
         html: HTML_NAMESPACE,
@@ -1144,8 +1141,7 @@
     }
     Object.keys(isUnitlessNumber).forEach(function(prop) {
         prefixes.forEach(function(prefix) {
-            var key;
-            isUnitlessNumber[prefix + (key = prop).charAt(0).toUpperCase() + key.substring(1)] = isUnitlessNumber[prop];
+            isUnitlessNumber[prefix + prop.charAt(0).toUpperCase() + prop.substring(1)] = isUnitlessNumber[prop];
         });
     });
     var uppercasePattern = /([A-Z])/g, msPattern = /^ms-/, warnValidStyle = function() {}, badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/, msPattern$1 = /^-ms-/, hyphenPattern = /-(.)/g, badStyleValueWithSemicolonPattern = /;\s*$/, warnedStyleNames = {}, warnedStyleValues = {}, warnedForNaNValue = !1, warnedForInfinityValue = !1, warnHyphenatedStyleName = function(name) {
@@ -2213,7 +2209,58 @@
         return eventName;
     }
     !canUseDOM || (style = document.createElement("div").style, "AnimationEvent" in window || (delete vendorPrefixes.animationend.animation, delete vendorPrefixes.animationiteration.animation, delete vendorPrefixes.animationstart.animation), "TransitionEvent" in window || delete vendorPrefixes.transitionend.transition);
-    var ANIMATION_END = getVendorPrefixedEventName("animationend"), ANIMATION_ITERATION = getVendorPrefixedEventName("animationiteration"), ANIMATION_START = getVendorPrefixedEventName("animationstart"), TRANSITION_END = getVendorPrefixedEventName("transitionend"), topLevelEventsToReactNames = new Map(), eventPriorities = new Map();
+    var ANIMATION_END = getVendorPrefixedEventName("animationend"), ANIMATION_ITERATION = getVendorPrefixedEventName("animationiteration"), ANIMATION_START = getVendorPrefixedEventName("animationstart"), TRANSITION_END = getVendorPrefixedEventName("transitionend"), topLevelEventsToReactNames = new Map(), eventPriorities = new Map(), continuousPairsForSimpleEventPlugin = [
+        "abort",
+        "abort",
+        ANIMATION_END,
+        "animationEnd",
+        ANIMATION_ITERATION,
+        "animationIteration",
+        ANIMATION_START,
+        "animationStart",
+        "canplay",
+        "canPlay",
+        "canplaythrough",
+        "canPlayThrough",
+        "durationchange",
+        "durationChange",
+        "emptied",
+        "emptied",
+        "encrypted",
+        "encrypted",
+        "ended",
+        "ended",
+        "error",
+        "error",
+        "gotpointercapture",
+        "gotPointerCapture",
+        "load",
+        "load",
+        "loadeddata",
+        "loadedData",
+        "loadedmetadata",
+        "loadedMetadata",
+        "loadstart",
+        "loadStart",
+        "lostpointercapture",
+        "lostPointerCapture",
+        "playing",
+        "playing",
+        "progress",
+        "progress",
+        "seeking",
+        "seeking",
+        "stalled",
+        "stalled",
+        "suspend",
+        "suspend",
+        "timeupdate",
+        "timeUpdate",
+        TRANSITION_END,
+        "transitionEnd",
+        "waiting",
+        "waiting"
+    ];
     function registerSimplePluginEventsAndSetTheirPriorities(eventTypes, priority) {
         for(var i = 0; i < eventTypes.length; i += 2){
             var topEvent = eventTypes[i], event = eventTypes[i + 1], reactName = "on" + (event[0].toUpperCase() + event.slice(1));
@@ -2930,58 +2977,7 @@
         'touchMove',
         'wheel',
         'wheel'
-    ], 1), registerSimplePluginEventsAndSetTheirPriorities([
-        "abort",
-        "abort",
-        ANIMATION_END,
-        "animationEnd",
-        ANIMATION_ITERATION,
-        "animationIteration",
-        ANIMATION_START,
-        "animationStart",
-        "canplay",
-        "canPlay",
-        "canplaythrough",
-        "canPlayThrough",
-        "durationchange",
-        "durationChange",
-        "emptied",
-        "emptied",
-        "encrypted",
-        "encrypted",
-        "ended",
-        "ended",
-        "error",
-        "error",
-        "gotpointercapture",
-        "gotPointerCapture",
-        "load",
-        "load",
-        "loadeddata",
-        "loadedData",
-        "loadedmetadata",
-        "loadedMetadata",
-        "loadstart",
-        "loadStart",
-        "lostpointercapture",
-        "lostPointerCapture",
-        "playing",
-        "playing",
-        "progress",
-        "progress",
-        "seeking",
-        "seeking",
-        "stalled",
-        "stalled",
-        "suspend",
-        "suspend",
-        "timeupdate",
-        "timeUpdate",
-        TRANSITION_END,
-        "transitionEnd",
-        "waiting",
-        "waiting"
-    ], 2), function(eventTypes, priority) {
+    ], 1), registerSimplePluginEventsAndSetTheirPriorities(continuousPairsForSimpleEventPlugin, 2), function(eventTypes, priority) {
         for(var i = 0; i < eventTypes.length; i++)eventPriorities.set(eventTypes[i], 0);
     }([
         "change",
@@ -3197,7 +3193,7 @@
         }(function() {
             var targetInst, nativeEventTarget, dispatchQueue;
             return targetInst = ancestorInst, nativeEventTarget = getEventTarget(nativeEvent), void (function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                if (!function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+                if (function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
                     var reactName = topLevelEventsToReactNames.get(domEventName);
                     if (void 0 !== reactName) {
                         var SyntheticEventCtor = SyntheticEvent, reactEventType = domEventName;
@@ -3275,7 +3271,7 @@
                             case "pointerup":
                                 SyntheticEventCtor = SyntheticPointerEvent;
                         }
-                        var inCapturePhase = (4 & eventSystemFlags) != 0, _listeners = function(targetFiber, reactName, nativeEventType, inCapturePhase, accumulateTargetOnly) {
+                        var inCapturePhase = (4 & eventSystemFlags) != 0, accumulateTargetOnly = !inCapturePhase && "scroll" === domEventName, _listeners = function(targetFiber, reactName, nativeEventType, inCapturePhase, accumulateTargetOnly) {
                             for(var reactEventName = inCapturePhase ? null !== reactName ? reactName + "Capture" : null : reactName, listeners = [], instance = targetFiber, lastHostComponent = null; null !== instance;){
                                 var _instance2 = instance, stateNode = _instance2.stateNode;
                                 if (5 === _instance2.tag && null !== stateNode && (lastHostComponent = stateNode, null !== reactEventName)) {
@@ -3286,7 +3282,7 @@
                                 instance = instance.return;
                             }
                             return listeners;
-                        }(targetInst, reactName, nativeEvent.type, inCapturePhase, !inCapturePhase && "scroll" === domEventName);
+                        }(targetInst, reactName, nativeEvent.type, inCapturePhase, accumulateTargetOnly);
                         if (_listeners.length > 0) {
                             var _event = new SyntheticEventCtor(reactName, reactEventType, null, nativeEvent, nativeEventTarget);
                             dispatchQueue.push({
@@ -5238,8 +5234,8 @@
         ];
     }
     function readFromUnsubcribedMutableSource(root, source, getSnapshot) {
-        null == (mutableSource = source)._currentPrimaryRenderer ? mutableSource._currentPrimaryRenderer = rendererSigil$1 : mutableSource._currentPrimaryRenderer !== rendererSigil$1 && error("Detected multiple renderers concurrently rendering the same mutable source. This is currently unsupported.");
-        var mutableSource, subset, version = (0, source._getVersion)(source._source), isSafeToReadFromSource = !1, currentRenderVersion = source._workInProgressVersionPrimary;
+        null == source._currentPrimaryRenderer ? source._currentPrimaryRenderer = rendererSigil$1 : source._currentPrimaryRenderer !== rendererSigil$1 && error("Detected multiple renderers concurrently rendering the same mutable source. This is currently unsupported.");
+        var subset, version = (0, source._getVersion)(source._source), isSafeToReadFromSource = !1, currentRenderVersion = source._workInProgressVersionPrimary;
         if (null !== currentRenderVersion ? isSafeToReadFromSource = currentRenderVersion === version : (isSafeToReadFromSource = (renderLanes & (subset = root.mutableReadLanes)) === subset) && setWorkInProgressVersion(source, version), isSafeToReadFromSource) {
             var snapshot = getSnapshot(source._source);
             return "function" == typeof snapshot && error("Mutable source should not return a function as the snapshot value. Functions may close over mutable values and cause tearing."), snapshot;
@@ -5358,8 +5354,8 @@
         return updateWorkInProgressHook().memoizedState;
     }
     function mountEffectImpl(fiberFlags, hookFlags, create, deps) {
-        var hook = mountWorkInProgressHook();
-        currentlyRenderingFiber$1.flags |= fiberFlags, hook.memoizedState = pushEffect(1 | hookFlags, create, void 0, void 0 === deps ? null : deps);
+        var hook = mountWorkInProgressHook(), nextDeps = void 0 === deps ? null : deps;
+        currentlyRenderingFiber$1.flags |= fiberFlags, hook.memoizedState = pushEffect(1 | hookFlags, create, void 0, nextDeps);
     }
     function updateEffectImpl(fiberFlags, hookFlags, create, deps) {
         var hook = updateWorkInProgressHook(), nextDeps = void 0 === deps ? null : deps, destroy = void 0;
@@ -5389,11 +5385,10 @@
             ref(null);
         };
         if (null != ref) {
-            var refObject = ref;
-            refObject.hasOwnProperty("current") || error("Expected useImperativeHandle() first argument to either be a ref callback or React.createRef() object. Instead received: %s.", "an object with keys {" + Object.keys(refObject).join(", ") + "}");
+            ref.hasOwnProperty("current") || error("Expected useImperativeHandle() first argument to either be a ref callback or React.createRef() object. Instead received: %s.", "an object with keys {" + Object.keys(ref).join(", ") + "}");
             var _inst2 = create();
-            return refObject.current = _inst2, function() {
-                refObject.current = null;
+            return ref.current = _inst2, function() {
+                ref.current = null;
             };
         }
     }
@@ -6233,7 +6228,7 @@
     }
     function finishClassComponent(current, workInProgress, Component, shouldUpdate, hasContext, renderLanes) {
         markRef(current, workInProgress);
-        var workInProgress1, nextChildren, nextChildren1, didCaptureError = (64 & workInProgress.flags) != 0;
+        var nextChildren, nextChildren1, didCaptureError = (64 & workInProgress.flags) != 0;
         if (!shouldUpdate && !didCaptureError) return hasContext && invalidateContextProvider(workInProgress, Component, !1), bailoutOnAlreadyFinishedWork(current, workInProgress, renderLanes);
         var instance = workInProgress.stateNode;
         if (ReactCurrentOwner$1.current = workInProgress, didCaptureError && "function" != typeof Component.getDerivedStateFromError) nextChildren1 = null, profilerStartTime = -1;
@@ -6248,7 +6243,7 @@
             }
             isRendering = !1;
         }
-        return (workInProgress.flags |= 1, null !== current && didCaptureError) ? (workInProgress1 = workInProgress, nextChildren = nextChildren1, workInProgress1.child = reconcileChildFibers(workInProgress1, current.child, null, renderLanes), workInProgress1.child = reconcileChildFibers(workInProgress1, null, nextChildren, renderLanes)) : reconcileChildren(current, workInProgress, nextChildren1, renderLanes), workInProgress.memoizedState = instance.state, hasContext && invalidateContextProvider(workInProgress, Component, !0), workInProgress.child;
+        return (workInProgress.flags |= 1, null !== current && didCaptureError) ? (nextChildren = nextChildren1, workInProgress.child = reconcileChildFibers(workInProgress, current.child, null, renderLanes), workInProgress.child = reconcileChildFibers(workInProgress, null, nextChildren, renderLanes)) : reconcileChildren(current, workInProgress, nextChildren1, renderLanes), workInProgress.memoizedState = instance.state, hasContext && invalidateContextProvider(workInProgress, Component, !0), workInProgress.child;
     }
     function pushHostRootContext(workInProgress) {
         var root = workInProgress.stateNode;
@@ -6629,13 +6624,13 @@
                     return workInProgress.child;
                 }(current, workInProgress, renderLanes);
             case 5:
-                return pushHostContext(workInProgress2 = workInProgress), null === current && tryToClaimNextHydratableInstance(workInProgress2), type1 = workInProgress2.type, nextProps = workInProgress2.pendingProps, prevProps = null !== current ? current.memoizedProps : null, nextChildren = nextProps.children, shouldSetTextContent(type1, nextProps) ? nextChildren = null : null !== prevProps && shouldSetTextContent(type1, prevProps) && (workInProgress2.flags |= 16), markRef(current, workInProgress2), reconcileChildren(current, workInProgress2, nextChildren, renderLanes), workInProgress2.child;
+                return pushHostContext(workInProgress), null === current && tryToClaimNextHydratableInstance(workInProgress), type1 = workInProgress.type, nextProps = workInProgress.pendingProps, prevProps = null !== current ? current.memoizedProps : null, nextChildren = nextProps.children, shouldSetTextContent(type1, nextProps) ? nextChildren = null : null !== prevProps && shouldSetTextContent(type1, prevProps) && (workInProgress.flags |= 16), markRef(current, workInProgress), reconcileChildren(current, workInProgress, nextChildren, renderLanes), workInProgress.child;
             case 6:
                 return null === current && tryToClaimNextHydratableInstance(workInProgress), null;
             case 13:
                 return updateSuspenseComponent(current, workInProgress, renderLanes);
             case 4:
-                return pushHostContainer(workInProgress3 = workInProgress, workInProgress3.stateNode.containerInfo), nextChildren1 = workInProgress3.pendingProps, null === current ? workInProgress3.child = reconcileChildFibers(workInProgress3, null, nextChildren1, renderLanes) : reconcileChildren(current, workInProgress3, nextChildren1, renderLanes), workInProgress3.child;
+                return pushHostContainer(workInProgress, workInProgress.stateNode.containerInfo), nextChildren1 = workInProgress.pendingProps, null === current ? workInProgress.child = reconcileChildFibers(workInProgress, null, nextChildren1, renderLanes) : reconcileChildren(current, workInProgress, nextChildren1, renderLanes), workInProgress.child;
             case 11:
                 var type = workInProgress.type, _unresolvedProps2 = workInProgress.pendingProps, _resolvedProps2 = workInProgress.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
                 return updateForwardRef(current, workInProgress, type, _resolvedProps2, renderLanes);
@@ -6644,7 +6639,7 @@
             case 8:
                 return nextChildren3 = workInProgress.pendingProps.children, reconcileChildren(current, workInProgress, nextChildren3, renderLanes), workInProgress.child;
             case 12:
-                return workInProgress4 = workInProgress, workInProgress4.flags |= 4, (stateNode1 = workInProgress4.stateNode).effectDuration = 0, stateNode1.passiveEffectDuration = 0, nextChildren4 = workInProgress4.pendingProps.children, reconcileChildren(current, workInProgress4, nextChildren4, renderLanes), workInProgress4.child;
+                return workInProgress.flags |= 4, (stateNode1 = workInProgress.stateNode).effectDuration = 0, stateNode1.passiveEffectDuration = 0, nextChildren4 = workInProgress.pendingProps.children, reconcileChildren(current, workInProgress, nextChildren4, renderLanes), workInProgress.child;
             case 10:
                 return function(current, workInProgress, renderLanes) {
                     var context = workInProgress.type._context, newProps = workInProgress.pendingProps, oldProps = workInProgress.memoizedProps, newValue = newProps.value;
@@ -6709,8 +6704,8 @@
             case 15:
                 return updateSimpleMemoComponent(current, workInProgress, workInProgress.type, workInProgress.pendingProps, updateLanes, renderLanes);
             case 17:
-                var current1, workInProgress1, renderLanes1, newChildren, context, newProps, render, newValue1, workInProgress2, type1, nextProps, prevProps, nextChildren, workInProgress3, nextChildren1, nextChildren2, nextChildren3, workInProgress4, stateNode1, nextChildren4, _current, workInProgress5, hasContext, _Component3 = workInProgress.type, _unresolvedProps4 = workInProgress.pendingProps, _resolvedProps4 = workInProgress.elementType === _Component3 ? _unresolvedProps4 : resolveDefaultProps(_Component3, _unresolvedProps4);
-                return _current = current, workInProgress5 = workInProgress, null !== _current && (_current.alternate = null, workInProgress5.alternate = null, workInProgress5.flags |= 2), workInProgress5.tag = 1, isContextProvider(_Component3) ? (hasContext = !0, pushContextProvider(workInProgress5)) : hasContext = !1, prepareToReadContext(workInProgress5, renderLanes), constructClassInstance(workInProgress5, _Component3, _resolvedProps4), mountClassInstance(workInProgress5, _Component3, _resolvedProps4, renderLanes), finishClassComponent(null, workInProgress5, _Component3, !0, hasContext, renderLanes);
+                var current1, workInProgress1, renderLanes1, newChildren, context, newProps, render, newValue1, type1, nextProps, prevProps, nextChildren, nextChildren1, nextChildren2, nextChildren3, stateNode1, nextChildren4, hasContext, _Component3 = workInProgress.type, _unresolvedProps4 = workInProgress.pendingProps, _resolvedProps4 = workInProgress.elementType === _Component3 ? _unresolvedProps4 : resolveDefaultProps(_Component3, _unresolvedProps4);
+                return null !== current && (current.alternate = null, workInProgress.alternate = null, workInProgress.flags |= 2), workInProgress.tag = 1, isContextProvider(_Component3) ? (hasContext = !0, pushContextProvider(workInProgress)) : hasContext = !1, prepareToReadContext(workInProgress, renderLanes), constructClassInstance(workInProgress, _Component3, _resolvedProps4), mountClassInstance(workInProgress, _Component3, _resolvedProps4, renderLanes), finishClassComponent(null, workInProgress, _Component3, !0, hasContext, renderLanes);
             case 19:
                 return updateSuspenseListComponent(current, workInProgress, renderLanes);
             case 20:
@@ -6772,7 +6767,7 @@
                     }
                     var currentHostContext = getHostContext();
                     if (popHydrationState(workInProgress)) {
-                        if (instance = (fiber = workInProgress).stateNode, type1 = fiber.type, props = fiber.memoizedProps, rootContainerInstance1 = 0, hostContext = currentHostContext, hostInst = fiber, (node = instance)[internalInstanceKey] = hostInst, node1 = instance, props1 = props, node1[internalPropsKey] = props1, updatePayload = function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
+                        if (instance = workInProgress.stateNode, type1 = workInProgress.type, props = workInProgress.memoizedProps, rootContainerInstance1 = 0, hostContext = currentHostContext, hostInst = workInProgress, (node = instance)[internalInstanceKey] = hostInst, node1 = instance, props1 = props, node1[internalPropsKey] = props1, updatePayload = function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
                             switch(suppressHydrationWarning = !0 === rawProps[SUPPRESS_HYDRATION_WARNING], isCustomComponentTag = isCustomComponent(tag, rawProps), validatePropertiesInDevelopment(tag, rawProps), tag){
                                 case "dialog":
                                     listenToNonDelegatedEvent("cancel", domElement), listenToNonDelegatedEvent("close", domElement);
@@ -6904,9 +6899,9 @@
                                     "function" == typeof rawProps.onClick && trapClickOnNonInteractiveElement(domElement);
                             }
                             return updatePayload;
-                        }(instance, type1, props, hostContext.namespace), fiber.updateQueue = updatePayload, null !== updatePayload) markUpdate(workInProgress);
+                        }(instance, type1, props, hostContext.namespace), workInProgress.updateQueue = updatePayload, null !== updatePayload) markUpdate(workInProgress);
                     } else {
-                        var instance, type1, props, rootContainerInstance1, hostContext, hostInst, node, node1, props1, type2, props2, rootContainerInstance2, hostContext1, internalInstanceHandle, domElement, hostInst1, node2, node3, props3, fiber, updatePayload, instance1 = (type2 = type, props2 = newProps, rootContainerInstance2 = rootContainerInstance, hostContext1 = currentHostContext, internalInstanceHandle = workInProgress, validateDOMNesting(type2, null, hostContext1.ancestorInfo), ("string" == typeof props2.children || "number" == typeof props2.children) && validateDOMNesting(null, "" + props2.children, updatedAncestorInfo(hostContext1.ancestorInfo, type2)), domElement = function(type, props, rootContainerElement, parentNamespace) {
+                        var instance, type1, props, rootContainerInstance1, hostContext, hostInst, node, node1, props1, type2, props2, rootContainerInstance2, hostContext1, internalInstanceHandle, domElement, hostInst1, node2, node3, props3, updatePayload, instance1 = (type2 = type, props2 = newProps, rootContainerInstance2 = rootContainerInstance, hostContext1 = currentHostContext, internalInstanceHandle = workInProgress, validateDOMNesting(type2, null, hostContext1.ancestorInfo), ("string" == typeof props2.children || "number" == typeof props2.children) && validateDOMNesting(null, "" + props2.children, updatedAncestorInfo(hostContext1.ancestorInfo, type2)), domElement = function(type, props, rootContainerElement, parentNamespace) {
                             var isCustomComponentTag, domElement, ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement), namespaceURI = parentNamespace;
                             if (namespaceURI === HTML_NAMESPACE$1 && (namespaceURI = getIntrinsicNamespace(type)), namespaceURI === HTML_NAMESPACE$1) {
                                 if ((isCustomComponentTag = isCustomComponent(type, props)) || type === type.toLowerCase() || error("<%s /> is using incorrect casing. Use PascalCase for React components, or lowercase for HTML elements.", type), "script" === type) {
@@ -6925,7 +6920,7 @@
                             return namespaceURI !== HTML_NAMESPACE$1 || isCustomComponentTag || "[object HTMLUnknownElement]" !== Object.prototype.toString.call(domElement) || Object.prototype.hasOwnProperty.call(warnedUnknownTags, type) || (warnedUnknownTags[type] = !0, error("The tag <%s> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.", type)), domElement;
                         }(type2, props2, rootContainerInstance2, hostContext1.namespace), hostInst1 = internalInstanceHandle, (node2 = domElement)[internalInstanceKey] = hostInst1, node3 = domElement, props3 = props2, node3[internalPropsKey] = props3, domElement);
                         appendAllChildren(instance1, workInProgress, !1, !1), workInProgress.stateNode = instance1, !function(domElement, tag, rawProps, rootContainerElement) {
-                            var element, props, node, value, props1, isCustomComponentTag = isCustomComponent(tag, rawProps);
+                            var element, props, value, props1, isCustomComponentTag = isCustomComponent(tag, rawProps);
                             switch(validatePropertiesInDevelopment(tag, rawProps), tag){
                                 case "dialog":
                                     listenToNonDelegatedEvent("cancel", domElement), listenToNonDelegatedEvent("close", domElement), props1 = rawProps;
@@ -6986,7 +6981,7 @@
                                     element = domElement, null != (props = rawProps).value && element.setAttribute("value", "" + getToStringValue(props.value));
                                     break;
                                 case "select":
-                                    (node = domElement).multiple = !!rawProps.multiple, null != (value = rawProps.value) ? updateOptions(node, !!rawProps.multiple, value, !1) : null != rawProps.defaultValue && updateOptions(node, !!rawProps.multiple, rawProps.defaultValue, !0);
+                                    domElement.multiple = !!rawProps.multiple, null != (value = rawProps.value) ? updateOptions(domElement, !!rawProps.multiple, value, !1) : null != rawProps.defaultValue && updateOptions(domElement, !!rawProps.multiple, rawProps.defaultValue, !0);
                                     break;
                                 default:
                                     "function" == typeof props1.onClick && trapClickOnNonInteractiveElement(domElement);
@@ -7289,8 +7284,8 @@
                     instance.style.display = dangerousStyleValue("display", display);
                 }(node.stateNode, node.memoizedProps);
             } else if (6 === node.tag) {
-                var textInstance, text, _instance3 = node.stateNode;
-                isHidden ? _instance3.nodeValue = "" : (textInstance = _instance3, text = node.memoizedProps, textInstance.nodeValue = text);
+                var text, _instance3 = node.stateNode;
+                isHidden ? _instance3.nodeValue = "" : (text = node.memoizedProps, _instance3.nodeValue = text);
             } else if ((23 === node.tag || 24 === node.tag) && null !== node.memoizedState && node !== finishedWork) ;
             else if (null !== node.child) {
                 node.child.return = node, node = node.child;
@@ -7502,7 +7497,7 @@
                     var node, props, newProps = finishedWork.memoizedProps, oldProps = null !== current ? current.memoizedProps : newProps, type = finishedWork.type, updatePayload = finishedWork.updateQueue;
                     if (finishedWork.updateQueue = null, null !== updatePayload) {
                         node = instance, props = newProps, node[internalPropsKey] = props, function(domElement, updatePayload, tag, lastRawProps, nextRawProps) {
-                            var node, wasMultiple, value;
+                            var wasMultiple, value;
                             switch("input" === tag && "radio" === nextRawProps.type && null != nextRawProps.name && updateChecked(domElement, nextRawProps), isCustomComponent(tag, lastRawProps), function(domElement, updatePayload, wasCustomComponentTag, isCustomComponentTag) {
                                 for(var i = 0; i < updatePayload.length; i += 2){
                                     var propKey = updatePayload[i], propValue = updatePayload[i + 1];
@@ -7516,7 +7511,7 @@
                                     updateWrapper$1(domElement, nextRawProps);
                                     break;
                                 case "select":
-                                    wasMultiple = (node = domElement)._wrapperState.wasMultiple, node._wrapperState.wasMultiple = !!nextRawProps.multiple, null != (value = nextRawProps.value) ? updateOptions(node, !!nextRawProps.multiple, value, !1) : !!nextRawProps.multiple !== wasMultiple && (null != nextRawProps.defaultValue ? updateOptions(node, !!nextRawProps.multiple, nextRawProps.defaultValue, !0) : updateOptions(node, !!nextRawProps.multiple, nextRawProps.multiple ? [] : "", !1));
+                                    wasMultiple = domElement._wrapperState.wasMultiple, domElement._wrapperState.wasMultiple = !!nextRawProps.multiple, null != (value = nextRawProps.value) ? updateOptions(domElement, !!nextRawProps.multiple, value, !1) : !!nextRawProps.multiple !== wasMultiple && (null != nextRawProps.defaultValue ? updateOptions(domElement, !!nextRawProps.multiple, nextRawProps.defaultValue, !0) : updateOptions(domElement, !!nextRawProps.multiple, nextRawProps.multiple ? [] : "", !1));
                             }
                         }(instance, updatePayload, type, oldProps, newProps);
                     }
@@ -9075,8 +9070,7 @@
             if (null !== rootsWithPendingDiscreteUpdates) {
                 var roots = rootsWithPendingDiscreteUpdates;
                 rootsWithPendingDiscreteUpdates = null, roots.forEach(function(root) {
-                    var root1;
-                    root1 = root, root1.expiredLanes |= 24 & root1.pendingLanes, ensureRootIsScheduled(root, now());
+                    root.expiredLanes |= 24 & root.pendingLanes, ensureRootIsScheduled(root, now());
                 });
             }
             flushSyncCallbackQueue();

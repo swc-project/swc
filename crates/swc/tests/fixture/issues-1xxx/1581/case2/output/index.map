@@ -1,5 +1,5 @@
 {
-  "mappings": "AAAA,OAAO,IAAMA,MAAM,WAAM;IACrB,OAAO;AACX,EAAE",
+  "mappings": "AAAA,OAAO,IAAMA,MAAM;IACf,OAAO;AACX,EAAE",
   "names": [
     "foo"
   ],

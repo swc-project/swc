@@ -6,8 +6,7 @@ function Foonly() {
     };
 }
 Foonly.prototype.mreal = function() {
-    var self = this;
-    self.y = 2;
+    this.y = 2;
 };
 var foo = new Foonly();
 foo.x, foo.y, foo.m();

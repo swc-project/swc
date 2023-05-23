@@ -32,16 +32,16 @@ var e = require("@swc/helpers/_/_assert_this_initialized"), t = require("@swc/he
                     role: "listbox"
                 }, _("".concat(h, "items-list"), "itemsList")), {
                     children: r.map(function(t, r) {
-                        var p = r === l, m = "".concat(h, "item-").concat(r), I = f ? i({
+                        var p = 0 === r, m = r === l, I = "".concat(h, "item-").concat(r), g = f ? i({
                             sectionIndex: u,
                             itemIndex: r
-                        }) : i, g = d._({
+                        }) : i, q = d._({
                             id: o(u, r),
-                            "aria-selected": p
-                        }, _(m, "item", 0 === r && "itemFirst", p && "itemHighlighted"), I);
-                        return p && (g.ref = e.storeHighlightedItemReference), (0, a.jsx)(Item, c._(d._({}, g), {
+                            "aria-selected": m
+                        }, _(I, "item", p && "itemFirst", m && "itemHighlighted"), g);
+                        return m && (q.ref = e.storeHighlightedItemReference), (0, a.jsx)(Item, c._(d._({}, q), {
                             sectionIndex: u,
-                            isHighlighted: p,
+                            isHighlighted: m,
                             itemIndex: r,
                             item: t,
                             renderItem: n,

@@ -14,7 +14,7 @@ function _templateObject1() {
         "",
         ""
     ]);
-    _templateObject1 = function _templateObject1() {
+    _templateObject1 = function _templateObject() {
         return data;
     };
     return data;
@@ -25,7 +25,7 @@ function _templateObject2() {
         "",
         ""
     ]);
-    _templateObject2 = function _templateObject2() {
+    _templateObject2 = function _templateObject() {
         return data;
     };
     return data;
@@ -36,7 +36,7 @@ function _templateObject3() {
         "",
         ""
     ]);
-    _templateObject3 = function _templateObject3() {
+    _templateObject3 = function _templateObject() {
         return data;
     };
     return data;
@@ -47,7 +47,7 @@ function _templateObject4() {
         "",
         ""
     ]);
-    _templateObject4 = function _templateObject4() {
+    _templateObject4 = function _templateObject() {
         return data;
     };
     return data;
@@ -59,7 +59,7 @@ function _templateObject5() {
         "",
         ""
     ]);
-    _templateObject5 = function _templateObject5() {
+    _templateObject5 = function _templateObject() {
         return data;
     };
     return data;

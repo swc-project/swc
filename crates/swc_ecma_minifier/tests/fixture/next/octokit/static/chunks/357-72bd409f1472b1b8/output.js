@@ -4,7 +4,7 @@
     ],
     {
         1209: function(module, __unused_webpack_exports, __webpack_require__) {
-            var commonjsGlobal, parser, BottleneckError_1, version, version$2, require$$2, require$$3, require$$4, require$$4$1, require$$8, DLList, Events, Queues, States, Sync, Group, Batcher, Job$1, LocalDatastore$1, splice, Bottleneck_1;
+            var commonjsGlobal, parser, BottleneckError_1, version, version$2, require$$2, require$$3, require$$8, DLList, Events, Queues, Job, LocalDatastore, States, Sync, Group, Scripts$1, Batcher, RedisDatastore$1, splice, Bottleneck_1;
             module.exports = (commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {}, parser = {
                 load: function(received, defaults, onto = {}) {
                     var k, ref, v;
@@ -126,176 +126,7 @@
                     return this.getFirst(this._lists.slice(priority).reverse()).shift();
                 }
             }, BottleneckError_1 = class extends Error {
-            }, States = class {
-                constructor(status1){
-                    this.status = status1, this._jobs = {}, this.counts = this.status.map(function() {
-                        return 0;
-                    });
-                }
-                next(id) {
-                    var current, next;
-                    return (next = (current = this._jobs[id]) + 1, null != current && next < this.status.length) ? (this.counts[current]--, this.counts[next]++, this._jobs[id]++) : null != current ? (this.counts[current]--, delete this._jobs[id]) : void 0;
-                }
-                start(id) {
-                    return this._jobs[id] = 0, this.counts[0]++;
-                }
-                remove(id) {
-                    var current;
-                    return null != (current = this._jobs[id]) && (this.counts[current]--, delete this._jobs[id]), null != current;
-                }
-                jobStatus(id) {
-                    var ref;
-                    return null != (ref = this.status[this._jobs[id]]) ? ref : null;
-                }
-                statusJobs(status) {
-                    var k, pos, ref, results;
-                    if (null == status) return Object.keys(this._jobs);
-                    if ((pos = this.status.indexOf(status)) < 0) throw new BottleneckError_1(`status must be one of ${this.status.join(', ')}`);
-                    for(k in ref = this._jobs, results = [], ref)ref[k] === pos && results.push(k);
-                    return results;
-                }
-                statusCounts() {
-                    return this.counts.reduce((acc, v, i)=>(acc[this.status[i]] = v, acc), {});
-                }
-            }, Sync = class {
-                constructor(name, Promise1){
-                    this.schedule = this.schedule.bind(this), this.name = name, this.Promise = Promise1, this._running = 0, this._queue = new DLList();
-                }
-                isEmpty() {
-                    return 0 === this._queue.length;
-                }
-                async _tryToRun() {
-                    var args, cb, reject, resolve, returned, task;
-                    if (this._running < 1 && this._queue.length > 0) return this._running++, { task , args , resolve , reject  } = this._queue.shift(), cb = await async function() {
-                        try {
-                            return returned = await task(...args), function() {
-                                return resolve(returned);
-                            };
-                        } catch (error1) {
-                            return function() {
-                                return reject(error1);
-                            };
-                        }
-                    }(), this._running--, this._tryToRun(), cb();
-                }
-                schedule(task, ...args) {
-                    var promise, reject, resolve;
-                    return resolve = reject = null, promise = new this.Promise(function(_resolve, _reject) {
-                        return resolve = _resolve, reject = _reject;
-                    }), this._queue.push({
-                        task,
-                        args,
-                        resolve,
-                        reject
-                    }), this._tryToRun(), promise;
-                }
-            }, version$2 = Object.freeze({
-                version: version = "2.19.5",
-                default: {
-                    version: version
-                }
-            }), require$$2 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), require$$3 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), require$$4 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), Group = (function() {
-                class Group {
-                    constructor(limiterOptions = {}){
-                        this.deleteKey = this.deleteKey.bind(this), this.limiterOptions = limiterOptions, parser.load(this.limiterOptions, this.defaults, this), this.Events = new Events(this), this.instances = {}, this.Bottleneck = Bottleneck_1, this._startAutoCleanup(), this.sharedConnection = null != this.connection, null == this.connection && ("redis" === this.limiterOptions.datastore ? this.connection = new require$$2(Object.assign({}, this.limiterOptions, {
-                            Events: this.Events
-                        })) : "ioredis" === this.limiterOptions.datastore && (this.connection = new require$$3(Object.assign({}, this.limiterOptions, {
-                            Events: this.Events
-                        }))));
-                    }
-                    key(key = "") {
-                        var ref;
-                        return null != (ref = this.instances[key]) ? ref : (()=>{
-                            var limiter;
-                            return limiter = this.instances[key] = new this.Bottleneck(Object.assign(this.limiterOptions, {
-                                id: `${this.id}-${key}`,
-                                timeout: this.timeout,
-                                connection: this.connection
-                            })), this.Events.trigger("created", limiter, key), limiter;
-                        })();
-                    }
-                    async deleteKey(key = "") {
-                        var deleted, instance;
-                        return instance = this.instances[key], this.connection && (deleted = await this.connection.__runCommand__([
-                            'del',
-                            ...require$$4.allKeys(`${this.id}-${key}`)
-                        ])), null != instance && (delete this.instances[key], await instance.disconnect()), null != instance || deleted > 0;
-                    }
-                    limiters() {
-                        var k, ref, results, v;
-                        for(k in ref = this.instances, results = [], ref)v = ref[k], results.push({
-                            key: k,
-                            limiter: v
-                        });
-                        return results;
-                    }
-                    keys() {
-                        return Object.keys(this.instances);
-                    }
-                    async clusterKeys() {
-                        var cursor, found, i, k, keys, len, next, start;
-                        if (null == this.connection) return this.Promise.resolve(this.keys());
-                        for(keys = [], cursor = null, start = `b_${this.id}-`.length; 0 !== cursor;)for(i = 0, [next, found] = await this.connection.__runCommand__([
-                            "scan",
-                            null != cursor ? cursor : 0,
-                            "match",
-                            `b_${this.id}-*_settings`,
-                            "count",
-                            10000
-                        ]), cursor = ~~next, len = found.length; i < len; i++)k = found[i], keys.push(k.slice(start, -9));
-                        return keys;
-                    }
-                    _startAutoCleanup() {
-                        var base;
-                        return clearInterval(this.interval), "function" == typeof (base = this.interval = setInterval(async ()=>{
-                            var k, ref, results, time, v;
-                            for(k in time = Date.now(), ref = this.instances, results = [], ref){
-                                v = ref[k];
-                                try {
-                                    await v._store.__groupCheck__(time) ? results.push(this.deleteKey(k)) : results.push(void 0);
-                                } catch (error) {
-                                    results.push(v.Events.trigger("error", error));
-                                }
-                            }
-                            return results;
-                        }, this.timeout / 2)).unref ? base.unref() : void 0;
-                    }
-                    updateSettings(options = {}) {
-                        if (parser.overwrite(options, this.defaults, this), parser.overwrite(options, options, this.limiterOptions), null != options.timeout) return this._startAutoCleanup();
-                    }
-                    disconnect(flush = !0) {
-                        var ref;
-                        if (!this.sharedConnection) return null != (ref = this.connection) ? ref.disconnect(flush) : void 0;
-                    }
-                }
-                return Group.prototype.defaults = {
-                    timeout: 300000,
-                    connection: null,
-                    Promise: Promise,
-                    id: "group-key"
-                }, Group;
-            }).call(commonjsGlobal), Batcher = (function() {
-                class Batcher {
-                    constructor(options = {}){
-                        this.options = options, parser.load(this.options, this.defaults, this), this.Events = new Events(this), this._arr = [], this._resetPromise(), this._lastFlush = Date.now();
-                    }
-                    _resetPromise() {
-                        return this._promise = new this.Promise((res, rej)=>this._resolve = res);
-                    }
-                    _flush() {
-                        return clearTimeout(this._timeout), this._lastFlush = Date.now(), this._resolve(), this.Events.trigger("batch", this._arr), this._arr = [], this._resetPromise();
-                    }
-                    add(data) {
-                        var ret;
-                        return this._arr.push(data), ret = this._promise, this._arr.length === this.maxSize ? this._flush() : null != this.maxTime && 1 === this._arr.length && (this._timeout = setTimeout(()=>this._flush(), this.maxTime)), ret;
-                    }
-                }
-                return Batcher.prototype.defaults = {
-                    maxTime: null,
-                    maxSize: null,
-                    Promise: Promise
-                }, Batcher;
-            }).call(commonjsGlobal), require$$4$1 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), require$$8 = version$2 && version$2.default || version$2, splice = [].splice, Job$1 = class {
+            }, Job = class {
                 constructor(task, args, options, jobDefaults, rejectOnDrop, Events, _states, Promise1){
                     this.task = task, this.args = args, this.rejectOnDrop = rejectOnDrop, this.Events = Events, this._states = _states, this.Promise = Promise1, this.options = parser.load(options, jobDefaults), this.options.priority = this._sanitizePriority(this.options.priority), this.options.id === jobDefaults.id && (this.options.id = `${this.options.id}-${this._randomIndex()}`), this.promise = new this.Promise((_resolve, _reject)=>{
                         this._resolve = _resolve, this._reject = _reject;
@@ -368,7 +199,7 @@
                 doDone(eventInfo) {
                     return this._assertStatus("EXECUTING"), this._states.next(this.options.id), this.Events.trigger("done", eventInfo);
                 }
-            }, LocalDatastore$1 = class {
+            }, LocalDatastore = class {
                 constructor(instance, storeOptions, storeInstanceOptions){
                     this.instance = instance, this.storeOptions = storeOptions, this.clientId = this.instance._randomIndex(), parser.load(storeInstanceOptions, storeInstanceOptions, this), this._nextRequest = this._lastReservoirRefresh = this._lastReservoirIncrease = Date.now(), this._running = 0, this._done = 0, this._unblockTime = 0, this.ready = this.Promise.resolve(), this.clients = {}, this._startHeartbeat();
                 }
@@ -461,7 +292,176 @@
                         running: this._running
                     };
                 }
-            }, Bottleneck_1 = (function() {
+            }, States = class {
+                constructor(status1){
+                    this.status = status1, this._jobs = {}, this.counts = this.status.map(function() {
+                        return 0;
+                    });
+                }
+                next(id) {
+                    var current, next;
+                    return (next = (current = this._jobs[id]) + 1, null != current && next < this.status.length) ? (this.counts[current]--, this.counts[next]++, this._jobs[id]++) : null != current ? (this.counts[current]--, delete this._jobs[id]) : void 0;
+                }
+                start(id) {
+                    return this._jobs[id] = 0, this.counts[0]++;
+                }
+                remove(id) {
+                    var current;
+                    return null != (current = this._jobs[id]) && (this.counts[current]--, delete this._jobs[id]), null != current;
+                }
+                jobStatus(id) {
+                    var ref;
+                    return null != (ref = this.status[this._jobs[id]]) ? ref : null;
+                }
+                statusJobs(status) {
+                    var k, pos, ref, results;
+                    if (null == status) return Object.keys(this._jobs);
+                    if ((pos = this.status.indexOf(status)) < 0) throw new BottleneckError_1(`status must be one of ${this.status.join(', ')}`);
+                    for(k in ref = this._jobs, results = [], ref)ref[k] === pos && results.push(k);
+                    return results;
+                }
+                statusCounts() {
+                    return this.counts.reduce((acc, v, i)=>(acc[this.status[i]] = v, acc), {});
+                }
+            }, Sync = class {
+                constructor(name, Promise1){
+                    this.schedule = this.schedule.bind(this), this.name = name, this.Promise = Promise1, this._running = 0, this._queue = new DLList();
+                }
+                isEmpty() {
+                    return 0 === this._queue.length;
+                }
+                async _tryToRun() {
+                    var args, cb, reject, resolve, returned, task;
+                    if (this._running < 1 && this._queue.length > 0) return this._running++, { task , args , resolve , reject  } = this._queue.shift(), cb = await async function() {
+                        try {
+                            return returned = await task(...args), function() {
+                                return resolve(returned);
+                            };
+                        } catch (error1) {
+                            return function() {
+                                return reject(error1);
+                            };
+                        }
+                    }(), this._running--, this._tryToRun(), cb();
+                }
+                schedule(task, ...args) {
+                    var promise, reject, resolve;
+                    return resolve = reject = null, promise = new this.Promise(function(_resolve, _reject) {
+                        return resolve = _resolve, reject = _reject;
+                    }), this._queue.push({
+                        task,
+                        args,
+                        resolve,
+                        reject
+                    }), this._tryToRun(), promise;
+                }
+            }, version$2 = Object.freeze({
+                version: version = "2.19.5",
+                default: {
+                    version: version
+                }
+            }), require$$2 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), require$$3 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), Scripts$1 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), Group = (function() {
+                class Group {
+                    constructor(limiterOptions = {}){
+                        this.deleteKey = this.deleteKey.bind(this), this.limiterOptions = limiterOptions, parser.load(this.limiterOptions, this.defaults, this), this.Events = new Events(this), this.instances = {}, this.Bottleneck = Bottleneck_1, this._startAutoCleanup(), this.sharedConnection = null != this.connection, null == this.connection && ("redis" === this.limiterOptions.datastore ? this.connection = new require$$2(Object.assign({}, this.limiterOptions, {
+                            Events: this.Events
+                        })) : "ioredis" === this.limiterOptions.datastore && (this.connection = new require$$3(Object.assign({}, this.limiterOptions, {
+                            Events: this.Events
+                        }))));
+                    }
+                    key(key = "") {
+                        var ref;
+                        return null != (ref = this.instances[key]) ? ref : (()=>{
+                            var limiter;
+                            return limiter = this.instances[key] = new this.Bottleneck(Object.assign(this.limiterOptions, {
+                                id: `${this.id}-${key}`,
+                                timeout: this.timeout,
+                                connection: this.connection
+                            })), this.Events.trigger("created", limiter, key), limiter;
+                        })();
+                    }
+                    async deleteKey(key = "") {
+                        var deleted, instance;
+                        return instance = this.instances[key], this.connection && (deleted = await this.connection.__runCommand__([
+                            'del',
+                            ...Scripts$1.allKeys(`${this.id}-${key}`)
+                        ])), null != instance && (delete this.instances[key], await instance.disconnect()), null != instance || deleted > 0;
+                    }
+                    limiters() {
+                        var k, ref, results, v;
+                        for(k in ref = this.instances, results = [], ref)v = ref[k], results.push({
+                            key: k,
+                            limiter: v
+                        });
+                        return results;
+                    }
+                    keys() {
+                        return Object.keys(this.instances);
+                    }
+                    async clusterKeys() {
+                        var cursor, found, i, k, keys, len, next, start;
+                        if (null == this.connection) return this.Promise.resolve(this.keys());
+                        for(keys = [], cursor = null, start = `b_${this.id}-`.length; 0 !== cursor;)for(i = 0, [next, found] = await this.connection.__runCommand__([
+                            "scan",
+                            null != cursor ? cursor : 0,
+                            "match",
+                            `b_${this.id}-*_settings`,
+                            "count",
+                            10000
+                        ]), cursor = ~~next, len = found.length; i < len; i++)k = found[i], keys.push(k.slice(start, -9));
+                        return keys;
+                    }
+                    _startAutoCleanup() {
+                        var base;
+                        return clearInterval(this.interval), "function" == typeof (base = this.interval = setInterval(async ()=>{
+                            var k, ref, results, time, v;
+                            for(k in time = Date.now(), ref = this.instances, results = [], ref){
+                                v = ref[k];
+                                try {
+                                    await v._store.__groupCheck__(time) ? results.push(this.deleteKey(k)) : results.push(void 0);
+                                } catch (error) {
+                                    results.push(v.Events.trigger("error", error));
+                                }
+                            }
+                            return results;
+                        }, this.timeout / 2)).unref ? base.unref() : void 0;
+                    }
+                    updateSettings(options = {}) {
+                        if (parser.overwrite(options, this.defaults, this), parser.overwrite(options, options, this.limiterOptions), null != options.timeout) return this._startAutoCleanup();
+                    }
+                    disconnect(flush = !0) {
+                        var ref;
+                        if (!this.sharedConnection) return null != (ref = this.connection) ? ref.disconnect(flush) : void 0;
+                    }
+                }
+                return Group.prototype.defaults = {
+                    timeout: 300000,
+                    connection: null,
+                    Promise: Promise,
+                    id: "group-key"
+                }, Group;
+            }).call(commonjsGlobal), Batcher = (function() {
+                class Batcher {
+                    constructor(options = {}){
+                        this.options = options, parser.load(this.options, this.defaults, this), this.Events = new Events(this), this._arr = [], this._resetPromise(), this._lastFlush = Date.now();
+                    }
+                    _resetPromise() {
+                        return this._promise = new this.Promise((res, rej)=>this._resolve = res);
+                    }
+                    _flush() {
+                        return clearTimeout(this._timeout), this._lastFlush = Date.now(), this._resolve(), this.Events.trigger("batch", this._arr), this._arr = [], this._resetPromise();
+                    }
+                    add(data) {
+                        var ret;
+                        return this._arr.push(data), ret = this._promise, this._arr.length === this.maxSize ? this._flush() : null != this.maxTime && 1 === this._arr.length && (this._timeout = setTimeout(()=>this._flush(), this.maxTime)), ret;
+                    }
+                }
+                return Batcher.prototype.defaults = {
+                    maxTime: null,
+                    maxSize: null,
+                    Promise: Promise
+                }, Batcher;
+            }).call(commonjsGlobal), require$$8 = version$2 && version$2.default || version$2, splice = [].splice, RedisDatastore$1 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), Bottleneck_1 = (function() {
                 class Bottleneck {
                     constructor(options = {}, ...invalid){
                         var storeInstanceOptions, storeOptions;
@@ -473,8 +473,8 @@
                         ].concat(this.trackDoneStatus ? [
                             "DONE"
                         ] : [])), this._limiter = null, this.Events = new Events(this), this._submitLock = new Sync("submit", this.Promise), this._registerLock = new Sync("register", this.Promise), storeOptions = parser.load(options, this.storeDefaults, {}), this._store = (function() {
-                            if ("redis" === this.datastore || "ioredis" === this.datastore || null != this.connection) return storeInstanceOptions = parser.load(options, this.redisStoreDefaults, {}), new require$$4$1(this, storeOptions, storeInstanceOptions);
-                            if ("local" === this.datastore) return storeInstanceOptions = parser.load(options, this.localStoreDefaults, {}), new LocalDatastore$1(this, storeOptions, storeInstanceOptions);
+                            if ("redis" === this.datastore || "ioredis" === this.datastore || null != this.connection) return storeInstanceOptions = parser.load(options, this.redisStoreDefaults, {}), new RedisDatastore$1(this, storeOptions, storeInstanceOptions);
+                            if ("local" === this.datastore) return storeInstanceOptions = parser.load(options, this.localStoreDefaults, {}), new LocalDatastore(this, storeOptions, storeInstanceOptions);
                             throw new Bottleneck.prototype.BottleneckError(`Invalid datastore type: ${this.datastore}`);
                         }).call(this), this._queues.on("leftzero", ()=>{
                             var ref;
@@ -576,7 +576,10 @@
                         });
                     }
                     _drainAll(capacity, total = 0) {
-                        return this._drainOne(capacity).then((drained)=>null != drained ? this._drainAll(null != capacity ? capacity - drained : capacity, total + drained) : this.Promise.resolve(total)).catch((e)=>this.Events.trigger("error", e));
+                        return this._drainOne(capacity).then((drained)=>{
+                            var newCapacity;
+                            return null != drained ? (newCapacity = null != capacity ? capacity - drained : capacity, this._drainAll(newCapacity, total + drained)) : this.Promise.resolve(total);
+                        }).catch((e)=>this.Events.trigger("error", e));
                     }
                     _dropAllQueued(message) {
                         return this._queues.shiftAll(function(job) {
@@ -632,12 +635,12 @@
                         return null != this._states.jobStatus(job.options.id) ? (job._reject(new Bottleneck.prototype.BottleneckError(`A job with the same id already exists (id=${job.options.id})`)), !1) : (job.doReceive(), this._submitLock.schedule(this._addToQueue, job));
                     }
                     submit(...args) {
-                        var cb, fn, job, options, ref, ref1, task;
-                        return "function" == typeof args[0] ? (ref = args, [fn, ...args] = ref, [cb] = splice.call(args, -1), options = parser.load({}, this.jobDefaults)) : (ref1 = args, [options, fn, ...args] = ref1, [cb] = splice.call(args, -1), options = parser.load(options, this.jobDefaults)), task = (...args)=>new this.Promise(function(resolve, reject) {
+                        var cb, fn, job, options, ref, ref1;
+                        return "function" == typeof args[0] ? (ref = args, [fn, ...args] = ref, [cb] = splice.call(args, -1), options = parser.load({}, this.jobDefaults)) : (ref1 = args, [options, fn, ...args] = ref1, [cb] = splice.call(args, -1), options = parser.load(options, this.jobDefaults)), (job = new Job((...args)=>new this.Promise(function(resolve, reject) {
                                 return fn(...args, function(...args) {
                                     return (null != args[0] ? reject : resolve)(args);
                                 });
-                            }), (job = new Job$1(task, args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise)).promise.then(function(args) {
+                            }), args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise)).promise.then(function(args) {
                             return "function" == typeof cb ? cb(...args) : void 0;
                         }).catch(function(args) {
                             return Array.isArray(args) ? "function" == typeof cb ? cb(...args) : void 0 : "function" == typeof cb ? cb(args) : void 0;
@@ -645,7 +648,7 @@
                     }
                     schedule(...args) {
                         var job, options, task;
-                        return "function" == typeof args[0] ? ([task, ...args] = args, options = {}) : [options, task, ...args] = args, job = new Job$1(task, args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise), this._receive(job), job.promise;
+                        return "function" == typeof args[0] ? ([task, ...args] = args, options = {}) : [options, task, ...args] = args, job = new Job(task, args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise), this._receive(job), job.promise;
                     }
                     wrap(fn) {
                         var schedule, wrapped;

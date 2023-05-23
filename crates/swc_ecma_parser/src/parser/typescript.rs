@@ -231,7 +231,11 @@ impl<I: Tokens> Parser<I> {
         let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ true)?;
         trace_cur!(self, parse_ts_type_ref__type_args);
         let type_params = if !self.input.had_line_break_before_cur() && is!(self, '<') {
-            Some(self.parse_ts_type_args()?)
+            let ctx = Context {
+                should_not_lex_lt_or_gt_as_type: false,
+                ..self.ctx()
+            };
+            Some(self.with_ctx(ctx).parse_ts_type_args()?)
         } else {
             None
         };
@@ -568,7 +572,9 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn try_parse_ts_type_args(&mut self) -> Option<Box<TsTypeParamInstantiation>> {
+        trace_cur!(self, try_parse_ts_type_args);
         debug_assert!(self.input.syntax().typescript());
 
         self.try_parse_ts(|p| {
@@ -2556,7 +2562,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            js_word!("module") => {
+            js_word!("module") if !self.input.had_line_break_before_cur() => {
                 if next {
                     bump!(self);
                 }

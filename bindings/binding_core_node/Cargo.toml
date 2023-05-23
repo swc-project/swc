@@ -14,9 +14,12 @@ crate-type = ["cdylib"]
 
 [features]
 default = ["swc_v1", "plugin"]
-plugin  = ["swc_core/plugin_transform_host_native"]
-swc_v1  = ["swc_core/bundler_node_v1"]
-swc_v2  = ["swc_core/bundler_node_v2"]
+plugin = [
+  "swc_core/plugin_transform_host_native",
+  "swc_core/plugin_transform_host_native_filesystem_cache",
+]
+swc_v1 = ["swc_core/bundler_node_v1"]
+swc_v2 = ["swc_core/bundler_node_v2"]
 
 # Internal flag for testing purpose only.
 __plugin_transform_vtest = [
@@ -48,7 +51,7 @@ tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 
-swc_core = { version = "0.75.46", features = [
+swc_core = { version = "0.76.16", features = [
   "allocator_node",
   "ecma_ast",
   "ecma_ast_serde",

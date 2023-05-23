@@ -4679,7 +4679,7 @@
                 "#"
             ];
             function ce(e) {
-                var t, n, r, o, s = void 0 === e ? E : e, i = s.options, c = s.plugins, u = void 0 === c ? w : c, l = new stylis_browser_esm(void 0 === i ? E : i), d = [], h = function(e) {
+                var t, n, r, o, s = void 0 === e ? E : e, i = s.options, a = void 0 === i ? E : i, c = s.plugins, u = void 0 === c ? w : c, l = new stylis_browser_esm(a), d = [], h = function(e) {
                     function t(t) {
                         if (t) try {
                             e(t + "}");
@@ -4712,8 +4712,8 @@
                 };
                 function m(e, s, i, a) {
                     void 0 === a && (a = "&");
-                    var c = e.replace(ie, "");
-                    return t = a, r = RegExp("\\" + (n = s) + "\\b", "g"), o = RegExp("(\\" + n + "\\b){2,}"), l(i || !s ? "" : s, s && i ? i + " " + s + " { " + c + " }" : c);
+                    var c = e.replace(ie, ""), u = s && i ? i + " " + s + " { " + c + " }" : c;
+                    return t = a, r = RegExp("\\" + (n = s) + "\\b", "g"), o = RegExp("(\\" + n + "\\b){2,}"), l(i || !s ? "" : s, u);
                 }
                 return l.use([].concat(u, [
                     function(e, t, o) {
@@ -5880,11 +5880,11 @@
                     defaultScale: scale,
                     transform: transformValue
                 }), alias && (config[alias] = config[prop]), createParser(config);
-            }, cjs = __webpack_require__(9996), cjs_default = __webpack_require__.n(cjs);
-            const sx = (props)=>css_dist_index_esm(props.sx), Box = He.div.withConfig({
+            }, cjs = __webpack_require__(9996), cjs_default = __webpack_require__.n(cjs), lib_esm_sx = (props)=>css_dist_index_esm(props.sx);
+            const Box = He.div.withConfig({
                 displayName: "Box",
                 componentId: "sc-1gh2r6s-0"
-            })(space, color, typography, layout, flexbox, grid, background, border, position, shadow, sx);
+            })(space, color, typography, layout, flexbox, grid, background, border, position, shadow, lib_esm_sx);
             var lib_esm_theme = __webpack_require__(7689).theme;
             const defaultDayScheme = "light", defaultNightScheme = "dark", ThemeContext = react.createContext({
                 setColorMode: ()=>null,
@@ -6014,7 +6014,7 @@
             const StyledButton = He.button.withConfig({
                 displayName: "types__StyledButton",
                 componentId: "sc-ws60qy-0"
-            })(sx), focusOutlineStyles = {
+            })(lib_esm_sx), focusOutlineStyles = {
                 outline: "2px solid",
                 outlineColor: "accent.fg",
                 outlineOffset: "-2px"
@@ -6333,11 +6333,7 @@
                 }
             }), TYPOGRAPHY = constants_compose(typography, whiteSpace);
             constants_compose(border, shadow);
-            const colorStyles = ({ scheme , ...props })=>({
-                    color: "secondary" === scheme ? constants_get("colors.fg.default")(props) : "primary" === scheme ? constants_get("colors.fg.onEmphasis")(props) : constants_get("colors.fg.default")(props)
-                }), bgStyles = ({ scheme , ...props })=>({
-                    backgroundColor: "secondary" === scheme ? constants_get("colors.neutral.muted")(props) : "primary" === scheme ? constants_get("colors.neutral.emphasis")(props) : constants_get("colors.neutral.muted")(props)
-                }), CounterLabel = He.span.withConfig({
+            const CounterLabel = He.span.withConfig({
                 displayName: "CounterLabel",
                 componentId: "sc-13ceqbg-0"
             })([
@@ -6348,7 +6344,11 @@
                 ";",
                 ";&:empty{display:none;}",
                 ";"
-            ], constants_get("fontSizes.0"), constants_get("fontWeights.bold"), constants_get("lineHeights.condensedUltra"), colorStyles, bgStyles, sx);
+            ], constants_get("fontSizes.0"), constants_get("fontWeights.bold"), constants_get("lineHeights.condensedUltra"), ({ scheme , ...props })=>({
+                    color: "secondary" === scheme ? constants_get("colors.fg.default")(props) : "primary" === scheme ? constants_get("colors.fg.onEmphasis")(props) : constants_get("colors.fg.default")(props)
+                }), ({ scheme , ...props })=>({
+                    backgroundColor: "secondary" === scheme ? constants_get("colors.neutral.muted")(props) : "primary" === scheme ? constants_get("colors.neutral.emphasis")(props) : constants_get("colors.neutral.muted")(props)
+                }), lib_esm_sx);
             function ButtonCounter_extends() {
                 return (ButtonCounter_extends = Object.assign || function(target) {
                     for(var i = 1; i < arguments.length; i++){

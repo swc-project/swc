@@ -216,7 +216,7 @@
             }
             chakra_ui_utils_esm.Ts && (EnvironmentContext.displayName = "EnvironmentContext"), chakra_ui_utils_esm.Ts && (EnvironmentProvider.displayName = "EnvironmentProvider");
             var chakra_ui_provider_esm_ChakraProvider = function(props) {
-                var children = props.children, colorModeManager = props.colorModeManager, portalZIndex = props.portalZIndex, _props$resetCSS = props.resetCSS, _props$theme = props.theme, theme = void 0 === _props$theme ? {} : _props$theme, environment = props.environment, cssVarsRoot = props.cssVarsRoot, _children = react.createElement(EnvironmentProvider, {
+                var children = props.children, colorModeManager = props.colorModeManager, portalZIndex = props.portalZIndex, _props$resetCSS = props.resetCSS, resetCSS = void 0 === _props$resetCSS || _props$resetCSS, _props$theme = props.theme, theme = void 0 === _props$theme ? {} : _props$theme, environment = props.environment, cssVarsRoot = props.cssVarsRoot, _children = react.createElement(EnvironmentProvider, {
                     environment: environment
                 }, children);
                 return react.createElement(chakra_ui_system_esm.f6, {
@@ -225,7 +225,7 @@
                 }, react.createElement(chakra_ui_color_mode_esm.SG, {
                     colorModeManager: colorModeManager,
                     options: theme.config
-                }, (void 0 === _props$resetCSS || _props$resetCSS) && react.createElement(CSSReset$1, null), react.createElement(chakra_ui_system_esm.ZL, null), portalZIndex ? react.createElement(PortalManager, {
+                }, resetCSS && react.createElement(CSSReset$1, null), react.createElement(chakra_ui_system_esm.ZL, null), portalZIndex ? react.createElement(PortalManager, {
                     zIndex: portalZIndex
                 }, _children) : _children));
             }, spacing = {
@@ -3755,18 +3755,18 @@
                                         }
                                     };
                                 }
-                                var _ref = null != (_accessibleColorMap$c = accessibleColorMap[c]) ? _accessibleColorMap$c : {}, _ref$bg = _ref.bg, _ref$color = _ref.color, _ref$hoverBg = _ref.hoverBg, _ref$activeBg = _ref.activeBg, background = mode(void 0 === _ref$bg ? c + ".500" : _ref$bg, c + ".200")(props);
+                                var _ref = null != (_accessibleColorMap$c = accessibleColorMap[c]) ? _accessibleColorMap$c : {}, _ref$bg = _ref.bg, bg = void 0 === _ref$bg ? c + ".500" : _ref$bg, _ref$color = _ref.color, color = void 0 === _ref$color ? "white" : _ref$color, _ref$hoverBg = _ref.hoverBg, hoverBg = void 0 === _ref$hoverBg ? c + ".600" : _ref$hoverBg, _ref$activeBg = _ref.activeBg, activeBg = void 0 === _ref$activeBg ? c + ".700" : _ref$activeBg, background = mode(bg, c + ".200")(props);
                                 return {
                                     bg: background,
-                                    color: mode(void 0 === _ref$color ? "white" : _ref$color, "gray.800")(props),
+                                    color: mode(color, "gray.800")(props),
                                     _hover: {
-                                        bg: mode(void 0 === _ref$hoverBg ? c + ".600" : _ref$hoverBg, c + ".300")(props),
+                                        bg: mode(hoverBg, c + ".300")(props),
                                         _disabled: {
                                             bg: background
                                         }
                                     },
                                     _active: {
-                                        bg: mode(void 0 === _ref$activeBg ? c + ".700" : _ref$activeBg, c + ".400")(props)
+                                        bg: mode(activeBg, c + ".400")(props)
                                     }
                                 };
                             },
@@ -4678,13 +4678,13 @@
                             "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                                 return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                             }))), ownKeys.forEach(function(key) {
-                                var obj, value;
-                                obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
+                                var value;
+                                value = source[key], key in target ? Object.defineProperty(target, key, {
                                     value: value,
                                     enumerable: !0,
                                     configurable: !0,
                                     writable: !0
-                                }) : obj[key] = value;
+                                }) : target[key] = value;
                             });
                         }
                         return target;

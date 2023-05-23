@@ -20,13 +20,13 @@ function _objectSpread(target) {
         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
         }))), ownKeys.forEach(function(key) {
-            var obj, value;
-            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
+            var value;
+            value = source[key], key in target ? Object.defineProperty(target, key, {
                 value: value,
                 enumerable: !0,
                 configurable: !0,
                 writable: !0
-            }) : obj[key] = value;
+            }) : target[key] = value;
         });
     }
     return target;
@@ -76,13 +76,13 @@ var ItemsList = function(Component) {
                     role: "listbox"
                 }, theme("".concat(sectionPrefix, "items-list"), "itemsList"), {
                     children: items.map(function(item, itemIndex) {
-                        var isHighlighted = itemIndex === highlightedItemIndex, itemKey = "".concat(sectionPrefix, "item-").concat(itemIndex), itemPropsObj = isItemPropsFunction ? itemProps({
+                        var isFirst = 0 === itemIndex, isHighlighted = itemIndex === highlightedItemIndex, itemKey = "".concat(sectionPrefix, "item-").concat(itemIndex), itemPropsObj = isItemPropsFunction ? itemProps({
                             sectionIndex: sectionIndex,
                             itemIndex: itemIndex
                         }) : itemProps, allItemProps = _objectSpread({
                             id: getItemId(sectionIndex, itemIndex),
                             "aria-selected": isHighlighted
-                        }, theme(itemKey, "item", 0 === itemIndex && "itemFirst", isHighlighted && "itemHighlighted"), itemPropsObj);
+                        }, theme(itemKey, "item", isFirst && "itemFirst", isHighlighted && "itemHighlighted"), itemPropsObj);
                         return isHighlighted && (allItemProps.ref = _this.storeHighlightedItemReference), _jsx(Item, _objectSpread({}, allItemProps, {
                             sectionIndex: sectionIndex,
                             isHighlighted: isHighlighted,
