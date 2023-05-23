@@ -14,6 +14,9 @@
 - **(es/parser)** Reset class context (#7433) ([1cab43f](https://github.com/swc-project/swc/commit/1cab43f17deb35ef7e9a4b2c229327edc0f87756))
 
 
+- **(es/preset-env)** Fix pass ordering (#7434) ([2071f89](https://github.com/swc-project/swc/commit/2071f89d4eea7ae311b05457650e2f42c1b503ef))
+
+
 - **(swc_core)** Correctly expose plugin with host (#7427) ([558ca40](https://github.com/swc-project/swc/commit/558ca40b99bd3e9ac9a1742223dd9d3ef84061cb))
 
 ### Features
