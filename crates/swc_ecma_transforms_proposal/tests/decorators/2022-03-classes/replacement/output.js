@@ -12,7 +12,7 @@ new class extends _identity {
                     dec
                 ]));
             }
-            static foo = new Foo();
+            static foo = new _Foo();
         }
     }
 }();
