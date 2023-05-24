@@ -80,6 +80,18 @@ fn case_inline_extra_content() {
 }
 
 #[test]
+fn case_none_file() {
+    file(
+        "tests/srcmap/case-none-file/input.js",
+        Config {
+            input_source_map: Some(InputSourceMap::Bool(true)),
+            ..Default::default()
+        },
+    )
+    .unwrap();
+}
+
+#[test]
 fn issue_622() {
     file("tests/srcmap/issue-622/index.js", Default::default()).unwrap();
 }
