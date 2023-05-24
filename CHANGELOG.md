@@ -8,7 +8,13 @@
 - **(es/compat)** Fix destructuring handling of `block_scoping` (#7425) ([66d52ec](https://github.com/swc-project/swc/commit/66d52ec849f3ed2b33db0a3738f5692cb8fa2400))
 
 
+- **(es/compat)** Fix stage 3 decorator pass (#7392) ([97d0f79](https://github.com/swc-project/swc/commit/97d0f79142ec8ac6d1795b5c56cc565ca9b0a085))
+
+
 - **(es/parser)** Reset class context (#7433) ([1cab43f](https://github.com/swc-project/swc/commit/1cab43f17deb35ef7e9a4b2c229327edc0f87756))
+
+
+- **(es/preset-env)** Fix pass ordering (#7434) ([2071f89](https://github.com/swc-project/swc/commit/2071f89d4eea7ae311b05457650e2f42c1b503ef))
 
 
 - **(swc_core)** Correctly expose plugin with host (#7427) ([558ca40](https://github.com/swc-project/swc/commit/558ca40b99bd3e9ac9a1742223dd9d3ef84061cb))
