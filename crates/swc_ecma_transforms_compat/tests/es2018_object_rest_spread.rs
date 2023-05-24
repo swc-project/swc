@@ -5,7 +5,7 @@ use swc_ecma_transforms_compat::{
     es2015::{self, spread},
     es2018::{object_rest_spread, object_rest_spread::Config},
 };
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -269,7 +269,7 @@ async function a() {
     r#"
 // ForXStatement
 for (var _ref of []) {
-  var {
+  let {
     a
   } = _ref,
       b = _object_without_properties(_ref, ["a"]);
@@ -3133,4 +3133,24 @@ test_exec!(
 
     thing({ queryKey: [{ url: 'https://www.google.com', id: '1' }] })
     "#
+);
+
+compare_stdout!(
+    syntax(),
+    |_| {
+        //
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            tr(Default::default()),
+        )
+    },
+    issue_6988_1,
+    r###"
+    for (const a of [1,2,3]) {
+      const { ...rest } = {};
+      setTimeout(() => { console.log(a) });
+    }
+    "###
 );
