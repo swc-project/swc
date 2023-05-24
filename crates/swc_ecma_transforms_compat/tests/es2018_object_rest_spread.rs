@@ -269,7 +269,7 @@ async function a() {
     r#"
 // ForXStatement
 for (var _ref of []) {
-  var {
+  const {
     a
   } = _ref,
       b = _object_without_properties(_ref, ["a"]);
