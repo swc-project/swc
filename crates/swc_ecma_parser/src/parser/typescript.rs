@@ -1254,7 +1254,7 @@ impl<I: Tokens> Parser<I> {
 
         let _ = self.eat_any_ts_modifier()?;
 
-        if is_one_of!(self, IdentRef, "this") {
+        if is_one_of!(self, IdentName, "this") {
             bump!(self);
             return Ok(true);
         }
