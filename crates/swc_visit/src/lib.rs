@@ -251,6 +251,19 @@ where
         Self { path }
     }
 
+    pub fn with_guard(&mut self, kind: K) -> AstKindPathGuard<K> {
+        self.path.push(kind);
+
+        AstKindPathGuard { path: self }
+    }
+
+    pub fn with_index_guard(&mut self, index: usize) -> AstKindPathIndexGuard<K> {
+        self.path.last_mut().unwrap().set_index(index);
+
+        AstKindPathIndexGuard { path: self }
+    }
+
+    #[deprecated = "Use with_guard insteda"]
     pub fn with<Ret>(&mut self, path: K, op: impl FnOnce(&mut Self) -> Ret) -> Ret {
         self.path.push(path);
         let ret = op(self);
@@ -258,11 +271,44 @@ where
         ret
     }
 
+    #[deprecated = "Use with_index_guard insteda"]
     pub fn with_index<Ret>(&mut self, index: usize, op: impl FnOnce(&mut Self) -> Ret) -> Ret {
         self.path.last_mut().unwrap().set_index(index);
         let res = op(self);
         self.path.last_mut().unwrap().set_index(usize::MAX);
         res
+    }
+}
+
+pub struct AstKindPathGuard<'a, K>
+where
+    K: ParentKind,
+{
+    path: &'a mut AstKindPath<K>,
+}
+
+impl<K> Drop for AstKindPathGuard<'_, K>
+where
+    K: ParentKind,
+{
+    fn drop(&mut self) {
+        self.path.path.pop();
+    }
+}
+
+pub struct AstKindPathIndexGuard<'a, K>
+where
+    K: ParentKind,
+{
+    path: &'a mut AstKindPath<K>,
+}
+
+impl<K> Drop for AstKindPathIndexGuard<'_, K>
+where
+    K: ParentKind,
+{
+    fn drop(&mut self) {
+        self.path.path.last_mut().unwrap().set_index(usize::MAX);
     }
 }
 
