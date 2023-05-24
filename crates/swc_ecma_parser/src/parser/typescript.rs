@@ -185,6 +185,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseEntityName`
     fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<TsEntityName> {
         debug_assert!(self.input.syntax().typescript());
+        trace_cur!(self, parse_ts_entity_name);
 
         let init = self.parse_ident_name()?;
         if let Ident {
