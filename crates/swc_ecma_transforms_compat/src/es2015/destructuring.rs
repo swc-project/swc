@@ -54,7 +54,7 @@ macro_rules! impl_for_for_stmt {
     ($name:ident, $T:tt) => {
         fn $name(&mut self, for_stmt: &mut $T) {
             let (left, stmt) = match &mut for_stmt.left {
-                VarDeclOrPat::VarDecl(var_decl) => {
+                ForHead::VarDecl(var_decl) => {
                     let has_complex = var_decl.decls.iter().any(|d| match d.name {
                         Pat::Ident(_) => false,
                         _ => true,
@@ -99,13 +99,13 @@ macro_rules! impl_for_for_stmt {
                     .into();
                     (left, stmt)
                 }
-                VarDeclOrPat::Pat(pat) => match **pat {
+                ForHead::Pat(pat) => match **pat {
                     Pat::Ident(..) => {
                         return;
                     }
                     _ => {
                         let left_ident = make_ref_ident_for_for_stmt();
-                        let left = VarDeclOrPat::Pat(left_ident.clone().into());
+                        let left = ForHead::Pat(left_ident.clone().into());
                         // Unpack variables
                         let stmt = AssignExpr {
                             span: DUMMY_SP,
@@ -117,6 +117,10 @@ macro_rules! impl_for_for_stmt {
                         (left, stmt)
                     }
                 },
+
+                ForHead::UsingDecl(..) => {
+                    unreachable!("using declaration must be removed by previous pass")
+                }
             };
 
             for_stmt.left = left;
@@ -284,14 +288,13 @@ impl AssignFolder {
                 //      _object_destructuring_empty(_ref);
                 //
 
-                let expr = helper_expr!(object_destructuring_empty, "object_destructuring_empty")
-                    .as_call(
-                        DUMMY_SP,
-                        vec![decl
-                            .init
-                            .expect("destructuring must be initialized")
-                            .as_arg()],
-                    );
+                let expr = helper_expr!(object_destructuring_empty).as_call(
+                    DUMMY_SP,
+                    vec![decl
+                        .init
+                        .expect("destructuring must be initialized")
+                        .as_arg()],
+                );
 
                 let var_decl = VarDeclarator {
                     span: DUMMY_SP,
@@ -686,7 +689,7 @@ impl VisitMut for AssignFolder {
                                     {
                                         Box::new(Expr::Call(CallExpr {
                                             span: DUMMY_SP,
-                                            callee: helper!(to_array, "to_array"),
+                                            callee: helper!(to_array),
                                             args: vec![right.take().as_arg()],
                                             type_args: Default::default(),
                                         }))
@@ -694,7 +697,7 @@ impl VisitMut for AssignFolder {
                                         Box::new(
                                             CallExpr {
                                                 span: DUMMY_SP,
-                                                callee: helper!(sliced_to_array, "sliced_to_array"),
+                                                callee: helper!(sliced_to_array),
                                                 args: vec![
                                                     right.take().as_arg(),
                                                     elems.len().as_arg(),
@@ -784,7 +787,7 @@ impl VisitMut for AssignFolder {
                     let mut right = right.take();
                     right.visit_mut_with(self);
 
-                    *expr = helper_expr!(object_destructuring_empty, "object_destructuring_empty")
+                    *expr = helper_expr!(object_destructuring_empty)
                         .as_call(DUMMY_SP, vec![right.as_arg()]);
                 }
                 Pat::Object(ObjectPat { span, props, .. }) => {
@@ -1082,7 +1085,7 @@ fn make_ref_ident_for_array(
                         Some(std::usize::MAX) => Box::new(
                             CallExpr {
                                 span: DUMMY_SP,
-                                callee: helper!(to_array, "to_array"),
+                                callee: helper!(to_array),
                                 args: vec![v.as_arg()],
                                 type_args: Default::default(),
                             }
@@ -1091,7 +1094,7 @@ fn make_ref_ident_for_array(
                         Some(value) => Box::new(
                             CallExpr {
                                 span: DUMMY_SP,
-                                callee: helper!(sliced_to_array, "sliced_to_array"),
+                                callee: helper!(sliced_to_array),
                                 args: vec![v.as_arg(), value.as_arg()],
                                 type_args: Default::default(),
                             }

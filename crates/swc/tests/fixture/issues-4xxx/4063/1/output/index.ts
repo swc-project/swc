@@ -10,7 +10,9 @@ define([
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>_class
+        get: function() {
+            return _class;
+        }
     });
     function state() {}
     class Controller {

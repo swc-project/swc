@@ -2,11 +2,9 @@
 let _sym = Symbol("_sym");
 export class MyClass {
     method() {
-        var self = this;
-        self[_sym] = "yep", self[_sym];
+        this[_sym] = "yep", this[_sym];
     }
     constructor(){
-        var self = this;
-        self[_sym] = "ok";
+        this[_sym] = "ok";
     }
 }

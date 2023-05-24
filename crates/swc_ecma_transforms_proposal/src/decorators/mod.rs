@@ -625,7 +625,7 @@ fn make_decorate_call(
 ) -> CallExpr {
     CallExpr {
         span: DUMMY_SP,
-        callee: helper!(decorate, "decorate"),
+        callee: helper!(decorate),
         args: iter::once(
             ArrayLit {
                 span: DUMMY_SP,

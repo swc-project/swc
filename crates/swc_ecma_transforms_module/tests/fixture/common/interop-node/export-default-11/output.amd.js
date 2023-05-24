@@ -13,8 +13,12 @@ define([
         });
     }
     _export(exports, {
-        default: ()=>_default,
-        Cachier: ()=>Cachier
+        default: function() {
+            return _default;
+        },
+        Cachier: function() {
+            return Cachier;
+        }
     });
     const _default = new Cachier();
     function Cachier(databaseName) {}

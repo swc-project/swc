@@ -1,0 +1,9 @@
+
+  x Expected ';', '}' or <eof>
+   ,-[$DIR/tests/errors/explicit-resource-management/invalid-in-single-statement-context/input.js:1:1]
+ 1 | {
+ 2 |   while (1) using a;
+   :             ^^|^^ ^
+   :               `-- This is the expression part of an expression statement
+ 3 |   for (;;) using b;
+   `----

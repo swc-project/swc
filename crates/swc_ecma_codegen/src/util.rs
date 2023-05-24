@@ -4,11 +4,12 @@ pub trait EndsWithAlphaNum {
     fn ends_with_alpha_num(&self) -> bool;
 }
 
-impl EndsWithAlphaNum for VarDeclOrPat {
+impl EndsWithAlphaNum for ForHead {
     fn ends_with_alpha_num(&self) -> bool {
         match self {
-            VarDeclOrPat::VarDecl(n) => n.ends_with_alpha_num(),
-            VarDeclOrPat::Pat(n) => n.ends_with_alpha_num(),
+            ForHead::VarDecl(n) => n.ends_with_alpha_num(),
+            ForHead::Pat(n) => n.ends_with_alpha_num(),
+            ForHead::UsingDecl(n) => n.ends_with_alpha_num(),
         }
     }
 }
@@ -26,6 +27,18 @@ impl EndsWithAlphaNum for Pat {
 }
 
 impl EndsWithAlphaNum for VarDecl {
+    fn ends_with_alpha_num(&self) -> bool {
+        match self.decls.last() {
+            None => true,
+            Some(d) => match d.init.as_deref() {
+                Some(e) => e.ends_with_alpha_num(),
+                None => d.name.ends_with_alpha_num(),
+            },
+        }
+    }
+}
+
+impl EndsWithAlphaNum for UsingDecl {
     fn ends_with_alpha_num(&self) -> bool {
         match self.decls.last() {
             None => true,
@@ -232,7 +245,8 @@ impl StartsWithAlphaNum for Decl {
             | Decl::TsEnum(..)
             | Decl::TsInterface(..)
             | Decl::TsModule(..)
-            | Decl::TsTypeAlias(..) => true,
+            | Decl::TsTypeAlias(..)
+            | Decl::Using(..) => true,
         }
     }
 }

@@ -6,24 +6,25 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_css_ast"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.136.5"
+version       = "0.137.11"
 
 [lib]
 bench = false
 
 [features]
-__rkyv              = []
-default             = []
-rkyv-bytecheck-impl = []
-rkyv-impl           = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
-serde-impl          = ["serde"]
+__rkyv     = []
+default    = []
+rkyv-impl  = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "swc_common/rkyv-impl"]
+serde-impl = ["serde"]
 
 [dependencies]
-bytecheck = { version = "0.6.9", optional = true }
-is-macro  = "0.2.0"
-rkyv      = { version = "=0.7.40", optional = true }
-serde     = { version = "1.0.127", features = ["derive"], optional = true }
+is-macro = "0.2.0"
+rkyv = { version = "=0.7.42", optional = true, features = [
+  "strict",
+  "validation",
+] }
+serde = { version = "1.0.127", features = ["derive"], optional = true }
 
 string_enum = { version = "0.4.0", path = "../string_enum/" }
-swc_atoms   = { version = "0.4.43", path = "../swc_atoms" }
-swc_common  = { version = "0.30.4", path = "../swc_common" }
+swc_atoms   = { version = "0.5.6", path = "../swc_atoms" }
+swc_common  = { version = "0.31.11", path = "../swc_common" }

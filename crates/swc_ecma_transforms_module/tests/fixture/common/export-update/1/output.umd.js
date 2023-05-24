@@ -16,11 +16,21 @@
         });
     }
     _export(exports, {
-        foo: ()=>foo,
-        bar: ()=>bar,
-        baz: ()=>baz,
-        bazbar: ()=>baz,
-        foobar: ()=>foo
+        foo: function() {
+            return foo;
+        },
+        bar: function() {
+            return bar;
+        },
+        baz: function() {
+            return baz;
+        },
+        bazbar: function() {
+            return baz;
+        },
+        foobar: function() {
+            return foo;
+        }
     });
     let foo = 1n;
     foo++;

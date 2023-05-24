@@ -13,7 +13,9 @@
     });
     Object.defineProperty(exports, "BIZ", {
         enumerable: true,
-        get: ()=>BIZ
+        get: function() {
+            return BIZ;
+        }
     });
     _export_star(_File1, exports);
     _export_star(_File2, exports);

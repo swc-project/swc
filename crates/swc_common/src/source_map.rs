@@ -488,8 +488,8 @@ impl SourceMap {
 
         if lo.file.start_pos != hi.file.start_pos {
             return Err(Box::new(SpanLinesError::DistinctSources(DistinctSources {
-                begin: (lo.file.name.clone(), lo.file.start_pos),
-                end: (hi.file.name.clone(), hi.file.start_pos),
+                begin: FilePos(lo.file.name.clone(), lo.file.start_pos),
+                end: FilePos(hi.file.name.clone(), hi.file.start_pos),
             })));
         }
         assert!(hi.line >= lo.line);
@@ -565,8 +565,8 @@ impl SourceMap {
         if local_begin.sf.start_pos != local_end.sf.start_pos {
             Err(Box::new(SpanSnippetError::DistinctSources(
                 DistinctSources {
-                    begin: (local_begin.sf.name.clone(), local_begin.sf.start_pos),
-                    end: (local_end.sf.name.clone(), local_end.sf.start_pos),
+                    begin: FilePos(local_begin.sf.name.clone(), local_begin.sf.start_pos),
+                    end: FilePos(local_end.sf.name.clone(), local_end.sf.start_pos),
                 },
             )))
         } else {

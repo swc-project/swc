@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "myTypes", {
     enumerable: !0,
-    get: ()=>myTypes
+    get: function() {
+        return myTypes;
+    }
 });
 const myTypes = {};
 //// [file2.js]
@@ -17,8 +19,12 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    testFn: ()=>testFn,
-    testFnTypes: ()=>testFnTypes
+    testFn: function() {
+        return testFn;
+    },
+    testFnTypes: function() {
+        return testFnTypes;
+    }
 });
 const testFnTypes = {};
 function testFn(input) {

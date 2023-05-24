@@ -311,7 +311,7 @@ impl VisitMut for BlockScopedVars {
         n.right.visit_mut_with(self);
 
         match &n.left {
-            VarDeclOrPat::VarDecl(v)
+            ForHead::VarDecl(v)
                 if matches!(
                     &**v,
                     VarDecl {
@@ -336,7 +336,7 @@ impl VisitMut for BlockScopedVars {
         n.right.visit_mut_with(self);
 
         match &n.left {
-            VarDeclOrPat::VarDecl(v)
+            ForHead::VarDecl(v)
                 if matches!(
                     &**v,
                     VarDecl {

@@ -5,6 +5,6 @@ class A {
         console.log(123);
     }
 }
-__decorate([
+_ts_decorate([
     foo
 ], A.prototype, "x", void 0);

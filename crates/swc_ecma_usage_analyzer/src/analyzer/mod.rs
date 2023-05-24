@@ -1,11 +1,11 @@
 use swc_atoms::js_word;
-use swc_common::{collections::AHashMap, SyntaxContext};
+use swc_common::{collections::AHashMap, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, IsEmpty, StmtExt};
+use swc_ecma_utils::{find_pat_ids, ExprCtx, IsEmpty, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
-pub use self::ctx::Ctx;
+pub use self::ctx::{CalleeKind, Ctx};
 use self::storage::{Storage, *};
 use crate::{
     alias::{collect_infects_from, AliasConfig},
@@ -32,6 +32,11 @@ where
         marks,
         scope: Default::default(),
         ctx: Default::default(),
+        expr_ctx: ExprCtx {
+            unresolved_ctxt: SyntaxContext::empty()
+                .apply_mark(marks.map(|m| m.unresolved_mark).unwrap_or_else(Mark::new)),
+            is_unresolved_ref_safe: false,
+        },
         used_recursively: AHashMap::default(),
     };
     n.visit_with(&mut v);
@@ -65,6 +70,7 @@ where
     marks: Option<Marks>,
     scope: S::ScopeData,
     ctx: Ctx,
+    expr_ctx: ExprCtx,
     used_recursively: AHashMap<Id, RecursiveUsage>,
 }
 
@@ -83,6 +89,7 @@ where
                 is_top_level: false,
                 ..self.ctx
             },
+            expr_ctx: self.expr_ctx.clone(),
             scope: Default::default(),
             used_recursively: self.used_recursively.clone(),
         };
@@ -371,7 +378,10 @@ where
         {
             let ctx = Ctx {
                 inline_prevented,
-                in_call_arg: true,
+                in_call_arg_of: match &n.callee {
+                    Callee::Expr(e) => Some(CalleeKind::from_expr(e, &self.expr_ctx)),
+                    _ => Some(CalleeKind::Unknown),
+                },
                 is_delete_arg: false,
                 is_exact_arg: true,
                 is_exact_reassignment: false,
@@ -880,7 +890,7 @@ where
         {
             n.callee.visit_with(self);
             let ctx = Ctx {
-                in_call_arg: true,
+                in_call_arg_of: Some(CalleeKind::from_expr(&n.callee, &self.expr_ctx)),
                 is_exact_arg: true,
                 ..self.ctx
             };
@@ -1047,7 +1057,7 @@ where
         let ctx = Ctx {
             in_update_arg: false,
             is_callee: false,
-            in_call_arg: false,
+            in_call_arg_of: None,
             in_assign_lhs: false,
             in_await_arg: false,
             is_delete_arg: false,
@@ -1145,7 +1155,7 @@ where
         let ctx = Ctx {
             var_decl_kind_of_pat: Some(n.kind),
             is_callee: false,
-            in_call_arg: false,
+            in_call_arg_of: None,
             in_assign_lhs: false,
             in_await_arg: false,
             is_delete_arg: false,
@@ -1205,20 +1215,17 @@ where
                 ..self.ctx
             };
 
-            if let Some(marks) = &self.marks {
+            if let Some(..) = &self.marks {
                 if let VarDeclarator {
                     name: Pat::Ident(id),
-                    init: Some(init),
+                    init: Some(..),
                     definite: false,
                     ..
                 } = e
                 {
-                    // TODO: merge with may_have_side_effects
-                    let can_ignore =
-                        matches!(&**init, Expr::Call(call) if call.span.has_mark(marks.pure));
                     let id = id.to_id();
                     self.used_recursively
-                        .insert(id.clone(), RecursiveUsage::Var { can_ignore });
+                        .insert(id.clone(), RecursiveUsage::Var { can_ignore: false });
                     e.init.visit_with(&mut *self.with_ctx(ctx));
                     self.used_recursively.remove(&id);
                     return;

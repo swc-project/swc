@@ -7,7 +7,9 @@ define([
     "use strict";
     Object.defineProperty(exports, "FileSystemError", {
         enumerable: true,
-        get: ()=>FileSystemError
+        get: function() {
+            return FileSystemError;
+        }
     });
     function es5ClassCompat(target) {
         function _() {

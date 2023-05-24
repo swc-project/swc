@@ -64,8 +64,6 @@ pub enum Token {
     },
     /// ':'
     Colon,
-    /// '::'
-    ColonColon,
     ///
     BinOp(BinOpToken),
     ///
@@ -138,7 +136,6 @@ impl Token {
             | Self::Semi
             | Self::Comma
             | Self::Colon
-            | Self::ColonColon
             | Self::AssignOp(..)
             | Self::DollarLBrace
             | Self::QuestionMark
@@ -659,7 +656,6 @@ impl Debug for Token {
             BackQuote => write!(f, "`")?,
             Template { raw, .. } => write!(f, "template token ({})", raw)?,
             Colon => write!(f, ":")?,
-            ColonColon => write!(f, "::")?,
             BinOp(op) => write!(f, "{}", BinaryOp::from(*op).as_str())?,
             AssignOp(op) => write!(f, "{}", op.as_str())?,
             DollarLBrace => write!(f, "${{")?,

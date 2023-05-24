@@ -496,7 +496,7 @@ impl VisitMut for Fixer<'_> {
 
         if !s.is_await {
             match &s.left {
-                VarDeclOrPat::Pat(p)
+                ForHead::Pat(p)
                     if matches!(
                         &**p,
                         Pat::Ident(BindingIdent {
@@ -509,12 +509,12 @@ impl VisitMut for Fixer<'_> {
                     ) =>
                 {
                     let expr = Expr::Ident(p.clone().expect_ident().id);
-                    s.left = VarDeclOrPat::Pat(Pat::Expr(Box::new(expr)).into());
+                    s.left = ForHead::Pat(Pat::Expr(Box::new(expr)).into());
                 }
                 _ => (),
             }
 
-            if let VarDeclOrPat::Pat(e) = &mut s.left {
+            if let ForHead::Pat(e) = &mut s.left {
                 if let Pat::Expr(expr) = &mut **e {
                     if let Expr::Ident(Ident {
                         sym: js_word!("async"),
@@ -1000,6 +1000,11 @@ impl Fixer<'_> {
                     return;
                 }
 
+                // `(a?.b.c)() !== a?.b.c()`
+                if Self::contain_opt_chain(expr) {
+                    return;
+                }
+
                 let expr_span = expr.span();
                 let paren_span = *paren_span;
                 self.unwrap_expr(expr);
@@ -1008,6 +1013,17 @@ impl Fixer<'_> {
                 self.span_map.insert(expr_span, paren_span);
             }
             _ => {}
+        }
+    }
+
+    fn contain_opt_chain(e: &Expr) -> bool {
+        match e {
+            Expr::Member(member) => Self::contain_opt_chain(&member.obj),
+            Expr::OptChain(_) => true,
+            Expr::Call(CallExpr { callee, .. }) if callee.is_expr() => {
+                Self::contain_opt_chain(callee.as_expr().unwrap())
+            }
+            _ => false,
         }
     }
 

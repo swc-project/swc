@@ -2465,7 +2465,7 @@ __metadata:
     "@swc/core-win32-ia32-msvc": 1.2.146
     "@swc/core-win32-x64-msvc": 1.2.146
     "@swc/helpers": ^0.5.0
-    "@swc/plugin-jest": 1.5.56
+    "@swc/plugin-jest": latest
     "@taplo/cli": ^0.3.2
     "@types/jest": ^28.1.4
     "@types/node": ^14.14.41
@@ -2526,6 +2526,9 @@ __metadata:
       optional: true
     "@swc/core-win32-x64-msvc":
       optional: true
+  peerDependenciesMeta:
+    "@swc/helpers":
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -2538,10 +2541,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/plugin-jest@npm:1.5.56":
-  version: 1.5.56
-  resolution: "@swc/plugin-jest@npm:1.5.56"
-  checksum: a4b4a5576a420ab9208c5d5d7a3dd45d99704164e04763b23e780e85e9ad88d38a8e0ea23a2deeea3499847859169aea02326c47f40e68a5a9450269c3c75e3d
+"@swc/plugin-jest@npm:latest":
+  version: 1.5.62
+  resolution: "@swc/plugin-jest@npm:1.5.62"
+  checksum: 722a44b0c83ab89d355781bebb987f200e503c960733c62fae5f91b6bd717b25330819d93507df8cf87695d71f318f83e566f102aec9c23f41794498e902b817
   languageName: node
   linkType: hard
 

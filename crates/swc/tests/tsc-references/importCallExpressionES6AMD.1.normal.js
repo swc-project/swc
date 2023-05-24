@@ -9,7 +9,9 @@ define([
     });
     Object.defineProperty(exports, "foo", {
         enumerable: true,
-        get: ()=>foo
+        get: function() {
+            return foo;
+        }
     });
     function foo() {
         return "foo";
@@ -32,8 +34,12 @@ define([
         });
     }
     _export(exports, {
-        p2: ()=>p2,
-        D: ()=>D
+        p2: function() {
+            return p2;
+        },
+        D: function() {
+            return D;
+        }
     });
     new Promise((resolve, reject)=>require([
             "./0"

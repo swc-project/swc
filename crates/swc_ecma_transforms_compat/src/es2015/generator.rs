@@ -37,6 +37,16 @@ struct Wrapper {
     unresolved_ctxt: SyntaxContext,
 }
 
+macro_rules! dev_span {
+    ($($tt:tt)*) => {{
+        if cfg!(debug_assertions) {
+            Some(tracing::span!(tracing::Level::ERROR, $($tt)*).entered())
+        } else {
+            None
+        }
+    }};
+}
+
 impl VisitMut for Wrapper {
     noop_visit_mut_type!();
 
@@ -78,7 +88,7 @@ impl VisitMut for Wrapper {
             });
             let generator_object = Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: helper!(ts, ts_generator, "__generator"),
+                callee: helper!(ts, ts_generator),
                 args: vec![
                     ThisExpr { span: DUMMY_SP }.as_arg(),
                     FnExpr {
@@ -338,7 +348,7 @@ struct Generator {
     clauses: Option<Vec<SwitchCase>>,
     stmts: Option<Vec<Stmt>>,
     /// Index to `blocks`
-    exception_block_stack: Vec<Ptr<CodeBlock>>,
+    exception_block_stack: Option<Vec<Ptr<CodeBlock>>>,
     /// Index to `blocks`
     current_exception_block: Option<Ptr<CodeBlock>>,
     /// Index to `blocks`
@@ -417,7 +427,7 @@ impl VisitMut for Generator {
                         .take()
                         .map(|e| CallExpr {
                             span: DUMMY_SP,
-                            callee: helper!(ts, ts_values, "__values"),
+                            callee: helper!(ts, ts_values),
                             args: vec![e.as_arg()],
                             type_args: Default::default(),
                         })
@@ -939,7 +949,7 @@ impl VisitMut for Generator {
             self.begin_script_loop_block();
         }
 
-        if let VarDeclOrPat::VarDecl(initializer) = &mut node.left {
+        if let ForHead::VarDecl(initializer) = &mut node.left {
             for variable in &initializer.decls {
                 self.hoist_variable_declaration(variable.name.as_ident().unwrap());
             }
@@ -955,7 +965,7 @@ impl VisitMut for Generator {
         }
     }
 
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
         match node {
             Stmt::Break(b) => {
@@ -1298,7 +1308,7 @@ impl Generator {
 
                 Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: helper!(define_property, "define_property"),
+                    callee: helper!(define_property),
                     args: vec![
                         temp.clone().as_arg(),
                         prop_name_to_expr_value(key).as_arg(),
@@ -1425,6 +1435,8 @@ impl Generator {
     }
 
     fn transform_and_emit_stmt(&mut self, node: Stmt) {
+        let _tracing = dev_span!("transform_and_emit_stmt");
+
         let saved_in_statement_containing_yield = self.in_statement_containing_yield;
         if !self.in_statement_containing_yield {
             self.in_statement_containing_yield = contains_yield(&node);
@@ -1608,6 +1620,8 @@ impl Generator {
     }
 
     fn transform_and_emit_while_stmt(&mut self, mut node: WhileStmt) {
+        let _tracing = dev_span!("transform_and_emit_while_stmt");
+
         if contains_yield(&node) {
             // [source]
             //      while (i < 10) {
@@ -1628,7 +1642,7 @@ impl Generator {
             self.mark_label(loop_label);
             node.test.visit_mut_with(self);
             self.emit_break_when_false(end_label, node.test, None);
-            self.transform_and_emit_stmt(*node.body);
+            self.transform_and_emit_embedded_stmt(*node.body);
             self.emit_break(loop_label, None);
             self.end_loop_block();
         } else {
@@ -1741,7 +1755,7 @@ impl Generator {
             node.right.visit_mut_with(self);
             self.emit_stmt(Stmt::ForIn(ForInStmt {
                 span: DUMMY_SP,
-                left: VarDeclOrPat::Pat(key.clone().into()),
+                left: ForHead::Pat(key.clone().into()),
                 right: node.right.take(),
                 body: Box::new(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
@@ -1774,16 +1788,20 @@ impl Generator {
             );
 
             let variable = match node.left {
-                VarDeclOrPat::VarDecl(initializer) => {
+                ForHead::VarDecl(initializer) => {
                     for variable in initializer.decls.iter() {
                         self.hoist_variable_declaration(variable.name.as_ident().unwrap());
                     }
 
                     initializer.decls[0].name.clone()
                 }
-                VarDeclOrPat::Pat(mut initializer) => {
+                ForHead::Pat(mut initializer) => {
                     initializer.visit_mut_with(self);
                     *initializer
+                }
+
+                ForHead::UsingDecl(..) => {
+                    unreachable!("using declaration must be removed by previous pass")
                 }
             };
             self.emit_assignment(
@@ -2015,6 +2033,8 @@ impl Generator {
     }
 
     fn transform_and_emit_try_stmt(&mut self, mut node: TryStmt) {
+        let _tracing = dev_span!("transform_and_emit_try_stmt");
+
         if contains_yield(&node) {
             // [source]
             //      try {
@@ -2236,11 +2256,15 @@ impl Generator {
         let b = block.borrow();
         if let CodeBlock::With(block) = &*b {
             self.mark_label(block.end_label);
+        } else {
+            unreachable!()
         }
     }
 
     /// Begins a code block for a generated `try` statement.
     fn begin_exception_block(&mut self) -> Label {
+        let _tracing = dev_span!("begin_exception_block");
+
         let start_label = self.define_label();
         let end_label = self.define_label();
         self.mark_label(start_label);
@@ -2305,6 +2329,8 @@ impl Generator {
 
     /// Enters the `finally` block of a generated `try` statement.
     fn begin_finally_block(&mut self) {
+        let _tracing = dev_span!("begin_finally_block");
+
         debug_assert!(self.peek_block_kind() == Some(CodeBlockKind::Exception));
 
         let block = self.peek_block().unwrap();
@@ -2319,6 +2345,8 @@ impl Generator {
             self.mark_label(finally_label);
             block.state = ExceptionBlockState::Finally;
             block.finally_label = Some(finally_label);
+        } else {
+            unreachable!()
         }
     }
 
@@ -2337,6 +2365,8 @@ impl Generator {
             self.mark_label(block.end_label);
             self.emit_nop();
             block.state = ExceptionBlockState::Done;
+        } else {
+            unreachable!()
         }
     }
 
@@ -2357,6 +2387,8 @@ impl Generator {
     /// - `continue_label`: A Label used to mark the operation to which to jump
     ///   when a `continue` statement targets this block.
     fn begin_loop_block(&mut self, continue_label: Label) -> Label {
+        let _tracing = dev_span!("begin_loop_block");
+
         let break_label = self.define_label();
         self.begin_block(CodeBlock::Loop(LoopBlock {
             is_script: false,
@@ -2377,6 +2409,8 @@ impl Generator {
             if !block.is_script {
                 self.mark_label(break_label);
             }
+        } else {
+            unreachable!()
         }
     }
 
@@ -2414,6 +2448,8 @@ impl Generator {
             if !block.is_script {
                 self.mark_label(break_label);
             }
+        } else {
+            unreachable!()
         }
     }
 
@@ -2469,6 +2505,8 @@ impl Generator {
                     if block.label_text == *label_text {
                         return true;
                     }
+                } else {
+                    unreachable!()
                 }
             } else {
                 break;
@@ -2542,6 +2580,9 @@ impl Generator {
     fn create_label(&mut self, label: Option<Label>) -> Box<Expr> {
         if let Some(label) = label {
             if label.0 > 0 {
+                #[cfg(debug_assertions)]
+                debug!("create_label: label={:?}", label);
+
                 if self.label_exprs.is_none() {
                     self.label_exprs = Some(Default::default());
                 }
@@ -3000,7 +3041,7 @@ impl Generator {
         });
     }
 
-    #[cfg_attr(debug_assertions, tracing::instrument(skip(self)))]
+    #[tracing::instrument(skip(self))]
     fn try_enter_label(&mut self, op_index: usize) {
         if self.label_offsets.is_none() {
             return;
@@ -3054,7 +3095,7 @@ impl Generator {
     }
 
     /// Tries to enter or leave a code block.
-    #[cfg_attr(debug_assertions, tracing::instrument(skip(self)))]
+    #[tracing::instrument(skip(self))]
     fn try_enter_or_leave_block(&mut self, op_index: usize) {
         if let Some(blocks) = &self.blocks {
             while self.block_index < self.block_actions.as_ref().unwrap().len()
@@ -3079,13 +3120,20 @@ impl Generator {
                     CodeBlock::Exception(_) => {
                         if block_action == BlockAction::Open {
                             self.exception_block_stack
+                                .get_or_insert_with(Default::default)
                                 .extend(self.current_exception_block.clone());
+
+                            // https://github.com/swc-project/swc/issues/5913
+                            if self.stmts.is_none() {
+                                self.stmts = Some(Default::default());
+                            }
 
                             #[cfg(debug_assertions)]
                             debug!("Current exception block: open = Some({:?})", block);
                             self.current_exception_block = Some(block.clone());
                         } else if block_action == BlockAction::Close {
-                            self.current_exception_block = self.exception_block_stack.pop();
+                            self.current_exception_block =
+                                self.exception_block_stack.as_mut().unwrap().pop();
                             #[cfg(debug_assertions)]
                             debug!(
                                 "Current exception block: close = {:?}",
@@ -3114,7 +3162,7 @@ impl Generator {
 
     /// Writes an operation as a statement to the current label's statement
     /// list.
-    #[cfg_attr(debug_assertions, tracing::instrument(skip(self)))]
+    #[tracing::instrument(skip(self))]
     fn write_operation(&mut self, op_index: usize) {
         if cfg!(debug_assertions) {
             debug!("Writing operation {}", op_index);

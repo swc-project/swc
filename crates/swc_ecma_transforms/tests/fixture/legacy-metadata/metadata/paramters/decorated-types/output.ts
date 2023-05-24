@@ -3,10 +3,10 @@ class Injected {
 class MyClass {
     constructor(parameter: Injected){}
 }
-MyClass = __decorate([
-    __param(0, inject()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+MyClass = _ts_decorate([
+    _ts_param(0, inject()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected
     ])
 ], MyClass);
@@ -15,29 +15,29 @@ class MyOtherClass {
     methodUndecorated(param: string, otherParam) {}
     method(param: Injected, schema: Schema) {}
 }
-__decorate([
-    __param(0, demo()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+_ts_decorate([
+    _ts_param(0, demo()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         String,
         void 0
     ])
 ], MyOtherClass.prototype, "methodUndecorated", null);
-__decorate([
+_ts_decorate([
     decorate("named"),
-    __param(0, inject()),
-    __param(1, arg()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+    _ts_param(0, inject()),
+    _ts_param(1, arg()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
         typeof Schema === "undefined" ? Object : Schema
     ])
 ], MyOtherClass.prototype, "method", null);
-MyOtherClass = __decorate([
-    __param(0, inject()),
-    __param(1, inject("KIND")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+MyOtherClass = _ts_decorate([
+    _ts_param(0, inject()),
+    _ts_param(1, inject("KIND")),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
         typeof Injected === "undefined" ? Object : Injected
     ])
@@ -46,20 +46,20 @@ let DecoratedClass = class DecoratedClass {
     constructor(private readonly module: Injected, otherModule: Injected){}
     method(param: string) {}
 };
-__decorate([
+_ts_decorate([
     decorate("example"),
-    __param(0, inject()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+    _ts_param(0, inject()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         String
     ])
 ], DecoratedClass.prototype, "method", null);
-DecoratedClass = __decorate([
+DecoratedClass = _ts_decorate([
     Decorate,
-    __param(0, inject()),
-    __param(1, inject()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [
+    _ts_param(0, inject()),
+    _ts_param(1, inject()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
         typeof Injected === "undefined" ? Object : Injected
     ])

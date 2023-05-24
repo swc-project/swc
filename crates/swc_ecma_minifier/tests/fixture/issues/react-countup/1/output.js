@@ -94,7 +94,7 @@
                 }();
             }
             exports.default = function(_param) {
-                var src, arr, sizerSvg, src1 = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, rest = function(source, excluded) {
+                var src, arr, sizerSvg, src1 = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = function(source, excluded) {
                         if (null == source) return {};
@@ -125,7 +125,7 @@
                     "placeholder",
                     "blurDataURL"
                 ]), layout = sizes ? "responsive" : "intrinsic";
-                "layout" in rest && (rest.layout && (layout = rest.layout), delete rest.layout);
+                "layout" in all && (all.layout && (layout = all.layout), delete all.layout);
                 var staticSrc = "";
                 if ("object" == typeof (src = src1) && (isStaticRequire(src) || void 0 !== src.src)) {
                     var staticImageData = isStaticRequire(src1) ? src1.default : src1;
@@ -241,7 +241,7 @@
                     alt: "",
                     "aria-hidden": !0,
                     src: "data:image/svg+xml;base64,".concat(_toBase64.toBase64(sizerSvg))
-                }) : null) : null, _react.default.createElement("img", Object.assign({}, rest, imgAttributes, {
+                }) : null) : null, _react.default.createElement("img", Object.assign({}, all, imgAttributes, {
                     decoding: "async",
                     "data-nimg": layout,
                     className: className,
@@ -264,7 +264,7 @@
                         }(img, srcString, 0, placeholder, onLoadingComplete);
                     },
                     style: _objectSpread({}, imgStyle, blurStyle)
-                })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, rest, generateImgAttrs({
+                })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, all, generateImgAttrs({
                     src: src1,
                     unoptimized: unoptimized,
                     layout: layout,
@@ -299,13 +299,13 @@
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, value;
-                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
+                        var value;
+                        value = source[key], key in target ? Object.defineProperty(target, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key] = value;
+                        }) : target[key] = value;
                     });
                 }(i);
                 return target;
@@ -598,13 +598,13 @@
                 for(var i = 1; i < arguments.length; i++){
                     var source = null != arguments[i] ? arguments[i] : {};
                     i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
-                        var obj, value;
-                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
+                        var value;
+                        value = source[key], key in target ? Object.defineProperty(target, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key] = value;
+                        }) : target[key] = value;
                     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
                         Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
                     });
@@ -780,7 +780,7 @@
                     }
                     getCountUp();
                 });
-                return (React.useEffect(function() {
+                React.useEffect(function() {
                     initializeOnMount();
                 }, [
                     initializeOnMount
@@ -789,12 +789,14 @@
                 }, [
                     props.end,
                     update
-                ]), React.useEffect(function() {
+                ]);
+                var redrawDependencies = redraw && props;
+                return (React.useEffect(function() {
                     redraw && isInitializedRef.current && restart();
                 }, [
                     restart,
                     redraw,
-                    redraw && props
+                    redrawDependencies
                 ]), React.useEffect(function() {
                     !redraw && isInitializedRef.current && restart();
                 }, [

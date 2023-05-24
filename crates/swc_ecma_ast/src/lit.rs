@@ -6,8 +6,6 @@ use std::{
 };
 
 use num_bigint::BigInt as BigIntValue;
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
@@ -68,10 +66,7 @@ bridge_lit_from!(BigInt, BigIntValue);
 #[derive(Eq, Hash)]
 pub struct BigInt {
     pub span: Span,
-    #[cfg_attr(
-        any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-        with(EncodeBigInt)
-    )]
+    #[cfg_attr(any(feature = "rkyv-impl"), with(EncodeBigInt))]
     pub value: Box<BigIntValue>,
 
     /// Use `None` value only for transformations to avoid recalculate
@@ -85,11 +80,13 @@ impl EqIgnoreSpan for BigInt {
     }
 }
 
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "rkyv-impl")]
 #[derive(Debug, Clone, Copy)]
+#[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
+#[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct EncodeBigInt;
 
-#[cfg(any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"))]
+#[cfg(any(feature = "rkyv-impl"))]
 impl rkyv::with::ArchiveWith<Box<BigIntValue>> for EncodeBigInt {
     type Archived = rkyv::Archived<String>;
     type Resolver = rkyv::Resolver<String>;
@@ -107,7 +104,7 @@ impl rkyv::with::ArchiveWith<Box<BigIntValue>> for EncodeBigInt {
     }
 }
 
-#[cfg(any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"))]
+#[cfg(any(feature = "rkyv-impl"))]
 impl<S> rkyv::with::SerializeWith<Box<BigIntValue>, S> for EncodeBigInt
 where
     S: ?Sized + rkyv::ser::Serializer,
@@ -121,7 +118,7 @@ where
     }
 }
 
-#[cfg(any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"))]
+#[cfg(any(feature = "rkyv-impl"))]
 impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Box<BigIntValue>, D> for EncodeBigInt
 where
     D: ?Sized + rkyv::Fallible,
@@ -167,10 +164,7 @@ impl From<BigIntValue> for BigInt {
 pub struct Str {
     pub span: Span,
 
-    #[cfg_attr(
-        any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-        with(swc_atoms::EncodeJsWord)
-    )]
+    #[cfg_attr(any(feature = "rkyv-impl"), with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
 
     /// Use `None` value only for transformations to avoid recalculate escaped

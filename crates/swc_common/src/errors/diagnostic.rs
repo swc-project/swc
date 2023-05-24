@@ -10,11 +10,21 @@
 
 use std::fmt;
 
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
-
 use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart};
 use crate::syntax_pos::{MultiSpan, Span};
+
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[cfg_attr(
+    feature = "diagnostic-serde",
+    derive(serde::Serialize, serde::Deserialize)
+)]
+#[cfg_attr(
+    any(feature = "rkyv-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+pub struct Message(pub String, pub Style);
 
 #[must_use]
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
@@ -23,12 +33,14 @@ use crate::syntax_pos::{MultiSpan, Span};
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 pub struct Diagnostic {
     pub level: Level,
-    pub message: Vec<(String, Style)>,
+    pub message: Vec<Message>,
     pub code: Option<DiagnosticId>,
     pub span: MultiSpan,
     pub children: Vec<SubDiagnostic>,
@@ -41,9 +53,11 @@ pub struct Diagnostic {
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
 pub enum DiagnosticId {
     Error(String),
     Lint(String),
@@ -56,12 +70,14 @@ pub enum DiagnosticId {
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 pub struct SubDiagnostic {
     pub level: Level,
-    pub message: Vec<(String, Style)>,
+    pub message: Vec<Message>,
     pub span: MultiSpan,
     pub render_span: Option<MultiSpan>,
 }
@@ -117,7 +133,7 @@ impl Diagnostic {
     pub fn new_with_code(level: Level, code: Option<DiagnosticId>, message: &str) -> Self {
         Diagnostic {
             level,
-            message: vec![(message.to_owned(), Style::NoStyle)],
+            message: vec![Message(message.to_owned(), Style::NoStyle)],
             code,
             span: MultiSpan::new(),
             children: vec![],
@@ -184,18 +200,18 @@ impl Diagnostic {
         expected_extra: &dyn fmt::Display,
         found_extra: &dyn fmt::Display,
     ) -> &mut Self {
-        let mut msg: Vec<_> = vec![(format!("expected {} `", label), Style::NoStyle)];
+        let mut msg: Vec<_> = vec![Message(format!("expected {} `", label), Style::NoStyle)];
         msg.extend(expected.0.iter().map(|x| match *x {
-            StringPart::Normal(ref s) => (s.to_owned(), Style::NoStyle),
-            StringPart::Highlighted(ref s) => (s.to_owned(), Style::Highlight),
+            StringPart::Normal(ref s) => Message(s.to_owned(), Style::NoStyle),
+            StringPart::Highlighted(ref s) => Message(s.to_owned(), Style::Highlight),
         }));
-        msg.push((format!("`{}\n", expected_extra), Style::NoStyle));
-        msg.push((format!("   found {} `", label), Style::NoStyle));
+        msg.push(Message(format!("`{}\n", expected_extra), Style::NoStyle));
+        msg.push(Message(format!("   found {} `", label), Style::NoStyle));
         msg.extend(found.0.iter().map(|x| match *x {
-            StringPart::Normal(ref s) => (s.to_owned(), Style::NoStyle),
-            StringPart::Highlighted(ref s) => (s.to_owned(), Style::Highlight),
+            StringPart::Normal(ref s) => Message(s.to_owned(), Style::NoStyle),
+            StringPart::Highlighted(ref s) => Message(s.to_owned(), Style::Highlight),
         }));
-        msg.push((format!("`{}", found_extra), Style::NoStyle));
+        msg.push(Message(format!("`{}", found_extra), Style::NoStyle));
 
         // For now, just attach these as notes
         self.highlighted_note(msg);
@@ -204,9 +220,9 @@ impl Diagnostic {
 
     pub fn note_trait_signature(&mut self, name: String, signature: String) -> &mut Self {
         self.highlighted_note(vec![
-            (format!("`{}` from trait: `", name), Style::NoStyle),
-            (signature, Style::Highlight),
-            ("`".to_string(), Style::NoStyle),
+            Message(format!("`{}` from trait: `", name), Style::NoStyle),
+            Message(signature, Style::Highlight),
+            Message("`".to_string(), Style::NoStyle),
         ]);
         self
     }
@@ -216,7 +232,7 @@ impl Diagnostic {
         self
     }
 
-    pub fn highlighted_note(&mut self, msg: Vec<(String, Style)>) -> &mut Self {
+    pub fn highlighted_note(&mut self, msg: Vec<Message>) -> &mut Self {
         self.sub_with_highlights(Level::Note, msg, MultiSpan::new(), None);
         self
     }
@@ -431,7 +447,7 @@ impl Diagnostic {
             .collect::<String>()
     }
 
-    pub fn styled_message(&self) -> &Vec<(String, Style)> {
+    pub fn styled_message(&self) -> &Vec<Message> {
         &self.message
     }
 
@@ -454,7 +470,7 @@ impl Diagnostic {
     ) {
         let sub = SubDiagnostic {
             level,
-            message: vec![(message.to_owned(), Style::NoStyle)],
+            message: vec![Message(message.to_owned(), Style::NoStyle)],
             span,
             render_span,
         };
@@ -466,7 +482,7 @@ impl Diagnostic {
     fn sub_with_highlights(
         &mut self,
         level: Level,
-        message: Vec<(String, Style)>,
+        message: Vec<Message>,
         span: MultiSpan,
         render_span: Option<MultiSpan>,
     ) {
@@ -488,7 +504,7 @@ impl SubDiagnostic {
             .collect::<String>()
     }
 
-    pub fn styled_message(&self) -> &Vec<(String, Style)> {
+    pub fn styled_message(&self) -> &Vec<Message> {
         &self.message
     }
 }

@@ -15,13 +15,15 @@ pub struct Tuple(#[span] HasSpan, usize, usize);
 
 #[derive(Debug, Clone, PartialEq, Eq, Spanned, Serialize, Deserialize)]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     archive(bound(serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace"))
 )]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 pub struct HasSpan {
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub span: Span,

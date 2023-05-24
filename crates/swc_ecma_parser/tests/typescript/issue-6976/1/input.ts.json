@@ -1,0 +1,107 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 30,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 30,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1,
+          "end": 29,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 1,
+            "end": 12,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 1,
+              "end": 8,
+              "ctxt": 0
+            },
+            "value": "console",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 9,
+              "end": 12,
+              "ctxt": 0
+            },
+            "value": "log",
+            "optional": false
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 13,
+                "end": 28,
+                "ctxt": 0
+              },
+              "operator": ">",
+              "left": {
+                "type": "TsAsExpression",
+                "span": {
+                  "start": 13,
+                  "end": 24,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 13,
+                    "end": 14,
+                    "ctxt": 0
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 18,
+                    "end": 24,
+                    "ctxt": 0
+                  },
+                  "kind": "number"
+                }
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 27,
+                  "end": 28,
+                  "ctxt": 0
+                },
+                "value": 0.0,
+                "raw": "0"
+              }
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

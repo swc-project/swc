@@ -1,0 +1,8 @@
+
+  x Expected ';', got '{'
+   ,-[$DIR/tests/errors/explicit-resource-management/invalid-using-binding-pattern-for-lhs/input.js:1:1]
+ 1 | {
+ 2 |   for (using { qux } of h());
+   :              ^
+ 3 | }
+   `----

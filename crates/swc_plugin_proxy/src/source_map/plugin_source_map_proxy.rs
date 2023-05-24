@@ -14,7 +14,7 @@ use swc_ecma_ast::SourceMapperExt;
 use swc_trace_macro::swc_trace;
 
 #[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
-use crate::memory_interop::read_returned_result_from_host_fallible;
+use crate::memory_interop::read_returned_result_from_host;
 
 #[cfg(target_arch = "wasm32")]
 extern "C" {
@@ -84,7 +84,7 @@ impl PluginSourceMapProxy {
         #[cfg(target_arch = "wasm32")]
         {
             let src: Result<String, Box<SpanSnippetError>> =
-                read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
+                read_returned_result_from_host(|serialized_ptr| unsafe {
                     __span_to_source_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
                 })
                 .expect("Host should return source code");
@@ -111,15 +111,14 @@ impl SourceMapper for PluginSourceMapProxy {
             } else {
                 0
             };
-            let partial_loc: PartialLoc =
-                read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
-                    __lookup_char_pos_source_map_proxy(
-                        pos.0,
-                        should_request_source_file,
-                        serialized_ptr,
-                    )
-                })
-                .expect("Host should return PartialLoc");
+            let partial_loc: PartialLoc = read_returned_result_from_host(|serialized_ptr| unsafe {
+                __lookup_char_pos_source_map_proxy(
+                    pos.0,
+                    should_request_source_file,
+                    serialized_ptr,
+                )
+            })
+            .expect("Host should return PartialLoc");
 
             if self.source_file.get().is_none() {
                 if let Some(source_file) = partial_loc.source_file {
@@ -154,7 +153,7 @@ impl SourceMapper for PluginSourceMapProxy {
                 0
             };
             let partial_files: PartialFileLinesResult =
-                read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
+                read_returned_result_from_host(|serialized_ptr| unsafe {
                     __span_to_lines_proxy(
                         sp.lo.0,
                         sp.hi.0,
@@ -191,7 +190,7 @@ impl SourceMapper for PluginSourceMapProxy {
 
     fn span_to_string(&self, sp: Span) -> String {
         #[cfg(target_arch = "wasm32")]
-        return read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
+        return read_returned_result_from_host(|serialized_ptr| unsafe {
             __span_to_string_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
         })
         .expect("Host should return String");
@@ -202,7 +201,7 @@ impl SourceMapper for PluginSourceMapProxy {
 
     fn span_to_filename(&self, sp: Span) -> FileName {
         #[cfg(target_arch = "wasm32")]
-        return read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
+        return read_returned_result_from_host(|serialized_ptr| unsafe {
             __span_to_filename_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
         })
         .expect("Host should return Filename");
@@ -231,9 +230,10 @@ impl SourceMapper for PluginSourceMapProxy {
                 ctxt: swc_common::SyntaxContext::empty(),
             };
 
-            let serialized =
-                swc_common::plugin::serialized::PluginSerializedBytes::try_serialize(&span)
-                    .expect("Should be serializable");
+            let serialized = swc_common::plugin::serialized::PluginSerializedBytes::try_serialize(
+                &swc_common::plugin::serialized::VersionedSerializable::new(span),
+            )
+            .expect("Should be serializable");
             let (ptr, len) = serialized.as_ptr();
 
             let ret = __merge_spans_proxy(

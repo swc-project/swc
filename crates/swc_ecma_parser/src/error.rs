@@ -45,6 +45,12 @@ pub enum SyntaxError {
     Eof,
     DeclNotAllowed,
 
+    UsingDeclNotAllowed,
+    UsingDeclNotAllowedForForInLoop,
+    UsingDeclNotEnabled,
+    InvalidNameInUsingDecl,
+    InitRequiredForUsingDecl,
+
     PrivateNameInInterface,
 
     InvalidSuperCall,
@@ -270,6 +276,7 @@ pub enum SyntaxError {
     TS2499,
     TS2703,
     TS4112,
+    TS8038,
     TSTypeAnnotationAfterAssign,
     TsNonNullAssertionNotAllowed(JsWord),
 
@@ -522,6 +529,19 @@ impl SyntaxError {
                 "The operand of a delete operator must be a property reference.".into()
             }
             SyntaxError::DeclNotAllowed => "Declaration is not allowed".into(),
+            SyntaxError::UsingDeclNotAllowed => "Using declaration is not allowed".into(),
+            SyntaxError::UsingDeclNotAllowedForForInLoop => {
+                "Using declaration is not allowed in for-in loop".into()
+            }
+            SyntaxError::UsingDeclNotEnabled => {
+                "Using declaration is not enabled. Set jsc.parser.usingDecl to true".into()
+            }
+            SyntaxError::InvalidNameInUsingDecl => {
+                "Using declaration only allows identifiers".into()
+            }
+            SyntaxError::InitRequiredForUsingDecl => {
+                "Using declaration requires initializer".into()
+            }
             SyntaxError::InvalidSuperCall => "Invalid `super()`".into(),
             SyntaxError::InvalidSuper => "Invalid access to super".into(),
             SyntaxError::InvalidSuperPrivateName => {
@@ -690,6 +710,9 @@ impl SyntaxError {
                 .into(),
             SyntaxError::TS4112 => "This member cannot have an 'override' modifier because its \
                                     containing class does not extend another class."
+                .into(),
+            SyntaxError::TS8038 => "Decorators may not appear after `export` or `export default` \
+                                    if they also appear before `export`."
                 .into(),
             SyntaxError::TSTypeAnnotationAfterAssign => {
                 "Type annotations must come before default assignments".into()

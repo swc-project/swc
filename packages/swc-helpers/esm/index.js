@@ -2,6 +2,7 @@
 /* To modify this file, please run the `npm run build` command instead. */
 
 export { _apply_decorated_descriptor } from "./_apply_decorated_descriptor.js";
+export { _apply_decs_2203_r } from "./_apply_decs_2203_r.js";
 export { _array_like_to_array } from "./_array_like_to_array.js";
 export { _array_with_holes } from "./_array_with_holes.js";
 export { _array_without_holes } from "./_array_without_holes.js";

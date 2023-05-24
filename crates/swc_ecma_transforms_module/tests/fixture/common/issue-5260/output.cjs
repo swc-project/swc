@@ -9,12 +9,24 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    a: ()=>_a.X,
-    b: ()=>_b.X,
-    c: ()=>_c.default,
-    d: ()=>_d.default,
-    e: ()=>_e,
-    f: ()=>_f
+    a: function() {
+        return _a.X;
+    },
+    b: function() {
+        return _b.X;
+    },
+    c: function() {
+        return _c.default;
+    },
+    d: function() {
+        return _d.default;
+    },
+    e: function() {
+        return _e;
+    },
+    f: function() {
+        return _f;
+    }
 });
 const _a = require("a");
 const _b = require("b");

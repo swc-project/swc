@@ -1445,6 +1445,7 @@ impl<I: Tokens> Parser<I> {
         let function = self
             .with_ctx(Context {
                 allow_direct_super: true,
+                in_class_field: false,
                 ..self.ctx()
             })
             .parse_with(|p| {

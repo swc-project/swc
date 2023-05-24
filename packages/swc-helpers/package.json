@@ -1,6 +1,6 @@
 {
     "name": "@swc/helpers",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "description": "External helpers for the swc project.",
     "module": "esm/index.js",
     "main": "cjs/index.cjs",
@@ -41,6 +41,7 @@
         "./package.json": "./package.json",
         "./esm/*": "./esm/*",
         "./cjs/*": "./cjs/*",
+        "./src/*": "./src/*",
         ".": {
             "import": "./esm/index.js",
             "default": "./cjs/index.cjs"
@@ -52,6 +53,10 @@
         "./_/_apply_decorated_descriptor": {
             "import": "./esm/_apply_decorated_descriptor.js",
             "default": "./cjs/_apply_decorated_descriptor.cjs"
+        },
+        "./_/_apply_decs_2203_r": {
+            "import": "./esm/_apply_decs_2203_r.js",
+            "default": "./cjs/_apply_decs_2203_r.cjs"
         },
         "./_/_array_like_to_array": {
             "import": "./esm/_array_like_to_array.js",

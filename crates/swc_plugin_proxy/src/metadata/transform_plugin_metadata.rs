@@ -9,9 +9,6 @@ use crate::memory_interop::read_returned_result_from_host;
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 use crate::{PluginCommentsProxy, PluginSourceMapProxy};
 
-//#[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
-//use crate::memory_interop::read_returned_result_from_host;
-
 /// An arbitary metadata for given Program to run transform in plugin.
 /// These are not directly attached to Program's AST structures
 /// but required for certain transforms.
@@ -33,7 +30,7 @@ pub struct TransformPluginProgramMetadata {
 extern "C" {
     fn __copy_context_key_to_host_env(bytes_ptr: u32, bytes_ptr_len: u32);
     fn __get_transform_plugin_config(allocated_ret_ptr: u32) -> u32;
-    fn __get_transform_context(key: u32, allocated_ret_ptr: u32) -> u32;
+    fn __get_transform_context(key: u32, allocated_ret_ptr: u32) -> i32;
     fn __get_experimental_transform_context(allocated_ret_ptr: u32) -> u32;
     fn __get_raw_experiemtal_transform_context(allocated_ret_ptr: u32) -> u32;
 }
@@ -61,7 +58,7 @@ impl TransformPluginProgramMetadata {
     ) -> Option<String> {
         #[cfg(target_arch = "wasm32")]
         return read_returned_result_from_host(|serialized_ptr| unsafe {
-            __get_transform_context(*key as u32, serialized_ptr)
+            __get_transform_context(*key as u32, serialized_ptr) as u32
         });
 
         #[cfg(not(target_arch = "wasm32"))]
@@ -82,7 +79,7 @@ impl TransformPluginProgramMetadata {
         #[cfg(target_arch = "wasm32")]
         return read_returned_result_from_host(|serialized_ptr| unsafe {
             let serialized = swc_common::plugin::serialized::PluginSerializedBytes::try_serialize(
-                &key.to_string(),
+                &swc_common::plugin::serialized::VersionedSerializable::new(key.to_string()),
             )
             .expect("Should be serializable");
             let (key_ptr, key_ptr_len) = serialized.as_ptr();

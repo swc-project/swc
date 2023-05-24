@@ -911,8 +911,8 @@
         };
         var pollTimeout, pollFns = [];
         self.addPollFn = function(fn) {
-            var setTimeout2;
-            return isUndefined(pollTimeout) && (setTimeout2 = setTimeout1, function check() {
+            var interval, setTimeout2;
+            return isUndefined(pollTimeout) && (interval = 100, setTimeout2 = setTimeout1, function check() {
                 forEach(pollFns, function(pollFn) {
                     pollFn();
                 }), pollTimeout = setTimeout2(check, 100);
@@ -1312,7 +1312,7 @@
                             if (isString(className = node.className) && "" !== className) for(; match = CLASS_DIRECTIVE_REGEXP.exec(className);)addDirective(directives, nName = directiveNormalize(match[2]), "C", maxPriority, ignoreDirective) && (attrs[nName] = trim(match[3])), className = className.substr(match.index + match[0].length);
                             break;
                         case 3:
-                            directives1 = directives, (interpolateFn = $interpolate(node.nodeValue, !0)) && directives1.push({
+                            directives1 = directives, interpolateFn = $interpolate(node.nodeValue, !0), interpolateFn && directives1.push({
                                 priority: 0,
                                 compile: valueFn(function(scope, node) {
                                     var parent = node.parent(), bindings = parent.data("$binding") || [];
@@ -2721,7 +2721,7 @@
                         return isolate ? ((child = new Scope()).$root = this.$root, child.$$asyncQueue = this.$$asyncQueue, child.$$postDigestQueue = this.$$postDigestQueue) : ((ChildScope = function() {}).prototype = this, (child = new ChildScope()).$id = nextUid()), child.this = child, child.$$listeners = {}, child.$parent = this, child.$$watchers = child.$$nextSibling = child.$$childHead = child.$$childTail = null, child.$$prevSibling = this.$$childTail, this.$$childHead ? (this.$$childTail.$$nextSibling = child, this.$$childTail = child) : this.$$childHead = this.$$childTail = child, child;
                     },
                     $watch: function(watchExp, listener, objectEquality) {
-                        var scope = this, get = compileToFn(watchExp, "watch"), array = scope.$$watchers, watcher = {
+                        var get = compileToFn(watchExp, "watch"), array = this.$$watchers, watcher = {
                             fn: listener,
                             last: initWatchVal,
                             get: get,
@@ -2740,7 +2740,7 @@
                                 originalFn.call(this, newVal, oldVal, scope), arrayRemove(array, watcher);
                             };
                         }
-                        return array || (array = scope.$$watchers = []), array.unshift(watcher), function() {
+                        return array || (array = this.$$watchers = []), array.unshift(watcher), function() {
                             arrayRemove(array, watcher);
                         };
                     },
@@ -3352,7 +3352,7 @@
                 var descending = !1, get = predicate || identity;
                 return isString(predicate) && (("+" == predicate.charAt(0) || "-" == predicate.charAt(0)) && (descending = "-" == predicate.charAt(0), predicate = predicate.substring(1)), get = $parse(predicate)), reverseComparator(function(a, b) {
                     var v1, v2, t1, t2;
-                    return v1 = get(a), v2 = get(b), (t1 = typeof v1) != (t2 = typeof v2) ? t1 < t2 ? -1 : 1 : ("string" == t1 && (v1 = v1.toLowerCase(), v2 = v2.toLowerCase()), v1 === v2) ? 0 : v1 < v2 ? -1 : 1;
+                    return v1 = get(a), v2 = get(b), t1 = typeof v1, t2 = typeof v2, t1 != t2 ? t1 < t2 ? -1 : 1 : ("string" == t1 && (v1 = v1.toLowerCase(), v2 = v2.toLowerCase()), v1 === v2) ? 0 : v1 < v2 ? -1 : 1;
                 }, descending);
             }, results = [], forEach(obj, function(value, index, list) {
                 results.push(iterator.call(void 0, value, index, list));

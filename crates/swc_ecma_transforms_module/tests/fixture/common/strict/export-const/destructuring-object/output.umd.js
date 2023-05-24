@@ -16,8 +16,12 @@
         });
     }
     _export(exports, {
-        bar: ()=>bar,
-        baz: ()=>baz
+        bar: function() {
+            return bar;
+        },
+        baz: function() {
+            return baz;
+        }
     });
     const { foo: bar , baz  } = {};
 });

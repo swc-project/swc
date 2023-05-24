@@ -1,8 +1,5 @@
 #![cfg_attr(
-    any(
-        not(any(feature = "plugin", feature = "plugin-bytecheck")),
-        target_arch = "wasm32"
-    ),
+    any(not(any(feature = "plugin")), target_arch = "wasm32"),
     allow(unused)
 )]
 use std::{
@@ -82,6 +79,33 @@ use crate::{
 
 #[cfg(test)]
 mod tests;
+
+#[cfg(feature = "plugin")]
+/// A shared instance to plugin's module bytecode cache.
+pub static PLUGIN_MODULE_CACHE: Lazy<swc_plugin_runner::cache::PluginModuleCache> =
+    Lazy::new(Default::default);
+
+/// Create a new cache instance if not initialized. This can be called multiple
+/// time, but any subsequent call will be ignored.
+///
+/// This fn have a side effect to create path to cache if given path is not
+/// resolvable if fs_cache_store is enabled. If root is not specified, it'll
+/// generate default root for cache location.
+///
+/// If cache failed to initialize filesystem cache for given location
+/// it'll be serve in-memory cache only.
+#[cfg(feature = "plugin")]
+pub fn init_plugin_module_cache_once(
+    enable_fs_cache_store: bool,
+    fs_cache_store_root: &Option<String>,
+) {
+    PLUGIN_MODULE_CACHE.inner.get_or_init(|| {
+        parking_lot::Mutex::new(swc_plugin_runner::cache::PluginModuleCache::create_inner(
+            enable_fs_cache_store,
+            fs_cache_store_root,
+        ))
+    });
+}
 
 #[derive(Clone, Debug, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum IsModule {
@@ -580,6 +604,14 @@ impl Options {
             _ => TsImportExportAssignConfig::Classic,
         };
 
+        let charset = cfg.jsc.output.charset.or_else(|| {
+            if js_minify.as_ref()?.format.ascii_only {
+                Some(OutputCharset::Ascii)
+            } else {
+                None
+            }
+        });
+
         let pass = PassBuilder::new(
             cm,
             handler,
@@ -614,83 +646,102 @@ impl Options {
 
         let keep_import_assertions = experimental.keep_import_assertions.into_bool();
 
-        // Embedded runtime plugin target, based on assumption we have
-        // 1. filesystem access for the cache
-        // 2. embedded runtime can compiles & execute wasm
-        #[cfg(all(
-            any(feature = "plugin", feature = "plugin-bytecheck"),
-            not(target_arch = "wasm32")
-        ))]
-        let plugins = {
-            let plugin_resolver = CachingResolver::new(
-                40,
-                NodeModulesResolver::new(TargetEnv::Node, Default::default(), true),
-            );
-
+        #[cfg(feature = "plugin")]
+        let plugin_transforms = {
             let transform_filename = match base {
                 FileName::Real(path) => path.as_os_str().to_str().map(String::from),
                 FileName::Custom(filename) => Some(filename.to_owned()),
                 _ => None,
             };
-
             let transform_metadata_context = Arc::new(TransformPluginMetadataContext::new(
                 transform_filename,
                 self.env_name.to_owned(),
                 None,
             ));
 
-            if experimental.plugins.is_some() {
-                swc_plugin_runner::cache::init_plugin_module_cache_once(&experimental.cache_root);
+            // Embedded runtime plugin target, based on assumption we have
+            // 1. filesystem access for the cache
+            // 2. embedded runtime can compiles & execute wasm
+            #[cfg(all(any(feature = "plugin"), not(target_arch = "wasm32")))]
+            {
+                use swc_ecma_loader::resolve::Resolve;
+
+                let plugin_resolver = CachingResolver::new(
+                    40,
+                    NodeModulesResolver::new(TargetEnv::Node, Default::default(), true),
+                );
+
+                if let Some(plugins) = &experimental.plugins {
+                    // Currently swc enables filesystemcache by default on Embedded runtime plugin
+                    // target.
+                    init_plugin_module_cache_once(true, &experimental.cache_root);
+
+                    // Populate cache to the plugin modules if not loaded
+                    for plugin_config in plugins.iter() {
+                        let plugin_name = &plugin_config.0;
+
+                        if !PLUGIN_MODULE_CACHE
+                            .inner
+                            .get()
+                            .unwrap()
+                            .lock()
+                            .contains(&plugin_name)
+                        {
+                            let resolved_path = plugin_resolver.resolve(
+                                &FileName::Real(PathBuf::from(&plugin_name)),
+                                &plugin_name,
+                            )?;
+
+                            let path = if let FileName::Real(value) = resolved_path {
+                                value
+                            } else {
+                                anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
+                            };
+
+                            let mut inner_cache = PLUGIN_MODULE_CACHE
+                                .inner
+                                .get()
+                                .expect("Cache should be available")
+                                .lock();
+                            inner_cache.store_bytes_from_path(&path, &plugin_name)?;
+                        }
+                    }
+                }
+
+                crate::plugin::plugins(
+                    experimental.plugins,
+                    transform_metadata_context,
+                    comments.cloned(),
+                    cm.clone(),
+                    unresolved_mark,
+                )
             }
 
-            let comments = comments.cloned();
-            let source_map = cm.clone();
-            crate::plugin::plugins(
-                experimental.plugins,
-                transform_metadata_context,
-                Some(plugin_resolver),
-                comments,
-                source_map,
-                unresolved_mark,
-            )
+            // Native runtime plugin target, based on assumption we have
+            // 1. no filesystem access, loading binary / cache management should be
+            // performed externally
+            // 2. native runtime compiles & execute wasm (i.e v8 on node, chrome)
+            #[cfg(all(any(feature = "plugin"), target_arch = "wasm32"))]
+            {
+                handler.warn(
+                    "Currently @swc/wasm does not support plugins, plugin transform will be \
+                     skipped. Refer https://github.com/swc-project/swc/issues/3934 for the details.",
+                );
+
+                noop()
+            }
         };
 
-        // Native runtime plugin target, based on assumption we have
-        // 1. no filesystem access, loading binary / cache management should be
-        // performed externally
-        // 2. native runtime compiles & execute wasm (i.e v8 on node, chrome)
-        #[cfg(all(
-            any(feature = "plugin", feature = "plugin-bytecheck"),
-            target_arch = "wasm32"
-        ))]
-        let plugins = {
-            let transform_filename = match base {
-                FileName::Real(path) => path.as_os_str().to_str().map(String::from),
-                FileName::Custom(filename) => Some(filename.to_owned()),
-                _ => None,
-            };
-
-            let transform_metadata_context = Arc::new(TransformPluginMetadataContext::new(
-                transform_filename,
-                self.env_name.to_owned(),
-                None,
-            ));
-
-            swc_plugin_runner::cache::init_plugin_module_cache_once();
-            let comments = comments.cloned();
-            let source_map = cm.clone();
-            crate::plugin::plugins(
-                experimental.plugins,
-                transform_metadata_context,
-                None,
-                comments,
-                source_map,
-                unresolved_mark,
-            )
+        #[cfg(not(feature = "plugin"))]
+        let plugin_transforms = {
+            if experimental.plugins.is_some() {
+                handler.warn(
+                    "Plugin is not supported with current @swc/core. Plugin transform will be \
+                     skipped.",
+                );
+            }
+            noop()
         };
-
-        #[cfg(not(any(feature = "plugin", feature = "plugin-bytecheck")))]
-        let plugins = crate::plugin::plugins();
 
         let pass = chain!(
             lint_to_fold(swc_ecma_lints::rules::all(LintParams {
@@ -703,11 +754,20 @@ impl Options {
             })),
             // Decorators may use type information
             Optional::new(
-                decorators(decorators::Config {
-                    legacy: transform.legacy_decorator.into_bool(),
-                    emit_metadata: transform.decorator_metadata.into_bool(),
-                    use_define_for_class_fields: !assumptions.set_public_class_fields
-                }),
+                match transform.decorator_version.unwrap_or_default() {
+                    DecoratorVersion::V202112 => {
+                        Either::Left(decorators(decorators::Config {
+                            legacy: transform.legacy_decorator.into_bool(),
+                            emit_metadata: transform.decorator_metadata.into_bool(),
+                            use_define_for_class_fields: !assumptions.set_public_class_fields,
+                        }))
+                    }
+                    DecoratorVersion::V202203 => {
+                        Either::Right(
+                            swc_ecma_transforms::proposals::decorator_2022_03::decorator_2022_03(),
+                        )
+                    }
+                },
                 syntax.decorators()
             ),
             // The transform strips import assertions, so it's only enabled if
@@ -745,7 +805,7 @@ impl Options {
                 ),
                 syntax.typescript()
             ),
-            plugins,
+            plugin_transforms,
             custom_before_pass(&program),
             // handle jsx
             Optional::new(
@@ -782,7 +842,7 @@ impl Options {
             comments: comments.cloned(),
             preserve_comments,
             emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
-            output: cfg.jsc.output,
+            output: JscOutputConfig { charset },
         })
     }
 }
@@ -1430,10 +1490,11 @@ impl ModuleConfig {
             }
             _ => base.clone(),
         };
+        let skip_resolver = base_url.as_os_str().is_empty() && paths.is_empty();
 
         match config {
             None | Some(ModuleConfig::Es6) | Some(ModuleConfig::NodeNext) => {
-                if paths.is_empty() {
+                if skip_resolver {
                     Box::new(noop())
                 } else {
                     let resolver = build_resolver(base_url, paths);
@@ -1442,7 +1503,7 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::CommonJs(config)) => {
-                if paths.is_empty() {
+                if skip_resolver {
                     Box::new(modules::common_js::common_js(
                         unresolved_mark,
                         config,
@@ -1462,7 +1523,7 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::Umd(config)) => {
-                if paths.is_empty() {
+                if skip_resolver {
                     Box::new(modules::umd::umd(
                         cm,
                         unresolved_mark,
@@ -1485,7 +1546,7 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::Amd(config)) => {
-                if paths.is_empty() {
+                if skip_resolver {
                     Box::new(modules::amd::amd(
                         unresolved_mark,
                         config,
@@ -1506,7 +1567,7 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::SystemJs(config)) => {
-                if paths.is_empty() {
+                if skip_resolver {
                     Box::new(modules::system_js::system_js(unresolved_mark, config))
                 } else {
                     let resolver = build_resolver(base_url, paths);
@@ -1552,6 +1613,20 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub use_define_for_class_fields: BoolConfig<true>,
+
+    #[serde(default)]
+    pub decorator_version: Option<DecoratorVersion>,
+}
+
+#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub enum DecoratorVersion {
+    #[default]
+    #[serde(rename = "2021-12")]
+    V202112,
+
+    #[serde(rename = "2022-03")]
+    V202203,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]

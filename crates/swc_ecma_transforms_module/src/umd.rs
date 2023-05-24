@@ -40,7 +40,6 @@ where
         unresolved_mark,
         cm,
         resolver: Resolver::Default,
-        available_features,
         comments,
 
         const_var_kind: if caniuse!(available_features.BlockScoping) {
@@ -72,7 +71,6 @@ where
         unresolved_mark,
         cm,
         resolver: Resolver::Real { base, resolver },
-        available_features,
         comments,
 
         const_var_kind: if caniuse!(available_features.BlockScoping) {
@@ -94,7 +92,6 @@ where
     unresolved_mark: Mark,
     config: BuiltConfig,
     resolver: Resolver,
-    available_features: FeatureFlag,
     comments: Option<C>,
 
     const_var_kind: VarDeclKind,
@@ -252,7 +249,7 @@ where
 
                 // _export_star(mod, exports);
                 let mut import_expr: Expr = if need_re_export {
-                    helper_expr!(export_star, "export_star").as_call(
+                    helper_expr!(export_star).as_call(
                         DUMMY_SP,
                         vec![mod_ident.clone().as_arg(), self.exports().as_arg()],
                     )
@@ -264,18 +261,15 @@ where
                 if need_interop {
                     import_expr = match import_interop {
                         ImportInterop::Swc if link_flag.interop() => if link_flag.namespace() {
-                            helper_expr!(interop_require_wildcard, "interop_require_wildcard")
+                            helper_expr!(interop_require_wildcard)
                         } else {
-                            helper_expr!(interop_require_default, "interop_require_default")
+                            helper_expr!(interop_require_default)
                         }
                         .as_call(self.pure_span(), vec![import_expr.as_arg()]),
-                        ImportInterop::Node if link_flag.namespace() => {
-                            helper_expr!(interop_require_wildcard, "interop_require_wildcard")
-                                .as_call(
-                                    self.pure_span(),
-                                    vec![import_expr.as_arg(), true.as_arg()],
-                                )
-                        }
+                        ImportInterop::Node if link_flag.namespace() => helper_expr!(
+                            interop_require_wildcard
+                        )
+                        .as_call(self.pure_span(), vec![import_expr.as_arg(), true.as_arg()]),
                         _ => import_expr,
                     }
                 };
@@ -304,10 +298,9 @@ where
         if !export_obj_prop_list.is_empty() && !is_export_assign {
             export_obj_prop_list.sort_by_key(|prop| prop.span());
 
-            let features = self.available_features;
             let exports = self.exports();
 
-            export_stmts = emit_export_stmts(features, exports, export_obj_prop_list);
+            export_stmts = emit_export_stmts(exports, export_obj_prop_list);
         }
 
         export_stmts.into_iter().chain(stmts)

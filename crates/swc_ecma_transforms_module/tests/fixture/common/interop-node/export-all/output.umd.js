@@ -15,7 +15,9 @@
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>_default
+        get: function() {
+            return _default;
+        }
     });
     _react = _export_star(_react, exports);
     const _default = _react;

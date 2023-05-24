@@ -13,7 +13,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    bar: ()=>bar,
-    foo: ()=>foo
+    bar: function() {
+        return bar;
+    },
+    foo: function() {
+        return foo;
+    }
 });
 var foo, bar;

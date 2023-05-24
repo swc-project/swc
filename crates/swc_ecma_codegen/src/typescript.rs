@@ -431,7 +431,6 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         punct!("`");
-        let i = 0;
 
         for i in 0..(node.quasis.len() + node.types.len()) {
             if i % 2 == 0 {
@@ -484,7 +483,7 @@ where
         punct!("[");
         emit!(n.type_param.name);
 
-        if let Some(constraints) = &n.type_param.constraint {
+        if let Some(..) = &n.type_param.constraint {
             space!();
             keyword!("in");
             space!();
@@ -578,12 +577,21 @@ where
             space!();
         }
 
-        keyword!("module");
-        space!();
-        emit!(n.id);
-        formatting_space!();
+        if n.global {
+            keyword!("global");
+        } else {
+            keyword!("module");
+            space!();
+            emit!(n.id);
+        }
 
-        if let Some(body) = &n.body {
+        if let Some(mut body) = n.body.as_ref() {
+            while let TsNamespaceBody::TsNamespaceDecl(decl) = body {
+                punct!(".");
+                emit!(decl.id);
+                body = &*decl.body;
+            }
+            formatting_space!();
             emit!(body);
         }
     }
@@ -1112,5 +1120,15 @@ mod tests {
             "var memory: WebAssembly.Memory;",
             "var memory:WebAssembly.Memory",
         );
+    }
+
+    #[test]
+    fn type_arg() {
+        assert_min_typescript("do_stuff<T>()", "do_stuff<T>()");
+    }
+
+    #[test]
+    fn no_type_arg() {
+        assert_min_typescript("do_stuff()", "do_stuff()");
     }
 }

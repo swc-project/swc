@@ -12,6 +12,8 @@
     });
     Object.defineProperty(exports, "foo", {
         enumerable: true,
-        get: ()=>_src.foo
+        get: function() {
+            return _src.foo;
+        }
     });
 });

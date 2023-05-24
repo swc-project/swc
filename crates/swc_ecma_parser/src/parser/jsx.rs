@@ -173,7 +173,13 @@ impl<I: Tokens> Parser<I> {
 
         let name = self.parse_jsx_namespaced_name()?;
         let value = if eat!(self, '=') {
-            self.parse_jsx_attr_value().map(Some)?
+            let ctx = Context {
+                in_cond_expr: false,
+                will_expect_colon_for_cond: false,
+                ..self.ctx()
+            };
+
+            self.with_ctx(ctx).parse_jsx_attr_value().map(Some)?
         } else {
             None
         };

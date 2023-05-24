@@ -925,6 +925,7 @@ issue_281/issue_1254_negate_iife_nested/input.js
 issue_281/issue_1254_negate_iife_true/input.js
 issue_281/issue_1288_side_effects/input.js
 issue_281/issue_1595_3/input.js
+issue_281/issue_1758/input.js
 issue_281/keep_fargs/input.js
 issue_281/modified/input.js
 issue_281/negate_iife_3/input.js
@@ -966,6 +967,8 @@ issue_640/iife/input.js
 issue_640/issue_1254_negate_iife_nested/input.js
 issue_640/issue_1254_negate_iife_true/input.js
 issue_640/limit_1/input.js
+issue_640/negate_iife_1/input.js
+issue_640/negate_iife_3/input.js
 issue_640/negate_iife_3_off/input.js
 issue_640/negate_iife_4/input.js
 issue_640/negate_iife_5/input.js
@@ -1365,6 +1368,7 @@ reduce_vars/perf_5/input.js
 reduce_vars/pure_getters_1/input.js
 reduce_vars/recursive_inlining_1/input.js
 reduce_vars/recursive_inlining_2/input.js
+reduce_vars/recursive_inlining_3/input.js
 reduce_vars/recursive_inlining_4/input.js
 reduce_vars/recursive_inlining_5/input.js
 reduce_vars/redefine_arguments_1/input.js
@@ -1592,6 +1596,8 @@ typeof/duplicate_lambda_arg_name/input.js
 typeof/issue_1668/input.js
 typeof/issue_2728_1/input.js
 typeof/issue_2728_2/input.js
+typeof/issue_2728_3/input.js
+typeof/issue_2728_4/input.js
 typeof/issue_2728_5/input.js
 typeof/issue_2728_6/input.js
 typeof/typeof_defun_2/input.js

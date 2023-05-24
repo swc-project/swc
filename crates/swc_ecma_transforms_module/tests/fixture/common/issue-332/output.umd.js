@@ -12,7 +12,9 @@
     });
     Object.defineProperty(exports, "bar", {
         enumerable: true,
-        get: ()=>bar
+        get: function() {
+            return bar;
+        }
     });
     _foo = /*#__PURE__*/ _interop_require_default(_foo);
     const bar = {

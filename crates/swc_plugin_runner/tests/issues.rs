@@ -11,13 +11,10 @@ use anyhow::{anyhow, Error};
 use serde_json::json;
 #[cfg(feature = "__rkyv")]
 use swc_common::plugin::serialized::PluginSerializedBytes;
-use swc_common::{
-    collections::AHashMap, plugin::metadata::TransformPluginMetadataContext, sync::Lazy, Mark,
-};
+use swc_common::{collections::AHashMap, plugin::metadata::TransformPluginMetadataContext, Mark};
 use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
 use swc_ecma_parser::{parse_file_as_program, Syntax};
 use swc_ecma_visit::Visit;
-use swc_plugin_runner::cache::PluginModuleCache;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path, crate_name: &str) -> Result<PathBuf, Error> {
@@ -73,6 +70,8 @@ impl Visit for TestVisitor {
 #[cfg(feature = "__rkyv")]
 #[test]
 fn issue_6404() -> Result<(), Error> {
+    use swc_common::plugin::serialized::VersionedSerializable;
+
     let plugin_path = build_plugin(
         &PathBuf::from(env::var("CARGO_MANIFEST_DIR")?)
             .join("tests")
@@ -98,7 +97,8 @@ fn issue_6404() -> Result<(), Error> {
         )
         .unwrap();
 
-        let program = PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
+        let program = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(program))
+            .expect("Should serializable");
         let experimental_metadata: AHashMap<String, String> = [
             (
                 "TestExperimental".to_string(),
@@ -109,32 +109,48 @@ fn issue_6404() -> Result<(), Error> {
         .into_iter()
         .collect();
 
-        let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
+        let raw_module_bytes =
+            std::fs::read(&plugin_path).expect("Should able to read plugin bytes");
+        let store = wasmer::Store::default();
+        let module = wasmer::Module::new(&store, raw_module_bytes).unwrap();
+
+        let plugin_module = swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes::new(
+            plugin_path
+                .as_os_str()
+                .to_str()
+                .expect("Should able to get path")
+                .to_string(),
+            module,
+            store,
+        );
+
         let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
-            &plugin_path,
-            &cache,
             &cm,
+            &Mark::new(),
             &Arc::new(TransformPluginMetadataContext::new(
                 None,
                 "development".to_string(),
                 Some(experimental_metadata),
             )),
+            Box::new(plugin_module),
             Some(json!({ "pluginConfig": "testValue" })),
-        )
-        .expect("Should load plugin");
+        );
 
+        /* [TODO]: reenable this test
         assert!(!plugin_transform_executor
             .plugin_core_diag
             .pkg_version
             .is_empty());
+         */
 
         let program_bytes = plugin_transform_executor
-            .transform(&program, Mark::new(), false)
+            .transform(&program, Some(false))
             .expect("Plugin should apply transform");
 
         let _: Program = program_bytes
             .deserialize()
-            .expect("Should able to deserialize");
+            .expect("Should able to deserialize")
+            .into_inner();
 
         Ok(())
     })

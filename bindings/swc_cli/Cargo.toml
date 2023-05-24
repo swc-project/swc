@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = "Apache-2.0"
 name        = "swc_cli"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.91.32"
+version     = "0.91.43"
 
 [[bin]]
 bench = false
@@ -15,7 +15,10 @@ path  = "./src/main.rs"
 
 [features]
 default = []
-plugin  = ["swc_core/plugin_transform_host_native"]
+plugin = [
+  "swc_core/plugin_transform_host_native",
+  "swc_core/plugin_transform_host_native_filesystem_cache",
+]
 
 [dependencies]
 anyhow = "1.0.66"
@@ -27,7 +30,7 @@ relative-path = "1.6.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
 sourcemap = "6.2.2"
-swc_core = { version = "0.74.0", features = [
+swc_core = { version = "0.76.16", features = [
   "trace_macro",
   "common_concurrent",
   "base_concurrent",

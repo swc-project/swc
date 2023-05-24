@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "default", {
     enumerable: true,
-    get: ()=>Foo
+    get: function() {
+        return Foo;
+    }
 });
 const Base = getBase("");
 class Foo extends Base {

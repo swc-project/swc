@@ -105,6 +105,47 @@ foo == null ? void 0 : foo.bar == null ? void 0 : foo.bar(foo.bar, true);
 "#
 );
 
+// parentheses
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    parentheses,
+    r#"
+  (o1)(o1 ?? 1);
+  (o2?.b)(o1 ?? 1);
+  (o3?.b())(o1 ?? 1);
+  (o4?.b().c)(o1 ?? 1);
+"#,
+    r#"
+    o1(o1 ?? 1);
+    (o2 === null || o2 === void 0 ? void 0 : o2.b)(o1 ?? 1);
+    (o3 === null || o3 === void 0 ? void 0 : o3.b())(o1 ?? 1);
+    (o4 === null || o4 === void 0 ? void 0 : o4.b().c)(o1 ?? 1);
+"#
+);
+
+// curried_function_call
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    curried_function_call,
+    r#"
+    a?.b()();
+    a?.b()()();
+    a?.b()().c;
+    a?.b()()?.c;
+    a?.b()()?.c()();
+"#,
+    r#"
+    var _a_b, _a_b1;
+    a === null || a === void 0 ? void 0 : a.b()();
+    a === null || a === void 0 ? void 0 : a.b()()();
+    a === null || a === void 0 ? void 0 : a.b()().c;
+    (_a_b = a === null || a === void 0 ? void 0 : a.b()()) === null || _a_b === void 0 ? void 0 : _a_b.c;
+    (_a_b1 = a === null || a === void 0 ? void 0 : a.b()()) === null || _a_b1 === void 0 ? void 0 : _a_b1.c()();
+"#
+);
+
 // indirect_eval_call
 test!(
     syntax(),

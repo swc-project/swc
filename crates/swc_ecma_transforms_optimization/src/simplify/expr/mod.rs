@@ -154,7 +154,7 @@ impl SimplifyExpr {
                     self.changed = true;
 
                     *expr = Expr::Lit(Lit::Num(Number {
-                        value: value.chars().count() as f64,
+                        value: value.chars().map(|c| c.len_utf16()).sum::<usize>() as _,
                         span: *span,
                         raw: None,
                     }));
@@ -1616,7 +1616,7 @@ impl VisitMut for SimplifyExpr {
         self.is_modifying = old;
     }
 
-    fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
+    fn visit_mut_for_head(&mut self, n: &mut ForHead) {
         let old = self.is_modifying;
         self.is_modifying = true;
         n.visit_mut_children_with(self);

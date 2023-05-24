@@ -3,7 +3,6 @@
 #![deny(unused)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::nonminimal_bool)]
-#![allow(unused_variables)]
 
 use std::{borrow::Cow, fmt::Write, io};
 
@@ -192,8 +191,6 @@ where
                 emit!(n.decl);
             }
         }
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -234,8 +231,6 @@ where
             DefaultDecl::Fn(ref n) => emit!(n),
             DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
         }
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -344,7 +339,7 @@ where
     #[emitter]
     fn emit_export_specifier(&mut self, node: &ExportSpecifier) -> Result {
         match node {
-            ExportSpecifier::Default(ref node) => {
+            ExportSpecifier::Default(..) => {
                 unimplemented!("codegen of `export default from 'foo';`")
             }
             ExportSpecifier::Namespace(ref node) => emit!(node),
@@ -373,12 +368,12 @@ where
 
         srcmap!(node, true);
 
-        if let Some(ref exported) = node.exported {
+        if let Some(exported) = &node.exported {
             emit!(node.orig);
             space!();
             keyword!("as");
             space!();
-            emit!(node.exported);
+            emit!(exported);
         } else {
             emit!(node.orig);
         }
@@ -495,24 +490,25 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_lit(&mut self, node: &Lit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        srcmap!(node, true);
+
         match *node {
-            Lit::Bool(Bool { value, span }) => {
+            Lit::Bool(Bool { value, .. }) => {
                 if value {
-                    keyword!(span, "true")
+                    keyword!("true")
                 } else {
-                    keyword!(span, "false")
+                    keyword!("false")
                 }
             }
-            Lit::Null(Null { span }) => keyword!(span, "null"),
+            Lit::Null(Null { .. }) => keyword!("null"),
             Lit::Str(ref s) => emit!(s),
             Lit::BigInt(ref s) => emit!(s),
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
-                srcmap!(n, true);
                 punct!("/");
                 self.wr.write_str(&n.exp)?;
                 punct!("/");
@@ -529,7 +525,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -577,7 +573,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_num_lit(&mut self, num: &Number) -> Result {
         self.emit_num_lit_internal(num, false)?;
     }
@@ -757,7 +753,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_expr(&mut self, node: &Expr) -> Result {
         match node {
             Expr::Array(ref n) => emit!(n),
@@ -872,6 +868,10 @@ where
 
         emit!(node.callee);
 
+        if let Some(type_args) = &node.type_args {
+            emit!(type_args);
+        }
+
         punct!("(");
         self.emit_expr_or_spreads(node.span(), &node.args, ListFormat::CallExpressionArguments)?;
         punct!(")");
@@ -974,8 +974,6 @@ where
                 emit!(private);
             }
         }
-
-        srcmap!(node, false);
     }
 
     #[emitter]
@@ -996,8 +994,6 @@ where
                 emit!(i);
             }
         }
-
-        srcmap!(node, false);
     }
 
     #[emitter]
@@ -1085,8 +1081,6 @@ where
 
             emit!(e);
         }
-
-        srcmap!(node, false);
     }
 
     #[emitter]
@@ -1276,7 +1270,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_class_member(&mut self, node: &ClassMember) -> Result {
         match *node {
             ClassMember::Constructor(ref n) => emit!(n),
@@ -1582,7 +1576,7 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1651,8 +1645,6 @@ where
         punct!(":");
         formatting_space!();
         emit!(node.alt);
-
-        srcmap!(node, false);
     }
 
     #[emitter]
@@ -1701,7 +1693,7 @@ where
 
         if let Some(body) = &node.body {
             formatting_space!();
-            emit!(body);
+            self.emit_block_stmt_inner(body, true)?;
         } else {
             semi!();
         }
@@ -1711,9 +1703,11 @@ where
 
     #[emitter]
     fn emit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) -> Result {
-        match *node {
-            BlockStmtOrExpr::BlockStmt(ref block_stmt) => emit!(block_stmt),
-            BlockStmtOrExpr::Expr(ref expr) => {
+        match node {
+            BlockStmtOrExpr::BlockStmt(block) => {
+                self.emit_block_stmt_inner(block, true)?;
+            }
+            BlockStmtOrExpr::Expr(expr) => {
                 self.wr.increase_indent()?;
                 emit!(expr);
                 self.wr.decrease_indent()?;
@@ -1737,8 +1731,6 @@ where
         srcmap!(node, true);
 
         punct!("`");
-
-        let i = 0;
 
         for i in 0..(node.quasis.len() + node.exprs.len()) {
             if i % 2 == 0 {
@@ -1795,8 +1787,6 @@ where
         srcmap!(self, node, true);
 
         punct!(self, "`");
-
-        let i = 0;
 
         for i in 0..(node.quasis.len() + node.exprs.len()) {
             if i % 2 == 0 {
@@ -2144,8 +2134,17 @@ where
 
         srcmap!(ident, true);
         // TODO: span
-        self.wr
-            .write_symbol(DUMMY_SP, &handle_invalid_unicodes(&ident.sym))?;
+
+        if self.cfg.ascii_only {
+            self.wr.write_symbol(
+                DUMMY_SP,
+                &get_ascii_only_ident(&handle_invalid_unicodes(&ident.sym), self.cfg.target),
+            )?;
+        } else {
+            self.wr
+                .write_symbol(DUMMY_SP, &handle_invalid_unicodes(&ident.sym))?;
+        }
+
         if ident.optional {
             punct!("?");
         }
@@ -2364,8 +2363,8 @@ where
         parent_node: Span,
         is_empty: bool,
         format: ListFormat,
-        start: usize,
-        count: usize,
+        _start: usize,
+        _count: usize,
     ) -> Result {
         if format.contains(ListFormat::BracketsMask) {
             if is_empty {
@@ -2669,9 +2668,9 @@ where
 
         emit!(node.key);
         formatting_space!();
-        if let Some(ref value) = node.value {
+        if let Some(value) = &node.value {
             punct!("=");
-            emit!(node.value);
+            emit!(value);
             formatting_space!();
         }
 
@@ -2679,10 +2678,11 @@ where
     }
 
     #[emitter]
-    fn emit_var_decl_or_pat(&mut self, node: &VarDeclOrPat) -> Result {
-        match *node {
-            VarDeclOrPat::Pat(ref n) => emit!(n),
-            VarDeclOrPat::VarDecl(ref n) => emit!(n),
+    fn emit_for_head(&mut self, node: &ForHead) -> Result {
+        match node {
+            ForHead::Pat(n) => emit!(n),
+            ForHead::VarDecl(n) => emit!(n),
+            ForHead::UsingDecl(n) => emit!(n),
         }
     }
 }
@@ -2733,22 +2733,26 @@ where
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
-        let expr_span = e.expr.span();
-
         emit!(e.expr);
 
         semi!();
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_block_stmt(&mut self, node: &BlockStmt) -> Result {
+        self.emit_block_stmt_inner(node, false)?;
+    }
+
+    fn emit_block_stmt_inner(&mut self, node: &BlockStmt, skip_first_src_map: bool) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
-        punct!("{");
+        if !skip_first_src_map {
+            srcmap!(self, node, true);
+        }
+        punct!(self, "{");
 
         let emit_new_line = !self.cfg.minify
             && !(node.stmts.is_empty() && is_empty_comments(&node.span(), &self.comments));
@@ -2763,8 +2767,10 @@ where
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
-        srcmap!(node, false, true);
-        punct!("}");
+        srcmap!(self, node, false, true);
+        punct!(self, "}");
+
+        Ok(())
     }
 
     #[emitter]
@@ -2967,7 +2973,6 @@ where
             emit!(label);
         }
 
-        srcmap!(n, false);
         semi!();
     }
 
@@ -2984,7 +2989,6 @@ where
             emit!(label);
         }
 
-        srcmap!(n, false);
         semi!();
     }
 
@@ -3023,8 +3027,6 @@ where
             }
             emit!(alt);
         }
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -3135,12 +3137,10 @@ where
             }
         }
         semi!();
-
-        srcmap!(n, false);
     }
 
     #[emitter]
-    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
+    #[tracing::instrument(skip_all)]
     fn emit_try_stmt(&mut self, n: &TryStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -3595,8 +3595,155 @@ fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
     buf
 }
 
+fn get_ascii_only_ident(sym: &str, target: EsVersion) -> Cow<str> {
+    if sym.chars().all(|c| c.is_ascii()) {
+        return Cow::Borrowed(sym);
+    }
+
+    let mut buf = String::with_capacity(sym.len() + 8);
+    let mut iter = sym.chars().peekable();
+
+    while let Some(c) = iter.next() {
+        match c {
+            '\x00' => {
+                buf.push_str("\\x00");
+            }
+            '\u{0008}' => buf.push_str("\\b"),
+            '\u{000c}' => buf.push_str("\\f"),
+            '\n' => buf.push_str("\\n"),
+            '\r' => buf.push_str("\\r"),
+            '\u{000b}' => buf.push_str("\\v"),
+            '\t' => buf.push('\t'),
+            '\\' => {
+                let next = iter.peek();
+
+                match next {
+                    // TODO fix me - workaround for surrogate pairs
+                    Some('u') => {
+                        let mut inner_iter = iter.clone();
+
+                        inner_iter.next();
+
+                        let mut is_curly = false;
+                        let mut next = inner_iter.peek();
+
+                        if next == Some(&'{') {
+                            is_curly = true;
+
+                            inner_iter.next();
+                            next = inner_iter.peek();
+                        }
+
+                        if let Some(c @ 'D' | c @ 'd') = next {
+                            let mut inner_buf = String::new();
+
+                            inner_buf.push('\\');
+                            inner_buf.push('u');
+
+                            if is_curly {
+                                inner_buf.push('{');
+                            }
+
+                            inner_buf.push(*c);
+
+                            inner_iter.next();
+
+                            let mut is_valid = true;
+
+                            for _ in 0..3 {
+                                let c = inner_iter.next();
+
+                                match c {
+                                    Some('0'..='9') | Some('a'..='f') | Some('A'..='F') => {
+                                        inner_buf.push(c.unwrap());
+                                    }
+                                    _ => {
+                                        is_valid = false;
+
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if is_curly {
+                                inner_buf.push('}');
+                            }
+
+                            if is_valid {
+                                buf.push_str(&inner_buf);
+
+                                let end = if is_curly { 7 } else { 5 };
+
+                                for _ in 0..end {
+                                    iter.next();
+                                }
+                            }
+                        } else {
+                            buf.push_str("\\\\");
+                        }
+                    }
+                    _ => {
+                        buf.push_str("\\\\");
+                    }
+                }
+            }
+            '\'' => {
+                buf.push('\'');
+            }
+            '"' => {
+                buf.push('"');
+            }
+            '\x01'..='\x0f' => {
+                let _ = write!(buf, "\\x0{:x}", c as u8);
+            }
+            '\x10'..='\x1f' => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
+            }
+            '\x20'..='\x7e' => {
+                buf.push(c);
+            }
+            '\u{7f}'..='\u{ff}' => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
+            }
+            '\u{2028}' => {
+                buf.push_str("\\u2028");
+            }
+            '\u{2029}' => {
+                buf.push_str("\\u2029");
+            }
+            '\u{FEFF}' => {
+                buf.push_str("\\uFEFF");
+            }
+            _ => {
+                if c.is_ascii() {
+                    buf.push(c);
+                } else if c > '\u{FFFF}' {
+                    // if we've got this far the char isn't reserved and if the callee has specified
+                    // we should output unicode for non-ascii chars then we have
+                    // to make sure we output unicode that is safe for the target
+                    // Es5 does not support code point escapes and so surrograte formula must be
+                    // used
+                    if target <= EsVersion::Es5 {
+                        // https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
+                        let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
+                        let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
+
+                        let _ = write!(buf, "\\u{:04X}\\u{:04X}", h, l);
+                    } else {
+                        let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
+                    }
+                } else {
+                    let _ = write!(buf, "\\u{:04X}", c as u16);
+                }
+            }
+        }
+    }
+
+    Cow::Owned(buf)
+}
+
 fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
-    let mut buf = String::with_capacity(v.len());
+    let mut buf = String::with_capacity(v.len() + 2);
     let mut iter = v.chars().peekable();
 
     let mut single_quote_count = 0;

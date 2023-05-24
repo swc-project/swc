@@ -2,8 +2,6 @@
 
 use std::{borrow::Cow, iter, iter::once, sync::Arc};
 
-use once_cell::sync::Lazy;
-use regex::Regex;
 use serde::{Deserialize, Serialize};
 use string_enum::StringEnum;
 use swc_atoms::{js_word, Atom, JsWord};
@@ -1251,8 +1249,6 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 
 #[inline]
 fn jsx_text_to_str(t: Atom) -> JsWord {
-    static SPACE_START: Lazy<Regex> = Lazy::new(|| Regex::new("^[ ]+").unwrap());
-    static SPACE_END: Lazy<Regex> = Lazy::new(|| Regex::new("[ ]+$").unwrap());
     let mut buf = String::new();
     let replaced = t.replace('\t', " ");
 
@@ -1262,14 +1258,14 @@ fn jsx_text_to_str(t: Atom) -> JsWord {
         }
         let line = Cow::from(line);
         let line = if i != 0 {
-            SPACE_START.replace_all(&line, "")
+            Cow::Borrowed(line.trim_start_matches(' '))
         } else {
             line
         };
         let line = if is_last {
             line
         } else {
-            SPACE_END.replace_all(&line, "")
+            Cow::Borrowed(line.trim_end_matches(' '))
         };
         if line.len() == 0 {
             continue;

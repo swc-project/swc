@@ -193,9 +193,9 @@
                 return enumObject[enumValue];
             }
             function util_merge(source, destination) {
-                if (!util_isNullOrUndefined(destination)) for(var temrObj = source, keys = Object.keys(destination), deepmerge = 'deepMerge', _i = 0; _i < keys.length; _i++){
+                if (!util_isNullOrUndefined(destination)) for(var keys = Object.keys(destination), deepmerge = 'deepMerge', _i = 0; _i < keys.length; _i++){
                     var key = keys[_i];
-                    !util_isNullOrUndefined(temrObj[deepmerge]) && -1 !== temrObj[deepmerge].indexOf(key) && (util_isObject(destination[key]) || Array.isArray(destination[key])) ? util_extend(temrObj[key], temrObj[key], destination[key], !0) : temrObj[key] = destination[key];
+                    !util_isNullOrUndefined(source[deepmerge]) && -1 !== source[deepmerge].indexOf(key) && (util_isObject(destination[key]) || Array.isArray(destination[key])) ? util_extend(source[key], source[key], destination[key], !0) : source[key] = destination[key];
                 }
             }
             function util_extend(copied, first, second, deep) {
@@ -2248,8 +2248,8 @@
                 tMonth < 3 && (tYear -= 1, tMonth += 12);
                 var yPrefix = Math.floor(tYear / 100.), julilanOffset = yPrefix - Math.floor(yPrefix / 4.) - 2, julianNumber = Math.floor(365.25 * (tYear + 4716)) + Math.floor(30.6001 * (tMonth + 1)) + day - julilanOffset - 1524;
                 julilanOffset = (yPrefix = Math.floor((julianNumber - 1867216.25) / 36524.25)) - Math.floor(yPrefix / 4.) + 1;
-                var b = julianNumber + julilanOffset + 1524, c = Math.floor((b - 122.1) / 365.25), d = Math.floor(365.25 * c);
-                day = b - d - Math.floor(30.6001 * Math.floor((b - d) / 30.6001)), (month = Math.floor((b - d) / 20.6001)) > 13 && (c += 1, month -= 12), month -= 1, year = c - 4716;
+                var b = julianNumber + julilanOffset + 1524, c = Math.floor((b - 122.1) / 365.25), d = Math.floor(365.25 * c), tempMonth = Math.floor((b - d) / 30.6001);
+                day = b - d - Math.floor(30.6001 * tempMonth), (month = Math.floor((b - d) / 20.6001)) > 13 && (c += 1, month -= 12), month -= 1, year = c - 4716;
                 var modifiedJulianDate = julianNumber - 2400000, iyear = 10631. / 30., z = julianNumber - 1948084, cyc = Math.floor(z / 10631.), j = Math.floor(((z -= 10631 * cyc) - 0.1335) / iyear), im = Math.floor(((z -= Math.floor(j * iyear + 0.1335)) + 28.5001) / 29.5);
                 13 === im && (im = 12);
                 for(var tempDay = z - Math.floor(29.5001 * im - 29), i = 0; i < dateCorrection.length && !(dateCorrection[i] > modifiedJulianDate); i++);
@@ -2260,8 +2260,8 @@
                     date: hDate
                 };
             }, HijriParser.toGregorian = function(year, month, day) {
-                var z = Math.floor(day + dateCorrection[12 * (year - 1) + 1 + (month - 1) - 16260 - 1] - 1 + 2400000 + 0.5), a = Math.floor((z - 1867216.25) / 36524.25), b = (a = z + 1 + a - Math.floor(a / 4)) + 1524, c = Math.floor((b - 122.1) / 365.25), d = Math.floor(365.25 * c), e = Math.floor((b - d) / 30.6001), gMonth = e - (e > 13.5 ? 13 : 1), gYear = c - (gMonth > 2.5 ? 4716 : 4715);
-                return gYear <= 0 && gMonth--, new Date(gYear + '/' + gMonth + '/' + (b - d - Math.floor(30.6001 * e)));
+                var z = Math.floor(day + dateCorrection[12 * (year - 1) + 1 + (month - 1) - 16260 - 1] - 1 + 2400000 + 0.5), a = Math.floor((z - 1867216.25) / 36524.25), b = (a = z + 1 + a - Math.floor(a / 4)) + 1524, c = Math.floor((b - 122.1) / 365.25), d = Math.floor(365.25 * c), e = Math.floor((b - d) / 30.6001), gDay = b - d - Math.floor(30.6001 * e), gMonth = e - (e > 13.5 ? 13 : 1), gYear = c - (gMonth > 2.5 ? 4716 : 4715);
+                return gYear <= 0 && gMonth--, new Date(gYear + '/' + gMonth + '/' + gDay);
             };
             var abbreviateRegexGlobal = /\/MMMMM|MMMM|MMM|a|LLLL|LLL|EEEEE|EEEE|E|K|cccc|ccc|WW|W|G+|z+/gi, standalone = 'stand-alone', weekdayKey = [
                 'sun',
@@ -3908,14 +3908,14 @@
                 EventHandler.clearEvents(element), parentNode.removeChild(element);
             }
             function attributes(element, attributes) {
-                for(var keys = Object.keys(attributes), ele = element, _i = 0; _i < keys.length; _i++){
+                for(var keys = Object.keys(attributes), _i = 0; _i < keys.length; _i++){
                     var key = keys[_i];
-                    if (util_isObject(ele)) {
+                    if (util_isObject(element)) {
                         var iKey = key;
-                        'tabindex' === key && (iKey = 'tabIndex'), ele.attributes[iKey] = attributes[key];
-                    } else ele.setAttribute(key, attributes[key]);
+                        'tabindex' === key && (iKey = 'tabIndex'), element.attributes[iKey] = attributes[key];
+                    } else element.setAttribute(key, attributes[key]);
                 }
-                return ele;
+                return element;
             }
             function dom_select(selector, context, needsVDOM) {
                 return void 0 === context && (context = document), selector = querySelectId(selector), context.querySelector(selector);
@@ -4388,9 +4388,7 @@
                         var module = moduleList[_i], modName = modl.member;
                         if (module.prototype.getModuleName() === modl.member && !this.isModuleLoaded(modName)) {
                             var moduleObject = createInstance(module, modl.args), memberName = this.getMemberName(modName);
-                            modl.isProperty ? setValue(memberName, module, this.parent) : setValue(memberName, moduleObject, this.parent);
-                            var loadedModule = modl;
-                            loadedModule.member = memberName, this.loadedModules.push(loadedModule);
+                            modl.isProperty ? setValue(memberName, module, this.parent) : setValue(memberName, moduleObject, this.parent), modl.member = memberName, this.loadedModules.push(modl);
                         }
                     }
                 }, ModuleLoader.prototype.clean = function() {
@@ -5526,33 +5524,33 @@
                 compile: new (function() {
                     function Engine() {}
                     return Engine.prototype.compile = function(templateString, helper, ignorePrefix) {
-                        var helper1, argName, str, nameSpace, helper2, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
-                        return void 0 === helper && (helper = {}), str = templateString, nameSpace = argName = 'data', helper2 = helper1 = helper, ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = str.match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
+                        var helper1, argName, str, helper2, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
+                        return void 0 === helper && (helper = {}), argName = 'data', str = templateString, helper2 = helper1 = helper, ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = str.match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
                             singleSpace = value.replace(/\s\s+/g, ' '), str = str.replace(value, singleSpace);
                         }), Function(argName, "var str=\"" + str.replace(LINES, '').replace(DBL_QUOTED_STR, '\'$1\'').replace(exp, function(match, cnt, offset, matchStr) {
                             var matches = cnt.match(CALL_FUNCTION);
                             if (matches) {
                                 var rlStr = matches[1];
                                 if (ELSEIF_STMT.test(cnt)) cnt = '";} ' + cnt.replace(matches[1], rlStr.replace(WORD, function(str) {
-                                    return addNameSpace(str = str.trim(), !QUOTES.test(str) && -1 === localKeys.indexOf(str), nameSpace, localKeys, ignorePrefix1);
+                                    return addNameSpace(str = str.trim(), !QUOTES.test(str) && -1 === localKeys.indexOf(str), argName, localKeys, ignorePrefix1);
                                 })) + '{ \n str = str + "';
                                 else if (IF_STMT.test(cnt)) cnt = '"; ' + cnt.replace(matches[1], rlStr.replace(WORDIF, function(strs) {
-                                    return HandleSpecialCharArrObj(strs, nameSpace, localKeys, ignorePrefix1);
+                                    return HandleSpecialCharArrObj(strs, argName, localKeys, ignorePrefix1);
                                 })) + '{ \n str = str + "';
                                 else if (FOR_STMT.test(cnt)) {
                                     var rlStr_1 = matches[1].split(' of ');
                                     cnt = '"; ' + cnt.replace(matches[1], function(mtc) {
-                                        return localKeys.push(rlStr_1[0]), localKeys.push(rlStr_1[0] + 'Index'), 'var i' + (varCOunt += 1) + '=0; i' + varCOunt + ' < ' + addNameSpace(rlStr_1[1], !0, nameSpace, localKeys, ignorePrefix1) + '.length; i' + varCOunt + '++';
-                                    }) + '{ \n ' + rlStr_1[0] + '= ' + addNameSpace(rlStr_1[1], !0, nameSpace, localKeys, ignorePrefix1) + '[i' + varCOunt + ']; \n var ' + rlStr_1[0] + 'Index=i' + varCOunt + '; \n str = str + "';
+                                        return localKeys.push(rlStr_1[0]), localKeys.push(rlStr_1[0] + 'Index'), 'var i' + (varCOunt += 1) + '=0; i' + varCOunt + ' < ' + addNameSpace(rlStr_1[1], !0, argName, localKeys, ignorePrefix1) + '.length; i' + varCOunt + '++';
+                                    }) + '{ \n ' + rlStr_1[0] + '= ' + addNameSpace(rlStr_1[1], !0, argName, localKeys, ignorePrefix1) + '[i' + varCOunt + ']; \n var ' + rlStr_1[0] + 'Index=i' + varCOunt + '; \n str = str + "';
                                 } else {
                                     var fnStr = cnt.split('('), fNameSpace = helper2 && helper2.hasOwnProperty(fnStr[0]) ? 'this.' : 'global';
                                     fNameSpace = /\./.test(fnStr[0]) ? '' : fNameSpace;
                                     var ftArray = matches[1].split(',');
-                                    0 === matches[1].length || /data/.test(ftArray[0]) || /window./.test(ftArray[0]) || (matches[1] = 'global' === fNameSpace ? nameSpace + '.' + matches[1] : matches[1]), WINDOWFUNC.test(cnt) && /\]\./gm.test(cnt) || /@|\$|#/gm.test(cnt) ? /@|\$|#|\]\./gm.test(cnt) && (cnt = '"+ ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(matches[1], rlStr.replace(WORDFUNC, function(strs) {
-                                        return HandleSpecialCharArrObj(strs, nameSpace, localKeys, ignorePrefix1);
-                                    })) + '+ "') : cnt = '" + ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(rlStr, addNameSpace(matches[1].replace(/,( |)data.|,/gi, ',' + nameSpace + '.').replace(/,( |)data.window/gi, ',window'), 'global' !== fNameSpace, nameSpace, localKeys, ignorePrefix1)) + '+"';
+                                    0 === matches[1].length || /data/.test(ftArray[0]) || /window./.test(ftArray[0]) || (matches[1] = 'global' === fNameSpace ? argName + '.' + matches[1] : matches[1]), WINDOWFUNC.test(cnt) && /\]\./gm.test(cnt) || /@|\$|#/gm.test(cnt) ? /@|\$|#|\]\./gm.test(cnt) && (cnt = '"+ ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(matches[1], rlStr.replace(WORDFUNC, function(strs) {
+                                        return HandleSpecialCharArrObj(strs, argName, localKeys, ignorePrefix1);
+                                    })) + '+ "') : cnt = '" + ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(rlStr, addNameSpace(matches[1].replace(/,( |)data.|,/gi, ',' + argName + '.').replace(/,( |)data.window/gi, ',window'), 'global' !== fNameSpace, argName, localKeys, ignorePrefix1)) + '+"';
                                 }
-                            } else ELSE_STMT.test(cnt) ? cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"') : cnt = cnt.match(SINGLE_SLASH) ? '"+' + NameSpaceForspecialChar(cnt = SlashReplace(cnt), -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"' : '"+' + addNameSpace(cnt.replace(/,/gi, '+' + nameSpace + '.'), -1 === localKeys.indexOf(cnt), nameSpace, localKeys, ignorePrefix1) + '+"';
+                            } else ELSE_STMT.test(cnt) ? cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), argName, localKeys) + '"]+"') : cnt = cnt.match(SINGLE_SLASH) ? '"+' + NameSpaceForspecialChar(cnt = SlashReplace(cnt), -1 === localKeys.indexOf(cnt), argName, localKeys) + '"]+"' : '"+' + addNameSpace(cnt.replace(/,/gi, '+' + argName + '.'), -1 === localKeys.indexOf(cnt), argName, localKeys, ignorePrefix1) + '+"';
                             return cnt;
                         }) + "\";var valueRegEx = (/value=\\'([A-Za-z0-9 _]*)((.)([\\w)(!-;?-■\\s]+)['])/g);\n    var hrefRegex = (/(?:href)([\\s='\"./]+)([\\w-./?=&\\\\#\"]+)((.)([\\w)(!-;/?-■\\s]+)['])/g);\n    if(str.match(valueRegEx)){\n        var check = str.match(valueRegEx);\n        var str1 = str;\n        for (var i=0; i < check.length; i++) {\n            var check1 = str.match(valueRegEx)[i].split('value=')[1];\n            var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n            change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n            str1 = str1.replace(check1, change);\n        }\n        str = str.replace(str, str1);\n    }\n    else if (str.match(/(?:href='')/) === null) {\n        if(str.match(hrefRegex)) {\n            var check = str.match(hrefRegex);\n            var str1 = str;\n            for (var i=0; i < check.length; i++) {\n                var check1 = str.match(hrefRegex)[i].split('href=')[1];\n                if (check1) {\n                    var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n                    change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n                    str1 = str1.replace(check1, change);\n                }\n            }\n            str = str.replace(str, str1);\n        }\n    }\n     return str;").bind(helper1);
                     }, Engine;
@@ -6696,8 +6694,8 @@
                 }, NumericTextBox.prototype.correctRounding = function(value, step, result) {
                     var floatExp = RegExp('[,.](.*)'), floatValue = floatExp.test(value.toString()), floatStep = floatExp.test(step.toString());
                     if (floatValue || floatStep) {
-                        var valueCount = floatValue ? floatExp.exec(value.toString())[0].length : 0, stepCount = floatStep ? floatExp.exec(step.toString())[0].length : 0;
-                        return value = this.roundValue(result, Math.max(valueCount, stepCount));
+                        var max = Math.max(floatValue ? floatExp.exec(value.toString())[0].length : 0, floatStep ? floatExp.exec(step.toString())[0].length : 0);
+                        return value = this.roundValue(result, max);
                     }
                     return result;
                 }, NumericTextBox.prototype.roundValue = function(result, precision) {
@@ -7077,7 +7075,7 @@
                     X: !0,
                     Y: !0
                 }), target && element && positionX && positionY && (axis.X || axis.Y)) {
-                    var edge, pos, elementRect, elementRect1, tEdge = {
+                    var elementRect, elementRect1, tEdge = {
                         TL: null,
                         TR: null,
                         BL: null,
@@ -7092,7 +7090,7 @@
                         var oldVisibility = element.style.visibility;
                         element.style.visibility = 'hidden', element.style.display = 'block', elementRect1 = element.getBoundingClientRect(), element.style.removeProperty('display'), element.style.visibility = oldVisibility;
                     } else elementRect1 = element.getBoundingClientRect();
-                    var pos1 = {
+                    var pos = {
                         posX: positionX,
                         posY: positionY,
                         offsetX: offsetX,
@@ -7102,20 +7100,20 @@
                             top: 0
                         }
                     };
-                    targetContainer = viewPortElement, parentDocument = target.ownerDocument, edge = tEdge, pos = pos1, elementRect = elementRect1, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, fixedParent, elementRect), edge.TL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'top', fixedParent, elementRect), edge.TR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'top', fixedParent, elementRect), edge.BR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'bottom', fixedParent, elementRect), edge.BL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'bottom', fixedParent, elementRect), setPosition(eEdge, pos1, elementRect1), axis.X && function leftFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
+                    targetContainer = viewPortElement, parentDocument = target.ownerDocument, elementRect = elementRect1, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, fixedParent, elementRect), tEdge.TL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'top', fixedParent, elementRect), tEdge.TR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'top', fixedParent, elementRect), tEdge.BR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'bottom', fixedParent, elementRect), tEdge.BL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'bottom', fixedParent, elementRect), setPosition(eEdge, pos, elementRect1), axis.X && function leftFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
                         var collideSide = leftCollideCheck(edge.TL.left, edge.TR.left);
                         tEdge.TL.left - getBodyScrollLeft() <= ContainerLeft() && (collideSide.leftSide = !1), tEdge.TR.left > ContainerRight() && (collideSide.rightSide = !1), (collideSide.leftSide && !collideSide.rightSide || !collideSide.leftSide && collideSide.rightSide) && ('right' === pos.posX ? pos.posX = 'left' : pos.posX = 'right', pos.offsetX = pos.offsetX + elementRect.width, pos.offsetX = -1 * pos.offsetX, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, !1), setPosition(edge, pos, elementRect), deepCheck && leftFlip(target, edge, tEdge, pos, elementRect, !1));
-                    }(target, eEdge, tEdge, pos1, elementRect1, !0), axis.Y && tEdge.TL.top > -1 && function topFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
+                    }(target, eEdge, tEdge, pos, elementRect1, !0), axis.Y && tEdge.TL.top > -1 && function topFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
                         var collideSide = topCollideCheck(edge.TL.top, edge.BL.top);
                         tEdge.TL.top - getBodyScrollTop() <= ContainerTop() && (collideSide.topSide = !1), tEdge.BL.top >= ContainerBottom() && target.getBoundingClientRect().bottom < window.innerHeight && (collideSide.bottomSide = !1), (collideSide.topSide && !collideSide.bottomSide || !collideSide.topSide && collideSide.bottomSide) && ('top' === pos.posY ? pos.posY = 'bottom' : pos.posY = 'top', pos.offsetY = pos.offsetY + elementRect.height, pos.offsetY = -1 * pos.offsetY, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, !1, elementRect), setPosition(edge, pos, elementRect), deepCheck && topFlip(target, edge, tEdge, pos, elementRect, !1));
-                    }(target, eEdge, tEdge, pos1, elementRect1, !0), function(element, pos, elementRect) {
+                    }(target, eEdge, tEdge, pos, elementRect1, !0), function(element, pos, elementRect) {
                         var left = 0, top1 = 0;
                         if (null != element.offsetParent && ('absolute' === getComputedStyle(element.offsetParent).position || 'relative' === getComputedStyle(element.offsetParent).position)) {
                             var data = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(element.offsetParent, 'left', 'top', !1, elementRect);
                             left = data.left, top1 = data.top;
                         }
                         element.style.top = pos.position.top + pos.offsetY - top1 + 'px', element.style.left = pos.position.left + pos.offsetX - left + 'px';
-                    }(element, pos1, elementRect1);
+                    }(element, pos, elementRect1);
                 }
             }
             function setPosition(eStatus, pos, elementRect) {
@@ -9848,12 +9846,12 @@
                         }
                     });
                 }, Dialog.prototype.setAllowDragging = function() {
-                    var _this = this;
+                    var _this = this, handleContent = '.' + DLG_HEADER_CONTENT;
                     this.element.classList.contains('e-draggable') || (this.dragObj = new ej2_base._l(this.element, {
                         clone: !1,
                         isDragScroll: !0,
                         abort: '.e-dlg-closeicon-btn',
-                        handle: '.' + DLG_HEADER_CONTENT,
+                        handle: handleContent,
                         dragStart: function(event) {
                             _this.trigger('dragStart', event, function(dragEventArgs) {
                                 (0, ej2_base.xr)() && dragEventArgs.bindEvents(event.dragElement);
@@ -10111,7 +10109,14 @@
                     return this.addOnPersist([]);
                 }, Dialog.prototype.destroy = function() {
                     if (!this.isDestroyed) {
-                        var attrs = [
+                        var classArray = [
+                            RTL,
+                            MODAL_DLG,
+                            DLG_RESIZABLE,
+                            DLG_RESTRICT_LEFT_VALUE,
+                            FULLSCREEN,
+                            DEVICE
+                        ], attrs = [
                             'role',
                             'aria-modal',
                             'aria-labelledby',
@@ -10135,14 +10140,7 @@
                         ], SCROLL_DISABLED), this.unWireEvents(), !(0, ej2_base.le)(this.btnObj)) for(var i = 0; i < this.btnObj.length; i++)this.btnObj[i].destroy();
                         if ((0, ej2_base.le)(this.dragObj) || this.dragObj.destroy(), !(0, ej2_base.le)(this.popupObj.element) && this.popupObj.element.classList.contains('e-popup') && this.popupObj.destroy(), (0, ej2_base.IV)([
                             this.element
-                        ], [
-                            RTL,
-                            MODAL_DLG,
-                            DLG_RESIZABLE,
-                            DLG_RESTRICT_LEFT_VALUE,
-                            FULLSCREEN,
-                            DEVICE
-                        ]), (0, ej2_base.le)(this.cssClass) || '' === this.cssClass || (0, ej2_base.IV)([
+                        ], classArray), (0, ej2_base.le)(this.cssClass) || '' === this.cssClass || (0, ej2_base.IV)([
                             this.element
                         ], this.cssClass.split(' ')), (0, ej2_base.le)(this.refElement) || (0, ej2_base.le)(this.refElement.parentElement) || (this.refElement.parentElement.insertBefore(this.isModal ? this.dlgContainer : this.element, this.refElement), (0, ej2_base.og)(this.refElement), this.refElement = void 0), this.isModal && !this.isBlazorServerRender() && ((0, ej2_base.og)(this.dlgOverlay), this.dlgContainer.parentNode.insertBefore(this.element, this.dlgContainer), (0, ej2_base.og)(this.dlgContainer)), this.isBlazorServerRender() || (this.element.innerHTML = this.clonedEle.innerHTML), this.isBlazorServerRender() && !(0, ej2_base.le)(this.element.children)) for(var i = 0; i <= this.element.children.length; i++)i -= i, (0, ej2_base.og)(this.element.children[i]);
                         for(var i = 0; i < attrs.length; i++)this.element.removeAttribute(attrs[i]);
@@ -10371,8 +10369,7 @@
                     } : option.animationSettings, options.cssClass = (0, ej2_base.le)(option.cssClass) ? '' : option.cssClass, options.zIndex = (0, ej2_base.le)(option.zIndex) ? 1000 : option.zIndex, options.open = (0, ej2_base.le)(option.open) ? null : option.open, options;
                 }
                 function formButtonModel(buttonModel, option, buttonPropModel) {
-                    var buttonProps = buttonPropModel;
-                    return (0, ej2_base.le)(option.text) || (buttonProps.buttonModel.content = option.text), (0, ej2_base.le)(option.icon) || (buttonProps.buttonModel.iconCss = option.icon), (0, ej2_base.le)(option.cssClass) || (buttonProps.buttonModel.cssClass = option.cssClass), (0, ej2_base.le)(option.click) || (buttonProps.click = option.click), buttonProps;
+                    return (0, ej2_base.le)(option.text) || (buttonPropModel.buttonModel.content = option.text), (0, ej2_base.le)(option.icon) || (buttonPropModel.buttonModel.iconCss = option.icon), (0, ej2_base.le)(option.cssClass) || (buttonPropModel.buttonModel.cssClass = option.cssClass), (0, ej2_base.le)(option.click) || (buttonPropModel.click = option.click), buttonPropModel;
                 }
                 DialogUtility.alert = function(args) {
                     var options, options1, alertButtonModel, alertDialogObj, dialogElement = (0, ej2_base.az)('div', {
@@ -10747,11 +10744,11 @@
                 }, RichTextEditor.prototype.eventInitializer = function() {
                     this.wireEvents();
                 }, RichTextEditor.prototype.cleanList = function(e) {
-                    var range = this.getRange(), currentStartContainer = range.startContainer, currentEndContainer = range.endContainer, currentStartOffset = range.startOffset, currentEndOffset = currentEndContainer.textContent.length, endNode = '#text' === range.endContainer.nodeName ? range.endContainer.parentElement : range.endContainer, closestLI = (0, ej2_base.oq)(endNode, 'LI');
+                    var range = this.getRange(), currentStartContainer = range.startContainer, currentEndContainer = range.endContainer, currentStartOffset = range.startOffset, isSameContainer = currentStartContainer === currentEndContainer, currentEndOffset = currentEndContainer.textContent.length, endNode = '#text' === range.endContainer.nodeName ? range.endContainer.parentElement : range.endContainer, closestLI = (0, ej2_base.oq)(endNode, 'LI');
                     if (!(0, ej2_base.le)(closestLI) && endNode.textContent.length === range.endOffset && !range.collapsed && (0, ej2_base.le)(endNode.nextElementSibling)) {
                         for(var i = 0; i < closestLI.childNodes.length; i++)"#text" === closestLI.childNodes[i].nodeName && 0 === closestLI.childNodes[i].textContent.trim().length && ((0, ej2_base.og)(closestLI.childNodes[i]), i--);
                         for(var currentLastElem = closestLI; null !== currentLastElem.lastChild && '#text' !== currentLastElem.nodeName;)currentLastElem = currentLastElem.lastChild;
-                        this.formatter.editorManager.nodeSelection.setSelectionText(this.contentModule.getDocument(), currentStartContainer === currentEndContainer ? currentStartContainer : 'BR' !== currentLastElem.nodeName || (0, ej2_base.le)(currentLastElem.previousSibling) ? currentStartContainer : currentLastElem.previousSibling, currentEndContainer, currentStartOffset, 'BR' === currentLastElem.nodeName ? 0 : currentEndOffset);
+                        this.formatter.editorManager.nodeSelection.setSelectionText(this.contentModule.getDocument(), isSameContainer ? currentStartContainer : 'BR' !== currentLastElem.nodeName || (0, ej2_base.le)(currentLastElem.previousSibling) ? currentStartContainer : currentLastElem.previousSibling, currentEndContainer, currentStartOffset, 'BR' === currentLastElem.nodeName ? 0 : currentEndOffset);
                     }
                 }, RichTextEditor.prototype.keyDown = function(e) {
                     if (this.notify(constant.QG, {
@@ -16133,7 +16130,7 @@
                         var container3, template = (0, ej2_base.le)(args.template) ? null : args.template;
                         container.wrap.classList.add(CLS_SPINTEMPLATE), container3 = container.wrap, (0, ej2_base.le)(null) || container3.classList.add(null), container3.querySelector('.e-spinner-inner').innerHTML = template;
                     }
-                    container.wrap.classList.add(CLS_HIDESPIN), container = null;
+                    container.wrap.classList.add(CLS_HIDESPIN);
                 }
             }
             function random_generator() {
@@ -19436,10 +19433,10 @@
                     });
                     nav.appendChild(navItem), nav.setAttribute('tabindex', '0'), nav.setAttribute('role', 'list'), element.appendChild(nav);
                 }, Toolbar.prototype.tbarPriRef = function(inEle, indx, sepPri, el, des, elWid, wid, ig) {
-                    var popEle = this.popObj.element, priEleCnt = (0, ej2_base.td)('.' + CLS_POPUP + ':not(.' + CLS_TBAROVERFLOW + ')', popEle).length, checkClass = function(ele, val) {
+                    var popEle = this.popObj.element, query = '.' + CLS_ITEM + ':not(.' + CLS_SEPARATOR + '):not(.' + CLS_TBAROVERFLOW + ')', priEleCnt = (0, ej2_base.td)('.' + CLS_POPUP + ':not(.' + CLS_TBAROVERFLOW + ')', popEle).length, checkClass = function(ele, val) {
                         return ele.classList.contains(val);
                     };
-                    if (0 === (0, ej2_base.td)('.' + CLS_ITEM + ':not(.' + CLS_SEPARATOR + '):not(.' + CLS_TBAROVERFLOW + ')', inEle).length) {
+                    if (0 === (0, ej2_base.td)(query, inEle).length) {
                         var eleSep = inEle.children[indx - (indx - sepPri) - 1], ignoreCheck = !(0, ej2_base.le)(eleSep) && checkClass(eleSep, CLS_TBARIGNORE);
                         if (!(0, ej2_base.le)(eleSep) && checkClass(eleSep, CLS_SEPARATOR) && !(0, ej2_base.pn)(eleSep) || ignoreCheck) {
                             eleSep.style.display = 'inherit';
@@ -19567,24 +19564,24 @@
                 }, Toolbar.prototype.setAttr = function(attr, element) {
                     for(var keyVal, key = Object.keys(attr), i = 0; i < key.length; i++)'class' === (keyVal = key[i]) ? this.add(element, attr[keyVal]) : element.setAttribute(keyVal, attr[keyVal]);
                 }, Toolbar.prototype.enableItems = function(items, isEnable) {
-                    var ele, elements = items, len = elements.length;
+                    var ele, len = items.length;
                     (0, ej2_base.le)(isEnable) && (isEnable = !0);
                     var enable = function(isEnable, ele) {
                         isEnable ? (ele.classList.remove(toolbar_CLS_DISABLE), ele.setAttribute('aria-disabled', 'false')) : (ele.classList.add(toolbar_CLS_DISABLE), ele.setAttribute('aria-disabled', 'true'));
                     };
                     if (!(0, ej2_base.le)(len) && len >= 1) {
-                        for(var a = 0, element = [].slice.call(elements); a < len; a++){
+                        for(var a = 0, element = [].slice.call(items); a < len; a++){
                             var itemElement = element[a];
                             if ('number' == typeof itemElement) {
                                 if (ele = this.getElementByIndex(itemElement), (0, ej2_base.le)(ele)) return;
-                                elements[a] = ele;
+                                items[a] = ele;
                             } else ele = itemElement;
                             enable(isEnable, ele);
                         }
-                        isEnable ? (0, ej2_base.IV)(elements, toolbar_CLS_DISABLE) : (0, ej2_base.cn)(elements, toolbar_CLS_DISABLE);
+                        isEnable ? (0, ej2_base.IV)(items, toolbar_CLS_DISABLE) : (0, ej2_base.cn)(items, toolbar_CLS_DISABLE);
                     } else {
-                        if ('number' == typeof elements) {
-                            if (ele = this.getElementByIndex(elements), (0, ej2_base.le)(ele)) return;
+                        if ('number' == typeof items) {
+                            if (ele = this.getElementByIndex(items), (0, ej2_base.le)(ele)) return;
                         } else ele = items;
                         enable(isEnable, ele);
                     }
@@ -20652,13 +20649,13 @@
                     }
                     return pos.left += this.offsetX, pos.top += this.offsetY, pos;
                 }, Tooltip.prototype.updateTipPosition = function(position) {
-                    var selEle = (0, ej2_base.td)('.' + ARROW_TIP + ',.' + ARROW_TIP_OUTER + ',.' + ARROW_TIP_INNER, this.tooltipEle);
-                    (0, ej2_base.IV)(selEle, [
+                    var selEle = (0, ej2_base.td)('.' + ARROW_TIP + ',.' + ARROW_TIP_OUTER + ',.' + ARROW_TIP_INNER, this.tooltipEle), removeList = [
                         TIP_BOTTOM,
                         TIP_TOP,
                         TIP_LEFT,
                         TIP_RIGHT
-                    ]), this.setTipClass(position), (0, ej2_base.cn)(selEle, this.tipClass);
+                    ];
+                    (0, ej2_base.IV)(selEle, removeList), this.setTipClass(position), (0, ej2_base.cn)(selEle, this.tipClass);
                 }, Tooltip.prototype.adjustArrow = function(target, position, tooltipPositionX, tooltipPositionY) {
                     if (!1 !== this.showTipPointer) {
                         this.updateTipPosition(position), this.tooltipEle.style.display = 'block';
@@ -21282,7 +21279,8 @@
                     var decimalPart = value.toString().split('.')[1];
                     return decimalPart && decimalPart.length ? decimalPart.length : 0;
                 }, Slider.prototype.makeRoundNumber = function(value, precision) {
-                    return Number(value.toFixed(precision || 0));
+                    var decimals = precision || 0;
+                    return Number(value.toFixed(decimals));
                 }, Slider.prototype.fractionalToInteger = function(value) {
                     value = 0 === this.numberOfDecimals(value) ? Number(value).toFixed(this.noOfDecimals) : value;
                     for(var tens = 1, i = 0; i < this.noOfDecimals; i++)tens *= 10;
@@ -23749,18 +23747,18 @@
                 }, BaseToolbar.prototype.getItems = function(tbItems, container) {
                     var _this = this;
                     if (this.parent.toolbarSettings.items.length < 1) return [];
-                    for(var items = [], this_1 = this, _i = 0; _i < tbItems.length; _i++)!function(item) {
+                    for(var items = [], _loop_1 = function(item) {
                         if ('string' == typeof item) items.push(this_1.getObject(item, container));
                         else {
                             if (!(0, ej2_base.le)(item.click)) {
-                                var proxy_1 = item, callback_1 = proxy_1.click;
-                                proxy_1.click = function() {
-                                    proxy_1.undo && 0 === _this.parent.formatter.getUndoRedoStack().length && _this.parent.formatter.saveData(), callback_1.call(_this), _this.parent.formatter.getUndoRedoStack()[_this.parent.formatter.getUndoRedoStack().length - 1].text.trim() !== _this.parent.inputElement.innerHTML.trim() && proxy_1.undo && _this.parent.formatter.saveData();
+                                var callback_1 = item.click;
+                                item.click = function() {
+                                    item.undo && 0 === _this.parent.formatter.getUndoRedoStack().length && _this.parent.formatter.saveData(), callback_1.call(_this), _this.parent.formatter.getUndoRedoStack()[_this.parent.formatter.getUndoRedoStack().length - 1].text.trim() !== _this.parent.inputElement.innerHTML.trim() && item.undo && _this.parent.formatter.saveData();
                                 };
                             }
                             items.push(item);
                         }
-                    }(tbItems[_i]);
+                    }, this_1 = this, _i = 0; _i < tbItems.length; _i++)_loop_1(tbItems[_i]);
                     return items;
                 }, BaseToolbar.prototype.getToolbarOptions = function(args) {
                     return {

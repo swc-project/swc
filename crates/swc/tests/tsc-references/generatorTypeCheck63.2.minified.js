@@ -13,11 +13,21 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    strategy: ()=>strategy,
-    Nothing: ()=>Nothing,
-    Nothing1: ()=>Nothing1,
-    Nothing2: ()=>Nothing2,
-    Nothing3: ()=>Nothing3
+    strategy: function() {
+        return strategy;
+    },
+    Nothing: function() {
+        return Nothing;
+    },
+    Nothing1: function() {
+        return Nothing1;
+    },
+    Nothing2: function() {
+        return Nothing2;
+    },
+    Nothing3: function() {
+        return Nothing3;
+    }
 });
 const Nothing = strategy("Nothing", function*(state) {
     return yield 1, state;

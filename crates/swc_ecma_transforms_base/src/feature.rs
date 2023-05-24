@@ -3,7 +3,7 @@ use bitflags::bitflags;
 use swc_ecma_ast::EsVersion::{self, *};
 
 bitflags! {
-    #[derive(Default)]
+    #[derive(Default, Clone, Copy)]
     pub struct FeatureFlag: u64 {
         /// `transform-template-literals`
         const TemplateLiterals = 1 << 0;

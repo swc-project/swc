@@ -7,8 +7,8 @@ function MyDecorator(klass) {
 class MyClass {
     prop: "";
 }
-__decorate([
+_ts_decorate([
     MyDecorator(MyClass),
-    __metadata("design:type", String)
+    _ts_metadata("design:type", String)
 ], MyClass.prototype, "prop", void 0);
 console.log(new MyClass());

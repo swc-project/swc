@@ -2635,7 +2635,7 @@ test!(
     function _getThing() {
         _getThing = _async_to_generator(function(key) {
             var it, _tmp;
-            return __generator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         _tmp = cache[key];
@@ -2790,7 +2790,7 @@ test!(
     }
     MyClass.prototype.fun = function() {
         var _fun = _async_to_generator(function() {
-            return __generator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 console.log('fun | this.item', this.item);
                 return [
                     2,
@@ -2888,7 +2888,7 @@ test!(
     MyClass.prototype.init = function() {
         var _ref = _async_to_generator(function(param1) {
             var a;
-            return __generator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 a = 1;
                 if (!param1) {
                     console.log(this);
@@ -2943,7 +2943,7 @@ export default async function someCall() {
   }
   function _region() {
       _region = _async_to_generator(function() {
-          return __generator(this, function(_state) {
+          return _ts_generator(this, function(_state) {
               return [
                   2
               ];
@@ -2956,7 +2956,7 @@ export default async function someCall() {
   }
   function _otherCall() {
       _otherCall = _async_to_generator(function() {
-          return __generator(this, function(_state) {
+          return _ts_generator(this, function(_state) {
               switch(_state.label){
                   case 0:
                       return [
@@ -2978,7 +2978,7 @@ export default async function someCall() {
   }
   function _someCall() {
       _someCall = _async_to_generator(function() {
-          return __generator(this, function(_state) {
+          return _ts_generator(this, function(_state) {
               switch(_state.label){
                   case 0:
                       return [
@@ -3022,7 +3022,7 @@ export default async function() {
     }
     function _region() {
         _region = _async_to_generator(function() {
-            return __generator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 return [
                     2
                 ];
@@ -3035,7 +3035,7 @@ export default async function() {
     }
     function _ref() {
         _ref = _async_to_generator(function() {
-            return __generator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [

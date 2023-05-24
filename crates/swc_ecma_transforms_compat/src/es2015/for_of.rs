@@ -140,7 +140,7 @@ impl ForOf {
             };
 
             match left {
-                VarDeclOrPat::VarDecl(var) => {
+                ForHead::VarDecl(var) => {
                     assert_eq!(
                         var.decls.len(),
                         1,
@@ -163,7 +163,7 @@ impl ForOf {
                     )
                 }
 
-                VarDeclOrPat::Pat(pat) => prepend_stmt(
+                ForHead::Pat(pat) => prepend_stmt(
                     &mut body.stmts,
                     AssignExpr {
                         span: DUMMY_SP,
@@ -173,6 +173,10 @@ impl ForOf {
                     }
                     .into_stmt(),
                 ),
+
+                ForHead::UsingDecl(..) => {
+                    unreachable!("using declaration must be removed by previous pass")
+                }
             }
 
             let stmt = Stmt::For(ForStmt {
@@ -213,10 +217,7 @@ impl ForOf {
                     name: iterator.clone().into(),
                     init: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: helper!(
-                            create_for_of_iterator_helper_loose,
-                            "create_for_of_iterator_helper_loose"
-                        ),
+                        callee: helper!(create_for_of_iterator_helper_loose),
                         args: vec![right.as_arg()],
                         type_args: Default::default(),
                     }))),
@@ -239,7 +240,7 @@ impl ForOf {
             };
 
             match left {
-                VarDeclOrPat::VarDecl(var) => {
+                ForHead::VarDecl(var) => {
                     assert_eq!(
                         var.decls.len(),
                         1,
@@ -262,7 +263,7 @@ impl ForOf {
                     )
                 }
 
-                VarDeclOrPat::Pat(pat) => prepend_stmt(
+                ForHead::Pat(pat) => prepend_stmt(
                     &mut body.stmts,
                     AssignExpr {
                         span: DUMMY_SP,
@@ -272,6 +273,10 @@ impl ForOf {
                     }
                     .into_stmt(),
                 ),
+
+                ForHead::UsingDecl(..) => {
+                    unreachable!("using declaration must be removed by previous pass")
+                }
             }
 
             // !(_step = _iterator()).done;
@@ -335,7 +340,7 @@ impl ForOf {
         body.stmts.insert(
             0,
             match left {
-                VarDeclOrPat::VarDecl(mut var) => {
+                ForHead::VarDecl(mut var) => {
                     assert_eq!(var.decls.len(), 1);
                     VarDecl {
                         span: var.span,
@@ -348,13 +353,17 @@ impl ForOf {
                     }
                     .into()
                 }
-                VarDeclOrPat::Pat(pat) => AssignExpr {
+                ForHead::Pat(pat) => AssignExpr {
                     span: DUMMY_SP,
                     left: PatOrExpr::Pat(pat),
                     op: op!("="),
                     right: step_value,
                 }
                 .into_stmt(),
+
+                ForHead::UsingDecl(..) => {
+                    unreachable!("using declaration must be removed by previous pass")
+                }
             },
         );
 

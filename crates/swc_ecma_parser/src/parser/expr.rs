@@ -105,7 +105,7 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                let type_parameters = p.parse_ts_type_params(false, false)?;
+                let type_parameters = p.parse_ts_type_params(false, true)?;
                 let mut arrow = p.parse_assignment_expr_base()?;
                 match *arrow {
                     Expr::Arrow(ArrowExpr {
@@ -590,6 +590,15 @@ impl<I: Tokens> Parser<I> {
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
+        let ctx = Context {
+            should_not_lex_lt_or_gt_as_type: true,
+            ..self.ctx()
+        };
+        self.with_ctx(ctx)
+            .parse_member_expr_or_new_expr_inner(is_new_expr)
+    }
+
+    fn parse_member_expr_or_new_expr_inner(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_member_expr_or_new_expr);
 
         let start = cur_pos!(self);
@@ -647,7 +656,12 @@ impl<I: Tokens> Parser<I> {
 
             let type_args = if self.input.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts(|p| {
-                    let args = p.parse_ts_type_args()?;
+                    let ctx = Context {
+                        should_not_lex_lt_or_gt_as_type: false,
+                        ..p.ctx()
+                    };
+
+                    let args = p.with_ctx(ctx).parse_ts_type_args()?;
                     if !is!(p, '(') {
                         // This will fail
                         expect!(p, '(');
@@ -705,6 +719,7 @@ impl<I: Tokens> Parser<I> {
             None
         };
         let obj = if let Some(type_args) = type_args {
+            trace_cur!(self, parse_member_expr_or_new_expr__with_type_args);
             Box::new(Expr::TsInstantiation(TsInstantiation {
                 expr: obj,
                 type_args,
@@ -1127,6 +1142,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_subscripts(
         &mut self,
         mut obj: Callee,
@@ -1143,6 +1159,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// returned bool is true if this method should be called again.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_subscript(
         &mut self,
         start: BytePos,
@@ -1150,6 +1167,7 @@ impl<I: Tokens> Parser<I> {
         no_call: bool,
         no_computed_member: bool,
     ) -> PResult<(Box<Expr>, bool)> {
+        trace_cur!(self, parse_subscript);
         let _ = cur!(self, false);
 
         if self.input.syntax().typescript() {
@@ -1194,7 +1212,11 @@ impl<I: Tokens> Parser<I> {
 
                 let mut_obj_opt = &mut obj_opt;
 
-                let result = self.try_parse_ts(|p| {
+                let ctx: Context = Context {
+                    should_not_lex_lt_or_gt_as_type: true,
+                    ..self.ctx()
+                };
+                let result = self.with_ctx(ctx).try_parse_ts(|p| {
                     if !no_call
                         && p.at_possible_async(match &mut_obj_opt {
                             Some(Callee::Expr(ref expr)) => expr,
@@ -1235,6 +1257,18 @@ impl<I: Tokens> Parser<I> {
                         )
                         .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
                         .map(Some)
+                    } else if is!(p, '=') {
+                        Ok(Some((
+                            Box::new(Expr::TsInstantiation(TsInstantiation {
+                                span: span!(p, start),
+                                expr: match mut_obj_opt {
+                                    Some(Callee::Expr(obj)) => obj.take(),
+                                    _ => unreachable!(),
+                                },
+                                type_args,
+                            })),
+                            true,
+                        )))
                     } else if no_call {
                         unexpected!(p, "`")
                     } else {
@@ -1525,6 +1559,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse call, dot, and `[]`-subscript expressions.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_lhs_expr);
 
@@ -1643,7 +1678,7 @@ impl<I: Tokens> Parser<I> {
         Ok(callee)
     }
 
-    pub(super) fn parse_expr_or_pat(&mut self) -> PResult<Box<Expr>> {
+    pub(super) fn parse_for_head_prefix(&mut self) -> PResult<Box<Expr>> {
         self.parse_expr()
     }
 

@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript"
+        },
+        "target": "es5",
+        "minify": {
+            "compress": false,
+            "mangle": false
+        }
+    },
+    "env": {
+        "targets": "chrome 30"
+    },
+    "minify": false
+}

@@ -549,6 +549,18 @@ impl<'a> VisitMut for Resolver<'a> {
 
             let old = child.ident_type;
             child.ident_type = IdentType::Binding;
+            {
+                let params = e
+                    .params
+                    .iter()
+                    .filter(|p| !p.is_rest())
+                    .flat_map(find_pat_ids)
+                    .collect::<Vec<Id>>();
+
+                for id in params {
+                    child.current.declared_symbols.insert(id.0, DeclKind::Param);
+                }
+            }
             e.params.visit_mut_with(child);
             child.ident_type = old;
 
@@ -716,6 +728,21 @@ impl<'a> VisitMut for Resolver<'a> {
         self.with_child(ScopeKind::Fn, |child| {
             let old = child.ident_type;
             child.ident_type = IdentType::Binding;
+            {
+                let params = c
+                    .params
+                    .iter()
+                    .filter(|p| match p {
+                        ParamOrTsParamProp::TsParamProp(_) => false,
+                        ParamOrTsParamProp::Param(p) => !p.pat.is_rest(),
+                    })
+                    .flat_map(find_pat_ids)
+                    .collect::<Vec<Id>>();
+
+                for id in params {
+                    child.current.declared_symbols.insert(id.0, DeclKind::Param);
+                }
+            }
             c.params.visit_mut_with(child);
             child.ident_type = old;
 
@@ -802,7 +829,6 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
         // We don't fold ident as Hoister handles this.
-
         node.function.decorators.visit_mut_with(self);
 
         self.with_child(ScopeKind::Fn, |child| node.function.visit_mut_with(child));
@@ -1829,9 +1855,9 @@ impl VisitMut for Hoister<'_, '_> {
         }
     }
 
-    fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
+    fn visit_mut_for_head(&mut self, n: &mut ForHead) {
         match n {
-            VarDeclOrPat::VarDecl(v)
+            ForHead::VarDecl(v)
                 if matches!(
                     &**v,
                     VarDecl {
@@ -1848,7 +1874,7 @@ impl VisitMut for Hoister<'_, '_> {
             //     console.log(a);
             //   }
             // }
-            VarDeclOrPat::Pat(..) => {}
+            ForHead::Pat(..) => {}
             _ => {
                 n.visit_mut_children_with(self);
             }

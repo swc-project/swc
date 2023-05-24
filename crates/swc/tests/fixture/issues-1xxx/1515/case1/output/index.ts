@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "ServiceError", {
     enumerable: true,
-    get: ()=>ServiceError
+    get: function() {
+        return ServiceError;
+    }
 });
 const _define_property = require("@swc/helpers/_/_define_property");
 class ServiceError extends Error {

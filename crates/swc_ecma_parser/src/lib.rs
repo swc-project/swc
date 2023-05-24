@@ -281,6 +281,13 @@ impl Syntax {
             _ => false,
         }
     }
+
+    fn using_decl(&self) -> bool {
+        match self {
+            Syntax::Es(EsConfig { using_decl, .. }) => *using_decl,
+            Syntax::Typescript(_) => true,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
@@ -345,6 +352,9 @@ pub struct EsConfig {
 
     #[serde(default)]
     pub auto_accessors: bool,
+
+    #[serde(default)]
+    pub using_decl: bool,
 }
 
 /// Syntactic context.
@@ -372,6 +382,8 @@ pub struct Context {
     is_break_allowed: bool,
 
     in_type: bool,
+    /// Typescript extension.
+    should_not_lex_lt_or_gt_as_type: bool,
     /// Typescript extension.
     in_declare: bool,
 
@@ -403,6 +415,8 @@ pub struct Context {
     ignore_else_clause: bool,
 
     disallow_conditional_types: bool,
+
+    allow_using_decl: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default)]

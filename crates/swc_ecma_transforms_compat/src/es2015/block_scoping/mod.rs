@@ -279,7 +279,7 @@ impl BlockScoping {
                                 op: op!("==="),
                                 left: {
                                     // _type_of(_ret)
-                                    let callee = helper!(type_of, "type_of");
+                                    let callee = helper!(type_of);
 
                                     Expr::Call(CallExpr {
                                         span: Default::default(),
@@ -438,7 +438,7 @@ impl VisitMut for BlockScoping {
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
         let blockifyed = self.blockify_for_stmt_body(&mut node.body);
-        let lexical_var = if let VarDeclOrPat::VarDecl(decl) = &node.left {
+        let lexical_var = if let ForHead::VarDecl(decl) = &node.left {
             find_lexical_vars(decl)
         } else {
             Vec::new()
@@ -463,7 +463,7 @@ impl VisitMut for BlockScoping {
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
         let blockifyed = self.blockify_for_stmt_body(&mut node.body);
-        let vars = if let VarDeclOrPat::VarDecl(decl) = &node.left {
+        let vars = if let ForHead::VarDecl(decl) = &node.left {
             find_lexical_vars(decl)
         } else {
             Vec::new()

@@ -177,11 +177,11 @@ impl<'a> Tester<'a> {
             res?
         };
 
-        let module = module
+        let module = Program::Module(module)
             .fold_with(&mut tr)
             .fold_with(&mut as_folder(Normalizer));
 
-        Ok(module)
+        Ok(module.expect_module())
     }
 
     pub fn print(&mut self, module: &Module, comments: &Rc<SingleThreadedComments>) -> String {
@@ -539,8 +539,9 @@ fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
         fs::write(&success_cache, "").unwrap();
         return Ok(());
     }
+    let dir_name = path.display().to_string();
     ::std::mem::forget(tmp_dir);
-    panic!("Execution failed")
+    panic!("Execution failed: {dir_name}")
 }
 
 fn stdout_of(code: &str) -> Result<String, Error> {

@@ -3,24 +3,22 @@ use std::sync::Arc;
 use parking_lot::Mutex;
 use swc_common::{
     comments::{Comments, SingleThreadedComments},
-    plugin::serialized::PluginSerializedBytes,
+    plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
     BytePos,
 };
 use swc_plugin_proxy::COMMENTS;
-use wasmer::{LazyInit, Memory, NativeFunc};
+use wasmer::{AsStoreMut, FunctionEnvMut, Memory, TypedFunction};
 
 use crate::memory_interop::{allocate_return_values_into_guest, copy_bytes_into_host};
 
 /// External environment state for imported (declared in host, injected into
 /// guest) fn for comments proxy.
-#[derive(wasmer::WasmerEnv, Clone)]
+#[derive(Clone)]
 pub struct CommentHostEnvironment {
-    #[wasmer(export)]
-    pub memory: wasmer::LazyInit<Memory>,
+    pub memory: Option<Memory>,
     /// Attached imported fn `__alloc` to the hostenvironment to allow any other
     /// imported fn can allocate guest's memory space from host runtime.
-    #[wasmer(export(name = "__alloc"))]
-    pub alloc_guest_memory: LazyInit<NativeFunc<u32, u32>>,
+    pub alloc_guest_memory: Option<TypedFunction<u32, u32>>,
     /// A buffer to `Comment`, or `Vec<Comment>` plugin need to pass to the host
     /// to perform mutable comment operations like `add_leading, or
     /// add_leading_comments`. This is vec to serialized bytes, doesn't
@@ -32,8 +30,8 @@ pub struct CommentHostEnvironment {
 impl CommentHostEnvironment {
     pub fn new(mutable_comment_buffer: &Arc<Mutex<Vec<u8>>>) -> CommentHostEnvironment {
         CommentHostEnvironment {
-            memory: LazyInit::default(),
-            alloc_guest_memory: LazyInit::default(),
+            memory: None,
+            alloc_guest_memory: None,
             mutable_comment_buffer: mutable_comment_buffer.clone(),
         }
     }
@@ -42,11 +40,18 @@ impl CommentHostEnvironment {
 /// Copy given serialized byte into host's comment buffer, subsequent proxy call
 /// in the host can read it.
 #[tracing::instrument(level = "info", skip_all)]
-pub fn copy_comment_to_host_env(env: &CommentHostEnvironment, bytes_ptr: u32, bytes_ptr_len: u32) {
-    if let Some(memory) = env.memory_ref() {
-        (*env.mutable_comment_buffer.lock()) =
-            copy_bytes_into_host(memory, bytes_ptr, bytes_ptr_len);
-    }
+pub fn copy_comment_to_host_env(
+    mut env: FunctionEnvMut<CommentHostEnvironment>,
+    bytes_ptr: i32,
+    bytes_ptr_len: i32,
+) {
+    let memory = env
+        .data()
+        .memory
+        .as_ref()
+        .expect("Memory instance should be available, check initialization");
+    (*env.data_mut().mutable_comment_buffer.lock()) =
+        copy_bytes_into_host(&memory.view(&env), bytes_ptr, bytes_ptr_len);
 }
 
 /// Utility fn to unwrap necessary values for the comments fn operation when fn
@@ -88,31 +93,39 @@ where
 /// Utility fn to unwrap necessary values for the comments, as well as host
 /// environment's state.
 #[tracing::instrument(level = "info", skip_all)]
-fn unwrap_comments_storage_with_env<F, R>(env: &CommentHostEnvironment, f: F, default: R) -> R
+fn unwrap_comments_storage_with_env<F, R>(
+    env: &FunctionEnvMut<CommentHostEnvironment>,
+    f: F,
+    default: R,
+) -> R
 where
-    F: FnOnce(&SingleThreadedComments, &Memory, &NativeFunc<u32, u32>) -> R,
+    F: FnOnce(&SingleThreadedComments, &Memory, &TypedFunction<u32, u32>) -> R,
 {
-    if let Some(memory) = env.memory_ref() {
-        if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
-            return unwrap_comments_storage_or_default(
-                |comments| f(comments, memory, alloc_guest_memory),
-                default,
-            );
-        }
-    }
-    default
+    let memory = env
+        .data()
+        .memory
+        .as_ref()
+        .expect("Memory instance should be available, check initialization");
+
+    let alloc_guest_memory = env
+        .data()
+        .alloc_guest_memory
+        .as_ref()
+        .expect("Alloc guest memory fn should be available, check initialization");
+
+    unwrap_comments_storage_or_default(|comments| f(comments, memory, alloc_guest_memory), default)
 }
 
 /// Common logics for add_*_comment/comments.
 #[tracing::instrument(level = "info", skip_all)]
-fn add_comments_inner<F>(env: &CommentHostEnvironment, byte_pos: u32, f: F)
+fn add_comments_inner<F>(mut env: FunctionEnvMut<CommentHostEnvironment>, byte_pos: u32, f: F)
 where
     F: FnOnce(&SingleThreadedComments, BytePos, PluginSerializedBytes),
 {
     unwrap_comments_storage(|comments| {
         let byte_pos = BytePos(byte_pos);
         // PluginCommentProxy in the guest should've copied buffer already
-        let comment_byte = &mut (*env.mutable_comment_buffer.lock());
+        let comment_byte = &mut (*env.data_mut().mutable_comment_buffer.lock());
         let serialized = PluginSerializedBytes::from_slice(comment_byte);
 
         f(comments, byte_pos, serialized);
@@ -123,25 +136,27 @@ where
     });
 }
 
-pub fn add_leading_comment_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
+pub fn add_leading_comment_proxy(env: FunctionEnvMut<CommentHostEnvironment>, byte_pos: u32) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
         comments.add_leading(
             byte_pos,
             serialized
                 .deserialize()
-                .expect("Should be able to deserialize"),
+                .expect("Should be able to deserialize")
+                .into_inner(),
         );
     });
 }
 
 #[tracing::instrument(level = "info", skip_all)]
-pub fn add_leading_comments_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
+pub fn add_leading_comments_proxy(env: FunctionEnvMut<CommentHostEnvironment>, byte_pos: u32) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
         comments.add_leading_comments(
             byte_pos,
             serialized
                 .deserialize()
-                .expect("Should be able to deserialize"),
+                .expect("Should be able to deserialize")
+                .into_inner(),
         );
     });
 }
@@ -160,21 +175,32 @@ pub fn move_leading_comments_proxy(from_byte_pos: u32, to_byte_pos: u32) {
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn take_leading_comments_proxy(
-    env: &CommentHostEnvironment,
+    mut env: FunctionEnvMut<CommentHostEnvironment>,
     byte_pos: u32,
     allocated_ret_ptr: u32,
 ) -> i32 {
-    unwrap_comments_storage_with_env(
-        env,
-        |comments, memory, alloc_guest_memory| {
+    let memory = env.data().memory.clone();
+    let memory = memory
+        .as_ref()
+        .expect("Memory instance should be available, check initialization");
+
+    let alloc_guest_memory = env.data().alloc_guest_memory.clone();
+    let alloc_guest_memory = alloc_guest_memory
+        .as_ref()
+        .expect("Alloc guest memory fn should be available, check initialization");
+
+    unwrap_comments_storage_or_default(
+        |comments| {
             let leading_comments = comments.take_leading(BytePos(byte_pos));
             if let Some(leading_comments) = leading_comments {
-                let serialized_leading_comments_vec_bytes =
-                    PluginSerializedBytes::try_serialize(&leading_comments)
-                        .expect("Should be serializable");
+                let serialized_leading_comments_vec_bytes = PluginSerializedBytes::try_serialize(
+                    &VersionedSerializable::new(leading_comments),
+                )
+                .expect("Should be serializable");
 
                 allocate_return_values_into_guest(
                     memory,
+                    &mut env.as_store_mut(),
                     alloc_guest_memory,
                     allocated_ret_ptr,
                     &serialized_leading_comments_vec_bytes,
@@ -195,21 +221,32 @@ pub fn take_leading_comments_proxy(
 /// Allocated results should be read through CommentsPtr.
 #[tracing::instrument(level = "info", skip_all)]
 pub fn get_leading_comments_proxy(
-    env: &CommentHostEnvironment,
+    mut env: FunctionEnvMut<CommentHostEnvironment>,
     byte_pos: u32,
     allocated_ret_ptr: u32,
 ) -> i32 {
-    unwrap_comments_storage_with_env(
-        env,
-        |comments, memory, alloc_guest_memory| {
+    let memory = env.data().memory.clone();
+    let memory = memory
+        .as_ref()
+        .expect("Memory instance should be available, check initialization");
+
+    let alloc_guest_memory = env.data().alloc_guest_memory.clone();
+    let alloc_guest_memory = alloc_guest_memory
+        .as_ref()
+        .expect("Alloc guest memory fn should be available, check initialization");
+
+    unwrap_comments_storage_or_default(
+        |comments| {
             let leading_comments = comments.get_leading(BytePos(byte_pos));
             if let Some(leading_comments) = leading_comments {
-                let serialized_leading_comments_vec_bytes =
-                    PluginSerializedBytes::try_serialize(&leading_comments)
-                        .expect("Should be serializable");
+                let serialized_leading_comments_vec_bytes = PluginSerializedBytes::try_serialize(
+                    &VersionedSerializable::new(leading_comments),
+                )
+                .expect("Should be serializable");
 
                 allocate_return_values_into_guest(
                     memory,
+                    &mut env.as_store_mut(),
                     alloc_guest_memory,
                     allocated_ret_ptr,
                     &serialized_leading_comments_vec_bytes,
@@ -224,25 +261,27 @@ pub fn get_leading_comments_proxy(
 }
 
 #[tracing::instrument(level = "info", skip_all)]
-pub fn add_trailing_comment_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
+pub fn add_trailing_comment_proxy(env: FunctionEnvMut<CommentHostEnvironment>, byte_pos: u32) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
         comments.add_trailing(
             byte_pos,
             serialized
                 .deserialize()
-                .expect("Should be able to deserialize"),
+                .expect("Should be able to deserialize")
+                .into_inner(),
         );
     });
 }
 
 #[tracing::instrument(level = "info", skip_all)]
-pub fn add_trailing_comments_proxy(env: &CommentHostEnvironment, byte_pos: u32) {
+pub fn add_trailing_comments_proxy(env: FunctionEnvMut<CommentHostEnvironment>, byte_pos: u32) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
         comments.add_trailing_comments(
             byte_pos,
             serialized
                 .deserialize()
-                .expect("Should be able to deserialize"),
+                .expect("Should be able to deserialize")
+                .into_inner(),
         );
     });
 }
@@ -264,21 +303,32 @@ pub fn move_trailing_comments_proxy(from_byte_pos: u32, to_byte_pos: u32) {
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn take_trailing_comments_proxy(
-    env: &CommentHostEnvironment,
+    mut env: FunctionEnvMut<CommentHostEnvironment>,
     byte_pos: u32,
     allocated_ret_ptr: u32,
 ) -> i32 {
-    unwrap_comments_storage_with_env(
-        env,
-        |comments, memory, alloc_guest_memory| {
+    let memory = env.data().memory.clone();
+    let memory = memory
+        .as_ref()
+        .expect("Memory instance should be available, check initialization");
+
+    let alloc_guest_memory = env.data().alloc_guest_memory.clone();
+    let alloc_guest_memory = alloc_guest_memory
+        .as_ref()
+        .expect("Alloc guest memory fn should be available, check initialization");
+
+    unwrap_comments_storage_or_default(
+        |comments| {
             let trailing_comments = comments.take_trailing(BytePos(byte_pos));
             if let Some(leading_comments) = trailing_comments {
-                let serialized_leading_comments_vec_bytes =
-                    PluginSerializedBytes::try_serialize(&leading_comments)
-                        .expect("Should be serializable");
+                let serialized_leading_comments_vec_bytes = PluginSerializedBytes::try_serialize(
+                    &VersionedSerializable::new(leading_comments),
+                )
+                .expect("Should be serializable");
 
                 allocate_return_values_into_guest(
                     memory,
+                    &mut env.as_store_mut(),
                     alloc_guest_memory,
                     allocated_ret_ptr,
                     &serialized_leading_comments_vec_bytes,
@@ -294,21 +344,32 @@ pub fn take_trailing_comments_proxy(
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn get_trailing_comments_proxy(
-    env: &CommentHostEnvironment,
+    mut env: FunctionEnvMut<CommentHostEnvironment>,
     byte_pos: u32,
     allocated_ret_ptr: u32,
 ) -> i32 {
-    unwrap_comments_storage_with_env(
-        env,
-        |comments, memory, alloc_guest_memory| {
+    let memory = env.data().memory.clone();
+    let memory = memory
+        .as_ref()
+        .expect("Memory instance should be available, check initialization");
+
+    let alloc_guest_memory = env.data().alloc_guest_memory.clone();
+    let alloc_guest_memory = alloc_guest_memory
+        .as_ref()
+        .expect("Alloc guest memory fn should be available, check initialization");
+
+    unwrap_comments_storage_or_default(
+        |comments| {
             let trailing_comments = comments.get_trailing(BytePos(byte_pos));
             if let Some(leading_comments) = trailing_comments {
-                let serialized_leading_comments_vec_bytes =
-                    PluginSerializedBytes::try_serialize(&leading_comments)
-                        .expect("Should be serializable");
+                let serialized_leading_comments_vec_bytes = PluginSerializedBytes::try_serialize(
+                    &VersionedSerializable::new(leading_comments),
+                )
+                .expect("Should be serializable");
 
                 allocate_return_values_into_guest(
                     memory,
+                    &mut env.as_store_mut(),
                     alloc_guest_memory,
                     allocated_ret_ptr,
                     &serialized_leading_comments_vec_bytes,

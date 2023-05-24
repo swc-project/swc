@@ -10,8 +10,12 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    x: ()=>x,
-    y: ()=>y
+    x: function() {
+        return x;
+    },
+    y: function() {
+        return y;
+    }
 });
 var x = "x", y = "y";
 //// [t2.ts]
@@ -24,8 +28,12 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    y: ()=>_t1.x,
-    x: ()=>_t1.y
+    y: function() {
+        return _t1.x;
+    },
+    x: function() {
+        return _t1.y;
+    }
 });
 const _t1 = require("./t1");
 //// [t3.ts]
@@ -38,7 +46,11 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    y: ()=>_t1.x,
-    x: ()=>_t1.y
+    y: function() {
+        return _t1.x;
+    },
+    x: function() {
+        return _t1.y;
+    }
 });
 const _t1 = require("./t1");

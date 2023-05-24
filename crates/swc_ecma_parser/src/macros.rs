@@ -73,9 +73,6 @@ macro_rules! tok {
     (':') => {
         crate::token::Token::Colon
     };
-    ("::") => {
-        crate::token::Token::ColonColon
-    };
     ('.') => {
         crate::token::Token::Dot
     };
@@ -105,7 +102,7 @@ macro_rules! tok {
         crate::token::Token::AssignOp(crate::token::AssignOpToken::DivAssign)
     };
     ('%') => {
-        crate::token::Token::BinOp(Mod)
+        crate::token::Token::BinOp(crate::token::BinOpToken::Mod)
     };
     ('~') => {
         crate::token::Token::Tilde
@@ -118,6 +115,9 @@ macro_rules! tok {
     };
     (">>") => {
         crate::token::Token::BinOp(crate::token::BinOpToken::RShift)
+    };
+    (">=") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::GtEq)
     };
 
     ("++") => {
@@ -427,6 +427,9 @@ macro_rules! tok {
     };
     ("protected") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("protected")))
+    };
+    ("using") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("using")))
     };
 }
 

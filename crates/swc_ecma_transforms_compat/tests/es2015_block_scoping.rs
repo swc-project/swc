@@ -478,7 +478,7 @@ test!(
     }
     function _foo() {
         _foo = _async_to_generator(function() {
-            return __generator(this, function(_state) {
+            return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [
@@ -496,7 +496,7 @@ test!(
                             ].map(function() {
                                 var _ref = _async_to_generator(function(param) {
                                     var _param, a;
-                                    return __generator(this, function(_state) {
+                                    return _ts_generator(this, function(_state) {
                                         _param = _sliced_to_array(param, 1), a = _param[0];
                                         return [
                                             2,
@@ -1021,6 +1021,22 @@ fn exec(input: PathBuf) {
             chain!(
                 resolver(unresolved_mark, Mark::new(), false),
                 block_scoping(unresolved_mark)
+            )
+        },
+        &input,
+    );
+
+    compare_stdout(
+        Default::default(),
+        |t| {
+            let unresolved_mark = Mark::new();
+            chain!(
+                resolver(unresolved_mark, Mark::new(), false),
+                es2015(
+                    unresolved_mark,
+                    Some(t.comments.clone()),
+                    Default::default()
+                )
             )
         },
         &input,

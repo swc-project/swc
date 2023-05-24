@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "AppController", {
     enumerable: true,
-    get: ()=>AppController
+    get: function() {
+        return AppController;
+    }
 });
 const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 const _ts_metadata = require("@swc/helpers/_/_ts_metadata");

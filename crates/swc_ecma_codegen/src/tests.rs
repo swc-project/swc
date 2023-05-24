@@ -19,7 +19,7 @@ struct Builder {
 }
 
 impl Builder {
-    pub fn with<'a, F, Ret>(self, src: &str, s: &'a mut Vec<u8>, op: F) -> Ret
+    pub fn with<'a, F, Ret>(self, _: &str, s: &'a mut Vec<u8>, op: F) -> Ret
     where
         F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>, SourceMap>) -> Ret,
         Ret: 'static,
@@ -862,6 +862,27 @@ fn ascii_only_tpl_lit() {
         "`😊❤️`",
         r"`\u{1F60A}\u{2764}\u{FE0F}`;",
         r"`\u{1F60A}\u{2764}\u{FE0F}`",
+        Config {
+            ascii_only: true,
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
+fn ascii_only_issue_7240() {
+    test_all(
+        r"
+        export default {
+            \u3131: '\u11B0',
+        }
+        ",
+        r"
+export default {
+    \u3131: '\u11B0'
+};
+        ",
+        r##"export default{\u3131:"\u11B0"}"##,
         Config {
             ascii_only: true,
             ..Default::default()

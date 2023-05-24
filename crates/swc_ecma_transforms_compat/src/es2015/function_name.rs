@@ -1,4 +1,4 @@
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{private_ident, IdentUsageFinder};
@@ -118,7 +118,7 @@ macro_rules! impl_for {
                         // self.name = Some(name);
                         node.ident = None;
                     } else {
-                        node.ident = Some(name);
+                        node.ident = Some(private_ident!(DUMMY_SP, name.sym));
                     }
                 }
             }

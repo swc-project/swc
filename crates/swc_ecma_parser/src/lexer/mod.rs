@@ -284,12 +284,6 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     fn read_token_colon(&mut self) -> LexResult<Token> {
         self.input.bump();
-
-        if self.syntax.fn_bind() && self.input.cur() == Some(':') {
-            self.input.bump();
-            return Ok(tok!("::"));
-        }
-
         Ok(tok!(':'))
     }
 
@@ -680,6 +674,15 @@ impl<'a> Lexer<'a> {
             }
             self.state.glimmer_template = GlimmerTemplateState::Reading;
             return Ok(Some(GlimmerTemplateStart));
+        }
+
+        if self.syntax.typescript() && self.ctx.in_type && !self.ctx.should_not_lex_lt_or_gt_as_type
+        {
+            if c == '<' {
+                return Ok(Some(tok!('<')));
+            } else if c == '>' {
+                return Ok(Some(tok!('>')));
+            }
         }
 
         // XML style comment. `<!--`

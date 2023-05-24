@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "id", {
     enumerable: true,
-    get: ()=>_interfaces.id
+    get: function() {
+        return _interfaces.id;
+    }
 });
 require("reflect-metadata");
 _export_star(require("./http"), exports);

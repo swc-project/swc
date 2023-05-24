@@ -21,8 +21,6 @@ use std::{
     fmt,
 };
 
-#[cfg(feature = "rkyv-bytecheck-impl")]
-use rkyv_latest as rkyv;
 use serde::{Deserialize, Serialize};
 
 use super::GLOBALS;
@@ -33,9 +31,11 @@ use crate::collections::AHashMap;
 #[derive(Clone, Copy, PartialEq, Eq, Default, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[serde(transparent)]
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 pub struct SyntaxContext(#[cfg_attr(feature = "__rkyv", omit_bounds)] u32);
 
 #[cfg(feature = "arbitrary")]
@@ -69,9 +69,11 @@ pub(crate) struct MarkData {
 }
 
 #[cfg_attr(
-    any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
+    any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 pub struct MutableMarkContext(pub u32, pub u32, pub u32);
 
 // List of proxy calls injected by the host in the plugin's runtime context.
@@ -179,8 +181,10 @@ impl Mark {
     pub fn is_descendant_of(mut self, ancestor: Mark) -> bool {
         // This code path executed inside of the guest memory context.
         // In here, preallocate memory for the context.
+
+        use crate::plugin::serialized::VersionedSerializable;
         let serialized = crate::plugin::serialized::PluginSerializedBytes::try_serialize(
-            &MutableMarkContext(0, 0, 0),
+            &VersionedSerializable::new(MutableMarkContext(0, 0, 0)),
         )
         .expect("Should be serializable");
         let (ptr, len) = serialized.as_ptr();
@@ -198,6 +202,7 @@ impl Mark {
                 len.try_into().expect("Should able to convert ptr length"),
             )
             .expect("Should able to deserialize")
+            .into_inner()
         };
         self = Mark::from_u32(context.0);
 
@@ -220,8 +225,10 @@ impl Mark {
     #[allow(unused_mut, unused_assignments)]
     #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
     pub fn least_ancestor(mut a: Mark, mut b: Mark) -> Mark {
+        use crate::plugin::serialized::VersionedSerializable;
+
         let serialized = crate::plugin::serialized::PluginSerializedBytes::try_serialize(
-            &MutableMarkContext(0, 0, 0),
+            &VersionedSerializable::new(MutableMarkContext(0, 0, 0)),
         )
         .expect("Should be serializable");
         let (ptr, len) = serialized.as_ptr();
@@ -236,6 +243,7 @@ impl Mark {
                 len.try_into().expect("Should able to convert ptr length"),
             )
             .expect("Should able to deserialize")
+            .into_inner()
         };
         a = Mark::from_u32(context.0);
         b = Mark::from_u32(context.1);
@@ -416,7 +424,9 @@ impl SyntaxContext {
 
     #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
     pub fn remove_mark(&mut self) -> Mark {
-        let context = MutableMarkContext(0, 0, 0);
+        use crate::plugin::serialized::VersionedSerializable;
+
+        let context = VersionedSerializable::new(MutableMarkContext(0, 0, 0));
         let serialized = crate::plugin::serialized::PluginSerializedBytes::try_serialize(&context)
             .expect("Should be serializable");
         let (ptr, len) = serialized.as_ptr();
@@ -431,6 +441,7 @@ impl SyntaxContext {
                 len.try_into().expect("Should able to convert ptr length"),
             )
             .expect("Should able to deserialize")
+            .into_inner()
         };
 
         *self = SyntaxContext(context.0);

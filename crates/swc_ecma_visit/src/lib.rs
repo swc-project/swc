@@ -636,6 +636,7 @@ define!({
         Class(ClassDecl),
         Fn(FnDecl),
         Var(Box<VarDecl>),
+        Using(Box<UsingDecl>),
         TsInterface(Box<TsInterfaceDecl>),
         TsTypeAlias(Box<TsTypeAliasDecl>),
         TsEnum(Box<TsEnumDecl>),
@@ -1407,14 +1408,14 @@ define!({
     }
     pub struct ForInStmt {
         pub span: Span,
-        pub left: VarDeclOrPat,
+        pub left: ForHead,
         pub right: Box<Expr>,
         pub body: Box<Stmt>,
     }
     pub struct ForOfStmt {
         pub span: Span,
         pub is_await: bool,
-        pub left: VarDeclOrPat,
+        pub left: ForHead,
         pub right: Box<Expr>,
         pub body: Box<Stmt>,
     }
@@ -1428,8 +1429,9 @@ define!({
         pub param: Option<Pat>,
         pub body: BlockStmt,
     }
-    pub enum VarDeclOrPat {
+    pub enum ForHead {
         VarDecl(Box<VarDecl>),
+        UsingDecl(Box<UsingDecl>),
         Pat(Box<Pat>),
     }
     pub enum VarDeclOrExpr {
@@ -1885,6 +1887,12 @@ define!({
     pub enum Key {
         Private(PrivateName),
         Public(PropName),
+    }
+
+    pub struct UsingDecl {
+        pub span: Span,
+
+        pub decls: Vec<VarDeclarator>,
     }
 });
 

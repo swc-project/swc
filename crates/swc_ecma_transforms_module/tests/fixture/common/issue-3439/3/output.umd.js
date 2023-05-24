@@ -16,11 +16,21 @@
         });
     }
     _export(exports, {
-        bar: ()=>bar,
-        foo1: ()=>foo,
-        bar2: ()=>bar,
-        foo: ()=>foo,
-        default: ()=>bar
+        bar: function() {
+            return bar;
+        },
+        foo1: function() {
+            return foo;
+        },
+        bar2: function() {
+            return bar;
+        },
+        foo: function() {
+            return foo;
+        },
+        default: function() {
+            return bar;
+        }
     });
     const foo = 1;
     let bar = 2;

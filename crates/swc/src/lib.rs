@@ -309,7 +309,15 @@ impl Compiler {
             let read_sourcemap = || -> Result<Option<sourcemap::SourceMap>, Error> {
                 let s = "sourceMappingURL=";
                 let idx = fm.src.rfind(s);
-                let data_url = idx.map(|idx| &fm.src[idx + s.len()..]);
+
+                let data_url = idx.map(|idx| {
+                    let data_idx = idx + s.len();
+                    if let Some(end) = fm.src[data_idx..].find('\n').map(|i| i + data_idx + 1) {
+                        &fm.src[data_idx..end]
+                    } else {
+                        &fm.src[data_idx..]
+                    }
+                });
 
                 match read_inline_sourcemap(data_url) {
                     Ok(r) => Ok(r),
@@ -339,7 +347,12 @@ impl Compiler {
                                                 filename.display()
                                             ));
                                             if !map_path.exists() {
-                                                bail!("failed to find input source map file")
+                                                bail!(
+                                                    "failed to find input source map file {:?} in \
+                                                     {:?} file",
+                                                    map_path.display(),
+                                                    filename.display()
+                                                )
                                             }
                                         }
 
@@ -570,7 +583,6 @@ impl Compiler {
                 }
                 SourceMapsConfig::Str(_) => {
                     let mut src = src;
-
                     let mut buf = vec![];
 
                     self.cm

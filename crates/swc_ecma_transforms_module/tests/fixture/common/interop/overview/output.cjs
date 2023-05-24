@@ -9,8 +9,12 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    test: ()=>test,
-    test2: ()=>test2
+    test: function() {
+        return test;
+    },
+    test2: function() {
+        return test2;
+    }
 });
 require("foo");
 require("foo-bar");

@@ -746,10 +746,7 @@ impl<C: Comments> ClassProperties<C> {
                             name: ident.clone().into(),
                             init: Some(Box::new(Expr::from(CallExpr {
                                 span,
-                                callee: helper!(
-                                    class_private_field_loose_key,
-                                    "class_private_field_loose_key"
-                                ),
+                                callee: helper!(class_private_field_loose_key),
                                 args: vec![ident.sym.as_arg()],
                                 type_args: Default::default(),
                             }))),
@@ -893,10 +890,7 @@ impl<C: Comments> ClassProperties<C> {
                             init: Some(Box::new(if self.c.private_as_properties {
                                 Expr::from(CallExpr {
                                     span,
-                                    callee: helper!(
-                                        class_private_field_loose_key,
-                                        "class_private_field_loose_key"
-                                    ),
+                                    callee: helper!(class_private_field_loose_key),
                                     args: vec![weak_coll_var.sym.as_arg()],
                                     type_args: Default::default(),
                                 })

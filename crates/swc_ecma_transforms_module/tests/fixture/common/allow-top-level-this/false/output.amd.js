@@ -8,7 +8,9 @@ define([
     });
     Object.defineProperty(exports, "v", {
         enumerable: true,
-        get: ()=>v
+        get: function() {
+            return v;
+        }
     });
     var v = void 0;
 });

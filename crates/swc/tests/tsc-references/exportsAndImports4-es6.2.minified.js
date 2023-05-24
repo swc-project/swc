@@ -6,7 +6,9 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
     enumerable: !0,
-    get: ()=>_default
+    get: function() {
+        return _default;
+    }
 });
 const _default = "hello";
 //// [t2.ts]
@@ -26,14 +28,30 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    a: ()=>a,
-    b: ()=>_t1.default,
-    c: ()=>_t1,
-    d: ()=>_t1.default,
-    e1: ()=>_t1.default,
-    e2: ()=>_t1,
-    f1: ()=>_t1.default,
-    f2: ()=>_t1.default
+    a: function() {
+        return a;
+    },
+    b: function() {
+        return _t1.default;
+    },
+    c: function() {
+        return _t1;
+    },
+    d: function() {
+        return _t1.default;
+    },
+    e1: function() {
+        return _t1.default;
+    },
+    e2: function() {
+        return _t1;
+    },
+    f1: function() {
+        return _t1.default;
+    },
+    f2: function() {
+        return _t1.default;
+    }
 });
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard"), _t1 = _interop_require_wildcard._(require("./t1")), a = require("./t1");
 a.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default;

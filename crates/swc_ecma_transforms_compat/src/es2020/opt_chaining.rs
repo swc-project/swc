@@ -235,6 +235,27 @@ impl OptChaining {
                     })),
                 };
             }
+            Callee::Expr(callee) if callee.is_call() => {
+                let mut callee = callee.take().call().unwrap();
+                let callee = self.handle_call(&mut callee);
+
+                return match callee {
+                    Ok(expr) => Ok(CondExpr {
+                        span: e.span,
+                        alt: Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: expr.alt.as_callee(),
+                            args: e.args.take(),
+                            type_args: e.type_args.take(),
+                        })),
+                        ..expr
+                    }),
+                    Err(callee) => Err(Expr::Call(CallExpr {
+                        callee: callee.as_callee(),
+                        ..e.take()
+                    })),
+                };
+            }
             _ => {}
         }
 

@@ -371,6 +371,9 @@ fn minify_text(value: &str) -> String {
             '<' => {
                 result.push_str("&lt;");
             }
+            '>' => {
+                result.push_str("&gt;");
+            }
             _ => result.push(c),
         }
     }
@@ -463,7 +466,7 @@ fn escape_string(value: &str, is_attribute_mode: bool) -> String {
                 result.push_str("&amp;");
             }
             '"' if is_attribute_mode => result.push_str("&quot;"),
-            '<' if is_attribute_mode => {
+            '<' => {
                 result.push_str("&lt;");
             }
             '>' if !is_attribute_mode => {

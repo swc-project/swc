@@ -16,12 +16,10 @@ use swc_common::{
 };
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{parse_file_as_program, Syntax, TsConfig};
-use swc_plugin_runner::cache::{init_plugin_module_cache_once, PLUGIN_MODULE_CACHE};
 use tracing::info;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
-    init_plugin_module_cache_once(&None);
     {
         let mut cmd = Command::new("cargo");
         cmd.current_dir(dir);
@@ -51,22 +49,34 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
 }
 
 #[cfg(feature = "__rkyv")]
-static PLUGIN_PATH: Lazy<PathBuf> = Lazy::new(|| {
-    build_plugin(
-        &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
-            .join("tests")
-            .join("fixture")
-            .join("swc_noop_plugin"),
-    )
-    .unwrap()
-});
+static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes> =
+    Lazy::new(|| {
+        let path = build_plugin(
+            &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
+                .join("tests")
+                .join("fixture")
+                .join("swc_noop_plugin"),
+        )
+        .unwrap();
+
+        let raw_module_bytes = std::fs::read(&path).expect("Should able to read plugin bytes");
+        let store = wasmer::Store::default();
+        let module = wasmer::Module::new(&store, raw_module_bytes).unwrap();
+
+        swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes::new(
+            path.as_os_str()
+                .to_str()
+                .expect("Should able to get path")
+                .to_string(),
+            module,
+            store,
+        )
+    });
 
 #[cfg(feature = "__rkyv")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.ts")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.tsx")]
 fn internal(input: PathBuf) -> Result<(), Error> {
-    let path = PLUGIN_PATH.clone();
-
     // run single plugin
     testing::run_test(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
@@ -83,7 +93,10 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         )
         .unwrap();
 
-        let program = PluginSerializedBytes::try_serialize(&parsed).expect("Should serializable");
+        let program = PluginSerializedBytes::try_serialize(
+            &swc_common::plugin::serialized::VersionedSerializable::new(parsed.clone()),
+        )
+        .expect("Should serializable");
         let experimental_metadata: AHashMap<String, String> = [
             (
                 "TestExperimental".to_string(),
@@ -94,30 +107,28 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         .into_iter()
         .collect();
 
-        info!("Creating cache");
-
         let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
-            &path,
-            &PLUGIN_MODULE_CACHE,
             &cm,
+            &Mark::new(),
             &Arc::new(TransformPluginMetadataContext::new(
                 None,
                 "development".to_string(),
                 Some(experimental_metadata),
             )),
+            Box::new(PLUGIN_BYTES.clone()),
             Some(json!({ "pluginConfig": "testValue" })),
-        )
-        .expect("Should load plugin");
+        );
 
         info!("Created transform executor");
 
         let program_bytes = plugin_transform_executor
-            .transform(&program, Mark::new(), false)
+            .transform(&program, Some(false))
             .expect("Plugin should apply transform");
 
         let program: Program = program_bytes
             .deserialize()
-            .expect("Should able to deserialize");
+            .expect("Should able to deserialize")
+            .into_inner();
 
         assert_eq!(parsed, program);
 
@@ -138,8 +149,10 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         )
         .unwrap();
 
-        let mut serialized_program =
-            PluginSerializedBytes::try_serialize(&parsed).expect("Should serializable");
+        let mut serialized_program = PluginSerializedBytes::try_serialize(
+            &swc_common::plugin::serialized::VersionedSerializable::new(parsed.clone()),
+        )
+        .expect("Should serializable");
 
         let experimental_metadata: AHashMap<String, String> = [
             (
@@ -152,43 +165,42 @@ fn internal(input: PathBuf) -> Result<(), Error> {
         .collect();
 
         let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
-            &path,
-            &PLUGIN_MODULE_CACHE,
             &cm,
+            &Mark::new(),
             &Arc::new(TransformPluginMetadataContext::new(
                 None,
                 "development".to_string(),
                 Some(experimental_metadata.clone()),
             )),
+            Box::new(PLUGIN_BYTES.clone()),
             Some(json!({ "pluginConfig": "testValue" })),
-        )
-        .expect("Should load plugin");
+        );
 
         serialized_program = plugin_transform_executor
-            .transform(&serialized_program, Mark::new(), false)
+            .transform(&serialized_program, Some(false))
             .expect("Plugin should apply transform");
 
         // TODO: we'll need to apply 2 different plugins
         let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
-            &path,
-            &PLUGIN_MODULE_CACHE,
             &cm,
+            &Mark::new(),
             &Arc::new(TransformPluginMetadataContext::new(
                 None,
                 "development".to_string(),
                 Some(experimental_metadata),
             )),
+            Box::new(PLUGIN_BYTES.clone()),
             Some(json!({ "pluginConfig": "testValue" })),
-        )
-        .expect("Should load plugin");
+        );
 
         serialized_program = plugin_transform_executor
-            .transform(&serialized_program, Mark::new(), false)
+            .transform(&serialized_program, Some(false))
             .expect("Plugin should apply transform");
 
         let program: Program = serialized_program
             .deserialize()
-            .expect("Should able to deserialize");
+            .expect("Should able to deserialize")
+            .into_inner();
 
         assert_eq!(parsed, program);
 

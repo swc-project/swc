@@ -1,7 +1,7 @@
 class User {
     currency: "usd" | "eur" | "yen";
 }
-__decorate([
+_ts_decorate([
     column(),
-    __metadata("design:type", String)
+    _ts_metadata("design:type", String)
 ], User.prototype, "currency", void 0);

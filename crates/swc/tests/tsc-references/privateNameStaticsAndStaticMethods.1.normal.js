@@ -1,8 +1,8 @@
 //// [privateNameStaticsAndStaticMethods.ts]
 class A {
     static #foo(a) {}
-    static async #bar(a1) {}
-    static async *#baz(a2) {
+    static async #bar(a) {}
+    static async *#baz(a) {
         return 3;
     }
     static #_quux;
@@ -21,7 +21,7 @@ class A {
     }
 }
 class B extends A {
-    static #foo(a3) {}
+    static #foo(a) {}
     constructor(){
         super();
         B.#foo("str");
