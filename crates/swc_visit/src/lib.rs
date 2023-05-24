@@ -324,6 +324,7 @@ where
         AstNodePathIndexGuard { path: self }
     }
 
+    #[deprecated = "Use with_guard insteda"]
     pub fn with<F, Ret>(&mut self, node: N, op: F) -> Ret
     where
         F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
@@ -339,6 +340,7 @@ where
         ret
     }
 
+    #[deprecated = "Use with_index_guard insteda"]
     pub fn with_index<F, Ret>(&mut self, index: usize, op: F) -> Ret
     where
         F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
