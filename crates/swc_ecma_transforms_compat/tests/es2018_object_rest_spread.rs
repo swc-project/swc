@@ -5,7 +5,7 @@ use swc_ecma_transforms_compat::{
     es2015::{self, spread},
     es2018::{object_rest_spread, object_rest_spread::Config},
 };
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -3135,7 +3135,7 @@ test_exec!(
     "#
 );
 
-test_exec!(
+compare_stdout!(
     syntax(),
     |_| {
         //
