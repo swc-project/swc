@@ -46,6 +46,9 @@
 
 - **(swc_core)** Make `common_plugin_transform` agnostic to mode (#7422) ([cfdd407](https://github.com/swc-project/swc/commit/cfdd40789673eef32a9b9365456860a7cb511000))
 
+
+- **(visit)** Reduce expanded LOCs (#7442) ([e83368e](https://github.com/swc-project/swc/commit/e83368e5744ebabab8537cb979a374ecbc2e7d95))
+
 ## [1.3.59] - 2023-05-19
 
 ### Bug Fixes
