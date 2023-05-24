@@ -3134,3 +3134,23 @@ test_exec!(
     thing({ queryKey: [{ url: 'https://www.google.com', id: '1' }] })
     "#
 );
+
+test_exec!(
+    syntax(),
+    |_| {
+        //
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            tr(Default::default()),
+        )
+    },
+    issue_6988_1,
+    r###"
+    for (const a of [1,2,3]) {
+      const { ...rest } = {};
+      setTimeout(() => { console.log(a) });
+    }
+    "###
+);
