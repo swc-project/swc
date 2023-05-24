@@ -2984,10 +2984,11 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             n.into_iter()
                                                 .enumerate()
                                                 .map(|(idx, v)| {
-                                                    __ast_path.with_index(idx, |__ast_path| {
-                                                        swc_visit::util::map::Map::map(v, |v| {
-                                                            _visitor.ident(v, __ast_path)
-                                                        })
+                                                    let mut __ast_path =
+                                                        __ast_path.with_index_guard(idx);
+
+                                                    swc_visit::util::map::Map::map(v, |v| {
+                                                        _visitor.ident(v, &mut *__ast_path)
                                                     })
                                                 })
                                                 .collect()
@@ -3018,9 +3019,9 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     n.into_iter()
                                         .enumerate()
                                         .map(|(idx, v)| {
-                                            __ast_path.with_index(idx, |__ast_path| {
-                                                _visitor.ident(v, __ast_path)
-                                            })
+                                            let mut __ast_path = __ast_path.with_index_guard(idx);
+
+                                            _visitor.ident(v, &mut *__ast_path)
                                         })
                                         .collect()
                                 })
@@ -3037,9 +3038,9 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 Vars { ident },
                                 ({
                                     n.iter_mut().enumerate().for_each(|(idx, v)| {
-                                        __ast_path.with_index(idx, |__ast_path| {
-                                            _visitor.ident(v, __ast_path)
-                                        })
+                                        let mut __ast_path = __ast_path.with_index_guard(idx);
+
+                                        _visitor.ident(v, &mut *__ast_path)
                                     })
                                 })
                             )
@@ -3055,9 +3056,9 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 Vars { ident },
                                 ({
                                     n.iter().enumerate().for_each(|(idx, v)| {
-                                        __ast_path.with_index(idx, |__ast_path| {
-                                            _visitor.ident(v.as_ref(), __ast_path)
-                                        })
+                                        let mut __ast_path = __ast_path.with_index_guard(idx);
+
+                                        _visitor.ident(v.as_ref(), &mut *__ast_path)
                                     })
                                 })
                             )
@@ -3099,9 +3100,9 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 Vars { ident },
                                 ({
                                     n.iter_mut().enumerate().for_each(|(idx, v)| {
-                                        __ast_path.with_index(idx, |__ast_path| {
-                                            _visitor.ident(v, __ast_path)
-                                        })
+                                        let mut __ast_path = __ast_path.with_index_guard(idx);
+
+                                        _visitor.ident(v, &mut *__ast_path)
                                     })
                                 })
                             )
