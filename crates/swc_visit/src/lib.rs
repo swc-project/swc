@@ -310,6 +310,20 @@ where
         &self.kinds
     }
 
+    pub fn with_guard(&mut self, node: N) -> AstNodePathGuard<N> {
+        self.kinds.path.push(node.kind());
+        self.path.push(node);
+
+        AstNodePathGuard { path: self }
+    }
+
+    pub fn with_index_guard(&mut self, index: usize) -> AstNodePathIndexGuard<N> {
+        self.kinds.path.last_mut().unwrap().set_index(index);
+        self.path.last_mut().unwrap().set_index(index);
+
+        AstNodePathIndexGuard { path: self }
+    }
+
     pub fn with<F, Ret>(&mut self, node: N, op: F) -> Ret
     where
         F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
@@ -350,4 +364,43 @@ pub trait NodeRef: Copy {
 
 pub trait ParentKind: Copy {
     fn set_index(&mut self, index: usize);
+}
+
+pub struct AstNodePathGuard<'a, N>
+where
+    N: NodeRef,
+{
+    path: &'a mut AstNodePath<N>,
+}
+
+impl<N> Drop for AstNodePathGuard<'_, N>
+where
+    N: NodeRef,
+{
+    fn drop(&mut self) {
+        self.path.path.pop();
+        self.path.kinds.path.pop();
+    }
+}
+
+pub struct AstNodePathIndexGuard<'a, N>
+where
+    N: NodeRef,
+{
+    path: &'a mut AstNodePath<N>,
+}
+
+impl<N> Drop for AstNodePathIndexGuard<'_, N>
+where
+    N: NodeRef,
+{
+    fn drop(&mut self) {
+        self.path.path.last_mut().unwrap().set_index(usize::MAX);
+        self.path
+            .kinds
+            .path
+            .last_mut()
+            .unwrap()
+            .set_index(usize::MAX);
+    }
 }
