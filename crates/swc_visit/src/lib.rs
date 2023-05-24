@@ -265,7 +265,7 @@ where
         AstKindPathIndexGuard { path: self }
     }
 
-    #[deprecated = "Use with_guard insteda"]
+    #[deprecated = "Use with_guard instead"]
     pub fn with<Ret>(&mut self, path: K, op: impl FnOnce(&mut Self) -> Ret) -> Ret {
         self.path.push(path);
         let ret = op(self);
@@ -273,7 +273,7 @@ where
         ret
     }
 
-    #[deprecated = "Use with_index_guard insteda"]
+    #[deprecated = "Use with_index_guard instead"]
     pub fn with_index<Ret>(&mut self, index: usize, op: impl FnOnce(&mut Self) -> Ret) -> Ret {
         self.path.last_mut().unwrap().set_index(index);
         let res = op(self);
@@ -416,7 +416,7 @@ where
         AstNodePathIndexGuard { path: self }
     }
 
-    #[deprecated = "Use with_guard insteda"]
+    #[deprecated = "Use with_guard instead"]
     pub fn with<F, Ret>(&mut self, node: N, op: F) -> Ret
     where
         F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
@@ -432,7 +432,7 @@ where
         ret
     }
 
-    #[deprecated = "Use with_index_guard insteda"]
+    #[deprecated = "Use with_index_guard instead"]
     pub fn with_index<F, Ret>(&mut self, index: usize, op: F) -> Ret
     where
         F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
