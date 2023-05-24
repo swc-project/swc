@@ -20,6 +20,9 @@
 - **(es/parser)** Reset class context (#7433) ([1cab43f](https://github.com/swc-project/swc/commit/1cab43f17deb35ef7e9a4b2c229327edc0f87756))
 
 
+- **(es/parser)** Allow using `package` as a parameter name in interface (#7438) ([33a922b](https://github.com/swc-project/swc/commit/33a922b6f8c8362b46fe8547e9d327a4d82520a4))
+
+
 - **(es/preset-env)** Fix pass ordering (#7434) ([2071f89](https://github.com/swc-project/swc/commit/2071f89d4eea7ae311b05457650e2f42c1b503ef))
 
 
