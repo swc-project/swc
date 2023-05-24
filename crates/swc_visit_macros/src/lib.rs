@@ -2249,9 +2249,10 @@ fn visit_expr(
                         ast_path_expr,
                     },
                     {
-                        __ast_path.with(ast_path_expr, |__ast_path| {
-                            visitor.visit_name(expr, __ast_path)
-                        })
+                        {
+                            let mut __ast_path = __ast_path.with_guard(ast_path_expr);
+                            visitor.visit_name(expr, &mut *__ast_path)
+                        }
                     }
                 )
                 .parse()
