@@ -23,6 +23,9 @@
 - **(es/parser)** Allow using `package` as a parameter name in interface (#7438) ([33a922b](https://github.com/swc-project/swc/commit/33a922b6f8c8362b46fe8547e9d327a4d82520a4))
 
 
+- **(es/parser)** Fix parsing of tsx with a type annotation in a conditional expression (#7440) ([a37d59a](https://github.com/swc-project/swc/commit/a37d59a134b2a046b50bb5e70c694130227e0d9e))
+
+
 - **(es/preset-env)** Fix pass ordering (#7434) ([2071f89](https://github.com/swc-project/swc/commit/2071f89d4eea7ae311b05457650e2f42c1b503ef))
 
 
