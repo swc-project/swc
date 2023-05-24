@@ -1808,6 +1808,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseParenthesizedType`
     fn parse_ts_parenthesized_type(&mut self) -> PResult<TsParenthesizedType> {
         debug_assert!(self.input.syntax().typescript());
+        trace_cur!(self, parse_ts_parenthesized_type);
 
         let start = cur_pos!(self);
         expect!(self, '(');
