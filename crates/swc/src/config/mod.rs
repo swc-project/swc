@@ -666,16 +666,16 @@ impl Options {
             {
                 use swc_ecma_loader::resolve::Resolve;
 
-                // Currently swc enables filesystemcache by default on Embedded runtime plugin
-                // target.
-                init_plugin_module_cache_once(true, &experimental.cache_root);
-
                 let plugin_resolver = CachingResolver::new(
                     40,
                     NodeModulesResolver::new(TargetEnv::Node, Default::default(), true),
                 );
 
                 if let Some(plugins) = &experimental.plugins {
+                    // Currently swc enables filesystemcache by default on Embedded runtime plugin
+                    // target.
+                    init_plugin_module_cache_once(true, &experimental.cache_root);
+
                     // Populate cache to the plugin modules if not loaded
                     for plugin_config in plugins.iter() {
                         let plugin_name = &plugin_config.0;
