@@ -92,6 +92,8 @@
 //! `VisitMutAstPath` and `FoldAstPath` can be used to transform AST nodes with
 //! the path to the node.
 
+use std::ops::{Deref, DerefMut};
+
 pub use either::Either;
 pub use swc_visit_macros::define;
 
@@ -287,6 +289,28 @@ where
     path: &'a mut AstKindPath<K>,
 }
 
+impl<K> Deref for AstKindPathGuard<'_, K>
+where
+    K: ParentKind,
+{
+    type Target = AstKindPath<K>;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        self.path
+    }
+}
+
+impl<K> DerefMut for AstKindPathGuard<'_, K>
+where
+    K: ParentKind,
+{
+    #[inline]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        self.path
+    }
+}
+
 impl<K> Drop for AstKindPathGuard<'_, K>
 where
     K: ParentKind,
@@ -301,6 +325,28 @@ where
     K: ParentKind,
 {
     path: &'a mut AstKindPath<K>,
+}
+
+impl<K> Deref for AstKindPathIndexGuard<'_, K>
+where
+    K: ParentKind,
+{
+    type Target = AstKindPath<K>;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        self.path
+    }
+}
+
+impl<K> DerefMut for AstKindPathIndexGuard<'_, K>
+where
+    K: ParentKind,
+{
+    #[inline]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        self.path
+    }
 }
 
 impl<K> Drop for AstKindPathIndexGuard<'_, K>
@@ -421,6 +467,28 @@ where
     path: &'a mut AstNodePath<N>,
 }
 
+impl<N> Deref for AstNodePathGuard<'_, N>
+where
+    N: NodeRef,
+{
+    type Target = AstNodePath<N>;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        self.path
+    }
+}
+
+impl<N> DerefMut for AstNodePathGuard<'_, N>
+where
+    N: NodeRef,
+{
+    #[inline]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        self.path
+    }
+}
+
 impl<N> Drop for AstNodePathGuard<'_, N>
 where
     N: NodeRef,
@@ -436,6 +504,28 @@ where
     N: NodeRef,
 {
     path: &'a mut AstNodePath<N>,
+}
+
+impl<N> Deref for AstNodePathIndexGuard<'_, N>
+where
+    N: NodeRef,
+{
+    type Target = AstNodePath<N>;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        self.path
+    }
+}
+
+impl<N> DerefMut for AstNodePathIndexGuard<'_, N>
+where
+    N: NodeRef,
+{
+    #[inline]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        self.path
+    }
 }
 
 impl<N> Drop for AstNodePathIndexGuard<'_, N>
