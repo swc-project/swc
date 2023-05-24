@@ -3190,21 +3190,11 @@
                         $: expression
                     };
                 case "object":
-                    for(var key in expression)"$" == key ? function() {
-                        if (expression[key]) {
-                            var path = key;
-                            predicates.push(function(value) {
-                                return search(value, expression[path]);
-                            });
-                        }
-                    }() : function() {
-                        if (void 0 !== expression[key]) {
-                            var path = key;
-                            predicates.push(function(value) {
-                                return search(getter(value, path), expression[path]);
-                            });
-                        }
-                    }();
+                    for(var key in expression)"$" == key ? expression[key] && predicates.push(function(value) {
+                        return search(value, expression[key]);
+                    }) : void 0 !== expression[key] && predicates.push(function(value) {
+                        return search(getter(value, key), expression[key]);
+                    });
                     break;
                 case "function":
                     predicates.push(expression);
