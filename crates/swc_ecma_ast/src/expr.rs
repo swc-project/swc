@@ -1386,6 +1386,7 @@ impl Take for PatOrExpr {
 pub struct OptChainExpr {
     pub span: Span,
     pub question_dot_token: Span,
+    pub optional: bool,
     /// This is boxed to reduce the type size of [Expr].
     pub base: Box<OptChainBase>,
 }

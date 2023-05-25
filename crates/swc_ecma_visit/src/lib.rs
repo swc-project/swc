@@ -872,6 +872,7 @@ define!({
     pub struct OptChainExpr {
         pub span: Span,
         pub question_dot_token: Span,
+        pub optional: bool,
         pub base: Box<OptChainBase>,
     }
     pub enum OptChainBase {
