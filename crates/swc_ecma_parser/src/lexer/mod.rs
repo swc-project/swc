@@ -637,8 +637,9 @@ impl<'a> Lexer<'a> {
         let c = self.cur().unwrap();
         self.bump();
 
-        if self.syntax.typescript() && self.ctx.in_type {
-            if !self.ctx.should_not_lex_lt_as_type && c == '<' {
+        if self.syntax.typescript() && self.ctx.in_type && !self.ctx.should_not_lex_lt_or_gt_as_type
+        {
+            if c == '<' {
                 return Ok(Some(tok!('<')));
             } else if c == '>' {
                 return Ok(Some(tok!('>')));
