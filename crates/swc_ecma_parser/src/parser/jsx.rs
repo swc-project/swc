@@ -293,6 +293,7 @@ impl<I: Tokens> Parser<I> {
 
         let ctx = Context {
             in_forced_jsx_context: forced_jsx_context,
+            should_not_lex_lt_or_gt_as_type: false,
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
