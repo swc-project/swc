@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es/minifier)** Inline for loop variables (#7445) ([0cd2b61](https://github.com/swc-project/swc/commit/0cd2b61b054031f1a49cae25a82925d52dff0a73))
+
 ## [1.3.60] - 2023-05-25
 
 ### Bug Fixes
