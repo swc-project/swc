@@ -1,5 +1,5 @@
 use swc_atoms::js_word;
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::Spanned;
 use swc_ecma_ast::{
     op, ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BindingIdent,
     BlockStmtOrExpr, CallExpr, Callee, ClassExpr, ComputedPropName, CondExpr, Expr, ExprOrSpread,
