@@ -51,6 +51,8 @@ pub trait VarDataLike: Sized {
 
     fn mark_declared_as_fn_expr(&mut self);
 
+    fn mark_declared_as_for_init(&mut self);
+
     fn mark_has_property_access(&mut self);
 
     fn mark_has_property_mutation(&mut self);
