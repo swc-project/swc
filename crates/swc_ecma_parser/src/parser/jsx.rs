@@ -205,7 +205,11 @@ impl<I: Tokens> Parser<I> {
             }));
         }
 
-        let name = self.parse_jsx_element_name()?;
+        let ctx = Context {
+            should_not_lex_lt_or_gt_as_type: false,
+            ..self.ctx()
+        };
+        let name = self.with_ctx(ctx).parse_jsx_element_name()?;
         self.parse_jsx_opening_element_after_name(start, name)
             .map(Either::Right)
     }
@@ -289,6 +293,7 @@ impl<I: Tokens> Parser<I> {
 
         let ctx = Context {
             in_forced_jsx_context: forced_jsx_context,
+            should_not_lex_lt_or_gt_as_type: false,
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {
