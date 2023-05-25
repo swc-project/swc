@@ -158,7 +158,7 @@ impl_enum!(
         Empty,
         StaticBlock,
         AutoAccessor,
-        GlimmerTemplateMember
+        ContentTagMember
     ]
 );
 impl_enum!(ObjectPatProp, [KeyValue, Assign, Rest]);

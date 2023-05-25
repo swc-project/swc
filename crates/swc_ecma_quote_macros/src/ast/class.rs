@@ -83,4 +83,4 @@ impl_struct!(
     ]
 );
 
-impl_struct!(GlimmerTemplateMember, [span, contents]);
+impl_struct!(ContentTagMember, [span, contents]);

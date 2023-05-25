@@ -141,8 +141,8 @@ pub enum Expr {
     #[tag("JSXFragment")]
     JSXFragment(JSXFragment),
 
-    #[tag("GlimmerTemplate")]
-    GlimmerTemplateExpression(GlimmerTemplateExpression),
+    #[tag("ContentTag")]
+    ContentTagExpression(ContentTagExpression),
 
     #[tag("TsTypeAssertion")]
     TsTypeAssertion(TsTypeAssertion),
@@ -269,7 +269,7 @@ impl Clone for Expr {
             JSXEmpty(e) => JSXEmpty(e.clone()),
             JSXElement(e) => JSXElement(e.clone()),
             JSXFragment(e) => JSXFragment(e.clone()),
-            GlimmerTemplateExpression(e) => GlimmerTemplateExpression(e.clone()),
+            ContentTagExpression(e) => ContentTagExpression(e.clone()),
             TsTypeAssertion(e) => TsTypeAssertion(e.clone()),
             TsConstAssertion(e) => TsConstAssertion(e.clone()),
             TsNonNull(e) => TsNonNull(e.clone()),
@@ -522,9 +522,9 @@ pub struct FnExpr {
     pub function: Box<Function>,
 }
 
-#[ast_node("GlimmerTemplateExpression")]
+#[ast_node("ContentTagExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
-pub struct GlimmerTemplateExpression {
+pub struct ContentTagExpression {
     pub span: Span,
 
     #[cfg_attr(

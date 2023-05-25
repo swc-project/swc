@@ -1162,7 +1162,7 @@ fn can_be_null(e: &Expr) -> bool {
         | Expr::MetaProp(..) => true,
 
         Expr::Lit(..) => false,
-        Expr::GlimmerTemplateExpression(..) => false,
+        Expr::ContentTagExpression(..) => false,
 
         Expr::Array(..)
         | Expr::Arrow(..)

@@ -558,7 +558,7 @@ define!({
         Empty(EmptyStmt),
         StaticBlock(StaticBlock),
         AutoAccessor(AutoAccessor),
-        GlimmerTemplateMember(GlimmerTemplateMember),
+        ContentTagMember(ContentTagMember),
     }
 
     pub struct ClassProp {
@@ -708,7 +708,7 @@ define!({
         PrivateName(PrivateName),
         OptChain(OptChainExpr),
         Invalid(Invalid),
-        GlimmerTemplateExpression(GlimmerTemplateExpression),
+        ContentTagExpression(ContentTagExpression),
     }
     pub struct ThisExpr {
         pub span: Span,

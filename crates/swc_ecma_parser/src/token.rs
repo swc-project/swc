@@ -115,11 +115,11 @@ pub enum Token {
     Shebang(Atom),
     Error(Error),
 
-    GlimmerTemplateStart,
-    GlimmerTemplateContent {
+    ContentTagStart,
+    ContentTagContent {
         value: JsWord,
     },
-    GlimmerTemplateEnd,
+    ContentTagEnd,
 }
 
 impl Token {
@@ -673,9 +673,9 @@ impl Debug for Token {
             JSXTagEnd => write!(f, "> (jsx tag end)")?,
             Shebang(_) => write!(f, "#!")?,
             Token::Error(e) => write!(f, "<lexing error: {:?}>", e)?,
-            GlimmerTemplateStart => write!(f, "<template>")?,
-            GlimmerTemplateContent { value } => write!(f, "{}", value)?,
-            GlimmerTemplateEnd => write!(f, "</template>")?,
+            ContentTagStart => write!(f, "<template>")?,
+            ContentTagContent { value } => write!(f, "{}", value)?,
+            ContentTagEnd => write!(f, "</template>")?,
         }
 
         Ok(())

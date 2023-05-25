@@ -1516,7 +1516,7 @@ pub trait ExprExt {
                 expr.may_have_side_effects(ctx)
             }
 
-            Expr::GlimmerTemplateExpression(..) => false,
+            Expr::ContentTagExpression(..) => false,
 
             Expr::Invalid(..) => true,
         }
@@ -2595,7 +2595,7 @@ impl ExprCtx {
                 self.extract_side_effects_to(to, (*child).into())
             }
 
-            Expr::GlimmerTemplateExpression(..) => {}
+            Expr::ContentTagExpression(..) => {}
 
             Expr::Invalid(..) => unreachable!(),
         }

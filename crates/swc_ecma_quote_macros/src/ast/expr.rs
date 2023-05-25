@@ -42,7 +42,7 @@ impl_enum!(
         PrivateName,
         OptChain,
         Invalid,
-        GlimmerTemplateExpression
+        ContentTagExpression
     ],
     true
 );
@@ -138,4 +138,4 @@ impl_struct!(OptCall, [span, callee, args, type_args]);
 
 impl_enum!(Callee, [Super, Import, Expr]);
 
-impl_struct!(GlimmerTemplateExpression, [span, contents]);
+impl_struct!(ContentTagExpression, [span, contents]);

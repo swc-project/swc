@@ -300,12 +300,12 @@ macro_rules! tok {
         crate::token::Token::JSXTagEnd
     };
 
-    (GlimmerTemplateStart) => {
-        crate::token::Token::GlimmerTemplateStart
+    (ContentTagStart) => {
+        crate::token::Token::ContentTagStart
     };
 
-    (GlimmerTemplateEnd) => {
-        crate::token::Token::GlimmerTemplateEnd
+    (ContentTagEnd) => {
+        crate::token::Token::ContentTagEnd
     };
 
     // ----------

@@ -798,7 +798,7 @@ where
             Expr::TsSatisfies(n) => {
                 emit!(n)
             }
-            Expr::GlimmerTemplateExpression(ref n) => emit!(n),
+            Expr::ContentTagExpression(ref n) => emit!(n),
         }
 
         if self.comments.is_some() {
@@ -845,14 +845,14 @@ where
     }
 
     #[emitter]
-    fn emit_glimmer_template_expr(&mut self, n: &GlimmerTemplateExpression) -> Result {
+    fn emit_glimmer_template_expr(&mut self, n: &ContentTagExpression) -> Result {
         self.wr.write_str_lit(n.span, "<template>")?;
         self.wr.write_str_lit(n.span, &n.contents)?;
         self.wr.write_str_lit(n.span, "</template>")?;
     }
 
     #[emitter]
-    fn emit_glimmer_template_member(&mut self, n: &GlimmerTemplateMember) -> Result {
+    fn emit_glimmer_template_member(&mut self, n: &ContentTagMember) -> Result {
         self.wr.write_str_lit(n.span, "<template>")?;
         self.wr.write_str_lit(n.span, &n.contents)?;
         self.wr.write_str_lit(n.span, "</template>")?;
@@ -1282,7 +1282,7 @@ where
             ClassMember::Empty(ref n) => emit!(n),
             ClassMember::StaticBlock(ref n) => emit!(n),
             ClassMember::AutoAccessor(ref n) => emit!(n),
-            ClassMember::GlimmerTemplateMember(ref n) => emit!(n),
+            ClassMember::ContentTagMember(ref n) => emit!(n),
         }
     }
 

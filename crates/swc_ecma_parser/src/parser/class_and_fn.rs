@@ -380,9 +380,9 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        if is!(self, GlimmerTemplateStart) {
+        if is!(self, ContentTagStart) {
             return self.parse_glimmer_template().map(|glimmer_template| {
-                ClassMember::GlimmerTemplateMember(GlimmerTemplateMember {
+                ClassMember::ContentTagMember(ContentTagMember {
                     span: glimmer_template.span,
                     contents: glimmer_template.contents,
                 })

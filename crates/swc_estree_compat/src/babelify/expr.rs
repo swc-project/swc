@@ -169,7 +169,7 @@ impl Babelify for Expr {
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
-            Expr::GlimmerTemplateExpression(_) => panic!(
+            Expr::ContentTagExpression(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),

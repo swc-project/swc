@@ -21,7 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    lexer::state::GlimmerTemplateState,
+    lexer::state::ContentTagState,
     token::*,
     Context, Syntax,
 };
@@ -636,9 +636,9 @@ impl<'a> Lexer<'a> {
                 return self.error(start, SyntaxError::Eof);
             }
             if self.is_str("</template>") {
-                self.state.glimmer_template = GlimmerTemplateState::Ending;
+                self.state.glimmer_template = ContentTagState::Ending;
                 let slice_end = self.cur_pos();
-                return Ok(GlimmerTemplateContent {
+                return Ok(ContentTagContent {
                     value: self.input.slice(start, slice_end).into(),
                 });
             }
@@ -654,8 +654,8 @@ impl<'a> Lexer<'a> {
         for _ in 0..11 {
             self.bump();
         }
-        self.state.glimmer_template = GlimmerTemplateState::None;
-        return Ok(GlimmerTemplateEnd);
+        self.state.glimmer_template = ContentTagState::None;
+        return Ok(ContentTagEnd);
     }
 
     #[inline(never)]
@@ -672,8 +672,8 @@ impl<'a> Lexer<'a> {
             for _ in 0..9 {
                 self.bump();
             }
-            self.state.glimmer_template = GlimmerTemplateState::Reading;
-            return Ok(Some(GlimmerTemplateStart));
+            self.state.glimmer_template = ContentTagState::Reading;
+            return Ok(Some(ContentTagStart));
         }
 
         if self.syntax.typescript() && self.ctx.in_type && !self.ctx.should_not_lex_lt_or_gt_as_type

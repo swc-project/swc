@@ -1242,7 +1242,7 @@ where
             }
 
             Expr::Lit(..) => true,
-            Expr::GlimmerTemplateExpression(..) => true,
+            Expr::ContentTagExpression(..) => true,
 
             Expr::Yield(..) | Expr::Await(..) => false,
 

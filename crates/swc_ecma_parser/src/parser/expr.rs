@@ -393,9 +393,9 @@ impl<I: Tokens> Parser<I> {
                     return self.parse_paren_expr_or_arrow_fn(can_be_arrow, None);
                 }
 
-                Token::GlimmerTemplateStart => {
+                Token::ContentTagStart => {
                     return self.parse_glimmer_template().map(|glimmer_template| {
-                        Box::new(Expr::GlimmerTemplateExpression(glimmer_template))
+                        Box::new(Expr::ContentTagExpression(glimmer_template))
                     })
                 }
 
@@ -511,15 +511,15 @@ impl<I: Tokens> Parser<I> {
         syntax_error!(self, self.input.cur_span(), SyntaxError::TS1109)
     }
 
-    pub fn parse_glimmer_template(&mut self) -> PResult<GlimmerTemplateExpression> {
-        assert_and_bump!(self, GlimmerTemplateStart);
+    pub fn parse_glimmer_template(&mut self) -> PResult<ContentTagExpression> {
+        assert_and_bump!(self, ContentTagStart);
         let start = cur_pos!(self);
 
         match bump!(self) {
-            Token::GlimmerTemplateContent { value } => {
+            Token::ContentTagContent { value } => {
                 let span = span!(self, start);
-                assert_and_bump!(self, GlimmerTemplateEnd);
-                return Ok(GlimmerTemplateExpression {
+                assert_and_bump!(self, ContentTagEnd);
+                return Ok(ContentTagExpression {
                     span,
                     contents: value.into(),
                 });

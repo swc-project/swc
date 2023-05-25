@@ -58,9 +58,9 @@ impl Take for Class {
     }
 }
 
-#[ast_node("GlimmerTemplateMember")]
+#[ast_node("ContentTagMember")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
-pub struct GlimmerTemplateMember {
+pub struct ContentTagMember {
     pub span: Span,
 
     #[cfg_attr(
@@ -99,8 +99,8 @@ pub enum ClassMember {
     #[tag("AutoAccessor")]
     AutoAccessor(AutoAccessor),
 
-    #[tag("GlimmerTemplate")]
-    GlimmerTemplateMember(GlimmerTemplateMember),
+    #[tag("ContentTag")]
+    ContentTagMember(ContentTagMember),
 }
 
 impl Take for ClassMember {
