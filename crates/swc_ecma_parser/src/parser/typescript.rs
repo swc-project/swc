@@ -233,7 +233,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_ts_type_ref__type_args);
         let type_params = if !self.input.had_line_break_before_cur() && is!(self, '<') {
             let ctx = Context {
-                should_not_lex_lt_or_gt_as_type: false,
+                should_not_lex_lt_as_type: false,
                 ..self.ctx()
             };
             Some(self.with_ctx(ctx).parse_ts_type_args()?)

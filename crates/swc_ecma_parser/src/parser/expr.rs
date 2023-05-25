@@ -566,7 +566,7 @@ impl<I: Tokens> Parser<I> {
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         let ctx = Context {
-            should_not_lex_lt_or_gt_as_type: true,
+            should_not_lex_lt_as_type: true,
             ..self.ctx()
         };
         self.with_ctx(ctx)
@@ -632,7 +632,7 @@ impl<I: Tokens> Parser<I> {
             let type_args = if self.input.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts(|p| {
                     let ctx = Context {
-                        should_not_lex_lt_or_gt_as_type: false,
+                        should_not_lex_lt_as_type: false,
                         ..p.ctx()
                     };
 
@@ -1188,7 +1188,7 @@ impl<I: Tokens> Parser<I> {
                 let mut_obj_opt = &mut obj_opt;
 
                 let ctx: Context = Context {
-                    should_not_lex_lt_or_gt_as_type: true,
+                    should_not_lex_lt_as_type: true,
                     ..self.ctx()
                 };
                 let result = self.with_ctx(ctx).try_parse_ts(|p| {
