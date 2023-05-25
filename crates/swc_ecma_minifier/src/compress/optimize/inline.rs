@@ -189,24 +189,35 @@ where
                         ..
                     }) => false,
 
-                    Expr::Ident(id) if !id.eq_ignore_span(ident) && usage.assigned_fn_local => self
-                        .data
-                        .vars
-                        .get(&id.to_id())
-                        .filter(|a| {
-                            !a.reassigned() && a.declared && {
+                    Expr::Ident(id) if !id.eq_ignore_span(ident) => {
+                        if !usage.assigned_fn_local {
+                            false
+                        } else if let Some(u) = self.data.vars.get(&id.to_id()) {
+                            let mut should_inline = !u.reassigned() && u.declared;
+
+                            should_inline &=
                                 // Function declarations are hoisted
                                 //
                                 // As we copy expressions, this can cause a problem.
                                 // See https://github.com/swc-project/swc/issues/6463
                                 //
                                 // We check callee_count of `usage` because we copy simple functions
-                                !a.used_above_decl
-                                    || !a.declared_as_fn_decl
-                                    || usage.callee_count == 0
+                                !u.used_above_decl
+                                    || !u.declared_as_fn_decl
+                                    || usage.callee_count == 0;
+
+                            if u.declared_as_for_init && !usage.is_fn_local {
+                                should_inline &= !matches!(
+                                    u.var_kind,
+                                    Some(VarDeclKind::Let | VarDeclKind::Const)
+                                )
                             }
-                        })
-                        .is_some(),
+
+                            should_inline
+                        } else {
+                            false
+                        }
+                    }
 
                     Expr::Lit(lit) => match lit {
                         Lit::Str(s) => {
@@ -228,9 +239,10 @@ where
                     }) => arg.is_lit(),
                     Expr::This(..) => usage.is_fn_local,
                     Expr::Arrow(arr) => {
-                        !(usage.used_as_arg && ref_count > 1)
-                            && is_arrow_simple_enough_for_copy(arr)
-                            && !usage.has_property_mutation
+                        is_arrow_simple_enough_for_copy(arr)
+                            && !(usage.has_property_mutation
+                                || usage.executed_multiple_time
+                                || usage.used_as_arg && ref_count > 1)
                     }
                     _ => false,
                 }

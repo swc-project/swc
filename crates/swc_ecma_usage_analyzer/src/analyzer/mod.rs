@@ -111,6 +111,7 @@ where
         let Ctx {
             in_left_of_for_loop,
             in_pat_of_param,
+            in_pat_of_var_decl,
             ..
         } = self.ctx;
 
@@ -126,9 +127,8 @@ where
                 v.mark_declared_as_fn_param();
             }
 
-            if in_left_of_for_loop {
-                v.mark_reassigned();
-                v.mark_mutated();
+            if in_pat_of_var_decl && in_left_of_for_loop {
+                v.mark_declared_as_for_init();
             }
         } else {
             self.report_usage(i, true);
