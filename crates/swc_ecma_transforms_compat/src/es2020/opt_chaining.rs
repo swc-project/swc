@@ -39,7 +39,6 @@ pub struct Config {
 }
 
 #[swc_trace]
-#[fast_path(ShouldWork)]
 impl VisitMut for OptChaining {
     noop_visit_mut_type!();
 
@@ -575,26 +574,6 @@ impl OptChaining {
         base.visit_mut_with(self);
 
         base
-    }
-}
-#[derive(Default)]
-struct ShouldWork {
-    /// Found optional chaining?
-    found: bool,
-}
-
-#[swc_trace]
-impl Visit for ShouldWork {
-    noop_visit_type!();
-
-    fn visit_opt_chain_expr(&mut self, _: &OptChainExpr) {
-        self.found = true;
-    }
-}
-
-impl Check for ShouldWork {
-    fn should_handle(&self) -> bool {
-        self.found
     }
 }
 
