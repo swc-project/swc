@@ -519,25 +519,18 @@ where
                             }
                             "global" => {
                                 if let Some(children) = &mut class_sel.children {
-                                    dbg!(&children);
                                     if let Some(PseudoClassSelectorChildren::ComplexSelector(
                                         complex_selector,
                                     )) = children.get_mut(0)
                                     {
                                         let mut complex_selector_children =
                                             complex_selector.children.clone();
-                                        dbg!(&selector.subclass_selectors);
                                         prepend_left_subclass_selectors(
                                             &mut complex_selector_children,
                                             selector
                                                 .subclass_selectors
                                                 .split_at(sel_index)
                                         );
-                                        dbg!(selector
-                                                 .subclass_selectors
-                                                 .split_at(sel_index)
-                                                 .1
-                                                 .to_vec());
                                         new_children.extend(complex_selector_children);
                                     }
                                 } else {
@@ -659,7 +652,6 @@ fn prepend_left_subclass_selectors(
     if let Some(ComplexSelectorChildren::CompoundSelector(first)) =
         complex_selector_children.get_mut(0)
     {
-        dbg!(&sels);
         first.subclass_selectors = [sels.0.to_vec(), first.subclass_selectors.take(),sels.1[1..].to_vec()].concat();
     }
 }
