@@ -1,0 +1,7 @@
+:global(.a):hover {
+  color: blue;
+}
+
+:local(.a).b{
+  color: red;
+}
