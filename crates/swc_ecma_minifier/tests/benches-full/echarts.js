@@ -3700,8 +3700,8 @@
         scope.mounted[nativeEventName] = listener, scope.listenerOpts[nativeEventName] = opt, addEventListener(scope.domTarget, nativeEventName, listener, opt);
     }
     function unmountDOMEventListeners(scope) {
-        var el, name, handler, opt, mounted = scope.mounted;
-        for(var nativeEventName in mounted)mounted.hasOwnProperty(nativeEventName) && (el = scope.domTarget, name = nativeEventName, handler = mounted[nativeEventName], opt = scope.listenerOpts[nativeEventName], isDomLevel2 ? el.removeEventListener(name, handler, opt) : el.detachEvent('on' + name, handler));
+        var el, handler, opt, mounted = scope.mounted;
+        for(var nativeEventName in mounted)mounted.hasOwnProperty(nativeEventName) && (el = scope.domTarget, handler = mounted[nativeEventName], opt = scope.listenerOpts[nativeEventName], isDomLevel2 ? el.removeEventListener(nativeEventName, handler, opt) : el.detachEvent('on' + nativeEventName, handler));
         scope.mounted = {};
     }
     var DOMHandlerScope = function(domTarget, domHandlers) {

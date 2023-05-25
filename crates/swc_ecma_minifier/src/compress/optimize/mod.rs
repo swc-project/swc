@@ -1866,8 +1866,6 @@ where
             }
         }
 
-        self.collapse_assignment_to_vars(e);
-
         if e.is_seq() {
             debug_assert_valid(e);
         }

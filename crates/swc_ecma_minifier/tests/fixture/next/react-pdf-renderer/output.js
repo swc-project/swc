@@ -18489,10 +18489,10 @@
                         var r = "undefined" != typeof Uint8Array && "undefined" != typeof Uint16Array && "undefined" != typeof Int32Array;
                         t.assign = function(e) {
                             for(var t = Array.prototype.slice.call(arguments, 1); t.length;){
-                                var r, n = t.shift();
-                                if (n) {
-                                    if ("object" != typeof n) throw TypeError(n + "must be non-object");
-                                    for(var i in n)r = i, Object.prototype.hasOwnProperty.call(n, r) && (e[i] = n[i]);
+                                var r = t.shift();
+                                if (r) {
+                                    if ("object" != typeof r) throw TypeError(r + "must be non-object");
+                                    for(var n in r)Object.prototype.hasOwnProperty.call(r, n) && (e[n] = r[n]);
                                 }
                             }
                             return e;
