@@ -38,7 +38,7 @@ pub(super) struct State {
 
     token_type: Option<TokenType>,
 
-    pub glimmer_template: ContentTagState,
+    pub content_tag_template: ContentTagState,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -207,12 +207,12 @@ impl<'a> Iterator for Lexer<'a> {
         let mut start = self.cur_pos();
 
         let res = (|| -> Result<Option<_>, _> {
-            if self.state.glimmer_template == ContentTagState::Reading {
-                return Ok(Some(self.read_glimmer_template()?));
+            if self.state.content_tag_template == ContentTagState::Reading {
+                return Ok(Some(self.read_content_tag_template()?));
             }
 
-            if self.state.glimmer_template == ContentTagState::Ending {
-                return Ok(Some(self.end_glimmer_template()?));
+            if self.state.content_tag_template == ContentTagState::Ending {
+                return Ok(Some(self.end_content_tag_template()?));
             }
 
             if let Some(start) = self.state.next_regexp {
@@ -394,7 +394,7 @@ impl State {
             line_start: BytePos(0),
             cur_line: 1,
             syntax,
-            glimmer_template: ContentTagState::None,
+            content_tag_template: ContentTagState::None,
         }
     }
 }

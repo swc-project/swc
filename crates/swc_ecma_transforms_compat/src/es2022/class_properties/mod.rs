@@ -931,7 +931,7 @@ impl<C: Comments> ClassProperties<C> {
                 }
 
                 ClassMember::ContentTagMember(..) => {
-                    unreachable!("glimmer template compiler pass should remove this")
+                    unreachable!("content tag: compiler pass should remove this")
                 }
 
                 ClassMember::AutoAccessor(..) => {

@@ -394,9 +394,11 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 Token::ContentTagStart => {
-                    return self.parse_glimmer_template().map(|glimmer_template| {
-                        Box::new(Expr::ContentTagExpression(glimmer_template))
-                    })
+                    return self
+                        .parse_content_tag_template()
+                        .map(|content_tag_template| {
+                            Box::new(Expr::ContentTagExpression(content_tag_template))
+                        })
                 }
 
                 _ => {}
@@ -511,7 +513,7 @@ impl<I: Tokens> Parser<I> {
         syntax_error!(self, self.input.cur_span(), SyntaxError::TS1109)
     }
 
-    pub fn parse_glimmer_template(&mut self) -> PResult<ContentTagExpression> {
+    pub fn parse_content_tag_template(&mut self) -> PResult<ContentTagExpression> {
         assert_and_bump!(self, ContentTagStart);
         let start = cur_pos!(self);
 
@@ -525,7 +527,7 @@ impl<I: Tokens> Parser<I> {
                 });
             }
             _ => {
-                unexpected!(self, "glimmer template");
+                unexpected!(self, "content tag");
             }
         }
     }

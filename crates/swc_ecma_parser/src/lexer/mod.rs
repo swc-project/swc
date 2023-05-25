@@ -629,14 +629,14 @@ impl<'a> Lexer<'a> {
         }))
     }
 
-    fn read_glimmer_template(&mut self) -> LexResult<Token> {
+    fn read_content_tag_template(&mut self) -> LexResult<Token> {
         let start = self.cur_pos();
         loop {
             if !self.cur().is_some() {
                 return self.error(start, SyntaxError::Eof);
             }
             if self.is_str("</template>") {
-                self.state.glimmer_template = ContentTagState::Ending;
+                self.state.content_tag_template = ContentTagState::Ending;
                 let slice_end = self.cur_pos();
                 return Ok(ContentTagContent {
                     value: self.input.slice(start, slice_end).into(),
@@ -646,7 +646,7 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    fn end_glimmer_template(&mut self) -> LexResult<Token> {
+    fn end_content_tag_template(&mut self) -> LexResult<Token> {
         let start = self.cur_pos();
         if !self.cur().is_some() || !self.is_str("</template>") {
             return self.error(start, SyntaxError::Eof);
@@ -654,7 +654,7 @@ impl<'a> Lexer<'a> {
         for _ in 0..11 {
             self.bump();
         }
-        self.state.glimmer_template = ContentTagState::None;
+        self.state.content_tag_template = ContentTagState::None;
         return Ok(ContentTagEnd);
     }
 
@@ -672,7 +672,7 @@ impl<'a> Lexer<'a> {
             for _ in 0..9 {
                 self.bump();
             }
-            self.state.glimmer_template = ContentTagState::Reading;
+            self.state.content_tag_template = ContentTagState::Reading;
             return Ok(Some(ContentTagStart));
         }
 

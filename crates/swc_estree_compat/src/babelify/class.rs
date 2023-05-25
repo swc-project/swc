@@ -61,7 +61,7 @@ impl Babelify for ClassMember {
             ),
             ClassMember::StaticBlock(s) => ClassBodyEl::StaticBlock(s.babelify(ctx)),
             ClassMember::AutoAccessor(..) => todo!("auto accessor"),
-            ClassMember::ContentTagMember(..) => todo!("glimmer template member"),
+            ClassMember::ContentTagMember(..) => todo!("content tag member"),
         }
     }
 }

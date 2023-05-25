@@ -381,12 +381,14 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         if is!(self, ContentTagStart) {
-            return self.parse_glimmer_template().map(|glimmer_template| {
-                ClassMember::ContentTagMember(ContentTagMember {
-                    span: glimmer_template.span,
-                    contents: glimmer_template.contents,
-                })
-            });
+            return self
+                .parse_content_tag_template()
+                .map(|content_tag_template| {
+                    ClassMember::ContentTagMember(ContentTagMember {
+                        span: content_tag_template.span,
+                        contents: content_tag_template.contents,
+                    })
+                });
         }
 
         let decorators = self.parse_decorators(false)?;
