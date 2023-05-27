@@ -119,9 +119,13 @@ impl PluginTransformState {
             guest_program_ptr.1,
         )?;
 
+        /* [Note]: currently this is disabled: this cleanup is for the multi-threaded
+         * wasi environment as well as cleaning up file handles which is for the cases
+         * running wasi binary as standalone. SWC doesn't need neither currently, will
+         * revisit once we support multithreaded plugin.
         if let Some(wasi_env) = &self.wasi_env {
             wasi_env.cleanup(&mut self.store, None);
-        }
+        }*/
 
         ret
     }
