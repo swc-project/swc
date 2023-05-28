@@ -10,6 +10,9 @@
 
 - **(es/parser)** Fix parsing of generic jsx element name (#7449) ([77850dd](https://github.com/swc-project/swc/commit/77850dd8f01f51af1e9dda3eabddd07b7e39c841))
 
+
+- **(plugin/runner)** Disable `wasi_env` cleanup (#7458) ([1868d36](https://github.com/swc-project/swc/commit/1868d36cfed54e48c3439ec4547251e45731c93a))
+
 ### Features
 
 
