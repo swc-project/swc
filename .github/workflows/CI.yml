@@ -148,7 +148,6 @@ jobs:
       - name: Install node dependencies
         shell: bash
         run: |
-          corepack enable
           yarn
 
       # Ensure that all components are compilable.
@@ -186,7 +185,6 @@ jobs:
       - name: Install node dependencies
         shell: bash
         run: |
-          corepack enable
           yarn
 
       - name: Build
