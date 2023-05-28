@@ -163,6 +163,9 @@ pub enum Feature {
     /// `transform-unicode-escapes`
     UnicodeEscapes,
 
+    /// `transform-unicode-sets-regex`
+    UnicodeSetsRegex,
+
     /// `bugfix/transform-async-arrows-in-class`
     BugfixAsyncArrowsInClass,
 
