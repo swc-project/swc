@@ -185,6 +185,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseEntityName`
     fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<TsEntityName> {
         debug_assert!(self.input.syntax().typescript());
+        trace_cur!(self, parse_ts_entity_name);
 
         let init = self.parse_ident_name()?;
         if let Ident {
@@ -1253,7 +1254,7 @@ impl<I: Tokens> Parser<I> {
 
         let _ = self.eat_any_ts_modifier()?;
 
-        if is_one_of!(self, IdentRef, "this") {
+        if is_one_of!(self, IdentName, "this") {
             bump!(self);
             return Ok(true);
         }
@@ -1808,6 +1809,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseParenthesizedType`
     fn parse_ts_parenthesized_type(&mut self) -> PResult<TsParenthesizedType> {
         debug_assert!(self.input.syntax().typescript());
+        trace_cur!(self, parse_ts_parenthesized_type);
 
         let start = cur_pos!(self);
         expect!(self, '(');

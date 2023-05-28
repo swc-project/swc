@@ -87,7 +87,7 @@ macro_rules! impl_for_for_stmt {
                     stmt = Some(Stmt::Decl(
                         VarDecl {
                             span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
+                            kind: VarDeclKind::Let,
                             decls,
                             declare: false,
                         }

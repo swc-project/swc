@@ -92,6 +92,8 @@
 //! `VisitMutAstPath` and `FoldAstPath` can be used to transform AST nodes with
 //! the path to the node.
 
+use std::ops::{Deref, DerefMut};
+
 pub use either::Either;
 pub use swc_visit_macros::define;
 
@@ -251,6 +253,19 @@ where
         Self { path }
     }
 
+    pub fn with_guard(&mut self, kind: K) -> AstKindPathGuard<K> {
+        self.path.push(kind);
+
+        AstKindPathGuard { path: self }
+    }
+
+    pub fn with_index_guard(&mut self, index: usize) -> AstKindPathIndexGuard<K> {
+        self.path.last_mut().unwrap().set_index(index);
+
+        AstKindPathIndexGuard { path: self }
+    }
+
+    #[deprecated = "Use with_guard instead"]
     pub fn with<Ret>(&mut self, path: K, op: impl FnOnce(&mut Self) -> Ret) -> Ret {
         self.path.push(path);
         let ret = op(self);
@@ -258,11 +273,88 @@ where
         ret
     }
 
+    #[deprecated = "Use with_index_guard instead"]
     pub fn with_index<Ret>(&mut self, index: usize, op: impl FnOnce(&mut Self) -> Ret) -> Ret {
         self.path.last_mut().unwrap().set_index(index);
         let res = op(self);
         self.path.last_mut().unwrap().set_index(usize::MAX);
         res
+    }
+}
+
+pub struct AstKindPathGuard<'a, K>
+where
+    K: ParentKind,
+{
+    path: &'a mut AstKindPath<K>,
+}
+
+impl<K> Deref for AstKindPathGuard<'_, K>
+where
+    K: ParentKind,
+{
+    type Target = AstKindPath<K>;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        self.path
+    }
+}
+
+impl<K> DerefMut for AstKindPathGuard<'_, K>
+where
+    K: ParentKind,
+{
+    #[inline]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        self.path
+    }
+}
+
+impl<K> Drop for AstKindPathGuard<'_, K>
+where
+    K: ParentKind,
+{
+    fn drop(&mut self) {
+        self.path.path.pop();
+    }
+}
+
+pub struct AstKindPathIndexGuard<'a, K>
+where
+    K: ParentKind,
+{
+    path: &'a mut AstKindPath<K>,
+}
+
+impl<K> Deref for AstKindPathIndexGuard<'_, K>
+where
+    K: ParentKind,
+{
+    type Target = AstKindPath<K>;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        self.path
+    }
+}
+
+impl<K> DerefMut for AstKindPathIndexGuard<'_, K>
+where
+    K: ParentKind,
+{
+    #[inline]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        self.path
+    }
+}
+
+impl<K> Drop for AstKindPathIndexGuard<'_, K>
+where
+    K: ParentKind,
+{
+    fn drop(&mut self) {
+        self.path.path.last_mut().unwrap().set_index(usize::MAX);
     }
 }
 
@@ -310,6 +402,21 @@ where
         &self.kinds
     }
 
+    pub fn with_guard(&mut self, node: N) -> AstNodePathGuard<N> {
+        self.kinds.path.push(node.kind());
+        self.path.push(node);
+
+        AstNodePathGuard { path: self }
+    }
+
+    pub fn with_index_guard(&mut self, index: usize) -> AstNodePathIndexGuard<N> {
+        self.kinds.path.last_mut().unwrap().set_index(index);
+        self.path.last_mut().unwrap().set_index(index);
+
+        AstNodePathIndexGuard { path: self }
+    }
+
+    #[deprecated = "Use with_guard instead"]
     pub fn with<F, Ret>(&mut self, node: N, op: F) -> Ret
     where
         F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
@@ -325,6 +432,7 @@ where
         ret
     }
 
+    #[deprecated = "Use with_index_guard instead"]
     pub fn with_index<F, Ret>(&mut self, index: usize, op: F) -> Ret
     where
         F: for<'aa> FnOnce(&'aa mut AstNodePath<N>) -> Ret,
@@ -350,4 +458,87 @@ pub trait NodeRef: Copy {
 
 pub trait ParentKind: Copy {
     fn set_index(&mut self, index: usize);
+}
+
+pub struct AstNodePathGuard<'a, N>
+where
+    N: NodeRef,
+{
+    path: &'a mut AstNodePath<N>,
+}
+
+impl<N> Deref for AstNodePathGuard<'_, N>
+where
+    N: NodeRef,
+{
+    type Target = AstNodePath<N>;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        self.path
+    }
+}
+
+impl<N> DerefMut for AstNodePathGuard<'_, N>
+where
+    N: NodeRef,
+{
+    #[inline]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        self.path
+    }
+}
+
+impl<N> Drop for AstNodePathGuard<'_, N>
+where
+    N: NodeRef,
+{
+    fn drop(&mut self) {
+        self.path.path.pop();
+        self.path.kinds.path.pop();
+    }
+}
+
+pub struct AstNodePathIndexGuard<'a, N>
+where
+    N: NodeRef,
+{
+    path: &'a mut AstNodePath<N>,
+}
+
+impl<N> Deref for AstNodePathIndexGuard<'_, N>
+where
+    N: NodeRef,
+{
+    type Target = AstNodePath<N>;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        self.path
+    }
+}
+
+impl<N> DerefMut for AstNodePathIndexGuard<'_, N>
+where
+    N: NodeRef,
+{
+    #[inline]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        self.path
+    }
+}
+
+impl<N> Drop for AstNodePathIndexGuard<'_, N>
+where
+    N: NodeRef,
+{
+    fn drop(&mut self) {
+        self.path.path.last_mut().unwrap().set_index(usize::MAX);
+        self.path
+            .kinds
+            .path
+            .last_mut()
+            .unwrap()
+            .set_index(usize::MAX);
+    }
 }
