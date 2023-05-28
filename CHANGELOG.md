@@ -16,6 +16,12 @@
 
 - **(es/minifier)** Inline for loop variables (#7445) ([0cd2b61](https://github.com/swc-project/swc/commit/0cd2b61b054031f1a49cae25a82925d52dff0a73))
 
+### Miscellaneous Tasks
+
+
+
+- **(es/preset-env)** Update data (#7459) ([e15adaf](https://github.com/swc-project/swc/commit/e15adaf6eaada62b6a3c1b8447fb39612dee7946))
+
 ## [1.3.60] - 2023-05-25
 
 ### Bug Fixes
