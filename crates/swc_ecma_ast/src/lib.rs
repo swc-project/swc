@@ -103,7 +103,7 @@ pub struct Invalid {
     pub span: Span,
 }
 
-/// Note: This type implements `Serailize` and `Deserialize` if `serde` is
+/// Note: This type implements `Serialize` and `Deserialize` if `serde` is
 /// enabled, instead of requiring `serde-impl` feature.
 #[derive(Debug, Clone, Copy, PartialOrd, Ord, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
