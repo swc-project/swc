@@ -130,7 +130,7 @@ fn handle_func(func: ItemFn, ast_type: Ident) -> TokenStream {
             unresolved_mark: u32, should_enable_comments_proxy: i32) -> u32 {
             // Reconstruct `Program` & config string from serialized program
             // Host (SWC) should allocate memory, copy bytes and pass ptr to plugin.
-            let program = unsafe { swc_core::common::plugin::serialized::deserialize_from_ptr(ast_ptr, ast_ptr_len) };
+            let program = swc_core::common::plugin::serialized::PluginSerializedBytes::from_raw_ptr(ast_ptr, ast_ptr_len.try_into().expect("Should able to convert ptr length")).deserialize();
             if program.is_err() {
                 let err = swc_core::common::plugin::serialized::PluginError::Deserialize("Failed to deserialize program received from host".to_string());
                 return construct_error_ptr(err);
