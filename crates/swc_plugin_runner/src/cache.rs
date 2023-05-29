@@ -124,7 +124,7 @@ impl PluginModuleCacheInner {
             return Ok(());
         }
 
-        anyhow::bail!("Filesystem cache is not enabled, cannot read plugin from phsyical path");
+        anyhow::bail!("Filesystem cache is not enabled, cannot read plugin from physical path");
     }
 
     /// Returns a PluingModuleBytes can be compiled into a wasmer::Module.
