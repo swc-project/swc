@@ -8,6 +8,9 @@
 - **(css/modules)** Don't drop the correct selector (#7450) ([d370324](https://github.com/swc-project/swc/commit/d370324cfd251af49853fe887644fcaa8d811431))
 
 
+- **(es/codegen)** Emit `;` for `TsImportEqualsDecl` (#7464) ([3935d02](https://github.com/swc-project/swc/commit/3935d02e365c2fcfdf517fe6dc5943f4ba2616cd))
+
+
 - **(es/parser)** Fix parsing of generic jsx element name (#7449) ([77850dd](https://github.com/swc-project/swc/commit/77850dd8f01f51af1e9dda3eabddd07b7e39c841))
 
 
