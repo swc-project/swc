@@ -20,6 +20,9 @@
 
 
 
+- **(common)** Enable bytecheck for missing structs (#7465) ([56ac9eb](https://github.com/swc-project/swc/commit/56ac9eb6b3c8cc379ee4ccf55d6130e39aa641b8))
+
+
 - **(es/minifier)** Inline for loop variables (#7445) ([0cd2b61](https://github.com/swc-project/swc/commit/0cd2b61b054031f1a49cae25a82925d52dff0a73))
 
 ### Miscellaneous Tasks
