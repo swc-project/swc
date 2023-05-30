@@ -1025,6 +1025,22 @@ fn exec(input: PathBuf) {
         },
         &input,
     );
+
+    compare_stdout(
+        Default::default(),
+        |t| {
+            let unresolved_mark = Mark::new();
+            chain!(
+                resolver(unresolved_mark, Mark::new(), false),
+                es2015(
+                    unresolved_mark,
+                    Some(t.comments.clone()),
+                    Default::default()
+                )
+            )
+        },
+        &input,
+    );
 }
 
 #[testing::fixture("tests/block-scoping/**/input.js")]

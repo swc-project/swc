@@ -5,10 +5,60 @@
 
 
 
+- **(css/modules)** Don't drop the correct selector (#7450) ([d370324](https://github.com/swc-project/swc/commit/d370324cfd251af49853fe887644fcaa8d811431))
+
+
+- **(es/codegen)** Emit `;` for `TsImportEqualsDecl` (#7464) ([3935d02](https://github.com/swc-project/swc/commit/3935d02e365c2fcfdf517fe6dc5943f4ba2616cd))
+
+
+- **(es/parser)** Fix parsing of generic jsx element name (#7449) ([77850dd](https://github.com/swc-project/swc/commit/77850dd8f01f51af1e9dda3eabddd07b7e39c841))
+
+
+- **(plugin/runner)** Disable `wasi_env` cleanup (#7458) ([1868d36](https://github.com/swc-project/swc/commit/1868d36cfed54e48c3439ec4547251e45731c93a))
+
+### Features
+
+
+
+- **(es/minifier)** Inline for loop variables (#7445) ([0cd2b61](https://github.com/swc-project/swc/commit/0cd2b61b054031f1a49cae25a82925d52dff0a73))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/preset-env)** Update data (#7459) ([e15adaf](https://github.com/swc-project/swc/commit/e15adaf6eaada62b6a3c1b8447fb39612dee7946))
+
+## [1.3.60] - 2023-05-25
+
+### Bug Fixes
+
+
+
+- **(es)** Init filesystem cache only if plugin exists (#7436) ([786cf3a](https://github.com/swc-project/swc/commit/786cf3a10ffe5e2990c5473062ea42771b769124))
+
+
+- **(es)** Ignore input sourcemap error (#7446) ([0c92e53](https://github.com/swc-project/swc/commit/0c92e534a5e3ccc74077ac03c473ad2c12fd5349))
+
+
 - **(es/compat)** Fix destructuring handling of `block_scoping` (#7425) ([66d52ec](https://github.com/swc-project/swc/commit/66d52ec849f3ed2b33db0a3738f5692cb8fa2400))
 
 
+- **(es/compat)** Fix stage 3 decorator pass (#7392) ([97d0f79](https://github.com/swc-project/swc/commit/97d0f79142ec8ac6d1795b5c56cc565ca9b0a085))
+
+
+- **(es/compat)** Fix variable scoping of object rest pass. (#7437) ([f3d660f](https://github.com/swc-project/swc/commit/f3d660f972a9fef7ee0783125655c4873a5d43fe))
+
+
 - **(es/parser)** Reset class context (#7433) ([1cab43f](https://github.com/swc-project/swc/commit/1cab43f17deb35ef7e9a4b2c229327edc0f87756))
+
+
+- **(es/parser)** Allow using `package` as a parameter name in interface (#7438) ([33a922b](https://github.com/swc-project/swc/commit/33a922b6f8c8362b46fe8547e9d327a4d82520a4))
+
+
+- **(es/parser)** Fix parsing of tsx with a type annotation in a conditional expression (#7440) ([a37d59a](https://github.com/swc-project/swc/commit/a37d59a134b2a046b50bb5e70c694130227e0d9e))
+
+
+- **(es/preset-env)** Fix pass ordering (#7434) ([2071f89](https://github.com/swc-project/swc/commit/2071f89d4eea7ae311b05457650e2f42c1b503ef))
 
 
 - **(swc_core)** Correctly expose plugin with host (#7427) ([558ca40](https://github.com/swc-project/swc/commit/558ca40b99bd3e9ac9a1742223dd9d3ef84061cb))
@@ -27,6 +77,9 @@
 
 
 - **(swc_core)** Make `common_plugin_transform` agnostic to mode (#7422) ([cfdd407](https://github.com/swc-project/swc/commit/cfdd40789673eef32a9b9365456860a7cb511000))
+
+
+- **(visit)** Reduce expanded LOCs (#7442) ([e83368e](https://github.com/swc-project/swc/commit/e83368e5744ebabab8537cb979a374ecbc2e7d95))
 
 ## [1.3.59] - 2023-05-19
 

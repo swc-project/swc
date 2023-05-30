@@ -22,7 +22,7 @@ new class extends _identity {
         super(_Bar), _initClass1();
     }
     static{
-        class Bar {
+        class Bar extends _Foo {
             static{
                 ({ c: [_Bar, _initClass1]  } = _apply_decs_2203_r(this, [], [
                     dec
