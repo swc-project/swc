@@ -295,6 +295,7 @@ where
         formatting_space!();
 
         emit!(n.module_ref);
+        formatting_semi!();
     }
 
     #[emitter]
