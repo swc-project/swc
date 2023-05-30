@@ -1,8 +1,4 @@
-use std::any::type_name;
-
 use anyhow::Error;
-#[cfg(feature = "__rkyv")]
-use rkyv::Deserialize;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
@@ -99,18 +95,27 @@ impl PluginSerializedBytes {
     }
 
     #[tracing::instrument(level = "info", skip_all)]
-    pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
+    pub fn deserialize<'a, W>(&'a self) -> Result<VersionedSerializable<W>, Error>
     where
-        W: rkyv::Archive,
-        W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
+        W: rkyv::Archive + 'a,
+        W::Archived: 'a
+            + rkyv::CheckBytes<rkyv::validation::validators::DefaultValidator<'a>>
+            + rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
     {
-        use anyhow::Context;
+        use rkyv::validation::{validators::CheckDeserializeError, CheckArchiveError};
 
-        let archived = unsafe { rkyv::archived_root::<VersionedSerializable<W>>(&self.field[..]) };
-
-        archived
-            .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
-            .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
+        let result = rkyv::from_bytes::<VersionedSerializable<W>>(&self.field[..]);
+        result.map_err(move |err| match err {
+            CheckDeserializeError::DeserializeError(e) => e.into(),
+            CheckDeserializeError::CheckBytesError(e) => match e {
+                CheckArchiveError::CheckBytesError(_e) => {
+                    // [TODO]: we can't forward CheckBytes::Error itself as it is Archived type of VersionedSerializable struct itself.
+                    // Still we need to carry better diagnostics if this occurs.
+                    Error::msg("CheckBytesError")
+                }
+                CheckArchiveError::ContextError(e) => e.into(),
+            },
+        })
     }
 }
 
