@@ -28,6 +28,12 @@
 
 - **(es/preset-env)** Update data (#7459) ([e15adaf](https://github.com/swc-project/swc/commit/e15adaf6eaada62b6a3c1b8447fb39612dee7946))
 
+### Testing
+
+
+
+- **(es/parser)** Add a test for a fixed issue (#7467) ([8274cce](https://github.com/swc-project/swc/commit/8274cce9a7d0aca8d005a215b46f7db9ed7c5aed))
+
 ## [1.3.60] - 2023-05-25
 
 ### Bug Fixes
