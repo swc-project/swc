@@ -1,5 +1,5 @@
 function Form() {
     return (
-      <Select<string> />
+      <Select<string>></Select>
     );
-}
+  }

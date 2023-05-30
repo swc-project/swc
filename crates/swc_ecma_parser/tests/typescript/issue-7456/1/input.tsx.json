@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 65,
+    "end": 74,
     "ctxt": 0
   },
   "body": [
@@ -23,14 +23,14 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 65,
+        "end": 74,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 17,
-          "end": 65,
+          "end": 74,
           "ctxt": 0
         },
         "stmts": [
@@ -38,21 +38,21 @@
             "type": "ReturnStatement",
             "span": {
               "start": 23,
-              "end": 63,
+              "end": 70,
               "ctxt": 0
             },
             "argument": {
               "type": "ParenthesisExpression",
               "span": {
                 "start": 30,
-                "end": 62,
+                "end": 69,
                 "ctxt": 0
               },
               "expression": {
                 "type": "JSXElement",
                 "span": {
                   "start": 38,
-                  "end": 56,
+                  "end": 63,
                   "ctxt": 0
                 },
                 "opening": {
@@ -69,11 +69,11 @@
                   },
                   "span": {
                     "start": 38,
-                    "end": 56,
+                    "end": 54,
                     "ctxt": 0
                   },
                   "attributes": [],
-                  "selfClosing": true,
+                  "selfClosing": false,
                   "typeArguments": {
                     "type": "TsTypeParameterInstantiation",
                     "span": {
@@ -95,7 +95,24 @@
                   }
                 },
                 "children": [],
-                "closing": null
+                "closing": {
+                  "type": "JSXClosingElement",
+                  "span": {
+                    "start": 54,
+                    "end": 63,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 56,
+                      "end": 62,
+                      "ctxt": 0
+                    },
+                    "value": "Select",
+                    "optional": false
+                  }
+                }
               }
             }
           }
