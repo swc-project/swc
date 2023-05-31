@@ -1,0 +1,128 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 74,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 14,
+          "ctxt": 0
+        },
+        "value": "Form",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 74,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 17,
+          "end": 74,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 23,
+              "end": 70,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 30,
+                "end": 69,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "JSXElement",
+                "span": {
+                  "start": 38,
+                  "end": 63,
+                  "ctxt": 0
+                },
+                "opening": {
+                  "type": "JSXOpeningElement",
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 39,
+                      "end": 45,
+                      "ctxt": 0
+                    },
+                    "value": "Select",
+                    "optional": false
+                  },
+                  "span": {
+                    "start": 38,
+                    "end": 54,
+                    "ctxt": 0
+                  },
+                  "attributes": [],
+                  "selfClosing": false,
+                  "typeArguments": {
+                    "type": "TsTypeParameterInstantiation",
+                    "span": {
+                      "start": 45,
+                      "end": 53,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 46,
+                          "end": 52,
+                          "ctxt": 0
+                        },
+                        "kind": "string"
+                      }
+                    ]
+                  }
+                },
+                "children": [],
+                "closing": {
+                  "type": "JSXClosingElement",
+                  "span": {
+                    "start": 54,
+                    "end": 63,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 56,
+                      "end": 62,
+                      "ctxt": 0
+                    },
+                    "value": "Select",
+                    "optional": false
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

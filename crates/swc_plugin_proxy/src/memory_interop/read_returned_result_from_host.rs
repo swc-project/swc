@@ -1,6 +1,6 @@
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 #[cfg(any(feature = "__plugin_rt", feature = "__plugin_mode"))]
-use swc_common::plugin::serialized::{deserialize_from_ptr, PluginSerializedBytes};
+use swc_common::plugin::serialized::PluginSerializedBytes;
 
 /// A struct to exchange allocated data between memory spaces.
 #[cfg_attr(
@@ -62,16 +62,17 @@ where
     }
 
     // Return reconstructted AllocatedBytesPtr to reveal ptr to the allocated bytes
-    Some(unsafe {
-        deserialize_from_ptr(
+    Some(
+        PluginSerializedBytes::from_raw_ptr(
             serialized_allocated_bytes_raw_ptr,
             serialized_allocated_bytes_raw_ptr_size
                 .try_into()
                 .expect("Should able to convert ptr length"),
         )
+        .deserialize()
         .expect("Should able to deserialize AllocatedBytesPtr")
-        .into_inner()
-    })
+        .into_inner(),
+    )
 }
 
 #[cfg(not(feature = "__rkyv"))]
@@ -95,10 +96,14 @@ where
 
     // Using AllocatedBytesPtr's value, reconstruct actual return value
     allocated_returned_value_ptr.map(|allocated_returned_value_ptr| unsafe {
-        deserialize_from_ptr(
+        PluginSerializedBytes::from_raw_ptr(
             allocated_returned_value_ptr.0 as _,
-            allocated_returned_value_ptr.1,
+            allocated_returned_value_ptr
+                .1
+                .try_into()
+                .expect("Should able to convert ptr length"),
         )
+        .deserialize()
         .expect("Returned value should be serializable")
         .into_inner()
     })
