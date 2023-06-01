@@ -86,7 +86,6 @@ pub(super) fn optimizer<'a>(
         typeofs: Default::default(),
         data,
         ctx: Default::default(),
-        label: Default::default(),
         mode,
         debug_infinite_loop,
         functions: Default::default(),
@@ -215,11 +214,6 @@ struct Optimizer<'a> {
     /// `visit_mut_module`.
     data: &'a mut ProgramData,
     ctx: Ctx,
-
-    /// Closest label.
-    ///
-    /// Setting this to `None` means the label should be removed.
-    label: Option<Id>,
 
     mode: &'a dyn Mode,
 
@@ -2190,9 +2184,6 @@ impl VisitMut for Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
-        let old_label = self.label.take();
-        self.label = Some(n.label.to_id());
-
         let ctx = Ctx {
             dont_use_prepend_nor_append: contains_leaping_continue_with_label(
                 &n.body,
@@ -2203,12 +2194,7 @@ impl VisitMut for Optimizer<'_> {
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        if self.label.is_none() {
-            report_change!("Removing label `{}`", n.label);
-            n.label.take();
-        }
-
-        self.label = old_label;
+        self.try_remove_label(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

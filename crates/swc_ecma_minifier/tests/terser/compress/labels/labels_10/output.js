@@ -1,5 +1,5 @@
-out: while (foo) {
+while(foo){
     x();
     y();
-    break out;
+    break;
 }

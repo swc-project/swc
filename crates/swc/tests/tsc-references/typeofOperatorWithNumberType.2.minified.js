@@ -30,11 +30,4 @@ void 0 === NUMBER || _type_of(NUMBER), _type_of(NUMBER1), _type_of(1), _type_of(
     y: function(n) {
         return n;
     }
-}), _type_of(objA.a), _type_of(M.n), _type_of(NUMBER1[0]), _type_of(foo()), _type_of(A.foo()), _type_of(NUMBER + NUMBER), _type_of(void 0 === NUMBER ? "undefined" : _type_of(NUMBER)), _type_of(_type_of(_type_of(NUMBER + NUMBER))), _type_of(1), void 0 === NUMBER || _type_of(NUMBER), _type_of(NUMBER1), _type_of(foo()), _type_of(objA.a), _type_of(M.n), _type_of(objA.a), M.n;
-z: void 0 === NUMBER || _type_of(NUMBER);
-x: _type_of(NUMBER1);
-r: _type_of(foo);
-z: _type_of(1);
-z: _type_of(objA.a);
-z: _type_of(A.foo);
-z: _type_of(M.n);
+}), _type_of(objA.a), _type_of(M.n), _type_of(NUMBER1[0]), _type_of(foo()), _type_of(A.foo()), _type_of(NUMBER + NUMBER), _type_of(void 0 === NUMBER ? "undefined" : _type_of(NUMBER)), _type_of(_type_of(_type_of(NUMBER + NUMBER))), _type_of(1), void 0 === NUMBER || _type_of(NUMBER), _type_of(NUMBER1), _type_of(foo()), _type_of(objA.a), _type_of(M.n), _type_of(objA.a), M.n, void 0 === NUMBER || _type_of(NUMBER), _type_of(NUMBER1), _type_of(foo), _type_of(1), _type_of(objA.a), _type_of(A.foo), _type_of(M.n);
