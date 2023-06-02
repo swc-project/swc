@@ -69,10 +69,7 @@ where
     )
 }
 
-struct Compressor<'a, M>
-where
-    M: Mode,
-{
+struct Compressor<'a> {
     marks: Marks,
     options: &'a CompressOptions,
     module_info: &'a ModuleInfo,
@@ -81,13 +78,10 @@ where
 
     dump_for_infinite_loop: Vec<String>,
 
-    mode: &'a M,
+    mode: &'a dyn Mode,
 }
 
-impl<M> CompilerPass for Compressor<'_, M>
-where
-    M: Mode,
-{
+impl CompilerPass for Compressor<'_> {
     fn name() -> Cow<'static, str> {
         "compressor".into()
     }

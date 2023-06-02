@@ -14,7 +14,6 @@ use super::{util::NormalMultiReplacer, Optimizer};
 use crate::debug::dump;
 use crate::{
     compress::optimize::Ctx,
-    mode::Mode,
     util::{idents_captured_by, idents_used_by, make_number},
 };
 

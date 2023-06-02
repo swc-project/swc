@@ -12,7 +12,6 @@ use crate::{
         optimize::Ctx,
         util::{negate, negate_cost},
     },
-    mode::Mode,
     DISABLE_BUGGY_PASSES,
 };
 

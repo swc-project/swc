@@ -7,12 +7,9 @@ use swc_ecma_utils::{
 };
 
 use super::Optimizer;
+use crate::compress::{optimize::Ctx, util::negate_cost};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{
-    compress::{optimize::Ctx, util::negate_cost},
-    mode::Mode,
-};
 
 /// Methods related to the options `bools` and `bool_as_ints`.
 impl Optimizer<'_> {
@@ -117,7 +114,7 @@ impl Optimizer<'_> {
     ///
     /// - `"undefined" == typeof value;` => `void 0 === value`
     pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {
-        fn opt<M>(o: &mut Optimizer, l: &mut Expr, r: &mut Expr) -> bool {
+        fn opt(o: &mut Optimizer, l: &mut Expr, r: &mut Expr) -> bool {
             match (&mut *l, &mut *r) {
                 (
                     Expr::Lit(Lit::Str(Str {
