@@ -5,10 +5,7 @@ use super::Optimizer;
 use crate::mode::Mode;
 
 /// Methods related to option `dead_code`.
-impl<M> Optimizer<'_>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     /// Optimize return value or argument of throw.
     ///
     /// This methods removes some useless assignments.

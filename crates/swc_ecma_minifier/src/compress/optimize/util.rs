@@ -15,10 +15,7 @@ use tracing::debug;
 use super::{Ctx, Optimizer};
 use crate::{mode::Mode, HEAVY_TASK_PARALLELS};
 
-impl<'b, M> Optimizer<'b>
-where
-    M: Mode,
-{
+impl<'b> Optimizer<'b> {
     pub(super) fn normalize_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Seq(seq) => {
@@ -112,7 +109,7 @@ pub(super) struct WithCtx<'a, 'b> {
     orig_ctx: Ctx,
 }
 
-impl<'b, M> Deref for WithCtx<'_, 'b> {
+impl<'b> Deref for WithCtx<'_, 'b> {
     type Target = Optimizer<'b>;
 
     fn deref(&self) -> &Self::Target {
@@ -120,13 +117,13 @@ impl<'b, M> Deref for WithCtx<'_, 'b> {
     }
 }
 
-impl<M> DerefMut for WithCtx<'_, '_> {
+impl DerefMut for WithCtx<'_, '_> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         self.reducer
     }
 }
 
-impl<M> Drop for WithCtx<'_, '_> {
+impl Drop for WithCtx<'_, '_> {
     fn drop(&mut self) {
         self.reducer.ctx = self.orig_ctx;
     }

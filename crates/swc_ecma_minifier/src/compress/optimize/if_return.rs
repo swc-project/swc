@@ -11,10 +11,7 @@ use crate::{compress::util::is_pure_undefined, mode::Mode, util::ExprOptExt};
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
-impl<M> Optimizer<'_>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     pub(super) fn merge_nested_if(&mut self, s: &mut IfStmt) {
         if !self.options.conditionals && !self.options.bools {
             return;

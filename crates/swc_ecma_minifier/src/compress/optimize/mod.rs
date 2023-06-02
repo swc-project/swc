@@ -297,7 +297,7 @@ impl Vars {
     }
 }
 
-impl<M> Repeated for Optimizer<'_> {
+impl Repeated for Optimizer<'_> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -1429,7 +1429,7 @@ impl Optimizer<'_> {
     }
 }
 
-impl<M> VisitMut for Optimizer<'_> {
+impl VisitMut for Optimizer<'_> {
     noop_visit_mut_type!();
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

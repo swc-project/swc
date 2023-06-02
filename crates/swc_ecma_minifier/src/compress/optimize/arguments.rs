@@ -7,13 +7,10 @@ use swc_ecma_utils::{find_pat_ids, is_valid_prop_ident, private_ident};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Optimizer;
-use crate::{compress::optimize::is_left_access_to_arguments, mode::Mode};
+use crate::compress::optimize::is_left_access_to_arguments;
 
 /// Methods related to the option `arguments`.
-impl<M> Optimizer<'_>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     ///
     /// - `arguments['foo']` => `arguments.foo`
     pub(super) fn optimize_str_access_to_arguments(&mut self, e: &mut Expr) {

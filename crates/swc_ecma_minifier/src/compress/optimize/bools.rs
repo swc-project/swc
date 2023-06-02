@@ -15,10 +15,7 @@ use crate::{
 };
 
 /// Methods related to the options `bools` and `bool_as_ints`.
-impl<M> Optimizer<'_>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     /// **This negates bool**.
     ///
     /// Returns true if it's negated.

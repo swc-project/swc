@@ -63,7 +63,7 @@ impl Mode for Eval {
         w.cache.insert(id, Box::new(value.clone()));
     }
 
-    fn force_str_for_tpl() -> bool {
+    fn force_str_for_tpl(&self) -> bool {
         true
     }
 }
