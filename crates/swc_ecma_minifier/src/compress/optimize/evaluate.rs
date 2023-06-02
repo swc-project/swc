@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, Value::Known};
 
 use super::Optimizer;
-use crate::{compress::util::eval_as_number, maybe_par, mode::Mode, DISABLE_BUGGY_PASSES};
+use crate::{compress::util::eval_as_number, maybe_par, DISABLE_BUGGY_PASSES};
 
 /// Methods related to the option `evaluate`.
 impl Optimizer<'_> {

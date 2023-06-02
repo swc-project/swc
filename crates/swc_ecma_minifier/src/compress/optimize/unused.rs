@@ -7,9 +7,7 @@ use swc_ecma_utils::contains_ident_ref;
 use super::Optimizer;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{
-    compress::optimize::util::extract_class_side_effect, mode::Mode, option::PureGetterOption,
-};
+use crate::{compress::optimize::util::extract_class_side_effect, option::PureGetterOption};
 
 #[derive(Debug, Default, Clone, Copy)]
 pub(crate) struct PropertyAccessOpts {
