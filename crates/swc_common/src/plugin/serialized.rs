@@ -80,7 +80,8 @@ impl PluginSerializedBytes {
      * Internal fn to constructs an instance from raw bytes ptr.
      */
     #[tracing::instrument(level = "info", skip_all)]
-    fn from_raw_ptr(
+    #[allow(clippy::not_unsafe_ptr_arg_deref)]
+    pub fn from_raw_ptr(
         raw_allocated_ptr: *const u8,
         raw_allocated_ptr_len: usize,
     ) -> PluginSerializedBytes {
@@ -112,27 +113,6 @@ impl PluginSerializedBytes {
             .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
             .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
     }
-}
-
-/// Simple wrapper around constructing PluginSerializedBytes from raw
-/// ptr to call deserialize to support common workflow on both of runtime
-/// (host / plugin) to instantiate a struct from allocated / copied ptr.
-///
-/// # Safety
-/// This is naturally unsafe by constructing bytes slice from raw ptr.
-#[tracing::instrument(level = "info", skip_all)]
-pub unsafe fn deserialize_from_ptr<W>(
-    raw_allocated_ptr: *const u8,
-    raw_allocated_ptr_len: u32,
-) -> Result<VersionedSerializable<W>, Error>
-where
-    W: rkyv::Archive,
-    W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
-{
-    let serialized =
-        PluginSerializedBytes::from_raw_ptr(raw_allocated_ptr, raw_allocated_ptr_len as usize);
-
-    serialized.deserialize()
 }
 
 /// A wrapper type for the structures to be passed into plugins

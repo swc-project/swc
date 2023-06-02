@@ -56,17 +56,14 @@ mod unused;
 mod util;
 
 /// This pass is similar to `node.optimize` of terser.
-pub(super) fn optimizer<'a, M>(
+pub(super) fn optimizer<'a>(
     marks: Marks,
     options: &'a CompressOptions,
     module_info: &'a ModuleInfo,
     data: &'a mut ProgramData,
-    mode: &'a M,
+    mode: &'a dyn Mode,
     debug_infinite_loop: bool,
-) -> impl 'a + VisitMut + Repeated
-where
-    M: Mode,
-{
+) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
         "top_retain should not contain empty string"
@@ -192,7 +189,7 @@ impl Ctx {
     }
 }
 
-struct Optimizer<'a, M> {
+struct Optimizer<'a> {
     marks: Marks,
     expr_ctx: ExprCtx,
 
@@ -224,7 +221,7 @@ struct Optimizer<'a, M> {
     /// Setting this to `None` means the label should be removed.
     label: Option<Id>,
 
-    mode: &'a M,
+    mode: &'a dyn Mode,
 
     #[allow(unused)]
     debug_infinite_loop: bool,
@@ -297,7 +294,7 @@ impl Vars {
     }
 }
 
-impl<M> Repeated for Optimizer<'_, M> {
+impl Repeated for Optimizer<'_> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -324,10 +321,7 @@ impl From<&Function> for FnMetadata {
     }
 }
 
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     fn handle_stmts(&mut self, stmts: &mut Vec<Stmt>, will_terminate: bool) {
         // Skip if `use asm` exists.
         if maybe_par!(
@@ -1432,10 +1426,7 @@ where
     }
 }
 
-impl<M> VisitMut for Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl VisitMut for Optimizer<'_> {
     noop_visit_mut_type!();
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

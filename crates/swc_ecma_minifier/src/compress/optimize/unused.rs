@@ -7,9 +7,7 @@ use swc_ecma_utils::contains_ident_ref;
 use super::Optimizer;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{
-    compress::optimize::util::extract_class_side_effect, mode::Mode, option::PureGetterOption,
-};
+use crate::{compress::optimize::util::extract_class_side_effect, option::PureGetterOption};
 
 #[derive(Debug, Default, Clone, Copy)]
 pub(crate) struct PropertyAccessOpts {
@@ -19,10 +17,7 @@ pub(crate) struct PropertyAccessOpts {
 }
 
 /// Methods related to the option `unused`.
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_var_declarator(
         &mut self,

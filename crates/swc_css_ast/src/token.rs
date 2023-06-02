@@ -31,6 +31,8 @@ impl Take for TokenAndSpan {
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 pub struct UrlKeyValue(pub Atom, pub Atom);
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Is, EqIgnoreSpan)]
@@ -38,6 +40,8 @@ pub struct UrlKeyValue(pub Atom, pub Atom);
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(
@@ -59,6 +63,8 @@ pub enum NumberType {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(C)))]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
 pub struct DimensionToken {
     pub value: f64,
@@ -76,6 +82,8 @@ pub struct DimensionToken {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(

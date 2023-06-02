@@ -127,6 +127,8 @@ impl EqIgnoreSpan for Str {
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
 pub enum DelimiterValue {
     /// `,`
     Comma,
@@ -406,6 +408,8 @@ pub struct Ratio {
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
 pub enum BinOp {
     /// `+`
     Add,
@@ -514,6 +518,8 @@ pub struct CalcOperator {
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
 pub enum CalcOperatorType {
     /// `+`
     Add,

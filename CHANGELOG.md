@@ -5,6 +5,20 @@
 
 
 
+- **(es/minifier)** Don't generate generator arrows (#7466) ([e506635](https://github.com/swc-project/swc/commit/e506635f74e38cb7eb88a2fa540d8c4f71c7323a))
+
+### Performance
+
+
+
+- **(es/minifier)** Make minifier not overly generic (#7483) ([65ce5d1](https://github.com/swc-project/swc/commit/65ce5d1081271f1cb4db6d4537311fbb60a08359))
+
+## [1.3.61] - 2023-05-30
+
+### Bug Fixes
+
+
+
 - **(css/modules)** Don't drop the correct selector (#7450) ([d370324](https://github.com/swc-project/swc/commit/d370324cfd251af49853fe887644fcaa8d811431))
 
 
@@ -18,6 +32,9 @@
 
 ### Features
 
+
+
+- **(common)** Enable bytecheck for missing structs (#7465) ([56ac9eb](https://github.com/swc-project/swc/commit/56ac9eb6b3c8cc379ee4ccf55d6130e39aa641b8))
 
 
 - **(es/minifier)** Inline for loop variables (#7445) ([0cd2b61](https://github.com/swc-project/swc/commit/0cd2b61b054031f1a49cae25a82925d52dff0a73))

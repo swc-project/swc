@@ -13,12 +13,9 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
-use crate::{mode::Mode, HEAVY_TASK_PARALLELS};
+use crate::HEAVY_TASK_PARALLELS;
 
-impl<'b, M> Optimizer<'b, M>
-where
-    M: Mode,
-{
+impl<'b> Optimizer<'b> {
     pub(super) fn normalize_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Seq(seq) => {
@@ -81,7 +78,7 @@ where
     }
 
     /// RAII guard to change context temporarically
-    pub(super) fn with_ctx(&mut self, mut ctx: Ctx) -> WithCtx<'_, 'b, M> {
+    pub(super) fn with_ctx(&mut self, mut ctx: Ctx) -> WithCtx<'_, 'b> {
         let mut scope_ctxt = ctx.scope;
 
         if self.ctx.scope != scope_ctxt {
@@ -107,26 +104,26 @@ where
     }
 }
 
-pub(super) struct WithCtx<'a, 'b, M> {
-    reducer: &'a mut Optimizer<'b, M>,
+pub(super) struct WithCtx<'a, 'b> {
+    reducer: &'a mut Optimizer<'b>,
     orig_ctx: Ctx,
 }
 
-impl<'b, M> Deref for WithCtx<'_, 'b, M> {
-    type Target = Optimizer<'b, M>;
+impl<'b> Deref for WithCtx<'_, 'b> {
+    type Target = Optimizer<'b>;
 
     fn deref(&self) -> &Self::Target {
         self.reducer
     }
 }
 
-impl<M> DerefMut for WithCtx<'_, '_, M> {
+impl DerefMut for WithCtx<'_, '_> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         self.reducer
     }
 }
 
-impl<M> Drop for WithCtx<'_, '_, M> {
+impl Drop for WithCtx<'_, '_> {
     fn drop(&mut self) {
         self.reducer.ctx = self.orig_ctx;
     }
