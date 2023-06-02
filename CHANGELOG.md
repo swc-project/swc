@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Don't generate generator arrows (#7466) ([e506635](https://github.com/swc-project/swc/commit/e506635f74e38cb7eb88a2fa540d8c4f71c7323a))
 
+### Performance
+
+
+
+- **(es/minifier)** Make minifier not overly generic (#7483) ([65ce5d1](https://github.com/swc-project/swc/commit/65ce5d1081271f1cb4db6d4537311fbb60a08359))
+
 ## [1.3.61] - 2023-05-30
 
 ### Bug Fixes
