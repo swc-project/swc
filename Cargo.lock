@@ -903,7 +903,7 @@ checksum = "23d8666cb01533c39dde32bcbab8e227b4ed6679b2c925eba05feabea39508fb"
 
 [[package]]
 name = "dbg-swc"
-version = "0.81.34"
+version = "0.81.35"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
