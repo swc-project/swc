@@ -4,7 +4,6 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
 
 use super::Optimizer;
-use crate::mode::Mode;
 
 impl Optimizer<'_> {
     pub(super) fn optimize_expr_in_str_ctx_unsafely(&mut self, e: &mut Expr) {

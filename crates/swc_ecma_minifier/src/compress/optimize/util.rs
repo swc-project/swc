@@ -13,7 +13,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
-use crate::{mode::Mode, HEAVY_TASK_PARALLELS};
+use crate::HEAVY_TASK_PARALLELS;
 
 impl<'b> Optimizer<'b> {
     pub(super) fn normalize_expr(&mut self, e: &mut Expr) {

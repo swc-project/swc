@@ -3,7 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, prop_name_eq, ExprExt};
 
 use super::{unused::PropertyAccessOpts, Optimizer};
-use crate::{mode::Mode, util::deeply_contains_this_expr};
+use crate::util::deeply_contains_this_expr;
 
 /// Methods related to the option `hoist_props`.
 impl Optimizer<'_> {

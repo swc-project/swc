@@ -4,7 +4,7 @@ use swc_ecma_utils::{prepend_stmt, ExprExt, ExprFactory, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
-use crate::{compress::util::is_primitive, mode::Mode, util::idents_used_by};
+use crate::{compress::util::is_primitive, util::idents_used_by};
 
 /// Methods related to option `switches`.
 impl Optimizer<'_> {

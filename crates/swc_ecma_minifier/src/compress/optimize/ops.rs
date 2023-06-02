@@ -7,7 +7,6 @@ use Value::Known;
 use super::Optimizer;
 use crate::{
     compress::util::negate,
-    mode::Mode,
     util::{make_bool, ValueExt},
 };
 
