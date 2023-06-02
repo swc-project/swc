@@ -80,6 +80,7 @@ impl PluginSerializedBytes {
      * Internal fn to constructs an instance from raw bytes ptr.
      */
     #[tracing::instrument(level = "info", skip_all)]
+    #[allow(clippy::not_unsafe_ptr_arg_deref)]
     pub fn from_raw_ptr(
         raw_allocated_ptr: *const u8,
         raw_allocated_ptr_len: usize,
