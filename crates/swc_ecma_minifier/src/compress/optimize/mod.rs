@@ -192,7 +192,7 @@ impl Ctx {
     }
 }
 
-struct Optimizer<'a, M> {
+struct Optimizer<'a> {
     marks: Marks,
     expr_ctx: ExprCtx,
 
