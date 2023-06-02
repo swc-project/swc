@@ -9,7 +9,6 @@ use swc_ecma_visit::VisitMutWith;
 use super::Optimizer;
 use crate::{
     compress::optimize::util::is_valid_for_lhs,
-    mode::Mode,
     program_data::VarUsageInfo,
     util::{
         idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
@@ -17,10 +16,7 @@ use crate::{
 };
 
 /// Methods related to option `inline`.
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     /// Stores the value of a variable to inline it.
     ///
     /// This method may remove value of initializer. It mean that the value will

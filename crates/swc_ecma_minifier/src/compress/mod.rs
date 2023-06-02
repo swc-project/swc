@@ -69,10 +69,7 @@ where
     )
 }
 
-struct Compressor<'a, M>
-where
-    M: Mode,
-{
+struct Compressor<'a> {
     marks: Marks,
     options: &'a CompressOptions,
     module_info: &'a ModuleInfo,
@@ -81,27 +78,21 @@ where
 
     dump_for_infinite_loop: Vec<String>,
 
-    mode: &'a M,
+    mode: &'a dyn Mode,
 }
 
-impl<M> CompilerPass for Compressor<'_, M>
-where
-    M: Mode,
-{
+impl CompilerPass for Compressor<'_> {
     fn name() -> Cow<'static, str> {
         "compressor".into()
     }
 }
 
-impl<M> Compressor<'_, M>
-where
-    M: Mode,
-{
+impl Compressor<'_> {
     fn optimize_unit_repeatedly<N>(&mut self, n: &mut N)
     where
         N: CompileUnit
             + VisitWith<UsageAnalyzer<ProgramData>>
-            + for<'aa> VisitMutWith<Compressor<'aa, M>>
+            + for<'aa> VisitMutWith<Compressor<'aa>>
             + VisitWith<AssertValid>,
     {
         trace_op!(
@@ -148,7 +139,7 @@ where
     where
         N: CompileUnit
             + VisitWith<UsageAnalyzer<ProgramData>>
-            + for<'aa> VisitMutWith<Compressor<'aa, M>>
+            + for<'aa> VisitMutWith<Compressor<'aa>>
             + VisitWith<AssertValid>,
     {
         let _timer = timer!("optimize", pass = self.pass);
@@ -245,7 +236,7 @@ where
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: self.pass > 1,
-                    force_str_for_tpl: M::force_str_for_tpl(),
+                    force_str_for_tpl: self.mode.force_str_for_tpl(),
                     #[cfg(feature = "debug")]
                     debug_infinite_loop: self.pass >= 20,
                 },
@@ -330,10 +321,7 @@ where
     }
 }
 
-impl<M> VisitMut for Compressor<'_, M>
-where
-    M: Mode,
-{
+impl VisitMut for Compressor<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_script(&mut self, n: &mut Script) {
