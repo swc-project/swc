@@ -8,10 +8,7 @@ use crate::{
 };
 
 /// Methods related to the option `loops`.
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     /// `for(a;b;c;) break;` => `a;b;`
     pub(super) fn optimize_loops_with_break(&mut self, s: &mut Stmt) {
         if !self.options.loops {

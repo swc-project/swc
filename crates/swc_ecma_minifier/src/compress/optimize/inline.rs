@@ -17,10 +17,7 @@ use crate::{
 };
 
 /// Methods related to option `inline`.
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     /// Stores the value of a variable to inline it.
     ///
     /// This method may remove value of initializer. It mean that the value will

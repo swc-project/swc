@@ -9,7 +9,7 @@ use super::Optimizer;
 use crate::{compress::util::eval_as_number, maybe_par, mode::Mode, DISABLE_BUGGY_PASSES};
 
 /// Methods related to the option `evaluate`.
-impl<M> Optimizer<'_, M>
+impl<M> Optimizer<'_>
 where
     M: Mode,
 {

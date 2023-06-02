@@ -30,10 +30,7 @@ use crate::{
 
 /// Methods related to the option `sequences`. All methods are noop if
 /// `sequences` is false.
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     ///
     /// # Example
     ///

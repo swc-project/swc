@@ -11,10 +11,7 @@ use crate::{
     util::{make_bool, ValueExt},
 };
 
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     ///
     /// - `'12' === `foo` => '12' == 'foo'`
     pub(super) fn optimize_bin_equal(&mut self, e: &mut BinExpr) {

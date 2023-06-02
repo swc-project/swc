@@ -18,7 +18,7 @@ use crate::{
 
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
-impl<M> Optimizer<'_, M>
+impl<M> Optimizer<'_>
 where
     M: Mode,
 {

@@ -19,7 +19,7 @@ use crate::{
 };
 
 /// Methods related to the option `negate_iife`.
-impl<M> Optimizer<'_, M>
+impl<M> Optimizer<'_>
 where
     M: Mode,
 {
@@ -115,7 +115,7 @@ where
 }
 
 /// Methods related to iife.
-impl<M> Optimizer<'_, M>
+impl<M> Optimizer<'_>
 where
     M: Mode,
 {

@@ -10,7 +10,7 @@ use super::Optimizer;
 use crate::{compress::optimize::is_left_access_to_arguments, mode::Mode};
 
 /// Methods related to the option `arguments`.
-impl<M> Optimizer<'_, M>
+impl<M> Optimizer<'_>
 where
     M: Mode,
 {

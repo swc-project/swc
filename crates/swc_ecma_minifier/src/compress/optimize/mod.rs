@@ -224,7 +224,7 @@ struct Optimizer<'a> {
     /// Setting this to `None` means the label should be removed.
     label: Option<Id>,
 
-    mode: &'a M,
+    mode: &'a dyn Mode,
 
     #[allow(unused)]
     debug_infinite_loop: bool,
@@ -297,7 +297,7 @@ impl Vars {
     }
 }
 
-impl<M> Repeated for Optimizer<'_, M> {
+impl<M> Repeated for Optimizer<'_> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -324,10 +324,7 @@ impl From<&Function> for FnMetadata {
     }
 }
 
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     fn handle_stmts(&mut self, stmts: &mut Vec<Stmt>, will_terminate: bool) {
         // Skip if `use asm` exists.
         if maybe_par!(
@@ -1432,10 +1429,7 @@ where
     }
 }
 
-impl<M> VisitMut for Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl<M> VisitMut for Optimizer<'_> {
     noop_visit_mut_type!();
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

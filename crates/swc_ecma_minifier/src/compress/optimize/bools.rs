@@ -15,7 +15,7 @@ use crate::{
 };
 
 /// Methods related to the options `bools` and `bool_as_ints`.
-impl<M> Optimizer<'_, M>
+impl<M> Optimizer<'_>
 where
     M: Mode,
 {
@@ -120,7 +120,7 @@ where
     ///
     /// - `"undefined" == typeof value;` => `void 0 === value`
     pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {
-        fn opt<M>(o: &mut Optimizer<M>, l: &mut Expr, r: &mut Expr) -> bool {
+        fn opt<M>(o: &mut Optimizer, l: &mut Expr, r: &mut Expr) -> bool {
             match (&mut *l, &mut *r) {
                 (
                     Expr::Lit(Lit::Str(Str {
