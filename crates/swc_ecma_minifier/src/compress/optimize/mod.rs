@@ -56,17 +56,14 @@ mod unused;
 mod util;
 
 /// This pass is similar to `node.optimize` of terser.
-pub(super) fn optimizer<'a, M>(
+pub(super) fn optimizer<'a>(
     marks: Marks,
     options: &'a CompressOptions,
     module_info: &'a ModuleInfo,
     data: &'a mut ProgramData,
-    mode: &'a M,
+    mode: &'a dyn Mode,
     debug_infinite_loop: bool,
-) -> impl 'a + VisitMut + Repeated
-where
-    M: Mode,
-{
+) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
         "top_retain should not contain empty string"

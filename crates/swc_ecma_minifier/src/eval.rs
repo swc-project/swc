@@ -240,7 +240,7 @@ impl Evaluator {
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: false,
-                    force_str_for_tpl: Eval::force_str_for_tpl(),
+                    force_str_for_tpl: Eval.force_str_for_tpl(),
                     #[cfg(feature = "debug")]
                     debug_infinite_loop: false,
                 },

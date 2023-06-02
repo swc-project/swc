@@ -2,7 +2,6 @@ use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 
 use super::Optimizer;
-use crate::mode::Mode;
 
 /// Methods related to option `dead_code`.
 impl Optimizer<'_> {
