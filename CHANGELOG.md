@@ -11,6 +11,9 @@
 
 
 
+- **(bindings)** Enable `share-generics` to reduce binary size (#7482) ([d623db4](https://github.com/swc-project/swc/commit/d623db48dedf08f32bf7a2afbf71cd1aed27d30a))
+
+
 - **(es/minifier)** Make minifier not overly generic (#7483) ([65ce5d1](https://github.com/swc-project/swc/commit/65ce5d1081271f1cb4db6d4537311fbb60a08359))
 
 ## [1.3.61] - 2023-05-30
