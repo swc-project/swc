@@ -1,5 +1,11 @@
 # Changelog
-## [unreleased]
+## [1.3.62] - 2023-06-03
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Don't generate generator arrows (#7466) ([e506635](https://github.com/swc-project/swc/commit/e506635f74e38cb7eb88a2fa540d8c4f71c7323a))
 
 ### Miscellaneous Tasks
 
@@ -7,13 +13,8 @@
 
 - **(ci)** Publish npm packages with provenance option (#7481) ([e4e77fd](https://github.com/swc-project/swc/commit/e4e77fd84fdfb9472f9a19fe7e8b1a850954d67c))
 
-## [1.3.62] - 2023-06-02
 
-### Bug Fixes
-
-
-
-- **(es/minifier)** Don't generate generator arrows (#7466) ([e506635](https://github.com/swc-project/swc/commit/e506635f74e38cb7eb88a2fa540d8c4f71c7323a))
+- **(ci)** Fix publish action (#7485) ([0e37c18](https://github.com/swc-project/swc/commit/0e37c18c9ca0e8d011acb728ba8dcd879f15920a))
 
 ### Performance
 
