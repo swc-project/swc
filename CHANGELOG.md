@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Publish npm packages with provenance option (#7481) ([e4e77fd](https://github.com/swc-project/swc/commit/e4e77fd84fdfb9472f9a19fe7e8b1a850954d67c))
+
 ## [1.3.62] - 2023-06-02
 
 ### Bug Fixes
