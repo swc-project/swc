@@ -9,6 +9,10 @@ env:
   CI: "1"
   DISABLE_PLUGIN_E2E_TESTS: true
 
+permissions:
+  contents: read
+  id-token: write
+
 on:
   push:
     branches:
@@ -130,7 +134,7 @@ jobs:
               cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --target aarch64-pc-windows-msvc
               cp bindings/target/aarch64-pc-windows-msvc/release/swc.exe .
               yarn build --target aarch64-pc-windows-msvc --cargo-flags='--no-default-features --features swc_v1'
-    name: stable - ${{ matrix.settings.target }} - node@16
+    name: stable - ${{ matrix.settings.target }} - node@18
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v3
@@ -138,16 +142,14 @@ jobs:
         uses: actions/setup-node@v3
         if: matrix.settings.target != 'i686-pc-windows-msvc'
         with:
-          node-version: 16
-          check-latest: true
+          node-version: 18
           cache: yarn
           architecture: x64
       - name: Setup node x86
         uses: actions/setup-node@v3
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
-          node-version: 16
-          check-latest: true
+          node-version: 18
           cache: yarn
           architecture: x86
       - name: Install
@@ -160,7 +162,7 @@ jobs:
       - uses: goto-bus-stop/setup-zig@v2
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
         with:
-          version: 0.10.0
+          version: 0.10.1
       - name: Install node dependencies
         shell: bash
         run: |
@@ -169,17 +171,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.cargo/registry
-          key: ${{ matrix.settings.target }}-node@16-cargo-registry-trimmed
+          key: ${{ matrix.settings.target }}-node@18-cargo-registry-trimmed
       - name: Cache cargo index
         uses: actions/cache@v3
         with:
           path: ~/.cargo/git
-          key: ${{ matrix.settings.target }}-node@16-cargo-index-trimmed
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: npm-cache-${{ matrix.settings.target }}-node@16
+          key: ${{ matrix.settings.target }}-node@18-cargo-index-trimmed
 
         if: ${{ matrix.settings.docker }}
       - name: Setup toolchain
@@ -233,12 +230,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-          check-latest: true
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: npm-cache-test-${{ matrix.settings.target }}-${{ matrix.node }}
+          cache: yarn
       - name: Install dependencies
         run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
       - name: Download artifacts
@@ -272,7 +264,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-          check-latest: true
+          cache: yarn
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
@@ -311,12 +303,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-          check-latest: true
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: npm-cache-test-x86_64-unknown-linux-musl-${{ matrix.node }}
+          cache: yarn
       - name: Install dependencies
         run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
       - name: Download artifacts
@@ -338,7 +325,6 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
       - uses: actions/checkout@v3
       - name: Download artifacts
         uses: actions/download-artifact@v3
@@ -357,14 +343,18 @@ jobs:
         run: yarn install --ignore-scripts --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
       - name: Build TypeScript
         run: yarn build:ts
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
+      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3
         with:
-          image: multiarch/alpine:aarch64-latest-stable
-          options: "-v ${{ github.workspace }}:/build -w /build"
-          run: |
-            set -e
-            apk add nodejs npm yarn
+          image: node:lts-alpine
+          options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
+          run: >-
+            set -e &&
             DISABLE_PLUGIN_E2E_TESTS=true yarn test
   test-linux-arm-gnueabihf-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/ci' }}
@@ -380,7 +370,6 @@ jobs:
           - "18"
     runs-on: ubuntu-latest
     steps:
-      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
       - uses: actions/checkout@v3
       - name: Download artifacts
         uses: actions/download-artifact@v3
@@ -399,14 +388,19 @@ jobs:
         run: yarn install --ignore-scripts --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
       - name: Build TypeScript
         run: yarn build:ts
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm
+      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
       - name: Setup and run tests
         uses: addnab/docker-run-action@v3
         with:
-          image: ghcr.io/napi-rs/napi-rs/nodejs:armhf-${{ matrix.node }}
-          options: "-v ${{ github.workspace }}:/build -w /build"
-          run: |
-            set -e
-            DISABLE_PLUGIN_E2E_TESTS=true yarn test
+          image: node:${{ matrix.node }}-bullseye-slim
+          options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
+          run: >-
+            set -e &&
+            DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
             ls -la
   publish:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
@@ -425,16 +419,11 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
+          cache: yarn
 
       - name: Set release name
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: npm-cache-publish
 
       - name: Install dependencies
         run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
@@ -466,6 +455,7 @@ jobs:
 
       - name: Publish
         run: |
+          npm config set provenance true
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
           npm publish --access public
         env:
