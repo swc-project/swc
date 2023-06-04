@@ -2639,7 +2639,6 @@ where
         punct!(":");
         formatting_space!();
         emit!(node.value);
-        formatting_space!();
 
         srcmap!(node, false);
     }
@@ -2651,11 +2650,11 @@ where
         srcmap!(node, true);
 
         emit!(node.key);
-        formatting_space!();
         if let Some(value) = &node.value {
-            punct!("=");
-            emit!(value);
             formatting_space!();
+            punct!("=");
+            formatting_space!();
+            emit!(value);
         }
 
         srcmap!(node, false);
