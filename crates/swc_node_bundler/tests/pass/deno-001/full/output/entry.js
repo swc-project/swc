@@ -143,7 +143,7 @@ class BufReader {
         try {
             line = await this.readSlice(LF);
         } catch (err) {
-            let { partial  } = err;
+            let { partial } = err;
             assert(partial instanceof Uint8Array, "bufio: caught error from `readSlice()` without `partial` property");
             if (!(err instanceof BufferFullError)) throw err;
             if (!this.eof && partial.byteLength > 0 && partial[partial.byteLength - 1] === CR) {
@@ -347,7 +347,7 @@ class TextProtoReader {
         while(true){
             const r = await this.r.readLine();
             if (r === null) return null;
-            const { line: l , more  } = r;
+            const { line: l, more } = r;
             if (!line && !more) {
                 if (this.skipSpace(l) === 0) return new Uint8Array(0);
                 return l;
@@ -390,7 +390,7 @@ class MuxAsyncIterator {
     }
     async callIteratorNext(iterator) {
         try {
-            const { value , done  } = await iterator.next();
+            const { value, done } = await iterator.next();
             if (done) --this.iteratorCount;
             else this.yields.push({
                 iterator,
@@ -405,7 +405,7 @@ class MuxAsyncIterator {
         while(this.iteratorCount > 0){
             await this.signal;
             for(let i = 0; i < this.yields.length; i++){
-                const { iterator , value  } = this.yields[i];
+                const { iterator, value } = this.yields[i];
                 yield value;
                 this.callIteratorNext(iterator);
             }

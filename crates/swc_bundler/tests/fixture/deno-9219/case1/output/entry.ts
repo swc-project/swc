@@ -32,7 +32,7 @@ function hasKey(obj, keys) {
     const key = keys[keys.length - 1];
     return key in o;
 }
-function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean = false , default: defaults = {} , stopEarly =false , string =[] , unknown =(i)=>i  } = {}) {
+function parse(args, { "--": doubleDash = false, alias = {}, boolean: __boolean = false, default: defaults = {}, stopEarly = false, string = [], unknown = (i)=>i } = {}) {
     const flags = {
         bools: {},
         strings: {},

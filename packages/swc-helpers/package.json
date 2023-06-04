@@ -50,6 +50,10 @@
             "import": "./esm/index.js",
             "default": "./cjs/index.cjs"
         },
+        "./_/index": {
+            "import": "./esm/index.js",
+            "default": "./cjs/index.cjs"
+        },
         "./_/_apply_decorated_descriptor": {
             "import": "./esm/_apply_decorated_descriptor.js",
             "default": "./cjs/_apply_decorated_descriptor.cjs"
@@ -62,13 +66,13 @@
             "import": "./esm/_array_like_to_array.js",
             "default": "./cjs/_array_like_to_array.cjs"
         },
-        "./_/_array_with_holes": {
-            "import": "./esm/_array_with_holes.js",
-            "default": "./cjs/_array_with_holes.cjs"
-        },
         "./_/_array_without_holes": {
             "import": "./esm/_array_without_holes.js",
             "default": "./cjs/_array_without_holes.cjs"
+        },
+        "./_/_array_with_holes": {
+            "import": "./esm/_array_with_holes.js",
+            "default": "./cjs/_array_with_holes.cjs"
         },
         "./_/_assert_this_initialized": {
             "import": "./esm/_assert_this_initialized.js",
@@ -433,10 +437,6 @@
         "./_/_write_only_error": {
             "import": "./esm/_write_only_error.js",
             "default": "./cjs/_write_only_error.cjs"
-        },
-        "./_/index": {
-            "import": "./esm/index.js",
-            "default": "./cjs/index.cjs"
         }
     }
 }
