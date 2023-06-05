@@ -25,7 +25,7 @@ use swc_cached::regex::CachedRegex;
 use swc_common::{
     chain,
     collections::{AHashMap, AHashSet},
-    comments::SingleThreadedComments,
+    comments::{Comments, SingleThreadedComments},
     errors::Handler,
     plugin::metadata::TransformPluginMetadataContext,
     FileName, Mark, SourceMap, SyntaxContext,
@@ -809,9 +809,9 @@ impl Options {
             custom_before_pass(&program),
             // handle jsx
             Optional::new(
-                react::react(
+                react::react::<&dyn Comments>(
                     cm.clone(),
-                    comments,
+                    comments.map(|v| v as _),
                     transform.react,
                     top_level_mark,
                     unresolved_mark
