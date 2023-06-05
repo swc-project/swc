@@ -774,7 +774,7 @@ impl Options {
             // keep_import_assertions is false.
             Optional::new(import_assertions(), !keep_import_assertions),
             Optional::new(
-                typescript::strip_with_jsx(
+                typescript::strip_with_jsx::<Option<&dyn Comments>>(
                     cm.clone(),
                     typescript::Config {
                         pragma: Some(
@@ -800,7 +800,7 @@ impl Options {
                         import_export_assign_config,
                         ..Default::default()
                     },
-                    comments,
+                    comments.map(|v| v as _),
                     top_level_mark
                 ),
                 syntax.typescript()
