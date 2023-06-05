@@ -177,7 +177,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         base: &FileName,
         syntax: Syntax,
         module: Option<ModuleConfig>,
-        comments: Option<&'cmt SingleThreadedComments>,
+        comments: Option<&'cmt dyn Comments>,
     ) -> impl 'cmt + swc_ecma_visit::Fold
     where
         P: 'cmt,
