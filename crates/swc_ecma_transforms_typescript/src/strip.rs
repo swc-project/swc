@@ -155,7 +155,7 @@ pub fn strip_with_config(config: Config, top_level_mark: Mark) -> impl Fold + Vi
     chain!(
         as_folder(Strip {
             config,
-            comments: NoopComments,
+            comments: Option::<NoopComments>::None,
             jsx: None,
             top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
             ts_enum_lit: ts_enum_lit.clone(),
