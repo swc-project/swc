@@ -641,7 +641,7 @@ impl Options {
             base,
             syntax,
             cfg.module,
-            comments,
+            comments.map(|v| v as _),
         );
 
         let keep_import_assertions = experimental.keep_import_assertions.into_bool();
@@ -1476,7 +1476,7 @@ pub enum ModuleConfig {
 impl ModuleConfig {
     pub fn build<'cmt>(
         cm: Arc<SourceMap>,
-        comments: Option<&'cmt SingleThreadedComments>,
+        comments: Option<&'cmt dyn Comments>,
         base_url: PathBuf,
         paths: CompiledPaths,
         base: &FileName,

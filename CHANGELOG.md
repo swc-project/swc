@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Performance
+
+
+
+- **(es)** Use `&dyn Comments` to reduce binary size (#7489) ([2c3ac68](https://github.com/swc-project/swc/commit/2c3ac682e271dad0ab6e82c14ad14f06715d853b))
+
 ## [1.3.62] - 2023-06-03
 
 ### Bug Fixes
