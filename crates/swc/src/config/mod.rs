@@ -25,7 +25,7 @@ use swc_cached::regex::CachedRegex;
 use swc_common::{
     chain,
     collections::{AHashMap, AHashSet},
-    comments::SingleThreadedComments,
+    comments::{Comments, SingleThreadedComments},
     errors::Handler,
     plugin::metadata::TransformPluginMetadataContext,
     FileName, Mark, SourceMap, SyntaxContext,
@@ -1476,7 +1476,7 @@ pub enum ModuleConfig {
 impl ModuleConfig {
     pub fn build<'cmt>(
         cm: Arc<SourceMap>,
-        comments: Option<&'cmt SingleThreadedComments>,
+        comments: Option<&'cmt dyn Comments>,
         base_url: PathBuf,
         paths: CompiledPaths,
         base: &FileName,
