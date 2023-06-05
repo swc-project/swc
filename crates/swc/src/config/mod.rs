@@ -641,7 +641,7 @@ impl Options {
             base,
             syntax,
             cfg.module,
-            comments,
+            comments.map(|v| v as _),
         );
 
         let keep_import_assertions = experimental.keep_import_assertions.into_bool();
