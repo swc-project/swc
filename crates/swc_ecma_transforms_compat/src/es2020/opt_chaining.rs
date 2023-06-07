@@ -152,7 +152,10 @@ impl OptChaining {
                         });
 
                         let init = self.handle(callee);
-                        (Some(obj_name), Box::new(init))
+                        (
+                            Some(obj_name.clone()),
+                            init_and_eq_null_or_undefined(&obj_name, Box::new(init)),
+                        )
                     }
 
                     _ => {
