@@ -111,7 +111,19 @@ impl OptChaining {
                 } else {
                     m.obj.visit_mut_with(self);
 
-                    Expr::Member(m.take())
+                    Expr::Member(MemberExpr {
+                        span: m.span,
+                        obj: match store_this_to {
+                            Some(alias) => Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: alias.clone().into(),
+                                right: m.obj.take(),
+                            })),
+                            _ => m.obj.take(),
+                        },
+                        prop: m.prop.take(),
+                    })
                 }
             }
             OptChainBase::Call(call) => {
