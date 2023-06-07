@@ -3,7 +3,7 @@ use std::mem;
 use serde::Deserialize;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{alias_ident_for, prepend_stmt, undefined, StmtLike};
+use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend_stmt, undefined, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn optional_chaining(c: Config) -> impl Fold + VisitMut {
@@ -108,35 +108,16 @@ impl OptChaining {
                 }
             }
             OptChainBase::Call(call) => {
-                let var_name = alias_ident_for(&call.callee, "_ref");
-
-                call.callee.visit_mut_with(self);
-
-                self.vars_without_init.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: var_name.clone().into(),
-                    init: None,
-                    definite: false,
-                });
-
-                let value = Box::new(Expr::Cond(CondExpr {
-                    span: DUMMY_SP,
-                    test: eq_null_or_undefined(&var_name),
-                    cons: undefined(DUMMY_SP),
-                    alt: Box::new(Expr::Call(CallExpr {
+                if e.optional {
+                    todo!()
+                } else {
+                    Expr::Call(CallExpr {
                         span: call.span,
-                        callee: Callee::Expr(var_name.clone().into()),
+                        callee: Callee::Expr(call.callee.take()),
                         args: call.args.take(),
-                        type_args: call.type_args.take(),
-                    })),
-                }));
-
-                Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(var_name.clone().into()))),
-                    right: value,
-                })
+                        type_args: Default::default(),
+                    })
+                }
             }
         }
     }
