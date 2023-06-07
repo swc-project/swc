@@ -144,29 +144,6 @@ impl OptChaining {
                 });
 
                 let (this, init) = match &mut *call.callee {
-                    Expr::Member(callee) => {
-                        let obj_name = private_ident!("_memberObj");
-
-                        callee.visit_mut_with(self);
-
-                        self.vars_without_init.push(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: obj_name.clone().into(),
-                            init: None,
-                            definite: false,
-                        });
-
-                        (
-                            Some(obj_name.clone()),
-                            Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                op: op!("="),
-                                left: obj_name.into(),
-                                right: Box::new(callee.take().into()),
-                            })),
-                        )
-                    }
-
                     Expr::OptChain(callee) => {
                         let obj_name = private_ident!("_object");
 
@@ -177,12 +154,34 @@ impl OptChaining {
                             definite: false,
                         });
 
-                        let init = Box::new(
-                            self.handle(callee, Some(obj_name.clone()))
-                                .map(Expr::Cond)
-                                .unwrap_or_else(|e| e),
-                        );
-                        (Some(obj_name.clone()), init)
+                        match self.handle(callee, Some(obj_name.clone())) {
+                            Ok(cond) => {
+                                let final_call = Box::new(Expr::Call(CallExpr {
+                                    span: call.span,
+                                    callee: callee_name
+                                        .make_member(quote_ident!("call"))
+                                        .as_callee(),
+                                    args: once(obj_name.clone().as_arg())
+                                        .chain(call.args.take())
+                                        .collect(),
+                                    type_args: Default::default(),
+                                }));
+
+                                {
+                                    return Ok(CondExpr {
+                                        span: DUMMY_SP,
+                                        test: cond.test,
+                                        cons: cond.cons,
+                                        alt: final_call,
+                                    });
+                                }
+                            }
+
+                            Err(init) => {
+                                let init = Box::new(init);
+                                (Some(obj_name.clone()), init)
+                            }
+                        }
                     }
 
                     _ => {
