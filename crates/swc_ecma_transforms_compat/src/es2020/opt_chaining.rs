@@ -119,7 +119,7 @@ impl OptChaining {
 
                 let (this, init) = match &mut *call.callee {
                     Expr::Member(callee) => {
-                        let obj_name = alias_ident_for(&callee.obj, "_obj");
+                        let obj_name = private_ident!("_memberObj");
 
                         callee.visit_mut_with(self);
 
@@ -132,10 +132,12 @@ impl OptChaining {
 
                         (
                             Some(obj_name.clone()),
-                            init_and_eq_null_or_undefined(
-                                &obj_name,
-                                Box::new(Expr::Member(callee.take())),
-                            ),
+                            Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: obj_name.into(),
+                                right: Box::new(callee.take().into()),
+                            })),
                         )
                     }
 
