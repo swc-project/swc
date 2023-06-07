@@ -117,6 +117,7 @@ fn internal(input: PathBuf) -> Result<(), Error> {
             )),
             Box::new(PLUGIN_BYTES.clone()),
             Some(json!({ "pluginConfig": "testValue" })),
+            None,
         );
 
         info!("Created transform executor");
@@ -174,6 +175,7 @@ fn internal(input: PathBuf) -> Result<(), Error> {
             )),
             Box::new(PLUGIN_BYTES.clone()),
             Some(json!({ "pluginConfig": "testValue" })),
+            None,
         );
 
         serialized_program = plugin_transform_executor
@@ -191,6 +193,7 @@ fn internal(input: PathBuf) -> Result<(), Error> {
             )),
             Box::new(PLUGIN_BYTES.clone()),
             Some(json!({ "pluginConfig": "testValue" })),
+            None,
         );
 
         serialized_program = plugin_transform_executor
