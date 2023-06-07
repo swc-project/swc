@@ -74,11 +74,11 @@ impl OptChaining {
     fn handle(&mut self, e: &mut OptChainExpr) -> Expr {
         match &mut *e.base {
             OptChainBase::Member(m) => {
+                let var_name = alias_ident_for(&m.obj, "_ref");
+
                 m.obj.visit_mut_with(self);
 
                 if e.optional {
-                    let var_name = alias_ident_for(&m.obj, "_ref");
-
                     self.vars_without_init.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: var_name.clone().into(),
