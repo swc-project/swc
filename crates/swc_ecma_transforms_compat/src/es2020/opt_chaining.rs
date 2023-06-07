@@ -74,7 +74,7 @@ impl OptChaining {
     fn handle(&mut self, e: &mut OptChainExpr) -> Expr {
         match &mut *e.base {
             OptChainBase::Member(m) => {
-                let obj_name = alias_ident_for(&m.obj, "_ref");
+                let obj_name = alias_ident_for(&m.obj, "_obj");
 
                 m.obj.visit_mut_with(self);
 
@@ -101,8 +101,29 @@ impl OptChaining {
                 }
             }
             OptChainBase::Call(call) => {
+                let callee_name = alias_ident_for(&call.callee, "_ref");
+
+                call.visit_mut_children_with(self);
+
                 if e.optional {
-                    todo!()
+                    self.vars_without_init.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: callee_name.clone().into(),
+                        init: None,
+                        definite: false,
+                    });
+
+                    Expr::Cond(CondExpr {
+                        span: DUMMY_SP,
+                        test: init_and_eq_null_or_undefined(&callee_name, call.callee.take()),
+                        cons: undefined(DUMMY_SP),
+                        alt: Box::new(Expr::Call(CallExpr {
+                            span: call.span,
+                            callee: Callee::Expr(call.callee.take()),
+                            args: call.args.take(),
+                            type_args: Default::default(),
+                        })),
+                    })
                 } else {
                     Expr::Call(CallExpr {
                         span: call.span,
