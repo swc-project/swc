@@ -1,5 +1,5 @@
 import React from "react";
-const SomeList = ({ callback  })=>{
+const SomeList = ({ callback })=>{
     callback();
     return /*#__PURE__*/ React.createElement("div", null);
 };

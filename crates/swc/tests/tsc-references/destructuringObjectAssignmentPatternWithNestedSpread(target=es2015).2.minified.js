@@ -9,4 +9,4 @@ _object_without_properties((_c = {
     }
 }).x, [
     "a"
-]), { x: { a  } = d  } = _c;
+]), { x: { a } = d } = _c;

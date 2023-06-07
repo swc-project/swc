@@ -10426,7 +10426,7 @@
                 options = Object.assign({
                     parseFragmentIdentifier: !0
                 }, options);
-                const { url , query , fragmentIdentifier  } = exports.parseUrl(input, options);
+                const { url, query, fragmentIdentifier } = exports.parseUrl(input, options);
                 return exports.stringifyUrl({
                     url,
                     query: filterObject(query, filter),

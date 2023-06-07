@@ -1,5 +1,5 @@
 export const loadScript = (options)=>{
-    const { id , onLoad =()=>null , ...rest } = options;
+    const { id, onLoad = ()=>null, ...rest } = options;
     return new Promise((resolve)=>{
         let scriptEl = document.getElementById(id);
         const isMounted = !!scriptEl;

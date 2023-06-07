@@ -254,7 +254,7 @@ class s {
         t += Math.max(0, e < 0 ? this.pos - this.to : this.from - this.pos);
         let n = e < 0 ? this.pos - this.from : this.to - this.pos;
         t > n && (t = n), n -= t;
-        let { value: i  } = this.cursor.next(t);
+        let { value: i } = this.cursor.next(t);
         return this.pos += (i.length + t) * e, this.value = i.length <= n ? i : e < 0 ? i.slice(i.length - n) : i.slice(0, n), this.done = !this.value, this;
     }
     next(t = 0) {
@@ -269,7 +269,7 @@ class h {
         this.inner = t, this.afterBreak = !0, this.value = "", this.done = !1;
     }
     next(t = 0) {
-        let { done: e , lineBreak: n , value: i  } = this.inner.next(t);
+        let { done: e, lineBreak: n, value: i } = this.inner.next(t);
         return e ? (this.done = !0, this.value = "") : n ? this.afterBreak ? this.value = "" : (this.afterBreak = !0, this.next()) : (this.value = i, this.afterBreak = !1), this;
     }
     get lineBreak() {

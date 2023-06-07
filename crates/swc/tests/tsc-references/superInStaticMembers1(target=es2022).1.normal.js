@@ -15,7 +15,7 @@ class C extends B {
                 super.w();
             })(),
             (()=>{
-                var { Reflect  } = {
+                var { Reflect } = {
                     Reflect: null
                 }; // collision (es2015-es2021 only)
                 super.w();
@@ -65,7 +65,7 @@ class C extends B {
         ];
     }
     static{
-        var { Reflect  } = {
+        var { Reflect } = {
             Reflect: null
         }; // collision (es2015-es2021 only)
         super.w();
@@ -129,7 +129,7 @@ class C extends B {
 }
 export { };
 //// [varInContainingScopeStaticField2.ts]
-var { Reflect  } = {
+var { Reflect } = {
     Reflect: null
 }; // collision (es2015-es2021 only)
 class C extends B {
@@ -157,7 +157,7 @@ class C extends B {
 }
 export { };
 //// [varInContainingScopeStaticBlock2.ts]
-var { Reflect  } = {
+var { Reflect } = {
     Reflect: null
 }; // collision (es2015-es2021 only)
 class C extends B {

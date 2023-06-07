@@ -1,6 +1,6 @@
 export function foo(arg) {
     if (arg === ENUM_VALUE) {
-        const { data  } = arg;
+        const { data } = arg;
         call(data);
     }
 }

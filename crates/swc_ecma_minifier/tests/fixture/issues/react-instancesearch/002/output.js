@@ -15,13 +15,13 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
     const isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
-export default function createInstantSearchManager({ indexName , initialState ={} , searchClient , resultsState , stalledSearchDelay  }) {
+export default function createInstantSearchManager({ indexName, initialState = {}, searchClient, resultsState, stalledSearchDelay }) {
     const helper = algoliasearchHelper(searchClient, indexName, {
         ...HIGHLIGHT_TAGS
     });
     addAlgoliaAgents(searchClient), helper.on("search", function() {
         stalledSearchTimer || (stalledSearchTimer = setTimeout(()=>{
-            const { resultsFacetValues , ...partialState } = store.getState();
+            const { resultsFacetValues, ...partialState } = store.getState();
             store.setState({
                 ...partialState,
                 isSearchStalled: !0
@@ -175,10 +175,10 @@ export default function createInstantSearchManager({ indexName , initialState ={
     }
     function search() {
         if (!skip) {
-            const { mainParameters , derivedParameters  } = getSearchParameters(helper.state);
+            const { mainParameters, derivedParameters } = getSearchParameters(helper.state);
             helper.derivedHelpers.slice().forEach((derivedHelper)=>{
                 derivedHelper.detach();
-            }), derivedParameters.forEach(({ indexId , parameters  })=>{
+            }), derivedParameters.forEach(({ indexId, parameters })=>{
                 const derivedHelper = helper.derive(()=>parameters);
                 derivedHelper.on("result", handleSearchSuccess({
                     indexId
@@ -186,7 +186,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
             }), helper.setState(mainParameters), helper.search();
         }
     }
-    function handleSearchSuccess({ indexId  }) {
+    function handleSearchSuccess({ indexId }) {
         return (event)=>{
             const state = store.getState(), isDerivedHelpersEmpty = !helper.derivedHelpers.length;
             let results = state.results ? state.results : {};
@@ -197,7 +197,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
             const currentState = store.getState();
             let nextIsSearchStalled = currentState.isSearchStalled;
             helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), stalledSearchTimer = null, nextIsSearchStalled = !1);
-            const { resultsFacetValues , ...partialState } = currentState;
+            const { resultsFacetValues, ...partialState } = currentState;
             store.setState({
                 ...partialState,
                 results,
@@ -207,11 +207,11 @@ export default function createInstantSearchManager({ indexName , initialState ={
             });
         };
     }
-    function handleSearchError({ error  }) {
+    function handleSearchError({ error }) {
         const currentState = store.getState();
         let nextIsSearchStalled = currentState.isSearchStalled;
         helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), nextIsSearchStalled = !1);
-        const { resultsFacetValues , ...partialState } = currentState;
+        const { resultsFacetValues, ...partialState } = currentState;
         store.setState({
             ...partialState,
             isSearchStalled: nextIsSearchStalled,
@@ -226,7 +226,7 @@ export default function createInstantSearchManager({ indexName , initialState ={
             return store.getState().metadata.reduce((res, meta)=>void 0 !== meta.id ? res.concat(meta.id) : res, []);
         },
         getSearchParameters,
-        onSearchForFacetValues: function({ facetName , query , maxFacetHits =10  }) {
+        onSearchForFacetValues: function({ facetName, query, maxFacetHits = 10 }) {
             const maxFacetHitsWithinRange = Math.max(1, Math.min(maxFacetHits, 100));
             store.setState({
                 ...store.getState(),

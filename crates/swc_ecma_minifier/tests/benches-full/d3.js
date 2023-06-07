@@ -323,7 +323,7 @@
         const iterator = values[Symbol.iterator](), set = new Set();
         for (const o of other){
             let value, done;
-            if (!set.has(o)) for(; { value , done  } = iterator.next();){
+            if (!set.has(o)) for(; { value, done } = iterator.next();){
                 if (done) return !1;
                 if (set.add(value), Object.is(o, value)) break;
             }
@@ -1040,7 +1040,7 @@
         }
     };
     var constant$2 = (x)=>()=>x;
-    function DragEvent(type, { sourceEvent , subject , target , identifier , active , x , y , dx , dy , dispatch  }) {
+    function DragEvent(type, { sourceEvent, subject, target, identifier, active, x, y, dx, dy, dispatch }) {
         Object.defineProperties(this, {
             type: {
                 value: type,
@@ -2311,7 +2311,7 @@
     var root$1 = [
         null
     ], constant$4 = (x)=>()=>x;
-    function BrushEvent(type, { sourceEvent , target , selection , mode , dispatch  }) {
+    function BrushEvent(type, { sourceEvent, target, selection, mode, dispatch }) {
         Object.defineProperties(this, {
             type: {
                 value: type,
@@ -2355,7 +2355,7 @@
     }, MODE_CENTER = {
         name: "center"
     };
-    const { abs , max: max$1 , min: min$1  } = Math;
+    const { abs, max: max$1, min: min$1 } = Math;
     function number1(e) {
         return [
             +e[0],
@@ -3289,7 +3289,7 @@
         }
         update() {
             let i0, i1, i2;
-            const { coords , _hullPrev: hullPrev , _hullNext: hullNext , _hullTri: hullTri , _hullHash: hullHash  } = this, n = coords.length >> 1;
+            const { coords, _hullPrev: hullPrev, _hullNext: hullNext, _hullTri: hullTri, _hullHash: hullHash } = this, n = coords.length >> 1;
             let minX = 1 / 0, minY = 1 / 0, maxX = -1 / 0, maxY = -1 / 0;
             for(let i = 0; i < n; i++){
                 const x = coords[2 * i], y = coords[2 * i + 1];
@@ -3375,7 +3375,7 @@
             }(x - this._cx, y - this._cy) * this._hashSize) % this._hashSize;
         }
         _legalize(a) {
-            const { _triangles: triangles , _halfedges: halfedges , coords  } = this;
+            const { _triangles: triangles, _halfedges: halfedges, coords } = this;
             let i = 0, ar = 0;
             for(;;){
                 const b = halfedges[a], a0 = a - a % 3;
@@ -3527,7 +3527,7 @@
             return this.delaunay.update(), this._init(), this;
         }
         _init() {
-            const { delaunay: { points , hull , triangles  } , vectors  } = this, circumcenters = this.circumcenters = this._circumcenters.subarray(0, triangles.length / 3 * 2);
+            const { delaunay: { points, hull, triangles }, vectors } = this, circumcenters = this.circumcenters = this._circumcenters.subarray(0, triangles.length / 3 * 2);
             for(let i = 0, j = 0, n = triangles.length, x, y; i < n; i += 3, j += 2){
                 const t1 = 2 * triangles[i], t2 = 2 * triangles[i + 1], t3 = 2 * triangles[i + 2], x1 = points[t1], y1 = points[t1 + 1], x2 = points[t2], y2 = points[t2 + 1], x3 = points[t3], y3 = points[t3 + 1], dx = x2 - x1, dy = y2 - y1, ex = x3 - x1, ey = y3 - y1, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, ab = (dx * ey - dy * ex) * 2;
                 if (ab) {
@@ -3544,7 +3544,7 @@
             for(let i = 0; i < hull.length; ++i)h = hull[i], p0 = p1, x0 = x1, y0 = y1, p1 = 4 * h, x1 = points[2 * h], y1 = points[2 * h + 1], vectors[p0 + 2] = vectors[p1] = y0 - y1, vectors[p0 + 3] = vectors[p1 + 1] = x1 - x0;
         }
         render(context) {
-            const buffer = null == context ? context = new Path$1 : void 0, { delaunay: { halfedges , inedges , hull  } , circumcenters , vectors  } = this;
+            const buffer = null == context ? context = new Path$1 : void 0, { delaunay: { halfedges, inedges, hull }, circumcenters, vectors } = this;
             if (hull.length <= 1) return null;
             for(let i = 0, n = halfedges.length; i < n; ++i){
                 const j = halfedges[i];
@@ -3574,7 +3574,7 @@
             return context.closePath(), buffer && buffer.value();
         }
         *cellPolygons() {
-            const { delaunay: { points  }  } = this;
+            const { delaunay: { points } } = this;
             for(let i = 0, n = points.length / 2; i < n; ++i){
                 const cell = this.cellPolygon(i);
                 cell && (cell.index = i, yield cell);
@@ -3605,7 +3605,7 @@
             }
         }
         _cell(i) {
-            const { circumcenters , delaunay: { inedges , halfedges , triangles  }  } = this, e0 = inedges[i];
+            const { circumcenters, delaunay: { inedges, halfedges, triangles } } = this, e0 = inedges[i];
             if (-1 === e0) return null;
             const points = [];
             let e = e0;
@@ -3629,7 +3629,7 @@
             ];
             const points = this._cell(i);
             if (null === points) return null;
-            const { vectors: V  } = this, v = 4 * i;
+            const { vectors: V } = this, v = 4 * i;
             return V[v] || V[v + 1] ? this._clipInfinite(i, points, V[v], V[v + 1], V[v + 2], V[v + 3]) : this._clipFinite(i, points);
         }
         _clipFinite(i, points) {
@@ -3792,7 +3792,7 @@
         _init() {
             const d = this._delaunator, points = this.points;
             if (d.hull && d.hull.length > 2 && function(d) {
-                const { triangles , coords  } = d;
+                const { triangles, coords } = d;
                 for(let i = 0; i < triangles.length; i += 3){
                     const a = 2 * triangles[i], b = 2 * triangles[i + 1], c = 2 * triangles[i + 2], cross = (coords[c] - coords[a]) * (coords[b + 1] - coords[a + 1]) - (coords[b] - coords[a]) * (coords[c + 1] - coords[a + 1]);
                     if (cross > 1e-10) return !1;
@@ -3830,7 +3830,7 @@
             return new Voronoi(this, bounds);
         }
         *neighbors(i) {
-            const { inedges , hull , _hullIndex , halfedges , triangles , collinear  } = this;
+            const { inedges, hull, _hullIndex, halfedges, triangles, collinear } = this;
             if (collinear) {
                 const l = collinear.indexOf(i);
                 l > 0 && (yield collinear[l - 1]), l < collinear.length - 1 && (yield collinear[l + 1]);
@@ -3856,7 +3856,7 @@
             return c;
         }
         _step(i, x, y) {
-            const { inedges , hull , _hullIndex , halfedges , triangles , points  } = this;
+            const { inedges, hull, _hullIndex, halfedges, triangles, points } = this;
             if (-1 === inedges[i] || !points.length) return (i + 1) % (points.length >> 1);
             let c = i, dc = pow(x - points[2 * i], 2) + pow(y - points[2 * i + 1], 2);
             const e0 = inedges[i];
@@ -3873,7 +3873,7 @@
             return c;
         }
         render(context) {
-            const buffer = null == context ? context = new Path$1 : void 0, { points , halfedges , triangles  } = this;
+            const buffer = null == context ? context = new Path$1 : void 0, { points, halfedges, triangles } = this;
             for(let i = 0, n = halfedges.length; i < n; ++i){
                 const j = halfedges[i];
                 if (j < i) continue;
@@ -3883,7 +3883,7 @@
             return this.renderHull(context), buffer && buffer.value();
         }
         renderPoints(context, r = 2) {
-            const buffer = null == context ? context = new Path$1 : void 0, { points  } = this;
+            const buffer = null == context ? context = new Path$1 : void 0, { points } = this;
             for(let i = 0, n = points.length; i < n; i += 2){
                 const x = points[i], y = points[i + 1];
                 context.moveTo(x + r, y), context.arc(x, y, r, 0, tau$3);
@@ -3891,7 +3891,7 @@
             return buffer && buffer.value();
         }
         renderHull(context) {
-            const buffer = null == context ? context = new Path$1 : void 0, { hull , points  } = this, h = 2 * hull[0], n = hull.length;
+            const buffer = null == context ? context = new Path$1 : void 0, { hull, points } = this, h = 2 * hull[0], n = hull.length;
             context.moveTo(points[h], points[h + 1]);
             for(let i = 1; i < n; ++i){
                 const h = 2 * hull[i];
@@ -3904,11 +3904,11 @@
             return this.renderHull(polygon), polygon.value();
         }
         renderTriangle(i, context) {
-            const buffer = null == context ? context = new Path$1 : void 0, { points , triangles  } = this, t0 = 2 * triangles[i *= 3], t1 = 2 * triangles[i + 1], t2 = 2 * triangles[i + 2];
+            const buffer = null == context ? context = new Path$1 : void 0, { points, triangles } = this, t0 = 2 * triangles[i *= 3], t1 = 2 * triangles[i + 1], t2 = 2 * triangles[i + 2];
             return context.moveTo(points[t0], points[t0 + 1]), context.lineTo(points[t1], points[t1 + 1]), context.lineTo(points[t2], points[t2 + 1]), context.closePath(), buffer && buffer.value();
         }
         *trianglePolygons() {
-            const { triangles  } = this;
+            const { triangles } = this;
             for(let i = 0, n = triangles.length / 3; i < n; ++i)yield this.trianglePolygon(i);
         }
         trianglePolygon(i) {
@@ -8800,7 +8800,7 @@
         }
     };
     var constant$b = (x)=>()=>x;
-    function ZoomEvent(type, { sourceEvent , target , transform , dispatch  }) {
+    function ZoomEvent(type, { sourceEvent, target, transform, dispatch }) {
         Object.defineProperties(this, {
             type: {
                 value: type,
@@ -9225,7 +9225,7 @@
         for (const v of values){
             let value, done;
             if (set.has(v)) return !1;
-            for(; ({ value , done  } = iterator.next()) && !done;){
+            for(; ({ value, done } = iterator.next()) && !done;){
                 if (Object.is(v, value)) return !1;
                 set.add(value);
             }
@@ -10229,10 +10229,10 @@
         const iterator = values[Symbol.iterator]();
         let done, next, index = -1;
         if (arguments.length < 3) {
-            if ({ done , value  } = iterator.next(), done) return;
+            if ({ done, value } = iterator.next(), done) return;
             ++index;
         }
-        for(; { done , value: next  } = iterator.next(), !done;)value = reducer(value, next, ++index, values);
+        for(; { done, value: next } = iterator.next(), !done;)value = reducer(value, next, ++index, values);
         return value;
     }, exports1.reverse = function(values) {
         if ("function" != typeof values[Symbol.iterator]) throw TypeError("values is not iterable");

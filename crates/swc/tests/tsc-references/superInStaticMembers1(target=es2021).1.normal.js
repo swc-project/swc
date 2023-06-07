@@ -18,7 +18,7 @@ class C extends B {
             _get(_get_prototype_of(C), "w", C).call(C);
         })(),
         (()=>{
-            var { Reflect  } = {
+            var { Reflect } = {
                 Reflect: null
             }; // collision (es2015-es2021 only)
             _get(_get_prototype_of(C), "w", C).call(C);
@@ -68,7 +68,7 @@ class C extends B {
     ];
 })();
 (()=>{
-    var { Reflect  } = {
+    var { Reflect } = {
         Reflect: null
     }; // collision (es2015-es2021 only)
     _get(_get_prototype_of(C), "w", C).call(C);
@@ -135,7 +135,7 @@ export { };
 //// [varInContainingScopeStaticField2.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var { Reflect  } = {
+var { Reflect } = {
     Reflect: null
 }; // collision (es2015-es2021 only)
 class C extends B {
@@ -169,7 +169,7 @@ export { };
 //// [varInContainingScopeStaticBlock2.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var { Reflect  } = {
+var { Reflect } = {
     Reflect: null
 }; // collision (es2015-es2021 only)
 class C extends B {

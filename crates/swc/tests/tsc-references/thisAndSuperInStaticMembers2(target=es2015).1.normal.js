@@ -71,12 +71,12 @@ class C extends B {
     ];
 })();
 (()=>{
-    C.z11 = { x: _update(_get_prototype_of(C), "a", C, true)._  } = {
+    C.z11 = { x: _update(_get_prototype_of(C), "a", C, true)._ } = {
         x: 0
     };
 })();
 (()=>{
-    C.z12 = { x: _update(_get_prototype_of(C), "a", C, true)._ = 0  } = {
+    C.z12 = { x: _update(_get_prototype_of(C), "a", C, true)._ = 0 } = {
         x: 0
     };
 })();

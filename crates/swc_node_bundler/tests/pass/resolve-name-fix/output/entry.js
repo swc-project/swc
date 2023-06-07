@@ -7395,4 +7395,4 @@ var load344 = __swcpack_require__.bind(void 0, function(module, exports) {
     load343();
     module.exports = load4();
 });
-var { default: assign  } = load344();
+var { default: assign } = load344();

@@ -28,7 +28,7 @@ function noRouter__2() {
     throw new Error(message__3);
 }
 class ServerRouter__2 {
-    constructor(pathname__4, query__4, as__4, { isFallback__4  }, isReady__4, basePath__4, locale__4, locales__4, defaultLocale__4, domainLocales__4, isPreview__4, isLocaleDomain__4){
+    constructor(pathname__4, query__4, as__4, { isFallback__4 }, isReady__4, basePath__4, locale__4, locales__4, defaultLocale__4, domainLocales__4, isPreview__4, isLocaleDomain__4){
         this.route = pathname__4.replace(/\/$/, "") || "/";
         this.pathname = pathname__4;
         this.query = query__4;
@@ -78,7 +78,7 @@ const invalidKeysMsg__2 = (methodName__13, invalidKeys__13)=>{
     return `Additional keys were returned from \`${methodName__13}\`. Properties intended for your component must be nested under the \`props\` key, e.g.:` + `\n\n\treturn { props: { title: 'My Title', content: '...' } }` + `\n\nKeys that need to be moved: ${invalidKeys__13.join(", ")}.` + `\nRead more: https://nextjs.org/docs/messages/invalid-getstaticprops-value`;
 };
 function checkRedirectValues__2(redirect__14, req__14, method__14) {
-    const { destination__14 , permanent__14 , statusCode__14 , basePath__14  } = redirect__14;
+    const { destination__14, permanent__14, statusCode__14, basePath__14 } = redirect__14;
     let errors__14 = [];
     const hasStatusCode__14 = typeof statusCode__14 !== "undefined";
     const hasPermanent__14 = typeof permanent__14 !== "undefined";
@@ -106,7 +106,7 @@ function checkRedirectValues__2(redirect__14, req__14, method__14) {
 export async function renderToHTML__2(req__21, res__21, pathname__21, query__21, renderOpts__21) {
     renderOpts__21.devOnlyCacheBusterQueryString = renderOpts__21.dev ? renderOpts__21.devOnlyCacheBusterQueryString || `?ts=${Date.now()}` : "";
     query__21 = Object.assign({}, query__21);
-    const { err__21 , dev__21 =false , ampPath__21 ="" , App__21 , Document__21 , pageConfig__21 ={} , Component__21 , buildManifest__21 , fontManifest__21 , reactLoadableManifest__21 , ErrorDebug__21 , getStaticProps__21 , getStaticPaths__21 , getServerSideProps__21 , isDataReq__21 , params__21 , previewProps__21 , basePath__21 , devOnlyCacheBusterQueryString__21 , supportsDynamicHTML__21 , concurrentFeatures__21  } = renderOpts__21;
+    const { err__21, dev__21 = false, ampPath__21 = "", App__21, Document__21, pageConfig__21 = {}, Component__21, buildManifest__21, fontManifest__21, reactLoadableManifest__21, ErrorDebug__21, getStaticProps__21, getStaticPaths__21, getServerSideProps__21, isDataReq__21, params__21, previewProps__21, basePath__21, devOnlyCacheBusterQueryString__21, supportsDynamicHTML__21, concurrentFeatures__21 } = renderOpts__21;
     const getFontDefinition__21 = (url__22)=>{
         if (fontManifest__21) {
             return getFontDefinitionFromManifest__2(url__22, fontManifest__21);
@@ -172,7 +172,7 @@ export async function renderToHTML__2(req__21, res__21, pathname__21, query__21,
     }
     let asPath__21 = renderOpts__21.resolvedAsPath || req__21.url;
     if (dev__21) {
-        const { isValidElementType__40  } = require("react-is");
+        const { isValidElementType__40 } = require("react-is");
         if (!isValidElementType__40(Component__21)) {
             throw new Error(`The default export is not a React Component in page: "${pathname__21}"`);
         }
@@ -231,7 +231,7 @@ export async function renderToHTML__2(req__21, res__21, pathname__21, query__21,
             const enhanceApp__49 = (AppComp__50)=>{
                 return (props__51)=><AppComp__50 {...props__51}/>;
             };
-            const { html__49 , head__49  } = await docCtx__49.renderPage({
+            const { html__49, head__49 } = await docCtx__49.renderPage({
                 enhanceApp__49
             });
             const styles__49 = jsxStyleRegistry__21.styles();
@@ -253,7 +253,7 @@ export async function renderToHTML__2(req__21, res__21, pathname__21, query__21,
     let head__21 = defaultHead__2(inAmpMode__21);
     let scriptLoader__21 = {};
     const nextExport__21 = !isSSG__21 && (renderOpts__21.nextExport || dev__21 && (isAutoExport__21 || isFallback__21));
-    const AppContainer__21 = ({ children__52  })=><RouterContext__2.Provider value__0={router__21}>
+    const AppContainer__21 = ({ children__52 })=><RouterContext__2.Provider value__0={router__21}>
 
             <AmpStateContext__2.Provider value__0={ampState__21}>
 
@@ -502,7 +502,7 @@ export async function renderToHTML__2(req__21, res__21, pathname__21, query__21,
                 if (dev__21 && (props__21.router || props__21.Component)) {
                     throw new Error(`'router' and 'Component' can not be returned in getInitialProps from _app.js https://nextjs.org/docs/messages/cant-override-next-props`);
                 }
-                const { App: EnhancedApp__112 , Component: EnhancedComponent__112  } = enhanceComponents__2(options__112, App__21, Component__21);
+                const { App: EnhancedApp__112, Component: EnhancedComponent__112 } = enhanceComponents__2(options__112, App__21, Component__21);
                 const html__112 = ReactDOMServer__2.renderToString(<AppContainer__21>
 
                         <EnhancedApp__112 Component__0={EnhancedComponent__112} router__0={router__21} {...props__21}/>
@@ -567,7 +567,7 @@ export async function renderToHTML__2(req__21, res__21, pathname__21, query__21,
     }
     const hybridAmp__21 = ampState__21.hybrid;
     const docComponentsRendered__21 = {};
-    const { assetPrefix__21 , buildId__21 , customServer__21 , defaultLocale__21 , disableOptimizedLoading__21 , domainLocales__21 , locale__21 , locales__21 , runtimeConfig__21  } = renderOpts__21;
+    const { assetPrefix__21, buildId__21, customServer__21, defaultLocale__21, disableOptimizedLoading__21, domainLocales__21, locale__21, locales__21, runtimeConfig__21 } = renderOpts__21;
     const htmlProps__21 = {
         __NEXT_DATA__: {
             props__21,
@@ -700,7 +700,7 @@ export async function renderToHTML__2(req__21, res__21, pathname__21, query__21,
     return new RenderResult__2(chainPipers__2(pipers__21));
 }
 function errorToJSON__2(err__139) {
-    const { name__139 , message__139 , stack__139  } = err__139;
+    const { name__139, message__139, stack__139 } = err__139;
     return {
         name__139,
         message__139,
@@ -780,7 +780,7 @@ function renderToStream__2(element__142, generateStaticHTML__142) {
                 });
             }
         };
-        const { abort__143 , startWriting__143  } = ReactDOMServer__2.pipeToNodeWritable(element__142, stream__143, {
+        const { abort__143, startWriting__143 } = ReactDOMServer__2.pipeToNodeWritable(element__142, stream__143, {
             onError (error__161) {
                 if (!resolved__143) {
                     resolved__143 = true;

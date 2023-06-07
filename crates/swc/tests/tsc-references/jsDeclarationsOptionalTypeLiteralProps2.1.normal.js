@@ -8,6 +8,6 @@
  * @param {number} [opts.b]
  * @param {number} [opts.c]
  * @returns {number}
- */ function foo({ a , b , c  }) {
+ */ function foo({ a, b, c }) {
     return a + (b ?? 0) + (c ?? 0);
 }

@@ -16,9 +16,9 @@ C.x = void 0, C.y1 = C.x, C.y2 = C.x(), C.y3 = null == C ? void 0 : C.x(), C.y4 
     0
 ], C.z10 = [..._update(_get_prototype_of(C), "a", C, !0)._] = [
     0
-], C.z11 = { x: _update(_get_prototype_of(C), "a", C, !0)._  } = {
+], C.z11 = { x: _update(_get_prototype_of(C), "a", C, !0)._ } = {
     x: 0
-}, C.z12 = { x: _update(_get_prototype_of(C), "a", C, !0)._ = 0  } = {
+}, C.z12 = { x: _update(_get_prototype_of(C), "a", C, !0)._ = 0 } = {
     x: 0
 }, (()=>{
     var _tmp;

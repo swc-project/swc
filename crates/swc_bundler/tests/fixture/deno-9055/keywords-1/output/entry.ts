@@ -3,5 +3,5 @@ const x = {
     t: "text",
     int: "==INT=="
 };
-const { n , t , int: __int  } = x;
+const { n, t, int: __int } = x;
 console.log(n, t, __int);

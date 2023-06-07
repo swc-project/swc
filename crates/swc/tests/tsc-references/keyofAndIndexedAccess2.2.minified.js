@@ -1,10 +1,10 @@
 //// [keyofAndIndexedAccess2.ts]
 export function getAllEntities(state) {
-    let { ids , entities  } = state;
+    let { ids, entities } = state;
     return ids.map((id)=>entities[id]);
 }
 export function getEntity(id, state) {
-    let { ids , entities  } = state;
+    let { ids, entities } = state;
     if (ids.includes(id)) return entities[id];
 }
 export class c {

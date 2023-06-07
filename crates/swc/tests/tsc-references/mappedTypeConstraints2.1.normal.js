@@ -13,7 +13,7 @@ function validate(obj, bounds) {
     for (const [key, val] of Object.entries(obj)){
         const boundsForKey = bounds[key];
         if (boundsForKey) {
-            const { min , max  } = boundsForKey;
+            const { min, max } = boundsForKey;
             if (min > val || max < val) return false;
         }
     }

@@ -19,7 +19,7 @@ class MuxAsyncIterator {
     }
     async callIteratorNext(iterator) {
         try {
-            const { value , done  } = await iterator.next();
+            const { value, done } = await iterator.next();
             if (done) --this.iteratorCount;
             else this.yields.push({
                 iterator,
@@ -34,7 +34,7 @@ class MuxAsyncIterator {
         while(this.iteratorCount > 0){
             await this.signal;
             for(let i = 0; i < this.yields.length; i++){
-                const { iterator , value  } = this.yields[i];
+                const { iterator, value } = this.yields[i];
                 yield value;
                 this.callIteratorNext(iterator);
             }

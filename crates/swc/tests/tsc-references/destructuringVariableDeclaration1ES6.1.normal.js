@@ -1,7 +1,7 @@
 //// [destructuringVariableDeclaration1ES6.ts]
 // The type T associated with a destructuring variable declaration is determined as follows:
 //      If the declaration includes a type annotation, T is that type.
-var { a1 , a2  } = {
+var { a1, a2 } = {
     a1: 10,
     a2: "world"
 };
@@ -16,9 +16,9 @@ var [a3, [[a4]], a5] = [
 ];
 // The type T associated with a destructuring variable declaration is determined as follows:
 //      Otherwise, if the declaration includes an initializer expression, T is the type of that initializer expression.
-var { b1: { b11  } = {
+var { b1: { b11 } = {
     b11: "string"
-}  } = {
+} } = {
     b1: {
         b11: "world"
     }
@@ -79,7 +79,7 @@ var [d3, d4] = [
 var { e: [e1, e2, e3 = {
     b1: 1000,
     b4: 200
-}]  } = {
+}] } = {
     e: [
         1,
         2,
@@ -89,7 +89,7 @@ var { e: [e1, e2, e3 = {
         }
     ]
 };
-var { f: [f1, f2, { f3: f4 , f5  }]  } = {
+var { f: [f1, f2, { f3: f4, f5 }] } = {
     f: [
         1,
         2,
@@ -102,10 +102,10 @@ var { f: [f1, f2, { f3: f4 , f5  }]  } = {
 // When a destructuring variable declaration, binding property, or binding element specifies
 // an initializer expression, the type of the initializer expression is required to be assignable
 // to the widened form of the type associated with the destructuring variable declaration, binding property, or binding element.
-var { g: { g1 =[
+var { g: { g1 = [
     undefined,
     null
-]  }  } = {
+] } } = {
     g: {
         g1: [
             1,
@@ -113,10 +113,10 @@ var { g: { g1 =[
         ]
     }
 };
-var { h: { h1 =[
+var { h: { h1 = [
     undefined,
     null
-]  }  } = {
+] } } = {
     h: {
         h1: [
             1,

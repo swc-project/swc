@@ -1,7 +1,7 @@
-const { jsx: _jsx  } = require("react/jsx-runtime");
+const { jsx: _jsx } = require("react/jsx-runtime");
 const Bar = ()=>{
     const Foo = ()=>{
-        const Component = ({ thing , ..._react })=>{
+        const Component = ({ thing, ..._react })=>{
             if (!thing) {
                 var _react2 = "something useless";
                 var b = _react3();

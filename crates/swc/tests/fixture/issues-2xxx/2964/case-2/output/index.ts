@@ -23,7 +23,7 @@ const _object_without_properties = require("@swc/helpers/_/_object_without_prope
 //top comment
 const noop = ()=>{};
 /* istanbul ignore next */ const badIstanbul = (test)=>{
-    const { value  } = test, pixelParams = _object_without_properties._(test, [
+    const { value } = test, pixelParams = _object_without_properties._(test, [
         "value"
     ]);
     console.log("fail");

@@ -8,13 +8,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 const e = t(require("./config.json"));
-function n({ config: t = e.default  } = {}) {
+function n({ config: t = e.default } = {}) {
     function n(e) {
         const n = t[e] || null;
         if (!n) {
             return false;
         }
-        const { available: r , availableBy: u  } = n;
+        const { available: r, availableBy: u } = n;
         if (!u) {
             return r;
         }
