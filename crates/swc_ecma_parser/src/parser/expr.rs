@@ -1218,10 +1218,30 @@ impl<I: Tokens> Parser<I> {
                         // above. (won't be any undefined arguments)
                         let args = p.parse_args(is_dynamic_import)?;
 
+                        let obj = mut_obj_opt.take().unwrap();
+
+                        if let Callee::Expr(callee) = &obj {
+                            if let Expr::OptChain(..) = &**callee {
+                                return Ok(Some((
+                                    Box::new(Expr::OptChain(OptChainExpr {
+                                        span: span!(p, start),
+                                        base: Box::new(OptChainBase::Call(OptCall {
+                                            span: span!(p, start),
+                                            callee: obj.expect_expr(),
+                                            type_args: Some(type_args),
+                                            args,
+                                        })),
+                                        optional: false,
+                                    })),
+                                    true,
+                                )));
+                            }
+                        }
+
                         Ok(Some((
                             Box::new(Expr::Call(CallExpr {
                                 span: span!(p, start),
-                                callee: mut_obj_opt.take().unwrap(),
+                                callee: obj,
                                 type_args: Some(type_args),
                                 args,
                             })),
