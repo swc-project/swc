@@ -4,7 +4,8 @@ use serde::Deserialize;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, prepend_stmt, quote_ident, undefined, ExprFactory, StmtLike,
+    alias_ident_for, alias_if_required, prepend_stmt, private_ident, quote_ident, undefined,
+    ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -115,10 +116,11 @@ impl OptChaining {
             }
             OptChainBase::Call(call) => {
                 let callee_name = alias_ident_for(&call.callee, "_ref");
-                let obj_name = alias_ident_for(&call.callee, "_obj");
 
                 let (this, init) = match &mut *call.callee {
                     Expr::Member(callee) => {
+                        let obj_name = alias_ident_for(&callee.obj, "_obj");
+
                         callee.visit_mut_with(self);
 
                         self.vars_without_init.push(VarDeclarator {
@@ -138,6 +140,8 @@ impl OptChaining {
                     }
 
                     Expr::OptChain(callee) => {
+                        let obj_name = private_ident!("_obj");
+
                         callee.visit_mut_with(self);
 
                         self.vars_without_init.push(VarDeclarator {
@@ -148,7 +152,7 @@ impl OptChaining {
                         });
 
                         let init = self.handle(callee);
-                        (Some(obj_name.clone()), Box::new(init))
+                        (Some(obj_name), Box::new(init))
                     }
 
                     _ => {
