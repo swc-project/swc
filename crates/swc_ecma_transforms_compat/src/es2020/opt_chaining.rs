@@ -160,33 +160,24 @@ impl OptChaining {
                 };
                 call.args.visit_mut_with(self);
 
-                if e.optional {
-                    self.vars_without_init.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: callee_name.clone().into(),
-                        init: None,
-                        definite: false,
-                    });
+                self.vars_without_init.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: callee_name.clone().into(),
+                    init: None,
+                    definite: false,
+                });
 
-                    Expr::Cond(CondExpr {
-                        span: DUMMY_SP,
-                        test: init_and_eq_null_or_undefined(&callee_name, init),
-                        cons: undefined(DUMMY_SP),
-                        alt: Box::new(Expr::Call(CallExpr {
-                            span: call.span,
-                            callee: Callee::Expr(call.callee.take()),
-                            args: call.args.take(),
-                            type_args: Default::default(),
-                        })),
-                    })
-                } else {
-                    Expr::Call(CallExpr {
+                Expr::Cond(CondExpr {
+                    span: DUMMY_SP,
+                    test: init_and_eq_null_or_undefined(&callee_name, init),
+                    cons: undefined(DUMMY_SP),
+                    alt: Box::new(Expr::Call(CallExpr {
                         span: call.span,
                         callee: Callee::Expr(call.callee.take()),
                         args: call.args.take(),
                         type_args: Default::default(),
-                    })
-                }
+                    })),
+                })
             }
         }
     }
