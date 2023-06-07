@@ -5092,8 +5092,7 @@
         var ext = scope.enclosed, nth_identifier = options.nth_identifier;
         out: for(;;){
             var m = nth_identifier.get(++scope.cname);
-            if (!(ALL_RESERVED_WORDS.has(m) || options.reserved.has(m))) {
-                if (unmangleable_names && unmangleable_names.has(m)) continue out;
+            if (!(ALL_RESERVED_WORDS.has(m) || options.reserved.has(m)) && !(unmangleable_names && unmangleable_names.has(m))) {
                 for(let i = ext.length; --i >= 0;){
                     const def = ext[i], name = def.mangled_name || def.unmangleable(options) && def.name;
                     if (m == name) continue out;

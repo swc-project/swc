@@ -1496,7 +1496,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                     return;
                 }
             }
-            getByTag: if ((children1 = node1.getElementsByTagName(tag1)) && children1.length) for(this.brokenStarGEBTN || (tag1 = null), i1 = 0; item1 = children1[i1++];)this.push(item1, tag1, id1, classes1, attributes1, pseudos1);
+            if ((children1 = node1.getElementsByTagName(tag1)) && children1.length) for(this.brokenStarGEBTN || (tag1 = null), i1 = 0; item1 = children1[i1++];)this.push(item1, tag1, id1, classes1, attributes1, pseudos1);
         },
         ">": function(node1, tag1, id1, classes1, attributes1, pseudos1) {
             if (node1 = node1.firstChild) do 1 == node1.nodeType && this.push(node1, tag1, id1, classes1, attributes1, pseudos1);
