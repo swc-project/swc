@@ -29,9 +29,9 @@ class A {
         _class_private_field_set(this, _field, 1);
         this.otherObject = new A();
         let y;
-        ({ x: _class_private_field_destructure(this, _field).value , y  } = this.testObject());
+        ({ x: _class_private_field_destructure(this, _field).value, y } = this.testObject());
         [_class_private_field_destructure(this, _field).value, y] = this.testArray();
-        ({ a: _class_private_field_destructure(this, _field).value , b: [_class_private_field_destructure(this, _field).value]  } = {
+        ({ a: _class_private_field_destructure(this, _field).value, b: [_class_private_field_destructure(this, _field).value] } = {
             a: 1,
             b: [
                 2
@@ -43,7 +43,7 @@ class A {
                 2
             ]
         ];
-        ({ a: _class_private_field_destructure(this, _field).value = 1 , b: [_class_private_field_destructure(this, _field).value = 1]  } = {
+        ({ a: _class_private_field_destructure(this, _field).value = 1, b: [_class_private_field_destructure(this, _field).value = 1] } = {
             b: []
         });
         [_class_private_field_destructure(this, _field).value = 2] = [];

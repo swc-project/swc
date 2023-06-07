@@ -8,8 +8,8 @@ _object_without_properties(complex.x, [
 ]), _object_without_properties(complex, [
     "x",
     "y"
-]), { x: { ka  } , y: other  } = complex;
-var { a: [{}, ...y] , b: { z  }  } = overEmit;
+]), { x: { ka }, y: other } = complex;
+var { a: [{}, ...y], b: { z } } = overEmit;
 _extends({}, _object_destructuring_empty(overEmit.a[0])), _object_without_properties(overEmit.b, [
     "z"
 ]), _object_without_properties(overEmit, [
@@ -20,4 +20,4 @@ _extends({}, _object_destructuring_empty(overEmit.a[0])), _object_without_proper
 ]), _object_without_properties(overEmit, [
     "a",
     "b"
-]), { a: [{}, ...y] , b: { z  }  } = overEmit;
+]), { a: [{}, ...y], b: { z } } = overEmit;

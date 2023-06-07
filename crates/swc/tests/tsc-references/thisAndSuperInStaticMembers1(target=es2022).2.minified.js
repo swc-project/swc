@@ -22,10 +22,10 @@ class C extends B {
     static z10 = [...super.a] = [
         0
     ];
-    static z11 = { x: super.a  } = {
+    static z11 = { x: super.a } = {
         x: 0
     };
-    static z12 = { x: super.a = 0  } = {
+    static z12 = { x: super.a = 0 } = {
         x: 0
     };
     static z13 = { ...super.a } = {

@@ -1,7 +1,7 @@
 //// [dependentDestructuredVariables.ts]
 import "@swc/helpers/_/_async_to_generator";
 import "@swc/helpers/_/_wrap_async_generator";
-let { value , done  } = it.next();
+let { value, done } = it.next();
 f50((kind, data)=>{
     'A' === kind && data.toFixed(), 'B' === kind && data.toUpperCase();
 }), readFile('hello', (err, data)=>{

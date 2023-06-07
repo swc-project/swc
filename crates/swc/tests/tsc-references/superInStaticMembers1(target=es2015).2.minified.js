@@ -14,7 +14,7 @@ class C extends B {
 C._ = [
     void _get(_get_prototype_of(C), "w", C).call(C),
     (()=>{
-        var { Reflect  } = {
+        var { Reflect } = {
             Reflect: null
         };
         _get(_get_prototype_of(C), "w", C).call(C);
@@ -40,7 +40,7 @@ C._ = [
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C)
 ], (()=>{
-    var { Reflect  } = {
+    var { Reflect } = {
         Reflect: null
     };
     _get(_get_prototype_of(C), "w", C).call(C);
@@ -65,7 +65,7 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [varInContainingScopeStaticField2.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var { Reflect  } = {
+var { Reflect } = {
     Reflect: null
 };
 class C extends B {
@@ -89,7 +89,7 @@ _get(_get_prototype_of(C), "w", C).call(C);
 //// [varInContainingScopeStaticBlock2.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var { Reflect  } = {
+var { Reflect } = {
     Reflect: null
 };
 class C extends B {

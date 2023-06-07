@@ -57,12 +57,12 @@ class C extends B {
         ];
     }
     static{
-        this.z11 = { x: super.a  } = {
+        this.z11 = { x: super.a } = {
             x: 0
         };
     }
     static{
-        this.z12 = { x: super.a = 0  } = {
+        this.z12 = { x: super.a = 0 } = {
             x: 0
         };
     }

@@ -9,4 +9,4 @@ const o = {
 };
 var b;
 var rest;
-({ b , ...rest } = o);
+({ b, ...rest } = o);

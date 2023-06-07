@@ -1,7 +1,7 @@
 //// [dependentDestructuredVariables.ts]
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
-function f10({ kind , payload  }) {
+function f10({ kind, payload }) {
     if (kind === 'A') {
         payload.toFixed();
     }
@@ -10,7 +10,7 @@ function f10({ kind , payload  }) {
     }
 }
 function f11(action) {
-    const { kind , payload  } = action;
+    const { kind, payload } = action;
     if (kind === 'A') {
         payload.toFixed();
     }
@@ -18,7 +18,7 @@ function f11(action) {
         payload.toUpperCase();
     }
 }
-function f12({ kind , payload  }) {
+function f12({ kind, payload }) {
     switch(kind){
         case 'A':
             payload.toFixed();
@@ -31,7 +31,7 @@ function f12({ kind , payload  }) {
     }
 }
 // repro #50206
-function f13({ kind , payload  }) {
+function f13({ kind, payload }) {
     if (kind === 'A') {
         payload.toFixed();
     }
@@ -40,7 +40,7 @@ function f13({ kind , payload  }) {
     }
 }
 function f14(t) {
-    const { kind , payload  } = t;
+    const { kind, payload } = t;
     if (kind === 'A') {
         payload.toFixed();
     }
@@ -48,7 +48,7 @@ function f14(t) {
         payload.toUpperCase();
     }
 }
-function f20({ kind , payload  }) {
+function f20({ kind, payload }) {
     if (payload) {
         if (kind === 'A') {
             payload.toFixed();
@@ -59,7 +59,7 @@ function f20({ kind , payload  }) {
     }
 }
 function f21(action) {
-    const { kind , payload  } = action;
+    const { kind, payload } = action;
     if (payload) {
         if (kind === 'A') {
             payload.toFixed();
@@ -71,7 +71,7 @@ function f21(action) {
 }
 function f22(action) {
     if (action.payload) {
-        const { kind , payload  } = action;
+        const { kind, payload } = action;
         if (kind === 'A') {
             payload.toFixed();
         }
@@ -80,7 +80,7 @@ function f22(action) {
         }
     }
 }
-function f23({ kind , payload  }) {
+function f23({ kind, payload }) {
     if (payload) {
         switch(kind){
             case 'A':
@@ -94,7 +94,7 @@ function f23({ kind , payload  }) {
         }
     }
 }
-function f30({ kind , isA  }) {
+function f30({ kind, isA }) {
     if (kind === 'A') {
         isA; // true
     }
@@ -119,14 +119,14 @@ function f40(...[kind, data]) {
     }
 }
 function unrefined1(ab) {
-    const { variant , value  } = ab;
+    const { variant, value } = ab;
     if (variant === 'a') {
         printValue(value);
     } else {
         printValueList(value);
     }
 }
-const reducerBroken = (state, { type , payload  })=>{
+const reducerBroken = (state, { type, payload })=>{
     switch(type){
         case 'add':
             return state + payload.toAdd;
@@ -134,7 +134,7 @@ const reducerBroken = (state, { type , payload  })=>{
             return state - payload.toRemove;
     }
 };
-const { value , done  } = it.next();
+const { value, done } = it.next();
 if (!done) {
     value; // number
 }
@@ -241,7 +241,7 @@ const f60 = (kind, payload)=>{
     }
 };
 // Repro from #48902
-function foo({ value1 , test1 =value1.test1 , test2 =value1.test2 , test3 =value1.test3 , test4 =value1.test4 , test5 =value1.test5 , test6 =value1.test6 , test7 =value1.test7 , test8 =value1.test8 , test9 =value1.test9  }) {}
+function foo({ value1, test1 = value1.test1, test2 = value1.test2, test3 = value1.test3, test4 = value1.test4, test5 = value1.test5, test6 = value1.test6, test7 = value1.test7, test8 = value1.test8, test9 = value1.test9 }) {}
 // Repro from #49772
 function fa1(x) {
     const [guard, value] = x;
@@ -256,7 +256,7 @@ function fa1(x) {
     }
 }
 function fa2(x) {
-    const { guard , value  } = x;
+    const { guard, value } = x;
     if (guard) {
         for(;;){
             value; // number

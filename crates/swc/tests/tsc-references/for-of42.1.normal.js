@@ -5,7 +5,7 @@ var array = [
         y: 0
     }
 ];
-for (var { x: a , y: b  } of array){
+for (var { x: a, y: b } of array){
     a;
     b;
 }

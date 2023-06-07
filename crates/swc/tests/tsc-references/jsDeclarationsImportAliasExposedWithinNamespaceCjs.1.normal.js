@@ -13,7 +13,7 @@ const myTypes = {
  */ /** @typedef {myTypes.typeB|Function} myTypes.typeC */ exports.myTypes = myTypes;
 //// [file2.js]
 "use strict";
-const { myTypes  } = require('./file.js');
+const { myTypes } = require('./file.js');
 /**
  * @namespace testFnTypes
  * @global

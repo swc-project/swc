@@ -9,4 +9,4 @@ let a, b, c = {
 var _c;
 _c = c, b = _object_without_properties(_c.x, [
     "a"
-]), ({ x: { a  } = d  } = _c), _c;
+]), ({ x: { a } = d } = _c), _c;
