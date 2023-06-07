@@ -74,34 +74,27 @@ impl OptChaining {
     fn handle(&mut self, e: &mut OptChainExpr) -> Expr {
         match &mut *e.base {
             OptChainBase::Member(m) => {
-                let var_name = alias_ident_for(&m.obj, "_ref");
+                let obj_name = alias_ident_for(&m.obj, "_ref");
 
                 m.obj.visit_mut_with(self);
 
                 if e.optional {
                     self.vars_without_init.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: var_name.clone().into(),
+                        name: obj_name.clone().into(),
                         init: None,
                         definite: false,
                     });
 
-                    let value = Box::new(Expr::Cond(CondExpr {
+                    Expr::Cond(CondExpr {
                         span: DUMMY_SP,
-                        test: eq_null_or_undefined(&var_name),
+                        test: init_and_eq_null_or_undefined(&obj_name, m.obj.take()),
                         cons: undefined(DUMMY_SP),
                         alt: Box::new(Expr::Member(MemberExpr {
                             span: m.span,
-                            obj: var_name.clone().into(),
+                            obj: obj_name.clone().into(),
                             prop: m.prop.take(),
                         })),
-                    }));
-
-                    Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(var_name.clone().into()))),
-                        right: value,
                     })
                 } else {
                     Expr::Member(m.take())
@@ -177,10 +170,15 @@ impl OptChaining {
     }
 }
 
-fn eq_null_or_undefined(i: &Ident) -> Box<Expr> {
+fn init_and_eq_null_or_undefined(i: &Ident, init: Box<Expr>) -> Box<Expr> {
     let null_cmp = Box::new(Expr::Bin(BinExpr {
         span: DUMMY_SP,
-        left: Box::new(Expr::Ident(i.clone())),
+        left: Box::new(Expr::Assign(AssignExpr {
+            span: DUMMY_SP,
+            op: op!("="),
+            left: PatOrExpr::Pat(i.clone().into()),
+            right: init,
+        })),
         op: op!("==="),
         right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
     }));
