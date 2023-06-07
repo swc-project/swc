@@ -3,9 +3,8 @@ use std::mem;
 use serde::Deserialize;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{alias_ident_for, prepend_stmt, private_ident, StmtLike};
+use swc_ecma_utils::{alias_ident_for, prepend_stmt, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 pub fn optional_chaining(c: Config) -> impl Fold + VisitMut {
     as_folder(OptChaining {
@@ -87,7 +86,11 @@ impl OptChaining {
                         definite: false,
                     });
 
-                    Expr::Member(m.take())
+                    Expr::Member(MemberExpr {
+                        span: m.span,
+                        obj: obj_var.into(),
+                        prop: m.prop.take(),
+                    })
                 } else {
                     Expr::Member(m.take())
                 }
