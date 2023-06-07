@@ -30,7 +30,6 @@ pub struct Config {
     pub pure_getter: bool,
 }
 
-#[swc_trace]
 impl VisitMut for OptChaining {
     noop_visit_mut_type!();
 
@@ -52,6 +51,12 @@ impl VisitMut for OptChaining {
                 *expr = BlockStmtOrExpr::BlockStmt(stmt);
             }
         };
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if let Expr::OptChain(o) = e {}
+
+        e.visit_mut_children_with(self);
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
