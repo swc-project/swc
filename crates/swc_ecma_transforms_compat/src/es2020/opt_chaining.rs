@@ -169,22 +169,14 @@ impl OptChaining {
 fn eq_null_or_undefined(i: &Ident) -> Box<Expr> {
     let null_cmp = Box::new(Expr::Bin(BinExpr {
         span: DUMMY_SP,
-        left: Box::new(Expr::Unary(UnaryExpr {
-            span: DUMMY_SP,
-            op: op!("!"),
-            arg: Box::new(Expr::Ident(i.clone())),
-        })),
+        left: Box::new(Expr::Ident(i.clone())),
         op: op!("==="),
         right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
     }));
 
     let void_cmp = Box::new(Expr::Bin(BinExpr {
         span: DUMMY_SP,
-        left: Box::new(Expr::Unary(UnaryExpr {
-            span: DUMMY_SP,
-            op: op!("!"),
-            arg: Box::new(Expr::Ident(i.clone())),
-        })),
+        left: Box::new(Expr::Ident(i.clone())),
         op: op!("==="),
         right: undefined(DUMMY_SP),
     }));
