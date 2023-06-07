@@ -71,39 +71,50 @@ impl VisitMut for OptChaining {
 }
 
 impl OptChaining {
+    /// Returns `(obj, value)`
+    fn handle_optional_member(&mut self, m: &mut MemberExpr) -> (Ident, Expr) {
+        let obj_name = alias_ident_for(&m.obj, "_obj");
+
+        m.obj.visit_mut_with(self);
+
+        self.vars_without_init.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: obj_name.clone().into(),
+            init: None,
+            definite: false,
+        });
+
+        (
+            obj_name.clone(),
+            Expr::Cond(CondExpr {
+                span: DUMMY_SP,
+                test: init_and_eq_null_or_undefined(&obj_name, m.obj.take()),
+                cons: undefined(DUMMY_SP),
+                alt: Box::new(Expr::Member(MemberExpr {
+                    span: m.span,
+                    obj: obj_name.clone().into(),
+                    prop: m.prop.take(),
+                })),
+            }),
+        )
+    }
+
     fn handle(&mut self, e: &mut OptChainExpr) -> Expr {
         match &mut *e.base {
             OptChainBase::Member(m) => {
-                let obj_name = alias_ident_for(&m.obj, "_obj");
-
-                m.obj.visit_mut_with(self);
-
                 if e.optional {
-                    self.vars_without_init.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: obj_name.clone().into(),
-                        init: None,
-                        definite: false,
-                    });
-
-                    Expr::Cond(CondExpr {
-                        span: DUMMY_SP,
-                        test: init_and_eq_null_or_undefined(&obj_name, m.obj.take()),
-                        cons: undefined(DUMMY_SP),
-                        alt: Box::new(Expr::Member(MemberExpr {
-                            span: m.span,
-                            obj: obj_name.clone().into(),
-                            prop: m.prop.take(),
-                        })),
-                    })
+                    self.handle_optional_member(m).1
                 } else {
+                    m.obj.visit_mut_with(self);
+
                     Expr::Member(m.take())
                 }
             }
             OptChainBase::Call(call) => {
                 let callee_name = alias_ident_for(&call.callee, "_ref");
 
-                call.visit_mut_children_with(self);
+                call.callee.visit_mut_with(self);
+                call.args.visit_mut_with(self);
 
                 if e.optional {
                     self.vars_without_init.push(VarDeclarator {
