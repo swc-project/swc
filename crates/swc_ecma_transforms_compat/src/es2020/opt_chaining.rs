@@ -78,17 +78,25 @@ impl VisitMut for OptChaining {
 
 impl OptChaining {
     /// Returns `(obj, value)`
-    fn handle_optional_member(&mut self, m: &mut MemberExpr) -> (Ident, CondExpr) {
-        let obj_name = alias_ident_for(&m.obj, "_obj");
+    fn handle_optional_member(
+        &mut self,
+        m: &mut MemberExpr,
+        obj_name: Option<Ident>,
+    ) -> (Ident, CondExpr) {
+        let obj_name = obj_name.unwrap_or_else(|| {
+            let v = alias_ident_for(&m.obj, "_obj");
+
+            self.vars_without_init.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: v.clone().into(),
+                init: None,
+                definite: false,
+            });
+
+            v
+        });
 
         m.obj.visit_mut_with(self);
-
-        self.vars_without_init.push(VarDeclarator {
-            span: DUMMY_SP,
-            name: obj_name.clone().into(),
-            init: None,
-            definite: false,
-        });
 
         (
             obj_name.clone(),
@@ -114,7 +122,7 @@ impl OptChaining {
         match &mut *e.base {
             OptChainBase::Member(m) => {
                 if e.optional {
-                    Ok(self.handle_optional_member(m).1)
+                    Ok(self.handle_optional_member(m, store_this_to).1)
                 } else {
                     m.obj.visit_mut_with(self);
 
