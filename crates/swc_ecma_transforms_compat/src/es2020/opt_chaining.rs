@@ -107,7 +107,37 @@ impl OptChaining {
                     Expr::Member(m.take())
                 }
             }
-            OptChainBase::Call(_) => todo!(),
+            OptChainBase::Call(call) => {
+                let var_name = alias_ident_for(&call.callee, "_ref");
+
+                call.callee.visit_mut_with(self);
+
+                self.vars_without_init.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: var_name.clone().into(),
+                    init: None,
+                    definite: false,
+                });
+
+                let value = Box::new(Expr::Cond(CondExpr {
+                    span: DUMMY_SP,
+                    test: eq_null_or_undefined(&var_name),
+                    cons: undefined(DUMMY_SP),
+                    alt: Box::new(Expr::Call(CallExpr {
+                        span: call.span,
+                        callee: Callee::Expr(var_name.clone().into()),
+                        args: call.args.take(),
+                        type_args: call.type_args.take(),
+                    })),
+                }));
+
+                Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(var_name.clone().into()))),
+                    right: value,
+                })
+            }
         }
     }
 
