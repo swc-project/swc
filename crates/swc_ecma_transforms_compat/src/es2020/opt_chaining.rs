@@ -117,6 +117,13 @@ impl OptChaining {
             OptChainBase::Call(call) => {
                 let callee_name = alias_ident_for(&call.callee, "_ref");
 
+                self.vars_without_init.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: callee_name.clone().into(),
+                    init: None,
+                    definite: false,
+                });
+
                 let (this, init) = match &mut *call.callee {
                     Expr::Member(callee) => {
                         let obj_name = private_ident!("_memberObj");
@@ -165,13 +172,6 @@ impl OptChaining {
                     }
                 };
                 call.args.visit_mut_with(self);
-
-                self.vars_without_init.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: callee_name.clone().into(),
-                    init: None,
-                    definite: false,
-                });
 
                 Expr::Cond(CondExpr {
                     span: DUMMY_SP,
