@@ -180,7 +180,7 @@
                         const titleComponent = tags.title ? tags.title[0] : null;
                         let title = "";
                         if (titleComponent) {
-                            const { children  } = titleComponent.props;
+                            const { children } = titleComponent.props;
                             title = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : "";
                         }
                         title !== document.title && (document.title = title), [
@@ -220,14 +220,14 @@
                 noModule: "noModule"
             };
             function reactElementToDOM(param) {
-                let { type , props  } = param;
+                let { type, props } = param;
                 const el = document.createElement(type);
                 for(const p in props){
                     if (!props.hasOwnProperty(p) || "children" === p || "dangerouslySetInnerHTML" === p || void 0 === props[p]) continue;
                     const attr = DOMAttributeNames[p] || p.toLowerCase();
                     "script" === type && ("async" === attr || "defer" === attr || "noModule" === attr) ? el[attr] = !!props[p] : el.setAttribute(attr, props[p]);
                 }
-                const { children , dangerouslySetInnerHTML  } = props;
+                const { children, dangerouslySetInnerHTML } = props;
                 return dangerouslySetInnerHTML ? el.innerHTML = dangerouslySetInnerHTML.__html || "" : children && (el.textContent = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : ""), el;
             }
             function isEqualNode(oldTag, newTag) {
@@ -284,7 +284,7 @@
                     this.scrollToHash();
                 }
                 scrollToHash() {
-                    let { hash  } = location;
+                    let { hash } = location;
                     if (!(hash = hash && hash.substring(1))) return;
                     const el = document.getElementById(hash);
                     el && setTimeout(()=>el.scrollIntoView(), 0);
@@ -301,7 +301,7 @@
                         serverRuntimeConfig: {},
                         publicRuntimeConfig: initialData.runtimeConfig || {}
                     }), asPath = _utils.getURL(), _hasBasePath.hasBasePath(asPath) && (asPath = _removeBasePath.removeBasePath(asPath)), initialData.scriptLoader) {
-                        const { initScriptLoader  } = __webpack_require__(699);
+                        const { initScriptLoader } = __webpack_require__(699);
                         initScriptLoader(initialData.scriptLoader);
                     }
                     pageLoader = new _pageLoader.default(initialData.buildId, prefix);
@@ -318,7 +318,7 @@
                 return _react.default.createElement(App, Object.assign({}, appProps));
             }
             function AppContainer(param) {
-                let { children  } = param;
+                let { children } = param;
                 return _react.default.createElement(Container, {
                     fn: (error)=>renderError({
                             App: CachedApp,
@@ -366,9 +366,9 @@
                     return _react.default.createElement(AppContainer, null, renderApp(App, appProps));
                 };
             function renderError(renderErrorProps) {
-                let { App , err  } = renderErrorProps;
+                let { App, err } = renderErrorProps;
                 return console.error(err), console.error("A client-side exception has occurred, see here for more info: https://nextjs.org/docs/messages/client-side-exception-occurred"), pageLoader.loadPage("/_error").then((param)=>{
-                    let { page: ErrorComponent , styleSheets  } = param;
+                    let { page: ErrorComponent, styleSheets } = param;
                     return (null == lastAppProps ? void 0 : lastAppProps.Component) === ErrorComponent ? Promise.resolve().then(()=>_interopRequireWildcard(__webpack_require__(9185))).then((errorModule)=>Promise.resolve().then(()=>_interopRequireWildcard(__webpack_require__(6029))).then((appModule)=>(App = appModule.default, renderErrorProps.App = App, errorModule))).then((m)=>({
                             ErrorComponent: m.default,
                             styleSheets: []
@@ -378,7 +378,7 @@
                     };
                 }).then((param)=>{
                     var ref;
-                    let { ErrorComponent , styleSheets  } = param;
+                    let { ErrorComponent, styleSheets } = param;
                     const AppTree = wrapApp(App), appCtx = {
                         Component: ErrorComponent,
                         AppTree,
@@ -400,7 +400,7 @@
                 });
             }
             function Head(param) {
-                let { callback  } = param;
+                let { callback } = param;
                 return _react.default.useLayoutEffect(()=>callback(), [
                     callback
                 ]), null;
@@ -427,7 +427,7 @@
                 ].forEach((measure)=>performance.clearMeasures(measure)));
             }
             function Root(param) {
-                let { callbacks , children  } = param;
+                let { callbacks, children } = param;
                 return _react.default.useLayoutEffect(()=>callbacks.forEach((callback)=>callback()), [
                     callbacks
                 ]), _react.default.useEffect(()=>{
@@ -435,7 +435,7 @@
                 }, []), children;
             }
             function doRender(input) {
-                let resolvePromise, { App , Component , props , err  } = input, styleSheets = "initial" in input ? void 0 : input.styleSheets;
+                let resolvePromise, { App, Component, props, err } = input, styleSheets = "initial" in input ? void 0 : input.styleSheets;
                 Component = Component || lastAppProps.Component, props = props || lastAppProps.props;
                 const appProps = _extends({}, props, {
                     Component,
@@ -460,7 +460,7 @@
                     if (!styleSheets) return;
                     const currentStyleTags = looseToArray(document.querySelectorAll("style[data-n-href]")), currentHrefs = new Set(currentStyleTags.map((tag)=>tag.getAttribute("data-n-href"))), noscript = document.querySelector("noscript[data-n-css]"), nonce = null == noscript ? void 0 : noscript.getAttribute("data-n-css");
                     styleSheets.forEach((param)=>{
-                        let { href , text  } = param;
+                        let { href, text } = param;
                         if (!currentHrefs.has(href)) {
                             const styleTag = document.createElement("style");
                             styleTag.setAttribute("data-n-href", href), styleTag.setAttribute("media", "x"), nonce && styleTag.setAttribute("nonce", nonce), document.head.appendChild(styleTag), styleTag.appendChild(document.createTextNode(text));
@@ -474,7 +474,7 @@
                             for(let idx = 0; idx < currentHrefs.length; ++idx)desiredHrefs.has(currentHrefs[idx]) ? currentStyleTags[idx].removeAttribute("media") : currentStyleTags[idx].setAttribute("media", "x");
                             let referenceNode = document.querySelector("noscript[data-n-css]");
                             referenceNode && styleSheets.forEach((param)=>{
-                                let { href  } = param;
+                                let { href } = param;
                                 const targetTag = document.querySelector('style[data-n-href="'.concat(href, '"]'));
                                 targetTag && (referenceNode.parentNode.insertBefore(targetTag, referenceNode.nextSibling), referenceNode = targetTag);
                             }), looseToArray(document.querySelectorAll("link[data-n-p]")).forEach((el)=>{
@@ -531,9 +531,9 @@
                     try {
                         const appEntrypoint = yield pageLoader.routeLoader.whenEntrypoint("/_app");
                         if ("error" in appEntrypoint) throw appEntrypoint.error;
-                        const { component: app , exports: mod  } = appEntrypoint;
+                        const { component: app, exports: mod } = appEntrypoint;
                         CachedApp = app, mod && mod.reportWebVitals && (onPerfEntry = (param)=>{
-                            let perfStartEntry, { id , name , startTime , value , duration , entryType , entries  } = param;
+                            let perfStartEntry, { id, name, startTime, value, duration, entryType, entries } = param;
                             const uniqueID = "".concat(Date.now(), "-").concat(Math.floor(Math.random() * (9e12 - 1)) + 1e12);
                             entries && entries.length && (perfStartEntry = entries[0].startTime);
                             const webVitals = {
@@ -604,7 +604,7 @@
             var _removeTrailingSlash = __webpack_require__(6316), _parsePath = __webpack_require__(4943);
             exports.normalizePathTrailingSlash = (path)=>{
                 if (!path.startsWith("/")) return path;
-                const { pathname , query , hash  } = _parsePath.parsePath(path);
+                const { pathname, query, hash } = _parsePath.parsePath(path);
                 return "".concat(_removeTrailingSlash.removeTrailingSlash(pathname)).concat(query).concat(hash);
             }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
@@ -624,7 +624,7 @@
                     return window.__MIDDLEWARE_MATCHERS = [], window.__MIDDLEWARE_MATCHERS;
                 }
                 getDataHref(params) {
-                    const { asPath , href , locale  } = params, { pathname: hrefPathname , query , search  } = _parseRelativeUrl.parseRelativeUrl(href), { pathname: asPathname  } = _parseRelativeUrl.parseRelativeUrl(asPath), route = _removeTrailingSlash.removeTrailingSlash(hrefPathname);
+                    const { asPath, href, locale } = params, { pathname: hrefPathname, query, search } = _parseRelativeUrl.parseRelativeUrl(href), { pathname: asPathname } = _parseRelativeUrl.parseRelativeUrl(asPath), route = _removeTrailingSlash.removeTrailingSlash(hrefPathname);
                     if ("/" !== route[0]) throw Error('Route name should start with a "/", got "'.concat(route, '"'));
                     return ((path)=>{
                         const dataRoute = _getAssetPathFromRoute.default(_removeTrailingSlash.removeTrailingSlash(_addLocale.addLocale(path, locale)), ".json");
@@ -686,7 +686,7 @@
             }), exports.Portal = void 0;
             var _react = __webpack_require__(7294), _reactDom = __webpack_require__(3935);
             exports.Portal = (param)=>{
-                let { children , type  } = param;
+                let { children, type } = param;
                 const [portalNode, setPortalNode] = _react.useState(null);
                 return _react.useEffect(()=>{
                     const element = document.createElement(type);
@@ -762,7 +762,7 @@
                 whiteSpace: "nowrap",
                 wordWrap: "normal"
             }, RouteAnnouncer = ()=>{
-                const { asPath  } = _router.useRouter(), [routeAnnouncement, setRouteAnnouncement] = _react.default.useState(""), previouslyLoadedPath = _react.default.useRef(asPath);
+                const { asPath } = _router.useRouter(), [routeAnnouncement, setRouteAnnouncement] = _react.default.useState(""), previouslyLoadedPath = _react.default.useRef(asPath);
                 return _react.default.useEffect(()=>{
                     if (previouslyLoadedPath.current !== asPath) {
                         if (previouslyLoadedPath.current = asPath, document.title) setRouteAnnouncement(document.title);
@@ -831,7 +831,7 @@
                         return withFuture(route, routes, ()=>{
                             let devBuildPromiseResolve;
                             return resolvePromiseWithTimeout(getFilesForRoute(assetPrefix, route).then((param)=>{
-                                let { scripts , css  } = param;
+                                let { scripts, css } = param;
                                 return Promise.all([
                                     entrypoints.has(route) ? [] : Promise.all(scripts.map(maybeExecuteScript)),
                                     Promise.all(css.map(fetchStyleSheet))
@@ -840,7 +840,7 @@
                                         entrypoint,
                                         styles: res[1]
                                     }))), 3800, markAssetError(Error("Route did not complete loading: ".concat(route)))).then((param)=>{
-                                let { entrypoint , styles  } = param;
+                                let { entrypoint, styles } = param;
                                 const res = Object.assign({
                                     styles: styles
                                 }, entrypoint);
@@ -1059,7 +1059,7 @@
                 "onError",
                 "strategy"
             ], loadScript = (props)=>{
-                const { src , id , onLoad =()=>{} , onReady =null , dangerouslySetInnerHTML , children ="" , strategy ="afterInteractive" , onError  } = props, cacheKey = id || src;
+                const { src, id, onLoad = ()=>{}, onReady = null, dangerouslySetInnerHTML, children = "", strategy = "afterInteractive", onError } = props, cacheKey = id || src;
                 if (cacheKey && LoadCache.has(cacheKey)) return;
                 if (ScriptCache.has(src)) {
                     LoadCache.add(cacheKey), ScriptCache.get(src).then(onLoad, onError);
@@ -1084,20 +1084,20 @@
                 "worker" === strategy && el.setAttribute("type", "text/partytown"), el.setAttribute("data-nscript", strategy), document.body.appendChild(el);
             };
             function handleClientScriptLoad(props) {
-                const { strategy ="afterInteractive"  } = props;
+                const { strategy = "afterInteractive" } = props;
                 "lazyOnload" === strategy ? window.addEventListener("load", ()=>{
                     _requestIdleCallback.requestIdleCallback(()=>loadScript(props));
                 }) : loadScript(props);
             }
             function Script(props) {
-                const { id , src ="" , onLoad =()=>{} , onReady =null , strategy ="afterInteractive" , onError  } = props, restProps = _object_without_properties_loose(props, [
+                const { id, src = "", onLoad = ()=>{}, onReady = null, strategy = "afterInteractive", onError } = props, restProps = _object_without_properties_loose(props, [
                     "id",
                     "src",
                     "onLoad",
                     "onReady",
                     "strategy",
                     "onError"
-                ]), { updateScripts , scripts , getIsSsr  } = _react.useContext(_headManagerContext.HeadManagerContext), hasOnReadyEffectCalled = _react.useRef(!1);
+                ]), { updateScripts, scripts, getIsSsr } = _react.useContext(_headManagerContext.HeadManagerContext), hasOnReadyEffectCalled = _react.useRef(!1);
                 _react.useEffect(()=>{
                     const cacheKey = id || src;
                     hasOnReadyEffectCalled.current || (onReady && cacheKey && LoadCache.has(cacheKey) && onReady(), hasOnReadyEffectCalled.current = !0);
@@ -1180,7 +1180,7 @@
             }
             function _appGetInitialProps() {
                 return (_appGetInitialProps = _async_to_generator(function*(param) {
-                    let { Component , ctx  } = param;
+                    let { Component, ctx } = param;
                     const pageProps = yield _utils.loadGetInitialProps(Component, ctx);
                     return {
                         pageProps
@@ -1189,7 +1189,7 @@
             }
             class App extends (_Component = _react.default.Component) {
                 render() {
-                    const { Component , pageProps  } = this.props;
+                    const { Component, pageProps } = this.props;
                     return _react.default.createElement(Component, Object.assign({}, pageProps));
                 }
             }
@@ -1208,7 +1208,7 @@
                 500: "Internal Server Error"
             };
             function _getInitialProps(param) {
-                let { res , err  } = param;
+                let { res, err } = param;
                 const statusCode = res && res.statusCode ? res.statusCode : err ? err.statusCode : 404;
                 return {
                     statusCode
@@ -1251,7 +1251,7 @@
             };
             class Error1 extends (_Component = _react.default.Component) {
                 render() {
-                    const { statusCode , withDarkMode =!0  } = this.props, title = this.props.title || statusCodes[statusCode] || "An unexpected error has occurred";
+                    const { statusCode, withDarkMode = !0 } = this.props, title = this.props.title || statusCodes[statusCode] || "An unexpected error has occurred";
                     return _react.default.createElement("div", {
                         style: styles.error
                     }, _react.default.createElement(_head.default, null, _react.default.createElement("title", null, statusCode ? "".concat(statusCode, ": ").concat(title) : "Application error: a client-side exception has occurred")), _react.default.createElement("div", null, _react.default.createElement("style", {
@@ -1284,7 +1284,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.isInAmpMode = function() {
-                let { ampFirst =!1 , hybrid =!1 , hasQuery =!1  } = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                let { ampFirst = !1, hybrid = !1, hasQuery = !1 } = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
                 return ampFirst || hybrid && hasQuery;
             };
         },
@@ -1335,7 +1335,7 @@
                 "itemProp"
             ];
             function reduceComponents(headChildrenElements, props) {
-                const { inAmpMode  } = props;
+                const { inAmpMode } = props;
                 return headChildrenElements.reduce(onlyReactElement, []).reverse().concat(defaultHead(inAmpMode).reverse()).filter(function() {
                     const keys = new Set(), tags = new Set(), metaTypes = new Set(), metaCategories = {};
                     return (h)=>{
@@ -1379,7 +1379,7 @@
                 });
             }
             exports.default = function(param) {
-                let { children  } = param;
+                let { children } = param;
                 const ampState = _react.useContext(_ampContext.AmpStateContext), headManager = _react.useContext(_headManagerContext.HeadManagerContext);
                 return _react.default.createElement(_sideEffect.default, {
                     reduceComponentsToState: reduceComponents,
@@ -1541,7 +1541,7 @@
                 return (_matchesMiddleware = _async_to_generator(function*(options) {
                     const matchers = yield Promise.resolve(options.router.pageLoader.getMiddleware());
                     if (!matchers) return !1;
-                    const { pathname: asPathname  } = _parsePath.parsePath(options.asPath), cleanedAs = _hasBasePath.hasBasePath(asPathname) ? _removeBasePath.removeBasePath(asPathname) : asPathname, asWithBasePathAndLocale = _addBasePath.addBasePath(_addLocale.addLocale(cleanedAs, options.locale));
+                    const { pathname: asPathname } = _parsePath.parsePath(options.asPath), cleanedAs = _hasBasePath.hasBasePath(asPathname) ? _removeBasePath.removeBasePath(asPathname) : asPathname, asWithBasePathAndLocale = _addBasePath.addBasePath(_addLocale.addLocale(cleanedAs, options.locale));
                     return matchers.some((m)=>new RegExp(m.regexp).test(asWithBasePathAndLocale));
                 })).apply(this, arguments);
             }
@@ -1571,7 +1571,7 @@
                 const params = Object.keys(dynamicGroups);
                 return params.every((param)=>{
                     let value = dynamicMatches[param] || "";
-                    const { repeat , optional  } = dynamicGroups[param];
+                    const { repeat, optional } = dynamicGroups[param];
                     let replaced = "[".concat(repeat ? "..." : "").concat(param, "]");
                     return optional && (replaced = "".concat(value ? "" : "/", "[").concat(replaced, "]")), repeat && !Array.isArray(value) && (value = [
                         value
@@ -1603,7 +1603,7 @@
                     finalUrl.pathname = _normalizeTrailingSlash.normalizePathTrailingSlash(finalUrl.pathname);
                     let interpolatedAs = "";
                     if (_isDynamic.isDynamicRoute(finalUrl.pathname) && finalUrl.searchParams && resolveAs) {
-                        const query = _querystring.searchParamsToUrlQuery(finalUrl.searchParams), { result , params  } = interpolateAs(finalUrl.pathname, finalUrl.pathname, query);
+                        const query = _querystring.searchParamsToUrlQuery(finalUrl.searchParams), { result, params } = interpolateAs(finalUrl.pathname, finalUrl.pathname, query);
                         result && (interpolatedAs = _formatUrl.formatWithValidation({
                             pathname: result,
                             hash: finalUrl.hash,
@@ -1651,8 +1651,8 @@
             }
             function fetchNextData(param) {
                 var ref1;
-                let { dataHref , inflightCache , isPrefetch , hasMiddleware , isServerRender , parseJSON , persistCache , isBackground , unstable_skipClientCache  } = param;
-                const { href: cacheKey  } = new URL(dataHref, window.location.href), getData = (params)=>(function fetchRetry(url, attempts, options) {
+                let { dataHref, inflightCache, isPrefetch, hasMiddleware, isServerRender, parseJSON, persistCache, isBackground, unstable_skipClientCache } = param;
+                const { href: cacheKey } = new URL(dataHref, window.location.href), getData = (params)=>(function fetchRetry(url, attempts, options) {
                         return fetch(url, {
                             credentials: "same-origin",
                             method: options.method || "GET",
@@ -1718,12 +1718,12 @@
                 return Math.random().toString(36).slice(2, 10);
             }
             function handleHardNavigation(param) {
-                let { url , router  } = param;
+                let { url, router } = param;
                 if (url === _addBasePath.addBasePath(_addLocale.addLocale(router.asPath, router.locale))) throw Error("Invariant: attempted to hard navigate to the same URL ".concat(url, " ").concat(location.href));
                 window.location.href = url;
             }
             const getCancelledHandler = (param)=>{
-                let { route , router  } = param, cancelled = !1;
+                let { route, router } = param, cancelled = !1;
                 const cancel = router.clc = ()=>{
                     cancelled = !0;
                 };
@@ -1744,11 +1744,11 @@
                 }
                 push(url, as) {
                     let options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {};
-                    return { url , as  } = prepareUrlAs(this, url, as), this.change("pushState", url, as, options);
+                    return { url, as } = prepareUrlAs(this, url, as), this.change("pushState", url, as, options);
                 }
                 replace(url, as) {
                     let options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {};
-                    return { url , as  } = prepareUrlAs(this, url, as), this.change("replaceState", url, as, options);
+                    return { url, as } = prepareUrlAs(this, url, as), this.change("replaceState", url, as, options);
                 }
                 change(method, url, as, options, forcedScroll) {
                     var _this = this;
@@ -1764,7 +1764,7 @@
                         if (isQueryUpdating || (_this.isSsr = !1), isQueryUpdating && _this.clc) return !1;
                         const prevLocale = nextState.locale;
                         _utils.ST && performance.mark("routeChange");
-                        const { shallow =!1 , scroll =!0  } = options, routeProps = {
+                        const { shallow = !1, scroll = !0 } = options, routeProps = {
                             shallow
                         };
                         _this._inFlightRoute && _this.clc && (isSsr || Router.events.emit("routeChangeError", buildCancellationError(), _this._inFlightRoute, routeProps), _this.clc(), _this.clc = null), as = _addBasePath.addBasePath(_addLocale.addLocale(_hasBasePath.hasBasePath(as) ? _removeBasePath.removeBasePath(as) : as, options.locale, _this.defaultLocale));
@@ -1782,9 +1782,9 @@
                             }
                             return Router.events.emit("hashChangeComplete", as, routeProps), !0;
                         }
-                        let parsed = _parseRelativeUrl.parseRelativeUrl(url), { pathname , query  } = parsed;
+                        let parsed = _parseRelativeUrl.parseRelativeUrl(url), { pathname, query } = parsed;
                         try {
-                            [pages, { __rewrites: rewrites  }] = yield Promise.all([
+                            [pages, { __rewrites: rewrites }] = yield Promise.all([
                                 _this.pageLoader.getPageList(),
                                 _routeLoader.getClientBuildManifest(),
                                 _this.pageLoader.getMiddleware()
@@ -1858,7 +1858,7 @@
                                     router: _this
                                 }), new Promise(()=>{});
                             }
-                            let { error , props , __N_SSG , __N_SSP  } = routeInfo;
+                            let { error, props, __N_SSG, __N_SSP } = routeInfo;
                             const component = routeInfo.Component;
                             if (component && component.unstable_scriptLoader) {
                                 const scripts = [].concat(component.unstable_scriptLoader());
@@ -1873,7 +1873,7 @@
                                     if (destination.startsWith("/") && !1 !== props.pageProps.__N_REDIRECT_BASE_PATH) {
                                         const parsedHref = _parseRelativeUrl.parseRelativeUrl(destination);
                                         parsedHref.pathname = resolveDynamicRoute(parsedHref.pathname, pages);
-                                        const { url: newUrl , as: newAs  } = prepareUrlAs(_this, destination, destination);
+                                        const { url: newUrl, as: newAs } = prepareUrlAs(_this, destination, destination);
                                         return _this.change(method, newUrl, newAs, options);
                                     }
                                     return handleHardNavigation({
@@ -1947,7 +1947,7 @@
                         }), buildCancellationError();
                         try {
                             let props;
-                            const { page: Component , styleSheets  } = yield _this.fetchComponent("/_error"), routeInfo = {
+                            const { page: Component, styleSheets } = yield _this.fetchComponent("/_error"), routeInfo = {
                                 props,
                                 Component,
                                 styleSheets,
@@ -1970,7 +1970,7 @@
                     })();
                 }
                 getRouteInfo(param) {
-                    let { route: requestedRoute , pathname , query , as , resolvedAs , routeProps , locale , hasMiddleware , isPreview , unstable_skipClientCache , isQueryUpdating  } = param;
+                    let { route: requestedRoute, pathname, query, as, resolvedAs, routeProps, locale, hasMiddleware, isPreview, unstable_skipClientCache, isQueryUpdating } = param;
                     var _this = this;
                     return _async_to_generator(function*() {
                         let route = requestedRoute;
@@ -2028,7 +2028,7 @@
                                                     options.router.pageLoader.getPageList(),
                                                     _routeLoader.getClientBuildManifest()
                                                 ]).then((param)=>{
-                                                    let [pages, { __rewrites: rewrites  }] = param, as = _addLocale.addLocale(pathnameInfo.pathname, pathnameInfo.locale);
+                                                    let [pages, { __rewrites: rewrites }] = param, as = _addLocale.addLocale(pathnameInfo.pathname, pathnameInfo.locale);
                                                     if (_isDynamic.isDynamicRoute(as) || !rewriteHeader && pages.includes(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(as), options.router.locales).pathname)) {
                                                         const parsedSource = _getNextPathnameInfo.getNextPathnameInfo(_parseRelativeUrl.parseRelativeUrl(source).pathname, {
                                                             parseData: !0
@@ -2108,9 +2108,9 @@
                                     styleSheets: res.styleSheets,
                                     __N_SSG: res.mod.__N_SSG,
                                     __N_SSP: res.mod.__N_SSP
-                                }))), shouldFetchData = routeInfo.__N_SSG || routeInfo.__N_SSP, { props , cacheKey  } = yield _this._getData(_async_to_generator(function*() {
+                                }))), shouldFetchData = routeInfo.__N_SSG || routeInfo.__N_SSP, { props, cacheKey } = yield _this._getData(_async_to_generator(function*() {
                                 if (shouldFetchData) {
-                                    const { json , cacheKey: _cacheKey  } = (null == data ? void 0 : data.json) ? data : yield fetchNextData({
+                                    const { json, cacheKey: _cacheKey } = (null == data ? void 0 : data.json) ? data : yield fetchNextData({
                                         dataHref: _this.pageLoader.getDataHref({
                                             href: _formatUrl.formatWithValidation({
                                                 pathname,
@@ -2187,7 +2187,7 @@
                     var _this = this;
                     return _async_to_generator(function*() {
                         if (_isBot.isBot(window.navigator.userAgent)) return;
-                        let parsed = _parseRelativeUrl.parseRelativeUrl(url), { pathname , query  } = parsed;
+                        let parsed = _parseRelativeUrl.parseRelativeUrl(url), { pathname, query } = parsed;
                         const pages = yield _this.pageLoader.getPageList(), locale = void 0 !== options.locale ? options.locale || void 0 : _this.locale;
                         parsed.pathname = resolveDynamicRoute(parsed.pathname, pages), _isDynamic.isDynamicRoute(parsed.pathname) && (pathname = parsed.pathname, parsed.pathname = pathname, Object.assign(query, _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(parsed.pathname))(_parsePath.parsePath(asPath).pathname) || {}), url = _formatUrl.formatWithValidation(parsed));
                         const route = _removeTrailingSlash.removeTrailingSlash(pathname);
@@ -2246,14 +2246,14 @@
                         persistCache: !1,
                         isPrefetch: !1
                     }).then((param)=>{
-                        let { text  } = param;
+                        let { text } = param;
                         return {
                             data: text
                         };
                     });
                 }
                 getInitialProps(Component, ctx) {
-                    const { Component: App  } = this.components["/_app"], AppTree = this._wrapApp(App);
+                    const { Component: App } = this.components["/_app"], AppTree = this._wrapApp(App);
                     return ctx.AppTree = AppTree, _utils.loadGetInitialProps(App, {
                         AppTree,
                         Component,
@@ -2282,14 +2282,14 @@
                 get isPreview() {
                     return this.state.isPreview;
                 }
-                constructor(pathname1, query1, as1, { initialProps , pageLoader , App , wrapApp , Component , err , subscription , isFallback , locale , locales , defaultLocale , domainLocales , isPreview  }){
+                constructor(pathname1, query1, as1, { initialProps, pageLoader, App, wrapApp, Component, err, subscription, isFallback, locale, locales, defaultLocale, domainLocales, isPreview }){
                     this.sdc = {}, this.isFirstPopStateEvent = !0, this._key = createKey(), this.onPopState = (e)=>{
                         let forcedScroll;
-                        const { isFirstPopStateEvent  } = this;
+                        const { isFirstPopStateEvent } = this;
                         this.isFirstPopStateEvent = !1;
                         const state = e.state;
                         if (!state) {
-                            const { pathname , query  } = this;
+                            const { pathname, query } = this;
                             this.changeState("replaceState", _formatUrl.formatWithValidation({
                                 pathname: _addBasePath.addBasePath(pathname),
                                 query
@@ -2301,9 +2301,9 @@
                             return;
                         }
                         if (!state.__N || isFirstPopStateEvent && this.locale === state.options.locale && state.as === this.asPath) return;
-                        const { url , as , options , key  } = state;
+                        const { url, as, options, key } = state;
                         this._key = key;
-                        const { pathname: pathname1  } = _parseRelativeUrl.parseRelativeUrl(url);
+                        const { pathname: pathname1 } = _parseRelativeUrl.parseRelativeUrl(url);
                         (!this.isSsr || as !== _addBasePath.addBasePath(this.asPath) || pathname1 !== _addBasePath.addBasePath(this.pathname)) && (!this._bps || this._bps(state)) && this.change("replaceState", url, as, Object.assign({}, options, {
                             shallow: options.shallow && this._shallow,
                             locale: options.locale || this.defaultLocale,
@@ -2364,7 +2364,7 @@
                 value: !0
             }), exports.addPathPrefix = function(path, prefix) {
                 if (!path.startsWith("/") || !prefix) return path;
-                const { pathname , query , hash  } = _parsePath.parsePath(path);
+                const { pathname, query, hash } = _parsePath.parsePath(path);
                 return "".concat(prefix).concat(pathname).concat(query).concat(hash);
             };
             var _parsePath = __webpack_require__(4943);
@@ -2375,7 +2375,7 @@
                 value: !0
             }), exports.addPathSuffix = function(path, suffix) {
                 if (!path.startsWith("/") || !suffix) return path;
-                const { pathname , query , hash  } = _parsePath.parsePath(path);
+                const { pathname, query, hash } = _parsePath.parsePath(path);
                 return "".concat(pathname).concat(suffix).concat(query).concat(hash);
             };
             var _parsePath = __webpack_require__(4943);
@@ -2421,7 +2421,7 @@
             var querystring = (0, __webpack_require__(1598).Z)(__webpack_require__(466));
             const slashedProtocols = /https?|ftp|gopher|file/;
             function formatUrl(urlObj) {
-                let { auth , hostname  } = urlObj, protocol = urlObj.protocol || "", pathname = urlObj.pathname || "", hash = urlObj.hash || "", query = urlObj.query || "", host = !1;
+                let { auth, hostname } = urlObj, protocol = urlObj.protocol || "", pathname = urlObj.pathname || "", hash = urlObj.hash || "", query = urlObj.query || "", host = !1;
                 auth = auth ? encodeURIComponent(auth).replace(/%3A/i, ":") + "@" : "", urlObj.host ? host = auth + urlObj.host : hostname && (host = auth + (~hostname.indexOf(":") ? "[".concat(hostname, "]") : hostname), urlObj.port && (host += ":" + urlObj.port)), query && "object" == typeof query && (query = String(querystring.urlQueryToSearchParams(query)));
                 let search = urlObj.search || query && "?".concat(query) || "";
                 return protocol && !protocol.endsWith(":") && (protocol += ":"), urlObj.slashes || (!protocol || slashedProtocols.test(protocol)) && !1 !== host ? (host = "//" + (host || ""), pathname && "/" !== pathname[0] && (pathname = "/" + pathname)) : host || (host = ""), hash && "#" !== hash[0] && (hash = "#" + hash), search && "?" !== search[0] && (search = "?" + search), pathname = pathname.replace(/[?#]/g, encodeURIComponent), search = search.replace("#", "%23"), "".concat(protocol).concat(host).concat(pathname).concat(search).concat(hash);
@@ -2457,7 +2457,7 @@
                 value: !0
             }), exports.getNextPathnameInfo = function(pathname, options) {
                 var _nextConfig;
-                const { basePath , i18n , trailingSlash  } = null != (_nextConfig = options.nextConfig) ? _nextConfig : {}, info = {
+                const { basePath, i18n, trailingSlash } = null != (_nextConfig = options.nextConfig) ? _nextConfig : {}, info = {
                     pathname: pathname,
                     trailingSlash: "/" !== pathname ? pathname.endsWith("/") : trailingSlash
                 };
@@ -2529,7 +2529,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.parseRelativeUrl = function(url, base) {
-                const globalBase = new URL(_utils.getLocationOrigin()), resolvedBase = base ? new URL(base, globalBase) : url.startsWith(".") ? new URL(window.location.href) : globalBase, { pathname , searchParams , search , hash , href , origin  } = new URL(url, resolvedBase);
+                const globalBase = new URL(_utils.getLocationOrigin()), resolvedBase = base ? new URL(base, globalBase) : url.startsWith(".") ? new URL(window.location.href) : globalBase, { pathname, searchParams, search, hash, href, origin } = new URL(url, resolvedBase);
                 if (origin !== globalBase.origin) throw Error("invariant: invalid relative URL, router received ".concat(url));
                 return {
                     pathname,
@@ -2547,7 +2547,7 @@
                 value: !0
             }), exports.pathHasPrefix = function(path, prefix) {
                 if ("string" != typeof path) return !1;
-                const { pathname  } = _parsePath.parsePath(path);
+                const { pathname } = _parsePath.parsePath(path);
                 return pathname === prefix || pathname.startsWith(prefix + "/");
             };
             var _parsePath = __webpack_require__(4943);
@@ -2606,7 +2606,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.getRouteMatcher = function(param) {
-                let { re , groups  } = param;
+                let { re, groups } = param;
                 return (pathname)=>{
                     const routeMatch = re.exec(pathname);
                     if (!routeMatch) return !1;
@@ -2638,11 +2638,11 @@
                     routeKeys: result.routeKeys
                 });
             }, exports.getNamedMiddlewareRegex = function(normalizedRoute, options) {
-                const { parameterizedRoute  } = getParametrizedRoute(normalizedRoute), { catchAll =!0  } = options;
+                const { parameterizedRoute } = getParametrizedRoute(normalizedRoute), { catchAll = !0 } = options;
                 if ("/" === parameterizedRoute) return {
                     namedRegex: "^/".concat(catchAll ? ".*" : "", "$")
                 };
-                const { namedParameterizedRoute  } = getNamedParametrizedRoute(normalizedRoute);
+                const { namedParameterizedRoute } = getNamedParametrizedRoute(normalizedRoute);
                 return {
                     namedRegex: "^".concat(namedParameterizedRoute).concat(catchAll ? "(?:(/.*)?)" : "", "$")
                 };
@@ -2665,7 +2665,7 @@
                     parameterizedRoute: segments.map((segment)=>{
                         if (!(segment.startsWith("[") && segment.endsWith("]"))) return "/".concat(_escapeRegexp.escapeStringRegexp(segment));
                         {
-                            const { key , optional , repeat  } = parseParameter(segment.slice(1, -1));
+                            const { key, optional, repeat } = parseParameter(segment.slice(1, -1));
                             return groups[key] = {
                                 pos: groupIndex++,
                                 repeat,
@@ -2677,7 +2677,7 @@
                 };
             }
             function getRouteRegex(normalizedRoute) {
-                const { parameterizedRoute , groups  } = getParametrizedRoute(normalizedRoute);
+                const { parameterizedRoute, groups } = getParametrizedRoute(normalizedRoute);
                 return {
                     re: new RegExp("^".concat(parameterizedRoute, "(?:/)?$")),
                     groups: groups
@@ -2694,7 +2694,7 @@
                     namedParameterizedRoute: segments.map((segment)=>{
                         if (!(segment.startsWith("[") && segment.endsWith("]"))) return "/".concat(_escapeRegexp.escapeStringRegexp(segment));
                         {
-                            const { key , optional , repeat  } = parseParameter(segment.slice(1, -1));
+                            const { key, optional, repeat } = parseParameter(segment.slice(1, -1));
                             let cleanedKey = key.replace(/\W/g, ""), invalidKey = !1;
                             return (0 === cleanedKey.length || cleanedKey.length > 30) && (invalidKey = !0), isNaN(parseInt(cleanedKey.slice(0, 1))) || (invalidKey = !0), invalidKey && (cleanedKey = getSafeRouteKey()), routeKeys[cleanedKey] = key, repeat ? optional ? "(?:/(?<".concat(cleanedKey, ">.+?))?") : "/(?<".concat(cleanedKey, ">.+?)") : "/(?<".concat(cleanedKey, ">[^/]+?)");
                         }
@@ -2789,7 +2789,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = function(props) {
-                const { headManager , reduceComponentsToState  } = props;
+                const { headManager, reduceComponentsToState } = props;
                 function emitChange() {
                     if (headManager && headManager.mountedInstances) {
                         const headElements = _react.Children.toArray(Array.from(headManager.mountedInstances).filter(Boolean));
@@ -2826,7 +2826,7 @@
                     return used || (used = !0, result = fn(...args)), result;
                 };
             }, exports.getLocationOrigin = getLocationOrigin, exports.getURL = function() {
-                const { href  } = window.location, origin = getLocationOrigin();
+                const { href } = window.location, origin = getLocationOrigin();
                 return href.substring(origin.length);
             }, exports.getDisplayName = getDisplayName, exports.isResSent = isResSent, exports.normalizeRepeatedSlashes = function(url) {
                 const urlParts = url.split("?"), urlNoQuery = urlParts[0];
@@ -2835,7 +2835,7 @@
             var _async_to_generator = __webpack_require__(932).Z;
             const ABSOLUTE_URL_REGEX = /^[a-zA-Z][a-zA-Z\d+\-.]*?:/;
             function getLocationOrigin() {
-                const { protocol , hostname , port  } = window.location;
+                const { protocol, hostname, port } = window.location;
                 return "".concat(protocol, "//").concat(hostname).concat(port ? ":" + port : "");
             }
             function getDisplayName(Component) {

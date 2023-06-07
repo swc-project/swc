@@ -1,10 +1,10 @@
 export function generateTicks$1(generationOptions, dataRange) {
     let factor, niceMin, niceMax, numSpaces;
     const ticks = [];
-    const { bounds , step , min , max , precision , count , maxTicks , maxDigits , includeBounds  } = generationOptions;
+    const { bounds, step, min, max, precision, count, maxTicks, maxDigits, includeBounds } = generationOptions;
     const unit = step || 1;
     const maxSpaces = maxTicks - 1;
-    const { min: rmin , max: rmax  } = dataRange;
+    const { min: rmin, max: rmax } = dataRange;
     const minDefined = !(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(min);
     const maxDefined = !(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(max);
     const countDefined = !(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(count);
