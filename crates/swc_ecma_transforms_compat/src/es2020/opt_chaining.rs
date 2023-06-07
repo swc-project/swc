@@ -57,7 +57,10 @@ impl VisitMut for OptChaining {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         if let Expr::OptChain(o) = e {
-            *e = self.handle(o, None);
+            *e = match self.handle(o, None) {
+                Ok(v) => Expr::Cond(v),
+                Err(v) => v,
+            };
             return;
         }
 
@@ -75,7 +78,7 @@ impl VisitMut for OptChaining {
 
 impl OptChaining {
     /// Returns `(obj, value)`
-    fn handle_optional_member(&mut self, m: &mut MemberExpr) -> (Ident, Expr) {
+    fn handle_optional_member(&mut self, m: &mut MemberExpr) -> (Ident, CondExpr) {
         let obj_name = alias_ident_for(&m.obj, "_obj");
 
         m.obj.visit_mut_with(self);
@@ -89,7 +92,7 @@ impl OptChaining {
 
         (
             obj_name.clone(),
-            Expr::Cond(CondExpr {
+            CondExpr {
                 span: DUMMY_SP,
                 test: init_and_eq_null_or_undefined(&obj_name, m.obj.take()),
                 cons: undefined(DUMMY_SP),
@@ -98,20 +101,24 @@ impl OptChaining {
                     obj: obj_name.clone().into(),
                     prop: m.prop.take(),
                 })),
-            }),
+            },
         )
     }
 
     /// Returns `(alias, value)`
-    fn handle(&mut self, e: &mut OptChainExpr, store_this_to: Option<Ident>) -> Expr {
+    fn handle(
+        &mut self,
+        e: &mut OptChainExpr,
+        store_this_to: Option<Ident>,
+    ) -> Result<CondExpr, Expr> {
         match &mut *e.base {
             OptChainBase::Member(m) => {
                 if e.optional {
-                    self.handle_optional_member(m).1
+                    Ok(self.handle_optional_member(m).1)
                 } else {
                     m.obj.visit_mut_with(self);
 
-                    Expr::Member(MemberExpr {
+                    Err(Expr::Member(MemberExpr {
                         span: m.span,
                         obj: match store_this_to {
                             Some(alias) => Box::new(Expr::Assign(AssignExpr {
@@ -123,7 +130,7 @@ impl OptChaining {
                             _ => m.obj.take(),
                         },
                         prop: m.prop.take(),
-                    })
+                    }))
                 }
             }
             OptChainBase::Call(call) => {
@@ -170,7 +177,11 @@ impl OptChaining {
                             definite: false,
                         });
 
-                        let init = Box::new(self.handle(callee, Some(obj_name.clone())));
+                        let init = Box::new(
+                            self.handle(callee, Some(obj_name.clone()))
+                                .map(Expr::Cond)
+                                .unwrap_or_else(|e| e),
+                        );
                         (Some(obj_name.clone()), init)
                     }
 
@@ -182,7 +193,7 @@ impl OptChaining {
                 };
                 call.args.visit_mut_with(self);
 
-                Expr::Cond(CondExpr {
+                Ok(CondExpr {
                     span: DUMMY_SP,
                     test: init_and_eq_null_or_undefined(&callee_name, init),
                     cons: undefined(DUMMY_SP),
