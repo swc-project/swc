@@ -7,6 +7,9 @@
 
 - **(es/codegen)** Add ability to set indentation string via rust api (#7494) ([a343e7c](https://github.com/swc-project/swc/commit/a343e7ccae4e88d9e3941beedf63b61bd0512c3d))
 
+
+- **(es/minifier)** Remove unused labels (#7478) ([62075fa](https://github.com/swc-project/swc/commit/62075faeaada8d9df3c7d849bbcfda8ff0c5d79f))
+
 ### Performance
 
 
