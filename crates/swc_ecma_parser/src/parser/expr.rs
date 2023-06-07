@@ -1650,13 +1650,25 @@ impl<I: Tokens> Parser<I> {
             };
             let args = self.parse_args(is_import)?;
 
-            let call_expr = Box::new(Expr::Call(CallExpr {
-                span: span!(self, start),
+            let call_expr = match callee {
+                Callee::Expr(e) if e.is_opt_chain() => Box::new(Expr::OptChain(OptChainExpr {
+                    span: span!(self, start),
+                    base: Box::new(OptChainBase::Call(OptCall {
+                        span: span!(self, start),
+                        callee: e,
+                        args,
+                        type_args,
+                    })),
+                    optional: false,
+                })),
+                _ => Box::new(Expr::Call(CallExpr {
+                    span: span!(self, start),
 
-                callee,
-                args,
-                type_args,
-            }));
+                    callee,
+                    args,
+                    type_args,
+                })),
+            };
 
             return self.parse_subscripts(Callee::Expr(call_expr), false, false);
         }
