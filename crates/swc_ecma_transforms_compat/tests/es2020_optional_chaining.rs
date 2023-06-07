@@ -2,7 +2,7 @@ use std::{fs::read_to_string, path::PathBuf};
 
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2020::{opt_chaining::Config, optional_chaining};
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
 use swc_ecma_visit::Fold;
 
 fn tr(c: Config) -> impl Fold {
@@ -1066,5 +1066,18 @@ fn exec(input: PathBuf) {
         Default::default(),
         |_| optional_chaining(Default::default()),
         &src,
+    );
+}
+
+#[testing::fixture("tests/opt-chain/**/input.js")]
+fn fixture(input: PathBuf) {
+    let output = input.with_extension("output.js");
+
+    test_fixture(
+        Default::default(),
+        &|_| optional_chaining(Default::default()),
+        &input,
+        &output,
+        Default::default(),
     );
 }
