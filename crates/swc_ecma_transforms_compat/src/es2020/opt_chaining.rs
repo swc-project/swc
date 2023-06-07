@@ -77,31 +77,31 @@ impl OptChaining {
                 m.obj.visit_mut_with(self);
 
                 if e.optional {
-                    let obj_var = alias_ident_for(&m.obj, "_obj");
+                    let var_name = alias_ident_for(&m.obj, "_obj");
 
                     self.vars_without_init.push(VarDeclarator {
                         span: DUMMY_SP,
-                        name: obj_var.clone().into(),
+                        name: var_name.clone().into(),
                         init: None,
                         definite: false,
                     });
 
-                    let obj = Box::new(Expr::Cond(CondExpr {
+                    let value = Box::new(Expr::Cond(CondExpr {
                         span: DUMMY_SP,
-                        test: eq_null_or_undefined(&obj_var),
-                        cons: Box::new(obj_var.clone().into()),
-                        alt: Box::new(Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
-                            op: op!("="),
-                            left: PatOrExpr::Pat(Box::new(Pat::Ident(obj_var.clone().into()))),
-                            right: m.obj.take(),
+                        test: eq_null_or_undefined(&var_name),
+                        cons: undefined(DUMMY_SP),
+                        alt: Box::new(Expr::Member(MemberExpr {
+                            span: m.span,
+                            obj: var_name.clone().into(),
+                            prop: m.prop.take(),
                         })),
                     }));
 
-                    Expr::Member(MemberExpr {
-                        span: m.span,
-                        obj,
-                        prop: m.prop.take(),
+                    Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(var_name.clone().into()))),
+                        right: value,
                     })
                 } else {
                     Expr::Member(m.take())
