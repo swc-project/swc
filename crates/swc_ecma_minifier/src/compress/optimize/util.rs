@@ -4,7 +4,7 @@ use std::{
 };
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
@@ -100,6 +100,39 @@ impl<'b> Optimizer<'b> {
         WithCtx {
             reducer: self,
             orig_ctx,
+        }
+    }
+
+    pub(super) fn try_remove_label(&mut self, s: &mut LabeledStmt) {
+        if !self.options.dead_code {
+            return;
+        }
+
+        let mut analyer = LabelAnalyzer {
+            label: s.label.sym.clone(),
+            ..Default::default()
+        };
+
+        match &mut *s.body {
+            Stmt::For(ForStmt { body, .. })
+            | Stmt::ForIn(ForInStmt { body, .. })
+            | Stmt::ForOf(ForOfStmt { body, .. })
+            | Stmt::While(WhileStmt { body, .. })
+            | Stmt::DoWhile(DoWhileStmt { body, .. }) => {
+                analyer.top_breakable = true;
+                body.visit_mut_with(&mut analyer)
+            }
+            Stmt::Switch(SwitchStmt { cases, .. }) => {
+                analyer.top_breakable = true;
+                cases.visit_mut_with(&mut analyer)
+            }
+            _ => s.body.visit_mut_with(&mut analyer),
+        };
+
+        if analyer.count == 0 {
+            let _label = s.label.take();
+            self.changed = true;
+            report_change!("Removing label `{}`", _label);
         }
     }
 }
@@ -563,6 +596,90 @@ impl Drop for SynthesizedStmts {
         if !self.0.is_empty() {
             if !std::thread::panicking() {
                 panic!("We should not drop synthesized stmts");
+            }
+        }
+    }
+}
+
+#[derive(Default)]
+struct LabelAnalyzer {
+    label: JsWord,
+    /// If top level is a normal block, labelled break must be preserved
+    top_breakable: bool,
+    count: usize,
+    break_layer: usize,
+    continue_layer: usize,
+}
+
+impl LabelAnalyzer {
+    fn visit_mut_loop(&mut self, n: &mut impl VisitMutWith<LabelAnalyzer>) {
+        self.break_layer += 1;
+        self.continue_layer += 1;
+
+        n.visit_mut_children_with(self);
+
+        self.break_layer -= 1;
+        self.continue_layer -= 1;
+    }
+}
+
+impl VisitMut for LabelAnalyzer {
+    fn visit_mut_function(&mut self, _: &mut Function) {}
+
+    fn visit_mut_class(&mut self, _: &mut Class) {}
+
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    fn visit_mut_object_lit(&mut self, _: &mut ObjectLit) {}
+
+    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
+        self.visit_mut_loop(n)
+    }
+
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        self.visit_mut_loop(n)
+    }
+
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        self.visit_mut_loop(n)
+    }
+
+    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
+        self.visit_mut_loop(n)
+    }
+
+    fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
+        self.visit_mut_loop(n)
+    }
+
+    fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
+        self.break_layer += 1;
+
+        n.visit_mut_children_with(self);
+
+        self.break_layer -= 1;
+    }
+
+    fn visit_mut_break_stmt(&mut self, n: &mut BreakStmt) {
+        if let Some(lb) = &n.label {
+            if lb.sym == self.label {
+                if self.break_layer > 0 || !self.top_breakable {
+                    self.count += 1;
+                } else {
+                    n.label = None
+                }
+            }
+        }
+    }
+
+    fn visit_mut_continue_stmt(&mut self, n: &mut ContinueStmt) {
+        if let Some(lb) = &n.label {
+            if lb.sym == self.label {
+                if self.continue_layer > 0 {
+                    self.count += 1;
+                } else {
+                    n.label = None
+                }
             }
         }
     }

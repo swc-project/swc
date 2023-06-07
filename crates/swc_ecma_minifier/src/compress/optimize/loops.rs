@@ -19,27 +19,12 @@ impl Optimizer<'_> {
         };
 
         // We only care about instant breaks.
-        match &*f.body {
-            Stmt::Break(BreakStmt { label: None, .. }) => {}
-            Stmt::Break(BreakStmt {
-                label: Some(label), ..
-            }) => {
-                if let Some(closest_label) = self.label.clone() {
-                    if closest_label.0 != label.sym {
-                        return;
-                    }
-                } else {
-                    return;
-                }
-            }
-            _ => {
-                return;
-            }
-        }
+        let label = match &mut *f.body {
+            Stmt::Break(b) => b.label.take(),
+            _ => return,
+        };
 
         self.changed = true;
-        // Remove the labeled statement.
-        self.label = None;
         report_change!("loops: Removing a for loop with instant break");
         self.prepend_stmts
             .extend(f.init.take().map(|init| match init {
@@ -55,6 +40,13 @@ impl Optimizer<'_> {
                 expr,
             })
         }));
+        if label.is_some() {
+            self.prepend_stmts.push(Stmt::Break(BreakStmt {
+                span: DUMMY_SP,
+                label,
+            }));
+        }
+
         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
     }
 

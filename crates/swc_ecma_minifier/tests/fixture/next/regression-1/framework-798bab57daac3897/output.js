@@ -554,8 +554,7 @@
                 if (null === c) return null;
                 var d = Cb(c);
                 if (null === d) return null;
-                c = d[b];
-                a: switch(b){
+                switch(c = d[b], b){
                     case "onClick":
                     case "onClickCapture":
                     case "onDoubleClick":
@@ -568,7 +567,7 @@
                     case "onMouseUpCapture":
                     case "onMouseEnter":
                         (d = !d.disabled) || (d = !("button" === (a = a.type) || "input" === a || "select" === a || "textarea" === a)), a = !d;
-                        break a;
+                        break;
                     default:
                         a = !1;
                 }
@@ -1637,7 +1636,7 @@
                         }
                     }
                     if (0 == (7 & b)) {
-                        a: if (h = "mouseover" === a || "pointerover" === a, k = "mouseout" === a || "pointerout" === a, !(h && c !== vb && (m = c.relatedTarget || c.fromElement) && (Vc(m) || m[tf])) && (k || h) && (h = e.window === e ? e : (h = e.ownerDocument) ? h.defaultView || h.parentWindow : window, k ? (m = c.relatedTarget || c.toElement, k = d, null !== (m = m ? Vc(m) : null) && (J = Ub(m), m !== J || 5 !== m.tag && 6 !== m.tag) && (m = null)) : (k = null, m = d), k !== m)) {
+                        if (h = "mouseover" === a || "pointerover" === a, k = "mouseout" === a || "pointerout" === a, !(h && c !== vb && (m = c.relatedTarget || c.fromElement) && (Vc(m) || m[tf])) && (k || h) && (h = e.window === e ? e : (h = e.ownerDocument) ? h.defaultView || h.parentWindow : window, k ? (m = c.relatedTarget || c.toElement, k = d, null !== (m = m ? Vc(m) : null) && (J = Ub(m), m !== J || 5 !== m.tag && 6 !== m.tag) && (m = null)) : (k = null, m = d), k !== m)) {
                             if (w = Ad, F = "onMouseLeave", v = "onMouseEnter", x = "mouse", ("pointerout" === a || "pointerover" === a) && (w = Sd, F = "onPointerLeave", v = "onPointerEnter", x = "pointer"), J = null == k ? h : te(k), r = null == m ? h : te(m), (h = new w(F, x + "leave", k, c, e)).target = J, h.relatedTarget = r, F = null, Vc(e) === d && ((w = new w(v, x + "enter", m, c, e)).target = r, w.relatedTarget = J, F = w), J = F, k && m) b: {
                                 for(w = k, v = m, x = 0, r = w; r; r = uf(r))x++;
                                 for(r = 0, F = v; F; F = uf(F))r++;
@@ -3491,7 +3490,7 @@
                             a.child.return = a, a = a.child;
                             continue;
                         }
-                        if (a === b) break a;
+                        if (a === b) break;
                         for(; null === a.sibling;){
                             if (null === a.return || a.return === b) break a;
                             a = a.return;
@@ -3798,7 +3797,7 @@
                                     q.child.return = q, q = q.child;
                                     continue;
                                 }
-                                if (q === a) break a;
+                                if (q === a) break;
                                 for(; null === q.sibling;){
                                     if (null === q.return || q.return === a) break a;
                                     u === q && (u = null), q = q.return;
@@ -4946,7 +4945,7 @@
                                     }
                                 }
                                 if (0 != (2064 & f.subtreeFlags) && null !== g) g.return = f, T = g;
-                                else b: for(; null !== T;){
+                                else for(; null !== T;){
                                     if (f = T, 0 != (2048 & f.flags)) switch(f.tag){
                                         case 0:
                                         case 11:
@@ -4956,7 +4955,7 @@
                                     var v = f.sibling;
                                     if (null !== v) {
                                         v.return = f.return, T = v;
-                                        break b;
+                                        break;
                                     }
                                     T = f.return;
                                 }
@@ -4965,7 +4964,7 @@
                             for(T = x; null !== T;){
                                 var r = (g = T).child;
                                 if (0 != (2064 & g.subtreeFlags) && null !== r) r.return = g, T = r;
-                                else b: for(g = x; null !== T;){
+                                else for(g = x; null !== T;){
                                     if (h = T, 0 != (2048 & h.flags)) try {
                                         switch(h.tag){
                                             case 0:
@@ -4978,12 +4977,12 @@
                                     }
                                     if (h === g) {
                                         T = null;
-                                        break b;
+                                        break;
                                     }
                                     var F = h.sibling;
                                     if (null !== F) {
                                         F.return = h.return, T = F;
-                                        break b;
+                                        break;
                                     }
                                     T = h.return;
                                 }
@@ -5628,11 +5627,10 @@
         9670: function(__unused_webpack_module, exports) {
             function f(a, b) {
                 var c = a.length;
-                a.push(b);
-                a: for(; 0 < c;){
+                for(a.push(b); 0 < c;){
                     var d = c - 1 >>> 1, e = a[d];
                     if (0 < g(e, b)) a[d] = b, a[c] = e, c = d;
-                    else break a;
+                    else break;
                 }
             }
             function h(a) {
@@ -5643,11 +5641,11 @@
                 var b = a[0], c = a.pop();
                 if (c !== b) {
                     a[0] = c;
-                    a: for(var d = 0, e = a.length, w = e >>> 1; d < w;){
+                    for(var d = 0, e = a.length, w = e >>> 1; d < w;){
                         var m = 2 * (d + 1) - 1, C = a[m], n = m + 1, x = a[n];
                         if (0 > g(C, c)) n < e && 0 > g(x, C) ? (a[d] = x, a[n] = c, d = n) : (a[d] = C, a[m] = c, d = m);
                         else if (n < e && 0 > g(x, c)) a[d] = x, a[n] = c, d = n;
-                        else break a;
+                        else break;
                     }
                 }
                 return b;

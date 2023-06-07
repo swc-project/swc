@@ -11238,8 +11238,7 @@
                 if (null === c) return null;
                 var d = Db(c);
                 if (null === d) return null;
-                c = d[b];
-                a: switch(b){
+                switch(c = d[b], b){
                     case "onClick":
                     case "onClickCapture":
                     case "onDoubleClick":
@@ -11252,7 +11251,7 @@
                     case "onMouseUpCapture":
                     case "onMouseEnter":
                         (d = !d.disabled) || (d = !("button" === (a = a.type) || "input" === a || "select" === a || "textarea" === a)), a = !d;
-                        break a;
+                        break;
                     default:
                         a = !1;
                 }
@@ -12298,7 +12297,7 @@
                         }
                     }
                     if (0 == (7 & b)) {
-                        a: if (h = "mouseover" === a || "pointerover" === a, k = "mouseout" === a || "pointerout" === a, !(h && 0 == (16 & b) && (x = c.relatedTarget || c.fromElement) && (wc(x) || x[ff])) && (k || h) && (h = e.window === e ? e : (h = e.ownerDocument) ? h.defaultView || h.parentWindow : window, k ? (x = c.relatedTarget || c.toElement, k = d, null !== (x = x ? wc(x) : null) && (z = Zb(x), x !== z || 5 !== x.tag && 6 !== x.tag) && (x = null)) : (k = null, x = d), k !== x)) {
+                        if (h = "mouseover" === a || "pointerover" === a, k = "mouseout" === a || "pointerout" === a, !(h && 0 == (16 & b) && (x = c.relatedTarget || c.fromElement) && (wc(x) || x[ff])) && (k || h) && (h = e.window === e ? e : (h = e.ownerDocument) ? h.defaultView || h.parentWindow : window, k ? (x = c.relatedTarget || c.toElement, k = d, null !== (x = x ? wc(x) : null) && (z = Zb(x), x !== z || 5 !== x.tag && 6 !== x.tag) && (x = null)) : (k = null, x = d), k !== x)) {
                             if (w = Bd, v = "onMouseLeave", u = "onMouseEnter", t = "mouse", ("pointerout" === a || "pointerover" === a) && (w = Td, v = "onPointerLeave", u = "onPointerEnter", t = "pointer"), z = null == k ? h : ue(k), q = null == x ? h : ue(x), (h = new w(v, t + "leave", k, c, e)).target = z, h.relatedTarget = q, v = null, wc(e) === d && ((w = new w(u, t + "enter", x, c, e)).target = q, w.relatedTarget = z, v = w), z = v, k && x) b: {
                                 for(w = k, u = x, t = 0, q = w; q; q = gf(q))t++;
                                 for(q = 0, v = u; v; v = gf(v))q++;
@@ -13781,7 +13780,7 @@
                             a.child.return = a, a = a.child;
                             continue;
                         }
-                        if (a === b) break a;
+                        if (a === b) break;
                         for(; null === a.sibling;){
                             if (null === a.return || a.return === b) break a;
                             a = a.return;
@@ -14132,7 +14131,7 @@
                     if (5 === c.tag || 6 === c.tag) {
                         a: for(var g = a, h = c, k = h;;)if (bj(g, k), null !== k.child && 4 !== k.tag) k.child.return = k, k = k.child;
                         else {
-                            if (k === h) break a;
+                            if (k === h) break;
                             for(; null === k.sibling;){
                                 if (null === k.return || k.return === h) break a;
                                 k = k.return;
@@ -17001,11 +17000,10 @@
             }
             function H(a, b) {
                 var c = a.length;
-                a.push(b);
-                a: for(;;){
+                for(a.push(b);;){
                     var d = c - 1 >>> 1, e = a[d];
                     if (void 0 !== e && 0 < I(e, b)) a[d] = b, a[c] = e, c = d;
-                    else break a;
+                    else break;
                 }
             }
             function J(a) {
@@ -17017,11 +17015,11 @@
                     var c = a.pop();
                     if (c !== b) {
                         a[0] = c;
-                        a: for(var d = 0, e = a.length; d < e;){
+                        for(var d = 0, e = a.length; d < e;){
                             var m = 2 * (d + 1) - 1, n = a[m], v = m + 1, r = a[v];
                             if (void 0 !== n && 0 > I(n, c)) void 0 !== r && 0 > I(r, n) ? (a[d] = r, a[v] = c, d = v) : (a[d] = n, a[m] = c, d = m);
                             else if (void 0 !== r && 0 > I(r, c)) a[d] = r, a[v] = c, d = v;
-                            else break a;
+                            else break;
                         }
                     }
                     return b;
