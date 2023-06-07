@@ -3,7 +3,7 @@ use std::mem;
 use serde::Deserialize;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{alias_ident_for, prepend_stmt, StmtLike};
+use swc_ecma_utils::{alias_ident_for, prepend_stmt, undefined, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn optional_chaining(c: Config) -> impl Fold + VisitMut {
@@ -86,9 +86,21 @@ impl OptChaining {
                         definite: false,
                     });
 
+                    let obj = Box::new(Expr::Cond(CondExpr {
+                        span: DUMMY_SP,
+                        test: eq_null_or_undefined(&obj_var),
+                        cons: Box::new(obj_var.clone().into()),
+                        alt: Box::new(Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(obj_var.clone().into()))),
+                            right: m.obj.take(),
+                        })),
+                    }));
+
                     Expr::Member(MemberExpr {
                         span: m.span,
-                        obj: obj_var.into(),
+                        obj,
                         prop: m.prop.take(),
                     })
                 } else {
@@ -152,4 +164,35 @@ impl OptChaining {
         self.vars_without_init = uninit;
         *stmts = new;
     }
+}
+
+fn eq_null_or_undefined(i: &Ident) -> Box<Expr> {
+    let null_cmp = Box::new(Expr::Bin(BinExpr {
+        span: DUMMY_SP,
+        left: Box::new(Expr::Unary(UnaryExpr {
+            span: DUMMY_SP,
+            op: op!("!"),
+            arg: Box::new(Expr::Ident(i.clone())),
+        })),
+        op: op!("==="),
+        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+    }));
+
+    let void_cmp = Box::new(Expr::Bin(BinExpr {
+        span: DUMMY_SP,
+        left: Box::new(Expr::Unary(UnaryExpr {
+            span: DUMMY_SP,
+            op: op!("!"),
+            arg: Box::new(Expr::Ident(i.clone())),
+        })),
+        op: op!("==="),
+        right: undefined(DUMMY_SP),
+    }));
+
+    Box::new(Expr::Bin(BinExpr {
+        span: DUMMY_SP,
+        left: null_cmp,
+        op: op!("||"),
+        right: void_cmp,
+    }))
 }
