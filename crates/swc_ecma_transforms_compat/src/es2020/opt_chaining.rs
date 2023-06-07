@@ -77,7 +77,7 @@ impl OptChaining {
                 m.obj.visit_mut_with(self);
 
                 if e.optional {
-                    let var_name = alias_ident_for(&m.obj, "_obj");
+                    let var_name = alias_ident_for(&m.obj, "_ref");
 
                     self.vars_without_init.push(VarDeclarator {
                         span: DUMMY_SP,
