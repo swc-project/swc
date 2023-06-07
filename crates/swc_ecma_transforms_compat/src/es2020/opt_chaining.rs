@@ -3,7 +3,7 @@ use std::mem;
 use serde::Deserialize;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmt, StmtLike};
+use swc_ecma_utils::{alias_ident_for, prepend_stmt, private_ident, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -54,7 +54,10 @@ impl VisitMut for OptChaining {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        if let Expr::OptChain(o) = e {}
+        if let Expr::OptChain(o) = e {
+            *e = self.handle(o);
+            return;
+        }
 
         e.visit_mut_children_with(self);
     }
@@ -68,8 +71,31 @@ impl VisitMut for OptChaining {
     }
 }
 
-#[swc_trace]
 impl OptChaining {
+    fn handle(&mut self, e: &mut OptChainExpr) -> Expr {
+        match &mut *e.base {
+            OptChainBase::Member(m) => {
+                m.obj.visit_mut_with(self);
+
+                if e.optional {
+                    let obj_var = alias_ident_for(&m.obj, "_obj");
+
+                    self.vars_without_init.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: obj_var.clone().into(),
+                        init: None,
+                        definite: false,
+                    });
+
+                    Expr::Member(m.take())
+                } else {
+                    Expr::Member(m.take())
+                }
+            }
+            OptChainBase::Call(_) => todo!(),
+        }
+    }
+
     /// Returned statements are variable declarations without initializer
     fn visit_mut_one_stmt_to<T>(&mut self, mut stmt: T, new: &mut Vec<T>)
     where
