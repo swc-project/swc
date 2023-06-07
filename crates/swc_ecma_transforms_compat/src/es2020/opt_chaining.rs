@@ -57,7 +57,7 @@ impl VisitMut for OptChaining {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         if let Expr::OptChain(o) = e {
-            *e = self.handle(o);
+            *e = self.handle(o, None);
             return;
         }
 
@@ -103,7 +103,7 @@ impl OptChaining {
     }
 
     /// Returns `(alias, value)`
-    fn handle(&mut self, e: &mut OptChainExpr) -> Expr {
+    fn handle(&mut self, e: &mut OptChainExpr, store_this_to: Option<Ident>) -> Expr {
         match &mut *e.base {
             OptChainBase::Member(m) => {
                 if e.optional {
@@ -158,11 +158,8 @@ impl OptChaining {
                             definite: false,
                         });
 
-                        let init = self.handle(callee);
-                        (
-                            Some(obj_name.clone()),
-                            init_and_eq_null_or_undefined(&obj_name, Box::new(init)),
-                        )
+                        let init = Box::new(self.handle(callee, Some(obj_name.clone())));
+                        (Some(obj_name.clone()), init)
                     }
 
                     _ => {
