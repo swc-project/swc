@@ -256,13 +256,13 @@ function O(u, t, e, n) {
             name: t,
             option: _(u, m(t))
         }));
-    for (const { name: u , option: e  } of r){
+    for (const { name: u, option: e } of r){
         if (!e) {
             throw new Error("Unknown option: --" + u);
         }
         if (e.standalone) {
             if (s.length > 1) {
-                if (r.every(({ option: u  })=>u && (e === u || i[u.name]))) {
+                if (r.every(({ option: u })=>u && (e === u || i[u.name]))) {
                     return;
                 }
                 throw new Error(`Option --${e.name} cannot be combined with other options.`);
@@ -503,7 +503,7 @@ function j(u, t = "", e = " ") {
     }
     return t;
 }
-const { inspect: N  } = Deno;
+const { inspect: N } = Deno;
 const G = /%[sdjoO%]/g;
 function M(...u) {
     if (typeof u[0] !== "string") {
@@ -959,7 +959,7 @@ class X {
                 }
             }
         }
-        const { current: C , next: l  } = this.renderCellValue(A, E);
+        const { current: C, next: l } = this.renderCellValue(A, E);
         t[u].setValue(l);
         if (i.hasBorder) {
             r += " ".repeat(i.padding[u]);
@@ -1399,7 +1399,7 @@ class Y {
 function Q(u) {
     return u?.charAt(0).toUpperCase() + u.slice(1) ?? "";
 }
-const { stdout: uu , stderr: ut  } = Deno;
+const { stdout: uu, stderr: ut } = Deno;
 const ue = Deno.permissions;
 const un = ue && ue.query && (await ue.query({
     name: "env"
@@ -1713,7 +1713,7 @@ class us {
             }
             return await this.execute({}, ...this.rawArgs);
         } else {
-            const { flags: u , unknown: e , literal: n  } = this.parseFlags(this.rawArgs);
+            const { flags: u, unknown: e, literal: n } = this.parseFlags(this.rawArgs);
             this.literalArgs = n;
             const i = this.parseArguments(e, u);
             this.validateEnvVars();
