@@ -402,6 +402,31 @@ impl Storage for ProgramData {
     fn truncate_initialized_cnt(&mut self, len: usize) {
         self.initialized_vars.truncate(len)
     }
+
+    fn mark_property_mutattion(&mut self, id: Id, ctx: Ctx) {
+        let e = self.vars.entry(id).or_default();
+        e.has_property_mutation = true;
+
+        let mut to_mark_mutate = Vec::new();
+        for (other, kind) in &e.infects_to {
+            if *kind == AccessKind::Reference {
+                to_mark_mutate.push(other.clone())
+            }
+        }
+
+        for other in to_mark_mutate {
+            let other = self.vars.entry(other).or_insert_with(|| {
+                let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
+
+                VarUsageInfo {
+                    used_above_decl: !simple_assign,
+                    ..Default::default()
+                }
+            });
+
+            other.has_property_mutation = true;
+        }
+    }
 }
 
 impl ScopeDataLike for ScopeData {
@@ -445,10 +470,6 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_has_property_access(&mut self) {
         self.has_property_access = true;
-    }
-
-    fn mark_has_property_mutation(&mut self) {
-        self.has_property_mutation = true;
     }
 
     fn mark_used_as_callee(&mut self) {
@@ -650,15 +671,6 @@ impl ProgramData {
 
         // Passing object as a argument is possibly modification.
         e.mutated |= is_modify || (call_may_mutate && ctx.is_exact_arg);
-        let mut to_mark_mutate = Vec::new();
-        if call_may_mutate && ctx.is_exact_arg {
-            e.has_property_mutation = true;
-            for (other, kind) in e.infects_to.clone() {
-                if kind == AccessKind::Reference {
-                    to_mark_mutate.push(other)
-                }
-            }
-        }
 
         e.executed_multiple_time |= ctx.executed_multiple_time;
         e.used_in_cond |= ctx.in_cond;
@@ -676,7 +688,7 @@ impl ProgramData {
                     && e.var_kind != Some(VarDeclKind::Const)
                     && !inited
                 {
-                    self.initialized_vars.insert(i);
+                    self.initialized_vars.insert(i.clone());
                     e.assign_count -= 1;
                     e.var_initialized = true;
                 } else {
@@ -695,19 +707,8 @@ impl ProgramData {
             e.usage_count += 1;
         }
 
-        for other in to_mark_mutate {
-            let other = self.vars.entry(other).or_insert_with(|| {
-                // trace!("insert({}{:?})", i.0, i.1);
-
-                let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
-
-                VarUsageInfo {
-                    used_above_decl: !simple_assign,
-                    ..Default::default()
-                }
-            });
-
-            other.has_property_mutation = true;
+        if call_may_mutate && ctx.is_exact_arg {
+            self.mark_property_mutattion(i, ctx)
         }
     }
 }
