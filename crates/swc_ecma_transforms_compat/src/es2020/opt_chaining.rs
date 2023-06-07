@@ -1,9 +1,11 @@
-use std::mem;
+use std::{iter::once, mem};
 
 use serde::Deserialize;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend_stmt, undefined, StmtLike};
+use swc_ecma_utils::{
+    alias_ident_for, alias_if_required, prepend_stmt, quote_ident, undefined, ExprFactory, StmtLike,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn optional_chaining(c: Config) -> impl Fold + VisitMut {
@@ -146,10 +148,7 @@ impl OptChaining {
                         });
 
                         let init = self.handle(callee);
-                        (
-                            Some(obj_name.clone()),
-                            init_and_eq_null_or_undefined(&obj_name, Box::new(init)),
-                        )
+                        (Some(obj_name.clone()), Box::new(init))
                     }
 
                     _ => {
@@ -171,12 +170,20 @@ impl OptChaining {
                     span: DUMMY_SP,
                     test: init_and_eq_null_or_undefined(&callee_name, init),
                     cons: undefined(DUMMY_SP),
-                    alt: Box::new(Expr::Call(CallExpr {
-                        span: call.span,
-                        callee: Callee::Expr(call.callee.take()),
-                        args: call.args.take(),
-                        type_args: Default::default(),
-                    })),
+                    alt: match this {
+                        Some(this) => Box::new(Expr::Call(CallExpr {
+                            span: call.span,
+                            callee: callee_name.make_member(quote_ident!("call")).as_callee(),
+                            args: once(this.as_arg()).chain(call.args.take()).collect(),
+                            type_args: Default::default(),
+                        })),
+                        None => Box::new(Expr::Call(CallExpr {
+                            span: call.span,
+                            callee: callee_name.as_callee(),
+                            args: call.args.take(),
+                            type_args: Default::default(),
+                        })),
+                    },
                 })
             }
         }
