@@ -142,7 +142,7 @@ impl OptChaining {
                     }
 
                     Expr::OptChain(callee) => {
-                        let obj_name = private_ident!("_obj");
+                        let obj_name = private_ident!("_object");
 
                         self.vars_without_init.push(VarDeclarator {
                             span: DUMMY_SP,
