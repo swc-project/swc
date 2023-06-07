@@ -167,6 +167,7 @@ impl OptChaining {
                                 let final_call = Box::new(Expr::Call(CallExpr {
                                     span: call.span,
                                     callee: callee_name
+                                        .clone()
                                         .make_member(quote_ident!("call"))
                                         .as_callee(),
                                     args: once(obj_name.clone().as_arg())
@@ -180,7 +181,15 @@ impl OptChaining {
                                         span: DUMMY_SP,
                                         test: cond.test,
                                         cons: cond.cons,
-                                        alt: final_call,
+                                        alt: Box::new(Expr::Cond(CondExpr {
+                                            span: DUMMY_SP,
+                                            test: init_and_eq_null_or_undefined(
+                                                &callee_name,
+                                                cond.alt,
+                                            ),
+                                            cons: undefined(DUMMY_SP),
+                                            alt: final_call,
+                                        })),
                                     });
                                 }
                             }
