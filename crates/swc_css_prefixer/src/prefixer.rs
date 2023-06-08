@@ -3295,21 +3295,22 @@ impl VisitMut for Prefixer {
             }
 
             js_word!("touch-action") => {
+                let env = self.env;
                 add_declaration!(
                     Prefix::Ms,
                     js_word!("-ms-touch-action"),
                     Box::new(|| {
                         let mut new_ms_value = ms_value.clone();
 
-                        if should_prefix("-ms-pan-x", self.env, false) {
+                        if should_prefix("-ms-pan-x", env, false) {
                             replace_ident(&mut new_ms_value, "pan-x", "-ms-pan-x");
                         }
 
-                        if should_prefix("-ms-pan-y", self.env, false) {
+                        if should_prefix("-ms-pan-y", env, false) {
                             replace_ident(&mut new_ms_value, "pan-y", "-ms-pan-y");
                         }
 
-                        if should_prefix("-ms-double-tap-zoom", self.env, false) {
+                        if should_prefix("-ms-double-tap-zoom", env, false) {
                             replace_ident(
                                 &mut new_ms_value,
                                 "double-tap-zoom",
@@ -3317,15 +3318,15 @@ impl VisitMut for Prefixer {
                             );
                         }
 
-                        if should_prefix("-ms-manipulation", self.env, false) {
+                        if should_prefix("-ms-manipulation", env, false) {
                             replace_ident(&mut new_ms_value, "manipulation", "-ms-manipulation");
                         }
 
-                        if should_prefix("-ms-none", self.env, false) {
+                        if should_prefix("-ms-none", env, false) {
                             replace_ident(&mut new_ms_value, "none", "-ms-none");
                         }
 
-                        if should_prefix("-ms-pinch-zoom", self.env, false) {
+                        if should_prefix("-ms-pinch-zoom", env, false) {
                             replace_ident(&mut new_ms_value, "pinch-zoom", "-ms-pinch-zoom");
                         }
 
