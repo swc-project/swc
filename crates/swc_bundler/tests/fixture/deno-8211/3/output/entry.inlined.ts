@@ -1005,7 +1005,7 @@ class Formatter {
                 } else {
                     return token;
                 }
-            }, tokens = Formatter.parseFormat(fmt), realTokens = tokens.reduce((found, { literal , val  })=>literal ? found : found.concat(val), []), collapsed = dur.shiftTo(...realTokens.map(tokenToField).filter((t)=>t));
+            }, tokens = Formatter.parseFormat(fmt), realTokens = tokens.reduce((found, { literal, val })=>literal ? found : found.concat(val), []), collapsed = dur.shiftTo(...realTokens.map(tokenToField).filter((t)=>t));
         return stringifyTokens(tokens, tokenToString(collapsed));
     }
 }
@@ -1123,7 +1123,7 @@ function hackyOffset(dtf, date) {
 function partsOffset(dtf, date) {
     const formatted = dtf.formatToParts(date), filled = [];
     for(let i = 0; i < formatted.length; i++){
-        const { type , value  } = formatted[i], pos = typeToPos[type];
+        const { type, value } = formatted[i], pos = typeToPos[type];
         if (!isUndefined(pos)) {
             filled[pos] = parseInt(value, 10);
         }
@@ -1178,7 +1178,7 @@ class IANAZone extends Zone {
     get universal() {
         return false;
     }
-    offsetName(ts, { format , locale  }) {
+    offsetName(ts, { format, locale }) {
         return parseZoneInfo(ts, format, locale, this.name);
     }
     formatOffset(ts, format) {
@@ -1331,7 +1331,7 @@ function parseDigits(str) {
         return value;
     }
 }
-function digitRegex({ numberingSystem  }, append = "") {
+function digitRegex({ numberingSystem }, append = "") {
     return new RegExp(`${numberingSystems[numberingSystem || "latn"]}${append}`);
 }
 class InvalidZone extends Zone {
@@ -1418,7 +1418,7 @@ class LocalZone extends Zone {
     get universal() {
         return false;
     }
-    offsetName(ts, { format , locale  }) {
+    offsetName(ts, { format, locale }) {
         return parseZoneInfo(ts, format, locale);
     }
     formatOffset(ts, format) {
@@ -1712,7 +1712,7 @@ function uncomputeOrdinal(year, ordinal) {
     };
 }
 function gregorianToWeek(gregObj) {
-    const { year , month , day  } = gregObj, ordinal = computeOrdinal(year, month, day), weekday = dayOfWeek(year, month, day);
+    const { year, month, day } = gregObj, ordinal = computeOrdinal(year, month, day), weekday = dayOfWeek(year, month, day);
     let weekNumber = Math.floor((ordinal - weekday + 10) / 7), weekYear;
     if (weekNumber < 1) {
         weekYear = year - 1;
@@ -1730,7 +1730,7 @@ function gregorianToWeek(gregObj) {
     }, timeObject(gregObj));
 }
 function weekToGregorian(weekData) {
-    const { weekYear , weekNumber , weekday  } = weekData, weekdayOfJan4 = dayOfWeek(weekYear, 1, 4), yearInDays = daysInYear(weekYear);
+    const { weekYear, weekNumber, weekday } = weekData, weekdayOfJan4 = dayOfWeek(weekYear, 1, 4), yearInDays = daysInYear(weekYear);
     let ordinal = weekNumber * 7 + weekday - weekdayOfJan4 - 3, year;
     if (ordinal < 1) {
         year = weekYear - 1;
@@ -1741,7 +1741,7 @@ function weekToGregorian(weekData) {
     } else {
         year = weekYear;
     }
-    const { month , day  } = uncomputeOrdinal(year, ordinal);
+    const { month, day } = uncomputeOrdinal(year, ordinal);
     return Object.assign({
         year,
         month,
@@ -1749,14 +1749,14 @@ function weekToGregorian(weekData) {
     }, timeObject(weekData));
 }
 function gregorianToOrdinal(gregData) {
-    const { year , month , day  } = gregData, ordinal = computeOrdinal(year, month, day);
+    const { year, month, day } = gregData, ordinal = computeOrdinal(year, month, day);
     return Object.assign({
         year,
         ordinal
     }, timeObject(gregData));
 }
 function ordinalToGregorian(ordinalData) {
-    const { year , ordinal  } = ordinalData, { month , day  } = uncomputeOrdinal(year, ordinal);
+    const { year, ordinal } = ordinalData, { month, day } = uncomputeOrdinal(year, ordinal);
     return Object.assign({
         year,
         month,
@@ -1792,7 +1792,7 @@ function hasInvalidGregorianData(obj) {
     } else return false;
 }
 function hasInvalidTimeData(obj) {
-    const { hour , minute , second , millisecond  } = obj;
+    const { hour, minute, second, millisecond } = obj;
     const validHour = integerBetween(hour, 0, 23) || hour === 24 && minute === 0 && second === 0 && millisecond === 0, validMinute = integerBetween(minute, 0, 59), validSecond = integerBetween(second, 0, 59), validMillisecond = integerBetween(millisecond, 0, 999);
     if (!validHour) {
         return unitOutOfRange("hour", hour);
@@ -1824,22 +1824,22 @@ class Info {
     static normalizeZone(input) {
         return normalizeZone(input, Settings.defaultZone);
     }
-    static months(length = "long", { locale =null , numberingSystem =null , outputCalendar ="gregory"  } = {}) {
+    static months(length = "long", { locale = null, numberingSystem = null, outputCalendar = "gregory" } = {}) {
         return Locale.create(locale, numberingSystem, outputCalendar).months(length);
     }
-    static monthsFormat(length = "long", { locale =null , numberingSystem =null , outputCalendar ="gregory"  } = {}) {
+    static monthsFormat(length = "long", { locale = null, numberingSystem = null, outputCalendar = "gregory" } = {}) {
         return Locale.create(locale, numberingSystem, outputCalendar).months(length, true);
     }
-    static weekdays(length = "long", { locale =null , numberingSystem =null  } = {}) {
+    static weekdays(length = "long", { locale = null, numberingSystem = null } = {}) {
         return Locale.create(locale, numberingSystem, null).weekdays(length);
     }
-    static weekdaysFormat(length = "long", { locale =null , numberingSystem =null  } = {}) {
+    static weekdaysFormat(length = "long", { locale = null, numberingSystem = null } = {}) {
         return Locale.create(locale, numberingSystem, null).weekdays(length, true);
     }
-    static meridiems({ locale =null  } = {}) {
+    static meridiems({ locale = null } = {}) {
         return Locale.create(locale).meridiems();
     }
-    static eras(length = "short", { locale =null  } = {}) {
+    static eras(length = "short", { locale = null } = {}) {
         return Locale.create(locale, null, "gregory").eras(length);
     }
     static features() {
@@ -2148,7 +2148,7 @@ class Duration {
             values: mixed
         });
     }
-    reconfigure({ locale , numberingSystem , conversionAccuracy  } = {}) {
+    reconfigure({ locale, numberingSystem, conversionAccuracy } = {}) {
         const loc = this.loc.clone({
             locale,
             numberingSystem
@@ -2366,7 +2366,7 @@ function adjustTime(inst, dur) {
     };
 }
 function parseDataToDateTime(parsed, parsedZone, opts, format, text) {
-    const { setZone , zone  } = opts;
+    const { setZone, zone } = opts;
     if (parsed && Object.keys(parsed).length !== 0) {
         const interpretationZone = parsedZone || zone, inst = DateTime.fromObject(Object.assign(parsed, opts, {
             zone: interpretationZone,
@@ -2383,7 +2383,7 @@ function toTechFormat(dt, format, allowZ = true) {
         forceSimple: true
     }).formatDateTimeFromString(dt, format) : null;
 }
-function toTechTimeFormat(dt, { suppressSeconds =false , suppressMilliseconds =false , includeOffset , includeZone =false , spaceZone =false , format ="extended"  }) {
+function toTechTimeFormat(dt, { suppressSeconds = false, suppressMilliseconds = false, includeOffset, includeZone = false, spaceZone = false, format = "extended" }) {
     let fmt = format === "basic" ? "HHmm" : "HH:mm";
     if (!suppressSeconds || dt.second !== 0 || dt.millisecond !== 0) {
         fmt += format === "basic" ? "ss" : ":ss";
@@ -2705,7 +2705,7 @@ class DateTime {
         if (isUndefined(text) || isUndefined(fmt)) {
             throw new InvalidArgumentError("fromFormat requires an input string and a format");
         }
-        const { locale =null , numberingSystem =null  } = opts, localeToUse = Locale.fromOpts({
+        const { locale = null, numberingSystem = null } = opts, localeToUse = Locale.fromOpts({
             locale,
             numberingSystem,
             defaultToEN: true
@@ -2872,7 +2872,7 @@ class DateTime {
         return this.isValid ? weeksInWeekYear(this.weekYear) : NaN;
     }
     resolvedLocaleOpts(opts = {}) {
-        const { locale , numberingSystem , calendar  } = Formatter.create(this.loc.clone(opts), opts).resolvedOptions(this);
+        const { locale, numberingSystem, calendar } = Formatter.create(this.loc.clone(opts), opts).resolvedOptions(this);
         return {
             locale,
             numberingSystem,
@@ -2885,7 +2885,7 @@ class DateTime {
     toLocal() {
         return this.setZone(Settings.defaultZone);
     }
-    setZone(zone, { keepLocalTime =false , keepCalendarTime =false  } = {}) {
+    setZone(zone, { keepLocalTime = false, keepCalendarTime = false } = {}) {
         zone = normalizeZone(zone, Settings.defaultZone);
         if (zone.equals(this.zone)) {
             return this;
@@ -2904,7 +2904,7 @@ class DateTime {
             });
         }
     }
-    reconfigure({ locale , numberingSystem , outputCalendar  } = {}) {
+    reconfigure({ locale, numberingSystem, outputCalendar } = {}) {
         const loc = this.loc.clone({
             locale,
             numberingSystem,
@@ -3000,7 +3000,7 @@ class DateTime {
         }
         return `${this.toISODate(opts)}T${this.toISOTime(opts)}`;
     }
-    toISODate({ format ="extended"  } = {}) {
+    toISODate({ format = "extended" } = {}) {
         let fmt = format === "basic" ? "yyyyMMdd" : "yyyy-MM-dd";
         if (this.year > 9999) {
             fmt = "+" + fmt;
@@ -3010,7 +3010,7 @@ class DateTime {
     toISOWeekDate() {
         return toTechFormat(this, "kkkk-'W'WW-c");
     }
-    toISOTime({ suppressMilliseconds =false , suppressSeconds =false , includeOffset =true , format ="extended"  } = {}) {
+    toISOTime({ suppressMilliseconds = false, suppressSeconds = false, includeOffset = true, format = "extended" } = {}) {
         return toTechTimeFormat(this, {
             suppressSeconds,
             suppressMilliseconds,
@@ -3027,7 +3027,7 @@ class DateTime {
     toSQLDate() {
         return toTechFormat(this, "yyyy-MM-dd");
     }
-    toSQLTime({ includeOffset =true , includeZone =false  } = {}) {
+    toSQLTime({ includeOffset = true, includeZone = false } = {}) {
         return toTechTimeFormat(this, {
             includeOffset,
             includeZone,
@@ -3144,7 +3144,7 @@ class DateTime {
         return bestBy(dateTimes, (i)=>i.valueOf(), Math.max);
     }
     static fromFormatExplain(text, fmt, options = {}) {
-        const { locale =null , numberingSystem =null  } = options, localeToUse = Locale.fromOpts({
+        const { locale = null, numberingSystem = null } = options, localeToUse = Locale.fromOpts({
             locale,
             numberingSystem,
             defaultToEN: true
@@ -3259,7 +3259,7 @@ function getCachedINF(locString, opts = {}) {
 }
 let intlRelCache = {};
 function getCachedRTF(locString, opts = {}) {
-    const { base , ...cacheKeyOpts } = opts;
+    const { base, ...cacheKeyOpts } = opts;
     const key = JSON.stringify([
         locString,
         cacheKeyOpts
@@ -3298,7 +3298,7 @@ function parseLocaleString(localeStr) {
         } catch (e) {
             options = getCachedDTF(smaller).resolvedOptions();
         }
-        const { numberingSystem , calendar  } = options;
+        const { numberingSystem, calendar } = options;
         return [
             smaller,
             numberingSystem,
@@ -3470,7 +3470,7 @@ class Locale {
         intlNumCache = {};
         intlRelCache = {};
     }
-    static fromObject({ locale , numberingSystem , outputCalendar  } = {}) {
+    static fromObject({ locale, numberingSystem, outputCalendar } = {}) {
         return Locale.create(locale, numberingSystem, outputCalendar);
     }
     constructor(locale, numbering, outputCalendar, specifiedLocale){
@@ -3784,14 +3784,14 @@ class Interval {
         if (!this.isValid) return false;
         return this.s <= dateTime && this.e > dateTime;
     }
-    set({ start , end  } = {}) {
+    set({ start, end } = {}) {
         if (!this.isValid) return this;
         return Interval.fromDateTimes(start || this.s, end || this.e);
     }
     splitAt(...dateTimes) {
         if (!this.isValid) return [];
         const sorted = dateTimes.map(friendlyDateTime).filter((d)=>this.contains(d)).sort(), results = [];
-        let { s  } = this, i = 0;
+        let { s } = this, i = 0;
         while(s < this.e){
             const added = sorted[i] || this.e, next = +added > +this.e ? this.e : added;
             results.push(Interval.fromDateTimes(s, next));
@@ -3805,7 +3805,7 @@ class Interval {
         if (!this.isValid || !dur.isValid || dur.as("milliseconds") === 0) {
             return [];
         }
-        let { s  } = this, added, next;
+        let { s } = this, added, next;
         const results = [];
         while(s < this.e){
             added = s.plus(dur);
@@ -3929,7 +3929,7 @@ class Interval {
         if (!this.isValid) return INVALID2;
         return `${this.s.toISOTime(opts)}/${this.e.toISOTime(opts)}`;
     }
-    toFormat(dateFormat, { separator =" – "  } = {}) {
+    toFormat(dateFormat, { separator = " – " } = {}) {
         if (!this.isValid) return INVALID2;
         return `${this.s.toFormat(dateFormat)}${separator}${this.e.toFormat(dateFormat)}`;
     }
@@ -4206,7 +4206,7 @@ const partTypeStyleToTokenVal = {
     }
 };
 function tokenForPart(part, locale, formatOpts) {
-    const { type , value  } = part;
+    const { type, value } = part;
     if (type === "literal") {
         return {
             literal: true,
@@ -4382,7 +4382,7 @@ function explainFromTokens(locale, input, format) {
     }
 }
 function parseFromTokens(locale, input, format) {
-    const { result , zone , invalidReason  } = explainFromTokens(locale, input, format);
+    const { result, zone, invalidReason } = explainFromTokens(locale, input, format);
     return [
         result,
         zone,

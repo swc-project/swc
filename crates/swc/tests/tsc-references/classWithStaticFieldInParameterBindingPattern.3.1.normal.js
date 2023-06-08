@@ -4,12 +4,12 @@ class C {
 }
 (({ [(class extends C {
     static x = 1;
-}).x]: b = ""  })=>{
+}).x]: b = "" })=>{
     var C1;
 })();
 const x = "";
 (({ [(class extends C {
     static x = 1;
-}).x]: b = ""  }, d = x)=>{
+}).x]: b = "" }, d = x)=>{
     var x1;
 })();

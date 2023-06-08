@@ -45,7 +45,7 @@ const u = (e)=>{
 const o = (e, t, n, r, a)=>{
     return (e[`${t}.${n}`] || e[`${t}.${r}`] || e[t] || e[n] || e[r] || a);
 };
-const l = (e, { messages: t , attributes: n  })=>{
+const l = (e, { messages: t, attributes: n })=>{
     const r = {};
     const a = (t || {})["default"] || ":attr is invalid";
     for(let s in e){

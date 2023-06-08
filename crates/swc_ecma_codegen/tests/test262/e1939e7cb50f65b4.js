@@ -1,3 +1,3 @@
 (function*() {
-    [...{ a =yield  }] = 1;
+    [...{ a = yield }] = 1;
 });

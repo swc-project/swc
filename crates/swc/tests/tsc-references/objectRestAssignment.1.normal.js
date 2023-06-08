@@ -13,11 +13,11 @@ _complex = complex, nested = _object_without_properties(_complex.x, [
 ]), rest = _object_without_properties(_complex, [
     "x",
     "y"
-]), ({ x: { ka  } , y: other  } = _complex), _complex;
+]), ({ x: { ka }, y: other } = _complex), _complex;
 // should be:
 let overEmit;
 // var _g = overEmit.a, [_h, ...y] = _g, nested2 = __rest(_h, []), _j = overEmit.b, { z } = _j, c = __rest(_j, ["z"]), rest2 = __rest(overEmit, ["a", "b"]);
-var { a: [{}, ...y] , b: { z  }  } = overEmit, nested2 = _extends({}, _object_destructuring_empty(overEmit.a[0])), c = _object_without_properties(overEmit.b, [
+var { a: [{}, ...y], b: { z } } = overEmit, nested2 = _extends({}, _object_destructuring_empty(overEmit.a[0])), c = _object_without_properties(overEmit.b, [
     "z"
 ]), rest2 = _object_without_properties(overEmit, [
     "a",
@@ -29,4 +29,4 @@ _overEmit = overEmit, nested2 = _extends({}, _object_destructuring_empty(_overEm
 ]), rest2 = _object_without_properties(_overEmit, [
     "a",
     "b"
-]), ({ a: [{}, ...y] , b: { z  }  } = _overEmit), _overEmit;
+]), ({ a: [{}, ...y], b: { z } } = _overEmit), _overEmit;

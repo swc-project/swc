@@ -45,6 +45,6 @@ var load2 = __swcpack_require__.bind(void 0, function(module, exports) {
     module.exports = class B extends Common {
     };
 });
-var { default: A  } = load1();
-var { default: B  } = load2();
+var { default: A } = load1();
+var { default: B } = load2();
 console.log(A, B);

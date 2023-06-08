@@ -1,6 +1,6 @@
 export const def = {
     code (cxt) {
-        const { gen , schema , parentSchema , data , it  } = cxt;
+        const { gen, schema, parentSchema, data, it } = cxt;
         "all" === it.opts.removeAdditional && void 0 === parentSchema.additionalProperties && additionalProperties_1.default.code(new validate_1.KeywordCxt(it, additionalProperties_1.default, "additionalProperties"));
         const allProps = (0, code_1.allSchemaProperties)(schema);
         for (const prop of allProps)it.definedProperties.add(prop);

@@ -135,6 +135,7 @@ fn internal() -> Result<(), Error> {
             )),
             Box::new(PLUGIN_BYTES.clone()),
             Some(json!({ "pluginConfig": "testValue" })),
+            None,
         );
 
         /* [TODO]: reenable this later
@@ -200,6 +201,7 @@ fn internal() -> Result<(), Error> {
                 )),
                 Box::new(PLUGIN_BYTES.clone()),
                 Some(json!({ "pluginConfig": "testValue" })),
+                None,
             );
 
             plugin_transform_executor
@@ -248,6 +250,7 @@ fn internal() -> Result<(), Error> {
             )),
             Box::new(PLUGIN_BYTES.clone()),
             Some(json!({ "pluginConfig": "testValue" })),
+            None,
         );
 
         serialized_program = plugin_transform_executor
@@ -265,6 +268,7 @@ fn internal() -> Result<(), Error> {
             )),
             Box::new(PLUGIN_BYTES.clone()),
             Some(json!({ "pluginConfig": "testValue" })),
+            None,
         );
 
         serialized_program = plugin_transform_executor

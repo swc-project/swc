@@ -33,11 +33,11 @@ class B extends A {
         // element access (assign)
         super["x"] = f;
         // destructuring assign with property access
-        ({ f: super.x  } = {
+        ({ f: super.x } = {
             f
         });
         // destructuring assign with element access
-        ({ f: super["x"]  } = {
+        ({ f: super["x"] } = {
             f
         });
     }

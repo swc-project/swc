@@ -25,7 +25,7 @@ function top__2() {
             });
         }
     };
-    const { abort__3 , startWriting__3  } = ReactDOMServer.pipeToNodeWritable(element, stream, {
+    const { abort__3, startWriting__3 } = ReactDOMServer.pipeToNodeWritable(element, stream, {
         onError (error__10) {
             if (!resolved__3) {
                 resolved__3 = true;

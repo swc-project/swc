@@ -134,6 +134,7 @@ fn issue_6404() -> Result<(), Error> {
             )),
             Box::new(plugin_module),
             Some(json!({ "pluginConfig": "testValue" })),
+            None,
         );
 
         /* [TODO]: reenable this test

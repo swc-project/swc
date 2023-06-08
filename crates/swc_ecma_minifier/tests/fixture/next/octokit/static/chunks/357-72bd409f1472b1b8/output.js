@@ -139,7 +139,7 @@
                 _randomIndex() {
                     return Math.random().toString(36).slice(2);
                 }
-                doDrop({ error , message ="This job has been dropped by Bottleneck"  } = {}) {
+                doDrop({ error, message = "This job has been dropped by Bottleneck" } = {}) {
                     return !!this._states.remove(this.options.id) && (this.rejectOnDrop && this._reject(null != error ? error : new BottleneckError_1(message)), this.Events.trigger("dropped", {
                         args: this.args,
                         options: this.options,
@@ -207,7 +207,7 @@
                     var base;
                     return null == this.heartbeat && (null != this.storeOptions.reservoirRefreshInterval && null != this.storeOptions.reservoirRefreshAmount || null != this.storeOptions.reservoirIncreaseInterval && null != this.storeOptions.reservoirIncreaseAmount) ? "function" == typeof (base = this.heartbeat = setInterval(()=>{
                         var amount, incr, maximum, now, reservoir;
-                        if (now = Date.now(), null != this.storeOptions.reservoirRefreshInterval && now >= this._lastReservoirRefresh + this.storeOptions.reservoirRefreshInterval && (this._lastReservoirRefresh = now, this.storeOptions.reservoir = this.storeOptions.reservoirRefreshAmount, this.instance._drainAll(this.computeCapacity())), null != this.storeOptions.reservoirIncreaseInterval && now >= this._lastReservoirIncrease + this.storeOptions.reservoirIncreaseInterval && ({ reservoirIncreaseAmount: amount , reservoirIncreaseMaximum: maximum , reservoir  } = this.storeOptions, this._lastReservoirIncrease = now, (incr = null != maximum ? Math.min(amount, maximum - reservoir) : amount) > 0)) return this.storeOptions.reservoir += incr, this.instance._drainAll(this.computeCapacity());
+                        if (now = Date.now(), null != this.storeOptions.reservoirRefreshInterval && now >= this._lastReservoirRefresh + this.storeOptions.reservoirRefreshInterval && (this._lastReservoirRefresh = now, this.storeOptions.reservoir = this.storeOptions.reservoirRefreshAmount, this.instance._drainAll(this.computeCapacity())), null != this.storeOptions.reservoirIncreaseInterval && now >= this._lastReservoirIncrease + this.storeOptions.reservoirIncreaseInterval && ({ reservoirIncreaseAmount: amount, reservoirIncreaseMaximum: maximum, reservoir } = this.storeOptions, this._lastReservoirIncrease = now, (incr = null != maximum ? Math.min(amount, maximum - reservoir) : amount) > 0)) return this.storeOptions.reservoir += incr, this.instance._drainAll(this.computeCapacity());
                     }, this.heartbeatInterval)).unref ? base.unref() : void 0 : clearInterval(this.heartbeat);
                 }
                 async __publish__(message) {
@@ -242,7 +242,7 @@
                 }
                 computeCapacity() {
                     var maxConcurrent, reservoir;
-                    return ({ maxConcurrent , reservoir  } = this.storeOptions, null != maxConcurrent && null != reservoir) ? Math.min(maxConcurrent - this._running, reservoir) : null != maxConcurrent ? maxConcurrent - this._running : null != reservoir ? reservoir : null;
+                    return ({ maxConcurrent, reservoir } = this.storeOptions, null != maxConcurrent && null != reservoir) ? Math.min(maxConcurrent - this._running, reservoir) : null != maxConcurrent ? maxConcurrent - this._running : null != reservoir ? reservoir : null;
                 }
                 conditionsCheck(weight) {
                     var capacity;
@@ -332,7 +332,7 @@
                 }
                 async _tryToRun() {
                     var args, cb, reject, resolve, returned, task;
-                    if (this._running < 1 && this._queue.length > 0) return this._running++, { task , args , resolve , reject  } = this._queue.shift(), cb = await async function() {
+                    if (this._running < 1 && this._queue.length > 0) return this._running++, { task, args, resolve, reject } = this._queue.shift(), cb = await async function() {
                         try {
                             return returned = await task(...args), function() {
                                 return resolve(returned);
@@ -544,7 +544,7 @@
                     async _free(index, job, options, eventInfo) {
                         var running;
                         try {
-                            if ({ running  } = await this._store.__free__(index, options.weight), this.Events.trigger("debug", `Freed ${options.id}`, eventInfo), 0 === running && this.empty()) return this.Events.trigger("idle");
+                            if ({ running } = await this._store.__free__(index, options.weight), this.Events.trigger("debug", `Freed ${options.id}`, eventInfo), 0 === running && this.empty()) return this.Events.trigger("idle");
                         } catch (error1) {
                             return this.Events.trigger("error", error1);
                         }
@@ -562,10 +562,10 @@
                     _drainOne(capacity) {
                         return this._registerLock.schedule(()=>{
                             var args, index, next, options, queue;
-                            return 0 === this.queued() ? this.Promise.resolve(null) : (queue = this._queues.getFirst(), { options , args  } = next = queue.first(), null != capacity && options.weight > capacity) ? this.Promise.resolve(null) : (this.Events.trigger("debug", `Draining ${options.id}`, {
+                            return 0 === this.queued() ? this.Promise.resolve(null) : (queue = this._queues.getFirst(), { options, args } = next = queue.first(), null != capacity && options.weight > capacity) ? this.Promise.resolve(null) : (this.Events.trigger("debug", `Draining ${options.id}`, {
                                 args,
                                 options
-                            }), index = this._randomIndex(), this._store.__register__(index, options.weight, options.expiration).then(({ success , wait , reservoir  })=>{
+                            }), index = this._randomIndex(), this._store.__register__(index, options.weight, options.expiration).then(({ success, wait, reservoir })=>{
                                 var empty;
                                 return (this.Events.trigger("debug", `Drained ${options.id}`, {
                                     success,
@@ -617,9 +617,9 @@
                     }
                     async _addToQueue(job) {
                         var args, blocked, options, reachedHWM, shifted, strategy;
-                        ({ args , options  } = job);
+                        ({ args, options } = job);
                         try {
-                            ({ reachedHWM , blocked , strategy  } = await this._store.__submit__(this.queued(), options.weight));
+                            ({ reachedHWM, blocked, strategy } = await this._store.__submit__(this.queued(), options.weight));
                         } catch (error1) {
                             return this.Events.trigger("debug", `Could not queue ${options.id}`, {
                                 args,

@@ -21,9 +21,9 @@ class A {
     constructor(){
         this.otherClass = A;
         let y;
-        ({ x: _class_static_private_field_destructure(A, A, _field).value , y  } = this.testObject());
+        ({ x: _class_static_private_field_destructure(A, A, _field).value, y } = this.testObject());
         [_class_static_private_field_destructure(A, A, _field).value, y] = this.testArray();
-        ({ a: _class_static_private_field_destructure(A, A, _field).value , b: [_class_static_private_field_destructure(A, A, _field).value]  } = {
+        ({ a: _class_static_private_field_destructure(A, A, _field).value, b: [_class_static_private_field_destructure(A, A, _field).value] } = {
             a: 1,
             b: [
                 2
@@ -35,7 +35,7 @@ class A {
                 2
             ]
         ];
-        ({ a: _class_static_private_field_destructure(A, A, _field).value = 1 , b: [_class_static_private_field_destructure(A, A, _field).value = 1]  } = {
+        ({ a: _class_static_private_field_destructure(A, A, _field).value = 1, b: [_class_static_private_field_destructure(A, A, _field).value = 1] } = {
             b: []
         });
         [_class_static_private_field_destructure(A, A, _field).value = 2] = [];

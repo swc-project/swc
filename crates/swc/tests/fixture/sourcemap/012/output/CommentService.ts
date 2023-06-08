@@ -31,7 +31,7 @@ export let CommentService = class CommentService {
             if (!createdComment) {
                 throw new InternalServerErrorException('Comment was not created');
             }
-            const { modifiedCount  } = await this.postModel.updateOne({
+            const { modifiedCount } = await this.postModel.updateOne({
                 _id: createdComment.postId
             }, {
                 $push: {
@@ -53,7 +53,7 @@ export let CommentService = class CommentService {
         }
     }
     async update(commentId, comment, userId) {
-        const { author  } = await this.getById(commentId);
+        const { author } = await this.getById(commentId);
         if (author.id !== userId) {
             throw new ForbiddenException();
         }
@@ -69,14 +69,14 @@ export let CommentService = class CommentService {
         const session = await this.connection.startSession();
         session.startTransaction();
         try {
-            const { author , postId  } = await this.getById(commentId);
+            const { author, postId } = await this.getById(commentId);
             if (author.id !== userId) {
                 throw new ForbiddenException();
             }
-            const { deletedCount  } = await this.commentModel.deleteOne({
+            const { deletedCount } = await this.commentModel.deleteOne({
                 _id: commentId
             });
-            const { modifiedCount  } = await this.postModel.updateOne({
+            const { modifiedCount } = await this.postModel.updateOne({
                 _id: postId
             }, {
                 $pull: {

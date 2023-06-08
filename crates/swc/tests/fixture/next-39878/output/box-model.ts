@@ -8,10 +8,10 @@ export function setupBoxModel(store, startAppListening) {
     startAppListening({
         actionCreator: nodeSelected,
         effect: async (action, listenerApi)=>{
-            const { extra , getState , dispatch  } = listenerApi;
-            const { ThreadFront , protocolClient , replayClient  } = extra;
+            const { extra, getState, dispatch } = listenerApi;
+            const { ThreadFront, protocolClient, replayClient } = extra;
             const state = getState();
-            const { selectedNode , tree  } = state.markup;
+            const { selectedNode, tree } = state.markup;
             if (!isInspectorSelected(state) || !selectedNode || !ThreadFront.currentPause?.pauseId) {
                 return;
             }

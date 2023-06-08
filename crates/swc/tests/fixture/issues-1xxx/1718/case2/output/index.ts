@@ -5,7 +5,7 @@ function scanUser(groups) {
 function _scanUser() {
     _scanUser = _async_to_generator(function*(groups) {
         yield Promise.all(groups.map(function() {
-            var _ref = _async_to_generator(function*({ users  }) {
+            var _ref = _async_to_generator(function*({ users }) {
                 for (const user of users){
                     console.log("user", user);
                     yield new Promise((resolve)=>setTimeout(resolve, 30));

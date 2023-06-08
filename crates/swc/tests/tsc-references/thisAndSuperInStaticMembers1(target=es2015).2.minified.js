@@ -18,9 +18,9 @@ _define_property(C, "x", void 0), _define_property(C, "y1", C.x), _define_proper
     0
 ]), _define_property(C, "z10", [..._update(_get_prototype_of(C), "a", C, !0)._] = [
     0
-]), _define_property(C, "z11", { x: _update(_get_prototype_of(C), "a", C, !0)._  } = {
+]), _define_property(C, "z11", { x: _update(_get_prototype_of(C), "a", C, !0)._ } = {
     x: 0
-}), _define_property(C, "z12", { x: _update(_get_prototype_of(C), "a", C, !0)._ = 0  } = {
+}), _define_property(C, "z12", { x: _update(_get_prototype_of(C), "a", C, !0)._ = 0 } = {
     x: 0
 }), _define_property(C, "z13", (_tmp = {
     x: 0

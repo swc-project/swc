@@ -30,6 +30,6 @@ const manager = function() {
     };
 }();
 export default manager;
-export const { d  } = manager;
-export const { l  } = manager;
-export const { q  } = manager;
+export const { d } = manager;
+export const { l } = manager;
+export const { q } = manager;

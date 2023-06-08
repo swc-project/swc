@@ -1,6 +1,24 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/codegen)** Remove extra spaces in `AssignPatProp` and `KeyValuePatProp` (#7488) ([064bcf4](https://github.com/swc-project/swc/commit/064bcf4854f8505f04b40b72da1becec0c531a7d))
+
+### Features
+
+
+
+- **(es/codegen)** Add ability to set indentation string via rust api (#7494) ([a343e7c](https://github.com/swc-project/swc/commit/a343e7ccae4e88d9e3941beedf63b61bd0512c3d))
+
+
+- **(es/minifier)** Remove unused labels (#7478) ([62075fa](https://github.com/swc-project/swc/commit/62075faeaada8d9df3c7d849bbcfda8ff0c5d79f))
+
+
+- **(plugin/runner)** Support shared wasix runtime (#7504) ([73929fc](https://github.com/swc-project/swc/commit/73929fc43c34fd4545bd292fbf0f6d7de35fbee9))
+
 ### Performance
 
 

@@ -19,7 +19,7 @@ class Test {
             foo
         }); // ok
         (this, _write_only_error("#value")).foo = foo; // error
-        ({ o: _class_private_field_destructure(this, _value).value  } = {
+        ({ o: _class_private_field_destructure(this, _value).value } = {
             o: {
                 foo
             }
@@ -28,13 +28,13 @@ class Test {
         _tmp = {
             foo
         }, _class_private_field_destructure(this, _value).value = _extends({}, _object_destructuring_empty(_tmp)), _tmp; //ok
-        ({ foo: (this, _write_only_error("#value")).foo  } = {
+        ({ foo: (this, _write_only_error("#value")).foo } = {
             foo
         }); //error
         var _tmp1;
         _tmp1 = {
             foo
-        }, (this, _write_only_error("#value")).foo = _extends({}, _object_destructuring_empty(_tmp1.foo)), ({ foo: {}  } = _tmp1), _tmp1; //error
+        }, (this, _write_only_error("#value")).foo = _extends({}, _object_destructuring_empty(_tmp1.foo)), ({ foo: {} } = _tmp1), _tmp1; //error
         let r = {
             o: (this, _write_only_error("#value"))
         }; //error

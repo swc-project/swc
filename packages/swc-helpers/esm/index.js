@@ -4,8 +4,8 @@
 export { _apply_decorated_descriptor } from "./_apply_decorated_descriptor.js";
 export { _apply_decs_2203_r } from "./_apply_decs_2203_r.js";
 export { _array_like_to_array } from "./_array_like_to_array.js";
-export { _array_with_holes } from "./_array_with_holes.js";
 export { _array_without_holes } from "./_array_without_holes.js";
+export { _array_with_holes } from "./_array_with_holes.js";
 export { _assert_this_initialized } from "./_assert_this_initialized.js";
 export { _async_generator } from "./_async_generator.js";
 export { _async_generator_delegate } from "./_async_generator_delegate.js";

@@ -39,10 +39,10 @@ _define_property(C, "z9", [_update(_get_prototype_of(C), "a", C, true)._ = 0] = 
 _define_property(C, "z10", [..._update(_get_prototype_of(C), "a", C, true)._] = [
     0
 ]);
-_define_property(C, "z11", { x: _update(_get_prototype_of(C), "a", C, true)._  } = {
+_define_property(C, "z11", { x: _update(_get_prototype_of(C), "a", C, true)._ } = {
     x: 0
 });
-_define_property(C, "z12", { x: _update(_get_prototype_of(C), "a", C, true)._ = 0  } = {
+_define_property(C, "z12", { x: _update(_get_prototype_of(C), "a", C, true)._ = 0 } = {
     x: 0
 });
 var _tmp;
