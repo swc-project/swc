@@ -808,6 +808,52 @@ impl Prefixer {
 
         false
     }
+
+    fn add_declaration3(
+        &mut self,
+        n: &Declaration,
+        prefix: Prefix,
+        property: JsWord,
+        value: Option<Box<dyn Fn() -> Vec<ComponentValue>>>,
+    ) {
+        if should_prefix(&*property, self.env, true) {
+            // Use only specific prefix in prefixed at-rules or rule, i.e.
+            // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
+            if self.rule_prefix == Some(prefix) || self.rule_prefix.is_none() {
+                // Check we don't have prefixed property
+                if !self.is_duplicate(&property) {
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: property,
+                        raw: None,
+                    });
+
+                    if let Some(value) = value {
+                        self.added_declarations.push(Box::new(Declaration {
+                            span: n.span,
+                            name,
+                            value: value(),
+                            important: n.important.clone(),
+                        }));
+                    } else {
+                        let new_value = match prefix {
+                            Prefix::Webkit => webkit_value.clone(),
+                            Prefix::Moz => moz_value.clone(),
+                            Prefix::O => o_value.clone(),
+                            Prefix::Ms => ms_value.clone(),
+                        };
+
+                        self.added_declarations.push(Box::new(Declaration {
+                            span: n.span,
+                            name,
+                            value: new_value,
+                            important: n.important.clone(),
+                        }));
+                    }
+                }
+            }
+        }
+    }
 }
 
 impl VisitMut for Prefixer {
@@ -1605,47 +1651,7 @@ impl VisitMut for Prefixer {
         // TODO check logic for duplicate values
         macro_rules! add_declaration {
             ($prefix:expr,$property:expr, $value:expr) => {{
-                let property: JsWord = $property;
-
-                if should_prefix(&*property, self.env, true) {
-                    // Use only specific prefix in prefixed at-rules or rule, i.e.
-                    // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
-                    if self.rule_prefix == Some($prefix) || self.rule_prefix.is_none() {
-                        // Check we don't have prefixed property
-                        if !self.is_duplicate(&$property) {
-                            let name = DeclarationName::Ident(Ident {
-                                span: DUMMY_SP,
-                                value: property,
-                                raw: None,
-                            });
-
-                            let value: Option<Box<dyn Fn() -> Vec<ComponentValue>>> = $value;
-
-                            if let Some(value) = value {
-                                self.added_declarations.push(Box::new(Declaration {
-                                    span: n.span,
-                                    name,
-                                    value: value(),
-                                    important: n.important.clone(),
-                                }));
-                            } else {
-                                let new_value = match $prefix {
-                                    Prefix::Webkit => webkit_value.clone(),
-                                    Prefix::Moz => moz_value.clone(),
-                                    Prefix::O => o_value.clone(),
-                                    Prefix::Ms => ms_value.clone(),
-                                };
-
-                                self.added_declarations.push(Box::new(Declaration {
-                                    span: n.span,
-                                    name,
-                                    value: new_value,
-                                    important: n.important.clone(),
-                                }));
-                            }
-                        }
-                    }
-                }
+                self.add_declaration3(&n, $prefix, $property, $value);
             }};
 
             ($property:expr, $value:expr) => {{
