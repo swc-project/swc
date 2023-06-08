@@ -56,12 +56,47 @@ impl VisitMut for OptChaining {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        if let Expr::OptChain(o) = e {
-            *e = match self.handle(o, None) {
-                Ok(v) => Expr::Cond(v),
-                Err(v) => v,
-            };
-            return;
+        match e {
+            Expr::OptChain(o) => {
+                *e = match self.handle(o, None) {
+                    Ok(v) => Expr::Cond(v),
+                    Err(v) => v,
+                };
+                return;
+            }
+
+            Expr::Unary(UnaryExpr {
+                span,
+                arg,
+                op: op!("delete"),
+                ..
+            }) => {
+                if let Expr::OptChain(e) = &mut **arg {
+                    match self.handle(e, None) {
+                        Ok(v) => {
+                            //
+                            *arg = Box::new(Expr::Cond(CondExpr {
+                                span: *span,
+                                test: v.test,
+                                cons: v.cons,
+                                alt: Box::new(Expr::Unary(UnaryExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("delete"),
+                                    arg: v.alt,
+                                })),
+                            }));
+
+                            return;
+                        }
+                        Err(v) => {
+                            *arg = Box::new(v);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            _ => (),
         }
 
         e.visit_mut_children_with(self);
