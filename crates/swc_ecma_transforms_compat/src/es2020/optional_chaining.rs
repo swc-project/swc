@@ -147,15 +147,20 @@ impl OptChaining {
         e: &mut OptChainExpr,
         store_this_to: Option<Ident>,
     ) -> Result<CondExpr, Expr> {
+        dbg!(&store_this_to);
+        dbg!(&*e);
+
         match &mut *e.base {
             OptChainBase::Member(m) => {
                 if e.optional {
                     Ok(self.handle_optional_member(m, store_this_to))
                 } else {
+                    dbg!();
                     let obj_name = alias_ident_for(&m.obj, "_obj");
 
                     let obj = match &mut *m.obj {
                         Expr::OptChain(obj) => {
+                            dbg!();
                             self.vars_without_init.push(VarDeclarator {
                                 span: DUMMY_SP,
                                 name: obj_name.clone().into(),
@@ -163,8 +168,12 @@ impl OptChaining {
                                 definite: false,
                             });
 
-                            match self.handle(obj, Some(obj_name.clone())) {
+                            match self.handle(
+                                obj,
+                                Some(store_this_to.clone().unwrap_or_else(|| obj_name.clone())),
+                            ) {
                                 Ok(obj) => {
+                                    dbg!();
                                     return Ok(CondExpr {
                                         span: obj.span,
                                         test: obj.test,
@@ -176,14 +185,21 @@ impl OptChaining {
                                         })),
                                     });
                                 }
-                                Err(obj) => Box::new(obj),
+                                Err(obj) => {
+                                    dbg!();
+                                    Box::new(obj)
+                                }
                             }
                         }
                         _ => {
+                            dbg!();
+
                             m.obj.visit_mut_with(self);
                             m.obj.take()
                         }
                     };
+
+                    dbg!();
 
                     Err(Expr::Member(MemberExpr {
                         span: m.span,
@@ -212,16 +228,20 @@ impl OptChaining {
 
                 let (this, init) = match &mut *call.callee {
                     Expr::OptChain(callee) => {
-                        let obj_name = private_ident!("_object");
+                        let this_obj = store_this_to.unwrap_or_else(|| {
+                            let v = private_ident!("_object");
 
-                        self.vars_without_init.push(VarDeclarator {
-                            span: DUMMY_SP,
-                            name: obj_name.clone().into(),
-                            init: None,
-                            definite: false,
+                            self.vars_without_init.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: v.clone().into(),
+                                init: None,
+                                definite: false,
+                            });
+
+                            v
                         });
 
-                        match self.handle(callee, Some(obj_name.clone())) {
+                        match self.handle(callee, Some(this_obj.clone())) {
                             Ok(cond) => {
                                 let final_call = Box::new(Expr::Call(CallExpr {
                                     span: call.span,
@@ -229,7 +249,7 @@ impl OptChaining {
                                         .clone()
                                         .make_member(quote_ident!("call"))
                                         .as_callee(),
-                                    args: once(obj_name.clone().as_arg())
+                                    args: once(this_obj.clone().as_arg())
                                         .chain(call.args.take())
                                         .collect(),
                                     type_args: Default::default(),
@@ -255,7 +275,8 @@ impl OptChaining {
 
                             Err(init) => {
                                 let init = Box::new(init);
-                                (Some(obj_name.clone()), init)
+                                let init = init_and_eq_null_or_undefined(&this_obj, init);
+                                (Some(this_obj.clone()), init)
                             }
                         }
                     }
