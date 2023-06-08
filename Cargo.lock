@@ -211,7 +211,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.50.39"
+version = "0.50.40"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -903,7 +903,7 @@ checksum = "23d8666cb01533c39dde32bcbab8e227b4ed6679b2c925eba05feabea39508fb"
 
 [[package]]
 name = "dbg-swc"
-version = "0.81.41"
+version = "0.81.42"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -3400,7 +3400,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.261.39"
+version = "0.261.40"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3471,7 +3471,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.214.29"
+version = "0.214.30"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3585,7 +3585,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.76.45"
+version = "0.76.47"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3636,7 +3636,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.153.15"
+version = "0.153.16"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3780,7 +3780,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.149.14"
+version = "0.149.15"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -3945,7 +3945,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.181.29"
+version = "0.181.30"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -4341,7 +4341,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.13.15"
+version = "0.13.16"
 dependencies = [
  "ahash",
  "indexmap",
@@ -4389,7 +4389,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.228.31"
+version = "0.228.32"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -4437,7 +4437,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.184.39"
+version = "0.184.40"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4485,7 +4485,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.124.29"
+version = "0.124.30"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4536,7 +4536,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.121.29"
+version = "0.121.30"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4622,7 +4622,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.48.39"
+version = "0.48.40"
 dependencies = [
  "anyhow",
  "dashmap",

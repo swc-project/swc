@@ -7,6 +7,9 @@
 
 - **(es/codegen)** Remove extra spaces in `AssignPatProp` and `KeyValuePatProp` (#7488) ([064bcf4](https://github.com/swc-project/swc/commit/064bcf4854f8505f04b40b72da1becec0c531a7d))
 
+
+- **(es/minifier)** Infect mutation when assigning a property (#7503) ([7f9f0b8](https://github.com/swc-project/swc/commit/7f9f0b8bcebc26eed1354ce2901aabd61261f434))
+
 ### Features
 
 
@@ -21,6 +24,9 @@
 
 ### Performance
 
+
+
+- **(css/prefixer)** Convert macro to a function call to reduce binary size (#7507) ([d545df6](https://github.com/swc-project/swc/commit/d545df6dd951fa2f5756830c40c21ae251e4e634))
 
 
 - **(es)** Use `&dyn Comments` to reduce binary size (#7489) ([2c3ac68](https://github.com/swc-project/swc/commit/2c3ac682e271dad0ab6e82c14ad14f06715d853b))
