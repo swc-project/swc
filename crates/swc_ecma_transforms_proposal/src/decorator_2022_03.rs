@@ -22,6 +22,9 @@ struct Decorator202203 {
 
     state: ClassState,
 
+    /// Prepended before the class
+    pre_class_inits: Vec<Box<Expr>>,
+
     rename_map: FxHashMap<Id, Id>,
 
     extra_exports: Vec<ExportSpecifier>,
@@ -42,9 +45,6 @@ struct ClassState {
 
     /// Injected into static blocks.
     extra_stmts: Vec<Stmt>,
-
-    /// Prepended before the class
-    pre_class_inits: Vec<Box<Expr>>,
 
     class_lhs: Vec<Option<Pat>>,
     class_decorators: Vec<Option<ExprOrSpread>>,
@@ -75,14 +75,12 @@ impl Decorator202203 {
             init: None,
             definite: false,
         });
-        self.state
-            .pre_class_inits
-            .push(Box::new(Expr::Assign(AssignExpr {
-                span: DUMMY_SP,
-                op: op!("="),
-                left: ident.clone().into(),
-                right: dec,
-            })));
+        self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
+            span: DUMMY_SP,
+            op: op!("="),
+            left: ident.clone().into(),
+            right: dec,
+        })));
 
         ident.into()
     }
@@ -245,14 +243,12 @@ impl Decorator202203 {
                     definite: false,
                 });
 
-                self.state
-                    .pre_class_inits
-                    .push(Box::new(Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: PatOrExpr::Pat(ident.clone().into()),
-                        right: Box::new(prop_name_to_expr_value(name.take())),
-                    })));
+                self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(ident.clone().into()),
+                    right: Box::new(prop_name_to_expr_value(name.take())),
+                })));
                 *name = PropName::Computed(ComputedPropName {
                     span: DUMMY_SP,
                     expr: ident.clone().into(),
@@ -681,14 +677,12 @@ impl Decorator202203 {
                     definite: false,
                 });
 
-                self.state
-                    .pre_class_inits
-                    .push(Box::new(Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: PatOrExpr::Pat(ident.clone().into()),
-                        right: Box::new(prop_name_to_expr_value(name.take())),
-                    })));
+                self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(ident.clone().into()),
+                    right: Box::new(prop_name_to_expr_value(name.take())),
+                })));
                 *name = PropName::Computed(ComputedPropName {
                     span: DUMMY_SP,
                     expr: ident.into(),
@@ -1468,11 +1462,11 @@ impl VisitMut for Decorator202203 {
                     .into(),
                 )
             }
-            if !self.state.pre_class_inits.is_empty() {
+            if !self.pre_class_inits.is_empty() {
                 new.push(
                     Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
-                        expr: Expr::from_exprs(self.state.pre_class_inits.take()),
+                        expr: Expr::from_exprs(self.pre_class_inits.take()),
                     })
                     .into(),
                 )
@@ -1640,7 +1634,7 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        let old_pre_class_inits = self.state.pre_class_inits.take();
+        let old_pre_class_inits = self.pre_class_inits.take();
         let old_extra_lets = self.state.extra_lets.take();
         let old_extra_stmts = self.state.extra_stmts.take();
         let old_extra_vars = self.extra_vars.take();
@@ -1657,10 +1651,10 @@ impl VisitMut for Decorator202203 {
                     declare: false,
                 }))))
             }
-            if !self.state.pre_class_inits.is_empty() {
+            if !self.pre_class_inits.is_empty() {
                 new.push(Stmt::Expr(ExprStmt {
                     span: DUMMY_SP,
-                    expr: Expr::from_exprs(self.state.pre_class_inits.take()),
+                    expr: Expr::from_exprs(self.pre_class_inits.take()),
                 }))
             }
             new.push(n.take());
@@ -1684,7 +1678,7 @@ impl VisitMut for Decorator202203 {
         self.extra_vars = old_extra_vars;
         self.state.extra_stmts = old_extra_stmts;
         self.state.extra_lets = old_extra_lets;
-        self.state.pre_class_inits = old_pre_class_inits;
+        self.pre_class_inits = old_pre_class_inits;
     }
 }
 
