@@ -809,12 +809,12 @@ impl Prefixer {
         false
     }
 
-    fn add_declaration3(
+    fn add_declaration3<'a>(
         &mut self,
         n: &Declaration,
         prefix: Prefix,
         property: JsWord,
-        value: Box<dyn Fn() -> Vec<ComponentValue>>,
+        value: Box<dyn 'a + Fn() -> Vec<ComponentValue>>,
     ) {
         if should_prefix(&*property, self.env, true) {
             // Use only specific prefix in prefixed at-rules or rule, i.e.
@@ -3899,7 +3899,7 @@ impl VisitMut for Prefixer {
             self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
-                value: ms_value,
+                value: ms_value.clone(),
                 important: n.important.clone(),
             }));
         }
