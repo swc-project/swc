@@ -816,7 +816,7 @@ impl Prefixer {
         property: JsWord,
         value: Box<dyn 'a + Fn() -> Vec<ComponentValue>>,
     ) {
-        if should_prefix(&*property, self.env, true) {
+        if should_prefix(&property, self.env, true) {
             // Use only specific prefix in prefixed at-rules or rule, i.e.
             // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
             if self.rule_prefix == Some(prefix) || self.rule_prefix.is_none() {
