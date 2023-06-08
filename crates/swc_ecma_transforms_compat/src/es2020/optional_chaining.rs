@@ -4,8 +4,7 @@ use serde::Deserialize;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, prepend_stmt, private_ident, quote_ident, undefined,
-    ExprFactory, StmtLike,
+    alias_ident_for, prepend_stmt, private_ident, quote_ident, undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -131,7 +130,7 @@ impl OptChaining {
 
         CondExpr {
             span: DUMMY_SP,
-            test: init_and_eq_null_or_undefined(&obj_name, m.obj.take()),
+            test: init_and_eq_null_or_undefined(&obj_name, m.obj.take(), self.c.no_document_all),
             cons: undefined(DUMMY_SP),
             alt: Box::new(Expr::Member(MemberExpr {
                 span: m.span,
@@ -254,6 +253,7 @@ impl OptChaining {
                                             test: init_and_eq_null_or_undefined(
                                                 &callee_name,
                                                 cond.alt,
+                                                self.c.no_document_all,
                                             ),
                                             cons: undefined(DUMMY_SP),
                                             alt: final_call,
@@ -264,7 +264,11 @@ impl OptChaining {
 
                             Err(init) => {
                                 let init = Box::new(init);
-                                let init = init_and_eq_null_or_undefined(&this_obj, init);
+                                let init = init_and_eq_null_or_undefined(
+                                    &this_obj,
+                                    init,
+                                    self.c.no_document_all,
+                                );
                                 (Some(this_obj.clone()), init)
                             }
                         }
@@ -280,7 +284,7 @@ impl OptChaining {
 
                 Ok(CondExpr {
                     span: DUMMY_SP,
-                    test: init_and_eq_null_or_undefined(&callee_name, init),
+                    test: init_and_eq_null_or_undefined(&callee_name, init, self.c.no_document_all),
                     cons: undefined(DUMMY_SP),
                     alt: match this {
                         Some(this) => Box::new(Expr::Call(CallExpr {
@@ -356,15 +360,26 @@ impl OptChaining {
     }
 }
 
-fn init_and_eq_null_or_undefined(i: &Ident, init: Box<Expr>) -> Box<Expr> {
+fn init_and_eq_null_or_undefined(i: &Ident, init: Box<Expr>, no_document_all: bool) -> Box<Expr> {
+    let lhs = Box::new(Expr::Assign(AssignExpr {
+        span: DUMMY_SP,
+        op: op!("="),
+        left: PatOrExpr::Pat(i.clone().into()),
+        right: init,
+    }));
+
+    if no_document_all {
+        return Box::new(Expr::Bin(BinExpr {
+            span: DUMMY_SP,
+            left: lhs,
+            op: op!("=="),
+            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+        }));
+    }
+
     let null_cmp = Box::new(Expr::Bin(BinExpr {
         span: DUMMY_SP,
-        left: Box::new(Expr::Assign(AssignExpr {
-            span: DUMMY_SP,
-            op: op!("="),
-            left: PatOrExpr::Pat(i.clone().into()),
-            right: init,
-        })),
+        left: lhs,
         op: op!("==="),
         right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
     }));
