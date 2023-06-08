@@ -120,33 +120,35 @@ impl OptChaining {
                     let obj_name = alias_ident_for(&m.obj, "_obj");
 
                     let obj = match &mut *m.obj {
-                        Expr::OptChain(obj) => match self.handle(obj, Some(obj_name.clone())) {
-                            Ok(obj) => {
-                                self.vars_without_init.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: obj_name.clone().into(),
-                                    init: None,
-                                    definite: false,
-                                });
+                        Expr::OptChain(obj) => {
+                            self.vars_without_init.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: obj_name.clone().into(),
+                                init: None,
+                                definite: false,
+                            });
 
-                                return Ok(CondExpr {
-                                    span: obj.span,
-                                    test: obj.test,
-                                    cons: obj.cons,
-                                    alt: Box::new(Expr::Cond(CondExpr {
-                                        span: DUMMY_SP,
-                                        test: init_and_eq_null_or_undefined(&obj_name, obj.alt),
-                                        cons: undefined(DUMMY_SP),
-                                        alt: Box::new(Expr::Member(MemberExpr {
-                                            span: m.span,
-                                            obj: obj_name.into(),
-                                            prop: m.prop.take(),
+                            match self.handle(obj, Some(obj_name.clone())) {
+                                Ok(obj) => {
+                                    return Ok(CondExpr {
+                                        span: obj.span,
+                                        test: obj.test,
+                                        cons: obj.cons,
+                                        alt: Box::new(Expr::Cond(CondExpr {
+                                            span: DUMMY_SP,
+                                            test: init_and_eq_null_or_undefined(&obj_name, obj.alt),
+                                            cons: undefined(DUMMY_SP),
+                                            alt: Box::new(Expr::Member(MemberExpr {
+                                                span: m.span,
+                                                obj: obj_name.into(),
+                                                prop: m.prop.take(),
+                                            })),
                                         })),
-                                    })),
-                                });
+                                    });
+                                }
+                                Err(obj) => Box::new(obj),
                             }
-                            Err(obj) => Box::new(obj),
-                        },
+                        }
                         _ => {
                             m.obj.visit_mut_with(self);
                             m.obj.take()
