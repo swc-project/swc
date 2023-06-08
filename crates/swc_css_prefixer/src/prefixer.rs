@@ -809,6 +809,46 @@ impl Prefixer {
         false
     }
 
+    fn add_declaration2<'a>(
+        &mut self,
+        n: &Declaration,
+        property: JsWord,
+        value: Option<Box<dyn 'a + Fn() -> Vec<ComponentValue>>>,
+    ) {
+        if should_prefix(&property, self.env, true) && !self.is_duplicate(&property) {
+            let name = DeclarationName::Ident(Ident {
+                span: DUMMY_SP,
+                value: property,
+                raw: None,
+            });
+
+            if let Some(value) = value {
+                let mut declaration = Declaration {
+                    span: n.span,
+                    name,
+                    value: value(),
+                    important: n.important.clone(),
+                };
+
+                // TODO should we handle with prefix?
+                declaration.visit_mut_with(self);
+
+                self.added_declarations.push(Box::new(declaration));
+            } else {
+                let mut declaration = Declaration {
+                    span: n.span,
+                    name,
+                    value: n.value.clone(),
+                    important: n.important.clone(),
+                };
+
+                declaration.visit_mut_with(self);
+
+                self.added_declarations.push(Box::new(declaration));
+            }
+        }
+    }
+
     fn add_declaration3<'a>(
         &mut self,
         n: &Declaration,
@@ -1653,42 +1693,7 @@ impl VisitMut for Prefixer {
             }};
 
             ($property:expr, $value:expr) => {{
-                let property: JsWord = $property;
-
-                if should_prefix(&*property, self.env, true) && !self.is_duplicate(&$property) {
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: property,
-                        raw: None,
-                    });
-
-                    let value: Option<Box<dyn Fn() -> Vec<ComponentValue>>> = $value;
-
-                    if let Some(value) = value {
-                        let mut declaration = Declaration {
-                            span: n.span,
-                            name,
-                            value: value(),
-                            important: n.important.clone(),
-                        };
-
-                        // TODO should we handle with prefix?
-                        declaration.visit_mut_with(self);
-
-                        self.added_declarations.push(Box::new(declaration));
-                    } else {
-                        let mut declaration = Declaration {
-                            span: n.span,
-                            name,
-                            value: n.value.clone(),
-                            important: n.important.clone(),
-                        };
-
-                        declaration.visit_mut_with(self);
-
-                        self.added_declarations.push(Box::new(declaration));
-                    }
-                }
+                self.add_declaration2(&n, $property, $value);
             }};
         }
 
