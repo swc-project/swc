@@ -1,2 +1,2 @@
-var _a, _a$b$c, _a$b;
-(_a = a) === null || _a === void 0 ? void 0 : (_a$b$c = (_a$b = _a.b).c) === null || _a$b$c === void 0 ? void 0 : _a$b$c.call(_a$b);
+var _a_b_c, _object;
+(_object = a) === null || _object === void 0 ? void 0 : (_a_b_c = _object.b.c) === null || _a_b_c === void 0 ? void 0 : _a_b_c.call(_object);
