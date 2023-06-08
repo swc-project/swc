@@ -100,6 +100,15 @@ impl RustPlugins {
                             .expect("plugin module should be loaded");
 
                         let plugin_name = plugin_module_bytes.get_module_name().to_string();
+                        let runtime = swc_plugin_runner::wasix_runtime::build_wasi_runtime(
+                            crate::config::PLUGIN_MODULE_CACHE
+                                .inner
+                                .get()
+                                .unwrap()
+                                .lock()
+                                .get_fs_cache_root()
+                                .map(|v| std::path::PathBuf::from(v)),
+                        );
                         let mut transform_plugin_executor =
                             swc_plugin_runner::create_plugin_transform_executor(
                                 &self.source_map,
@@ -107,6 +116,7 @@ impl RustPlugins {
                                 &self.metadata_context,
                                 plugin_module_bytes,
                                 Some(p.1),
+                                runtime,
                             );
 
                         let span = tracing::span!(

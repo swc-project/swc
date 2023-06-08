@@ -211,7 +211,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.50.38"
+version = "0.50.39"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3400,7 +3400,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.261.38"
+version = "0.261.39"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3585,7 +3585,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.76.44"
+version = "0.76.46"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3636,7 +3636,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.153.15"
+version = "0.153.16"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3780,7 +3780,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.149.14"
+version = "0.149.15"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -4437,7 +4437,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.184.38"
+version = "0.184.39"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4622,7 +4622,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.48.38"
+version = "0.48.39"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -4701,7 +4701,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.95.16"
+version = "0.95.17"
 dependencies = [
  "anyhow",
  "criterion",
@@ -4721,6 +4721,7 @@ dependencies = [
  "swc_node_base",
  "swc_plugin_proxy",
  "testing",
+ "tokio",
  "tracing",
  "wasmer",
  "wasmer-cache",
@@ -5844,6 +5845,7 @@ dependencies = [
  "pin-project",
  "rand",
  "serde",
+ "serde_cbor",
  "serde_derive",
  "serde_json",
  "serde_yaml",

@@ -36,6 +36,8 @@ const MODULE_SERIALIZATION_VERSION: &str = "v6";
 #[derive(Default)]
 pub struct PluginModuleCacheInner {
     #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
+    fs_cache_root: Option<String>,
+    #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
     fs_cache_store: Option<FileSystemCache>,
     // Stores the string representation of the hash of the plugin module to store into
     // FileSystemCache. This works since SWC does not revalidates plugin in single process
@@ -51,6 +53,13 @@ pub struct PluginModuleCacheInner {
 }
 
 impl PluginModuleCacheInner {
+    pub fn get_fs_cache_root(&self) -> Option<String> {
+        #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
+        return self.fs_cache_root.clone();
+
+        None
+    }
+
     /// Check if the cache contains bytes for the corresponding key.
     pub fn contains(&self, key: &str) -> bool {
         let is_in_cache = self.memory_cache_store.contains_key(key)
@@ -183,6 +192,8 @@ impl PluginModuleCache {
         fs_cache_store_root: &Option<String>,
     ) -> PluginModuleCacheInner {
         PluginModuleCacheInner {
+            #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
+            fs_cache_root: fs_cache_store_root.clone(),
             #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
             fs_cache_store: if enable_fs_cache_store {
                 create_filesystem_cache(fs_cache_store_root)
