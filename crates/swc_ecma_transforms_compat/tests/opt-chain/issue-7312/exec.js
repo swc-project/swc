@@ -1,3 +1,3 @@
 var a = undefined;
 
-a?.a()()?.a()();
+a?.b()()?.c()();
