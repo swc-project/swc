@@ -121,14 +121,12 @@ impl OptChaining {
 
                     let obj = match &mut *m.obj {
                         Expr::OptChain(obj) => {
-                            if obj.optional {
-                                self.vars_without_init.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: obj_name.clone().into(),
-                                    init: None,
-                                    definite: false,
-                                });
-                            }
+                            self.vars_without_init.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: obj_name.clone().into(),
+                                init: None,
+                                definite: false,
+                            });
 
                             match self.handle(obj, Some(obj_name.clone())) {
                                 Ok(obj) => {
