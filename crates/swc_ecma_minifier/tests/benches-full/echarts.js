@@ -18546,11 +18546,13 @@
                 layout.r = layout.r0, layout.r0 = tmp;
             }
             var r = mathMin$6(layout.r, coordSysClipArea.r), r0 = mathMax$6(layout.r0, coordSysClipArea.r0);
-            if (layout.r = r, layout.r0 = r0, signR < 0) {
+            layout.r = r, layout.r0 = r0;
+            var clipped = r - r0 < 0;
+            if (signR < 0) {
                 var tmp = layout.r;
                 layout.r = layout.r0, layout.r0 = tmp;
             }
-            return r - r0 < 0;
+            return clipped;
         }
     }, elementCreator = {
         cartesian2d: function(seriesModel, data, newIndex, layout, isHorizontal, animationModel, axisModel, isUpdate, roundCap) {

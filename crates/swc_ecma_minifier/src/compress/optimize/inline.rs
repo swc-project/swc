@@ -712,85 +712,87 @@ impl Optimizer<'_> {
 
     /// Actually inlines variables.
     pub(super) fn inline(&mut self, e: &mut Expr) {
-        if let Expr::Member(me) = e {
-            if let MemberProp::Computed(ref mut prop) = me.prop {
-                if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
-                    if let Expr::Ident(obj) = &*me.obj {
-                        let new = self.vars.lits_for_array_access.get(&obj.to_id());
+        match e {
+            Expr::Member(me) => {
+                if let MemberProp::Computed(prop) = &mut me.prop {
+                    if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
+                        if let Expr::Ident(obj) = &*me.obj {
+                            let new = self.vars.lits_for_array_access.get(&obj.to_id());
 
-                        if let Some(new) = new {
-                            report_change!("inline: Inlined array access");
-                            self.changed = true;
+                            if let Some(new) = new {
+                                report_change!("inline: Inlined array access");
+                                self.changed = true;
 
-                            me.obj = new.clone();
-                            // TODO(kdy1): Optimize performance by skipping visiting of children
-                            // nodes.
-                            e.visit_mut_with(&mut expr_simplifier(
-                                self.marks.unresolved_mark,
-                                Default::default(),
-                            ));
+                                me.obj = new.clone();
+                                // TODO(kdy1): Optimize performance by skipping visiting of children
+                                // nodes.
+                                e.visit_mut_with(&mut expr_simplifier(
+                                    self.marks.unresolved_mark,
+                                    Default::default(),
+                                ));
+                            }
                         }
-                        return;
                     }
                 }
             }
-        }
-
-        if let Expr::Ident(i) = e {
-            let id = i.to_id();
-            if let Some(value) = self
-                .vars
-                .lits
-                .get(&id)
-                .or_else(|| {
-                    if self.ctx.is_callee {
-                        self.vars.simple_functions.get(&i.to_id())
-                    } else {
-                        None
-                    }
-                })
-                .cloned()
-            {
-                if !matches!(&*value, Expr::Ident(..) | Expr::Member(..)) && self.ctx.is_update_arg
+            Expr::Ident(i) => {
+                let id = i.to_id();
+                if let Some(value) = self
+                    .vars
+                    .lits
+                    .get(&id)
+                    .or_else(|| {
+                        if self.ctx.is_callee {
+                            self.vars.simple_functions.get(&i.to_id())
+                        } else {
+                            None
+                        }
+                    })
+                    .cloned()
                 {
-                    return;
-                }
-
-                self.changed = true;
-                report_change!("inline: Replacing a variable `{}` with cheap expression", i);
-
-                if let Expr::Ident(i) = &*value {
-                    if let Some(usage) = self.data.vars.get_mut(&i.to_id()) {
-                        usage.ref_count += 1;
-                        usage.usage_count += 1;
-                    }
-                }
-
-                *e = *value;
-                return;
-            }
-
-            // Check without cloning
-            if let Some(value) = self.vars.vars_for_inlining.get(&i.to_id()) {
-                if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(value) {
-                    return;
-                }
-
-                if let Expr::Member(..) = &**value {
-                    if self.ctx.executed_multiple_time {
+                    if !matches!(&*value, Expr::Ident(..) | Expr::Member(..))
+                        && self.ctx.is_update_arg
+                    {
                         return;
                     }
+
+                    self.changed = true;
+                    report_change!("inline: Replacing a variable `{}` with cheap expression", i);
+
+                    if let Expr::Ident(i) = &*value {
+                        if let Some(usage) = self.data.vars.get_mut(&i.to_id()) {
+                            usage.ref_count += 1;
+                            usage.usage_count += 1;
+                        }
+                    }
+
+                    *e = *value;
+                    return;
+                }
+
+                // Check without cloning
+                if let Some(value) = self.vars.vars_for_inlining.get(&i.to_id()) {
+                    if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(value) {
+                        return;
+                    }
+
+                    if let Expr::Member(..) = &**value {
+                        if self.ctx.executed_multiple_time {
+                            return;
+                        }
+                    }
+                }
+
+                if let Some(value) = self.vars.vars_for_inlining.remove(&i.to_id()) {
+                    self.changed = true;
+                    report_change!("inline: Replacing '{}' with an expression", i);
+
+                    *e = *value;
+
+                    log_abort!("inline: [Change] {}", crate::debug::dump(&*e, false))
                 }
             }
-
-            if let Some(value) = self.vars.vars_for_inlining.remove(&i.to_id()) {
-                self.changed = true;
-                report_change!("inline: Replacing '{}' with an expression", i);
-
-                *e = *value;
-
-                log_abort!("inline: [Change] {}", crate::debug::dump(&*e, false))
-            }
+            _ => (),
         }
     }
 }
