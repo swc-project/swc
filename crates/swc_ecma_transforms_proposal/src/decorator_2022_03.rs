@@ -384,9 +384,9 @@ impl Decorator202203 {
     }
 
     fn handle_class_decl(&mut self, c: &mut ClassDecl) -> Option<Stmt> {
-        if !c.class.decorators.is_empty() {
-            let old_state = take(&mut self.state);
+        let old_state = take(&mut self.state);
 
+        if !c.class.decorators.is_empty() {
             let decorators = self.preserve_side_effect_of_decorators(c.class.decorators.take());
 
             let init_class = private_ident!("_initClass");
@@ -661,6 +661,8 @@ impl Decorator202203 {
                 return Some(Stmt::Decl(Decl::Class(c.take())));
             }
         }
+
+        self.state = old_state;
 
         None
     }
