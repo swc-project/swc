@@ -71,11 +71,11 @@ impl VisitMut for OptChaining {
                 op: op!("delete"),
                 ..
             }) => {
-                if let Expr::OptChain(e) = &mut **arg {
-                    match self.handle(e, None) {
+                if let Expr::OptChain(opt) = &mut **arg {
+                    match self.handle(opt, None) {
                         Ok(v) => {
                             //
-                            *arg = Box::new(Expr::Cond(CondExpr {
+                            *e = Expr::Cond(CondExpr {
                                 span: *span,
                                 test: v.test,
                                 cons: v.cons,
@@ -84,7 +84,7 @@ impl VisitMut for OptChaining {
                                     op: op!("delete"),
                                     arg: v.alt,
                                 })),
-                            }));
+                            });
 
                             return;
                         }
