@@ -147,33 +147,29 @@ impl OptChaining {
         e: &mut OptChainExpr,
         store_this_to: Option<Ident>,
     ) -> Result<CondExpr, Expr> {
-        dbg!(&store_this_to);
-        dbg!(&*e);
-
         match &mut *e.base {
             OptChainBase::Member(m) => {
                 if e.optional {
                     Ok(self.handle_optional_member(m, store_this_to))
                 } else {
-                    dbg!();
                     let obj_name = alias_ident_for(&m.obj, "_obj");
 
                     let obj = match &mut *m.obj {
                         Expr::OptChain(obj) => {
-                            dbg!();
-                            self.vars_without_init.push(VarDeclarator {
-                                span: DUMMY_SP,
-                                name: obj_name.clone().into(),
-                                init: None,
-                                definite: false,
-                            });
+                            if store_this_to.is_none() {
+                                self.vars_without_init.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: obj_name.clone().into(),
+                                    init: None,
+                                    definite: false,
+                                });
+                            }
 
                             match self.handle(
                                 obj,
                                 Some(store_this_to.clone().unwrap_or_else(|| obj_name.clone())),
                             ) {
                                 Ok(obj) => {
-                                    dbg!();
                                     return Ok(CondExpr {
                                         span: obj.span,
                                         test: obj.test,
@@ -185,21 +181,14 @@ impl OptChaining {
                                         })),
                                     });
                                 }
-                                Err(obj) => {
-                                    dbg!();
-                                    Box::new(obj)
-                                }
+                                Err(obj) => Box::new(obj),
                             }
                         }
                         _ => {
-                            dbg!();
-
                             m.obj.visit_mut_with(self);
                             m.obj.take()
                         }
                     };
-
-                    dbg!();
 
                     Err(Expr::Member(MemberExpr {
                         span: m.span,
