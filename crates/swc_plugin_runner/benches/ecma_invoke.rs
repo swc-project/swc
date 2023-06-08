@@ -91,6 +91,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                 )),
                 Box::new(plugin_module.clone()),
                 None,
+                None,
             );
 
             let experimental_metadata: VersionedSerializable<AHashMap<String, String>> =

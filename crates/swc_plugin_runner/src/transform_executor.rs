@@ -14,7 +14,7 @@ use swc_common::{
     SourceMap,
 };
 use wasmer::{AsStoreMut, FunctionEnv, Instance, Store, TypedFunction};
-use wasmer_wasix::{default_fs_backing, is_wasi_module, WasiEnv, WasiFunctionEnv};
+use wasmer_wasix::{default_fs_backing, is_wasi_module, WasiEnv, WasiFunctionEnv, WasiRuntime};
 
 use crate::plugin_module_bytes::PluginModuleBytes;
 #[cfg(feature = "__rkyv")]
@@ -119,13 +119,9 @@ impl PluginTransformState {
             guest_program_ptr.1,
         )?;
 
-        /* [Note]: currently this is disabled: this cleanup is for the multi-threaded
-         * wasi environment as well as cleaning up file handles which is for the cases
-         * running wasi binary as standalone. SWC doesn't need neither currently, will
-         * revisit once we support multithreaded plugin.
         if let Some(wasi_env) = &self.wasi_env {
             wasi_env.cleanup(&mut self.store, None);
-        }*/
+        }
 
         ret
     }
@@ -177,6 +173,7 @@ pub struct TransformExecutor {
     metadata_context: Arc<TransformPluginMetadataContext>,
     plugin_config: Option<serde_json::Value>,
     module_bytes: Box<dyn PluginModuleBytes>,
+    runtime: Option<Arc<dyn WasiRuntime + Send + Sync>>,
 }
 
 #[cfg(feature = "__rkyv")]
@@ -191,6 +188,7 @@ impl TransformExecutor {
         unresolved_mark: &swc_common::Mark,
         metadata_context: &Arc<TransformPluginMetadataContext>,
         plugin_config: Option<serde_json::Value>,
+        runtime: Option<Arc<dyn WasiRuntime + Send + Sync>>,
     ) -> Self {
         Self {
             source_map: source_map.clone(),
@@ -198,6 +196,7 @@ impl TransformExecutor {
             metadata_context: metadata_context.clone(),
             plugin_config,
             module_bytes,
+            runtime,
         }
     }
 
@@ -260,7 +259,11 @@ impl TransformExecutor {
         // TODO: wasm host native runtime throws 'Memory should be set on `WasiEnv`
         // first'
         let (instance, wasi_env) = if is_wasi_module(&module) {
-            let builder = WasiEnv::builder(self.module_bytes.get_module_name());
+            let mut builder = WasiEnv::builder(self.module_bytes.get_module_name());
+
+            if let Some(runtime) = &self.runtime {
+                builder.set_runtime(runtime.clone());
+            }
 
             // Implicitly enable filesystem access for the wasi plugin to cwd.
             //
@@ -374,252 +377,3 @@ impl TransformExecutor {
         transform_state.run(program, self.unresolved_mark, should_enable_comments_proxy)
     }
 }
-
-/*
-/// A struct encapsule executing a plugin's transform interop to its teardown
-pub struct TransformExecutor {
-    // Main transform interface plugin exports
-    exported_plugin_transform: TypedFunction<(u32, u32, u32, u32), u32>,
-    // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
-    // memory space
-    exported_plugin_free: TypedFunction<(u32, u32), u32>,
-    // `__alloc` function automatically exported via swc_plugin sdk to allow allocation in guest
-    // memory space
-    exported_plugin_alloc: TypedFunction<u32, u32>,
-    wasi_env: Option<WasiFunctionEnv>,
-    instance: Instance,
-    store: Store,
-    // Reference to the pointers successfully allocated which'll be freed by Drop.
-    allocated_ptr_vec: Vec<(u32, u32)>,
-    transform_result: Arc<Mutex<Vec<u8>>>,
-    // diagnostic metadata for the swc_core plugin binary uses.
-    pub plugin_core_diag: PluginCorePkgDiagnostics,
-}
-
-#[cfg(feature = "__rkyv")]
-impl TransformExecutor {
-    #[tracing::instrument(
-        level = "info",
-        skip(source_map, metadata_context, plugin_config, module_bytes)
-    )]
-    pub fn new(
-        source_map: &Arc<SourceMap>,
-        metadata_context: &Arc<TransformPluginMetadataContext>,
-        plugin_config: Option<serde_json::Value>,
-        module_bytes: &dyn PluginModuleBytes,
-    ) -> Self {
-        unimplemented!()
-    }
-
-
-    /// Creates a transform executor from a raw bytes.
-    #[tracing::instrument(
-        level = "info",
-        skip(source_map, metadata_context, plugin_config, plugin_module)
-    )]
-    pub fn from_raw_bytes(
-        source_map: &Arc<SourceMap>,
-        metadata_context: &Arc<TransformPluginMetadataContext>,
-        plugin_config: Option<serde_json::Value>,
-        plugin_module: &RawPluginModuleBytes,
-    ) -> Result<Self, Error> {
-        let (store, module) = plugin_module.compile_module()?;
-
-        TransformExecutor::from_module(
-            source_map,
-            metadata_context,
-            plugin_config,
-            &plugin_module.plugin_name,
-            store,
-            module,
-        )
-    }
-
-    /// Creates a transform executor from a bytes seriaized by runtime (wasmer).
-    #[tracing::instrument(
-        level = "info",
-        skip(source_map, metadata_context, plugin_config, plugin_module)
-    )]
-    pub fn from_serialized_bytes(
-        source_map: &Arc<SourceMap>,
-        metadata_context: &Arc<TransformPluginMetadataContext>,
-        plugin_config: Option<serde_json::Value>,
-        plugin_module: &SerializedPluginModuleBytes,
-    ) -> Result<Self, Error> {
-        let (store, module) = plugin_module.compile_module()?;
-
-        TransformExecutor::from_module(
-            source_map,
-            metadata_context,
-            plugin_config,
-            &plugin_module.plugin_name,
-            store,
-            module,
-        )
-    }
-
-    /// Creates a transform executor from an already compiled module.
-    #[tracing::instrument(
-        level = "info",
-        skip(source_map, metadata_context, plugin_config, store, module)
-    )]
-    pub fn from_module(
-        source_map: &Arc<SourceMap>,
-        metadata_context: &Arc<TransformPluginMetadataContext>,
-        plugin_config: Option<serde_json::Value>,
-        plugin_name: &str,
-        store: Store,
-        module: Module,
-    ) -> Result<Self, Error> {
-        let (instance, transform_result, diagnostics_buffer, wasi_env) =
-            crate::load_plugin::load_plugin(
-                &mut store,
-                &mut module,
-                source_map,
-                metadata_context,
-                plugin_config,
-                plugin_name,
-            )?;
-
-        Ok(TransformExecutor {
-            exported_plugin_transform: instance
-                .exports
-                .get_typed_function(&store, "__transform_plugin_process_impl")?,
-            exported_plugin_free: instance.exports.get_typed_function(&store, "__free")?,
-            exported_plugin_alloc: instance.exports.get_typed_function(&store, "__alloc")?,
-            instance,
-            store,
-            wasi_env,
-            allocated_ptr_vec: Vec::with_capacity(3),
-            transform_result,
-            plugin_core_diag: diagnostics_buffer,
-        })
-    }
-
-    /// Copy host's serialized bytes into guest (plugin)'s allocated memory.
-    /// Once transformation completes, host should free allocated memory.
-    #[tracing::instrument(level = "info", skip_all)]
-    fn write_bytes_into_guest(
-        &mut self,
-        serialized_bytes: &PluginSerializedBytes,
-    ) -> Result<(u32, u32), Error> {
-        let memory = self.instance.exports.get_memory("memory")?;
-
-        let ptr = write_into_memory_view(
-            memory,
-            &mut self.store.as_store_mut(),
-            serialized_bytes,
-            |s, serialized_len| {
-                self.exported_plugin_alloc
-                    .call(s, serialized_len.try_into().expect("booo"))
-                    .unwrap_or_else(|_| {
-                        panic!(
-                            "Should able to allocate memory for the size of {}",
-                            serialized_len
-                        )
-                    })
-            },
-        );
-
-        self.allocated_ptr_vec.push(ptr);
-        Ok(ptr)
-    }
-
-    /// Copy guest's memory into host, construct serialized struct from raw
-    /// bytes.
-    fn read_transformed_result_bytes_from_guest(
-        &mut self,
-        returned_ptr_result: u32,
-    ) -> Result<PluginSerializedBytes, Error> {
-        let transformed_result = &(*self.transform_result.lock());
-        let ret = PluginSerializedBytes::from_slice(&transformed_result[..]);
-
-        if returned_ptr_result == 0 {
-            Ok(ret)
-        } else {
-            let err: PluginError = ret.deserialize()?.into_inner();
-            match err {
-                PluginError::SizeInteropFailure(msg) => Err(anyhow!(
-                    "Failed to convert pointer size to calculate: {}",
-                    msg
-                )),
-                PluginError::Deserialize(msg) | PluginError::Serialize(msg) => {
-                    Err(anyhow!("{}", msg))
-                }
-                _ => Err(anyhow!(
-                    "Unexpected error occurred while running plugin transform"
-                )),
-            }
-        }
-    }
-
-    /**
-     * Check compile-time version of AST schema between the plugin and
-     * the host. Returns true if it's compatible, false otherwise.
-     *
-     * Host should appropriately handle if plugin is not compatible to the
-     * current runtime.
-     */
-    #[allow(unreachable_code)]
-    pub fn is_transform_schema_compatible(&mut self) -> Result<bool, Error> {
-        #[cfg(any(
-            feature = "plugin_transform_schema_v1",
-            feature = "plugin_transform_schema_vtest"
-        ))]
-        return {
-            let host_schema_version = PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
-
-            // TODO: this is incomplete
-            if host_schema_version >= self.plugin_core_diag.ast_schema_version {
-                Ok(true)
-            } else {
-                Ok(false)
-            }
-        };
-
-        #[cfg(not(all(
-            feature = "plugin_transform_schema_v1",
-            feature = "plugin_transform_schema_vtest"
-        )))]
-        anyhow::bail!(
-            "Plugin runner cannot detect plugin's schema version. Ensure host is compiled with \
-             proper versions"
-        )
-    }
-
-    #[tracing::instrument(level = "info", skip_all)]
-    pub fn transform(
-        &mut self,
-        program: &PluginSerializedBytes,
-        unresolved_mark: swc_common::Mark,
-        should_enable_comments_proxy: bool,
-    ) -> Result<PluginSerializedBytes, Error> {
-        let should_enable_comments_proxy = u32::from(should_enable_comments_proxy);
-        let guest_program_ptr = self.write_bytes_into_guest(program)?;
-
-        let result = self.exported_plugin_transform.call(
-            &mut self.store,
-            guest_program_ptr.0,
-            guest_program_ptr.1,
-            unresolved_mark.as_u32(),
-            should_enable_comments_proxy,
-        )?;
-
-        self.read_transformed_result_bytes_from_guest(result)
-    }
-}
-
-impl Drop for TransformExecutor {
-    fn drop(&mut self) {
-        for ptr in self.allocated_ptr_vec.iter() {
-            self.exported_plugin_free
-                .call(&mut self.store, ptr.0, ptr.1)
-                .expect("Failed to free memory allocated in the plugin");
-        }
-
-        if let Some(wasi_env) = &self.wasi_env {
-            wasi_env.cleanup(&mut self.store, None);
-        }
-    }
-}
- */
