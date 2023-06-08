@@ -1391,7 +1391,10 @@ impl<I: Tokens> Parser<I> {
             };
             let args = self.parse_args(obj.is_import())?;
             let span = span!(self, start);
-            return if let Some(..) = question_dot_token {
+            return if match &obj {
+                Callee::Expr(obj) => obj.is_opt_chain(),
+                _ => false,
+            } {
                 match obj {
                     Callee::Super(_) | Callee::Import(_) => {
                         syntax_error!(self, self.input.cur_span(), SyntaxError::SuperCallOptional)
@@ -1399,7 +1402,7 @@ impl<I: Tokens> Parser<I> {
                     Callee::Expr(callee) => Ok((
                         Box::new(Expr::OptChain(OptChainExpr {
                             span,
-                            optional: true,
+                            optional: question_dot_token.is_some(),
                             base: Box::new(OptChainBase::Call(OptCall {
                                 span: span!(self, start),
                                 callee,
