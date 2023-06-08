@@ -195,7 +195,7 @@ impl OptChaining {
                             Some(alias) => Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
-                                left: alias.clone().into(),
+                                left: alias.into(),
                                 right: obj,
                             })),
                             _ => obj,
@@ -237,9 +237,7 @@ impl OptChaining {
                                         .clone()
                                         .make_member(quote_ident!("call"))
                                         .as_callee(),
-                                    args: once(this_obj.clone().as_arg())
-                                        .chain(call.args.take())
-                                        .collect(),
+                                    args: once(this_obj.as_arg()).chain(call.args.take()).collect(),
                                     type_args: Default::default(),
                                 }));
 
@@ -269,7 +267,7 @@ impl OptChaining {
                                     init,
                                     self.c.no_document_all,
                                 );
-                                (Some(this_obj.clone()), init)
+                                (Some(this_obj), init)
                             }
                         }
                     }
