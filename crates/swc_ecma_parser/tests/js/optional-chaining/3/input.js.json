@@ -1,0 +1,83 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 20,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 20,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 1,
+          "end": 20,
+          "ctxt": 0
+        },
+        "optional": false,
+        "base": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 1,
+            "end": 20,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "OptionalChainingExpression",
+            "span": {
+              "start": 1,
+              "end": 15,
+              "ctxt": 0
+            },
+            "optional": true,
+            "base": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1,
+                "end": 15,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1,
+                  "end": 8,
+                  "ctxt": 0
+                },
+                "value": "missing",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 10,
+                  "end": 15,
+                  "ctxt": 0
+                },
+                "value": "thing",
+                "optional": false
+              }
+            }
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 16,
+              "end": 20,
+              "ctxt": 0
+            },
+            "value": "name",
+            "optional": false
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
