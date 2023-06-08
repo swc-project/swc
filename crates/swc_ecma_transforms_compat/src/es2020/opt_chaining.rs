@@ -78,11 +78,7 @@ impl VisitMut for OptChaining {
 
 impl OptChaining {
     /// Returns `(obj, value)`
-    fn handle_optional_member(
-        &mut self,
-        m: &mut MemberExpr,
-        obj_name: Option<Ident>,
-    ) -> (Ident, CondExpr) {
+    fn handle_optional_member(&mut self, m: &mut MemberExpr, obj_name: Option<Ident>) -> CondExpr {
         let obj_name = obj_name.unwrap_or_else(|| {
             let v = alias_ident_for(&m.obj, "_obj");
 
@@ -98,19 +94,16 @@ impl OptChaining {
 
         m.obj.visit_mut_with(self);
 
-        (
-            obj_name.clone(),
-            CondExpr {
-                span: DUMMY_SP,
-                test: init_and_eq_null_or_undefined(&obj_name, m.obj.take()),
-                cons: undefined(DUMMY_SP),
-                alt: Box::new(Expr::Member(MemberExpr {
-                    span: m.span,
-                    obj: obj_name.clone().into(),
-                    prop: m.prop.take(),
-                })),
-            },
-        )
+        CondExpr {
+            span: DUMMY_SP,
+            test: init_and_eq_null_or_undefined(&obj_name, m.obj.take()),
+            cons: undefined(DUMMY_SP),
+            alt: Box::new(Expr::Member(MemberExpr {
+                span: m.span,
+                obj: obj_name.clone().into(),
+                prop: m.prop.take(),
+            })),
+        }
     }
 
     /// Returns `(alias, value)`
@@ -122,9 +115,43 @@ impl OptChaining {
         match &mut *e.base {
             OptChainBase::Member(m) => {
                 if e.optional {
-                    Ok(self.handle_optional_member(m, store_this_to).1)
+                    Ok(self.handle_optional_member(m, store_this_to))
                 } else {
-                    m.obj.visit_mut_with(self);
+                    let obj_name = alias_ident_for(&m.obj, "_obj");
+
+                    let obj = match &mut *m.obj {
+                        Expr::OptChain(obj) => match self.handle(obj, Some(obj_name.clone())) {
+                            Ok(obj) => {
+                                self.vars_without_init.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: obj_name.clone().into(),
+                                    init: None,
+                                    definite: false,
+                                });
+
+                                return Ok(CondExpr {
+                                    span: obj.span,
+                                    test: obj.test,
+                                    cons: obj.cons,
+                                    alt: Box::new(Expr::Cond(CondExpr {
+                                        span: DUMMY_SP,
+                                        test: init_and_eq_null_or_undefined(&obj_name, obj.alt),
+                                        cons: undefined(DUMMY_SP),
+                                        alt: Box::new(Expr::Member(MemberExpr {
+                                            span: m.span,
+                                            obj: obj_name.into(),
+                                            prop: m.prop.take(),
+                                        })),
+                                    })),
+                                });
+                            }
+                            Err(obj) => Box::new(obj),
+                        },
+                        _ => {
+                            m.obj.visit_mut_with(self);
+                            m.obj.take()
+                        }
+                    };
 
                     Err(Expr::Member(MemberExpr {
                         span: m.span,
@@ -133,9 +160,9 @@ impl OptChaining {
                                 span: DUMMY_SP,
                                 op: op!("="),
                                 left: alias.clone().into(),
-                                right: m.obj.take(),
+                                right: obj,
                             })),
-                            _ => m.obj.take(),
+                            _ => obj,
                         },
                         prop: m.prop.take(),
                     }))
