@@ -134,15 +134,10 @@ impl OptChaining {
                                         span: obj.span,
                                         test: obj.test,
                                         cons: obj.cons,
-                                        alt: Box::new(Expr::Cond(CondExpr {
-                                            span: DUMMY_SP,
-                                            test: init_and_eq_null_or_undefined(&obj_name, obj.alt),
-                                            cons: undefined(DUMMY_SP),
-                                            alt: Box::new(Expr::Member(MemberExpr {
-                                                span: m.span,
-                                                obj: obj_name.into(),
-                                                prop: m.prop.take(),
-                                            })),
+                                        alt: Box::new(Expr::Member(MemberExpr {
+                                            span: m.span,
+                                            obj: obj.alt,
+                                            prop: m.prop.take(),
                                         })),
                                     });
                                 }
