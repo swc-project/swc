@@ -1,4 +1,7 @@
-use std::{iter::once, mem::transmute};
+use std::{
+    iter::once,
+    mem::{take, transmute},
+};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
@@ -19,6 +22,8 @@ pub fn decorator_2022_03() -> impl VisitMut + Fold {
 struct Decorator202203 {
     /// Variables without initializer.
     extra_vars: Vec<VarDeclarator>,
+
+    extra_lets: Vec<VarDeclarator>,
 
     state: ClassState,
 
@@ -48,8 +53,6 @@ struct ClassState {
 
     class_lhs: Vec<Option<Pat>>,
     class_decorators: Vec<Option<ExprOrSpread>>,
-
-    extra_lets: Vec<VarDeclarator>,
 }
 
 impl Decorator202203 {
@@ -382,6 +385,8 @@ impl Decorator202203 {
 
     fn handle_class_decl(&mut self, c: &mut ClassDecl) -> Option<Stmt> {
         if !c.class.decorators.is_empty() {
+            let old_state = take(&mut self.state);
+
             let decorators = self.preserve_side_effect_of_decorators(c.class.decorators.take());
 
             let init_class = private_ident!("_initClass");
@@ -396,7 +401,7 @@ impl Decorator202203 {
             let preserved_class_name = c.ident.clone().private();
             let new_class_name = private_ident!(format!("_{}", c.ident.sym));
 
-            self.state.extra_lets.push(VarDeclarator {
+            self.extra_lets.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: Pat::Ident(new_class_name.clone().into()),
                 init: None,
@@ -610,6 +615,8 @@ impl Decorator202203 {
                     implements: Default::default(),
                 });
 
+                self.state = old_state;
+
                 return Some(
                     NewExpr {
                         span: DUMMY_SP,
@@ -648,6 +655,8 @@ impl Decorator202203 {
                         .into_stmt()],
                     },
                 }));
+
+                self.state = old_state;
 
                 return Some(Stmt::Decl(Decl::Class(c.take())));
             }
@@ -1445,18 +1454,18 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        let old_extra_lets = self.state.extra_lets.take();
+        let old_extra_lets = self.extra_lets.take();
 
         let mut new = Vec::with_capacity(n.len());
 
         for mut n in n.take() {
             n.visit_mut_with(self);
-            if !self.state.extra_lets.is_empty() {
+            if !self.extra_lets.is_empty() {
                 new.push(
                     Stmt::Decl(Decl::Var(Box::new(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Let,
-                        decls: self.state.extra_lets.take(),
+                        decls: self.extra_lets.take(),
                         declare: false,
                     })))
                     .into(),
@@ -1505,7 +1514,7 @@ impl VisitMut for Decorator202203 {
             n.visit_mut_with(&mut IdentRenamer::new(&self.rename_map));
         }
 
-        self.state.extra_lets = old_extra_lets;
+        self.extra_lets = old_extra_lets;
     }
 
     fn visit_mut_private_prop(&mut self, p: &mut PrivateProp) {
@@ -1635,7 +1644,7 @@ impl VisitMut for Decorator202203 {
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         let old_pre_class_inits = self.pre_class_inits.take();
-        let old_extra_lets = self.state.extra_lets.take();
+        let old_extra_lets = self.extra_lets.take();
         let old_extra_stmts = self.state.extra_stmts.take();
         let old_extra_vars = self.extra_vars.take();
 
@@ -1643,11 +1652,11 @@ impl VisitMut for Decorator202203 {
 
         for mut n in n.take() {
             n.visit_mut_with(self);
-            if !self.state.extra_lets.is_empty() {
+            if !self.extra_lets.is_empty() {
                 new.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
-                    decls: self.state.extra_lets.take(),
+                    decls: self.extra_lets.take(),
                     declare: false,
                 }))))
             }
@@ -1677,7 +1686,7 @@ impl VisitMut for Decorator202203 {
 
         self.extra_vars = old_extra_vars;
         self.state.extra_stmts = old_extra_stmts;
-        self.state.extra_lets = old_extra_lets;
+        self.extra_lets = old_extra_lets;
         self.pre_class_inits = old_pre_class_inits;
     }
 }
