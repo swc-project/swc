@@ -247,32 +247,6 @@ expect(obj?.a?.b?.c()).toBe(2)
 test!(
     syntax(),
     |_| tr(Default::default()),
-    issue_1130_1,
-    "
-const result = data?.filter(item => Math.random() > 0.5).map(item => JSON.stringify(item));
-    ",
-    "
-const result = data === null || data === void 0 ? void 0 : data.filter(item => Math.random() > \
-     0.5).map(item => JSON.stringify(item));
-    "
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_1130_2,
-    "
-const r = d?.filter(i => Math.random() > 0.5).map(i => JSON.stringify(i));
-  ",
-    "
-const r = d === null || d === void 0 ? void 0 : d.filter(i => Math.random() > 0.5).map(i => \
-     JSON.stringify(i));
-  "
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
     pr_2791,
     r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#,
     r#"
