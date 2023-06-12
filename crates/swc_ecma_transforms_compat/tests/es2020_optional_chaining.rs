@@ -723,9 +723,9 @@ test!(
     |_| tr(Default::default()),
     simple_3,
     "obj?.a?.b.c",
-    "var _obj_a;
-    obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? \
-     void 0 : _obj_a.b.c;"
+    "var _obj_a_b, _obj;
+    (_obj_a_b = (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a) === null || _obj_a_b \
+     === void 0 ? void 0 : _obj_a_b.b.c;"
 );
 
 test!(
@@ -783,8 +783,9 @@ test!(
     |_| tr(Default::default()),
     swc_node_issue_62,
     "a.focus?.()",
-    "var _a_focus;
-    (_a_focus = a.focus) === null || _a_focus === void 0 ? void 0 : _a_focus.call(a);"
+    "var _a_focus, _object;
+    (_object = a) === null || _object === void 0 ? void 0 : (_a_focus = _object.focus) === null || \
+     _a_focus === void 0 ? void 0 : _a_focus.call(_object);"
 );
 
 test!(
@@ -832,9 +833,10 @@ test!(
 obj?.a?.b?.c()
 ",
     "
-var _obj_a, _obj_a_b;
-obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? void 0 \
-     : (_obj_a_b = _obj_a.b) === null || _obj_a_b === void 0 ? void 0 : _obj_a_b.c();
+    var _obj_a_b_c, _object, _obj_a, _obj;
+    (_object = (_obj_a = (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a) === null || \
+     _obj_a === void 0 ? void 0 : _obj_a.b) === null || _object === void 0 ? void 0 : (_obj_a_b_c \
+     = _object.c) === null || _obj_a_b_c === void 0 ? void 0 : _obj_a_b_c.call(_object);
 "
 );
 
@@ -846,10 +848,11 @@ test!(
 expect(obj?.a?.b?.c()).toBe(2)
 ",
     "
-var _obj_a, _obj_a_b;
-expect(obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? \
-     void 0 : (_obj_a_b = _obj_a.b) === null || _obj_a_b === void 0 ? void 0 : \
-     _obj_a_b.c()).toBe(2);
+    var _obj_a_b_c, _object, _obj_a, _obj;
+    expect((_object = (_obj_a = (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a) === \
+     null || _obj_a === void 0 ? void 0 : _obj_a.b) === null || _object === void 0 ? void 0 : \
+     (_obj_a_b_c = _object.c) === null || _obj_a_b_c === void 0 ? void 0 : \
+     _obj_a_b_c.call(_object)).toBe(2);
 "
 );
 
