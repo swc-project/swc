@@ -1244,7 +1244,6 @@ define!({
         pub span: Span,
         pub left: Box<Pat>,
         pub right: Box<Expr>,
-        pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub struct RestPat {
         pub span: Span,

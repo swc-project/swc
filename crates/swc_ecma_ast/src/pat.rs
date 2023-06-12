@@ -119,9 +119,6 @@ pub struct AssignPat {
     pub left: Box<Pat>,
 
     pub right: Box<Expr>,
-
-    #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
 /// EsTree `RestElement`
