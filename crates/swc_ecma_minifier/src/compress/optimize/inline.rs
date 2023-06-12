@@ -209,6 +209,8 @@ impl Optimizer<'_> {
                                 )
                             }
 
+                            should_inline &= !usage.has_property_mutation;
+
                             should_inline
                         } else {
                             false
