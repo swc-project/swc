@@ -818,7 +818,7 @@ where
                 }
                 if n.optional {
                     punct!("?.");
-                } else {
+                } else if !e.prop.is_computed() {
                     punct!(".");
                 }
 
