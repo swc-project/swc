@@ -1352,16 +1352,21 @@ impl<I: Tokens> Parser<I> {
                         }
                     }
                     Callee::Expr(obj) => {
+                        let is_opt_chain = obj.is_opt_chain();
                         let expr = MemberExpr {
                             span,
                             obj,
                             prop: MemberProp::Computed(prop),
                         };
-                        let expr = Expr::OptChain(OptChainExpr {
-                            span,
-                            optional: question_dot_token.is_some(),
-                            base: Box::new(OptChainBase::Member(expr)),
-                        });
+                        let expr = if is_opt_chain || question_dot_token.is_some() {
+                            Expr::OptChain(OptChainExpr {
+                                span,
+                                optional: question_dot_token.is_some(),
+                                base: Box::new(OptChainBase::Member(expr)),
+                            })
+                        } else {
+                            Expr::Member(expr)
+                        };
 
                         if let Some(type_args) = type_args {
                             Expr::TsInstantiation(TsInstantiation {
