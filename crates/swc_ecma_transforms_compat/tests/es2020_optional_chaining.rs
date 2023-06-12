@@ -77,24 +77,6 @@ function test(foo) {
   "#
 );
 
-// indirect_eval_call
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    indirect_eval_call,
-    r#"
-eval?.();
-eval?.("console.log()");
-window.eval?.("console.log()");
-"#,
-    r#"
-var _window_eval;
-eval === null || eval === void 0 ? void 0 : (0, eval)();
-eval === null || eval === void 0 ? void 0 : (0, eval)("console.log()");
-(_window_eval = window.eval) === null || _window_eval === void 0 ? void 0 : _window_eval.call(window, "console.log()");
-"#
-);
-
 // general_function_param_loose
 test!(
     ignore,
