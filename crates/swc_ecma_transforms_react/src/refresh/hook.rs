@@ -407,9 +407,7 @@ impl<'a> HookCollector<'a> {
             None
         }?;
         let mut key = if let Some(name) = lhs {
-            self.cm
-                .span_to_snippet(name.span())
-                .unwrap_or_else(|_| String::new())
+            self.cm.span_to_snippet(name.span()).unwrap_or_default()
         } else {
             String::new()
         };
@@ -421,7 +419,7 @@ impl<'a> HookCollector<'a> {
                 "({})",
                 self.cm
                     .span_to_snippet(expr.args[0].span())
-                    .unwrap_or_else(|_| String::new())
+                    .unwrap_or_default()
             );
         } else if &name.sym == "useReducer" && expr.args.len() > 1 {
             // useReducer second argument is initial state.
@@ -430,7 +428,7 @@ impl<'a> HookCollector<'a> {
                 "({})",
                 self.cm
                     .span_to_snippet(expr.args[1].span())
-                    .unwrap_or_else(|_| "".to_string())
+                    .unwrap_or_default()
             );
         }
 
