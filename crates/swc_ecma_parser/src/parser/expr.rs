@@ -1060,6 +1060,11 @@ impl<I: Tokens> Parser<I> {
         let tpl = Box::new(self.parse_tpl(true)?);
 
         let span = span!(self, tagged_tpl_start);
+
+        if tag.is_opt_chain() {
+            self.emit_err(span, SyntaxError::TaggedTplInOptChain);
+        }
+
         Ok(TaggedTpl {
             span,
             tag,
