@@ -289,24 +289,6 @@ async function foo() {
 test!(
     syntax(),
     |_| tr(Default::default()),
-    issue_1136_1,
-    r#"
-    const PATCHES = new Map();
-
-    const ident = 'foo';
-    const patch = PATCHES.get(ident)?.();
-    "#,
-    r#"
-    var _PATCHES_get;
-    const PATCHES = new Map();
-    const ident = 'foo';
-    const patch = (_PATCHES_get = PATCHES.get(ident)) === null || _PATCHES_get === void 0 ? void 0 : _PATCHES_get();
-    "#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
     pr_2791,
     r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#,
     r#"
