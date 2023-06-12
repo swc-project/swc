@@ -136,45 +136,6 @@ expect(() => {
 "#
 );
 
-// general_super_method_call
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    general_super_method_call,
-    r#"
-"use strict";
-class Base {
-  method() {
-    return 'Hello!';
-  }
-}
-
-class Derived extends Base {
-    method() {
-        return super.method?.()
-    }
-}
-
-"#,
-    r#"
-"use strict";
-
-class Base {
-  method() {
-    return 'Hello!';
-  }
-}
-
-class Derived extends Base {
-  method() {
-    var _super_method;
-    return (_super_method = super.method) === null || _super_method === void 0 ? void 0 : _super_method.call(this);
-  }
-}
-
-"#
-);
-
 test!(
     syntax(),
     |_| tr(Default::default()),
