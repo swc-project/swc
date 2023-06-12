@@ -4143,7 +4143,7 @@ class A {
 var _fieldFunc = new WeakMap();
 class A {
     test() {
-        _class_private_field_get(this, _fieldFunc)?.call(this);
+        _class_private_field_get(this, _fieldFunc)?.call?.(this);
     }
     constructor(){
         _class_private_field_init(this, _fieldFunc, {
