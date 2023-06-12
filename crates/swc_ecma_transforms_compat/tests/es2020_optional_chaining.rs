@@ -903,7 +903,7 @@ class Foo {
 "#
 );
 
-#[testing::fixture("tests/opt-chain/**/exec.js")]
+#[testing::fixture("tests/optional-chaining/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(input).unwrap();
 
@@ -914,7 +914,7 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/opt-chain/**/input.js")]
+#[testing::fixture("tests/optional-chaining/**/input.js")]
 fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
 
