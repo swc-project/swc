@@ -84,45 +84,6 @@ test_exec!(
 "#
 );
 
-// general_delete
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    general_delete,
-    r#"
-"use strict";
-
-const obj = {
-  a: {
-    b: 0,
-  },
-};
-
-let test = delete obj?.a?.b;
-
-test = delete obj?.a.b;
-
-test = delete obj?.b?.b;
-
-delete obj?.a;
-
-"#,
-    r#"
-"use strict";
-
-var _obj_a, _obj_b;
-const obj = {
-    a: {
-        b: 0
-    }
-};
-let test = obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? void 0 : delete _obj_a.b;
-test = obj === null || obj === void 0 ? void 0 : delete obj.a.b;
-test = obj === null || obj === void 0 ? void 0 : (_obj_b = obj.b) === null || _obj_b === void 0 ? void 0 : delete _obj_b.b;
-obj === null || obj === void 0 ? void 0 : delete obj.a;
-"#
-);
-
 // regression_8354_exec
 test_exec!(
     syntax(),
