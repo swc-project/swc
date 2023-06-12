@@ -23,6 +23,9 @@
 - **(es/minifier)** Remove unused labels (#7478) ([62075fa](https://github.com/swc-project/swc/commit/62075faeaada8d9df3c7d849bbcfda8ff0c5d79f))
 
 
+- **(es/parser)** Disallow tagged tpl in optional chaining (#7515) ([6c00a24](https://github.com/swc-project/swc/commit/6c00a2422addf0e402bb221e80f6f8acad839b28))
+
+
 - **(plugin/runner)** Support shared wasix runtime (#7504) ([73929fc](https://github.com/swc-project/swc/commit/73929fc43c34fd4545bd292fbf0f6d7de35fbee9))
 
 ### Performance

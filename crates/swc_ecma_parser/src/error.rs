@@ -195,6 +195,7 @@ pub enum SyntaxError {
     TsBindingPatCannotBeOptional,
     SuperCallOptional,
     OptChainCannotFollowConstructorCall,
+    TaggedTplInOptChain,
 
     TrailingCommaInsideImport,
 
@@ -469,6 +470,9 @@ impl SyntaxError {
             SyntaxError::SuperCallOptional => "Super call cannot be optional".into(),
             SyntaxError::OptChainCannotFollowConstructorCall => {
                 "Constructor in/after an optional chaining is not allowed.".into()
+            }
+            SyntaxError::TaggedTplInOptChain => {
+                "Tagged template literal is not allowed in optional chain.".into()
             }
             SyntaxError::TsInvalidParamPropPat => {
                 "Typescript parameter property must be an identifier or assignment pattern".into()
