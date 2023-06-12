@@ -272,6 +272,49 @@ impl OptChaining {
                         }
                     }
 
+                    Expr::Member(m) => {
+                        let this_obj = store_this_to.unwrap_or_else(|| {
+                            let v = private_ident!("_object");
+
+                            self.vars_without_init.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: v.clone().into(),
+                                init: None,
+                                definite: false,
+                            });
+
+                            v
+                        });
+
+                        let cond = self.handle_optional_member(m, Some(this_obj.clone()));
+
+                        let final_call = Box::new(Expr::Call(CallExpr {
+                            span: call.span,
+                            callee: callee_name
+                                .clone()
+                                .make_member(quote_ident!("call"))
+                                .as_callee(),
+                            args: once(this_obj.as_arg()).chain(call.args.take()).collect(),
+                            type_args: Default::default(),
+                        }));
+
+                        return Ok(CondExpr {
+                            span: DUMMY_SP,
+                            test: cond.test,
+                            cons: cond.cons,
+                            alt: Box::new(Expr::Cond(CondExpr {
+                                span: DUMMY_SP,
+                                test: init_and_eq_null_or_undefined(
+                                    &callee_name,
+                                    cond.alt,
+                                    self.c.no_document_all,
+                                ),
+                                cons: undefined(DUMMY_SP),
+                                alt: final_call,
+                            })),
+                        });
+                    }
+
                     _ => {
                         call.callee.visit_mut_with(self);
 
