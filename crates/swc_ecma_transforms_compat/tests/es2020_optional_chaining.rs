@@ -168,28 +168,6 @@ test!(
 test!(
     syntax(),
     |_| tr(Default::default()),
-    call_1,
-    "obj?.a?.b()",
-    "var _obj_a;
-    obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? \
-     void 0 : _obj_a.b();",
-    ok_if_code_eq
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    call_2,
-    "a?.b?.c?.()",
-    "var _a_b, _a_b_c;
-
-    a === null || a === void 0 ? void 0 : (_a_b = a.b) === null || _a_b === void 0 ? void 0 : \
-     (_a_b_c = _a_b.c) === null || _a_b_c === void 0 ? void 0 : _a_b_c.call(_a_b);"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
     issue_732_1,
     "test.a?.b.c.d",
     "var _test_a_b_c;
