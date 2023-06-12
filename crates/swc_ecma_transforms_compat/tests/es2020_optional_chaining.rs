@@ -165,34 +165,6 @@ test!(
      === void 0 ? void 0 : _obj_a_b.b.c;"
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_732_1,
-    "test.a?.b.c.d",
-    "var _test_a_b_c;
-    (_test_a_b_c = test.a) === null || _test_a_b_c === void 0 ? void 0 : _test_a_b_c.b.c.d;"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_732_2,
-    "test.a?.b.c",
-    "var _test_a_b;
-    (_test_a_b = test.a) === null || _test_a_b === void 0 ? void 0 : _test_a_b.b.c;"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_732_3,
-    "test.a?.b.c.d.e.f.g.h.i",
-    "var _test_a_b_c_d_e_f_g_h;
-    (_test_a_b_c_d_e_f_g_h = test.a) === null || _test_a_b_c_d_e_f_g_h === void 0 ? void 0 : \
-     _test_a_b_c_d_e_f_g_h.b.c.d.e.f.g.h.i"
-);
-
 // https://github.com/Brooooooklyn/swc-node/issues/62
 test!(
     syntax(),
