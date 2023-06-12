@@ -54,28 +54,40 @@ function test(foo) {
   foo?.bar?.baz?.(foo.bar, true)
 }
 "#,
-    r#"
-"use strict";
-
-function test(foo) {
-  var _foo_bar, _foo_get, _foo_bar1, _foo_bar2, _foo_bar3, _foo_bar_baz, _foo_bar4, _foo_bar_baz1, _foo_bar5, _foo_bar6, _foo_bar7, _foo_bar8;
-  foo == null ? void 0 : foo.bar;
-  foo == null ? void 0 : (_foo_bar = foo.bar) == null ? void 0 : _foo_bar.baz;
-  foo == null ? void 0 : foo(foo);
-  foo == null ? void 0 : foo.bar();
-  (_foo_get = foo.get(bar)) == null ? void 0 : _foo_get();
-  (_foo_bar1 = foo.bar()) == null ? void 0 : _foo_bar1();
-  (_foo_bar2 = foo[bar]()) == null ? void 0 : _foo_bar2();
-  (_foo_bar_baz = (_foo_bar3 = foo.bar()).baz) == null ? void 0 : _foo_bar_baz.call(_foo_bar3);
-  (_foo_bar_baz1 = (_foo_bar4 = foo[bar]()).baz) == null ? void 0 : _foo_bar_baz1.call(_foo_bar4);
-  foo.bar == null ? void 0 : foo.bar(foo.bar, false);
-  foo == null ? void 0 : foo.bar == null ? void 0 : foo.bar(foo.bar, true);
-  (_foo_bar5 = foo.bar) == null ? void 0 : _foo_bar5.baz(foo.bar, false);
-  foo == null ? void 0 : (_foo_bar6 = foo.bar) == null ? void 0 : _foo_bar6.baz(foo.bar, true);
-  (_foo_bar7 = foo.bar) == null ? void 0 : _foo_bar7.baz == null ? void 0 : _foo_bar7.baz(foo.bar, false);
-  foo == null ? void 0 : (_foo_bar8 = foo.bar) == null ? void 0 : _foo_bar8.baz == null ? void 0 : _foo_bar8.baz(foo.bar, true);
-}
-"#
+    "
+    \"use strict\";
+    function test(foo) {
+        var _foo, _foo_bar, _foo1, _foo2, _foo_bar1, _object, _foo_get, _foo_bar2, _foo_bar3, \
+     _object1, _foo_bar4, _foo_bar_baz, _object2, _foo_bar_baz1, _object3, _foo_bar5, _foo_bar6, \
+     _object4, _foo_bar7, _object5, _foo_bar_baz2, _object6, _foo_bar_baz3, _object7, _foo3, \
+     _foo_bar_baz4, _object8, _foo_bar_baz5, _object9, _foo4;
+        (_foo = foo) == null ? void 0 : _foo.bar;
+        (_foo_bar = (_foo1 = foo) == null ? void 0 : _foo1.bar) == null ? void 0 : _foo_bar.baz;
+        (_foo2 = foo) == null ? void 0 : _foo2(foo);
+        (_object = foo) == null ? void 0 : (_foo_bar1 = _object.bar) == null ? void 0 : \
+     _foo_bar1.call(_object);
+        (_foo_get = foo.get(bar)) == null ? void 0 : _foo_get();
+        (_foo_bar2 = foo.bar()) == null ? void 0 : _foo_bar2();
+        (_foo_bar4 = (_object1 = (_object1 = foo)[bar]) == null) == null ? void 0 : (_foo_bar3 = \
+     _foo_bar4.call(_object1)) == null ? void 0 : _foo_bar3.call(_object1);
+        (_object2 = foo.bar()) == null ? void 0 : (_foo_bar_baz = _object2.baz) == null ? void 0 : \
+     _foo_bar_baz.call(_object2);
+        (_foo_bar5 = (_object3 = (_object3 = foo)[bar]) == null) == null ? void 0 : (_foo_bar_baz1 \
+     = _foo_bar5.call(_object3).baz) == null ? void 0 : _foo_bar_baz1.call(_object3);
+        (_object4 = foo) == null ? void 0 : (_foo_bar6 = _object4.bar) == null ? void 0 : \
+     _foo_bar6.call(_object4, foo.bar, false);
+        (_object5 = foo) == null ? void 0 : (_foo_bar7 = _object5.bar) == null ? void 0 : \
+     _foo_bar7.call(_object5, foo.bar, true);
+        (_object6 = foo.bar) == null ? void 0 : (_foo_bar_baz2 = _object6.baz) == null ? void 0 : \
+     _foo_bar_baz2.call(_object6, foo.bar, false);
+        (_object7 = (_foo3 = foo) == null ? void 0 : _foo3.bar) == null ? void 0 : (_foo_bar_baz3 \
+     = _object7.baz) == null ? void 0 : _foo_bar_baz3.call(_object7, foo.bar, true);
+        (_object8 = foo.bar) == null ? void 0 : (_foo_bar_baz4 = _object8.baz) == null ? void 0 : \
+     _foo_bar_baz4.call(_object8, foo.bar, false);
+        (_object9 = (_foo4 = foo) == null ? void 0 : _foo4.bar) == null ? void 0 : (_foo_bar_baz5 \
+     = _object9.baz) == null ? void 0 : _foo_bar_baz5.call(_object9, foo.bar, true);
+    }  
+  "
 );
 
 // general_lhs_assignment_read_and_update
@@ -756,8 +768,8 @@ test!(
     |_| tr(Default::default()),
     issue_732_1,
     "test.a?.b.c.d",
-    "var _test_a;
-    (_test_a = test.a) === null || _test_a === void 0 ? void 0 : _test_a.b.c.d;"
+    "var _test_a_b_c;
+    (_test_a_b_c = test.a) === null || _test_a_b_c === void 0 ? void 0 : _test_a_b_c.b.c.d;"
 );
 
 test!(
@@ -943,12 +955,13 @@ test!(
     "
     function bug() {
       const arrowFn = (arg)=>{
-          var _this_object, _this_object_arg;
-          return (_this_object_arg = (_this_object = this.object)[arg]) === null || \
-     _this_object_arg === void 0 ? void 0 : _this_object_arg.call(_this_object)
+          var _this_object_arg, _object;
+          return (_this_object_arg = (_object = (_object = this.object)[arg]) === null || _object \
+     === void 0) === null || _this_object_arg === void 0 ? void 0 : \
+     _this_object_arg.call(_object);
       };
-    }
-    bug();  
+  }
+  bug();
     "
 );
 
