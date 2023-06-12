@@ -1,4 +1,7 @@
 {
     "defaults": true,
+    "join_vars": false,
+    "sequences": false,
+    "conditionals": false,
     "passes": 1
 }
