@@ -588,7 +588,6 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
         // visit the type first so that it doesn't resolve any
         // identifiers from the others
-        node.type_ann.visit_mut_with(self);
         node.left.visit_mut_with(self);
         node.right.visit_mut_with(self);
     }

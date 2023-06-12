@@ -188,8 +188,7 @@
                         },
                         "value": "",
                         "raw": "\"\""
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   }
                 ],
@@ -448,8 +447,7 @@
                         },
                         "value": "",
                         "raw": "\"\""
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   }
                 ],
@@ -483,8 +481,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {

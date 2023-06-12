@@ -231,8 +231,7 @@
                       "optional": false
                     }
                   }
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {
@@ -423,8 +422,7 @@
                       "optional": false
                     }
                   }
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "AssignmentPattern",
@@ -453,8 +451,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {

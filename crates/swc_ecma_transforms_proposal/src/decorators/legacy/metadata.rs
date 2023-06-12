@@ -498,10 +498,7 @@ fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
         Pat::Rest(p) => p.type_ann.as_deref(),
         Pat::Object(p) => p.type_ann.as_deref(),
         Pat::Assign(p) => {
-            return p
-                .type_ann
-                .as_deref()
-                .or_else(|| get_type_ann_of_pat(&p.left));
+            return get_type_ann_of_pat(&p.left);
         }
         Pat::Invalid(_) => None,
         Pat::Expr(_) => None,

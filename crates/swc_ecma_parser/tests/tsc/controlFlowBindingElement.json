@@ -2922,8 +2922,7 @@
                               },
                               "arguments": [],
                               "typeArguments": null
-                            },
-                            "typeAnnotation": null
+                            }
                           }
                         }
                       ],

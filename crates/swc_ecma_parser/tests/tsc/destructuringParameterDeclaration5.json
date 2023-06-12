@@ -613,8 +613,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -1369,8 +1368,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

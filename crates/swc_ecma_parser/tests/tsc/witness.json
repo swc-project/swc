@@ -146,8 +146,7 @@
               },
               "value": "pInit",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

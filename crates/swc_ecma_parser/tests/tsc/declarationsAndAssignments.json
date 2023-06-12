@@ -2989,8 +2989,7 @@
                         },
                         "value": 0.0,
                         "raw": "0"
-                      },
-                      "typeAnnotation": null
+                      }
                     },
                     {
                       "type": "AssignmentPattern",
@@ -3019,8 +3018,7 @@
                         },
                         "value": "",
                         "raw": "\"\""
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -3251,8 +3249,7 @@
                         },
                         "value": 0.0,
                         "raw": "0"
-                      },
-                      "typeAnnotation": null
+                      }
                     },
                     {
                       "type": "AssignmentPattern",
@@ -3281,8 +3278,7 @@
                         },
                         "value": 1.0,
                         "raw": "1"
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -5018,8 +5014,7 @@
                             }
                           }
                         ]
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -5685,8 +5680,7 @@
                   },
                   "value": 1.0,
                   "raw": "1"
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "ArrayPattern",
@@ -5723,8 +5717,7 @@
                       },
                       "value": "hello",
                       "raw": "\"hello\""
-                    },
-                    "typeAnnotation": null
+                    }
                   },
                   {
                     "type": "ObjectPattern",
@@ -5791,8 +5784,7 @@
                               "ctxt": 0
                             },
                             "value": false
-                          },
-                          "typeAnnotation": null
+                          }
                         }
                       }
                     ],
@@ -7834,8 +7826,7 @@
                       },
                       "value": 1.0,
                       "raw": "1"
-                    },
-                    "typeAnnotation": null
+                    }
                   },
                   {
                     "type": "AssignmentPattern",
@@ -7864,8 +7855,7 @@
                       },
                       "value": "abc",
                       "raw": "\"abc\""
-                    },
-                    "typeAnnotation": null
+                    }
                   }
                 ],
                 "optional": false,
@@ -8376,8 +8366,7 @@
                           }
                         }
                       ]
-                    },
-                    "typeAnnotation": null
+                    }
                   }
                 ],
                 "optional": false,

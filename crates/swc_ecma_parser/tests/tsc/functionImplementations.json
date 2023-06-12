@@ -2489,8 +2489,7 @@
               },
               "value": 4.0,
               "raw": "4"
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -2699,8 +2698,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -2984,8 +2982,7 @@
               },
               "value": "n",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

@@ -110,8 +110,7 @@
                 "value": "bar",
                 "raw": "\"bar\""
               }
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

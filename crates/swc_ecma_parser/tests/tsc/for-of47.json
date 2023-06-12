@@ -325,8 +325,7 @@
                   "value": "x",
                   "optional": false
                 }
-              },
-              "typeAnnotation": null
+              }
             }
           }
         ],

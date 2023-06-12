@@ -288,8 +288,7 @@
                 },
                 "value": "",
                 "raw": "\"\""
-              },
-              "typeAnnotation": null
+              }
             }
           ],
           "optional": false,
@@ -740,8 +739,7 @@
                     },
                     "pattern": "a",
                     "flags": ""
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],

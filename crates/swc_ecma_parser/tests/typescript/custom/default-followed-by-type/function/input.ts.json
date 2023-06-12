@@ -71,8 +71,7 @@
               },
               "value": "Hello",
               "raw": "\"Hello\""
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {

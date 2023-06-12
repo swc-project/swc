@@ -345,8 +345,7 @@
                     }
                   ],
                   "typeArguments": null
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "optional": false,
@@ -498,8 +497,7 @@
                     }
                   ],
                   "typeArguments": null
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "optional": false,
@@ -708,8 +706,7 @@
                       }
                     ],
                     "typeArguments": null
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               },
               {
@@ -860,8 +857,7 @@
                   },
                   "value": "a",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "optional": false,

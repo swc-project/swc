@@ -1655,8 +1655,7 @@
                   },
                   "value": 1.0,
                   "raw": "1"
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {
@@ -1821,8 +1820,7 @@
                   },
                   "value": "string",
                   "raw": "\"string\""
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {
