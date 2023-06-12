@@ -46,7 +46,6 @@ impl Swcify for AssignmentPattern {
             span: ctx.span(&self.base),
             left: Box::new(self.left.swcify(ctx)),
             right: self.right.swcify(ctx),
-            type_ann: None,
         }
     }
 }

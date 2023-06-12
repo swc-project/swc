@@ -1119,7 +1119,6 @@ where
                             module_ref: TsModuleRef::TsExternalModuleRef(..),
                             ..
                         } | TsImportEqualsDecl {
-                            declare: true,
                             module_ref: TsModuleRef::TsExternalModuleRef(..),
                             ..
                         }
@@ -1184,7 +1183,6 @@ where
                         &*import,
                         TsImportEqualsDecl {
                             module_ref: TsModuleRef::TsEntityName(..),
-                            declare: false,
                             ..
                         }
                     ) =>
@@ -1886,7 +1884,6 @@ where
                                             span,
                                             left: i.into(),
                                             right,
-                                            type_ann: None,
                                         }),
                                     },
                                 )
@@ -2302,7 +2299,6 @@ where
                             module_ref: TsModuleRef::TsExternalModuleRef(..),
                             ..
                         } | TsImportEqualsDecl {
-                            declare: true,
                             module_ref: TsModuleRef::TsExternalModuleRef(..),
                             ..
                         }
@@ -2362,7 +2358,6 @@ where
                         &*import,
                         TsImportEqualsDecl {
                             module_ref: TsModuleRef::TsEntityName(..),
-                            declare: false,
                             ..
                         }
                     ) =>

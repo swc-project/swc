@@ -48,7 +48,6 @@ impl VisitMut for EdgeDefaultParam {
                         span: *span,
                         left: key.clone().into(),
                         right: value.clone(),
-                        type_ann: None,
                     })),
                 });
 
