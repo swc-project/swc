@@ -13,6 +13,9 @@
 
 - **(es/minifier)** Infect mutation when assigning a property (#7503) ([7f9f0b8](https://github.com/swc-project/swc/commit/7f9f0b8bcebc26eed1354ce2901aabd61261f434))
 
+
+- **(es/react)** Default to empty string when emitting refresh signature (#7514) ([8e933c8](https://github.com/swc-project/swc/commit/8e933c8a9fdf8867deb7f0d108b99430949aad54))
+
 ### Features
 
 
