@@ -77,64 +77,6 @@ function test(foo) {
   "#
 );
 
-// general_function_param_loose
-test!(
-    ignore,
-    syntax(),
-    |_| tr(Config {
-        pure_getter: true,
-        no_document_all: true
-    }),
-    general_function_param_loose,
-    r#"
-function f(a = x?.y) {}
-
-function g({ a, b = a?.c }) {}
-
-function h(a, { b = a.b?.c?.d.e }) {}
-
-function i(a, { b = (a.b?.c?.d).e }) {}
-
-function j(a, { b = a?.b?.c().d.e }) {}
-"#,
-    r#"
-function f(a = (() => {
-  var _x;
-
-  return (_x = x) == null ? void 0 : _x.y;
-})()) {}
-
-function g({
-  a,
-  b = a == null ? void 0 : a.c
-}) {}
-
-function h(a, {
-  b = (() => {
-    var _a$b, _a$b$c;
-
-    return (_a$b = a.b) == null ? void 0 : (_a$b$c = _a$b.c) == null ? void 0 : _a$b$c.d.e;
-  })()
-}) {}
-
-function i(a, {
-  b = (() => {
-    var _a$b2, _a$b2$c;
-
-    return (_a$b2 = a.b) == null ? void 0 : (_a$b2$c = _a$b2.c) == null ? void 0 : _a$b2$c.d;
-  })().e
-}) {}
-
-function j(a, {
-  b = (() => {
-    var _a$b3;
-
-    return a == null ? void 0 : (_a$b3 = a.b) == null ? void 0 : _a$b3.c().d.e;
-  })()
-}) {}
-"#
-);
-
 test!(
     ignore,
     syntax(),
