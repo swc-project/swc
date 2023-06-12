@@ -77,33 +77,6 @@ function test(foo) {
   "#
 );
 
-test!(
-    ignore,
-    syntax(),
-    |_| tr(Config {
-        pure_getter: true,
-        no_document_all: true
-    }),
-    general_method_key_loose,
-    r#"
-let x;
-const a = {
-  [x.y?.z]() {}
-};
-"#,
-    r#"
-var _x$y;
-
-let x;
-const a = {
-  [(_x$y = x.y) == null ? void 0 : _x$y.z]() {}
-
-};
-"#
-);
-
-// regression_7642
-
 // general_super_method_call_loose
 test!(
     ignore,
