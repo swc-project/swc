@@ -77,33 +77,6 @@ function test(foo) {
   "#
 );
 
-// general_lhs_assignment_read_and_update
-
-// general_function_call_loose
-test!(
-    syntax(),
-    |_| tr(Config {
-        pure_getter: true,
-        no_document_all: true
-    }),
-    general_function_call_loose,
-    r#"
-foo?.(foo);
-
-foo?.bar()
-
-foo.bar?.(foo.bar, false)
-
-foo?.bar?.(foo.bar, true)
-"#,
-    r#"
-foo == null ? void 0 : foo(foo);
-foo == null ? void 0 : foo.bar();
-foo.bar == null ? void 0 : foo.bar(foo.bar, false);
-foo == null ? void 0 : foo.bar == null ? void 0 : foo.bar(foo.bar, true);
-"#
-);
-
 // indirect_eval_call
 test!(
     syntax(),
@@ -921,6 +894,24 @@ fn fixture(input: PathBuf) {
     test_fixture(
         Default::default(),
         &|_| optional_chaining(Default::default()),
+        &input,
+        &output,
+        Default::default(),
+    );
+}
+
+#[testing::fixture("tests/optional-chaining-loose/**/input.js")]
+fn fixture_loose(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+
+    test_fixture(
+        Default::default(),
+        &|_| {
+            optional_chaining(Config {
+                no_document_all: true,
+                pure_getter: true,
+            })
+        },
         &input,
         &output,
         Default::default(),
