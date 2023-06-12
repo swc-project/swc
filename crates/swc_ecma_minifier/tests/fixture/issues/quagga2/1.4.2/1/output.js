@@ -2621,8 +2621,8 @@
                 "use strict";
                 var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
                 function wrap(innerFn, outerFn, self1, tryLocsList) {
-                    var state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context = new Context(tryLocsList || []);
-                    return generator._invoke = (state = GenStateSuspendedStart, function(method, arg) {
+                    var innerFn1, self2, context, state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context1 = new Context(tryLocsList || []);
+                    return generator._invoke = (innerFn1 = innerFn, self2 = self1, context = context1, state = GenStateSuspendedStart, function(method, arg) {
                         if (state === GenStateExecuting) throw Error("Generator is already running");
                         if (state === GenStateCompleted) {
                             if ("throw" === method) throw arg;
@@ -2656,7 +2656,7 @@
                                 context.dispatchException(context.arg);
                             } else "return" === context.method && context.abrupt("return", context.arg);
                             state = GenStateExecuting;
-                            var record = tryCatch(innerFn, self1, context);
+                            var record = tryCatch(innerFn1, self2, context);
                             if ("normal" === record.type) {
                                 if (state = context.done ? GenStateCompleted : "suspendedYield", record.arg === ContinueSentinel) continue;
                                 return {
@@ -6427,7 +6427,7 @@
                         };
                     }
                     function _decodeFromBoundingBox(box) {
-                        var line, line1, result, ctx = _canvas.ctx.overlay;
+                        var box1, line, line1, result, ctx = _canvas.ctx.overlay;
                         config.debug.drawBoundingBox && ctx && image_debug.a.drawPath(box, {
                             x: 0,
                             y: 1
@@ -6437,12 +6437,12 @@
                         });
                         var lineLength = Math.sqrt(Math.pow(Math.abs((line = line1 = [
                             {
-                                x: (box[1][0] - box[0][0]) / 2 + box[0][0],
-                                y: (box[1][1] - box[0][1]) / 2 + box[0][1]
+                                x: ((box1 = box)[1][0] - box1[0][0]) / 2 + box1[0][0],
+                                y: (box1[1][1] - box1[0][1]) / 2 + box1[0][1]
                             },
                             {
-                                x: (box[3][0] - box[2][0]) / 2 + box[2][0],
-                                y: (box[3][1] - box[2][1]) / 2 + box[2][1]
+                                x: (box1[3][0] - box1[2][0]) / 2 + box1[2][0],
+                                y: (box1[3][1] - box1[2][1]) / 2 + box1[2][1]
                             }
                         ])[1].y - line[0].y), 2) + Math.pow(Math.abs(line[1].x - line[0].x), 2)), lineAngle = Math.atan2(line1[1].y - line1[0].y, line1[1].x - line1[0].x);
                         return null === (line1 = function(line, angle, ext) {
@@ -6678,7 +6678,7 @@
                             for(;;)switch(_context.prev = _context.next){
                                 case 0:
                                     return QuaggaJSCameraAccess.requestedVideoElement = video, _context.next = 3, function() {
-                                        var normalized, videoConstraints = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, video = (normalized = pick_default()(videoConstraints, [
+                                        var videoConstraints, normalized, videoConstraints1 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, video = (videoConstraints = videoConstraints1, normalized = pick_default()(videoConstraints, [
                                             "width",
                                             "height",
                                             "facingMode",
@@ -6722,12 +6722,12 @@
                     var _config$capacity, canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), results = [], capacity = null !== (_config$capacity = config.capacity) && void 0 !== _config$capacity ? _config$capacity : 20, capture = !0 === config.capture;
                     return {
                         addResult: function(data, imageSize, codeResult) {
-                            var list, filter, result = {};
-                            capacity && codeResult && !((list = config.blacklist) && list.some(function(item) {
+                            var codeResult1, list, filter, result = {};
+                            codeResult1 = codeResult, capacity && codeResult1 && !((list = config.blacklist) && list.some(function(item) {
                                 return Object.keys(item).every(function(key) {
-                                    return item[key] === codeResult[key];
+                                    return item[key] === codeResult1[key];
                                 });
-                            })) && ("function" != typeof (filter = config.filter) || filter(codeResult)) && (capacity--, result.codeResult = codeResult, capture && (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result));
+                            })) && ("function" != typeof (filter = config.filter) || filter(codeResult1)) && (capacity--, result.codeResult = codeResult, capture && (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result));
                         },
                         getResults: function() {
                             return results;
@@ -7123,9 +7123,9 @@
                 }, _that.getData = function() {
                     return _data;
                 }, _that.grab = function() {
-                    var ctxData, doHalfSample = _streamConfig.halfSample, frame = inputStream.getFrame(), drawable = frame, drawAngle = 0;
+                    var canvas, ctxData, doHalfSample = _streamConfig.halfSample, frame = inputStream.getFrame(), drawable = frame, drawAngle = 0;
                     if (drawable) {
-                        if (_canvas.width !== _canvasSize.x && (console.log("WARNING: canvas-size needs to be adjusted"), _canvas.width = _canvasSize.x), _canvas.height !== _canvasSize.y && (console.log("WARNING: canvas-size needs to be adjusted"), _canvas.height = _canvasSize.y), "ImageStream" === _streamConfig.type && (drawable = frame.img, frame.tags && frame.tags.orientation)) switch(frame.tags.orientation){
+                        if ((canvas = _canvas).width !== _canvasSize.x && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.width = _canvasSize.x), canvas.height !== _canvasSize.y && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.height = _canvasSize.y), "ImageStream" === _streamConfig.type && (drawable = frame.img, frame.tags && frame.tags.orientation)) switch(frame.tags.orientation){
                             case 6:
                                 drawAngle = 90 * TO_RADIANS;
                                 break;
@@ -7189,7 +7189,7 @@
                         workerPool.push(workerThread), workerPool.length >= capacity && cb && cb();
                     };
                     if (config) for(var i = 0; i < increaseBy; i++)!function(config, inputStream, cb) {
-                        var blob, factorySource, blobURL = ("undefined" != typeof __factorySource__ && (factorySource = __factorySource__), blob = new Blob([
+                        var blob, factorySource, config1, blobURL = ("undefined" != typeof __factorySource__ && (factorySource = __factorySource__), blob = new Blob([
                             "(" + workerInterface.toString() + ")(" + factorySource + ");"
                         ], {
                             type: "text/javascript"
@@ -7207,8 +7207,8 @@
                                 y: inputStream.getHeight()
                             },
                             imageData: workerThread.imageData,
-                            config: qworker_objectSpread(qworker_objectSpread({}, config), {}, {
-                                inputStream: qworker_objectSpread(qworker_objectSpread({}, config.inputStream), {}, {
+                            config: qworker_objectSpread(qworker_objectSpread({}, config1 = config), {}, {
+                                inputStream: qworker_objectSpread(qworker_objectSpread({}, config1.inputStream), {}, {
                                     target: null
                                 })
                             })

@@ -1225,7 +1225,7 @@
                 }
             }
             var Anatomy = function() {
-                var staticProps;
+                var Constructor, staticProps;
                 function Anatomy(name) {
                     var _this = this;
                     this.map = {}, this.called = !1, this.assert = function() {
@@ -1268,7 +1268,7 @@
                         };
                     }, this.__type = {};
                 }
-                return _defineProperties(Anatomy.prototype, [
+                return _defineProperties((Constructor = Anatomy).prototype, [
                     {
                         key: "selectors",
                         get: function() {
@@ -1297,7 +1297,7 @@
                             return Object.keys(this.map);
                         }
                     }
-                ]), staticProps && _defineProperties(Anatomy, staticProps), Object.defineProperty(Anatomy, "prototype", {
+                ]), staticProps && _defineProperties(Constructor, staticProps), Object.defineProperty(Constructor, "prototype", {
                     writable: !1
                 }), Anatomy;
             }();
@@ -1584,7 +1584,7 @@
                     colorScheme: "blue"
                 }
             }, baseStyleContainer$3 = function(props) {
-                var hex, list, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
+                var list, hex, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
                     string: name
                 }, fallback = (function random(options) {
                     if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
@@ -1981,17 +1981,18 @@
             }, Drawer = {
                 parts: drawerAnatomy.keys,
                 baseStyle: function(props) {
+                    var props1;
                     return {
                         overlay: baseStyleOverlay$1,
                         dialogContainer: baseStyleDialogContainer$1,
-                        dialog: sizes_501602a9_esm_extends({}, props.isFullHeight && {
+                        dialog: sizes_501602a9_esm_extends({}, (props1 = props).isFullHeight && {
                             height: "100vh"
                         }, {
                             zIndex: "modal",
                             maxH: "100vh",
-                            bg: mode("white", "gray.700")(props),
+                            bg: mode("white", "gray.700")(props1),
                             color: "inherit",
-                            boxShadow: mode("lg", "dark-lg")(props)
+                            boxShadow: mode("lg", "dark-lg")(props1)
                         }),
                         header: baseStyleHeader$2,
                         closeButton: baseStyleCloseButton$3,
@@ -2286,38 +2287,39 @@
             }, Menu = {
                 parts: menuAnatomy.keys,
                 baseStyle: function(props) {
+                    var props1, props2;
                     return {
                         button: baseStyleButton,
-                        list: {
-                            bg: mode("#fff", "gray.700")(props),
-                            boxShadow: mode("sm", "dark-lg")(props),
+                        list: (props1 = props, {
+                            bg: mode("#fff", "gray.700")(props1),
+                            boxShadow: mode("sm", "dark-lg")(props1),
                             color: "inherit",
                             minW: "3xs",
                             py: "2",
                             zIndex: 1,
                             borderRadius: "md",
                             borderWidth: "1px"
-                        },
-                        item: {
+                        }),
+                        item: (props2 = props, {
                             py: "0.4rem",
                             px: "0.8rem",
                             transitionProperty: "background",
                             transitionDuration: "ultra-fast",
                             transitionTimingFunction: "ease-in",
                             _focus: {
-                                bg: mode("gray.100", "whiteAlpha.100")(props)
+                                bg: mode("gray.100", "whiteAlpha.100")(props2)
                             },
                             _active: {
-                                bg: mode("gray.200", "whiteAlpha.200")(props)
+                                bg: mode("gray.200", "whiteAlpha.200")(props2)
                             },
                             _expanded: {
-                                bg: mode("gray.100", "whiteAlpha.100")(props)
+                                bg: mode("gray.100", "whiteAlpha.100")(props2)
                             },
                             _disabled: {
                                 opacity: 0.4,
                                 cursor: "not-allowed"
                             }
-                        },
+                        }),
                         groupTitle: baseStyleGroupTitle,
                         command: baseStyleCommand,
                         divider: baseStyleDivider
@@ -2444,22 +2446,23 @@
             }, NumberInput = {
                 parts: numberInputAnatomy.keys,
                 baseStyle: function(props) {
+                    var props1;
                     return {
                         root: baseStyleRoot$1,
                         field: baseStyleField$1,
                         stepperGroup: baseStyleStepperGroup,
-                        stepper: {
+                        stepper: (props1 = props, {
                             borderStart: "1px solid",
-                            borderStartColor: mode("inherit", "whiteAlpha.300")(props),
-                            color: mode("inherit", "whiteAlpha.800")(props),
+                            borderStartColor: mode("inherit", "whiteAlpha.300")(props1),
+                            color: mode("inherit", "whiteAlpha.800")(props1),
                             _active: {
-                                bg: mode("gray.200", "whiteAlpha.300")(props)
+                                bg: mode("gray.200", "whiteAlpha.300")(props1)
                             },
                             _disabled: {
                                 opacity: 0.4,
                                 cursor: "not-allowed"
                             }
-                        }
+                        })
                     };
                 },
                 sizes: sizes$c,
@@ -2525,11 +2528,11 @@
                 fontWeight: "bold",
                 color: "white"
             }, baseStyleFilledTrack$1 = function(props) {
-                var c, t, isIndeterminate, hasStripe, stripeStyle, bgColor, gradient;
+                var props1, c, t, isIndeterminate, hasStripe, stripeStyle, bgColor, gradient;
                 return sizes_501602a9_esm_extends({
                     transitionProperty: "common",
                     transitionDuration: "slow"
-                }, (c = props.colorScheme, t = props.theme, isIndeterminate = props.isIndeterminate, hasStripe = props.hasStripe, stripeStyle = mode(generateStripe(), generateStripe("1rem", "rgba(0,0,0,0.1)"))(props), gradient = "linear-gradient(\n    to right,\n    transparent 0%,\n    " + getColor(t, bgColor = mode(c + ".500", c + ".200")(props)) + " 50%,\n    transparent 100%\n  )", sizes_501602a9_esm_extends({}, !isIndeterminate && hasStripe && stripeStyle, isIndeterminate ? {
+                }, (c = (props1 = props).colorScheme, t = props1.theme, isIndeterminate = props1.isIndeterminate, hasStripe = props1.hasStripe, stripeStyle = mode(generateStripe(), generateStripe("1rem", "rgba(0,0,0,0.1)"))(props1), gradient = "linear-gradient(\n    to right,\n    transparent 0%,\n    " + getColor(t, bgColor = mode(c + ".500", c + ".200")(props1)) + " 50%,\n    transparent 100%\n  )", sizes_501602a9_esm_extends({}, !isIndeterminate && hasStripe && stripeStyle, isIndeterminate ? {
                     bgImage: gradient
                 } : {
                     bgColor: bgColor
@@ -2660,16 +2663,17 @@
             }), Select = {
                 parts: selectAnatomy.keys,
                 baseStyle: function(props) {
+                    var props1;
                     return {
-                        field: sizes_501602a9_esm_extends({}, Input.baseStyle.field, {
-                            bg: mode("white", "gray.700")(props),
+                        field: (props1 = props, sizes_501602a9_esm_extends({}, Input.baseStyle.field, {
+                            bg: mode("white", "gray.700")(props1),
                             appearance: "none",
                             paddingBottom: "1px",
                             lineHeight: "normal",
                             "> option, > optgroup": {
-                                bg: mode("white", "gray.700")(props)
+                                bg: mode("white", "gray.700")(props1)
                             }
-                        }),
+                        })),
                         icon: baseStyleIcon$1
                     };
                 },
@@ -2739,6 +2743,7 @@
                     }
                 },
                 baseStyle: function(props) {
+                    var props1;
                     return {
                         container: sizes_501602a9_esm_extends({
                             display: "inline-block",
@@ -2758,14 +2763,14 @@
                                 w: "100%"
                             }
                         })),
-                        track: {
+                        track: (props1 = props, {
                             overflow: "hidden",
                             borderRadius: "sm",
-                            bg: mode("gray.200", "whiteAlpha.200")(props),
+                            bg: mode("gray.200", "whiteAlpha.200")(props1),
                             _disabled: {
-                                bg: mode("gray.300", "whiteAlpha.300")(props)
+                                bg: mode("gray.300", "whiteAlpha.300")(props1)
                             }
-                        },
+                        }),
                         thumb: sizes_501602a9_esm_extends({
                             display: "flex",
                             alignItems: "center",
@@ -4678,13 +4683,13 @@
                             "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                                 return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                             }))), ownKeys.forEach(function(key) {
-                                var value;
-                                value = source[key], key in target ? Object.defineProperty(target, key, {
+                                var obj, key1, value;
+                                obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                     value: value,
                                     enumerable: !0,
                                     configurable: !0,
                                     writable: !0
-                                }) : target[key] = value;
+                                }) : obj[key1] = value;
                             });
                         }
                         return target;

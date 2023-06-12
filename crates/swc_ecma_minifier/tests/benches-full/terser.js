@@ -5573,11 +5573,12 @@
         return ast1.size() > ast2.size() ? ast2 : ast1;
     }
     function best_of(compressor, ast1, ast2) {
-        return first_in_statement(compressor) ? best_of_expression(make_node(AST_SimpleStatement, ast1, {
-            body: ast1
-        }), make_node(AST_SimpleStatement, ast2, {
-            body: ast2
-        })).body : best_of_expression(ast1, ast2);
+        var ast11, ast21;
+        return first_in_statement(compressor) ? (ast11 = ast1, ast21 = ast2, best_of_expression(make_node(AST_SimpleStatement, ast11, {
+            body: ast11
+        }), make_node(AST_SimpleStatement, ast21, {
+            body: ast21
+        })).body) : best_of_expression(ast1, ast2);
     }
     function get_simple_key(key) {
         return key instanceof AST_Constant ? key.getValue() : key instanceof AST_UnaryPrefix && "void" == key.operator && key.expression instanceof AST_Constant ? void 0 : key;

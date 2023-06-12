@@ -171,7 +171,8 @@
             });
             var HijriParser, dateCorrection, extendStatics, extendStatics1, extendStatics2, extendStatics3, extendStatics4, extendStatics5, HijriParser1, intl_base_IntlBase, lastPageID, instances = 'ej2_instances', uid = 0;
             function createInstance(classFunction, params) {
-                return params.unshift(void 0), new (Function.prototype.bind.apply(classFunction, params));
+                var arrayParam = params;
+                return arrayParam.unshift(void 0), new (Function.prototype.bind.apply(classFunction, arrayParam));
             }
             function util_getValue(nameSpace, obj) {
                 for(var value = obj, splits = nameSpace.replace(/\[/g, '.').replace(/\]/g, '').split('.'), i = 0; i < splits.length && !util_isUndefined(value); i++)value = value[splits[i]];
@@ -193,9 +194,9 @@
                 return enumObject[enumValue];
             }
             function util_merge(source, destination) {
-                if (!util_isNullOrUndefined(destination)) for(var keys = Object.keys(destination), deepmerge = 'deepMerge', _i = 0; _i < keys.length; _i++){
+                if (!util_isNullOrUndefined(destination)) for(var temrObj = source, keys = Object.keys(destination), deepmerge = 'deepMerge', _i = 0; _i < keys.length; _i++){
                     var key = keys[_i];
-                    !util_isNullOrUndefined(source[deepmerge]) && -1 !== source[deepmerge].indexOf(key) && (util_isObject(destination[key]) || Array.isArray(destination[key])) ? util_extend(source[key], source[key], destination[key], !0) : source[key] = destination[key];
+                    !util_isNullOrUndefined(temrObj[deepmerge]) && -1 !== temrObj[deepmerge].indexOf(key) && (util_isObject(destination[key]) || Array.isArray(destination[key])) ? util_extend(temrObj[key], temrObj[key], destination[key], !0) : temrObj[key] = destination[key];
                 }
             }
             function util_extend(copied, first, second, deep) {
@@ -3908,14 +3909,14 @@
                 EventHandler.clearEvents(element), parentNode.removeChild(element);
             }
             function attributes(element, attributes) {
-                for(var keys = Object.keys(attributes), _i = 0; _i < keys.length; _i++){
+                for(var keys = Object.keys(attributes), ele = element, _i = 0; _i < keys.length; _i++){
                     var key = keys[_i];
-                    if (util_isObject(element)) {
+                    if (util_isObject(ele)) {
                         var iKey = key;
-                        'tabindex' === key && (iKey = 'tabIndex'), element.attributes[iKey] = attributes[key];
-                    } else element.setAttribute(key, attributes[key]);
+                        'tabindex' === key && (iKey = 'tabIndex'), ele.attributes[iKey] = attributes[key];
+                    } else ele.setAttribute(key, attributes[key]);
                 }
-                return element;
+                return ele;
             }
             function dom_select(selector, context, needsVDOM) {
                 return void 0 === context && (context = document), selector = querySelectId(selector), context.querySelector(selector);
@@ -4092,13 +4093,13 @@
             }
             function Property(defaultValue) {
                 return function(target, key) {
-                    var propertyDescriptor = {
-                        set: function(newValue) {
-                            if (this.properties[key] !== newValue) {
-                                var oldVal = this.properties.hasOwnProperty(key) ? this.properties[key] : defaultValue;
-                                this.saveChanges(key, newValue, oldVal), this.properties[key] = newValue;
+                    var curKey, propertyDescriptor = {
+                        set: (curKey = key, function(newValue) {
+                            if (this.properties[curKey] !== newValue) {
+                                var oldVal = this.properties.hasOwnProperty(curKey) ? this.properties[curKey] : defaultValue;
+                                this.saveChanges(curKey, newValue, oldVal), this.properties[curKey] = newValue;
                             }
-                        },
+                        }),
                         get: propertyGetter(defaultValue, key),
                         enumerable: !0,
                         configurable: !0
@@ -4122,56 +4123,57 @@
             }
             function Collection(defaultValue, type) {
                 return function(target, key) {
-                    Object.defineProperty(target, key, {
-                        set: function(newValue) {
+                    var curKey, type1, curKey1, propertyDescriptor = {
+                        set: (curKey = key, type1 = type, function(newValue) {
                             this.isComplexArraySetter = !0;
-                            var oldValueCollection = getObjectArray(this, key, defaultValue, type, !1), newValCollection = getObjectArray(this, key, newValue, type, !0);
-                            this.isComplexArraySetter = !1, this.saveChanges(key, newValCollection, oldValueCollection), this.properties[key] = newValCollection;
-                        },
-                        get: function() {
+                            var oldValueCollection = getObjectArray(this, curKey, defaultValue, type1, !1), newValCollection = getObjectArray(this, curKey, newValue, type1, !0);
+                            this.isComplexArraySetter = !1, this.saveChanges(curKey, newValCollection, oldValueCollection), this.properties[curKey] = newValCollection;
+                        }),
+                        get: (curKey1 = key, function() {
                             var _this = this;
-                            if (!this.properties.hasOwnProperty(key)) {
-                                var defCollection = getObjectArray(this, key, defaultValue, type, !1);
-                                this.properties[key] = defCollection;
+                            if (!this.properties.hasOwnProperty(curKey1)) {
+                                var defCollection = getObjectArray(this, curKey1, defaultValue, type, !1);
+                                this.properties[curKey1] = defCollection;
                             }
                             var ignore = void 0 !== this.controlParent && this.controlParent.ignoreCollectionWatch || this.ignoreCollectionWatch;
-                            return this.properties[key].hasOwnProperty('push') || ignore || [
+                            return this.properties[curKey1].hasOwnProperty('push') || ignore || [
                                 'push',
                                 'pop'
                             ].forEach(function(extendFunc) {
-                                var prop, descriptor = {
-                                    value: (prop = _this.properties[key], function() {
+                                var dFunc, prop, descriptor = {
+                                    value: (dFunc = extendFunc, prop = _this.properties[curKey1], function() {
                                         for(var newValue = [], _i = 0; _i < arguments.length; _i++)newValue[_i] = arguments[_i];
-                                        var keyString = this.propName ? this.getParentKey() + '.' + key + '-' : key + '-';
-                                        switch(extendFunc){
+                                        var keyString = this.propName ? this.getParentKey() + '.' + curKey1 + '-' : curKey1 + '-';
+                                        switch(dFunc){
                                             case 'push':
                                                 for(var i = 0; i < newValue.length; i++){
-                                                    Array.prototype[extendFunc].apply(prop, [
+                                                    Array.prototype[dFunc].apply(prop, [
                                                         newValue[i]
                                                     ]);
-                                                    var model_1 = getArrayModel(keyString + (prop.length - 1), newValue[i], !this.controlParent, extendFunc);
-                                                    this.serverDataBind(model_1, newValue[i], !1, extendFunc);
+                                                    var model_1 = getArrayModel(keyString + (prop.length - 1), newValue[i], !this.controlParent, dFunc);
+                                                    this.serverDataBind(model_1, newValue[i], !1, dFunc);
                                                 }
                                                 break;
                                             case 'pop':
-                                                Array.prototype[extendFunc].apply(prop);
-                                                var model = getArrayModel(keyString + prop.length, null, !this.controlParent, extendFunc);
+                                                Array.prototype[dFunc].apply(prop);
+                                                var model = getArrayModel(keyString + prop.length, null, !this.controlParent, dFunc);
                                                 this.serverDataBind(model, {
                                                     ejsAction: 'pop'
-                                                }, !1, extendFunc);
+                                                }, !1, dFunc);
                                         }
                                         return prop;
                                     }).bind(_this),
                                     configurable: !0
                                 };
-                                Object.defineProperty(_this.properties[key], extendFunc, descriptor);
-                            }), this.properties[key].hasOwnProperty('isComplexArray') || Object.defineProperty(this.properties[key], 'isComplexArray', {
+                                Object.defineProperty(_this.properties[curKey1], extendFunc, descriptor);
+                            }), this.properties[curKey1].hasOwnProperty('isComplexArray') || Object.defineProperty(this.properties[curKey1], 'isComplexArray', {
                                 value: !0
-                            }), this.properties[key];
-                        },
+                            }), this.properties[curKey1];
+                        }),
                         enumerable: !0,
                         configurable: !0
-                    }), addPropertyCollection(target, key, 'colProp', defaultValue, type);
+                    };
+                    Object.defineProperty(target, key, propertyDescriptor), addPropertyCollection(target, key, 'colProp', defaultValue, type);
                 };
             }
             function notify_property_change_Event() {
@@ -4388,7 +4390,9 @@
                         var module = moduleList[_i], modName = modl.member;
                         if (module.prototype.getModuleName() === modl.member && !this.isModuleLoaded(modName)) {
                             var moduleObject = createInstance(module, modl.args), memberName = this.getMemberName(modName);
-                            modl.isProperty ? setValue(memberName, module, this.parent) : setValue(memberName, moduleObject, this.parent), modl.member = memberName, this.loadedModules.push(modl);
+                            modl.isProperty ? setValue(memberName, module, this.parent) : setValue(memberName, moduleObject, this.parent);
+                            var loadedModule = modl;
+                            loadedModule.member = memberName, this.loadedModules.push(loadedModule);
                         }
                     }
                 }, ModuleLoader.prototype.clean = function() {
@@ -5524,33 +5528,33 @@
                 compile: new (function() {
                     function Engine() {}
                     return Engine.prototype.compile = function(templateString, helper, ignorePrefix) {
-                        var helper1, argName, str, helper2, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
-                        return void 0 === helper && (helper = {}), argName = 'data', str = templateString, helper2 = helper1 = helper, ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = str.match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
+                        var helper1, argName, str, nameSpace, helper2, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
+                        return void 0 === helper && (helper = {}), argName = 'data', str = templateString, nameSpace = argName, helper2 = helper1 = helper, ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = str.match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
                             singleSpace = value.replace(/\s\s+/g, ' '), str = str.replace(value, singleSpace);
                         }), Function(argName, "var str=\"" + str.replace(LINES, '').replace(DBL_QUOTED_STR, '\'$1\'').replace(exp, function(match, cnt, offset, matchStr) {
                             var matches = cnt.match(CALL_FUNCTION);
                             if (matches) {
                                 var rlStr = matches[1];
                                 if (ELSEIF_STMT.test(cnt)) cnt = '";} ' + cnt.replace(matches[1], rlStr.replace(WORD, function(str) {
-                                    return addNameSpace(str = str.trim(), !QUOTES.test(str) && -1 === localKeys.indexOf(str), argName, localKeys, ignorePrefix1);
+                                    return addNameSpace(str = str.trim(), !QUOTES.test(str) && -1 === localKeys.indexOf(str), nameSpace, localKeys, ignorePrefix1);
                                 })) + '{ \n str = str + "';
                                 else if (IF_STMT.test(cnt)) cnt = '"; ' + cnt.replace(matches[1], rlStr.replace(WORDIF, function(strs) {
-                                    return HandleSpecialCharArrObj(strs, argName, localKeys, ignorePrefix1);
+                                    return HandleSpecialCharArrObj(strs, nameSpace, localKeys, ignorePrefix1);
                                 })) + '{ \n str = str + "';
                                 else if (FOR_STMT.test(cnt)) {
                                     var rlStr_1 = matches[1].split(' of ');
                                     cnt = '"; ' + cnt.replace(matches[1], function(mtc) {
-                                        return localKeys.push(rlStr_1[0]), localKeys.push(rlStr_1[0] + 'Index'), 'var i' + (varCOunt += 1) + '=0; i' + varCOunt + ' < ' + addNameSpace(rlStr_1[1], !0, argName, localKeys, ignorePrefix1) + '.length; i' + varCOunt + '++';
-                                    }) + '{ \n ' + rlStr_1[0] + '= ' + addNameSpace(rlStr_1[1], !0, argName, localKeys, ignorePrefix1) + '[i' + varCOunt + ']; \n var ' + rlStr_1[0] + 'Index=i' + varCOunt + '; \n str = str + "';
+                                        return localKeys.push(rlStr_1[0]), localKeys.push(rlStr_1[0] + 'Index'), 'var i' + (varCOunt += 1) + '=0; i' + varCOunt + ' < ' + addNameSpace(rlStr_1[1], !0, nameSpace, localKeys, ignorePrefix1) + '.length; i' + varCOunt + '++';
+                                    }) + '{ \n ' + rlStr_1[0] + '= ' + addNameSpace(rlStr_1[1], !0, nameSpace, localKeys, ignorePrefix1) + '[i' + varCOunt + ']; \n var ' + rlStr_1[0] + 'Index=i' + varCOunt + '; \n str = str + "';
                                 } else {
                                     var fnStr = cnt.split('('), fNameSpace = helper2 && helper2.hasOwnProperty(fnStr[0]) ? 'this.' : 'global';
                                     fNameSpace = /\./.test(fnStr[0]) ? '' : fNameSpace;
                                     var ftArray = matches[1].split(',');
-                                    0 === matches[1].length || /data/.test(ftArray[0]) || /window./.test(ftArray[0]) || (matches[1] = 'global' === fNameSpace ? argName + '.' + matches[1] : matches[1]), WINDOWFUNC.test(cnt) && /\]\./gm.test(cnt) || /@|\$|#/gm.test(cnt) ? /@|\$|#|\]\./gm.test(cnt) && (cnt = '"+ ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(matches[1], rlStr.replace(WORDFUNC, function(strs) {
-                                        return HandleSpecialCharArrObj(strs, argName, localKeys, ignorePrefix1);
-                                    })) + '+ "') : cnt = '" + ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(rlStr, addNameSpace(matches[1].replace(/,( |)data.|,/gi, ',' + argName + '.').replace(/,( |)data.window/gi, ',window'), 'global' !== fNameSpace, argName, localKeys, ignorePrefix1)) + '+"';
+                                    0 === matches[1].length || /data/.test(ftArray[0]) || /window./.test(ftArray[0]) || (matches[1] = 'global' === fNameSpace ? nameSpace + '.' + matches[1] : matches[1]), WINDOWFUNC.test(cnt) && /\]\./gm.test(cnt) || /@|\$|#/gm.test(cnt) ? /@|\$|#|\]\./gm.test(cnt) && (cnt = '"+ ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(matches[1], rlStr.replace(WORDFUNC, function(strs) {
+                                        return HandleSpecialCharArrObj(strs, nameSpace, localKeys, ignorePrefix1);
+                                    })) + '+ "') : cnt = '" + ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(rlStr, addNameSpace(matches[1].replace(/,( |)data.|,/gi, ',' + nameSpace + '.').replace(/,( |)data.window/gi, ',window'), 'global' !== fNameSpace, nameSpace, localKeys, ignorePrefix1)) + '+"';
                                 }
-                            } else ELSE_STMT.test(cnt) ? cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), argName, localKeys) + '"]+"') : cnt = cnt.match(SINGLE_SLASH) ? '"+' + NameSpaceForspecialChar(cnt = SlashReplace(cnt), -1 === localKeys.indexOf(cnt), argName, localKeys) + '"]+"' : '"+' + addNameSpace(cnt.replace(/,/gi, '+' + argName + '.'), -1 === localKeys.indexOf(cnt), argName, localKeys, ignorePrefix1) + '+"';
+                            } else ELSE_STMT.test(cnt) ? cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"') : cnt = cnt.match(SINGLE_SLASH) ? '"+' + NameSpaceForspecialChar(cnt = SlashReplace(cnt), -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"' : '"+' + addNameSpace(cnt.replace(/,/gi, '+' + nameSpace + '.'), -1 === localKeys.indexOf(cnt), nameSpace, localKeys, ignorePrefix1) + '+"';
                             return cnt;
                         }) + "\";var valueRegEx = (/value=\\'([A-Za-z0-9 _]*)((.)([\\w)(!-;?-■\\s]+)['])/g);\n    var hrefRegex = (/(?:href)([\\s='\"./]+)([\\w-./?=&\\\\#\"]+)((.)([\\w)(!-;/?-■\\s]+)['])/g);\n    if(str.match(valueRegEx)){\n        var check = str.match(valueRegEx);\n        var str1 = str;\n        for (var i=0; i < check.length; i++) {\n            var check1 = str.match(valueRegEx)[i].split('value=')[1];\n            var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n            change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n            str1 = str1.replace(check1, change);\n        }\n        str = str.replace(str, str1);\n    }\n    else if (str.match(/(?:href='')/) === null) {\n        if(str.match(hrefRegex)) {\n            var check = str.match(hrefRegex);\n            var str1 = str;\n            for (var i=0; i < check.length; i++) {\n                var check1 = str.match(hrefRegex)[i].split('href=')[1];\n                if (check1) {\n                    var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n                    change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n                    str1 = str1.replace(check1, change);\n                }\n            }\n            str = str.replace(str, str1);\n        }\n    }\n     return str;").bind(helper1);
                     }, Engine;
@@ -6125,14 +6129,14 @@
                     ], CLASSNAMES.DISABLE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(floatLabelType) || validateLabel(element, floatLabelType);
                 }
                 function setClearButton(isClear, element, inputObject, initial, internalCreateElement) {
-                    var button, container, makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.az : internalCreateElement;
-                    isClear ? inputObject.clearButton = (button = ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(makeElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.az : makeElement)('span', {
+                    var element1, inputObject1, internalCreateElement1, button, container, makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.az : internalCreateElement;
+                    isClear ? inputObject.clearButton = (element1 = element, inputObject1 = inputObject, internalCreateElement1 = makeElement, button = ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(internalCreateElement1) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.az : internalCreateElement1)('span', {
                         className: CLASSNAMES.CLEARICON
-                    }), container = inputObject.container, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(initial) ? (inputObject.container.classList.contains(CLASSNAMES.FLOATINPUT) ? inputObject.container.querySelector('.' + CLASSNAMES.FLOATTEXT) : element).insertAdjacentElement('afterend', button) : container.appendChild(button), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(container) && container.classList.contains(CLASSNAMES.FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
+                    }), container = inputObject1.container, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(initial) ? (inputObject1.container.classList.contains(CLASSNAMES.FLOATINPUT) ? inputObject1.container.querySelector('.' + CLASSNAMES.FLOATTEXT) : element1).insertAdjacentElement('afterend', button) : container.appendChild(button), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(container) && container.classList.contains(CLASSNAMES.FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
                         container
                     ], CLASSNAMES.INPUTGROUP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
                         button
-                    ], CLASSNAMES.CLEARICONHIDE), wireClearBtnEvents(element, button, container), button.setAttribute('aria-label', 'close'), button) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.Od)(inputObject.clearButton), inputObject.clearButton = null);
+                    ], CLASSNAMES.CLEARICONHIDE), wireClearBtnEvents(element1, button, container), button.setAttribute('aria-label', 'close'), button) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.Od)(inputObject.clearButton), inputObject.clearButton = null);
                 }
                 function removeAttributes(attrs, element) {
                     for(var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++){
@@ -7075,7 +7079,7 @@
                     X: !0,
                     Y: !0
                 }), target && element && positionX && positionY && (axis.X || axis.Y)) {
-                    var elementRect, elementRect1, tEdge = {
+                    var target1, edge, pos, fixedParent1, elementRect, elementRect1, tEdge = {
                         TL: null,
                         TR: null,
                         BL: null,
@@ -7090,7 +7094,7 @@
                         var oldVisibility = element.style.visibility;
                         element.style.visibility = 'hidden', element.style.display = 'block', elementRect1 = element.getBoundingClientRect(), element.style.removeProperty('display'), element.style.visibility = oldVisibility;
                     } else elementRect1 = element.getBoundingClientRect();
-                    var pos = {
+                    var pos1 = {
                         posX: positionX,
                         posY: positionY,
                         offsetX: offsetX,
@@ -7100,20 +7104,20 @@
                             top: 0
                         }
                     };
-                    targetContainer = viewPortElement, parentDocument = target.ownerDocument, elementRect = elementRect1, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, fixedParent, elementRect), tEdge.TL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'top', fixedParent, elementRect), tEdge.TR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'top', fixedParent, elementRect), tEdge.BR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'bottom', fixedParent, elementRect), tEdge.BL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'bottom', fixedParent, elementRect), setPosition(eEdge, pos, elementRect1), axis.X && function leftFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
+                    targetContainer = viewPortElement, parentDocument = target.ownerDocument, target1 = target, edge = tEdge, pos = pos1, fixedParent1 = fixedParent, elementRect = elementRect1, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target1, pos.posX, pos.posY, fixedParent1, elementRect), edge.TL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target1, 'left', 'top', fixedParent1, elementRect), edge.TR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target1, 'right', 'top', fixedParent1, elementRect), edge.BR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target1, 'left', 'bottom', fixedParent1, elementRect), edge.BL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target1, 'right', 'bottom', fixedParent1, elementRect), setPosition(eEdge, pos1, elementRect1), axis.X && function leftFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
                         var collideSide = leftCollideCheck(edge.TL.left, edge.TR.left);
                         tEdge.TL.left - getBodyScrollLeft() <= ContainerLeft() && (collideSide.leftSide = !1), tEdge.TR.left > ContainerRight() && (collideSide.rightSide = !1), (collideSide.leftSide && !collideSide.rightSide || !collideSide.leftSide && collideSide.rightSide) && ('right' === pos.posX ? pos.posX = 'left' : pos.posX = 'right', pos.offsetX = pos.offsetX + elementRect.width, pos.offsetX = -1 * pos.offsetX, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, !1), setPosition(edge, pos, elementRect), deepCheck && leftFlip(target, edge, tEdge, pos, elementRect, !1));
-                    }(target, eEdge, tEdge, pos, elementRect1, !0), axis.Y && tEdge.TL.top > -1 && function topFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
+                    }(target, eEdge, tEdge, pos1, elementRect1, !0), axis.Y && tEdge.TL.top > -1 && function topFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
                         var collideSide = topCollideCheck(edge.TL.top, edge.BL.top);
                         tEdge.TL.top - getBodyScrollTop() <= ContainerTop() && (collideSide.topSide = !1), tEdge.BL.top >= ContainerBottom() && target.getBoundingClientRect().bottom < window.innerHeight && (collideSide.bottomSide = !1), (collideSide.topSide && !collideSide.bottomSide || !collideSide.topSide && collideSide.bottomSide) && ('top' === pos.posY ? pos.posY = 'bottom' : pos.posY = 'top', pos.offsetY = pos.offsetY + elementRect.height, pos.offsetY = -1 * pos.offsetY, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, !1, elementRect), setPosition(edge, pos, elementRect), deepCheck && topFlip(target, edge, tEdge, pos, elementRect, !1));
-                    }(target, eEdge, tEdge, pos, elementRect1, !0), function(element, pos, elementRect) {
+                    }(target, eEdge, tEdge, pos1, elementRect1, !0), function(element, pos, elementRect) {
                         var left = 0, top1 = 0;
                         if (null != element.offsetParent && ('absolute' === getComputedStyle(element.offsetParent).position || 'relative' === getComputedStyle(element.offsetParent).position)) {
                             var data = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(element.offsetParent, 'left', 'top', !1, elementRect);
                             left = data.left, top1 = data.top;
                         }
                         element.style.top = pos.position.top + pos.offsetY - top1 + 'px', element.style.left = pos.position.left + pos.offsetX - left + 'px';
-                    }(element, pos, elementRect1);
+                    }(element, pos1, elementRect1);
                 }
             }
             function setPosition(eStatus, pos, elementRect) {
@@ -7475,29 +7479,29 @@
                 }, Popup.prototype.getAnchorPosition = function(anchorEle, ele, position, offsetX, offsetY) {
                     var eleRect = this.checkGetBoundingClientRect(ele), anchorRect = this.checkGetBoundingClientRect(anchorEle);
                     if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(eleRect) || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(anchorRect)) return null;
-                    var anchorPos = {
+                    var anchor = anchorEle, anchorPos = {
                         left: 0,
                         top: 0
                     };
-                    switch(ele.offsetParent && 'BODY' === ele.offsetParent.tagName && 'BODY' === anchorEle.tagName ? anchorPos = (0, _common_position__WEBPACK_IMPORTED_MODULE_1__.k)(anchorEle) : (ele.classList.contains('e-dlg-modal') && 'BODY' !== anchorEle.tagName && (ele = ele.parentElement), anchorPos = (0, _common_position__WEBPACK_IMPORTED_MODULE_1__.O)(anchorEle, ele)), position.X){
+                    switch(ele.offsetParent && 'BODY' === ele.offsetParent.tagName && 'BODY' === anchorEle.tagName ? anchorPos = (0, _common_position__WEBPACK_IMPORTED_MODULE_1__.k)(anchorEle) : (ele.classList.contains('e-dlg-modal') && 'BODY' !== anchor.tagName && (ele = ele.parentElement), anchorPos = (0, _common_position__WEBPACK_IMPORTED_MODULE_1__.O)(anchor, ele)), position.X){
                         default:
                         case 'left':
                             break;
                         case 'center':
-                            ele.classList.contains('e-dlg-modal') && 'BODY' === anchorEle.tagName && 'container' === this.targetType ? anchorPos.left += window.innerWidth / 2 - eleRect.width / 2 : 'container' === this.targetType ? anchorPos.left += anchorRect.width / 2 - eleRect.width / 2 : anchorPos.left += anchorRect.width / 2;
+                            ele.classList.contains('e-dlg-modal') && 'BODY' === anchor.tagName && 'container' === this.targetType ? anchorPos.left += window.innerWidth / 2 - eleRect.width / 2 : 'container' === this.targetType ? anchorPos.left += anchorRect.width / 2 - eleRect.width / 2 : anchorPos.left += anchorRect.width / 2;
                             break;
                         case 'right':
-                            ele.classList.contains('e-dlg-modal') && 'BODY' === anchorEle.tagName && 'container' === this.targetType ? anchorPos.left += window.innerWidth - eleRect.width : 'container' === this.targetType ? anchorPos.left += anchorRect.width - eleRect.width : anchorPos.left += anchorRect.width;
+                            ele.classList.contains('e-dlg-modal') && 'BODY' === anchor.tagName && 'container' === this.targetType ? anchorPos.left += window.innerWidth - eleRect.width : 'container' === this.targetType ? anchorPos.left += anchorRect.width - eleRect.width : anchorPos.left += anchorRect.width;
                     }
                     switch(position.Y){
                         default:
                         case 'top':
                             break;
                         case 'center':
-                            ele.classList.contains('e-dlg-modal') && 'BODY' === anchorEle.tagName && 'container' === this.targetType ? anchorPos.top += window.innerHeight / 2 - eleRect.height / 2 : 'container' === this.targetType ? anchorPos.top += anchorRect.height / 2 - eleRect.height / 2 : anchorPos.top += anchorRect.height / 2;
+                            ele.classList.contains('e-dlg-modal') && 'BODY' === anchor.tagName && 'container' === this.targetType ? anchorPos.top += window.innerHeight / 2 - eleRect.height / 2 : 'container' === this.targetType ? anchorPos.top += anchorRect.height / 2 - eleRect.height / 2 : anchorPos.top += anchorRect.height / 2;
                             break;
                         case 'bottom':
-                            ele.classList.contains('e-dlg-modal') && 'BODY' === anchorEle.tagName && 'container' === this.targetType ? anchorPos.top += window.innerHeight - eleRect.height : 'container' === this.targetType ? anchorPos.top += anchorRect.height - eleRect.height : anchorPos.top += anchorRect.height;
+                            ele.classList.contains('e-dlg-modal') && 'BODY' === anchor.tagName && 'container' === this.targetType ? anchorPos.top += window.innerHeight - eleRect.height : 'container' === this.targetType ? anchorPos.top += anchorRect.height - eleRect.height : anchorPos.top += anchorRect.height;
                     }
                     return anchorPos.left += offsetX, anchorPos.top += offsetY, anchorPos;
                 }, Popup.prototype.callFlip = function(param) {
@@ -10369,10 +10373,11 @@
                     } : option.animationSettings, options.cssClass = (0, ej2_base.le)(option.cssClass) ? '' : option.cssClass, options.zIndex = (0, ej2_base.le)(option.zIndex) ? 1000 : option.zIndex, options.open = (0, ej2_base.le)(option.open) ? null : option.open, options;
                 }
                 function formButtonModel(buttonModel, option, buttonPropModel) {
-                    return (0, ej2_base.le)(option.text) || (buttonPropModel.buttonModel.content = option.text), (0, ej2_base.le)(option.icon) || (buttonPropModel.buttonModel.iconCss = option.icon), (0, ej2_base.le)(option.cssClass) || (buttonPropModel.buttonModel.cssClass = option.cssClass), (0, ej2_base.le)(option.click) || (buttonPropModel.click = option.click), buttonPropModel;
+                    var buttonProps = buttonPropModel;
+                    return (0, ej2_base.le)(option.text) || (buttonProps.buttonModel.content = option.text), (0, ej2_base.le)(option.icon) || (buttonProps.buttonModel.iconCss = option.icon), (0, ej2_base.le)(option.cssClass) || (buttonProps.buttonModel.cssClass = option.cssClass), (0, ej2_base.le)(option.click) || (buttonProps.click = option.click), buttonProps;
                 }
                 DialogUtility.alert = function(args) {
-                    var options, options1, alertButtonModel, alertDialogObj, dialogElement = (0, ej2_base.az)('div', {
+                    var option, options, options1, option1, alertButtonModel, alertDialogObj, dialogElement = (0, ej2_base.az)('div', {
                         className: DLG_UTIL_ALERT
                     });
                     return document.body.appendChild(dialogElement), (alertDialogObj = 'string' == typeof args ? createDialog({
@@ -10394,7 +10399,7 @@
                                 }
                             }
                         ]
-                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), alertButtonModel = [
+                    }, dialogElement) : createDialog((option = args, (options = {}).buttons = [], options1 = options = formOptions(options, option), option1 = option, alertButtonModel = [
                         {
                             buttonModel: {
                                 isPrimary: !0,
@@ -10404,11 +10409,11 @@
                                 this.hide();
                             }
                         }
-                    ], (0, ej2_base.le)(args.okButton) ? options1.buttons = alertButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, alertButtonModel[0]), options = options1), dialogElement)).close = function() {
+                    ], (0, ej2_base.le)(option1.okButton) ? options1.buttons = alertButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], option1.okButton, alertButtonModel[0]), options = options1), dialogElement)).close = function() {
                         args && args.close && args.close.apply(alertDialogObj), alertDialogObj.destroy(), alertDialogObj.element.classList.contains('e-dlg-modal') ? (alertDialogObj.element.parentElement.remove(), alertDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : alertDialogObj.element.remove();
                     }, alertDialogObj;
                 }, DialogUtility.confirm = function(args) {
-                    var options, options1, okButtonModel, cancelButtonModel, confirmDialogObj, dialogElement = (0, ej2_base.az)('div', {
+                    var option, options, options1, option1, okButtonModel, cancelButtonModel, confirmDialogObj, dialogElement = (0, ej2_base.az)('div', {
                         className: DLG_UTIL_CONFIRM
                     });
                     return document.body.appendChild(dialogElement), (confirmDialogObj = 'string' == typeof args ? createDialog({
@@ -10438,7 +10443,7 @@
                                 }
                             }
                         ]
-                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), okButtonModel = {
+                    }, dialogElement) : createDialog((option = args, (options = {}).buttons = [], options1 = options = formOptions(options, option), option1 = option, okButtonModel = {
                         buttonModel: {
                             isPrimary: !0,
                             content: 'OK'
@@ -10453,7 +10458,7 @@
                         click: function() {
                             this.hide();
                         }
-                    }, (0, ej2_base.le)(args.okButton) ? options1.buttons[0] = okButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, okButtonModel), (0, ej2_base.le)(args.cancelButton) ? options1.buttons[1] = cancelButtonModel : options1.buttons[1] = formButtonModel(options1.buttons[1], args.cancelButton, cancelButtonModel), options = options1), dialogElement)).close = function() {
+                    }, (0, ej2_base.le)(option1.okButton) ? options1.buttons[0] = okButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], option1.okButton, okButtonModel), (0, ej2_base.le)(option1.cancelButton) ? options1.buttons[1] = cancelButtonModel : options1.buttons[1] = formButtonModel(options1.buttons[1], option1.cancelButton, cancelButtonModel), options = options1), dialogElement)).close = function() {
                         args && args.close && args.close.apply(confirmDialogObj), confirmDialogObj.destroy(), confirmDialogObj.element.classList.contains('e-dlg-modal') ? (confirmDialogObj.element.parentElement.remove(), confirmDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : confirmDialogObj.element.remove();
                     }, confirmDialogObj;
                 };
@@ -13710,28 +13715,28 @@
                         });
                     }
                 }, TableCommand.prototype.updateColSpanStyle = function(min, max, elements) {
-                    var colValue, colIndex, colMin, attrValue, index = 0, count = 0;
-                    if (min < (max = Math.min(max, elements[0].length - 1))) {
-                        for(; colIndex <= max; colIndex++)if (!(min < colIndex && elements[0][colIndex] === elements[0][colIndex - 1]) && 1 < (index = Math.min(parseInt(elements[0][colIndex].getAttribute('colspan'), 10) || 1, max - min + 1)) && elements[0][colIndex] === elements[0][colIndex + 1]) for(count = index - 1, colValue = 1; colValue < elements.length; colValue++){
-                            if (elements[colValue][colIndex] !== elements[colValue - 1][colIndex]) {
-                                for(colMin = colIndex; colMin < colIndex + index; colMin++)if (1 < (attrValue = parseInt(elements[colValue][colMin].getAttribute('colspan'), 10) || 1) && elements[colValue][colMin] === elements[colValue][colMin + 1]) colMin += count = Math.min(count, attrValue - 1);
+                    var colValue, colIndex, colMin, attrValue, index = 0, count = 0, eleArray = elements;
+                    if (min < (max = Math.min(max, eleArray[0].length - 1))) {
+                        for(; colIndex <= max; colIndex++)if (!(min < colIndex && eleArray[0][colIndex] === eleArray[0][colIndex - 1]) && 1 < (index = Math.min(parseInt(eleArray[0][colIndex].getAttribute('colspan'), 10) || 1, max - min + 1)) && eleArray[0][colIndex] === eleArray[0][colIndex + 1]) for(count = index - 1, colValue = 1; colValue < eleArray.length; colValue++){
+                            if (eleArray[colValue][colIndex] !== eleArray[colValue - 1][colIndex]) {
+                                for(colMin = colIndex; colMin < colIndex + index; colMin++)if (1 < (attrValue = parseInt(eleArray[colValue][colMin].getAttribute('colspan'), 10) || 1) && eleArray[colValue][colMin] === eleArray[colValue][colMin + 1]) colMin += count = Math.min(count, attrValue - 1);
                                 else if (!(count = Math.max(0, count - 1))) break;
                             }
                             if (!count) break;
                         }
-                        count && this.updateCellAttribute(elements, count, 'colspan', 0, elements.length - 1, min, max);
+                        count && this.updateCellAttribute(eleArray, count, 'colspan', 0, eleArray.length - 1, min, max);
                     }
                 }, TableCommand.prototype.updateRowSpanStyle = function(min, max, ele) {
-                    var rowValue, colIndex, rowMin, attrValue, index = 0, count = 0;
-                    if (min < (max = Math.min(max, ele.length - 1))) {
-                        for(rowValue = min; rowValue <= max; rowValue++)if (!(min < rowValue && ele[rowValue][0] === ele[rowValue - 1][0]) && ele[rowValue][0] && 1 < (index = Math.min(parseInt(ele[rowValue][0].getAttribute('rowspan'), 10) || 1, max - min + 1)) && ele[rowValue][0] === ele[rowValue + 1][0]) {
-                            for(count = index - 1, colIndex = 1; colIndex < ele[0].length; colIndex++)if (ele[rowValue][colIndex] !== ele[rowValue][colIndex - 1]) {
-                                for(rowMin = rowValue; rowMin < rowValue + index; rowMin++)if (1 < (attrValue = parseInt(ele[rowMin][colIndex].getAttribute('rowspan'), 10) || 1) && ele[rowMin][colIndex] === ele[rowMin + 1][colIndex]) rowMin += count = Math.min(count, attrValue - 1);
+                    var rowValue, colIndex, rowMin, attrValue, index = 0, count = 0, eleArray = ele;
+                    if (min < (max = Math.min(max, eleArray.length - 1))) {
+                        for(rowValue = min; rowValue <= max; rowValue++)if (!(min < rowValue && eleArray[rowValue][0] === eleArray[rowValue - 1][0]) && eleArray[rowValue][0] && 1 < (index = Math.min(parseInt(eleArray[rowValue][0].getAttribute('rowspan'), 10) || 1, max - min + 1)) && eleArray[rowValue][0] === eleArray[rowValue + 1][0]) {
+                            for(count = index - 1, colIndex = 1; colIndex < eleArray[0].length; colIndex++)if (eleArray[rowValue][colIndex] !== eleArray[rowValue][colIndex - 1]) {
+                                for(rowMin = rowValue; rowMin < rowValue + index; rowMin++)if (1 < (attrValue = parseInt(eleArray[rowMin][colIndex].getAttribute('rowspan'), 10) || 1) && eleArray[rowMin][colIndex] === eleArray[rowMin + 1][colIndex]) rowMin += count = Math.min(count, attrValue - 1);
                                 else if (!(count = Math.max(0, count - 1))) break;
                                 if (!count) break;
                             }
                         }
-                        count && this.updateCellAttribute(ele, count, 'rowspan', min, max, 0, ele[0].length - 1);
+                        count && this.updateCellAttribute(eleArray, count, 'rowspan', min, max, 0, eleArray[0].length - 1);
                     }
                 }, TableCommand.prototype.updateCellAttribute = function(elements, index, attr, min, max, firstIndex, length) {
                     var rowIndex, colIndex, spanCount;
@@ -16052,34 +16057,34 @@
                             }
                             return width = width ? parseFloat(width + '') : defaultSize, 'Bootstrap' === theme ? width : width / 2;
                         }((0, ej2_base.le)(args.width) ? void 0 : args.width, theme), function(theme, container, radius, makeElement) {
-                            var uniqueID, uniqueID1, uniqueID2, uniqueID3, uniqueID4, uniqueID5, uniqueID6, uniqueID7, innerContainer = container.querySelector('.' + CLS_SPININWRAP), svg = innerContainer.querySelector('svg');
-                            switch((0, ej2_base.le)(svg) || innerContainer.removeChild(svg), theme){
+                            var innerContainer, radius1, uniqueID, container1, radius2, uniqueID1, container2, radius3, uniqueID2, container3, radius4, uniqueID3, container4, radius5, uniqueID4, container5, radius6, uniqueID5, container6, radius7, uniqueID6, container7, radius8, uniqueID7, innerContainer1 = container.querySelector('.' + CLS_SPININWRAP), svg = innerContainer1.querySelector('svg');
+                            switch((0, ej2_base.le)(svg) || innerContainer1.removeChild(svg), theme){
                                 case 'Material':
-                                    globalTimeOut[uniqueID1 = random_generator()] = {
+                                    container1 = innerContainer1, radius2 = radius, globalTimeOut[uniqueID1 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Material',
-                                        radius: radius
-                                    }, create_material_element(innerContainer, uniqueID1, makeElement, CLS_MATERIALSPIN), mat_calculate_attributes(radius, innerContainer, 'Material', CLS_MATERIALSPIN);
+                                        radius: radius2
+                                    }, create_material_element(container1, uniqueID1, makeElement, CLS_MATERIALSPIN), mat_calculate_attributes(radius2, container1, 'Material', CLS_MATERIALSPIN);
                                     break;
                                 case 'Fabric':
-                                    globalTimeOut[uniqueID2 = random_generator()] = {
+                                    container2 = innerContainer1, radius3 = radius, globalTimeOut[uniqueID2 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Fabric',
-                                        radius: radius
-                                    }, create_fabric_element(innerContainer, uniqueID2, CLS_FABRICSPIN, makeElement), fb_calculate_attributes(radius, innerContainer, CLS_FABRICSPIN);
+                                        radius: radius3
+                                    }, create_fabric_element(container2, uniqueID2, CLS_FABRICSPIN, makeElement), fb_calculate_attributes(radius3, container2, CLS_FABRICSPIN);
                                     break;
                                 case 'Fluent':
-                                    globalTimeOut[uniqueID3 = random_generator()] = {
+                                    container3 = innerContainer1, radius4 = radius, globalTimeOut[uniqueID3 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Fluent',
-                                        radius: radius
-                                    }, create_fabric_element(innerContainer, uniqueID3, CLS_FLUENTSPIN, makeElement), fb_calculate_attributes(radius, innerContainer, CLS_FLUENTSPIN);
+                                        radius: radius4
+                                    }, create_fabric_element(container3, uniqueID3, CLS_FLUENTSPIN, makeElement), fb_calculate_attributes(radius4, container3, CLS_FLUENTSPIN);
                                     break;
                                 case 'Bootstrap':
-                                    globalTimeOut[uniqueID = random_generator()] = {
+                                    innerContainer = innerContainer1, radius1 = radius, globalTimeOut[uniqueID = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Bootstrap',
-                                        radius: radius
+                                        radius: radius1
                                     }, function(innerContainer, uniqueID, makeElement) {
                                         var svgBoot = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                                         svgBoot.setAttribute('id', uniqueID), svgBoot.setAttribute('class', 'e-spin-bootstrap'), svgBoot.setAttribute('viewBox', "0 0 64 64"), innerContainer.insertBefore(svgBoot, innerContainer.firstChild);
@@ -16094,36 +16099,36 @@
                                             var start = defineArcPoints(0, 0, 24, startArc), circleEle = svg.querySelector('.' + CLS_SPINCIRCLE + '_' + item);
                                             circleEle.setAttribute('cx', start.x + ''), circleEle.setAttribute('cy', start.y + ''), startArc = (startArc >= 360 ? 0 : startArc) + 45;
                                         }
-                                    }(innerContainer, radius);
+                                    }(innerContainer, radius1);
                                     break;
                                 case 'HighContrast':
-                                    globalTimeOut[uniqueID4 = random_generator()] = {
+                                    container4 = innerContainer1, radius5 = radius, globalTimeOut[uniqueID4 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'HighContrast',
-                                        radius: radius
-                                    }, create_fabric_element(innerContainer, uniqueID4, CLS_HIGHCONTRASTSPIN, makeElement), fb_calculate_attributes(radius, innerContainer, CLS_HIGHCONTRASTSPIN);
+                                        radius: radius5
+                                    }, create_fabric_element(container4, uniqueID4, CLS_HIGHCONTRASTSPIN, makeElement), fb_calculate_attributes(radius5, container4, CLS_HIGHCONTRASTSPIN);
                                     break;
                                 case 'Bootstrap4':
-                                    globalTimeOut[uniqueID5 = random_generator()] = {
+                                    container5 = innerContainer1, radius6 = radius, globalTimeOut[uniqueID5 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Bootstrap4',
-                                        radius: radius
-                                    }, create_material_element(innerContainer, uniqueID5, makeElement, CLS_BOOT4SPIN), mat_calculate_attributes(radius, innerContainer, 'Bootstrap4', CLS_BOOT4SPIN);
+                                        radius: radius6
+                                    }, create_material_element(container5, uniqueID5, makeElement, CLS_BOOT4SPIN), mat_calculate_attributes(radius6, container5, 'Bootstrap4', CLS_BOOT4SPIN);
                                     break;
                                 case 'Bootstrap5':
-                                    globalTimeOut[uniqueID6 = random_generator()] = {
+                                    container6 = innerContainer1, radius7 = radius, globalTimeOut[uniqueID6 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Bootstrap5',
-                                        radius: radius
-                                    }, create_material_element(innerContainer, uniqueID6, makeElement, CLS_BOOT5SPIN), mat_calculate_attributes(radius, innerContainer, 'Bootstrap5', CLS_BOOT5SPIN);
+                                        radius: radius7
+                                    }, create_material_element(container6, uniqueID6, makeElement, CLS_BOOT5SPIN), mat_calculate_attributes(radius7, container6, 'Bootstrap5', CLS_BOOT5SPIN);
                                     break;
                                 case 'Tailwind':
                                 case 'Tailwind-dark':
-                                    globalTimeOut[uniqueID7 = random_generator()] = {
+                                    container7 = innerContainer1, radius8 = radius, globalTimeOut[uniqueID7 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Tailwind',
-                                        radius: radius
-                                    }, create_fabric_element(innerContainer, uniqueID7, CLS_TAILWINDSPIN, makeElement), fb_calculate_attributes(radius, innerContainer, CLS_TAILWINDSPIN);
+                                        radius: radius8
+                                    }, create_fabric_element(container7, uniqueID7, CLS_TAILWINDSPIN, makeElement), fb_calculate_attributes(radius8, container7, CLS_TAILWINDSPIN);
                             }
                         }(theme, container.wrap, radius, makeElement), (0, ej2_base.le)(args.label) || (container2 = container.inner_wrap, label = args.label, (labelEle = makeElement('div', {})).classList.add('e-spin-label'), labelEle.innerHTML = label, container2.appendChild(labelEle));
                     } else {
@@ -16161,11 +16166,11 @@
                 return start + change * (6 * timecount * timestamp + -15 * timestamp * timestamp + 10 * timecount);
             }
             function fb_calculate_attributes(radius, innerConainer, trgClass) {
-                var start, end, diameter = 2 * radius, svg = innerConainer.querySelector('.' + trgClass), circle = svg.querySelector('.e-path-circle'), path = svg.querySelector('.e-path-arc'), transformOrigin = diameter / 2 + 'px';
+                var x, y, radius1, start, end, centerX = radius, centerY = radius, diameter = 2 * radius, svg = innerConainer.querySelector('.' + trgClass), circle = svg.querySelector('.e-path-circle'), path = svg.querySelector('.e-path-arc'), transformOrigin = diameter / 2 + 'px';
                 circle.setAttribute('d', [
                     'M',
-                    radius,
-                    radius,
+                    centerX,
+                    centerY,
                     'm',
                     -radius,
                     0,
@@ -16185,13 +16190,13 @@
                     0,
                     -(2 * radius),
                     0
-                ].join(' ')), path.setAttribute('d', (start = defineArcPoints(radius, radius, radius, 45), end = defineArcPoints(radius, radius, radius, 315), [
+                ].join(' ')), path.setAttribute('d', (start = defineArcPoints(x = centerX, y = centerY, radius1 = radius, 45), end = defineArcPoints(x, y, radius1, 315), [
                     'M',
                     start.x,
                     start.y,
                     'A',
-                    radius,
-                    radius,
+                    radius1,
+                    radius1,
                     0,
                     0,
                     0,
@@ -16251,10 +16256,10 @@
                                             globalTimeOut[id].isAnimate && (++count, circle.setAttribute('r', radius + ''), count >= series.length && (count = 0), globalTimeOut[id].timeOut = setTimeout(boot_animate.bind(null, series[count]), 18));
                                         }(start);
                                     }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, 0, function(begin, stop) {
-                                        var series = [], increment = !1, count = 1;
+                                        var series = [], start = begin, increment = !1, count = 1;
                                         return function formSeries(i) {
-                                            series.push(i), (i !== stop || 1 === count) && (i <= begin && i > 1 && !increment ? i = parseFloat((i - 0.2).toFixed(2)) : 1 === i ? (i = parseFloat(((i = 7) + 0.2).toFixed(2)), increment = !0) : i < 8 && increment ? 8 === (i = parseFloat((i + 0.2).toFixed(2))) && (increment = !1) : i <= 8 && !increment && (i = parseFloat((i - 0.2).toFixed(2))), ++count, formSeries(i));
-                                        }(begin), series;
+                                            series.push(i), (i !== stop || 1 === count) && (i <= start && i > 1 && !increment ? i = parseFloat((i - 0.2).toFixed(2)) : 1 === i ? (i = parseFloat(((i = 7) + 0.2).toFixed(2)), increment = !0) : i < 8 && increment ? 8 === (i = parseFloat((i + 0.2).toFixed(2))) && (increment = !1) : i <= 8 && !increment && (i = parseFloat((i - 0.2).toFixed(2))), ++count, formSeries(i));
+                                        }(start), series;
                                     }(i, i), id);
                                 }(inner);
                         }
@@ -16690,17 +16695,17 @@
                     var index, selectedElement = this.getLiElement(file);
                     !(0, ej2_base.le)(selectedElement) && ((0, ej2_base.og)(selectedElement), index = this.fileList.indexOf(selectedElement), this.fileList.splice(index, 1), this.filesData.splice(index, 1), 0 !== this.fileList.length || (0, ej2_base.le)(this.listParent) || ((0, ej2_base.og)(this.listParent), this.listParent = null, this.removeActionButtons()), this.sequentialUpload && index <= this.count && --this.count);
                 }, Uploader.prototype.removeUploadedFile = function(file, eventArgs, removeDirectly, custom) {
-                    var _this = this, ajax = new ej2_base.tk(this.asyncSettings.removeUrl, 'POST', !0, null);
+                    var _this = this, selectedFiles = file, ajax = new ej2_base.tk(this.asyncSettings.removeUrl, 'POST', !0, null);
                     ajax.emitError = !1;
                     var formData = new FormData();
                     ajax.beforeSend = function(e) {
-                        eventArgs.currentRequest = ajax.httpRequest, removeDirectly ? _this.removingEventCallback(eventArgs, formData, file, file) : _this.trigger('removing', eventArgs, function(eventArgs) {
-                            eventArgs.cancel ? e.cancel = !0 : _this.removingEventCallback(eventArgs, formData, file, file);
+                        eventArgs.currentRequest = ajax.httpRequest, removeDirectly ? _this.removingEventCallback(eventArgs, formData, selectedFiles, file) : _this.trigger('removing', eventArgs, function(eventArgs) {
+                            eventArgs.cancel ? e.cancel = !0 : _this.removingEventCallback(eventArgs, formData, selectedFiles, file);
                         });
                     }, ajax.onLoad = function(e) {
-                        return _this.removeCompleted(e, file, custom), {};
+                        return _this.removeCompleted(e, selectedFiles, custom), {};
                     }, ajax.onError = function(e) {
-                        return _this.removeFailed(e, file, custom), {};
+                        return _this.removeFailed(e, selectedFiles, custom), {};
                     }, ajax.send(formData);
                 }, Uploader.prototype.removingEventCallback = function(eventArgs, formData, selectedFiles, file) {
                     var name = this.element.getAttribute('name'), liElement = this.getLiElement(file);
@@ -17149,7 +17154,8 @@
                 }, Uploader.prototype.setListToFileInfo = function(fileData, fileList) {
                     for(var _i = 0; _i < fileData.length; _i++)fileData[_i].list = fileList;
                 }, Uploader.prototype.truncateName = function(name) {
-                    'edge' !== this.browserName && name.offsetWidth < name.scrollWidth ? this.getSlicedName(name) : name.offsetWidth + 1 < name.scrollWidth && this.getSlicedName(name);
+                    var nameElement = name;
+                    'edge' !== this.browserName && nameElement.offsetWidth < nameElement.scrollWidth ? this.getSlicedName(nameElement) : nameElement.offsetWidth + 1 < nameElement.scrollWidth && this.getSlicedName(nameElement);
                 }, Uploader.prototype.getFileType = function(name) {
                     var extension, index = name.lastIndexOf('.');
                     return index >= 0 && (extension = name.substring(index + 1)), extension || '';
@@ -18046,7 +18052,7 @@
                 }, PasteCleanup.prototype.removeEventListener = function() {
                     this.parent.isDestroyed || (this.parent.off(constant.dI, this.pasteClean), this.parent.off(constant._8, this.setCssClass), this.parent.off(constant.ob, this.destroy));
                 }, PasteCleanup.prototype.pasteClean = function(e) {
-                    var _this = this, args = {
+                    var imageproperties, _this = this, args = {
                         requestType: 'Paste',
                         editorMode: this.parent.editorMode,
                         event: e
@@ -18063,7 +18069,7 @@
                                 args: e.args,
                                 text: value,
                                 callBack: function(b) {
-                                    'object' == typeof b ? _this.parent.formatter.editorManager.execCommand('Images', 'Image', e.args, _this.imageFormatting.bind(_this, args), 'pasteCleanup', b, 'pasteCleanupModule') : value = b;
+                                    'object' == typeof (imageproperties = b) ? _this.parent.formatter.editorManager.execCommand('Images', 'Image', e.args, _this.imageFormatting.bind(_this, args), 'pasteCleanup', imageproperties, 'pasteCleanupModule') : value = imageproperties;
                                 }
                             }), !htmlRegex.test(value)) {
                                 var divElement = this.parent.createElement('div');
@@ -19564,24 +19570,24 @@
                 }, Toolbar.prototype.setAttr = function(attr, element) {
                     for(var keyVal, key = Object.keys(attr), i = 0; i < key.length; i++)'class' === (keyVal = key[i]) ? this.add(element, attr[keyVal]) : element.setAttribute(keyVal, attr[keyVal]);
                 }, Toolbar.prototype.enableItems = function(items, isEnable) {
-                    var ele, len = items.length;
+                    var ele, elements = items, len = elements.length;
                     (0, ej2_base.le)(isEnable) && (isEnable = !0);
                     var enable = function(isEnable, ele) {
                         isEnable ? (ele.classList.remove(toolbar_CLS_DISABLE), ele.setAttribute('aria-disabled', 'false')) : (ele.classList.add(toolbar_CLS_DISABLE), ele.setAttribute('aria-disabled', 'true'));
                     };
                     if (!(0, ej2_base.le)(len) && len >= 1) {
-                        for(var a = 0, element = [].slice.call(items); a < len; a++){
+                        for(var a = 0, element = [].slice.call(elements); a < len; a++){
                             var itemElement = element[a];
                             if ('number' == typeof itemElement) {
                                 if (ele = this.getElementByIndex(itemElement), (0, ej2_base.le)(ele)) return;
-                                items[a] = ele;
+                                elements[a] = ele;
                             } else ele = itemElement;
                             enable(isEnable, ele);
                         }
-                        isEnable ? (0, ej2_base.IV)(items, toolbar_CLS_DISABLE) : (0, ej2_base.cn)(items, toolbar_CLS_DISABLE);
+                        isEnable ? (0, ej2_base.IV)(elements, toolbar_CLS_DISABLE) : (0, ej2_base.cn)(elements, toolbar_CLS_DISABLE);
                     } else {
-                        if ('number' == typeof items) {
-                            if (ele = this.getElementByIndex(items), (0, ej2_base.le)(ele)) return;
+                        if ('number' == typeof elements) {
+                            if (ele = this.getElementByIndex(elements), (0, ej2_base.le)(ele)) return;
                         } else ele = items;
                         enable(isEnable, ele);
                     }
@@ -19608,14 +19614,14 @@
                     }
                     itemsDiv.style.width = '', this.renderOverflowMode(), this.isReact && this.renderReactTemplates();
                 }, Toolbar.prototype.removeItems = function(args) {
-                    var index, innerItems = [].slice.call((0, ej2_base.td)('.' + CLS_ITEM, this.element));
-                    if ('number' == typeof args) index = parseInt(args.toString(), 10), this.removeItemByIndex(index, innerItems);
-                    else if (args && args.length > 1) for(var _i = 0, _a = [].slice.call(args); _i < _a.length; _i++){
+                    var index, elements = args, innerItems = [].slice.call((0, ej2_base.td)('.' + CLS_ITEM, this.element));
+                    if ('number' == typeof elements) index = parseInt(args.toString(), 10), this.removeItemByIndex(index, innerItems);
+                    else if (elements && elements.length > 1) for(var _i = 0, _a = [].slice.call(elements); _i < _a.length; _i++){
                         var ele = _a[_i];
                         index = this.tbarEle.indexOf(ele), this.removeItemByIndex(index, innerItems), innerItems = (0, ej2_base.td)('.' + CLS_ITEM, this.element);
                     }
                     else {
-                        var ele = args && args.length && 1 === args.length ? args[0] : args;
+                        var ele = elements && elements.length && 1 === elements.length ? elements[0] : args;
                         index = innerItems.indexOf(ele), this.removeItemByIndex(index, innerItems);
                     }
                     this.resize();
@@ -23747,18 +23753,18 @@
                 }, BaseToolbar.prototype.getItems = function(tbItems, container) {
                     var _this = this;
                     if (this.parent.toolbarSettings.items.length < 1) return [];
-                    for(var items = [], _loop_1 = function(item) {
+                    for(var items = [], this_1 = this, _i = 0; _i < tbItems.length; _i++)!function(item) {
                         if ('string' == typeof item) items.push(this_1.getObject(item, container));
                         else {
                             if (!(0, ej2_base.le)(item.click)) {
-                                var callback_1 = item.click;
-                                item.click = function() {
-                                    item.undo && 0 === _this.parent.formatter.getUndoRedoStack().length && _this.parent.formatter.saveData(), callback_1.call(_this), _this.parent.formatter.getUndoRedoStack()[_this.parent.formatter.getUndoRedoStack().length - 1].text.trim() !== _this.parent.inputElement.innerHTML.trim() && item.undo && _this.parent.formatter.saveData();
+                                var proxy_1 = item, callback_1 = proxy_1.click;
+                                proxy_1.click = function() {
+                                    proxy_1.undo && 0 === _this.parent.formatter.getUndoRedoStack().length && _this.parent.formatter.saveData(), callback_1.call(_this), _this.parent.formatter.getUndoRedoStack()[_this.parent.formatter.getUndoRedoStack().length - 1].text.trim() !== _this.parent.inputElement.innerHTML.trim() && proxy_1.undo && _this.parent.formatter.saveData();
                                 };
                             }
                             items.push(item);
                         }
-                    }, this_1 = this, _i = 0; _i < tbItems.length; _i++)_loop_1(tbItems[_i]);
+                    }(tbItems[_i]);
                     return items;
                 }, BaseToolbar.prototype.getToolbarOptions = function(args) {
                     return {
@@ -27755,8 +27761,8 @@
                                         for(var differenceWidth = currentTableWidth - _this.convertPixelToPercentage(tableWidth + mouseX, widthCompare), i = 0; i < lastColumnsCell.length; i++)_this.curTable.rows[i].cells[_this.colIndex].style.width = currentColumnCellWidth - differenceWidth + '%';
                                     }
                                 } else for(var cellColl = _this.curTable.rows[_this.calMaxCol(_this.curTable)].cells, actualwid = width - mouseX, totalwid = parseFloat(_this.columnEle.offsetWidth.toString()) + parseFloat(cellColl[_this.colIndex - 1].offsetWidth.toString()), i = 0; i < _this.curTable.rows.length; i++)if (totalwid - actualwid > 20 && actualwid > 20) {
-                                    var leftColumnWidth = totalwid - actualwid;
-                                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(_this.curTable.rows[i].cells[_this.colIndex - 1]) || (_this.curTable.rows[i].cells[_this.colIndex - 1].style.width = _this.convertPixelToPercentage(leftColumnWidth, tableWidth) + '%'), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(_this.curTable.rows[i].cells[_this.colIndex]) || (_this.curTable.rows[i].cells[_this.colIndex].style.width = _this.convertPixelToPercentage(actualwid, tableWidth) + '%');
+                                    var leftColumnWidth = totalwid - actualwid, rightColWidth = actualwid;
+                                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(_this.curTable.rows[i].cells[_this.colIndex - 1]) || (_this.curTable.rows[i].cells[_this.colIndex - 1].style.width = _this.convertPixelToPercentage(leftColumnWidth, tableWidth) + '%'), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(_this.curTable.rows[i].cells[_this.colIndex]) || (_this.curTable.rows[i].cells[_this.colIndex].style.width = _this.convertPixelToPercentage(rightColWidth, tableWidth) + '%');
                                 }
                                 _this.updateHelper();
                             } else if (_this.resizeBtnStat.row) {

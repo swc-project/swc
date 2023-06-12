@@ -4,7 +4,7 @@ import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
-var _tmp, _o, o = {
+var _complex, _tmp, _o, o = {
     a: 1,
     b: 'no'
 };
@@ -44,12 +44,12 @@ _object_without_properties(complex.x, [
 ]), _object_without_properties(complex, [
     "x",
     "y"
-]), _object_without_properties(complex.x, [
+]), _object_without_properties((_complex = complex).x, [
     "ka"
-]), _object_without_properties(complex, [
+]), _object_without_properties(_complex, [
     "x",
     "y"
-]), { x: { ka }, y: other } = complex;
+]), { x: { ka }, y: other } = _complex;
 var _ref = {
     x: 1,
     y: 2
@@ -73,8 +73,8 @@ var removable = new class {
 _object_without_properties(removable, [
     "removed"
 ]);
-var { removed } = removable;
-_object_without_properties(removable, [
+var i = removable, { removed } = i;
+_object_without_properties(i, [
     "removed"
 ]);
 let computed = 'b', computed2 = 'a';

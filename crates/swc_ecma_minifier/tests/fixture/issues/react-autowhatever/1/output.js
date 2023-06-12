@@ -20,13 +20,13 @@ function _objectSpread(target) {
         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
         }))), ownKeys.forEach(function(key) {
-            var value;
-            value = source[key], key in target ? Object.defineProperty(target, key, {
+            var obj, key1, value;
+            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                 value: value,
                 enumerable: !0,
                 configurable: !0,
                 writable: !0
-            }) : target[key] = value;
+            }) : obj[key1] = value;
         });
     }
     return target;
@@ -38,7 +38,7 @@ function _setPrototypeOf(o, p) {
 }
 var ItemsList = function(Component) {
     "use strict";
-    var protoProps, staticProps;
+    var Constructor, protoProps, staticProps;
     function ItemsList() {
         var _this, call;
         return !function(instance, Constructor) {
@@ -59,7 +59,7 @@ var ItemsList = function(Component) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(ItemsList, Component), protoProps = [
+    }(ItemsList, Component), Constructor = ItemsList, protoProps = [
         {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
@@ -95,7 +95,7 @@ var ItemsList = function(Component) {
                 }));
             }
         }
-    ], _defineProperties(ItemsList.prototype, protoProps), staticProps && _defineProperties(ItemsList, staticProps), ItemsList;
+    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ItemsList;
 }(Component);
 ItemsList.propTypes = {
     items: PropTypes.array.isRequired,

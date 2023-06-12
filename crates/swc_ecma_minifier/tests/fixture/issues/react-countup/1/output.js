@@ -94,7 +94,7 @@
                 }();
             }
             exports.default = function(_param) {
-                var src, arr, sizerSvg, src1 = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = function(source, excluded) {
+                var src, arr, sizerSvg, src1 = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = function(source, excluded) {
                         if (null == source) return {};
@@ -125,7 +125,7 @@
                     "placeholder",
                     "blurDataURL"
                 ]), layout = sizes ? "responsive" : "intrinsic";
-                "layout" in all && (all.layout && (layout = all.layout), delete all.layout);
+                "layout" in rest && (rest.layout && (layout = rest.layout), delete rest.layout);
                 var staticSrc = "";
                 if ("object" == typeof (src = src1) && (isStaticRequire(src) || void 0 !== src.src)) {
                     var staticImageData = isStaticRequire(src1) ? src1.default : src1;
@@ -241,7 +241,7 @@
                     alt: "",
                     "aria-hidden": !0,
                     src: "data:image/svg+xml;base64,".concat(_toBase64.toBase64(sizerSvg))
-                }) : null) : null, _react.default.createElement("img", Object.assign({}, all, imgAttributes, {
+                }) : null) : null, _react.default.createElement("img", Object.assign({}, rest, imgAttributes, {
                     decoding: "async",
                     "data-nimg": layout,
                     className: className,
@@ -264,7 +264,7 @@
                         }(img, srcString, 0, placeholder, onLoadingComplete);
                     },
                     style: _objectSpread({}, imgStyle, blurStyle)
-                })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, all, generateImgAttrs({
+                })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, rest, generateImgAttrs({
                     src: src1,
                     unoptimized: unoptimized,
                     layout: layout,
@@ -299,13 +299,13 @@
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }(i);
                 return target;
@@ -479,8 +479,8 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    var ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (id = (ref = function(options) {
+                    var element, ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (element = el, id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
                         if (instance) return instance;
                         var elements = new Map(), observer = new IntersectionObserver(function(entries) {
@@ -496,10 +496,10 @@
                         }), instance;
                     }({
                         rootMargin: rootMargin
-                    })).id, observer = ref.observer, (elements = ref.elements).set(el, function(isVisible) {
+                    })).id, observer = ref.observer, (elements = ref.elements).set(element, function(isVisible) {
                         return isVisible && setVisible(isVisible);
-                    }), observer.observe(el), function() {
-                        elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
+                    }), observer.observe(element), function() {
+                        elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [
                     isDisabled,
@@ -598,13 +598,13 @@
                 for(var i = 1; i < arguments.length; i++){
                     var source = null != arguments[i] ? arguments[i] : {};
                     i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
                         Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
                     });

@@ -663,7 +663,7 @@
             }
             return parseOnly ? soFar.length : soFar ? Sizzle.error(selector) : tokenCache(selector, groups).slice(0);
         }, compile = Sizzle.compile = function(selector, match) {
-            var bySet, byElement, superMatcher, i, setMatchers = [], elementMatchers = [], cached = compilerCache[selector + " "];
+            var elementMatchers, setMatchers, bySet, byElement, superMatcher, i, setMatchers1 = [], elementMatchers1 = [], cached = compilerCache[selector + " "];
             if (!cached) {
                 for(match || (match = tokenize(selector)), i = match.length; i--;)(cached = function matcherFromTokens(tokens) {
                     for(var checkContext, matcher, j, len = tokens.length, leadingRelative = Expr.relative[tokens[0].type], implicitRelative = leadingRelative || Expr.relative[" "], i = leadingRelative ? 1 : 0, matchContext = addCombinator(function(elem) {
@@ -707,8 +707,8 @@
                         matchers.push(matcher);
                     }
                     return elementMatcher(matchers);
-                }(match[i]))[expando] ? setMatchers.push(cached) : elementMatchers.push(cached);
-                (cached = compilerCache(selector, (bySet = setMatchers.length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, outermost) {
+                }(match[i]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
+                (cached = compilerCache(selector, (elementMatchers = elementMatchers1, bySet = (setMatchers = setMatchers1).length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, outermost) {
                     var elem, j, matcher, matchedCount = 0, i = "0", unmatched = seed && [], setMatched = [], contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", outermost), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1, len = elems.length;
                     for(outermost && (outermostContext = context == document || context || outermost); i !== len && null != (elem = elems[i]); i++){
                         if (byElement && elem) {

@@ -84,13 +84,13 @@
                         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -106,7 +106,7 @@
                             var r = getLens(e), t = r[0], f = r[1];
                             return (t + f) * 3 / 4 - f;
                         }, r.toByteArray = function(e) {
-                            var r, h, t = getLens(e), i = t[0], o = t[1], u = new n((i + o) * 3 / 4 - o), a = 0, s = o > 0 ? i - 4 : i;
+                            var t, r, h, t1 = getLens(e), i = t1[0], o = t1[1], u = new n((i + (t = o)) * 3 / 4 - t), a = 0, s = o > 0 ? i - 4 : i;
                             for(h = 0; h < s; h += 4)r = f[e.charCodeAt(h)] << 18 | f[e.charCodeAt(h + 1)] << 12 | f[e.charCodeAt(h + 2)] << 6 | f[e.charCodeAt(h + 3)], u[a++] = r >> 16 & 255, u[a++] = r >> 8 & 255, u[a++] = 255 & r;
                             return 2 === o && (r = f[e.charCodeAt(h)] << 2 | f[e.charCodeAt(h + 1)] >> 4, u[a++] = 255 & r), 1 === o && (r = f[e.charCodeAt(h)] << 10 | f[e.charCodeAt(h + 1)] << 4 | f[e.charCodeAt(h + 2)] >> 2, u[a++] = r >> 8 & 255, u[a++] = 255 & r), u;
                         }, r.fromByteArray = function(e) {
@@ -373,7 +373,8 @@
                         }), Buffer.poolSize = 8192, Buffer.from = function(e, r, t) {
                             return from(e, r, t);
                         }, Object.setPrototypeOf(Buffer.prototype, Uint8Array.prototype), Object.setPrototypeOf(Buffer, Uint8Array), Buffer.alloc = function(e, r, t) {
-                            return (assertSize(e), e <= 0) ? createBuffer(e) : void 0 !== r ? "string" == typeof t ? createBuffer(e).fill(r, t) : createBuffer(e).fill(r) : createBuffer(e);
+                            var e1, r1, t1;
+                            return e1 = e, r1 = r, t1 = t, (assertSize(e1), e1 <= 0) ? createBuffer(e1) : void 0 !== r1 ? "string" == typeof t1 ? createBuffer(e1).fill(r1, t1) : createBuffer(e1).fill(r1) : createBuffer(e1);
                         }, Buffer.allocUnsafe = function(e) {
                             return allocUnsafe(e);
                         }, Buffer.allocUnsafeSlow = function(e) {
@@ -463,7 +464,7 @@
                             else if (void 0 === t && "string" == typeof r) f = r, t = this.length, r = 0;
                             else if (isFinite(r)) r >>>= 0, isFinite(t) ? (t >>>= 0, void 0 === f && (f = "utf8")) : (f = t, t = void 0);
                             else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                            var t1, f1, t2, f2, t3, f3, t4, f4, t5, f5, n = this.length - r;
+                            var r1, t1, f1, r2, t2, f2, r3, t3, f3, r4, t4, f4, n = this.length - r;
                             if ((void 0 === t || t > n) && (t = n), e.length > 0 && (t < 0 || r < 0) || r > this.length) throw RangeError("Attempt to write outside buffer bounds");
                             f || (f = "utf8");
                             for(var i = !1;;)switch(f){
@@ -483,22 +484,25 @@
                                     }(this, e, r, t);
                                 case "utf8":
                                 case "utf-8":
-                                    return t2 = r, f2 = t, blitBuffer(utf8ToBytes(e, this.length - t2), this, t2, f2);
+                                    return r1 = e, t1 = r, f1 = t, blitBuffer(utf8ToBytes(r1, this.length - t1), this, t1, f1);
                                 case "ascii":
-                                    return t3 = r, f3 = t, blitBuffer(asciiToBytes(e), this, t3, f3);
+                                    return r2 = e, t2 = r, f2 = t, blitBuffer(asciiToBytes(r2), this, t2, f2);
                                 case "latin1":
                                 case "binary":
-                                    return t1 = r, f1 = t, blitBuffer(asciiToBytes(e), this, t1, f1);
+                                    return function(e, r, t, f) {
+                                        var e1, r1, t1, f1;
+                                        return e1 = e, r1 = r, t1 = t, f1 = f, blitBuffer(asciiToBytes(r1), e1, t1, f1);
+                                    }(this, e, r, t);
                                 case "base64":
-                                    return t4 = r, f4 = t, blitBuffer(base64ToBytes(e), this, t4, f4);
+                                    return r3 = e, t3 = r, f3 = t, blitBuffer(base64ToBytes(r3), this, t3, f3);
                                 case "ucs2":
                                 case "ucs-2":
                                 case "utf16le":
                                 case "utf-16le":
-                                    return t5 = r, f5 = t, blitBuffer(function(e, r) {
+                                    return r4 = e, t4 = r, f4 = t, blitBuffer(function(e, r) {
                                         for(var t, f, i = [], o = 0; o < e.length && !((r -= 2) < 0); ++o)f = (t = e.charCodeAt(o)) >> 8, i.push(t % 256), i.push(f);
                                         return i;
-                                    }(e, this.length - t5), this, t5, f5);
+                                    }(r4, this.length - t4), this, t4, f4);
                                 default:
                                     if (i) throw TypeError("Unknown encoding: " + f);
                                     f = ("" + f).toLowerCase(), i = !0;

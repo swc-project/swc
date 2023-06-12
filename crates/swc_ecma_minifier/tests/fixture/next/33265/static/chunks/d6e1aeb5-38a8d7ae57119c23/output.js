@@ -674,7 +674,11 @@
                     }
                 },
                 off: function(targetOrType, typeOrListener, listener) {
-                    !targetOrType || isValidEventType(targetOrType) ? off(this.eventBusEl_, targetOrType, typeOrListener) : (validateTarget(targetOrType, this, "off"), validateEventType(typeOrListener, this, "off"), validateListener(listener, this, "off"), listener = bind(this, listener), this.off("dispose", listener), targetOrType.nodeName ? (off(targetOrType, typeOrListener, listener), off(targetOrType, "dispose", listener)) : isEvented(targetOrType) && (targetOrType.off(typeOrListener, listener), targetOrType.off("dispose", listener)));
+                    if (!targetOrType || isValidEventType(targetOrType)) off(this.eventBusEl_, targetOrType, typeOrListener);
+                    else {
+                        var target = targetOrType, type = typeOrListener;
+                        validateTarget(target, this, "off"), validateEventType(type, this, "off"), validateListener(listener, this, "off"), listener = bind(this, listener), this.off("dispose", listener), target.nodeName ? (off(target, type, listener), off(target, "dispose", listener)) : isEvented(target) && (target.off(type, listener), target.off("dispose", listener));
+                    }
                 },
                 trigger: function(event, hash) {
                     if (validateTarget(this.eventBusEl_, this, "trigger"), !isValidEventType(event && "string" != typeof event ? event.type : event)) {
@@ -1903,9 +1907,9 @@
                         for(var i = 0; i < tracks.length; i++)tracks[i].removeEventListener("cuechange", updateDisplay);
                     });
                 }, _proto.addTextTrack = function(kind, label, language) {
-                    var options, tracks, track;
+                    var label1, language1, options, tracks, track;
                     if (!kind) throw Error("TextTrack kind is required but was not provided");
-                    return void 0 === options && (options = {}), tracks = this.textTracks(), options.kind = kind, label && (options.label = label), language && (options.language = language), options.tech = this, track = new ALL.text.TrackClass(options), tracks.addTrack(track), track;
+                    return label1 = label, language1 = language, void 0 === options && (options = {}), tracks = this.textTracks(), options.kind = kind, label1 && (options.label = label1), language1 && (options.language = language1), options.tech = this, track = new ALL.text.TrackClass(options), tracks.addTrack(track), track;
                 }, _proto.createRemoteTextTrack = function(options) {
                     var track = mergeOptions$3(options, {
                         tech: this
@@ -4354,12 +4358,12 @@
                 }, _proto.buildCSSClass = function() {
                     return _ModalDialog.prototype.buildCSSClass.call(this) + " vjs-text-track-settings";
                 }, _proto.getValues = function() {
-                    var fn, _this3 = this;
-                    return fn = function(accum, config, key) {
+                    var object, fn, _this3 = this;
+                    return object = selectConfigs, fn = function(accum, config, key) {
                         var el, parser, value = (el = _this3.$(config.selector), parser = config.parser, parseOptionValue(el.options[el.options.selectedIndex].value, parser));
                         return void 0 !== value && (accum[key] = value), accum;
-                    }, keys(selectConfigs).reduce(function(accum, key) {
-                        return fn(accum, selectConfigs[key], key);
+                    }, keys(object).reduce(function(accum, key) {
+                        return fn(accum, object[key], key);
                     }, {});
                 }, _proto.setValues = function(values) {
                     var _this4 = this;
@@ -5551,8 +5555,8 @@
                 }, _proto.techCall_ = function(method, arg) {
                     this.ready(function() {
                         if (method in allowedSetters) {
-                            var middleware;
-                            return middleware = this.middleware_, this.tech_[method](middleware.reduce(middlewareIterator(method), arg));
+                            var middleware, method1;
+                            return middleware = this.middleware_, this.tech_[method1 = method](middleware.reduce(middlewareIterator(method1), arg));
                         }
                         if (method in allowedMediators) return mediate(this.middleware_, this.tech_, method, arg);
                         try {
@@ -5564,8 +5568,8 @@
                 }, _proto.techGet_ = function(method) {
                     if (this.tech_ && this.tech_.isReady_) {
                         if (method in allowedGetters) {
-                            var middleware, tech;
-                            return middleware = this.middleware_, tech = this.tech_, middleware.reduceRight(middlewareIterator(method), tech[method]());
+                            var middleware, tech, method1;
+                            return middleware = this.middleware_, tech = this.tech_, method1 = method, middleware.reduceRight(middlewareIterator(method1), tech[method1]());
                         }
                         if (method in allowedMediators) return mediate(this.middleware_, this.tech_, method);
                         try {
@@ -7625,7 +7629,9 @@
                     this.trigger("endedtimeline", flushSource);
                 }, Stream.prototype.reset = function(flushSource) {
                     this.trigger("reset", flushSource);
-                }, function() {
+                };
+                var stream = Stream;
+                !function() {
                     var i;
                     if (types = {
                         avc1: [],
@@ -8131,6 +8137,7 @@
                     }
                     return box.apply(null, avc1Box);
                 }, audioSample = function(track) {
+                    var track1;
                     return box(types.mp4a, new Uint8Array([
                         0x00,
                         0x00,
@@ -8160,7 +8167,7 @@
                         0xff & track.samplerate,
                         0x00,
                         0x00
-                    ]), box(types.esds, new Uint8Array([
+                    ]), (track1 = track, box(types.esds, new Uint8Array([
                         0x00,
                         0x00,
                         0x00,
@@ -8187,12 +8194,12 @@
                         0xc0,
                         0x05,
                         0x02,
-                        track.audioobjecttype << 3 | track.samplingfrequencyindex >>> 1,
-                        track.samplingfrequencyindex << 7 | track.channelcount << 3,
+                        track1.audioobjecttype << 3 | track1.samplingfrequencyindex >>> 1,
+                        track1.samplingfrequencyindex << 7 | track1.channelcount << 3,
                         0x06,
                         0x01,
                         0x02
-                    ])));
+                    ]))));
                 }, tkhd = function(track) {
                     var result = new Uint8Array([
                         0x00,
@@ -8385,19 +8392,19 @@
                         return box(types.mdat, data);
                     },
                     moof: function(sequenceNumber, tracks) {
-                        for(var trackFragments = [], i = tracks.length; i--;)trackFragments[i] = traf(tracks[i]);
+                        for(var sequenceNumber1, trackFragments = [], i = tracks.length; i--;)trackFragments[i] = traf(tracks[i]);
                         return box.apply(null, [
                             types.moof,
-                            box(types.mfhd, new Uint8Array([
+                            (sequenceNumber1 = sequenceNumber, box(types.mfhd, new Uint8Array([
                                 0x00,
                                 0x00,
                                 0x00,
                                 0x00,
-                                (0xff000000 & sequenceNumber) >> 24,
-                                (0xff0000 & sequenceNumber) >> 16,
-                                (0xff00 & sequenceNumber) >> 8,
-                                0xff & sequenceNumber
-                            ]))
+                                (0xff000000 & sequenceNumber1) >> 24,
+                                (0xff0000 & sequenceNumber1) >> 16,
+                                (0xff00 & sequenceNumber1) >> 8,
+                                0xff & sequenceNumber1
+                            ])))
                         ].concat(trackFragments));
                     },
                     moov: moov,
@@ -8826,7 +8833,7 @@
                         cc.on("data", this.trigger.bind(this, "data")), cc.on("partialdone", this.trigger.bind(this, "partialdone")), cc.on("done", this.trigger.bind(this, "done"));
                     }, this), this.parse708captions_ && (this.cc708Stream_.on("data", this.trigger.bind(this, "data")), this.cc708Stream_.on("partialdone", this.trigger.bind(this, "partialdone")), this.cc708Stream_.on("done", this.trigger.bind(this, "done")));
                 };
-                CaptionStream$1.prototype = new Stream(), CaptionStream$1.prototype.push = function(event) {
+                CaptionStream$1.prototype = new stream(), CaptionStream$1.prototype.push = function(event) {
                     var sei, userData, newCaptionPackets;
                     if ("sei_rbsp" === event.nalUnitType && (sei = captionPacketParser.parseSei(event.escapedRBSP)).payload && sei.payloadType === captionPacketParser.USER_DATA_REGISTERED_ITU_T_T35 && (userData = captionPacketParser.parseUserData(sei))) {
                         if (event.dts < this.latestDts_) {
@@ -8965,7 +8972,7 @@
                         3 === packet.type ? (self1.new708Packet(), self1.add708Bytes(packet)) : (null === self1.current708Packet && self1.new708Packet(), self1.add708Bytes(packet));
                     };
                 };
-                Cea708Stream.prototype = new Stream(), Cea708Stream.prototype.new708Packet = function() {
+                Cea708Stream.prototype = new stream(), Cea708Stream.prototype.new708Packet = function() {
                     null !== this.current708Packet && this.push708Packet(), this.current708Packet = {
                         data: [],
                         ptsVals: []
@@ -9211,7 +9218,7 @@
                         }
                     };
                 };
-                Cea608Stream.prototype = new Stream(), Cea608Stream.prototype.flushDisplayed = function(pts) {
+                Cea608Stream.prototype = new stream(), Cea608Stream.prototype.flushDisplayed = function(pts) {
                     var content = this.displayed_.map(function(row, index) {
                         try {
                             return row.trim();
@@ -9304,7 +9311,7 @@
                         this.discontinuity(), this.trigger("reset");
                     };
                 };
-                TimestampRolloverStream$1.prototype = new Stream();
+                TimestampRolloverStream$1.prototype = new stream();
                 var videoSample, audioSample, audioTrun, videoTrun, trunHeader, box, ftyp, minf, moov, mvex, mvhd, trak, tkhd, mdia, mdhd, sdtp, stbl, stsd, traf, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, _MetadataStream, timestampRolloverStream = {
                     TimestampRolloverStream: TimestampRolloverStream$1,
                     handleRollover: handleRollover$1
@@ -9389,7 +9396,7 @@
                             }
                         }
                     };
-                }).prototype = new Stream();
+                }).prototype = new stream();
                 var TimestampRolloverStream = timestampRolloverStream.TimestampRolloverStream;
                 (_TransportPacketStream = function() {
                     var buffer = new Uint8Array(188), bytesInBuffer = 0;
@@ -9410,7 +9417,7 @@
                     }, this.reset = function() {
                         bytesInBuffer = 0, this.trigger("reset");
                     };
-                }).prototype = new Stream(), (_TransportParseStream = function() {
+                }).prototype = new stream(), (_TransportParseStream = function() {
                     var parsePsi, parsePat, parsePmt, self1;
                     _TransportParseStream.prototype.init.call(this), self1 = this, this.packetsWaitingForPmt = [], this.programMapTable = void 0, parsePsi = function(payload, psi) {
                         var offset = 0;
@@ -9442,7 +9449,7 @@
                     }, this.processPes_ = function(packet, offset, result) {
                         result.pid === this.programMapTable.video ? result.streamType = streamTypes.H264_STREAM_TYPE : result.pid === this.programMapTable.audio ? result.streamType = streamTypes.ADTS_STREAM_TYPE : result.streamType = this.programMapTable["timed-metadata"][result.pid], result.type = "pes", result.data = packet.subarray(offset), this.trigger("data", result);
                     };
-                }).prototype = new Stream(), _TransportParseStream.STREAM_TYPES = {
+                }).prototype = new stream(), _TransportParseStream.STREAM_TYPES = {
                     h264: 0x1b,
                     adts: 0x0f
                 }, (_ElementaryStream = function() {
@@ -9537,7 +9544,7 @@
                         }
                         segmentHadPmt = !1, this.flushStreams_(), this.trigger("done");
                     };
-                }).prototype = new Stream();
+                }).prototype = new stream();
                 var m2ts = {
                     PAT_PID: 0x0000,
                     MP2T_PACKET_LENGTH: 188,
@@ -9603,8 +9610,8 @@
                     }, this.endTimeline = function() {
                         buffer = void 0, this.trigger("endedtimeline");
                     };
-                }).prototype = new Stream();
-                var expGolomb = function(workingData) {
+                }).prototype = new stream();
+                var adts = _AdtsStream, expGolomb = function(workingData) {
                     var workingBytesAvailable = workingData.byteLength, workingWord = 0, workingBitsAvailable = 0;
                     this.length = function() {
                         return 8 * workingBytesAvailable;
@@ -9681,7 +9688,7 @@
                     }, this.endTimeline = function() {
                         this.flush(), this.trigger("endedtimeline");
                     };
-                }).prototype = new Stream(), PROFILES_WITH_OPTIONAL_SPS_DATA = {
+                }).prototype = new stream(), PROFILES_WITH_OPTIONAL_SPS_DATA = {
                     100: !0,
                     110: !0,
                     122: !0,
@@ -9872,7 +9879,7 @@
                             sarRatio: sarRatio
                         };
                     };
-                }).prototype = new Stream();
+                }).prototype = new stream();
                 var ADTS_SAMPLING_FREQUENCIES = [
                     96000,
                     88200,
@@ -9974,7 +9981,7 @@
                     }, this.endTimeline = function() {
                         everything = new Uint8Array(), this.trigger("endedtimeline");
                     };
-                }).prototype = new Stream();
+                }).prototype = new stream();
                 var audioProperties = [
                     "audioobjecttype",
                     "channelcount",
@@ -10044,7 +10051,7 @@
                     }, this.reset = function() {
                         trackDecodeInfo.clearDtsInfo(track), adtsFrames = [], this.trigger("reset");
                     };
-                }).prototype = new Stream(), (_VideoSegmentStream = function(track, options) {
+                }).prototype = new stream(), (_VideoSegmentStream = function(track, options) {
                     var sequenceNumber, config, pps, nalUnits = [], gopsToAlignWith = [];
                     sequenceNumber = (options = options || {}).firstSequenceNumber || 0, _VideoSegmentStream.prototype.init.call(this), delete track.minPTS, this.gopCache_ = [], this.push = function(nalUnit) {
                         trackDecodeInfo.collectDtsInfo(track, nalUnit), "seq_parameter_set_rbsp" !== nalUnit.nalUnitType || config || (config = nalUnit.config, track.sps = [
@@ -10133,11 +10140,11 @@
                     }, this.alignGopsWith = function(newGopsToAlignWith) {
                         gopsToAlignWith = newGopsToAlignWith;
                     };
-                }).prototype = new Stream(), (_CoalesceStream = function(options, metadataStream) {
+                }).prototype = new stream(), (_CoalesceStream = function(options, metadataStream) {
                     this.numberOfTracks = 0, this.metadataStream = metadataStream, void 0 !== (options = options || {}).remux ? this.remuxTracks = !!options.remux : this.remuxTracks = !0, "boolean" == typeof options.keepOriginalTimestamps ? this.keepOriginalTimestamps = options.keepOriginalTimestamps : this.keepOriginalTimestamps = !1, this.pendingTracks = [], this.videoTrack = null, this.pendingBoxes = [], this.pendingCaptions = [], this.pendingMetadata = [], this.pendingBytes = 0, this.emittedTracks = 0, _CoalesceStream.prototype.init.call(this), this.push = function(output) {
                         return output.text ? this.pendingCaptions.push(output) : output.frames ? this.pendingMetadata.push(output) : void (this.pendingTracks.push(output.track), this.pendingBytes += output.boxes.byteLength, "video" === output.track.type && (this.videoTrack = output.track, this.pendingBoxes.push(output.boxes)), "audio" === output.track.type && (this.audioTrack = output.track, this.pendingBoxes.unshift(output.boxes)));
                     };
-                }).prototype = new Stream(), _CoalesceStream.prototype.flush = function(flushSource) {
+                }).prototype = new stream(), _CoalesceStream.prototype.flush = function(flushSource) {
                     var caption, id3, initSegment, i, offset = 0, event = {
                         captions: [],
                         captionStreams: {},
@@ -10169,7 +10176,7 @@
                     var videoTrack, audioTrack, self1 = this, hasFlushed = !0;
                     _Transmuxer.prototype.init.call(this), options = options || {}, this.baseMediaDecodeTime = options.baseMediaDecodeTime || 0, this.transmuxPipeline_ = {}, this.setupAacPipeline = function() {
                         var pipeline = {};
-                        this.transmuxPipeline_ = pipeline, pipeline.type = "aac", pipeline.metadataStream = new m2ts.MetadataStream(), pipeline.aacStream = new _AacStream(), pipeline.audioTimestampRolloverStream = new m2ts.TimestampRolloverStream("audio"), pipeline.timedMetadataTimestampRolloverStream = new m2ts.TimestampRolloverStream("timed-metadata"), pipeline.adtsStream = new _AdtsStream(), pipeline.coalesceStream = new _CoalesceStream(options, pipeline.metadataStream), pipeline.headOfPipeline = pipeline.aacStream, pipeline.aacStream.pipe(pipeline.audioTimestampRolloverStream).pipe(pipeline.adtsStream), pipeline.aacStream.pipe(pipeline.timedMetadataTimestampRolloverStream).pipe(pipeline.metadataStream).pipe(pipeline.coalesceStream), pipeline.metadataStream.on("timestamp", function(frame) {
+                        this.transmuxPipeline_ = pipeline, pipeline.type = "aac", pipeline.metadataStream = new m2ts.MetadataStream(), pipeline.aacStream = new _AacStream(), pipeline.audioTimestampRolloverStream = new m2ts.TimestampRolloverStream("audio"), pipeline.timedMetadataTimestampRolloverStream = new m2ts.TimestampRolloverStream("timed-metadata"), pipeline.adtsStream = new adts(), pipeline.coalesceStream = new _CoalesceStream(options, pipeline.metadataStream), pipeline.headOfPipeline = pipeline.aacStream, pipeline.aacStream.pipe(pipeline.audioTimestampRolloverStream).pipe(pipeline.adtsStream), pipeline.aacStream.pipe(pipeline.timedMetadataTimestampRolloverStream).pipe(pipeline.metadataStream).pipe(pipeline.coalesceStream), pipeline.metadataStream.on("timestamp", function(frame) {
                             pipeline.aacStream.setTimestamp(frame.timeStamp);
                         }), pipeline.aacStream.on("data", function(data) {
                             "timed-metadata" !== data.type && "audio" !== data.type || pipeline.audioSegmentStream || (audioTrack = audioTrack || {
@@ -10185,7 +10192,7 @@
                         }), pipeline.coalesceStream.on("data", this.trigger.bind(this, "data")), pipeline.coalesceStream.on("done", this.trigger.bind(this, "done")), addPipelineLogRetriggers(this, pipeline);
                     }, this.setupTsPipeline = function() {
                         var pipeline = {};
-                        this.transmuxPipeline_ = pipeline, pipeline.type = "ts", pipeline.metadataStream = new m2ts.MetadataStream(), pipeline.packetStream = new m2ts.TransportPacketStream(), pipeline.parseStream = new m2ts.TransportParseStream(), pipeline.elementaryStream = new m2ts.ElementaryStream(), pipeline.timestampRolloverStream = new m2ts.TimestampRolloverStream(), pipeline.adtsStream = new _AdtsStream(), pipeline.h264Stream = new _H264Stream(), pipeline.captionStream = new m2ts.CaptionStream(options), pipeline.coalesceStream = new _CoalesceStream(options, pipeline.metadataStream), pipeline.headOfPipeline = pipeline.packetStream, pipeline.packetStream.pipe(pipeline.parseStream).pipe(pipeline.elementaryStream).pipe(pipeline.timestampRolloverStream), pipeline.timestampRolloverStream.pipe(pipeline.h264Stream), pipeline.timestampRolloverStream.pipe(pipeline.adtsStream), pipeline.timestampRolloverStream.pipe(pipeline.metadataStream).pipe(pipeline.coalesceStream), pipeline.h264Stream.pipe(pipeline.captionStream).pipe(pipeline.coalesceStream), pipeline.elementaryStream.on("data", function(data) {
+                        this.transmuxPipeline_ = pipeline, pipeline.type = "ts", pipeline.metadataStream = new m2ts.MetadataStream(), pipeline.packetStream = new m2ts.TransportPacketStream(), pipeline.parseStream = new m2ts.TransportParseStream(), pipeline.elementaryStream = new m2ts.ElementaryStream(), pipeline.timestampRolloverStream = new m2ts.TimestampRolloverStream(), pipeline.adtsStream = new adts(), pipeline.h264Stream = new _H264Stream(), pipeline.captionStream = new m2ts.CaptionStream(options), pipeline.coalesceStream = new _CoalesceStream(options, pipeline.metadataStream), pipeline.headOfPipeline = pipeline.packetStream, pipeline.packetStream.pipe(pipeline.parseStream).pipe(pipeline.elementaryStream).pipe(pipeline.timestampRolloverStream), pipeline.timestampRolloverStream.pipe(pipeline.h264Stream), pipeline.timestampRolloverStream.pipe(pipeline.adtsStream), pipeline.timestampRolloverStream.pipe(pipeline.metadataStream).pipe(pipeline.coalesceStream), pipeline.h264Stream.pipe(pipeline.captionStream).pipe(pipeline.coalesceStream), pipeline.elementaryStream.on("data", function(data) {
                             var i;
                             if ("metadata" === data.type) {
                                 for(i = data.tracks.length; i--;)videoTrack || "video" !== data.tracks[i].type ? audioTrack || "audio" !== data.tracks[i].type || ((audioTrack = data.tracks[i]).timelineStartInfo.baseMediaDecodeTime = self1.baseMediaDecodeTime) : (videoTrack = data.tracks[i]).timelineStartInfo.baseMediaDecodeTime = self1.baseMediaDecodeTime;
@@ -10231,7 +10238,7 @@
                     }, this.resetCaptions = function() {
                         this.transmuxPipeline_.captionStream && this.transmuxPipeline_.captionStream.reset();
                     };
-                }).prototype = new Stream();
+                }).prototype = new stream();
                 var transmuxer = {
                     Transmuxer: _Transmuxer,
                     VideoSegmentStream: _VideoSegmentStream,
@@ -11140,13 +11147,13 @@
             }, handleSegmentResponse = function(_ref3) {
                 var segment = _ref3.segment, finishProcessingFn = _ref3.finishProcessingFn, responseType = _ref3.responseType;
                 return function(error, request) {
-                    var errorObj = handleErrors(error, request);
+                    var request1, errorObj = handleErrors(error, request);
                     if (errorObj) return finishProcessingFn(errorObj, segment);
                     var newBytes = "arraybuffer" !== responseType && request.responseText ? stringToArrayBuffer(request.responseText.substring(segment.lastReachedChar || 0)) : request.response;
                     return segment.stats = {
-                        bandwidth: request.bandwidth,
-                        bytesReceived: request.bytesReceived || 0,
-                        roundTripTime: request.roundTripTime || 0
+                        bandwidth: (request1 = request).bandwidth,
+                        bytesReceived: request1.bytesReceived || 0,
+                        roundTripTime: request1.roundTripTime || 0
                     }, segment.key ? segment.encryptedBytes = new Uint8Array(newBytes) : segment.bytes = new Uint8Array(newBytes), finishProcessingFn(null, segment);
                 };
             }, transmuxAndNotify = function(_ref4) {
@@ -13610,14 +13617,15 @@
                     "AUDIO",
                     "SUBTITLES"
                 ].forEach(function(type) {
-                    mediaTypes[type].activeGroup = function(track) {
-                        var masterPlaylistLoader = settings.masterPlaylistLoader, groups = settings.mediaTypes[type].groups, media = masterPlaylistLoader.media();
+                    var type1, settings1, type2, settings2, type3, settings3, type4, settings4;
+                    mediaTypes[type].activeGroup = (type1 = type, settings1 = settings, function(track) {
+                        var masterPlaylistLoader = settings1.masterPlaylistLoader, groups = settings1.mediaTypes[type1].groups, media = masterPlaylistLoader.media();
                         if (!media) return null;
                         var variants = null;
-                        media.attributes[type] && (variants = groups[media.attributes[type]]);
+                        media.attributes[type1] && (variants = groups[media.attributes[type1]]);
                         var groupKeys = Object.keys(groups);
                         if (!variants) {
-                            if ("AUDIO" === type && groupKeys.length > 1 && isAudioOnly(settings.master)) for(var i = 0; i < groupKeys.length; i++){
+                            if ("AUDIO" === type1 && groupKeys.length > 1 && isAudioOnly(settings1.master)) for(var i = 0; i < groupKeys.length; i++){
                                 var groupPropertyList = groups[groupKeys[i]];
                                 if (groupMatch(groupPropertyList, media)) {
                                     variants = groupPropertyList;
@@ -13629,8 +13637,8 @@
                         return void 0 === track ? variants : null !== track && variants && variants.filter(function(props) {
                             return props.id === track.id;
                         })[0] || null;
-                    }, mediaTypes[type].activeTrack = activeTrack[type](type, settings), mediaTypes[type].onGroupChanged = function() {
-                        var _settings$segmentLoad = settings.segmentLoaders, segmentLoader = _settings$segmentLoad[type], mainSegmentLoader = _settings$segmentLoad.main, mediaType = settings.mediaTypes[type], activeTrack = mediaType.activeTrack(), activeGroup = mediaType.getActiveGroup(), previousActiveLoader = mediaType.activePlaylistLoader, lastGroup = mediaType.lastGroup_;
+                    }), mediaTypes[type].activeTrack = activeTrack[type](type, settings), mediaTypes[type].onGroupChanged = (type2 = type, settings2 = settings, function() {
+                        var _settings$segmentLoad = settings2.segmentLoaders, segmentLoader = _settings$segmentLoad[type2], mainSegmentLoader = _settings$segmentLoad.main, mediaType = settings2.mediaTypes[type2], activeTrack = mediaType.activeTrack(), activeGroup = mediaType.getActiveGroup(), previousActiveLoader = mediaType.activePlaylistLoader, lastGroup = mediaType.lastGroup_;
                         if ((!activeGroup || !lastGroup || activeGroup.id !== lastGroup.id) && (mediaType.lastGroup_ = activeGroup, mediaType.lastTrack_ = activeTrack, stopLoaders(segmentLoader, mediaType), activeGroup && !activeGroup.isMasterPlaylist)) {
                             if (!activeGroup.playlistLoader) {
                                 previousActiveLoader && mainSegmentLoader.resetEverything();
@@ -13638,20 +13646,20 @@
                             }
                             segmentLoader.resyncLoader(), startLoaders(activeGroup.playlistLoader, mediaType);
                         }
-                    }, mediaTypes[type].onGroupChanging = function() {
-                        var segmentLoader = settings.segmentLoaders[type];
-                        settings.mediaTypes[type].lastGroup_ = null, segmentLoader.abort(), segmentLoader.pause();
-                    }, mediaTypes[type].onTrackChanged = function() {
-                        var masterPlaylistLoader = settings.masterPlaylistLoader, _settings$segmentLoad2 = settings.segmentLoaders, segmentLoader = _settings$segmentLoad2[type], mainSegmentLoader = _settings$segmentLoad2.main, mediaType = settings.mediaTypes[type], activeTrack = mediaType.activeTrack(), activeGroup = mediaType.getActiveGroup(), previousActiveLoader = mediaType.activePlaylistLoader, lastTrack = mediaType.lastTrack_;
+                    }), mediaTypes[type].onGroupChanging = (type3 = type, settings3 = settings, function() {
+                        var segmentLoader = settings3.segmentLoaders[type3];
+                        settings3.mediaTypes[type3].lastGroup_ = null, segmentLoader.abort(), segmentLoader.pause();
+                    }), mediaTypes[type].onTrackChanged = (type4 = type, settings4 = settings, function() {
+                        var masterPlaylistLoader = settings4.masterPlaylistLoader, _settings$segmentLoad2 = settings4.segmentLoaders, segmentLoader = _settings$segmentLoad2[type4], mainSegmentLoader = _settings$segmentLoad2.main, mediaType = settings4.mediaTypes[type4], activeTrack = mediaType.activeTrack(), activeGroup = mediaType.getActiveGroup(), previousActiveLoader = mediaType.activePlaylistLoader, lastTrack = mediaType.lastTrack_;
                         if ((!lastTrack || !activeTrack || lastTrack.id !== activeTrack.id) && (mediaType.lastGroup_ = activeGroup, mediaType.lastTrack_ = activeTrack, stopLoaders(segmentLoader, mediaType), activeGroup)) {
                             if (activeGroup.isMasterPlaylist) {
                                 if (!activeTrack || !lastTrack || activeTrack.id === lastTrack.id) return;
-                                var mpc = settings.vhs.masterPlaylistController_, newPlaylist = mpc.selectPlaylist();
+                                var mpc = settings4.vhs.masterPlaylistController_, newPlaylist = mpc.selectPlaylist();
                                 if (mpc.media() === newPlaylist) return;
                                 mediaType.logger_("track change. Switching master audio from " + lastTrack.id + " to " + activeTrack.id), masterPlaylistLoader.pause(), mainSegmentLoader.resetEverything(), mpc.fastQualityChange_(newPlaylist);
                                 return;
                             }
-                            if ("AUDIO" === type) {
+                            if ("AUDIO" === type4) {
                                 if (!activeGroup.playlistLoader) {
                                     mainSegmentLoader.setAudio(!0), mainSegmentLoader.resetEverything();
                                     return;
@@ -13664,7 +13672,7 @@
                             }
                             segmentLoader.track && segmentLoader.track(activeTrack), segmentLoader.resetEverything(), startLoaders(activeGroup.playlistLoader, mediaType);
                         }
-                    }, mediaTypes[type].getActiveGroup = getActiveGroup(type, settings);
+                    }), mediaTypes[type].getActiveGroup = getActiveGroup(type, settings);
                 });
                 var audioGroup = mediaTypes.AUDIO.activeGroup();
                 if (audioGroup) {

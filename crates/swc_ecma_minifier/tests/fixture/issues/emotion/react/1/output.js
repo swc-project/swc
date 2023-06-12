@@ -204,7 +204,8 @@
                     if (!element.return) switch(element.type){
                         case DECLARATION:
                             element.return = function prefix(value, length) {
-                                switch((((length << 2 ^ Utility_charat(value, 0)) << 2 ^ Utility_charat(value, 1)) << 2 ^ Utility_charat(value, 2)) << 2 ^ Utility_charat(value, 3)){
+                                var value1;
+                                switch((((length << 2 ^ Utility_charat(value1 = value, 0)) << 2 ^ Utility_charat(value1, 1)) << 2 ^ Utility_charat(value1, 2)) << 2 ^ Utility_charat(value1, 3)){
                                     case 5103:
                                         return WEBKIT + "print-" + value + value;
                                     case 5737:
@@ -401,7 +402,8 @@
             }, isProcessableValue = function(value) {
                 return null != value && "boolean" != typeof value;
             }, processStyleName = (cache = Object.create(null), function(arg) {
-                return void 0 === cache[arg] && (cache[arg] = isCustomProperty(arg) ? arg : arg.replace(hyphenateRegex, "-$&").toLowerCase()), cache[arg];
+                var styleName;
+                return void 0 === cache[arg] && (cache[arg] = isCustomProperty(styleName = arg) ? styleName : styleName.replace(hyphenateRegex, "-$&").toLowerCase()), cache[arg];
             }), processStyleValue = function(key, value) {
                 switch(key){
                     case "animation":
@@ -532,8 +534,8 @@
                                 break;
                             case 92:
                                 characters1 += function(index, count) {
-                                    for(var end; --count && next() && !(character < 48) && !(character > 102) && (!(character > 57) || !(character < 65)) && (!(character > 70) || !(character < 97)););
-                                    return end = position + (count < 6 && 32 == peek() && 32 == next()), Utility_substr(characters, index, end);
+                                    for(var begin, end; --count && next() && !(character < 48) && !(character > 102) && (!(character > 57) || !(character < 65)) && (!(character > 70) || !(character < 97)););
+                                    return begin = index, end = position + (count < 6 && 32 == peek() && 32 == next()), Utility_substr(characters, begin, end);
                                 }(position - 1, 7);
                                 continue;
                             case 47:
@@ -815,8 +817,8 @@
                 var childProps = {
                     ref: setRef,
                     onClick: function(e) {
-                        var scroll1, target;
-                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (scroll1 = scroll, ("A" !== e.currentTarget.nodeName || (!(target = e.currentTarget.target) || "_self" === target) && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && (!e.nativeEvent || 2 !== e.nativeEvent.which) && _router.isLocalURL(href)) && (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), router[replace ? "replace" : "push"](href, as, {
+                        var href1, as1, scroll1, target;
+                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (href1 = href, as1 = as, scroll1 = scroll, ("A" !== e.currentTarget.nodeName || (!(target = e.currentTarget.target) || "_self" === target) && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && (!e.nativeEvent || 2 !== e.nativeEvent.which) && _router.isLocalURL(href1)) && (e.preventDefault(), null == scroll1 && as1.indexOf("#") >= 0 && (scroll1 = !1), router[replace ? "replace" : "push"](href1, as1, {
                             shallow: shallow,
                             locale: locale,
                             scroll: scroll1
@@ -858,8 +860,8 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    var ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (id = (ref = function(options) {
+                    var element, ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (element = el, id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
                         if (instance) return instance;
                         var elements = new Map(), observer = new IntersectionObserver(function(entries) {
@@ -875,10 +877,10 @@
                         }), instance;
                     }({
                         rootMargin: rootMargin
-                    })).id, observer = ref.observer, (elements = ref.elements).set(el, function(isVisible) {
+                    })).id, observer = ref.observer, (elements = ref.elements).set(element, function(isVisible) {
                         return isVisible && setVisible(isVisible);
-                    }), observer.observe(el), function() {
-                        elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
+                    }), observer.observe(element), function() {
+                        elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [
                     isDisabled,

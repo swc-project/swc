@@ -7,9 +7,10 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         if (ast.nodeType == NodeType.Script && context.pos > limChar && (limChar = context.pos), minChar <= context.pos && limChar >= context.pos) {
             switch(ast.nodeType){
                 case NodeType.Script:
+                    var script = ast;
                     context.scopeGetter = function() {
-                        return null === ast.bod ? null : ast.bod.enclosingScope;
-                    }, context.scopeStartAST = ast;
+                        return null === script.bod ? null : script.bod.enclosingScope;
+                    }, context.scopeStartAST = script;
                     break;
                 case NodeType.ClassDeclaration:
                     context.scopeGetter = function() {
@@ -17,11 +18,12 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
                     }, context.scopeStartAST = ast, context.enclosingClassDecl = ast;
                     break;
                 case NodeType.ObjectLit:
-                    ast.targetType && (context.scopeGetter = function() {
-                        return ast.targetType.containedScope;
+                    var objectLit = ast;
+                    objectLit.targetType && (context.scopeGetter = function() {
+                        return objectLit.targetType.containedScope;
                     }, context.objectLiteralScopeGetter = function() {
-                        return ast.targetType.memberScope;
-                    }, context.enclosingObjectLit = ast);
+                        return objectLit.targetType.memberScope;
+                    }, context.enclosingObjectLit = objectLit);
                     break;
                 case NodeType.ModuleDeclaration:
                     context.deepestModuleDecl = ast, context.scopeGetter = function() {

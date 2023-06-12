@@ -23,7 +23,7 @@ var o = {
     implicitThis: function(m) {
         return m;
     }
-};
-(0, o.explicitThis)(12), (0, u.implicitNoThis)(12), c.explicitVoid = c.implicitThis, o.implicitThis = c.implicitThis, o.implicitThis = c.explicitThis, o.implicitThis = o.explicitThis, o.explicitThis = function(m) {
+}, i = o;
+(0, i.explicitThis)(12), (0, u.implicitNoThis)(12), c.explicitVoid = c.implicitThis, o.implicitThis = c.implicitThis, o.implicitThis = c.explicitThis, o.implicitThis = i.explicitThis, i.explicitThis = function(m) {
     return this.n.length;
 };

@@ -4,5 +4,6 @@ var globalArray = [
     1
 ];
 module.exports = function() {
-    return globalArray[0] = globalArray[1] = globalArray[2] = 0, globalArray;
+    var localArray = globalArray;
+    return localArray[0] = localArray[1] = localArray[2] = 0, localArray;
 };

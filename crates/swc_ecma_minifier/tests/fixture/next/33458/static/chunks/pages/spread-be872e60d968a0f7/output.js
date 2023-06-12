@@ -48,13 +48,13 @@
                         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;

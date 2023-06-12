@@ -3374,13 +3374,13 @@
                         if (1 == text.length && quotes[text]) {
                             if (this.lineCommentStart && -1 != this.lineCommentStart.indexOf(text)) return;
                             initContext(editor);
-                            var selection = editor.getSelectionRange(), selected = session.doc.getTextRange(selection);
-                            if ("" !== selected && (1 != selected.length || !quotes[selected]) && editor.getWrapBehavioursEnabled()) return getWrapped(selection, selected, text, text);
+                            var quote = text, selection = editor.getSelectionRange(), selected = session.doc.getTextRange(selection);
+                            if ("" !== selected && (1 != selected.length || !quotes[selected]) && editor.getWrapBehavioursEnabled()) return getWrapped(selection, selected, quote, quote);
                             if (!selected) {
                                 var pair, cursor = editor.getCursorPosition(), line = session.doc.getLine(cursor.row), leftChar = line.substring(cursor.column - 1, cursor.column), rightChar = line.substring(cursor.column, cursor.column + 1), token = session.getTokenAt(cursor.row, cursor.column), rightToken = session.getTokenAt(cursor.row, cursor.column + 1);
                                 if ("\\" == leftChar && token && /escape/.test(token.type)) return null;
                                 var stringBefore = token && /string|escape/.test(token.type), stringAfter = !rightToken || /string|escape/.test(rightToken.type);
-                                if (rightChar == text) (pair = stringBefore !== stringAfter) && /string\.end/.test(rightToken.type) && (pair = !1);
+                                if (rightChar == quote) (pair = stringBefore !== stringAfter) && /string\.end/.test(rightToken.type) && (pair = !1);
                                 else {
                                     if (stringBefore && !stringAfter || stringBefore && stringAfter) return null;
                                     var wordRe = session.$mode.tokenRe;
@@ -3390,11 +3390,11 @@
                                     var isWordAfter = wordRe.test(leftChar);
                                     if (isWordBefore || isWordAfter || rightChar && !/[\s;,.})\]\\]/.test(rightChar)) return null;
                                     var charBefore = line[cursor.column - 2];
-                                    if (leftChar == text && (charBefore == text || wordRe.test(charBefore))) return null;
+                                    if (leftChar == quote && (charBefore == quote || wordRe.test(charBefore))) return null;
                                     pair = !0;
                                 }
                                 return {
-                                    text: pair ? text + text : "",
+                                    text: pair ? quote + quote : "",
                                     selection: [
                                         1,
                                         1
@@ -10745,8 +10745,8 @@ margin: 0 10px;\
                         var pos = this.$cursorLayer.getPixelPosition(cursor), h = this.$size.scrollerHeight - this.lineHeight, offset = pos.top - h * (alignment || 0);
                         return this.session.setScrollTop(offset), offset;
                     }, this.STEPS = 8, this.$calcSteps = function(fromValue, toValue) {
-                        var i = 0, l = this.STEPS, steps = [];
-                        for(i = 0; i < l; ++i)steps.push((toValue - fromValue) * (Math.pow(i / this.STEPS - 1, 3) + 1) + fromValue);
+                        var t, x_min, i = 0, l = this.STEPS, steps = [];
+                        for(i = 0; i < l; ++i)steps.push((t = i / this.STEPS, x_min = fromValue, (toValue - fromValue) * (Math.pow(t - 1, 3) + 1) + x_min));
                         return steps;
                     }, this.scrollToLine = function(line, center, animate, callback) {
                         var offset = this.$cursorLayer.getPixelPosition({

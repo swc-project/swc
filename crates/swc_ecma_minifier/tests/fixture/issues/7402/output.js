@@ -8,7 +8,8 @@ export const myFunc = function() {
         0
     ];
     return function(out) {
-        return mutate(temp), out[0] = 1 / temp[0], out[1] = 1 / temp[1], out[2] = 1 / temp[2], out;
+        const scaling = temp;
+        return mutate(scaling), out[0] = 1 / scaling[0], out[1] = 1 / scaling[1], out[2] = 1 / scaling[2], out;
     };
 }();
 const out = [

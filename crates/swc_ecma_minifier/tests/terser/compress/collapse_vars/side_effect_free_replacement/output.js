@@ -1,2 +1,2 @@
-var b;
-x(b);
+var b, a;
+a = b, x(a);

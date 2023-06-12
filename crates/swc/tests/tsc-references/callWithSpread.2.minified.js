@@ -1,5 +1,5 @@
 //// [callWithSpread.ts]
-var _foo_apply, _foo_apply1, _foo_apply2, _foo_apply3, _xa_, _xa_1, _xa_2, a, obj, xa;
+var _obj, _obj1, _obj2, _obj3, _foo_apply, _obj4, _foo_apply1, _obj5, _obj6, _obj7, _obj8, _foo_apply2, _obj9, _foo_apply3, _xa_, _xa_1, _xa_2, a, obj, xa;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
@@ -17,24 +17,24 @@ foo(1, 2, "abc"), foo.apply(void 0, [
     2
 ].concat(_to_consumable_array(a), [
     "abc"
-])), obj.foo(1, 2, "abc"), obj.foo.apply(obj, [
+])), obj.foo(1, 2, "abc"), (_obj = obj).foo.apply(_obj, [
     1,
     2
-].concat(_to_consumable_array(a))), obj.foo.apply(obj, [
+].concat(_to_consumable_array(a))), (_obj1 = obj).foo.apply(_obj1, [
     1,
     2
 ].concat(_to_consumable_array(a), [
     "abc"
-])), obj.foo.apply(obj, [
+])), (_obj2 = obj).foo.apply(_obj2, [
     1,
     2
-].concat(_to_consumable_array(a))).foo(1, 2, "abc"), (_foo_apply = obj.foo.apply(obj, [
+].concat(_to_consumable_array(a))).foo(1, 2, "abc"), (_foo_apply = (_obj3 = obj).foo.apply(_obj3, [
     1,
     2
 ].concat(_to_consumable_array(a)))).foo.apply(_foo_apply, [
     1,
     2
-].concat(_to_consumable_array(a))), (_foo_apply1 = obj.foo.apply(obj, [
+].concat(_to_consumable_array(a))), (_foo_apply1 = (_obj4 = obj).foo.apply(_obj4, [
     1,
     2
 ].concat(_to_consumable_array(a)))).foo.apply(_foo_apply1, [
@@ -42,24 +42,24 @@ foo(1, 2, "abc"), foo.apply(void 0, [
     2
 ].concat(_to_consumable_array(a), [
     "abc"
-])), obj.foo(1, 2, "abc"), obj.foo.apply(obj, [
+])), obj.foo(1, 2, "abc"), (_obj5 = obj).foo.apply(_obj5, [
     1,
     2
-].concat(_to_consumable_array(a))), obj.foo.apply(obj, [
+].concat(_to_consumable_array(a))), (_obj6 = obj).foo.apply(_obj6, [
     1,
     2
 ].concat(_to_consumable_array(a), [
     "abc"
-])), obj.foo.apply(obj, [
+])), (_obj7 = obj).foo.apply(_obj7, [
     1,
     2
-].concat(_to_consumable_array(a))).foo(1, 2, "abc"), (_foo_apply2 = obj.foo.apply(obj, [
+].concat(_to_consumable_array(a))).foo(1, 2, "abc"), (_foo_apply2 = (_obj8 = obj).foo.apply(_obj8, [
     1,
     2
 ].concat(_to_consumable_array(a)))).foo.apply(_foo_apply2, [
     1,
     2
-].concat(_to_consumable_array(a))), (_foo_apply3 = obj.foo.apply(obj, [
+].concat(_to_consumable_array(a))), (_foo_apply3 = (_obj9 = obj).foo.apply(_obj9, [
     1,
     2
 ].concat(_to_consumable_array(a)))).foo.apply(_foo_apply3, [

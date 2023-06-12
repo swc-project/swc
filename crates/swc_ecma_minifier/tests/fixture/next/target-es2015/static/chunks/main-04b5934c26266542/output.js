@@ -795,11 +795,11 @@
                 const entrypoints = new Map(), loadedScripts = new Map(), styleSheets = new Map(), routes = new Map();
                 function maybeExecuteScript(src) {
                     {
-                        var script;
+                        var src1, script;
                         let prom = loadedScripts.get(src.toString());
-                        return prom || (document.querySelector('script[src^="'.concat(src, '"]')) ? Promise.resolve() : (loadedScripts.set(src.toString(), prom = new Promise((resolve, reject)=>{
-                            (script = document.createElement("script")).onload = resolve, script.onerror = ()=>reject(markAssetError(Error("Failed to load script: ".concat(src)))), script.crossOrigin = void 0, script.src = src, document.body.appendChild(script);
-                        })), prom));
+                        return prom || (document.querySelector('script[src^="'.concat(src, '"]')) ? Promise.resolve() : (loadedScripts.set(src.toString(), (src1 = src, prom = new Promise((resolve, reject)=>{
+                            (script = document.createElement("script")).onload = resolve, script.onerror = ()=>reject(markAssetError(Error("Failed to load script: ".concat(src1)))), script.crossOrigin = void 0, script.src = src1, document.body.appendChild(script);
+                        }))), prom));
                     }
                 }
                 function fetchStyleSheet(href) {
@@ -1108,9 +1108,16 @@
                 ]);
                 const hasLoadScriptEffectCalled = _react.useRef(!1);
                 return _react.useEffect(()=>{
-                    hasLoadScriptEffectCalled.current || ("afterInteractive" === strategy ? loadScript(props) : "lazyOnload" === strategy && ("complete" === document.readyState ? _requestIdleCallback.requestIdleCallback(()=>loadScript(props)) : window.addEventListener("load", ()=>{
-                        _requestIdleCallback.requestIdleCallback(()=>loadScript(props));
-                    })), hasLoadScriptEffectCalled.current = !0);
+                    if (!hasLoadScriptEffectCalled.current) {
+                        if ("afterInteractive" === strategy) loadScript(props);
+                        else if ("lazyOnload" === strategy) {
+                            var props1;
+                            props1 = props, "complete" === document.readyState ? _requestIdleCallback.requestIdleCallback(()=>loadScript(props1)) : window.addEventListener("load", ()=>{
+                                _requestIdleCallback.requestIdleCallback(()=>loadScript(props1));
+                            });
+                        }
+                        hasLoadScriptEffectCalled.current = !0;
+                    }
                 }, [
                     props,
                     strategy
@@ -2978,8 +2985,8 @@
             }, l = function(n, y, T, C) {
                 var w, P;
                 return function(I) {
-                    var n1;
-                    y.value >= 0 && (I || C) && ((P = y.value - (w || 0)) || void 0 === w) && (w = y.value, y.delta = P, y.rating = (n1 = y.value) > T[1] ? "poor" : n1 > T[0] ? "needs-improvement" : "good", n(y));
+                    var n1, y1;
+                    y.value >= 0 && (I || C) && ((P = y.value - (w || 0)) || void 0 === w) && (w = y.value, y.delta = P, y.rating = (n1 = y.value) > (y1 = T)[1] ? "poor" : n1 > y1[0] ? "needs-improvement" : "good", n(y));
                 };
             }, N = -1, v = function() {
                 return "hidden" !== document.visibilityState || document.prerendering ? 1 / 0 : 0;

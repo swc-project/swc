@@ -1229,14 +1229,14 @@ var YUI = function() {
         "yui-base"
     ]
 }), YUI.add("yui-log", function(Y, NAME) {
-    var LOGEVENT = "yui:log", UNDEFINED = "undefined", LEVELS = {
+    var INSTANCE = Y, LOGEVENT = "yui:log", UNDEFINED = "undefined", LEVELS = {
         debug: 1,
         info: 2,
         warn: 4,
         error: 8
     };
-    Y.log = function(msg, cat, src, silent) {
-        var bail, excl, incl, m, f, minlevel, c = Y.config, publisher = Y.fire ? Y : YUI.Env.globalEvents;
+    INSTANCE.log = function(msg, cat, src, silent) {
+        var bail, excl, incl, m, f, minlevel, Y = INSTANCE, c = Y.config, publisher = Y.fire ? Y : YUI.Env.globalEvents;
         return c.debug && (void 0 !== (src = src || "") && (excl = c.logExclude, !(incl = c.logInclude) || src in incl ? incl && src in incl ? bail = !incl[src] : excl && src in excl && (bail = excl[src]) : bail = 1, Y.config.logLevel = Y.config.logLevel || "debug", minlevel = LEVELS[Y.config.logLevel.toLowerCase()], cat in LEVELS && LEVELS[cat] < minlevel && (bail = 1)), bail || (c.useBrowserConsole && (m = src ? src + ": " + msg : msg, Y.Lang.isFunction(c.logFn) ? c.logFn.call(Y, msg, cat, src) : typeof console !== UNDEFINED && console.log ? (f = cat && console[cat] && cat in LEVELS ? cat : "log", console[f](m)) : typeof opera !== UNDEFINED && opera.postError(m)), publisher && !silent && (publisher !== Y || publisher.getEvent(LOGEVENT) || publisher.publish(LOGEVENT, {
             broadcast: 2
         }), publisher.fire(LOGEVENT, {
@@ -1244,8 +1244,8 @@ var YUI = function() {
             cat: cat,
             src: src
         })))), Y;
-    }, Y.message = function() {
-        return Y.log.apply(Y, arguments);
+    }, INSTANCE.message = function() {
+        return INSTANCE.log.apply(INSTANCE, arguments);
     };
 }, "3.12.0", {
     requires: [

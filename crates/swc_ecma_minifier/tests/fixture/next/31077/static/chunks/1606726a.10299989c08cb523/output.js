@@ -963,10 +963,10 @@
                     }
                     if (view.domObserver.disconnectSelection(), view.cursorWrapper) domSel = view.root.getSelection(), range = document.createRange(), (img = "IMG" == (node = view.cursorWrapper.dom).nodeName) ? range.setEnd(node.parentNode, domIndex(node) + 1) : range.setEnd(node, 0), range.collapse(!1), domSel.removeAllRanges(), domSel.addRange(range), !img && !view.state.selection.visible && result.ie && result.ie_version <= 11 && (node.disabled = !0, node.disabled = !1);
                     else {
-                        var domSel, range, node, img, doc, domSel1, node1, offset, resetEditableFrom, resetEditableTo, anchor = sel.anchor, head = sel.head;
-                        !brokenSelectBetweenUneditable || sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection || (sel.$from.parent.inlineContent || (resetEditableFrom = temporarilyEditableNear(view, sel.from)), sel.empty || sel.$from.parent.inlineContent || (resetEditableTo = temporarilyEditableNear(view, sel.to))), view.docView.setSelection(anchor, head, view.root, force), brokenSelectBetweenUneditable && (resetEditableFrom && resetEditable(resetEditableFrom), resetEditableTo && resetEditable(resetEditableTo)), sel.visible ? view.dom.classList.remove("ProseMirror-hideselection") : (view.dom.classList.add("ProseMirror-hideselection"), "onselectionchange" in document && ((doc = view.dom.ownerDocument).removeEventListener("selectionchange", view.hideSelectionGuard), node1 = (domSel1 = view.root.getSelection()).anchorNode, offset = domSel1.anchorOffset, doc.addEventListener("selectionchange", view.hideSelectionGuard = function() {
-                            (domSel1.anchorNode != node1 || domSel1.anchorOffset != offset) && (doc.removeEventListener("selectionchange", view.hideSelectionGuard), setTimeout(function() {
-                                (!editorOwnsSelection(view) || view.state.selection.visible) && view.dom.classList.remove("ProseMirror-hideselection");
+                        var domSel, range, node, img, view1, doc, domSel1, node1, offset, resetEditableFrom, resetEditableTo, anchor = sel.anchor, head = sel.head;
+                        !brokenSelectBetweenUneditable || sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection || (sel.$from.parent.inlineContent || (resetEditableFrom = temporarilyEditableNear(view, sel.from)), sel.empty || sel.$from.parent.inlineContent || (resetEditableTo = temporarilyEditableNear(view, sel.to))), view.docView.setSelection(anchor, head, view.root, force), brokenSelectBetweenUneditable && (resetEditableFrom && resetEditable(resetEditableFrom), resetEditableTo && resetEditable(resetEditableTo)), sel.visible ? view.dom.classList.remove("ProseMirror-hideselection") : (view.dom.classList.add("ProseMirror-hideselection"), "onselectionchange" in document && ((doc = (view1 = view).dom.ownerDocument).removeEventListener("selectionchange", view1.hideSelectionGuard), node1 = (domSel1 = view1.root.getSelection()).anchorNode, offset = domSel1.anchorOffset, doc.addEventListener("selectionchange", view1.hideSelectionGuard = function() {
+                            (domSel1.anchorNode != node1 || domSel1.anchorOffset != offset) && (doc.removeEventListener("selectionchange", view1.hideSelectionGuard), setTimeout(function() {
+                                (!editorOwnsSelection(view1) || view1.state.selection.visible) && view1.dom.classList.remove("ProseMirror-hideselection");
                             }, 20));
                         })));
                     }
@@ -1610,10 +1610,10 @@
             editHandlers.keydown = function(view, event) {
                 if (view.shiftKey = 16 == event.keyCode || event.shiftKey, !inOrNearComposition(view, event)) {
                     if (229 != event.keyCode && view.domObserver.forceFlush(), view.lastKeyCode = event.keyCode, view.lastKeyCodeTime = Date.now(), !result.ios || 13 != event.keyCode || event.ctrlKey || event.altKey || event.metaKey) {
-                        var result1, code, mods;
+                        var view1, result1, code, mods;
                         view.someProp("handleKeyDown", function(f) {
                             return f(view, event);
-                        }) || (code = event.keyCode, result1 = "", event.ctrlKey && (result1 += "c"), event.metaKey && (result1 += "m"), event.altKey && (result1 += "a"), event.shiftKey && (result1 += "s"), mods = result1, 8 == code || result.mac && 72 == code && "c" == mods ? stopNativeHorizontalDelete(view, -1) || skipIgnoredNodesLeft(view) : 46 == code || result.mac && 68 == code && "c" == mods ? stopNativeHorizontalDelete(view, 1) || skipIgnoredNodesRight(view) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view, -1, mods) || skipIgnoredNodesLeft(view) : 39 == code ? selectHorizontally(view, 1, mods) || skipIgnoredNodesRight(view) : 38 == code ? selectVertically(view, -1, mods) || skipIgnoredNodesLeft(view) : 40 == code ? function(view) {
+                        }) || (view1 = view, code = event.keyCode, result1 = "", event.ctrlKey && (result1 += "c"), event.metaKey && (result1 += "m"), event.altKey && (result1 += "a"), event.shiftKey && (result1 += "s"), mods = result1, 8 == code || result.mac && 72 == code && "c" == mods ? stopNativeHorizontalDelete(view1, -1) || skipIgnoredNodesLeft(view1) : 46 == code || result.mac && 68 == code && "c" == mods ? stopNativeHorizontalDelete(view1, 1) || skipIgnoredNodesRight(view1) : 13 == code || 27 == code || (37 == code ? selectHorizontally(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 39 == code ? selectHorizontally(view1, 1, mods) || skipIgnoredNodesRight(view1) : 38 == code ? selectVertically(view1, -1, mods) || skipIgnoredNodesLeft(view1) : 40 == code ? function(view) {
                             if (result.safari && !(view.state.selection.$head.parentOffset > 0)) {
                                 var ref = view.root.getSelection(), focusNode = ref.focusNode, focusOffset = ref.focusOffset;
                                 if (focusNode && 1 == focusNode.nodeType && 0 == focusOffset && focusNode.firstChild && "false" == focusNode.firstChild.contentEditable) {
@@ -1623,7 +1623,7 @@
                                     }, 20);
                                 }
                             }
-                        }(view) || selectVertically(view, 1, mods) || skipIgnoredNodesRight(view) : mods == (result.mac ? "m" : "c") && (66 == code || 73 == code || 89 == code || 90 == code))) ? event.preventDefault() : setSelectionOrigin(view, "key");
+                        }(view1) || selectVertically(view1, 1, mods) || skipIgnoredNodesRight(view1) : mods == (result.mac ? "m" : "c") && (66 == code || 73 == code || 89 == code || 90 == code))) ? event.preventDefault() : setSelectionOrigin(view, "key");
                     } else {
                         var now = Date.now();
                         view.lastIOSEnter = now, view.lastIOSEnterFallbackTimeout = setTimeout(function() {
@@ -1695,9 +1695,9 @@
                 }), this.view.mouseDown = null;
             }, MouseDown.prototype.up = function(event) {
                 if (this.done(), this.view.dom.contains(3 == event.target.nodeType ? event.target.parentNode : event.target)) {
-                    var view, pos, inside, selectNode, pos1 = this.pos;
-                    (this.view.state.doc != this.startDoc && (pos1 = this.view.posAtCoords(eventCoords(event))), this.allowDefault || !pos1) ? setSelectionOrigin(this.view, "pointer") : (view = this.view, pos = pos1.pos, inside = pos1.inside, selectNode = this.selectNode, runHandlerOnContext(view, "handleClickOn", pos, inside, event) || view.someProp("handleClick", function(f) {
-                        return f(view, pos, event);
+                    var view, pos, inside, event1, selectNode, pos1 = this.pos;
+                    (this.view.state.doc != this.startDoc && (pos1 = this.view.posAtCoords(eventCoords(event))), this.allowDefault || !pos1) ? setSelectionOrigin(this.view, "pointer") : (view = this.view, pos = pos1.pos, inside = pos1.inside, event1 = event, selectNode = this.selectNode, runHandlerOnContext(view, "handleClickOn", pos, inside, event1) || view.someProp("handleClick", function(f) {
+                        return f(view, pos, event1);
                     }) || (selectNode ? function(view, inside) {
                         if (-1 == inside) return !1;
                         var selectedNode, selectAt, sel = view.state.selection;
@@ -2651,9 +2651,9 @@
                 if (null == pos) throw RangeError("DOM position not inside the editor");
                 return pos;
             }, EditorView.prototype.endOfTextblock = function(dir, state) {
-                var view, state1, sel, $pos;
-                return view = this, cachedState == (state1 = state || this.state) && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
-                    for(var dom = view.docView.domFromPos($pos.pos, "up" == dir ? -1 : 1).node;;){
+                var state1, dir1, view, state2, dir2, sel, $pos;
+                return state1 = state || this.state, dir1 = dir, cachedState == state1 && cachedDir == dir1 ? cachedResult : (cachedState = state1, cachedDir = dir1, cachedResult = "up" == dir1 || "down" == dir1 ? (view = this, state2 = state1, dir2 = dir1, sel = state2.selection, $pos = "up" == dir2 ? sel.$from : sel.$to, withFlushedState(view, state2, function() {
+                    for(var dom = view.docView.domFromPos($pos.pos, "up" == dir2 ? -1 : 1).node;;){
                         var nearest = view.docView.nearestDesc(dom, !0);
                         if (!nearest) break;
                         if (nearest.node.isBlock) {
@@ -2671,7 +2671,7 @@
                         }
                         for(var i = 0; i < boxes.length; i++){
                             var box = boxes[i];
-                            if (box.bottom > box.top + 1 && ("up" == dir ? coords.top - box.top > (box.bottom - coords.top) * 2 : box.bottom - coords.bottom > (coords.bottom - box.top) * 2)) return !1;
+                            if (box.bottom > box.top + 1 && ("up" == dir2 ? coords.top - box.top > (box.bottom - coords.top) * 2 : box.bottom - coords.bottom > (coords.bottom - box.top) * 2)) return !1;
                         }
                     }
                     return !0;
@@ -2685,14 +2685,15 @@
                         var result = !($head.depth ? view.docView.domAfterPos($head.before()) : view.dom).contains(1 == sel.focusNode.nodeType ? sel.focusNode : sel.focusNode.parentNode) || oldNode == sel.focusNode && oldOff == sel.focusOffset;
                         return sel.removeAllRanges(), sel.addRange(oldRange), null != oldBidiLevel && (sel.caretBidiLevel = oldBidiLevel), result;
                     }) : "left" == dir || "backward" == dir ? !offset : atEnd;
-                }(view, state1, dir));
+                }(this, state1, dir1));
             }, EditorView.prototype.destroy = function() {
                 this.docView && (function(view) {
                     for(var type in view.domObserver.stop(), view.eventHandlers)view.dom.removeEventListener(type, view.eventHandlers[type]);
                     clearTimeout(view.composingTimeout), clearTimeout(view.lastIOSEnterFallbackTimeout);
                 }(this), this.destroyPluginViews(), this.mounted ? (this.docView.update(this.state.doc, [], viewDecorations(this), this), this.dom.textContent = "") : this.dom.parentNode && this.dom.parentNode.removeChild(this.dom), this.docView.destroy(), this.docView = null);
             }, EditorView.prototype.dispatchEvent = function(event) {
-                runCustomHandler(this, event) || !handlers[event.type] || !this.editable && event.type in editHandlers || handlers[event.type](this, event);
+                var event1;
+                runCustomHandler(this, event1 = event) || !handlers[event1.type] || !this.editable && event1.type in editHandlers || handlers[event1.type](this, event1);
             }, EditorView.prototype.dispatch = function(tr) {
                 var dispatchTransaction = this._props.dispatchTransaction;
                 dispatchTransaction ? dispatchTransaction.call(this, tr) : this.updateState(this.state.apply(tr));

@@ -627,16 +627,16 @@
             if (!isObject(value)) return value;
             var isArr = isArray(value);
             if (isArr) {
-                if (length = value.length, result1 = new value.constructor(length), length && 'string' == typeof value[0] && hasOwnProperty.call(value, 'index') && (result1.index = value.index, result1.input = value.input), result = result1, !isDeep) return copyArray(value, result);
+                if (length = (array = value).length, result1 = new array.constructor(length), length && 'string' == typeof array[0] && hasOwnProperty.call(array, 'index') && (result1.index = array.index, result1.input = array.input), result = result1, !isDeep) return copyArray(value, result);
             } else {
-                var length, result1, object1, object2, object3, tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
+                var array, length, result1, source, object1, source1, object2, object3, source2, tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
                 if (isBuffer(value)) return cloneBuffer(value, isDeep);
                 if (tag == objectTag || tag == argsTag || isFunc && !object) {
-                    if (result = isFlat || isFunc ? {} : initCloneObject(value), !isDeep) return isFlat ? (object1 = (object3 = result) && copyObject(value, keysIn(value), object3), copyObject(value, getSymbolsIn(value), object1)) : (object2 = baseAssign(result, value), copyObject(value, getSymbols(value), object2));
+                    if (result = isFlat || isFunc ? {} : initCloneObject(value), !isDeep) return isFlat ? (source = value, object3 = result, source2 = value, object1 = object3 && copyObject(source2, keysIn(source2), object3), copyObject(source, getSymbolsIn(source), object1)) : (source1 = value, object2 = baseAssign(result, value), copyObject(source1, getSymbols(source1), object2));
                 } else {
                     if (!cloneableTags[tag]) return object ? value : {};
                     result = function(object, tag, isDeep) {
-                        var buffer, result, Ctor = object.constructor;
+                        var buffer, regexp, result, Ctor = object.constructor;
                         switch(tag){
                             case arrayBufferTag:
                                 return cloneArrayBuffer(object);
@@ -661,7 +661,7 @@
                             case stringTag:
                                 return new Ctor(object);
                             case regexpTag:
-                                return (result = new object.constructor(object.source, reFlags.exec(object))).lastIndex = object.lastIndex, result;
+                                return (result = new (regexp = object).constructor(regexp.source, reFlags.exec(regexp))).lastIndex = regexp.lastIndex, result;
                             case setTag:
                                 return new Ctor;
                             case symbolTag:
@@ -1649,17 +1649,17 @@
         }
         function getMatchData(object) {
             for(var result = keys(object), length = result.length; length--;){
-                var key = result[length], value = object[key];
+                var value, key = result[length], value1 = object[key];
                 result[length] = [
                     key,
-                    value,
-                    value == value && !isObject(value)
+                    value1,
+                    (value = value1) == value && !isObject(value)
                 ];
             }
             return result;
         }
         function getNative(object, key) {
-            var value = null == object ? undefined : object[key];
+            var object1, value = null == (object1 = object) ? undefined : object1[key];
             return baseIsNative(value) ? value : undefined;
         }
         var getSymbols = nativeGetSymbols ? function(object) {
@@ -1998,9 +1998,9 @@
                 return undefined === lastCallTime || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
             }
             function timerExpired() {
-                var timeSinceLastCall, timeSinceLastInvoke, timeWaiting, time = now();
-                if (shouldInvoke(time)) return trailingEdge(time);
-                timerId = setTimeout(timerExpired, (timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime, timeWaiting = wait - timeSinceLastCall, maxing ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke) : timeWaiting));
+                var time, timeSinceLastCall, timeSinceLastInvoke, timeWaiting, time1 = now();
+                if (shouldInvoke(time1)) return trailingEdge(time1);
+                timerId = setTimeout(timerExpired, (timeSinceLastCall = (time = time1) - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime, timeWaiting = wait - timeSinceLastCall, maxing ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke) : timeWaiting));
             }
             function trailingEdge(time) {
                 return (timerId = undefined, trailing && lastArgs) ? invokeFunc(time) : (lastArgs = lastThis = undefined, result);
@@ -2244,8 +2244,9 @@
             for(var length = paths.length; length--;)baseUnset(result, paths[length]);
             return result;
         }), pick = flatRest(function(object, paths) {
-            return null == object ? {} : basePickBy(object, paths, function(value, path) {
-                return hasIn(object, path);
+            var object1;
+            return null == object ? {} : basePickBy(object1 = object, paths, function(value, path) {
+                return hasIn(object1, path);
             });
         });
         function pickBy(object, predicate) {

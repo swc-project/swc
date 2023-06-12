@@ -579,8 +579,8 @@
         dealoc: jqLiteDealoc,
         on: function onFn(element, type, fn, unsupported) {
             if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
-            var events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
-            events1 || jqLiteExpandoStore(element, "events", events1 = {}), !handle && jqLiteExpandoStore(element, "handle", (events = events1, (eventHandler = function(event, type) {
+            var element1, events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
+            events1 || jqLiteExpandoStore(element, "events", events1 = {}), !handle && jqLiteExpandoStore(element, "handle", (element1 = element, events = events1, (eventHandler = function(event, type) {
                 if (event.preventDefault || (event.preventDefault = function() {
                     event.returnValue = !1;
                 }), event.stopPropagation || (event.stopPropagation = function() {
@@ -594,9 +594,9 @@
                 event.isDefaultPrevented = function() {
                     return event.defaultPrevented || !1 === event.returnValue;
                 }, forEach(events[type || event.type], function(fn) {
-                    fn.call(element, event);
+                    fn.call(element1, event);
                 }), msie <= 8 ? (event.preventDefault = null, event.stopPropagation = null, event.isDefaultPrevented = null) : (delete event.preventDefault, delete event.stopPropagation, delete event.isDefaultPrevented);
-            }).elem = element, handle = eventHandler)), forEach(type.split(" "), function(type) {
+            }).elem = element1, handle = eventHandler)), forEach(type.split(" "), function(type) {
                 var eventFns = events1[type];
                 if (!eventFns) {
                     if ("mouseenter" == type || "mouseleave" == type) {
@@ -3192,9 +3192,14 @@
                 case "object":
                     for(var key in expression)"$" == key ? expression[key] && predicates.push(function(value) {
                         return search(value, expression[key]);
-                    }) : void 0 !== expression[key] && predicates.push(function(value) {
-                        return search(getter(value, key), expression[key]);
-                    });
+                    }) : function() {
+                        if (void 0 !== expression[key]) {
+                            var path = key;
+                            predicates.push(function(value) {
+                                return search(getter(value, path), expression[path]);
+                            });
+                        }
+                    }();
                     break;
                 case "function":
                     predicates.push(expression);

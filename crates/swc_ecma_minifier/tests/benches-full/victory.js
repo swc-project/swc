@@ -2265,7 +2265,7 @@
                     return s.length ? s.pop() + " " : "";
                 }
                 return function(a, b) {
-                    var a1, b1, a2, b2, s = [], q = [];
+                    var a1, b1, s, a2, b2, s1, s2 = [], q = [];
                     return a = parse(a), b = parse(b), !function(xa, ya, xb, yb, s, q) {
                         if (xa !== xb || ya !== yb) {
                             var i = s.push("translate(", null, pxComma, null, pxParen);
@@ -2277,13 +2277,13 @@
                                 x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
                             });
                         } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-                    }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
+                    }(a.translateX, a.translateY, b.translateX, b.translateY, s2, q), a1 = a.rotate, b1 = b.rotate, s = s2, a1 !== b1 ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                         i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a1, b1)
-                    })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), (a2 = a.skewX) !== (b2 = b.skewX) ? q.push({
-                        i: s.push(pop(s) + "skewX(", null, degParen) - 2,
+                    })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), a2 = a.skewX, b2 = b.skewX, s1 = s2, a2 !== b2 ? q.push({
+                        i: s1.push(pop(s1) + "skewX(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a2, b2)
-                    }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
+                    }) : b2 && s1.push(pop(s1) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
                         if (xa !== xb || ya !== yb) {
                             var i = s.push(pop(s) + "scale(", null, ",", null, ")");
                             q.push({
@@ -2294,9 +2294,9 @@
                                 x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
                             });
                         } else (1 !== xb || 1 !== yb) && s.push(pop(s) + "scale(" + xb + "," + yb + ")");
-                    }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s, q), a = b = null, function(t) {
-                        for(var o, i = -1, n = q.length; ++i < n;)s[(o = q[i]).i] = o.x(t);
-                        return s.join("");
+                    }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s2, q), a = b = null, function(t) {
+                        for(var o, i = -1, n = q.length; ++i < n;)s2[(o = q[i]).i] = o.x(t);
+                        return s2.join("");
                     };
                 };
             }
@@ -4857,8 +4857,8 @@
             var s = Math.sqrt(3) / 2, k = 1 / Math.sqrt(12), a = (k / 2 + 1) * 3;
             __webpack_exports__.default = {
                 draw: function(context, size) {
-                    var r = Math.sqrt(size / a), x0 = r / 2, y0 = r * k, y1 = r * k + r, x2 = -x0;
-                    context.moveTo(x0, y0), context.lineTo(x0, y1), context.lineTo(x2, y1), context.lineTo(-0.5 * x0 - s * y0, s * x0 + -0.5 * y0), context.lineTo(-0.5 * x0 - s * y1, s * x0 + -0.5 * y1), context.lineTo(-0.5 * x2 - s * y1, s * x2 + -0.5 * y1), context.lineTo(-0.5 * x0 + s * y0, -0.5 * y0 - s * x0), context.lineTo(-0.5 * x0 + s * y1, -0.5 * y1 - s * x0), context.lineTo(-0.5 * x2 + s * y1, -0.5 * y1 - s * x2), context.closePath();
+                    var r = Math.sqrt(size / a), x0 = r / 2, y0 = r * k, x1 = x0, y1 = r * k + r, x2 = -x1, y2 = y1;
+                    context.moveTo(x0, y0), context.lineTo(x1, y1), context.lineTo(x2, y2), context.lineTo(-0.5 * x0 - s * y0, s * x0 + -0.5 * y0), context.lineTo(-0.5 * x1 - s * y1, s * x1 + -0.5 * y1), context.lineTo(-0.5 * x2 - s * y2, s * x2 + -0.5 * y2), context.lineTo(-0.5 * x0 + s * y0, -0.5 * y0 - s * x0), context.lineTo(-0.5 * x1 + s * y1, -0.5 * y1 - s * x1), context.lineTo(-0.5 * x2 + s * y2, -0.5 * y2 - s * x2), context.closePath();
                 }
             };
         },
@@ -6496,12 +6496,12 @@
                 node.U = node.C = node.L = node.R = node.P = node.N = null;
             }
             function RedBlackRotateLeft(tree, node) {
-                var q = node.R, parent = node.U;
-                parent ? parent.L === node ? parent.L = q : parent.R = q : tree._ = q, q.U = parent, node.U = q, node.R = q.L, node.R && (node.R.U = node), q.L = node;
+                var p = node, q = node.R, parent = p.U;
+                parent ? parent.L === p ? parent.L = q : parent.R = q : tree._ = q, q.U = parent, p.U = q, p.R = q.L, p.R && (p.R.U = p), q.L = p;
             }
             function RedBlackRotateRight(tree, node) {
-                var q = node.L, parent = node.U;
-                parent ? parent.L === node ? parent.L = q : parent.R = q : tree._ = q, q.U = parent, node.U = q, node.L = q.R, node.L && (node.L.U = node), q.R = node;
+                var p = node, q = node.L, parent = p.U;
+                parent ? parent.L === p ? parent.L = q : parent.R = q : tree._ = q, q.U = parent, p.U = q, p.L = q.R, p.L && (p.L.U = p), q.R = p;
             }
             function RedBlackFirst(node) {
                 for(; node.L;)node = node.L;
@@ -8777,13 +8777,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -8978,7 +8978,7 @@
                 padding: 50,
                 interpolation: "linear"
             }, VictoryArea = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryArea() {
                     var call;
                     return !function(instance, Constructor) {
@@ -8998,7 +8998,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryArea, _React$Component), protoProps = [
+                }(VictoryArea, _React$Component), Constructor = VictoryArea, protoProps = [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -9014,7 +9014,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryArea.prototype, protoProps), staticProps && _defineProperties(VictoryArea, staticProps), VictoryArea;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryArea;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryArea, "animationWhitelist", {
                 configurable: !0,
@@ -9038,13 +9038,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -9300,7 +9300,7 @@
                     }
                 })[sign][axis];
             }, getStandaloneOffset = function(props, calculatedValues) {
-                var style = calculatedValues.style, scale = calculatedValues.scale, orientation = calculatedValues.orientation, padding = calculatedValues.padding, axis = calculatedValues.axis, ticks = calculatedValues.ticks, stringTicks = calculatedValues.stringTicks, isVertical = calculatedValues.isVertical, labelPadding = calculatedValues.labelPadding, polar = props.polar, horizontal = props.horizontal, sharedProps = {
+                var arr, style = calculatedValues.style, scale = calculatedValues.scale, orientation = calculatedValues.orientation, padding = calculatedValues.padding, axis = calculatedValues.axis, ticks = calculatedValues.ticks, stringTicks = calculatedValues.stringTicks, isVertical = calculatedValues.isVertical, labelPadding = calculatedValues.labelPadding, polar = props.polar, horizontal = props.horizontal, sharedProps = {
                     scale: _defineProperty({}, axis, scale),
                     polar: polar,
                     horizontal: horizontal,
@@ -9317,9 +9317,9 @@
                         for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                         return arr2;
                     }
-                }(tickSizes) || function(iter) {
+                }(arr = tickSizes) || function(iter) {
                     if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
-                }(tickSizes) || function() {
+                }(arr) || function() {
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }()) + labelPadding, minimumPadding = 1.2 * fontSize;
                 return {
@@ -9477,7 +9477,7 @@
                     scale: props.scale && props.scale[otherAxis] ? _defineProperty({}, otherAxis, props.scale[otherAxis]) : void 0
                 };
                 return ticks.reduce(function(childProps, tickValue, index) {
-                    var props, tick, tick1 = stringTicks ? stringTicks[index] : tickValue, text = tickFormat(tickValue, index, ticks), styles = (props = lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, sharedProps, {
+                    var props, tick, globalTransform1, isVertical1, tick1 = stringTicks ? stringTicks[index] : tickValue, text = tickFormat(tickValue, index, ticks), styles = (props = lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, sharedProps, {
                         tick: tick1,
                         tickValue: tickValue,
                         index: index,
@@ -9488,9 +9488,9 @@
                         gridStyle: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.evaluateStyle(style.grid, props)
                     }), tickLayout = {
                         position: getTickPosition(styles, orientation, isVertical),
-                        transform: (tick = scale[axis](tickValue), {
-                            x: isVertical ? globalTransform.x : tick + globalTransform.x,
-                            y: isVertical ? tick + globalTransform.y : globalTransform.y
+                        transform: (tick = scale[axis](tickValue), globalTransform1 = globalTransform, {
+                            x: (isVertical1 = isVertical) ? globalTransform1.x : tick + globalTransform1.x,
+                            y: isVertical1 ? tick + globalTransform1.y : globalTransform1.y
                         })
                     }, gridLayout = {
                         edge: gridEdge,
@@ -9534,7 +9534,7 @@
                 height: 300,
                 padding: 50
             }, VictoryAxis = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryAxis() {
                     var call;
                     return !function(instance, Constructor) {
@@ -9554,7 +9554,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryAxis, _React$Component), protoProps = [
+                }(VictoryAxis, _React$Component), Constructor = VictoryAxis, protoProps = [
                     {
                         key: "renderLine",
                         value: function(props) {
@@ -9640,7 +9640,7 @@
                     {
                         key: "render",
                         value: function() {
-                            var animationWhitelist = VictoryAxis.animationWhitelist, props = victory_core__WEBPACK_IMPORTED_MODULE_4__.Axis.modifyProps(this.props, fallbackProps);
+                            var arr, animationWhitelist = VictoryAxis.animationWhitelist, props = victory_core__WEBPACK_IMPORTED_MODULE_4__.Axis.modifyProps(this.props, fallbackProps);
                             if (this.shouldAnimate()) return this.animateComponent(props, animationWhitelist);
                             var gridAndTicks = this.renderGridAndTicks(props), modifiedGridAndTicks = props.fixLabelOverlap ? this.fixLabelOverlap(gridAndTicks, props) : gridAndTicks, children = [
                                 this.renderLine(props),
@@ -9650,15 +9650,15 @@
                                     for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                                     return arr2;
                                 }
-                            }(modifiedGridAndTicks) || function(iter) {
+                            }(arr = modifiedGridAndTicks) || function(iter) {
                                 if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
-                            }(modifiedGridAndTicks) || function() {
+                            }(arr) || function() {
                                 throw TypeError("Invalid attempt to spread non-iterable instance");
                             }());
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.groupComponent, {}, children);
                         }
                     }
-                ], _defineProperties(VictoryAxis.prototype, protoProps), staticProps && _defineProperties(VictoryAxis, staticProps), VictoryAxis;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryAxis;
             }(react__WEBPACK_IMPORTED_MODULE_3___default.a.Component);
             Object.defineProperty(VictoryAxis, "animationWhitelist", {
                 configurable: !0,
@@ -9708,13 +9708,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -9882,13 +9882,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -9940,7 +9940,7 @@
                     tabIndex: tabIndex
                 });
             }, Bar = function(props) {
-                var props1, props2, _props = props = evaluateProps(props), polar = _props.polar, origin = _props.origin, style = _props.style, barWidth = _props.barWidth, cornerRadius = _props.cornerRadius, path = polar ? (props1 = props, Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getVerticalPolarBarPath)(props1, cornerRadius)) : (props2 = props).getPath ? Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getCustomBarPath)(props2, barWidth) : props2.horizontal ? Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getHorizontalBarPath)(props2, barWidth, cornerRadius) : Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getVerticalBarPath)(props2, barWidth, cornerRadius), defaultTransform = polar && origin ? "translate(".concat(origin.x, ", ").concat(origin.y, ")") : void 0;
+                var props1, props2, width, cornerRadius, _props = props = evaluateProps(props), polar = _props.polar, origin = _props.origin, style = _props.style, barWidth = _props.barWidth, cornerRadius1 = _props.cornerRadius, path = polar ? (props1 = props, Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getVerticalPolarBarPath)(props1, cornerRadius1)) : (props2 = props, width = barWidth, cornerRadius = cornerRadius1, props2.getPath ? Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getCustomBarPath)(props2, width) : props2.horizontal ? Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getHorizontalBarPath)(props2, width, cornerRadius) : Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getVerticalBarPath)(props2, width, cornerRadius)), defaultTransform = polar && origin ? "translate(".concat(origin.x, ", ").concat(origin.y, ")") : void 0;
                 return react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.pathComponent, _objectSpread({}, props.events, {
                     "aria-label": props.ariaLabel,
                     style: style,
@@ -10238,13 +10238,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -10485,7 +10485,7 @@
                 height: 300,
                 padding: 50
             }, VictoryBar = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryBar() {
                     var call;
                     return !function(instance, Constructor) {
@@ -10505,7 +10505,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryBar, _React$Component), protoProps = [
+                }(VictoryBar, _React$Component), Constructor = VictoryBar, protoProps = [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -10521,7 +10521,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryBar.prototype, protoProps), staticProps && _defineProperties(VictoryBar, staticProps), VictoryBar;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryBar;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryBar, "animationWhitelist", {
                 configurable: !0,
@@ -10604,13 +10604,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -10774,13 +10774,13 @@
                 if (arrayX) throw Error("\n        data should not be given as in array for x\n      ");
                 if (arrayY) return data.map(function(datum) {
                     var dataArray = datum._y.map(function(d) {
-                        var obj;
-                        return lodash_assign__WEBPACK_IMPORTED_MODULE_5___default()({}, datum, ("_y" in (obj = {}) ? Object.defineProperty(obj, "_y", {
-                            value: d,
+                        var obj, value;
+                        return lodash_assign__WEBPACK_IMPORTED_MODULE_5___default()({}, datum, (obj = {}, value = d, "_y" in obj ? Object.defineProperty(obj, "_y", {
+                            value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj._y = d, obj));
+                        }) : obj._y = value, obj));
                     });
                     return getSummaryStatistics(lodash_orderBy__WEBPACK_IMPORTED_MODULE_7___default()(dataArray, "_y"));
                 });
@@ -10989,7 +10989,8 @@
                         datum: datum,
                         positions: positions
                     }, props), dataObj = TYPES.reduce(function(memo, type) {
-                        return memo[type] = "median" === type ? getMedianProps(dataProps) : "min" === type || "max" === type ? getWhiskerProps(dataProps, type) : getBoxProps(dataProps, type), memo;
+                        var props, type1;
+                        return memo[type] = (props = dataProps, "median" === (type1 = type) ? getMedianProps(props) : "min" === type1 || "max" === type1 ? getWhiskerProps(props, type1) : getBoxProps(props, type1)), memo;
                     }, {});
                     return acc[eventKey] = dataObj, TYPES.forEach(function(type) {
                         var labelText = getText(dataProps, type), labelProp = props.labels || props["".concat(type, "Labels")];
@@ -11041,7 +11042,7 @@
                     left: 20
                 }
             }, VictoryBoxPlot = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryBoxPlot() {
                     var call;
                     return !function(instance, Constructor) {
@@ -11061,7 +11062,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryBoxPlot, _React$Component), protoProps = [
+                }(VictoryBoxPlot, _React$Component), Constructor = VictoryBoxPlot, protoProps = [
                     {
                         key: "renderBoxPlot",
                         value: function(props) {
@@ -11107,7 +11108,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryBoxPlot.prototype, protoProps), staticProps && _defineProperties(VictoryBoxPlot, staticProps), VictoryBoxPlot;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryBoxPlot;
             }(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component);
             Object.defineProperty(VictoryBoxPlot, "animationWhitelist", {
                 configurable: !0,
@@ -11146,13 +11147,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -11450,13 +11451,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -11817,13 +11818,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -11849,7 +11850,7 @@
             var brushContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var Constructor, protoProps, staticProps;
                     function VictoryBrushContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -11869,7 +11870,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryBrushContainer, _base), protoProps = [
+                    }(VictoryBrushContainer, _base), Constructor = VictoryBrushContainer, protoProps = [
                         {
                             key: "getSelectBox",
                             value: function(props, coordinates) {
@@ -11954,7 +11955,7 @@
                                 return _toConsumableArray(react__WEBPACK_IMPORTED_MODULE_3___default.a.Children.toArray(props.children)).concat(_toConsumableArray(this.getRect(props)));
                             }
                         }
-                    ], _defineProperties(VictoryBrushContainer.prototype, protoProps), staticProps && _defineProperties(VictoryBrushContainer, staticProps), VictoryBrushContainer;
+                    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryBrushContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -12167,7 +12168,7 @@
                     fill: "none"
                 }
             }, VictoryBrushLine = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryBrushLine() {
                     var call;
                     return !function(instance, Constructor) {
@@ -12187,7 +12188,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryBrushLine, _React$Component), protoProps = [
+                }(VictoryBrushLine, _React$Component), Constructor = VictoryBrushLine, protoProps = [
                     {
                         key: "getRectDimensions",
                         value: function(props, brushWidth, domain) {
@@ -12326,7 +12327,7 @@
                             return react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement("g", this.props.events, this.renderLine(this.props), this.renderBrushArea(this.props), this.renderBrush(this.props), this.renderHandles(this.props));
                         }
                     }
-                ], _defineProperties(VictoryBrushLine.prototype, protoProps), staticProps && _defineProperties(VictoryBrushLine, staticProps), VictoryBrushLine;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryBrushLine;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryBrushLine, "propTypes", {
                 configurable: !0,
@@ -12584,13 +12585,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -13029,7 +13030,7 @@
             ], datumHasXandY = function(datum) {
                 return !lodash_isNil__WEBPACK_IMPORTED_MODULE_1___default()(datum._x) && !lodash_isNil__WEBPACK_IMPORTED_MODULE_1___default()(datum._y);
             }, VictoryCandlestick = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryCandlestick() {
                     var call;
                     return !function(instance, Constructor) {
@@ -13049,7 +13050,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryCandlestick, _React$Component), protoProps = [
+                }(VictoryCandlestick, _React$Component), Constructor = VictoryCandlestick, protoProps = [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -13094,7 +13095,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryCandlestick.prototype, protoProps), staticProps && _defineProperties(VictoryCandlestick, staticProps), VictoryCandlestick;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryCandlestick;
             }(react__WEBPACK_IMPORTED_MODULE_3___default.a.Component);
             Object.defineProperty(VictoryCandlestick, "animationWhitelist", {
                 configurable: !0,
@@ -13135,13 +13136,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -13472,14 +13473,14 @@
                 });
             }
             var getChildComponents = function(props, defaultAxes) {
-                var childComponents = react__WEBPACK_IMPORTED_MODULE_2___default.a.Children.toArray(props.children), newChildComponents = function(arr) {
+                var arr, childComponents = react__WEBPACK_IMPORTED_MODULE_2___default.a.Children.toArray(props.children), newChildComponents = function(arr) {
                     if (Array.isArray(arr)) {
                         for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                         return arr2;
                     }
-                }(childComponents) || function(iter) {
+                }(arr = childComponents) || function(iter) {
                     if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
-                }(childComponents) || function() {
+                }(arr) || function() {
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
                 if (0 === childComponents.length) newChildComponents.push(defaultAxes.independent, defaultAxes.dependent);
@@ -13541,7 +13542,7 @@
                 height: 300,
                 padding: 50
             }, VictoryChart = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryChart(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -13562,7 +13563,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryChart, _React$Component), protoProps = [
+                }(VictoryChart, _React$Component), Constructor = VictoryChart, protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -13624,7 +13625,7 @@
                             }, newChildren);
                         }
                     }
-                ], _defineProperties(VictoryChart.prototype, protoProps), staticProps && _defineProperties(VictoryChart, staticProps), VictoryChart;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryChart;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryChart, "displayName", {
                 configurable: !0,
@@ -13641,13 +13642,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -13896,7 +13897,7 @@
                 }
             }
             var VictoryAccessibleGroup = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryAccessibleGroup() {
                     var call;
                     return !function(instance, Constructor) {
@@ -13916,7 +13917,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryAccessibleGroup, _React$Component), protoProps = [
+                }(VictoryAccessibleGroup, _React$Component), Constructor = VictoryAccessibleGroup, protoProps = [
                     {
                         key: "render",
                         value: function() {
@@ -13936,7 +13937,7 @@
                             }, children);
                         }
                     }
-                ], _defineProperties(VictoryAccessibleGroup.prototype, protoProps), staticProps && _defineProperties(VictoryAccessibleGroup, staticProps), VictoryAccessibleGroup;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryAccessibleGroup;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryAccessibleGroup, "displayName", {
                 configurable: !0,
@@ -14043,7 +14044,7 @@
                 return self1;
             }
             var VictoryAnimation = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryAnimation(props, context) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -14066,7 +14067,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryAnimation, _React$Component), protoProps = [
+                }(VictoryAnimation, _React$Component), Constructor = VictoryAnimation, protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -14150,7 +14151,7 @@
                             return this.props.children(this.state.data, this.state.animationInfo);
                         }
                     }
-                ], _defineProperties(VictoryAnimation.prototype, protoProps), staticProps && _defineProperties(VictoryAnimation, staticProps), VictoryAnimation;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryAnimation;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryAnimation, "displayName", {
                 configurable: !0,
@@ -14255,7 +14256,7 @@
                 }
             }
             var VictoryClipContainer = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryClipContainer(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -14275,7 +14276,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryClipContainer, _React$Component), protoProps = [
+                }(VictoryClipContainer, _React$Component), Constructor = VictoryClipContainer, protoProps = [
                     {
                         key: "calculateAttributes",
                         value: function(props) {
@@ -14306,13 +14307,13 @@
                                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                                     }))), ownKeys.forEach(function(key) {
-                                        var value;
-                                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                                        var obj, key1, value;
+                                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                             value: value,
                                             enumerable: !0,
                                             configurable: !0,
                                             writable: !0
-                                        }) : target[key] = value;
+                                        }) : obj[key1] = value;
                                     });
                                 }
                                 return target;
@@ -14401,7 +14402,7 @@
                             return this.renderClippedGroup(clipProps, this.clipId);
                         }
                     }
-                ], _defineProperties(VictoryClipContainer.prototype, protoProps), staticProps && _defineProperties(VictoryClipContainer, staticProps), VictoryClipContainer;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryClipContainer;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryClipContainer, "displayName", {
                 configurable: !0,
@@ -14485,13 +14486,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -14503,7 +14504,7 @@
                 }
             }
             var VictoryContainer = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryContainer(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -14535,7 +14536,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryContainer, _React$Component), protoProps = [
+                }(VictoryContainer, _React$Component), Constructor = VictoryContainer, protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -14650,7 +14651,7 @@
                             return this.renderContainer(this.props, svgProps, style);
                         }
                     }
-                ], _defineProperties(VictoryContainer.prototype, protoProps), staticProps && _defineProperties(VictoryContainer, staticProps), VictoryContainer;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryContainer;
             }(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
             Object.defineProperty(VictoryContainer, "displayName", {
                 configurable: !0,
@@ -14958,13 +14959,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -15010,8 +15011,8 @@
                     };
                 }), label = renderLabel(calculatedProps, tspanValues);
                 if (props.backgroundStyle) {
-                    var children = [
-                        useMultiLineBackgrounds(calculatedProps) ? getChildBackgrounds(calculatedProps, tspanValues) : getFullBackground(calculatedProps, tspanValues),
+                    var calculatedProps1, tspanValues1, children = [
+                        (calculatedProps1 = calculatedProps, tspanValues1 = tspanValues, useMultiLineBackgrounds(calculatedProps1) ? getChildBackgrounds(calculatedProps1, tspanValues1) : getFullBackground(calculatedProps1, tspanValues1)),
                         label
                     ], backgroundWithLabel = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.groupComponent, {}, children);
                     return props.renderInPortal ? react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_victory_portal_victory_portal__WEBPACK_IMPORTED_MODULE_5__.default, null, backgroundWithLabel) : backgroundWithLabel;
@@ -15179,7 +15180,7 @@
                 return self1;
             }
             var Portal = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function Portal(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -15196,7 +15197,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(Portal, _React$Component), protoProps = [
+                }(Portal, _React$Component), Constructor = Portal, protoProps = [
                     {
                         key: "portalRegister",
                         value: function() {
@@ -15233,7 +15234,7 @@
                             return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", this.props, this.getChildren());
                         }
                     }
-                ], _defineProperties(Portal.prototype, protoProps), staticProps && _defineProperties(Portal, staticProps), Portal;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Portal;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(Portal, "displayName", {
                 configurable: !0,
@@ -15266,7 +15267,7 @@
                 }
             }
             var VictoryPortal = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryPortal() {
                     var call;
                     return !function(instance, Constructor) {
@@ -15286,7 +15287,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryPortal, _React$Component), protoProps = [
+                }(VictoryPortal, _React$Component), Constructor = VictoryPortal, protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -15324,7 +15325,7 @@
                             return this.renderPortal(child);
                         }
                     }
-                ], _defineProperties(VictoryPortal.prototype, protoProps), staticProps && _defineProperties(VictoryPortal, staticProps), VictoryPortal;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryPortal;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryPortal, "displayName", {
                 configurable: !0,
@@ -15368,13 +15369,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -15433,13 +15434,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -15497,13 +15498,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -15610,13 +15611,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -15770,13 +15771,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -15928,13 +15929,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -16529,7 +16530,7 @@
                 return self1;
             }
             var VictoryTransition = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryTransition(props, context) {
                     !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
@@ -16550,7 +16551,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryTransition, _React$Component), protoProps = [
+                }(VictoryTransition, _React$Component), Constructor = VictoryTransition, protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -16675,7 +16676,7 @@
                             });
                         }
                     }
-                ], _defineProperties(VictoryTransition.prototype, protoProps), staticProps && _defineProperties(VictoryTransition, staticProps), VictoryTransition;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryTransition;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryTransition, "displayName", {
                 configurable: !0,
@@ -16743,7 +16744,7 @@
             ];
             __webpack_exports__.default = function(WrappedComponent, options) {
                 return function(_WrappedComponent) {
-                    var protoProps, staticProps;
+                    var Constructor, protoProps, staticProps;
                     function addEvents(props) {
                         !function(instance, Constructor) {
                             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
@@ -16765,7 +16766,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(addEvents, _WrappedComponent), protoProps = [
+                    }(addEvents, _WrappedComponent), Constructor = addEvents, protoProps = [
                         {
                             key: "shouldComponentUpdate",
                             value: function(nextProps) {
@@ -16969,7 +16970,7 @@
                                 return this.renderContainer(groupComponent, children);
                             }
                         }
-                    ], _defineProperties(addEvents.prototype, protoProps), staticProps && _defineProperties(addEvents, staticProps), addEvents;
+                    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), addEvents;
                 }(WrappedComponent);
             };
         },
@@ -17013,8 +17014,8 @@
                 return void 0 !== props.tickValues && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(props.tickValues);
             }
             function getTickArray(props) {
-                var axis, stringMap, categories, ticksFromCategories, ticksFromStringMap, newTickArray, domain, tickValues = props.tickValues, tickFormat = props.tickFormat, axis1 = getAxis(props), stringMap1 = props.stringMap && props.stringMap[axis1], ticks = tickValues;
-                stringMap1 && (axis = getAxis(props), stringMap = props.stringMap && props.stringMap[axis], ticksFromCategories = (categories = Array.isArray(props.categories) ? props.categories : props.categories && props.categories[axis]) && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsOnlyStrings(categories) ? categories.map(function(tick) {
+                var props1, axis, stringMap, categories, ticksFromCategories, ticksFromStringMap, newTickArray, domain, tickValues = props.tickValues, tickFormat = props.tickFormat, axis1 = getAxis(props), stringMap1 = props.stringMap && props.stringMap[axis1], ticks = tickValues;
+                stringMap1 && (axis = getAxis(props1 = props), stringMap = props1.stringMap && props1.stringMap[axis], ticksFromCategories = (categories = Array.isArray(props1.categories) ? props1.categories : props1.categories && props1.categories[axis]) && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsOnlyStrings(categories) ? categories.map(function(tick) {
                     return stringMap[tick];
                 }) : void 0, ticksFromStringMap = stringMap && lodash_values__WEBPACK_IMPORTED_MODULE_2___default()(stringMap), ticks = ticksFromCategories && 0 !== ticksFromCategories.length ? ticksFromCategories : ticksFromStringMap), tickValues && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(tickValues) && (ticks = stringMap1 ? tickValues.map(function(tick) {
                     return stringMap1[tick];
@@ -17543,7 +17544,8 @@
                     "y",
                     "y0"
                 ], accessor = (expectedKeys = Array.isArray(expectedKeys) ? expectedKeys : defaultKeys).reduce(function(memo, type) {
-                    return memo[type] = _helpers__WEBPACK_IMPORTED_MODULE_14__.default.createAccessor(void 0 !== props[type] ? props[type] : type), memo;
+                    var name;
+                    return memo[type] = (name = type, _helpers__WEBPACK_IMPORTED_MODULE_14__.default.createAccessor(void 0 !== props[name] ? props[name] : name)), memo;
                 }, {}), preformattedData = lodash_isEqual__WEBPACK_IMPORTED_MODULE_3___default()(expectedKeys, defaultKeys) && "_x" === props.x && "_y" === props.y && "_y0" === props.y0;
                 !1 === preformattedData && (stringMap = {
                     x: -1 !== expectedKeys.indexOf("x") ? createStringMap(props, "x") : void 0,
@@ -17902,11 +17904,11 @@
             }
             function getDomainFromData(props, axis, dataset) {
                 dataset = dataset || _data__WEBPACK_IMPORTED_MODULE_7__.default.getData(props);
-                var dataset1, polar = props.polar, _props$startAngle2 = props.startAngle, _props$endAngle2 = props.endAngle, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis);
+                var dataset1, axis1, polar = props.polar, _props$startAngle2 = props.startAngle, _props$endAngle2 = props.endAngle, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis);
                 if (dataset.length < 1) return void 0 !== minDomain && void 0 !== maxDomain ? getDomainFromMinMax(minDomain, maxDomain) : void 0;
                 var domain = getDomainFromMinMax(void 0 !== minDomain ? minDomain : getExtremeFromData(dataset, axis, "min"), void 0 !== maxDomain ? maxDomain : getExtremeFromData(dataset, axis, "max"));
-                return polar && "x" === axis && 360 === Math.abs((void 0 === _props$startAngle2 ? 0 : _props$startAngle2) - (void 0 === _props$endAngle2 ? 360 : _props$endAngle2)) ? getSymmetricDomain(domain, (dataset1 = dataset, lodash_flatten__WEBPACK_IMPORTED_MODULE_5___default()(dataset1).map(function(datum) {
-                    return datum["_".concat(axis)] && void 0 !== datum["_".concat(axis)][1] ? datum["_".concat(axis)][1] : datum["_".concat(axis)];
+                return polar && "x" === axis && 360 === Math.abs((void 0 === _props$startAngle2 ? 0 : _props$startAngle2) - (void 0 === _props$endAngle2 ? 360 : _props$endAngle2)) ? getSymmetricDomain(domain, (dataset1 = dataset, axis1 = axis, lodash_flatten__WEBPACK_IMPORTED_MODULE_5___default()(dataset1).map(function(datum) {
+                    return datum["_".concat(axis1)] && void 0 !== datum["_".concat(axis1)][1] ? datum["_".concat(axis1)][1] : datum["_".concat(axis1)];
                 }))) : domain;
             }
             function getDomainFromMinMax(min, max) {
@@ -18068,11 +18070,12 @@
                                 key: key,
                                 target: target
                             }, "state"), mutatedProps = eventReturn.mutation(lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, mutationTargetProps, mutationTargetState), baseProps), childState = baseState[childName] || {}, updateState = function(state) {
-                                return mutatedProps ? "parent" === target ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state[key], mutatedProps))) : lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state[key], _defineProperty({}, target, mutatedProps)))) : (state[key] && state[key][target] && delete state[key][target], state[key] && !lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(state[key]).length && delete state[key], state);
+                                var state1, state2;
+                                return mutatedProps ? (state1 = state, "parent" === target ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state1, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state1[key], mutatedProps))) : lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state1, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state1[key], _defineProperty({}, target, mutatedProps))))) : ((state2 = state)[key] && state2[key][target] && delete state2[key][target], state2[key] && !lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(state2[key]).length && delete state2[key], state2);
                             };
                             return null != childName ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(baseState, _defineProperty({}, childName, updateState(childState))) : updateState(baseState);
                         }, getReturnByChild = function(childName) {
-                            var mutationKeys = "parent" === target ? "parent" : "all" === eventReturn.eventKey ? baseProps[childName] ? lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName]), "parent") : lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps), "parent") : void 0 === eventReturn.eventKey && "parent" === eventKey ? baseProps[childName] ? lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName]) : lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps) : void 0 !== eventReturn.eventKey ? eventReturn.eventKey : eventKey;
+                            var childName1, mutationKeys = (childName1 = childName, "parent" === target ? "parent" : "all" === eventReturn.eventKey ? baseProps[childName1] ? lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName1]), "parent") : lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps), "parent") : void 0 === eventReturn.eventKey && "parent" === eventKey ? baseProps[childName1] ? lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName1]) : lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps) : void 0 !== eventReturn.eventKey ? eventReturn.eventKey : eventKey);
                             return Array.isArray(mutationKeys) ? mutationKeys.reduce(function(memo, key) {
                                 return lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(memo, getMutationObject(key, childName));
                             }, {}) : getMutationObject(mutationKeys, childName);
@@ -18098,10 +18101,10 @@
                     }, onEvent = function(evt, childProps, eventKey, eventName) {
                         var eventReturn = events[eventName](evt, childProps, eventKey, _this2);
                         if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_7___default()(eventReturn)) {
-                            var callbacks = compileCallbacks(eventReturn);
-                            _this2.setState(Array.isArray(eventReturn) ? eventReturn.reduce(function(memo, props) {
-                                return memo = lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, memo, parseEvent(props, eventKey));
-                            }, {}) : parseEvent(eventReturn, eventKey), callbacks);
+                            var eventReturn1, eventKey1, callbacks = compileCallbacks(eventReturn);
+                            _this2.setState((eventReturn1 = eventReturn, eventKey1 = eventKey, Array.isArray(eventReturn1) ? eventReturn1.reduce(function(memo, props) {
+                                return memo = lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, memo, parseEvent(props, eventKey1));
+                            }, {}) : parseEvent(eventReturn1, eventKey1)), callbacks);
                         }
                     };
                     return lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(events).reduce(function(memo, event) {
@@ -18326,19 +18329,19 @@
                     };
                 },
                 getRange: function(props, axis) {
-                    var padding;
-                    return props.range && props.range[axis] ? props.range[axis] : props.range && Array.isArray(props.range) ? props.range : props.polar ? "x" === axis ? [
-                        degreesToRadians(props.startAngle || 0),
-                        degreesToRadians(props.endAngle || 360)
+                    var props1, props2, padding;
+                    return props.range && props.range[axis] ? props.range[axis] : props.range && Array.isArray(props.range) ? props.range : props.polar ? (props1 = props, "x" === axis ? [
+                        degreesToRadians(props1.startAngle || 0),
+                        degreesToRadians(props1.endAngle || 360)
                     ] : [
-                        props.innerRadius || 0,
-                        getRadius(props)
-                    ] : (padding = getPadding(props), "x" !== axis ? [
-                        props.height - padding.bottom,
+                        props1.innerRadius || 0,
+                        getRadius(props1)
+                    ]) : (padding = getPadding(props2 = props), "x" !== axis ? [
+                        props2.height - padding.bottom,
                         padding.top
                     ] : [
                         padding.left,
-                        props.width - padding.right
+                        props2.width - padding.right
                     ]);
                 },
                 createAccessor: function(key) {
@@ -18462,12 +18465,12 @@
                 getDegrees: getDegrees,
                 getProps: function(props, index) {
                     var datum, style, horizontal, sign, labelStyle, datum1, sign1, labelStyle1, datum2, labelStyle2, scale = props.scale, data = props.data, style1 = props.style, horizontal1 = props.horizontal, polar = props.polar, width = props.width, height = props.height, theme = props.theme, labelComponent = props.labelComponent, datum3 = data[index], degrees = getDegrees(props, datum3), textAnchor = polar ? getPolarTextAnchor(props, degrees) : (datum = (datum = datum3) || {}, style = props.style, horizontal = props.horizontal, sign = datum._y >= 0 ? 1 : -1, labelStyle = style && style.labels || {}, datum.verticalAnchor || labelStyle.verticalAnchor ? datum.verticalAnchor || labelStyle.verticalAnchor : horizontal ? sign >= 0 ? "start" : "end" : "middle"), verticalAnchor = polar ? getPolarVerticalAnchor(props, degrees) : (sign1 = (datum1 = (datum1 = datum3) || {})._y >= 0 ? 1 : -1, labelStyle1 = props.style && props.style.labels || {}, datum1.verticalAnchor || labelStyle1.verticalAnchor ? datum1.verticalAnchor || labelStyle1.verticalAnchor : props.horizontal ? "middle" : sign1 >= 0 ? "end" : "start"), angle = (datum2 = (datum2 = datum3) || {}, labelStyle2 = props.style && props.style.labels || {}, void 0 === datum2.angle ? labelStyle2.angle : datum2.angle), text = getText(props, datum3, index), labelPlacement = getLabelPlacement(props), _getPosition = function(props, datum) {
-                        var style, degrees, labelStyle, padding, angle, polar = props.polar, _Helpers$scalePoint = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.scalePoint(props, datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y;
+                        var props1, style, degrees, labelStyle, padding, angle, polar = props.polar, _Helpers$scalePoint = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.scalePoint(props, datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y;
                         if (!polar) return {
                             x: x,
                             y: y
                         };
-                        var polarPadding = (style = props.style, degrees = getDegrees(props, datum), labelStyle = style.labels || {}, padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props) || 0, {
+                        var polarPadding = (style = (props1 = props).style, degrees = getDegrees(props1, datum), labelStyle = style.labels || {}, padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props1) || 0, {
                             x: padding * Math.cos(angle = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.degreesToRadians(degrees)),
                             y: -padding * Math.sin(angle)
                         });
@@ -18477,7 +18480,7 @@
                         };
                     }(props, datum3), x = _getPosition.x, y = _getPosition.y, _getOffset = function(props, datum) {
                         if (props.polar) return {};
-                        var datum1, horizontal, labelStyle, defaultPadding, sign, padding = (datum1 = (datum1 = datum) || {}, horizontal = props.horizontal, labelStyle = props.style.labels || {}, defaultPadding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props) || 0, sign = datum1._y < 0 ? -1 : 1, {
+                        var props1, datum1, horizontal, labelStyle, defaultPadding, sign, padding = (props1 = props, datum1 = (datum1 = datum) || {}, horizontal = props1.horizontal, labelStyle = props1.style.labels || {}, defaultPadding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props1) || 0, sign = datum1._y < 0 ? -1 : 1, {
                             x: horizontal ? sign * defaultPadding : 0,
                             y: horizontal ? 0 : -1 * sign * defaultPadding
                         });
@@ -18545,13 +18548,13 @@
             __webpack_exports__.default = {
                 deprecated: function(propType, explanation) {
                     return function(props, propName, componentName) {
-                        var obj;
-                        return null != props[propName] && _log__WEBPACK_IMPORTED_MODULE_3__.default.warn("\"".concat(propName, "\" property of \"").concat(componentName, "\" has been deprecated ").concat(explanation)), prop_types__WEBPACK_IMPORTED_MODULE_4___default.a.checkPropTypes((propName in (obj = {}) ? Object.defineProperty(obj, propName, {
-                            value: propType,
+                        var obj, key, value;
+                        return null != props[propName] && _log__WEBPACK_IMPORTED_MODULE_3__.default.warn("\"".concat(propName, "\" property of \"").concat(componentName, "\" has been deprecated ").concat(explanation)), prop_types__WEBPACK_IMPORTED_MODULE_4___default.a.checkPropTypes((obj = {}, key = propName, value = propType, key in obj ? Object.defineProperty(obj, key, {
+                            value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[propName] = propType, obj), props, propName, componentName);
+                        }) : obj[key] = value, obj), props, propName, componentName);
                     };
                 },
                 allOfType: function(validators) {
@@ -22347,7 +22350,7 @@
                 });
             }, _approximateTextWidthInternal = function(text, style) {
                 if (void 0 === text || "" === text || null === text) return 0;
-                var widths = _splitToLines(text).map(function(line, index) {
+                var arr, widths = _splitToLines(text).map(function(line, index) {
                     var len = line.toString().length, _prepareParams2 = _prepareParams(style, index), fontSize = _prepareParams2.fontSize, letterSpacing = _prepareParams2.letterSpacing, fontData = fonts[_prepareParams2.fontFamily.split(",").map(function(f) {
                         return f.replace(/'|"/g, "");
                     }).find(function(f) {
@@ -22364,15 +22367,15 @@
                         for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                         return arr2;
                     }
-                }(widths) || function(iter) {
+                }(arr = widths) || function(iter) {
                     if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
-                }(widths) || function() {
+                }(arr) || function() {
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }());
             };
             __webpack_exports__.default = {
                 approximateTextSize: function(text, style) {
-                    var angle = Array.isArray(style) ? style[0] && style[0].angle : style && style.angle, height = void 0 === text || "" === text || null === text ? 0 : _splitToLines(text).reduce(function(total, line, index) {
+                    var text1, angle = Array.isArray(style) ? style[0] && style[0].angle : style && style.angle, height = void 0 === (text1 = text) || "" === text1 || null === text1 ? 0 : _splitToLines(text1).reduce(function(total, line, index) {
                         var lineStyle = _prepareParams(style, index), height = line.toString().match(/[(A-Z)(0-9)]/) ? lineStyle.fontSize * coefficients.lineCapitalCoef : lineStyle.fontSize;
                         return total + lineStyle.lineHeight * height;
                     }, 0), width = _approximateTextWidthInternal(text, style);
@@ -22406,13 +22409,13 @@
                 }
             }
             var Timer = function() {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function Timer() {
                     !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, Timer), this.shouldAnimate = !0, this.subscribers = [], this.loop = this.loop.bind(this), this.timer = null, this.activeSubscriptions = 0;
                 }
-                return protoProps = [
+                return Constructor = Timer, protoProps = [
                     {
                         key: "bypassAnimation",
                         value: function() {
@@ -22463,7 +22466,7 @@
                             null !== id && this.subscribers[id - 1] && (delete this.subscribers[id - 1], this.activeSubscriptions--), 0 === this.activeSubscriptions && this.stop();
                         }
                     }
-                ], _defineProperties(Timer.prototype, protoProps), staticProps && _defineProperties(Timer, staticProps), Timer;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Timer;
             }();
         },
         "../../victory-core/es/victory-util/transitions.js": function(module1, __webpack_exports__, __webpack_require__) {
@@ -22531,7 +22534,7 @@
                         var childTransitions = childrenTransitions[index] || childrenTransitions[0];
                         if (nodesDoneLoad) {
                             if (nodesWillExit) {
-                                var after, exitingNodes = childTransitions && childTransitions.exiting, exit = void 0 !== transitionDurations.exit ? transitionDurations.exit : getChildTransitionDuration(child, "onExit"), _animation = exitingNodes ? {
+                                var data1, after, exitingNodes = childTransitions && childTransitions.exiting, exit = void 0 !== transitionDurations.exit ? transitionDurations.exit : getChildTransitionDuration(child, "onExit"), _animation = exitingNodes ? {
                                     duration: exit
                                 } : {
                                     delay: exit
@@ -22556,8 +22559,8 @@
                                 });
                             }
                             if (nodesWillEnter) {
-                                var animate1, enteringNodes = childTransitions && childTransitions.entering, enter = void 0 !== transitionDurations.enter ? transitionDurations.enter : getChildTransitionDuration(child, "onEnter"), move = void 0 !== transitionDurations.move ? transitionDurations.move : child.props.animate && child.props.animate.duration;
-                                return animate1 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
+                                var nodes, data2, animate1, enteringNodes = childTransitions && childTransitions.entering, enter = void 0 !== transitionDurations.enter ? transitionDurations.enter : getChildTransitionDuration(child, "onEnter"), move = void 0 !== transitionDurations.move ? transitionDurations.move : child.props.animate && child.props.animate.duration;
+                                return nodes = enteringNodes, data2 = data, animate1 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
                                     duration: nodesShouldEnter && enteringNodes ? enter : move
                                 }), nodesShouldEnter ? function(animate, data, enteringNodes, cb) {
                                     var onEnter = animate && animate.onEnter;
@@ -22572,7 +22575,7 @@
                                         animate: animate,
                                         data: data
                                     };
-                                }(animate1, data, enteringNodes, function() {
+                                }(animate1, data2, nodes, function() {
                                     setState({
                                         nodesWillEnter: !1
                                     });
@@ -22589,20 +22592,20 @@
                                         animate: animate,
                                         data: data
                                     };
-                                }(animate1, 0, data, enteringNodes, function() {
+                                }(animate1, 0, data2, nodes, function() {
                                     setState({
                                         nodesShouldEnter: !0
                                     });
                                 });
                             }
-                            if (!state && animate && animate.onExit) return after = animate.onEnter && animate.onEnter.after ? animate.onEnter.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a, {
-                                data: data.map(function(datum, idx) {
-                                    return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data));
+                            if (!state && animate && animate.onExit) return data1 = data, after = animate.onEnter && animate.onEnter.after ? animate.onEnter.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a, {
+                                data: data1.map(function(datum, idx) {
+                                    return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data1));
                                 })
                             };
                         } else {
-                            var animate2, load = void 0 !== transitionDurations.load ? transitionDurations.load : getChildTransitionDuration(child, "onLoad");
-                            return animate2 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
+                            var data3, animate2, load = void 0 !== transitionDurations.load ? transitionDurations.load : getChildTransitionDuration(child, "onLoad");
+                            return data3 = data, animate2 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
                                 duration: load
                             }), nodesShouldLoad ? function(animate, data, cb) {
                                 if ((animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
@@ -22618,7 +22621,7 @@
                                         return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data));
                                     })
                                 };
-                            }(animate2, data, function() {
+                            }(animate2, data3, function() {
                                 setState({
                                     nodesShouldLoad: !1,
                                     nodesDoneLoad: !0
@@ -22638,7 +22641,7 @@
                                     }),
                                     clipWidth: 0
                                 };
-                            }(animate2, 0, data, function() {
+                            }(animate2, 0, data3, function() {
                                 setState({
                                     nodesDoneLoad: !0
                                 });
@@ -22823,13 +22826,13 @@
                             'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                                 return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                             }))), ownKeys.forEach(function(key) {
-                                var value;
-                                value = source[key], key in target ? Object.defineProperty(target, key, {
+                                var obj, key1, value;
+                                obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                     value: value,
                                     enumerable: !0,
                                     configurable: !0,
                                     writable: !0
-                                }) : target[key] = value;
+                                }) : obj[key1] = value;
                             });
                         }
                         return target;
@@ -22983,13 +22986,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -23007,9 +23010,9 @@
             }, combineDefaultEvents = function(defaultEvents) {
                 var eventsByTarget = lodash_groupBy__WEBPACK_IMPORTED_MODULE_6___default()(defaultEvents, "target");
                 return lodash_toPairs__WEBPACK_IMPORTED_MODULE_7___default()(eventsByTarget).map(function(_ref) {
-                    var _ref2 = function(arr) {
+                    var arr, _ref2 = function(arr) {
                         if (Array.isArray(arr)) return arr;
-                    }(_ref) || function(arr, i) {
+                    }(arr = _ref) || function(arr, i) {
                         var _arr = [], _n = !0, _d = !1, _e = void 0;
                         try {
                             for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
@@ -23023,7 +23026,7 @@
                             }
                         }
                         return _arr;
-                    }(_ref, 2) || function() {
+                    }(arr, 2) || function() {
                         throw TypeError("Invalid attempt to destructure non-iterable instance");
                     }(), target = _ref2[0], eventsArray = _ref2[1];
                     return eventsArray = eventsArray.filter(Boolean), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(eventsArray) ? null : {
@@ -23050,7 +23053,7 @@
                     return Class.displayName.match(/Victory(.*)Container/)[1] || "";
                 }).join("");
                 return _temp = _class = function(_NaiveCombinedContain) {
-                    var protoProps, staticProps;
+                    var Constructor, protoProps, staticProps;
                     function VictoryCombinedContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -23070,7 +23073,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryCombinedContainer, _NaiveCombinedContain), protoProps = [
+                    }(VictoryCombinedContainer, _NaiveCombinedContain), Constructor = VictoryCombinedContainer, protoProps = [
                         {
                             key: "getChildren",
                             value: function(props) {
@@ -23081,7 +23084,7 @@
                                 }, props.children);
                             }
                         }
-                    ], _defineProperties(VictoryCombinedContainer.prototype, protoProps), staticProps && _defineProperties(VictoryCombinedContainer, staticProps), VictoryCombinedContainer;
+                    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryCombinedContainer;
                 }(NaiveCombinedContainer), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -23204,13 +23207,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -23283,7 +23286,7 @@
             var cursorContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var Constructor, protoProps, staticProps;
                     function VictoryCursorContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -23303,7 +23306,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryCursorContainer, _base), protoProps = [
+                    }(VictoryCursorContainer, _base), Constructor = VictoryCursorContainer, protoProps = [
                         {
                             key: "getCursorPosition",
                             value: function(props) {
@@ -23387,7 +23390,7 @@
                                 return _toConsumableArray(react__WEBPACK_IMPORTED_MODULE_4___default.a.Children.toArray(props.children)).concat(_toConsumableArray(this.getCursorElements(props)));
                             }
                         }
-                    ], _defineProperties(VictoryCursorContainer.prototype, protoProps), staticProps && _defineProperties(VictoryCursorContainer, staticProps), VictoryCursorContainer;
+                    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryCursorContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -23472,13 +23475,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -23756,7 +23759,7 @@
                 height: 300,
                 padding: 50
             }, VictoryErrorBar = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryErrorBar() {
                     var call;
                     return !function(instance, Constructor) {
@@ -23776,7 +23779,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryErrorBar, _React$Component), protoProps = [
+                }(VictoryErrorBar, _React$Component), Constructor = VictoryErrorBar, protoProps = [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -23792,7 +23795,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryErrorBar.prototype, protoProps), staticProps && _defineProperties(VictoryErrorBar, staticProps), VictoryErrorBar;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryErrorBar;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryErrorBar, "animationWhitelist", {
                 configurable: !0,
@@ -23835,13 +23838,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -24077,7 +24080,7 @@
                 padding: 50,
                 offset: 0
             }, VictoryGroup = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryGroup(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -24098,7 +24101,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryGroup, _React$Component), protoProps = [
+                }(VictoryGroup, _React$Component), Constructor = VictoryGroup, protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -24155,7 +24158,7 @@
                             }, newChildren);
                         }
                     }
-                ], _defineProperties(VictoryGroup.prototype, protoProps), staticProps && _defineProperties(VictoryGroup, staticProps), VictoryGroup;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryGroup;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryGroup, "displayName", {
                 configurable: !0,
@@ -24177,13 +24180,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -24258,13 +24261,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -24299,7 +24302,7 @@
                     var x0 = _ref4.x0, x1 = _ref4.x1;
                     return dataOrBinsContainsDates ? new Date(x0).getTime() !== new Date(x1).getTime() : x0 !== x1;
                 }).map(function(bin) {
-                    var x0 = dataOrBinsContainsDates ? new Date(bin.x0) : bin.x0, x1 = dataOrBinsContainsDates ? new Date(bin.x1) : bin.x1;
+                    var arr, x0 = dataOrBinsContainsDates ? new Date(bin.x0) : bin.x0, x1 = dataOrBinsContainsDates ? new Date(bin.x1) : bin.x1;
                     return {
                         x0: x0,
                         x1: x1,
@@ -24310,9 +24313,9 @@
                                 for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                                 return arr2;
                             }
-                        }(bin) || function(iter) {
+                        }(arr = bin) || function(iter) {
                             if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
-                        }(bin) || function() {
+                        }(arr) || function() {
                             throw TypeError("Invalid attempt to spread non-iterable instance");
                         }()
                     };
@@ -24398,9 +24401,9 @@
                     return Math.abs(scale.x(datum.x1) - current);
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _getBarPosition = Object(victory_bar__WEBPACK_IMPORTED_MODULE_3__.getBarPosition)(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0, dataProps = {
+                    var datum1, eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _getBarPosition = Object(victory_bar__WEBPACK_IMPORTED_MODULE_3__.getBarPosition)(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0, dataProps = {
                         alignment: "middle",
-                        barWidth: binSpacing ? getDistance(datum) - binSpacing : getDistance(datum),
+                        barWidth: (datum1 = datum, binSpacing ? getDistance(datum1) - binSpacing : getDistance(datum1)),
                         cornerRadius: cornerRadius,
                         data: data,
                         datum: datum,
@@ -24447,7 +24450,7 @@
                 height: 300,
                 padding: 50
             }, VictoryHistogram = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryHistogram() {
                     var call;
                     return !function(instance, Constructor) {
@@ -24467,7 +24470,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryHistogram, _React$Component), protoProps = [
+                }(VictoryHistogram, _React$Component), Constructor = VictoryHistogram, protoProps = [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -24483,7 +24486,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryHistogram.prototype, protoProps), staticProps && _defineProperties(VictoryHistogram, staticProps), VictoryHistogram;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryHistogram;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryHistogram, "animationWhitelist", {
                 configurable: !0,
@@ -24571,13 +24574,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -25513,13 +25516,13 @@
                             'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                                 return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                             }))), ownKeys.forEach(function(key) {
-                                var value;
-                                value = source[key], key in target ? Object.defineProperty(target, key, {
+                                var obj, key1, value;
+                                obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                     value: value,
                                     enumerable: !0,
                                     configurable: !0,
                                     writable: !0
-                                }) : target[key] = value;
+                                }) : obj[key1] = value;
                             });
                         }
                         return target;
@@ -25704,7 +25707,7 @@
                 x: 0,
                 y: 0
             }, VictoryLegend = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryLegend() {
                     var call;
                     return !function(instance, Constructor) {
@@ -25724,7 +25727,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryLegend, _React$Component), protoProps = [
+                }(VictoryLegend, _React$Component), Constructor = VictoryLegend, protoProps = [
                     {
                         key: "renderChildren",
                         value: function(props) {
@@ -25761,7 +25764,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : react__WEBPACK_IMPORTED_MODULE_0___default.a.cloneElement(props.groupComponent, {}, children);
                         }
                     }
-                ], _defineProperties(VictoryLegend.prototype, protoProps), staticProps && _defineProperties(VictoryLegend, staticProps), VictoryLegend;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryLegend;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryLegend, "displayName", {
                 configurable: !0,
@@ -25974,13 +25977,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -26132,7 +26135,7 @@
                 padding: 50,
                 interpolation: "linear"
             }, VictoryLine = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryLine() {
                     var call;
                     return !function(instance, Constructor) {
@@ -26152,7 +26155,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryLine, _React$Component), protoProps = [
+                }(VictoryLine, _React$Component), Constructor = VictoryLine, protoProps = [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -26168,7 +26171,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryLine.prototype, protoProps), staticProps && _defineProperties(VictoryLine, staticProps), VictoryLine;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryLine;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryLine, "animationWhitelist", {
                 configurable: !0,
@@ -26218,13 +26221,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -26449,13 +26452,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -26569,7 +26572,7 @@
                 ],
                 labelPosition: "centroid"
             }, VictoryPie = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryPie() {
                     var call;
                     return !function(instance, Constructor) {
@@ -26589,7 +26592,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryPie, _React$Component), protoProps = [
+                }(VictoryPie, _React$Component), Constructor = VictoryPie, protoProps = [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -26605,7 +26608,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryPie.prototype, protoProps), staticProps && _defineProperties(VictoryPie, staticProps), VictoryPie;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryPie;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryPie, "animationWhitelist", {
                 configurable: !0,
@@ -27161,7 +27164,7 @@
                 height: 300,
                 padding: 50
             }, VictoryPolarAxis = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryPolarAxis() {
                     var call;
                     return !function(instance, Constructor) {
@@ -27181,7 +27184,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryPolarAxis, _React$Component), protoProps = [
+                }(VictoryPolarAxis, _React$Component), Constructor = VictoryPolarAxis, protoProps = [
                     {
                         key: "renderAxisLine",
                         value: function(props) {
@@ -27248,7 +27251,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryPolarAxis.prototype, protoProps), staticProps && _defineProperties(VictoryPolarAxis, staticProps), VictoryPolarAxis;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryPolarAxis;
             }(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component);
             Object.defineProperty(VictoryPolarAxis, "animationWhitelist", {
                 configurable: !0,
@@ -27296,13 +27299,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -27584,7 +27587,7 @@
                 size: 3,
                 symbol: "circle"
             }, VictoryScatter = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryScatter() {
                     var call;
                     return !function(instance, Constructor) {
@@ -27604,7 +27607,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryScatter, _React$Component), protoProps = [
+                }(VictoryScatter, _React$Component), Constructor = VictoryScatter, protoProps = [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -27620,7 +27623,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryScatter.prototype, protoProps), staticProps && _defineProperties(VictoryScatter, staticProps), VictoryScatter;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryScatter;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryScatter, "animationWhitelist", {
                 configurable: !0,
@@ -27662,13 +27665,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -27813,7 +27816,7 @@
                 },
                 onMouseDown: function(evt, targetProps) {
                     evt.preventDefault();
-                    var activateSelectedData = targetProps.activateSelectedData, allowSelection = targetProps.allowSelection, polar = targetProps.polar, selectedData = targetProps.selectedData;
+                    var arr, activateSelectedData = targetProps.activateSelectedData, allowSelection = targetProps.allowSelection, polar = targetProps.polar, selectedData = targetProps.selectedData;
                     if (!allowSelection) return {};
                     var dimension = this.getDimension(targetProps), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), x = _Selection$getSVGEven.x, y = _Selection$getSVGEven.y, mutatedProps = {
                         x1: polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[0],
@@ -27846,9 +27849,9 @@
                             for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                             return arr2;
                         }
-                    }(dataMutation) || function(iter) {
+                    }(arr = dataMutation) || function(iter) {
                         if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
-                    }(dataMutation) || function() {
+                    }(arr) || function() {
                         throw TypeError("Invalid attempt to spread non-iterable instance");
                     }());
                 },
@@ -27920,13 +27923,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -27951,13 +27954,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -27971,7 +27974,7 @@
             var selectionContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var Constructor, protoProps, staticProps;
                     function VictorySelectionContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -27991,7 +27994,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictorySelectionContainer, _base), protoProps = [
+                    }(VictorySelectionContainer, _base), Constructor = VictorySelectionContainer, protoProps = [
                         {
                             key: "getRect",
                             value: function(props) {
@@ -28024,7 +28027,7 @@
                                 ]);
                             }
                         }
-                    ], _defineProperties(VictorySelectionContainer.prototype, protoProps), staticProps && _defineProperties(VictorySelectionContainer, staticProps), VictorySelectionContainer;
+                    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictorySelectionContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -28122,7 +28125,7 @@
                 return self1;
             }
             var VictorySharedEvents = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictorySharedEvents(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -28139,7 +28142,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictorySharedEvents, _React$Component), protoProps = [
+                }(VictorySharedEvents, _React$Component), Constructor = VictorySharedEvents, protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -28364,7 +28367,7 @@
                             });
                         }
                     }
-                ], _defineProperties(VictorySharedEvents.prototype, protoProps), staticProps && _defineProperties(VictorySharedEvents, staticProps), VictorySharedEvents;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictorySharedEvents;
             }(react__WEBPACK_IMPORTED_MODULE_7___default.a.Component);
             Object.defineProperty(VictorySharedEvents, "displayName", {
                 configurable: !0,
@@ -28499,8 +28502,8 @@
                         };
                     });
                 })).map(function(d, i) {
-                    var xOffset;
-                    return xOffset = props1.xOffset || 0, datasets[i].map(function(datum) {
+                    var datasets1, index, xOffset;
+                    return datasets1 = datasets, index = i, xOffset = props1.xOffset || 0, datasets1[index].map(function(datum) {
                         var yOffset = function(datum, index, datasets) {
                             if (datum.y0) return datum.y0;
                             var y = datum._y, group = datum._group, firstDatasetBaseline = datasets[0].map(function(d) {
@@ -28517,7 +28520,7 @@
                             return previousPoints.some(function(point) {
                                 return point instanceof Date;
                             }) ? new Date(y0) : y0;
-                        }(datum, i, datasets) || 0;
+                        }(datum, index, datasets1) || 0;
                         return lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, datum, {
                             _y0: datum._y instanceof Date ? yOffset ? new Date(yOffset) : datum._y : yOffset,
                             _y1: null === datum._y ? null : datum._y instanceof Date ? new Date(+datum._y + +yOffset) : datum._y + yOffset,
@@ -28622,7 +28625,7 @@
                 height: 300,
                 padding: 50
             }, VictoryStack = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryStack(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -28643,7 +28646,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryStack, _React$Component), protoProps = [
+                }(VictoryStack, _React$Component), Constructor = VictoryStack, protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -28700,7 +28703,7 @@
                             }, newChildren);
                         }
                     }
-                ], _defineProperties(VictoryStack.prototype, protoProps), staticProps && _defineProperties(VictoryStack, staticProps), VictoryStack;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryStack;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryStack, "displayName", {
                 configurable: !0,
@@ -28722,13 +28725,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -28815,13 +28818,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -28909,7 +28912,7 @@
                 pointerLength: 10,
                 pointerWidth: 10
             }, VictoryTooltip = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryTooltip(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -28929,7 +28932,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryTooltip, _React$Component), protoProps = [
+                }(VictoryTooltip, _React$Component), Constructor = VictoryTooltip, protoProps = [
                     {
                         key: "getDefaultOrientation",
                         value: function(props) {
@@ -29121,7 +29124,7 @@
                         key: "getLabelPadding",
                         value: function(style) {
                             if (!style) return 0;
-                            var paddings = Array.isArray(style) ? style.map(function(s) {
+                            var arr, paddings = Array.isArray(style) ? style.map(function(s) {
                                 return s.padding;
                             }) : [
                                 style.padding
@@ -29131,9 +29134,9 @@
                                     for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                                     return arr2;
                                 }
-                            })(paddings) || function(iter) {
+                            })(arr = paddings) || function(iter) {
                                 if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
-                            }(paddings) || function() {
+                            }(arr) || function() {
                                 throw TypeError("Invalid attempt to spread non-iterable instance");
                             }()).concat([
                                 0
@@ -29249,7 +29252,7 @@
                             return this.renderTooltip(props);
                         }
                     }
-                ], _defineProperties(VictoryTooltip.prototype, protoProps), staticProps && _defineProperties(VictoryTooltip, staticProps), VictoryTooltip;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryTooltip;
             }(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
             Object.defineProperty(VictoryTooltip, "displayName", {
                 configurable: !0,
@@ -29505,13 +29508,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -29525,7 +29528,7 @@
             var voronoiContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var Constructor, protoProps, staticProps;
                     function VictoryVoronoiContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -29545,7 +29548,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryVoronoiContainer, _base), protoProps = [
+                    }(VictoryVoronoiContainer, _base), Constructor = VictoryVoronoiContainer, protoProps = [
                         {
                             key: "getDimension",
                             value: function(props) {
@@ -29681,7 +29684,7 @@
                                 ]);
                             }
                         }
-                    ], _defineProperties(VictoryVoronoiContainer.prototype, protoProps), staticProps && _defineProperties(VictoryVoronoiContainer, staticProps), VictoryVoronoiContainer;
+                    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryVoronoiContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -30061,7 +30064,7 @@
                 height: 300,
                 padding: 50
             }, VictoryVoronoi = function(_React$Component) {
-                var protoProps, staticProps;
+                var Constructor, protoProps, staticProps;
                 function VictoryVoronoi() {
                     var call;
                     return !function(instance, Constructor) {
@@ -30081,7 +30084,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryVoronoi, _React$Component), protoProps = [
+                }(VictoryVoronoi, _React$Component), Constructor = VictoryVoronoi, protoProps = [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -30097,7 +30100,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryVoronoi.prototype, protoProps), staticProps && _defineProperties(VictoryVoronoi, staticProps), VictoryVoronoi;
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryVoronoi;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryVoronoi, "animationWhitelist", {
                 configurable: !0,
@@ -30138,13 +30141,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : target[key] = value;
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -30206,13 +30209,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var value;
-                        value = source[key], key in target ? Object.defineProperty(target, key, {
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : target[key] = value;
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -30347,7 +30350,7 @@
             var zoomContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var Constructor, protoProps, staticProps;
                     function VictoryZoomContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -30367,7 +30370,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryZoomContainer, _base), protoProps = [
+                    }(VictoryZoomContainer, _base), Constructor = VictoryZoomContainer, protoProps = [
                         {
                             key: "clipDataComponents",
                             value: function(children, props) {
@@ -30441,7 +30444,7 @@
                                 return this.clipDataComponents(children, props);
                             }
                         }
-                    ], _defineProperties(VictoryZoomContainer.prototype, protoProps), staticProps && _defineProperties(VictoryZoomContainer, staticProps), VictoryZoomContainer;
+                    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), VictoryZoomContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -30642,13 +30645,13 @@
                     return zoomDomain && !this.checkDomainEquality(zoomDomain, cachedZoomDomain) ? lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, zoomDomain, domain) : lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, currentDomain || zoomDomain || originalDomain, domain);
                 },
                 getDomain: function(props) {
-                    var obj, value, originalDomain = props.originalDomain, domain = props.domain, children = props.children, zoomDimension = props.zoomDimension, childComponents = react__WEBPACK_IMPORTED_MODULE_4__.Children.toArray(children), childrenDomain = {};
-                    return childComponents.length && (childrenDomain = zoomDimension ? (obj = {}, value = victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.getDomainFromChildren(props, zoomDimension, childComponents), zoomDimension in obj ? Object.defineProperty(obj, zoomDimension, {
+                    var obj, key, value, originalDomain = props.originalDomain, domain = props.domain, children = props.children, zoomDimension = props.zoomDimension, childComponents = react__WEBPACK_IMPORTED_MODULE_4__.Children.toArray(children), childrenDomain = {};
+                    return childComponents.length && (childrenDomain = zoomDimension ? (obj = {}, key = zoomDimension, value = victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.getDomainFromChildren(props, zoomDimension, childComponents), key in obj ? Object.defineProperty(obj, key, {
                         value: value,
                         enumerable: !0,
                         configurable: !0,
                         writable: !0
-                    }) : obj[zoomDimension] = value, obj) : {
+                    }) : obj[key] = value, obj) : {
                         x: victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.getDomainFromChildren(props, "x", childComponents),
                         y: victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.getDomainFromChildren(props, "y", childComponents)
                     }), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, childrenDomain, originalDomain, domain);

@@ -61,19 +61,19 @@
                     });
                 }, [
                     configContext
-                ]), layout = sizes ? "responsive" : "intrinsic";
-                "layout" in all && (all.layout && (layout = all.layout), delete all.layout);
+                ]), rest = all, layout = sizes ? "responsive" : "intrinsic";
+                "layout" in rest && (rest.layout && (layout = rest.layout), delete rest.layout);
                 var loader = defaultImageLoader;
-                if ("loader" in all) {
-                    if (all.loader) {
-                        var customImageLoader = all.loader;
+                if ("loader" in rest) {
+                    if (rest.loader) {
+                        var customImageLoader = rest.loader;
                         loader = function(obj) {
                             return obj.config, customImageLoader(_object_without_properties_loose(obj, [
                                 "config"
                             ]));
                         };
                     }
-                    delete all.loader;
+                    delete rest.loader;
                 }
                 var staticSrc = "";
                 if ("object" == typeof (src = src1) && (isStaticRequire(src) || void 0 !== src.src)) {
@@ -187,7 +187,7 @@
                     setIntersection: setIntersection,
                     isVisible: isVisible,
                     noscriptSizes: sizes
-                }, all);
+                }, rest);
                 return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("span", {
                     style: wrapperStyle
                 }, hasSizer ? _react.default.createElement("span", {
@@ -469,8 +469,8 @@
                 return _react.useEffect(function() {
                     if (hasIntersectionObserver) {
                         if (unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible) {
-                            var ref, id, observer, elements;
-                            return element && element.tagName && (unobserve.current = (id = (ref = function(options) {
+                            var element1, ref, id, observer, elements;
+                            return element && element.tagName && (unobserve.current = (element1 = element, id = (ref = function(options) {
                                 var instance, id = {
                                     root: options.root || null,
                                     margin: options.rootMargin || ""
@@ -492,10 +492,10 @@
                             }({
                                 root: null == rootRef ? void 0 : rootRef.current,
                                 rootMargin: rootMargin
-                            })).id, observer = ref.observer, (elements = ref.elements).set(element, function(isVisible) {
+                            })).id, observer = ref.observer, (elements = ref.elements).set(element1, function(isVisible) {
                                 return isVisible && setVisible(isVisible);
-                            }), observer.observe(element), function() {
-                                if (elements.delete(element), observer.unobserve(element), 0 === elements.size) {
+                            }), observer.observe(element1), function() {
+                                if (elements.delete(element1), observer.unobserve(element1), 0 === elements.size) {
                                     observer.disconnect(), observers.delete(id);
                                     var index = idList.findIndex(function(obj) {
                                         return obj.root === id.root && obj.margin === id.margin;

@@ -50,18 +50,18 @@ _async_to_generator(function() {
                     7,
                     12
                 ]), _loop = function() {
-                    var _value = _step.value;
-                    log("I'm loop ".concat(_value)), _async_to_generator(function() {
+                    var outer = _step.value;
+                    log("I'm loop ".concat(outer)), _async_to_generator(function() {
                         var inner;
                         return _ts_generator(this, function(_state) {
                             switch(_state.label){
                                 case 0:
-                                    return inner = _value, [
+                                    return inner = outer, [
                                         4,
                                         sleep(2000)
                                     ];
                                 case 1:
-                                    return _state.sent(), inner === _value ? log("I'm loop ".concat(inner, " and I know I'm loop ").concat(_value)) : log("I'm loop ".concat(inner, ", but I think I'm loop ").concat(_value)), [
+                                    return _state.sent(), inner === outer ? log("I'm loop ".concat(inner, " and I know I'm loop ").concat(outer)) : log("I'm loop ".concat(inner, ", but I think I'm loop ").concat(outer)), [
                                         2
                                     ];
                             }

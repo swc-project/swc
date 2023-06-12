@@ -259,14 +259,14 @@
             }), exports.default = void 0;
             var swcHelpers = __webpack_require__(547), _jsxRuntime = __webpack_require__(37712), _auth = __webpack_require__(45440);
             exports.default = function(param) {
-                var context = param.context, appConfig = param.appConfig, addProvider = param.addProvider, wrapperPageComponent = param.wrapperPageComponent, initialAuth = (context && context.initialData ? context.initialData : {}).auth || {}, authConfig = appConfig.auth || {};
+                var authConfig, context = param.context, appConfig = param.appConfig, addProvider = param.addProvider, wrapperPageComponent = param.wrapperPageComponent, initialAuth = (context && context.initialData ? context.initialData : {}).auth || {}, authConfig1 = appConfig.auth || {};
                 addProvider(function(param) {
                     var children = param.children;
                     return _jsxRuntime.jsx(_auth.Provider, {
                         value: initialAuth,
                         children: children
                     });
-                }), wrapperPageComponent(function(PageComponent) {
+                }), wrapperPageComponent((authConfig = authConfig1, function(PageComponent) {
                     var _pageConfig = PageComponent.pageConfig, pageConfig = void 0 === _pageConfig ? {} : _pageConfig;
                     return _auth.withAuth(function(props) {
                         var auth = props.auth, rest = (props.setAuth, swcHelpers.objectWithoutProperties(props, [
@@ -278,7 +278,7 @@
                             return !!pageConfigAuth.includes(item) && auth[item];
                         }).length ? authConfig.NoAuthFallback ? "function" == typeof authConfig.NoAuthFallback ? _jsxRuntime.jsx(authConfig.NoAuthFallback, {}) : authConfig.NoAuthFallback : null : _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, rest));
                     });
-                });
+                }));
             };
         },
         1481: function(__unused_webpack_module, exports, __webpack_require__) {
@@ -430,7 +430,7 @@
             }
             function parseRoutes(routes, fallback) {
                 return routes.map(function(route) {
-                    var routerWrappers, ref, __LAZY__, dynamicImport, children = route.children, component = route.component, routeWrappers = route.routeWrappers, wrappers = route.wrappers, others = swcHelpers.objectWithoutProperties(route, [
+                    var component, routerWrappers, route1, ref, __LAZY__, dynamicImport, children = route.children, component1 = route.component, routeWrappers = route.routeWrappers, wrappers = route.wrappers, others = swcHelpers.objectWithoutProperties(route, [
                         "children",
                         "component",
                         "routeWrappers",
@@ -438,23 +438,23 @@
                     ]), mergedRouteWrappers = children ? [] : routeWrappers;
                     wrappers && wrappers.length && (mergedRouteWrappers = mergedRouteWrappers.concat(wrappers));
                     var parsedRoute = swcHelpers.objectSpread({}, others);
-                    return component && (parsedRoute.component = (routerWrappers = mergedRouteWrappers, __LAZY__ = (ref = component || {}).__LAZY__, dynamicImport = ref.dynamicImport, ref.__LOADABLE__ ? _component.default(dynamicImport, {
+                    return component1 && (parsedRoute.component = (component = component1, routerWrappers = mergedRouteWrappers, route1 = route, __LAZY__ = (ref = component || {}).__LAZY__, dynamicImport = ref.dynamicImport, ref.__LOADABLE__ ? _component.default(dynamicImport, {
                         resolveComponent: function(mod) {
                             var comp = mod.default;
-                            return setComponentAttr(comp, route), wrapperRoute(comp, routerWrappers);
+                            return setComponentAttr(comp, route1), wrapperRoute(comp, routerWrappers);
                         },
                         fallback: fallback
                     }) : __LAZY__ ? _react.lazy(function() {
                         return dynamicImport().then(function(mod) {
                             if (routerWrappers && routerWrappers.length) {
                                 var comp = mod.default;
-                                return setComponentAttr(comp, route), swcHelpers.objectSpread({}, mod, {
+                                return setComponentAttr(comp, route1), swcHelpers.objectSpread({}, mod, {
                                     default: wrapperRoute(comp, routerWrappers)
                                 });
                             }
                             return mod;
                         });
-                    }) : (setComponentAttr(component, route), wrapperRoute(component, routerWrappers)))), children && (parsedRoute.children = parseRoutes(children, fallback)), parsedRoute;
+                    }) : (setComponentAttr(component, route1), wrapperRoute(component, routerWrappers)))), children && (parsedRoute.children = parseRoutes(children, fallback)), parsedRoute;
                 });
             }
             function Routes(param) {
@@ -931,10 +931,11 @@
                     }, checkReadyState();
                 }).then(done);
             }
-            loadable.lib = loadable$1;
+            var loadable$2 = loadable;
+            loadable$2.lib = loadable$1;
             var lazy$2 = lazy;
             lazy$2.lib = lazy$1;
-            var __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = sharedInternals, loadable_esm = loadable;
+            var __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = sharedInternals, loadable_esm = loadable$2;
         },
         547: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -5458,13 +5459,13 @@
             }, {
                 sort: function(comparefn) {
                     void 0 !== comparefn && aCallable(comparefn);
-                    var itemsLength, index, array = toObject(this);
+                    var comparefn1, itemsLength, index, array = toObject(this);
                     if (STABLE_SORT) return void 0 === comparefn ? nativeSort.call(array) : nativeSort.call(array, comparefn);
                     var items = [], arrayLength = toLength(array.length);
                     for(index = 0; index < arrayLength; index++)index in array && items.push(array[index]);
-                    for(itemsLength = (items = internalSort(items, function(x, y) {
-                        return void 0 === y ? -1 : void 0 === x ? 1 : void 0 !== comparefn ? +comparefn(x, y) || 0 : toString1(x) > toString1(y) ? 1 : -1;
-                    })).length, index = 0; index < itemsLength;)array[index] = items[index++];
+                    for(itemsLength = (items = internalSort(items, (comparefn1 = comparefn, function(x, y) {
+                        return void 0 === y ? -1 : void 0 === x ? 1 : void 0 !== comparefn1 ? +comparefn1(x, y) || 0 : toString1(x) > toString1(y) ? 1 : -1;
+                    }))).length, index = 0; index < itemsLength;)array[index] = items[index++];
                     for(; index < arrayLength;)delete array[index++];
                     return array;
                 }
@@ -8108,11 +8109,11 @@
             exportTypedArrayMethod("sort", function(comparefn) {
                 if (void 0 !== comparefn && aCallable(comparefn), STABLE_SORT) return nativeSort.call(this, comparefn);
                 aTypedArray(this);
-                var index, arrayLength = toLength(this.length), items = Array(arrayLength);
+                var index, comparefn1, arrayLength = toLength(this.length), items = Array(arrayLength);
                 for(index = 0; index < arrayLength; index++)items[index] = this[index];
-                for(index = 0, items = internalSort(this, function(x, y) {
-                    return void 0 !== comparefn ? +comparefn(x, y) || 0 : y != y ? -1 : x != x ? 1 : 0 === x && 0 === y ? 1 / x > 0 && 1 / y < 0 ? 1 : -1 : x > y;
-                }); index < arrayLength; index++)this[index] = items[index];
+                for(index = 0, items = internalSort(this, (comparefn1 = comparefn, function(x, y) {
+                    return void 0 !== comparefn1 ? +comparefn1(x, y) || 0 : y != y ? -1 : x != x ? 1 : 0 === x && 0 === y ? 1 / x > 0 && 1 / y < 0 ? 1 : -1 : x > y;
+                })); index < arrayLength; index++)this[index] = items[index];
                 return this;
             }, !STABLE_SORT || ACCEPT_INCORRECT_ARGUMENTS);
         },
@@ -9109,7 +9110,7 @@
                     Object.assign(current, value);
                 }
             });
-            var __extends = (extendStatics = function(d, b) {
+            var lib_router = router, __extends = (extendStatics = function(d, b) {
                 return (extendStatics = Object.setPrototypeOf || ({
                     __proto__: []
                 }) instanceof Array && function(d, b) {
@@ -9125,7 +9126,7 @@
                 extendStatics(d, b), d.prototype = null === b ? Object.create(b) : (__.prototype = b.prototype, new __());
             }), visibleListeners = {};
             function addPageLifeCycle(cycle, callback) {
-                var _a, pathname = router.current.pathname;
+                var _a, pathname = lib_router.current.pathname;
                 visibleListeners[pathname] || (visibleListeners[pathname] = ((_a = {})[SHOW] = [], _a[HIDE] = [], _a)), visibleListeners[pathname][cycle].push(callback);
             }
             function pageLifeCycles_emit(cycle, pathname) {
@@ -9136,7 +9137,7 @@
                 return function(cycle, callback) {
                     useEffect(function() {
                         cycle === SHOW && callback();
-                        var pathname = router.current.pathname;
+                        var pathname = lib_router.current.pathname;
                         return addPageLifeCycle(cycle, callback), function() {
                             if (visibleListeners[pathname]) {
                                 var index = visibleListeners[pathname][cycle].indexOf(callback);
@@ -9150,7 +9151,7 @@
                 var Wrapper = function(_super) {
                     function Wrapper(props, context) {
                         var _this = _super.call(this, props, context) || this;
-                        return _this.onShow && (_this.onShow(), addPageLifeCycle(SHOW, _this.onShow.bind(_this))), _this.onHide && addPageLifeCycle(HIDE, _this.onHide.bind(_this)), _this.pathname = router.current.pathname, _this;
+                        return _this.onShow && (_this.onShow(), addPageLifeCycle(SHOW, _this.onShow.bind(_this))), _this.onHide && addPageLifeCycle(HIDE, _this.onHide.bind(_this)), _this.pathname = lib_router.current.pathname, _this;
                     }
                     return __extends(Wrapper, _super), Wrapper.prototype.componentWillUnmount = function() {
                         var _a;
@@ -9186,14 +9187,14 @@
                 }).apply(this, arguments);
             }, lib_emitLifeCycles = function() {
                 var history = getHistory(), pathname = history && history.location ? history.location.pathname : "undefined" != typeof window && window.location.pathname;
-                router.current = {
+                lib_router.current = {
                     pathname: pathname,
                     visibilityState: !0
                 }, emit(LAUNCH), emit(SHOW), history && history.listen && history.listen(function(location) {
-                    location.pathname !== router.current.pathname && (router.prev = __assign({}, router.current), router.current = {
+                    location.pathname !== lib_router.current.pathname && (lib_router.prev = __assign({}, lib_router.current), lib_router.current = {
                         pathname: location.pathname,
                         visibilityState: !0
-                    }, router.prev.visibiltyState = !1, pageLifeCycles_emit(HIDE, router.prev.pathname), pageLifeCycles_emit(SHOW, router.current.pathname));
+                    }, lib_router.prev.visibiltyState = !1, pageLifeCycles_emit(HIDE, lib_router.prev.pathname), pageLifeCycles_emit(SHOW, lib_router.current.pathname));
                 });
             }, esm_history = __webpack_require__(91520), process = __webpack_require__(97671), createHistory = function(_a) {
                 var type = _a.type, basename = _a.basename, location = _a.location;
@@ -9214,7 +9215,7 @@
             }, web_history = createHistory, web_initAppLifeCycles = function() {
                 "undefined" != typeof document && "undefined" != typeof window && (document.addEventListener("visibilitychange", function() {
                     var history = getHistory();
-                    (history ? history.location.pathname : router.current.pathname) === router.current.pathname && (router.current.visibilityState = !router.current.visibilityState, router.current.visibilityState ? (emit(SHOW), pageLifeCycles_emit(SHOW, router.current.pathname)) : (pageLifeCycles_emit(HIDE, router.current.pathname), emit(HIDE)));
+                    (history ? history.location.pathname : lib_router.current.pathname) === lib_router.current.pathname && (lib_router.current.visibilityState = !lib_router.current.visibilityState, lib_router.current.visibilityState ? (emit(SHOW), pageLifeCycles_emit(SHOW, lib_router.current.pathname)) : (pageLifeCycles_emit(HIDE, lib_router.current.pathname), emit(HIDE)));
                 }), window.addEventListener("error", function(event) {
                     emit(ERROR, null, event.error);
                 }));
@@ -9713,9 +9714,9 @@
                     var path = getHashPath(), encodedPath = encodePath(path);
                     if (path !== encodedPath) replaceHashPath(encodedPath);
                     else {
-                        var location = getDOMLocation(), prevLocation = history.location;
-                        if (!forceNextPop && prevLocation.pathname === location.pathname && prevLocation.search === location.search && prevLocation.hash === location.hash || ignorePath === createPath(location)) return;
-                        ignorePath = null, forceNextPop ? (forceNextPop = !1, setState()) : transitionManager.confirmTransitionTo(location, "POP", getUserConfirmation, function(ok) {
+                        var location, location1 = getDOMLocation(), prevLocation = history.location;
+                        if (!forceNextPop && prevLocation.pathname === location1.pathname && prevLocation.search === location1.search && prevLocation.hash === location1.hash || ignorePath === createPath(location1)) return;
+                        ignorePath = null, location = location1, forceNextPop ? (forceNextPop = !1, setState()) : transitionManager.confirmTransitionTo(location, "POP", getUserConfirmation, function(ok) {
                             var toLocation, toIndex, fromIndex, delta;
                             ok ? setState({
                                 action: "POP",
@@ -13725,7 +13726,7 @@
                 retryLane: 0
             };
             function ti(a, b, c) {
-                var a1, c1, d, e, f, g, h, a2, c2, d1, e1, g1, d2 = b.pendingProps, e2 = P.current, f1 = !1;
+                var a1, b1, c1, d, e, f, g, h, a2, b2, c2, d1, e1, g1, d2 = b.pendingProps, e2 = P.current, f1 = !1;
                 return ((g1 = 0 != (64 & b.flags)) || (g1 = (null === a || null !== a.memoizedState) && 0 != (2 & e2)), g1 ? (f1 = !0, b.flags &= -65) : null !== a && null === a.memoizedState || void 0 === d2.fallback || !0 === d2.unstable_avoidThisFallback || (e2 |= 1), I(P, 1 & e2), null === a) ? (void 0 !== d2.fallback && ph(b), a = d2.children, e2 = d2.fallback, f1) ? (a = ui(b, a, e2, c), b.child.memoizedState = {
                     baseLanes: c
                 }, b.memoizedState = si, a) : "number" == typeof d2.unstable_expectedLoadTime ? (a = ui(b, a, e2, c), b.child.memoizedState = {
@@ -13733,17 +13734,17 @@
                 }, b.memoizedState = si, b.lanes = 33554432, a) : ((c = vi({
                     mode: "visible",
                     children: a
-                }, b.mode, c, null)).return = b, b.child = c) : (a.memoizedState, f1 ? (a1 = a, c1 = d2.children, d = d2.fallback, e = c, f = b.mode, a1 = (g = a1.child).sibling, h = {
+                }, b.mode, c, null)).return = b, b.child = c) : (a.memoizedState, f1 ? (a1 = a, b1 = b, c1 = d2.children, d = d2.fallback, e = c, f = b1.mode, a1 = (g = a1.child).sibling, h = {
                     mode: "hidden",
                     children: c1
-                }, 0 == (2 & f) && b.child !== g ? ((c1 = b.child).childLanes = 0, c1.pendingProps = h, null !== (g = c1.lastEffect) ? (b.firstEffect = c1.firstEffect, b.lastEffect = g, g.nextEffect = null) : b.firstEffect = b.lastEffect = null) : c1 = Tg(g, h), null !== a1 ? d = Tg(a1, d) : (d = Xg(d, f, e, null), d.flags |= 2), d.return = b, c1.return = b, c1.sibling = d, b.child = c1, d2 = d, f1 = b.child, e2 = a.child.memoizedState, f1.memoizedState = null === e2 ? {
+                }, 0 == (2 & f) && b1.child !== g ? ((c1 = b1.child).childLanes = 0, c1.pendingProps = h, null !== (g = c1.lastEffect) ? (b1.firstEffect = c1.firstEffect, b1.lastEffect = g, g.nextEffect = null) : b1.firstEffect = b1.lastEffect = null) : c1 = Tg(g, h), null !== a1 ? d = Tg(a1, d) : (d = Xg(d, f, e, null), d.flags |= 2), d.return = b1, c1.return = b1, c1.sibling = d, b1.child = c1, d2 = d, f1 = b.child, e2 = a.child.memoizedState, f1.memoizedState = null === e2 ? {
                     baseLanes: c
                 } : {
                     baseLanes: e2.baseLanes | c
-                }, f1.childLanes = a.childLanes & ~c, b.memoizedState = si, d2) : (a2 = a, c2 = d2.children, d1 = c, a2 = (e1 = a2.child).sibling, c2 = Tg(e1, {
+                }, f1.childLanes = a.childLanes & ~c, b.memoizedState = si, d2) : (a2 = a, b2 = b, c2 = d2.children, d1 = c, a2 = (e1 = a2.child).sibling, c2 = Tg(e1, {
                     mode: "visible",
                     children: c2
-                }), 0 == (2 & b.mode) && (c2.lanes = d1), c2.return = b, c2.sibling = null, null !== a2 && (a2.nextEffect = null, a2.flags = 8, b.firstEffect = b.lastEffect = a2), c = b.child = c2, b.memoizedState = null, c));
+                }), 0 == (2 & b2.mode) && (c2.lanes = d1), c2.return = b2, c2.sibling = null, null !== a2 && (a2.nextEffect = null, a2.flags = 8, b2.firstEffect = b2.lastEffect = a2), c = b2.child = c2, b.memoizedState = null, c));
             }
             function ui(a, b, c, d) {
                 var e = a.mode, f = a.child;
@@ -16670,8 +16671,8 @@
                     };
                 }
                 function wrap(innerFn, outerFn, self1, tryLocsList) {
-                    var state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context = new Context(tryLocsList || []);
-                    return generator._invoke = (state = GenStateSuspendedStart, function(method, arg) {
+                    var innerFn1, self2, context, state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context1 = new Context(tryLocsList || []);
+                    return generator._invoke = (innerFn1 = innerFn, self2 = self1, context = context1, state = GenStateSuspendedStart, function(method, arg) {
                         if (state === GenStateExecuting) throw Error("Generator is already running");
                         if (state === GenStateCompleted) {
                             if ("throw" === method) throw arg;
@@ -16705,7 +16706,7 @@
                                 context.dispatchException(context.arg);
                             } else "return" === context.method && context.abrupt("return", context.arg);
                             state = GenStateExecuting;
-                            var record = tryCatch(innerFn, self1, context);
+                            var record = tryCatch(innerFn1, self2, context);
                             if ("normal" === record.type) {
                                 if (state = context.done ? GenStateCompleted : "suspendedYield", record.arg === ContinueSentinel) continue;
                                 return {

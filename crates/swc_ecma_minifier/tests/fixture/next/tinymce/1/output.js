@@ -1,14 +1,17 @@
-Yp.revoke, (a)=>Yp.config({
+Yp.revoke, (a)=>{
+    var b;
+    return Yp.config((b = a, {
         aria: {
             mode: "checked"
         },
-        ...ge(a, (e, t)=>"exclusive" !== t),
+        ...ge(b, (e, t)=>"exclusive" !== t),
         onToggled: (c, d)=>{
-            p(a.onToggled) && a.onToggled(c, d), ((e, f)=>{
+            p(b.onToggled) && b.onToggled(c, d), ((e, f)=>{
                 Or(e, th, {
                     item: e,
                     state: f
                 });
             })(c, d);
         }
-    });
+    }));
+};

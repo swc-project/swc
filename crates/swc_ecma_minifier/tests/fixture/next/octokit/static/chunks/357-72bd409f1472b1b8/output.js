@@ -4,7 +4,7 @@
     ],
     {
         1209: function(module, __unused_webpack_exports, __webpack_require__) {
-            var commonjsGlobal, parser, BottleneckError_1, version, version$2, require$$2, require$$3, require$$8, DLList, Events, Queues, Job, LocalDatastore, States, Sync, Group, Scripts$1, Batcher, RedisDatastore$1, splice, Bottleneck_1;
+            var commonjsGlobal, parser, BottleneckError_1, version, version$2, require$$2, require$$3, require$$8, DLList, Events, DLList$1, Queues, BottleneckError$1, Job, LocalDatastore, States, Sync, Group, Scripts$1, Batcher, Events$4, Job$1, RedisDatastore$1, splice, Bottleneck_1;
             module.exports = (commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {}, parser = {
                 load: function(received, defaults, onto = {}) {
                     var k, ref, v;
@@ -92,11 +92,11 @@
                         return this.trigger("error", error), null;
                     }
                 }
-            }, Queues = class {
+            }, DLList$1 = DLList, Queues = class {
                 constructor(num_priorities){
                     this.Events = new Events(this), this._length = 0, this._lists = (function() {
                         var j, results;
-                        for(results = [], j = 1; 1 <= num_priorities ? j <= num_priorities : j >= num_priorities; 1 <= num_priorities ? ++j : --j)results.push(new DLList(()=>this.incr(), ()=>this.decr()));
+                        for(results = [], j = 1; 1 <= num_priorities ? j <= num_priorities : j >= num_priorities; 1 <= num_priorities ? ++j : --j)results.push(new DLList$1(()=>this.incr(), ()=>this.decr()));
                         return results;
                     }).call(this);
                 }
@@ -125,7 +125,7 @@
                 shiftLastFrom(priority) {
                     return this.getFirst(this._lists.slice(priority).reverse()).shift();
                 }
-            }, BottleneckError_1 = class extends Error {
+            }, BottleneckError$1 = BottleneckError_1 = class extends Error {
             }, Job = class {
                 constructor(task, args, options, jobDefaults, rejectOnDrop, Events, _states, Promise1){
                     this.task = task, this.args = args, this.rejectOnDrop = rejectOnDrop, this.Events = Events, this._states = _states, this.Promise = Promise1, this.options = parser.load(options, jobDefaults), this.options.priority = this._sanitizePriority(this.options.priority), this.options.id === jobDefaults.id && (this.options.id = `${this.options.id}-${this._randomIndex()}`), this.promise = new this.Promise((_resolve, _reject)=>{
@@ -140,7 +140,7 @@
                     return Math.random().toString(36).slice(2);
                 }
                 doDrop({ error, message = "This job has been dropped by Bottleneck" } = {}) {
-                    return !!this._states.remove(this.options.id) && (this.rejectOnDrop && this._reject(null != error ? error : new BottleneckError_1(message)), this.Events.trigger("dropped", {
+                    return !!this._states.remove(this.options.id) && (this.rejectOnDrop && this._reject(null != error ? error : new BottleneckError$1(message)), this.Events.trigger("dropped", {
                         args: this.args,
                         options: this.options,
                         task: this.task,
@@ -149,7 +149,7 @@
                 }
                 _assertStatus(expected) {
                     var status;
-                    if (!((status = this._states.jobStatus(this.options.id)) === expected || "DONE" === expected && null === status)) throw new BottleneckError_1(`Invalid job status ${status}, expected ${expected}. Please open an issue at https://github.com/SGrondin/bottleneck/issues`);
+                    if (!((status = this._states.jobStatus(this.options.id)) === expected || "DONE" === expected && null === status)) throw new BottleneckError$1(`Invalid job status ${status}, expected ${expected}. Please open an issue at https://github.com/SGrondin/bottleneck/issues`);
                 }
                 doReceive() {
                     return this._states.start(this.options.id), this.Events.trigger("received", {
@@ -190,7 +190,7 @@
                         args: this.args,
                         options: this.options,
                         retryCount: this.retryCount
-                    }, error = new BottleneckError_1(`This job timed out after ${this.options.expiration} ms.`), this._onFailure(error, eventInfo, clearGlobalState, run, free);
+                    }, error = new BottleneckError$1(`This job timed out after ${this.options.expiration} ms.`), this._onFailure(error, eventInfo, clearGlobalState, run, free);
                 }
                 async _onFailure(error, eventInfo, clearGlobalState, run, free) {
                     var retry, retryAfter;
@@ -414,13 +414,13 @@
                     _startAutoCleanup() {
                         var base;
                         return clearInterval(this.interval), "function" == typeof (base = this.interval = setInterval(async ()=>{
-                            var k, ref, results, time, v;
+                            var e, k, ref, results, time, v;
                             for(k in time = Date.now(), ref = this.instances, results = [], ref){
                                 v = ref[k];
                                 try {
                                     await v._store.__groupCheck__(time) ? results.push(this.deleteKey(k)) : results.push(void 0);
                                 } catch (error) {
-                                    results.push(v.Events.trigger("error", error));
+                                    e = error, results.push(v.Events.trigger("error", e));
                                 }
                             }
                             return results;
@@ -461,7 +461,7 @@
                     maxSize: null,
                     Promise: Promise
                 }, Batcher;
-            }).call(commonjsGlobal), require$$8 = version$2 && version$2.default || version$2, splice = [].splice, RedisDatastore$1 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), Bottleneck_1 = (function() {
+            }).call(commonjsGlobal), require$$8 = version$2 && version$2.default || version$2, splice = [].splice, Job$1 = Job, RedisDatastore$1 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), Events$4 = Events, Bottleneck_1 = (function() {
                 class Bottleneck {
                     constructor(options = {}, ...invalid){
                         var storeInstanceOptions, storeOptions;
@@ -472,7 +472,7 @@
                             "EXECUTING"
                         ].concat(this.trackDoneStatus ? [
                             "DONE"
-                        ] : [])), this._limiter = null, this.Events = new Events(this), this._submitLock = new Sync("submit", this.Promise), this._registerLock = new Sync("register", this.Promise), storeOptions = parser.load(options, this.storeDefaults, {}), this._store = (function() {
+                        ] : [])), this._limiter = null, this.Events = new Events$4(this), this._submitLock = new Sync("submit", this.Promise), this._registerLock = new Sync("register", this.Promise), storeOptions = parser.load(options, this.storeDefaults, {}), this._store = (function() {
                             if ("redis" === this.datastore || "ioredis" === this.datastore || null != this.connection) return storeInstanceOptions = parser.load(options, this.redisStoreDefaults, {}), new RedisDatastore$1(this, storeOptions, storeInstanceOptions);
                             if ("local" === this.datastore) return storeInstanceOptions = parser.load(options, this.localStoreDefaults, {}), new LocalDatastore(this, storeOptions, storeInstanceOptions);
                             throw new Bottleneck.prototype.BottleneckError(`Invalid datastore type: ${this.datastore}`);
@@ -616,17 +616,17 @@
                         }, this.stop = ()=>this.Promise.reject(new Bottleneck.prototype.BottleneckError("stop() has already been called")), done;
                     }
                     async _addToQueue(job) {
-                        var args, blocked, options, reachedHWM, shifted, strategy;
+                        var args, blocked, error, options, reachedHWM, shifted, strategy;
                         ({ args, options } = job);
                         try {
                             ({ reachedHWM, blocked, strategy } = await this._store.__submit__(this.queued(), options.weight));
                         } catch (error1) {
-                            return this.Events.trigger("debug", `Could not queue ${options.id}`, {
+                            return error = error1, this.Events.trigger("debug", `Could not queue ${options.id}`, {
                                 args,
                                 options,
-                                error: error1
+                                error
                             }), job.doDrop({
-                                error: error1
+                                error
                             }), !1;
                         }
                         return blocked ? (job.doDrop(), !0) : reachedHWM && (null != (shifted = strategy === Bottleneck.prototype.strategy.LEAK ? this._queues.shiftLastFrom(options.priority) : strategy === Bottleneck.prototype.strategy.OVERFLOW_PRIORITY ? this._queues.shiftLastFrom(options.priority + 1) : strategy === Bottleneck.prototype.strategy.OVERFLOW ? job : void 0) && shifted.doDrop(), null == shifted || strategy === Bottleneck.prototype.strategy.OVERFLOW) ? (null == shifted && job.doDrop(), reachedHWM) : (job.doQueue(reachedHWM, blocked), this._queues.push(job), await this._drainAll(), reachedHWM);
@@ -636,7 +636,7 @@
                     }
                     submit(...args) {
                         var cb, fn, job, options, ref, ref1;
-                        return "function" == typeof args[0] ? (ref = args, [fn, ...args] = ref, [cb] = splice.call(args, -1), options = parser.load({}, this.jobDefaults)) : (ref1 = args, [options, fn, ...args] = ref1, [cb] = splice.call(args, -1), options = parser.load(options, this.jobDefaults)), (job = new Job((...args)=>new this.Promise(function(resolve, reject) {
+                        return "function" == typeof args[0] ? (ref = args, [fn, ...args] = ref, [cb] = splice.call(args, -1), options = parser.load({}, this.jobDefaults)) : (ref1 = args, [options, fn, ...args] = ref1, [cb] = splice.call(args, -1), options = parser.load(options, this.jobDefaults)), (job = new Job$1((...args)=>new this.Promise(function(resolve, reject) {
                                 return fn(...args, function(...args) {
                                     return (null != args[0] ? reject : resolve)(args);
                                 });
@@ -648,7 +648,7 @@
                     }
                     schedule(...args) {
                         var job, options, task;
-                        return "function" == typeof args[0] ? ([task, ...args] = args, options = {}) : [options, task, ...args] = args, job = new Job(task, args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise), this._receive(job), job.promise;
+                        return "function" == typeof args[0] ? ([task, ...args] = args, options = {}) : [options, task, ...args] = args, job = new Job$1(task, args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise), this._receive(job), job.promise;
                     }
                     wrap(fn) {
                         var schedule, wrapped;
@@ -668,7 +668,7 @@
                         return this._store.__incrementReservoir__(incr);
                     }
                 }
-                return Bottleneck.default = Bottleneck, Bottleneck.Events = Events, Bottleneck.version = Bottleneck.prototype.version = require$$8.version, Bottleneck.strategy = Bottleneck.prototype.strategy = {
+                return Bottleneck.default = Bottleneck, Bottleneck.Events = Events$4, Bottleneck.version = Bottleneck.prototype.version = require$$8.version, Bottleneck.strategy = Bottleneck.prototype.strategy = {
                     LEAK: 1,
                     OVERFLOW: 2,
                     OVERFLOW_PRIORITY: 4,

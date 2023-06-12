@@ -85,6 +85,7 @@
                 if (s = ontext(text)) return s.cdata = !0;
             };
         }, Parser.prototype.parseString = function(str, cb) {
+            var err;
             null != cb && "function" == typeof cb && (this.on("end", function(result) {
                 return this.reset(), cb(null, result);
             }), this.on("error", function(err) {
@@ -95,8 +96,8 @@
                 if (str = bom.stripBOM(str), this.options.async) return this.remaining = str, setImmediate(this.processAsync), this.saxParser;
                 return this.saxParser.write(str).close();
             } catch (error1) {
-                if (!(this.saxParser.errThrown || this.saxParser.ended)) return this.emit("error", error1), this.saxParser.errThrown = !0;
-                if (this.saxParser.ended) throw error1;
+                if (err = error1, !(this.saxParser.errThrown || this.saxParser.ended)) return this.emit("error", err), this.saxParser.errThrown = !0;
+                if (this.saxParser.ended) throw err;
             }
         }, Parser.prototype.parseStringPromise = function(str) {
             var _this;
