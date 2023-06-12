@@ -6,10 +6,10 @@ class Base {
 class Derived extends Base {
     method1() {
         var _super_method;
-        return (_super_method = super.method) === null || _super_method === void 0 ? void 0 : _super_method.call(this);
+        return (_super_method = super.method) === null || _super_method === void 0 ? void 0 : _super_method();
     }
     method2() {
         var _super_method;
-        return (_super_method = super["method"]) === null || _super_method === void 0 ? void 0 : _super_method.call(this);
+        return (_super_method = super["method"]) === null || _super_method === void 0 ? void 0 : _super_method();
     }
 }

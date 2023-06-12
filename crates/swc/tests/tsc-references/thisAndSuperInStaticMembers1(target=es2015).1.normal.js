@@ -6,6 +6,7 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _set } from "@swc/helpers/_/_set";
 import { _ as _update } from "@swc/helpers/_/_update";
+var _C_x, _object, _C_x1, _object1;
 class C extends B {
     constructor(...args){
         super(...args);
@@ -18,9 +19,9 @@ class C extends B {
 _define_property(C, "x", undefined);
 _define_property(C, "y1", C.x);
 _define_property(C, "y2", C.x());
-_define_property(C, "y3", C === null || C === void 0 ? void 0 : C.x());
+_define_property(C, "y3", (_object = C) === null || _object === void 0 ? void 0 : (_C_x = _object.x) === null || _C_x === void 0 ? void 0 : _C_x.call(_object));
 _define_property(C, "y4", C["x"]());
-_define_property(C, "y5", C === null || C === void 0 ? void 0 : C["x"]());
+_define_property(C, "y5", (_object1 = C) === null || _object1 === void 0 ? void 0 : (_C_x1 = _object1["x"]) === null || _C_x1 === void 0 ? void 0 : _C_x1.call(_object1));
 _define_property(C, "z1", _get(_get_prototype_of(C), "a", C));
 _define_property(C, "z2", _get(_get_prototype_of(C), "a", C));
 _define_property(C, "z3", _get(_get_prototype_of(C), "f", C).call(C));
