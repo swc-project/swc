@@ -1,0 +1,12 @@
+var _foo, _foo_bar, _object, _foo_bar1, _object1, _foo_bar2, _object2, _foo1, _foo2, _foo3, _foo4, _foo_bar3, _foo_bar4, _foo_bar5, _foo_bar6, _object3, _foo_bar7, _foo_bar8, _foo_bar9, _foo_bar10, _object4, _foo_bar11, _object5, _foo_bar12;
+(_foo = foo) === null || _foo === void 0 ? void 0 : _foo(foo);
+(_object = foo) === null || _object === void 0 ? void 0 : (_foo_bar = _object.bar) === null || _foo_bar === void 0 ? void 0 : _foo_bar.call(_object);
+(_object1 = foo) === null || _object1 === void 0 ? void 0 : (_foo_bar1 = _object1.bar) === null || _foo_bar1 === void 0 ? void 0 : _foo_bar1.call(_object1, foo.bar, false);
+(_object2 = foo) === null || _object2 === void 0 ? void 0 : (_foo_bar2 = _object2.bar) === null || _foo_bar2 === void 0 ? void 0 : _foo_bar2.call(_object2, foo.bar, true);
+(_foo2 = foo) === null || _foo2 === void 0 ? void 0 : _foo2().bar;
+(_foo3 = (_foo4 = foo) === null || _foo4 === void 0 ? void 0 : _foo4()) === null || _foo3 === void 0 ? void 0 : _foo3.bar;
+(_foo_bar3 = foo) === null || _foo_bar3 === void 0 ? void 0 : ((_foo_bar4 = _foo_bar3.bar) === null || _foo_bar4 === void 0 ? void 0 : _foo_bar4.call(_foo_bar3)).baz;
+(_foo_bar5 = (_object3 = foo) === null || _object3 === void 0 ? void 0 : (_foo_bar6 = _object3.bar) === null || _foo_bar6 === void 0 ? void 0 : _foo_bar6.call(_object3)) === null || _foo_bar5 === void 0 ? void 0 : _foo_bar5.baz;
+(_foo_bar7 = foo) === null || _foo_bar7 === void 0 ? void 0 : ((_foo_bar8 = _foo_bar7.bar) === null || _foo_bar8 === void 0 ? void 0 : _foo_bar8.call(_foo_bar7)).baz;
+(_foo_bar9 = (_object4 = foo) === null || _object4 === void 0 ? void 0 : (_foo_bar10 = _object4.bar) === null || _foo_bar10 === void 0 ? void 0 : _foo_bar10.call(_object4)) === null || _foo_bar9 === void 0 ? void 0 : _foo_bar9.baz;
+(_object5 = foo) === null || _object5 === void 0 ? void 0 : (_foo_bar11 = (_foo_bar12 = _object5.bar) === null || _foo_bar12 === void 0 ? void 0 : _foo_bar12.call(_object5)) === null || _foo_bar11 === void 0 ? void 0 : _foo_bar11.call(_object5);

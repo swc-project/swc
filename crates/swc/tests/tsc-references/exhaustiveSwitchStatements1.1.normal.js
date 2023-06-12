@@ -199,8 +199,9 @@ Animal;
     Animal[Animal["CAT"] = 1] = "CAT";
 })(Animal || (Animal = {}));
 function expression() {
+    var _zoo;
     var _zoo_animal;
-    switch((_zoo_animal = zoo === null || zoo === void 0 ? void 0 : zoo.animal) !== null && _zoo_animal !== void 0 ? _zoo_animal : Animal.DOG){
+    switch((_zoo_animal = (_zoo = zoo) === null || _zoo === void 0 ? void 0 : _zoo.animal) !== null && _zoo_animal !== void 0 ? _zoo_animal : Animal.DOG){
         case Animal.DOG:
             return Animal.DOG;
         case Animal.CAT:

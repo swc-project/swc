@@ -28,11 +28,7 @@
             "end": 19,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 11,
-            "end": 12,
-            "ctxt": 0
-          },
+          "optional": true,
           "base": {
             "type": "MemberExpression",
             "span": {

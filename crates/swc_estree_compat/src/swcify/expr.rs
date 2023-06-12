@@ -1,5 +1,5 @@
 use swc_atoms::js_word;
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::Spanned;
 use swc_ecma_ast::{
     op, ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BindingIdent,
     BlockStmtOrExpr, CallExpr, Callee, ClassExpr, ComputedPropName, CondExpr, Expr, ExprOrSpread,
@@ -774,7 +774,7 @@ impl Swcify for OptionalMemberExpression {
         OptChainExpr {
             span: ctx.span(&self.base),
             // TODO: Use correct span.
-            question_dot_token: DUMMY_SP,
+            optional: self.optional,
             base: Box::new(OptChainBase::Member(MemberExpr {
                 span: ctx.span(&self.base),
                 obj: self.object.swcify(ctx),
@@ -811,8 +811,7 @@ impl Swcify for OptionalCallExpression {
     fn swcify(self, ctx: &Context) -> Self::Output {
         OptChainExpr {
             span: ctx.span(&self.base),
-            // TODO: Use correct span.
-            question_dot_token: DUMMY_SP,
+            optional: self.optional,
             base: Box::new(OptChainBase::Call(OptCall {
                 span: ctx.span(&self.base),
                 callee: self.callee.swcify(ctx),

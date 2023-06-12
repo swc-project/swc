@@ -138,11 +138,7 @@
             "end": 76,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 73,
-            "end": 74,
-            "ctxt": 0
-          },
+          "optional": true,
           "base": {
             "type": "MemberExpression",
             "span": {
@@ -203,11 +199,7 @@
               "end": 91,
               "ctxt": 0
             },
-            "questionDotToken": {
-              "start": 88,
-              "end": 89,
-              "ctxt": 0
-            },
+            "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
@@ -408,62 +400,67 @@
         },
         "operator": "delete",
         "argument": {
-          "type": "MemberExpression",
+          "type": "OptionalChainingExpression",
           "span": {
             "start": 154,
             "end": 161,
             "ctxt": 0
           },
-          "object": {
-            "type": "OptionalChainingExpression",
+          "optional": false,
+          "base": {
+            "type": "MemberExpression",
             "span": {
               "start": 154,
-              "end": 159,
+              "end": 161,
               "ctxt": 0
             },
-            "questionDotToken": {
-              "start": 156,
-              "end": 157,
-              "ctxt": 0
-            },
-            "base": {
-              "type": "MemberExpression",
+            "object": {
+              "type": "OptionalChainingExpression",
               "span": {
                 "start": 154,
                 "end": 159,
                 "ctxt": 0
               },
-              "object": {
-                "type": "Identifier",
+              "optional": true,
+              "base": {
+                "type": "MemberExpression",
                 "span": {
                   "start": 154,
-                  "end": 156,
-                  "ctxt": 0
-                },
-                "value": "o2",
-                "optional": false
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 158,
                   "end": 159,
                   "ctxt": 0
                 },
-                "value": "b",
-                "optional": false
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 154,
+                    "end": 156,
+                    "ctxt": 0
+                  },
+                  "value": "o2",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 158,
+                    "end": 159,
+                    "ctxt": 0
+                  },
+                  "value": "b",
+                  "optional": false
+                }
               }
-            }
-          },
-          "property": {
-            "type": "Identifier",
-            "span": {
-              "start": 160,
-              "end": 161,
-              "ctxt": 0
             },
-            "value": "c",
-            "optional": false
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 160,
+                "end": 161,
+                "ctxt": 0
+              },
+              "value": "c",
+              "optional": false
+            }
           }
         }
       }
@@ -491,62 +488,67 @@
             "ctxt": 0
           },
           "expression": {
-            "type": "MemberExpression",
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 171,
               "end": 178,
               "ctxt": 0
             },
-            "object": {
-              "type": "OptionalChainingExpression",
+            "optional": false,
+            "base": {
+              "type": "MemberExpression",
               "span": {
                 "start": 171,
-                "end": 176,
+                "end": 178,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 173,
-                "end": 174,
-                "ctxt": 0
-              },
-              "base": {
-                "type": "MemberExpression",
+              "object": {
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 171,
                   "end": 176,
                   "ctxt": 0
                 },
-                "object": {
-                  "type": "Identifier",
+                "optional": true,
+                "base": {
+                  "type": "MemberExpression",
                   "span": {
                     "start": 171,
-                    "end": 173,
-                    "ctxt": 0
-                  },
-                  "value": "o2",
-                  "optional": false
-                },
-                "property": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 175,
                     "end": 176,
                     "ctxt": 0
                   },
-                  "value": "b",
-                  "optional": false
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 171,
+                      "end": 173,
+                      "ctxt": 0
+                    },
+                    "value": "o2",
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 175,
+                      "end": 176,
+                      "ctxt": 0
+                    },
+                    "value": "b",
+                    "optional": false
+                  }
                 }
-              }
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 177,
-                "end": 178,
-                "ctxt": 0
               },
-              "value": "c",
-              "optional": false
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 177,
+                  "end": 178,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "optional": false
+              }
             }
           }
         }
@@ -726,11 +728,7 @@
             "end": 248,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 245,
-            "end": 246,
-            "ctxt": 0
-          },
+          "optional": true,
           "base": {
             "type": "MemberExpression",
             "span": {
@@ -809,11 +807,7 @@
               "end": 265,
               "ctxt": 0
             },
-            "questionDotToken": {
-              "start": 262,
-              "end": 263,
-              "ctxt": 0
-            },
+            "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
@@ -1103,11 +1097,7 @@
             "end": 344,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 341,
-            "end": 342,
-            "ctxt": 0
-          },
+          "optional": true,
           "base": {
             "type": "MemberExpression",
             "span": {
@@ -1116,80 +1106,85 @@
               "ctxt": 0
             },
             "object": {
-              "type": "MemberExpression",
+              "type": "OptionalChainingExpression",
               "span": {
                 "start": 332,
                 "end": 341,
                 "ctxt": 0
               },
-              "object": {
-                "type": "OptionalChainingExpression",
+              "optional": false,
+              "base": {
+                "type": "MemberExpression",
                 "span": {
                   "start": 332,
-                  "end": 339,
+                  "end": 341,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 336,
-                  "end": 337,
-                  "ctxt": 0
-                },
-                "base": {
-                  "type": "MemberExpression",
+                "object": {
+                  "type": "OptionalChainingExpression",
                   "span": {
                     "start": 332,
                     "end": 339,
                     "ctxt": 0
                   },
-                  "object": {
+                  "optional": true,
+                  "base": {
                     "type": "MemberExpression",
                     "span": {
                       "start": 332,
-                      "end": 336,
+                      "end": 339,
                       "ctxt": 0
                     },
                     "object": {
-                      "type": "Identifier",
+                      "type": "MemberExpression",
                       "span": {
                         "start": 332,
-                        "end": 334,
+                        "end": 336,
                         "ctxt": 0
                       },
-                      "value": "o4",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 332,
+                          "end": 334,
+                          "ctxt": 0
+                        },
+                        "value": "o4",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 335,
+                          "end": 336,
+                          "ctxt": 0
+                        },
+                        "value": "b",
+                        "optional": false
+                      }
                     },
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 335,
-                        "end": 336,
+                        "start": 338,
+                        "end": 339,
                         "ctxt": 0
                       },
-                      "value": "b",
+                      "value": "c",
                       "optional": false
                     }
-                  },
-                  "property": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 338,
-                      "end": 339,
-                      "ctxt": 0
-                    },
-                    "value": "c",
-                    "optional": false
                   }
-                }
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 340,
-                  "end": 341,
-                  "ctxt": 0
                 },
-                "value": "d",
-                "optional": false
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 340,
+                    "end": 341,
+                    "ctxt": 0
+                  },
+                  "value": "d",
+                  "optional": false
+                }
               }
             },
             "property": {
@@ -1228,11 +1223,7 @@
             "end": 367,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 364,
-            "end": 365,
-            "ctxt": 0
-          },
+          "optional": true,
           "base": {
             "type": "MemberExpression",
             "span": {
@@ -1248,80 +1239,85 @@
                 "ctxt": 0
               },
               "expression": {
-                "type": "MemberExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 354,
                   "end": 363,
                   "ctxt": 0
                 },
-                "object": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "MemberExpression",
                   "span": {
                     "start": 354,
-                    "end": 361,
+                    "end": 363,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 358,
-                    "end": 359,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "object": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 354,
                       "end": 361,
                       "ctxt": 0
                     },
-                    "object": {
+                    "optional": true,
+                    "base": {
                       "type": "MemberExpression",
                       "span": {
                         "start": 354,
-                        "end": 358,
+                        "end": 361,
                         "ctxt": 0
                       },
                       "object": {
-                        "type": "Identifier",
+                        "type": "MemberExpression",
                         "span": {
                           "start": 354,
-                          "end": 356,
+                          "end": 358,
                           "ctxt": 0
                         },
-                        "value": "o4",
-                        "optional": false
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 354,
+                            "end": 356,
+                            "ctxt": 0
+                          },
+                          "value": "o4",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 357,
+                            "end": 358,
+                            "ctxt": 0
+                          },
+                          "value": "b",
+                          "optional": false
+                        }
                       },
                       "property": {
                         "type": "Identifier",
                         "span": {
-                          "start": 357,
-                          "end": 358,
+                          "start": 360,
+                          "end": 361,
                           "ctxt": 0
                         },
-                        "value": "b",
+                        "value": "c",
                         "optional": false
                       }
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 360,
-                        "end": 361,
-                        "ctxt": 0
-                      },
-                      "value": "c",
-                      "optional": false
                     }
-                  }
-                },
-                "property": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 362,
-                    "end": 363,
-                    "ctxt": 0
                   },
-                  "value": "d",
-                  "optional": false
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 362,
+                      "end": 363,
+                      "ctxt": 0
+                    },
+                    "value": "d",
+                    "optional": false
+                  }
                 }
               }
             },
@@ -1368,11 +1364,7 @@
               "end": 389,
               "ctxt": 0
             },
-            "questionDotToken": {
-              "start": 386,
-              "end": 387,
-              "ctxt": 0
-            },
+            "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
@@ -1381,80 +1373,85 @@
                 "ctxt": 0
               },
               "object": {
-                "type": "MemberExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 377,
                   "end": 386,
                   "ctxt": 0
                 },
-                "object": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "MemberExpression",
                   "span": {
                     "start": 377,
-                    "end": 384,
+                    "end": 386,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 381,
-                    "end": 382,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "object": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 377,
                       "end": 384,
                       "ctxt": 0
                     },
-                    "object": {
+                    "optional": true,
+                    "base": {
                       "type": "MemberExpression",
                       "span": {
                         "start": 377,
-                        "end": 381,
+                        "end": 384,
                         "ctxt": 0
                       },
                       "object": {
-                        "type": "Identifier",
+                        "type": "MemberExpression",
                         "span": {
                           "start": 377,
-                          "end": 379,
+                          "end": 381,
                           "ctxt": 0
                         },
-                        "value": "o4",
-                        "optional": false
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 377,
+                            "end": 379,
+                            "ctxt": 0
+                          },
+                          "value": "o4",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 380,
+                            "end": 381,
+                            "ctxt": 0
+                          },
+                          "value": "b",
+                          "optional": false
+                        }
                       },
                       "property": {
                         "type": "Identifier",
                         "span": {
-                          "start": 380,
-                          "end": 381,
+                          "start": 383,
+                          "end": 384,
                           "ctxt": 0
                         },
-                        "value": "b",
+                        "value": "c",
                         "optional": false
                       }
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 383,
-                        "end": 384,
-                        "ctxt": 0
-                      },
-                      "value": "c",
-                      "optional": false
                     }
-                  }
-                },
-                "property": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 385,
-                    "end": 386,
-                    "ctxt": 0
                   },
-                  "value": "d",
-                  "optional": false
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 385,
+                      "end": 386,
+                      "ctxt": 0
+                    },
+                    "value": "d",
+                    "optional": false
+                  }
                 }
               },
               "property": {
@@ -1710,11 +1707,7 @@
             "end": 473,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 470,
-            "end": 471,
-            "ctxt": 0
-          },
+          "optional": true,
           "base": {
             "type": "MemberExpression",
             "span": {
@@ -1723,90 +1716,104 @@
               "ctxt": 0
             },
             "object": {
-              "type": "MemberExpression",
+              "type": "OptionalChainingExpression",
               "span": {
                 "start": 458,
                 "end": 470,
                 "ctxt": 0
               },
-              "object": {
+              "optional": false,
+              "base": {
                 "type": "MemberExpression",
                 "span": {
                   "start": 458,
-                  "end": 468,
+                  "end": 470,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "OptionalChainingExpression",
                   "span": {
                     "start": 458,
-                    "end": 466,
+                    "end": 468,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 462,
-                    "end": 463,
-                    "ctxt": 0
-                  },
+                  "optional": false,
                   "base": {
-                    "type": "CallExpression",
+                    "type": "MemberExpression",
                     "span": {
                       "start": 458,
-                      "end": 466,
+                      "end": 468,
                       "ctxt": 0
                     },
-                    "callee": {
-                      "type": "MemberExpression",
+                    "object": {
+                      "type": "OptionalChainingExpression",
                       "span": {
                         "start": 458,
-                        "end": 462,
+                        "end": 466,
                         "ctxt": 0
                       },
-                      "object": {
-                        "type": "Identifier",
+                      "optional": true,
+                      "base": {
+                        "type": "CallExpression",
                         "span": {
                           "start": 458,
-                          "end": 460,
+                          "end": 466,
                           "ctxt": 0
                         },
-                        "value": "o5",
-                        "optional": false
-                      },
-                      "property": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 461,
-                          "end": 462,
-                          "ctxt": 0
+                        "callee": {
+                          "type": "MemberExpression",
+                          "span": {
+                            "start": 458,
+                            "end": 462,
+                            "ctxt": 0
+                          },
+                          "object": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 458,
+                              "end": 460,
+                              "ctxt": 0
+                            },
+                            "value": "o5",
+                            "optional": false
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 461,
+                              "end": 462,
+                              "ctxt": 0
+                            },
+                            "value": "b",
+                            "optional": false
+                          }
                         },
-                        "value": "b",
-                        "optional": false
+                        "arguments": [],
+                        "typeArguments": null
                       }
                     },
-                    "arguments": [],
-                    "typeArguments": null
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 467,
+                        "end": 468,
+                        "ctxt": 0
+                      },
+                      "value": "c",
+                      "optional": false
+                    }
                   }
                 },
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 467,
-                    "end": 468,
+                    "start": 469,
+                    "end": 470,
                     "ctxt": 0
                   },
-                  "value": "c",
+                  "value": "d",
                   "optional": false
                 }
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 469,
-                  "end": 470,
-                  "ctxt": 0
-                },
-                "value": "d",
-                "optional": false
               }
             },
             "property": {
@@ -1852,11 +1859,7 @@
               "end": 498,
               "ctxt": 0
             },
-            "questionDotToken": {
-              "start": 495,
-              "end": 496,
-              "ctxt": 0
-            },
+            "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
@@ -1865,90 +1868,104 @@
                 "ctxt": 0
               },
               "object": {
-                "type": "MemberExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 483,
                   "end": 495,
                   "ctxt": 0
                 },
-                "object": {
+                "optional": false,
+                "base": {
                   "type": "MemberExpression",
                   "span": {
                     "start": 483,
-                    "end": 493,
+                    "end": 495,
                     "ctxt": 0
                   },
                   "object": {
                     "type": "OptionalChainingExpression",
                     "span": {
                       "start": 483,
-                      "end": 491,
+                      "end": 493,
                       "ctxt": 0
                     },
-                    "questionDotToken": {
-                      "start": 487,
-                      "end": 488,
-                      "ctxt": 0
-                    },
+                    "optional": false,
                     "base": {
-                      "type": "CallExpression",
+                      "type": "MemberExpression",
                       "span": {
                         "start": 483,
-                        "end": 491,
+                        "end": 493,
                         "ctxt": 0
                       },
-                      "callee": {
-                        "type": "MemberExpression",
+                      "object": {
+                        "type": "OptionalChainingExpression",
                         "span": {
                           "start": 483,
-                          "end": 487,
+                          "end": 491,
                           "ctxt": 0
                         },
-                        "object": {
-                          "type": "Identifier",
+                        "optional": true,
+                        "base": {
+                          "type": "CallExpression",
                           "span": {
                             "start": 483,
-                            "end": 485,
+                            "end": 491,
                             "ctxt": 0
                           },
-                          "value": "o5",
-                          "optional": false
-                        },
-                        "property": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 486,
-                            "end": 487,
-                            "ctxt": 0
+                          "callee": {
+                            "type": "MemberExpression",
+                            "span": {
+                              "start": 483,
+                              "end": 487,
+                              "ctxt": 0
+                            },
+                            "object": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 483,
+                                "end": 485,
+                                "ctxt": 0
+                              },
+                              "value": "o5",
+                              "optional": false
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 486,
+                                "end": 487,
+                                "ctxt": 0
+                              },
+                              "value": "b",
+                              "optional": false
+                            }
                           },
-                          "value": "b",
-                          "optional": false
+                          "arguments": [],
+                          "typeArguments": null
                         }
                       },
-                      "arguments": [],
-                      "typeArguments": null
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 492,
+                          "end": 493,
+                          "ctxt": 0
+                        },
+                        "value": "c",
+                        "optional": false
+                      }
                     }
                   },
                   "property": {
                     "type": "Identifier",
                     "span": {
-                      "start": 492,
-                      "end": 493,
+                      "start": 494,
+                      "end": 495,
                       "ctxt": 0
                     },
-                    "value": "c",
+                    "value": "d",
                     "optional": false
                   }
-                },
-                "property": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 494,
-                    "end": 495,
-                    "ctxt": 0
-                  },
-                  "value": "d",
-                  "optional": false
                 }
               },
               "property": {
@@ -2205,11 +2222,7 @@
             "end": 585,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 578,
-            "end": 579,
-            "ctxt": 0
-          },
+          "optional": true,
           "base": {
             "type": "MemberExpression",
             "span": {
@@ -2218,88 +2231,93 @@
               "ctxt": 0
             },
             "object": {
-              "type": "MemberExpression",
+              "type": "OptionalChainingExpression",
               "span": {
                 "start": 565,
                 "end": 578,
                 "ctxt": 0
               },
-              "object": {
-                "type": "OptionalChainingExpression",
+              "optional": false,
+              "base": {
+                "type": "MemberExpression",
                 "span": {
                   "start": 565,
-                  "end": 576,
+                  "end": 578,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 569,
-                  "end": 570,
-                  "ctxt": 0
-                },
-                "base": {
-                  "type": "MemberExpression",
+                "object": {
+                  "type": "OptionalChainingExpression",
                   "span": {
                     "start": 565,
                     "end": 576,
                     "ctxt": 0
                   },
-                  "object": {
+                  "optional": true,
+                  "base": {
                     "type": "MemberExpression",
                     "span": {
                       "start": 565,
-                      "end": 569,
-                      "ctxt": 0
-                    },
-                    "object": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 565,
-                        "end": 567,
-                        "ctxt": 0
-                      },
-                      "value": "o6",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 568,
-                        "end": 569,
-                        "ctxt": 0
-                      },
-                      "value": "b",
-                      "optional": false
-                    }
-                  },
-                  "property": {
-                    "type": "Computed",
-                    "span": {
-                      "start": 571,
                       "end": 576,
                       "ctxt": 0
                     },
-                    "expression": {
-                      "type": "StringLiteral",
+                    "object": {
+                      "type": "MemberExpression",
                       "span": {
-                        "start": 572,
-                        "end": 575,
+                        "start": 565,
+                        "end": 569,
                         "ctxt": 0
                       },
-                      "value": "c",
-                      "raw": "'c'"
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 565,
+                          "end": 567,
+                          "ctxt": 0
+                        },
+                        "value": "o6",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 568,
+                          "end": 569,
+                          "ctxt": 0
+                        },
+                        "value": "b",
+                        "optional": false
+                      }
+                    },
+                    "property": {
+                      "type": "Computed",
+                      "span": {
+                        "start": 571,
+                        "end": 576,
+                        "ctxt": 0
+                      },
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 572,
+                          "end": 575,
+                          "ctxt": 0
+                        },
+                        "value": "c",
+                        "raw": "'c'"
+                      }
                     }
                   }
-                }
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 577,
-                  "end": 578,
-                  "ctxt": 0
                 },
-                "value": "d",
-                "optional": false
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 577,
+                    "end": 578,
+                    "ctxt": 0
+                  },
+                  "value": "d",
+                  "optional": false
+                }
               }
             },
             "property": {
@@ -2353,11 +2371,7 @@
               "end": 615,
               "ctxt": 0
             },
-            "questionDotToken": {
-              "start": 608,
-              "end": 609,
-              "ctxt": 0
-            },
+            "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
@@ -2366,88 +2380,93 @@
                 "ctxt": 0
               },
               "object": {
-                "type": "MemberExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 595,
                   "end": 608,
                   "ctxt": 0
                 },
-                "object": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "MemberExpression",
                   "span": {
                     "start": 595,
-                    "end": 606,
+                    "end": 608,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 599,
-                    "end": 600,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "object": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 595,
                       "end": 606,
                       "ctxt": 0
                     },
-                    "object": {
+                    "optional": true,
+                    "base": {
                       "type": "MemberExpression",
                       "span": {
                         "start": 595,
-                        "end": 599,
-                        "ctxt": 0
-                      },
-                      "object": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 595,
-                          "end": 597,
-                          "ctxt": 0
-                        },
-                        "value": "o6",
-                        "optional": false
-                      },
-                      "property": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 598,
-                          "end": 599,
-                          "ctxt": 0
-                        },
-                        "value": "b",
-                        "optional": false
-                      }
-                    },
-                    "property": {
-                      "type": "Computed",
-                      "span": {
-                        "start": 601,
                         "end": 606,
                         "ctxt": 0
                       },
-                      "expression": {
-                        "type": "StringLiteral",
+                      "object": {
+                        "type": "MemberExpression",
                         "span": {
-                          "start": 602,
-                          "end": 605,
+                          "start": 595,
+                          "end": 599,
                           "ctxt": 0
                         },
-                        "value": "c",
-                        "raw": "'c'"
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 595,
+                            "end": 597,
+                            "ctxt": 0
+                          },
+                          "value": "o6",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 598,
+                            "end": 599,
+                            "ctxt": 0
+                          },
+                          "value": "b",
+                          "optional": false
+                        }
+                      },
+                      "property": {
+                        "type": "Computed",
+                        "span": {
+                          "start": 601,
+                          "end": 606,
+                          "ctxt": 0
+                        },
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 602,
+                            "end": 605,
+                            "ctxt": 0
+                          },
+                          "value": "c",
+                          "raw": "'c'"
+                        }
                       }
                     }
-                  }
-                },
-                "property": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 607,
-                    "end": 608,
-                    "ctxt": 0
                   },
-                  "value": "d",
-                  "optional": false
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 607,
+                      "end": 608,
+                      "ctxt": 0
+                    },
+                    "value": "d",
+                    "optional": false
+                  }
                 }
               },
               "property": {
