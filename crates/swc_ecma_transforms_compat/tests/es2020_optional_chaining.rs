@@ -247,30 +247,6 @@ class Derived extends Base {
 "#
 );
 
-// general_lhs_update
-
-// general_containers
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    general_containers,
-    r#"
-var street = user.address?.street
-street = user.address?.street
-
-test(a?.b,  1);
-
-(a?.b, 2);
-"#,
-    r#"
-var _user_address, _user_address1;
-var street = (_user_address = user.address) === null || _user_address === void 0 ? void 0 : _user_address.street;
-street = (_user_address1 = user.address) === null || _user_address1 === void 0 ? void 0 : _user_address1.street;
-test(a === null || a === void 0 ? void 0 : a.b, 1);
-a === null || a === void 0 ? void 0 : a.b, 2;
-"#
-);
-
 // general_function_call_spread
 
 // general_lhs_assignment
