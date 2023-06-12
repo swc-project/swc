@@ -1,1 +1,2 @@
-console.log('val', "42");
+const val = 42..toString();
+console.log('val', val);
