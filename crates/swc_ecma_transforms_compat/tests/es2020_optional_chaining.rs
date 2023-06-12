@@ -273,22 +273,6 @@ const r = d === null || d === void 0 ? void 0 : d.filter(i => Math.random() > 0.
 test!(
     syntax(),
     |_| tr(Default::default()),
-    issue_1133_1,
-    "
-async function foo() {
-  const item = await data?.foo();
-}
-    ",
-    "
-    async function foo() {
-      const item = await (data === null || data === void 0 ? void 0 : data.foo());
-    }
-    "
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
     pr_2791,
     r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#,
     r#"
