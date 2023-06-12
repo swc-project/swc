@@ -49,6 +49,9 @@
 
 - **(es/ast)** Reimplement optional chaining (#7441) ([aa83584](https://github.com/swc-project/swc/commit/aa83584634286d7c741d903ad94ba5228c89bc62))
 
+
+- **(es/ast)** Remove unused fields (#7518) ([3958f17](https://github.com/swc-project/swc/commit/3958f1792c4598e965f36a11c567c95f69984a9f))
+
 ## [1.3.62] - 2023-06-03
 
 ### Bug Fixes
