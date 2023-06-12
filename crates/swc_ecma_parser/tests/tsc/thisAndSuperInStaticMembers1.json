@@ -449,53 +449,58 @@
             "optional": false
           },
           "value": {
-            "type": "CallExpression",
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 313,
               "end": 322,
               "ctxt": 0
             },
-            "callee": {
-              "type": "OptionalChainingExpression",
+            "optional": false,
+            "base": {
+              "type": "CallExpression",
               "span": {
                 "start": 313,
-                "end": 320,
+                "end": 322,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 317,
-                "end": 318,
-                "ctxt": 0
-              },
-              "base": {
-                "type": "MemberExpression",
+              "callee": {
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 313,
                   "end": 320,
                   "ctxt": 0
                 },
-                "object": {
-                  "type": "ThisExpression",
+                "optional": true,
+                "base": {
+                  "type": "MemberExpression",
                   "span": {
                     "start": 313,
-                    "end": 317,
-                    "ctxt": 0
-                  }
-                },
-                "property": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 319,
                     "end": 320,
                     "ctxt": 0
                   },
-                  "value": "x",
-                  "optional": false
+                  "object": {
+                    "type": "ThisExpression",
+                    "span": {
+                      "start": 313,
+                      "end": 317,
+                      "ctxt": 0
+                    }
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 319,
+                      "end": 320,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false
+                  }
                 }
-              }
-            },
-            "arguments": [],
-            "typeArguments": null
+              },
+              "arguments": [],
+              "typeArguments": null
+            }
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -606,69 +611,74 @@
             "optional": false
           },
           "value": {
-            "type": "CallExpression",
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 371,
               "end": 386,
               "ctxt": 0
             },
-            "callee": {
-              "type": "OptionalChainingExpression",
+            "optional": false,
+            "base": {
+              "type": "CallExpression",
               "span": {
                 "start": 371,
-                "end": 384,
+                "end": 386,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 375,
-                "end": 376,
-                "ctxt": 0
-              },
-              "base": {
-                "type": "MemberExpression",
+              "callee": {
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 371,
                   "end": 384,
                   "ctxt": 0
                 },
-                "object": {
-                  "type": "ThisExpression",
+                "optional": true,
+                "base": {
+                  "type": "MemberExpression",
                   "span": {
                     "start": 371,
-                    "end": 375,
-                    "ctxt": 0
-                  }
-                },
-                "property": {
-                  "type": "Computed",
-                  "span": {
-                    "start": 377,
                     "end": 384,
                     "ctxt": 0
                   },
-                  "expression": {
-                    "type": "ParenthesisExpression",
+                  "object": {
+                    "type": "ThisExpression",
                     "span": {
-                      "start": 378,
-                      "end": 383,
+                      "start": 371,
+                      "end": 375,
+                      "ctxt": 0
+                    }
+                  },
+                  "property": {
+                    "type": "Computed",
+                    "span": {
+                      "start": 377,
+                      "end": 384,
                       "ctxt": 0
                     },
                     "expression": {
-                      "type": "StringLiteral",
+                      "type": "ParenthesisExpression",
                       "span": {
-                        "start": 379,
-                        "end": 382,
+                        "start": 378,
+                        "end": 383,
                         "ctxt": 0
                       },
-                      "value": "x",
-                      "raw": "\"x\""
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 379,
+                          "end": 382,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "raw": "\"x\""
+                      }
                     }
                   }
                 }
-              }
-            },
-            "arguments": [],
-            "typeArguments": null
+              },
+              "arguments": [],
+              "typeArguments": null
+            }
           },
           "typeAnnotation": null,
           "isStatic": true,

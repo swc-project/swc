@@ -145,11 +145,7 @@
           "end": 97,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 93,
-          "end": 94,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
@@ -229,11 +225,7 @@
           "end": 115,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 111,
-          "end": 112,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
@@ -313,11 +305,7 @@
           "end": 160,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 156,
-          "end": 157,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
@@ -397,11 +385,7 @@
           "end": 202,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 198,
-          "end": 199,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
@@ -502,11 +486,7 @@
                 "end": 268,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 265,
-                "end": 266,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -594,11 +574,7 @@
                 "end": 297,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 294,
-                "end": 295,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -686,11 +662,7 @@
                 "end": 318,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 311,
-                "end": 312,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -786,11 +758,7 @@
                 "end": 351,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 344,
-                "end": 345,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {

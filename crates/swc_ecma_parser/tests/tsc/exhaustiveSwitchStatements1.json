@@ -6774,11 +6774,7 @@
                   "end": 4101,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 4093,
-                  "end": 4094,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {

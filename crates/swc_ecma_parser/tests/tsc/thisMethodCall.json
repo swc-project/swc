@@ -119,11 +119,7 @@
                       "end": 98,
                       "ctxt": 0
                     },
-                    "questionDotToken": {
-                      "start": 94,
-                      "end": 95,
-                      "ctxt": 0
-                    },
+                    "optional": true,
                     "base": {
                       "type": "CallExpression",
                       "span": {

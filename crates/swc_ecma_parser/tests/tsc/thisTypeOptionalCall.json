@@ -269,69 +269,74 @@
               "ctxt": 0
             },
             "argument": {
-              "type": "CallExpression",
+              "type": "OptionalChainingExpression",
               "span": {
                 "start": 251,
                 "end": 264,
                 "ctxt": 0
               },
-              "callee": {
-                "type": "OptionalChainingExpression",
+              "optional": false,
+              "base": {
+                "type": "CallExpression",
                 "span": {
                   "start": 251,
-                  "end": 259,
+                  "end": 264,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 253,
-                  "end": 254,
-                  "ctxt": 0
-                },
-                "base": {
-                  "type": "MemberExpression",
+                "callee": {
+                  "type": "OptionalChainingExpression",
                   "span": {
                     "start": 251,
                     "end": 259,
                     "ctxt": 0
                   },
-                  "object": {
-                    "type": "Identifier",
+                  "optional": true,
+                  "base": {
+                    "type": "MemberExpression",
                     "span": {
                       "start": 251,
-                      "end": 253,
-                      "ctxt": 0
-                    },
-                    "value": "fn",
-                    "optional": false
-                  },
-                  "property": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 255,
                       "end": 259,
                       "ctxt": 0
                     },
-                    "value": "bind",
-                    "optional": false
-                  }
-                }
-              },
-              "arguments": [
-                {
-                  "spread": null,
-                  "expression": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 260,
-                      "end": 263,
-                      "ctxt": 0
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 251,
+                        "end": 253,
+                        "ctxt": 0
+                      },
+                      "value": "fn",
+                      "optional": false
                     },
-                    "value": "obj",
-                    "optional": false
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 255,
+                        "end": 259,
+                        "ctxt": 0
+                      },
+                      "value": "bind",
+                      "optional": false
+                    }
                   }
-                }
-              ],
-              "typeArguments": null
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 260,
+                        "end": 263,
+                        "ctxt": 0
+                      },
+                      "value": "obj",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
             }
           }
         ]

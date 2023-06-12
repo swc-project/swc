@@ -14,62 +14,67 @@
         "ctxt": 0
       },
       "expression": {
-        "type": "MemberExpression",
+        "type": "OptionalChainingExpression",
         "span": {
           "start": 1,
           "end": 15,
           "ctxt": 0
         },
-        "object": {
-          "type": "OptionalChainingExpression",
+        "optional": false,
+        "base": {
+          "type": "MemberExpression",
           "span": {
             "start": 1,
-            "end": 11,
+            "end": 15,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 4,
-            "end": 5,
-            "ctxt": 0
-          },
-          "base": {
-            "type": "MemberExpression",
+          "object": {
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 1,
               "end": 11,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "optional": true,
+            "base": {
+              "type": "MemberExpression",
               "span": {
                 "start": 1,
-                "end": 4,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 6,
                 "end": 11,
                 "ctxt": 0
               },
-              "value": "class",
-              "optional": false
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1,
+                  "end": 4,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 6,
+                  "end": 11,
+                  "ctxt": 0
+                },
+                "value": "class",
+                "optional": false
+              }
             }
-          }
-        },
-        "property": {
-          "type": "Identifier",
-          "span": {
-            "start": 12,
-            "end": 15,
-            "ctxt": 0
           },
-          "value": "bar",
-          "optional": false
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 12,
+              "end": 15,
+              "ctxt": 0
+            },
+            "value": "bar",
+            "optional": false
+          }
         }
       }
     },
@@ -81,62 +86,67 @@
         "ctxt": 0
       },
       "expression": {
-        "type": "MemberExpression",
+        "type": "OptionalChainingExpression",
         "span": {
           "start": 16,
           "end": 33,
           "ctxt": 0
         },
-        "object": {
-          "type": "OptionalChainingExpression",
+        "optional": false,
+        "base": {
+          "type": "MemberExpression",
           "span": {
             "start": 16,
-            "end": 29,
+            "end": 33,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 19,
-            "end": 20,
-            "ctxt": 0
-          },
-          "base": {
-            "type": "MemberExpression",
+          "object": {
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 16,
               "end": 29,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "optional": true,
+            "base": {
+              "type": "MemberExpression",
               "span": {
                 "start": 16,
-                "end": 19,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 21,
                 "end": 29,
                 "ctxt": 0
               },
-              "value": "function",
-              "optional": false
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 16,
+                  "end": 19,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 21,
+                  "end": 29,
+                  "ctxt": 0
+                },
+                "value": "function",
+                "optional": false
+              }
             }
-          }
-        },
-        "property": {
-          "type": "Identifier",
-          "span": {
-            "start": 30,
-            "end": 33,
-            "ctxt": 0
           },
-          "value": "bar",
-          "optional": false
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 30,
+              "end": 33,
+              "ctxt": 0
+            },
+            "value": "bar",
+            "optional": false
+          }
         }
       }
     },
@@ -148,93 +158,94 @@
         "ctxt": 0
       },
       "expression": {
-        "type": "MemberExpression",
+        "type": "OptionalChainingExpression",
         "span": {
           "start": 34,
           "end": 53,
           "ctxt": 0
         },
-        "object": {
-          "type": "OptionalChainingExpression",
+        "optional": false,
+        "base": {
+          "type": "MemberExpression",
           "span": {
             "start": 34,
-            "end": 49,
+            "end": 53,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 42,
-            "end": 43,
-            "ctxt": 0
-          },
-          "base": {
-            "type": "MemberExpression",
+          "object": {
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 34,
               "end": 49,
               "ctxt": 0
             },
-            "object": {
-              "type": "OptionalChainingExpression",
+            "optional": true,
+            "base": {
+              "type": "MemberExpression",
               "span": {
                 "start": 34,
-                "end": 42,
+                "end": 49,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 37,
-                "end": 38,
-                "ctxt": 0
-              },
-              "base": {
-                "type": "MemberExpression",
+              "object": {
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 34,
                   "end": 42,
                   "ctxt": 0
                 },
-                "object": {
-                  "type": "Identifier",
+                "optional": true,
+                "base": {
+                  "type": "MemberExpression",
                   "span": {
                     "start": 34,
-                    "end": 37,
-                    "ctxt": 0
-                  },
-                  "value": "foo",
-                  "optional": false
-                },
-                "property": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 39,
                     "end": 42,
                     "ctxt": 0
                   },
-                  "value": "bar",
-                  "optional": false
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 34,
+                      "end": 37,
+                      "ctxt": 0
+                    },
+                    "value": "foo",
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 39,
+                      "end": 42,
+                      "ctxt": 0
+                    },
+                    "value": "bar",
+                    "optional": false
+                  }
                 }
-              }
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 44,
-                "end": 49,
-                "ctxt": 0
               },
-              "value": "class",
-              "optional": false
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 44,
+                  "end": 49,
+                  "ctxt": 0
+                },
+                "value": "class",
+                "optional": false
+              }
             }
-          }
-        },
-        "property": {
-          "type": "Identifier",
-          "span": {
-            "start": 50,
-            "end": 53,
-            "ctxt": 0
           },
-          "value": "bar",
-          "optional": false
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 50,
+              "end": 53,
+              "ctxt": 0
+            },
+            "value": "bar",
+            "optional": false
+          }
         }
       }
     },
@@ -252,11 +263,7 @@
           "end": 72,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 67,
-          "end": 68,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -271,11 +278,7 @@
               "end": 67,
               "ctxt": 0
             },
-            "questionDotToken": {
-              "start": 57,
-              "end": 58,
-              "ctxt": 0
-            },
+            "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
