@@ -35,11 +35,8 @@ impl VisitMut for OptChaining {
     noop_visit_mut_type!();
 
     fn visit_mut_block_stmt_or_expr(&mut self, expr: &mut BlockStmtOrExpr) {
-        match expr {
-            BlockStmtOrExpr::BlockStmt(..) => {
-                expr.visit_mut_children_with(self);
-            }
-            BlockStmtOrExpr::Expr(e) => {
+        if let BlockStmtOrExpr::Expr(e) = expr {
+            if e.is_opt_chain() {
                 let mut stmt = BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![Stmt::Return(ReturnStmt {
@@ -50,8 +47,11 @@ impl VisitMut for OptChaining {
 
                 stmt.visit_mut_with(self);
                 *expr = BlockStmtOrExpr::BlockStmt(stmt);
+                return;
             }
-        };
+        }
+
+        expr.visit_mut_children_with(self);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
