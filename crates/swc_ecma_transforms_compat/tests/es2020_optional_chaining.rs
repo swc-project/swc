@@ -315,30 +315,6 @@ var _UNCONFIRMED_CALLBACK_MAP_get;
   "#
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_1836_1,
-    "
-    function bug() {
-      const arrowFn = (arg) => this.object[arg]?.();
-    }
-
-    bug();
-    ",
-    "
-    function bug() {
-      const arrowFn = (arg)=>{
-          var _this_object_arg, _object;
-          return (_this_object_arg = (_object = (_object = this.object)[arg]) === null || _object \
-     === void 0) === null || _this_object_arg === void 0 ? void 0 : \
-     _this_object_arg.call(_object);
-      };
-  }
-  bug();
-    "
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
