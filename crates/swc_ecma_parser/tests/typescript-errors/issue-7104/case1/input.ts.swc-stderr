@@ -6,6 +6,13 @@
  2 |     if (bar() {
    `----
 
+  x This syntax is reserved in files with the .mts or .cts extension. Use an `as` expression instead.
+   ,-[$DIR/tests/typescript-errors/issue-7104/case1/input.ts:1:1]
+ 1 | const foo = <T extends {}>() => {
+   :             ^
+ 2 |     if (bar() {
+   `----
+
   x Expression expected
    ,-[$DIR/tests/typescript-errors/issue-7104/case1/input.ts:1:1]
  1 | const foo = <T extends {}>() => {

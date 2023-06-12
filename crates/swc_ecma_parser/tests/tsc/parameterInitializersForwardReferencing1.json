@@ -113,8 +113,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -290,8 +289,7 @@
                     },
                     "value": "foo",
                     "optional": false
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "body": {
@@ -308,8 +306,7 @@
               "generator": false,
               "typeParameters": null,
               "returnType": null
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -469,8 +466,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -508,8 +504,7 @@
               },
               "value": 2.0,
               "raw": "2"
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -621,8 +616,7 @@
               },
               "value": "foo",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -714,8 +708,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -807,8 +800,7 @@
               },
               "value": "async",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -1098,8 +1090,7 @@
                   },
                   "value": 12.0,
                   "raw": "12"
-                },
-                "typeAnnotation": null
+                }
               }
             },
             {
@@ -1140,8 +1131,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               }
             }
           ],
@@ -1249,8 +1239,7 @@
               },
               "value": "foo1",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

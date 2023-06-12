@@ -463,8 +463,7 @@
                         },
                         "arguments": null,
                         "typeArguments": null
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -520,8 +519,7 @@
                         }
                       }
                     ]
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "optional": false,

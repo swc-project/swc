@@ -358,8 +358,7 @@
                     },
                     "value": "d",
                     "optional": false
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],

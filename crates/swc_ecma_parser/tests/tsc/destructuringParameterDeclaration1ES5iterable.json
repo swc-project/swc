@@ -1375,8 +1375,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -1455,8 +1454,7 @@
                 "end": 989,
                 "ctxt": 0
               }
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -1540,8 +1538,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -1795,8 +1792,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -2147,8 +2143,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -2393,8 +2388,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -3189,8 +3183,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -3467,8 +3460,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -3700,8 +3692,7 @@
                           },
                           "value": 1.0,
                           "raw": "1"
-                        },
-                        "typeAnnotation": null
+                        }
                       }
                     ],
                     "optional": false,
@@ -4610,8 +4601,7 @@
               },
               "value": 10.0,
               "raw": "10"
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -5678,8 +5668,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

@@ -1374,8 +1374,7 @@
                     },
                     "value": 0.0,
                     "raw": "0"
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "optional": false,
@@ -1736,8 +1735,7 @@
                       },
                       "value": 0.0,
                       "raw": "0"
-                    },
-                    "typeAnnotation": null
+                    }
                   }
                 }
               ],

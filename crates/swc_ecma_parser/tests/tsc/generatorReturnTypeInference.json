@@ -3123,8 +3123,7 @@
                         },
                         "value": 1.0,
                         "raw": "1"
-                      },
-                      "typeAnnotation": null
+                      }
                     },
                     {
                       "type": "AssignmentPattern",
@@ -3153,8 +3152,7 @@
                         },
                         "value": 2.0,
                         "raw": "2"
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,

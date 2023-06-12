@@ -235,8 +235,7 @@
                       "optional": false
                     }
                   }
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {

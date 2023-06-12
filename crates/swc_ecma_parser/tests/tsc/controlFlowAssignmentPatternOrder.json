@@ -400,8 +400,7 @@
                         }
                       ]
                     }
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "optional": false,
@@ -831,8 +830,7 @@
                         }
                       ]
                     }
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "optional": false,
@@ -1288,8 +1286,7 @@
                         }
                       ]
                     }
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "optional": false,
@@ -1813,8 +1810,7 @@
                         }
                       ]
                     }
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "optional": false,
@@ -2336,8 +2332,7 @@
                             }
                           ]
                         }
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -2797,8 +2792,7 @@
                             }
                           ]
                         }
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -3284,8 +3278,7 @@
                             }
                           ]
                         }
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -3839,8 +3832,7 @@
                             }
                           ]
                         }
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -4404,8 +4396,7 @@
                             }
                           ]
                         }
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -4865,8 +4856,7 @@
                             }
                           ]
                         }
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -5352,8 +5342,7 @@
                             }
                           ]
                         }
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -5907,8 +5896,7 @@
                             }
                           ]
                         }
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,

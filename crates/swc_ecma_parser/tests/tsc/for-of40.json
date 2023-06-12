@@ -170,8 +170,7 @@
                     },
                     "value": "",
                     "raw": "\"\""
-                  },
-                  "typeAnnotation": null
+                  }
                 },
                 {
                   "type": "AssignmentPattern",
@@ -199,8 +198,7 @@
                       "ctxt": 0
                     },
                     "value": false
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "optional": false,

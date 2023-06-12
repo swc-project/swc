@@ -111,8 +111,7 @@
                 "ctxt": 0
               },
               "properties": []
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -307,8 +306,7 @@
                         "ctxt": 0
                       },
                       "properties": []
-                    },
-                    "typeAnnotation": null
+                    }
                   }
                 }
               ],
@@ -323,8 +321,7 @@
                 "ctxt": 0
               },
               "properties": []
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
