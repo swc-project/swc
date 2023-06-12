@@ -13,50 +13,6 @@ fn syntax() -> Syntax {
     Syntax::Typescript(Default::default())
 }
 
-// general_super_method_call_loose
-test!(
-    ignore,
-    syntax(),
-    |_| tr(Config {
-        pure_getter: true,
-        no_document_all: true
-    }),
-    general_super_method_call_loose,
-    r#"
-"use strict";
-class Base {
-  method() {
-    return 'Hello!';
-  }
-}
-
-class Derived extends Base {
-    method() {
-        return super.method?.()
-    }
-}
-"#,
-    r#"
-"use strict";
-
-class Base {
-  method() {
-    return 'Hello!';
-  }
-}
-
-class Derived extends Base {
-  method() {
-    return super.method == null ? void 0 : super.method();
-  }
-}
-"#
-);
-
-// general_function_call_spread
-
-// general_lhs_assignment
-
 // general_delete_exec
 test_exec!(
     syntax(),
