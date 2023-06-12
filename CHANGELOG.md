@@ -43,6 +43,12 @@
 
 - **(es)** Use `&dyn Comments` for jsx and TypeScript (#7490) ([abd62bc](https://github.com/swc-project/swc/commit/abd62bc797175d783d18d162301c851eefa7ac23))
 
+### Refactor
+
+
+
+- **(es/ast)** Reimplement optional chaining (#7441) ([aa83584](https://github.com/swc-project/swc/commit/aa83584634286d7c741d903ad94ba5228c89bc62))
+
 ## [1.3.62] - 2023-06-03
 
 ### Bug Fixes
