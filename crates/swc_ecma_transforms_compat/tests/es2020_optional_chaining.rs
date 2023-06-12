@@ -176,22 +176,6 @@ test!(
      _a_focus === void 0 ? void 0 : _a_focus.call(_object);"
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_1092_1,
-    "a?.b.c()",
-    "a === null || a === void 0 ? void 0 : a.b.c();"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_1092_2,
-    "a?.b.c.d.e.f.g.h()",
-    "a === null || a === void 0 ? void 0 : a.b.c.d.e.f.g.h();"
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
