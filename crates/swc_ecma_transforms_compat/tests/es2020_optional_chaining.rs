@@ -705,7 +705,8 @@ test!(
     |_| tr(Default::default()),
     simple_1,
     "obj?.a",
-    "obj === null || obj === void 0 ? void 0 : obj.a;"
+    "var _obj;
+    (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a;"
 );
 
 test!(
@@ -713,9 +714,9 @@ test!(
     |_| tr(Default::default()),
     simple_2,
     "obj?.a?.b",
-    "var _obj_a;
-    obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? \
-     void 0 : _obj_a.b;"
+    "var _obj_a, _obj;
+    (_obj_a = (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a) === null || _obj_a === \
+     void 0 ? void 0 : _obj_a.b;"
 );
 
 test!(
@@ -764,8 +765,8 @@ test!(
     |_| tr(Default::default()),
     issue_732_2,
     "test.a?.b.c",
-    "var _test_a;
-    (_test_a = test.a) === null || _test_a === void 0 ? void 0 : _test_a.b.c;"
+    "var _test_a_b;
+    (_test_a_b = test.a) === null || _test_a_b === void 0 ? void 0 : _test_a_b.b.c;"
 );
 
 test!(
@@ -773,8 +774,9 @@ test!(
     |_| tr(Default::default()),
     issue_732_3,
     "test.a?.b.c.d.e.f.g.h.i",
-    "var _test_a;
-    (_test_a = test.a) === null || _test_a === void 0 ? void 0 : _test_a.b.c.d.e.f.g.h.i;"
+    "var _test_a_b_c_d_e_f_g_h;
+    (_test_a_b_c_d_e_f_g_h = test.a) === null || _test_a_b_c_d_e_f_g_h === void 0 ? void 0 : \
+     _test_a_b_c_d_e_f_g_h.b.c.d.e.f.g.h.i"
 );
 
 // https://github.com/Brooooooklyn/swc-node/issues/62
