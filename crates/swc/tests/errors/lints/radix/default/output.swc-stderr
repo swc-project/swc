@@ -193,31 +193,6 @@ Error:
  43 | globalThis?.parseInt("12");
     `----
 
-  x Missing radix parameter
-    ,-[40:1]
- 40 | globalThis.parseInt("12");
- 41 | 
- 42 | // requires add radix equals 10
- 43 | globalThis?.parseInt("12");
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 44 | 
- 45 | // requires add radix equals 10
- 46 | parseInt("12", ("abc"));
-    `----
-
-Error: 
-  > Add radix parameter `10` for parsing decimal numbers
-    ,-[40:1]
- 40 | globalThis.parseInt("12");
- 41 | 
- 42 | // requires add radix equals 10
- 43 | globalThis?.parseInt("12");
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 44 | 
- 45 | // requires add radix equals 10
- 46 | parseInt("12", ("abc"));
-    `----
-
   x Invalid radix parameter, must be an integer between 2 and 36
     ,-[43:1]
  43 | globalThis?.parseInt("12");
