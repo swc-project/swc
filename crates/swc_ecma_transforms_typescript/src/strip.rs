@@ -1118,9 +1118,6 @@ where
                             is_type_only: true,
                             module_ref: TsModuleRef::TsExternalModuleRef(..),
                             ..
-                        } | TsImportEqualsDecl {
-                            module_ref: TsModuleRef::TsExternalModuleRef(..),
-                            ..
                         }
                     ) =>
                 {
@@ -2296,9 +2293,6 @@ where
                         &*v,
                         TsImportEqualsDecl {
                             is_type_only: true,
-                            module_ref: TsModuleRef::TsExternalModuleRef(..),
-                            ..
-                        } | TsImportEqualsDecl {
                             module_ref: TsModuleRef::TsExternalModuleRef(..),
                             ..
                         }
