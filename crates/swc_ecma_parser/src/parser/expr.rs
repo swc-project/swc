@@ -1823,11 +1823,6 @@ impl<I: Tokens> Parser<I> {
                         ref mut span,
                         ..
                     })
-                    | Pat::Assign(AssignPat {
-                        ref mut type_ann,
-                        ref mut span,
-                        ..
-                    })
                     | Pat::Object(ObjectPat {
                         ref mut type_ann,
                         ref mut span,
@@ -1846,7 +1841,7 @@ impl<I: Tokens> Parser<I> {
                         *type_ann = new_type_ann;
                     }
                     Pat::Expr(ref expr) => unreachable!("invalid pattern: Expr({:?})", expr),
-                    Pat::Invalid(..) => {
+                    Pat::Assign(..) | Pat::Invalid(..) => {
                         // We don't have to panic here.
                         // See: https://github.com/swc-project/swc/issues/1170
                         //
@@ -1862,7 +1857,6 @@ impl<I: Tokens> Parser<I> {
                         span: span!(self, pat_start),
                         left: Box::new(pat),
                         right,
-                        type_ann: None,
                     });
                 }
 

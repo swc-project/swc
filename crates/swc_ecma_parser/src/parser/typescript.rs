@@ -1158,7 +1158,6 @@ impl<I: Tokens> Parser<I> {
         expect!(self, ';');
         Ok(Box::new(TsImportEqualsDecl {
             span: span!(self, start),
-            declare: false,
             id,
             is_export,
             is_type_only,

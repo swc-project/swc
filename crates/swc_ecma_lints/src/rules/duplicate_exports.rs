@@ -136,7 +136,7 @@ impl Visit for DuplicateExports {
     }
 
     fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
-        if n.is_export && !n.is_type_only && !n.declare {
+        if n.is_export && !n.is_type_only {
             self.add(&n.id)
         }
     }

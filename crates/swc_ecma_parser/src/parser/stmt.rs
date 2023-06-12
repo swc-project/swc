@@ -744,13 +744,13 @@ impl<'a, I: Tokens> Parser<I> {
                     Pat::Ident(BindingIdent { type_ann, .. })
                     | Pat::Array(ArrayPat { type_ann, .. })
                     | Pat::Rest(RestPat { type_ann, .. })
-                    | Pat::Object(ObjectPat { type_ann, .. })
-                    | Pat::Assign(AssignPat { type_ann, .. }) => {
+                    | Pat::Object(ObjectPat { type_ann, .. }) => {
                         *type_ann = Some(Box::new(TsTypeAnn {
                             span: span!(self, type_ann_start),
                             type_ann: ty,
                         }));
                     }
+                    Pat::Assign(..) => {}
                     Pat::Invalid(_) => {}
                     Pat::Expr(_) => {}
                 }
@@ -951,9 +951,6 @@ impl<'a, I: Tokens> Parser<I> {
             let type_annotation = self.try_parse_ts_type_ann()?;
             match name {
                 Pat::Array(ArrayPat {
-                    ref mut type_ann, ..
-                })
-                | Pat::Assign(AssignPat {
                     ref mut type_ann, ..
                 })
                 | Pat::Ident(BindingIdent {
@@ -1230,7 +1227,6 @@ impl<'a, I: Tokens> Parser<I> {
                         let type_ann = match decl.decls[0].name {
                             Pat::Ident(ref v) => Some(&v.type_ann),
                             Pat::Array(ref v) => Some(&v.type_ann),
-                            Pat::Assign(ref v) => Some(&v.type_ann),
                             Pat::Rest(ref v) => Some(&v.type_ann),
                             Pat::Object(ref v) => Some(&v.type_ann),
                             _ => None,
