@@ -2,8 +2,8 @@
 
 use std::{
     env::temp_dir,
-    fs,
-    fs::{canonicalize, create_dir_all},
+    fs::{self, canonicalize, create_dir_all, File},
+    io::Write,
     path::{Path, PathBuf},
     process::{Command, Output},
     sync::Arc,
@@ -154,7 +154,7 @@ fn validate_map(map_file: PathBuf) {
     sourcemap::SourceMap::from_slice(content.as_bytes()).expect("failed to deserialize sourcemap");
 }
 
-#[cfg(todo_enable)]
+#[cfg(not(target_os = "windows"))]
 #[testing::fixture("tests/stacktrace/**/input/")]
 fn stacktrace(input_dir: PathBuf) {
     let dir = input_dir.parent().unwrap();
@@ -171,11 +171,13 @@ fn stacktrace(input_dir: PathBuf) {
                 if entry.metadata().unwrap().is_dir() {
                     continue;
                 }
-                println!("File: {}", entry.path().to_string_lossy());
 
-                if !entry.file_name().to_string_lossy().ends_with(".js") {
+                if entry.file_name().to_string_lossy().ends_with("_exec.js")
+                    || !entry.file_name().to_string_lossy().ends_with(".js")
+                {
                     continue;
                 }
+                println!("File: {}", entry.path().to_string_lossy());
 
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
 
@@ -186,7 +188,7 @@ fn stacktrace(input_dir: PathBuf) {
                     &handler,
                     &Options {
                         config: Config {
-                            is_module: IsModule::Bool(true),
+                            is_module: Some(IsModule::Bool(true)),
                             ..Default::default()
                         },
                         swcrc: true,
@@ -219,7 +221,13 @@ fn stacktrace(input_dir: PathBuf) {
 
 fn node_stack_trace(file: &Path, code: &str) -> Result<NormalizedOutput, Error> {
     let test_file = file.with_file_name("_exec.js");
-    fs::write(&test_file, code.as_bytes()).context("failed to write to test js")?;
+
+    {
+        let mut f = File::create(&test_file).context("failed to open test js")?;
+        f.write_all(code.as_bytes())
+            .context("failed to write to test js")?;
+        f.sync_all()?;
+    }
 
     let stack = Command::new("node")
         .arg("--enable-source-maps")
@@ -246,7 +254,7 @@ fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
     let stacks = stderr
         .lines()
         .filter(|s| {
-            !s.contains("(node:internal") && !s.contains("node_modules") && !s.contains("Node.js v")
+            !s.contains("node:internal") && !s.contains("node_modules") && !s.contains("Node.js v")
         })
         .collect::<Vec<_>>();
 

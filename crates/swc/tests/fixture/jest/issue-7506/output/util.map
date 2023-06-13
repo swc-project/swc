@@ -1,0 +1,17 @@
+{
+  "mappings": "AAAA,4DAA4D;AAC5D,kCAAkC;;;;;+BAElBA;;;eAAAA;;;AAAT,SAASA;IACZ,MAAMC,WAAW,IAAIC,QAAQC,KAAK;IAElC,OAAOF,SAASG,KAAK,CAAC;AAC1B",
+  "names": [
+    "getStackTrace",
+    "rawStack",
+    "Error",
+    "stack",
+    "split"
+  ],
+  "sources": [
+    "../../input/util.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright (c) Microsoft Corporation. All rights reserved.\n// Licensed under the MIT License.\n\nexport function getStackTrace(): string[] {\n    const rawStack = new Error().stack!;\n\n    return rawStack.split('\\n');\n}\n"
+  ],
+  "version": 3
+}

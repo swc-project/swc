@@ -966,6 +966,8 @@ where
                 emit!(private);
             }
         }
+
+        srcmap!(node, false);
     }
 
     #[emitter]
