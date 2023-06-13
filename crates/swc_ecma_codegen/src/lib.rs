@@ -1068,8 +1068,6 @@ where
 
             emit!(e);
         }
-
-        srcmap!(node, false);
     }
 
     #[emitter]
