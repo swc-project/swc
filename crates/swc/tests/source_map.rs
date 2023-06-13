@@ -220,7 +220,7 @@ fn node_stack_trace(file: &Path, code: &str) -> Result<NormalizedOutput, Error> 
     let test_file = file.with_file_name("_exec.js");
 
     {
-        let mut f = File::open(&test_file).context("failed to open test js")?;
+        let mut f = File::create(&test_file).context("failed to open test js")?;
         f.write_all(code.as_bytes())
             .context("failed to write to test js")?;
         f.sync_all()?;
