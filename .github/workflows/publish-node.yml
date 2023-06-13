@@ -17,6 +17,7 @@ on:
   push:
     branches:
       - ci
+      - ci*
       - main
     tags:
       - v*
