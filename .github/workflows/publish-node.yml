@@ -23,7 +23,7 @@ on:
 
 jobs:
   build:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/ci' }}
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     strategy:
       fail-fast: false
       matrix:
@@ -209,7 +209,7 @@ jobs:
             swc*
           if-no-files-found: error
   test-macOS-windows-binding:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/ci' }}
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
     needs:
       - build
@@ -246,7 +246,7 @@ jobs:
       - name: Test bindings
         run: yarn test
   test-linux-x64-gnu-binding:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/ci' }}
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
       - build
@@ -285,7 +285,7 @@ jobs:
       - name: Test bindings
         run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim env DISABLE_PLUGIN_E2E_TESTS=true yarn test
   test-linux-x64-musl-binding:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/ci' }}
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
       - build
@@ -319,7 +319,7 @@ jobs:
       - name: Test bindings
         run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine env DISABLE_PLUGIN_E2E_TESTS=true yarn test
   test-linux-aarch64-musl-binding:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/ci' }}
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on aarch64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
       - build
@@ -357,7 +357,7 @@ jobs:
             set -e &&
             DISABLE_PLUGIN_E2E_TESTS=true yarn test
   test-linux-arm-gnueabihf-binding:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/ci' }}
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
     needs:
       - build
