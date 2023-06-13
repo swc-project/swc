@@ -1677,7 +1677,7 @@ where
 
         if let Some(body) = &node.body {
             formatting_space!();
-            self.emit_block_stmt_inner(body, true)?;
+            self.emit_block_stmt_inner(body, false)?;
         } else {
             semi!();
         }
@@ -1689,7 +1689,7 @@ where
     fn emit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) -> Result {
         match node {
             BlockStmtOrExpr::BlockStmt(block) => {
-                self.emit_block_stmt_inner(block, true)?;
+                self.emit_block_stmt_inner(block, false)?;
             }
             BlockStmtOrExpr::Expr(expr) => {
                 self.wr.increase_indent()?;
