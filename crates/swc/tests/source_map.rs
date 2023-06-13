@@ -2,8 +2,8 @@
 
 use std::{
     env::temp_dir,
-    fs,
-    fs::{canonicalize, create_dir_all},
+    fs::{self, canonicalize, create_dir_all, File},
+    io::Write,
     path::{Path, PathBuf},
     process::{Command, Output},
     sync::Arc,
@@ -218,7 +218,13 @@ fn stacktrace(input_dir: PathBuf) {
 
 fn node_stack_trace(file: &Path, code: &str) -> Result<NormalizedOutput, Error> {
     let test_file = file.with_file_name("_exec.js");
-    fs::write(&test_file, code.as_bytes()).context("failed to write to test js")?;
+
+    {
+        let mut f = File::open(&test_file).context("failed to open test js")?;
+        f.write_all(code.as_bytes())
+            .context("failed to write to test js")?;
+        f.sync_all()?;
+    }
 
     let stack = Command::new("node")
         .arg("--enable-source-maps")
