@@ -1,8 +1,8 @@
-$DIR/tests/stacktrace/issue-1685/input/_exec.js:2
-throw new Error("Error here"); //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9rZHkxL3Byb2plY3RzL3MvaXNzdWVzL2NyYXRlcy9zd2MvdGVzdHMvc3RhY2t0cmFjZS9pc3N1ZS0xNjg1L2lucHV0L2luZGV4LmpzIl0sInNvdXJjZXNDb250ZW50IjpbImNvbnNvbGUubG9nKCctLUhlbGxvLS0nKVxuXG50aHJvdyBuZXcgRXJyb3IoJ0Vycm9yIGhlcmUnKTsiXSwibmFtZXMiOlsiY29uc29sZSIsImxvZyIsIkVycm9yIl0sIm1hcHBpbmdzIjoiQUFBQUEsUUFBUUMsSUFBSTtBQUVaLE1BQU0sSUFBSUMsTUFBTSJ9
+$DIR/tests/stacktrace/issue-1685/input/index.js:3
+throw new Error('Error here');
 ^
 
 
 Error: Error here
-    at console ($DIR/tests/stacktrace/issue-1685/input/_exec.js:2:7)
+    at console ($DIR/tests/stacktrace/issue-1685/input/index.js:3:7)
     at node:internal/main/run_main_module:23:47
