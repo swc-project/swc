@@ -185,7 +185,7 @@ fn stacktrace(input_dir: PathBuf) {
                     &handler,
                     &Options {
                         config: Config {
-                            is_module: IsModule::Bool(true),
+                            is_module: Some(IsModule::Bool(true)),
                             ..Default::default()
                         },
                         swcrc: true,
