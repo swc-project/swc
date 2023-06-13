@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "getStackTrace", {
     enumerable: true,
-    get: function () {
+    get: function() {
         return getStackTrace;
     }
 });
