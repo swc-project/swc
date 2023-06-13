@@ -959,6 +959,8 @@ where
                 emit!(private);
             }
         }
+
+        srcmap!(node, false);
     }
 
     #[emitter]
@@ -1066,6 +1068,8 @@ where
 
             emit!(e);
         }
+
+        srcmap!(node, false);
     }
 
     #[emitter]
