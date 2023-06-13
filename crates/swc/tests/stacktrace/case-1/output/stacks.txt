@@ -1,9 +1,9 @@
-$DIR/tests/stacktrace/case-1/input/index.js:5
-        throw new Error('Boom')
-        ^
+$DIR/tests/stacktrace/case-1/input/_exec.js:14
+            throw new Error('Boom');
+            ^
 
 
 Error: Boom
-    at <anonymous> ($DIR/tests/stacktrace/case-1/input/index.js:5:15)
-    at Object.<anonymous> ($DIR/tests/stacktrace/case-1/input/index.js:6:5)
+    at <anonymous> ($DIR/tests/stacktrace/case-1/input/_exec.js:14:19)
+    at Object.<anonymous> ($DIR/tests/stacktrace/case-1/input/_exec.js:15:9)
     at node:internal/main/run_main_module:23:47
