@@ -7,6 +7,9 @@
 
 - **(es/codegen)** Emit type arguments of jsx element names (#7522) ([a0da02d](https://github.com/swc-project/swc/commit/a0da02d0ff641863dafc1a7d573419478c3b16dc))
 
+
+- **(es/codegen)** Fix regression of source maps (#7523) ([f27838d](https://github.com/swc-project/swc/commit/f27838dedcac792ac30380f45ef89b329221de59))
+
 ## [1.3.63] - 2023-06-13
 
 ### Bug Fixes
