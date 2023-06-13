@@ -171,7 +171,7 @@ fn stacktrace(input_dir: PathBuf) {
                     continue;
                 }
 
-                if !entry.file_name().to_string_lossy().ends_with("_exec.js")
+                if entry.file_name().to_string_lossy().ends_with("_exec.js")
                     || !entry.file_name().to_string_lossy().ends_with(".js")
                 {
                     continue;
