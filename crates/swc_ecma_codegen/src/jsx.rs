@@ -28,6 +28,10 @@ where
         punct!("<");
         emit!(node.name);
 
+        if let Some(type_args) = &node.type_args {
+            emit!(type_args);
+        }
+
         if !node.attrs.is_empty() {
             space!();
 
