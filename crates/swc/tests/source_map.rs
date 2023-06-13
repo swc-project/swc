@@ -170,11 +170,13 @@ fn stacktrace(input_dir: PathBuf) {
                 if entry.metadata().unwrap().is_dir() {
                     continue;
                 }
-                println!("File: {}", entry.path().to_string_lossy());
 
-                if !entry.file_name().to_string_lossy().ends_with(".js") {
+                if !entry.file_name().to_string_lossy().ends_with("_exec.js")
+                    || !entry.file_name().to_string_lossy().ends_with(".js")
+                {
                     continue;
                 }
+                println!("File: {}", entry.path().to_string_lossy());
 
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
 
