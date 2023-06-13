@@ -1,5 +1,13 @@
 # Changelog
-## [1.3.63] - 2023-06-12
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Emit type arguments of jsx element names (#7522) ([a0da02d](https://github.com/swc-project/swc/commit/a0da02d0ff641863dafc1a7d573419478c3b16dc))
+
+## [1.3.63] - 2023-06-13
 
 ### Bug Fixes
 
