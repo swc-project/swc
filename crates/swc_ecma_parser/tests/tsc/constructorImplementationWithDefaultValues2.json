@@ -141,8 +141,7 @@
                   },
                   "value": 1.0,
                   "raw": "1"
-                },
-                "typeAnnotation": null
+                }
               }
             }
           ],
@@ -422,8 +421,7 @@
                   },
                   "value": 1.0,
                   "raw": "1"
-                },
-                "typeAnnotation": null
+                }
               }
             },
             {
@@ -490,8 +488,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               }
             }
           ],
@@ -764,8 +761,7 @@
                   },
                   "arguments": [],
                   "typeArguments": null
-                },
-                "typeAnnotation": null
+                }
               }
             }
           ],

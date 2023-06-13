@@ -89,7 +89,6 @@ impl VisitMut for ImportExportAssign {
                     if matches!(
                         &*v,
                         TsImportEqualsDecl {
-                            declare: false,
                             is_type_only: false,
                             module_ref: TsModuleRef::TsExternalModuleRef(
                                 TsExternalModuleRef { .. }

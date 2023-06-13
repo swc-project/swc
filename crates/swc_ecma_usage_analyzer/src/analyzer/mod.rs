@@ -850,12 +850,12 @@ where
                 v.mark_indexed_with_dynamic_key();
             }
 
-            if self.ctx.in_assign_lhs || self.ctx.is_delete_arg {
-                v.mark_has_property_mutation();
-            }
-
             if let MemberProp::Ident(prop) = &e.prop {
                 v.add_accessed_property(prop.sym.clone());
+            }
+
+            if self.ctx.in_assign_lhs || self.ctx.is_delete_arg {
+                self.data.mark_property_mutattion(obj.to_id(), self.ctx)
             }
         }
     }

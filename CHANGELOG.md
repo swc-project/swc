@@ -5,7 +5,24 @@
 
 
 
+- **(es/codegen)** Emit type arguments of jsx element names (#7522) ([a0da02d](https://github.com/swc-project/swc/commit/a0da02d0ff641863dafc1a7d573419478c3b16dc))
+
+## [1.3.63] - 2023-06-13
+
+### Bug Fixes
+
+
+
 - **(es/codegen)** Remove extra spaces in `AssignPatProp` and `KeyValuePatProp` (#7488) ([064bcf4](https://github.com/swc-project/swc/commit/064bcf4854f8505f04b40b72da1becec0c531a7d))
+
+
+- **(es/compat)** Make stage 3 decorator pass use correct state for inner classes (#7508) ([cc4146c](https://github.com/swc-project/swc/commit/cc4146c9d3a21514031e46003170a3fdaac1987a))
+
+
+- **(es/minifier)** Infect mutation when assigning a property (#7503) ([7f9f0b8](https://github.com/swc-project/swc/commit/7f9f0b8bcebc26eed1354ce2901aabd61261f434))
+
+
+- **(es/react)** Default to empty string when emitting refresh signature (#7514) ([8e933c8](https://github.com/swc-project/swc/commit/8e933c8a9fdf8867deb7f0d108b99430949aad54))
 
 ### Features
 
@@ -15,6 +32,9 @@
 
 
 - **(es/minifier)** Remove unused labels (#7478) ([62075fa](https://github.com/swc-project/swc/commit/62075faeaada8d9df3c7d849bbcfda8ff0c5d79f))
+
+
+- **(es/parser)** Disallow tagged tpl in optional chaining (#7515) ([6c00a24](https://github.com/swc-project/swc/commit/6c00a2422addf0e402bb221e80f6f8acad839b28))
 
 
 - **(plugin/runner)** Support shared wasix runtime (#7504) ([73929fc](https://github.com/swc-project/swc/commit/73929fc43c34fd4545bd292fbf0f6d7de35fbee9))
@@ -30,6 +50,15 @@
 
 
 - **(es)** Use `&dyn Comments` for jsx and TypeScript (#7490) ([abd62bc](https://github.com/swc-project/swc/commit/abd62bc797175d783d18d162301c851eefa7ac23))
+
+### Refactor
+
+
+
+- **(es/ast)** Reimplement optional chaining (#7441) ([aa83584](https://github.com/swc-project/swc/commit/aa83584634286d7c741d903ad94ba5228c89bc62))
+
+
+- **(es/ast)** Remove unused fields (#7518) ([3958f17](https://github.com/swc-project/swc/commit/3958f1792c4598e965f36a11c567c95f69984a9f))
 
 ## [1.3.62] - 2023-06-03
 

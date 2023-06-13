@@ -200,7 +200,7 @@
 //!  27 | ({ ...obj?.a.b } = { a: 1 });
 //!     `----
 //! 
-//!   x Cannot assign to this
+//!   x Not a pattern
 //!     ,-[22:1]
 //!  22 | for (obj?.a.b of []);
 //!  23 | 
@@ -224,7 +224,7 @@
 //!  29 | [...obj?.a.b] = [];
 //!     `----
 //! 
-//!   x Cannot assign to this
+//!   x Not a pattern
 //!     ,-[24:1]
 //!  24 | ({ a: obj?.a } = { a: 1 });
 //!  25 | ({ a: obj?.a.b } = { a: 1 });
@@ -245,7 +245,7 @@
 //!  29 | [...obj?.a.b] = [];
 //!     `----
 //! 
-//!   x Cannot assign to this
+//!   x Not a pattern
 //!     ,-[26:1]
 //!  26 | ({ ...obj?.a } = { a: 1 });
 //!  27 | ({ ...obj?.a.b } = { a: 1 });

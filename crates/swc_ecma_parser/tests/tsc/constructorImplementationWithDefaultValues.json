@@ -122,8 +122,7 @@
                   },
                   "value": 1.0,
                   "raw": "1"
-                },
-                "typeAnnotation": null
+                }
               }
             }
           ],
@@ -329,8 +328,7 @@
                     "end": 143,
                     "ctxt": 0
                   }
-                },
-                "typeAnnotation": null
+                }
               }
             }
           ],
@@ -568,8 +566,7 @@
                     "end": 248,
                     "ctxt": 0
                   }
-                },
-                "typeAnnotation": null
+                }
               }
             }
           ],

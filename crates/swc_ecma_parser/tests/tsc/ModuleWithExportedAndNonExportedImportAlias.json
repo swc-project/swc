@@ -503,7 +503,6 @@
               "end": 311,
               "ctxt": 0
             },
-            "declare": false,
             "isExport": true,
             "isTypeOnly": false,
             "id": {
@@ -534,7 +533,6 @@
               "end": 333,
               "ctxt": 0
             },
-            "declare": false,
             "isExport": false,
             "isTypeOnly": false,
             "id": {

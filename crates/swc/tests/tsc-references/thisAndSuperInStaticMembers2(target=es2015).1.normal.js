@@ -24,13 +24,15 @@ class C extends B {
     C.y2 = C.x();
 })();
 (()=>{
-    C.y3 = C === null || C === void 0 ? void 0 : C.x();
+    var _C_x, _object;
+    C.y3 = (_object = C) === null || _object === void 0 ? void 0 : (_C_x = _object.x) === null || _C_x === void 0 ? void 0 : _C_x.call(_object);
 })();
 (()=>{
     C.y4 = C["x"]();
 })();
 (()=>{
-    C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
+    var _C_x, _object;
+    C.y5 = (_object = C) === null || _object === void 0 ? void 0 : (_C_x = _object["x"]) === null || _C_x === void 0 ? void 0 : _C_x.call(_object);
 })();
 (()=>{
     C.z1 = _get(_get_prototype_of(C), "a", C);

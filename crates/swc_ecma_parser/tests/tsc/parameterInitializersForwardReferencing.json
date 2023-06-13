@@ -75,8 +75,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -114,8 +113,7 @@
               },
               "value": "b",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -225,8 +223,7 @@
               },
               "value": "b",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -264,8 +261,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -375,8 +371,7 @@
               },
               "value": "b",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -414,8 +409,7 @@
               },
               "value": "c",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -453,8 +447,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -582,8 +575,7 @@
               },
               "value": "b",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -751,8 +743,7 @@
                     },
                     "value": "b",
                     "optional": false
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],
@@ -899,8 +890,7 @@
               "async": false,
               "typeParameters": null,
               "returnType": null
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -938,8 +928,7 @@
               },
               "value": 1.0,
               "raw": "1"
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -1038,8 +1027,7 @@
               "generator": false,
               "typeParameters": null,
               "returnType": null
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -1077,8 +1065,7 @@
               },
               "value": 3.0,
               "raw": "3"
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -1175,8 +1162,7 @@
                   },
                   "value": "b",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               }
             },
             {
@@ -1214,8 +1200,7 @@
                   },
                   "value": 1.0,
                   "raw": "1"
-                },
-                "typeAnnotation": null
+                }
               }
             }
           ],
@@ -1285,8 +1270,7 @@
                     },
                     "value": "b",
                     "optional": false
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               },
               {
@@ -1324,8 +1308,7 @@
                     },
                     "value": 1.0,
                     "raw": "1"
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],
@@ -1426,8 +1409,7 @@
                   },
                   "value": "b",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "AssignmentPattern",
@@ -1456,8 +1438,7 @@
                   },
                   "value": "c",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "AssignmentPattern",
@@ -1486,8 +1467,7 @@
                   },
                   "value": "d",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {
@@ -1644,8 +1624,7 @@
               "async": false,
               "typeParameters": null,
               "returnType": null
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -1693,8 +1672,7 @@
               },
               "arguments": [],
               "typeArguments": null
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

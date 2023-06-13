@@ -79,94 +79,99 @@
               }
             ],
             "body": {
-              "type": "CallExpression",
+              "type": "OptionalChainingExpression",
               "span": {
                 "start": 166,
                 "end": 187,
                 "ctxt": 0
               },
-              "callee": {
-                "type": "OptionalChainingExpression",
+              "optional": false,
+              "base": {
+                "type": "CallExpression",
                 "span": {
                   "start": 166,
-                  "end": 179,
+                  "end": 187,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 171,
-                  "end": 172,
-                  "ctxt": 0
-                },
-                "base": {
-                  "type": "MemberExpression",
+                "callee": {
+                  "type": "OptionalChainingExpression",
                   "span": {
                     "start": 166,
                     "end": 179,
                     "ctxt": 0
                   },
-                  "object": {
-                    "type": "Identifier",
+                  "optional": true,
+                  "base": {
+                    "type": "MemberExpression",
                     "span": {
                       "start": 166,
-                      "end": 171,
-                      "ctxt": 0
-                    },
-                    "value": "names",
-                    "optional": false
-                  },
-                  "property": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 173,
                       "end": 179,
                       "ctxt": 0
                     },
-                    "value": "filter",
-                    "optional": false
-                  }
-                }
-              },
-              "arguments": [
-                {
-                  "spread": null,
-                  "expression": {
-                    "type": "ArrowFunctionExpression",
-                    "span": {
-                      "start": 180,
-                      "end": 186,
-                      "ctxt": 0
-                    },
-                    "params": [
-                      {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 180,
-                          "end": 181,
-                          "ctxt": 0
-                        },
-                        "value": "x",
-                        "optional": false,
-                        "typeAnnotation": null
-                      }
-                    ],
-                    "body": {
+                    "object": {
                       "type": "Identifier",
                       "span": {
-                        "start": 185,
+                        "start": 166,
+                        "end": 171,
+                        "ctxt": 0
+                      },
+                      "value": "names",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 173,
+                        "end": 179,
+                        "ctxt": 0
+                      },
+                      "value": "filter",
+                      "optional": false
+                    }
+                  }
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "ArrowFunctionExpression",
+                      "span": {
+                        "start": 180,
                         "end": 186,
                         "ctxt": 0
                       },
-                      "value": "x",
-                      "optional": false
-                    },
-                    "async": false,
-                    "generator": false,
-                    "typeParameters": null,
-                    "returnType": null
+                      "params": [
+                        {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 180,
+                            "end": 181,
+                            "ctxt": 0
+                          },
+                          "value": "x",
+                          "optional": false,
+                          "typeAnnotation": null
+                        }
+                      ],
+                      "body": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 185,
+                          "end": 186,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false
+                      },
+                      "async": false,
+                      "generator": false,
+                      "typeParameters": null,
+                      "returnType": null
+                    }
                   }
-                }
-              ],
-              "typeArguments": null
+                ],
+                "typeArguments": null
+              }
             },
             "async": false,
             "generator": false,

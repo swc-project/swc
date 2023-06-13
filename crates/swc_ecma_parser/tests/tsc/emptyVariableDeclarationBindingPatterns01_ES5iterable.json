@@ -999,8 +999,7 @@
                           },
                           "value": "a",
                           "optional": false
-                        },
-                        "typeAnnotation": null
+                        }
                       }
                     },
                     {
@@ -1038,8 +1037,7 @@
                           },
                           "value": "a",
                           "optional": false
-                        },
-                        "typeAnnotation": null
+                        }
                       }
                     },
                     {
@@ -1104,8 +1102,7 @@
                                   },
                                   "value": "a",
                                   "optional": false
-                                },
-                                "typeAnnotation": null
+                                }
                               }
                             }
                           ],
@@ -1121,8 +1118,7 @@
                           },
                           "value": "a",
                           "optional": false
-                        },
-                        "typeAnnotation": null
+                        }
                       }
                     }
                   ],
@@ -1182,8 +1178,7 @@
                                 },
                                 "value": "a",
                                 "optional": false
-                              },
-                              "typeAnnotation": null
+                              }
                             },
                             {
                               "type": "AssignmentPattern",
@@ -1212,8 +1207,7 @@
                                 },
                                 "value": "a",
                                 "optional": false
-                              },
-                              "typeAnnotation": null
+                              }
                             },
                             {
                               "type": "AssignmentPattern",
@@ -1269,8 +1263,7 @@
                                         },
                                         "value": "a",
                                         "optional": false
-                                      },
-                                      "typeAnnotation": null
+                                      }
                                     }
                                   }
                                 ],
@@ -1286,8 +1279,7 @@
                                 },
                                 "value": "a",
                                 "optional": false
-                              },
-                              "typeAnnotation": null
+                              }
                             }
                           ],
                           "body": {

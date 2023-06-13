@@ -816,7 +816,11 @@ where
                 } else {
                     emit!(e.obj);
                 }
-                punct!("?.");
+                if n.optional {
+                    punct!("?.");
+                } else if !e.prop.is_computed() {
+                    punct!(".");
+                }
 
                 match &e.prop {
                     MemberProp::Computed(computed) => emit!(computed),
@@ -827,7 +831,10 @@ where
             OptChainBase::Call(ref e) => {
                 debug_assert!(!e.callee.is_new());
                 emit!(e.callee);
-                punct!("?.");
+
+                if n.optional {
+                    punct!("?.");
+                }
 
                 punct!("(");
                 self.emit_expr_or_spreads(n.span(), &e.args, ListFormat::CallExpressionArguments)?;

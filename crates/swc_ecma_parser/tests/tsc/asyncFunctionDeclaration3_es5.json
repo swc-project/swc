@@ -55,8 +55,7 @@
               },
               "value": "await",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

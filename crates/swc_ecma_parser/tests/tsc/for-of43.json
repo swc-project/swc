@@ -179,8 +179,7 @@
                       },
                       "value": "",
                       "raw": "\"\""
-                    },
-                    "typeAnnotation": null
+                    }
                   }
                 },
                 {
@@ -221,8 +220,7 @@
                         "ctxt": 0
                       },
                       "value": true
-                    },
-                    "typeAnnotation": null
+                    }
                   }
                 }
               ],

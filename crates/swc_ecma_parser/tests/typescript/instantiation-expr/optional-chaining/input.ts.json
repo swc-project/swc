@@ -41,11 +41,7 @@
               "end": 25,
               "ctxt": 0
             },
-            "questionDotToken": {
-              "start": 21,
-              "end": 22,
-              "ctxt": 0
-            },
+            "optional": true,
             "base": {
               "type": "CallExpression",
               "span": {

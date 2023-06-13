@@ -120,8 +120,7 @@
               },
               "value": "a",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -335,8 +334,7 @@
                     },
                     "value": "a",
                     "optional": false
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "body": {
@@ -352,8 +350,7 @@
               "generator": false,
               "typeParameters": null,
               "returnType": null
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

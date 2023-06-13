@@ -6276,8 +6276,7 @@
                         },
                         "value": "s",
                         "optional": false
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   }
                 ],
@@ -7310,8 +7309,7 @@
                     },
                     "value": "s",
                     "optional": false
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],
@@ -9628,8 +9626,7 @@
                         },
                         "value": "s",
                         "optional": false
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   }
                 ],

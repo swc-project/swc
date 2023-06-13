@@ -589,8 +589,7 @@
                         },
                         "value": "",
                         "raw": "\"\""
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -1054,8 +1053,7 @@
                         },
                         "value": "",
                         "raw": "\"\""
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,

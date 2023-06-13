@@ -280,7 +280,7 @@ impl VisitMut for ModuleDeclStrip {
     /// export import foo = require("mod");
     /// ```
     fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
-        if n.is_type_only || n.declare {
+        if n.is_type_only {
             return;
         }
 

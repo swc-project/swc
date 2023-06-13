@@ -69,8 +69,7 @@
                   },
                   "value": "a",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "optional": false,
@@ -166,8 +165,7 @@
                   },
                   "value": "c",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "AssignmentPattern",
@@ -196,8 +194,7 @@
                   },
                   "value": "e",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "optional": false,
@@ -293,8 +290,7 @@
                   },
                   "value": "f",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "AssignmentPattern",
@@ -323,8 +319,7 @@
                   },
                   "value": "i",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "AssignmentPattern",
@@ -353,8 +348,7 @@
                   },
                   "value": "f",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "optional": false,
@@ -466,8 +460,7 @@
                         },
                         "value": "a",
                         "optional": false
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -606,8 +599,7 @@
                         },
                         "value": "c",
                         "optional": false
-                      },
-                      "typeAnnotation": null
+                      }
                     },
                     {
                       "type": "AssignmentPattern",
@@ -636,8 +628,7 @@
                         },
                         "value": "e",
                         "optional": false
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -776,8 +767,7 @@
                         },
                         "value": "f",
                         "optional": false
-                      },
-                      "typeAnnotation": null
+                      }
                     },
                     {
                       "type": "AssignmentPattern",
@@ -806,8 +796,7 @@
                         },
                         "value": "i",
                         "optional": false
-                      },
-                      "typeAnnotation": null
+                      }
                     },
                     {
                       "type": "AssignmentPattern",
@@ -836,8 +825,7 @@
                         },
                         "value": "f",
                         "optional": false
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,

@@ -729,8 +729,7 @@
                       "generator": false,
                       "typeParameters": null,
                       "returnType": null
-                    },
-                    "typeAnnotation": null
+                    }
                   }
                 }
               ],

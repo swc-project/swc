@@ -79,8 +79,7 @@
                 "end": 28,
                 "ctxt": 0
               }
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -179,8 +178,7 @@
               },
               "value": "undefined",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -278,8 +276,7 @@
                 "ctxt": 0
               },
               "properties": []
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -377,8 +374,7 @@
                 "ctxt": 0
               },
               "elements": []
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

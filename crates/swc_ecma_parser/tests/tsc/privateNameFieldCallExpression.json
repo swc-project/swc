@@ -388,11 +388,7 @@
                       "end": 195,
                       "ctxt": 0
                     },
-                    "questionDotToken": {
-                      "start": 191,
-                      "end": 192,
-                      "ctxt": 0
-                    },
+                    "optional": true,
                     "base": {
                       "type": "CallExpression",
                       "span": {

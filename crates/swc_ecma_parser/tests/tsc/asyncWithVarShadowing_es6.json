@@ -1222,8 +1222,7 @@
                           },
                           "value": "y",
                           "optional": false
-                        },
-                        "typeAnnotation": null
+                        }
                       }
                     }
                   ],
@@ -1586,8 +1585,7 @@
                         },
                         "value": "y",
                         "optional": false
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,
@@ -2084,8 +2082,7 @@
                         },
                         "value": "y",
                         "optional": false
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "optional": false,

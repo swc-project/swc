@@ -3152,7 +3152,10 @@ test!(
     const tmp = tt?.map((t: any) => t).join((v: any) => v);
     ",
     "
-    const tmp = tt === null || tt === void 0 ? void 0 : tt.map((t) => t).join((v) => v);
+    var _tt_map_join, _object, _tt_map;
+const tmp = (_object = tt) === null || _object === void 0 ? void 0 : (_tt_map_join = ((_tt_map = \
+     _object.map) === null || _tt_map === void 0 ? void 0 : _tt_map.call(_object, (t)=>t)).join) \
+     === null || _tt_map_join === void 0 ? void 0 : _tt_map_join.call(_object, (v)=>v);
     "
 );
 
