@@ -151,41 +151,34 @@ impl OptChaining {
                 if e.optional {
                     Ok(self.handle_optional_member(m, store_this_to))
                 } else {
-                    let obj_name = alias_ident_for(&m.obj, "_obj");
-
                     let obj = match &mut *m.obj {
-                        Expr::OptChain(obj) => {
-                            dbg!(&*obj);
-                            dbg!(&store_this_to);
-
-                            match self.handle(obj, None) {
-                                Ok(obj) => {
-                                    return Ok(CondExpr {
-                                        span: obj.span,
-                                        test: obj.test,
-                                        cons: obj.cons,
-                                        alt: match store_this_to {
-                                            Some(this) => Box::new(Expr::Member(MemberExpr {
-                                                span: m.span,
-                                                obj: Box::new(Expr::Assign(AssignExpr {
-                                                    span: DUMMY_SP,
-                                                    op: op!("="),
-                                                    left: this.clone().into(),
-                                                    right: obj.alt,
-                                                })),
-                                                prop: m.prop.take(),
+                        Expr::OptChain(obj) => match self.handle(obj, None) {
+                            Ok(obj) => {
+                                return Ok(CondExpr {
+                                    span: obj.span,
+                                    test: obj.test,
+                                    cons: obj.cons,
+                                    alt: match store_this_to {
+                                        Some(this) => Box::new(Expr::Member(MemberExpr {
+                                            span: m.span,
+                                            obj: Box::new(Expr::Assign(AssignExpr {
+                                                span: DUMMY_SP,
+                                                op: op!("="),
+                                                left: this.into(),
+                                                right: obj.alt,
                                             })),
-                                            None => Box::new(Expr::Member(MemberExpr {
-                                                span: m.span,
-                                                obj: obj.alt,
-                                                prop: m.prop.take(),
-                                            })),
-                                        },
-                                    });
-                                }
-                                Err(obj) => Box::new(obj),
+                                            prop: m.prop.take(),
+                                        })),
+                                        None => Box::new(Expr::Member(MemberExpr {
+                                            span: m.span,
+                                            obj: obj.alt,
+                                            prop: m.prop.take(),
+                                        })),
+                                    },
+                                });
                             }
-                        }
+                            Err(obj) => Box::new(obj),
+                        },
                         _ => {
                             m.obj.visit_mut_with(self);
                             m.obj.take()
@@ -395,7 +388,7 @@ impl OptChaining {
                                                 callee: callee_name
                                                     .make_member(quote_ident!("call"))
                                                     .as_callee(),
-                                                args: once(this_obj.clone().as_arg())
+                                                args: once(this_obj.as_arg())
                                                     .chain(call.args.take())
                                                     .collect(),
                                                 type_args: Default::default(),
