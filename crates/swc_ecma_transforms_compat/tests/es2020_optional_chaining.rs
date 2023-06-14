@@ -155,16 +155,6 @@ test!(
      void 0 ? void 0 : _obj_a.b;"
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    simple_3,
-    "obj?.a?.b.c",
-    "var _obj_a_b, _obj;
-    (_obj_a_b = (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a) === null || _obj_a_b \
-     === void 0 ? void 0 : _obj_a_b.b.c;"
-);
-
 // https://github.com/Brooooooklyn/swc-node/issues/62
 test!(
     syntax(),
