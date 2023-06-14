@@ -155,29 +155,31 @@ impl OptChaining {
 
                     let obj = match &mut *m.obj {
                         Expr::OptChain(obj) => {
-                            if store_this_to.is_none() {
-                                self.vars_without_init.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: obj_name.clone().into(),
-                                    init: None,
-                                    definite: false,
-                                });
-                            }
+                            dbg!(&*obj);
+                            dbg!(&store_this_to);
 
-                            match self.handle(
-                                obj,
-                                Some(store_this_to.clone().unwrap_or_else(|| obj_name.clone())),
-                            ) {
+                            match self.handle(obj, None) {
                                 Ok(obj) => {
                                     return Ok(CondExpr {
                                         span: obj.span,
                                         test: obj.test,
                                         cons: obj.cons,
-                                        alt: Box::new(Expr::Member(MemberExpr {
-                                            span: m.span,
-                                            obj: obj.alt,
-                                            prop: m.prop.take(),
-                                        })),
+                                        alt: match store_this_to {
+                                            Some(this) => Box::new(Expr::Member(MemberExpr {
+                                                span: m.span,
+                                                obj: init_and_eq_null_or_undefined(
+                                                    &this,
+                                                    obj.alt,
+                                                    self.c.no_document_all,
+                                                ),
+                                                prop: m.prop.take(),
+                                            })),
+                                            None => Box::new(Expr::Member(MemberExpr {
+                                                span: m.span,
+                                                obj: obj.alt,
+                                                prop: m.prop.take(),
+                                            })),
+                                        },
                                     });
                                 }
                                 Err(obj) => Box::new(obj),
