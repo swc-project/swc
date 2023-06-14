@@ -127,7 +127,6 @@ impl OptChaining {
         });
 
         m.obj.visit_mut_with(self);
-        m.prop.visit_mut_with(self);
 
         CondExpr {
             span: DUMMY_SP,
@@ -149,6 +148,7 @@ impl OptChaining {
     ) -> Result<CondExpr, Expr> {
         match &mut *e.base {
             OptChainBase::Member(m) => {
+                m.prop.visit_mut_with(self);
                 if e.optional {
                     Ok(self.handle_optional_member(m, store_this_to))
                 } else {
@@ -203,6 +203,7 @@ impl OptChaining {
             }
             OptChainBase::Call(call) => {
                 let callee_name = alias_ident_for(&call.callee, "_ref");
+                call.args.visit_mut_with(self);
 
                 if e.optional {
                     self.vars_without_init.push(VarDeclarator {
@@ -299,7 +300,6 @@ impl OptChaining {
                             (None, call.callee.take())
                         }
                     };
-                    call.args.visit_mut_with(self);
 
                     Ok(CondExpr {
                         span: DUMMY_SP,
@@ -350,7 +350,6 @@ impl OptChaining {
                             call.callee.take()
                         }
                     };
-                    call.args.visit_mut_with(self);
 
                     Err(Expr::Call(CallExpr {
                         span: call.span,
