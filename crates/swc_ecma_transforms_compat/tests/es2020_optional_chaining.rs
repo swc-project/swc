@@ -315,7 +315,12 @@ fn exec(input: PathBuf) {
 
     compare_stdout(
         Default::default(),
-        |_| optional_chaining(Default::default()),
+        |_| {
+            optional_chaining(Config {
+                no_document_all: true,
+                ..Default::default()
+            })
+        },
         &src,
     );
 }
