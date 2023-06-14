@@ -360,7 +360,7 @@ impl OptChaining {
                             });
 
                             let this_obj = store_this_to.unwrap_or_else(|| {
-                                let v = private_ident!("_object");
+                                let v = private_ident!("_this");
 
                                 self.vars_without_init.push(VarDeclarator {
                                     span: DUMMY_SP,
