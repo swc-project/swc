@@ -1,6 +1,6 @@
 //// [optionalChainingInference.ts]
 // https://github.com/microsoft/TypeScript/issues/34579
-var _su, _su1, _su2, _fnu, _su3, _osu_prop, _osu_prop1, _ofnu_prop, _object;
+var _su, _su1, _su2, _fnu, _su3, _osu, _osu1, _ofnu_prop, _this;
 var b1 = {
     value: (_su = su) === null || _su === void 0 ? void 0 : _su.length
 };
@@ -22,14 +22,14 @@ var b5 = {
 };
 var v5 = unbox(b5);
 var b6 = {
-    value: (_osu_prop = osu) === null || _osu_prop === void 0 ? void 0 : _osu_prop.prop.length
+    value: (_osu = osu) === null || _osu === void 0 ? void 0 : _osu.prop.length
 };
 var v6 = unbox(b6);
 var b7 = {
-    value: (_osu_prop1 = osu) === null || _osu_prop1 === void 0 ? void 0 : _osu_prop1.prop["length"]
+    value: (_osu1 = osu) === null || _osu1 === void 0 ? void 0 : _osu1.prop["length"]
 };
 var v7 = unbox(b7);
 var b8 = {
-    value: (_object = ofnu) === null || _object === void 0 ? void 0 : (_ofnu_prop = _object.prop) === null || _ofnu_prop === void 0 ? void 0 : _ofnu_prop.call(_object)
+    value: (_this = ofnu) === null || _this === void 0 ? void 0 : (_ofnu_prop = _this.prop) === null || _ofnu_prop === void 0 ? void 0 : _ofnu_prop.call(_this)
 };
 var v8 = unbox(b8);

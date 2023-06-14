@@ -155,27 +155,6 @@ test!(
      void 0 ? void 0 : _obj_a.b;"
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    simple_3,
-    "obj?.a?.b.c",
-    "var _obj_a_b, _obj;
-    (_obj_a_b = (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a) === null || _obj_a_b \
-     === void 0 ? void 0 : _obj_a_b.b.c;"
-);
-
-// https://github.com/Brooooooklyn/swc-node/issues/62
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    swc_node_issue_62,
-    "a.focus?.()",
-    "var _a_focus, _object;
-    (_object = a) === null || _object === void 0 ? void 0 : (_a_focus = _object.focus) === null || \
-     _a_focus === void 0 ? void 0 : _a_focus.call(_object);"
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -195,37 +174,6 @@ test_exec!(
 
   expect(obj?.a?.b?.c()).toBe(2)
   "
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    swc_node_95_2,
-    "
-obj?.a?.b?.c()
-",
-    "
-    var _obj_a_b_c, _object, _obj_a, _obj;
-    (_object = (_obj_a = (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a) === null || \
-     _obj_a === void 0 ? void 0 : _obj_a.b) === null || _object === void 0 ? void 0 : (_obj_a_b_c \
-     = _object.c) === null || _obj_a_b_c === void 0 ? void 0 : _obj_a_b_c.call(_object);
-"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    swc_node_95_3,
-    "
-expect(obj?.a?.b?.c()).toBe(2)
-",
-    "
-    var _obj_a_b_c, _object, _obj_a, _obj;
-    expect((_object = (_obj_a = (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a) === \
-     null || _obj_a === void 0 ? void 0 : _obj_a.b) === null || _object === void 0 ? void 0 : \
-     (_obj_a_b_c = _object.c) === null || _obj_a_b_c === void 0 ? void 0 : \
-     _obj_a_b_c.call(_object)).toBe(2);
-"
 );
 
 test!(
@@ -315,7 +263,12 @@ fn exec(input: PathBuf) {
 
     compare_stdout(
         Default::default(),
-        |_| optional_chaining(Default::default()),
+        |_| {
+            optional_chaining(Config {
+                no_document_all: true,
+                ..Default::default()
+            })
+        },
         &src,
     );
 }

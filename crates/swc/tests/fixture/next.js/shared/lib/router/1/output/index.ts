@@ -13,7 +13,7 @@ var Router = /*#__PURE__*/ function() {
             value: function change(method, url, as, options, forcedScroll) {
                 var _this = this;
                 return _async_to_generator(function() {
-                    var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, _this_locales_includes, _object, detectedDomain, asNoBasePath, _options_shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref, err, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, _self___NEXT_DATA___props_pageProps, _self___NEXT_DATA___props, _props, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, _prepareUrlAs, newUrl, newAs, notFoundRoute, _, isValidShallowRoute, _options_scroll, shouldScroll, resetScroll, err1;
+                    var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, _this_locales_includes, _this1, detectedDomain, asNoBasePath, _options_shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref, err, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, _self___NEXT_DATA___props_pageProps, _self___NEXT_DATA___props, _props, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, _prepareUrlAs, newUrl, newAs, notFoundRoute, _, isValidShallowRoute, _options_scroll, shouldScroll, resetScroll, err1;
                     return _ts_generator(this, function(_state) {
                         switch(_state.label){
                             case 0:
@@ -50,7 +50,7 @@ var Router = /*#__PURE__*/ function() {
                                     if (process.env.__NEXT_I18N_SUPPORT) {
                                         ;
                                         // if the locale isn't configured hard navigate to show 404 page
-                                        if (!((_object = _this.locales) === null || _object === void 0 ? void 0 : (_this_locales_includes = _object.includes) === null || _this_locales_includes === void 0 ? void 0 : _this_locales_includes.call(_object, _this.locale))) {
+                                        if (!((_this1 = _this.locales) === null || _this1 === void 0 ? void 0 : (_this_locales_includes = _this1.includes) === null || _this_locales_includes === void 0 ? void 0 : _this_locales_includes.call(_this1, _this.locale))) {
                                             parsedAs.pathname = addLocale(parsedAs.pathname, _this.locale);
                                             window.location.href = formatWithValidation(parsedAs);
                                             // this was previously a return but was removed in favor
