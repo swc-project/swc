@@ -1,5 +1,5 @@
 //// [optionalChainingInference.ts]
-var _su, _su1, _su2, _fnu, _su3, _osu_prop, _osu_prop1, _ofnu_prop, _object, b1 = {
+var _su, _su1, _su2, _fnu, _su3, _osu, _osu1, _ofnu_prop, _this, b1 = {
     value: null === (_su = su) || void 0 === _su ? void 0 : _su.length
 };
 unbox(b1);
@@ -20,14 +20,14 @@ var b5 = {
 };
 unbox(b5);
 var b6 = {
-    value: null === (_osu_prop = osu) || void 0 === _osu_prop ? void 0 : _osu_prop.prop.length
+    value: null === (_osu = osu) || void 0 === _osu ? void 0 : _osu.prop.length
 };
 unbox(b6);
 var b7 = {
-    value: null === (_osu_prop1 = osu) || void 0 === _osu_prop1 ? void 0 : _osu_prop1.prop.length
+    value: null === (_osu1 = osu) || void 0 === _osu1 ? void 0 : _osu1.prop.length
 };
 unbox(b7);
 var b8 = {
-    value: null === (_object = ofnu) || void 0 === _object ? void 0 : null === (_ofnu_prop = _object.prop) || void 0 === _ofnu_prop ? void 0 : _ofnu_prop.call(_object)
+    value: null === (_this = ofnu) || void 0 === _this ? void 0 : null === (_ofnu_prop = _this.prop) || void 0 === _ofnu_prop ? void 0 : _ofnu_prop.call(_this)
 };
 unbox(b8);
