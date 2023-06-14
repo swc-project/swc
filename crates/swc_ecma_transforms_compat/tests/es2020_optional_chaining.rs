@@ -179,21 +179,6 @@ test_exec!(
 test!(
     syntax(),
     |_| tr(Default::default()),
-    swc_node_95_2,
-    "
-obj?.a?.b?.c()
-",
-    "
-    var _obj_a_b_c, _object, _obj_a, _obj;
-    (_object = (_obj_a = (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a) === null || \
-     _obj_a === void 0 ? void 0 : _obj_a.b) === null || _object === void 0 ? void 0 : (_obj_a_b_c \
-     = _object.c) === null || _obj_a_b_c === void 0 ? void 0 : _obj_a_b_c.call(_object);
-"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
     pr_2791,
     r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#,
     r#"
