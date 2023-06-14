@@ -1,0 +1,1 @@
+expect(obj?.a?.b?.c()).toBe(2)

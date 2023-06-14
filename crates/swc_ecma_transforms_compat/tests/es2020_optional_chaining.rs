@@ -194,22 +194,6 @@ obj?.a?.b?.c()
 test!(
     syntax(),
     |_| tr(Default::default()),
-    swc_node_95_3,
-    "
-expect(obj?.a?.b?.c()).toBe(2)
-",
-    "
-    var _obj_a_b_c, _object, _obj_a, _obj;
-    expect((_object = (_obj_a = (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a) === \
-     null || _obj_a === void 0 ? void 0 : _obj_a.b) === null || _object === void 0 ? void 0 : \
-     (_obj_a_b_c = _object.c) === null || _obj_a_b_c === void 0 ? void 0 : \
-     _obj_a_b_c.call(_object)).toBe(2);
-"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
     pr_2791,
     r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#,
     r#"
