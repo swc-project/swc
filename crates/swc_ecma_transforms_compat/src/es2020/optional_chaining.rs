@@ -207,41 +207,174 @@ impl OptChaining {
             OptChainBase::Call(call) => {
                 let callee_name = alias_ident_for(&call.callee, "_ref");
 
-                self.vars_without_init.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: callee_name.clone().into(),
-                    init: None,
-                    definite: false,
-                });
+                if e.optional {
+                    self.vars_without_init.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: callee_name.clone().into(),
+                        init: None,
+                        definite: false,
+                    });
 
-                let (this, init) = match &mut *call.callee {
-                    Expr::OptChain(callee) => {
-                        let this_obj = store_this_to.unwrap_or_else(|| {
-                            let v = private_ident!("_object");
+                    let (this, init) = match &mut *call.callee {
+                        Expr::OptChain(callee) => {
+                            let this_obj = store_this_to.unwrap_or_else(|| {
+                                let v = private_ident!("_object");
 
+                                self.vars_without_init.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: v.clone().into(),
+                                    init: None,
+                                    definite: false,
+                                });
+
+                                v
+                            });
+
+                            match self.handle(callee, Some(this_obj.clone())) {
+                                Ok(cond) => {
+                                    let final_call = Box::new(Expr::Call(CallExpr {
+                                        span: call.span,
+                                        callee: callee_name
+                                            .clone()
+                                            .make_member(quote_ident!("call"))
+                                            .as_callee(),
+                                        args: once(this_obj.as_arg())
+                                            .chain(call.args.take())
+                                            .collect(),
+                                        type_args: Default::default(),
+                                    }));
+
+                                    {
+                                        return Ok(CondExpr {
+                                            span: DUMMY_SP,
+                                            test: cond.test,
+                                            cons: cond.cons,
+                                            alt: Box::new(Expr::Cond(CondExpr {
+                                                span: DUMMY_SP,
+                                                test: init_and_eq_null_or_undefined(
+                                                    &callee_name,
+                                                    cond.alt,
+                                                    self.c.no_document_all,
+                                                ),
+                                                cons: undefined(DUMMY_SP),
+                                                alt: final_call,
+                                            })),
+                                        });
+                                    }
+                                }
+
+                                Err(init) => {
+                                    let init = Box::new(init);
+                                    let init = init_and_eq_null_or_undefined(
+                                        &this_obj,
+                                        init,
+                                        self.c.no_document_all,
+                                    );
+                                    (Some(this_obj), init)
+                                }
+                            }
+                        }
+
+                        Expr::Member(m) => {
+                            let this_obj = store_this_to.unwrap_or_else(|| {
+                                let v = private_ident!("_object");
+
+                                self.vars_without_init.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: v.clone().into(),
+                                    init: None,
+                                    definite: false,
+                                });
+
+                                v
+                            });
+
+                            let cond = self.handle_optional_member(m, Some(this_obj.clone()));
+
+                            let final_call = Box::new(Expr::Call(CallExpr {
+                                span: call.span,
+                                callee: callee_name
+                                    .clone()
+                                    .make_member(quote_ident!("call"))
+                                    .as_callee(),
+                                args: once(this_obj.as_arg()).chain(call.args.take()).collect(),
+                                type_args: Default::default(),
+                            }));
+
+                            return Ok(CondExpr {
+                                span: DUMMY_SP,
+                                test: cond.test,
+                                cons: cond.cons,
+                                alt: Box::new(Expr::Cond(CondExpr {
+                                    span: DUMMY_SP,
+                                    test: init_and_eq_null_or_undefined(
+                                        &callee_name,
+                                        cond.alt,
+                                        self.c.no_document_all,
+                                    ),
+                                    cons: undefined(DUMMY_SP),
+                                    alt: final_call,
+                                })),
+                            });
+                        }
+
+                        _ => {
+                            call.callee.visit_mut_with(self);
+
+                            (None, call.callee.take())
+                        }
+                    };
+                    call.args.visit_mut_with(self);
+
+                    Ok(CondExpr {
+                        span: DUMMY_SP,
+                        test: init_and_eq_null_or_undefined(
+                            &callee_name,
+                            init,
+                            self.c.no_document_all,
+                        ),
+                        cons: undefined(DUMMY_SP),
+                        alt: match this {
+                            Some(this) => Box::new(Expr::Call(CallExpr {
+                                span: call.span,
+                                callee: callee_name.make_member(quote_ident!("call")).as_callee(),
+                                args: once(this.as_arg()).chain(call.args.take()).collect(),
+                                type_args: Default::default(),
+                            })),
+                            None => Box::new(Expr::Call(CallExpr {
+                                span: call.span,
+                                callee: callee_name.as_callee(),
+                                args: call.args.take(),
+                                type_args: Default::default(),
+                            })),
+                        },
+                    })
+                } else {
+                    let callee = match &mut *call.callee {
+                        Expr::OptChain(callee) => {
                             self.vars_without_init.push(VarDeclarator {
                                 span: DUMMY_SP,
-                                name: v.clone().into(),
+                                name: callee_name.clone().into(),
                                 init: None,
                                 definite: false,
                             });
 
-                            v
-                        });
+                            let this_obj = store_this_to.unwrap_or_else(|| {
+                                let v = private_ident!("_object");
 
-                        match self.handle(callee, Some(this_obj.clone())) {
-                            Ok(cond) => {
-                                let final_call = Box::new(Expr::Call(CallExpr {
-                                    span: call.span,
-                                    callee: callee_name
-                                        .clone()
-                                        .make_member(quote_ident!("call"))
-                                        .as_callee(),
-                                    args: once(this_obj.as_arg()).chain(call.args.take()).collect(),
-                                    type_args: Default::default(),
-                                }));
+                                self.vars_without_init.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: v.clone().into(),
+                                    init: None,
+                                    definite: false,
+                                });
 
-                                {
+                                v
+                            });
+
+                            let callee = self.handle(callee, Some(this_obj.clone()));
+                            match callee {
+                                Ok(cond) => {
                                     return Ok(CondExpr {
                                         span: DUMMY_SP,
                                         test: cond.test,
@@ -254,94 +387,38 @@ impl OptChaining {
                                                 self.c.no_document_all,
                                             ),
                                             cons: undefined(DUMMY_SP),
-                                            alt: final_call,
+                                            alt: Box::new(Expr::Call(CallExpr {
+                                                span: call.span,
+                                                callee: callee_name
+                                                    .make_member(quote_ident!("call"))
+                                                    .as_callee(),
+                                                args: once(this_obj.clone().as_arg())
+                                                    .chain(call.args.take())
+                                                    .collect(),
+                                                type_args: Default::default(),
+                                            })),
                                         })),
-                                    });
+                                    })
                                 }
-                            }
-
-                            Err(init) => {
-                                let init = Box::new(init);
-                                let init = init_and_eq_null_or_undefined(
-                                    &this_obj,
-                                    init,
-                                    self.c.no_document_all,
-                                );
-                                (Some(this_obj), init)
+                                Err(callee) => Box::new(callee),
                             }
                         }
-                    }
 
-                    Expr::Member(m) => {
-                        let this_obj = store_this_to.unwrap_or_else(|| {
-                            let v = private_ident!("_object");
+                        _ => {
+                            call.callee.visit_mut_with(self);
 
-                            self.vars_without_init.push(VarDeclarator {
-                                span: DUMMY_SP,
-                                name: v.clone().into(),
-                                init: None,
-                                definite: false,
-                            });
+                            call.callee.take()
+                        }
+                    };
+                    call.args.visit_mut_with(self);
 
-                            v
-                        });
-
-                        let cond = self.handle_optional_member(m, Some(this_obj.clone()));
-
-                        let final_call = Box::new(Expr::Call(CallExpr {
-                            span: call.span,
-                            callee: callee_name
-                                .clone()
-                                .make_member(quote_ident!("call"))
-                                .as_callee(),
-                            args: once(this_obj.as_arg()).chain(call.args.take()).collect(),
-                            type_args: Default::default(),
-                        }));
-
-                        return Ok(CondExpr {
-                            span: DUMMY_SP,
-                            test: cond.test,
-                            cons: cond.cons,
-                            alt: Box::new(Expr::Cond(CondExpr {
-                                span: DUMMY_SP,
-                                test: init_and_eq_null_or_undefined(
-                                    &callee_name,
-                                    cond.alt,
-                                    self.c.no_document_all,
-                                ),
-                                cons: undefined(DUMMY_SP),
-                                alt: final_call,
-                            })),
-                        });
-                    }
-
-                    _ => {
-                        call.callee.visit_mut_with(self);
-
-                        (None, call.callee.take())
-                    }
-                };
-                call.args.visit_mut_with(self);
-
-                Ok(CondExpr {
-                    span: DUMMY_SP,
-                    test: init_and_eq_null_or_undefined(&callee_name, init, self.c.no_document_all),
-                    cons: undefined(DUMMY_SP),
-                    alt: match this {
-                        Some(this) => Box::new(Expr::Call(CallExpr {
-                            span: call.span,
-                            callee: callee_name.make_member(quote_ident!("call")).as_callee(),
-                            args: once(this.as_arg()).chain(call.args.take()).collect(),
-                            type_args: Default::default(),
-                        })),
-                        None => Box::new(Expr::Call(CallExpr {
-                            span: call.span,
-                            callee: callee_name.as_callee(),
-                            args: call.args.take(),
-                            type_args: Default::default(),
-                        })),
-                    },
-                })
+                    Err(Expr::Call(CallExpr {
+                        span: call.span,
+                        callee: callee.as_callee(),
+                        args: call.args.take(),
+                        type_args: Default::default(),
+                    }))
+                }
             }
         }
     }
