@@ -240,23 +240,21 @@ impl OptChaining {
                                         type_args: Default::default(),
                                     }));
 
-                                    {
-                                        return Ok(CondExpr {
+                                    return Ok(CondExpr {
+                                        span: DUMMY_SP,
+                                        test: cond.test,
+                                        cons: cond.cons,
+                                        alt: Box::new(Expr::Cond(CondExpr {
                                             span: DUMMY_SP,
-                                            test: cond.test,
-                                            cons: cond.cons,
-                                            alt: Box::new(Expr::Cond(CondExpr {
-                                                span: DUMMY_SP,
-                                                test: init_and_eq_null_or_undefined(
-                                                    &callee_name,
-                                                    cond.alt,
-                                                    self.c.no_document_all,
-                                                ),
-                                                cons: undefined(DUMMY_SP),
-                                                alt: final_call,
-                                            })),
-                                        });
-                                    }
+                                            test: init_and_eq_null_or_undefined(
+                                                &callee_name,
+                                                cond.alt,
+                                                self.c.no_document_all,
+                                            ),
+                                            cons: undefined(DUMMY_SP),
+                                            alt: final_call,
+                                        })),
+                                    });
                                 }
 
                                 Err(init) => {
@@ -285,33 +283,13 @@ impl OptChaining {
                                 v
                             });
 
-                            let cond = self.handle_optional_member(m, Some(this_obj.clone()));
-
-                            let final_call = Box::new(Expr::Call(CallExpr {
-                                span: call.span,
-                                callee: callee_name
-                                    .clone()
-                                    .make_member(quote_ident!("call"))
-                                    .as_callee(),
-                                args: once(this_obj.as_arg()).chain(call.args.take()).collect(),
-                                type_args: Default::default(),
+                            m.obj = Box::new(Expr::Assign(AssignExpr {
+                                span: m.span,
+                                op: op!("="),
+                                left: this_obj.clone().into(),
+                                right: m.obj.take(),
                             }));
-
-                            return Ok(CondExpr {
-                                span: DUMMY_SP,
-                                test: cond.test,
-                                cons: cond.cons,
-                                alt: Box::new(Expr::Cond(CondExpr {
-                                    span: DUMMY_SP,
-                                    test: init_and_eq_null_or_undefined(
-                                        &callee_name,
-                                        cond.alt,
-                                        self.c.no_document_all,
-                                    ),
-                                    cons: undefined(DUMMY_SP),
-                                    alt: final_call,
-                                })),
-                            });
+                            (Some(this_obj), call.callee.take())
                         }
 
                         _ => {
@@ -348,61 +326,26 @@ impl OptChaining {
                 } else {
                     let callee = match &mut *call.callee {
                         Expr::OptChain(callee) => {
-                            self.vars_without_init.push(VarDeclarator {
-                                span: DUMMY_SP,
-                                name: callee_name.clone().into(),
-                                init: None,
-                                definite: false,
-                            });
-
-                            let this_obj = store_this_to.unwrap_or_else(|| {
-                                let v = private_ident!("_this");
-
-                                self.vars_without_init.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: v.clone().into(),
-                                    init: None,
-                                    definite: false,
-                                });
-
-                                v
-                            });
-
-                            let callee = self.handle(callee, Some(this_obj.clone()));
+                            let callee = self.handle(callee, None);
                             match callee {
                                 Ok(cond) => {
                                     return Ok(CondExpr {
                                         span: DUMMY_SP,
                                         test: cond.test,
                                         cons: cond.cons,
-                                        alt: Box::new(Expr::Cond(CondExpr {
-                                            span: DUMMY_SP,
-                                            test: init_and_eq_null_or_undefined(
-                                                &callee_name,
-                                                cond.alt,
-                                                self.c.no_document_all,
-                                            ),
-                                            cons: undefined(DUMMY_SP),
-                                            alt: Box::new(Expr::Call(CallExpr {
-                                                span: call.span,
-                                                callee: callee_name
-                                                    .make_member(quote_ident!("call"))
-                                                    .as_callee(),
-                                                args: once(this_obj.as_arg())
-                                                    .chain(call.args.take())
-                                                    .collect(),
-                                                type_args: Default::default(),
-                                            })),
+                                        alt: Box::new(Expr::Call(CallExpr {
+                                            span: call.span,
+                                            callee: cond.alt.as_callee(),
+                                            args: call.args.take(),
+                                            type_args: Default::default(),
                                         })),
                                     })
                                 }
                                 Err(callee) => Box::new(callee),
                             }
                         }
-
                         _ => {
                             call.callee.visit_mut_with(self);
-
                             call.callee.take()
                         }
                     };

@@ -140,16 +140,15 @@ impl NormalizedOutput {
         debug!("Comparing output to {}", path.display());
         create_dir_all(path.parent().unwrap()).expect("failed to run `mkdir -p`");
 
-        if std::env::var("UPDATE").unwrap_or_default() == "1" {
+        let update = std::env::var("UPDATE").unwrap_or_default() == "1";
+        if update {
             crate::write_to_file(&path, &self.0);
 
-            error!(
-                "Assertion failed: \nActual file printed to {}",
-                path.display()
-            );
+            debug!("Updating file {}", path.display());
+            return Ok(());
         }
 
-        if self.0.lines().count() <= 5 {
+        if !update && self.0.lines().count() <= 5 {
             assert_eq!(expected, self, "Actual:\n{}", self);
         }
 

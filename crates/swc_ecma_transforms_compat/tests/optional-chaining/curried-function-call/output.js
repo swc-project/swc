@@ -1,6 +1,6 @@
-var _a_b, _this, _a_b1, _a_b2, _this1, _a_b3, _a_b4, _a_b5, _this2, _a_b6, _a_b7, _a_b8, _this3, _a_b9, _a_b_c, _this4, _a_b_c1, _a_b10, _this5, _a_b11;
-(_this = a) === null || _this === void 0 ? void 0 : (_a_b = (_a_b1 = _this.b) === null || _a_b1 === void 0 ? void 0 : _a_b1.call(_this)) === null || _a_b === void 0 ? void 0 : _a_b.call(_this);
-(_this1 = a) === null || _this1 === void 0 ? void 0 : (_a_b2 = (_a_b3 = (_a_b4 = _this1.b) === null || _a_b4 === void 0 ? void 0 : _a_b4.call(_this1)) === null || _a_b3 === void 0 ? void 0 : _a_b3.call(_this1)) === null || _a_b2 === void 0 ? void 0 : _a_b2.call(_this1);
-(_this2 = a) === null || _this2 === void 0 ? void 0 : ((_a_b5 = (_a_b6 = _this2.b) === null || _a_b6 === void 0 ? void 0 : _a_b6.call(_this2)) === null || _a_b5 === void 0 ? void 0 : _a_b5.call(_this2)).c;
-(_a_b7 = (_this3 = a) === null || _this3 === void 0 ? void 0 : (_a_b8 = (_a_b9 = _this3.b) === null || _a_b9 === void 0 ? void 0 : _a_b9.call(_this3)) === null || _a_b8 === void 0 ? void 0 : _a_b8.call(_this3)) === null || _a_b7 === void 0 ? void 0 : _a_b7.c;
-(_this4 = (_this5 = a) === null || _this5 === void 0 ? void 0 : (_a_b10 = (_a_b11 = _this5.b) === null || _a_b11 === void 0 ? void 0 : _a_b11.call(_this5)) === null || _a_b10 === void 0 ? void 0 : _a_b10.call(_this5)) === null || _this4 === void 0 ? void 0 : (_a_b_c = (_a_b_c1 = _this4.c) === null || _a_b_c1 === void 0 ? void 0 : _a_b_c1.call(_this4)) === null || _a_b_c === void 0 ? void 0 : _a_b_c.call(_this4);
+var _a, _a1, _a2, _a_b, _a3, _a_b1, _a4;
+(_a = a) === null || _a === void 0 ? void 0 : _a.b()();
+(_a1 = a) === null || _a1 === void 0 ? void 0 : _a1.b()()();
+(_a2 = a) === null || _a2 === void 0 ? void 0 : _a2.b()().c;
+(_a_b = (_a3 = a) === null || _a3 === void 0 ? void 0 : _a3.b()()) === null || _a_b === void 0 ? void 0 : _a_b.c;
+(_a_b1 = (_a4 = a) === null || _a4 === void 0 ? void 0 : _a4.b()()) === null || _a_b1 === void 0 ? void 0 : _a_b1.c()();

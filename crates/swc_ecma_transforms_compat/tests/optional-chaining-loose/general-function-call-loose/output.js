@@ -1,5 +1,12 @@
-var _foo, _foo_bar, _this, _foo_bar1, _object, _foo_bar2, _object1;
+var _foo, _foo1, _foo_bar, _object, _foo_bar1, _object1, _foo_bar_baz, _object2, _foo_bar2, _foo_bar_baz1, _object3, _foo2, _foo_bar_baz2, _object4, _foo3, _foo_bar3, _foo4, _foo_bar_baz3, _object5, _foo5;
 (_foo = foo) == null ? void 0 : _foo(foo);
-(_this = foo) == null ? void 0 : (_foo_bar = _this.bar) == null ? void 0 : _foo_bar.call(_this);
-(_object = foo) == null ? void 0 : (_foo_bar1 = _object.bar) == null ? void 0 : _foo_bar1.call(_object, foo.bar, false);
-(_object1 = foo) == null ? void 0 : (_foo_bar2 = _object1.bar) == null ? void 0 : _foo_bar2.call(_object1, foo.bar, true);
+(_foo1 = foo) == null ? void 0 : _foo1.bar();
+(_foo_bar = (_object = foo).bar) == null ? void 0 : _foo_bar.call(_object, foo.bar, false);
+(_object1 = foo) == null ? void 0 : (_foo_bar1 = _object1.bar) == null ? void 0 : _foo_bar1.call(_object1, foo.bar, true);
+(_foo_bar_baz = (_object2 = foo.bar).baz) == null ? void 0 : _foo_bar_baz.call(_object2);
+(_foo_bar2 = foo.bar) == null ? void 0 : _foo_bar2.baz();
+(_object3 = foo.bar) == null ? void 0 : (_foo_bar_baz1 = _object3.baz) == null ? void 0 : _foo_bar_baz1.call(_object3);
+(_foo2 = foo) == null ? void 0 : _foo2.bar.baz();
+(_foo3 = foo) == null ? void 0 : (_foo_bar_baz2 = (_object4 = _foo3.bar).baz) == null ? void 0 : _foo_bar_baz2.call(_object4);
+(_foo_bar3 = (_foo4 = foo) == null ? void 0 : _foo4.bar) == null ? void 0 : _foo_bar3.baz();
+(_object5 = (_foo5 = foo) == null ? void 0 : _foo5.bar) == null ? void 0 : (_foo_bar_baz3 = _object5.baz) == null ? void 0 : _foo_bar_baz3.call(_object5);
