@@ -167,11 +167,12 @@ impl OptChaining {
                                         alt: match store_this_to {
                                             Some(this) => Box::new(Expr::Member(MemberExpr {
                                                 span: m.span,
-                                                obj: init_and_eq_null_or_undefined(
-                                                    &this,
-                                                    obj.alt,
-                                                    self.c.no_document_all,
-                                                ),
+                                                obj: Box::new(Expr::Assign(AssignExpr {
+                                                    span: DUMMY_SP,
+                                                    op: op!("="),
+                                                    left: this.clone().into(),
+                                                    right: obj.alt,
+                                                })),
                                                 prop: m.prop.take(),
                                             })),
                                             None => Box::new(Expr::Member(MemberExpr {
