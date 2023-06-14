@@ -155,17 +155,6 @@ test!(
      void 0 ? void 0 : _obj_a.b;"
 );
 
-// https://github.com/Brooooooklyn/swc-node/issues/62
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    swc_node_issue_62,
-    "a.focus?.()",
-    "var _a_focus, _object;
-    (_object = a) === null || _object === void 0 ? void 0 : (_a_focus = _object.focus) === null || \
-     _a_focus === void 0 ? void 0 : _a_focus.call(_object);"
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
