@@ -10,6 +10,9 @@
 
 - **(es/codegen)** Fix regression of source maps (#7523) ([f27838d](https://github.com/swc-project/swc/commit/f27838dedcac792ac30380f45ef89b329221de59))
 
+
+- **(es/compat)** Fix handling of `this` of optional chaining pass (#7527) ([4644d00](https://github.com/swc-project/swc/commit/4644d005d2ca06ad002dc7c6ff6c4d19e1734970))
+
 ## [1.3.63] - 2023-06-13
 
 ### Bug Fixes
