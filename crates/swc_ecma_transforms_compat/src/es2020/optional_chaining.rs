@@ -127,6 +127,7 @@ impl OptChaining {
         });
 
         m.obj.visit_mut_with(self);
+        m.prop.visit_mut_with(self);
 
         CondExpr {
             span: DUMMY_SP,
