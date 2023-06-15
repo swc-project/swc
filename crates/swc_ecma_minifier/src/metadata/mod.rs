@@ -1,7 +1,7 @@
 use rustc_hash::FxHashSet;
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
-    Span,
+    Span, Spanned,
 };
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::marks::Marks;
@@ -234,6 +234,18 @@ impl Visit for InfoCollector<'_> {
         if let Some(ident) = &f.ident {
             if has_flag(self.comments, f.function.span, "NO_SIDE_EFFECTS") {
                 self.pure_callees.insert(ident.to_id());
+            }
+        }
+    }
+
+    fn visit_var_declarator(&mut self, v: &VarDeclarator) {
+        v.visit_children_with(self);
+
+        if let Pat::Ident(ident) = &v.name {
+            if let Some(init) = &v.init {
+                if has_flag(self.comments, init.span(), "NO_SIDE_EFFECTS") {
+                    self.pure_callees.insert(ident.to_id());
+                }
             }
         }
     }
