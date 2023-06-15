@@ -170,7 +170,7 @@ where
         );
 
         stmts.extend(n.take().into_iter().filter_map(|item| match item {
-            ModuleItem::Stmt(stmt) if !stmt.is_use_strict() => Some(stmt),
+            ModuleItem::Stmt(stmt) if !stmt.is_directive() => Some(stmt),
             _ => None,
         }));
 
