@@ -58,8 +58,6 @@ struct InfoMarker<'a> {
     state: State,
 }
 
-impl InfoMarker<'_> {}
-
 impl VisitMut for InfoMarker<'_> {
     noop_visit_mut_type!();
 
