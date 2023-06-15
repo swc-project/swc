@@ -195,6 +195,10 @@ impl Visit for InfoCollector<'_> {
 
     fn visit_fn_decl(&mut self, f: &FnDecl) {
         f.visit_children_with(self);
+
+        if has_flag(self.comments, f.function.span, "NO_SIDE_EFFECTS") {
+            self.pure_callees.insert(f.ident.to_id());
+        }
     }
 }
 
