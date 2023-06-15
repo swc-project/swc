@@ -307,13 +307,17 @@ where
 fn has_flag(comments: Option<&dyn Comments>, span: Span, text: &'static str) -> bool {
     find_comment(comments, span, |c| {
         if c.kind == CommentKind::Block {
-            //
-            if c.text.len() == (text.len() + 5)
-                && (c.text.starts_with("#__") || c.text.starts_with("@__"))
-                && c.text.ends_with("__")
-                && text == &c.text[3..c.text.len() - 2]
-            {
-                return true;
+            for line in c.text.lines() {
+                let line = line.trim();
+
+                //
+                if line.len() == (text.len() + 5)
+                    && (line.starts_with("#__") || line.starts_with("@__"))
+                    && line.ends_with("__")
+                    && text == &line[3..line.len() - 2]
+                {
+                    return true;
+                }
             }
         }
 
