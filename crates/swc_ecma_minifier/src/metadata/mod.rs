@@ -308,6 +308,8 @@ fn has_flag(comments: Option<&dyn Comments>, span: Span, text: &'static str) -> 
     find_comment(comments, span, |c| {
         if c.kind == CommentKind::Block {
             for line in c.text.lines() {
+                // jsdoc
+                let line = line.trim_start_matches(['*', ' ']);
                 let line = line.trim();
 
                 //
