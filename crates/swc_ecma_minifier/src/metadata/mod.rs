@@ -199,6 +199,8 @@ fn is_param_one_of(p: &Param, allowed: &[&str]) -> bool {
     }
 }
 
+const NO_SIDE_EFFECTS_FLAG: &str = "NO_SIDE_EFFECTS";
+
 struct InfoCollector<'a> {
     comments: Option<&'a dyn Comments>,
 
@@ -214,7 +216,7 @@ impl Visit for InfoCollector<'_> {
         f.visit_children_with(self);
 
         if let Decl::Fn(f) = &f.decl {
-            if has_flag(self.comments, f.function.span, "NO_SIDE_EFFECTS") {
+            if has_flag(self.comments, f.function.span, NO_SIDE_EFFECTS_FLAG) {
                 self.pure_callees.insert(f.ident.to_id());
             }
         }
@@ -223,7 +225,7 @@ impl Visit for InfoCollector<'_> {
     fn visit_fn_decl(&mut self, f: &FnDecl) {
         f.visit_children_with(self);
 
-        if has_flag(self.comments, f.function.span, "NO_SIDE_EFFECTS") {
+        if has_flag(self.comments, f.function.span, NO_SIDE_EFFECTS_FLAG) {
             self.pure_callees.insert(f.ident.to_id());
         }
     }
@@ -232,7 +234,7 @@ impl Visit for InfoCollector<'_> {
         f.visit_children_with(self);
 
         if let Some(ident) = &f.ident {
-            if has_flag(self.comments, f.function.span, "NO_SIDE_EFFECTS") {
+            if has_flag(self.comments, f.function.span, NO_SIDE_EFFECTS_FLAG) {
                 self.pure_callees.insert(ident.to_id());
             }
         }
@@ -243,7 +245,9 @@ impl Visit for InfoCollector<'_> {
 
         if let Pat::Ident(ident) = &v.name {
             if let Some(init) = &v.init {
-                if has_flag(self.comments, init.span(), "NO_SIDE_EFFECTS") {
+                if has_flag(self.comments, v.span, NO_SIDE_EFFECTS_FLAG)
+                    || has_flag(self.comments, init.span(), NO_SIDE_EFFECTS_FLAG)
+                {
                     self.pure_callees.insert(ident.to_id());
                 }
             }
