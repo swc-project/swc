@@ -1,11 +1,11 @@
 use rustc_hash::FxHashSet;
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
-    Span, SyntaxContext,
+    Span,
 };
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::marks::Marks;
-use swc_ecma_utils::{find_pat_ids, NodeIgnoringSpan};
+use swc_ecma_utils::NodeIgnoringSpan;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -55,72 +55,7 @@ struct InfoMarker<'a> {
     state: State,
 }
 
-impl InfoMarker<'_> {
-    /// Check for `/** @const */`.
-    pub(super) fn has_const_ann(&self, span: Span) -> bool {
-        self.find_comment(span, |c| {
-            if c.kind == CommentKind::Block {
-                if !c.text.starts_with('*') {
-                    return false;
-                }
-                let t = c.text[1..].trim();
-                //
-                if t.starts_with("@const") {
-                    return true;
-                }
-            }
-
-            false
-        })
-    }
-
-    /// Check for `/*#__NOINLINE__*/`
-    pub(super) fn has_noinline(&self, span: Span) -> bool {
-        self.has_flag(span, "NOINLINE")
-    }
-
-    /// Check for `/*#__PURE__*/`
-    pub(super) fn has_pure(&self, span: Span) -> bool {
-        self.has_flag(span, "PURE")
-    }
-
-    fn find_comment<F>(&self, span: Span, mut op: F) -> bool
-    where
-        F: FnMut(&Comment) -> bool,
-    {
-        let mut found = false;
-        if let Some(comments) = self.comments {
-            let cs = comments.get_leading(span.lo);
-            if let Some(cs) = cs {
-                for c in &cs {
-                    found |= op(c);
-                    if found {
-                        break;
-                    }
-                }
-            }
-        }
-
-        found
-    }
-
-    fn has_flag(&self, span: Span, text: &'static str) -> bool {
-        self.find_comment(span, |c| {
-            if c.kind == CommentKind::Block {
-                //
-                if c.text.len() == (text.len() + 5)
-                    && (c.text.starts_with("#__") || c.text.starts_with("@__"))
-                    && c.text.ends_with("__")
-                    && text == &c.text[3..c.text.len() - 2]
-                {
-                    return true;
-                }
-            }
-
-            false
-        })
-    }
-}
+impl InfoMarker<'_> {}
 
 impl VisitMut for InfoMarker<'_> {
     noop_visit_mut_type!();
@@ -128,16 +63,16 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
         n.visit_mut_children_with(self);
 
-        if self.has_noinline(n.span) {
+        if has_noinline(self.comments, n.span) {
             n.span = n.span.apply_mark(self.marks.noinline);
         }
 
         // We check callee in some cases because we move comments
         // See https://github.com/swc-project/swc/issues/7241
-        if self.has_pure(n.span)
+        if has_pure(self.comments, n.span)
             || match &n.callee {
                 Callee::Expr(e) => match &**e {
-                    Expr::Seq(callee) => self.has_pure(callee.span),
+                    Expr::Seq(callee) => has_pure(self.comments, callee.span),
                     _ => false,
                 },
                 _ => false,
@@ -215,7 +150,7 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
         n.visit_mut_children_with(self);
 
-        if self.has_pure(n.span) {
+        if has_pure(self.comments, n.span) {
             n.span = n.span.apply_mark(self.marks.pure);
         }
     }
@@ -234,7 +169,7 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
         n.visit_mut_children_with(self);
 
-        if self.has_const_ann(n.span) {
+        if has_const_ann(self.comments, n.span) {
             n.span = n.span.apply_mark(self.marks.const_ann);
         }
     }
@@ -253,6 +188,77 @@ struct InfoCollector<'a> {
     pure_callees: FxHashSet<Id>,
 }
 
+impl InfoCollector<'_> {}
+
 impl Visit for InfoCollector<'_> {
     noop_visit_type!();
+
+    fn visit_fn_decl(&mut self, f: &FnDecl) {
+        f.visit_children_with(self);
+    }
+}
+
+/// Check for `/** @const */`.
+pub(super) fn has_const_ann(comments: Option<&dyn Comments>, span: Span) -> bool {
+    find_comment(comments, span, |c| {
+        if c.kind == CommentKind::Block {
+            if !c.text.starts_with('*') {
+                return false;
+            }
+            let t = c.text[1..].trim();
+            //
+            if t.starts_with("@const") {
+                return true;
+            }
+        }
+
+        false
+    })
+}
+
+/// Check for `/*#__NOINLINE__*/`
+pub(super) fn has_noinline(comments: Option<&dyn Comments>, span: Span) -> bool {
+    has_flag(comments, span, "NOINLINE")
+}
+
+/// Check for `/*#__PURE__*/`
+pub(super) fn has_pure(comments: Option<&dyn Comments>, span: Span) -> bool {
+    has_flag(comments, span, "PURE")
+}
+
+fn find_comment<F>(comments: Option<&dyn Comments>, span: Span, mut op: F) -> bool
+where
+    F: FnMut(&Comment) -> bool,
+{
+    let mut found = false;
+    if let Some(comments) = comments {
+        let cs = comments.get_leading(span.lo);
+        if let Some(cs) = cs {
+            for c in &cs {
+                found |= op(c);
+                if found {
+                    break;
+                }
+            }
+        }
+    }
+
+    found
+}
+
+fn has_flag(comments: Option<&dyn Comments>, span: Span, text: &'static str) -> bool {
+    find_comment(comments, span, |c| {
+        if c.kind == CommentKind::Block {
+            //
+            if c.text.len() == (text.len() + 5)
+                && (c.text.starts_with("#__") || c.text.starts_with("@__"))
+                && c.text.ends_with("__")
+                && text == &c.text[3..c.text.len() - 2]
+            {
+                return true;
+            }
+        }
+
+        false
+    })
 }
