@@ -210,6 +210,16 @@ impl InfoCollector<'_> {}
 impl Visit for InfoCollector<'_> {
     noop_visit_type!();
 
+    fn visit_export_decl(&mut self, f: &ExportDecl) {
+        f.visit_children_with(self);
+
+        if let Decl::Fn(f) = &f.decl {
+            if has_flag(self.comments, f.function.span, "NO_SIDE_EFFECTS") {
+                self.pure_callees.insert(f.ident.to_id());
+            }
+        }
+    }
+
     fn visit_fn_decl(&mut self, f: &FnDecl) {
         f.visit_children_with(self);
 
@@ -221,8 +231,10 @@ impl Visit for InfoCollector<'_> {
     fn visit_fn_expr(&mut self, f: &FnExpr) {
         f.visit_children_with(self);
 
-        if has_flag(self.comments, f.function.span, "NO_SIDE_EFFECTS") {
-            self.pure_callees.insert(f.ident.to_id());
+        if let Some(ident) = &f.ident {
+            if has_flag(self.comments, f.function.span, "NO_SIDE_EFFECTS") {
+                self.pure_callees.insert(ident.to_id());
+            }
         }
     }
 }
