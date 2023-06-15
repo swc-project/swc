@@ -207,8 +207,6 @@ struct InfoCollector<'a> {
     pure_callees: &'a mut FxHashSet<Id>,
 }
 
-impl InfoCollector<'_> {}
-
 impl Visit for InfoCollector<'_> {
     noop_visit_type!();
 
@@ -240,15 +238,18 @@ impl Visit for InfoCollector<'_> {
         }
     }
 
-    fn visit_var_declarator(&mut self, v: &VarDeclarator) {
-        v.visit_children_with(self);
+    fn visit_var_decl(&mut self, decl: &VarDecl) {
+        decl.visit_children_with(self);
 
-        if let Pat::Ident(ident) = &v.name {
-            if let Some(init) = &v.init {
-                if has_flag(self.comments, v.span, NO_SIDE_EFFECTS_FLAG)
-                    || has_flag(self.comments, init.span(), NO_SIDE_EFFECTS_FLAG)
-                {
-                    self.pure_callees.insert(ident.to_id());
+        for v in &decl.decls {
+            if let Pat::Ident(ident) = &v.name {
+                if let Some(init) = &v.init {
+                    if has_flag(self.comments, decl.span, NO_SIDE_EFFECTS_FLAG)
+                        || has_flag(self.comments, v.span, NO_SIDE_EFFECTS_FLAG)
+                        || has_flag(self.comments, init.span(), NO_SIDE_EFFECTS_FLAG)
+                    {
+                        self.pure_callees.insert(ident.to_id());
+                    }
                 }
             }
         }
