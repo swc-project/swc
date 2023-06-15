@@ -70,7 +70,13 @@ impl VisitMut for InfoMarker<'_> {
 
         // We check callee in some cases because we move comments
         // See https://github.com/swc-project/swc/issues/7241
-        if has_pure(self.comments, n.span)
+        if match &n.callee {
+            Callee::Expr(e) => match &**e {
+                Expr::Ident(callee) => self.pure_callee.contains(&callee.to_id()),
+                _ => false,
+            },
+            _ => false,
+        } || has_pure(self.comments, n.span)
             || match &n.callee {
                 Callee::Expr(e) => match &**e {
                     Expr::Seq(callee) => has_pure(self.comments, callee.span),
