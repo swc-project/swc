@@ -247,12 +247,12 @@ fn is_param_one_of(p: &Param, allowed: &[&str]) -> bool {
     }
 }
 
-struct TopLevelBindingCollector {
+struct InfoCollector {
     top_level_ctxt: SyntaxContext,
     bindings: Vec<Id>,
 }
 
-impl TopLevelBindingCollector {
+impl InfoCollector {
     fn add(&mut self, id: Id) {
         if id.1 != self.top_level_ctxt {
             return;
@@ -262,7 +262,7 @@ impl TopLevelBindingCollector {
     }
 }
 
-impl Visit for TopLevelBindingCollector {
+impl Visit for InfoCollector {
     noop_visit_type!();
 
     fn visit_class_decl(&mut self, v: &ClassDecl) {
