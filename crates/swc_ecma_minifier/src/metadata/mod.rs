@@ -36,6 +36,7 @@ pub(crate) fn info_marker<'a>(
         pure_funcs,
         // unresolved_mark,
         state: Default::default(),
+        pure_callee: Default::default(),
     }
 }
 
@@ -49,6 +50,8 @@ struct InfoMarker<'a> {
     #[allow(dead_code)]
     options: Option<&'a CompressOptions>,
     pure_funcs: Option<FxHashSet<NodeIgnoringSpan<'a, Expr>>>,
+    pure_callee: FxHashSet<Id>,
+
     comments: Option<&'a dyn Comments>,
     marks: Marks,
     // unresolved_mark: Mark,
@@ -137,6 +140,11 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_lit(&mut self, _: &mut Lit) {}
 
     fn visit_mut_module(&mut self, n: &mut Module) {
+        n.visit_with(&mut InfoCollector {
+            comments: self.comments,
+            pure_callees: &mut self.pure_callee,
+        });
+
         n.visit_mut_children_with(self);
 
         if self.state.is_bundle {
@@ -156,6 +164,11 @@ impl VisitMut for InfoMarker<'_> {
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
+        n.visit_with(&mut InfoCollector {
+            comments: self.comments,
+            pure_callees: &mut self.pure_callee,
+        });
+
         n.visit_mut_children_with(self);
 
         if self.state.is_bundle {
@@ -185,7 +198,7 @@ fn is_param_one_of(p: &Param, allowed: &[&str]) -> bool {
 struct InfoCollector<'a> {
     comments: Option<&'a dyn Comments>,
 
-    pure_callees: FxHashSet<Id>,
+    pure_callees: &'a mut FxHashSet<Id>,
 }
 
 impl InfoCollector<'_> {}
