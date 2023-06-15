@@ -217,6 +217,14 @@ impl Visit for InfoCollector<'_> {
             self.pure_callees.insert(f.ident.to_id());
         }
     }
+
+    fn visit_fn_expr(&mut self, f: &FnExpr) {
+        f.visit_children_with(self);
+
+        if has_flag(self.comments, f.function.span, "NO_SIDE_EFFECTS") {
+            self.pure_callees.insert(f.ident.to_id());
+        }
+    }
 }
 
 /// Check for `/** @const */`.
