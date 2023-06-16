@@ -192,7 +192,7 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
 
 pub(super) fn clone_first_use_directive(
     stmts: &[ModuleItem],
-    use_strict_only: bool,
+    want_use_strict: bool,
 ) -> Option<Stmt> {
     if stmts.is_empty() {
         return None;
@@ -200,8 +200,8 @@ pub(super) fn clone_first_use_directive(
 
     stmts.iter().find_map(|item| match item {
         ModuleItem::Stmt(stmt) => {
-            if (use_strict_only && stmt.is_use_strict())
-                || (!use_strict_only && stmt.is_directive())
+            if (want_use_strict && stmt.is_use_strict())
+                || (!want_use_strict && !stmt.is_use_strict() && stmt.is_directive())
             {
                 Some(stmt.clone())
             } else {
