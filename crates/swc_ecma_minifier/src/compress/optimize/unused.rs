@@ -828,6 +828,10 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn drop_unused_properties(&mut self, v: &mut VarDeclarator) -> Option<()> {
+        if !self.options.unused {
+            return None;
+        }
+
         let name = v.name.as_ident()?;
         let obj = v.init.as_mut()?.as_mut_object()?;
 
