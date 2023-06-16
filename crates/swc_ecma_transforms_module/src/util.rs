@@ -6,7 +6,7 @@ use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, ExprFactory,
-    FunctionFactory,
+    FunctionFactory, IsDirective,
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -190,18 +190,24 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
     .into_stmt()
 }
 
-pub(super) fn clone_first_use_directive(stmts: &[ModuleItem]) -> Option<Stmt> {
+pub(super) fn clone_first_use_directive(
+    stmts: &[ModuleItem],
+    use_strict_only: bool,
+) -> Option<Stmt> {
     if stmts.is_empty() {
         return None;
     }
 
     stmts.iter().find_map(|item| match item {
-        ModuleItem::Stmt(stmt @ Stmt::Expr(ExprStmt { expr, .. })) => match **expr {
-            Expr::Lit(Lit::Str(Str { ref value, .. })) if value.starts_with("use ") => {
+        ModuleItem::Stmt(stmt) => {
+            if (use_strict_only && stmt.is_use_strict())
+                || (!use_strict_only && stmt.is_directive())
+            {
                 Some(stmt.clone())
+            } else {
+                None
             }
-            _ => None,
-        },
+        }
         _ => None,
     })
 }
