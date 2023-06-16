@@ -159,4 +159,4 @@ const AppIcon = (props) => {
     return null;
 };
 
-window.AppIcon = AppIcon;
+export default AppIcon;
