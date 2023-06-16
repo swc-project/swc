@@ -600,10 +600,15 @@ where
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         if e.op.may_short_circuit() {
-            e.left.visit_with(self);
+            let ctx = Ctx {
+                is_id_ref: false,
+                ..self.ctx
+            };
+            e.left.visit_with(&mut *self.with_ctx(ctx));
             let ctx = Ctx {
                 in_cond: true,
                 is_delete_arg: false,
+                is_id_ref: false,
                 ..self.ctx
             };
             self.with_ctx(ctx).visit_in_cond(&e.right);
