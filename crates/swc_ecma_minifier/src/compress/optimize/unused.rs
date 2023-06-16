@@ -828,7 +828,7 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn drop_unused_properties(&mut self, v: &mut VarDeclarator) -> Option<()> {
-        if !self.options.unused || self.ctx.is_exported {
+        if !self.options.hoist_props || self.ctx.is_exported {
             return None;
         }
 
