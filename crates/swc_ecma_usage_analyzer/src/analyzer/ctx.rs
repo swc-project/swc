@@ -122,6 +122,7 @@ pub struct Ctx {
 
     /// `false` for `array` in `array.length.
     pub is_exact_arg: bool,
+    pub is_id_ref: bool,
 
     pub in_await_arg: bool,
 

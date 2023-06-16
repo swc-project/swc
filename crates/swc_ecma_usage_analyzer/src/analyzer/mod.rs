@@ -386,6 +386,7 @@ where
                 is_exact_arg: true,
                 is_exact_reassignment: false,
                 is_callee: false,
+                is_id_ref: true,
                 ..self.ctx
             };
             n.args.visit_with(&mut *self.with_ctx(ctx));

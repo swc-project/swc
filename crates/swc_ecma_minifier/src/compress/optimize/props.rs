@@ -31,6 +31,7 @@ impl Optimizer<'_> {
                 .map(|v| {
                     !v.mutated
                         && v.mutation_by_call_count == 0
+                        && !v.used_as_ref
                         && !v.used_as_arg
                         && !v.used_in_cond
                         && !v.reassigned()

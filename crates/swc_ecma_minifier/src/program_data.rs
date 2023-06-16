@@ -481,6 +481,7 @@ impl VarDataLike for VarUsageInfo {
     }
 
     fn mark_used_as_arg(&mut self) {
+        self.used_as_ref = true;
         self.used_as_arg = true
     }
 
@@ -656,6 +657,10 @@ impl ProgramData {
                 ..Default::default()
             }
         });
+
+        if is_first {
+            e.used_as_ref |= ctx.is_id_ref;
+        }
 
         e.inline_prevented |= ctx.inline_prevented;
 
