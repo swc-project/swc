@@ -16520,13 +16520,8 @@
                 if (1 === a._status) return a._result;
                 throw a._result;
             }
-            var R = {
-                current: null
-            };
             function S() {
-                var a = R.current;
-                if (null === a) throw Error(z(321));
-                return a;
+                throw Error(z(321));
             }
             exports.Children = {
                 map: P,
@@ -16551,7 +16546,9 @@
                     return a;
                 }
             }, exports.Component = C, exports.PureComponent = E, exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = {
-                ReactCurrentDispatcher: R,
+                ReactCurrentDispatcher: {
+                    current: null
+                },
                 ReactCurrentBatchConfig: {
                     transition: 0
                 },
