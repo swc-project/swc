@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es/module)** Preserve custom `use` directives (#7528) ([3e9dd88](https://github.com/swc-project/swc/commit/3e9dd88e37fcb99293a3683ea7a62214950f7860))
+
 ## [1.3.64] - 2023-06-14
 
 ### Bug Fixes
