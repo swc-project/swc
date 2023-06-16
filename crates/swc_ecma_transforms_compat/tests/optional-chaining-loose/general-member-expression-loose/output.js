@@ -2,11 +2,11 @@ var _foo, _foo1, _foo2, _foo_bar, _foo3, _foo_bar1, _foo4, _foo_bar_baz, _foo_ba
 (_foo = foo) == null ? void 0 : _foo[foo];
 (_foo1 = foo) == null ? void 0 : _foo1.bar[0];
 (_foo_bar = foo.bar) == null ? void 0 : _foo_bar[(_foo2 = foo) == null ? void 0 : _foo2.bar];
-(_foo_bar1 = (_foo4 = foo) == null ? void 0 : _foo4.bar) == null ? void 0 : _foo_bar1[(_foo3 = foo) == null ? void 0 : _foo3.bar];
+(_foo4 = foo) == null ? void 0 : (_foo_bar1 = _foo4.bar) == null ? void 0 : _foo_bar1[(_foo3 = foo) == null ? void 0 : _foo3.bar];
 (_foo_bar_baz = foo.bar.baz) == null ? void 0 : _foo_bar_baz.d;
 (_foo_bar2 = foo.bar) == null ? void 0 : _foo_bar2.baz.d;
-(_foo_bar_baz1 = (_foo_bar3 = foo.bar) == null ? void 0 : _foo_bar3.baz) == null ? void 0 : _foo_bar_baz1.d;
+(_foo_bar3 = foo.bar) == null ? void 0 : (_foo_bar_baz1 = _foo_bar3.baz) == null ? void 0 : _foo_bar_baz1.d;
 (_foo5 = foo) == null ? void 0 : _foo5.bar.baz.d;
-(_foo_bar_baz2 = (_foo6 = foo) == null ? void 0 : _foo6.bar.baz) == null ? void 0 : _foo_bar_baz2.d;
-(_foo_bar4 = (_foo7 = foo) == null ? void 0 : _foo7.bar) == null ? void 0 : _foo_bar4.baz.d;
-(_foo_bar_baz3 = (_foo_bar5 = (_foo8 = foo) == null ? void 0 : _foo8.bar) == null ? void 0 : _foo_bar5.baz) == null ? void 0 : _foo_bar_baz3.d;
+(_foo6 = foo) == null ? void 0 : (_foo_bar_baz2 = _foo6.bar.baz) == null ? void 0 : _foo_bar_baz2.d;
+(_foo7 = foo) == null ? void 0 : (_foo_bar4 = _foo7.bar) == null ? void 0 : _foo_bar4.baz.d;
+(_foo8 = foo) == null ? void 0 : (_foo_bar5 = _foo8.bar) == null ? void 0 : (_foo_bar_baz3 = _foo_bar5.baz) == null ? void 0 : _foo_bar_baz3.d;
