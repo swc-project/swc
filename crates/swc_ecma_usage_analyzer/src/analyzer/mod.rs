@@ -829,6 +829,7 @@ where
                 is_exact_arg: false,
                 is_exact_reassignment: false,
                 is_callee: false,
+                is_id_ref: false,
                 ..self.ctx
             };
             e.obj.visit_with(&mut *self.with_ctx(ctx));
