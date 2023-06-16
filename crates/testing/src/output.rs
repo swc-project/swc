@@ -6,7 +6,7 @@ use std::{
     path::Path,
 };
 
-use tracing::{debug};
+use tracing::debug;
 
 use crate::paths;
 
