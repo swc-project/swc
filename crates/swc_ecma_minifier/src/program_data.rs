@@ -118,6 +118,9 @@ pub(crate) struct VarUsageInfo {
 
     pub(crate) callee_count: u32,
 
+    /// `a` in `foo(a)` or `foo({ a })`.
+    pub(crate) used_as_ref: bool,
+
     pub(crate) used_as_arg: bool,
 
     pub(crate) indexed_with_dynamic_key: bool,
@@ -173,6 +176,7 @@ impl Default for VarUsageInfo {
             used_recursively: Default::default(),
             is_top_level: Default::default(),
             assigned_fn_local: true,
+            used_as_ref: false,
         }
     }
 }
