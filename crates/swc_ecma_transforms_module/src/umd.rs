@@ -18,7 +18,7 @@ use crate::{
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        clone_first_use_strict, define_es_module, emit_export_stmts, local_name_for_src,
+        clone_first_use_directive, define_es_module, emit_export_stmts, local_name_for_src,
         use_strict, ImportInterop,
     },
 };
@@ -122,7 +122,7 @@ where
 
         // "use strict";
         if self.config.config.strict_mode {
-            stmts.push(clone_first_use_strict(module_items).unwrap_or_else(use_strict));
+            stmts.push(clone_first_use_directive(module_items).unwrap_or_else(use_strict));
         }
 
         let ModuleDeclStrip {
@@ -147,7 +147,7 @@ where
         );
 
         stmts.extend(module_items.take().into_iter().filter_map(|i| match i {
-            ModuleItem::Stmt(stmt) if !stmt.is_use_strict() => Some(stmt),
+            ModuleItem::Stmt(stmt) if !stmt.is_directive() => Some(stmt),
             _ => None,
         }));
 

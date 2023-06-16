@@ -190,14 +190,14 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
     .into_stmt()
 }
 
-pub(super) fn clone_first_use_strict(stmts: &[ModuleItem]) -> Option<Stmt> {
+pub(super) fn clone_first_use_directive(stmts: &[ModuleItem]) -> Option<Stmt> {
     if stmts.is_empty() {
         return None;
     }
 
     stmts.iter().find_map(|item| match item {
         ModuleItem::Stmt(stmt @ Stmt::Expr(ExprStmt { expr, .. })) => match **expr {
-            Expr::Lit(Lit::Str(Str { ref value, .. })) if value == "use strict" => {
+            Expr::Lit(Lit::Str(Str { ref value, .. })) if value.starts_with("use ") => {
                 Some(stmt.clone())
             }
             _ => None,
