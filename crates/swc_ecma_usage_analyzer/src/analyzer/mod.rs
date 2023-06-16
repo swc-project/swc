@@ -1068,7 +1068,7 @@ where
             in_assign_lhs: false,
             in_await_arg: false,
             is_delete_arg: false,
-            is_id_ref: false,
+            is_id_ref: true,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -1081,7 +1081,7 @@ where
             let ctx = Ctx {
                 in_cond: self.ctx.in_cond || had_cond,
                 is_delete_arg: false,
-                is_id_ref: false,
+                is_id_ref: true,
                 ..self.ctx
             };
 
@@ -1115,7 +1115,6 @@ where
             let ctx = Ctx {
                 is_delete_arg: false,
                 in_cond: true,
-                is_id_ref: false,
                 ..self.ctx
             };
             if fallthrough {
