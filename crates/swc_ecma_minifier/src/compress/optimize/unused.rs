@@ -869,7 +869,7 @@ impl Optimizer<'_> {
             PropOrSpread::Prop(p) => match &**p {
                 Prop::Shorthand(p) => !should_preserve_property(&p.sym),
                 Prop::KeyValue(p) => !should_preserve(&p.key),
-                Prop::Assign(p) => {
+                Prop::Assign(..) => {
                     unreachable!()
                 }
                 Prop::Getter(p) => !should_preserve(&p.key),
