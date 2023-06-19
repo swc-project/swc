@@ -39,17 +39,12 @@ fn bench_minify(b: &mut Bencher, filename: &str) {
                     &JsMinifyOptions {
                         compress: BoolOrDataConfig::from_bool(true),
                         mangle: BoolOrDataConfig::from_bool(true),
-                        format: Default::default(),
-                        ecma: Default::default(),
-                        keep_classnames: Default::default(),
-                        keep_fnames: Default::default(),
-                        module: Default::default(),
-                        safari10: Default::default(),
                         toplevel: true,
                         source_map: BoolOrDataConfig::from_bool(true),
                         output_path: Default::default(),
                         inline_sources_content: true,
                         emit_source_map_columns: true,
+                        ..Default::default()
                     },
                 )
             })
