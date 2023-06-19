@@ -20,8 +20,6 @@ plugin_transform_host_js = [
 ]
 plugin_transform_host_native = [
   "wasmer/default",
-  # wasmer-wasix/default except networking, to avoid unexpected openssl-sys build failure on certain platforms.
-  # [TODO]: revert to /default once issue is resolved"wasmer-wasix/sys",
   "wasmer-wasix/sys",
   "wasmer-wasix/logging",
   "wasmer-wasix/host-fs",
@@ -73,7 +71,8 @@ wasmer-cache              = { version = "3.3.0", optional = true }
 wasmer-compiler-cranelift = { version = "3.3.0", default-features = false }
 
 [dev-dependencies]
-criterion = "0.3"
+cargo_metadata = "0.15.4"
+criterion      = "0.3"
 
 swc_atoms = { version = "0.5.6", path = '../swc_atoms' }
 swc_css_ast = { version = "0.137.12", path = "../swc_css_ast", features = [
