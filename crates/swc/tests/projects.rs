@@ -1086,6 +1086,6 @@ function test() {
         let program = compiler.process_js_file(fm, &handler, &options).unwrap();
 
         eprintln!("{}", program.code);
-        assert_eq!(program.code, "function test(){return{a:1,b:2,c:3}}");
+        assert_eq!(program.code, "function n(){return{a:1,b:2,c:3}}");
     })
 }
