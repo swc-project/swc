@@ -1111,7 +1111,23 @@ pub struct TerserSourceMapOption {
 /// `jsc.minify.parse` is ignored.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
-pub struct JsMinifyParseOptions {}
+pub struct JsMinifyParseOptions {
+    /// Not supported.
+    #[serde(default, alias = "bare_returns")]
+    pub bare_returns: bool,
+
+    /// Ignored, and always parsed.
+    #[serde(default = "true_by_default", alias = "html5_comments")]
+    pub html5_comments: bool,
+
+    /// Ignored, and always parsed.
+    #[serde(default = "true_by_default")]
+    pub shebang: bool,
+
+    /// Not supported.
+    #[serde(default)]
+    pub spidermonkey: bool,
+}
 
 /// `jsc.minify.format`.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
