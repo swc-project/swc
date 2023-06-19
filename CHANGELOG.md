@@ -10,6 +10,9 @@
 
 - **(es/module)** Add `"use strict"` while preserving directives (#7537) ([f42fdd2](https://github.com/swc-project/swc/commit/f42fdd21afad775358138c3aaed4ff3c41bfb16a))
 
+
+- **(es/typescript)** Don't panic of `@jsxFrag null` (#7540) ([76aa91f](https://github.com/swc-project/swc/commit/76aa91f83cf37a11aa55feba40d6f73819fc811d))
+
 ### Features
 
 
