@@ -8,7 +8,7 @@ import { Transaction } from "@solana/web3.js";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 export var getErrorForTransaction = function() {
     var _ref = _async_to_generator(function(connection, txid) {
-        var _tx, tx, errors;
+        var tx, errors;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -26,7 +26,7 @@ export var getErrorForTransaction = function() {
                 case 2:
                     tx = _state.sent();
                     errors = [];
-                    if (((_tx = tx) === null || _tx === void 0 ? void 0 : _tx.meta) && tx.meta.logMessages) {
+                    if (tx?.meta && tx.meta.logMessages) {
                         tx.meta.logMessages.forEach(function(log) {
                             var regex = /Error: (.*)/gm;
                             var m;
@@ -366,7 +366,7 @@ export var sendTransactions = function() {
 }();
 export var sendTransaction = function() {
     var _ref = _async_to_generator(function(connection, wallet, instructions, signers) {
-        var awaitConfirmation, commitment, includesFeePayer, block, transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, _confirmation, _confirmation1, confirmation, errors;
+        var awaitConfirmation, commitment, includesFeePayer, block, transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, confirmation, errors;
         var _arguments = arguments;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -454,8 +454,8 @@ export var sendTransaction = function() {
                 case 7:
                     confirmation = _state.sent();
                     if (!confirmation) throw new Error("Timed out awaiting confirmation on transaction");
-                    slot = ((_confirmation = confirmation) === null || _confirmation === void 0 ? void 0 : _confirmation.slot) || 0;
-                    if (!((_confirmation1 = confirmation) === null || _confirmation1 === void 0 ? void 0 : _confirmation1.err)) return [
+                    slot = confirmation?.slot || 0;
+                    if (!confirmation?.err) return [
                         3,
                         9
                     ];
