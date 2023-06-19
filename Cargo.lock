@@ -211,7 +211,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.52.8"
+version = "0.52.9"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -352,6 +352,38 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "89b2fd2a0dcf38d7971e2194b6b6eebab45ae01067456a7fd93d5547a61b70be"
 dependencies = [
  "serde",
+]
+
+[[package]]
+name = "camino"
+version = "1.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c530edf18f37068ac2d977409ed5cd50d53d73bc653c7647b48eb78976ac9ae2"
+dependencies = [
+ "serde",
+]
+
+[[package]]
+name = "cargo-platform"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cbdb825da8a5df079a43676dbe042702f1707b1109f713a01420fbb4cc71fa27"
+dependencies = [
+ "serde",
+]
+
+[[package]]
+name = "cargo_metadata"
+version = "0.15.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eee4243f1f26fc7a42710e7439c149e2b10b05472f88090acce52632f231a73a"
+dependencies = [
+ "camino",
+ "cargo-platform",
+ "semver 1.0.17",
+ "serde",
+ "serde_json",
+ "thiserror",
 ]
 
 [[package]]
@@ -903,7 +935,7 @@ checksum = "23d8666cb01533c39dde32bcbab8e227b4ed6679b2c925eba05feabea39508fb"
 
 [[package]]
 name = "dbg-swc"
-version = "0.83.12"
+version = "0.83.13"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -1674,7 +1706,7 @@ dependencies = [
 
 [[package]]
 name = "jsdoc"
-version = "0.105.0"
+version = "0.105.1"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -2506,7 +2538,7 @@ dependencies = [
  "dashmap",
  "from_variant",
  "once_cell",
- "semver 1.0.4",
+ "semver 1.0.17",
  "serde",
  "st-map",
  "tracing",
@@ -2873,7 +2905,7 @@ version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bfa0f585226d2e68097d4f95d113b15b83a82e819ab25717ec0590d9584ef366"
 dependencies = [
- "semver 1.0.4",
+ "semver 1.0.17",
 ]
 
 [[package]]
@@ -2985,9 +3017,9 @@ dependencies = [
 
 [[package]]
 name = "semver"
-version = "1.0.4"
+version = "1.0.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "568a8e6258aa33c13358f81fd834adb854c6f7c9468520910a9b1e8fac068012"
+checksum = "bebd363326d05ec3e2f532ab7660680f3b02130d780c299bca73469d521bc0ed"
 dependencies = [
  "serde",
 ]
@@ -3400,7 +3432,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.263.8"
+version = "0.263.9"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3471,7 +3503,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.216.8"
+version = "0.216.9"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3585,7 +3617,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.78.8"
+version = "0.78.9"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3822,7 +3854,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.106.1"
+version = "0.106.2"
 dependencies = [
  "arbitrary",
  "bitflags 2.1.0",
@@ -3841,7 +3873,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.141.2"
+version = "0.141.3"
 dependencies = [
  "base64 0.13.1",
  "criterion",
@@ -3876,7 +3908,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_dep_graph"
-version = "0.108.0"
+version = "0.108.1"
 dependencies = [
  "pretty_assertions",
  "swc_atoms",
@@ -3889,7 +3921,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "0.105.2"
+version = "0.105.3"
 dependencies = [
  "phf",
  "swc_atoms",
@@ -3901,7 +3933,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.84.4"
+version = "0.84.5"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3945,7 +3977,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.183.8"
+version = "0.183.9"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3988,7 +4020,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.136.0"
+version = "0.136.1"
 dependencies = [
  "criterion",
  "either",
@@ -4013,7 +4045,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.197.8"
+version = "0.197.9"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4023,7 +4055,7 @@ dependencies = [
  "once_cell",
  "preset_env_base",
  "pretty_assertions",
- "semver 1.0.4",
+ "semver 1.0.17",
  "serde",
  "serde_json",
  "st-map",
@@ -4041,7 +4073,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote"
-version = "0.52.0"
+version = "0.52.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4052,7 +4084,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.47.0"
+version = "0.47.1"
 dependencies = [
  "anyhow",
  "pmutil",
@@ -4078,7 +4110,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.220.8"
+version = "0.220.9"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -4103,7 +4135,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.129.4"
+version = "0.129.5"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.1.0",
@@ -4130,7 +4162,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.118.4"
+version = "0.118.5"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4142,7 +4174,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.155.6"
+version = "0.155.7"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -4182,7 +4214,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.172.7"
+version = "0.172.8"
 dependencies = [
  "Inflector",
  "ahash",
@@ -4212,7 +4244,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.189.8"
+version = "0.189.9"
 dependencies = [
  "ahash",
  "dashmap",
@@ -4243,7 +4275,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.163.6"
+version = "0.163.7"
 dependencies = [
  "either",
  "rustc-hash",
@@ -4267,7 +4299,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.175.7"
+version = "0.175.8"
 dependencies = [
  "ahash",
  "base64 0.13.1",
@@ -4296,7 +4328,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.132.4"
+version = "0.132.5"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4320,7 +4352,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.179.8"
+version = "0.179.9"
 dependencies = [
  "criterion",
  "serde",
@@ -4341,7 +4373,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.15.2"
+version = "0.15.3"
 dependencies = [
  "ahash",
  "indexmap",
@@ -4357,7 +4389,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.119.2"
+version = "0.119.3"
 dependencies = [
  "indexmap",
  "num_cpus",
@@ -4376,7 +4408,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.92.0"
+version = "0.92.1"
 dependencies = [
  "num-bigint",
  "serde",
@@ -4389,7 +4421,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.230.8"
+version = "0.230.9"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -4437,7 +4469,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.186.8"
+version = "0.186.9"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4485,7 +4517,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.126.8"
+version = "0.126.9"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4536,7 +4568,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.123.8"
+version = "0.123.9"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4622,7 +4654,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.50.8"
+version = "0.50.9"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -4689,7 +4721,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.35.0"
+version = "0.35.1"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -4701,9 +4733,10 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.97.0"
+version = "0.97.1"
 dependencies = [
  "anyhow",
+ "cargo_metadata",
  "criterion",
  "enumset",
  "once_cell",

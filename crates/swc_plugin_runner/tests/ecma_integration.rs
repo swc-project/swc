@@ -19,10 +19,20 @@ use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, 
 use swc_ecma_parser::{parse_file_as_program, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
 
+static TARGET_DIR: Lazy<PathBuf> = Lazy::new(|| {
+    cargo_metadata::MetadataCommand::new()
+        .no_deps()
+        .exec()
+        .unwrap()
+        .target_directory
+        .into()
+});
+
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     {
         let mut cmd = Command::new("cargo");
+        cmd.env("CARGO_TARGET_DIR", &*TARGET_DIR);
         cmd.current_dir(dir);
         cmd.args(["build", "--target=wasm32-wasi"])
             .stderr(Stdio::inherit());
@@ -37,7 +47,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         }
     }
 
-    for entry in fs::read_dir(&dir.join("target").join("wasm32-wasi").join("debug"))? {
+    for entry in fs::read_dir(&TARGET_DIR.join("wasm32-wasi").join("debug"))? {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();
