@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Testing
+
+
+
+- **(es)** Add a test for a wrong issue (#7542) ([70bc605](https://github.com/swc-project/swc/commit/70bc605c6769759b0e896e7e5e91bb070d719552))
+
+## [1.3.65] - 2023-06-19
+
 ### Bug Fixes
 
 
