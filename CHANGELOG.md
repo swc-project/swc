@@ -5,6 +5,9 @@
 
 
 
+- **(es/compat)** Fix optional chaining (#7530) ([990e48e](https://github.com/swc-project/swc/commit/990e48e0e81c339b42b0bf33b62a6f7126b0e2e8))
+
+
 - **(es/module)** Add `"use strict"` while preserving directives (#7537) ([f42fdd2](https://github.com/swc-project/swc/commit/f42fdd21afad775358138c3aaed4ff3c41bfb16a))
 
 ### Features
