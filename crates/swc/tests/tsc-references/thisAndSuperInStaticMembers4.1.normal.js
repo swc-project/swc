@@ -31,15 +31,13 @@ var C = /*#__PURE__*/ function(B1) {
     C.y2 = C.x();
 })();
 (function() {
-    var _C_x, _this;
-    C.y3 = (_this = C) === null || _this === void 0 ? void 0 : (_C_x = _this.x) === null || _C_x === void 0 ? void 0 : _C_x.call(_this);
+    C.y3 = C?.x();
 })();
 (function() {
     C.y4 = C["x"]();
 })();
 (function() {
-    var _C_x, _this;
-    C.y5 = (_this = C) === null || _this === void 0 ? void 0 : (_C_x = _this["x"]) === null || _C_x === void 0 ? void 0 : _C_x.call(_this);
+    C.y5 = C?.["x"]();
 })();
 (function() {
     C.z3 = _get(_get_prototype_of(C), "f", C).call(C);

@@ -37,7 +37,7 @@ expect(test).toBe(true);
 
 test = delete obj?.b?.b;
 expect(obj.b).toBeUndefined();
-expect(test).toBeUndefined();
+expect(test).toBe(true);
 
 delete obj?.a;
 expect(obj.a).toBeUndefined();
@@ -151,7 +151,7 @@ test!(
     simple_2,
     "obj?.a?.b",
     "var _obj_a, _obj;
-    (_obj_a = (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a) === null || _obj_a === \
+    (_obj = obj) === null || _obj === void 0 ? void 0 : (_obj_a = _obj.a) === null || _obj_a === \
      void 0 ? void 0 : _obj_a.b;"
 );
 

@@ -10,13 +10,7 @@ class C extends B {
         super(...args), this.x = 1, this.y = this.x, this.z = super.f();
     }
 }
-C.x = void 0, C.y1 = C.x, C.y2 = C.x(), (()=>{
-    var _C_x;
-    C.y3 = null == C ? void 0 : null === (_C_x = C.x) || void 0 === _C_x ? void 0 : _C_x.call(C);
-})(), C.y4 = C.x(), (()=>{
-    var _C_x;
-    C.y5 = null == C ? void 0 : null === (_C_x = C.x) || void 0 === _C_x ? void 0 : _C_x.call(C);
-})(), C.z1 = _get(_get_prototype_of(C), "a", C), C.z2 = _get(_get_prototype_of(C), "a", C), C.z3 = _get(_get_prototype_of(C), "f", C).call(C), C.z4 = _get(_get_prototype_of(C), "f", C).call(C), C.z5 = _set(_get_prototype_of(C), "a", 0, C, !0), C.z6 = _update(_get_prototype_of(C), "a", C, !0)._ += 1, C.z7 = void _set(_get_prototype_of(C), "a", 0, C, !0), C.z8 = [_update(_get_prototype_of(C), "a", C, !0)._] = [
+C.x = void 0, C.y1 = C.x, C.y2 = C.x(), C.y3 = C?.x(), C.y4 = C.x(), C.y5 = C?.x(), C.z1 = _get(_get_prototype_of(C), "a", C), C.z2 = _get(_get_prototype_of(C), "a", C), C.z3 = _get(_get_prototype_of(C), "f", C).call(C), C.z4 = _get(_get_prototype_of(C), "f", C).call(C), C.z5 = _set(_get_prototype_of(C), "a", 0, C, !0), C.z6 = _update(_get_prototype_of(C), "a", C, !0)._ += 1, C.z7 = void _set(_get_prototype_of(C), "a", 0, C, !0), C.z8 = [_update(_get_prototype_of(C), "a", C, !0)._] = [
     0
 ], C.z9 = [_update(_get_prototype_of(C), "a", C, !0)._ = 0] = [
     0
