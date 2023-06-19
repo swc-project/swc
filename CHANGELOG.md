@@ -7,6 +7,9 @@
 
 - **(es)** Add a test for a wrong issue (#7542) ([70bc605](https://github.com/swc-project/swc/commit/70bc605c6769759b0e896e7e5e91bb070d719552))
 
+
+- **(plugin/runner)** Share `target` directory (#7544) ([aa82e5f](https://github.com/swc-project/swc/commit/aa82e5fff3452db38599bb0bf7fef7cd72b6a09f))
+
 ## [1.3.65] - 2023-06-19
 
 ### Bug Fixes
