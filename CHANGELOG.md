@@ -1,6 +1,26 @@
 # Changelog
 ## [unreleased]
 
+### Testing
+
+
+
+- **(es)** Add a test for a wrong issue (#7542) ([70bc605](https://github.com/swc-project/swc/commit/70bc605c6769759b0e896e7e5e91bb070d719552))
+
+## [1.3.65] - 2023-06-19
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Fix optional chaining (#7530) ([990e48e](https://github.com/swc-project/swc/commit/990e48e0e81c339b42b0bf33b62a6f7126b0e2e8))
+
+
+- **(es/module)** Add `"use strict"` while preserving directives (#7537) ([f42fdd2](https://github.com/swc-project/swc/commit/f42fdd21afad775358138c3aaed4ff3c41bfb16a))
+
+
+- **(es/typescript)** Don't panic of `@jsxFrag null` (#7540) ([76aa91f](https://github.com/swc-project/swc/commit/76aa91f83cf37a11aa55feba40d6f73819fc811d))
+
 ### Features
 
 

@@ -1,2 +1,2 @@
-var _obj_a_b_c, _this, _obj_a, _obj;
-(_this = (_obj_a = (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a) === null || _obj_a === void 0 ? void 0 : _obj_a.b) === null || _this === void 0 ? void 0 : (_obj_a_b_c = _this.c) === null || _obj_a_b_c === void 0 ? void 0 : _obj_a_b_c.call(_this);
+var _obj_a_b, _obj_a, _obj;
+(_obj = obj) === null || _obj === void 0 ? void 0 : (_obj_a = _obj.a) === null || _obj_a === void 0 ? void 0 : (_obj_a_b = _obj_a.b) === null || _obj_a_b === void 0 ? void 0 : _obj_a_b.c();

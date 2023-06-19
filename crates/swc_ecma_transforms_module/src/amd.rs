@@ -145,7 +145,7 @@ where
 
         // "use strict";
         if self.config.strict_mode {
-            stmts.push(clone_first_use_directive(n).unwrap_or_else(use_strict));
+            stmts.push(clone_first_use_directive(n, true).unwrap_or_else(use_strict));
         }
 
         let ModuleDeclStrip {

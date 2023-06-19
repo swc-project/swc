@@ -111,12 +111,14 @@ where
         let mut strip = ModuleDeclStrip::new(self.const_var_kind);
         n.visit_mut_with(&mut strip);
 
-        let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.len() + 4);
+        let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.len() + 6);
+
+        stmts.extend(clone_first_use_directive(n, false).map(From::from));
 
         // "use strict";
         if self.config.strict_mode {
             stmts.push(
-                clone_first_use_directive(n)
+                clone_first_use_directive(n, true)
                     .unwrap_or_else(use_strict)
                     .into(),
             );
