@@ -3,13 +3,14 @@ use std::{
     path::{Path, PathBuf},
 };
 
+use anyhow::Context;
 use rayon::prelude::*;
 use swc::{
     config::{
         BuiltInput, Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options,
         SourceMapsConfig, TransformConfig,
     },
-    BoolOrDataConfig, Compiler, TransformOutput,
+    try_with_handler, BoolOrDataConfig, Compiler, TransformOutput,
 };
 use swc_common::{
     chain,
@@ -19,6 +20,7 @@ use swc_common::{
     BytePos, FileName, Globals, SourceMap, GLOBALS,
 };
 use swc_ecma_ast::{EsVersion, *};
+use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
     helpers::{self, Helpers},
