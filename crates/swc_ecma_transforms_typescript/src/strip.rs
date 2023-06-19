@@ -248,6 +248,7 @@ fn id_for_jsx(e: &Expr) -> Id {
     match e {
         Expr::Ident(i) => i.to_id(),
         Expr::Member(MemberExpr { obj, .. }) => id_for_jsx(obj),
+        Expr::Lit(Lit::Null(..)) => (js_word!("null"), Default::default()),
         _ => {
             panic!("failed to determine top-level Id for jsx expression")
         }
