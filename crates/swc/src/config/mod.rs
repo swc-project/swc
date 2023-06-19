@@ -1043,6 +1043,9 @@ pub struct Config {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyOptions {
     #[serde(default)]
+    pub parse: JsMinifyParseOptions,
+
+    #[serde(default)]
     pub compress: BoolOrDataConfig<TerserCompressorOptions>,
 
     #[serde(default)]
@@ -1102,6 +1105,13 @@ pub struct TerserSourceMapOption {
     #[serde(default)]
     pub content: Option<String>,
 }
+
+/// Parser options for `minify()`, which should have the same API as terser.
+///
+/// `jsc.minify.parse` is ignored.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct JsMinifyParseOptions {}
 
 /// `jsc.minify.format`.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
