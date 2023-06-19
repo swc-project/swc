@@ -6,16 +6,17 @@ use std::{
 use rayon::prelude::*;
 use swc::{
     config::{
-        BuiltInput, Config, FileMatcher, JscConfig, ModuleConfig, Options, SourceMapsConfig,
-        TransformConfig,
+        BuiltInput, Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options,
+        SourceMapsConfig, TransformConfig,
     },
-    Compiler, TransformOutput,
+    BoolOrDataConfig, Compiler, TransformOutput,
 };
 use swc_common::{
     chain,
     comments::{Comment, SingleThreadedComments},
-    errors::HANDLER,
-    BytePos, FileName,
+    errors::{EmitterWriter, Handler, HANDLER},
+    sync::Lrc,
+    BytePos, FileName, Globals, SourceMap, GLOBALS,
 };
 use swc_ecma_ast::{EsVersion, *};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
@@ -1033,4 +1034,58 @@ fn issue_6009() {
         Ok(())
     })
     .unwrap()
+}
+
+#[test]
+fn issue_7513_1() {
+    static TEST_CODE: &str = r#"
+function test() {
+    return {
+        a: 1,
+        b: 2,
+        c: 3,
+    }
+}
+"#;
+
+    let globals = Globals::default();
+    let cm: Lrc<SourceMap> = Default::default();
+    let compiler = Compiler::new(cm.clone());
+    let handler = Handler::with_emitter(
+        true,
+        false,
+        Box::new(EmitterWriter::new(
+            Box::new(std::io::stderr()),
+            None,
+            false,
+            false,
+        )),
+    );
+
+    GLOBALS.set(&globals, || {
+        let fm = cm.new_source_file(
+            FileName::Custom(String::from("Test")),
+            TEST_CODE.to_string(),
+        );
+        let options = Options {
+            config: Config {
+                jsc: JscConfig {
+                    target: Some(EsVersion::Es2022),
+                    minify: Some(JsMinifyOptions {
+                        compress: BoolOrDataConfig::from_bool(false),
+                        mangle: BoolOrDataConfig::from_bool(true),
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                minify: true.into(),
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        let program = compiler.process_js_file(fm, &handler, &options).unwrap();
+
+        eprintln!("{}", program.code);
+        assert_eq!(program.code, "function test(){return{a:1,b:2,c:3}}");
+    })
 }
