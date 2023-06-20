@@ -6,8 +6,8 @@ use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_proposal::explicit_resource_management::explicit_resource_management;
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 
-#[testing::fixture("tests/explicit-resource_management/**/input.js")]
-#[testing::fixture("tests/explicit-resource_management/**/input.mjs")]
+#[testing::fixture("tests/explicit-resource-management/**/input.js")]
+#[testing::fixture("tests/explicit-resource-management/**/input.mjs")]
 fn fixture(input: PathBuf) {
     run_fixture(input);
 }
