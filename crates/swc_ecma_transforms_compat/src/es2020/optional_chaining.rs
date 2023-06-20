@@ -53,6 +53,8 @@ impl VisitMut for OptChaining {
                 }
                 _ => *expr = BlockStmtOrExpr::BlockStmt(stmt),
             }
+        } else {
+            expr.visit_mut_children_with(self);
         }
     }
 
