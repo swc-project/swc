@@ -16,3 +16,5 @@ anyhow  = "1"
 hex     = "0.4"
 sha-1   = "0.10"
 tracing = "0.1.32"
+
+testing = { version = "0.33.14", path = "../testing" }
