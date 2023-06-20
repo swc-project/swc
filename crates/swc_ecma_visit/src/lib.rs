@@ -1888,6 +1888,8 @@ define!({
     pub struct UsingDecl {
         pub span: Span,
 
+        pub await_: bool,
+
         pub decls: Vec<VarDeclarator>,
     }
 });
