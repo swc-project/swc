@@ -506,6 +506,7 @@ impl Compiler {
         comments: Option<&dyn Comments>,
         emit_source_map_columns: bool,
         ascii_only: bool,
+        preamble: &str,
     ) -> Result<TransformOutput, Error>
     where
         T: Node + VisitWith<IdentCollector>,
@@ -1158,6 +1159,7 @@ impl Compiler {
                 Some(&comments),
                 opts.emit_source_map_columns,
                 opts.format.ascii_only,
+                &opts.format.preamble,
             )
         })
     }
@@ -1236,6 +1238,7 @@ impl Compiler {
                     .charset
                     .map(|v| matches!(v, OutputCharset::Ascii))
                     .unwrap_or(false),
+                &config.output.preamble,
             )
         })
     }
