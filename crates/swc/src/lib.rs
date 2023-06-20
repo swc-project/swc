@@ -519,7 +519,7 @@ impl Compiler {
             let src = {
                 let mut buf = vec![];
                 {
-                    let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                    let mut w = swc_ecma_codegen::text_writer::JsWriter::new(
                         self.cm.clone(),
                         "\n",
                         &mut buf,
@@ -528,7 +528,9 @@ impl Compiler {
                         } else {
                             None
                         },
-                    )) as Box<dyn WriteJs>;
+                    );
+                    w.preamble(preamble).unwrap();
+                    let mut wr = Box::new(w) as Box<dyn WriteJs>;
 
                     if minify {
                         wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
