@@ -2,6 +2,7 @@ use std::{env, fs, path::PathBuf, process::Command};
 
 use anyhow::{bail, Context, Result};
 use sha1::{Digest, Sha1};
+use testing::CARGO_TARGET_DIR;
 use tracing::debug;
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -26,19 +27,13 @@ pub struct JsExecOptions {
     pub args: Vec<String>,
 }
 
-fn cargo_manifest_dir() -> PathBuf {
-    env::var("CARGO_MANIFEST_DIR").unwrap().into()
-}
-
 fn cargo_cache_root() -> PathBuf {
     env::var("SWC_ECMA_TESTING_CACHE_DIR")
         .map(PathBuf::from)
         .unwrap_or_else(|_| {
-            env::var("TARGET").map(PathBuf::from).unwrap_or_else(|_| {
-                let mut target_dir = cargo_manifest_dir();
-                target_dir.push("target");
-                target_dir
-            })
+            env::var("TARGET")
+                .map(PathBuf::from)
+                .unwrap_or_else(|_| CARGO_TARGET_DIR.clone())
         })
 }
 
