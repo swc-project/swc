@@ -302,7 +302,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!("using") if include_decl => {
-                let v = self.parse_using_decl()?;
+                let v = self.parse_using_decl(false)?;
                 if let Some(v) = v {
                     return Ok(Stmt::Decl(Decl::Using(v)));
                 }
