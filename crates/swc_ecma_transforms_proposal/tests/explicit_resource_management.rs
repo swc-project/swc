@@ -10,7 +10,7 @@ use swc_ecma_transforms_testing::{exec_tr, test_fixture, FixtureTestConfig};
 #[testing::fixture("tests/explicit-resource-management/exec-async/**/*.js")]
 fn exec(input: PathBuf) {
     exec_tr(
-        &input.display().to_string(),
+        "explicit-resource-management",
         Syntax::Es(EsConfig {
             using_decl: true,
             ..Default::default()
