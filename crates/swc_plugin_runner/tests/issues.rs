@@ -8,7 +8,6 @@ use std::{
 };
 
 use anyhow::{anyhow, Error};
-use once_cell::sync::Lazy;
 use serde_json::json;
 #[cfg(feature = "__rkyv")]
 use swc_common::plugin::serialized::PluginSerializedBytes;
