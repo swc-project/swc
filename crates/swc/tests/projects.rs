@@ -3,13 +3,14 @@ use std::{
     path::{Path, PathBuf},
 };
 
+use anyhow::Context;
 use rayon::prelude::*;
 use swc::{
     config::{
         BuiltInput, Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options,
         SourceMapsConfig, TransformConfig,
     },
-    BoolOrDataConfig, Compiler, TransformOutput,
+    try_with_handler, BoolOrDataConfig, Compiler, TransformOutput,
 };
 use swc_common::{
     chain,
@@ -19,6 +20,7 @@ use swc_common::{
     BytePos, FileName, Globals, SourceMap, GLOBALS,
 };
 use swc_ecma_ast::{EsVersion, *};
+use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
     helpers::{self, Helpers},
@@ -1088,4 +1090,43 @@ function test() {
         eprintln!("{}", program.code);
         assert_eq!(program.code, "function n(){return{a:1,b:2,c:3}}");
     })
+}
+
+#[test]
+fn issue_7513_2() {
+    static INPUT: &str = "const cachedTextDecoder = { ignoreBOM: true, fatal: true };";
+
+    let cm = Lrc::<SourceMap>::default();
+    let c = swc::Compiler::new(cm.clone());
+    let output = GLOBALS
+        .set(&Default::default(), || {
+            try_with_handler(cm.clone(), Default::default(), |handler| {
+                let fm = cm.new_source_file(FileName::Anon, INPUT.to_string());
+
+                c.minify(
+                    fm,
+                    handler,
+                    &JsMinifyOptions {
+                        compress: BoolOrDataConfig::from_bool(true),
+                        mangle: BoolOrDataConfig::from_obj(MangleOptions {
+                            props: None,
+                            top_level: Some(true),
+                            keep_class_names: false,
+                            keep_fn_names: false,
+                            keep_private_props: false,
+                            ..Default::default()
+                        }),
+                        keep_classnames: false,
+                        keep_fnames: false,
+                        toplevel: true,
+                        ..Default::default()
+                    },
+                )
+                .context("failed to minify")
+            })
+        })
+        .unwrap();
+
+    println!("{}", output.code);
+    assert_eq!(output.code, "const a={ignoreBOM:!0,fatal:!0};");
 }
