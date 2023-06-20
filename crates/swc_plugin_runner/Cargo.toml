@@ -71,8 +71,7 @@ wasmer-cache              = { version = "3.3.0", optional = true }
 wasmer-compiler-cranelift = { version = "3.3.0", default-features = false }
 
 [dev-dependencies]
-cargo_metadata = "0.15.4"
-criterion      = "0.3"
+criterion = "0.3"
 
 swc_atoms = { version = "0.5.6", path = '../swc_atoms' }
 swc_css_ast = { version = "0.137.12", path = "../swc_css_ast", features = [
