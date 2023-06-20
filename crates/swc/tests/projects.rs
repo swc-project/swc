@@ -1116,17 +1116,10 @@ fn issue_7513_2() {
                             keep_private_props: false,
                             ..Default::default()
                         }),
-                        format: Default::default(),
-                        ecma: Default::default(),
                         keep_classnames: false,
                         keep_fnames: false,
-                        module: Default::default(),
-                        safari10: Default::default(),
                         toplevel: true,
-                        source_map: Default::default(),
-                        output_path: Default::default(),
-                        inline_sources_content: Default::default(),
-                        emit_source_map_columns: Default::default(),
+                        ..Default::default()
                     },
                 )
                 .context("failed to minify")
