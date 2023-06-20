@@ -769,6 +769,7 @@ fn should_visit() {
                 Some(&comments),
                 config.emit_source_map_columns,
                 false,
+                Default::default(),
             )
             .unwrap()
             .code)
