@@ -175,10 +175,13 @@ impl Take for VarDeclarator {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct UsingDecl {
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_await: bool,
 
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub decls: Vec<VarDeclarator>,
 }
 
