@@ -1,10 +1,32 @@
-use std::path::PathBuf;
+use std::{fs::read_to_string, path::PathBuf};
 
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_proposal::explicit_resource_management::explicit_resource_management;
-use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
+use swc_ecma_transforms_testing::{exec_tr, test_fixture, FixtureTestConfig};
+
+#[testing::fixture("tests/explicit-resource-management/exec-sync/**/*.js")]
+#[testing::fixture("tests/explicit-resource-management/exec-async/**/*.js")]
+fn exec(input: PathBuf) {
+    exec_tr(
+        &input.display().to_string(),
+        Syntax::Es(EsConfig {
+            using_decl: true,
+            ..Default::default()
+        }),
+        |t| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            chain!(
+                resolver(unresolved_mark, top_level_mark, false),
+                explicit_resource_management()
+            )
+        },
+        &read_to_string(input).unwrap(),
+    );
+}
 
 #[testing::fixture("tests/explicit-resource-management/**/input.js")]
 #[testing::fixture("tests/explicit-resource-management/**/input.mjs")]
