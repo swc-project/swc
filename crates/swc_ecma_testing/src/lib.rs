@@ -30,11 +30,7 @@ pub struct JsExecOptions {
 fn cargo_cache_root() -> PathBuf {
     env::var("SWC_ECMA_TESTING_CACHE_DIR")
         .map(PathBuf::from)
-        .unwrap_or_else(|_| {
-            env::var("TARGET")
-                .map(PathBuf::from)
-                .unwrap_or_else(|_| CARGO_TARGET_DIR.clone())
-        })
+        .unwrap_or_else(|_| CARGO_TARGET_DIR.clone())
 }
 
 /// Executes `js_code` and capture thw output.
