@@ -1131,3 +1131,26 @@ fn issue_7513_2() {
     println!("{}", output.code);
     assert_eq!(output.code, "const a={ignoreBOM:!0,fatal:!0};");
 }
+
+#[testing::fixture("tests/minify/**/input.js")]
+fn minify(input_js: PathBuf) {
+    let input_dir = input_js.parent().unwrap();
+    let config_json_path = input_dir.join("config.json");
+
+    testing::run_test2(false, |cm, handler| {
+        let c = Compiler::new(cm);
+        let fm = c.cm.load_file(&input_js).unwrap();
+
+        let output = c
+            .minify(
+                fm,
+                &handler,
+                &serde_json::from_str(&std::fs::read_to_string(&config_json_path).unwrap())
+                    .unwrap(),
+            )
+            .unwrap();
+
+        Ok(())
+    })
+    .unwrap()
+}
