@@ -8,6 +8,9 @@
 - **(es)** Accept `parse` option for `minify()` (#7543) ([1d84e95](https://github.com/swc-project/swc/commit/1d84e952feefc3cd50e379455bb6648b82c42256))
 
 
+- **(es/compat)** Visit arrow body from optional chaining pass (#7549) ([bc6e950](https://github.com/swc-project/swc/commit/bc6e95052eaf60d71c544c8a88c8440d7a2b437c))
+
+
 - **(es/preset-env)** Don't log `Yield` to the console (#7548) ([8cfc4f9](https://github.com/swc-project/swc/commit/8cfc4f9e9ab43a5ed25c9b600b9dd7e5790c2d1e))
 
 ### Testing
