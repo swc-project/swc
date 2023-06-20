@@ -1,0 +1,15 @@
+{
+  "mappings": ";AAAA,SAASA,MACLC,QAAQC,GAAG,CAAC,MAChB,CAEAF",
+  "names": [
+    "foo",
+    "console",
+    "log"
+  ],
+  "sources": [
+    "$DIR/tests/minify/issue-7475/1-with-preamble/input.js"
+  ],
+  "sourcesContent": [
+    "function foo() {\n    console.log('Foo')\n}\n\nfoo()"
+  ],
+  "version": 3
+}
