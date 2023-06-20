@@ -13,7 +13,10 @@ fn fixture(input: PathBuf) {
 }
 
 fn run_fixture(input: PathBuf) {
-    let output = input.with_extension("output.js");
+    let output = input.with_file_name(format!(
+        "output.{}",
+        input.extension().unwrap().to_string_lossy()
+    ));
 
     test_fixture(
         Syntax::Es(EsConfig {
