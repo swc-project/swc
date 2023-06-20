@@ -1150,6 +1150,14 @@ fn minify(input_js: PathBuf) {
             )
             .unwrap();
 
+        NormalizedOutput::from(output.code)
+            .compare_to_file(input_dir.join("output.js"))
+            .unwrap();
+
+        NormalizedOutput::from(output.map.unwrap())
+            .compare_to_file(input_dir.join("output.map"))
+            .unwrap();
+
         Ok(())
     })
     .unwrap()
