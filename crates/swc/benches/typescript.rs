@@ -123,6 +123,7 @@ fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
                     None,
                     false,
                     false,
+                    Default::default(),
                 )
                 .unwrap()
             }));
