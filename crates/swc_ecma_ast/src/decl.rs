@@ -177,6 +177,8 @@ impl Take for VarDeclarator {
 pub struct UsingDecl {
     pub span: Span,
 
+    pub await_: bool,
+
     pub decls: Vec<VarDeclarator>,
 }
 
@@ -184,6 +186,7 @@ impl Take for UsingDecl {
     fn dummy() -> Self {
         Self {
             span: DUMMY_SP,
+            await_: Default::default(),
             decls: Take::dummy(),
         }
     }
