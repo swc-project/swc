@@ -1151,7 +1151,12 @@ fn minify(input_js: PathBuf) {
             .compare_to_file(input_dir.join("output.js"))
             .unwrap();
 
-        NormalizedOutput::from(output.map.unwrap())
+        let map = output.map.map(|json| {
+            let json: serde_json::Value = serde_json::from_str(&json).unwrap();
+            serde_json::to_string_pretty(&json).unwrap()
+        });
+
+        NormalizedOutput::from(map.unwrap())
             .compare_to_file(input_dir.join("output.map"))
             .unwrap();
 
