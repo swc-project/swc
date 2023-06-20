@@ -13,6 +13,9 @@
 
 - **(es/preset-env)** Don't log `Yield` to the console (#7548) ([8cfc4f9](https://github.com/swc-project/swc/commit/8cfc4f9e9ab43a5ed25c9b600b9dd7e5790c2d1e))
 
+
+- **(es/resolver)** Resolve the super class before registering a class name (#7550) ([1d9f972](https://github.com/swc-project/swc/commit/1d9f972fb44e0722fce8a83090cbada81decf577))
+
 ### Testing
 
 
