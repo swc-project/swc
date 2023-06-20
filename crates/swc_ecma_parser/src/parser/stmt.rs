@@ -762,7 +762,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
-    pub(super) fn parse_using_decl(&mut self) -> PResult<Option<Box<UsingDecl>>> {
+    pub(super) fn parse_using_decl(&mut self, is_await: bool) -> PResult<Option<Box<UsingDecl>>> {
         // using
         // reader = init()
 
@@ -822,6 +822,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         Ok(Some(Box::new(UsingDecl {
             span: span!(self, start),
+            is_await,
             decls,
         })))
     }
@@ -1278,6 +1279,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             let pat = Box::new(UsingDecl {
                 span: span!(self, start),
+                is_await: false,
                 decls: vec![decl],
             });
 
