@@ -7,11 +7,12 @@ use swc_ecma_transforms_proposal::explicit_resource_management::explicit_resourc
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 
 #[testing::fixture("tests/explicit-resource_management/**/input.js")]
+#[testing::fixture("tests/explicit-resource_management/**/input.mjs")]
 fn fixture(input: PathBuf) {
-    run(input);
+    run_fixture(input);
 }
 
-fn run(input: PathBuf) {
+fn run_fixture(input: PathBuf) {
     let output = input.with_extension("output.js");
 
     test_fixture(
