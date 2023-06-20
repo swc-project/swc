@@ -211,7 +211,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.52.14"
+version = "0.52.15"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -935,7 +935,7 @@ checksum = "23d8666cb01533c39dde32bcbab8e227b4ed6679b2c925eba05feabea39508fb"
 
 [[package]]
 name = "dbg-swc"
-version = "0.83.16"
+version = "0.83.17"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -3432,7 +3432,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.263.14"
+version = "0.263.15"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3503,7 +3503,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.216.12"
+version = "0.216.13"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3617,7 +3617,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.78.14"
+version = "0.78.15"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3873,7 +3873,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.141.4"
+version = "0.141.5"
 dependencies = [
  "base64 0.13.1",
  "criterion",
@@ -3933,7 +3933,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.84.7"
+version = "0.84.8"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3977,7 +3977,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.183.12"
+version = "0.183.13"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -4045,7 +4045,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.197.13"
+version = "0.197.14"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4110,7 +4110,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.220.12"
+version = "0.220.13"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -4135,7 +4135,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.129.7"
+version = "0.129.8"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.1.0",
@@ -4162,7 +4162,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.118.7"
+version = "0.118.8"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4174,7 +4174,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.155.10"
+version = "0.155.11"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -4214,7 +4214,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.172.11"
+version = "0.172.12"
 dependencies = [
  "Inflector",
  "ahash",
@@ -4244,7 +4244,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.189.12"
+version = "0.189.13"
 dependencies = [
  "ahash",
  "dashmap",
@@ -4275,7 +4275,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.163.10"
+version = "0.163.11"
 dependencies = [
  "either",
  "rustc-hash",
@@ -4299,7 +4299,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.175.11"
+version = "0.175.12"
 dependencies = [
  "ahash",
  "base64 0.13.1",
@@ -4328,7 +4328,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.132.7"
+version = "0.132.8"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4352,7 +4352,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.179.12"
+version = "0.179.13"
 dependencies = [
  "criterion",
  "serde",
@@ -4421,7 +4421,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.230.13"
+version = "0.230.14"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -4469,7 +4469,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.186.14"
+version = "0.186.15"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4517,7 +4517,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.126.12"
+version = "0.126.13"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4568,7 +4568,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.123.12"
+version = "0.123.13"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4654,7 +4654,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.50.14"
+version = "0.50.15"
 dependencies = [
  "anyhow",
  "dashmap",

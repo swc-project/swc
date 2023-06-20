@@ -16,6 +16,12 @@
 
 - **(es/resolver)** Resolve the super class before registering a class name (#7550) ([1d9f972](https://github.com/swc-project/swc/commit/1d9f972fb44e0722fce8a83090cbada81decf577))
 
+### Features
+
+
+
+- **(es/codegen)** Support `preamble` (#7551) ([6e5d8b3](https://github.com/swc-project/swc/commit/6e5d8b3cf1af74d614d5c073d966da543c26e302))
+
 ### Testing
 
 
