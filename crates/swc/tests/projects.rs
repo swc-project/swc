@@ -1141,14 +1141,11 @@ fn minify(input_js: PathBuf) {
         let c = Compiler::new(cm);
         let fm = c.cm.load_file(&input_js).unwrap();
 
-        let output = c
-            .minify(
-                fm,
-                &handler,
-                &serde_json::from_str(&std::fs::read_to_string(&config_json_path).unwrap())
-                    .unwrap(),
-            )
-            .unwrap();
+        let mut config: JsMinifyOptions =
+            serde_json::from_str(&std::fs::read_to_string(&config_json_path).unwrap()).unwrap();
+
+        config.source_map = BoolOrDataConfig::from_bool(true);
+        let output = c.minify(fm, &handler, &config).unwrap();
 
         NormalizedOutput::from(output.code)
             .compare_to_file(input_dir.join("output.js"))
