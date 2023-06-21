@@ -96,19 +96,19 @@ checksum = "a4c527152e37cf757a3f78aae5a06fbeefdb07ccc535c980a3208ee3060dd544"
 
 [[package]]
 name = "arrayvec"
-version = "0.7.2"
+version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8da52d66c7071e2e3fa2a1e5c6d088fec47b593032b254f5e980de8ea54454d6"
+checksum = "8868f09ff8cea88b079da74ae569d9b8c62a23c68c746240b704ee6f7525c89c"
 
 [[package]]
 name = "ast_node"
 version = "0.9.4"
 dependencies = [
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -119,7 +119,7 @@ checksum = "b9ccdd8f2a161be9bd5c023df56f1b2a0bd1d83872ae53b71a84a12c9bf6e842"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -1223,10 +1223,10 @@ dependencies = [
 name = "from_variant"
 version = "0.1.5"
 dependencies = [
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "swc_macros_common",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -1297,7 +1297,7 @@ checksum = "89ca545a94061b6365f2c7355b4b32bd20df3ff95f02da9329b34ccc3bd6ee72"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -1657,15 +1657,15 @@ checksum = "30e22bd8629359895450b59ea7a776c850561b96a3b1d31321c1949d9e6c9146"
 
 [[package]]
 name = "is-macro"
-version = "0.2.1"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1c068d4c6b922cd6284c609cfa6dec0e41615c9c5a1a4ba729a970d8daba05fb"
+checksum = "f4467ed1321b310c2625c5aa6c1b1ffc5de4d9e42668cf697a08fb033ee8265e"
 dependencies = [
  "Inflector",
- "pmutil 0.5.3",
+ "pmutil",
  "proc-macro2",
  "quote",
- "syn 1.0.109",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -2507,24 +2507,13 @@ dependencies = [
 
 [[package]]
 name = "pmutil"
-version = "0.5.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3894e5d549cccbe44afecf72922f277f603cd4bb0219c8342631ef18fffbe004"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 1.0.109",
-]
-
-[[package]]
-name = "pmutil"
 version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6cd2c0e919213c5d304dcbeaf91c19d502654f96b0df773c563701d8d6e8607d"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -2618,9 +2607,9 @@ checksum = "dc375e1527247fe1a97d8b7156678dfe7c1af2fc075c9a4db3690ecd2a148068"
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.56"
+version = "1.0.60"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2b63bdb0cd06f1f4dedf69b254734f9b45af66e4a031e42a7480257d9898b435"
+checksum = "dec2b086b7a862cf4de201096214fa870344cf922b2b30c167badb3af3195406"
 dependencies = [
  "unicode-ident",
 ]
@@ -2667,9 +2656,9 @@ dependencies = [
 
 [[package]]
 name = "quote"
-version = "1.0.26"
+version = "1.0.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4424af4bf778aae2051a77b60283332f386554255d722233d09fbfc7e30da2fc"
+checksum = "1b9ab9c7eadfd8df19006f1cf1a4aed13540ed5cbc047010ece5826e10825488"
 dependencies = [
  "proc-macro2",
 ]
@@ -3260,9 +3249,9 @@ dependencies = [
 
 [[package]]
 name = "st-map"
-version = "0.1.8"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f09d891835f076b0d4a58dd4478fb54d47aa3da1f7a4c6e89ad6c791357ab5ed"
+checksum = "f352d5d14be5a1f956d76ae0c8060c3487aaa2a080f10a4b4ff023c7c05a9047"
 dependencies = [
  "arrayvec",
  "static-map-macro",
@@ -3298,14 +3287,14 @@ dependencies = [
 
 [[package]]
 name = "static-map-macro"
-version = "0.2.5"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b862d598fbc9f7085b017890e2e61433f501e7467f2c585323e1aa3c07ef8599"
+checksum = "7628ae0bd92555d3de4303da41a5c8b1c5363e892001325f34e4be9ed024d0d7"
 dependencies = [
- "pmutil 0.5.3",
+ "pmutil",
  "proc-macro2",
  "quote",
- "syn 1.0.109",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -3393,12 +3382,12 @@ dependencies = [
 name = "string_enum"
 version = "0.4.0"
 dependencies = [
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "quote",
  "serde",
  "swc_macros_common",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -3619,11 +3608,11 @@ dependencies = [
 name = "swc_config_macro"
 version = "0.1.1"
 dependencies = [
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -3726,11 +3715,11 @@ dependencies = [
 name = "swc_css_codegen_macros"
 version = "0.2.1"
 dependencies = [
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -3910,11 +3899,11 @@ dependencies = [
 name = "swc_ecma_codegen_macros"
 version = "0.7.2"
 dependencies = [
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -4098,7 +4087,7 @@ name = "swc_ecma_quote_macros"
 version = "0.47.3"
 dependencies = [
  "anyhow",
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "quote",
  "swc_atoms",
@@ -4106,7 +4095,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
  "swc_macros_common",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -4217,11 +4206,11 @@ dependencies = [
 name = "swc_ecma_transforms_macros"
 version = "0.5.1"
 dependencies = [
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -4451,10 +4440,10 @@ dependencies = [
 name = "swc_eq_ignore_macros"
 version = "0.1.1"
 dependencies = [
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "quote",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -4571,11 +4560,11 @@ dependencies = [
 name = "swc_html_codegen_macros"
 version = "0.2.1"
 dependencies = [
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -4650,10 +4639,10 @@ dependencies = [
 name = "swc_macros_common"
 version = "0.3.7"
 dependencies = [
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "quote",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -4728,7 +4717,7 @@ version = "0.9.14"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -4791,7 +4780,7 @@ version = "0.1.2"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -4807,11 +4796,11 @@ name = "swc_visit_macros"
 version = "0.5.7"
 dependencies = [
  "Inflector",
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -4855,11 +4844,11 @@ dependencies = [
 name = "swc_xml_codegen_macros"
 version = "0.1.1"
 dependencies = [
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -4899,9 +4888,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "2.0.13"
+version = "2.0.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4c9da457c5285ac1f936ebd076af6dac17a61cfe7826f2076b4d015cf47bc8ec"
+checksum = "32d41677bcbe24c20c52e7c70b0d8db04134c5d1066bf98662e2871ad200ea3e"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -4996,12 +4985,12 @@ dependencies = [
  "anyhow",
  "glob",
  "once_cell",
- "pmutil 0.6.0",
+ "pmutil",
  "proc-macro2",
  "quote",
  "regex",
  "relative-path",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -5041,7 +5030,7 @@ checksum = "f9456a42c5b0d803c8cd86e73dd7cc9edd429499f37a3550d286d5e86720569f"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.13",
+ "syn 2.0.18",
 ]
 
 [[package]]
@@ -5366,9 +5355,9 @@ checksum = "4285d92be83dfbc8950a2601178b89ed36f979ebf51bfcf7b272b17001184e6c"
 
 [[package]]
 name = "unicode-ident"
-version = "1.0.8"
+version = "1.0.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e5464a87b239f13a63a501f2701565754bae92d243d4bb7eb12f6d57d2269bf4"
+checksum = "b15811caf2415fb889178633e7724bad2509101cde276048e013b9def5e51fa0"
 
 [[package]]
 name = "unicode-linebreak"
