@@ -108,7 +108,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -1226,7 +1226,7 @@ dependencies = [
  "pmutil",
  "proc-macro2",
  "swc_macros_common",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -3387,7 +3387,7 @@ dependencies = [
  "quote",
  "serde",
  "swc_macros_common",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -3612,7 +3612,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -3719,7 +3719,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -3903,7 +3903,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -4095,7 +4095,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
  "swc_macros_common",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -4210,7 +4210,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -4443,7 +4443,7 @@ dependencies = [
  "pmutil",
  "proc-macro2",
  "quote",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -4564,7 +4564,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -4642,7 +4642,7 @@ dependencies = [
  "pmutil",
  "proc-macro2",
  "quote",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -4717,7 +4717,7 @@ version = "0.9.14"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -4780,7 +4780,7 @@ version = "0.1.2"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -4800,7 +4800,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -4848,7 +4848,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "swc_macros_common",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
@@ -4990,7 +4990,7 @@ dependencies = [
  "quote",
  "regex",
  "relative-path",
- "syn 1.0.109",
+ "syn 2.0.13",
 ]
 
 [[package]]
