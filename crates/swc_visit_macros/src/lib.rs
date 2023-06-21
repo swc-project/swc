@@ -1348,7 +1348,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         colon_token: None,
         supertraits: Default::default(),
         brace_token: def_site(),
-        items: methods.into_iter().map(TraitItem::Method).collect(),
+        items: methods.into_iter().map(TraitItem::Fn).collect(),
+        restriction: None,
     });
 
     {
