@@ -7,13 +7,13 @@ use pmutil::{q, Quote, SpanExt};
 use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site, make_doc_attr};
 use syn::{
-    parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block, Expr,
-    ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary, Field, FieldMutability,
-    FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem,
-    Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, ItemTrait, ItemUse, Lifetime, Member,
-    Pat, PatIdent, PatTuple, PatTupleStruct, PatType, PatWild, Path, PathArguments, Receiver,
-    ReturnType, Signature, Stmt, Token, TraitItem, Type, TypePath, TypeReference, UnOp, UseTree,
-    Variant, Visibility,
+    parse_macro_input, parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle,
+    Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary,
+    Field, FieldMutability, FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument,
+    GenericParam, Generics, ImplItem, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct,
+    ItemTrait, ItemUse, Lifetime, Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatType,
+    PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem, Type,
+    TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -94,7 +94,7 @@ impl Mode {
 ///  - create `Visit`, `VisitAll`, `VisitMut`, `Fold`
 #[proc_macro]
 pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
-    let block: Block = parse(tts.into());
+    let block = parse_macro_input!(tts as Block);
 
     let mut q = Quote::new_call_site();
     q.push_tokens(&q!({
@@ -156,13 +156,12 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         attrs: vec![make_doc_attr(
             "This module contains enums representing fields of each types",
         )],
-        vis: Visibility::Public(VisPublic {
-            pub_token: def_site(),
-        }),
+        vis: Visibility::Public(def_site()),
         mod_token: def_site(),
         ident: Ident::new("fields", call_site()),
         content: Some((def_site(), field_module_body)),
         semi: None,
+        unsafety: None,
     });
 
     proc_macro2::TokenStream::from(q).into()
@@ -288,9 +287,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
 
         items.push(Item::Enum(ItemEnum {
             attrs,
-            vis: Visibility::Public(VisPublic {
-                pub_token: def_site(),
-            }),
+            vis: Visibility::Public(def_site()),
             enum_token: def_site(),
             ident: name.clone(),
             generics: Default::default(),
