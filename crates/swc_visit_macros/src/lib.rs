@@ -536,8 +536,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
         pound_token: def_site(),
         style: AttrStyle::Outer,
         bracket_token: def_site(),
-        path: q!({ allow }).parse(),
-        tokens: q!({ (clippy::derive_partial_eq_without_eq) }).into(),
+        meta: parse_quote!(allow(clippy::derive_partial_eq_without_eq)),
     });
 
     Item::Enum(ItemEnum {
