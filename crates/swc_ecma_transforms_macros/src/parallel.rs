@@ -25,13 +25,13 @@ pub fn expand(attr: TokenStream, mut item: ItemImpl) -> ItemImpl {
         .map(|v| v.path().is_ident("explode"))
         .unwrap_or(false);
 
-    item.items.push(ImplItem::Method(make_par_visit_method(
+    item.items.push(ImplItem::Fn(make_par_visit_method(
         mode,
         "module_items",
         explode,
         100,
     )));
-    item.items.push(ImplItem::Method(make_par_visit_method(
+    item.items.push(ImplItem::Fn(make_par_visit_method(
         mode, "stmts", explode, 100,
     )));
 

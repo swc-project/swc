@@ -50,14 +50,14 @@ fn call_merge_for_fields(obj: &dyn ToTokens, fields: &Fields) -> Vec<Stmt> {
             .iter()
             .enumerate()
             .map(|(idx, f)| call_merge(obj, idx, f))
-            .map(|expr| Stmt::Semi(expr, fs.brace_token.span.as_token()))
+            .map(|expr| Stmt::Expr(expr, Some(fs.brace_token.span.as_token())))
             .collect(),
         Fields::Unnamed(fs) => fs
             .unnamed
             .iter()
             .enumerate()
             .map(|(idx, f)| call_merge(obj, idx, f))
-            .map(|expr| Stmt::Semi(expr, fs.paren_token.span.as_token()))
+            .map(|expr| Stmt::Expr(expr, Some(fs.paren_token.span.as_token())))
             .collect(),
         Fields::Unit => unimplemented!("derive(Merge) does not support a unit struct"),
     }

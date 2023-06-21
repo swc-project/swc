@@ -178,6 +178,7 @@ fn make_field_enum_variant_from_named_field(type_name: &Ident, f: &Field) -> Var
             ident: None,
             colon_token: None,
             ty: q!({ usize }).parse(),
+            mutability: FieldMutability::None,
         });
 
         Fields::Unnamed(FieldsUnnamed {
