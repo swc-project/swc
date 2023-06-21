@@ -2465,7 +2465,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
 
     {
         attrs.push(make_doc_attr(
-            "This method can be overriden to customize the visitor behavior.",
+            "This method can be overridden to customize the visitor behavior.",
         ));
         attrs.push(make_doc_attr(""));
     }
@@ -2839,7 +2839,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                 return Block {
                     brace_token: Default::default(),
-                    stmts: vec![Stmt::Expr(visit)],
+                    stmts: vec![Stmt::Expr(visit, None)],
                 };
             }
             Mode::VisitMut { .. } => {
