@@ -9,7 +9,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_html_ast"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.31.12"
+version = "0.31.13"
 
 [lib]
 bench = false
@@ -27,6 +27,6 @@ rkyv = { version = "=0.7.42", optional = true, features = [
 ] }
 serde = { version = "1.0.127", features = ["derive"], optional = true }
 
-string_enum = { version = "0.4.0", path = "../string_enum/" }
+string_enum = { version = "0.4.1", path = "../string_enum/" }
 swc_atoms   = { version = "0.5.6", path = "../swc_atoms" }
-swc_common  = { version = "0.31.12", path = "../swc_common" }
+swc_common  = { version = "0.31.13", path = "../swc_common" }

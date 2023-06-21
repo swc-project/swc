@@ -5,7 +5,7 @@ documentation = "https://rustdoc.swc.rs/preset_env_base/"
 edition       = "2021"
 license       = "Apache-2.0"
 name          = "preset_env_base"
-version       = "0.4.2"
+version       = "0.4.3"
 
 [lib]
 bench = false
@@ -21,4 +21,4 @@ serde           = { version = "1", features = ["derive"] }
 st-map          = "0.2.0"
 tracing         = { version = "0.1.32" }
 
-from_variant = { version = "0.1.5", path = "../from_variant" }
+from_variant = { version = "0.1.6", path = "../from_variant" }

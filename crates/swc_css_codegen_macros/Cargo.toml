@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_css_codegen_macros"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.2.1"
+version       = "0.2.2"
 
 [lib]
 bench      = false
@@ -18,4 +18,4 @@ proc-macro2 = "1"
 quote       = "1"
 syn         = { version = "2", features = ["fold"] }
 
-swc_macros_common = { version = "0.3.7", path = "../swc_macros_common" }
+swc_macros_common = { version = "0.3.8", path = "../swc_macros_common" }

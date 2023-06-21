@@ -22,6 +22,12 @@
 
 - **(ci)** Change condition for `ci` testing (#7533) ([724e75d](https://github.com/swc-project/swc/commit/724e75d2569d3c210d4e0d3c6861e17c906babed))
 
+### Build
+
+
+
+- **(deps)** Update `syn` to `v2` (#7557) ([5441004](https://github.com/swc-project/swc/commit/54410047fa7ccb1330fb2e9db27a3c0b2a24a02e))
+
 ## [1.3.66] - 2023-06-20
 
 ### Bug Fixes
