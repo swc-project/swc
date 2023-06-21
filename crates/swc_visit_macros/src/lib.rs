@@ -9,11 +9,11 @@ use swc_macros_common::{call_site, def_site, make_doc_attr};
 use syn::{
     parse_macro_input, parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle,
     Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary,
-    Field, FieldMutability, FieldPat, FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument,
-    GenericParam, Generics, ImplItem, ImplItemFn, Index, Item, ItemEnum, ItemImpl, ItemMod,
-    ItemStruct, ItemTrait, ItemUse, Lifetime, LifetimeParam, Member, Pat, PatIdent, PatStruct,
-    PatTupleStruct, PatType, PatWild, Path, PathArguments, ReturnType, Signature, Stmt, Token,
-    TraitItem, TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
+    Field, FieldMutability, FieldPat, Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam,
+    Generics, ImplItem, ImplItemFn, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct,
+    ItemTrait, ItemUse, Lifetime, LifetimeParam, Member, Pat, PatIdent, PatStruct, PatTupleStruct,
+    PatType, PatWild, Path, PathArguments, ReturnType, Signature, Stmt, Token, TraitItem,
+    TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
