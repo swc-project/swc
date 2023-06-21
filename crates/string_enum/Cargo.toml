@@ -13,14 +13,14 @@ bench = false
 proc-macro = true
 
 [dependencies]
-pmutil = "0.5.1"
+pmutil = "0.6.1"
 proc-macro2 = "1"
 quote = "1"
 swc_macros_common = {version = "0.3.7", path = "../swc_macros_common"}
 
 [dependencies.syn]
 features = ["full", "parsing", "printing", "extra-traits"]
-version = "1"
+version = "2"
 
 [dev-dependencies]
 serde = "1"

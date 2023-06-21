@@ -12,10 +12,10 @@ version = "0.3.7"
 bench = false
 
 [dependencies]
-pmutil = "0.5.1"
+pmutil = "0.6.1"
 proc-macro2 = "1"
 quote = "1"
 
 [dependencies.syn]
 features = ["derive", "visit", "parsing", "full", "printing", "extra-traits"]
-version = "1"
+version = "2"

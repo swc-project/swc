@@ -14,10 +14,10 @@ proc-macro = true
 
 [dependencies]
 anyhow      = "1"
-pmutil      = "0.5.1"
+pmutil      = "0.6.1"
 proc-macro2 = "1"
 quote       = "1"
-syn         = "1"
+syn         = "2"
 
 swc_atoms         = { version = "0.5.6", path = "../swc_atoms" }
 swc_common        = { version = "0.31.12", path = "../swc_common" }

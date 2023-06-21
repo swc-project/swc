@@ -13,9 +13,9 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-pmutil      = "0.5.1"
+pmutil      = "0.6.1"
 proc-macro2 = "1"
 quote       = "1"
-syn         = { version = "1", features = ["fold"] }
+syn         = { version = "2", features = ["fold"] }
 
 swc_macros_common = { version = "0.3.7", path = "../swc_macros_common" }

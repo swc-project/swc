@@ -9,7 +9,8 @@ repository    = "https://github.com/swc-project/swc.git"
 version       = "0.97.3"
 
 [lib]
-bench = false
+bench   = false
+doctest = false
 
 [features]
 default = ["filesystem_cache", "plugin_transform_host_native"]
