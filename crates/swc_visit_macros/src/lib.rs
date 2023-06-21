@@ -809,7 +809,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                     arms,
                 });
 
-                vec![Stmt::Expr(expr)]
+                vec![Stmt::Expr(expr, None)]
             },
         },
     });
