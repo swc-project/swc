@@ -315,12 +315,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                 paren_token: name.span().as_token(),
                 inputs: {
                     let mut v = Punctuated::new();
-                    v.push(FnArg::Receiver(Receiver {
-                        attrs: Default::default(),
-                        reference: Some((def_site(), None)),
-                        mutability: Some(def_site()),
-                        self_token: def_site(),
-                    }));
+                    v.push(FnArg::Receiver(parse_quote!(&mut self)));
                     v.push(FnArg::Typed(PatType {
                         attrs: Default::default(),
                         colon_token: def_site(),
@@ -358,6 +353,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                                 attrs: Default::default(),
                                 pat: Pat::TupleStruct(PatTupleStruct {
                                     attrs: Default::default(),
+                                    qself: None,
                                     path: q!(
                                         Vars {
                                             VariantName: &variant_name
@@ -365,16 +361,13 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                                         { Self::VariantName }
                                     )
                                     .parse(),
-                                    pat: PatTuple {
-                                        attrs: Default::default(),
-                                        paren_token: name.span().as_token(),
-                                        elems: {
-                                            let mut v = Punctuated::new();
+                                    paren_token: name.span().as_token(),
+                                    elems: {
+                                        let mut v = Punctuated::new();
 
-                                            v.push(q!({ idx }).parse());
+                                        v.push(q!({ idx }).parse());
 
-                                            v
-                                        },
+                                        v
                                     },
                                 }),
                                 guard: Default::default(),
