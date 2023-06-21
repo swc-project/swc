@@ -2046,6 +2046,7 @@
                         }
                         function u(t, r) {
                             var o = {
+                                seen: [],
                                 stylize: y
                             };
                             return arguments.length >= 3 && (o.depth = arguments[2]), arguments.length >= 4 && (o.colors = arguments[3]), g(r) ? o.showHidden = r : r && e._extend(o, r), S(o.showHidden) && (o.showHidden = !1), S(o.depth) && (o.depth = 2), S(o.colors) && (o.colors = !1), S(o.customInspect) && (o.customInspect = !0), o.colors && (o.stylize = f), l(o, t, o.depth);

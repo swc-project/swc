@@ -777,7 +777,9 @@
             if (touches) {
                 for(var trackItem = {
                     points: [],
-                    touches: []
+                    touches: [],
+                    target: target,
+                    event: event
                 }, i = 0, len = touches.length; i < len; i++){
                     var touch = touches[i], pos = clientToLocal(root, touch, {});
                     trackItem.points.push([
@@ -2396,7 +2398,11 @@
                     }
                 }
             }
-            var kf = {};
+            var kf = {
+                time: time,
+                value: value,
+                percent: 0
+            };
             return this.keyframes.push(kf), kf;
         }, Track.prototype.prepare = function(additiveTrack) {
             var kfs = this.keyframes;
@@ -6881,6 +6887,13 @@
             height: 2
         }, iconStr) return 0 === iconStr.indexOf('image://') ? (style.image = iconStr.slice(8), defaults(style, rect), new ZRImage(innerOpts)) : makePath(iconStr.replace('path://', ''), innerOpts, rect, 'center');
     }
+    function linePolygonIntersect(a1x, a1y, a2x, a2y, points) {
+        for(var i = 0, p2 = points[points.length - 1]; i < points.length; i++){
+            var p = points[i];
+            if (lineLineIntersect(a1x, a1y, a2x, a2y, p[0], p[1], p2[0], p2[1])) return !0;
+            p2 = p;
+        }
+    }
     function lineLineIntersect(a1x, a1y, a2x, a2y, b1x, b1y, b2x, b2y) {
         var mx = a2x - a1x, my = a2y - a1y, nx = b2x - b1x, ny = b2y - b1y, nmCrossProduct = nx * my - mx * ny;
         if (nmCrossProduct <= 1e-6 && nmCrossProduct >= -0.000001) return !1;
@@ -6943,13 +6956,7 @@
         clipPointsByRect: clipPointsByRect,
         clipRectByRect: clipRectByRect,
         createIcon: createIcon,
-        linePolygonIntersect: function(a1x, a1y, a2x, a2y, points) {
-            for(var i = 0, p2 = points[points.length - 1]; i < points.length; i++){
-                var p = points[i];
-                if (lineLineIntersect(a1x, a1y, a2x, a2y, p[0], p[1], p2[0], p2[1])) return !0;
-                p2 = p;
-            }
-        },
+        linePolygonIntersect: linePolygonIntersect,
         lineLineIntersect: lineLineIntersect,
         setTooltipConfig: setTooltipConfig,
         Group: Group,
@@ -9405,7 +9412,21 @@
         }, Task.prototype.setOutputEnd = function(end) {
             this._outputDueEnd = this._settedOutputEnd = end;
         }, Task;
-    }(), iterator = {};
+    }(), iterator = function() {
+        var end, current, modBy, modDataCount, winCount, it = {
+            reset: function(s, e, sStep, sCount) {
+                current = s, end = e, modBy = sStep, winCount = Math.ceil((modDataCount = sCount) / modBy), it.next = modBy > 1 && modDataCount > 0 ? modNext : sequentialNext;
+            }
+        };
+        return it;
+        function sequentialNext() {
+            return current < end ? current++ : null;
+        }
+        function modNext() {
+            var dataIndex = current % winCount * modBy + Math.ceil(current / winCount), result = current >= end ? null : dataIndex < modDataCount ? dataIndex : current;
+            return current++, result;
+        }
+    }();
     function parseDataValue(value, opt) {
         var dimType = opt && opt.type;
         if ('ordinal' === dimType) {
@@ -11600,7 +11621,9 @@
             maxTileHeight: 512
         });
         'none' === decalOpt.backgroundColor && (decalOpt.backgroundColor = null);
-        var pattern = {};
+        var pattern = {
+            repeat: 'repeat'
+        };
         return function(pattern) {
             for(var cacheKey, ctx, keys = [
                 dpr
@@ -11820,8 +11843,15 @@
                 if (!isInDefs) {
                     var parser_1 = nodeParsers[nodeName];
                     if (parser_1 && hasOwn(nodeParsers, nodeName)) {
-                        if (el = parser_1.call(this, xmlNode, parentGroup), xmlNode.getAttribute('name')) {
-                            var newNamed = {};
+                        el = parser_1.call(this, xmlNode, parentGroup);
+                        var nameAttr = xmlNode.getAttribute('name');
+                        if (nameAttr) {
+                            var newNamed = {
+                                name: nameAttr,
+                                namedFrom: null,
+                                svgNodeTagLower: nodeName,
+                                el: el
+                            };
                             named.push(newNamed), 'g' === nodeName && (namedFromForSub = newNamed);
                         } else namedFrom && named.push({
                             name: namedFrom.name,
@@ -13221,7 +13251,10 @@
                 }
                 var query = {};
                 query[mainType + 'Id'] = payload[mainType + 'Id'], query[mainType + 'Index'] = payload[mainType + 'Index'], query[mainType + 'Name'] = payload[mainType + 'Name'];
-                var condition = {};
+                var condition = {
+                    mainType: mainType,
+                    query: query
+                };
                 subType && (condition.subType = subType);
                 var excludeSeriesId = payload.excludeSeriesId;
                 function callView(view) {
@@ -13542,7 +13575,13 @@
                 each(normalizeToArray(transitionOpt), function(transOpt) {
                     var errMsg, fromOpt = transOpt.from, toOpt = transOpt.to;
                     null == toOpt && throwError(errMsg = '`transition.to` must be specified.');
-                    var finderOpt = {}, fromResult = fromOpt ? parseFinder(ecModel, fromOpt, finderOpt) : null, toSeries = parseFinder(ecModel, toOpt, finderOpt).seriesModel;
+                    var finderOpt = {
+                        includeMainTypes: [
+                            'series'
+                        ],
+                        enableAll: !1,
+                        enableNone: !1
+                    }, fromResult = fromOpt ? parseFinder(ecModel, fromOpt, finderOpt) : null, toSeries = parseFinder(ecModel, toOpt, finderOpt).seriesModel;
                     null == toSeries && (errMsg = '', errMsg = '`transition` is only supported on series.'), fromResult && fromResult.seriesModel !== toSeries && (errMsg = '', errMsg = '`transition.from` and `transition.to` must be specified to the same series.'), null != errMsg && throwError(errMsg), toSeries.__transientTransitionOpt = {
                         from: fromOpt ? fromOpt.dimension : null,
                         to: toOpt.dimension,
@@ -14695,7 +14734,9 @@
             if (fetch) return fetch(seriesModel, result, result.axisMap, result.categoryAxisMap), result;
         }(seriesModel);
         coordSysInfo && coordSysInfo.coordSysDims && (coordSysDimDefs = map(coordSysInfo.coordSysDims, function(dim) {
-            var dimInfo = {}, axisModel = coordSysInfo.axisMap.get(dim);
+            var dimInfo = {
+                name: dim
+            }, axisModel = coordSysInfo.axisMap.get(dim);
             if (axisModel) {
                 var axisType = axisModel.get('type');
                 dimInfo.type = getDimensionTypeByAxis(axisType);
@@ -15809,7 +15850,9 @@
         includeMinLabel && startTick !== ordinalExtent[0] && addItem(ordinalExtent[0]);
         for(var tickValue = startTick; tickValue <= ordinalExtent[1]; tickValue += step)addItem(tickValue);
         function addItem(tickValue) {
-            var tickObj = {};
+            var tickObj = {
+                value: tickValue
+            };
             result.push(onlyTick ? tickValue : {
                 formattedLabel: labelFormatter(tickObj),
                 rawLabel: ordinalScale.getLabel(tickObj),
@@ -18584,7 +18627,13 @@
                 list[i].linePoints[1][0] += dx, list[i].label.x = farthestX;
             }
             shiftLayoutOnY(list, viewTop, viewTop + viewHeight) && function(items) {
-                for(var topSemi = {}, bottomSemi = {}, i = 0; i < items.length; i++)if ('none' === items[i].labelAlignTo) {
+                for(var topSemi = {
+                    list: [],
+                    maxY: 0
+                }, bottomSemi = {
+                    list: [],
+                    maxY: 0
+                }, i = 0; i < items.length; i++)if ('none' === items[i].labelAlignTo) {
                     var item = items[i], semi = item.label.y > cy ? bottomSemi : topSemi, dy = Math.abs(item.label.y - cy);
                     if (dy > semi.maxY) {
                         var dx = item.label.x - cx - item.len2 * dir, rA = r + item.len, rB = Math.abs(dx) < rA ? Math.sqrt(dy * dy / (1 - dx * dx / rA / rA)) : rA;
@@ -19195,7 +19244,82 @@
         }, CartesianAxisModel.type = 'cartesian2dAxis', CartesianAxisModel;
     }(ComponentModel);
     mixin(CartesianAxisModel, AxisModelCommonMixin);
-    var defaultOption = {}, categoryAxis = merge({
+    var defaultOption = {
+        show: !0,
+        zlevel: 0,
+        z: 0,
+        inverse: !1,
+        name: '',
+        nameLocation: 'end',
+        nameRotate: null,
+        nameTruncate: {
+            maxWidth: null,
+            ellipsis: '...',
+            placeholder: '.'
+        },
+        nameTextStyle: {},
+        nameGap: 15,
+        silent: !1,
+        triggerEvent: !1,
+        tooltip: {
+            show: !1
+        },
+        axisPointer: {},
+        axisLine: {
+            show: !0,
+            onZero: !0,
+            onZeroAxisIndex: null,
+            lineStyle: {
+                color: '#6E7079',
+                width: 1,
+                type: 'solid'
+            },
+            symbol: [
+                'none',
+                'none'
+            ],
+            symbolSize: [
+                10,
+                15
+            ]
+        },
+        axisTick: {
+            show: !0,
+            inside: !1,
+            length: 5,
+            lineStyle: {
+                width: 1
+            }
+        },
+        axisLabel: {
+            show: !0,
+            inside: !1,
+            rotate: 0,
+            showMinLabel: null,
+            showMaxLabel: null,
+            margin: 8,
+            fontSize: 12
+        },
+        splitLine: {
+            show: !0,
+            lineStyle: {
+                color: [
+                    '#E0E6F1'
+                ],
+                width: 1,
+                type: 'solid'
+            }
+        },
+        splitArea: {
+            show: !1,
+            areaStyle: {
+                color: [
+                    'rgba(250,250,250,0.2)',
+                    'rgba(210,219,238,0.2)'
+                ]
+            }
+        }
+    }, categoryAxis = merge({
         boundaryGap: !0,
         deduplication: null,
         splitLine: {
@@ -20261,7 +20385,11 @@
             data.diff(oldData).add(function(idx) {
                 var points = data.getItemLayout(idx);
                 if (points) {
-                    var polygon = new Polygon(), polyline = new Polyline(), target = {};
+                    var polygon = new Polygon(), polyline = new Polyline(), target = {
+                        shape: {
+                            points: points
+                        }
+                    };
                     polygon.shape.points = getInitialPoints(points), polyline.shape.points = getInitialPoints(points), initProps(polygon, target, seriesModel, idx), initProps(polyline, target, seriesModel, idx);
                     var itemGroup = new Group(), symbolGroup = new Group();
                     itemGroup.add(polyline), itemGroup.add(polygon), itemGroup.add(symbolGroup), updateSymbols(polyline.shape.points, points, symbolGroup, data, idx, !0), data.setItemGraphicEl(idx, itemGroup);
@@ -25439,7 +25567,51 @@
                 type: 'parallelAxisExpand'
             }, opt));
         }, ParallelView.type = 'parallel', ParallelView;
-    }(ComponentView), handlers = {}, ParallelModel = function(_super) {
+    }(ComponentView), handlers = {
+        mousedown: function(e) {
+            checkTrigger(this, 'click') && (this._mouseDownPoint = [
+                e.offsetX,
+                e.offsetY
+            ]);
+        },
+        mouseup: function(e) {
+            var mouseDownPoint = this._mouseDownPoint;
+            if (checkTrigger(this, 'click') && mouseDownPoint) {
+                var point = [
+                    e.offsetX,
+                    e.offsetY
+                ];
+                if (Math.pow(mouseDownPoint[0] - point[0], 2) + Math.pow(mouseDownPoint[1] - point[1], 2) > 5) return;
+                var result = this._model.coordinateSystem.getSlidedAxisExpandWindow([
+                    e.offsetX,
+                    e.offsetY
+                ]);
+                'none' !== result.behavior && this._dispatchExpand({
+                    axisExpandWindow: result.axisExpandWindow
+                });
+            }
+            this._mouseDownPoint = null;
+        },
+        mousemove: function(e) {
+            if (!this._mouseDownPoint && checkTrigger(this, 'mousemove')) {
+                var model = this._model, result = model.coordinateSystem.getSlidedAxisExpandWindow([
+                    e.offsetX,
+                    e.offsetY
+                ]), behavior = result.behavior;
+                'jump' === behavior && this._throttledDispatchExpand.debounceNextCall(model.get('axisExpandDebounce')), this._throttledDispatchExpand('none' === behavior ? null : {
+                    axisExpandWindow: result.axisExpandWindow,
+                    animation: 'jump' === behavior ? null : {
+                        duration: 0
+                    }
+                });
+            }
+        }
+    };
+    function checkTrigger(view, triggerOn) {
+        var model = view._model;
+        return model.get('axisExpandable') && model.get('axisExpandTriggerOn') === triggerOn;
+    }
+    var ParallelModel = function(_super) {
         function ParallelModel() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
             return _this.type = ParallelModel.type, _this;
@@ -25765,7 +25937,7 @@
         }, ParallelAxisModel;
     }(ComponentModel);
     mixin(ParallelAxisModel, AxisModelCommonMixin);
-    var mathMin$9 = Math.min, mathMax$9 = Math.max, MUTEX_RESOURCE_KEY = 'globalPan', DIRECTION_MAP = {
+    var mathMin$9 = Math.min, mathMax$9 = Math.max, mathPow$2 = Math.pow, MUTEX_RESOURCE_KEY = 'globalPan', DIRECTION_MAP = {
         w: [
             0,
             0
@@ -25845,27 +26017,28 @@
                 var newBrushInternal = coverConfigList[newIndex];
                 if (null != oldIndex && oldCovers[oldIndex] === creatingCover) newCovers[newIndex] = oldCovers[oldIndex];
                 else {
-                    var cover = newCovers[newIndex] = null != oldIndex ? (oldCovers[oldIndex].__brushOption = newBrushInternal, oldCovers[oldIndex]) : function(controller, creatingCover) {
-                        var coverRenderer = getCoverRenderer(creatingCover);
-                        return coverRenderer.endCreating && (coverRenderer.endCreating(controller, creatingCover), updateZ(creatingCover, creatingCover.__brushOption)), creatingCover;
-                    }(controller, function(controller, brushOption) {
-                        var cover = coverRenderers[brushOption.brushType].createCover(controller, brushOption);
-                        return cover.__brushOption = brushOption, updateZ(cover, brushOption), controller.group.add(cover), cover;
-                    }(controller, newBrushInternal));
+                    var cover = newCovers[newIndex] = null != oldIndex ? (oldCovers[oldIndex].__brushOption = newBrushInternal, oldCovers[oldIndex]) : endCreating(controller, createCover(controller, newBrushInternal));
                     updateCoverAfterCreation(controller, cover);
                 }
             }
         }, BrushController.prototype.unmount = function() {
-            return this._mounted ? (this.enableBrush(!1), function(controller) {
-                var covers = controller._covers, originalLength = covers.length;
-                each(covers, function(cover) {
-                    controller.group.remove(cover);
-                }, controller), covers.length = 0;
-            }(this), this._zr.remove(this.group), this._mounted = !1, this) : void 0;
+            return this._mounted ? (this.enableBrush(!1), clearCovers(this), this._zr.remove(this.group), this._mounted = !1, this) : void 0;
         }, BrushController.prototype.dispose = function() {
             this.unmount(), this.off();
         }, BrushController;
     }(Eventful);
+    function createCover(controller, brushOption) {
+        var cover = coverRenderers[brushOption.brushType].createCover(controller, brushOption);
+        return cover.__brushOption = brushOption, updateZ(cover, brushOption), controller.group.add(cover), cover;
+    }
+    function endCreating(controller, creatingCover) {
+        var coverRenderer = getCoverRenderer(creatingCover);
+        return coverRenderer.endCreating && (coverRenderer.endCreating(controller, creatingCover), updateZ(creatingCover, creatingCover.__brushOption)), creatingCover;
+    }
+    function updateCoverShape(controller, cover) {
+        var brushOption = cover.__brushOption;
+        getCoverRenderer(cover).updateCoverShape(controller, cover, brushOption.range, brushOption);
+    }
     function updateZ(cover, brushOption) {
         var z = brushOption.z;
         null == z && (z = 10000), cover.traverse(function(el) {
@@ -25873,19 +26046,30 @@
         });
     }
     function updateCoverAfterCreation(controller, cover) {
-        getCoverRenderer(cover).updateCommon(controller, cover), function(controller, cover) {
-            var brushOption = cover.__brushOption;
-            getCoverRenderer(cover).updateCoverShape(controller, cover, brushOption.range, brushOption);
-        }(controller, cover);
+        getCoverRenderer(cover).updateCommon(controller, cover), updateCoverShape(controller, cover);
     }
     function getCoverRenderer(cover) {
         return coverRenderers[cover.__brushOption.brushType];
+    }
+    function getPanelByPoint(controller, e, localCursorPoint) {
+        var panel, panels = controller._panels;
+        if (!panels) return !0;
+        var transform = controller._transform;
+        return each(panels, function(pn) {
+            pn.isTargetByCursor(e, localCursorPoint, transform) && (panel = pn);
+        }), panel;
     }
     function getPanelByCover(controller, cover) {
         var panels = controller._panels;
         if (!panels) return !0;
         var panelId = cover.__brushOption.panelId;
         return null == panelId || panels[panelId];
+    }
+    function clearCovers(controller) {
+        var covers = controller._covers, originalLength = covers.length;
+        return each(covers, function(cover) {
+            controller.group.remove(cover);
+        }, controller), covers.length = 0, !!originalLength;
     }
     function trigger$1(controller, opt) {
         var areas = map(controller._covers, function(cover) {
@@ -26075,10 +26259,81 @@
         var panel = getPanelByCover(controller, cover);
         return panel && !0 !== panel ? panel.clipPath(data, controller._transform) : clone(data);
     }
+    function preventDefault(e) {
+        var rawE = e.event;
+        rawE.preventDefault && rawE.preventDefault();
+    }
     function mainShapeContain(cover, x, y) {
         return cover.childOfName('main').contain(x, y);
     }
-    var pointerHandlers = {}, coverRenderers = {
+    function updateCoverByMouse(controller, e, localCursorPoint, isEnd) {
+        var eventParams, creatingCover = controller._creatingCover, panel = controller._creatingPanel, thisBrushOption = controller._brushOption;
+        if (controller._track.push(localCursorPoint.slice()), function(controller) {
+            var track = controller._track;
+            if (!track.length) return !1;
+            var p2 = track[track.length - 1], p1 = track[0], dx = p2[0] - p1[0], dy = p2[1] - p1[1];
+            return mathPow$2(dx * dx + dy * dy, 0.5) > 6;
+        }(controller) || creatingCover) {
+            if (panel && !creatingCover) {
+                'single' === thisBrushOption.brushMode && clearCovers(controller);
+                var brushOption = clone(thisBrushOption);
+                brushOption.brushType = determineBrushType(brushOption.brushType, panel), brushOption.panelId = !0 === panel ? null : panel.panelId, creatingCover = controller._creatingCover = createCover(controller, brushOption), controller._covers.push(creatingCover);
+            }
+            if (creatingCover) {
+                var coverRenderer = coverRenderers[determineBrushType(controller._brushType, panel)];
+                creatingCover.__brushOption.range = coverRenderer.getCreatingRange(clipByPanel(controller, creatingCover, controller._track)), isEnd && (endCreating(controller, creatingCover), coverRenderer.updateCommon(controller, creatingCover)), updateCoverShape(controller, creatingCover), eventParams = {
+                    isEnd: isEnd
+                };
+            }
+        } else isEnd && 'single' === thisBrushOption.brushMode && thisBrushOption.removeOnClick && getPanelByPoint(controller, e, localCursorPoint) && clearCovers(controller) && (eventParams = {
+            isEnd: isEnd,
+            removeOnClick: !0
+        });
+        return eventParams;
+    }
+    function determineBrushType(brushType, panel) {
+        return 'auto' === brushType ? (assert(panel && panel.defaultBrushType, 'MUST have defaultBrushType when brushType is "atuo"'), panel.defaultBrushType) : brushType;
+    }
+    var pointerHandlers = {
+        mousedown: function(e) {
+            if (this._dragging) handleDragEnd(this, e);
+            else if (!e.target || !e.target.draggable) {
+                preventDefault(e);
+                var localCursorPoint = this.group.transformCoordToLocal(e.offsetX, e.offsetY);
+                this._creatingCover = null, (this._creatingPanel = getPanelByPoint(this, e, localCursorPoint)) && (this._dragging = !0, this._track = [
+                    localCursorPoint.slice()
+                ]);
+            }
+        },
+        mousemove: function(e) {
+            var x = e.offsetX, y = e.offsetY, localCursorPoint = this.group.transformCoordToLocal(x, y);
+            if (!function(controller, e, localCursorPoint) {
+                if (!(!controller._brushType || (x = e.offsetX, y = e.offsetY, zr = controller._zr, x < 0 || x > zr.getWidth() || y < 0 || y > zr.getHeight()))) {
+                    var x, y, zr, zr1 = controller._zr, covers = controller._covers, currPanel = getPanelByPoint(controller, e, localCursorPoint);
+                    if (!controller._dragging) for(var i = 0; i < covers.length; i++){
+                        var brushOption = covers[i].__brushOption;
+                        if (currPanel && (!0 === currPanel || brushOption.panelId === currPanel.panelId) && coverRenderers[brushOption.brushType].contain(covers[i], localCursorPoint[0], localCursorPoint[1])) return;
+                    }
+                    currPanel && zr1.setCursorStyle('crosshair');
+                }
+            }(this, e, localCursorPoint), this._dragging) {
+                preventDefault(e);
+                var eventParams = updateCoverByMouse(this, e, localCursorPoint, !1);
+                eventParams && trigger$1(this, eventParams);
+            }
+        },
+        mouseup: function(e) {
+            handleDragEnd(this, e);
+        }
+    };
+    function handleDragEnd(controller, e) {
+        if (controller._dragging) {
+            preventDefault(e);
+            var x = e.offsetX, y = e.offsetY, localCursorPoint = controller.group.transformCoordToLocal(x, y), eventParams = updateCoverByMouse(controller, e, localCursorPoint, !0);
+            controller._dragging = !1, controller._track = [], controller._creatingCover = null, eventParams && trigger$1(controller, eventParams);
+        }
+    }
+    var coverRenderers = {
         lineX: getLineRenderer(0),
         lineY: getLineRenderer(1),
         rect: {
@@ -27818,8 +28073,12 @@
     function compatEc2(seriesOpt) {
         var data = seriesOpt.data;
         data && data[0] && data[0][0] && data[0][0].coord && (console.warn("Lines data configuration has been changed to { coords:[[1,2],[2,3]] }"), seriesOpt.data = map(data, function(itemOpt) {
-            itemOpt[0].coord, itemOpt[1].coord;
-            var target = {};
+            var target = {
+                coords: [
+                    itemOpt[0].coord,
+                    itemOpt[1].coord
+                ]
+            };
             return itemOpt[0].name && (target.fromName = itemOpt[0].name), itemOpt[1].name && (target.toName = itemOpt[1].name), mergeAll([
                 target,
                 itemOpt[0],
@@ -29501,7 +29760,15 @@
         }
         return resultPaths;
     }
-    var inner$9 = makeInner(), TRANSFORM_PROPS = {}, STYLE_VISUAL_TYPE = (keys(TRANSFORM_PROPS).join(', '), {
+    var inner$9 = makeInner(), TRANSFORM_PROPS = {
+        x: 1,
+        y: 1,
+        scaleX: 1,
+        scaleY: 1,
+        originX: 1,
+        originY: 1,
+        rotation: 1
+    }, STYLE_VISUAL_TYPE = (keys(TRANSFORM_PROPS).join(', '), {
         color: 'fill',
         borderColor: 'stroke'
     }), NON_STYLE_VISUAL_PROPS = {}, EMPHASIS = 'emphasis', NORMAL = 'normal', BLUR = 'blur', SELECT = 'select', STATES = [
@@ -29800,11 +30067,15 @@
     function applyTransitionFrom(el, dataIndex, elOption, seriesModel, transFromProps, isInit) {
         if (transFromProps) {
             var userDuring = elOption.during;
-            inner$9(el).userDuring = userDuring, userDuring && bind(duringCall, {
-                el: el,
-                userDuring: userDuring
-            });
-            var cfg = {};
+            inner$9(el).userDuring = userDuring;
+            var cfg = {
+                dataIndex: dataIndex,
+                isFrom: !0,
+                during: userDuring ? bind(duringCall, {
+                    el: el,
+                    userDuring: userDuring
+                }) : null
+            };
             isInit ? initProps(el, transFromProps, seriesModel, cfg) : updateProps(el, transFromProps, seriesModel, cfg);
         }
     }
@@ -30838,7 +31109,10 @@
                 seriesIndex: payload.seriesIndex,
                 dataIndex: payload.dataIndex
             }, ecModel).point);
-            var outputAxesInfo, zr, highDownKey, lastHighlights, newHighlights, toHighlight, toDownplay, isIllegalPoint = illegalPoint(point), inputAxesInfo = payload.axesInfo, axesInfo = coordSysAxesInfo.axesInfo, shouldHide = 'leave' === currTrigger || illegalPoint(point), outputPayload = {}, showValueMap = {}, dataByCoordSys = {}, updaters = {
+            var outputAxesInfo, zr, highDownKey, lastHighlights, newHighlights, toHighlight, toDownplay, isIllegalPoint = illegalPoint(point), inputAxesInfo = payload.axesInfo, axesInfo = coordSysAxesInfo.axesInfo, shouldHide = 'leave' === currTrigger || illegalPoint(point), outputPayload = {}, showValueMap = {}, dataByCoordSys = {
+                list: [],
+                map: {}
+            }, updaters = {
                 showPointer: curry(showPointer, showValueMap),
                 showTooltip: curry(showTooltip, dataByCoordSys)
             };
@@ -31006,7 +31280,10 @@
         }), registers.registerProcessor(registers.PRIORITY.PROCESSOR.STATISTIC, function(ecModel, api) {
             var result, result1, globalTooltipModel, globalAxisPointerModel, linksOption, linkGroups;
             ecModel.getComponent('axisPointer').coordSysAxesInfo = (result1 = result = {
-                seriesInvolved: !1
+                axesInfo: {},
+                seriesInvolved: !1,
+                coordSysAxesInfo: {},
+                coordSysMap: {}
             }, globalTooltipModel = ecModel.getComponent('tooltip'), linksOption = (globalAxisPointerModel = ecModel.getComponent('axisPointer')).get('link', !0) || [], linkGroups = [], each(api.getCoordinateSystems(), function(coordSys) {
                 if (coordSys.axisPointerEnabled) {
                     var coordSysKey = makeKey(coordSys.model), axesInfoInCoordSys = result1.coordSysAxesInfo[coordSysKey] = {};
@@ -34005,7 +34282,49 @@
             includeMainTypes: INCLUDE_FINDER_MAIN_TYPES
         });
     }
-    var targetInfoBuilders = {}, targetInfoMatchers = [
+    var targetInfoBuilders = {
+        grid: function(foundCpts, targetInfoList) {
+            var xAxisModels = foundCpts.xAxisModels, yAxisModels = foundCpts.yAxisModels, gridModels = foundCpts.gridModels, gridModelMap = createHashMap(), xAxesHas = {}, yAxesHas = {};
+            (xAxisModels || yAxisModels || gridModels) && (each(xAxisModels, function(axisModel) {
+                var gridModel = axisModel.axis.grid.model;
+                gridModelMap.set(gridModel.id, gridModel), xAxesHas[gridModel.id] = !0;
+            }), each(yAxisModels, function(axisModel) {
+                var gridModel = axisModel.axis.grid.model;
+                gridModelMap.set(gridModel.id, gridModel), yAxesHas[gridModel.id] = !0;
+            }), each(gridModels, function(gridModel) {
+                gridModelMap.set(gridModel.id, gridModel), xAxesHas[gridModel.id] = !0, yAxesHas[gridModel.id] = !0;
+            }), gridModelMap.each(function(gridModel) {
+                var grid = gridModel.coordinateSystem, cartesians = [];
+                each(grid.getCartesians(), function(cartesian, index) {
+                    (indexOf(xAxisModels, cartesian.getAxis('x').model) >= 0 || indexOf(yAxisModels, cartesian.getAxis('y').model) >= 0) && cartesians.push(cartesian);
+                }), targetInfoList.push({
+                    panelId: 'grid--' + gridModel.id,
+                    gridModel: gridModel,
+                    coordSysModel: gridModel,
+                    coordSys: cartesians[0],
+                    coordSyses: cartesians,
+                    getPanelRect: panelRectBuilders.grid,
+                    xAxisDeclared: xAxesHas[gridModel.id],
+                    yAxisDeclared: yAxesHas[gridModel.id]
+                });
+            }));
+        },
+        geo: function(foundCpts, targetInfoList) {
+            each(foundCpts.geoModels, function(geoModel) {
+                var coordSys = geoModel.coordinateSystem;
+                targetInfoList.push({
+                    panelId: 'geo--' + geoModel.id,
+                    geoModel: geoModel,
+                    coordSysModel: geoModel,
+                    coordSys: coordSys,
+                    coordSyses: [
+                        coordSys
+                    ],
+                    getPanelRect: panelRectBuilders.geo
+                });
+            });
+        }
+    }, targetInfoMatchers = [
         function(foundCpts, targetInfo) {
             var xAxisModel = foundCpts.xAxisModel, yAxisModel = foundCpts.yAxisModel, gridModel = foundCpts.gridModel;
             return !gridModel && xAxisModel && (gridModel = xAxisModel.axis.grid.model), !gridModel && yAxisModel && (gridModel = yAxisModel.axis.grid.model), gridModel && gridModel === targetInfo.gridModel;
@@ -34014,7 +34333,15 @@
             var geoModel = foundCpts.geoModel;
             return geoModel && geoModel === targetInfo.geoModel;
         }
-    ], coordConvert = {
+    ], panelRectBuilders = {
+        grid: function() {
+            return this.coordSys.master.getRect().clone();
+        },
+        geo: function() {
+            var coordSys = this.coordSys, rect = coordSys.getBoundingRect().clone();
+            return rect.applyTransform(getTransform(coordSys)), rect;
+        }
+    }, coordConvert = {
         lineX: curry(axisConvert, 0),
         lineY: curry(axisConvert, 1),
         rect: function(to, coordSys, rangeOrCoordRange) {
@@ -34988,7 +35315,10 @@
             var Creater, mappings = visualMappings[state] = ((Creater = function() {}).prototype.__hidden = Creater.prototype, new Creater());
             each(option[state], function(visualData, visualType) {
                 if (VisualMapping.isValidType(visualType)) {
-                    var mappingOption = {};
+                    var mappingOption = {
+                        type: visualType,
+                        visual: visualData
+                    };
                     supplementVisualOption && supplementVisualOption(mappingOption, state), mappings[visualType] = new VisualMapping(mappingOption), 'opacity' === visualType && ((mappingOption = clone(mappingOption)).type = 'colorAlpha', mappings.__hidden.__alphaForOpacity = new VisualMapping(mappingOption));
                 }
             });
@@ -35002,6 +35332,29 @@
             newOption.hasOwnProperty(key) && hasKeys(newOption[key]) ? thisOption[key] = clone(newOption[key]) : delete thisOption[key];
         });
     }
+    var selector = {
+        lineX: getLineSelectors(0),
+        lineY: getLineSelectors(1),
+        rect: {
+            point: function(itemLayout, selectors, area) {
+                return itemLayout && area.boundingRect.contain(itemLayout[0], itemLayout[1]);
+            },
+            rect: function(itemLayout, selectors, area) {
+                return itemLayout && area.boundingRect.intersect(itemLayout);
+            }
+        },
+        polygon: {
+            point: function(itemLayout, selectors, area) {
+                return itemLayout && area.boundingRect.contain(itemLayout[0], itemLayout[1]) && contain$1(area.range, itemLayout[0], itemLayout[1]);
+            },
+            rect: function(itemLayout, selectors, area) {
+                var points = area.range;
+                if (!itemLayout || points.length <= 1) return !1;
+                var x = itemLayout.x, y = itemLayout.y, width = itemLayout.width, height = itemLayout.height, p = points[0];
+                if (contain$1(points, x, y) || contain$1(points, x + width, y) || contain$1(points, x, y + height) || contain$1(points, x + width, y + height) || BoundingRect.create(itemLayout).contain(p[0], p[1]) || linePolygonIntersect(x, y, x + width, y, points) || linePolygonIntersect(x, y, x, y + height, points) || linePolygonIntersect(x + width, y, x + width, y + height, points) || linePolygonIntersect(x, y + height, x + width, y + height, points)) return !0;
+            }
+        }
+    };
     function getLineSelectors(xyIndex) {
         var xy = [
             'x',
@@ -35031,7 +35384,6 @@
     function inLineRange(p, range) {
         return range[0] <= p && p <= range[1];
     }
-    getLineSelectors(0), getLineSelectors(1);
     var STATE_LIST = [
         'inBrush',
         'outOfBrush'
@@ -35065,10 +35417,17 @@
             var brushOption = brushModel.option, brushLink = brushOption.brushLink, linkedSeriesMap = [], selectedDataIndexForLink = [], rangeInfoBySeries = [], hasBrushExists = !1;
             brushIndex || (throttleType = brushOption.throttleType, throttleDelay = brushOption.throttleDelay);
             var areas = map(brushModel.areas, function(area) {
-                var builder = boundingRectBuilders[area.brushType], selectableArea = defaults({
+                var brushType, selectors, builder = boundingRectBuilders[area.brushType], selectableArea = defaults({
                     boundingRect: builder ? builder(area) : void 0
                 }, area);
-                return selectableArea.selectors = (selectableArea.brushType, {}), selectableArea;
+                return selectableArea.selectors = (brushType = selectableArea.brushType, selectors = {
+                    point: function(itemLayout) {
+                        return selector[brushType].point(itemLayout, selectors, selectableArea);
+                    },
+                    rect: function(itemLayout) {
+                        return selector[brushType].rect(itemLayout, selectors, selectableArea);
+                    }
+                }), selectableArea;
             }), visualMappings = createVisualMappings(brushModel.option, STATE_LIST, function(mappingOption) {
                 mappingOption.mappingMethod = 'fixed';
             });
@@ -35404,7 +35763,10 @@
                     height: api.getHeight()
                 }, titleModel.get('padding'));
                 textAlign || ('middle' === (textAlign = titleModel.get('left') || titleModel.get('right')) && (textAlign = 'center'), 'right' === textAlign ? layoutRect.x += layoutRect.width : 'center' !== textAlign || (layoutRect.x += layoutRect.width / 2)), textVerticalAlign || ('center' === (textVerticalAlign = titleModel.get('top') || titleModel.get('bottom')) && (textVerticalAlign = 'middle'), 'bottom' === textVerticalAlign ? layoutRect.y += layoutRect.height : 'middle' === textVerticalAlign && (layoutRect.y += layoutRect.height / 2), textVerticalAlign = textVerticalAlign || 'top'), group.x = layoutRect.x, group.y = layoutRect.y, group.markRedraw();
-                var alignStyle = {};
+                var alignStyle = {
+                    align: textAlign,
+                    verticalAlign: textVerticalAlign
+                };
                 textEl.setStyle(alignStyle), subTextEl.setStyle(alignStyle), groupRect = group.getBoundingRect();
                 var padding = layoutRect.margin, style = titleModel.getItemStyle([
                     'color',
@@ -38798,7 +39160,10 @@
                 fill: visualOutOfRange.barColor
             }).setShape('points', visualOutOfRange.barPoints), this._updateHandle(inRangeHandleEnds, visualInRange);
         }, ContinuousView.prototype._createBarVisual = function(dataInterval, dataExtent, handleEnds, forceState) {
-            var opts = {}, colorStops = this._makeColorGradient(dataInterval, opts), symbolSizes = [
+            var opts = {
+                forceState: forceState,
+                convertOpacityToAlpha: !0
+            }, colorStops = this._makeColorGradient(dataInterval, opts), symbolSizes = [
                 this.getControllerVisual(dataInterval[0], 'symbolSize', opts),
                 this.getControllerVisual(dataInterval[1], 'symbolSize', opts)
             ], barPoints = this._createBarPoints(handleEnds, symbolSizes);
@@ -38915,7 +39280,11 @@
                     }
                 };
                 if (visualMapModel.ecModel.isAnimationEnabled() && !this._firstShowIndicator) {
-                    var animationCfg = {};
+                    var animationCfg = {
+                        duration: 100,
+                        easing: 'cubicInOut',
+                        additive: !0
+                    };
                     indicator.x = oldIndicatorPos.x, indicator.y = oldIndicatorPos.y, indicator.animateTo(indicatorNewProps, animationCfg), indicatorLabel.animateTo(labelNewProps, animationCfg);
                 } else indicator.attr(indicatorNewProps), indicatorLabel.attr(labelNewProps);
                 this._firstShowIndicator = !1;
@@ -39343,7 +39712,8 @@
                     value: pieceListItem
                 });
                 var item = {
-                    text: ''
+                    text: '',
+                    index: index
                 };
                 if (null != pieceListItem.label && (item.text = pieceListItem.label), pieceListItem.hasOwnProperty('value')) {
                     var value = item.value = pieceListItem.value;
@@ -40072,7 +40442,25 @@
         registers.registerTransform(filterTransform), registers.registerTransform(sortTransform);
     }), use(function(registers) {
         registers.registerComponentModel(DatasetModel), registers.registerComponentView(DatasetView);
-    }), exports1.Axis = Axis, exports1.ChartView = ChartView, exports1.ComponentModel = ComponentModel, exports1.ComponentView = ComponentView, exports1.List = List, exports1.Model = Model, exports1.PRIORITY = {}, exports1.SeriesModel = SeriesModel, exports1.color = color, exports1.connect = function(groupId) {
+    }), exports1.Axis = Axis, exports1.ChartView = ChartView, exports1.ComponentModel = ComponentModel, exports1.ComponentView = ComponentView, exports1.List = List, exports1.Model = Model, exports1.PRIORITY = {
+        PROCESSOR: {
+            FILTER: 1000,
+            SERIES_FILTER: 800,
+            STATISTIC: 5000
+        },
+        VISUAL: {
+            LAYOUT: 1000,
+            PROGRESSIVE_LAYOUT: 1100,
+            GLOBAL: 2000,
+            CHART: 3000,
+            POST_CHART_LAYOUT: 4600,
+            COMPONENT: 4000,
+            BRUSH: 5000,
+            CHART_ITEM: 4500,
+            ARIA: 6000,
+            DECAL: 7000
+        }
+    }, exports1.SeriesModel = SeriesModel, exports1.color = color, exports1.connect = function(groupId) {
         if (isArray(groupId)) {
             var charts = groupId;
             groupId = null, each(charts, function(chart) {

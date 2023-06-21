@@ -943,7 +943,11 @@
     var componentVNodeHooks = {
         init: function(vnode, hydrating) {
             var options, inlineTemplate;
-            vnode.componentInstance && !vnode.componentInstance._isDestroyed && vnode.data.keepAlive ? componentVNodeHooks.prepatch(vnode, vnode) : (vnode.componentInstance = (options = {}, isDef(inlineTemplate = vnode.data.inlineTemplate) && (options.render = inlineTemplate.render, options.staticRenderFns = inlineTemplate.staticRenderFns), new vnode.componentOptions.Ctor(options))).$mount(hydrating ? vnode.elm : void 0, hydrating);
+            vnode.componentInstance && !vnode.componentInstance._isDestroyed && vnode.data.keepAlive ? componentVNodeHooks.prepatch(vnode, vnode) : (vnode.componentInstance = (options = {
+                _isComponent: !0,
+                _parentVnode: vnode,
+                parent: activeInstance
+            }, isDef(inlineTemplate = vnode.data.inlineTemplate) && (options.render = inlineTemplate.render, options.staticRenderFns = inlineTemplate.staticRenderFns), new vnode.componentOptions.Ctor(options))).$mount(hydrating ? vnode.elm : void 0, hydrating);
         },
         prepatch: function(oldVnode, vnode) {
             var options = vnode.componentOptions;
@@ -2423,7 +2427,27 @@
     function locateNode(vnode) {
         return !vnode.componentInstance || vnode.data && vnode.data.transition ? vnode : locateNode(vnode.componentInstance._vnode);
     }
-    var transitionProps = {};
+    var transitionProps = {
+        name: String,
+        appear: Boolean,
+        css: Boolean,
+        mode: String,
+        type: String,
+        enterClass: String,
+        leaveClass: String,
+        enterToClass: String,
+        leaveToClass: String,
+        enterActiveClass: String,
+        leaveActiveClass: String,
+        appearClass: String,
+        appearActiveClass: String,
+        appearToClass: String,
+        duration: [
+            Number,
+            String,
+            Object
+        ]
+    };
     function getRealChild(vnode) {
         var compOptions = vnode && vnode.componentOptions;
         return compOptions && compOptions.Ctor.options.abstract ? getRealChild(function(children) {
@@ -3385,7 +3409,11 @@
                 },
                 comment: function(text, start, end) {
                     if (currentParent) {
-                        var child = {};
+                        var child = {
+                            type: 3,
+                            text: text,
+                            isComment: !0
+                        };
                         options.outputSourceRange && (child.start = start, child.end = end), currentParent.children.push(child);
                     }
                 }
@@ -3431,7 +3459,9 @@
                 if (options.outputSourceRange) {
                     var leadingSpaceLength = template.match(/^\s*/)[0].length;
                     warn1 = function(msg, range, tip) {
-                        var data = {};
+                        var data = {
+                            msg: msg
+                        };
                         range && (null != range.start && (data.start = range.start + leadingSpaceLength), null != range.end && (data.end = range.end + leadingSpaceLength)), (tip ? tips : errors).push(data);
                     };
                 }

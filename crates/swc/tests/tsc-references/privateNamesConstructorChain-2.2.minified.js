@@ -15,7 +15,10 @@ class Parent {
         }), _class_private_field_set(this, _foo, 3);
     }
 }
-var _bar = {}, _foo1 = new WeakMap(), _bar1 = new WeakMap();
+var _bar = {
+    writable: !0,
+    value: 5
+}, _foo1 = new WeakMap(), _bar1 = new WeakMap();
 class Child extends Parent {
     constructor(...args){
         super(...args), _class_private_field_init(this, _foo1, {

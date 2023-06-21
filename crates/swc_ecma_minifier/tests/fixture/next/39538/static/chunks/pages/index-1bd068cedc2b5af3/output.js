@@ -88,10 +88,27 @@
                     rootMargin: lazyBoundary || "200px",
                     disabled: !isLazy
                 }), 3), setIntersection = ref1[0], isIntersected = ref1[1], resetIntersected = ref1[2], isVisible = !isLazy || isIntersected, wrapperStyle = {
+                    boxSizing: "border-box",
+                    display: "block",
+                    overflow: "hidden",
+                    width: "initial",
+                    height: "initial",
+                    background: "none",
+                    opacity: 1,
+                    border: 0,
+                    margin: 0,
+                    padding: 0
+                }, sizerStyle = {
+                    boxSizing: "border-box",
                     display: "block",
                     width: "initial",
-                    height: "initial"
-                }, sizerStyle = {}, hasSizer = !1, widthInt = getInt(width), heightInt = getInt(height), qualityInt = getInt(quality), imgStyle = Object.assign({}, style, {
+                    height: "initial",
+                    background: "none",
+                    opacity: 1,
+                    border: 0,
+                    margin: 0,
+                    padding: 0
+                }, hasSizer = !1, widthInt = getInt(width), heightInt = getInt(height), qualityInt = getInt(quality), imgStyle = Object.assign({}, style, {
                     position: "absolute",
                     top: 0,
                     left: 0,

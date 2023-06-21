@@ -501,7 +501,8 @@
             emulateJSON: Backbone.emulateJSON
         });
         var params = {
-            type: type
+            type: type,
+            dataType: "json"
         };
         if (options.url || (params.url = _.result(model, "url") || urlError()), null == options.data && model && ("create" === method || "update" === method || "patch" === method) && (params.contentType = "application/json", params.data = JSON.stringify(options.attrs || model.toJSON(options))), options.emulateJSON && (params.contentType = "application/x-www-form-urlencoded", params.data = params.data ? {
             model: params.data

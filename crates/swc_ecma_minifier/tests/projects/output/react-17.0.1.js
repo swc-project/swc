@@ -29,7 +29,15 @@
         return impl && (stack += impl() || ""), stack;
     };
     var ReactSharedInternals = {
-        ReactCurrentDispatcher: ReactCurrentDispatcher
+        ReactCurrentDispatcher: ReactCurrentDispatcher,
+        ReactCurrentBatchConfig: {
+            transition: 0
+        },
+        ReactCurrentOwner: ReactCurrentOwner,
+        IsSomeRendererActing: {
+            current: !1
+        },
+        assign: _assign
     };
     function warn(format) {
         for(var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
@@ -148,7 +156,12 @@
     didWarnAboutStringRefs = {};
     var ReactElement = function(type, key, ref, self, source, owner, props) {
         var element = {
-            props: props
+            $$typeof: REACT_ELEMENT_TYPE,
+            type: type,
+            key: key,
+            ref: ref,
+            props: props,
+            _owner: owner
         };
         return element._store = {}, Object.defineProperty(element._store, "validated", {
             configurable: !1,
@@ -280,6 +293,21 @@
             return func.call(context, child, count++);
         }), result;
     }
+    function lazyInitializer(payload) {
+        if (-1 === payload._status) {
+            var thenable = (0, payload._result)();
+            payload._status = 0, payload._result = thenable, thenable.then(function(moduleObject) {
+                if (0 === payload._status) {
+                    var defaultExport = moduleObject.default;
+                    void 0 === defaultExport && error("lazy: Expected the result of a dynamic import() call. Instead received: %s\n\nYour code should look like: \n  const MyComponent = lazy(() => import('./MyComponent'))", moduleObject), payload._status = 1, payload._result = defaultExport;
+                }
+            }, function(error) {
+                0 === payload._status && (payload._status = 2, payload._result = error);
+            });
+        }
+        if (1 === payload._status) return payload._result;
+        throw payload._result;
+    }
     function isValidElementType(type) {
         return "string" == typeof type || "function" == typeof type || type === exports.Fragment || type === exports.Profiler || type === REACT_DEBUG_TRACING_MODE_TYPE || type === exports.StrictMode || type === exports.Suspense || type === REACT_SUSPENSE_LIST_TYPE || type === REACT_LEGACY_HIDDEN_TYPE || "object" == typeof type && null !== type && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_BLOCK_TYPE || type[0] === REACT_SERVER_BLOCK_TYPE);
     }
@@ -288,7 +316,10 @@
         if (!(null !== dispatcher)) throw Error("Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:\n1. You might have mismatching versions of React and the renderer (such as React DOM)\n2. You might be breaking the Rules of Hooks\n3. You might have more than one copy of React in the same app\nSee https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.");
         return dispatcher;
     }
-    var disabledDepth = 0, ReactCurrentDispatcher$1 = ReactSharedInternals.ReactCurrentDispatcher;
+    var disabledDepth = 0;
+    function disabledLog() {}
+    disabledLog.__reactDisabledLog = !0;
+    var ReactCurrentDispatcher$1 = ReactSharedInternals.ReactCurrentDispatcher;
     function describeBuiltInComponentFrame(name, source, ownerFn) {
         if (void 0 === prefix) try {
             throw Error();
@@ -308,7 +339,12 @@
         Error.prepareStackTrace = void 0, previousDispatcher = ReactCurrentDispatcher$1.current, ReactCurrentDispatcher$1.current = null, function() {
             if (0 === disabledDepth) {
                 prevLog = console.log, prevInfo = console.info, prevWarn = console.warn, prevError = console.error, prevGroup = console.group, prevGroupCollapsed = console.groupCollapsed, prevGroupEnd = console.groupEnd;
-                var props = {};
+                var props = {
+                    configurable: !0,
+                    enumerable: !0,
+                    value: disabledLog,
+                    writable: !0
+                };
                 Object.defineProperties(console, {
                     info: props,
                     log: props,
@@ -368,7 +404,11 @@
         } finally{
             reentry = !1, ReactCurrentDispatcher$1.current = previousDispatcher, function() {
                 if (0 == --disabledDepth) {
-                    var props = {};
+                    var props = {
+                        configurable: !0,
+                        enumerable: !0,
+                        writable: !0
+                    };
                     Object.defineProperties(console, {
                         log: _assign({}, props, {
                             value: prevLog
@@ -568,6 +608,7 @@
     }, exports.createContext = function(defaultValue, calculateChangedBits) {
         void 0 === calculateChangedBits ? calculateChangedBits = null : null !== calculateChangedBits && "function" != typeof calculateChangedBits && error("createContext: Expected the optional second argument to be a function. Instead received: %s", calculateChangedBits);
         var context = {
+            $$typeof: REACT_CONTEXT_TYPE,
             _calculateChangedBits: calculateChangedBits,
             _currentValue: defaultValue,
             _currentValue2: defaultValue,
@@ -642,11 +683,16 @@
             }
         }), validatedFactory;
     }, exports.createRef = function() {
-        var refObject = {};
+        var refObject = {
+            current: null
+        };
         return Object.seal(refObject), refObject;
     }, exports.forwardRef = function(render) {
         null != render && render.$$typeof === REACT_MEMO_TYPE ? error("forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...)).") : "function" != typeof render ? error("forwardRef requires a render function but was given %s.", null === render ? "null" : typeof render) : 0 !== render.length && 2 !== render.length && error("forwardRef render functions accept exactly two parameters: props and ref. %s", 1 === render.length ? "Did you forget to use the ref parameter?" : "Any additional parameter will be undefined."), null != render && (null != render.defaultProps || null != render.propTypes) && error("forwardRef render functions do not support propTypes or defaultProps. Did you accidentally pass a React component?");
-        var ownName, elementType = {};
+        var ownName, elementType = {
+            $$typeof: REACT_FORWARD_REF_TYPE,
+            render: render
+        };
         return Object.defineProperty(elementType, "displayName", {
             enumerable: !1,
             configurable: !0,
@@ -658,7 +704,14 @@
             }
         }), elementType;
     }, exports.isValidElement = isValidElement, exports.lazy = function(ctor) {
-        var defaultProps, propTypes, lazyType = {};
+        var defaultProps, propTypes, lazyType = {
+            $$typeof: REACT_LAZY_TYPE,
+            _payload: {
+                _status: -1,
+                _result: ctor
+            },
+            _init: lazyInitializer
+        };
         return Object.defineProperties(lazyType, {
             defaultProps: {
                 configurable: !0,
@@ -685,7 +738,11 @@
         }), lazyType;
     }, exports.memo = function(type, compare) {
         isValidElementType(type) || error("memo: The first argument must be a component. Instead received: %s", null === type ? "null" : typeof type);
-        var ownName, elementType = {};
+        var ownName, elementType = {
+            $$typeof: REACT_MEMO_TYPE,
+            type: type,
+            compare: void 0 === compare ? null : compare
+        };
         return Object.defineProperty(elementType, "displayName", {
             enumerable: !1,
             configurable: !0,

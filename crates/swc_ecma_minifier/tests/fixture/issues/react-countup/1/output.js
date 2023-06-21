@@ -157,10 +157,46 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), setRef = ref2[0], isIntersected = ref2[1], isVisible = !isLazy || isIntersected, wrapperStyle = {
+                    boxSizing: "border-box",
+                    display: "block",
+                    overflow: "hidden",
+                    width: "initial",
+                    height: "initial",
+                    background: "none",
+                    opacity: 1,
+                    border: 0,
+                    margin: 0,
+                    padding: 0
+                }, sizerStyle = {
+                    boxSizing: "border-box",
                     display: "block",
                     width: "initial",
-                    height: "initial"
-                }, sizerStyle = {}, hasSizer = !1, imgStyle = {}, blurStyle = "blur" === placeholder ? {
+                    height: "initial",
+                    background: "none",
+                    opacity: 1,
+                    border: 0,
+                    margin: 0,
+                    padding: 0
+                }, hasSizer = !1, imgStyle = {
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    boxSizing: "border-box",
+                    padding: 0,
+                    border: "none",
+                    margin: "auto",
+                    display: "block",
+                    width: 0,
+                    height: 0,
+                    minWidth: "100%",
+                    maxWidth: "100%",
+                    minHeight: "100%",
+                    maxHeight: "100%",
+                    objectFit: objectFit,
+                    objectPosition: objectPosition
+                }, blurStyle = "blur" === placeholder ? {
                     filter: "blur(20px)",
                     backgroundSize: objectFit || "cover",
                     backgroundImage: 'url("'.concat(blurDataURL, '")'),

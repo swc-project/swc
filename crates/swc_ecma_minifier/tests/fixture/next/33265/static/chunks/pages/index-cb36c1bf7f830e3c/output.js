@@ -878,7 +878,14 @@
                 }
                 var xhr = options.xhr || null;
                 xhr || (xhr = options.cors || options.useXDR ? new createXHR.XDomainRequest() : new createXHR.XMLHttpRequest());
-                var uri = xhr.url = options.uri || options.url, method = xhr.method = options.method || "GET", body = options.body || options.data, headers = xhr.headers = options.headers || {}, sync = !!options.sync, isJson = !1, failureResponse = {};
+                var uri = xhr.url = options.uri || options.url, method = xhr.method = options.method || "GET", body = options.body || options.data, headers = xhr.headers = options.headers || {}, sync = !!options.sync, isJson = !1, failureResponse = {
+                    body: void 0,
+                    headers: {},
+                    statusCode: 0,
+                    method: method,
+                    url: uri,
+                    rawRequest: xhr
+                };
                 if ("json" in options && !1 !== options.json && (isJson = !0, headers.accept || headers.Accept || (headers.Accept = "application/json"), "GET" !== method && "HEAD" !== method && (headers["content-type"] || headers["Content-Type"] || (headers["Content-Type"] = "application/json"), body = JSON.stringify(!0 === options.json ? body : options.json))), xhr.onreadystatechange = function() {
                     4 === xhr.readyState && setTimeout(loadFunc, 0);
                 }, xhr.onload = loadFunc, xhr.onerror = errorFunc, xhr.onprogress = function() {}, xhr.onabort = function() {
@@ -3074,11 +3081,20 @@
                     segment
                 ];
             }, addSidxSegmentsToPlaylist = function(playlist, sidx, baseUrl) {
-                for(var initSegment = playlist.sidx.map ? playlist.sidx.map : null, sidxByteRange = (playlist.sidx.duration, playlist.timeline, playlist.sidx.byterange), mediaReferences = (sidxByteRange.offset, sidxByteRange.length, sidx.timescale, sidx.references.filter(function(r) {
+                for(var initSegment = playlist.sidx.map ? playlist.sidx.map : null, sourceDuration = playlist.sidx.duration, timeline = playlist.timeline || 0, sidxByteRange = playlist.sidx.byterange, sidxEnd = sidxByteRange.offset + sidxByteRange.length, timescale = sidx.timescale, mediaReferences = sidx.references.filter(function(r) {
                     return 1 !== r.referenceType;
-                })), segments = [], i = (playlist.endList, sidx.firstOffset, 0); i < mediaReferences.length; i++){
-                    var reference = sidx.references[i], segment = (reference.referencedSize, reference.subsegmentDuration, segmentsFromBase({})[0]);
-                    initSegment && (segment.map = initSegment), segments.push(segment);
+                }), segments = [], type = playlist.endList ? "static" : "dynamic", startIndex = sidxEnd + sidx.firstOffset, i = 0; i < mediaReferences.length; i++){
+                    var reference = sidx.references[i], size = reference.referencedSize, duration = reference.subsegmentDuration, endIndex = startIndex + size - 1, segment = segmentsFromBase({
+                        baseUrl: baseUrl,
+                        timescale: timescale,
+                        timeline: timeline,
+                        periodIndex: timeline,
+                        duration: duration,
+                        sourceDuration: sourceDuration,
+                        indexRange: startIndex + "-" + endIndex,
+                        type: type
+                    })[0];
+                    initSegment && (segment.map = initSegment), segments.push(segment), startIndex += size;
                 }
                 return playlist.segments = segments, playlist;
             }, generateSidxKey = function(sidx) {
@@ -5307,7 +5323,11 @@
                 return +length != length && (length = 0), Buffer.alloc(+length);
             }, exports.INSPECT_MAX_BYTES = 50, exports.kMaxLength = 0x7fffffff, Buffer.TYPED_ARRAY_SUPPORT = function() {
                 try {
-                    var arr = new Uint8Array(1), proto = {};
+                    var arr = new Uint8Array(1), proto = {
+                        foo: function() {
+                            return 42;
+                        }
+                    };
                     return Object.setPrototypeOf(proto, Uint8Array.prototype), Object.setPrototypeOf(arr, proto), 42 === arr.foo();
                 } catch (e) {
                     return !1;

@@ -44,7 +44,10 @@
                 if (!module) {
                     if ("function" == typeof (module = define.payloads[moduleName])) {
                         var exports = {}, mod = {
-                            exports: exports
+                            id: moduleName,
+                            uri: "",
+                            exports: exports,
+                            packaged: !0
                         };
                         exports = module(function(module, callback) {
                             return _require(moduleName, module, callback);
@@ -6578,7 +6581,11 @@
                             return !1;
                         }
                         if ("string" == typeof command && (command = this.commands[command]), !command || editor && editor.$readOnly && !command.readOnly || !1 != this.$checkCommandState && command.isAvailable && !command.isAvailable(editor)) return !1;
-                        var e = {};
+                        var e = {
+                            editor: editor,
+                            command: command,
+                            args: args
+                        };
                         return e.returnValue = this._emit("exec", e), this._signal("afterExec", e), !1 !== e.returnValue;
                     }, this.toggleRecording = function(editor) {
                         if (!this.$inReplay) return (editor && editor._emit("changeStatus"), this.recording) ? (this.macro.pop(), this.off("exec", this.$addCommandToMacro), this.macro.length || (this.macro = this.oldMacro), this.recording = !1) : (this.$addCommandToMacro || (this.$addCommandToMacro = (function(e) {
@@ -11808,7 +11815,8 @@ margin: 0 10px;\
                         }
                     }, this.openingBracketBlock = function(session, bracket, row, column, typeRe) {
                         var start = {
-                            row: row
+                            row: row,
+                            column: column + 1
                         }, end = session.$findClosingBracket(bracket, start, typeRe);
                         if (end) {
                             var fw = session.foldWidgets[end.row];
@@ -11816,6 +11824,7 @@ margin: 0 10px;\
                         }
                     }, this.closingBracketBlock = function(session, bracket, row, column, typeRe) {
                         var end = {
+                            row: row,
                             column: column
                         }, start = session.$findOpeningBracket(bracket, end);
                         if (start) return start.column++, end.column--, Range.fromPoints(start, end);

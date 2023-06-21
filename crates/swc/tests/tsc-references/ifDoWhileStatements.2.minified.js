@@ -68,7 +68,10 @@ while (i);
 for(var j = {}; j;);
 do ;
 while (j);
-for(var k = {}; k;);
+for(var k = {
+    x: 1,
+    y: "a"
+}; k;);
 do ;
 while (k);
 function fn(x) {

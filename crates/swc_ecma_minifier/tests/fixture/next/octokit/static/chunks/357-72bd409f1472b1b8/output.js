@@ -5,7 +5,18 @@
     {
         1209: function(module, __unused_webpack_exports, __webpack_require__) {
             var commonjsGlobal, parser, BottleneckError_1, version, version$2, require$$2, require$$3, require$$8, DLList, Events, Queues, Job, LocalDatastore, States, Sync, Group, Scripts$1, Batcher, RedisDatastore$1, splice, Bottleneck_1;
-            module.exports = (commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {}, parser = {}, DLList = class {
+            module.exports = (commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {}, parser = {
+                load: function(received, defaults, onto = {}) {
+                    var k, ref, v;
+                    for(k in defaults)v = defaults[k], onto[k] = null != (ref = received[k]) ? ref : v;
+                    return onto;
+                },
+                overwrite: function(received, defaults, onto = {}) {
+                    var k, v;
+                    for(k in received)v = received[k], void 0 !== defaults[k] && (onto[k] = v);
+                    return onto;
+                }
+            }, DLList = class {
                 constructor(incr, decr){
                     this.incr = incr, this.decr = decr, this._first = null, this._last = null, this.length = 0;
                 }

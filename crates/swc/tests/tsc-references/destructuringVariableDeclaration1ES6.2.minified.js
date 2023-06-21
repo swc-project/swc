@@ -16,7 +16,10 @@ var { a1, a2 } = {
     b1: {
         b11: "world"
     }
-}, temp = {}, [b2 = 3, b3 = !0, b4 = temp] = [
+}, temp = {
+    t1: !0,
+    t2: "false"
+}, [b2 = 3, b3 = !0, b4 = temp] = [
     3,
     !1,
     {

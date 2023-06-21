@@ -60,7 +60,11 @@
                 return target;
             }
             exports.default = function(dynamicOptions, options) {
-                var loadableOptions, loadableFn = _loadable.default, loadableOptions1 = {};
+                var loadableOptions, loadableFn = _loadable.default, loadableOptions1 = {
+                    loading: function(_ref) {
+                        return _ref.error, _ref.isLoading, _ref.pastDelay, null;
+                    }
+                };
                 if (dynamicOptions instanceof Promise ? loadableOptions1.loader = function() {
                     return dynamicOptions;
                 } : "function" == typeof dynamicOptions ? loadableOptions1.loader = dynamicOptions : "object" == typeof dynamicOptions && (loadableOptions1 = _objectSpread(_objectSpread({}, loadableOptions1), dynamicOptions)), (loadableOptions1 = _objectSpread(_objectSpread({}, loadableOptions1), options)).loadableGenerated && (loadableOptions1 = _objectSpread(_objectSpread({}, loadableOptions1), loadableOptions1.loadableGenerated), delete loadableOptions1.loadableGenerated), "boolean" == typeof loadableOptions1.ssr) {

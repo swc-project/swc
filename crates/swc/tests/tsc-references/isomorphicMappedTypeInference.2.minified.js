@@ -19,7 +19,10 @@ applySpec({
 });
 var foo = function(object, partial) {
     return object;
-}, o = {};
+}, o = {
+    a: 5,
+    b: 7
+};
 foo(o, {
     b: 9
 }), o = foo(o, {

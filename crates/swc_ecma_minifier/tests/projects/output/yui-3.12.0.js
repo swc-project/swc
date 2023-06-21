@@ -125,7 +125,12 @@ var YUI = function() {
         },
         add: function(name, fn, version, details) {
             details = details || {};
-            var loader, inst, i, env = YUI.Env, mod = {}, applied = {}, versions = env.versions;
+            var loader, inst, i, env = YUI.Env, mod = {
+                name: name,
+                fn: fn,
+                version: version,
+                details: details
+            }, applied = {}, versions = env.versions;
             for(i in env.mods[name] = mod, versions[version] = versions[version] || {}, versions[version][name] = mod, instances)instances.hasOwnProperty(i) && !applied[(inst = instances[i]).id] && (applied[inst.id] = !0, (loader = inst.Env._loader) && (!loader.moduleInfo[name] || loader.moduleInfo[name].temp) && loader.addModule(details, name));
             return this;
         },

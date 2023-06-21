@@ -5,7 +5,8 @@ var ANY, ANY1, obj, M, ANY2 = [
     "",
     ""
 ], obj1 = {
-    x: "a"
+    x: "a",
+    y: function() {}
 };
 function foo() {}
 var A = function() {

@@ -533,8 +533,17 @@
                         if ("error" in appEntrypoint) throw appEntrypoint.error;
                         const { component: app, exports: mod } = appEntrypoint;
                         CachedApp = app, mod && mod.reportWebVitals && (onPerfEntry = (param)=>{
-                            let { id, name, startTime, value, duration, entryType, entries } = param;
-                            "".concat(Date.now(), "-").concat(Math.floor(Math.random() * (9e12 - 1)) + 1e12), entries && entries.length && entries[0].startTime, mod.reportWebVitals({});
+                            let perfStartEntry, { id, name, startTime, value, duration, entryType, entries } = param;
+                            const uniqueID = "".concat(Date.now(), "-").concat(Math.floor(Math.random() * (9e12 - 1)) + 1e12);
+                            entries && entries.length && (perfStartEntry = entries[0].startTime);
+                            const webVitals = {
+                                id: id || uniqueID,
+                                name,
+                                startTime: startTime || perfStartEntry,
+                                value: null == value ? duration : value,
+                                label: "mark" === entryType || "measure" === entryType ? "custom" : "web-vital"
+                            };
+                            mod.reportWebVitals(webVitals);
                         });
                         const pageEntrypoint = yield pageLoader.routeLoader.whenEntrypoint(initialData.page);
                         if ("error" in pageEntrypoint) throw pageEntrypoint.error;
@@ -1928,7 +1937,11 @@
                         try {
                             let props;
                             const { page: Component, styleSheets } = yield _this.fetchComponent("/_error"), routeInfo = {
-                                props
+                                props,
+                                Component,
+                                styleSheets,
+                                err,
+                                error: err
                             };
                             if (!routeInfo.props) try {
                                 routeInfo.props = yield _this.getInitialProps(Component, {

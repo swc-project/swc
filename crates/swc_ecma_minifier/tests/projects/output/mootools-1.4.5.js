@@ -1848,7 +1848,11 @@ Elements.prototype = {
             return document.id(Slick.find(this, expression1));
         }
     });
-    var contains1 = {};
+    var contains1 = {
+        contains: function(element1) {
+            return Slick.contains(this, element1);
+        }
+    };
     document.contains || Document.implement(contains1), document.createElement("div").contains || Element.implement(contains1), Element.implement("hasChild", function(element1) {
         return this !== element1 && this.contains(element1);
     }), function(search1, find1, match1) {
@@ -3469,7 +3473,9 @@ Elements.prototype = {
         "DELETE"
     ].each(function(method1) {
         methods1[method1] = function(data1) {
-            var object1 = {};
+            var object1 = {
+                method: method1
+            };
             return null != data1 && (object1.data = data1), this.send(object1);
         };
     }), Request1.implement(methods1), Element.Properties.send = {

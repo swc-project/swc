@@ -1125,7 +1125,9 @@
                                 if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = denormalizeTemplate(directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template), directive.replace) {
                                     if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
                                     replaceWith(jqCollection, $compileNode, compileNode);
-                                    var newTemplateAttrs = {}, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
+                                    var newTemplateAttrs = {
+                                        $attr: {}
+                                    }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
                                     newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii = directives.length;
                                 } else $compileNode.html(directiveValue);
                             }
@@ -1469,7 +1471,9 @@
         return 200 <= status && status < 300;
     }
     function $HttpProvider() {
-        var JSON_START = /^\s*(\[|\{[^\{])/, JSON_END = /[\}\]]\s*$/, PROTECTION_PREFIX = /^\)\]\}',?\n/, CONTENT_TYPE_APPLICATION_JSON = {}, defaults = this.defaults = {
+        var JSON_START = /^\s*(\[|\{[^\{])/, JSON_END = /[\}\]]\s*$/, PROTECTION_PREFIX = /^\)\]\}',?\n/, CONTENT_TYPE_APPLICATION_JSON = {
+            "Content-Type": "application/json;charset=utf-8"
+        }, defaults = this.defaults = {
             transformResponse: [
                 function(data) {
                     return isString(data) && (data = data.replace(PROTECTION_PREFIX, ""), JSON_START.test(data) && JSON_END.test(data) && (data = fromJson(data))), data;
@@ -2168,7 +2172,10 @@
                 if (this.isWhitespace(ch)) peekIndex++;
                 else break;
             }
-            var token = {};
+            var token = {
+                index: start,
+                text: ident
+            };
             if (OPERATORS.hasOwnProperty(ident)) token.fn = OPERATORS[ident], token.json = OPERATORS[ident];
             else {
                 var getter = getterFn(ident, this.options, this.text);
@@ -2709,7 +2716,11 @@
                     },
                     $watch: function(watchExp, listener, objectEquality) {
                         var get = compileToFn(watchExp, "watch"), array = this.$$watchers, watcher = {
-                            fn: listener
+                            fn: listener,
+                            last: initWatchVal,
+                            get: get,
+                            exp: watchExp,
+                            eq: !!objectEquality
                         };
                         if (lastDirtyWatch = null, !isFunction(listener)) {
                             var listenFn = compileToFn(listener || noop, "listener");
@@ -2820,7 +2831,17 @@
                         };
                     },
                     $emit: function(name, args) {
-                        var namedListeners, i, length, empty = [], scope = this, event = {}, listenerArgs = concat([
+                        var namedListeners, i, length, empty = [], scope = this, stopPropagation = !1, event = {
+                            name: name,
+                            targetScope: scope,
+                            stopPropagation: function() {
+                                stopPropagation = !0;
+                            },
+                            preventDefault: function() {
+                                event.defaultPrevented = !0;
+                            },
+                            defaultPrevented: !1
+                        }, listenerArgs = concat([
                             event
                         ], arguments, 1);
                         do {
@@ -2835,12 +2856,20 @@
                                     $exceptionHandler(e);
                                 }
                             }
+                            if (stopPropagation) break;
                             scope = scope.$parent;
                         }while (scope)
                         return event;
                     },
                     $broadcast: function(name, args) {
-                        var listeners, i, length, current = this, next = this, event = {}, listenerArgs = concat([
+                        var listeners, i, length, current = this, next = this, event = {
+                            name: name,
+                            targetScope: this,
+                            preventDefault: function() {
+                                event.defaultPrevented = !0;
+                            },
+                            defaultPrevented: !1
+                        }, listenerArgs = concat([
                             event
                         ], arguments, 1);
                         do {

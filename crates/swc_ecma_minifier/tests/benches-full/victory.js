@@ -2232,7 +2232,14 @@
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "identity", function() {
                 return identity;
             });
-            var degrees = 180 / Math.PI, identity = {};
+            var degrees = 180 / Math.PI, identity = {
+                translateX: 0,
+                translateY: 0,
+                rotate: 0,
+                skewX: 0,
+                scaleX: 1,
+                scaleY: 1
+            };
             __webpack_exports__.default = function(a, b, c, d, e, f) {
                 var scaleX, scaleY, skewX;
                 return (scaleX = Math.sqrt(a * a + b * b)) && (a /= scaleX, b /= scaleX), (skewX = a * c + b * d) && (c -= a * skewX, d -= b * skewX), (scaleY = Math.sqrt(c * c + d * d)) && (c /= scaleY, d /= scaleY, skewX /= scaleY), a * d < b * c && (a = -a, b = -b, skewX = -skewX, scaleX = -scaleX), {
@@ -2864,7 +2871,9 @@
                     }, scale;
                 };
             });
-            var d3_collection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-collection/src/index.js"), _array__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-scale/src/array.js"), implicit = {};
+            var d3_collection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-collection/src/index.js"), _array__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-scale/src/array.js"), implicit = {
+                name: "implicit"
+            };
         },
         "../../../node_modules/d3-scale/src/pow.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -5006,13 +5015,91 @@
             }
             function formatLocale(locale) {
                 var locale_dateTime = locale.dateTime, locale_date = locale.date, locale_time = locale.time, locale_periods = locale.periods, locale_weekdays = locale.days, locale_shortWeekdays = locale.shortDays, locale_months = locale.months, locale_shortMonths = locale.shortMonths, periodRe = formatRe(locale_periods), periodLookup = formatLookup(locale_periods), weekdayRe = formatRe(locale_weekdays), weekdayLookup = formatLookup(locale_weekdays), shortWeekdayRe = formatRe(locale_shortWeekdays), shortWeekdayLookup = formatLookup(locale_shortWeekdays), monthRe = formatRe(locale_months), monthLookup = formatLookup(locale_months), shortMonthRe = formatRe(locale_shortMonths), shortMonthLookup = formatLookup(locale_shortMonths), formats = {
+                    a: function(d) {
+                        return locale_shortWeekdays[d.getDay()];
+                    },
+                    A: function(d) {
+                        return locale_weekdays[d.getDay()];
+                    },
+                    b: function(d) {
+                        return locale_shortMonths[d.getMonth()];
+                    },
+                    B: function(d) {
+                        return locale_months[d.getMonth()];
+                    },
                     c: null,
+                    d: formatDayOfMonth,
+                    e: formatDayOfMonth,
+                    f: formatMicroseconds,
+                    H: formatHour24,
+                    I: formatHour12,
+                    j: formatDayOfYear,
+                    L: formatMilliseconds,
+                    m: formatMonthNumber,
+                    M: formatMinutes,
+                    p: function(d) {
+                        return locale_periods[+(d.getHours() >= 12)];
+                    },
+                    q: function(d) {
+                        return 1 + ~~(d.getMonth() / 3);
+                    },
+                    Q: formatUnixTimestamp,
+                    s: formatUnixTimestampSeconds,
+                    S: formatSeconds,
+                    u: formatWeekdayNumberMonday,
+                    U: formatWeekNumberSunday,
+                    V: formatWeekNumberISO,
+                    w: formatWeekdayNumberSunday,
+                    W: formatWeekNumberMonday,
                     x: null,
-                    X: null
+                    X: null,
+                    y: formatYear,
+                    Y: formatFullYear,
+                    Z: formatZone,
+                    "%": formatLiteralPercent
                 }, utcFormats = {
+                    a: function(d) {
+                        return locale_shortWeekdays[d.getUTCDay()];
+                    },
+                    A: function(d) {
+                        return locale_weekdays[d.getUTCDay()];
+                    },
+                    b: function(d) {
+                        return locale_shortMonths[d.getUTCMonth()];
+                    },
+                    B: function(d) {
+                        return locale_months[d.getUTCMonth()];
+                    },
                     c: null,
+                    d: formatUTCDayOfMonth,
+                    e: formatUTCDayOfMonth,
+                    f: formatUTCMicroseconds,
+                    H: formatUTCHour24,
+                    I: formatUTCHour12,
+                    j: formatUTCDayOfYear,
+                    L: formatUTCMilliseconds,
+                    m: formatUTCMonthNumber,
+                    M: formatUTCMinutes,
+                    p: function(d) {
+                        return locale_periods[+(d.getUTCHours() >= 12)];
+                    },
+                    q: function(d) {
+                        return 1 + ~~(d.getUTCMonth() / 3);
+                    },
+                    Q: formatUnixTimestamp,
+                    s: formatUnixTimestampSeconds,
+                    S: formatUTCSeconds,
+                    u: formatUTCWeekdayNumberMonday,
+                    U: formatUTCWeekNumberSunday,
+                    V: formatUTCWeekNumberISO,
+                    w: formatUTCWeekdayNumberSunday,
+                    W: formatUTCWeekNumberMonday,
                     x: null,
-                    X: null
+                    X: null,
+                    y: formatUTCYear,
+                    Y: formatUTCFullYear,
+                    Z: formatUTCZone,
+                    "%": formatLiteralPercent
                 }, parses = {
                     a: function(d, string, i) {
                         var n = shortWeekdayRe.exec(string.slice(i));
@@ -5127,6 +5214,10 @@
                 _: " ",
                 0: "0"
             }, numberRe = /^\s*\d+/, percentRe = /^%/, requoteRe = /[\\^$*+?|[\]().{}]/g;
+            function pad(value, fill, width) {
+                var sign = value < 0 ? "-" : "", string = (sign ? -value : value) + "", length = string.length;
+                return sign + (length < width ? Array(width - length + 1).join(fill) + string : string);
+            }
             function requote(s) {
                 return s.replace(requoteRe, "\\$&");
             }
@@ -5216,6 +5307,122 @@
             function parseUnixTimestampSeconds(d, string, i) {
                 var n = numberRe.exec(string.slice(i));
                 return n ? (d.s = +n[0], i + n[0].length) : -1;
+            }
+            function formatDayOfMonth(d, p) {
+                return pad(d.getDate(), p, 2);
+            }
+            function formatHour24(d, p) {
+                return pad(d.getHours(), p, 2);
+            }
+            function formatHour12(d, p) {
+                return pad(d.getHours() % 12 || 12, p, 2);
+            }
+            function formatDayOfYear(d, p) {
+                return pad(1 + d3_time__WEBPACK_IMPORTED_MODULE_0__.timeDay.count(Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeYear)(d), d), p, 3);
+            }
+            function formatMilliseconds(d, p) {
+                return pad(d.getMilliseconds(), p, 3);
+            }
+            function formatMicroseconds(d, p) {
+                return formatMilliseconds(d, p) + "000";
+            }
+            function formatMonthNumber(d, p) {
+                return pad(d.getMonth() + 1, p, 2);
+            }
+            function formatMinutes(d, p) {
+                return pad(d.getMinutes(), p, 2);
+            }
+            function formatSeconds(d, p) {
+                return pad(d.getSeconds(), p, 2);
+            }
+            function formatWeekdayNumberMonday(d) {
+                var day = d.getDay();
+                return 0 === day ? 7 : day;
+            }
+            function formatWeekNumberSunday(d, p) {
+                return pad(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeSunday.count(Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeYear)(d) - 1, d), p, 2);
+            }
+            function formatWeekNumberISO(d, p) {
+                var day = d.getDay();
+                return d = day >= 4 || 0 === day ? Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeThursday)(d) : d3_time__WEBPACK_IMPORTED_MODULE_0__.timeThursday.ceil(d), pad(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeThursday.count(Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeYear)(d), d) + (4 === Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeYear)(d).getDay()), p, 2);
+            }
+            function formatWeekdayNumberSunday(d) {
+                return d.getDay();
+            }
+            function formatWeekNumberMonday(d, p) {
+                return pad(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday.count(Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeYear)(d) - 1, d), p, 2);
+            }
+            function formatYear(d, p) {
+                return pad(d.getFullYear() % 100, p, 2);
+            }
+            function formatFullYear(d, p) {
+                return pad(d.getFullYear() % 10000, p, 4);
+            }
+            function formatZone(d) {
+                var z = d.getTimezoneOffset();
+                return (z > 0 ? "-" : (z *= -1, "+")) + pad(z / 60 | 0, "0", 2) + pad(z % 60, "0", 2);
+            }
+            function formatUTCDayOfMonth(d, p) {
+                return pad(d.getUTCDate(), p, 2);
+            }
+            function formatUTCHour24(d, p) {
+                return pad(d.getUTCHours(), p, 2);
+            }
+            function formatUTCHour12(d, p) {
+                return pad(d.getUTCHours() % 12 || 12, p, 2);
+            }
+            function formatUTCDayOfYear(d, p) {
+                return pad(1 + d3_time__WEBPACK_IMPORTED_MODULE_0__.utcDay.count(Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcYear)(d), d), p, 3);
+            }
+            function formatUTCMilliseconds(d, p) {
+                return pad(d.getUTCMilliseconds(), p, 3);
+            }
+            function formatUTCMicroseconds(d, p) {
+                return formatUTCMilliseconds(d, p) + "000";
+            }
+            function formatUTCMonthNumber(d, p) {
+                return pad(d.getUTCMonth() + 1, p, 2);
+            }
+            function formatUTCMinutes(d, p) {
+                return pad(d.getUTCMinutes(), p, 2);
+            }
+            function formatUTCSeconds(d, p) {
+                return pad(d.getUTCSeconds(), p, 2);
+            }
+            function formatUTCWeekdayNumberMonday(d) {
+                var dow = d.getUTCDay();
+                return 0 === dow ? 7 : dow;
+            }
+            function formatUTCWeekNumberSunday(d, p) {
+                return pad(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcSunday.count(Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcYear)(d) - 1, d), p, 2);
+            }
+            function formatUTCWeekNumberISO(d, p) {
+                var day = d.getUTCDay();
+                return d = day >= 4 || 0 === day ? Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcThursday)(d) : d3_time__WEBPACK_IMPORTED_MODULE_0__.utcThursday.ceil(d), pad(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcThursday.count(Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcYear)(d), d) + (4 === Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcYear)(d).getUTCDay()), p, 2);
+            }
+            function formatUTCWeekdayNumberSunday(d) {
+                return d.getUTCDay();
+            }
+            function formatUTCWeekNumberMonday(d, p) {
+                return pad(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday.count(Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcYear)(d) - 1, d), p, 2);
+            }
+            function formatUTCYear(d, p) {
+                return pad(d.getUTCFullYear() % 100, p, 2);
+            }
+            function formatUTCFullYear(d, p) {
+                return pad(d.getUTCFullYear() % 10000, p, 4);
+            }
+            function formatUTCZone() {
+                return "+0000";
+            }
+            function formatLiteralPercent() {
+                return "%";
+            }
+            function formatUnixTimestamp(d) {
+                return +d;
+            }
+            function formatUnixTimestampSeconds(d) {
+                return Math.floor(+d / 1000);
             }
         },
         "../../../node_modules/d3-time/src/day.js": function(module1, __webpack_exports__, __webpack_require__) {
@@ -11211,8 +11418,8 @@
         },
         "../../victory-brush-container/es/brush-helpers.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__("../../../node_modules/lodash/mapValues.js");
-            var lodash_defaults__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_1__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__), lodash_throttle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_3__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = (__webpack_require__("../../../node_modules/lodash/assign.js"), __webpack_require__("../../victory-core/es/index.js")), react_fast_compare__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_6__);
+            __webpack_require__.r(__webpack_exports__);
+            var lodash_mapValues__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/mapValues.js"), lodash_mapValues__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_mapValues__WEBPACK_IMPORTED_MODULE_0__), lodash_defaults__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_1__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__), lodash_throttle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_3__), lodash_assign__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_6__);
             function _objectSpread(target) {
                 for(var i = 1; i < arguments.length; i++){
                     var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
@@ -11230,7 +11437,184 @@
                 }
                 return target;
             }
+            function _toConsumableArray(arr) {
+                return function(arr) {
+                    if (Array.isArray(arr)) {
+                        for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
+                        return arr2;
+                    }
+                }(arr) || function(iter) {
+                    if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
+                }(arr) || function() {
+                    throw TypeError("Invalid attempt to spread non-iterable instance");
+                }();
+            }
             var Helpers = {
+                getDimension: function(props) {
+                    var horizontal = props.horizontal, brushDimension = props.brushDimension;
+                    return horizontal && brushDimension ? "x" === brushDimension ? "y" : "x" : brushDimension;
+                },
+                withinBounds: function(point, bounds, padding) {
+                    var _mapValues2 = lodash_mapValues__WEBPACK_IMPORTED_MODULE_0___default()(bounds, Number), x1 = _mapValues2.x1, x2 = _mapValues2.x2, y1 = _mapValues2.y1, y2 = _mapValues2.y2, _mapValues3 = lodash_mapValues__WEBPACK_IMPORTED_MODULE_0___default()(point, Number), x = _mapValues3.x, y = _mapValues3.y;
+                    return x + (padding = padding ? padding / 2 : 0) >= Math.min(x1, x2) && x - padding <= Math.max(x1, x2) && y + padding >= Math.min(y1, y2) && y - padding <= Math.max(y1, y2);
+                },
+                getDomainBox: function(props, fullDomain, selectedDomain) {
+                    var brushDimension = this.getDimension(props);
+                    fullDomain = lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, fullDomain, props.domain), selectedDomain = lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, selectedDomain, fullDomain);
+                    var fullCoords = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(props, fullDomain), selectedCoords = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(props, selectedDomain);
+                    return {
+                        x1: "y" !== brushDimension ? Math.min.apply(Math, _toConsumableArray(selectedCoords.x)) : Math.min.apply(Math, _toConsumableArray(fullCoords.x)),
+                        x2: "y" !== brushDimension ? Math.max.apply(Math, _toConsumableArray(selectedCoords.x)) : Math.max.apply(Math, _toConsumableArray(fullCoords.x)),
+                        y1: "x" !== brushDimension ? Math.min.apply(Math, _toConsumableArray(selectedCoords.y)) : Math.min.apply(Math, _toConsumableArray(fullCoords.y)),
+                        y2: "x" !== brushDimension ? Math.max.apply(Math, _toConsumableArray(selectedCoords.y)) : Math.max.apply(Math, _toConsumableArray(fullCoords.y))
+                    };
+                },
+                getHandles: function(props, domainBox) {
+                    var brushDimension = this.getDimension(props), x1 = domainBox.x1, x2 = domainBox.x2, y1 = domainBox.y1, y2 = domainBox.y2, minX = Math.min(x1, x2), maxX = Math.max(x1, x2), minY = Math.min(y1, y2), maxY = Math.max(y1, y2), handleWidth = props.handleWidth / 2;
+                    return {
+                        left: "y" !== brushDimension && {
+                            x1: minX - handleWidth,
+                            x2: minX + handleWidth,
+                            y1: y1,
+                            y2: y2
+                        },
+                        right: "y" !== brushDimension && {
+                            x1: maxX - handleWidth,
+                            x2: maxX + handleWidth,
+                            y1: y1,
+                            y2: y2
+                        },
+                        top: "x" !== brushDimension && {
+                            x1: x1,
+                            x2: x2,
+                            y1: minY - handleWidth,
+                            y2: minY + handleWidth
+                        },
+                        bottom: "x" !== brushDimension && {
+                            x1: x1,
+                            x2: x2,
+                            y1: maxY - handleWidth,
+                            y2: maxY + handleWidth
+                        }
+                    };
+                },
+                getActiveHandles: function(point, props, domainBox) {
+                    var _this = this, handles = this.getHandles(props, domainBox), activeHandles = [
+                        "top",
+                        "bottom",
+                        "left",
+                        "right"
+                    ].reduce(function(memo, opt) {
+                        return memo = handles[opt] && _this.withinBounds(point, handles[opt]) ? memo.concat(opt) : memo;
+                    }, []);
+                    return activeHandles.length && activeHandles;
+                },
+                getResizeMutation: function(box, handles) {
+                    var x1 = box.x1, y1 = box.y1, x2 = box.x2, y2 = box.y2, mutations = {
+                        left: {
+                            x1: Math.max(x1, x2),
+                            x2: Math.min(x1, x2),
+                            y1: y1,
+                            y2: y2
+                        },
+                        right: {
+                            x1: Math.min(x1, x2),
+                            x2: Math.max(x1, x2),
+                            y1: y1,
+                            y2: y2
+                        },
+                        top: {
+                            y1: Math.max(y1, y2),
+                            y2: Math.min(y1, y2),
+                            x1: x1,
+                            x2: x2
+                        },
+                        bottom: {
+                            y1: Math.min(y1, y2),
+                            y2: Math.max(y1, y2),
+                            x1: x1,
+                            x2: x2
+                        }
+                    };
+                    return handles.reduce(function(memo, current) {
+                        return lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()(memo, mutations[current]);
+                    }, {});
+                },
+                getMinimumDomain: function() {
+                    return {
+                        x: [
+                            0,
+                            1 / Number.MAX_SAFE_INTEGER
+                        ],
+                        y: [
+                            0,
+                            1 / Number.MAX_SAFE_INTEGER
+                        ]
+                    };
+                },
+                getDefaultBrushArea: function(targetProps, cachedDomain, evt) {
+                    var domain = targetProps.domain, fullDomain = targetProps.fullDomain, scale = targetProps.scale, horizontal = targetProps.horizontal, defaultBrushArea = targetProps.allowResize || targetProps.defaultBrushArea ? targetProps.defaultBrushArea : "move";
+                    if ("none" === defaultBrushArea) return this.getMinimumDomain();
+                    if ("disable" === defaultBrushArea) return cachedDomain;
+                    if ("move" !== defaultBrushArea) return domain;
+                    var brushBox = this.getDomainBox(targetProps, fullDomain, cachedDomain), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), pannedBox = this.panBox(_objectSpread({}, targetProps, brushBox, {
+                        brushDomain: cachedDomain,
+                        startX: (brushBox.x1 + brushBox.x2) / 2,
+                        startY: (brushBox.y1 + brushBox.y2) / 2
+                    }), victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG)), fullDomainBox = targetProps.fullDomainBox || this.getDomainBox(targetProps, fullDomain), constrainedBox = this.constrainBox(pannedBox, fullDomainBox);
+                    return victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getBounds(_objectSpread({}, constrainedBox, {
+                        scale: scale,
+                        horizontal: horizontal
+                    }));
+                },
+                getSelectionMutation: function(point, box, brushDimension) {
+                    var x = point.x, y = point.y, x1 = box.x1, x2 = box.x2, y1 = box.y1, y2 = box.y2;
+                    return {
+                        x1: "y" !== brushDimension ? x : x1,
+                        y1: "x" !== brushDimension ? y : y1,
+                        x2: "y" !== brushDimension ? x : x2,
+                        y2: "x" !== brushDimension ? y : y2
+                    };
+                },
+                panBox: function(props, point) {
+                    var domain = props.domain, startX = props.startX, startY = props.startY, brushDimension = this.getDimension(props), brushDomain = lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, props.brushDomain, domain), fullDomain = lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, props.fullDomain, domain), _ref = props.x1 ? props : this.getDomainBox(props, fullDomain, brushDomain), x1 = _ref.x1, x2 = _ref.x2, y1 = _ref.y1, y2 = _ref.y2, x = point.x, y = point.y, delta = {
+                        x: startX ? startX - x : 0,
+                        y: startY ? startY - y : 0
+                    };
+                    return {
+                        x1: "y" !== brushDimension ? Math.min(x1, x2) - delta.x : Math.min(x1, x2),
+                        x2: "y" !== brushDimension ? Math.max(x1, x2) - delta.x : Math.max(x1, x2),
+                        y1: "x" !== brushDimension ? Math.min(y1, y2) - delta.y : Math.min(y1, y2),
+                        y2: "x" !== brushDimension ? Math.max(y1, y2) - delta.y : Math.max(y1, y2)
+                    };
+                },
+                constrainBox: function(box, fullDomainBox) {
+                    var _mapValues4 = lodash_mapValues__WEBPACK_IMPORTED_MODULE_0___default()(fullDomainBox, Number), x1 = _mapValues4.x1, y1 = _mapValues4.y1, x2 = _mapValues4.x2, y2 = _mapValues4.y2;
+                    return {
+                        x1: box.x2 > x2 ? x2 - Math.abs(box.x2 - box.x1) : Math.max(box.x1, x1),
+                        y1: box.y2 > y2 ? y2 - Math.abs(box.y2 - box.y1) : Math.max(box.y1, y1),
+                        x2: box.x1 < x1 ? x1 + Math.abs(box.x2 - box.x1) : Math.min(box.x2, x2),
+                        y2: box.y1 < y1 ? y1 + Math.abs(box.y2 - box.y1) : Math.min(box.y2, y2)
+                    };
+                },
+                constrainPoint: function(point, fullDomainBox) {
+                    var _mapValues5 = lodash_mapValues__WEBPACK_IMPORTED_MODULE_0___default()(fullDomainBox, Number), x1 = _mapValues5.x1, y1 = _mapValues5.y1, x2 = _mapValues5.x2, y2 = _mapValues5.y2;
+                    return {
+                        x: Math.min(Math.max(point.x, x1), x2),
+                        y: Math.min(Math.max(point.y, y1), y2)
+                    };
+                },
+                hasMoved: function(props) {
+                    var x1 = props.x1, x2 = props.x2, y1 = props.y1, y2 = props.y2, mouseMoveThreshold = props.mouseMoveThreshold, brushDimension = this.getDimension(props), xMoved = Math.abs(x1 - x2) >= mouseMoveThreshold, yMoved = Math.abs(y1 - y2) >= mouseMoveThreshold;
+                    switch(brushDimension){
+                        case "x":
+                            return xMoved;
+                        case "y":
+                            return yMoved;
+                        default:
+                            return xMoved || yMoved;
+                    }
+                },
                 onMouseDown: function(evt, targetProps) {
                     var _this2 = this;
                     evt.preventDefault();
@@ -12439,7 +12823,7 @@
                     "style"
                 ]));
             }, getBaseProps = function(props, fallbackProps) {
-                var calculatedValues = getCalculatedValues(props = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.modifyProps(props, fallbackProps, "candlestick")), data = calculatedValues.data, style = calculatedValues.style, scale = calculatedValues.scale, domain = calculatedValues.domain, origin = calculatedValues.origin, _props = (calculatedValues.labelOrientation, props), width = (_props.groupComponent, _props.width), height = _props.height, padding = _props.padding, standalone = _props.standalone, name = _props.name, candleWidth = _props.candleWidth, theme = (_props.candleRatio, _props.theme), polar = _props.polar, labels = (_props.wickStrokeWidth, _props.labels), events = _props.events, sharedEvents = _props.sharedEvents, horizontal = _props.horizontal, initialChildProps = {
+                var calculatedValues = getCalculatedValues(props = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.modifyProps(props, fallbackProps, "candlestick")), data = calculatedValues.data, style = calculatedValues.style, scale = calculatedValues.scale, domain = calculatedValues.domain, origin = calculatedValues.origin, labelOrientation = calculatedValues.labelOrientation, _props = props, groupComponent = _props.groupComponent, width = _props.width, height = _props.height, padding = _props.padding, standalone = _props.standalone, name = _props.name, candleWidth = _props.candleWidth, candleRatio = _props.candleRatio, theme = _props.theme, polar = _props.polar, wickStrokeWidth = _props.wickStrokeWidth, labels = _props.labels, events = _props.events, sharedEvents = _props.sharedEvents, horizontal = _props.horizontal, initialChildProps = {
                     parent: {
                         domain: domain,
                         scale: scale,
@@ -12457,9 +12841,27 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_2___default()(datum.eventKey) ? index : datum.eventKey, _datum = (scale.x(void 0 !== datum._x1 ? datum._x1 : datum._x), datum = formatDataFromDomain(datum, domain)), _low = _datum._low, _open = _datum._open, _close = _datum._close, _high = _datum._high, dataProps = (scale.y(_high), scale.y(_close), scale.y(_open), scale.y(_low), getDataStyles(datum, style.data, props), {
-                        candleWidth: candleWidth
-                    });
+                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_2___default()(datum.eventKey) ? index : datum.eventKey, x = scale.x(void 0 !== datum._x1 ? datum._x1 : datum._x), _datum = datum = formatDataFromDomain(datum, domain), _low = _datum._low, _open = _datum._open, _close = _datum._close, _high = _datum._high, high = scale.y(_high), close = scale.y(_close), open = scale.y(_open), low = scale.y(_low), dataStyle = getDataStyles(datum, style.data, props), dataProps = {
+                        x: x,
+                        high: high,
+                        low: low,
+                        candleWidth: candleWidth,
+                        candleRatio: candleRatio,
+                        scale: scale,
+                        data: data,
+                        datum: datum,
+                        groupComponent: groupComponent,
+                        index: index,
+                        style: dataStyle,
+                        width: width,
+                        polar: polar,
+                        origin: origin,
+                        wickStrokeWidth: wickStrokeWidth,
+                        open: open,
+                        close: close,
+                        horizontal: horizontal,
+                        labelOrientation: labelOrientation
+                    };
                     dataProps.candleWidth = getCandleWidth(dataProps);
                     var extendedProps = lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default()(Object.assign({}, dataProps), props);
                     if (childProps[eventKey] = {
@@ -14275,7 +14677,10 @@
                 }();
             }
             var defaultStyles = {
-                fontSize: 14
+                fill: "#252525",
+                fontSize: 14,
+                fontFamily: "'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif",
+                stroke: "transparent"
             }, getPosition = function(props, dimension) {
                 return props.datum ? _victory_util_helpers__WEBPACK_IMPORTED_MODULE_8__.default.scalePoint(props, props.datum)[dimension] : 0;
             }, getFontSize = function(style) {
@@ -15535,7 +15940,19 @@
                 "#bdbdbd",
                 "#d9d9d9",
                 "#f0f0f0"
-            ], charcoal = "#252525", grey = "#969696", baseProps = {}, baseLabelStyles = {}, centeredLabelStyles = lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
+            ], charcoal = "#252525", grey = "#969696", baseProps = {
+                width: 450,
+                height: 300,
+                padding: 50,
+                colorScale: colors
+            }, baseLabelStyles = {
+                fontFamily: "'Gill Sans', 'Seravek', 'Trebuchet MS', sans-serif",
+                fontSize: 14,
+                letterSpacing: "normal",
+                padding: 10,
+                fill: charcoal,
+                stroke: "transparent"
+            }, centeredLabelStyles = lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
                 textAnchor: "middle"
             }, baseLabelStyles);
             __webpack_exports__.default = {
@@ -15765,7 +16182,19 @@
                 "#8BC34A",
                 "#00796B",
                 "#006064"
-            ], blueGrey50 = "#ECEFF1", blueGrey300 = "#90A4AE", blueGrey700 = "#455A64", grey900 = "#212121", baseProps = {}, baseLabelStyles = {}, centeredLabelStyles = lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
+            ], blueGrey50 = "#ECEFF1", blueGrey300 = "#90A4AE", blueGrey700 = "#455A64", grey900 = "#212121", baseProps = {
+                width: 350,
+                height: 350,
+                padding: 50
+            }, baseLabelStyles = {
+                fontFamily: "'Helvetica Neue', 'Helvetica', sans-serif",
+                fontSize: 12,
+                letterSpacing: "normal",
+                padding: 8,
+                fill: blueGrey700,
+                stroke: "transparent",
+                strokeWidth: 0
+            }, centeredLabelStyles = lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
                 textAnchor: "middle"
             }, baseLabelStyles), strokeLinecap = "round", strokeLinejoin = "round";
             __webpack_exports__.default = {
@@ -22274,7 +22703,15 @@
                     }, props.animate, child.props.animate);
                 },
                 getDomainFromChildren: function(props, axis, childComponents) {
-                    var children = childComponents ? childComponents.slice(0) : react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(props.children), parentData = props.data ? _data__WEBPACK_IMPORTED_MODULE_14__.default.getData(props, axis) : void 0, baseParentProps = (props.polar, props.startAngle, props.endAngle, props.categories, props.minDomain, props.maxDomain, props.horizontal, {}), parentProps = parentData ? lodash_assign__WEBPACK_IMPORTED_MODULE_9___default()(baseParentProps, {
+                    var children = childComponents ? childComponents.slice(0) : react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(props.children), parentData = props.data ? _data__WEBPACK_IMPORTED_MODULE_14__.default.getData(props, axis) : void 0, polar = props.polar, startAngle = props.startAngle, endAngle = props.endAngle, categories = props.categories, minDomain = props.minDomain, maxDomain = props.maxDomain, baseParentProps = {
+                        horizontal: props.horizontal,
+                        polar: polar,
+                        startAngle: startAngle,
+                        endAngle: endAngle,
+                        minDomain: minDomain,
+                        maxDomain: maxDomain,
+                        categories: categories
+                    }, parentProps = parentData ? lodash_assign__WEBPACK_IMPORTED_MODULE_9___default()(baseParentProps, {
                         data: parentData
                     }) : baseParentProps, childDomains = _helpers__WEBPACK_IMPORTED_MODULE_18__.default.reduceChildren(children, function(child) {
                         var sharedProps = lodash_assign__WEBPACK_IMPORTED_MODULE_9___default()({}, child.props, parentProps);
@@ -22334,8 +22771,14 @@
                     });
                 },
                 getDataFromChildren: function(props, childComponents) {
-                    props.polar, props.startAngle, props.endAngle, props.categories, props.minDomain, props.maxDomain;
-                    var parentProps = {}, stack = 0, children = childComponents ? childComponents.slice(0) : react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(props.children);
+                    var parentProps = {
+                        polar: props.polar,
+                        startAngle: props.startAngle,
+                        endAngle: props.endAngle,
+                        categories: props.categories,
+                        minDomain: props.minDomain,
+                        maxDomain: props.maxDomain
+                    }, stack = 0, children = childComponents ? childComponents.slice(0) : react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(props.children);
                     parentProps = this.addBinsToParentPropsIfHistogram({
                         children: children,
                         props: props,
@@ -22643,8 +23086,16 @@
         },
         "../../victory-cursor-container/es/cursor-helpers.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__("../../../node_modules/lodash/mapValues.js");
-            var lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__), lodash_throttle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_2__), victory_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/index.js"), CursorHelpers = {
+            __webpack_require__.r(__webpack_exports__);
+            var lodash_mapValues__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/mapValues.js"), lodash_mapValues__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_mapValues__WEBPACK_IMPORTED_MODULE_0__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__), lodash_throttle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_2__), victory_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/index.js"), CursorHelpers = {
+                getDimension: function(props) {
+                    var horizontal = props.horizontal, cursorDimension = props.cursorDimension;
+                    return horizontal && cursorDimension ? "x" === cursorDimension ? "y" : "x" : cursorDimension;
+                },
+                withinBounds: function(point, bounds) {
+                    var _mapValues2 = lodash_mapValues__WEBPACK_IMPORTED_MODULE_0___default()(bounds, Number), x1 = _mapValues2.x1, x2 = _mapValues2.x2, y1 = _mapValues2.y1, y2 = _mapValues2.y2, _mapValues3 = lodash_mapValues__WEBPACK_IMPORTED_MODULE_0___default()(point, Number), x = _mapValues3.x, y = _mapValues3.y;
+                    return x >= Math.min(x1, x2) && x <= Math.max(x1, x2) && y >= Math.min(y1, y2) && y <= Math.max(y1, y2);
+                },
                 onMouseMove: function(evt, targetProps) {
                     var onCursorChange = targetProps.onCursorChange, domain = targetProps.domain, cursorDimension = this.getDimension(targetProps), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_3__.Selection.getParentSVG(evt), cursorSVGPosition = victory_core__WEBPACK_IMPORTED_MODULE_3__.Selection.getSVGEventCoordinates(evt, parentSVG), cursorValue = victory_core__WEBPACK_IMPORTED_MODULE_3__.Selection.getDataCoordinates(targetProps, targetProps.scale, cursorSVGPosition.x, cursorSVGPosition.y), inBounds = this.withinBounds(cursorValue, {
                         x1: domain.x[0],
@@ -27175,8 +27626,63 @@
         },
         "../../victory-selection-container/es/selection-helpers.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__("../../../node_modules/lodash/includes.js");
-            var lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__), lodash_throttle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_2__), lodash_defaults__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_3__), lodash_assign__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/index.js"), SelectionHelpers = (__webpack_require__("react"), {
+            __webpack_require__.r(__webpack_exports__);
+            var lodash_includes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/includes.js"), lodash_includes__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_includes__WEBPACK_IMPORTED_MODULE_0__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__), lodash_throttle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_2__), lodash_defaults__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_3__), lodash_assign__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/index.js"), react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__), SelectionHelpers = {
+                getDimension: function(props) {
+                    var horizontal = props.horizontal, selectionDimension = props.selectionDimension;
+                    return horizontal && selectionDimension ? "x" === selectionDimension ? "y" : "x" : selectionDimension;
+                },
+                getDatasets: function(props) {
+                    if (props.data) return [
+                        {
+                            data: props.data
+                        }
+                    ];
+                    var getData = function(childProps) {
+                        var data = victory_core__WEBPACK_IMPORTED_MODULE_5__.Data.getData(childProps);
+                        return Array.isArray(data) && data.length > 0 ? data : void 0;
+                    };
+                    return victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.reduceChildren(react__WEBPACK_IMPORTED_MODULE_6___default.a.Children.toArray(props.children), function(child, childName, parent) {
+                        var blacklist = props.selectionBlacklist || [];
+                        if (!victory_core__WEBPACK_IMPORTED_MODULE_5__.Data.isDataComponent(child) || lodash_includes__WEBPACK_IMPORTED_MODULE_0___default()(blacklist, childName)) return null;
+                        if (child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(child.type.getData)) {
+                            var childData = (child = parent ? react__WEBPACK_IMPORTED_MODULE_6___default.a.cloneElement(child, parent.props) : child).props && child.type.getData(child.props);
+                            return childData ? {
+                                childName: childName,
+                                data: childData
+                            } : null;
+                        }
+                        var _childData = getData(child.props);
+                        return _childData ? {
+                            childName: childName,
+                            data: _childData
+                        } : null;
+                    }, props);
+                },
+                filterDatasets: function(props, datasets, bounds) {
+                    var _this = this, filtered = datasets.reduce(function(memo, dataset) {
+                        var selectedData = _this.getSelectedData(props, dataset.data, bounds);
+                        return memo = selectedData ? memo.concat({
+                            childName: dataset.childName,
+                            eventKey: selectedData.eventKey,
+                            data: selectedData.data
+                        }) : memo;
+                    }, []);
+                    return filtered.length ? filtered : null;
+                },
+                getSelectedData: function(props, dataset) {
+                    for(var x1 = props.x1, y1 = props.y1, x2 = props.x2, y2 = props.y2, eventKey = [], data = [], count = 0, index = 0, len = dataset.length; index < len; index++){
+                        var datum = dataset[index];
+                        (function(d) {
+                            var scaledPoint = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.scalePoint(props, d);
+                            return scaledPoint.x >= Math.min(x1, x2) && scaledPoint.x <= Math.max(x1, x2) && scaledPoint.y >= Math.min(y1, y2) && scaledPoint.y <= Math.max(y1, y2);
+                        })(datum) && (data[count] = datum, eventKey[count] = void 0 === datum.eventKey ? index : datum.eventKey, count++);
+                    }
+                    return count > 0 ? {
+                        eventKey: eventKey,
+                        data: data
+                    } : null;
+                },
                 onMouseDown: function(evt, targetProps) {
                     evt.preventDefault();
                     var activateSelectedData = targetProps.activateSelectedData, allowSelection = targetProps.allowSelection, polar = targetProps.polar, selectedData = targetProps.selectedData;
@@ -27243,7 +27749,15 @@
                             }
                         }
                     ];
-                    var datasets = this.getDatasets(targetProps), bounds = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getBounds(targetProps), selectedData = this.filterDatasets(targetProps, datasets, bounds), mutatedProps = {}, callbackMutation = selectedData && lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(targetProps.onSelection) ? targetProps.onSelection(selectedData, bounds, lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default()({}, mutatedProps, targetProps)) : {};
+                    var datasets = this.getDatasets(targetProps), bounds = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getBounds(targetProps), selectedData = this.filterDatasets(targetProps, datasets, bounds), mutatedProps = {
+                        selectedData: selectedData,
+                        datasets: datasets,
+                        select: !1,
+                        x1: null,
+                        x2: null,
+                        y1: null,
+                        y2: null
+                    }, callbackMutation = selectedData && lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(targetProps.onSelection) ? targetProps.onSelection(selectedData, bounds, lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default()({}, mutatedProps, targetProps)) : {};
                     return [
                         {
                             target: "parent",
@@ -27264,7 +27778,7 @@
                         };
                     }) : []);
                 }
-            });
+            };
             __webpack_exports__.default = function(target) {
                 for(var i = 1; i < arguments.length; i++){
                     var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
@@ -28373,7 +28887,10 @@
                     {
                         key: "getCalculatedValues",
                         value: function(props) {
-                            var style = props.style, text = props.text, flyoutStyle = props.flyoutStyle, labelSize = (props.flyoutHeight, props.flyoutWidth, victory_core__WEBPACK_IMPORTED_MODULE_7__.TextSize.approximateTextSize(text, style)), flyoutDimensions = {}, flyoutCenter = this.getFlyoutCenter(props, flyoutDimensions);
+                            var style = props.style, text = props.text, flyoutStyle = props.flyoutStyle, flyoutHeight = props.flyoutHeight, flyoutWidth = props.flyoutWidth, labelSize = victory_core__WEBPACK_IMPORTED_MODULE_7__.TextSize.approximateTextSize(text, style), flyoutDimensions = {
+                                height: flyoutHeight,
+                                width: flyoutWidth
+                            }, flyoutCenter = this.getFlyoutCenter(props, flyoutDimensions);
                             return {
                                 style: style,
                                 flyoutStyle: flyoutStyle,
@@ -29110,8 +29627,8 @@
         },
         "../../victory-voronoi-container/es/voronoi-helpers.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__("../../../node_modules/lodash/isRegExp.js"), __webpack_require__("../../../node_modules/lodash/isString.js"), __webpack_require__("../../../node_modules/lodash/includes.js"), __webpack_require__("../../../node_modules/lodash/isEmpty.js"), __webpack_require__("../../../node_modules/lodash/isFunction.js");
-            var lodash_throttle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_5__), victory_core__WEBPACK_IMPORTED_MODULE_7__ = (__webpack_require__("../../../node_modules/lodash/assign.js"), __webpack_require__("../../victory-core/es/index.js")), react_fast_compare__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_8__);
+            __webpack_require__.r(__webpack_exports__);
+            var lodash_isRegExp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isRegExp.js"), lodash_isRegExp__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isRegExp__WEBPACK_IMPORTED_MODULE_0__), lodash_isString__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isString.js"), lodash_isString__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isString__WEBPACK_IMPORTED_MODULE_1__), lodash_includes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/includes.js"), lodash_includes__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_includes__WEBPACK_IMPORTED_MODULE_2__), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_3__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_4__), lodash_throttle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_5__), lodash_assign__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_6__), victory_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("../../victory-core/es/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_8__), delaunay_find_lib_index_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__("../../../node_modules/delaunay-find/lib/index.js"), delaunay_find_lib_index_js__WEBPACK_IMPORTED_MODULE_9___default = __webpack_require__.n(delaunay_find_lib_index_js__WEBPACK_IMPORTED_MODULE_9__), react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_10___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_10__);
             function _toConsumableArray(arr) {
                 return function(arr) {
                     if (Array.isArray(arr)) {
@@ -29124,8 +29641,125 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
-            __webpack_require__("../../../node_modules/delaunay-find/lib/index.js"), __webpack_require__("react");
             var VoronoiHelpers = {
+                withinBounds: function(props, point) {
+                    var width = props.width, height = props.height, polar = props.polar, origin = props.origin, scale = props.scale, padding = victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.getPadding(props, "voronoiPadding"), x = point.x, y = point.y;
+                    return polar ? Math.pow(x - origin.x, 2) + Math.pow(y - origin.y, 2) < Math.pow(Math.max.apply(Math, _toConsumableArray(scale.y.range())), 2) : x >= padding.left && x <= width - padding.right && y >= padding.top && y <= height - padding.bottom;
+                },
+                getDatasets: function(props) {
+                    var minDomain = {
+                        x: victory_core__WEBPACK_IMPORTED_MODULE_7__.Collection.getMinValue(props.domain.x),
+                        y: victory_core__WEBPACK_IMPORTED_MODULE_7__.Collection.getMinValue(props.domain.y)
+                    }, children = react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(props.children), addMeta = function(data, name, child) {
+                        var continuous = child && child.type && child.type.continuous, style = child ? child.props && child.props.style : props.style;
+                        return data.map(function(datum, index) {
+                            var _Helpers$getPoint = victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.getPoint(datum), x = _Helpers$getPoint.x, y = _Helpers$getPoint.y, y0 = _Helpers$getPoint.y0, x0 = _Helpers$getPoint.x0;
+                            return lodash_assign__WEBPACK_IMPORTED_MODULE_6___default()({
+                                _voronoiX: "y" === props.voronoiDimension ? minDomain.x : (+x + +x0) / 2,
+                                _voronoiY: "x" === props.voronoiDimension ? minDomain.y : (+y + +y0) / 2,
+                                eventKey: index,
+                                childName: name,
+                                continuous: continuous,
+                                style: style
+                            }, datum);
+                        });
+                    };
+                    if (props.data) return addMeta(props.data);
+                    var getData = function(childProps) {
+                        var data = victory_core__WEBPACK_IMPORTED_MODULE_7__.Data.getData(childProps);
+                        return Array.isArray(data) && data.length > 0 ? data : void 0;
+                    };
+                    return victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.reduceChildren(children, function(child, childName) {
+                        var name = (child.props || {}).name || childName, blacklist = props.voronoiBlacklist || [], blacklistStr = blacklist.filter(lodash_isString__WEBPACK_IMPORTED_MODULE_1___default.a), isRegExpMatch = blacklist.filter(lodash_isRegExp__WEBPACK_IMPORTED_MODULE_0___default.a).some(function(regExp) {
+                            return regExp.test(name);
+                        });
+                        if (!victory_core__WEBPACK_IMPORTED_MODULE_7__.Data.isDataComponent(child) || lodash_includes__WEBPACK_IMPORTED_MODULE_2___default()(blacklistStr, name) || isRegExpMatch) return null;
+                        var childData = (child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_4___default()(child.type.getData) ? child.type.getData : getData)(child.props);
+                        return childData ? addMeta(childData, name, child) : null;
+                    }, props);
+                },
+                findPoints: function(datasets, point) {
+                    return datasets.filter(function(d) {
+                        return point._voronoiX === d._voronoiX && point._voronoiY === d._voronoiY;
+                    });
+                },
+                withinRadius: function(point, mousePosition, radius) {
+                    if (!point) return !1;
+                    if (!radius) return !0;
+                    var x = mousePosition.x, y = mousePosition.y;
+                    return Math.pow(x - point[0], 2) + Math.pow(y - point[1], 2) < Math.pow(radius, 2);
+                },
+                getVoronoiPoints: function(props, mousePosition) {
+                    var datasets = this.getDatasets(props), scaledData = datasets.map(function(d) {
+                        var _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.scalePoint(props, d);
+                        return [
+                            _Helpers$scalePoint.x,
+                            _Helpers$scalePoint.y
+                        ];
+                    }), index = delaunay_find_lib_index_js__WEBPACK_IMPORTED_MODULE_9___default.a.from(scaledData).find(mousePosition.x, mousePosition.y);
+                    return {
+                        points: this.withinRadius(scaledData[index], mousePosition, props.radius) ? this.findPoints(datasets, datasets[index]) : [],
+                        index: index
+                    };
+                },
+                getActiveMutations: function(props, point) {
+                    var childName = point.childName, continuous = point.continuous, activateData = props.activateData, activateLabels = props.activateLabels, labels = props.labels;
+                    if (!activateData && !activateLabels) return [];
+                    var defaultTarget = activateData ? [
+                        "data"
+                    ] : [], targets = labels && !activateLabels ? defaultTarget : defaultTarget.concat("labels");
+                    return lodash_isEmpty__WEBPACK_IMPORTED_MODULE_3___default()(targets) ? [] : targets.map(function(target) {
+                        return {
+                            childName: childName,
+                            eventKey: !0 === continuous && "data" === target ? "all" : point.eventKey,
+                            target: target,
+                            mutation: function() {
+                                return {
+                                    active: !0
+                                };
+                            }
+                        };
+                    });
+                },
+                getInactiveMutations: function(props, point) {
+                    var childName = point.childName, continuous = point.continuous, activateData = props.activateData, activateLabels = props.activateLabels, labels = props.labels;
+                    if (!activateData && !activateLabels) return [];
+                    var defaultTarget = activateData ? [
+                        "data"
+                    ] : [], targets = labels && !activateLabels ? defaultTarget : defaultTarget.concat("labels");
+                    return lodash_isEmpty__WEBPACK_IMPORTED_MODULE_3___default()(targets) ? [] : targets.map(function(target) {
+                        return {
+                            childName: childName,
+                            eventKey: continuous && "data" === target ? "all" : point.eventKey,
+                            target: target,
+                            mutation: function() {
+                                return null;
+                            }
+                        };
+                    });
+                },
+                getParentMutation: function(activePoints, mousePosition, parentSVG, vIndex) {
+                    return [
+                        {
+                            target: "parent",
+                            eventKey: "parent",
+                            mutation: function() {
+                                return {
+                                    activePoints: activePoints,
+                                    mousePosition: mousePosition,
+                                    parentSVG: parentSVG,
+                                    vIndex: vIndex
+                                };
+                            }
+                        }
+                    ];
+                },
+                onActivated: function(props, points) {
+                    lodash_isFunction__WEBPACK_IMPORTED_MODULE_4___default()(props.onActivated) && props.onActivated(points, props);
+                },
+                onDeactivated: function(props, points) {
+                    lodash_isFunction__WEBPACK_IMPORTED_MODULE_4___default()(props.onDeactivated) && props.onDeactivated(points, props);
+                },
                 onMouseLeave: function(evt, targetProps) {
                     var _getParentMutation, _this = this, activePoints = targetProps.activePoints || [];
                     this.onDeactivated(targetProps, activePoints);
@@ -29746,14 +30380,127 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "RawZoomHelpers", function() {
                 return RawZoomHelpers;
-            }), __webpack_require__("../../../node_modules/lodash/delay.js");
-            var lodash_defaults__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_1__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__), lodash_throttle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_3__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = (__webpack_require__("react"), __webpack_require__("../../victory-core/es/index.js")), RawZoomHelpers = {
+            });
+            var lodash_delay__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/delay.js"), lodash_delay__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_delay__WEBPACK_IMPORTED_MODULE_0__), lodash_defaults__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_1__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__), lodash_throttle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_3__), react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("react"), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/index.js");
+            function _slicedToArray(arr, i) {
+                return function(arr) {
+                    if (Array.isArray(arr)) return arr;
+                }(arr) || function(arr, i) {
+                    var _arr = [], _n = !0, _d = !1, _e = void 0;
+                    try {
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
+                    } catch (err) {
+                        _d = !0, _e = err;
+                    } finally{
+                        try {
+                            _n || null == _i.return || _i.return();
+                        } finally{
+                            if (_d) throw _e;
+                        }
+                    }
+                    return _arr;
+                }(arr, i) || function() {
+                    throw TypeError("Invalid attempt to destructure non-iterable instance");
+                }();
+            }
+            var RawZoomHelpers = {
                 checkDomainEquality: function(a, b) {
                     var checkDimension = function(dim) {
                         var val1 = a && a[dim], val2 = b && b[dim];
                         return !val1 && !val2 || !!val1 && !!val2 && +val1[0] == +val2[0] && +val1[1] == +val2[1];
                     };
                     return checkDimension("x") && checkDimension("y");
+                },
+                scale: function(currentDomain, evt, props, axis) {
+                    var _currentDomain = _slicedToArray(currentDomain, 2), from = _currentDomain[0], range = Math.abs(_currentDomain[1] - from), minimumZoom = props.minimumZoom && props.minimumZoom[axis], factor = this.getScaleFactor(evt);
+                    if (minimumZoom && range <= minimumZoom && factor < 1) return currentDomain;
+                    var _getDomain$axis = _slicedToArray(this.getDomain(props)[axis], 2), fromBound = _getDomain$axis[0], toBound = _getDomain$axis[1], percent = this.getScalePercent(evt, props, axis), point = factor * from + percent * (factor * range), minDomain = this.getMinimumDomain(point, props, axis), _getScaledDomain2 = _slicedToArray(this.getScaledDomain(currentDomain, factor, percent), 2), newMin = _getScaledDomain2[0], newMax = _getScaledDomain2[1], newDomain = [
+                        newMin > fromBound && newMin < toBound ? newMin : fromBound,
+                        newMax < toBound && newMax > fromBound ? newMax : toBound
+                    ], domain = Math.abs(minDomain[1] - minDomain[0]) > Math.abs(newDomain[1] - newDomain[0]) ? minDomain : newDomain;
+                    return victory_core__WEBPACK_IMPORTED_MODULE_5__.Collection.containsDates([
+                        fromBound,
+                        toBound
+                    ]) ? [
+                        new Date(domain[0]),
+                        new Date(domain[1])
+                    ] : domain;
+                },
+                getScaledDomain: function(currentDomain, factor, percent) {
+                    var _currentDomain2 = _slicedToArray(currentDomain, 2), from = _currentDomain2[0], to = _currentDomain2[1], range = Math.abs(to - from), diff = range - range * factor, newMin = +from + diff * percent, newMax = +to - diff * (1 - percent);
+                    return [
+                        Math.min(newMin, newMax),
+                        Math.max(newMin, newMax)
+                    ];
+                },
+                getMinimumDomain: function(point, props, axis) {
+                    var minimumZoom = props.minimumZoom, _originalDomain = _slicedToArray(this.getDomain(props)[axis], 2), from = _originalDomain[0], to = _originalDomain[1], defaultMin = Math.abs(from - to) / 1000, extent = minimumZoom && minimumZoom[axis] || defaultMin, minExtent = point - extent / 2, maxExtent = point + extent / 2;
+                    return [
+                        minExtent > from && minExtent < to ? minExtent : from,
+                        maxExtent < to && maxExtent > from ? maxExtent : +from + extent / 2
+                    ];
+                },
+                zoommingOut: function(evt) {
+                    return evt.deltaY > 0;
+                },
+                getScaleFactor: function(evt) {
+                    return Math.abs(1 + (this.zoommingOut(evt) ? 1 : -1) * Math.min(Math.abs(evt.deltaY / 300), 0.5));
+                },
+                getScalePercent: function(evt, props, axis) {
+                    var originalDomain = this.getDomain(props), _originalDomain$axis = _slicedToArray(originalDomain[axis], 2), from = _originalDomain$axis[0], to = _originalDomain$axis[1];
+                    return (this.getPosition(evt, props, originalDomain)[axis] - from) / Math.abs(to - from);
+                },
+                getPosition: function(evt, props, originalDomain) {
+                    var _Selection$getSVGEven = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt), x = _Selection$getSVGEven.x, y = _Selection$getSVGEven.y, originalScale = {
+                        x: props.scale.x.domain(originalDomain.x),
+                        y: props.scale.y.domain(originalDomain.y)
+                    };
+                    return victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDataCoordinates(props, originalScale, x, y);
+                },
+                pan: function(currentDomain, originalDomain, delta) {
+                    var newDomain, _currentDomain$map2 = _slicedToArray(currentDomain.map(function(val) {
+                        return +val;
+                    }), 2), fromCurrent = _currentDomain$map2[0], toCurrent = _currentDomain$map2[1], _originalDomain$map2 = _slicedToArray(originalDomain.map(function(val) {
+                        return +val;
+                    }), 2), fromOriginal = _originalDomain$map2[0], toOriginal = _originalDomain$map2[1], lowerBound = fromCurrent + delta, upperBound = toCurrent + delta;
+                    return newDomain = lowerBound > fromOriginal && upperBound < toOriginal ? [
+                        lowerBound,
+                        upperBound
+                    ] : lowerBound < fromOriginal ? [
+                        fromOriginal,
+                        fromOriginal + (toCurrent - fromCurrent)
+                    ] : upperBound > toOriginal ? [
+                        toOriginal - (toCurrent - fromCurrent),
+                        toOriginal
+                    ] : currentDomain, victory_core__WEBPACK_IMPORTED_MODULE_5__.Collection.containsDates(currentDomain) || victory_core__WEBPACK_IMPORTED_MODULE_5__.Collection.containsDates(originalDomain) ? newDomain.map(function(val) {
+                        return new Date(val);
+                    }) : newDomain;
+                },
+                getDomainScale: function(domain, scale, axis, horizontal) {
+                    var _axisDomain = _slicedToArray(Array.isArray(domain) ? domain : domain[axis], 2), from = _axisDomain[0], to = _axisDomain[1], range = horizontal ? scale["x" === axis ? "y" : "x"].range() : scale[axis].range();
+                    return Math.abs(range[0] - range[1]) / (to - from);
+                },
+                handleAnimation: function(ctx) {
+                    var animationTimer = ctx.context.animationTimer, transitionTimer = ctx.context.transitionTimer;
+                    return transitionTimer.bypassAnimation(), animationTimer.bypassAnimation(), lodash_delay__WEBPACK_IMPORTED_MODULE_0___default()(function() {
+                        animationTimer.resumeAnimation(), transitionTimer.resumeAnimation();
+                    }, 16);
+                },
+                getLastDomain: function(targetProps, originalDomain) {
+                    var zoomDomain = targetProps.zoomDomain, cachedZoomDomain = targetProps.cachedZoomDomain, currentDomain = targetProps.currentDomain, domain = targetProps.domain;
+                    return zoomDomain && !this.checkDomainEquality(zoomDomain, cachedZoomDomain) ? lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, zoomDomain, domain) : lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, currentDomain || zoomDomain || originalDomain, domain);
+                },
+                getDomain: function(props) {
+                    var obj, value, originalDomain = props.originalDomain, domain = props.domain, children = props.children, zoomDimension = props.zoomDimension, childComponents = react__WEBPACK_IMPORTED_MODULE_4__.Children.toArray(children), childrenDomain = {};
+                    return childComponents.length && (childrenDomain = zoomDimension ? (obj = {}, value = victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.getDomainFromChildren(props, zoomDimension, childComponents), zoomDimension in obj ? Object.defineProperty(obj, zoomDimension, {
+                        value: value,
+                        enumerable: !0,
+                        configurable: !0,
+                        writable: !0
+                    }) : obj[zoomDimension] = value, obj) : {
+                        x: victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.getDomainFromChildren(props, "x", childComponents),
+                        y: victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.getDomainFromChildren(props, "y", childComponents)
+                    }), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, childrenDomain, originalDomain, domain);
                 },
                 onMouseDown: function(evt, targetProps) {
                     if (evt.preventDefault(), targetProps.allowPan) {

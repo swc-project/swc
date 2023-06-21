@@ -3574,7 +3574,14 @@
                 callee: !0,
                 arguments: !0,
                 arity: !0
-            }, MEMO_STATICS = {}, TYPE_STATICS = {};
+            }, MEMO_STATICS = {
+                $$typeof: !0,
+                compare: !0,
+                defaultProps: !0,
+                displayName: !0,
+                propTypes: !0,
+                type: !0
+            }, TYPE_STATICS = {};
             function getStatics(component) {
                 return reactIs.isMemo(component) ? MEMO_STATICS : TYPE_STATICS[component.$$typeof] || REACT_STATICS;
             }
@@ -5239,10 +5246,15 @@
                 display: !0,
                 verticalAlign: !0
             }), index_esm_config = {
+                color: {
+                    property: "color",
+                    scale: "colors"
+                },
                 backgroundColor: {
                     property: "backgroundColor",
                     scale: "colors"
-                }
+                },
+                opacity: !0
             };
             index_esm_config.bg = index_esm_config.backgroundColor;
             var color = system(index_esm_config), typography = system({
@@ -5331,6 +5343,30 @@
                 gridTemplateAreas: !0,
                 gridArea: !0
             }), border_dist_index_esm_config = {
+                border: {
+                    property: "border",
+                    scale: "borders"
+                },
+                borderWidth: {
+                    property: "borderWidth",
+                    scale: "borderWidths"
+                },
+                borderStyle: {
+                    property: "borderStyle",
+                    scale: "borderStyles"
+                },
+                borderColor: {
+                    property: "borderColor",
+                    scale: "colors"
+                },
+                borderRadius: {
+                    property: "borderRadius",
+                    scale: "radii"
+                },
+                borderTop: {
+                    property: "borderTop",
+                    scale: "borders"
+                },
                 borderTopLeftRadius: {
                     property: "borderTopLeftRadius",
                     scale: "radii"
@@ -5339,6 +5375,14 @@
                     property: "borderTopRightRadius",
                     scale: "radii"
                 },
+                borderRight: {
+                    property: "borderRight",
+                    scale: "borders"
+                },
+                borderBottom: {
+                    property: "borderBottom",
+                    scale: "borders"
+                },
                 borderBottomLeftRadius: {
                     property: "borderBottomLeftRadius",
                     scale: "radii"
@@ -5346,6 +5390,24 @@
                 borderBottomRightRadius: {
                     property: "borderBottomRightRadius",
                     scale: "radii"
+                },
+                borderLeft: {
+                    property: "borderLeft",
+                    scale: "borders"
+                },
+                borderX: {
+                    properties: [
+                        "borderLeft",
+                        "borderRight"
+                    ],
+                    scale: "borders"
+                },
+                borderY: {
+                    properties: [
+                        "borderTop",
+                        "borderBottom"
+                    ],
+                    scale: "borders"
                 }
             };
             border_dist_index_esm_config.borderTopWidth = {
@@ -5398,6 +5460,7 @@
                 scale: "borderStyles"
             };
             var border = system(border_dist_index_esm_config), border_dist_index_esm = border, background_dist_index_esm_config = {
+                background: !0,
                 backgroundImage: !0,
                 backgroundSize: !0,
                 backgroundPosition: !0,

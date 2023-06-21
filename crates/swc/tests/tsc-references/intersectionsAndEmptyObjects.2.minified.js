@@ -7,7 +7,9 @@ const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildc
 testDictionary(d1);
 const d2 = intersectDictionaries(d1, d1);
 testDictionary(d2);
-const d3 = {};
+const d3 = {
+    s: ''
+};
 testDictionary(d3);
 const d4 = intersectDictionaries(d1, d3);
 testDictionary(d4);

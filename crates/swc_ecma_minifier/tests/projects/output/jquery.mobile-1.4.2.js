@@ -574,7 +574,9 @@
         };
     }), jQuery.mobile.media = function(q) {
         return window.matchMedia(q).matches;
-    }, support = {}, jQuery.mobile.support = jQuery.mobile.support || {}, jQuery.extend(jQuery.support, support), jQuery.extend(jQuery.mobile.support, support), function($, undefined) {
+    }, support = {
+        touch: "ontouchend" in document1
+    }, jQuery.mobile.support = jQuery.mobile.support || {}, jQuery.extend(jQuery.support, support), jQuery.extend(jQuery.mobile.support, support), function($, undefined) {
         $.extend($.support, {
             orientation: "orientation" in window && "onorientationchange" in window
         });
@@ -4666,7 +4668,10 @@
             },
             load: function(index, event1) {
                 index = this._getIndex(index);
-                var that = this, tab = this.tabs.eq(index), anchor = tab.find(".ui-tabs-anchor"), panel = this._getPanelForTab(tab), eventData = {};
+                var that = this, tab = this.tabs.eq(index), anchor = tab.find(".ui-tabs-anchor"), panel = this._getPanelForTab(tab), eventData = {
+                    tab: tab,
+                    panel: panel
+                };
                 !isLocal(anchor[0]) && (this.xhr = $.ajax(this._ajaxSettings(anchor, event1, eventData)), this.xhr && "canceled" !== this.xhr.statusText && (tab.addClass("ui-tabs-loading"), panel.attr("aria-busy", "true"), this.xhr.success(function(response) {
                     setTimeout(function() {
                         panel.html(response), that._trigger("load", event1, eventData);

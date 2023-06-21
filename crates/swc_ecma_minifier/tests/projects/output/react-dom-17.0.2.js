@@ -330,10 +330,16 @@
         return "function" == typeof maybeIterator ? maybeIterator : null;
     }
     var disabledDepth = 0;
+    function disabledLog() {}
     function disableLogs() {
         if (0 === disabledDepth) {
             prevLog = console.log, prevInfo = console.info, prevWarn = console.warn, prevError = console.error, prevGroup = console.group, prevGroupCollapsed = console.groupCollapsed, prevGroupEnd = console.groupEnd;
-            var props = {};
+            var props = {
+                configurable: !0,
+                enumerable: !0,
+                value: disabledLog,
+                writable: !0
+            };
             Object.defineProperties(console, {
                 info: props,
                 log: props,
@@ -348,7 +354,11 @@
     }
     function reenableLogs() {
         if (0 == --disabledDepth) {
-            var props = {};
+            var props = {
+                configurable: !0,
+                enumerable: !0,
+                writable: !0
+            };
             Object.defineProperties(console, {
                 log: _assign({}, props, {
                     value: prevLog
@@ -375,6 +385,7 @@
         }
         disabledDepth < 0 && error("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
     }
+    disabledLog.__reactDisabledLog = !0;
     var ReactCurrentDispatcher1 = ReactSharedInternals.ReactCurrentDispatcher;
     function describeBuiltInComponentFrame(name, source, ownerFn) {
         if (void 0 === prefix) try {
@@ -2494,7 +2505,16 @@
             isPersistent: functionThatReturnsTrue
         }), SyntheticBaseEvent;
     }
-    var EventInterface = {}, SyntheticEvent = createSyntheticEvent(EventInterface), UIEventInterface = _assign({}, EventInterface, {
+    var EventInterface = {
+        eventPhase: 0,
+        bubbles: 0,
+        cancelable: 0,
+        timeStamp: function(event) {
+            return event.timeStamp || Date.now();
+        },
+        defaultPrevented: 0,
+        isTrusted: 0
+    }, SyntheticEvent = createSyntheticEvent(EventInterface), UIEventInterface = _assign({}, EventInterface, {
         view: 0,
         detail: 0
     }), SyntheticUIEvent = createSyntheticEvent(UIEventInterface), MouseEventInterface = _assign({}, UIEventInterface, {
@@ -3658,7 +3678,9 @@
         "rt"
     ], emptyAncestorInfo = {};
     updatedAncestorInfo = function(oldInfo, tag) {
-        var ancestorInfo = _assign({}, oldInfo || emptyAncestorInfo), info = {};
+        var ancestorInfo = _assign({}, oldInfo || emptyAncestorInfo), info = {
+            tag: tag
+        };
         return -1 !== inScopeTags.indexOf(tag) && (ancestorInfo.aTagInScope = null, ancestorInfo.buttonTagInScope = null, ancestorInfo.nobrTagInScope = null), -1 !== buttonScopeTags.indexOf(tag) && (ancestorInfo.pTagInButtonScope = null), -1 !== specialTags.indexOf(tag) && "address" !== tag && "div" !== tag && "p" !== tag && (ancestorInfo.listItemTagAutoclosing = null, ancestorInfo.dlItemTagAutoclosing = null), ancestorInfo.current = info, "form" === tag && (ancestorInfo.formTag = info), "a" === tag && (ancestorInfo.aTagInScope = info), "button" === tag && (ancestorInfo.buttonTagInScope = info), "nobr" === tag && (ancestorInfo.nobrTagInScope = info), "p" === tag && (ancestorInfo.pTagInButtonScope = info), "li" === tag && (ancestorInfo.listItemTagAutoclosing = info), ("dd" === tag || "dt" === tag) && (ancestorInfo.dlItemTagAutoclosing = info), ancestorInfo;
     };
     var isTagValidWithParent = function(tag, parentTag) {
@@ -5042,6 +5064,9 @@
     function checkDepsAreArrayDev(deps) {
         null == deps || Array.isArray(deps) || error("%s received a final argument that is not an array (instead, received `%s`). When specified, the final argument must be an array.", currentHookNameInDev, typeof deps);
     }
+    function throwInvalidHookError() {
+        throw Error("Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:\n1. You might have mismatching versions of React and the renderer (such as React DOM)\n2. You might be breaking the Rules of Hooks\n3. You might have more than one copy of React in the same app\nSee https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.");
+    }
     function areHookInputsEqual(nextDeps, prevDeps) {
         if (ignorePreviousDependencies) return !1;
         if (null === prevDeps) return error("%s received a final argument during this render, but not during the previous render. Even though the final argument is optional, its type cannot change between renders.", currentHookNameInDev), !1;
@@ -5237,7 +5262,10 @@
             subscribe
         ]), !objectIs(prevGetSnapshot, getSnapshot) || !objectIs(prevSource, source) || !objectIs(prevSubscribe, subscribe)) {
             var newQueue = {
-                dispatch: null
+                pending: null,
+                dispatch: null,
+                lastRenderedReducer: basicStateReducer,
+                lastRenderedState: snapshot
             };
             newQueue.dispatch = setSnapshot = dispatchAction.bind(null, currentlyRenderingFiber$1, newQueue), stateHook.queue = newQueue, stateHook.baseQueue = null, snapshot = readFromUnsubcribedMutableSource(root, source, getSnapshot), stateHook.memoizedState = stateHook.baseState = snapshot;
         }
@@ -5273,6 +5301,10 @@
     }
     function pushEffect(tag, create, destroy, deps) {
         var effect = {
+            tag: tag,
+            create: create,
+            destroy: destroy,
+            deps: deps,
             next: null
         }, componentUpdateQueue = currentlyRenderingFiber$1.updateQueue;
         if (null === componentUpdateQueue) componentUpdateQueue = {
@@ -5289,7 +5321,9 @@
         return effect;
     }
     function mountRef(initialValue) {
-        var hook = mountWorkInProgressHook(), ref = {};
+        var hook = mountWorkInProgressHook(), ref = {
+            current: initialValue
+        };
         return Object.seal(ref), hook.memoizedState = ref, ref;
     }
     function updateRef(initialValue) {
@@ -5486,6 +5520,8 @@
     function dispatchAction(fiber, queue, action) {
         "function" == typeof arguments[3] && error("State updates from the useState() and useReducer() Hooks don't support the second callback argument. To execute a side effect after rendering, declare it in the component body with useEffect().");
         var eventTime = requestEventTime(), lane = requestUpdateLane(fiber), update = {
+            lane: lane,
+            action: action,
             eagerReducer: null,
             eagerState: null,
             next: null
@@ -5509,7 +5545,24 @@
             "undefined" != typeof jest && (warnIfNotScopedWithMatchingAct(fiber), warnIfNotCurrentlyActingUpdatesInDev(fiber)), scheduleUpdateOnFiber(fiber, lane, eventTime);
         }
     }
-    var ContextOnlyDispatcher = {}, HooksDispatcherOnMountInDEV = null, HooksDispatcherOnMountWithHookTypesInDEV = null, HooksDispatcherOnUpdateInDEV = null, HooksDispatcherOnRerenderInDEV = null, InvalidNestedHooksDispatcherOnMountInDEV = null, InvalidNestedHooksDispatcherOnUpdateInDEV = null, InvalidNestedHooksDispatcherOnRerenderInDEV = null, warnInvalidContextAccess = function() {
+    var ContextOnlyDispatcher = {
+        readContext: readContext,
+        useCallback: throwInvalidHookError,
+        useContext: throwInvalidHookError,
+        useEffect: throwInvalidHookError,
+        useImperativeHandle: throwInvalidHookError,
+        useLayoutEffect: throwInvalidHookError,
+        useMemo: throwInvalidHookError,
+        useReducer: throwInvalidHookError,
+        useRef: throwInvalidHookError,
+        useState: throwInvalidHookError,
+        useDebugValue: throwInvalidHookError,
+        useDeferredValue: throwInvalidHookError,
+        useTransition: throwInvalidHookError,
+        useMutableSource: throwInvalidHookError,
+        useOpaqueIdentifier: throwInvalidHookError,
+        unstable_isNewReconciler: !1
+    }, HooksDispatcherOnMountInDEV = null, HooksDispatcherOnMountWithHookTypesInDEV = null, HooksDispatcherOnUpdateInDEV = null, HooksDispatcherOnRerenderInDEV = null, InvalidNestedHooksDispatcherOnMountInDEV = null, InvalidNestedHooksDispatcherOnUpdateInDEV = null, InvalidNestedHooksDispatcherOnRerenderInDEV = null, warnInvalidContextAccess = function() {
         error("Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo().");
     }, warnInvalidHookAccess = function() {
         error("Do not call Hooks inside useEffect(...), useMemo(...), or other built-in Hooks. You can only call Hooks at the top level of your React function. For more information, see https://reactjs.org/link/rules-of-hooks");
@@ -6073,11 +6126,15 @@
             if ((4 & workInProgress.mode) == 0) workInProgress.memoizedState = {
                 baseLanes: 0
             }, pushRenderLanes(workInProgress, renderLanes);
+            else if ((1073741824 & renderLanes) != 0) workInProgress.memoizedState = {
+                baseLanes: 0
+            }, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
             else {
-                if ((1073741824 & renderLanes) != 0) workInProgress.memoizedState = {
-                    baseLanes: 0
-                }, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
-                else return nextBaseLanes = null !== prevState ? prevState.baseLanes | renderLanes : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824, workInProgress.memoizedState = {}, pushRenderLanes(workInProgress, nextBaseLanes), null;
+                nextBaseLanes = null !== prevState ? prevState.baseLanes | renderLanes : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
+                var _nextState = {
+                    baseLanes: nextBaseLanes
+                };
+                return workInProgress.memoizedState = _nextState, pushRenderLanes(workInProgress, nextBaseLanes), null;
             }
         } else null !== prevState ? (_subtreeRenderLanes = prevState.baseLanes | renderLanes, workInProgress.memoizedState = null) : _subtreeRenderLanes = renderLanes, pushRenderLanes(workInProgress, _subtreeRenderLanes);
         return reconcileChildren(current, workInProgress, nextChildren, renderLanes), workInProgress.child;
@@ -8526,7 +8583,10 @@
             if (null != type && "function" == typeof type.render) {
                 var currentRender = resolveFunctionForHotReloading(type.render);
                 if (type.render !== currentRender) {
-                    var syntheticType = {};
+                    var syntheticType = {
+                        $$typeof: REACT_FORWARD_REF_TYPE,
+                        render: currentRender
+                    };
                     return void 0 !== type.displayName && (syntheticType.displayName = type.displayName), syntheticType;
                 }
             }

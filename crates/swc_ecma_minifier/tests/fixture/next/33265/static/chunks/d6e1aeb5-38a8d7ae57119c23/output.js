@@ -1465,7 +1465,9 @@
                     return log$1.error(error);
                 }), global_window__WEBPACK_IMPORTED_MODULE_0___default().console && global_window__WEBPACK_IMPORTED_MODULE_0___default().console.groupEnd && global_window__WEBPACK_IMPORTED_MODULE_0___default().console.groupEnd()), parser.flush();
             }, loadTrack = function(src, track) {
-                var opts = {}, crossOrigin = isCrossOrigin(src);
+                var opts = {
+                    uri: src
+                }, crossOrigin = isCrossOrigin(src);
                 crossOrigin && (opts.cors = crossOrigin);
                 var withCredentials = "use-credentials" === track.tech_.crossOrigin();
                 withCredentials && (opts.withCredentials = withCredentials), _videojs_xhr__WEBPACK_IMPORTED_MODULE_4___default()(opts, bind(this, function(err, response, responseBody) {
@@ -4516,14 +4518,21 @@
                 }
             }, defineLazyProperty = function(obj, key, getValue, setter) {
                 void 0 === setter && (setter = !0);
-                var options = {};
-                return setter && (options.set = function(value) {
+                var set = function(value) {
                     return Object.defineProperty(obj, key, {
                         value: value,
                         enumerable: !0,
                         writable: !0
                     });
-                }), Object.defineProperty(obj, key, options);
+                }, options = {
+                    configurable: !0,
+                    enumerable: !0,
+                    get: function() {
+                        var value = getValue();
+                        return set(value), value;
+                    }
+                };
+                return setter && (options.set = set), Object.defineProperty(obj, key, options);
             }, Html5 = function(_Tech) {
                 function Html5(options, ready) {
                     _this = _Tech.call(this, options, ready) || this;
@@ -4586,7 +4595,12 @@
                     if (this["featuresNative" + props.capitalName + "Tracks"] && elTracks && elTracks.addEventListener) {
                         var listeners = {
                             change: function(e) {
-                                var event = {};
+                                var event = {
+                                    type: "change",
+                                    target: techTracks,
+                                    currentTarget: techTracks,
+                                    srcElement: techTracks
+                                };
                                 techTracks.trigger(event), "text" === name && _this3[REMOTE.remoteText.getterName]().trigger(event);
                             },
                             addtrack: function(e) {
@@ -5983,14 +5997,17 @@
                     }
                 }, _proto.getMedia = function() {
                     if (!this.cache_.media) {
-                        var poster = this.poster(), media = (this.currentSources(), Array.prototype.map.call(this.remoteTextTracks(), function(tt) {
-                            return {
-                                kind: tt.kind,
-                                label: tt.label,
-                                language: tt.language,
-                                src: tt.src
-                            };
-                        }), {});
+                        var poster = this.poster(), media = {
+                            src: this.currentSources(),
+                            textTracks: Array.prototype.map.call(this.remoteTextTracks(), function(tt) {
+                                return {
+                                    kind: tt.kind,
+                                    label: tt.label,
+                                    language: tt.language,
+                                    src: tt.src
+                                };
+                            })
+                        };
                         return poster && (media.poster = poster, media.artwork = [
                             {
                                 src: media.poster,
@@ -7085,7 +7102,9 @@
                     message: "Accurate programTime could not be determined. Please seek to e.seekTime and try again",
                     seekTime: matchedSegment.estimatedStart
                 });
-                var programTimeObject = {}, programTime = playerTimeToProgramTime(time, matchedSegment.segment);
+                var programTimeObject = {
+                    mediaSeconds: time
+                }, programTime = playerTimeToProgramTime(time, matchedSegment.segment);
                 return programTime && (programTimeObject.programDateTime = programTime.toISOString()), callback(null, programTimeObject);
             }, seekToProgramTime = function seekToProgramTime(_ref2) {
                 var programTime = _ref2.programTime, playlist = _ref2.playlist, _ref2$retryCount = _ref2.retryCount, retryCount = void 0 === _ref2$retryCount ? 2 : _ref2$retryCount, seekTo = _ref2.seekTo, _ref2$pauseAfterSeek = _ref2.pauseAfterSeek, pauseAfterSeek = void 0 === _ref2$pauseAfterSeek || _ref2$pauseAfterSeek, tech = _ref2.tech, callback = _ref2.callback;
@@ -9356,6 +9375,7 @@
                             },
                             pmt: function() {
                                 var event = {
+                                    type: "metadata",
                                     tracks: []
                                 };
                                 null !== (programMapTable = data.programMapTable).video && event.tracks.push({
@@ -9382,6 +9402,7 @@
                     }, this.flush = function() {
                         if (!segmentHadPmt && programMapTable) {
                             var pmt = {
+                                type: "metadata",
                                 tracks: []
                             };
                             null !== programMapTable.video && pmt.tracks.push({
@@ -10567,7 +10588,7 @@
                         }
                     }
                 }, inspectAac_ = function(bytes) {
-                    for(var packet, endLoop = !1, sampleRate = null, timestamp = null, frameSize = 0, byteIndex = 0; bytes.length - byteIndex >= 3;){
+                    for(var packet, endLoop = !1, audioCount = 0, sampleRate = null, timestamp = null, frameSize = 0, byteIndex = 0; bytes.length - byteIndex >= 3;){
                         switch(probe.aac.parseType(bytes, byteIndex)){
                             case "timed-metadata":
                                 if (bytes.length - byteIndex < 10 || (frameSize = probe.aac.parseId3TagSize(bytes, byteIndex)) > bytes.length) {
@@ -10581,16 +10602,32 @@
                                     endLoop = !0;
                                     break;
                                 }
-                                null === sampleRate && (packet = bytes.subarray(byteIndex, byteIndex + frameSize), sampleRate = probe.aac.parseSampleRate(packet)), byteIndex += frameSize;
+                                null === sampleRate && (packet = bytes.subarray(byteIndex, byteIndex + frameSize), sampleRate = probe.aac.parseSampleRate(packet)), audioCount++, byteIndex += frameSize;
                                 break;
                             default:
                                 byteIndex++;
                         }
                         if (endLoop) return null;
                     }
-                    return null === sampleRate || null === timestamp ? null : {};
+                    if (null === sampleRate || null === timestamp) return null;
+                    var audioTimescale = ONE_SECOND_IN_TS / sampleRate;
+                    return {
+                        audio: [
+                            {
+                                type: "audio",
+                                dts: timestamp,
+                                pts: timestamp
+                            },
+                            {
+                                type: "audio",
+                                dts: timestamp + 1024 * audioCount * audioTimescale,
+                                pts: timestamp + 1024 * audioCount * audioTimescale
+                            }
+                        ]
+                    };
                 }, inspectTs_ = function(bytes) {
                     var pmt = {
+                        pid: null,
                         table: null
                     }, result = {};
                     for(var pid in parsePsi_(bytes, pmt), pmt.table)if (pmt.table.hasOwnProperty(pid)) switch(pmt.table[pid]){
@@ -11363,7 +11400,12 @@
                 return left.attributes.BANDWIDTH && (leftBandwidth = left.attributes.BANDWIDTH), leftBandwidth = leftBandwidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, right.attributes.BANDWIDTH && (rightBandwidth = right.attributes.BANDWIDTH), leftBandwidth - (rightBandwidth = rightBandwidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE);
             }, simpleSelector = function(master, playerBandwidth, playerWidth, playerHeight, limitRenditionByPlayerDimensions, masterPlaylistController) {
                 if (master) {
-                    var resolutionPlusOneList, resolutionPlusOneSmallest, resolutionPlusOneRep, leastPixelDiffRep, options = {}, playlists = master.playlists;
+                    var resolutionPlusOneList, resolutionPlusOneSmallest, resolutionPlusOneRep, leastPixelDiffRep, options = {
+                        bandwidth: playerBandwidth,
+                        width: playerWidth,
+                        height: playerHeight,
+                        limitRenditionByPlayerDimensions: limitRenditionByPlayerDimensions
+                    }, playlists = master.playlists;
                     Playlist.isAudioOnly(master) && (playlists = masterPlaylistController.getAudioTrackPlaylists_(), options.audioOnly = !0);
                     var sortedPlaylistReps = playlists.map(function(playlist) {
                         var width = playlist.attributes && playlist.attributes.RESOLUTION && playlist.attributes.RESOLUTION.width, height = playlist.attributes && playlist.attributes.RESOLUTION && playlist.attributes.RESOLUTION.height;

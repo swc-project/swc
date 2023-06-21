@@ -10,7 +10,11 @@ Object.defineProperty(exports, "__esModule", {
         return _default;
     }
 });
-var _default = {};
+var _default = {
+    ___: 30,
+    ___hello: 21,
+    _hi: 40
+};
 //// [m2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

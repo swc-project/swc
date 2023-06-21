@@ -2,7 +2,11 @@
 function foo(arg) {
     return arg.cb(null);
 }
-var arg = {};
+var arg = {
+    cb: function(x) {
+        return "";
+    }
+};
 foo(arg), foo({
     cb: function(x, y) {
         return "";

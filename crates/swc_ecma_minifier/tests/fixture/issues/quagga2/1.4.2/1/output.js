@@ -3164,7 +3164,7 @@
             }), __webpack_require__.d(__webpack_exports__, "ResultCollector", function() {
                 return result_collector;
             });
-            var BarcodeDirection, BarcodeDirection1, reader_namespaceObject = {};
+            var BarcodeDirection, BarcodeDirection1, streamRef, reader_namespaceObject = {};
             __webpack_require__.r(reader_namespaceObject), __webpack_require__.d(reader_namespaceObject, "BarcodeReader", function() {
                 return barcode_reader;
             }), __webpack_require__.d(reader_namespaceObject, "TwoOfFiveReader", function() {
@@ -6570,9 +6570,162 @@
                         } else events = {};
                     }
                 };
-            }(), asyncToGenerator = __webpack_require__(20), asyncToGenerator_default = __webpack_require__.n(asyncToGenerator), regenerator = __webpack_require__(12), regenerator_default = __webpack_require__.n(regenerator), camera_access = (__webpack_require__(85), __webpack_require__(86), {
-                requestedVideoElement: null
-            }), result_collector = {}, config_config = {}, gl_vec2 = __webpack_require__(7), QuaggaContext_QuaggaContext = function QuaggaContext() {
+            }(), asyncToGenerator = __webpack_require__(20), asyncToGenerator_default = __webpack_require__.n(asyncToGenerator), regenerator = __webpack_require__(12), regenerator_default = __webpack_require__.n(regenerator), pick = __webpack_require__(85), pick_default = __webpack_require__.n(pick), wrapNativeSuper = __webpack_require__(86), Exception_Exception = function(_Error) {
+                inherits_default()(Exception, _Error);
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
+                    try {
+                        return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                    } catch (e) {
+                        return !1;
+                    }
+                }(), function() {
+                    var result, Super = getPrototypeOf_default()(Exception);
+                    if (hasNativeReflectConstruct) {
+                        var NewTarget = getPrototypeOf_default()(this).constructor;
+                        result = Reflect.construct(Super, arguments, NewTarget);
+                    } else result = Super.apply(this, arguments);
+                    return possibleConstructorReturn_default()(this, result);
+                });
+                function Exception(m, code) {
+                    var _this;
+                    return classCallCheck_default()(this, Exception), _this = _super.call(this, m), defineProperty_default()(assertThisInitialized_default()(_this), "code", void 0), _this.code = code, Object.setPrototypeOf(assertThisInitialized_default()(_this), Exception.prototype), _this;
+                }
+                return Exception;
+            }(__webpack_require__.n(wrapNativeSuper)()(Error)), ERROR_DESC = "This may mean that the user has declined camera access, or the browser does not support media APIs. If you are running in iOS, you must use Safari.";
+            function _initCamera() {
+                return (_initCamera = asyncToGenerator_default()(regenerator_default.a.mark(function _callee2(video, constraints) {
+                    var stream;
+                    return regenerator_default.a.wrap(function(_context2) {
+                        for(;;)switch(_context2.prev = _context2.next){
+                            case 0:
+                                return _context2.next = 2, function(constraints) {
+                                    try {
+                                        return navigator.mediaDevices.getUserMedia(constraints);
+                                    } catch (err) {
+                                        return Promise.reject(new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1));
+                                    }
+                                }(constraints);
+                            case 2:
+                                if (streamRef = stream = _context2.sent, !video) {
+                                    _context2.next = 11;
+                                    break;
+                                }
+                                return video.setAttribute("autoplay", "true"), video.setAttribute("muted", "true"), video.setAttribute("playsinline", "true"), video.srcObject = stream, video.addEventListener("loadedmetadata", function() {
+                                    video.play();
+                                }), _context2.abrupt("return", function(video) {
+                                    return new Promise(function(resolve, reject) {
+                                        var attempts = 10;
+                                        !function checkVideo() {
+                                            attempts > 0 ? video.videoWidth > 10 && video.videoHeight > 10 ? (console.log("* dev: checkVideo found ".concat(video.videoWidth, "px x ").concat(video.videoHeight, "px")), resolve()) : window.setTimeout(checkVideo, 500) : reject(new Exception_Exception("Unable to play video stream. Is webcam working?", -1)), attempts--;
+                                        }();
+                                    });
+                                }(video));
+                            case 11:
+                                return _context2.abrupt("return", Promise.resolve());
+                            case 12:
+                            case "end":
+                                return _context2.stop();
+                        }
+                    }, _callee2);
+                }))).apply(this, arguments);
+            }
+            function _enumerateVideoDevices() {
+                return (_enumerateVideoDevices = asyncToGenerator_default()(regenerator_default.a.mark(function _callee3() {
+                    var devices;
+                    return regenerator_default.a.wrap(function(_context3) {
+                        for(;;)switch(_context3.prev = _context3.next){
+                            case 0:
+                                return _context3.next = 2, function() {
+                                    try {
+                                        return navigator.mediaDevices.enumerateDevices();
+                                    } catch (err) {
+                                        return Promise.reject(new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1));
+                                    }
+                                }();
+                            case 2:
+                                return devices = _context3.sent, _context3.abrupt("return", devices.filter(function(device) {
+                                    return "videoinput" === device.kind;
+                                }));
+                            case 4:
+                            case "end":
+                                return _context3.stop();
+                        }
+                    }, _callee3);
+                }))).apply(this, arguments);
+            }
+            function getActiveTrack() {
+                if (!streamRef) return null;
+                var tracks = streamRef.getVideoTracks();
+                return tracks && null != tracks && tracks.length ? tracks[0] : null;
+            }
+            var QuaggaJSCameraAccess = {
+                requestedVideoElement: null,
+                request: function(video, videoConstraints) {
+                    return asyncToGenerator_default()(regenerator_default.a.mark(function _callee() {
+                        var newConstraints;
+                        return regenerator_default.a.wrap(function(_context) {
+                            for(;;)switch(_context.prev = _context.next){
+                                case 0:
+                                    return QuaggaJSCameraAccess.requestedVideoElement = video, _context.next = 3, function() {
+                                        var normalized, videoConstraints = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, video = (normalized = pick_default()(videoConstraints, [
+                                            "width",
+                                            "height",
+                                            "facingMode",
+                                            "aspectRatio",
+                                            "deviceId"
+                                        ]), void 0 !== videoConstraints.minAspectRatio && videoConstraints.minAspectRatio > 0 && (normalized.aspectRatio = videoConstraints.minAspectRatio, console.log("WARNING: Constraint 'minAspectRatio' is deprecated; Use 'aspectRatio' instead")), void 0 !== videoConstraints.facing && (normalized.facingMode = videoConstraints.facing, console.log("WARNING: Constraint 'facing' is deprecated. Use 'facingMode' instead'")), normalized);
+                                        return video && video.deviceId && video.facingMode && delete video.facingMode, Promise.resolve({
+                                            audio: !1,
+                                            video: video
+                                        });
+                                    }(videoConstraints);
+                                case 3:
+                                    return newConstraints = _context.sent, _context.abrupt("return", function(_x, _x2) {
+                                        return _initCamera.apply(this, arguments);
+                                    }(video, newConstraints));
+                                case 5:
+                                case "end":
+                                    return _context.stop();
+                            }
+                        }, _callee);
+                    }))();
+                },
+                release: function() {
+                    var tracks = streamRef && streamRef.getVideoTracks();
+                    return null !== QuaggaJSCameraAccess.requestedVideoElement && QuaggaJSCameraAccess.requestedVideoElement.pause(), new Promise(function(resolve) {
+                        setTimeout(function() {
+                            tracks && tracks.length && tracks[0].stop(), streamRef = null, QuaggaJSCameraAccess.requestedVideoElement = null, resolve();
+                        }, 0);
+                    });
+                },
+                enumerateVideoDevices: function() {
+                    return _enumerateVideoDevices.apply(this, arguments);
+                },
+                getActiveStreamLabel: function() {
+                    var track = getActiveTrack();
+                    return track ? track.label : "";
+                },
+                getActiveTrack: getActiveTrack
+            }, camera_access = QuaggaJSCameraAccess, result_collector = {
+                create: function(config) {
+                    var _config$capacity, canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), results = [], capacity = null !== (_config$capacity = config.capacity) && void 0 !== _config$capacity ? _config$capacity : 20, capture = !0 === config.capture;
+                    return {
+                        addResult: function(data, imageSize, codeResult) {
+                            var list, filter, result = {};
+                            capacity && codeResult && !((list = config.blacklist) && list.some(function(item) {
+                                return Object.keys(item).every(function(key) {
+                                    return item[key] === codeResult[key];
+                                });
+                            })) && ("function" != typeof (filter = config.filter) || filter(codeResult)) && (capacity--, result.codeResult = codeResult, capture && (canvas.width = imageSize.x, canvas.height = imageSize.y, image_debug.a.drawImage(data, imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result));
+                        },
+                        getResults: function() {
+                            return results;
+                        }
+                    };
+                }
+            }, config_config = {}, gl_vec2 = __webpack_require__(7), QuaggaContext_QuaggaContext = function QuaggaContext() {
                 classCallCheck_default()(this, QuaggaContext), defineProperty_default()(this, "config", void 0), defineProperty_default()(this, "inputStream", void 0), defineProperty_default()(this, "framegrabber", void 0), defineProperty_default()(this, "inputImageWrapper", void 0), defineProperty_default()(this, "stopped", !1), defineProperty_default()(this, "boxSize", void 0), defineProperty_default()(this, "resultCollector", void 0), defineProperty_default()(this, "decoder", void 0), defineProperty_default()(this, "workerPool", []), defineProperty_default()(this, "onUIThread", !0), defineProperty_default()(this, "canvasContainer", new QuaggaContext_CanvasContainer());
             }, QuaggaContext_CanvasInfo = function CanvasInfo() {
                 classCallCheck_default()(this, CanvasInfo), defineProperty_default()(this, "image", void 0), defineProperty_default()(this, "overlay", void 0);
@@ -6594,13 +6747,181 @@
             }
             var ExifTags = {
                 0x0112: "orientation"
-            };
-            Object.keys(ExifTags).map(function(key) {
+            }, AvailableTags = Object.keys(ExifTags).map(function(key) {
                 return ExifTags[key];
             });
+            function readToBuffer(blob) {
+                return new Promise(function(resolve) {
+                    var fileReader = new FileReader();
+                    fileReader.onload = function(e) {
+                        return resolve(e.target.result);
+                    }, fileReader.readAsArrayBuffer(blob);
+                });
+            }
+            var ImageLoader = {};
+            ImageLoader.load = function(directory, callback, offset, size, sequence) {
+                var i, img, num, htmlImagesSrcArray = Array(size), htmlImagesArray = Array(htmlImagesSrcArray.length);
+                if (!1 === sequence) htmlImagesSrcArray[0] = directory;
+                else for(i = 0; i < htmlImagesSrcArray.length; i++)num = offset + i, htmlImagesSrcArray[i] = "".concat(directory, "image-").concat("00".concat(num).slice(-3), ".jpg");
+                for(i = 0, htmlImagesArray.notLoaded = [], htmlImagesArray.addImage = function(image) {
+                    htmlImagesArray.notLoaded.push(image);
+                }, htmlImagesArray.loaded = function(loadedImg) {
+                    for(var notloadedImgs = htmlImagesArray.notLoaded, x = 0; x < notloadedImgs.length; x++)if (notloadedImgs[x] === loadedImg) {
+                        notloadedImgs.splice(x, 1);
+                        for(var y = 0; y < htmlImagesSrcArray.length; y++){
+                            var imgName = htmlImagesSrcArray[y].substr(htmlImagesSrcArray[y].lastIndexOf("/"));
+                            if (-1 !== loadedImg.src.lastIndexOf(imgName)) {
+                                htmlImagesArray[y] = {
+                                    img: loadedImg
+                                };
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    0 === notloadedImgs.length && (console.log("Images loaded"), !1 === sequence ? (function(src) {
+                        var tags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags;
+                        return /^blob:/i.test(src) ? new Promise(function(resolve, reject) {
+                            var http = new XMLHttpRequest();
+                            http.open("GET", src, !0), http.responseType = "blob", http.onreadystatechange = function() {
+                                http.readyState === XMLHttpRequest.DONE && (200 === http.status || 0 === http.status) && resolve(this.response);
+                            }, http.onerror = reject, http.send();
+                        }).then(readToBuffer).then(function(buffer) {
+                            return function(file) {
+                                var selectedTags = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : AvailableTags, dataView = new DataView(file), length = file.byteLength, exifTags = selectedTags.reduce(function(result, selectedTag) {
+                                    var exifTag = Object.keys(ExifTags).filter(function(tag) {
+                                        return ExifTags[tag] === selectedTag;
+                                    })[0];
+                                    return exifTag && (result[exifTag] = selectedTag), result;
+                                }, {}), offset = 2;
+                                if (0xff !== dataView.getUint8(0) || 0xd8 !== dataView.getUint8(1)) return !1;
+                                for(; offset < length && 0xff === dataView.getUint8(offset);){
+                                    if (0xe1 === dataView.getUint8(offset + 1)) return function(file, start, exifTags) {
+                                        if ("Exif" !== function(buffer, start, length) {
+                                            for(var outstr = "", n = start; n < start + 4; n++)outstr += String.fromCharCode(buffer.getUint8(n));
+                                            return outstr;
+                                        }(file, start, 0)) return !1;
+                                        var bigEnd, tiffOffset = start + 6;
+                                        if (0x4949 === file.getUint16(tiffOffset)) bigEnd = !1;
+                                        else {
+                                            if (0x4d4d !== file.getUint16(tiffOffset)) return !1;
+                                            bigEnd = !0;
+                                        }
+                                        if (0x002a !== file.getUint16(tiffOffset + 2, !bigEnd)) return !1;
+                                        var firstIFDOffset = file.getUint32(tiffOffset + 4, !bigEnd);
+                                        return !(firstIFDOffset < 0x00000008) && function(file, tiffStart, dirStart, strings, bigEnd) {
+                                            for(var entries = file.getUint16(dirStart, !bigEnd), tags = {}, i = 0; i < entries; i++){
+                                                var entryOffset = dirStart + 12 * i + 2, tag = strings[file.getUint16(entryOffset, !bigEnd)];
+                                                tag && (tags[tag] = function(file, entryOffset, tiffStart, dirStart, bigEnd) {
+                                                    var type = file.getUint16(entryOffset + 2, !bigEnd), numValues = file.getUint32(entryOffset + 4, !bigEnd);
+                                                    return 3 === type && 1 === numValues ? file.getUint16(entryOffset + 8, !bigEnd) : null;
+                                                }(file, entryOffset, 0, 0, bigEnd));
+                                            }
+                                            return tags;
+                                        }(file, 0, tiffOffset + firstIFDOffset, exifTags, bigEnd);
+                                    }(dataView, offset + 4, exifTags);
+                                    offset += 2 + dataView.getUint16(offset + 2);
+                                }
+                                return !1;
+                            }(buffer, tags);
+                        }) : Promise.resolve(null);
+                    })(directory, [
+                        "orientation"
+                    ]).then(function(tags) {
+                        htmlImagesArray[0].tags = tags, callback(htmlImagesArray);
+                    }).catch(function(e) {
+                        console.log(e), callback(htmlImagesArray);
+                    }) : callback(htmlImagesArray));
+                }; i < htmlImagesSrcArray.length; i++)img = new Image(), htmlImagesArray.addImage(img), function(img, htmlImagesArray) {
+                    img.onload = function() {
+                        htmlImagesArray.loaded(this);
+                    };
+                }(img, htmlImagesArray), img.src = htmlImagesSrcArray[i];
+            };
             var inputStreamFactory = {
                 createVideoStream: function(video) {
-                    return {};
+                    var _calculatedWidth, _calculatedHeight, _config = null, _eventNames = [
+                        "canrecord",
+                        "ended"
+                    ], _eventHandlers = {}, _topRight = {
+                        x: 0,
+                        y: 0
+                    }, _canvasSize = {
+                        x: 0,
+                        y: 0
+                    }, inputStream = {
+                        getRealWidth: function() {
+                            return video.videoWidth;
+                        },
+                        getRealHeight: function() {
+                            return video.videoHeight;
+                        },
+                        getWidth: function() {
+                            return _calculatedWidth;
+                        },
+                        getHeight: function() {
+                            return _calculatedHeight;
+                        },
+                        setWidth: function(width) {
+                            _calculatedWidth = width;
+                        },
+                        setHeight: function(height) {
+                            _calculatedHeight = height;
+                        },
+                        setInputStream: function(config) {
+                            _config = config, this.setAttribute("src", void 0 !== config.src ? config.src : "");
+                        },
+                        ended: function() {
+                            return video.ended;
+                        },
+                        getConfig: function() {
+                            return _config;
+                        },
+                        setAttribute: function(name, value) {
+                            video && video.setAttribute(name, value);
+                        },
+                        pause: function() {
+                            video.pause();
+                        },
+                        play: function() {
+                            video.play();
+                        },
+                        setCurrentTime: function(time) {
+                            var _config4;
+                            (null === (_config4 = _config) || void 0 === _config4 ? void 0 : _config4.type) !== "LiveStream" && this.setAttribute("currentTime", time.toString());
+                        },
+                        addEventListener: function(event, f, bool) {
+                            -1 !== _eventNames.indexOf(event) ? (_eventHandlers[event] || (_eventHandlers[event] = []), _eventHandlers[event].push(f)) : video.addEventListener(event, f, bool);
+                        },
+                        clearEventHandlers: function() {
+                            _eventNames.forEach(function(eventName) {
+                                var handlers = _eventHandlers[eventName];
+                                handlers && handlers.length > 0 && handlers.forEach(function(handler) {
+                                    video.removeEventListener(eventName, handler);
+                                });
+                            });
+                        },
+                        trigger: function(eventName, args) {
+                            var _config2, _config3, width, height, j, handlers = _eventHandlers[eventName];
+                            if ("canrecord" === eventName && (width = video.videoWidth, height = video.videoHeight, _calculatedWidth = null !== (_config2 = _config) && void 0 !== _config2 && _config2.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width, _calculatedHeight = null !== (_config3 = _config) && void 0 !== _config3 && _config3.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height, _canvasSize.x = _calculatedWidth, _canvasSize.y = _calculatedHeight), handlers && handlers.length > 0) for(j = 0; j < handlers.length; j++)handlers[j].apply(inputStream, args);
+                        },
+                        setTopRight: function(topRight) {
+                            _topRight.x = topRight.x, _topRight.y = topRight.y;
+                        },
+                        getTopRight: function() {
+                            return _topRight;
+                        },
+                        setCanvasSize: function(size) {
+                            _canvasSize.x = size.x, _canvasSize.y = size.y;
+                        },
+                        getCanvasSize: function() {
+                            return _canvasSize;
+                        },
+                        getFrame: function() {
+                            return video;
+                        }
+                    };
+                    return inputStream;
                 },
                 createLiveStream: function(video) {
                     video && video.setAttribute("autoplay", "true");
@@ -6610,7 +6931,102 @@
                     }, that;
                 },
                 createImageStream: function() {
-                    return {};
+                    var calculatedWidth, calculatedHeight, _config = null, width = 0, height = 0, frameIdx = 0, paused = !0, loaded = !1, imgArray = null, size = 0, baseUrl = null, _ended = !1, _eventNames = [
+                        "canrecord",
+                        "ended"
+                    ], _eventHandlers = {}, _topRight = {
+                        x: 0,
+                        y: 0
+                    }, _canvasSize = {
+                        x: 0,
+                        y: 0
+                    };
+                    function publishEvent(eventName, args) {
+                        var j, handlers = _eventHandlers[eventName];
+                        if (handlers && handlers.length > 0) for(j = 0; j < handlers.length; j++)handlers[j].apply(inputStream, args);
+                    }
+                    var inputStream = {
+                        trigger: publishEvent,
+                        getWidth: function() {
+                            return calculatedWidth;
+                        },
+                        getHeight: function() {
+                            return calculatedHeight;
+                        },
+                        setWidth: function(newWidth) {
+                            calculatedWidth = newWidth;
+                        },
+                        setHeight: function(newHeight) {
+                            calculatedHeight = newHeight;
+                        },
+                        getRealWidth: function() {
+                            return width;
+                        },
+                        getRealHeight: function() {
+                            return height;
+                        },
+                        setInputStream: function(stream) {
+                            var _config7;
+                            _config = stream, !1 === stream.sequence ? (baseUrl = stream.src, size = 1) : (baseUrl = stream.src, size = stream.length), loaded = !1, ImageLoader.load(baseUrl, function(imgs) {
+                                var _config5, _config6;
+                                if (imgArray = imgs, imgs[0].tags && imgs[0].tags.orientation) switch(imgs[0].tags.orientation){
+                                    case 6:
+                                    case 8:
+                                        width = imgs[0].img.height, height = imgs[0].img.width;
+                                        break;
+                                    default:
+                                        width = imgs[0].img.width, height = imgs[0].img.height;
+                                }
+                                else width = imgs[0].img.width, height = imgs[0].img.height;
+                                calculatedWidth = null !== (_config5 = _config) && void 0 !== _config5 && _config5.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width, calculatedHeight = null !== (_config6 = _config) && void 0 !== _config6 && _config6.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height, _canvasSize.x = calculatedWidth, _canvasSize.y = calculatedHeight, loaded = !0, frameIdx = 0, setTimeout(function() {
+                                    publishEvent("canrecord", []);
+                                }, 0);
+                            }, 1, size, null === (_config7 = _config) || void 0 === _config7 ? void 0 : _config7.sequence);
+                        },
+                        ended: function() {
+                            return _ended;
+                        },
+                        setAttribute: function() {},
+                        getConfig: function() {
+                            return _config;
+                        },
+                        pause: function() {
+                            paused = !0;
+                        },
+                        play: function() {
+                            paused = !1;
+                        },
+                        setCurrentTime: function(time) {
+                            frameIdx = time;
+                        },
+                        addEventListener: function(event, f) {
+                            -1 !== _eventNames.indexOf(event) && (_eventHandlers[event] || (_eventHandlers[event] = []), _eventHandlers[event].push(f));
+                        },
+                        clearEventHandlers: function() {
+                            Object.keys(_eventHandlers).forEach(function(ind) {
+                                return delete _eventHandlers[ind];
+                            });
+                        },
+                        setTopRight: function(topRight) {
+                            _topRight.x = topRight.x, _topRight.y = topRight.y;
+                        },
+                        getTopRight: function() {
+                            return _topRight;
+                        },
+                        setCanvasSize: function(canvasSize) {
+                            _canvasSize.x = canvasSize.x, _canvasSize.y = canvasSize.y;
+                        },
+                        getCanvasSize: function() {
+                            return _canvasSize;
+                        },
+                        getFrame: function() {
+                            var frame, _imgArray;
+                            return loaded ? (!paused && (frame = null === (_imgArray = imgArray) || void 0 === _imgArray ? void 0 : _imgArray[frameIdx], frameIdx < size - 1 ? frameIdx++ : setTimeout(function() {
+                                _ended = !0, publishEvent("ended", []);
+                            }, 0)), frame) : null;
+                        }
+                    };
+                    return inputStream;
                 }
             }, cv_utils = __webpack_require__(8), TO_RADIANS = Math.PI / 180, FrameGrabber = {};
             function qworker_ownKeys(object, enumerableOnly) {

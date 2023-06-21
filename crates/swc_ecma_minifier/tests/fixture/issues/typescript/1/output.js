@@ -540,5 +540,9 @@ var ts;
             }
         }
     };
-    var dynamicImportUMDHelper = {};
+    var dynamicImportUMDHelper = {
+        name: "typescript:dynamicimport-sync-require",
+        scoped: !0,
+        text: "\n            var __syncRequire = typeof module === \"object\" && typeof module.exports === \"object\";"
+    };
 }(ts || (ts = {}));

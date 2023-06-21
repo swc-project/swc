@@ -16,6 +16,10 @@ var u, c = new (function() {
 }())();
 c.explicitVoid = c.explicitThis;
 var o = {
+    n: 101,
+    explicitThis: function(m) {
+        return m + this.n.length;
+    },
     implicitThis: function(m) {
         return m;
     }

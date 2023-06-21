@@ -108,7 +108,45 @@
             Portal.defaultProps = {
                 appendToParentPortal: !0
             }, Portal.className = PORTAL_CLASSNAME, Portal.selector = ".chakra-portal", chakra_ui_utils_esm.Ts && (Portal.displayName = "Portal");
-            var chakra_ui_system_esm = __webpack_require__(2846), chakra_ui_color_mode_esm = __webpack_require__(949), ssrDocument = {}, noop = function() {}, defaultEnv = chakra_ui_utils_esm.jU ? {
+            var chakra_ui_system_esm = __webpack_require__(2846), chakra_ui_color_mode_esm = __webpack_require__(949), ssrDocument = {
+                body: {
+                    classList: {
+                        add: function() {},
+                        remove: function() {}
+                    }
+                },
+                addEventListener: function() {},
+                removeEventListener: function() {},
+                activeElement: {
+                    blur: function() {},
+                    nodeName: ""
+                },
+                querySelector: function() {
+                    return null;
+                },
+                querySelectorAll: function() {
+                    return [];
+                },
+                getElementById: function() {
+                    return null;
+                },
+                createEvent: function() {
+                    return {
+                        initEvent: function() {}
+                    };
+                },
+                createElement: function() {
+                    return {
+                        children: [],
+                        childNodes: [],
+                        style: {},
+                        setAttribute: function() {},
+                        getElementsByTagName: function() {
+                            return [];
+                        }
+                    };
+                }
+            }, noop = function() {}, defaultEnv = chakra_ui_utils_esm.jU ? {
                 window: window,
                 document: document
             } : {
@@ -190,7 +228,41 @@
                 }, resetCSS && react.createElement(CSSReset$1, null), react.createElement(chakra_ui_system_esm.ZL, null), portalZIndex ? react.createElement(PortalManager, {
                     zIndex: portalZIndex
                 }, _children) : _children));
-            }, spacing = {};
+            }, spacing = {
+                px: "1px",
+                0.5: "0.125rem",
+                1: "0.25rem",
+                1.5: "0.375rem",
+                2: "0.5rem",
+                2.5: "0.625rem",
+                3: "0.75rem",
+                3.5: "0.875rem",
+                4: "1rem",
+                5: "1.25rem",
+                6: "1.5rem",
+                7: "1.75rem",
+                8: "2rem",
+                9: "2.25rem",
+                10: "2.5rem",
+                12: "3rem",
+                14: "3.5rem",
+                16: "4rem",
+                20: "5rem",
+                24: "6rem",
+                28: "7rem",
+                32: "8rem",
+                36: "9rem",
+                40: "10rem",
+                44: "11rem",
+                48: "12rem",
+                52: "13rem",
+                56: "14rem",
+                60: "15rem",
+                64: "16rem",
+                72: "18rem",
+                80: "20rem",
+                96: "24rem"
+            };
             function sizes_501602a9_esm_extends() {
                 return (sizes_501602a9_esm_extends = Object.assign ? Object.assign.bind() : function(target) {
                     for(var i = 1; i < arguments.length; i++){
@@ -1322,6 +1394,47 @@
             var drawerAnatomy = anatomy("drawer").parts("overlay", "dialogContainer", "dialog").extend("header", "closeButton", "body", "footer"), editableAnatomy = anatomy("editable").parts("preview", "input", "textarea"), formAnatomy = anatomy("form").parts("container", "requiredIndicator", "helperText"), formErrorAnatomy = anatomy("formError").parts("text", "icon"), inputAnatomy = anatomy("input").parts("addon", "field", "element"), listAnatomy = anatomy("list").parts("container", "item", "icon"), menuAnatomy = anatomy("menu").parts("button", "list", "item").extend("groupTitle", "command", "divider"), modalAnatomy = anatomy("modal").parts("overlay", "dialogContainer", "dialog").extend("header", "closeButton", "body", "footer"), numberInputAnatomy = anatomy("numberinput").parts("root", "field", "stepperGroup", "stepper");
             anatomy("pininput").parts("field");
             var popoverAnatomy = anatomy("popover").parts("content", "header", "body", "footer").extend("popper", "arrow", "closeButton"), progressAnatomy = anatomy("progress").parts("label", "filledTrack", "track"), radioAnatomy = anatomy("radio").parts("container", "control", "label"), selectAnatomy = anatomy("select").parts("field", "icon"), sliderAnatomy = anatomy("slider").parts("container", "track", "thumb", "filledTrack"), statAnatomy = anatomy("stat").parts("container", "label", "helpText", "number", "icon"), switchAnatomy = anatomy("switch").parts("container", "track", "thumb"), tableAnatomy = anatomy("table").parts("table", "thead", "tbody", "tr", "th", "td", "tfoot", "caption"), tabsAnatomy = anatomy("tabs").parts("root", "tab", "tablist", "tabpanel", "tabpanels", "indicator"), tagAnatomy = anatomy("tag").parts("container", "label", "closeButton"), typography = {
+                letterSpacings: {
+                    tighter: "-0.05em",
+                    tight: "-0.025em",
+                    normal: "0",
+                    wide: "0.025em",
+                    wider: "0.05em",
+                    widest: "0.1em"
+                },
+                lineHeights: {
+                    normal: "normal",
+                    none: 1,
+                    shorter: 1.25,
+                    short: 1.375,
+                    base: 1.5,
+                    tall: 1.625,
+                    taller: "2",
+                    3: ".75rem",
+                    4: "1rem",
+                    5: "1.25rem",
+                    6: "1.5rem",
+                    7: "1.75rem",
+                    8: "2rem",
+                    9: "2.25rem",
+                    10: "2.5rem"
+                },
+                fontWeights: {
+                    hairline: 100,
+                    thin: 200,
+                    light: 300,
+                    normal: 400,
+                    medium: 500,
+                    semibold: 600,
+                    bold: 700,
+                    extrabold: 800,
+                    black: 900
+                },
+                fonts: {
+                    heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+                    body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+                    mono: 'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace'
+                },
                 fontSizes: {
                     xs: "0.75rem",
                     sm: "0.875rem",
@@ -1527,7 +1640,7 @@
                             sMin,
                             sMax
                         ], options.seed);
-                    }(h, options), res1 = (function(H, S, options) {
+                    }(h, options), v = function(H, S, options) {
                         var bMin = function(H, S) {
                             for(var lowerBounds = getColorInfo(H).lowerBounds, i = 0; i < lowerBounds.length - 1; i++){
                                 var s1 = lowerBounds[i][0], v1 = lowerBounds[i][1], s2 = lowerBounds[i + 1][0], v2 = lowerBounds[i + 1][1];
@@ -1548,11 +1661,15 @@
                             case "random":
                                 bMin = 0, bMax = 100;
                         }
-                        randomWithin([
+                        return randomWithin([
                             bMin,
                             bMax
                         ], options.seed);
-                    }(h, s, options), {});
+                    }(h, s, options), res1 = {
+                        h: h,
+                        s: s,
+                        v: v
+                    };
                     return void 0 !== options.alpha && (res1.a = options.alpha), new module_TinyColor(res1);
                 })().toHexString(), !opts || (0, chakra_ui_utils_esm.Qr)(opts) ? fallback : opts.string && opts.colors ? function(str, list) {
                     var index = 0;
@@ -1621,6 +1738,13 @@
                     size: "md"
                 }
             }, Badge = {
+                baseStyle: {
+                    px: 1,
+                    textTransform: "uppercase",
+                    fontSize: "xs",
+                    borderRadius: "sm",
+                    fontWeight: "bold"
+                },
                 variants: {
                     solid: function(props) {
                         var c = props.colorScheme, theme = props.theme, dark = transparentize(c + ".500", 0.6)(theme);
@@ -2414,7 +2538,9 @@
                     size: "md",
                     colorScheme: "blue"
                 }
-            }, baseStyleIcon$1 = {}, iconSpacing = {}, sizes$8 = lodash_mergewith_default()({}, Input.sizes, {
+            }, baseStyleIcon$1 = {}, iconSpacing = {
+                paddingInlineEnd: "2rem"
+            }, sizes$8 = lodash_mergewith_default()({}, Input.sizes, {
                 lg: {
                     field: iconSpacing
                 },
