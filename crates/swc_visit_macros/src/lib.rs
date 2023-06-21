@@ -11,10 +11,9 @@ use syn::{
     Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary,
     Field, FieldMutability, FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument,
     GenericParam, Generics, ImplItem, ImplItemFn, Index, Item, ItemEnum, ItemImpl, ItemMod,
-    ItemStruct, ItemTrait, ItemUse, Lifetime, LifetimeParam, Member, Pat, PatIdent, PatTuple,
-    PatTupleStruct, PatType, PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt,
-    Token, TraitItem, TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant,
-    Visibility,
+    ItemStruct, ItemTrait, ItemUse, Lifetime, LifetimeParam, Member, Pat, PatIdent, PatTupleStruct,
+    PatType, PatWild, Path, PathArguments, ReturnType, Signature, Stmt, Token, TraitItem,
+    TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -918,7 +917,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                     arms,
                 });
 
-                vec![Stmt::Expr(match_expr)]
+                vec![Stmt::Expr(match_expr, None)]
             },
         },
     });
@@ -986,7 +985,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             continue;
         }
 
-        methods.push(TraitItemMethod {
+        methods.push(TraitItemFn {
             attrs: vec![],
             sig,
             default: Some(create_method_body(mode, ty)),
