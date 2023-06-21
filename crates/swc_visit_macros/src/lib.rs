@@ -11,9 +11,10 @@ use syn::{
     Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary,
     Field, FieldMutability, FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument,
     GenericParam, Generics, ImplItem, ImplItemFn, Index, Item, ItemEnum, ItemImpl, ItemMod,
-    ItemStruct, ItemTrait, ItemUse, Lifetime, Member, Pat, PatIdent, PatTuple, PatTupleStruct,
-    PatType, PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem,
-    TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
+    ItemStruct, ItemTrait, ItemUse, Lifetime, LifetimeParam, Member, Pat, PatIdent, PatTuple,
+    PatTupleStruct, PatType, PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt,
+    Token, TraitItem, TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant,
+    Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -541,9 +542,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
 
     Item::Enum(ItemEnum {
         attrs,
-        vis: Visibility::Public(VisPublic {
-            pub_token: def_site(),
-        }),
+        vis: Visibility::Public(def_site()),
         enum_token: def_site(),
         ident: if is_ref {
             Ident::new("AstParentNodeRef", call_site())
@@ -552,7 +551,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
         },
         generics: if is_ref {
             let mut g = Punctuated::new();
-            g.push(GenericParam::Lifetime(LifetimeDef {
+            g.push(GenericParam::Lifetime(LifetimeParam {
                 attrs: Default::default(),
                 lifetime: Lifetime {
                     apostrophe: call_site(),
