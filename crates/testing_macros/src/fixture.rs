@@ -11,8 +11,11 @@ use proc_macro2::Span;
 use regex::Regex;
 use relative_path::RelativePath;
 use syn::{
+    parenthesized,
     parse::{Parse, ParseStream},
-    Ident, Lit, LitStr, Meta, Token,
+    parse2,
+    punctuated::Punctuated,
+    Ident, LitStr, Meta, Token,
 };
 
 pub struct Config {
@@ -45,24 +48,18 @@ impl Parse for Config {
                         }};
                     }
 
-                    if list.nested.is_empty() {
+                    if list.tokens.is_empty() {
                         fail!("empty exclude()")
                     }
 
-                    for token in list.nested.iter() {
-                        match token {
-                            NestedMeta::Meta(_) => fail!(),
-                            NestedMeta::Lit(lit) => {
-                                let lit = match lit {
-                                    Lit::Str(v) => v.value(),
-                                    _ => fail!(),
-                                };
-                                c.exclude_patterns
-                                    .push(Regex::new(&lit).unwrap_or_else(|err| {
-                                        fail!(format!("failed to parse regex: {}\n{}", lit, err))
-                                    }));
-                            }
-                        }
+                    let input = parse2::<InputParen>(list.tokens.clone())
+                        .expect("failed to parse token as `InputParen`");
+
+                    for lit in input.input {
+                        c.exclude_patterns
+                            .push(Regex::new(&lit.value()).unwrap_or_else(|err| {
+                                fail!(format!("failed to parse regex: {}\n{}", lit.value(), err))
+                            }));
                     }
 
                     return;
@@ -187,4 +184,20 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<Quote>, Error> {
     }
 
     Ok(test_fns)
+}
+
+struct InputParen {
+    _paren_token: syn::token::Paren,
+    input: Punctuated<LitStr, Token![,]>,
+}
+
+impl Parse for InputParen {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        let content;
+        let _paren_token = parenthesized!(content in input);
+        Ok(Self {
+            _paren_token,
+            input: content.call(Punctuated::parse_terminated)?,
+        })
+    }
 }
