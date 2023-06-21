@@ -648,21 +648,19 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
                         pat: Pat::TupleStruct(PatTupleStruct {
                             attrs: Default::default(),
                             path: q!(Vars { name }, { Self::name }).parse(),
-                            pat: PatTuple {
-                                attrs: Default::default(),
-                                paren_token: def_site(),
-                                elems: {
-                                    let mut v = Punctuated::new();
-                                    v.push(Pat::Ident(PatIdent {
-                                        attrs: Default::default(),
-                                        by_ref: Default::default(),
-                                        mutability: Default::default(),
-                                        ident: Ident::new("v", name.span()),
-                                        subpat: Default::default(),
-                                    }));
+                            qself: None,
+                            paren_token: def_site(),
+                            elems: {
+                                let mut v = Punctuated::new();
+                                v.push(Pat::Ident(PatIdent {
+                                    attrs: Default::default(),
+                                    by_ref: Default::default(),
+                                    mutability: Default::default(),
+                                    ident: Ident::new("v", name.span()),
+                                    subpat: Default::default(),
+                                }));
 
-                                    v
-                                },
+                                v
                             },
                         }),
                         guard: Default::default(),
