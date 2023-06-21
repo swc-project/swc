@@ -2,8 +2,8 @@ use pmutil::{q, IdentExt, SpanExt};
 use proc_macro2::Span;
 use syn::{
     parse, punctuated::Punctuated, spanned::Spanned, Arm, BinOp, Block, Data, DeriveInput, Expr,
-    ExprBinary, ExprBlock, Field, FieldPat, Fields, Ident, Index, Member, Pat, PatIdent, PatStruct,
-    PatTuple, Path, Stmt, Token,
+    ExprBinary, ExprBlock, Field, FieldPat, Fields, Ident, Index, Member, Pat, PatIdent, PatRest,
+    PatStruct, PatTuple, Path, Stmt, Token,
 };
 
 /// Derives `swc_common::TypeEq`.
@@ -200,17 +200,25 @@ impl Deriver {
                     let mut elems = Punctuated::default();
                     elems.push(Pat::Struct(PatStruct {
                         attrs: Default::default(),
+                        qself: None,
                         path: pat_path.clone(),
                         brace_token: Span::call_site().as_token(),
                         fields: l_pat_fields,
-                        dot2_token: Some(Span::call_site().as_token()),
+                        rest: Some(PatRest {
+                            attrs: Default::default(),
+                            dot2_token: Span::call_site().as_token(),
+                        }),
                     }));
                     elems.push(Pat::Struct(PatStruct {
                         attrs: Default::default(),
+                        qself: None,
                         path: pat_path,
                         brace_token: Span::call_site().as_token(),
                         fields: r_pat_fields,
-                        dot2_token: Some(Span::call_site().as_token()),
+                        rest: Some(PatRest {
+                            attrs: Default::default(),
+                            dot2_token: Span::call_site().as_token(),
+                        }),
                     }));
                     elems
                 },
