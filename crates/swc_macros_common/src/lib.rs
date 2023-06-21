@@ -44,28 +44,21 @@ pub fn print(attr: &'static str, tokens: proc_macro2::TokenStream) -> proc_macro
 }
 
 pub fn is_attr_name(attr: &Attribute, name: &str) -> bool {
-    match *attr {
-        Attribute {
-            path:
-                Path {
-                    leading_colon: None,
-                    ref segments,
-                },
-            ..
-        } if segments.len() == 1 => segments.first().unwrap().ident == name,
-        _ => false,
-    }
+    attr.path().is_ident(name)
 }
 
 /// Returns `None` if `attr` is not a doc attribute.
 pub fn doc_str(attr: &Attribute) -> Option<String> {
     fn parse_tts(attr: &Attribute) -> String {
-        let meta = attr.parse_meta().ok();
-        match meta {
-            Some(Meta::NameValue(MetaNameValue {
-                lit: Lit::Str(s), ..
-            })) => s.value(),
-            _ => panic!("failed to parse {}", attr.tokens),
+        match &attr.meta {
+            Meta::NameValue(MetaNameValue {
+                value:
+                    Expr::Lit(ExprLit {
+                        lit: Lit::Str(s), ..
+                    }),
+                ..
+            }) => s.value(),
+            _ => panic!("failed to parse {:?}", attr.meta),
         }
     }
 
