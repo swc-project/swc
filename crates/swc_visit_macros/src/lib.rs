@@ -7,16 +7,13 @@ use pmutil::{q, Quote, SpanExt};
 use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site, make_doc_attr};
 use syn::{
-    parse_quote::{self, parse},
-    punctuated::Punctuated,
-    spanned::Spanned,
-    Arm, AttrStyle, Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall,
-    ExprPath, ExprUnary, Field, FieldMutability, FieldValue, Fields, FieldsUnnamed, FnArg,
-    GenericArgument, GenericParam, Generics, ImplItem, ImplItemMethod, Index, Item, ItemEnum,
-    ItemImpl, ItemMod, ItemStruct, ItemTrait, ItemUse, Lifetime, LifetimeDef, Member, Pat,
-    PatIdent, PatTuple, PatTupleStruct, PatType, PatWild, Path, PathArguments, Receiver,
-    ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type, TypePath, TypeReference,
-    UnOp, UseTree, Variant, VisPublic, Visibility,
+    parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block, Expr,
+    ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary, Field, FieldMutability,
+    FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem,
+    ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, ItemTrait, ItemUse,
+    Lifetime, LifetimeDef, Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatType, PatWild, Path,
+    PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type,
+    TypePath, TypeReference, UnOp, UseTree, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -280,14 +277,12 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
             pound_token: def_site(),
             style: AttrStyle::Outer,
             bracket_token: def_site(),
-            path: q!({ cfg_attr }).parse(),
-            tokens: q!({
-                (
+            meta: parse_quote!({
+                cfg_attr(
                     feature = "serde",
                     derive(serde::Serialize, serde::Deserialize),
                 )
-            })
-            .into(),
+            }),
         });
 
         items.push(Item::Enum(ItemEnum {
