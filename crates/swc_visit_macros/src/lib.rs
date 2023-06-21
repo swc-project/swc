@@ -13,7 +13,7 @@ use syn::{
     GenericParam, Generics, ImplItem, ImplItemFn, Index, Item, ItemEnum, ItemImpl, ItemMod,
     ItemStruct, ItemTrait, ItemUse, Lifetime, Member, Pat, PatIdent, PatTuple, PatTupleStruct,
     PatType, PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem,
-    Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
+    TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -404,7 +404,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
 
                 Block {
                     brace_token: def_site(),
-                    stmts: vec![Stmt::Expr(expr)],
+                    stmts: vec![Stmt::Expr(expr, None)],
                 }
             },
         }));
@@ -2310,7 +2310,7 @@ fn make_arm_from_struct(
             let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr, ast_path);
             stmts.push(match mode {
                 Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
-                    Stmt::Semi(expr, call_site())
+                    Stmt::Expr(expr, Some(call_site()))
                 }
                 Mode::Fold { .. } => q!(
                     Vars {
@@ -2450,7 +2450,7 @@ fn method_sig_from_ident(mode: Mode, v: &Ident) -> Signature {
 }
 
 /// Returns None if it's skipped.
-fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemMethod> {
+fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemFn> {
     let mut attrs = vec![];
 
     {
