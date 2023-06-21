@@ -264,8 +264,9 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
             pound_token: def_site(),
             style: AttrStyle::Outer,
             bracket_token: def_site(),
-            path: q!({ derive }).parse(),
-            tokens: q!({ (Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash) }).into(),
+            meta: parse_quote!(derive(
+                Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash
+            )),
         });
 
         attrs.push(make_doc_attr(&format!(
