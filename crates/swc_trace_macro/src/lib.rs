@@ -18,14 +18,13 @@ pub fn swc_trace(
 
     item.items.iter_mut().for_each(|item| {
         // We only handle methods
-        if let ImplItem::Method(m) = item {
+        if let ImplItem::Fn(m) = item {
             // #[tracing::instrument(level = "info", skip_all)]
             let attr = Attribute {
                 pound_token: Default::default(),
                 style: AttrStyle::Outer,
                 bracket_token: Default::default(),
-                path: parse_quote!(tracing::instrument),
-                tokens: parse_quote!((level = "info", skip_all)),
+                meta: parse_quote!(tracing::instrument(level = "info", skip_all)),
             };
             m.attrs.push(attr);
         }
