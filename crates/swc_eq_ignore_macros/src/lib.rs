@@ -230,7 +230,7 @@ impl Deriver {
                 label: Default::default(),
                 block: Block {
                     brace_token: Span::call_site().as_token(),
-                    stmts: vec![Stmt::Expr(expr)],
+                    stmts: vec![Stmt::Expr(expr, None)],
                 },
             })),
             comma: Default::default(),
