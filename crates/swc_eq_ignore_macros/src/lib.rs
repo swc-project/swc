@@ -18,7 +18,7 @@ pub fn derive_type_eq(item: proc_macro::TokenStream) -> proc_macro::TokenStream 
         ignore_field: Box::new(|field| {
             // Search for `#[not_type]`.
             for attr in &field.attrs {
-                if attr.path.is_ident("not_type") {
+                if attr.path().is_ident("not_type") {
                     return true;
                 }
             }
@@ -121,21 +121,20 @@ impl Deriver {
             .enumerate()
             .filter(|(_, f)| !(self.ignore_field)(f))
         {
-            let method_name = if field
-                .attrs
-                .iter()
-                .any(|attr| attr.path.is_ident("not_spanned") || attr.path.is_ident("use_eq"))
-            {
-                Ident::new("eq", Span::call_site())
-            } else if field
-                .attrs
-                .iter()
-                .any(|attr| attr.path.is_ident("use_eq_ignore_span"))
-            {
-                Ident::new("eq_ignore_span", Span::call_site())
-            } else {
-                self.method_name.clone()
-            };
+            let method_name =
+                if field.attrs.iter().any(|attr| {
+                    attr.path().is_ident("not_spanned") || attr.path().is_ident("use_eq")
+                }) {
+                    Ident::new("eq", Span::call_site())
+                } else if field
+                    .attrs
+                    .iter()
+                    .any(|attr| attr.path().is_ident("use_eq_ignore_span"))
+                {
+                    Ident::new("eq_ignore_span", Span::call_site())
+                } else {
+                    self.method_name.clone()
+                };
 
             let base = field
                 .ident
