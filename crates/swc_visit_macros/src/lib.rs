@@ -2290,10 +2290,14 @@ fn make_arm_from_struct(
 
         fields.push(FieldPat {
             attrs: vec![],
-            member: Member::Unnamed(Index {
-                index: i as _,
-                span: path.span(),
-            }),
+            member: if field.ident.is_none() {
+                Member::Unnamed(Index {
+                    index: i as _,
+                    span: path.span(),
+                })
+            } else {
+                Member::Named(field.ident.clone().unwrap())
+            },
             colon_token: Some(def_site()),
             pat: Box::new(Pat::Ident(PatIdent {
                 attrs: Default::default(),
