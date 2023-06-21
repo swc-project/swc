@@ -2290,27 +2290,21 @@ fn make_arm_from_struct(
             });
         }
 
-        if field.ident.is_some() {
-            fields.push(
-                q!(
-                    Vars {
-                        field: &binding_ident
-                    },
-                    { field }
-                )
-                .parse(),
-            );
-        } else {
-            fields.push(FieldValue {
-                attrs: vec![],
-                member: Member::Unnamed(Index {
-                    index: i as _,
-                    span: path.span(),
-                }),
-                colon_token: Some(def_site()),
-                expr: q!(Vars { binding_ident }, { binding_ident }).parse(),
-            });
-        }
+        fields.push(FieldPat {
+            attrs: vec![],
+            member: Member::Unnamed(Index {
+                index: i as _,
+                span: path.span(),
+            }),
+            colon_token: Some(def_site()),
+            pat: Box::new(Pat::Ident(PatIdent {
+                attrs: Default::default(),
+                by_ref: None,
+                mutability: None,
+                ident: binding_ident,
+                subpat: None,
+            })),
+        });
     }
 
     match mode {
