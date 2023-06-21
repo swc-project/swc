@@ -389,7 +389,7 @@ impl Parse for FieldAttr {
     }
 }
 
-/// `alias = "text"` in `#[string_enum(alias = "text")]`.
+/// `alias("text")` in `#[string_enum(alias("text"))]`.
 struct FieldAttrItem {
     alias: LitStr,
 }
@@ -400,12 +400,14 @@ impl Parse for FieldAttrItem {
 
         assert!(
             name == "alias",
-            "#[derive(StringEnum) only supports `#[string_enum(alias = \"text\"))]]"
+            "#[derive(StringEnum) only supports `#[string_enum(alias(\"text\"))]]"
         );
 
-        input.parse::<Token![=]>()?;
-        let alias = input.parse::<LitStr>()?;
+        let alias;
+        parenthesized!(alias in input);
 
-        Ok(Self { alias })
+        Ok(Self {
+            alias: alias.parse()?,
+        })
     }
 }
