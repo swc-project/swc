@@ -2507,9 +2507,9 @@ dependencies = [
 
 [[package]]
 name = "pmutil"
-version = "0.6.0"
+version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6cd2c0e919213c5d304dcbeaf91c19d502654f96b0df773c563701d8d6e8607d"
+checksum = "52a40bc70c2c58040d2d8b167ba9a5ff59fc9dab7ad44771cfde3dcfde7a09c6"
 dependencies = [
  "proc-macro2",
  "quote",
