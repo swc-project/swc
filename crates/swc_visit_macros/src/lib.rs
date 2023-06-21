@@ -876,29 +876,27 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
 
                     let pat = Pat::TupleStruct(PatTupleStruct {
                         attrs: Default::default(),
+                        qself: None,
                         path: q!(Vars { Name: &name }, (Self::Name)).parse(),
-                        pat: PatTuple {
-                            attrs: Default::default(),
-                            paren_token: def_site(),
-                            elems: {
-                                let mut v = Punctuated::new();
+                        paren_token: def_site(),
+                        elems: {
+                            let mut v = Punctuated::new();
 
-                                // Ignore node ref itself
-                                v.push(Pat::Wild(PatWild {
-                                    attrs: Default::default(),
-                                    underscore_token: stmt.span().as_token(),
-                                }));
+                            // Ignore node ref itself
+                            v.push(Pat::Wild(PatWild {
+                                attrs: Default::default(),
+                                underscore_token: stmt.span().as_token(),
+                            }));
 
-                                v.push(Pat::Ident(PatIdent {
-                                    attrs: Default::default(),
-                                    ident: field_kind.clone(),
-                                    subpat: None,
-                                    by_ref: Default::default(),
-                                    mutability: Default::default(),
-                                }));
+                            v.push(Pat::Ident(PatIdent {
+                                attrs: Default::default(),
+                                ident: field_kind.clone(),
+                                subpat: None,
+                                by_ref: Default::default(),
+                                mutability: Default::default(),
+                            }));
 
-                                v
-                            },
+                            v
                         },
                     });
 
