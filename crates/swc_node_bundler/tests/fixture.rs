@@ -99,6 +99,7 @@ fn pass(input_dir: PathBuf) {
                             Some(&comments),
                             false,
                             false,
+                            Default::default(),
                         )
                         .expect("failed to print?")
                         .code;

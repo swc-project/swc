@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_testing"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.20.8"
+version       = "0.20.9"
 
 [lib]
 bench = false
@@ -16,3 +16,5 @@ anyhow  = "1"
 hex     = "0.4"
 sha-1   = "0.10"
 tracing = "0.1.32"
+
+testing = { version = "0.33.15", path = "../testing" }

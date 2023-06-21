@@ -46,6 +46,13 @@ impl<'a, W: Write> JsWriter<'a, W> {
         }
     }
 
+    pub fn preamble(&mut self, s: &str) -> Result {
+        self.raw_write(s)?;
+        self.update_pos(s);
+
+        Ok(())
+    }
+
     /// Sets the indentation string. Defaults to four spaces.
     pub fn set_indent_str(&mut self, indent_str: &'static str) {
         self.indent_str = indent_str;

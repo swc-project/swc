@@ -6,13 +6,14 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "testing"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.33.13"
+version       = "0.33.15"
 
 [lib]
 bench = false
 
 [dependencies]
 ansi_term          = "0.12.1"
+cargo_metadata     = "0.15.4"
 difference         = "2"
 once_cell          = "1.10.0"
 pretty_assertions  = "1.1"
