@@ -711,12 +711,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
             paren_token: def_site(),
             inputs: {
                 let mut v = Punctuated::new();
-                v.push(FnArg::Receiver(Receiver {
-                    attrs: Default::default(),
-                    reference: Some((def_site(), None)),
-                    mutability: None,
-                    self_token: def_site(),
-                }));
+                v.push(FnArg::Receiver(parse_quote!(&self)));
 
                 v
             },
@@ -835,12 +830,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
             paren_token: def_site(),
             inputs: {
                 let mut v = Punctuated::new();
-                v.push(FnArg::Receiver(Receiver {
-                    attrs: Default::default(),
-                    reference: Some((def_site(), None)),
-                    mutability: Some(def_site()),
-                    self_token: def_site(),
-                }));
+                v.push(FnArg::Receiver(parse_quote!(&mut self)));
                 v.push(FnArg::Typed(PatType {
                     attrs: Default::default(),
                     colon_token: def_site(),
