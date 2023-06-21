@@ -9,14 +9,14 @@ mod fold;
 
 #[proc_macro_attribute]
 pub fn emitter(_attr: TokenStream, item: TokenStream) -> TokenStream {
-    let item: ImplItemMethod = syn::parse(item).expect("failed to parse input as an item");
+    let item: ImplItemFn = syn::parse(item).expect("failed to parse input as an item");
     let item = fold::InjectSelf { parser: None }.fold_impl_item_method(item);
     let item = expand(item);
 
     print("emitter", item.dump())
 }
 
-fn expand(i: ImplItemMethod) -> ImplItemMethod {
+fn expand(i: ImplItemFn) -> ImplItemFn {
     let mtd_name = i.sig.ident.clone();
     assert!(
         format!("{}", i.sig.ident).starts_with("emit_"),
@@ -83,5 +83,5 @@ fn (&mut self, node: Node) -> Result;
             .parse()
     };
 
-    ImplItemMethod { block, ..i }
+    ImplItemFn { block, ..i }
 }

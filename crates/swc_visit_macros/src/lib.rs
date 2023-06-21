@@ -589,7 +589,7 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
         path: Ident::new("AstParentKind", call_site()).into(),
     });
 
-    let set_index_item = ImplItem::Method(ImplItemMethod {
+    let set_index_item = ImplItem::Method(ImplItemFn {
         attrs: Default::default(),
         vis: Visibility::Inherited,
         defaultness: Default::default(),
@@ -712,7 +712,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
         path: Ident::new("AstParentKind", call_site()).into(),
     });
 
-    let kind_item = ImplItem::Fn(ImplItemMethod {
+    let kind_item = ImplItem::Fn(ImplItemFn {
         attrs: Default::default(),
         vis: Visibility::Public(VisPublic {
             pub_token: def_site(),
@@ -840,7 +840,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
         },
     });
 
-    let set_index_item = ImplItem::Method(ImplItemMethod {
+    let set_index_item = ImplItem::Method(ImplItemFn {
         attrs: Default::default(),
         vis: Visibility::Inherited,
         defaultness: Default::default(),
@@ -1043,7 +1043,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             };
 
-            ref_methods.push(ImplItemMethod {
+            ref_methods.push(ImplItemFn {
                 attrs: vec![],
                 vis: Visibility::Inherited,
                 defaultness: None,
@@ -1055,7 +1055,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         {
             // Either
 
-            either_methods.push(ImplItemMethod {
+            either_methods.push(ImplItemFn {
                 attrs: vec![],
                 vis: Visibility::Inherited,
                 defaultness: None,
@@ -1088,7 +1088,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         {
             // Optional
 
-            optional_methods.push(ImplItemMethod {
+            optional_methods.push(ImplItemFn {
                 attrs: vec![],
                 vis: Visibility::Inherited,
                 defaultness: None,
@@ -1147,7 +1147,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         {
             // Visit <-> VisitAll using swc_visit::All
 
-            visit_all_methods.push(ImplItemMethod {
+            visit_all_methods.push(ImplItemFn {
                 attrs: vec![],
                 vis: Visibility::Inherited,
                 defaultness: None,

@@ -3,20 +3,20 @@
 extern crate proc_macro;
 
 use pmutil::{smart_quote, Quote, ToTokensExt};
-use syn::{FnArg, ImplItemMethod, Type, TypeReference};
+use syn::{FnArg, ImplItemFn, Type, TypeReference};
 
 #[proc_macro_attribute]
 pub fn emitter(
     _attr: proc_macro::TokenStream,
     item: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
-    let item: ImplItemMethod = syn::parse(item).expect("failed to parse input as an item");
+    let item: ImplItemFn = syn::parse(item).expect("failed to parse input as an item");
     let item = expand(item);
 
     item.dump().into()
 }
 
-fn expand(i: ImplItemMethod) -> ImplItemMethod {
+fn expand(i: ImplItemFn) -> ImplItemFn {
     let mtd_name = i.sig.ident.clone();
     assert!(
         format!("{}", i.sig.ident).starts_with("emit_"),
@@ -82,5 +82,5 @@ fn (&mut self, node: Node) -> Result;
             .parse()
     };
 
-    ImplItemMethod { block, ..i }
+    ImplItemFn { block, ..i }
 }

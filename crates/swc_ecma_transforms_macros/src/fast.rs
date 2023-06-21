@@ -1,7 +1,7 @@
 use pmutil::q;
 use proc_macro2::TokenStream;
 use swc_macros_common::call_site;
-use syn::{FnArg, Ident, ImplItem, ImplItemMethod, ItemImpl, Pat, Path, Stmt};
+use syn::{FnArg, Ident, ImplItem, ImplItemFn, ItemImpl, Pat, Path, Stmt};
 
 use crate::common::Mode;
 
@@ -96,7 +96,7 @@ impl Expander {
     }
 
     /// Add fast path to a method
-    fn patch_method(&self, mut m: ImplItemMethod) -> ImplItemMethod {
+    fn patch_method(&self, mut m: ImplItemFn) -> ImplItemFn {
         let ty_arg = m
             .sig
             .inputs
