@@ -866,6 +866,7 @@ impl Optimizer<'_> {
             PropName::BigInt(..) => true,
         };
 
+        let len = obj.props.len();
         obj.props.retain(|prop| match prop {
             PropOrSpread::Spread(_) => {
                 unreachable!()
@@ -881,6 +882,11 @@ impl Optimizer<'_> {
                 Prop::Method(p) => !should_preserve(&p.key),
             },
         });
+
+        if obj.props.len() != len {
+            self.changed = true;
+            report_change!("unused: Removing unused properties");
+        }
 
         None
     }
