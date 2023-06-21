@@ -8,12 +8,12 @@ use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site, make_doc_attr};
 use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
-    Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary, Field, FieldValue,
-    Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem,
-    ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, ItemTrait, ItemUse,
-    Lifetime, LifetimeDef, Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatType, PatWild, Path,
-    PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type,
-    TypePath, TypeReference, UnOp, UseTree, Variant, VisPublic, Visibility,
+    Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary, Field,
+    FieldMutability, FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam,
+    Generics, ImplItem, ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct,
+    ItemTrait, ItemUse, Lifetime, LifetimeDef, Member, Pat, PatIdent, PatTuple, PatTupleStruct,
+    PatType, PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem,
+    TraitItemMethod, Type, TypePath, TypeReference, UnOp, UseTree, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -476,6 +476,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
                             path: name.clone().into(),
                         })),
                     }),
+                    mutability: FieldMutability::None,
                 });
             }
 
@@ -494,6 +495,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
                     )
                     .parse(),
                 }),
+                mutability: FieldMutability::None,
             });
 
             Fields::Unnamed(FieldsUnnamed {
