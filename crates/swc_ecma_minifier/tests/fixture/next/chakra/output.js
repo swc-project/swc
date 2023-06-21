@@ -108,45 +108,7 @@
             Portal.defaultProps = {
                 appendToParentPortal: !0
             }, Portal.className = PORTAL_CLASSNAME, Portal.selector = ".chakra-portal", chakra_ui_utils_esm.Ts && (Portal.displayName = "Portal");
-            var chakra_ui_system_esm = __webpack_require__(2846), chakra_ui_color_mode_esm = __webpack_require__(949), ssrDocument = {
-                body: {
-                    classList: {
-                        add: function() {},
-                        remove: function() {}
-                    }
-                },
-                addEventListener: function() {},
-                removeEventListener: function() {},
-                activeElement: {
-                    blur: function() {},
-                    nodeName: ""
-                },
-                querySelector: function() {
-                    return null;
-                },
-                querySelectorAll: function() {
-                    return [];
-                },
-                getElementById: function() {
-                    return null;
-                },
-                createEvent: function() {
-                    return {
-                        initEvent: function() {}
-                    };
-                },
-                createElement: function() {
-                    return {
-                        children: [],
-                        childNodes: [],
-                        style: {},
-                        setAttribute: function() {},
-                        getElementsByTagName: function() {
-                            return [];
-                        }
-                    };
-                }
-            }, noop = function() {}, defaultEnv = chakra_ui_utils_esm.jU ? {
+            var chakra_ui_system_esm = __webpack_require__(2846), chakra_ui_color_mode_esm = __webpack_require__(949), ssrDocument = {}, noop = function() {}, defaultEnv = chakra_ui_utils_esm.jU ? {
                 window: window,
                 document: document
             } : {
@@ -228,41 +190,7 @@
                 }, resetCSS && react.createElement(CSSReset$1, null), react.createElement(chakra_ui_system_esm.ZL, null), portalZIndex ? react.createElement(PortalManager, {
                     zIndex: portalZIndex
                 }, _children) : _children));
-            }, spacing = {
-                px: "1px",
-                0.5: "0.125rem",
-                1: "0.25rem",
-                1.5: "0.375rem",
-                2: "0.5rem",
-                2.5: "0.625rem",
-                3: "0.75rem",
-                3.5: "0.875rem",
-                4: "1rem",
-                5: "1.25rem",
-                6: "1.5rem",
-                7: "1.75rem",
-                8: "2rem",
-                9: "2.25rem",
-                10: "2.5rem",
-                12: "3rem",
-                14: "3.5rem",
-                16: "4rem",
-                20: "5rem",
-                24: "6rem",
-                28: "7rem",
-                32: "8rem",
-                36: "9rem",
-                40: "10rem",
-                44: "11rem",
-                48: "12rem",
-                52: "13rem",
-                56: "14rem",
-                60: "15rem",
-                64: "16rem",
-                72: "18rem",
-                80: "20rem",
-                96: "24rem"
-            };
+            }, spacing = {};
             function sizes_501602a9_esm_extends() {
                 return (sizes_501602a9_esm_extends = Object.assign ? Object.assign.bind() : function(target) {
                     for(var i = 1; i < arguments.length; i++){
@@ -1394,47 +1322,6 @@
             var drawerAnatomy = anatomy("drawer").parts("overlay", "dialogContainer", "dialog").extend("header", "closeButton", "body", "footer"), editableAnatomy = anatomy("editable").parts("preview", "input", "textarea"), formAnatomy = anatomy("form").parts("container", "requiredIndicator", "helperText"), formErrorAnatomy = anatomy("formError").parts("text", "icon"), inputAnatomy = anatomy("input").parts("addon", "field", "element"), listAnatomy = anatomy("list").parts("container", "item", "icon"), menuAnatomy = anatomy("menu").parts("button", "list", "item").extend("groupTitle", "command", "divider"), modalAnatomy = anatomy("modal").parts("overlay", "dialogContainer", "dialog").extend("header", "closeButton", "body", "footer"), numberInputAnatomy = anatomy("numberinput").parts("root", "field", "stepperGroup", "stepper");
             anatomy("pininput").parts("field");
             var popoverAnatomy = anatomy("popover").parts("content", "header", "body", "footer").extend("popper", "arrow", "closeButton"), progressAnatomy = anatomy("progress").parts("label", "filledTrack", "track"), radioAnatomy = anatomy("radio").parts("container", "control", "label"), selectAnatomy = anatomy("select").parts("field", "icon"), sliderAnatomy = anatomy("slider").parts("container", "track", "thumb", "filledTrack"), statAnatomy = anatomy("stat").parts("container", "label", "helpText", "number", "icon"), switchAnatomy = anatomy("switch").parts("container", "track", "thumb"), tableAnatomy = anatomy("table").parts("table", "thead", "tbody", "tr", "th", "td", "tfoot", "caption"), tabsAnatomy = anatomy("tabs").parts("root", "tab", "tablist", "tabpanel", "tabpanels", "indicator"), tagAnatomy = anatomy("tag").parts("container", "label", "closeButton"), typography = {
-                letterSpacings: {
-                    tighter: "-0.05em",
-                    tight: "-0.025em",
-                    normal: "0",
-                    wide: "0.025em",
-                    wider: "0.05em",
-                    widest: "0.1em"
-                },
-                lineHeights: {
-                    normal: "normal",
-                    none: 1,
-                    shorter: 1.25,
-                    short: 1.375,
-                    base: 1.5,
-                    tall: 1.625,
-                    taller: "2",
-                    3: ".75rem",
-                    4: "1rem",
-                    5: "1.25rem",
-                    6: "1.5rem",
-                    7: "1.75rem",
-                    8: "2rem",
-                    9: "2.25rem",
-                    10: "2.5rem"
-                },
-                fontWeights: {
-                    hairline: 100,
-                    thin: 200,
-                    light: 300,
-                    normal: 400,
-                    medium: 500,
-                    semibold: 600,
-                    bold: 700,
-                    extrabold: 800,
-                    black: 900
-                },
-                fonts: {
-                    heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-                    body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-                    mono: 'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace'
-                },
                 fontSizes: {
                     xs: "0.75rem",
                     sm: "0.875rem",
@@ -1640,7 +1527,7 @@
                             sMin,
                             sMax
                         ], options.seed);
-                    }(h, options), v = function(H, S, options) {
+                    }(h, options), res1 = (function(H, S, options) {
                         var bMin = function(H, S) {
                             for(var lowerBounds = getColorInfo(H).lowerBounds, i = 0; i < lowerBounds.length - 1; i++){
                                 var s1 = lowerBounds[i][0], v1 = lowerBounds[i][1], s2 = lowerBounds[i + 1][0], v2 = lowerBounds[i + 1][1];
@@ -1661,15 +1548,11 @@
                             case "random":
                                 bMin = 0, bMax = 100;
                         }
-                        return randomWithin([
+                        randomWithin([
                             bMin,
                             bMax
                         ], options.seed);
-                    }(h, s, options), res1 = {
-                        h: h,
-                        s: s,
-                        v: v
-                    };
+                    }(h, s, options), {});
                     return void 0 !== options.alpha && (res1.a = options.alpha), new module_TinyColor(res1);
                 })().toHexString(), !opts || (0, chakra_ui_utils_esm.Qr)(opts) ? fallback : opts.string && opts.colors ? function(str, list) {
                     var index = 0;
@@ -1738,13 +1621,6 @@
                     size: "md"
                 }
             }, Badge = {
-                baseStyle: {
-                    px: 1,
-                    textTransform: "uppercase",
-                    fontSize: "xs",
-                    borderRadius: "sm",
-                    fontWeight: "bold"
-                },
                 variants: {
                     solid: function(props) {
                         var c = props.colorScheme, theme = props.theme, dark = transparentize(c + ".500", 0.6)(theme);
@@ -1866,19 +1742,7 @@
                         borderColor: mode("red.500", "red.300")(props)
                     }
                 };
-            }, baseStyleContainer$2 = {
-                _disabled: {
-                    cursor: "not-allowed"
-                }
-            }, baseStyleLabel$3 = {
-                userSelect: "none",
-                _disabled: {
-                    opacity: 0.4
-                }
-            }, baseStyleIcon$4 = {
-                transitionProperty: "transform",
-                transitionDuration: "normal"
-            }, Checkbox = {
+            }, baseStyleContainer$2 = {}, baseStyleLabel$3 = {}, baseStyleIcon$4 = {}, Checkbox = {
                 parts: checkboxAnatomy.keys,
                 baseStyle: function(props) {
                     return {
@@ -1947,31 +1811,7 @@
                     }
                 };
             }
-            var baseStyleOverlay$1 = {
-                bg: "blackAlpha.600",
-                zIndex: "overlay"
-            }, baseStyleDialogContainer$1 = {
-                display: "flex",
-                zIndex: "modal",
-                justifyContent: "center"
-            }, baseStyleHeader$2 = {
-                px: 6,
-                py: 4,
-                fontSize: "xl",
-                fontWeight: "semibold"
-            }, baseStyleCloseButton$3 = {
-                position: "absolute",
-                top: 2,
-                insetEnd: 3
-            }, baseStyleBody$2 = {
-                px: 6,
-                py: 2,
-                flex: 1,
-                overflow: "auto"
-            }, baseStyleFooter$2 = {
-                px: 6,
-                py: 4
-            }, sizes$g = {
+            var baseStyleOverlay$1 = {}, baseStyleDialogContainer$1 = {}, baseStyleHeader$2 = {}, baseStyleCloseButton$3 = {}, baseStyleBody$2 = {}, baseStyleFooter$2 = {}, sizes$g = {
                 xs: getSize$2("xs"),
                 sm: getSize$2("md"),
                 md: getSize$2("lg"),
@@ -2267,23 +2107,7 @@
                         verticalAlign: "text-bottom"
                     }
                 }
-            }, baseStyleGroupTitle = {
-                mx: 4,
-                my: 2,
-                fontWeight: "semibold",
-                fontSize: "sm"
-            }, baseStyleCommand = {
-                opacity: 0.6
-            }, baseStyleDivider = {
-                border: 0,
-                borderBottom: "1px solid",
-                borderColor: "inherit",
-                my: "0.5rem",
-                opacity: 0.6
-            }, baseStyleButton = {
-                transitionProperty: "common",
-                transitionDuration: "normal"
-            }, Menu = {
+            }, baseStyleGroupTitle = {}, baseStyleCommand = {}, baseStyleDivider = {}, baseStyleButton = {}, Menu = {
                 parts: menuAnatomy.keys,
                 baseStyle: function(props) {
                     return {
@@ -2323,10 +2147,7 @@
                         divider: baseStyleDivider
                     };
                 }
-            }, baseStyleOverlay = {
-                bg: "blackAlpha.600",
-                zIndex: "modal"
-            }, baseStyleDialog = function(props) {
+            }, baseStyleOverlay = {}, baseStyleDialog = function(props) {
                 var scrollBehavior = props.scrollBehavior;
                 return {
                     borderRadius: "md",
@@ -2337,19 +2158,7 @@
                     maxH: "inside" === scrollBehavior ? "calc(100% - 7.5rem)" : void 0,
                     boxShadow: mode("lg", "dark-lg")(props)
                 };
-            }, baseStyleHeader$1 = {
-                px: 6,
-                py: 4,
-                fontSize: "xl",
-                fontWeight: "semibold"
-            }, baseStyleCloseButton$2 = {
-                position: "absolute",
-                top: 2,
-                insetEnd: 3
-            }, baseStyleFooter$1 = {
-                px: 6,
-                py: 4
-            };
+            }, baseStyleHeader$1 = {}, baseStyleCloseButton$2 = {}, baseStyleFooter$1 = {};
             function getSize$1(value) {
                 return "full" === value ? {
                     dialog: {
@@ -2481,32 +2290,13 @@
                     return null != (_Input$variants$fille = Input.variants.filled(props).field) ? _Input$variants$fille : {};
                 },
                 unstyled: null != (_Input$variants$unsty$1 = Input.variants.unstyled.field) ? _Input$variants$unsty$1 : {}
-            }, defaultProps$a = Input.defaultProps, $popperBg = cssVar("popper-bg"), $arrowBg$1 = cssVar("popper-arrow-bg"), $arrowShadowColor = cssVar("popper-arrow-shadow-color"), baseStylePopper = {
-                zIndex: 10
-            }, baseStyleContent = function(props) {
+            }, defaultProps$a = Input.defaultProps, $popperBg = cssVar("popper-bg"), $arrowBg$1 = cssVar("popper-arrow-bg"), $arrowShadowColor = cssVar("popper-arrow-shadow-color"), baseStylePopper = {}, baseStyleContent = function(props) {
                 var _ref, bg = mode("white", "gray.700")(props), shadowColor = mode("gray.200", "whiteAlpha.300")(props);
                 return (_ref = {})[$popperBg.variable] = "colors." + bg, _ref.bg = $popperBg.reference, _ref[$arrowBg$1.variable] = $popperBg.reference, _ref[$arrowShadowColor.variable] = "colors." + shadowColor, _ref.width = "xs", _ref.border = "1px solid", _ref.borderColor = "inherit", _ref.borderRadius = "md", _ref.boxShadow = "sm", _ref.zIndex = "inherit", _ref._focusVisible = {
                     outline: 0,
                     boxShadow: "outline"
                 }, _ref;
-            }, baseStyleHeader = {
-                px: 3,
-                py: 2,
-                borderBottomWidth: "1px"
-            }, baseStyleBody = {
-                px: 3,
-                py: 2
-            }, baseStyleFooter = {
-                px: 3,
-                py: 2,
-                borderTopWidth: "1px"
-            }, baseStyleCloseButton$1 = {
-                position: "absolute",
-                borderRadius: "md",
-                top: 1,
-                insetEnd: 2,
-                padding: 2
-            }, Popover = {
+            }, baseStyleHeader = {}, baseStyleBody = {}, baseStyleFooter = {}, baseStyleCloseButton$1 = {}, Popover = {
                 parts: popoverAnatomy.keys,
                 baseStyle: function(props) {
                     return {
@@ -2519,12 +2309,7 @@
                         closeButton: baseStyleCloseButton$1
                     };
                 }
-            }, baseStyleLabel$2 = {
-                lineHeight: "1",
-                fontSize: "0.25em",
-                fontWeight: "bold",
-                color: "white"
-            }, baseStyleFilledTrack$1 = function(props) {
+            }, baseStyleLabel$2 = {}, baseStyleFilledTrack$1 = function(props) {
                 var c, t, isIndeterminate, hasStripe, stripeStyle, bgColor, gradient;
                 return sizes_501602a9_esm_extends({
                     transitionProperty: "common",
@@ -2629,19 +2414,7 @@
                     size: "md",
                     colorScheme: "blue"
                 }
-            }, baseStyleIcon$1 = {
-                width: "1.5rem",
-                height: "100%",
-                insetEnd: "0.5rem",
-                position: "relative",
-                color: "currentColor",
-                fontSize: "1.25rem",
-                _disabled: {
-                    opacity: 0.5
-                }
-            }, iconSpacing = {
-                paddingInlineEnd: "2rem"
-            }, sizes$8 = lodash_mergewith_default()({}, Input.sizes, {
+            }, baseStyleIcon$1 = {}, iconSpacing = {}, sizes$8 = lodash_mergewith_default()({}, Input.sizes, {
                 lg: {
                     field: iconSpacing
                 },
@@ -2925,11 +2698,7 @@
                     size: "md",
                     colorScheme: "blue"
                 }
-            }, numericStyles = {
-                "&[data-is-numeric=true]": {
-                    textAlign: "end"
-                }
-            }, Table = {
+            }, numericStyles = {}, Table = {
                 parts: tableAnatomy.keys,
                 baseStyle: {
                     table: {
@@ -3094,9 +2863,7 @@
                     })[void 0 === _props$align ? "start" : _props$align],
                     flexDirection: "vertical" === props.orientation ? "column" : "row"
                 };
-            }, baseStyleTabpanel = {
-                p: 4
-            }, Tabs = {
+            }, baseStyleTabpanel = {}, Tabs = {
                 parts: tabsAnatomy.keys,
                 baseStyle: function(props) {
                     return {
@@ -4512,48 +4279,7 @@
                     insetEnd: 1,
                     top: 1
                 }));
-            }, toastMotionVariants = {
-                initial: function(props) {
-                    var _ref, position = props.position, dir = [
-                        "top",
-                        "bottom"
-                    ].includes(position) ? "y" : "x", factor = [
-                        "top-right",
-                        "bottom-right"
-                    ].includes(position) ? 1 : -1;
-                    return "bottom" === position && (factor = 1), (_ref = {
-                        opacity: 0
-                    })[dir] = 24 * factor, _ref;
-                },
-                animate: {
-                    opacity: 1,
-                    y: 0,
-                    x: 0,
-                    scale: 1,
-                    transition: {
-                        duration: 0.4,
-                        ease: [
-                            0.4,
-                            0,
-                            0.2,
-                            1
-                        ]
-                    }
-                },
-                exit: {
-                    opacity: 0,
-                    scale: 0.85,
-                    transition: {
-                        duration: 0.2,
-                        ease: [
-                            0.4,
-                            0,
-                            1,
-                            1
-                        ]
-                    }
-                }
-            }, ToastComponent = react.memo(function(props) {
+            }, toastMotionVariants = {}, ToastComponent = react.memo(function(props) {
                 var id = props.id, message = props.message, onCloseComplete = props.onCloseComplete, onRequestRemove = props.onRequestRemove, _props$requestClose = props.requestClose, requestClose = void 0 !== _props$requestClose && _props$requestClose, _props$position = props.position, position = void 0 === _props$position ? "bottom" : _props$position, _props$duration = props.duration, duration = void 0 === _props$duration ? 5000 : _props$duration, containerStyle = props.containerStyle, _props$motionVariants = props.motionVariants, _props$toastSpacing = props.toastSpacing, toastSpacing = void 0 === _props$toastSpacing ? "0.5rem" : _props$toastSpacing, _React$useState = react.useState(duration), delay = _React$useState[0], setDelay = _React$useState[1], isPresent = (0, use_presence.hO)();
                 (0, chakra_ui_hooks_esm.rf)(function() {
                     isPresent || null == onCloseComplete || onCloseComplete();

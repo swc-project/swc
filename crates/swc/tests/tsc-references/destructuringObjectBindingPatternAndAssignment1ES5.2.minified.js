@@ -1,8 +1,6 @@
 //// [destructuringObjectBindingPatternAndAssignment1ES5.ts]
 (void 0).a1;
-var tmp = {
-    b21: "world"
-};
+var tmp = {};
 (void 0 === tmp ? {
     b21: "string"
 } : tmp).b21;

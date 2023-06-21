@@ -351,11 +351,7 @@
                             return +e != e && (e = 0), Buffer.alloc(+e);
                         }, r.INSPECT_MAX_BYTES = 50, r.kMaxLength = 2147483647, Buffer.TYPED_ARRAY_SUPPORT = function() {
                             try {
-                                var e = new Uint8Array(1), r = {
-                                    foo: function() {
-                                        return 42;
-                                    }
-                                };
+                                var e = new Uint8Array(1), r = {};
                                 return Object.setPrototypeOf(r, Uint8Array.prototype), Object.setPrototypeOf(e, r), 42 === e.foo();
                             } catch (e) {
                                 return !1;
@@ -1935,7 +1931,6 @@
                         }
                         function inspect(r, e) {
                             var o = {
-                                seen: [],
                                 stylize: stylizeNoColor
                             };
                             return arguments.length >= 3 && (o.depth = arguments[2]), arguments.length >= 4 && (o.colors = arguments[3]), isBoolean(e) ? o.showHidden = e : e && t._extend(o, e), isUndefined(o.showHidden) && (o.showHidden = !1), isUndefined(o.depth) && (o.depth = 2), isUndefined(o.colors) && (o.colors = !1), isUndefined(o.customInspect) && (o.customInspect = !0), o.colors && (o.stylize = stylizeWithColor), formatValue(o, r, o.depth);

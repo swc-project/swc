@@ -12,6 +12,4 @@ Object.defineProperty(exports, "__esModule", {
         return elem;
     }
 });
-const elem = {
-    field: 'a'
-};
+const elem = {};

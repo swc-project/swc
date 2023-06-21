@@ -537,21 +537,7 @@
                 };
                 func.guid = fn.guid = fn.guid || _guid++, on(elem, type, func);
             }
-            function any(elem, type, fn) {
-                var func = function func() {
-                    off(elem, type, func), fn.apply(this, arguments);
-                };
-                func.guid = fn.guid = fn.guid || _guid++, on(elem, type, func);
-            }
-            var Events = Object.freeze({
-                __proto__: null,
-                fixEvent: fixEvent,
-                on: on,
-                off: off,
-                trigger: trigger,
-                one: one,
-                any: any
-            }), bind = function(context, fn, uid) {
+            var bind = function(context, fn, uid) {
                 fn.guid || (fn.guid = _guid++);
                 var bound = fn.bind(context);
                 return bound.guid = uid ? uid + "_" + fn.guid : fn.guid, bound;
@@ -582,8 +568,10 @@
                 var ael = this.addEventListener;
                 this.addEventListener = function() {}, one(this, type, fn), this.addEventListener = ael;
             }, EventTarget$2.prototype.any = function(type, fn) {
-                var ael = this.addEventListener;
-                this.addEventListener = function() {}, any(this, type, fn), this.addEventListener = ael;
+                var elem, func, ael = this.addEventListener;
+                this.addEventListener = function() {}, elem = this, (func = function func() {
+                    off(elem, type, func), fn.apply(this, arguments);
+                }).guid = fn.guid = fn.guid || _guid++, on(elem, type, func), this.addEventListener = ael;
             }, EventTarget$2.prototype.trigger = function(event) {
                 var type = event.type || event;
                 "string" == typeof event && (event = {
@@ -601,9 +589,7 @@
                 }, 0);
                 map.set(type, timeout);
             };
-            var objName = function(obj) {
-                return "function" == typeof obj.name ? obj.name() : "string" == typeof obj.name ? obj.name : obj.name_ ? obj.name_ : obj.constructor && obj.constructor.name ? obj.constructor.name : typeof obj;
-            }, isEvented = function(object) {
+            var isEvented = function(object) {
                 return object instanceof EventTarget$2 || !!object.eventBusEl_ && [
                     "on",
                     "one",
@@ -614,77 +600,7 @@
                 });
             }, addEventedCallback = function(target, callback) {
                 isEvented(target) ? callback() : (target.eventedCallbacks || (target.eventedCallbacks = []), target.eventedCallbacks.push(callback));
-            }, isValidEventType = function(type) {
-                return "string" == typeof type && /\S/.test(type) || Array.isArray(type) && !!type.length;
-            }, validateTarget = function(target, obj, fnName) {
-                if (!target || !target.nodeName && !isEvented(target)) throw Error("Invalid target for " + objName(obj) + "#" + fnName + "; must be a DOM node or evented object.");
-            }, validateEventType = function(type, obj, fnName) {
-                if (!isValidEventType(type)) throw Error("Invalid event type for " + objName(obj) + "#" + fnName + "; must be a non-empty string or array.");
-            }, validateListener = function(listener, obj, fnName) {
-                if ("function" != typeof listener) throw Error("Invalid listener for " + objName(obj) + "#" + fnName + "; must be a function.");
-            }, normalizeListenArgs = function(self1, args, fnName) {
-                var target, type, listener, isTargetingSelf = args.length < 3 || args[0] === self1 || args[0] === self1.eventBusEl_;
-                return isTargetingSelf ? (target = self1.eventBusEl_, args.length >= 3 && args.shift(), type = args[0], listener = args[1]) : (target = args[0], type = args[1], listener = args[2]), validateTarget(target, self1, fnName), validateEventType(type, self1, fnName), validateListener(listener, self1, fnName), {
-                    isTargetingSelf: isTargetingSelf,
-                    target: target,
-                    type: type,
-                    listener: listener = bind(self1, listener)
-                };
-            }, listen = function(target, method, type, listener) {
-                validateTarget(target, target, method), target.nodeName ? Events[method](target, type, listener) : target[method](type, listener);
-            }, EventedMixin = {
-                on: function() {
-                    for(var _this = this, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    var _normalizeListenArgs = normalizeListenArgs(this, args, "on"), isTargetingSelf = _normalizeListenArgs.isTargetingSelf, target = _normalizeListenArgs.target, type = _normalizeListenArgs.type, listener = _normalizeListenArgs.listener;
-                    if (listen(target, "on", type, listener), !isTargetingSelf) {
-                        var removeListenerOnDispose = function() {
-                            return _this.off(target, type, listener);
-                        };
-                        removeListenerOnDispose.guid = listener.guid;
-                        var removeRemoverOnTargetDispose = function() {
-                            return _this.off("dispose", removeListenerOnDispose);
-                        };
-                        removeRemoverOnTargetDispose.guid = listener.guid, listen(this, "on", "dispose", removeListenerOnDispose), listen(target, "on", "dispose", removeRemoverOnTargetDispose);
-                    }
-                },
-                one: function() {
-                    for(var _this2 = this, _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++)args[_key2] = arguments[_key2];
-                    var _normalizeListenArgs2 = normalizeListenArgs(this, args, "one"), isTargetingSelf = _normalizeListenArgs2.isTargetingSelf, target = _normalizeListenArgs2.target, type = _normalizeListenArgs2.type, listener = _normalizeListenArgs2.listener;
-                    if (isTargetingSelf) listen(target, "one", type, listener);
-                    else {
-                        var wrapper = function wrapper() {
-                            _this2.off(target, type, wrapper);
-                            for(var _len3 = arguments.length, largs = Array(_len3), _key3 = 0; _key3 < _len3; _key3++)largs[_key3] = arguments[_key3];
-                            listener.apply(null, largs);
-                        };
-                        wrapper.guid = listener.guid, listen(target, "one", type, wrapper);
-                    }
-                },
-                any: function() {
-                    for(var _this3 = this, _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++)args[_key4] = arguments[_key4];
-                    var _normalizeListenArgs3 = normalizeListenArgs(this, args, "any"), isTargetingSelf = _normalizeListenArgs3.isTargetingSelf, target = _normalizeListenArgs3.target, type = _normalizeListenArgs3.type, listener = _normalizeListenArgs3.listener;
-                    if (isTargetingSelf) listen(target, "any", type, listener);
-                    else {
-                        var wrapper = function wrapper() {
-                            _this3.off(target, type, wrapper);
-                            for(var _len5 = arguments.length, largs = Array(_len5), _key5 = 0; _key5 < _len5; _key5++)largs[_key5] = arguments[_key5];
-                            listener.apply(null, largs);
-                        };
-                        wrapper.guid = listener.guid, listen(target, "any", type, wrapper);
-                    }
-                },
-                off: function(targetOrType, typeOrListener, listener) {
-                    !targetOrType || isValidEventType(targetOrType) ? off(this.eventBusEl_, targetOrType, typeOrListener) : (validateTarget(targetOrType, this, "off"), validateEventType(typeOrListener, this, "off"), validateListener(listener, this, "off"), listener = bind(this, listener), this.off("dispose", listener), targetOrType.nodeName ? (off(targetOrType, typeOrListener, listener), off(targetOrType, "dispose", listener)) : isEvented(targetOrType) && (targetOrType.off(typeOrListener, listener), targetOrType.off("dispose", listener)));
-                },
-                trigger: function(event, hash) {
-                    if (validateTarget(this.eventBusEl_, this, "trigger"), !isValidEventType(event && "string" != typeof event ? event.type : event)) {
-                        var error = "Invalid event type for " + objName(this) + "#trigger; must be a non-empty string or object with a type key that has a non-empty value.";
-                        if (event) (this.log || log$1).error(error);
-                        else throw Error(error);
-                    }
-                    return trigger(this.eventBusEl_, event, hash);
-                }
-            };
+            }, EventedMixin = {};
             function evented(target, options) {
                 void 0 === options && (options = {});
                 var eventBusKey = options.eventBusKey;
@@ -708,21 +624,7 @@
                     }, 0);
                 }), target;
             }
-            var StatefulMixin = {
-                state: {},
-                setState: function(stateUpdates) {
-                    var changes, _this = this;
-                    return "function" == typeof stateUpdates && (stateUpdates = stateUpdates()), each(stateUpdates, function(value, key) {
-                        _this.state[key] !== value && ((changes = changes || {})[key] = {
-                            from: _this.state[key],
-                            to: value
-                        }), _this.state[key] = value;
-                    }), changes && isEvented(this) && this.trigger({
-                        changes: changes,
-                        type: "statechanged"
-                    }), changes;
-                }
-            };
+            var StatefulMixin = {};
             function stateful(target, defaultState) {
                 return assign(target, StatefulMixin), target.state = assign({}, target.state, defaultState), "function" == typeof target.handleStateChanged && isEvented(target) && target.on("statechanged", target.handleStateChanged), target;
             }
@@ -1563,9 +1465,7 @@
                     return log$1.error(error);
                 }), global_window__WEBPACK_IMPORTED_MODULE_0___default().console && global_window__WEBPACK_IMPORTED_MODULE_0___default().console.groupEnd && global_window__WEBPACK_IMPORTED_MODULE_0___default().console.groupEnd()), parser.flush();
             }, loadTrack = function(src, track) {
-                var opts = {
-                    uri: src
-                }, crossOrigin = isCrossOrigin(src);
+                var opts = {}, crossOrigin = isCrossOrigin(src);
                 crossOrigin && (opts.cors = crossOrigin);
                 var withCredentials = "use-credentials" === track.tech_.crossOrigin();
                 withCredentials && (opts.withCredentials = withCredentials), _videojs_xhr__WEBPACK_IMPORTED_MODULE_4___default()(opts, bind(this, function(err, response, responseBody) {
@@ -4441,10 +4341,7 @@
                 }, ResizeManager;
             }(Component$1);
             Component$1.registerComponent("ResizeManager", ResizeManager);
-            var defaults = {
-                trackingThreshold: 20,
-                liveTolerance: 15
-            }, LiveTracker = function(_Component) {
+            var defaults = {}, LiveTracker = function(_Component) {
                 function LiveTracker(player, options) {
                     var _this, options_ = mergeOptions$3(defaults, options, {
                         createEl: !1
@@ -4619,21 +4516,14 @@
                 }
             }, defineLazyProperty = function(obj, key, getValue, setter) {
                 void 0 === setter && (setter = !0);
-                var set = function(value) {
+                var options = {};
+                return setter && (options.set = function(value) {
                     return Object.defineProperty(obj, key, {
                         value: value,
                         enumerable: !0,
                         writable: !0
                     });
-                }, options = {
-                    configurable: !0,
-                    enumerable: !0,
-                    get: function() {
-                        var value = getValue();
-                        return set(value), value;
-                    }
-                };
-                return setter && (options.set = set), Object.defineProperty(obj, key, options);
+                }), Object.defineProperty(obj, key, options);
             }, Html5 = function(_Tech) {
                 function Html5(options, ready) {
                     _this = _Tech.call(this, options, ready) || this;
@@ -4696,12 +4586,7 @@
                     if (this["featuresNative" + props.capitalName + "Tracks"] && elTracks && elTracks.addEventListener) {
                         var listeners = {
                             change: function(e) {
-                                var event = {
-                                    type: "change",
-                                    target: techTracks,
-                                    currentTarget: techTracks,
-                                    srcElement: techTracks
-                                };
+                                var event = {};
                                 techTracks.trigger(event), "text" === name && _this3[REMOTE.remoteText.getterName]().trigger(event);
                             },
                             addtrack: function(e) {
@@ -5135,15 +5020,7 @@
                 var v = "x" === k.charAt(0) ? "x-" + k.substring(1) : k;
                 BREAKPOINT_CLASSES[k] = "vjs-layout-" + v;
             });
-            var DEFAULT_BREAKPOINTS = {
-                tiny: 210,
-                xsmall: 320,
-                small: 425,
-                medium: 768,
-                large: 1440,
-                xlarge: 2560,
-                huge: 1 / 0
-            }, Player = function(_Component) {
+            var DEFAULT_BREAKPOINTS = {}, Player = function(_Component) {
                 function Player(tag, options, ready) {
                     if (tag.id = tag.id || options.id || "vjs_video_" + _guid++, (options = assign(Player.getTagSettings(tag), options)).initChildren = !1, options.createEl = !1, options.evented = !1, options.reportTouchActivity = !1, !options.language) {
                         if ("function" == typeof tag.closest) {
@@ -6106,17 +5983,14 @@
                     }
                 }, _proto.getMedia = function() {
                     if (!this.cache_.media) {
-                        var poster = this.poster(), media = {
-                            src: this.currentSources(),
-                            textTracks: Array.prototype.map.call(this.remoteTextTracks(), function(tt) {
-                                return {
-                                    kind: tt.kind,
-                                    label: tt.label,
-                                    language: tt.language,
-                                    src: tt.src
-                                };
-                            })
-                        };
+                        var poster = this.poster(), media = (this.currentSources(), Array.prototype.map.call(this.remoteTextTracks(), function(tt) {
+                            return {
+                                kind: tt.kind,
+                                label: tt.label,
+                                language: tt.language,
+                                src: tt.src
+                            };
+                        }), {});
                         return poster && (media.poster = poster, media.artwork = [
                             {
                                 src: media.poster,
@@ -7211,9 +7085,7 @@
                     message: "Accurate programTime could not be determined. Please seek to e.seekTime and try again",
                     seekTime: matchedSegment.estimatedStart
                 });
-                var programTimeObject = {
-                    mediaSeconds: time
-                }, programTime = playerTimeToProgramTime(time, matchedSegment.segment);
+                var programTimeObject = {}, programTime = playerTimeToProgramTime(time, matchedSegment.segment);
                 return programTime && (programTimeObject.programDateTime = programTime.toISOString()), callback(null, programTimeObject);
             }, seekToProgramTime = function seekToProgramTime(_ref2) {
                 var programTime = _ref2.programTime, playlist = _ref2.playlist, _ref2$retryCount = _ref2.retryCount, retryCount = void 0 === _ref2$retryCount ? 2 : _ref2$retryCount, seekTo = _ref2.seekTo, _ref2$pauseAfterSeek = _ref2.pauseAfterSeek, pauseAfterSeek = void 0 === _ref2$pauseAfterSeek || _ref2$pauseAfterSeek, tech = _ref2.tech, callback = _ref2.callback;
@@ -9452,16 +9324,11 @@
                     }, audio = {
                         data: [],
                         size: 0
-                    }, timedMetadata = {
-                        data: [],
-                        size: 0
-                    }, parsePes = function(payload, pes) {
+                    }, timedMetadata = {}, parsePes = function(payload, pes) {
                         var ptsDtsFlags, startPrefix = payload[0] << 16 | payload[1] << 8 | payload[2];
                         pes.data = new Uint8Array(), 1 === startPrefix && (pes.packetLength = 6 + (payload[4] << 8 | payload[5]), pes.dataAlignmentIndicator = (0x04 & payload[6]) != 0, 0xc0 & (ptsDtsFlags = payload[7]) && (pes.pts = (0x0e & payload[9]) << 27 | (0xff & payload[10]) << 20 | (0xfe & payload[11]) << 12 | (0xff & payload[12]) << 5 | (0xfe & payload[13]) >>> 3, pes.pts *= 4, pes.pts += (0x06 & payload[13]) >>> 1, pes.dts = pes.pts, 0x40 & ptsDtsFlags && (pes.dts = (0x0e & payload[14]) << 27 | (0xff & payload[15]) << 20 | (0xfe & payload[16]) << 12 | (0xff & payload[17]) << 5 | (0xfe & payload[18]) >>> 3, pes.dts *= 4, pes.dts += (0x06 & payload[18]) >>> 1)), pes.data = payload.subarray(9 + payload[8]));
                     }, flushStream = function(stream, type, forceFlush) {
-                        var fragment, packetData = new Uint8Array(stream.size), event = {
-                            type: type
-                        }, i = 0, offset = 0, packetFlushable = !1;
+                        var fragment, packetData = new Uint8Array(stream.size), event = {}, i = 0, offset = 0, packetFlushable = !1;
                         if (stream.data.length && !(stream.size < 9)) {
                             for(i = 0, event.trackId = stream.data[0].pid; i < stream.data.length; i++)fragment = stream.data[i], packetData.set(fragment.data, offset), offset += fragment.data.byteLength;
                             parsePes(packetData, event), packetFlushable = "video" === type || event.packetLength <= stream.size, (forceFlush || packetFlushable) && (stream.size = 0, stream.data.length = 0), packetFlushable && self1.trigger("data", event);
@@ -9489,7 +9356,6 @@
                             },
                             pmt: function() {
                                 var event = {
-                                    type: "metadata",
                                     tracks: []
                                 };
                                 null !== (programMapTable = data.programMapTable).video && event.tracks.push({
@@ -9516,7 +9382,6 @@
                     }, this.flush = function() {
                         if (!segmentHadPmt && programMapTable) {
                             var pmt = {
-                                type: "metadata",
                                 tracks: []
                             };
                             null !== programMapTable.video && pmt.tracks.push({
@@ -10233,12 +10098,7 @@
                     };
                 }).prototype = new Stream();
                 var transmuxer = {
-                    Transmuxer: _Transmuxer,
-                    VideoSegmentStream: _VideoSegmentStream,
-                    AudioSegmentStream: _AudioSegmentStream,
-                    AUDIO_PROPERTIES: audioProperties,
-                    VIDEO_PROPERTIES: videoProperties,
-                    generateSegmentTimingInfo: generateSegmentTimingInfo
+                    Transmuxer: _Transmuxer
                 }, bin = {
                     toUnsigned: function(value) {
                         return value >>> 0;
@@ -10707,7 +10567,7 @@
                         }
                     }
                 }, inspectAac_ = function(bytes) {
-                    for(var packet, endLoop = !1, audioCount = 0, sampleRate = null, timestamp = null, frameSize = 0, byteIndex = 0; bytes.length - byteIndex >= 3;){
+                    for(var packet, endLoop = !1, sampleRate = null, timestamp = null, frameSize = 0, byteIndex = 0; bytes.length - byteIndex >= 3;){
                         switch(probe.aac.parseType(bytes, byteIndex)){
                             case "timed-metadata":
                                 if (bytes.length - byteIndex < 10 || (frameSize = probe.aac.parseId3TagSize(bytes, byteIndex)) > bytes.length) {
@@ -10721,32 +10581,16 @@
                                     endLoop = !0;
                                     break;
                                 }
-                                null === sampleRate && (packet = bytes.subarray(byteIndex, byteIndex + frameSize), sampleRate = probe.aac.parseSampleRate(packet)), audioCount++, byteIndex += frameSize;
+                                null === sampleRate && (packet = bytes.subarray(byteIndex, byteIndex + frameSize), sampleRate = probe.aac.parseSampleRate(packet)), byteIndex += frameSize;
                                 break;
                             default:
                                 byteIndex++;
                         }
                         if (endLoop) return null;
                     }
-                    if (null === sampleRate || null === timestamp) return null;
-                    var audioTimescale = ONE_SECOND_IN_TS / sampleRate;
-                    return {
-                        audio: [
-                            {
-                                type: "audio",
-                                dts: timestamp,
-                                pts: timestamp
-                            },
-                            {
-                                type: "audio",
-                                dts: timestamp + 1024 * audioCount * audioTimescale,
-                                pts: timestamp + 1024 * audioCount * audioTimescale
-                            }
-                        ]
-                    };
+                    return null === sampleRate || null === timestamp ? null : {};
                 }, inspectTs_ = function(bytes) {
                     var pmt = {
-                        pid: null,
                         table: null
                     }, result = {};
                     for(var pid in parsePsi_(bytes, pmt), pmt.table)if (pmt.table.hasOwnProperty(pid)) switch(pmt.table[pid]){
@@ -10964,9 +10808,7 @@
             }, handleGopInfo_ = function(event, transmuxedData) {
                 transmuxedData.gopInfo = event.data.gopInfo;
             }, processTransmux = function(options) {
-                var transmuxer = options.transmuxer, bytes = options.bytes, audioAppendStart = options.audioAppendStart, gopsToAlignWith = options.gopsToAlignWith, remux = options.remux, onData = options.onData, onTrackInfo = options.onTrackInfo, onAudioTimingInfo = options.onAudioTimingInfo, onVideoTimingInfo = options.onVideoTimingInfo, onVideoSegmentTimingInfo = options.onVideoSegmentTimingInfo, onAudioSegmentTimingInfo = options.onAudioSegmentTimingInfo, onId3 = options.onId3, onCaptions = options.onCaptions, onDone = options.onDone, onEndedTimeline = options.onEndedTimeline, onTransmuxerLog = options.onTransmuxerLog, isEndOfTimeline = options.isEndOfTimeline, transmuxedData = {
-                    buffer: []
-                }, waitForEndedTimelineEvent = isEndOfTimeline;
+                var transmuxer = options.transmuxer, bytes = options.bytes, audioAppendStart = options.audioAppendStart, gopsToAlignWith = options.gopsToAlignWith, remux = options.remux, onData = options.onData, onTrackInfo = options.onTrackInfo, onAudioTimingInfo = options.onAudioTimingInfo, onVideoTimingInfo = options.onVideoTimingInfo, onVideoSegmentTimingInfo = options.onVideoSegmentTimingInfo, onAudioSegmentTimingInfo = options.onAudioSegmentTimingInfo, onId3 = options.onId3, onCaptions = options.onCaptions, onDone = options.onDone, onEndedTimeline = options.onEndedTimeline, onTransmuxerLog = options.onTransmuxerLog, isEndOfTimeline = options.isEndOfTimeline, transmuxedData = {}, waitForEndedTimelineEvent = isEndOfTimeline;
                 if (transmuxer.onmessage = function(event) {
                     transmuxer.currentTransmux === options && ("data" === event.data.action && handleData_(event, transmuxedData, onData), "trackinfo" === event.data.action && onTrackInfo(event.data.trackInfo), "gopInfo" === event.data.action && handleGopInfo_(event, transmuxedData), "audioTimingInfo" === event.data.action && onAudioTimingInfo(event.data.audioTimingInfo), "videoTimingInfo" === event.data.action && onVideoTimingInfo(event.data.videoTimingInfo), "videoSegmentTimingInfo" === event.data.action && onVideoSegmentTimingInfo(event.data.videoSegmentTimingInfo), "audioSegmentTimingInfo" === event.data.action && onAudioSegmentTimingInfo(event.data.audioSegmentTimingInfo), "id3Frame" === event.data.action && onId3([
                         event.data.id3Frame
@@ -11521,12 +11363,7 @@
                 return left.attributes.BANDWIDTH && (leftBandwidth = left.attributes.BANDWIDTH), leftBandwidth = leftBandwidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, right.attributes.BANDWIDTH && (rightBandwidth = right.attributes.BANDWIDTH), leftBandwidth - (rightBandwidth = rightBandwidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE);
             }, simpleSelector = function(master, playerBandwidth, playerWidth, playerHeight, limitRenditionByPlayerDimensions, masterPlaylistController) {
                 if (master) {
-                    var resolutionPlusOneList, resolutionPlusOneSmallest, resolutionPlusOneRep, leastPixelDiffRep, options = {
-                        bandwidth: playerBandwidth,
-                        width: playerWidth,
-                        height: playerHeight,
-                        limitRenditionByPlayerDimensions: limitRenditionByPlayerDimensions
-                    }, playlists = master.playlists;
+                    var resolutionPlusOneList, resolutionPlusOneSmallest, resolutionPlusOneRep, leastPixelDiffRep, options = {}, playlists = master.playlists;
                     Playlist.isAudioOnly(master) && (playlists = masterPlaylistController.getAudioTrackPlaylists_(), options.audioOnly = !0);
                     var sortedPlaylistReps = playlists.map(function(playlist) {
                         var width = playlist.attributes && playlist.attributes.RESOLUTION && playlist.attributes.RESOLUTION.width, height = playlist.attributes && playlist.attributes.RESOLUTION && playlist.attributes.RESOLUTION.height;
@@ -14548,14 +14385,7 @@
                     }
                     return null;
                 }, PlaybackWatcher;
-            }(), defaultOptions = {
-                errorInterval: 30,
-                getSource: function(next) {
-                    return next(this.tech({
-                        IWillNotUseThisInPlugins: !0
-                    }).currentSource_ || this.currentSource());
-                }
-            }, initPlugin = function initPlugin(player, options) {
+            }(), defaultOptions = {}, initPlugin = function initPlugin(player, options) {
                 var lastCalled = 0, seekTo = 0, localOptions = videojs.mergeOptions(defaultOptions, options);
                 player.ready(function() {
                     player.trigger({

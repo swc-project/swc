@@ -16,19 +16,4 @@ class A {
         return A;
     }
 }
-var _fieldFunc = {
-    get: function() {
-        return function() {
-            _class_static_private_field_spec_set(A, A, _x, 10);
-        };
-    },
-    set: void 0
-}, _fieldFunc2 = {
-    get: function() {
-        return function(a, ...b) {};
-    },
-    set: void 0
-}, _x = {
-    writable: !0,
-    value: 1
-};
+var _fieldFunc = {}, _fieldFunc2 = {};

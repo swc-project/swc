@@ -1,11 +1,5 @@
 //// [thisTypeInObjectLiterals2.ts]
-var p1 = {
-    x: 10,
-    y: 20,
-    moveBy: function(dx, dy, dz) {
-        this.x += dx, this.y += dy, this.z && dz && (this.z += dz);
-    }
-};
+var p1 = {};
 f1({
     x: 10,
     y: 20,

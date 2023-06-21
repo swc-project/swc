@@ -600,28 +600,8 @@
             H.Ma = "serverreachability", t(Tb, z), H.STAT_EVENT = "statevent", t(Ub, z), H.Na = "timingevent", t(Vb, z);
             var Wb = {
                 NO_ERROR: 0,
-                lb: 1,
-                yb: 2,
-                xb: 3,
-                sb: 4,
-                wb: 5,
-                zb: 6,
-                Ja: 7,
-                TIMEOUT: 8,
-                Cb: 9
-            }, Xb = {
-                qb: "complete",
-                Mb: "success",
-                Ka: "error",
-                Ja: "abort",
-                Eb: "ready",
-                Fb: "readystatechange",
-                TIMEOUT: "timeout",
-                Ab: "incrementaldata",
-                Db: "progress",
-                tb: "downloadprogress",
-                Ub: "uploadprogress"
-            };
+                TIMEOUT: 8
+            }, Xb = {};
             function Yb() {}
             function Zb(a) {
                 return a.h || (a.h = a.i());
@@ -629,10 +609,7 @@
             function $b() {}
             Yb.prototype.h = null;
             var L = {
-                OPEN: "a",
-                pb: "b",
-                Ka: "c",
-                Bb: "d"
+                OPEN: "a"
             };
             function ac() {
                 z.call(this, "d");
@@ -1766,46 +1743,10 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), setRef = ref2[0], isIntersected = ref2[1], isVisible = !isLazy || isIntersected, wrapperStyle = {
-                    boxSizing: "border-box",
-                    display: "block",
-                    overflow: "hidden",
-                    width: "initial",
-                    height: "initial",
-                    background: "none",
-                    opacity: 1,
-                    border: 0,
-                    margin: 0,
-                    padding: 0
-                }, sizerStyle = {
-                    boxSizing: "border-box",
                     display: "block",
                     width: "initial",
-                    height: "initial",
-                    background: "none",
-                    opacity: 1,
-                    border: 0,
-                    margin: 0,
-                    padding: 0
-                }, hasSizer = !1, imgStyle = {
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    bottom: 0,
-                    right: 0,
-                    boxSizing: "border-box",
-                    padding: 0,
-                    border: "none",
-                    margin: "auto",
-                    display: "block",
-                    width: 0,
-                    height: 0,
-                    minWidth: "100%",
-                    maxWidth: "100%",
-                    minHeight: "100%",
-                    maxHeight: "100%",
-                    objectFit: objectFit,
-                    objectPosition: objectPosition
-                }, blurStyle = "blur" === placeholder ? {
+                    height: "initial"
+                }, sizerStyle = {}, hasSizer = !1, imgStyle = {}, blurStyle = "blur" === placeholder ? {
                     filter: "blur(20px)",
                     backgroundSize: objectFit || "cover",
                     backgroundImage: 'url("'.concat(blurDataURL, '")'),

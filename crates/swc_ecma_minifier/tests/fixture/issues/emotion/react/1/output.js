@@ -684,19 +684,7 @@
         },
         8679: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var reactIs = __webpack_require__(9864), REACT_STATICS = {
-                childContextTypes: !0,
-                contextType: !0,
-                contextTypes: !0,
-                defaultProps: !0,
-                displayName: !0,
-                getDefaultProps: !0,
-                getDerivedStateFromError: !0,
-                getDerivedStateFromProps: !0,
-                mixins: !0,
-                propTypes: !0,
-                type: !0
-            }, KNOWN_STATICS = {
+            var reactIs = __webpack_require__(9864), REACT_STATICS = {}, KNOWN_STATICS = {
                 name: !0,
                 length: !0,
                 prototype: !0,
@@ -704,14 +692,7 @@
                 callee: !0,
                 arguments: !0,
                 arity: !0
-            }, MEMO_STATICS = {
-                $$typeof: !0,
-                compare: !0,
-                defaultProps: !0,
-                displayName: !0,
-                propTypes: !0,
-                type: !0
-            }, TYPE_STATICS = {};
+            }, MEMO_STATICS = {}, TYPE_STATICS = {};
             function getStatics(component) {
                 return reactIs.isMemo(component) ? MEMO_STATICS : TYPE_STATICS[component.$$typeof] || REACT_STATICS;
             }
@@ -789,17 +770,17 @@
                     router,
                     props.href,
                     props.as
-                ]), href = ref2.href, as = ref2.as, children = props.children, replace = props.replace, shallow = props.shallow, scroll = props.scroll, locale = props.locale;
+                ]), href = ref2.href, as = ref2.as, children = props.children, locale = (props.replace, props.shallow, props.scroll, props.locale);
                 "string" == typeof children && (children = _react.default.createElement("a", null, children));
                 var childRef = (child = _react.default.Children.only(children)) && "object" == typeof child && child.ref, ref1 = _slicedToArray(_useIntersection.useIntersection({
                     rootMargin: "200px"
-                }), 2), setIntersectionRef = ref1[0], isVisible = ref1[1], setRef = _react.default.useCallback(function(el) {
+                }), 2), setIntersectionRef = ref1[0], isVisible = ref1[1];
+                _react.default.useCallback(function(el) {
                     setIntersectionRef(el), childRef && ("function" == typeof childRef ? childRef(el) : "object" == typeof childRef && (childRef.current = el));
                 }, [
                     childRef,
                     setIntersectionRef
-                ]);
-                _react.default.useEffect(function() {
+                ]), _react.default.useEffect(function() {
                     var shouldPrefetch = isVisible && p && _router.isLocalURL(href), curLocale = void 0 !== locale ? locale : router && router.locale, isPrefetched = prefetched[href + "%" + as + (curLocale ? "%" + curLocale : "")];
                     shouldPrefetch && !isPrefetched && prefetch(router, href, as, {
                         locale: curLocale
@@ -812,17 +793,7 @@
                     p,
                     router
                 ]);
-                var childProps = {
-                    ref: setRef,
-                    onClick: function(e) {
-                        var scroll1, target;
-                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (scroll1 = scroll, ("A" !== e.currentTarget.nodeName || (!(target = e.currentTarget.target) || "_self" === target) && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && (!e.nativeEvent || 2 !== e.nativeEvent.which) && _router.isLocalURL(href)) && (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), router[replace ? "replace" : "push"](href, as, {
-                            shallow: shallow,
-                            locale: locale,
-                            scroll: scroll1
-                        })));
-                    }
-                };
+                var childProps = {};
                 if (childProps.onMouseEnter = function(e) {
                     _router.isLocalURL(href) && (child.props && "function" == typeof child.props.onMouseEnter && child.props.onMouseEnter(e), prefetch(router, href, as, {
                         priority: !0

@@ -3,10 +3,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function setState(obj, props) {
     for(var k in props)obj[k] = props[k];
 }
-var foo = {
-    a: "hello",
-    b: 42
-};
+var foo = {};
 setState(foo, {
     a: "test",
     b: 43

@@ -1,6 +1,3 @@
 //// [stringLiteralTypesAsTags01.ts]
-var x = {
-    kind: "A",
-    a: 100
-};
+var x = {};
 x.kind, x.kind;

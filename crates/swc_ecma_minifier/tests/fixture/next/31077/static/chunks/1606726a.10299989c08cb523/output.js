@@ -1412,14 +1412,7 @@
             function detachedDoc() {
                 return _detachedDoc || (_detachedDoc = document.implementation.createHTMLDocument("title"));
             }
-            var observeOptions = {
-                childList: !0,
-                characterData: !0,
-                characterDataOldValue: !0,
-                attributes: !0,
-                attributeOldValue: !0,
-                subtree: !0
-            }, useCharData = result.ie && result.ie_version <= 11, SelectionState = function() {
+            var observeOptions = {}, useCharData = result.ie && result.ie_version <= 11, SelectionState = function() {
                 this.anchorNode = this.anchorOffset = this.focusNode = this.focusOffset = null;
             };
             SelectionState.prototype.set = function(sel) {

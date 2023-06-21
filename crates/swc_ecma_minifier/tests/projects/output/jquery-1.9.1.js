@@ -2090,11 +2090,7 @@
     });
     var iframe, getStyles, curCSS, ralpha = /alpha\([^)]*\)/i, ropacity = /opacity\s*=\s*([^)]*)/, rposition = /^(top|right|bottom|left)$/, rdisplayswap = /^(none|table(?!-c[ea]).+)/, rmargin = /^margin/, rnumsplit = RegExp("^(" + core_pnum + ")(.*)$", "i"), rnumnonpx = RegExp("^(" + core_pnum + ")(?!px)[a-z%]+$", "i"), rrelNum = RegExp("^([+-])=(" + core_pnum + ")", "i"), elemdisplay = {
         BODY: "block"
-    }, cssShow = {
-        position: "absolute",
-        visibility: "hidden",
-        display: "block"
-    }, cssNormalTransform = {
+    }, cssShow = {}, cssNormalTransform = {
         letterSpacing: 0,
         fontWeight: 400
     }, cssExpand = [

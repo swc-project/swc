@@ -324,13 +324,7 @@
         }while (element !== endNode)
         return jqLite(elements);
     }
-    var version = {
-        full: "1.2.5",
-        major: 1,
-        minor: 2,
-        dot: 5,
-        codeName: "singularity-expansion"
-    }, jqCache = JQLite.cache = {}, jqName = JQLite.expando = "ng-" + new Date().getTime(), jqId = 1, addEventListenerFn = window1.document.addEventListener ? function(element, type, fn) {
+    var version = {}, jqCache = JQLite.cache = {}, jqName = JQLite.expando = "ng-" + new Date().getTime(), jqId = 1, addEventListenerFn = window1.document.addEventListener ? function(element, type, fn) {
         element.addEventListener(type, fn, !1);
     } : function(element, type, fn) {
         element.attachEvent("on" + type, fn);
@@ -1131,9 +1125,7 @@
                                 if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = denormalizeTemplate(directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template), directive.replace) {
                                     if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
                                     replaceWith(jqCollection, $compileNode, compileNode);
-                                    var newTemplateAttrs = {
-                                        $attr: {}
-                                    }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
+                                    var newTemplateAttrs = {}, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
                                     newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii = directives.length;
                                 } else $compileNode.html(directiveValue);
                             }
@@ -1477,9 +1469,7 @@
         return 200 <= status && status < 300;
     }
     function $HttpProvider() {
-        var JSON_START = /^\s*(\[|\{[^\{])/, JSON_END = /[\}\]]\s*$/, PROTECTION_PREFIX = /^\)\]\}',?\n/, CONTENT_TYPE_APPLICATION_JSON = {
-            "Content-Type": "application/json;charset=utf-8"
-        }, defaults = this.defaults = {
+        var JSON_START = /^\s*(\[|\{[^\{])/, JSON_END = /[\}\]]\s*$/, PROTECTION_PREFIX = /^\)\]\}',?\n/, CONTENT_TYPE_APPLICATION_JSON = {}, defaults = this.defaults = {
             transformResponse: [
                 function(data) {
                     return isString(data) && (data = data.replace(PROTECTION_PREFIX, ""), JSON_START.test(data) && JSON_END.test(data) && (data = fromJson(data))), data;
@@ -2178,10 +2168,7 @@
                 if (this.isWhitespace(ch)) peekIndex++;
                 else break;
             }
-            var token = {
-                index: start,
-                text: ident
-            };
+            var token = {};
             if (OPERATORS.hasOwnProperty(ident)) token.fn = OPERATORS[ident], token.json = OPERATORS[ident];
             else {
                 var getter = getterFn(ident, this.options, this.text);
@@ -2722,11 +2709,7 @@
                     },
                     $watch: function(watchExp, listener, objectEquality) {
                         var get = compileToFn(watchExp, "watch"), array = this.$$watchers, watcher = {
-                            fn: listener,
-                            last: initWatchVal,
-                            get: get,
-                            exp: watchExp,
-                            eq: !!objectEquality
+                            fn: listener
                         };
                         if (lastDirtyWatch = null, !isFunction(listener)) {
                             var listenFn = compileToFn(listener || noop, "listener");
@@ -2837,17 +2820,7 @@
                         };
                     },
                     $emit: function(name, args) {
-                        var namedListeners, i, length, empty = [], scope = this, stopPropagation = !1, event = {
-                            name: name,
-                            targetScope: scope,
-                            stopPropagation: function() {
-                                stopPropagation = !0;
-                            },
-                            preventDefault: function() {
-                                event.defaultPrevented = !0;
-                            },
-                            defaultPrevented: !1
-                        }, listenerArgs = concat([
+                        var namedListeners, i, length, empty = [], scope = this, event = {}, listenerArgs = concat([
                             event
                         ], arguments, 1);
                         do {
@@ -2862,20 +2835,12 @@
                                     $exceptionHandler(e);
                                 }
                             }
-                            if (stopPropagation) break;
                             scope = scope.$parent;
                         }while (scope)
                         return event;
                     },
                     $broadcast: function(name, args) {
-                        var listeners, i, length, current = this, next = this, event = {
-                            name: name,
-                            targetScope: this,
-                            preventDefault: function() {
-                                event.defaultPrevented = !0;
-                            },
-                            defaultPrevented: !1
-                        }, listenerArgs = concat([
+                        var listeners, i, length, current = this, next = this, event = {}, listenerArgs = concat([
                             event
                         ], arguments, 1);
                         do {
@@ -3413,13 +3378,7 @@
             };
         };
     });
-    var nullFormCtrl = {
-        $addControl: noop,
-        $removeControl: noop,
-        $setValidity: noop,
-        $setDirty: noop,
-        $setPristine: noop
-    };
+    var nullFormCtrl = {};
     function FormController(element, attrs) {
         var form = this, parentForm = element.parent().controller("form") || nullFormCtrl, invalidCount = 0, errors = form.$error = {}, controls = [];
         function toggleValidCss(isValid, validationErrorKey) {
@@ -4116,9 +4075,7 @@
         "$compile",
         "$parse",
         function($compile, $parse) {
-            var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/, nullModelCtrl = {
-                $setViewValue: noop
-            };
+            var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/, nullModelCtrl = {};
             return {
                 restrict: "E",
                 require: [
@@ -4275,10 +4232,7 @@
     ], optionDirective = [
         "$interpolate",
         function($interpolate) {
-            var nullSelectCtrl = {
-                addOption: noop,
-                removeOption: noop
-            };
+            var nullSelectCtrl = {};
             return {
                 restrict: "E",
                 priority: 100,

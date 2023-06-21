@@ -22,9 +22,7 @@ define([
             return c;
         }
     });
-    var c = {
-        x: 12
-    };
+    var c = {};
 });
 //// [index.ts]
 define([
@@ -40,7 +38,5 @@ define([
             return d;
         }
     });
-    var d = {
-        x: 12
-    };
+    var d = {};
 });

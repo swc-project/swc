@@ -4,10 +4,7 @@ import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
-var _tmp, _o, o = {
-    a: 1,
-    b: 'no'
-};
+var _tmp, _o, o = {};
 _extends({}, _object_destructuring_empty(o));
 var { a } = o;
 _object_without_properties(o, [
@@ -25,10 +22,7 @@ var { b: renamed } = o, justA = _object_without_properties(o, [
 ]), { b: { 0: n, 1: oooo } } = o, justA = _object_without_properties(o, [
     "b"
 ]);
-let o2 = {
-    c: 'terrible idea?',
-    d: 'yes'
-};
+let o2 = {};
 var { d: renamed } = o2;
 _object_without_properties(o2, [
     "d"
@@ -50,10 +44,7 @@ _object_without_properties(complex.x, [
     "x",
     "y"
 ]), { x: { ka }, y: other } = complex;
-var _ref = {
-    x: 1,
-    y: 2
-}, { x } = _ref;
+var _ref = {}, { x } = _ref;
 _object_without_properties(_ref, [
     "x"
 ]), _object_without_properties(_tmp = {

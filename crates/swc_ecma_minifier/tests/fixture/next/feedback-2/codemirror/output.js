@@ -109,17 +109,7 @@
         var time = +new Date() + ms;
         (!this.id || time < this.time) && (clearTimeout(this.id), this.id = setTimeout(this.handler, ms), this.time = time);
     };
-    var Pass = {
-        toString: function() {
-            return "CodeMirror.Pass";
-        }
-    }, sel_dontScroll = {
-        scroll: !1
-    }, sel_mouse = {
-        origin: "*mouse"
-    }, sel_move = {
-        origin: "+move"
-    };
+    var Pass = {}, sel_dontScroll = {}, sel_mouse = {}, sel_move = {};
     function findColumn(string, goal, tabSize) {
         for(var pos = 0, col = 0;;){
             var nextTab = string.indexOf("\t", pos);
@@ -1242,12 +1232,7 @@
             bottom: varHeight ? found.rbottom : found.bottom
         };
     }
-    var nullRect = {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0
-    };
+    var nullRect = {};
     function nodeAndOffsetInLineMap(map, ch, bias) {
         for(var node, start, end, collapse, mStart, mEnd, i = 0; i < map.length; i += 3)if (mStart = map[i], mEnd = map[i + 1], ch < mStart ? (start = 0, end = 1, collapse = "left") : ch < mEnd ? end = (start = ch - mStart) + 1 : (i == map.length - 3 || ch == mEnd && map[i + 3] > ch) && (start = (end = mEnd - mStart) - 1, ch >= mEnd && (collapse = "right")), null != start) {
             if (node = map[i + 2], mStart == mEnd && bias == (node.insertLeft ? "left" : "right") && (collapse = bias), "left" == bias && 0 == start) for(; i && map[i - 2] == map[i - 3] && map[i - 1].insertLeft;)node = map[(i -= 3) + 2], collapse = "left";
@@ -2056,9 +2041,7 @@
             if (cm.hasFocus()) return null;
             var active = activeElt();
             if (!active || !contains(cm.display.lineDiv, active)) return null;
-            var result = {
-                activeElt: active
-            };
+            var result = {};
             if (window.getSelection) {
                 var sel = window.getSelection();
                 sel.anchorNode && sel.extend && contains(cm.display.lineDiv, sel.anchorNode) && (result.anchorNode = sel.anchorNode, result.anchorOffset = sel.anchorOffset, result.focusNode = sel.focusNode, result.focusOffset = sel.focusOffset);
@@ -4256,11 +4239,7 @@
     PastClick.prototype.compare = function(time, pos, button) {
         return this.time + 400 > time && 0 == cmp(pos, this.pos) && button == this.button;
     };
-    var Init = {
-        toString: function() {
-            return "CodeMirror.Init";
-        }
-    }, defaults = {}, optionHandlers1 = {};
+    var Init = {}, defaults = {}, optionHandlers1 = {};
     function dragDropChanged(cm, value, old) {
         if (!value != !(old && old != Init)) {
             var funcs = cm.display.dragFunctions, toggle = value ? on : off;

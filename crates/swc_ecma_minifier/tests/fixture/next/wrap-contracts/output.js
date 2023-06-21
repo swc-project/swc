@@ -1888,9 +1888,7 @@
         },
         9650: function(module1, __unused_webpack_exports1, __webpack_require__1) {
             "use strict";
-            const ModuleError1 = __webpack_require__1(4473), { Buffer: Buffer1 } = __webpack_require__1(8764) || {}, { AbstractSublevelIterator: AbstractSublevelIterator1, AbstractSublevelKeyIterator: AbstractSublevelKeyIterator1, AbstractSublevelValueIterator: AbstractSublevelValueIterator1 } = __webpack_require__1(2970), kPrefix1 = Symbol('prefix'), kUpperBound1 = Symbol('upperBound'), kPrefixRange1 = Symbol('prefixRange'), kParent1 = Symbol('parent'), kUnfix1 = Symbol('unfix'), textEncoder1 = new TextEncoder(), defaults1 = {
-                separator: '!'
-            };
+            const ModuleError1 = __webpack_require__1(4473), { Buffer: Buffer1 } = __webpack_require__1(8764) || {}, { AbstractSublevelIterator: AbstractSublevelIterator1, AbstractSublevelKeyIterator: AbstractSublevelKeyIterator1, AbstractSublevelValueIterator: AbstractSublevelValueIterator1 } = __webpack_require__1(2970), kPrefix1 = Symbol('prefix'), kUpperBound1 = Symbol('upperBound'), kPrefixRange1 = Symbol('prefixRange'), kParent1 = Symbol('parent'), kUnfix1 = Symbol('unfix'), textEncoder1 = new TextEncoder(), defaults1 = {};
             module1.exports = function({ AbstractLevel: AbstractLevel1 }) {
                 class AbstractSublevel1 extends AbstractLevel1 {
                     static defaults(options1) {
@@ -2553,11 +2551,7 @@
                 }
                 verify(publicModulus1, data1, signature1) {
                     return new Promise((resolve1, reject1)=>{
-                        const publicKey1 = {
-                            kty: "RSA",
-                            e: "AQAB",
-                            n: publicModulus1
-                        }, pem1 = this.jwkToPem(publicKey1);
+                        const publicKey1 = {}, pem1 = this.jwkToPem(publicKey1);
                         resolve1(crypto1.createVerify(this.hashAlgorithm).update(data1).verify({
                             key: pem1,
                             padding: constants1.RSA_PKCS1_PSS_PADDING
@@ -3063,14 +3057,7 @@
                     if (200 !== resp1.status) throw Error(`Tx ${id1} not found: ${resp1.status}`);
                     const transaction1 = resp1.data;
                     transaction1.data = new Uint8Array(0);
-                    const serialized1 = {
-                        txPosted: !0,
-                        chunkIndex: 0,
-                        lastResponseError: "",
-                        lastRequestTimeEnd: 0,
-                        lastResponseStatus: 0,
-                        transaction: transaction1
-                    };
+                    const serialized1 = {};
                     return serialized1;
                 }
                 toJSON() {
@@ -3965,11 +3952,7 @@
             const common_11 = __webpack_require__1(536);
             common_11.default.init = function(apiConfig1 = {}) {
                 function getDefaultConfig1() {
-                    const defaults1 = {
-                        host: "arweave.net",
-                        port: 443,
-                        protocol: "https"
-                    };
+                    const defaults1 = {};
                     if (!window || !window.location || !window.location.protocol || !window.location.hostname) return defaults1;
                     const currentProtocol1 = window.location.protocol.replace(":", ""), currentHost1 = window.location.hostname, currentPort1 = window.location.port ? parseInt(window.location.port) : "https" == currentProtocol1 ? 443 : 80, isLocal1 = [
                         "localhost",
@@ -4097,11 +4080,7 @@
                     return new Uint8Array(digest1);
                 }
                 async verify(publicModulus1, data1, signature1) {
-                    const publicKey1 = {
-                        kty: "RSA",
-                        e: "AQAB",
-                        n: publicModulus1
-                    }, key1 = await this.jwkToPublicCryptoKey(publicKey1), verifyWith321 = this.driver.verify({
+                    const publicKey1 = {}, key1 = await this.jwkToPublicCryptoKey(publicKey1), verifyWith321 = this.driver.verify({
                         name: "RSA-PSS",
                         saltLength: 32
                     }, key1, signature1, data1), verifyWith01 = this.driver.verify({
@@ -4489,14 +4468,7 @@
                     if (200 !== resp1.status) throw Error(`Tx ${id1} not found: ${resp1.status}`);
                     const transaction1 = resp1.data;
                     transaction1.data = new Uint8Array(0);
-                    const serialized1 = {
-                        txPosted: !0,
-                        chunkIndex: 0,
-                        lastResponseError: "",
-                        lastRequestTimeEnd: 0,
-                        lastResponseStatus: 0,
-                        transaction: transaction1
-                    };
+                    const serialized1 = {};
                     return serialized1;
                 }
                 toJSON() {
@@ -6310,9 +6282,7 @@
         },
         5546: function(module1, __unused_webpack_exports1, __webpack_require__1) {
             "use strict";
-            var process1 = __webpack_require__1(3454), utils1 = __webpack_require__1(4867), normalizeHeaderName1 = __webpack_require__1(6016), AxiosError1 = __webpack_require__1(723), transitionalDefaults1 = __webpack_require__1(7874), toFormData1 = __webpack_require__1(7675), DEFAULT_CONTENT_TYPE1 = {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            };
+            var process1 = __webpack_require__1(3454), utils1 = __webpack_require__1(4867), normalizeHeaderName1 = __webpack_require__1(6016), AxiosError1 = __webpack_require__1(723), transitionalDefaults1 = __webpack_require__1(7874), toFormData1 = __webpack_require__1(7675), DEFAULT_CONTENT_TYPE1 = {};
             function setContentTypeIfUnset1(headers1, value1) {
                 !utils1.isUndefined(headers1) && utils1.isUndefined(headers1['Content-Type']) && (headers1['Content-Type'] = value1);
             }
@@ -6855,16 +6825,7 @@
                         constructor: BigNumber1,
                         toString: null,
                         valueOf: null
-                    }, ONE1 = new BigNumber1(1), DECIMAL_PLACES1 = 20, ROUNDING_MODE1 = 4, TO_EXP_NEG1 = -7, TO_EXP_POS1 = 21, MIN_EXP1 = -10000000, MAX_EXP1 = 1e7, CRYPTO1 = !1, MODULO_MODE1 = 1, POW_PRECISION1 = 0, FORMAT1 = {
-                        prefix: '',
-                        groupSize: 3,
-                        secondaryGroupSize: 0,
-                        groupSeparator: ',',
-                        decimalSeparator: '.',
-                        fractionGroupSize: 0,
-                        fractionGroupSeparator: '\xA0',
-                        suffix: ''
-                    }, ALPHABET1 = '0123456789abcdefghijklmnopqrstuvwxyz', alphabetHasNormalDecimalDigits1 = !0;
+                    }, ONE1 = new BigNumber1(1), DECIMAL_PLACES1 = 20, ROUNDING_MODE1 = 4, TO_EXP_NEG1 = -7, TO_EXP_POS1 = 21, MIN_EXP1 = -10000000, MAX_EXP1 = 1e7, CRYPTO1 = !1, MODULO_MODE1 = 1, POW_PRECISION1 = 0, FORMAT1 = {}, ALPHABET1 = '0123456789abcdefghijklmnopqrstuvwxyz', alphabetHasNormalDecimalDigits1 = !0;
                     function BigNumber1(v3, b10) {
                         var alphabet1, c5, caseChanged1, e1, i2, isNum1, len3, str1, x3 = this;
                         if (!(x3 instanceof BigNumber1)) return new BigNumber1(v3, b10);
@@ -8790,11 +8751,7 @@
             const K_MAX_LENGTH1 = 0x7fffffff;
             function typedArraySupport1() {
                 try {
-                    const arr1 = new Uint8Array(1), proto1 = {
-                        foo: function() {
-                            return 42;
-                        }
-                    };
+                    const arr1 = new Uint8Array(1), proto1 = {};
                     return Object.setPrototypeOf(proto1, Uint8Array.prototype), Object.setPrototypeOf(arr1, proto1), 42 === arr1.foo();
                 } catch (e1) {
                     return !1;
@@ -11617,11 +11574,7 @@
             }
             function _onceWrap1(target1, type1, listener1) {
                 var state1 = {
-                    fired: !1,
-                    wrapFn: void 0,
-                    target: target1,
-                    type: type1,
-                    listener: listener1
+                    wrapFn: void 0
                 }, wrapped1 = onceWrapper1.bind(state1);
                 return wrapped1.listener = listener1, state1.wrapFn = wrapped1, wrapped1;
             }
@@ -16475,9 +16428,7 @@
                             }
                             return r3.on("data", ondata1), prependListener1(e1, "error", onerror1), e1.once("close", onclose1), e1.once("finish", onfinish1), e1.emit("pipe", r3), n2.flowing || (u3("pipe resume"), r3.resume()), e1;
                         }, Readable1.prototype.unpipe = function(e1) {
-                            var t3 = this._readableState, r3 = {
-                                hasUnpiped: !1
-                            };
+                            var t3 = this._readableState, r3 = {};
                             if (0 === t3.pipesCount) return this;
                             if (1 === t3.pipesCount) return e1 && e1 !== t3.pipes || (e1 || (e1 = t3.pipes), t3.pipes = null, t3.pipesCount = 0, t3.flowing = !1, e1 && e1.emit("unpipe", this, r3)), this;
                             if (!e1) {
@@ -16981,10 +16932,7 @@
                                 {
                                     key: "push",
                                     value: function(e1) {
-                                        var t3 = {
-                                            data: e1,
-                                            next: null
-                                        };
+                                        var t3 = {};
                                         this.length > 0 ? this.tail.next = t3 : this.head = t3, this.tail = t3, ++this.length;
                                     }
                                 },
@@ -18428,16 +18376,13 @@
             };
             const sectionParsers1 = _exports1.sectionParsers = {
                 custom: (stream1, header1)=>{
-                    const json1 = {
-                        name: 'custom'
-                    }, section1 = new Stream1(stream1.read(header1.size)), nameLen1 = leb1.unsigned.readBn(section1).toNumber(), name1 = section1.read(nameLen1);
+                    const json1 = {}, section1 = new Stream1(stream1.read(header1.size)), nameLen1 = leb1.unsigned.readBn(section1).toNumber(), name1 = section1.read(nameLen1);
                     return json1.sectionName = Buffer1.from(name1).toString(), json1.payload = [
                         ...section1.buffer
                     ], json1;
                 },
                 type: (stream1)=>{
                     const numberOfEntries1 = leb1.unsigned.readBn(stream1).toNumber(), json1 = {
-                        name: 'type',
                         entries: []
                     };
                     for(let i2 = 0; i2 < numberOfEntries1; i2++){
@@ -18457,7 +18402,6 @@
                 },
                 import: (stream1)=>{
                     const numberOfEntries1 = leb1.unsigned.readBn(stream1).toNumber(), json1 = {
-                        name: 'import',
                         entries: []
                     };
                     for(let i2 = 0; i2 < numberOfEntries1; i2++){
@@ -18472,7 +18416,6 @@
                 },
                 function: (stream1)=>{
                     const numberOfEntries1 = leb1.unsigned.readBn(stream1).toNumber(), json1 = {
-                        name: 'function',
                         entries: []
                     };
                     for(let i2 = 0; i2 < numberOfEntries1; i2++){
@@ -18483,7 +18426,6 @@
                 },
                 table: (stream1)=>{
                     const numberOfEntries1 = leb1.unsigned.readBn(stream1).toNumber(), json1 = {
-                        name: 'table',
                         entries: []
                     };
                     for(let i2 = 0; i2 < numberOfEntries1; i2++){
@@ -18494,7 +18436,6 @@
                 },
                 memory: (stream1)=>{
                     const numberOfEntries1 = leb1.unsigned.readBn(stream1).toNumber(), json1 = {
-                        name: 'memory',
                         entries: []
                     };
                     for(let i2 = 0; i2 < numberOfEntries1; i2++){
@@ -18505,7 +18446,6 @@
                 },
                 global: (stream1)=>{
                     const numberOfEntries1 = leb1.unsigned.readBn(stream1).toNumber(), json1 = {
-                        name: 'global',
                         entries: []
                     };
                     for(let i2 = 0; i2 < numberOfEntries1; i2++){
@@ -18516,7 +18456,6 @@
                 },
                 export: (stream1)=>{
                     const numberOfEntries1 = leb1.unsigned.readBn(stream1).toNumber(), json1 = {
-                        name: 'export',
                         entries: []
                     };
                     for(let i2 = 0; i2 < numberOfEntries1; i2++){
@@ -18528,14 +18467,11 @@
                     return json1;
                 },
                 start: (stream1)=>{
-                    const json1 = {
-                        name: 'start'
-                    };
+                    const json1 = {};
                     return json1.index = leb1.unsigned.readBn(stream1).toNumber(), json1;
                 },
                 element: (stream1)=>{
                     const numberOfEntries1 = leb1.unsigned.readBn(stream1).toNumber(), json1 = {
-                        name: 'element',
                         entries: []
                     };
                     for(let i2 = 0; i2 < numberOfEntries1; i2++){
@@ -18554,7 +18490,6 @@
                 },
                 code: (stream1)=>{
                     const numberOfEntries1 = leb1.unsigned.readBn(stream1).toNumber(), json1 = {
-                        name: 'code',
                         entries: []
                     };
                     for(let i2 = 0; i2 < numberOfEntries1; i2++){
@@ -18580,7 +18515,6 @@
                 },
                 data: (stream1)=>{
                     const numberOfEntries1 = leb1.unsigned.readBn(stream1).toNumber(), json1 = {
-                        name: 'data',
                         entries: []
                     };
                     for(let i2 = 0; i2 < numberOfEntries1; i2++){
@@ -18678,16 +18612,7 @@
                 }
                 let funcIndex1 = 0, { costTable: costTable1, moduleStr: moduleStr1, fieldStr: fieldStr1, meterType: meterType1 } = opts1;
                 costTable1 || (costTable1 = defaultCostTable1), moduleStr1 || (moduleStr1 = 'metering'), fieldStr1 || (fieldStr1 = 'usegas'), meterType1 || (meterType1 = 'i32'), findSection1(json1, 'type') || createSection1(json1, 'type'), findSection1(json1, 'import') || createSection1(json1, 'import');
-                const importJson1 = {
-                    moduleStr: moduleStr1,
-                    fieldStr: fieldStr1,
-                    kind: 'function'
-                }, importType1 = {
-                    form: 'func',
-                    params: [
-                        meterType1
-                    ]
-                };
+                const importJson1 = {}, importType1 = {};
                 for (let section1 of json1 = json1.slice(0))switch((section1 = Object.assign(section1)).name){
                     case 'type':
                         importJson1.type = section1.entries.push(importType1) - 1, typeModule1 = section1;
@@ -20066,10 +19991,7 @@
                     }
                     rawEntries1.push(rawEntry1);
                 }
-                const zip1 = {
-                    comment: comment1,
-                    commentBytes: commentBytes1
-                };
+                const zip1 = {};
                 return {
                     zip: zip1,
                     entries: rawEntries1.map((e1)=>new ZipEntry1(reader1, e1))
@@ -20350,7 +20272,6 @@
             }
             function inspect1(obj1, opts1) {
                 var ctx1 = {
-                    seen: [],
                     stylize: stylizeNoColor1
                 };
                 return arguments.length >= 3 && (ctx1.depth = arguments[2]), arguments.length >= 4 && (ctx1.colors = arguments[3]), isBoolean1(opts1) ? ctx1.showHidden = opts1 : opts1 && exports1._extend(ctx1, opts1), isUndefined1(ctx1.showHidden) && (ctx1.showHidden = !1), isUndefined1(ctx1.depth) && (ctx1.depth = 2), isUndefined1(ctx1.colors) && (ctx1.colors = !1), isUndefined1(ctx1.customInspect) && (ctx1.customInspect = !0), ctx1.colors && (ctx1.stylize = stylizeWithColor1), formatValue1(ctx1, obj1, ctx1.depth);
@@ -21051,15 +20972,8 @@
                     this.logger.debug('callContractForTx - evalStateResult', {
                         result: evalStateResult1.cachedValue.state,
                         txId: this._contractTxId
-                    });
-                    const interaction1 = {
-                        input: input1,
-                        caller: this._parentContract.txId()
-                    }, interactionData1 = {
-                        interaction: interaction1,
-                        interactionTx: interactionTx1,
-                        currentTx: currentTx1
-                    }, result1 = await this.evalInteraction(interactionData1, executionContext1, evalStateResult1.cachedValue);
+                    }), this._parentContract.txId();
+                    const interactionData1 = {}, result1 = await this.evalInteraction(interactionData1, executionContext1, evalStateResult1.cachedValue);
                     return result1.originalValidity = evalStateResult1.cachedValue.validity, result1.originalErrorMessages = evalStateResult1.cachedValue.errorMessages, result1;
                 }
                 async evalInteraction(interactionData1, executionContext1, evalStateResult1) {
@@ -22102,11 +22016,7 @@
                             const interaction1 = {
                                 input: input1,
                                 caller: missingInteraction1.owner.address
-                            }, interactionData1 = {
-                                interaction: interaction1,
-                                interactionTx: missingInteraction1,
-                                currentTx: currentTx1
-                            };
+                            }, interactionData1 = {};
                             this.logger.debug(`${(0, utils_11.indent)(depth1)}Interaction:`, interaction1);
                             const interactionCall1 = contract1.getCallStack().addInteractionData(interactionData1), result1 = await executionContext1.handler.handle(executionContext1, new StateEvaluator_11.EvalStateResult(currentState1, validity1, errorMessages1), interactionData1);
                             if (errorMessage1 = result1.errorMessage, 'ok' !== result1.type && (errorMessages1[missingInteraction1.id] = errorMessage1), this.logResult(result1, missingInteraction1, executionContext1), this.logger.debug(`${(0, utils_11.indent)(depth1)}Interaction evaluation`, singleInteractionBenchmark1.elapsed()), interactionCall1.update({
@@ -22281,13 +22191,7 @@
                 }
             }
             function generateResponse1(wasmBinary1) {
-                const init1 = {
-                    status: 200,
-                    statusText: 'OK',
-                    headers: {
-                        'Content-Type': 'application/wasm'
-                    }
-                };
+                const init1 = {};
                 return new Response(wasmBinary1, init1);
             }
             async function getWasmModule1(wasmResponse1, binary1) {
@@ -24450,12 +24354,7 @@
                 Object.hasOwn = Object.hasOwn || function(obj1, prop1) {
                     return Object.prototype.hasOwnProperty.call(obj1, prop1);
                 };
-                var _default1 = {
-                    instantiate: instantiate1,
-                    instantiateSync: instantiateSync1,
-                    instantiateStreaming: instantiateStreaming1,
-                    demangle: demangle1
-                };
+                var _default1 = {};
                 return exports1.default = _default1, "default" in exports1 ? exports1.default : exports1;
             }({});
             void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__1 = (function() {

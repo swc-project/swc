@@ -330,16 +330,10 @@
         return "function" == typeof maybeIterator ? maybeIterator : null;
     }
     var disabledDepth = 0;
-    function disabledLog() {}
     function disableLogs() {
         if (0 === disabledDepth) {
             prevLog = console.log, prevInfo = console.info, prevWarn = console.warn, prevError = console.error, prevGroup = console.group, prevGroupCollapsed = console.groupCollapsed, prevGroupEnd = console.groupEnd;
-            var props = {
-                configurable: !0,
-                enumerable: !0,
-                value: disabledLog,
-                writable: !0
-            };
+            var props = {};
             Object.defineProperties(console, {
                 info: props,
                 log: props,
@@ -354,11 +348,7 @@
     }
     function reenableLogs() {
         if (0 == --disabledDepth) {
-            var props = {
-                configurable: !0,
-                enumerable: !0,
-                writable: !0
-            };
+            var props = {};
             Object.defineProperties(console, {
                 log: _assign({}, props, {
                     value: prevLog
@@ -385,7 +375,6 @@
         }
         disabledDepth < 0 && error("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
     }
-    disabledLog.__reactDisabledLog = !0;
     var ReactCurrentDispatcher1 = ReactSharedInternals.ReactCurrentDispatcher;
     function describeBuiltInComponentFrame(name, source, ownerFn) {
         if (void 0 === prefix) try {
@@ -770,9 +759,8 @@
         var textContent = element.textContent;
         textContent === element._wrapperState.initialValue && "" !== textContent && null !== textContent && (element.value = textContent);
     }
-    var HTML_NAMESPACE = "http://www.w3.org/1999/xhtml", MATH_NAMESPACE = "http://www.w3.org/1998/Math/MathML", SVG_NAMESPACE = "http://www.w3.org/2000/svg", Namespaces = {
+    var HTML_NAMESPACE = "http://www.w3.org/1999/xhtml", SVG_NAMESPACE = "http://www.w3.org/2000/svg", Namespaces = {
         html: HTML_NAMESPACE,
-        mathml: MATH_NAMESPACE,
         svg: SVG_NAMESPACE
     };
     function getIntrinsicNamespace(type) {
@@ -780,7 +768,7 @@
             case "svg":
                 return SVG_NAMESPACE;
             case "math":
-                return MATH_NAMESPACE;
+                return "http://www.w3.org/1998/Math/MathML";
             default:
                 return HTML_NAMESPACE;
         }
@@ -1889,11 +1877,7 @@
             if (window.addEventListener("error", handleWindowError), fakeNode.addEventListener(evtType, callCallback, !1), evt.initEvent(evtType, !1, !1), fakeNode.dispatchEvent(evt), windowEventDescriptor && Object.defineProperty(window, "event", windowEventDescriptor), didCall && didError && (didSetError ? isCrossOriginError && (error = Error("A cross-origin error was thrown. React doesn't have access to the actual error object in development. See https://reactjs.org/link/crossorigin-error for more information.")) : error = Error("An error was thrown inside one of your components, but React doesn't know what it was. This is likely due to browser flakiness. React does its best to preserve the \"Pause on exceptions\" behavior of the DevTools, which requires some DEV-mode only tricks. It's possible that these don't work in your browser. Try triggering the error in production mode, or switching to a modern browser. If you suspect that this is actually an issue with React, please file an issue."), this.onError(error)), window.removeEventListener("error", handleWindowError), !didCall) return restoreAfterDispatch(), invokeGuardedCallbackProd.apply(this, arguments);
         };
     }
-    var invokeGuardedCallbackImpl$1 = invokeGuardedCallbackImpl, hasError = !1, caughtError = null, hasRethrowError = !1, rethrowError = null, reporter = {
-        onError: function(error) {
-            hasError = !0, caughtError = error;
-        }
-    };
+    var invokeGuardedCallbackImpl$1 = invokeGuardedCallbackImpl, hasError = !1, caughtError = null, hasRethrowError = !1, rethrowError = null, reporter = {};
     function invokeGuardedCallback(name, func, context, a, b, c, d, e, f) {
         hasError = !1, caughtError = null, invokeGuardedCallbackImpl$1.apply(reporter, arguments);
     }
@@ -2510,16 +2494,7 @@
             isPersistent: functionThatReturnsTrue
         }), SyntheticBaseEvent;
     }
-    var EventInterface = {
-        eventPhase: 0,
-        bubbles: 0,
-        cancelable: 0,
-        timeStamp: function(event) {
-            return event.timeStamp || Date.now();
-        },
-        defaultPrevented: 0,
-        isTrusted: 0
-    }, SyntheticEvent = createSyntheticEvent(EventInterface), UIEventInterface = _assign({}, EventInterface, {
+    var EventInterface = {}, SyntheticEvent = createSyntheticEvent(EventInterface), UIEventInterface = _assign({}, EventInterface, {
         view: 0,
         detail: 0
     }), SyntheticUIEvent = createSyntheticEvent(UIEventInterface), MouseEventInterface = _assign({}, UIEventInterface, {
@@ -3681,20 +3656,9 @@
         "p",
         "rp",
         "rt"
-    ], emptyAncestorInfo = {
-        current: null,
-        formTag: null,
-        aTagInScope: null,
-        buttonTagInScope: null,
-        nobrTagInScope: null,
-        pTagInButtonScope: null,
-        listItemTagAutoclosing: null,
-        dlItemTagAutoclosing: null
-    };
+    ], emptyAncestorInfo = {};
     updatedAncestorInfo = function(oldInfo, tag) {
-        var ancestorInfo = _assign({}, oldInfo || emptyAncestorInfo), info = {
-            tag: tag
-        };
+        var ancestorInfo = _assign({}, oldInfo || emptyAncestorInfo), info = {};
         return -1 !== inScopeTags.indexOf(tag) && (ancestorInfo.aTagInScope = null, ancestorInfo.buttonTagInScope = null, ancestorInfo.nobrTagInScope = null), -1 !== buttonScopeTags.indexOf(tag) && (ancestorInfo.pTagInButtonScope = null), -1 !== specialTags.indexOf(tag) && "address" !== tag && "div" !== tag && "p" !== tag && (ancestorInfo.listItemTagAutoclosing = null, ancestorInfo.dlItemTagAutoclosing = null), ancestorInfo.current = info, "form" === tag && (ancestorInfo.formTag = info), "a" === tag && (ancestorInfo.aTagInScope = info), "button" === tag && (ancestorInfo.buttonTagInScope = info), "nobr" === tag && (ancestorInfo.nobrTagInScope = info), "p" === tag && (ancestorInfo.pTagInButtonScope = info), "li" === tag && (ancestorInfo.listItemTagAutoclosing = info), ("dd" === tag || "dt" === tag) && (ancestorInfo.dlItemTagAutoclosing = info), ancestorInfo;
     };
     var isTagValidWithParent = function(tag, parentTag) {
@@ -4221,12 +4185,8 @@
         if (isDisallowedContextReadInDEV && error("Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo()."), lastContextWithAllBitsObserved === context) ;
         else if (!1 === observedBits || 0 === observedBits) ;
         else {
-            "number" != typeof observedBits || 1073741823 === observedBits ? (lastContextWithAllBitsObserved = context, resolvedObservedBits = 1073741823) : resolvedObservedBits = observedBits;
-            var resolvedObservedBits, contextItem = {
-                context: context,
-                observedBits: resolvedObservedBits,
-                next: null
-            };
+            ("number" != typeof observedBits || 1073741823 === observedBits) && (lastContextWithAllBitsObserved = context);
+            var resolvedObservedBits, contextItem = {};
             if (null === lastContextDependency) {
                 if (!(null !== currentlyRenderingFiber)) throw Error("Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo().");
                 lastContextDependency = contextItem, currentlyRenderingFiber.dependencies = {
@@ -5082,9 +5042,6 @@
     function checkDepsAreArrayDev(deps) {
         null == deps || Array.isArray(deps) || error("%s received a final argument that is not an array (instead, received `%s`). When specified, the final argument must be an array.", currentHookNameInDev, typeof deps);
     }
-    function throwInvalidHookError() {
-        throw Error("Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:\n1. You might have mismatching versions of React and the renderer (such as React DOM)\n2. You might be breaking the Rules of Hooks\n3. You might have more than one copy of React in the same app\nSee https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.");
-    }
     function areHookInputsEqual(nextDeps, prevDeps) {
         if (ignorePreviousDependencies) return !1;
         if (null === prevDeps) return error("%s received a final argument during this render, but not during the previous render. Even though the final argument is optional, its type cannot change between renders.", currentHookNameInDev), !1;
@@ -5121,13 +5078,7 @@
         renderLanes = 0, currentlyRenderingFiber$1 = null, currentHook = null, workInProgressHook = null, hookTypesDev = null, hookTypesUpdateIndexDev = -1, currentHookNameInDev = null, isUpdatingOpaqueValueInRenderPhase = !1, didScheduleRenderPhaseUpdateDuringThisPass = !1;
     }
     function mountWorkInProgressHook() {
-        var hook = {
-            memoizedState: null,
-            baseState: null,
-            baseQueue: null,
-            queue: null,
-            next: null
-        };
+        var hook = {};
         return null === workInProgressHook ? currentlyRenderingFiber$1.memoizedState = workInProgressHook = hook : workInProgressHook = workInProgressHook.next = hook, workInProgressHook;
     }
     function updateWorkInProgressHook() {
@@ -5286,10 +5237,7 @@
             subscribe
         ]), !objectIs(prevGetSnapshot, getSnapshot) || !objectIs(prevSource, source) || !objectIs(prevSubscribe, subscribe)) {
             var newQueue = {
-                pending: null,
-                dispatch: null,
-                lastRenderedReducer: basicStateReducer,
-                lastRenderedState: snapshot
+                dispatch: null
             };
             newQueue.dispatch = setSnapshot = dispatchAction.bind(null, currentlyRenderingFiber$1, newQueue), stateHook.queue = newQueue, stateHook.baseQueue = null, snapshot = readFromUnsubcribedMutableSource(root, source, getSnapshot), stateHook.memoizedState = stateHook.baseState = snapshot;
         }
@@ -5325,10 +5273,6 @@
     }
     function pushEffect(tag, create, destroy, deps) {
         var effect = {
-            tag: tag,
-            create: create,
-            destroy: destroy,
-            deps: deps,
             next: null
         }, componentUpdateQueue = currentlyRenderingFiber$1.updateQueue;
         if (null === componentUpdateQueue) componentUpdateQueue = {
@@ -5345,9 +5289,7 @@
         return effect;
     }
     function mountRef(initialValue) {
-        var hook = mountWorkInProgressHook(), ref = {
-            current: initialValue
-        };
+        var hook = mountWorkInProgressHook(), ref = {};
         return Object.seal(ref), hook.memoizedState = ref, ref;
     }
     function updateRef(initialValue) {
@@ -5544,8 +5486,6 @@
     function dispatchAction(fiber, queue, action) {
         "function" == typeof arguments[3] && error("State updates from the useState() and useReducer() Hooks don't support the second callback argument. To execute a side effect after rendering, declare it in the component body with useEffect().");
         var eventTime = requestEventTime(), lane = requestUpdateLane(fiber), update = {
-            lane: lane,
-            action: action,
             eagerReducer: null,
             eagerState: null,
             next: null
@@ -5569,24 +5509,7 @@
             "undefined" != typeof jest && (warnIfNotScopedWithMatchingAct(fiber), warnIfNotCurrentlyActingUpdatesInDev(fiber)), scheduleUpdateOnFiber(fiber, lane, eventTime);
         }
     }
-    var ContextOnlyDispatcher = {
-        readContext: readContext,
-        useCallback: throwInvalidHookError,
-        useContext: throwInvalidHookError,
-        useEffect: throwInvalidHookError,
-        useImperativeHandle: throwInvalidHookError,
-        useLayoutEffect: throwInvalidHookError,
-        useMemo: throwInvalidHookError,
-        useReducer: throwInvalidHookError,
-        useRef: throwInvalidHookError,
-        useState: throwInvalidHookError,
-        useDebugValue: throwInvalidHookError,
-        useDeferredValue: throwInvalidHookError,
-        useTransition: throwInvalidHookError,
-        useMutableSource: throwInvalidHookError,
-        useOpaqueIdentifier: throwInvalidHookError,
-        unstable_isNewReconciler: !1
-    }, HooksDispatcherOnMountInDEV = null, HooksDispatcherOnMountWithHookTypesInDEV = null, HooksDispatcherOnUpdateInDEV = null, HooksDispatcherOnRerenderInDEV = null, InvalidNestedHooksDispatcherOnMountInDEV = null, InvalidNestedHooksDispatcherOnUpdateInDEV = null, InvalidNestedHooksDispatcherOnRerenderInDEV = null, warnInvalidContextAccess = function() {
+    var ContextOnlyDispatcher = {}, HooksDispatcherOnMountInDEV = null, HooksDispatcherOnMountWithHookTypesInDEV = null, HooksDispatcherOnUpdateInDEV = null, HooksDispatcherOnRerenderInDEV = null, InvalidNestedHooksDispatcherOnMountInDEV = null, InvalidNestedHooksDispatcherOnUpdateInDEV = null, InvalidNestedHooksDispatcherOnRerenderInDEV = null, warnInvalidContextAccess = function() {
         error("Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo().");
     }, warnInvalidHookAccess = function() {
         error("Do not call Hooks inside useEffect(...), useMemo(...), or other built-in Hooks. You can only call Hooks at the top level of your React function. For more information, see https://reactjs.org/link/rules-of-hooks");
@@ -6150,15 +6073,11 @@
             if ((4 & workInProgress.mode) == 0) workInProgress.memoizedState = {
                 baseLanes: 0
             }, pushRenderLanes(workInProgress, renderLanes);
-            else if ((1073741824 & renderLanes) != 0) workInProgress.memoizedState = {
-                baseLanes: 0
-            }, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
             else {
-                nextBaseLanes = null !== prevState ? prevState.baseLanes | renderLanes : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
-                var _nextState = {
-                    baseLanes: nextBaseLanes
-                };
-                return workInProgress.memoizedState = _nextState, pushRenderLanes(workInProgress, nextBaseLanes), null;
+                if ((1073741824 & renderLanes) != 0) workInProgress.memoizedState = {
+                    baseLanes: 0
+                }, pushRenderLanes(workInProgress, null !== prevState ? prevState.baseLanes : renderLanes);
+                else return nextBaseLanes = null !== prevState ? prevState.baseLanes | renderLanes : renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824, workInProgress.memoizedState = {}, pushRenderLanes(workInProgress, nextBaseLanes), null;
             }
         } else null !== prevState ? (_subtreeRenderLanes = prevState.baseLanes | renderLanes, workInProgress.memoizedState = null) : _subtreeRenderLanes = renderLanes, pushRenderLanes(workInProgress, _subtreeRenderLanes);
         return reconcileChildren(current, workInProgress, nextChildren, renderLanes), workInProgress.child;
@@ -6266,10 +6185,7 @@
         }
     }
     didWarnAboutBadClass = {}, didWarnAboutModulePatternComponent = {}, didWarnAboutContextTypeOnFunctionComponent = {}, didWarnAboutGetDerivedStateOnFunctionComponent = {}, didWarnAboutFunctionRefs = {}, didWarnAboutReassigningProps = !1, didWarnAboutRevealOrder = {}, didWarnAboutTailOptions = {};
-    var SUSPENDED_MARKER = {
-        dehydrated: null,
-        retryLane: 0
-    };
+    var SUSPENDED_MARKER = {};
     function mountSuspenseOffscreenState(renderLanes) {
         return {
             baseLanes: renderLanes
@@ -6321,10 +6237,7 @@
         return workInProgress.memoizedState = null, _primaryChildFragment6;
     }
     function mountSuspenseFallbackChildren(workInProgress, primaryChildren, fallbackChildren, renderLanes) {
-        var primaryChildFragment, fallbackChildFragment, mode = workInProgress.mode, progressedPrimaryFragment = workInProgress.child, primaryChildProps = {
-            mode: "hidden",
-            children: primaryChildren
-        };
+        var primaryChildFragment, fallbackChildFragment, mode = workInProgress.mode, progressedPrimaryFragment = workInProgress.child, primaryChildProps = {};
         return (2 & mode) == 0 && null !== progressedPrimaryFragment ? ((primaryChildFragment = progressedPrimaryFragment).childLanes = 0, primaryChildFragment.pendingProps = primaryChildProps, 8 & workInProgress.mode && (primaryChildFragment.actualDuration = 0, primaryChildFragment.actualStartTime = -1, primaryChildFragment.selfBaseDuration = 0, primaryChildFragment.treeBaseDuration = 0), fallbackChildFragment = createFiberFromFragment(fallbackChildren, mode, renderLanes, null)) : (primaryChildFragment = createFiberFromOffscreen(primaryChildProps, mode, 0, null), fallbackChildFragment = createFiberFromFragment(fallbackChildren, mode, renderLanes, null)), primaryChildFragment.return = workInProgress, fallbackChildFragment.return = workInProgress, primaryChildFragment.sibling = fallbackChildFragment, workInProgress.child = primaryChildFragment, fallbackChildFragment;
     }
     function updateSuspensePrimaryChildren(current, workInProgress, primaryChildren, renderLanes) {
@@ -6335,10 +6248,7 @@
         return (2 & workInProgress.mode) == 0 && (primaryChildFragment.lanes = renderLanes), primaryChildFragment.return = workInProgress, primaryChildFragment.sibling = null, null !== currentFallbackChildFragment && (currentFallbackChildFragment.nextEffect = null, currentFallbackChildFragment.flags = 8, workInProgress.firstEffect = workInProgress.lastEffect = currentFallbackChildFragment), workInProgress.child = primaryChildFragment, primaryChildFragment;
     }
     function updateSuspenseFallbackChildren(current, workInProgress, primaryChildren, fallbackChildren, renderLanes) {
-        var primaryChildFragment, fallbackChildFragment, mode = workInProgress.mode, currentPrimaryChildFragment = current.child, currentFallbackChildFragment = currentPrimaryChildFragment.sibling, primaryChildProps = {
-            mode: "hidden",
-            children: primaryChildren
-        };
+        var primaryChildFragment, fallbackChildFragment, mode = workInProgress.mode, currentPrimaryChildFragment = current.child, currentFallbackChildFragment = currentPrimaryChildFragment.sibling, primaryChildProps = {};
         if ((2 & mode) == 0 && workInProgress.child !== currentPrimaryChildFragment) {
             (primaryChildFragment = workInProgress.child).childLanes = 0, primaryChildFragment.pendingProps = primaryChildProps, 8 & workInProgress.mode && (primaryChildFragment.actualDuration = 0, primaryChildFragment.actualStartTime = -1, primaryChildFragment.selfBaseDuration = currentPrimaryChildFragment.selfBaseDuration, primaryChildFragment.treeBaseDuration = currentPrimaryChildFragment.treeBaseDuration);
             var progressedLastEffect = primaryChildFragment.lastEffect;
@@ -8616,10 +8526,7 @@
             if (null != type && "function" == typeof type.render) {
                 var currentRender = resolveFunctionForHotReloading(type.render);
                 if (type.render !== currentRender) {
-                    var syntheticType = {
-                        $$typeof: REACT_FORWARD_REF_TYPE,
-                        render: currentRender
-                    };
+                    var syntheticType = {};
                     return void 0 !== type.displayName && (syntheticType.displayName = type.displayName), syntheticType;
                 }
             }

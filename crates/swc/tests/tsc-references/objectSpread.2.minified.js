@@ -3,13 +3,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_define_property";
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
-var anything, o = {
-    a: 1,
-    b: "no"
-}, o2 = {
-    b: "yes",
-    c: !0
-};
+var anything, o = {}, o2 = {};
 _object_spread_props(_object_spread({}, o), {
     c: !1
 }), _object_spread({

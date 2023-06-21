@@ -267,12 +267,7 @@
                 }
                 return null;
             }
-            var defaultNumberingSystem = {
-                latn: {
-                    _digits: '0123456789',
-                    _type: 'numeric'
-                }
-            }, defaultNumberSymbols = {
+            var defaultNumberingSystem = {}, defaultNumberSymbols = {
                 decimal: '.',
                 group: ',',
                 percentSign: '%',
@@ -345,162 +340,7 @@
                     }
                     return ret;
                 }, ParserBase.nPair = 'numericPair', ParserBase.nRegex = 'numericRegex', ParserBase.numberingSystems = defaultNumberingSystem, ParserBase;
-            }(), blazorCurrencyData = {
-                DJF: 'Fdj',
-                ERN: 'Nfk',
-                ETB: 'Br',
-                NAD: '$',
-                ZAR: 'R',
-                XAF: 'FCFA',
-                GHS: 'GH₵',
-                XDR: 'XDR',
-                AED: 'د.إ.‏',
-                BHD: 'د.ب.‏',
-                DZD: 'د.ج.‏',
-                EGP: 'ج.م.‏',
-                ILS: '₪',
-                IQD: 'د.ع.‏',
-                JOD: 'د.ا.‏',
-                KMF: 'CF',
-                KWD: 'د.ك.‏',
-                LBP: 'ل.ل.‏',
-                LYD: 'د.ل.‏',
-                MAD: 'د.م.‏',
-                MRU: 'أ.م.',
-                OMR: 'ر.ع.‏',
-                QAR: 'ر.ق.‏',
-                SAR: 'ر.س.‏',
-                SDG: 'ج.س.',
-                SOS: 'S',
-                SSP: '£',
-                SYP: 'ل.س.‏',
-                TND: 'د.ت.‏',
-                YER: 'ر.ي.‏',
-                CLP: '$',
-                INR: '₹',
-                TZS: 'TSh',
-                EUR: '€',
-                AZN: '₼',
-                RUB: '₽',
-                BYN: 'Br',
-                ZMW: 'K',
-                BGN: 'лв.',
-                NGN: '₦',
-                XOF: 'CFA',
-                BDT: '৳',
-                CNY: '¥',
-                BAM: 'КМ',
-                UGX: 'USh',
-                USD: '$',
-                CZK: 'Kč',
-                GBP: '£',
-                DKK: 'kr.',
-                KES: 'Ksh',
-                CHF: 'CHF',
-                MVR: 'ރ.',
-                BTN: 'Nu.',
-                XCD: 'EC$',
-                AUD: '$',
-                BBD: '$',
-                BIF: 'FBu',
-                BMD: '$',
-                BSD: '$',
-                BWP: 'P',
-                BZD: '$',
-                CAD: '$',
-                NZD: '$',
-                FJD: '$',
-                FKP: '£',
-                GIP: '£',
-                GMD: 'D',
-                GYD: '$',
-                HKD: '$',
-                IDR: 'Rp',
-                JMD: '$',
-                KYD: '$',
-                LRD: '$',
-                MGA: 'Ar',
-                MOP: 'MOP$',
-                MUR: 'Rs',
-                MWK: 'MK',
-                MYR: 'RM',
-                PGK: 'K',
-                PHP: '₱',
-                PKR: 'Rs',
-                RWF: 'RF',
-                SBD: '$',
-                SCR: 'SR',
-                SEK: 'kr',
-                SGD: '$',
-                SHP: '£',
-                SLL: 'Le',
-                ANG: 'NAf.',
-                SZL: 'E',
-                TOP: 'T$',
-                TTD: '$',
-                VUV: 'VT',
-                WST: 'WS$',
-                ARS: '$',
-                BOB: 'Bs',
-                BRL: 'R$',
-                COP: '$',
-                CRC: '₡',
-                CUP: '$',
-                DOP: '$',
-                GTQ: 'Q',
-                HNL: 'L',
-                MXN: '$',
-                NIO: 'C$',
-                PAB: 'B/.',
-                PEN: 'S/',
-                PYG: '₲',
-                UYU: '$',
-                VES: 'Bs.S',
-                IRR: 'ريال',
-                GNF: 'FG',
-                CDF: 'FC',
-                HTG: 'G',
-                XPF: 'FCFP',
-                HRK: 'kn',
-                HUF: 'Ft',
-                AMD: '֏',
-                ISK: 'kr',
-                JPY: '¥',
-                GEL: '₾',
-                CVE: '​',
-                KZT: '₸',
-                KHR: '៛',
-                KPW: '₩',
-                KRW: '₩',
-                KGS: 'сом',
-                AOA: 'Kz',
-                LAK: '₭',
-                MZN: 'MTn',
-                MKD: 'ден',
-                MNT: '₮',
-                BND: '$',
-                MMK: 'K',
-                NOK: 'kr',
-                NPR: 'रु',
-                AWG: 'Afl.',
-                SRD: '$',
-                PLN: 'zł',
-                AFN: '؋',
-                STN: 'Db',
-                MDL: 'L',
-                RON: 'lei',
-                UAH: '₴',
-                LKR: 'රු.',
-                ALL: 'Lekë',
-                RSD: 'дин.',
-                TJS: 'смн',
-                THB: '฿',
-                TMT: 'm.',
-                TRY: '₺',
-                UZS: 'сўм',
-                VND: '₫',
-                TWD: 'NT$'
-            };
+            }(), blazorCurrencyData = {};
             dateCorrection = [
                 28607,
                 28636,
@@ -2812,27 +2652,7 @@
                     dateSeparator: intl_base_IntlBase.getDateSeparator(dateObject)
                 });
             }
-            var blazorCultureFormats = {
-                'en-US': {
-                    d: 'M/d/y',
-                    D: 'EEEE, MMMM d, y',
-                    f: 'EEEE, MMMM d, y h:mm a',
-                    F: 'EEEE, MMMM d, y h:mm:s a',
-                    g: 'M/d/y h:mm a',
-                    G: 'M/d/yyyy h:mm:ss tt',
-                    m: 'MMMM d',
-                    M: 'MMMM d',
-                    r: 'ddd, dd MMM yyyy HH\':\'mm\':\'ss \'GMT\'',
-                    R: 'ddd, dd MMM yyyy HH\':\'mm\':\'ss \'GMT\'',
-                    s: 'yyyy\'-\'MM\'-\'dd\'T\'HH\':\'mm\':\'ss',
-                    t: 'h:mm tt',
-                    T: 'h:m:s tt',
-                    u: 'yyyy\'-\'MM\'-\'dd HH\':\'mm\':\'ss\'Z\'',
-                    U: 'dddd, MMMM d, yyyy h:mm:ss tt',
-                    y: 'MMMM yyyy',
-                    Y: 'MMMM yyyy'
-                }
-            };
+            var blazorCultureFormats = {};
             !function(IntlBase) {
                 IntlBase.negativeDataRegex = /^(('[^']+'|''|[^*#@0,.E])*)(\*.)?((([#,]*[0,]*0+)(\.0*[0-9]*#*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|[^*#@0,.E])*)$/, IntlBase.customRegex = /^(('[^']+'|''|[^*#@0,.])*)(\*.)?((([0#,]*[0,]*[0#]*[0#\ ]*)(\.[0#]*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|[^*#@0,.E])*)$/, IntlBase.latnParseRegex = /0|1|2|3|4|5|6|7|8|9/g;
                 var fractionRegex = /[0-9]/g;
@@ -4764,12 +4584,7 @@
                 if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) r = Reflect.decorate(decorators, target, key, desc);
                 else for(var i = decorators.length - 1; i >= 0; i--)(d = decorators[i]) && (r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r);
                 return c > 3 && r && Object.defineProperty(target, key, r), r;
-            }, defaultPosition = {
-                left: 0,
-                top: 0,
-                bottom: 0,
-                right: 0
-            }, isDraggedObject = {
+            }, defaultPosition = {}, isDraggedObject = {
                 isDragged: !1
             }, Position = function(_super) {
                 function Position() {
@@ -4859,17 +4674,7 @@
                             if (!ele || util_isNullOrUndefined(ele)) return;
                             isChangeTouch && evt.preventDefault();
                             var dragTargetElement = this.helperElement = ele;
-                            if (this.parentClientRect = this.calculateParentPosition(dragTargetElement.offsetParent), this.dragStart) {
-                                var curTarget = this.getProperTargetElement(evt), args = {
-                                    event: evt,
-                                    element: element,
-                                    target: curTarget,
-                                    bindEvents: null,
-                                    dragElement: dragTargetElement
-                                };
-                                this.trigger('dragStart', args);
-                            }
-                            this.dragArea ? this.setDragArea() : (this.dragLimit = {
+                            this.parentClientRect = this.calculateParentPosition(dragTargetElement.offsetParent), this.dragStart && (this.getProperTargetElement(evt), this.trigger('dragStart', {})), this.dragArea ? this.setDragArea() : (this.dragLimit = {
                                 left: 0,
                                 right: 0,
                                 bottom: 0,
@@ -6114,10 +5919,7 @@
                     isRtl ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)(elements, CLASSNAMES.RTL) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)(elements, CLASSNAMES.RTL);
                 }
                 function setEnabled(isEnable, element, floatLabelType, inputContainer) {
-                    var disabledAttrs = {
-                        disabled: 'disabled',
-                        'aria-disabled': 'true'
-                    }, considerWrapper = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(inputContainer);
+                    var disabledAttrs = {}, considerWrapper = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(inputContainer);
                     isEnable ? (element.classList.remove(CLASSNAMES.DISABLE), removeAttributes(disabledAttrs, element), considerWrapper && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)([
                         inputContainer
                     ], CLASSNAMES.DISABLE)) : (element.classList.add(CLASSNAMES.DISABLE), addAttributes(disabledAttrs, element), considerWrapper && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
@@ -6264,13 +6066,10 @@
                 }, Input.addFloating = function(input, type, placeholder, internalCreateElement) {
                     var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.az : internalCreateElement, container = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.oq)(input, '.' + CLASSNAMES.INPUTGROUP);
                     if (floatType = type, 'Never' !== type) {
-                        var customTag = container.tagName, args = {
-                            element: input,
-                            floatLabelType: type,
-                            customTag: customTag = 'DIV' !== customTag && 'SPAN' !== customTag ? customTag : null,
-                            properties: {
-                                placeholder: placeholder
-                            }
+                        var customTag = container.tagName;
+                        customTag = 'DIV' !== customTag && 'SPAN' !== customTag ? customTag : null;
+                        var args = {
+                            element: input
                         }, iconEle = container.querySelector('.e-clear-icon'), inputObj = {
                             container: container
                         };
@@ -7076,30 +6875,13 @@
                     Y: !0
                 }), target && element && positionX && positionY && (axis.X || axis.Y)) {
                     var elementRect, elementRect1, tEdge = {
-                        TL: null,
-                        TR: null,
-                        BL: null,
-                        BR: null
-                    }, eEdge = {
-                        TL: null,
-                        TR: null,
-                        BL: null,
-                        BR: null
-                    };
+                        TL: null
+                    }, eEdge = {};
                     if ('none' === window.getComputedStyle(element).display) {
                         var oldVisibility = element.style.visibility;
                         element.style.visibility = 'hidden', element.style.display = 'block', elementRect1 = element.getBoundingClientRect(), element.style.removeProperty('display'), element.style.visibility = oldVisibility;
                     } else elementRect1 = element.getBoundingClientRect();
-                    var pos = {
-                        posX: positionX,
-                        posY: positionY,
-                        offsetX: offsetX,
-                        offsetY: offsetY,
-                        position: {
-                            left: 0,
-                            top: 0
-                        }
-                    };
+                    var pos = {};
                     targetContainer = viewPortElement, parentDocument = target.ownerDocument, elementRect = elementRect1, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, fixedParent, elementRect), tEdge.TL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'top', fixedParent, elementRect), tEdge.TR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'top', fixedParent, elementRect), tEdge.BR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'bottom', fixedParent, elementRect), tEdge.BL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'bottom', fixedParent, elementRect), setPosition(eEdge, pos, elementRect1), axis.X && function leftFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
                         var collideSide = leftCollideCheck(edge.TL.left, edge.TR.left);
                         tEdge.TL.left - getBodyScrollLeft() <= ContainerLeft() && (collideSide.leftSide = !1), tEdge.TR.left > ContainerRight() && (collideSide.rightSide = !1), (collideSide.leftSide && !collideSide.rightSide || !collideSide.leftSide && collideSide.rightSide) && ('right' === pos.posX ? pos.posX = 'left' : pos.posX = 'right', pos.offsetX = pos.offsetX + elementRect.width, pos.offsetX = -1 * pos.offsetX, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, !1), setPosition(edge, pos, elementRect), deepCheck && leftFlip(target, edge, tEdge, pos, elementRect, !1));
@@ -10438,22 +10220,7 @@
                                 }
                             }
                         ]
-                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), okButtonModel = {
-                        buttonModel: {
-                            isPrimary: !0,
-                            content: 'OK'
-                        },
-                        click: function() {
-                            this.hide();
-                        }
-                    }, cancelButtonModel = {
-                        buttonModel: {
-                            content: 'Cancel'
-                        },
-                        click: function() {
-                            this.hide();
-                        }
-                    }, (0, ej2_base.le)(args.okButton) ? options1.buttons[0] = okButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, okButtonModel), (0, ej2_base.le)(args.cancelButton) ? options1.buttons[1] = cancelButtonModel : options1.buttons[1] = formButtonModel(options1.buttons[1], args.cancelButton, cancelButtonModel), options = options1), dialogElement)).close = function() {
+                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), okButtonModel = {}, cancelButtonModel = {}, (0, ej2_base.le)(args.okButton) ? options1.buttons[0] = okButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, okButtonModel), (0, ej2_base.le)(args.cancelButton) ? options1.buttons[1] = cancelButtonModel : options1.buttons[1] = formButtonModel(options1.buttons[1], args.cancelButton, cancelButtonModel), options = options1), dialogElement)).close = function() {
                         args && args.close && args.close.apply(confirmDialogObj), confirmDialogObj.destroy(), confirmDialogObj.element.classList.contains('e-dlg-modal') ? (confirmDialogObj.element.parentElement.remove(), confirmDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : confirmDialogObj.element.remove();
                     }, confirmDialogObj;
                 };
@@ -11643,62 +11410,7 @@
                     return htmlKeyConfig;
                 }
             });
-            var htmlKeyConfig = {
-                'toolbar-focus': 'alt+f10',
-                escape: '27',
-                'insert-link': 'ctrl+k',
-                'insert-image': 'ctrl+shift+i',
-                'insert-table': 'ctrl+shift+e',
-                undo: 'ctrl+z',
-                redo: 'ctrl+y',
-                copy: 'ctrl+c',
-                cut: 'ctrl+x',
-                paste: 'ctrl+v',
-                bold: 'ctrl+b',
-                italic: 'ctrl+i',
-                underline: 'ctrl+u',
-                strikethrough: 'ctrl+shift+s',
-                uppercase: 'ctrl+shift+u',
-                lowercase: 'ctrl+shift+l',
-                superscript: 'ctrl+shift+=',
-                subscript: 'ctrl+=',
-                indents: 'ctrl+]',
-                outdents: 'ctrl+[',
-                'html-source': 'ctrl+shift+h',
-                'full-screen': 'ctrl+shift+f',
-                'decrease-fontsize': 'ctrl+shift+<',
-                'increase-fontsize': 'ctrl+shift+>',
-                'justify-center': 'ctrl+e',
-                'justify-full': 'ctrl+j',
-                'justify-left': 'ctrl+l',
-                'justify-right': 'ctrl+r',
-                'clear-format': 'ctrl+shift+r',
-                'ordered-list': 'ctrl+shift+o',
-                'unordered-list': 'ctrl+alt+o',
-                space: '32',
-                enter: '13',
-                tab: 'tab',
-                delete: '46'
-            }, pasteCleanupGroupingTags = {
-                b: [
-                    'strong'
-                ],
-                strong: [
-                    'b'
-                ],
-                i: [
-                    'emp',
-                    'cite'
-                ],
-                emp: [
-                    'i',
-                    'cite'
-                ],
-                cite: [
-                    'i',
-                    'emp'
-                ]
-            }, selfClosingTags = [
+            var htmlKeyConfig = {}, pasteCleanupGroupingTags = {}, selfClosingTags = [
                 'BR',
                 'IMG'
             ];
@@ -14369,8 +14081,7 @@
                     for(var range = new selection.q().getRange(this.parent.currentDocument), currentContainer = this.parent.editableElement === range.startContainer.parentElement ? range.startContainer.parentElement : range.startContainer, i = currentContainer.childNodes.length - 1; i >= 0; i--)!(0, ej2_base.le)(currentContainer.childNodes[i]) && '#text' === currentContainer.childNodes[i].nodeName && 0 === currentContainer.childNodes[i].textContent.length && 'IMG' !== currentContainer.childNodes[i].nodeName && 'BR' !== currentContainer.childNodes[i].nodeName && currentContainer.childNodes[i].nodeName && (0, ej2_base.og)(currentContainer.childNodes[i]);
                     range = new selection.q().getRange(this.parent.currentDocument);
                     var save = new selection.q().save(range, this.parent.currentDocument), changEle = {
-                        text: this.parent.editableElement.innerHTML,
-                        range: save
+                        text: this.parent.editableElement.innerHTML
                     };
                     this.undoRedoStack.length >= this.steps && (this.undoRedoStack = this.undoRedoStack.slice(0, this.steps + 1)), (!(this.undoRedoStack.length > 1) || this.undoRedoStack[this.undoRedoStack.length - 1].range.range.collapsed !== range.collapsed || this.undoRedoStack[this.undoRedoStack.length - 1].range.startOffset !== save.range.startOffset || this.undoRedoStack[this.undoRedoStack.length - 1].range.endOffset !== save.range.endOffset || this.undoRedoStack[this.undoRedoStack.length - 1].range.range.startContainer !== save.range.startContainer || this.undoRedoStack[this.undoRedoStack.length - 1].text.trim() !== changEle.text.trim()) && (this.undoRedoStack.push(changEle), this.steps = this.undoRedoStack.length - 1, this.steps > this.undoRedoSteps && (this.undoRedoStack.shift(), this.steps--), e && e.callBack && e.callBack());
                 }, UndoRedoManager.prototype.undo = function(e) {
@@ -15643,22 +15354,12 @@
                     var range = this.nodeSelectionObj.getRange(this.contentRenderer.getDocument()), selectNodeEle = this.nodeSelectionObj.getParentNodeCollection(range), text = range.startContainer.textContent.substr(0, range.endOffset), splitText = text.split(' '), urlText = splitText[splitText.length - 1], urlTextRange = range.startOffset - (text.length - splitText[splitText.length - 1].length);
                     urlText = urlText.slice(0, urlTextRange);
                     var regex = new RegExp(/([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi);
-                    if ('A' !== selectNodeEle[0].nodeName && urlText.match(regex)) {
-                        var selection = this.nodeSelectionObj.save(range, this.parent.contentModule.getDocument()), value = {
-                            url: urlText.indexOf('http') > -1 ? urlText : 'http://' + urlText,
-                            selection: selection,
-                            selectParent: this.parent.formatter.editorManager.nodeSelection.getParentNodeCollection(range),
-                            text: urlText,
-                            title: '',
-                            target: '_blank'
-                        };
-                        this.parent.formatter.process(this.parent, {
-                            item: {
-                                command: 'Links',
-                                subCommand: 'CreateLink'
-                            }
-                        }, e, value);
-                    }
+                    'A' !== selectNodeEle[0].nodeName && urlText.match(regex) && (this.nodeSelectionObj.save(range, this.parent.contentModule.getDocument()), urlText.indexOf('http'), this.parent.formatter.editorManager.nodeSelection.getParentNodeCollection(range), this.parent.formatter.process(this.parent, {
+                        item: {
+                            command: 'Links',
+                            subCommand: 'CreateLink'
+                        }
+                    }, e, {}));
                 }, HtmlEditor.prototype.onToolbarClick = function(args) {
                     var save, selectNodeEle, selectParentEle, item = args.item, closestElement = (0, ej2_base.oq)(args.originalEvent.target, '.e-rte-quick-popup');
                     if (closestElement && !closestElement.classList.contains('e-rte-inline-popup')) {
@@ -16831,15 +16532,8 @@
                     var _this = this;
                     this.base64String = [];
                     var eventArgs = {
-                        event: args,
-                        cancel: !1,
                         filesData: [],
-                        isModified: !1,
-                        modifiedFilesData: [],
-                        progressInterval: '',
-                        isCanceled: !1,
-                        currentRequest: null,
-                        customFormData: null
+                        isCanceled: !1
                     };
                     if (targetFiles.length < 1) {
                         eventArgs.isCanceled = !0, this.trigger('selected', eventArgs);
@@ -16925,11 +16619,7 @@
                     }
                     return files;
                 }, Uploader.prototype.validatedFileSize = function(fileSize) {
-                    var minSizeError = '', maxSizeError = '';
-                    return fileSize < this.minFileSize ? minSizeError = this.localizedTexts('invalidMinFileSize') : fileSize > this.maxFileSize ? maxSizeError = this.localizedTexts('invalidMaxFileSize') : (minSizeError = '', maxSizeError = ''), {
-                        minSize: minSizeError,
-                        maxSize: maxSizeError
-                    };
+                    return fileSize < this.minFileSize ? this.localizedTexts('invalidMinFileSize') : fileSize > this.maxFileSize && this.localizedTexts('invalidMaxFileSize'), {};
                 }, Uploader.prototype.isPreLoadFile = function(fileData) {
                     for(var isPreload = !1, i = 0; i < this.files.length; i++)this.files[i].name === fileData.name.slice(0, fileData.name.lastIndexOf('.')) && this.files[i].type === fileData.type && (isPreload = !0);
                     return isPreload;
@@ -17032,16 +16722,9 @@
                 }, Uploader.prototype.mergeFileInfo = function(fileData, fileList) {
                     for(var result = {
                         name: '',
-                        rawFile: '',
                         size: 0,
                         status: '',
-                        type: '',
-                        validationMessages: {
-                            minSize: '',
-                            maxSize: ''
-                        },
-                        statusCode: '1',
-                        list: fileList
+                        type: ''
                     }, fileNames = [], type = '', _i = 0; _i < fileData.length; _i++){
                         var listItem = fileData[_i];
                         fileNames.push(listItem.name), type = listItem.type;
@@ -17750,12 +17433,7 @@
                     var _this = this;
                     (0, ej2_base.le)(postRawFile) && (postRawFile = !0);
                     var eventArgs = {
-                        event: args,
-                        cancel: !1,
-                        filesData: [],
-                        customFormData: [],
-                        postRawFile: postRawFile,
-                        currentRequest: null
+                        filesData: []
                     };
                     this.trigger('beforeRemove', {
                         cancel: !1,
@@ -19024,10 +18702,7 @@
                 }, Toolbar.prototype.clstElement = function(tbrNavChk, trgt) {
                     return tbrNavChk && this.popObj && (0, ej2_base.pn)(this.popObj.element) ? this.popObj.element.querySelector('.' + CLS_ITEM) : this.element === trgt || tbrNavChk ? this.element.querySelector('.' + CLS_ITEM + ':not(.' + toolbar_CLS_DISABLE + ' ):not(.' + CLS_SEPARATOR + ' ):not(.' + CLS_HIDDEN + ' )') : (0, ej2_base.oq)(trgt, '.' + CLS_ITEM);
                 }, Toolbar.prototype.keyHandling = function(clst, e, trgt, navChk, scrollChk) {
-                    var ele, nodes, popObj = this.popObj, rootEle = this.element, popAnimate = {
-                        name: 'FadeOut',
-                        duration: 100
-                    }, value = 'moveUp' === e.action ? 'previous' : 'next';
+                    var ele, nodes, popObj = this.popObj, rootEle = this.element, popAnimate = {}, value = 'moveUp' === e.action ? 'previous' : 'next';
                     switch(e.action){
                         case 'moveRight':
                             if (this.isVertical) return;
@@ -19107,10 +18782,7 @@
                     var clst = (0, ej2_base.oq)(e.target, '.' + CLS_ITEM);
                     if (!((0, ej2_base.le)(clst) || clst.classList.contains(toolbar_CLS_DISABLE)) || popupNav.classList.contains(CLS_TBARNAV)) {
                         clst && (itemObj = this.items[this.tbarEle.indexOf(clst)]);
-                        var eventArgs = {
-                            originalEvent: e,
-                            item: itemObj
-                        };
+                        var eventArgs = {};
                         itemObj && !(0, ej2_base.le)(itemObj.click) && this.trigger('items[' + this.tbarEle.indexOf(clst) + '].click', eventArgs), eventArgs.cancel || this.trigger('clicked', eventArgs, function(clickedArgs) {
                             !(0, ej2_base.le)(_this.popObj) && isPopupElement && !clickedArgs.cancel && 'Popup' === _this.overflowMode && clickedArgs.item && 'Input' !== clickedArgs.item.type && _this.popObj.hide({
                                 name: 'FadeOut',
@@ -19907,12 +19579,9 @@
                 else for(var i = decorators.length - 1; i >= 0; i--)(d = decorators[i]) && (r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r);
                 return c > 3 && r && Object.defineProperty(target, key, r), r;
             }, classNames = {
-                DISABLED: 'e-disabled',
-                FOCUS: 'e-focused',
                 ICON: 'e-menu-icon',
                 ITEM: 'e-item',
                 POPUP: 'e-dropdown-popup',
-                RTL: 'e-rtl',
                 SEPARATOR: 'e-separator',
                 VERTICAL: 'e-vertical'
             }, DropDownButton = function(_super) {
@@ -21194,7 +20863,6 @@
                 horizontalTooltipAfter: 'e-slider-horizontal-after',
                 verticalTooltipBefore: 'e-slider-vertical-before',
                 verticalTooltipAfter: 'e-slider-vertical-after',
-                materialTooltip: 'e-material-tooltip',
                 materialTooltipOpen: 'e-material-tooltip-open',
                 materialTooltipActive: 'e-tooltip-active',
                 materialSlider: 'e-material-slider',
@@ -21213,7 +20881,6 @@
                 sliderFirstTick: 'e-first-tick',
                 sliderLastTick: 'e-last-tick',
                 sliderButtonClass: 'e-slider-btn',
-                sliderTooltipWrapper: 'e-tooltip-wrap',
                 sliderTabTrack: 'e-tab-track',
                 sliderTabRange: 'e-tab-range',
                 sliderActiveHandle: 'e-handle-active',
@@ -25344,240 +25011,7 @@
                     return bulletFormatListLocale;
                 }
             });
-            var defaultLocale = {
-                alignments: 'Alignments',
-                justifyLeft: 'Align Left',
-                justifyCenter: 'Align Center',
-                justifyRight: 'Align Right',
-                justifyFull: 'Align Justify',
-                fontName: 'Font Name',
-                fontSize: 'Font Size',
-                fontColor: 'Font Color',
-                backgroundColor: 'Background Color',
-                bold: 'Bold',
-                italic: 'Italic',
-                underline: 'Underline',
-                strikethrough: 'Strikethrough',
-                clearFormat: 'Clear Format',
-                clearAll: 'Clear All',
-                cut: 'Cut',
-                copy: 'Copy',
-                paste: 'Paste',
-                unorderedList: 'Bulleted List',
-                orderedList: 'Numbered List',
-                indent: 'Increase Indent',
-                outdent: 'Decrease Indent',
-                undo: 'Undo',
-                redo: 'Redo',
-                superscript: 'Superscript',
-                subscript: 'Subscript',
-                createLink: 'Insert Link',
-                openLink: 'Open Link',
-                editLink: 'Edit Link',
-                removeLink: 'Remove Link',
-                image: 'Insert Image',
-                replace: 'Replace',
-                align: 'Align',
-                caption: 'Image Caption',
-                remove: 'Remove',
-                insertLink: 'Insert Link',
-                display: 'Display',
-                altText: 'Alternative Text',
-                dimension: 'Change Size',
-                fullscreen: 'Maximize',
-                maximize: 'Maximize',
-                minimize: 'Minimize',
-                lowerCase: 'Lower Case',
-                upperCase: 'Upper Case',
-                print: 'Print',
-                formats: 'Formats',
-                numberFormatList: 'Number Format List',
-                bulletFormatList: 'Bullet Format List',
-                sourcecode: 'Code View',
-                preview: 'Preview',
-                viewside: 'ViewSide',
-                insertCode: 'Insert Code',
-                linkText: 'Display Text',
-                linkTooltipLabel: 'Title',
-                linkWebUrl: 'Web Address',
-                linkTitle: 'Enter a title',
-                linkurl: 'http://example.com',
-                linkOpenInNewWindow: 'Open Link in New Window',
-                linkHeader: 'Insert Link',
-                dialogInsert: 'Insert',
-                dialogCancel: 'Cancel',
-                dialogUpdate: 'Update',
-                imageHeader: 'Insert Image',
-                imageLinkHeader: 'You can also provide a link from the web',
-                mdimageLink: 'Please provide a URL for your image',
-                imageUploadMessage: 'Drop image here or browse to upload',
-                imageDeviceUploadMessage: 'Click here to upload',
-                imageAlternateText: 'Alternate Text',
-                alternateHeader: 'Alternative Text',
-                browse: 'Browse',
-                imageUrl: 'http://example.com/image.png',
-                imageCaption: 'Caption',
-                imageSizeHeader: 'Image Size',
-                imageHeight: 'Height',
-                imageWidth: 'Width',
-                textPlaceholder: 'Enter Text',
-                inserttablebtn: 'Insert Table',
-                tabledialogHeader: 'Insert Table',
-                tableWidth: 'Width',
-                cellpadding: 'Cell Padding',
-                cellspacing: 'Cell Spacing',
-                columns: 'Number of columns',
-                rows: 'Number of rows',
-                tableRows: 'Table Rows',
-                tableColumns: 'Table Columns',
-                tableCellHorizontalAlign: 'Table Cell Horizontal Align',
-                tableCellVerticalAlign: 'Table Cell Vertical Align',
-                createTable: 'Create Table',
-                removeTable: 'Remove Table',
-                tableHeader: 'Table Header',
-                tableRemove: 'Table Remove',
-                tableCellBackground: 'Table Cell Background',
-                tableEditProperties: 'Table Edit Properties',
-                styles: 'Styles',
-                insertColumnLeft: 'Insert Column Left',
-                insertColumnRight: 'Insert Column Right',
-                deleteColumn: 'Delete Column',
-                insertRowBefore: 'Insert Row Before',
-                insertRowAfter: 'Insert Row After',
-                deleteRow: 'Delete Row',
-                tableEditHeader: 'Edit Table',
-                TableHeadingText: 'Heading',
-                TableColText: 'Col',
-                imageInsertLinkHeader: 'Insert Link',
-                editImageHeader: 'Edit Image',
-                alignmentsDropDownLeft: 'Align Left',
-                alignmentsDropDownCenter: 'Align Center',
-                alignmentsDropDownRight: 'Align Right',
-                alignmentsDropDownJustify: 'Align Justify',
-                imageDisplayDropDownInline: 'Inline',
-                imageDisplayDropDownBreak: 'Break',
-                tableInsertRowDropDownBefore: 'Insert row before',
-                tableInsertRowDropDownAfter: 'Insert row after',
-                tableInsertRowDropDownDelete: 'Delete row',
-                tableInsertColumnDropDownLeft: 'Insert column left',
-                tableInsertColumnDropDownRight: 'Insert column right',
-                tableInsertColumnDropDownDelete: 'Delete column',
-                tableVerticalAlignDropDownTop: 'Align Top',
-                tableVerticalAlignDropDownMiddle: 'Align Middle',
-                tableVerticalAlignDropDownBottom: 'Align Bottom',
-                tableStylesDropDownDashedBorder: 'Dashed Borders',
-                tableStylesDropDownAlternateRows: 'Alternate Rows',
-                pasteFormat: 'Paste Format',
-                pasteFormatContent: 'Choose the formatting action',
-                plainText: 'Plain Text',
-                cleanFormat: 'Clean',
-                keepFormat: 'Keep',
-                pasteDialogOk: 'OK',
-                pasteDialogCancel: 'Cancel',
-                fileManager: 'File Manager',
-                fileDialogHeader: 'File Browser',
-                formatsDropDownParagraph: 'Paragraph',
-                formatsDropDownCode: 'Code',
-                formatsDropDownQuotation: 'Quotation',
-                formatsDropDownHeading1: 'Heading 1',
-                formatsDropDownHeading2: 'Heading 2',
-                formatsDropDownHeading3: 'Heading 3',
-                formatsDropDownHeading4: 'Heading 4',
-                fontNameSegoeUI: 'Segoe UI',
-                fontNameArial: 'Arial',
-                fontNameGeorgia: 'Georgia',
-                fontNameImpact: 'Impact',
-                fontNameTahoma: 'Tahoma',
-                fontNameTimesNewRoman: 'Times New Roman',
-                fontNameVerdana: 'Verdana',
-                numberFormatListNumber: 'Number',
-                numberFormatListLowerAlpha: 'LowerAlpha',
-                numberFormatListUpperAlpha: 'UpperAlpha',
-                numberFormatListLowerRoman: 'LowerRoman',
-                numberFormatListUpperRoman: 'UpperRoman',
-                numberFormatListLowerGreek: 'LowerGreek',
-                bulletFormatListDisc: 'Disc',
-                bulletFormatListCircle: 'Circle',
-                bulletFormatListSquare: 'Square',
-                numberFormatListNone: 'None',
-                bulletFormatListNone: 'None'
-            }, toolsLocale = {
-                alignments: 'alignments',
-                justifyleft: 'justifyLeft',
-                justifycenter: 'justifyCenter',
-                justifyright: 'justifyRight',
-                justifyfull: 'justifyFull',
-                fontname: 'fontName',
-                fontsize: 'fontSize',
-                fontcolor: 'fontColor',
-                backgroundcolor: 'backgroundColor',
-                bold: 'bold',
-                italic: 'italic',
-                underline: 'underline',
-                strikethrough: 'strikethrough',
-                clearformat: 'clearFormat',
-                clearall: 'clearAll',
-                cut: 'cut',
-                copy: 'copy',
-                paste: 'paste',
-                unorderedlist: 'unorderedList',
-                orderedlist: 'orderedList',
-                indent: 'indent',
-                outdent: 'outdent',
-                undo: 'undo',
-                redo: 'redo',
-                superscript: 'superscript',
-                subscript: 'subscript',
-                createlink: 'createLink',
-                openlink: 'openLink',
-                editlink: 'editLink',
-                removelink: 'removeLink',
-                openimagelink: 'openLink',
-                editimagelink: 'editLink',
-                removeimagelink: 'removeLink',
-                image: 'image',
-                replace: 'replace',
-                align: 'align',
-                caption: 'caption',
-                remove: 'remove',
-                insertlink: 'insertLink',
-                display: 'display',
-                alttext: 'altText',
-                dimension: 'dimension',
-                fullscreen: 'fullscreen',
-                maximize: 'maximize',
-                minimize: 'minimize',
-                lowercase: 'lowerCase',
-                uppercase: 'upperCase',
-                print: 'print',
-                formats: 'formats',
-                numberformatlist: 'numberFormatList',
-                bulletformatlist: 'bulletFormatList',
-                sourcecode: 'sourcecode',
-                preview: 'preview',
-                viewside: 'viewside',
-                insertcode: 'insertCode',
-                tablerows: 'tableRows',
-                tablecolumns: 'tableColumns',
-                tablecellhorizontalalign: 'tableCellHorizontalAlign',
-                tablecellverticalalign: 'tableCellVerticalAlign',
-                createtable: 'createTable',
-                removetable: 'removeTable',
-                tableheader: 'tableHeader',
-                tableremove: 'tableRemove',
-                tablecellbackground: 'tableCellBackground',
-                tableeditproperties: 'tableEditProperties',
-                styles: 'styles',
-                insertcolumnleft: 'insertColumnLeft',
-                insertcolumnright: 'insertColumnRight',
-                deletecolumn: 'deleteColumn',
-                aligntop: 'AlignTop',
-                alignmiddle: 'AlignMiddle',
-                alignbottom: 'AlignBottom',
-                insertrowbefore: 'insertRowBefore',
-                insertrowafter: 'insertRowAfter',
-                deleterow: 'deleteRow'
-            }, fontNameLocale = [
+            var defaultLocale = {}, toolsLocale = {}, fontNameLocale = [
                 {
                     locale: 'fontNameSegoeUI',
                     value: 'Segoe UI'
@@ -25761,486 +25195,7 @@
                 'styles',
                 'numberformatlist',
                 'bulletformatlist'
-            ], tools = {
-                alignments: {
-                    id: 'Alignments',
-                    icon: 'e-alignments',
-                    tooltip: 'Alignments',
-                    command: 'Alignments',
-                    subCommand: 'Alignments'
-                },
-                justifyleft: {
-                    id: 'JustifyLeft',
-                    icon: 'e-justify-left',
-                    tooltip: 'JustifyLeft',
-                    command: 'Alignments',
-                    subCommand: 'JustifyLeft'
-                },
-                justifycenter: {
-                    id: 'JustifyCenter',
-                    icon: 'e-justify-center',
-                    tooltip: 'JustifyCenter',
-                    command: 'Alignments',
-                    subCommand: 'JustifyCenter'
-                },
-                justifyright: {
-                    id: 'JustifyRight',
-                    icon: 'e-justify-right',
-                    tooltip: 'JustifyRight',
-                    command: 'Alignments',
-                    subCommand: 'JustifyRight'
-                },
-                justifyfull: {
-                    id: 'JustifyFull',
-                    icon: 'e-justify-full',
-                    tooltip: 'JustifyFull',
-                    command: 'Alignments',
-                    subCommand: 'JustifyFull'
-                },
-                fontname: {
-                    id: 'FontName',
-                    icon: 'e-font-name',
-                    tooltip: 'Font Name',
-                    command: 'Font',
-                    subCommand: 'FontName'
-                },
-                fontsize: {
-                    id: 'FontSize',
-                    icon: 'e-font-size',
-                    tooltip: 'Font Size',
-                    command: 'Font',
-                    subCommand: 'FontSize'
-                },
-                fontcolor: {
-                    id: 'FontColor',
-                    icon: 'e-font-color',
-                    tooltip: 'Font Color',
-                    command: 'Font',
-                    subCommand: 'FontColor',
-                    value: '#ff0000ff'
-                },
-                backgroundcolor: {
-                    id: 'BackgroundColor',
-                    icon: 'e-background-color',
-                    tooltip: 'Background Color',
-                    command: 'Font',
-                    subCommand: 'BackgroundColor',
-                    value: '#ffff00ff'
-                },
-                bold: {
-                    id: 'Bold',
-                    icon: 'e-bold',
-                    tooltip: 'Bold',
-                    command: 'Style',
-                    subCommand: 'Bold'
-                },
-                italic: {
-                    id: 'Italic',
-                    icon: 'e-italic',
-                    tooltip: 'Italic',
-                    command: 'Style',
-                    subCommand: 'Italic'
-                },
-                underline: {
-                    id: 'Underline',
-                    icon: 'e-underline',
-                    tooltip: 'Underline',
-                    command: 'Style',
-                    subCommand: 'Underline'
-                },
-                strikethrough: {
-                    id: 'StrikeThrough',
-                    icon: 'e-strike-through',
-                    tooltip: 'StrikeThrough',
-                    command: 'Style',
-                    subCommand: 'StrikeThrough'
-                },
-                clearformat: {
-                    id: 'ClearFormat',
-                    icon: 'e-clear-format',
-                    tooltip: 'Clear Format',
-                    command: 'Clear',
-                    subCommand: 'ClearFormat'
-                },
-                clearall: {
-                    id: 'ClearAll',
-                    icon: 'e-clear-all',
-                    tooltip: 'Clear All',
-                    command: 'Clear',
-                    subCommand: 'ClearAll'
-                },
-                cut: {
-                    id: 'Cut',
-                    icon: 'e-cut',
-                    tooltip: 'Cut',
-                    command: 'ClipBoard',
-                    subCommand: 'Cut'
-                },
-                copy: {
-                    id: 'Copy',
-                    icon: 'e-copy',
-                    tooltip: 'Copy',
-                    command: 'ClipBoard',
-                    subCommand: 'Copy'
-                },
-                paste: {
-                    id: 'Paste',
-                    icon: 'e-paste',
-                    tooltip: 'Paste',
-                    command: 'ClipBoard',
-                    subCommand: 'Paste'
-                },
-                unorderedlist: {
-                    id: 'UnorderedList',
-                    icon: 'e-unorder-list',
-                    tooltip: 'Bulleted List',
-                    command: 'Lists',
-                    subCommand: 'UL'
-                },
-                orderedlist: {
-                    id: 'OrderedList',
-                    icon: 'e-order-list',
-                    tooltip: 'Numbered List',
-                    command: 'Lists',
-                    subCommand: 'OL'
-                },
-                numberformatlist: {
-                    id: 'NumberFormatList',
-                    icon: 'e-order-list',
-                    tooltip: 'Number Format List',
-                    command: 'NumberFormatList',
-                    subCommand: 'NumberFormatList'
-                },
-                bulletformatlist: {
-                    id: 'BulletFormatList',
-                    icon: 'e-unorder-list',
-                    tooltip: 'Bullet Format List',
-                    command: 'BulletFormatList',
-                    subCommand: 'BulletFormatList'
-                },
-                indent: {
-                    id: 'Indent',
-                    icon: 'e-indent',
-                    tooltip: 'Increase Indent',
-                    command: 'Indents',
-                    subCommand: 'Indent'
-                },
-                outdent: {
-                    id: 'Outdent',
-                    icon: 'e-outdent',
-                    tooltip: 'Decrease Indent',
-                    command: 'Indents',
-                    subCommand: 'Outdent'
-                },
-                undo: {
-                    id: 'Undo',
-                    icon: 'e-undo',
-                    tooltip: 'Undo',
-                    command: 'Actions',
-                    subCommand: 'Undo'
-                },
-                redo: {
-                    id: 'Redo',
-                    icon: 'e-redo',
-                    tooltip: 'Redo',
-                    command: 'Actions',
-                    subCommand: 'Redo'
-                },
-                superscript: {
-                    id: 'SuperScript',
-                    icon: 'e-super-script',
-                    tooltip: 'Superscript',
-                    command: 'Effects',
-                    subCommand: 'SuperScript'
-                },
-                subscript: {
-                    id: 'SubScript',
-                    icon: 'e-sub-script',
-                    tooltip: 'Subscript',
-                    command: 'Effects',
-                    subCommand: 'SubScript'
-                },
-                createlink: {
-                    id: 'CreateLink',
-                    icon: 'e-create-link',
-                    tooltip: 'Insert Hyperlink',
-                    command: 'Links',
-                    subCommand: 'CreateLink'
-                },
-                openlink: {
-                    id: 'OpenLink',
-                    icon: 'e-open-link',
-                    tooltip: 'Open Link',
-                    command: 'Links',
-                    subCommand: 'OpenLink'
-                },
-                editlink: {
-                    id: 'EditLink',
-                    icon: 'e-edit-link',
-                    tooltip: 'Edit Link',
-                    command: 'Links',
-                    subCommand: 'EditLink'
-                },
-                removelink: {
-                    id: 'RemoveLink',
-                    icon: 'e-remove-link',
-                    tooltip: 'Remove Link',
-                    command: 'Links',
-                    subCommand: 'RemoveLink'
-                },
-                image: {
-                    id: 'Image',
-                    icon: 'e-image',
-                    tooltip: 'Insert Image',
-                    command: 'Images',
-                    subCommand: 'Image'
-                },
-                filemanager: {
-                    id: 'FileManager',
-                    icon: 'e-rte-file-manager',
-                    tooltip: 'File Manager',
-                    command: 'Files',
-                    subCommand: 'File'
-                },
-                createtable: {
-                    id: 'CreateTable',
-                    icon: 'e-create-table',
-                    tooltip: 'Create Table',
-                    command: 'Table',
-                    subCommand: 'CreateTable'
-                },
-                removetable: {
-                    id: 'removeTable',
-                    icon: 'e-remove-table',
-                    tooltip: 'Remove Table',
-                    command: 'removeTable',
-                    subCommand: 'removeTable'
-                },
-                replace: {
-                    id: 'Replace',
-                    icon: 'e-replace',
-                    tooltip: 'Replace',
-                    command: 'Images',
-                    subCommand: 'Replace'
-                },
-                align: {
-                    id: 'Align',
-                    icon: 'e-align',
-                    tooltip: 'Align',
-                    command: 'Images',
-                    subCommand: 'Align'
-                },
-                caption: {
-                    id: 'Caption',
-                    icon: 'e-caption',
-                    tooltip: 'Image Caption',
-                    command: 'Images',
-                    subCommand: 'Caption'
-                },
-                remove: {
-                    id: 'Remove',
-                    icon: 'e-remove',
-                    tooltip: 'Remove',
-                    command: 'Images',
-                    subCommand: 'Remove'
-                },
-                openimagelink: {
-                    id: 'OpenImageLink',
-                    icon: 'e-open-link',
-                    tooltip: 'Open Link',
-                    command: 'Images',
-                    subCommand: 'OpenImageLink'
-                },
-                editimagelink: {
-                    id: 'EditImageLink',
-                    icon: 'e-edit-link',
-                    tooltip: 'Edit Link',
-                    command: 'Images',
-                    subCommand: 'EditImageLink'
-                },
-                removeimagelink: {
-                    id: 'RemoveImageLink',
-                    icon: 'e-remove-link',
-                    tooltip: 'Remove Link',
-                    command: 'Images',
-                    subCommand: 'RemoveImageLink'
-                },
-                insertlink: {
-                    id: 'InsertLink',
-                    icon: 'e-insert-link',
-                    tooltip: 'Insert Link',
-                    command: 'Images',
-                    subCommand: 'InsertLink'
-                },
-                display: {
-                    id: 'Display',
-                    icon: 'e-display',
-                    tooltip: 'Display',
-                    command: 'Images',
-                    subCommand: 'Display'
-                },
-                alttext: {
-                    id: 'AltText',
-                    icon: 'e-alt-text',
-                    tooltip: 'Alternative Text',
-                    command: 'Images',
-                    subCommand: 'AltText'
-                },
-                dimension: {
-                    id: 'Dimension',
-                    icon: 'e-img-dimension',
-                    tooltip: 'Change Size',
-                    command: 'Images',
-                    subCommand: 'Dimension'
-                },
-                fullscreen: {
-                    id: 'Maximize',
-                    icon: 'e-maximize',
-                    tooltip: 'Maximize',
-                    command: 'View',
-                    subCommand: 'Maximize'
-                },
-                maximize: {
-                    id: 'Maximize',
-                    icon: 'e-maximize',
-                    tooltip: 'Maximize',
-                    command: 'FullScreen',
-                    subCommand: 'Maximize'
-                },
-                minimize: {
-                    id: 'Minimize',
-                    icon: 'e-minimize',
-                    tooltip: 'Minimize',
-                    command: 'FullScreen',
-                    subCommand: 'Minimize'
-                },
-                lowercase: {
-                    id: 'LowerCase',
-                    icon: 'e-lower-case',
-                    tooltip: 'Lower Case',
-                    command: 'Casing',
-                    subCommand: 'LowerCase'
-                },
-                uppercase: {
-                    id: 'UpperCase',
-                    icon: 'e-upper-case',
-                    tooltip: 'Upper Case',
-                    command: 'Casing',
-                    subCommand: 'UpperCase'
-                },
-                print: {
-                    id: 'Print',
-                    icon: 'e-print',
-                    tooltip: 'Print',
-                    command: 'Print',
-                    subCommand: 'Print'
-                },
-                formats: {
-                    id: 'Formats',
-                    icon: 'e-formats',
-                    tooltip: 'Formats',
-                    command: 'Formats',
-                    subCommand: 'Formats'
-                },
-                sourcecode: {
-                    id: 'SourceCode',
-                    icon: 'e-source-code',
-                    tooltip: 'Source Code',
-                    command: 'SourceCode',
-                    subCommand: 'SourceCode'
-                },
-                preview: {
-                    id: 'Preview',
-                    icon: 'e-preview',
-                    tooltip: 'Preview',
-                    command: 'Preview',
-                    subCommand: 'Preview'
-                },
-                viewside: {
-                    id: 'ViewSide',
-                    icon: 'e-view-side',
-                    tooltip: 'ViewSide',
-                    command: 'ViewSide',
-                    subCommand: 'ViewSide'
-                },
-                insertcode: {
-                    id: 'InsertCode',
-                    icon: 'e-insert-code',
-                    tooltip: 'Insert Code',
-                    command: 'Formats',
-                    subCommand: 'Pre'
-                },
-                tableheader: {
-                    id: 'TableHeader',
-                    icon: 'e-table-header',
-                    tooltip: 'Table Header',
-                    command: 'Table',
-                    subCommand: 'TableHeader'
-                },
-                tableremove: {
-                    id: 'TableRemove',
-                    icon: 'e-table-remove',
-                    tooltip: 'Table Remove',
-                    command: 'Table',
-                    subCommand: 'TableRemove'
-                },
-                tablerows: {
-                    id: 'TableRows',
-                    icon: 'e-table-rows',
-                    tooltip: 'Table Rows',
-                    command: 'Table',
-                    subCommand: 'TableRows'
-                },
-                tablecolumns: {
-                    id: 'TableColumns',
-                    icon: 'e-table-columns',
-                    tooltip: 'Table Columns',
-                    command: 'Table',
-                    subCommand: 'TableColumns'
-                },
-                tablecell: {
-                    id: 'TableCell',
-                    icon: 'e-table-cell',
-                    tooltip: 'Table Cell',
-                    command: 'Table',
-                    subCommand: 'TableCell'
-                },
-                tablecellbackground: {
-                    id: 'TableCellBackground',
-                    icon: 'e-table-cell-background',
-                    tooltip: 'Table Cell Background',
-                    command: 'Table',
-                    subCommand: 'TableCellBackground'
-                },
-                tablecellhorizontalalign: {
-                    id: 'TableCellHorizontalAlign',
-                    icon: 'e-table-cell-horizontalAlign',
-                    tooltip: 'Table Cell HorizontalAlign',
-                    command: 'Table',
-                    subCommand: 'TableCellHorizontalAlign'
-                },
-                tablecellverticalalign: {
-                    id: 'TableCellVerticalAlign',
-                    icon: 'e-table-cell-verticalAlign',
-                    tooltip: 'Table Cell VerticalAlign',
-                    command: 'Table',
-                    subCommand: 'TableCellVerticalAlign'
-                },
-                tableeditproperties: {
-                    id: 'TableEditProperties',
-                    icon: 'e-table-edit-properties',
-                    tooltip: 'Table Edit Properties',
-                    command: 'Table',
-                    subCommand: 'TableEditProperties'
-                },
-                styles: {
-                    id: 'Styles',
-                    icon: 'e-table-styles',
-                    tooltip: 'Styles',
-                    command: 'Table',
-                    subCommand: 'Styles'
-                }
-            }, alignmentLocale = [
+            ], tools = {}, alignmentLocale = [
                 {
                     locale: 'alignmentsDropDownLeft',
                     value: 'JustifyLeft'
@@ -26602,133 +25557,7 @@
                     subCommand: 'H4',
                     value: 'H4'
                 }
-            ], fontColor = {
-                Custom: [
-                    '',
-                    '#000000',
-                    '#e7e6e6',
-                    '#44546a',
-                    '#4472c4',
-                    '#ed7d31',
-                    '#a5a5a5',
-                    '#ffc000',
-                    '#70ad47',
-                    '#ff0000',
-                    '#f2f2f2',
-                    '#808080',
-                    '#cfcdcd',
-                    '#d5dce4',
-                    '#d9e2f3',
-                    '#fbe4d5',
-                    '#ededed',
-                    '#fff2cc',
-                    '#e2efd9',
-                    '#ffcccc',
-                    '#d9d9d9',
-                    '#595959',
-                    '#aeaaaa',
-                    '#acb9ca',
-                    '#b4c6e7',
-                    '#f7caac',
-                    '#dbdbdb',
-                    '#ffe599',
-                    '#c5e0b3',
-                    '#ff8080',
-                    '#bfbfbf',
-                    '#404040',
-                    '#747070',
-                    '#8496b0',
-                    '#8eaadb',
-                    '#f4b083',
-                    '#c9c9c9',
-                    '#ffd966',
-                    '#a8d08d',
-                    '#ff3333',
-                    '#a6a6a6',
-                    '#262626',
-                    '#3b3838',
-                    '#323e4f',
-                    '#2f5496',
-                    '#c45911',
-                    '#7b7b7b',
-                    '#bf8f00',
-                    '#538135',
-                    '#b30000',
-                    '#7f7f7f',
-                    '#0d0d0d',
-                    '#161616',
-                    '#212934',
-                    '#1f3763',
-                    '#823b0b',
-                    '#525252',
-                    '#7f5f00',
-                    '#375623',
-                    '#660000'
-                ]
-            }, backgroundColor = {
-                Custom: [
-                    '',
-                    '#000000',
-                    '#ffff00',
-                    '#00ff00',
-                    '#00ffff',
-                    '#0000ff',
-                    '#ff0000',
-                    '#000080',
-                    '#800080',
-                    '#996633',
-                    '#f2f2f2',
-                    '#808080',
-                    '#ffffcc',
-                    '#b3ffb3',
-                    '#ccffff',
-                    '#ccccff',
-                    '#ffcccc',
-                    '#ccccff',
-                    '#ff80ff',
-                    '#f2e6d9',
-                    '#d9d9d9',
-                    '#595959',
-                    '#ffff80',
-                    '#80ff80',
-                    '#b3ffff',
-                    '#8080ff',
-                    '#ff8080',
-                    '#8080ff',
-                    '#ff00ff',
-                    '#dfbf9f',
-                    '#bfbfbf',
-                    '#404040',
-                    '#ffff33',
-                    '#33ff33',
-                    '#33ffff',
-                    '#3333ff',
-                    '#ff3333',
-                    '#0000b3',
-                    '#b300b3',
-                    '#c68c53',
-                    '#a6a6a6',
-                    '#262626',
-                    '#e6e600',
-                    '#00b300',
-                    '#009999',
-                    '#000099',
-                    '#b30000',
-                    '#000066',
-                    '#660066',
-                    '#86592d',
-                    '#7f7f7f',
-                    '#0d0d0d',
-                    '#999900',
-                    '#006600',
-                    '#006666',
-                    '#000066',
-                    '#660000',
-                    '#00004d',
-                    '#4d004d',
-                    '#734d26'
-                ]
-            }, numberFormatList = [
+            ], fontColor = {}, backgroundColor = {}, numberFormatList = [
                 {
                     text: 'None',
                     command: 'Lists',

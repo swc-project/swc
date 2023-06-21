@@ -88,27 +88,10 @@
                     rootMargin: lazyBoundary || "200px",
                     disabled: !isLazy
                 }), 3), setIntersection = ref1[0], isIntersected = ref1[1], resetIntersected = ref1[2], isVisible = !isLazy || isIntersected, wrapperStyle = {
-                    boxSizing: "border-box",
-                    display: "block",
-                    overflow: "hidden",
-                    width: "initial",
-                    height: "initial",
-                    background: "none",
-                    opacity: 1,
-                    border: 0,
-                    margin: 0,
-                    padding: 0
-                }, sizerStyle = {
-                    boxSizing: "border-box",
                     display: "block",
                     width: "initial",
-                    height: "initial",
-                    background: "none",
-                    opacity: 1,
-                    border: 0,
-                    margin: 0,
-                    padding: 0
-                }, hasSizer = !1, widthInt = getInt(width), heightInt = getInt(height), qualityInt = getInt(quality), imgStyle = Object.assign({}, style, {
+                    height: "initial"
+                }, sizerStyle = {}, hasSizer = !1, widthInt = getInt(width), heightInt = getInt(height), qualityInt = getInt(quality), imgStyle = Object.assign({}, style, {
                     position: "absolute",
                     top: 0,
                     left: 0,
@@ -216,55 +199,7 @@
             };
             var _extends = __webpack_require__(2769).Z, _interop_require_default = __webpack_require__(4507).Z, _interop_require_wildcard = __webpack_require__(8167).Z, _object_without_properties_loose = __webpack_require__(4719).Z, _react = _interop_require_wildcard(__webpack_require__(959)), _head = _interop_require_default(__webpack_require__(4357)), _imageConfig = __webpack_require__(1773), _useIntersection = __webpack_require__(757), _imageConfigContext = __webpack_require__(9664);
             __webpack_require__(8827);
-            var _normalizeTrailingSlash = __webpack_require__(8236), ref = {
-                deviceSizes: [
-                    640,
-                    750,
-                    828,
-                    1080,
-                    1200,
-                    1920,
-                    2048,
-                    3840
-                ],
-                imageSizes: [
-                    16,
-                    32,
-                    48,
-                    64,
-                    96,
-                    128,
-                    256,
-                    384
-                ],
-                path: "/_next/image",
-                loader: "default",
-                dangerouslyAllowSVG: !1
-            }, experimentalUnoptimized = (ref.experimentalRemotePatterns, ref.experimentalUnoptimized), configEnv = {
-                deviceSizes: [
-                    640,
-                    750,
-                    828,
-                    1080,
-                    1200,
-                    1920,
-                    2048,
-                    3840
-                ],
-                imageSizes: [
-                    16,
-                    32,
-                    48,
-                    64,
-                    96,
-                    128,
-                    256,
-                    384
-                ],
-                path: "/_next/image",
-                loader: "default",
-                dangerouslyAllowSVG: !1
-            }, loadedImageURLs = new Set(), emptyDataURL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", loaders = new Map([
+            var _normalizeTrailingSlash = __webpack_require__(8236), ref = {}, experimentalUnoptimized = (ref.experimentalRemotePatterns, ref.experimentalUnoptimized), configEnv = {}, loadedImageURLs = new Set(), emptyDataURL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", loaders = new Map([
                 [
                     "default",
                     function(param) {

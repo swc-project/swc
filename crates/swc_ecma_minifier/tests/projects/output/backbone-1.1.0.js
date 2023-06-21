@@ -241,14 +241,7 @@
         options || (options = {}), options.model && (this.model = options.model), void 0 !== options.comparator && (this.comparator = options.comparator), this._reset(), this.initialize.apply(this, arguments), models && this.reset(models, _.extend({
             silent: !0
         }, options));
-    }, setOptions = {
-        add: !0,
-        remove: !0,
-        merge: !0
-    }, addOptions = {
-        add: !0,
-        remove: !1
-    };
+    }, setOptions = {}, addOptions = {};
     _.extend(Collection.prototype, Events, {
         model: Model,
         initialize: function() {},
@@ -508,8 +501,7 @@
             emulateJSON: Backbone.emulateJSON
         });
         var params = {
-            type: type,
-            dataType: "json"
+            type: type
         };
         if (options.url || (params.url = _.result(model, "url") || urlError()), null == options.data && model && ("create" === method || "update" === method || "patch" === method) && (params.contentType = "application/json", params.data = JSON.stringify(options.attrs || model.toJSON(options))), options.emulateJSON && (params.contentType = "application/x-www-form-urlencoded", params.data = params.data ? {
             model: params.data

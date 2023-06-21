@@ -25,9 +25,6 @@
     function isPlainObject(obj) {
         return '[object Object]' === _toString.call(obj);
     }
-    function isRegExp(v) {
-        return '[object RegExp]' === _toString.call(v);
-    }
     function isValidArrayIndex(val) {
         var n = parseFloat(String(val));
         return n >= 0 && Math.floor(n) === n && isFinite(val);
@@ -669,12 +666,8 @@
         return perf.mark(tag);
     }, measure = function(name, startTag, endTag) {
         perf.measure(name, startTag, endTag), perf.clearMarks(startTag), perf.clearMarks(endTag);
-    });
-    var allowedGlobals = makeMap("Infinity,undefined,NaN,isFinite,isNaN,parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,require"), warnNonPresent = function(target, key) {
-        warn("Property or method \"" + key + '" is not defined on the instance but referenced during render. Make sure that this property is reactive, either in the data option, or for class-based components, by initializing the property. See: https://vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.', target);
-    }, warnReservedPrefix = function(target, key) {
-        warn("Property \"" + key + "\" must be accessed with \"$data." + key + '" because properties starting with "$" or "_" are not proxied in the Vue instance to prevent conflicts with Vue internals. See: https://vuejs.org/v2/api/#data', target);
-    }, hasProxy = 'undefined' != typeof Proxy && isNative(Proxy);
+    }), makeMap("Infinity,undefined,NaN,isFinite,isNaN,parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,require");
+    var hasProxy = 'undefined' != typeof Proxy && isNative(Proxy);
     if (hasProxy) {
         var isBuiltInModifier = makeMap('stop,prevent,self,ctrl,shift,alt,meta,exact');
         config.keyCodes = new Proxy(config.keyCodes, {
@@ -683,16 +676,7 @@
             }
         });
     }
-    var hasHandler = {
-        has: function(target, key) {
-            var has = key in target, isAllowed = allowedGlobals(key) || 'string' == typeof key && '_' === key.charAt(0) && !(key in target.$data);
-            return has || isAllowed || (key in target.$data ? warnReservedPrefix(target, key) : warnNonPresent(target, key)), has || !isAllowed;
-        }
-    }, getHandler = {
-        get: function(target, key) {
-            return 'string' != typeof key || key in target || (key in target.$data ? warnReservedPrefix(target, key) : warnNonPresent(target, key)), target[key];
-        }
-    };
+    var hasHandler = {}, getHandler = {};
     initProxy = function(vm) {
         if (hasProxy) {
             var options = vm.$options, handlers = options.render && options.render._withStripped ? getHandler : hasHandler;
@@ -959,11 +943,7 @@
     var componentVNodeHooks = {
         init: function(vnode, hydrating) {
             var options, inlineTemplate;
-            vnode.componentInstance && !vnode.componentInstance._isDestroyed && vnode.data.keepAlive ? componentVNodeHooks.prepatch(vnode, vnode) : (vnode.componentInstance = (options = {
-                _isComponent: !0,
-                _parentVnode: vnode,
-                parent: activeInstance
-            }, isDef(inlineTemplate = vnode.data.inlineTemplate) && (options.render = inlineTemplate.render, options.staticRenderFns = inlineTemplate.staticRenderFns), new vnode.componentOptions.Ctor(options))).$mount(hydrating ? vnode.elm : void 0, hydrating);
+            vnode.componentInstance && !vnode.componentInstance._isDestroyed && vnode.data.keepAlive ? componentVNodeHooks.prepatch(vnode, vnode) : (vnode.componentInstance = (options = {}, isDef(inlineTemplate = vnode.data.inlineTemplate) && (options.render = inlineTemplate.render, options.staticRenderFns = inlineTemplate.staticRenderFns), new vnode.componentOptions.Ctor(options))).$mount(hydrating ? vnode.elm : void 0, hydrating);
         },
         prepatch: function(oldVnode, vnode) {
             var options = vnode.componentOptions;
@@ -1108,12 +1088,6 @@
     }
     function isAsyncPlaceholder(node) {
         return node.isComment && node.asyncFactory;
-    }
-    function getFirstComponentChild(children) {
-        if (Array.isArray(children)) for(var i = 0; i < children.length; i++){
-            var c = children[i];
-            if (isDef(c) && (isDef(c.componentOptions) || isAsyncPlaceholder(c))) return c;
-        }
     }
     function add(event, fn) {
         target.$on(event, fn);
@@ -1260,8 +1234,6 @@
         }
     };
     var sharedPropertyDefinition = {
-        enumerable: !0,
-        configurable: !0,
         get: noop,
         set: noop
     };
@@ -1272,9 +1244,7 @@
             this[sourceKey][key] = val;
         }, Object.defineProperty(target, key, sharedPropertyDefinition);
     }
-    var computedWatcherOptions = {
-        lazy: !0
-    };
+    var computedWatcherOptions = {};
     function defineComputed(target, key, userDef) {
         var shouldCache = !isServerRendering();
         'function' == typeof userDef ? (sharedPropertyDefinition.get = shouldCache ? createComputedGetter(key) : createGetterInvoker(userDef), sharedPropertyDefinition.set = noop) : (sharedPropertyDefinition.get = userDef.get ? shouldCache && !1 !== userDef.cache ? createComputedGetter(key) : createGetterInvoker(userDef.get) : noop, sharedPropertyDefinition.set = userDef.set || noop), sharedPropertyDefinition.set === noop && (sharedPropertyDefinition.set = function() {
@@ -1314,26 +1284,6 @@
     }
     function Vue1(options) {
         this instanceof Vue1 || warn('Vue is a constructor and should be called with the `new` keyword'), this._init(options);
-    }
-    function getComponentName(opts) {
-        return opts && (opts.Ctor.options.name || opts.tag);
-    }
-    function matches(pattern, name) {
-        return Array.isArray(pattern) ? pattern.indexOf(name) > -1 : 'string' == typeof pattern ? pattern.split(',').indexOf(name) > -1 : !!isRegExp(pattern) && pattern.test(name);
-    }
-    function pruneCache(keepAliveInstance, filter) {
-        var cache = keepAliveInstance.cache, keys = keepAliveInstance.keys, _vnode = keepAliveInstance._vnode;
-        for(var key in cache){
-            var cachedNode = cache[key];
-            if (cachedNode) {
-                var name = getComponentName(cachedNode.componentOptions);
-                name && !filter(name) && pruneCacheEntry(cache, key, keys, _vnode);
-            }
-        }
-    }
-    function pruneCacheEntry(cache, key, keys, current) {
-        var cached$$1 = cache[key];
-        cached$$1 && (!current || cached$$1.tag !== current.tag) && cached$$1.componentInstance.$destroy(), cache[key] = null, remove(keys, key);
     }
     Vue1.prototype._init = function(options) {
         var startTag, endTag, listeners, vm, options1, parentVnode, renderContext, parentData, opts, provide, opts1, parentVnode1, vnodeComponentOptions, vm1, result;
@@ -1486,52 +1436,7 @@
         }
         return Array.isArray(vnode) && 1 === vnode.length && (vnode = vnode[0]), vnode instanceof VNode || (Array.isArray(vnode) && warn("Multiple root nodes returned from render function. Render function should return a single root node.", this), vnode = createEmptyVNode()), vnode.parent = _parentVnode, vnode;
     };
-    var patternTypes = [
-        String,
-        RegExp,
-        Array
-    ], builtInComponents = {
-        KeepAlive: {
-            name: 'keep-alive',
-            abstract: !0,
-            props: {
-                include: patternTypes,
-                exclude: patternTypes,
-                max: [
-                    String,
-                    Number
-                ]
-            },
-            created: function() {
-                this.cache = Object.create(null), this.keys = [];
-            },
-            destroyed: function() {
-                for(var key in this.cache)pruneCacheEntry(this.cache, key, this.keys);
-            },
-            mounted: function() {
-                var this$1 = this;
-                this.$watch('include', function(val) {
-                    pruneCache(this$1, function(name) {
-                        return matches(val, name);
-                    });
-                }), this.$watch('exclude', function(val) {
-                    pruneCache(this$1, function(name) {
-                        return !matches(val, name);
-                    });
-                });
-            },
-            render: function() {
-                var slot = this.$slots.default, vnode = getFirstComponentChild(slot), componentOptions = vnode && vnode.componentOptions;
-                if (componentOptions) {
-                    var name = getComponentName(componentOptions), include = this.include, exclude = this.exclude;
-                    if (include && (!name || !matches(include, name)) || exclude && name && matches(exclude, name)) return vnode;
-                    var cache = this.cache, keys = this.keys, key = null == vnode.key ? componentOptions.Ctor.cid + (componentOptions.tag ? "::" + componentOptions.tag : '') : vnode.key;
-                    cache[key] ? (vnode.componentInstance = cache[key].componentInstance, remove(keys, key), keys.push(key)) : (cache[key] = vnode, keys.push(key), this.max && keys.length > parseInt(this.max) && pruneCacheEntry(cache, keys[0], keys, this._vnode)), vnode.data.keepAlive = !0;
-                }
-                return vnode || slot && slot[0];
-            }
-        }
-    };
+    var builtInComponents = {};
     Vue = Vue1, configDef = {}, configDef.get = function() {
         return config;
     }, configDef.set = function() {
@@ -2237,7 +2142,8 @@
         }
         function isUnknownElement$$1(vnode, inVPre) {
             return !inVPre && !vnode.ns && !(config.ignoredElements.length && config.ignoredElements.some(function(ignore) {
-                return isRegExp(ignore) ? ignore.test(vnode.tag) : ignore === vnode.tag;
+                var v;
+                return (v = ignore, '[object RegExp]' === _toString.call(v)) ? ignore.test(vnode.tag) : ignore === vnode.tag;
             })) && config.isUnknownElement(vnode.tag);
         }
         var creatingElmInVPre = 0;
@@ -2517,30 +2423,15 @@
     function locateNode(vnode) {
         return !vnode.componentInstance || vnode.data && vnode.data.transition ? vnode : locateNode(vnode.componentInstance._vnode);
     }
-    var transitionProps = {
-        name: String,
-        appear: Boolean,
-        css: Boolean,
-        mode: String,
-        type: String,
-        enterClass: String,
-        leaveClass: String,
-        enterToClass: String,
-        leaveToClass: String,
-        enterActiveClass: String,
-        leaveActiveClass: String,
-        appearClass: String,
-        appearActiveClass: String,
-        appearToClass: String,
-        duration: [
-            Number,
-            String,
-            Object
-        ]
-    };
+    var transitionProps = {};
     function getRealChild(vnode) {
         var compOptions = vnode && vnode.componentOptions;
-        return compOptions && compOptions.Ctor.options.abstract ? getRealChild(getFirstComponentChild(compOptions.children)) : vnode;
+        return compOptions && compOptions.Ctor.options.abstract ? getRealChild(function(children) {
+            if (Array.isArray(children)) for(var i = 0; i < children.length; i++){
+                var c = children[i];
+                if (isDef(c) && (isDef(c.componentOptions) || isAsyncPlaceholder(c))) return c;
+            }
+        }(compOptions.children)) : vnode;
     }
     function extractTransitionData(comp) {
         var data = {}, options = comp.$options;
@@ -3059,19 +2950,7 @@
         var keyCode = keyCodes[key], keyName = keyNames[key];
         return "_k($event.keyCode," + JSON.stringify(key) + "," + JSON.stringify(keyCode) + ",$event.key," + JSON.stringify(keyName) + ")";
     }
-    var baseDirectives = {
-        on: function(el, dir) {
-            dir.modifiers && warn("v-on without argument does not support modifiers."), el.wrapListeners = function(code) {
-                return "_g(" + code + "," + dir.value + ")";
-            };
-        },
-        bind: function(el, dir) {
-            el.wrapData = function(code) {
-                return "_b(" + code + ",'" + el.tag + "'," + dir.value + "," + (dir.modifiers && dir.modifiers.prop ? 'true' : 'false') + (dir.modifiers && dir.modifiers.sync ? ',true' : '') + ")";
-            };
-        },
-        cloak: noop
-    }, CodegenState = function(options) {
+    var baseDirectives = {}, CodegenState = function(options) {
         this.options = options, this.warn = options.warn || baseWarn, this.transforms = pluckModuleFunction(options.modules, 'transformCode'), this.dataGenFns = pluckModuleFunction(options.modules, 'genData'), this.directives = extend(extend({}, baseDirectives), options.directives);
         var isReservedTag = options.isReservedTag || no;
         this.maybeComponent = function(el) {
@@ -3506,11 +3385,7 @@
                 },
                 comment: function(text, start, end) {
                     if (currentParent) {
-                        var child = {
-                            type: 3,
-                            text: text,
-                            isComment: !0
-                        };
+                        var child = {};
                         options.outputSourceRange && (child.start = start, child.end = end), currentParent.children.push(child);
                     }
                 }
@@ -3556,9 +3431,7 @@
                 if (options.outputSourceRange) {
                     var leadingSpaceLength = template.match(/^\s*/)[0].length;
                     warn1 = function(msg, range, tip) {
-                        var data = {
-                            msg: msg
-                        };
+                        var data = {};
                         range && (null != range.start && (data.start = range.start + leadingSpaceLength), null != range.end && (data.end = range.end + leadingSpaceLength)), (tip ? tips : errors).push(data);
                     };
                 }

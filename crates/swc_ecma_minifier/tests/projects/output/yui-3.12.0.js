@@ -30,9 +30,7 @@ var YUI = function() {
         return loader ? (loader.ignoreRegistered = !1, loader.onEnd = null, loader.data = null, loader.required = [], loader.loadType = null) : (loader = new Y.Loader(Y.config), Y.Env._loader = loader), mods && mods.loader && (lCore = [].concat(lCore, YUI.Env.loaderExtras)), YUI.Env.core = Y.Array.dedupe([].concat(YUI.Env.core, lCore)), loader;
     }, clobber = function(r, s) {
         for(var i in s)s.hasOwnProperty(i) && (r[i] = s[i]);
-    }, ALREADY_DONE = {
-        success: !0
-    };
+    }, ALREADY_DONE = {};
     for(prop in docEl && -1 == docClass.indexOf(DOC_LABEL) && (docClass && (docClass += " "), docClass += DOC_LABEL, docEl.className = docClass), VERSION.indexOf("@") > -1 && (VERSION = "3.5.0"), proto = {
         applyConfig: function(o) {
             o = o || NOOP;
@@ -127,12 +125,7 @@ var YUI = function() {
         },
         add: function(name, fn, version, details) {
             details = details || {};
-            var loader, inst, i, env = YUI.Env, mod = {
-                name: name,
-                fn: fn,
-                version: version,
-                details: details
-            }, applied = {}, versions = env.versions;
+            var loader, inst, i, env = YUI.Env, mod = {}, applied = {}, versions = env.versions;
             for(i in env.mods[name] = mod, versions[version] = versions[version] || {}, versions[version][name] = mod, instances)instances.hasOwnProperty(i) && !applied[(inst = instances[i]).id] && (applied[inst.id] = !0, (loader = inst.Env._loader) && (!loader.moduleInfo[name] || loader.moduleInfo[name].temp) && loader.addModule(details, name));
             return this;
         },

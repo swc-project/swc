@@ -14,12 +14,7 @@
         return "function" == typeof obj && "number" != typeof obj.nodeType;
     }, isWindow = function(obj) {
         return null != obj && obj === obj.window;
-    }, document = window1.document, preservedScriptAttributes = {
-        type: !0,
-        src: !0,
-        nonce: !0,
-        noModule: !0
-    };
+    }, document = window1.document, preservedScriptAttributes = {};
     function DOMEval(code, node, doc) {
         var i, val, script = (doc = doc || document).createElement("script");
         if (script.text = code, node) for(i in preservedScriptAttributes)(val = node[i] || node.getAttribute && node.getAttribute(i)) && script.setAttribute(i, val);
@@ -1272,9 +1267,7 @@
         "Left"
     ], documentElement = document.documentElement, isAttached = function(elem) {
         return jQuery.contains(elem.ownerDocument, elem);
-    }, composed = {
-        composed: !0
-    };
+    }, composed = {};
     documentElement.getRootNode && (isAttached = function(elem) {
         return jQuery.contains(elem.ownerDocument, elem) || elem.getRootNode(composed) === elem.ownerDocument;
     });
@@ -1849,11 +1842,7 @@
             for(var capName = name[0].toUpperCase() + name.slice(1), i = cssPrefixes.length; i--;)if ((name = cssPrefixes[i] + capName) in emptyStyle) return name;
         }(name) || name);
     }
-    var rdisplayswap = /^(none|table(?!-c[ea]).+)/, rcustomProp = /^--/, cssShow = {
-        position: "absolute",
-        visibility: "hidden",
-        display: "block"
-    }, cssNormalTransform = {
+    var rdisplayswap = /^(none|table(?!-c[ea]).+)/, rcustomProp = /^--/, cssShow = {}, cssNormalTransform = {
         letterSpacing: "0",
         fontWeight: "400"
     };

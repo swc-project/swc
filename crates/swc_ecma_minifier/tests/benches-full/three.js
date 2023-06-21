@@ -1591,11 +1591,7 @@
         }, _proto.test = function(layers) {
             return (this.mask & layers.mask) != 0;
         }, Layers;
-    }(), _object3DId = 0, _v1$2 = new Vector3(), _q1 = new Quaternion(), _m1$1 = new Matrix4(), _target = new Vector3(), _position = new Vector3(), _scale = new Vector3(), _quaternion$2 = new Quaternion(), _xAxis = new Vector3(1, 0, 0), _yAxis = new Vector3(0, 1, 0), _zAxis = new Vector3(0, 0, 1), _addedEvent = {
-        type: 'added'
-    }, _removedEvent = {
-        type: 'removed'
-    };
+    }(), _object3DId = 0, _v1$2 = new Vector3(), _q1 = new Quaternion(), _m1$1 = new Matrix4(), _target = new Vector3(), _position = new Vector3(), _scale = new Vector3(), _quaternion$2 = new Quaternion(), _xAxis = new Vector3(1, 0, 0), _yAxis = new Vector3(0, 1, 0), _zAxis = new Vector3(0, 0, 1), _addedEvent = {}, _removedEvent = {};
     function Object3D() {
         Object.defineProperty(this, 'id', {
             value: _object3DId++
@@ -2326,13 +2322,7 @@
                 textures: {},
                 images: {}
             });
-            var data = {
-                metadata: {
-                    version: 4.5,
-                    type: 'Material',
-                    generator: 'Material.toJSON'
-                }
-            };
+            var data = {};
             function extractFromCache(cache) {
                 var values = [];
                 for(var key in cache){
@@ -5594,9 +5584,7 @@
         return a.groupOrder !== b.groupOrder ? a.groupOrder - b.groupOrder : a.renderOrder !== b.renderOrder ? a.renderOrder - b.renderOrder : a.z !== b.z ? b.z - a.z : a.id - b.id;
     }
     function WebGLRenderList(properties) {
-        var renderItems = [], renderItemsIndex = 0, opaque = [], transparent = [], defaultProgram = {
-            id: -1
-        };
+        var renderItems = [], renderItemsIndex = 0, opaque = [], transparent = [], defaultProgram = {};
         function getNextRenderItem(object, geometry, material, groupOrder, z, group) {
             var renderItem = renderItems[renderItemsIndex], materialProperties = properties.get(material);
             return void 0 === renderItem ? (renderItem = {
@@ -5959,19 +5947,11 @@
                         _shadowMapSize.copy(shadow.mapSize);
                         var shadowFrameExtents = shadow.getFrameExtents();
                         if (_shadowMapSize.multiply(shadowFrameExtents), _viewportSize.copy(shadow.mapSize), (_shadowMapSize.x > maxTextureSize || _shadowMapSize.y > maxTextureSize) && (_shadowMapSize.x > maxTextureSize && (_viewportSize.x = Math.floor(maxTextureSize / shadowFrameExtents.x), _shadowMapSize.x = _viewportSize.x * shadowFrameExtents.x, shadow.mapSize.x = _viewportSize.x), _shadowMapSize.y > maxTextureSize && (_viewportSize.y = Math.floor(maxTextureSize / shadowFrameExtents.y), _shadowMapSize.y = _viewportSize.y * shadowFrameExtents.y, shadow.mapSize.y = _viewportSize.y)), null === shadow.map && !shadow.isPointLightShadow && 3 === this.type) {
-                            var pars = {
-                                minFilter: 1006,
-                                magFilter: 1006,
-                                format: 1023
-                            };
+                            var pars = {};
                             shadow.map = new WebGLRenderTarget(_shadowMapSize.x, _shadowMapSize.y, pars), shadow.map.texture.name = light.name + '.shadowMap', shadow.mapPass = new WebGLRenderTarget(_shadowMapSize.x, _shadowMapSize.y, pars), shadow.camera.updateProjectionMatrix();
                         }
                         if (null === shadow.map) {
-                            var _pars = {
-                                minFilter: 1003,
-                                magFilter: 1003,
-                                format: 1023
-                            };
+                            var _pars = {};
                             shadow.map = new WebGLRenderTarget(_shadowMapSize.x, _shadowMapSize.y, _pars), shadow.map.texture.name = light.name + '.shadowMap', shadow.camera.updateProjectionMatrix();
                         }
                         _renderer.setRenderTarget(shadow.map), _renderer.clear();
@@ -6727,13 +6707,7 @@
         this.domElement = _canvas, this.debug = {
             checkShaderErrors: !0
         }, this.autoClear = !0, this.autoClearColor = !0, this.autoClearDepth = !0, this.autoClearStencil = !0, this.sortObjects = !0, this.clippingPlanes = [], this.localClippingEnabled = !1, this.gammaFactor = 2.0, this.outputEncoding = 3000, this.physicallyCorrectLights = !1, this.toneMapping = 0, this.toneMappingExposure = 1.0, this.maxMorphTargets = 8, this.maxMorphNormals = 4;
-        var _this = this, _isContextLost = !1, _framebuffer = null, _currentActiveCubeFace = 0, _currentActiveMipmapLevel = 0, _currentRenderTarget = null, _currentFramebuffer = null, _currentMaterialId = -1, _currentCamera = null, _currentViewport = new Vector4(), _currentScissor = new Vector4(), _currentScissorTest = null, _width = _canvas.width, _height = _canvas.height, _pixelRatio = 1, _opaqueSort = null, _transparentSort = null, _viewport = new Vector4(0, 0, _width, _height), _scissor = new Vector4(0, 0, _width, _height), _scissorTest = !1, _frustum = new Frustum(), _clippingEnabled = !1, _localClippingEnabled = !1, _projScreenMatrix = new Matrix4(), _vector3 = new Vector3(), _emptyScene = {
-            background: null,
-            fog: null,
-            environment: null,
-            overrideMaterial: null,
-            isScene: !0
-        };
+        var _this = this, _isContextLost = !1, _framebuffer = null, _currentActiveCubeFace = 0, _currentActiveMipmapLevel = 0, _currentRenderTarget = null, _currentFramebuffer = null, _currentMaterialId = -1, _currentCamera = null, _currentViewport = new Vector4(), _currentScissor = new Vector4(), _currentScissorTest = null, _width = _canvas.width, _height = _canvas.height, _pixelRatio = 1, _opaqueSort = null, _transparentSort = null, _viewport = new Vector4(0, 0, _width, _height), _scissor = new Vector4(0, 0, _width, _height), _scissorTest = !1, _frustum = new Frustum(), _clippingEnabled = !1, _localClippingEnabled = !1, _projScreenMatrix = new Matrix4(), _vector3 = new Vector3(), _emptyScene = {};
         function getTargetPixelRatio() {
             return null === _currentRenderTarget ? _pixelRatio : 1;
         }
@@ -7574,11 +7548,6 @@
         },
         toJSON: function() {
             var data = {
-                metadata: {
-                    version: 4.5,
-                    type: 'Skeleton',
-                    generator: 'Skeleton.toJSON'
-                },
                 bones: [],
                 boneInverses: []
             };
@@ -8993,30 +8962,7 @@
                 return void 0 !== options.extrudePath && (data.options.extrudePath = options.extrudePath.toJSON()), data;
             }(this.parameters.shapes, this.parameters.options, data);
         }, ExtrudeBufferGeometry;
-    }(BufferGeometry), WorldUVGenerator = {
-        generateTopUV: function(geometry, vertices, indexA, indexB, indexC) {
-            var a_x = vertices[3 * indexA], a_y = vertices[3 * indexA + 1], b_x = vertices[3 * indexB], b_y = vertices[3 * indexB + 1], c_x = vertices[3 * indexC], c_y = vertices[3 * indexC + 1];
-            return [
-                new Vector2(a_x, a_y),
-                new Vector2(b_x, b_y),
-                new Vector2(c_x, c_y)
-            ];
-        },
-        generateSideWallUV: function(geometry, vertices, indexA, indexB, indexC, indexD) {
-            var a_x = vertices[3 * indexA], a_y = vertices[3 * indexA + 1], a_z = vertices[3 * indexA + 2], b_x = vertices[3 * indexB], b_y = vertices[3 * indexB + 1], b_z = vertices[3 * indexB + 2], c_x = vertices[3 * indexC], c_y = vertices[3 * indexC + 1], c_z = vertices[3 * indexC + 2], d_x = vertices[3 * indexD], d_y = vertices[3 * indexD + 1], d_z = vertices[3 * indexD + 2];
-            return 0.01 > Math.abs(a_y - b_y) ? [
-                new Vector2(a_x, 1 - a_z),
-                new Vector2(b_x, 1 - b_z),
-                new Vector2(c_x, 1 - c_z),
-                new Vector2(d_x, 1 - d_z)
-            ] : [
-                new Vector2(a_y, 1 - a_z),
-                new Vector2(b_y, 1 - b_z),
-                new Vector2(c_y, 1 - c_z),
-                new Vector2(d_y, 1 - d_z)
-            ];
-        }
-    }, ExtrudeGeometry = function(_Geometry) {
+    }(BufferGeometry), WorldUVGenerator = {}, ExtrudeGeometry = function(_Geometry) {
         function ExtrudeGeometry(shapes, options) {
             var _this;
             return (_this = _Geometry.call(this) || this).type = 'ExtrudeGeometry', _this.parameters = {
@@ -10762,13 +10708,7 @@
             return this.arcLengthDivisions = source.arcLengthDivisions, this;
         },
         toJSON: function() {
-            var data = {
-                metadata: {
-                    version: 4.5,
-                    type: 'Curve',
-                    generator: 'Curve.toJSON'
-                }
-            };
+            var data = {};
             return data.arcLengthDivisions = this.arcLengthDivisions, data.type = this.type, data;
         },
         fromJSON: function(json) {
@@ -11930,26 +11870,7 @@
         }, _proto.setTexturePath = function(value) {
             return console.warn('THREE.ObjectLoader: .setTexturePath() has been renamed to .setResourcePath().'), this.setResourcePath(value);
         }, ObjectLoader;
-    }(Loader), TEXTURE_MAPPING = {
-        UVMapping: 300,
-        CubeReflectionMapping: 301,
-        CubeRefractionMapping: 302,
-        EquirectangularReflectionMapping: 303,
-        EquirectangularRefractionMapping: 304,
-        CubeUVReflectionMapping: 306,
-        CubeUVRefractionMapping: 307
-    }, TEXTURE_WRAPPING = {
-        RepeatWrapping: 1000,
-        ClampToEdgeWrapping: 1001,
-        MirroredRepeatWrapping: 1002
-    }, TEXTURE_FILTER = {
-        NearestFilter: 1003,
-        NearestMipmapNearestFilter: 1004,
-        NearestMipmapLinearFilter: 1005,
-        LinearFilter: 1006,
-        LinearMipmapNearestFilter: 1007,
-        LinearMipmapLinearFilter: 1008
-    };
+    }(Loader), TEXTURE_MAPPING = {}, TEXTURE_WRAPPING = {}, TEXTURE_FILTER = {};
     function ImageBitmapLoader(manager) {
         'undefined' == typeof createImageBitmap && console.warn('THREE.ImageBitmapLoader: createImageBitmap() not supported.'), 'undefined' == typeof fetch && console.warn('THREE.ImageBitmapLoader: fetch() not supported.'), Loader.call(this, manager), this.options = {
             premultiplyAlpha: 'none'
@@ -12819,10 +12740,7 @@
     var AnimationAction = function() {
         function AnimationAction(mixer, clip, localRoot, blendMode) {
             void 0 === localRoot && (localRoot = null), void 0 === blendMode && (blendMode = clip.blendMode), this._mixer = mixer, this._clip = clip, this._localRoot = localRoot, this.blendMode = blendMode;
-            for(var tracks = clip.tracks, nTracks = tracks.length, interpolants = Array(nTracks), interpolantSettings = {
-                endingStart: 2400,
-                endingEnd: 2400
-            }, i = 0; i !== nTracks; ++i){
+            for(var tracks = clip.tracks, nTracks = tracks.length, interpolants = Array(nTracks), interpolantSettings = {}, i = 0; i !== nTracks; ++i){
                 var interpolant = tracks[i].createInterpolant(null);
                 interpolants[i] = interpolant, interpolant.settings = interpolantSettings;
             }

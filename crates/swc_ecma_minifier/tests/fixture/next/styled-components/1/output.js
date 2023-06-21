@@ -3566,19 +3566,7 @@
         },
         8679: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var reactIs = __webpack_require__(1296), REACT_STATICS = {
-                childContextTypes: !0,
-                contextType: !0,
-                contextTypes: !0,
-                defaultProps: !0,
-                displayName: !0,
-                getDefaultProps: !0,
-                getDerivedStateFromError: !0,
-                getDerivedStateFromProps: !0,
-                mixins: !0,
-                propTypes: !0,
-                type: !0
-            }, KNOWN_STATICS = {
+            var reactIs = __webpack_require__(1296), REACT_STATICS = {}, KNOWN_STATICS = {
                 name: !0,
                 length: !0,
                 prototype: !0,
@@ -3586,14 +3574,7 @@
                 callee: !0,
                 arguments: !0,
                 arity: !0
-            }, MEMO_STATICS = {
-                $$typeof: !0,
-                compare: !0,
-                defaultProps: !0,
-                displayName: !0,
-                propTypes: !0,
-                type: !0
-            }, TYPE_STATICS = {};
+            }, MEMO_STATICS = {}, TYPE_STATICS = {};
             function getStatics(component) {
                 return reactIs.isMemo(component) ? MEMO_STATICS : TYPE_STATICS[component.$$typeof] || REACT_STATICS;
             }
@@ -4441,7 +4422,7 @@
             function N(e) {
                 return e && "string" == typeof e.styledComponentId;
             }
-            var A = void 0 !== process && (process.env.REACT_APP_SC_ATTR || process.env.SC_ATTR) || "data-styled", I = "undefined" != typeof window && "HTMLElement" in window, P = !!("boolean" == typeof SC_DISABLE_SPEEDY ? SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.REACT_APP_SC_DISABLE_SPEEDY && "" !== process.env.REACT_APP_SC_DISABLE_SPEEDY ? "false" !== process.env.REACT_APP_SC_DISABLE_SPEEDY && process.env.REACT_APP_SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.SC_DISABLE_SPEEDY && "" !== process.env.SC_DISABLE_SPEEDY && "false" !== process.env.SC_DISABLE_SPEEDY && process.env.SC_DISABLE_SPEEDY), O = {};
+            var A = void 0 !== process && (process.env.REACT_APP_SC_ATTR || process.env.SC_ATTR) || "data-styled", I = "undefined" != typeof window && "HTMLElement" in window, O = ("boolean" == typeof SC_DISABLE_SPEEDY ? SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.REACT_APP_SC_DISABLE_SPEEDY && "" !== process.env.REACT_APP_SC_DISABLE_SPEEDY ? "false" !== process.env.REACT_APP_SC_DISABLE_SPEEDY && process.env.REACT_APP_SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.SC_DISABLE_SPEEDY && "" !== process.env.SC_DISABLE_SPEEDY && "false" !== process.env.SC_DISABLE_SPEEDY && process.env.SC_DISABLE_SPEEDY, {});
             function j(e) {
                 for(var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++)n[r - 1] = arguments[r];
                 throw Error("An error occurred. See https://git.io/JUIaE#" + e + " for more information." + (n.length > 0 ? " Args: " + n.join(", ") : ""));
@@ -4559,10 +4540,7 @@
                 }, t.getRule = function(e) {
                     return e < this.length ? this.rules[e] : "";
                 }, e;
-            }(), J = I, X = {
-                isServer: !I,
-                useCSSOMInjection: !P
-            }, Z = function() {
+            }(), J = I, X = {}, Z = function() {
                 function e(e, t, n) {
                     void 0 === e && (e = E), void 0 === t && (t = {}), this.options = v({}, X, {}, e), this.gs = t, this.names = new Map(n), this.server = !!e.isServer, !this.server && I && J && (J = !1, function(e) {
                         for(var t = document.querySelectorAll(G), n = 0, r = t.length; n < r; n++){
@@ -5261,15 +5239,10 @@
                 display: !0,
                 verticalAlign: !0
             }), index_esm_config = {
-                color: {
-                    property: "color",
-                    scale: "colors"
-                },
                 backgroundColor: {
                     property: "backgroundColor",
                     scale: "colors"
-                },
-                opacity: !0
+                }
             };
             index_esm_config.bg = index_esm_config.backgroundColor;
             var color = system(index_esm_config), typography = system({
@@ -5358,30 +5331,6 @@
                 gridTemplateAreas: !0,
                 gridArea: !0
             }), border_dist_index_esm_config = {
-                border: {
-                    property: "border",
-                    scale: "borders"
-                },
-                borderWidth: {
-                    property: "borderWidth",
-                    scale: "borderWidths"
-                },
-                borderStyle: {
-                    property: "borderStyle",
-                    scale: "borderStyles"
-                },
-                borderColor: {
-                    property: "borderColor",
-                    scale: "colors"
-                },
-                borderRadius: {
-                    property: "borderRadius",
-                    scale: "radii"
-                },
-                borderTop: {
-                    property: "borderTop",
-                    scale: "borders"
-                },
                 borderTopLeftRadius: {
                     property: "borderTopLeftRadius",
                     scale: "radii"
@@ -5390,14 +5339,6 @@
                     property: "borderTopRightRadius",
                     scale: "radii"
                 },
-                borderRight: {
-                    property: "borderRight",
-                    scale: "borders"
-                },
-                borderBottom: {
-                    property: "borderBottom",
-                    scale: "borders"
-                },
                 borderBottomLeftRadius: {
                     property: "borderBottomLeftRadius",
                     scale: "radii"
@@ -5405,24 +5346,6 @@
                 borderBottomRightRadius: {
                     property: "borderBottomRightRadius",
                     scale: "radii"
-                },
-                borderLeft: {
-                    property: "borderLeft",
-                    scale: "borders"
-                },
-                borderX: {
-                    properties: [
-                        "borderLeft",
-                        "borderRight"
-                    ],
-                    scale: "borders"
-                },
-                borderY: {
-                    properties: [
-                        "borderTop",
-                        "borderBottom"
-                    ],
-                    scale: "borders"
                 }
             };
             border_dist_index_esm_config.borderTopWidth = {
@@ -5475,7 +5398,6 @@
                 scale: "borderStyles"
             };
             var border = system(border_dist_index_esm_config), border_dist_index_esm = border, background_dist_index_esm_config = {
-                background: !0,
                 backgroundImage: !0,
                 backgroundSize: !0,
                 backgroundPosition: !0,
@@ -5661,46 +5583,7 @@
                 64
             ].map(function(n) {
                 return n + "em";
-            }), defaultTheme = {
-                space: [
-                    0,
-                    4,
-                    8,
-                    16,
-                    32,
-                    64,
-                    128,
-                    256,
-                    512
-                ],
-                fontSizes: [
-                    12,
-                    14,
-                    16,
-                    20,
-                    24,
-                    32,
-                    48,
-                    64,
-                    72
-                ]
-            }, aliases = {
-                bg: "backgroundColor",
-                m: "margin",
-                mt: "marginTop",
-                mr: "marginRight",
-                mb: "marginBottom",
-                ml: "marginLeft",
-                mx: "marginX",
-                my: "marginY",
-                p: "padding",
-                pt: "paddingTop",
-                pr: "paddingRight",
-                pb: "paddingBottom",
-                pl: "paddingLeft",
-                px: "paddingX",
-                py: "paddingY"
-            }, multiples = {
+            }), defaultTheme = {}, aliases = {}, multiples = {
                 marginX: [
                     "marginLeft",
                     "marginRight"
@@ -5721,78 +5604,7 @@
                     "width",
                     "height"
                 ]
-            }, scales = {
-                color: "colors",
-                backgroundColor: "colors",
-                borderColor: "colors",
-                margin: "space",
-                marginTop: "space",
-                marginRight: "space",
-                marginBottom: "space",
-                marginLeft: "space",
-                marginX: "space",
-                marginY: "space",
-                padding: "space",
-                paddingTop: "space",
-                paddingRight: "space",
-                paddingBottom: "space",
-                paddingLeft: "space",
-                paddingX: "space",
-                paddingY: "space",
-                top: "space",
-                right: "space",
-                bottom: "space",
-                left: "space",
-                gridGap: "space",
-                gridColumnGap: "space",
-                gridRowGap: "space",
-                gap: "space",
-                columnGap: "space",
-                rowGap: "space",
-                fontFamily: "fonts",
-                fontSize: "fontSizes",
-                fontWeight: "fontWeights",
-                lineHeight: "lineHeights",
-                letterSpacing: "letterSpacings",
-                border: "borders",
-                borderTop: "borders",
-                borderRight: "borders",
-                borderBottom: "borders",
-                borderLeft: "borders",
-                borderWidth: "borderWidths",
-                borderStyle: "borderStyles",
-                borderRadius: "radii",
-                borderTopRightRadius: "radii",
-                borderTopLeftRadius: "radii",
-                borderBottomRightRadius: "radii",
-                borderBottomLeftRadius: "radii",
-                borderTopWidth: "borderWidths",
-                borderTopColor: "colors",
-                borderTopStyle: "borderStyles",
-                borderBottomWidth: "borderWidths",
-                borderBottomColor: "colors",
-                borderBottomStyle: "borderStyles",
-                borderLeftWidth: "borderWidths",
-                borderLeftColor: "colors",
-                borderLeftStyle: "borderStyles",
-                borderRightWidth: "borderWidths",
-                borderRightColor: "colors",
-                borderRightStyle: "borderStyles",
-                outlineColor: "colors",
-                boxShadow: "shadows",
-                textShadow: "shadows",
-                zIndex: "zIndices",
-                width: "sizes",
-                minWidth: "sizes",
-                maxWidth: "sizes",
-                height: "sizes",
-                minHeight: "sizes",
-                maxHeight: "sizes",
-                flexBasis: "sizes",
-                size: "sizes",
-                fill: "colors",
-                stroke: "colors"
-            }, positiveOrNegative = function(scale, value) {
+            }, scales = {}, positiveOrNegative = function(scale, value) {
                 if ("number" != typeof value || value >= 0) return index_esm_get(scale, value, value);
                 var absolute = Math.abs(value), n = index_esm_get(scale, absolute, absolute);
                 return "string" == typeof n ? "-" + n : -1 * n;

@@ -12,9 +12,7 @@ function set_valueOne(v) {}
 function set_valueCompound(v) {}
 new class {
     m() {
-        let foo = {
-            bar: 1
-        };
+        let foo = {};
         console.log(_write_only_error("#value")), _class_private_field_set(this, _value, {
             foo
         }), _class_private_field_set(this, _value, {

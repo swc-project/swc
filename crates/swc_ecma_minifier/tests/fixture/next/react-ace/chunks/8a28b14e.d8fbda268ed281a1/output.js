@@ -44,10 +44,7 @@
                 if (!module) {
                     if ("function" == typeof (module = define.payloads[moduleName])) {
                         var exports = {}, mod = {
-                            id: moduleName,
-                            uri: "",
-                            exports: exports,
-                            packaged: !0
+                            exports: exports
                         };
                         exports = module(function(module, callback) {
                             return _require(moduleName, module, callback);
@@ -593,34 +590,16 @@
                     }, this.compareInside = function(row, column) {
                         return this.end.row == row && this.end.column == column ? 1 : this.start.row == row && this.start.column == column ? -1 : this.compare(row, column);
                     }, this.clipRows = function(firstRow, lastRow) {
-                        if (this.end.row > lastRow) var end = {
-                            row: lastRow + 1,
-                            column: 0
-                        };
-                        else if (this.end.row < firstRow) var end = {
-                            row: firstRow,
-                            column: 0
-                        };
-                        if (this.start.row > lastRow) var start = {
-                            row: lastRow + 1,
-                            column: 0
-                        };
-                        else if (this.start.row < firstRow) var start = {
-                            row: firstRow,
-                            column: 0
-                        };
+                        if (this.end.row > lastRow) var end = {};
+                        else if (this.end.row < firstRow) var end = {};
+                        if (this.start.row > lastRow) var start = {};
+                        else if (this.start.row < firstRow) var start = {};
                         return Range.fromPoints(start || this.start, end || this.end);
                     }, this.extend = function(row, column) {
                         var cmp = this.compare(row, column);
                         if (0 == cmp) return this;
-                        if (-1 == cmp) var start = {
-                            row: row,
-                            column: column
-                        };
-                        else var end = {
-                            row: row,
-                            column: column
-                        };
+                        if (-1 == cmp) var start = {};
+                        else var end = {};
                         return Range.fromPoints(start || this.start, end || this.end);
                     }, this.isEmpty = function() {
                         return this.start.row === this.end.row && this.start.column === this.end.column;
@@ -1669,38 +1648,7 @@
                 "ace/lib/oop",
                 "ace/lib/event_emitter"
             ], function(require, exports, module) {
-                var oop = require("./oop"), EventEmitter = require("./event_emitter").EventEmitter, optionsProvider = {
-                    setOptions: function(optList) {
-                        Object.keys(optList).forEach(function(key) {
-                            this.setOption(key, optList[key]);
-                        }, this);
-                    },
-                    getOptions: function(optionNames) {
-                        var result = {};
-                        if (optionNames) Array.isArray(optionNames) || (optionNames = Object.keys(result = optionNames));
-                        else {
-                            var options = this.$options;
-                            optionNames = Object.keys(options).filter(function(key) {
-                                return !options[key].hidden;
-                            });
-                        }
-                        return optionNames.forEach(function(key) {
-                            result[key] = this.getOption(key);
-                        }, this), result;
-                    },
-                    setOption: function(name, value) {
-                        if (this["$" + name] !== value) {
-                            var opt = this.$options[name];
-                            if (!opt) return warn('misspelled option "' + name + '"');
-                            if (opt.forwardTo) return this[opt.forwardTo] && this[opt.forwardTo].setOption(name, value);
-                            opt.handlesSet || (this["$" + name] = value), opt && opt.set && opt.set.call(this, value);
-                        }
-                    },
-                    getOption: function(name) {
-                        var opt = this.$options[name];
-                        return opt ? opt.forwardTo ? this[opt.forwardTo] && this[opt.forwardTo].getOption(name) : opt && opt.get ? opt.get.call(this) : this["$" + name] : warn('misspelled option "' + name + '"');
-                    }
-                };
+                var oop = require("./oop"), EventEmitter = require("./event_emitter").EventEmitter, optionsProvider = {};
                 function warn(message) {
                     "undefined" != typeof console && console.warn && console.warn.apply(console, arguments);
                 }
@@ -3216,10 +3164,7 @@
                     "paren",
                     "punctuation.operator",
                     "comment"
-                ], contextCache = {}, defaultQuotes = {
-                    '"': '"',
-                    "'": "'"
-                }, initContext = function(editor) {
+                ], contextCache = {}, defaultQuotes = {}, initContext = function(editor) {
                     var id = -1;
                     if (editor.multiSelect && (id = editor.selection.index, contextCache.rangeCount != editor.multiSelect.rangeCount && (contextCache = {
                         rangeCount: editor.multiSelect.rangeCount
@@ -5718,14 +5663,7 @@
                     }, this.clearBreakpoint = function(row) {
                         delete this.$breakpoints[row], this._signal("changeBreakpoint", {});
                     }, this.addMarker = function(range, clazz, type, inFront) {
-                        var id = this.$markerId++, marker = {
-                            range: range,
-                            type: type || "line",
-                            renderer: "function" == typeof type ? type : null,
-                            clazz: clazz,
-                            inFront: !!inFront,
-                            id: id
-                        };
+                        var id = this.$markerId++, marker = {};
                         return inFront ? (this.$frontMarkers[id] = marker, this._signal("changeFrontMarker")) : (this.$backMarkers[id] = marker, this._signal("changeBackMarker")), id;
                     }, this.addDynamicMarker = function(marker, inFront) {
                         if (marker.update) {
@@ -6640,11 +6578,7 @@
                             return !1;
                         }
                         if ("string" == typeof command && (command = this.commands[command]), !command || editor && editor.$readOnly && !command.readOnly || !1 != this.$checkCommandState && command.isAvailable && !command.isAvailable(editor)) return !1;
-                        var e = {
-                            editor: editor,
-                            command: command,
-                            args: args
-                        };
+                        var e = {};
                         return e.returnValue = this._emit("exec", e), this._signal("afterExec", e), !1 !== e.returnValue;
                     }, this.toggleRecording = function(editor) {
                         if (!this.$inReplay) return (editor && editor._emit("changeStatus"), this.recording) ? (this.macro.pop(), this.off("exec", this.$addCommandToMacro), this.macro.length || (this.macro = this.oldMacro), this.recording = !1) : (this.$addCommandToMacro || (this.$addCommandToMacro = (function(e) {
@@ -10843,10 +10777,7 @@ margin: 0 10px;\
                     }, this.addToken = function(text, type, row, column) {
                         var session = this.session;
                         session.bgTokenizer.lines[row] = null;
-                        var newToken = {
-                            type: type,
-                            value: text
-                        }, tokens = session.getTokens(row);
+                        var newToken = {}, tokens = session.getTokens(row);
                         if (null == column) tokens.push(newToken);
                         else for(var l = 0, i = 0; i < tokens.length; i++){
                             var token = tokens[i];
@@ -11877,8 +11808,7 @@ margin: 0 10px;\
                         }
                     }, this.openingBracketBlock = function(session, bracket, row, column, typeRe) {
                         var start = {
-                            row: row,
-                            column: column + 1
+                            row: row
                         }, end = session.$findClosingBracket(bracket, start, typeRe);
                         if (end) {
                             var fw = session.foldWidgets[end.row];
@@ -11886,7 +11816,6 @@ margin: 0 10px;\
                         }
                     }, this.closingBracketBlock = function(session, bracket, row, column, typeRe) {
                         var end = {
-                            row: row,
                             column: column
                         }, start = session.$findOpeningBracket(bracket, end);
                         if (start) return start.column++, end.column--, Range.fromPoints(start, end);

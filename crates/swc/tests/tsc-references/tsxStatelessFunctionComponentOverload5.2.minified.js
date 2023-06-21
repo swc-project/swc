@@ -15,9 +15,7 @@ define([
             return MainButton;
         }
     });
-    var obj3, obj0 = {
-        to: "world"
-    };
+    var obj3, obj0 = {};
     function MainButton(props) {
         return props.to ? this._buildMainLink(props) : this._buildMainButton(props);
     }

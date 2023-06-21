@@ -20,7 +20,5 @@ define([
             return elem;
         }
     });
-    let elem = {
-        field: 'a'
-    };
+    let elem = {};
 });
