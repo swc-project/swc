@@ -704,9 +704,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
 
     let kind_item = ImplItem::Fn(ImplItemFn {
         attrs: Default::default(),
-        vis: Visibility::Public(VisPublic {
-            pub_token: def_site(),
-        }),
+        vis: Visibility::Public(def_site()),
         defaultness: Default::default(),
         sig: Signature {
             constness: Default::default(),
@@ -1344,9 +1342,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
     tokens.push_tokens(&ItemTrait {
         attrs,
-        vis: Visibility::Public(VisPublic {
-            pub_token: def_site(),
-        }),
+        vis: Visibility::Public(def_site()),
         unsafety: None,
         auto_token: None,
         trait_token: def_site(),
