@@ -1134,7 +1134,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             pound_token: def_site(),
             style: AttrStyle::Outer,
             bracket_token: def_site(),
-            meta: parse_quote!(allow(unused_variables)),
+            meta: parse_quote!(allow(non_shorthand_field_patterns, unused_variables)),
         });
 
         let mut fn_name = v.sig.ident.clone();
@@ -1195,7 +1195,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     ///
                     /// This is the default implementation of a method of
                     /// [Fold].
-                    #[allow(unused_variables)]
+                    #[allow(non_shorthand_field_patterns, unused_variables)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) -> Type {
                         default_body
                     }
@@ -1214,7 +1214,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     ///
                     /// This is the default implementation of a method of
                     /// [VisitMut].
-                    #[allow(unused_variables)]
+                    #[allow(non_shorthand_field_patterns, unused_variables)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
                         default_body
                     }
@@ -1233,7 +1233,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     ///
                     /// This is the default implementation of a method of
                     /// [Visit].
-                    #[allow(unused_variables)]
+                    #[allow(non_shorthand_field_patterns, unused_variables)]
                     pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
                         default_body
                     }
@@ -1250,7 +1250,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 {
                     #[cfg(any(feature = "path", docsrs))]
                     #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                    #[allow(unused_variables)]
+                    #[allow(non_shorthand_field_patterns, unused_variables)]
                     fn fn_name<V: ?Sized + Trait>(
                         _visitor: &mut V,
                         n: Type,
@@ -1271,7 +1271,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 {
                     #[cfg(any(feature = "path", docsrs))]
                     #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                    #[allow(unused_variables)]
+                    #[allow(non_shorthand_field_patterns, unused_variables)]
                     fn fn_name<V: ?Sized + Trait>(
                         _visitor: &mut V,
                         n: Type,
@@ -1293,7 +1293,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     {
                         #[cfg(any(feature = "path", docsrs))]
                         #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                        #[allow(unused_variables)]
+                        #[allow(non_shorthand_field_patterns, unused_variables)]
                         fn fn_name<'ast, 'r, V: ?Sized + Trait>(
                             _visitor: &mut V,
                             n: Type,
