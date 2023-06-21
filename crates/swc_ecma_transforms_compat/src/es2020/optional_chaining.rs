@@ -1,10 +1,10 @@
-use std::{iter::once, mem};
+use std::mem;
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    alias_ident_for, prepend_stmt, private_ident, quote_ident, undefined, ExprFactory, StmtLike,
+    alias_ident_for, prepend_stmt, quote_ident, undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -17,8 +17,7 @@ pub fn optional_chaining(c: Config) -> impl Fold + VisitMut {
 
 #[derive(Default)]
 struct OptChaining {
-    vars_without_init: Vec<VarDeclarator>,
-    vars_with_init: Vec<VarDeclarator>,
+    vars: Vec<VarDeclarator>,
     c: Config,
 }
 
@@ -36,69 +35,100 @@ impl VisitMut for OptChaining {
 
     fn visit_mut_block_stmt_or_expr(&mut self, expr: &mut BlockStmtOrExpr) {
         if let BlockStmtOrExpr::Expr(e) = expr {
-            if e.is_opt_chain() {
-                let mut stmt = BlockStmt {
+            let mut stmt = BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
-                    stmts: vec![Stmt::Return(ReturnStmt {
-                        span: e.span(),
-                        arg: Some(e.take()),
-                    })],
-                };
+                    arg: Some(e.take()),
+                })],
+            };
+            stmt.visit_mut_with(self);
 
-                stmt.visit_mut_with(self);
-                *expr = BlockStmtOrExpr::BlockStmt(stmt);
-                return;
+            // If there are optional chains in this expression, then the visitor will have
+            // injected an VarDecl statement and we need to transform into a
+            // block. If not, then we can keep the expression.
+            match &mut stmt.stmts[..] {
+                [Stmt::Return(ReturnStmt { arg: Some(e), .. })] => {
+                    *expr = BlockStmtOrExpr::Expr(e.take())
+                }
+                _ => *expr = BlockStmtOrExpr::BlockStmt(stmt),
             }
+        } else {
+            expr.visit_mut_children_with(self);
         }
-
-        expr.visit_mut_children_with(self);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
-            Expr::OptChain(o) => {
-                *e = match self.handle(o, None) {
-                    Ok(v) => Expr::Cond(v),
-                    Err(v) => v,
-                };
-                return;
+            // foo?.bar -> foo == null ? void 0 : foo.bar
+            Expr::OptChain(v) => {
+                let data = self.gather(v.take(), vec![]);
+                *e = self.construct(data, false, self.c.no_document_all);
             }
 
+            // delete foo?.bar -> foo == null ? true : delete foo.bar
             Expr::Unary(UnaryExpr {
-                span,
-                arg,
+                arg: box Expr::OptChain(v),
                 op: op!("delete"),
                 ..
             }) => {
-                if let Expr::OptChain(opt) = &mut **arg {
-                    match self.handle(opt, None) {
-                        Ok(v) => {
-                            //
-                            *e = Expr::Cond(CondExpr {
-                                span: *span,
-                                test: v.test,
-                                cons: v.cons,
-                                alt: Box::new(Expr::Unary(UnaryExpr {
-                                    span: DUMMY_SP,
-                                    op: op!("delete"),
-                                    arg: v.alt,
-                                })),
-                            });
-
-                            return;
-                        }
-                        Err(v) => {
-                            *arg = Box::new(v);
-                            return;
-                        }
-                    }
-                }
+                let data = self.gather(v.take(), vec![]);
+                *e = self.construct(data, true, self.c.no_document_all);
             }
 
-            _ => (),
+            e => e.visit_mut_children_with(self),
+        }
+    }
+
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        // The default initializer of an assignment pattern must not leak the memo
+        // variable into the enclosing scope.
+        // function(a, b = a?.b) {} -> function(a, b = (() => var _a; …)()) {}
+        let Pat::Assign(a) = n else {
+            n.visit_mut_children_with(self);
+            return;
+        };
+
+        let uninit = self.vars.take();
+        a.right.visit_mut_with(self);
+
+        // If we found an optional chain, we need to transform into an arrow IIFE to
+        // capture the memo variable.
+        if !self.vars.is_empty() {
+            let stmts = vec![
+                Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                    span: DUMMY_SP,
+                    declare: false,
+                    kind: VarDeclKind::Var,
+                    decls: mem::take(&mut self.vars),
+                }))),
+                Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(a.right.take()),
+                }),
+            ];
+            a.right = Box::new(Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: Expr::Arrow(ArrowExpr {
+                    span: DUMMY_SP,
+                    params: vec![],
+                    body: Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts,
+                    })),
+                    is_async: false,
+                    is_generator: false,
+                    type_params: Default::default(),
+                    return_type: Default::default(),
+                })
+                .as_callee(),
+                args: vec![],
+                type_args: Default::default(),
+            }));
         }
 
-        e.visit_mut_children_with(self);
+        self.vars = uninit;
+        a.left.visit_mut_with(self);
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
@@ -110,334 +140,198 @@ impl VisitMut for OptChaining {
     }
 }
 
+#[derive(Debug)]
+enum Gathering {
+    Call(CallExpr),
+    Member(MemberExpr),
+    OptCall(CallExpr, Ident),
+    OptMember(MemberExpr, Ident),
+}
+
 impl OptChaining {
-    /// Returns `(obj, value)`
-    fn handle_optional_member(&mut self, m: &mut MemberExpr, obj_name: Option<Ident>) -> CondExpr {
-        let obj_name = obj_name.unwrap_or_else(|| {
-            let v = alias_ident_for(&m.obj, "_obj");
-
-            self.vars_without_init.push(VarDeclarator {
-                span: DUMMY_SP,
-                name: v.clone().into(),
-                init: None,
-                definite: false,
-            });
-
-            v
-        });
-
-        m.obj.visit_mut_with(self);
-
-        CondExpr {
-            span: DUMMY_SP,
-            test: init_and_eq_null_or_undefined(&obj_name, m.obj.take(), self.c.no_document_all),
-            cons: undefined(DUMMY_SP),
-            alt: Box::new(Expr::Member(MemberExpr {
-                span: m.span,
-                obj: obj_name.clone().into(),
-                prop: m.prop.take(),
-            })),
-        }
-    }
-
-    /// Returns `(alias, value)`
-    fn handle(
+    /// Transforms the left-nested structure into a flat vec. The obj/callee
+    /// of every node in the chain will be Invalid, to be replaced with a
+    /// constructed node in the construct step.
+    /// The top member/call will be first, and the deepest obj/callee will be
+    /// last.
+    fn gather(
         &mut self,
-        e: &mut OptChainExpr,
-        store_this_to: Option<Ident>,
-    ) -> Result<CondExpr, Expr> {
-        match &mut *e.base {
-            OptChainBase::Member(m) => {
-                if e.optional {
-                    Ok(self.handle_optional_member(m, store_this_to))
-                } else {
-                    let obj = match &mut *m.obj {
-                        Expr::OptChain(obj) => match self.handle(obj, None) {
-                            Ok(obj) => {
-                                return Ok(CondExpr {
-                                    span: obj.span,
-                                    test: obj.test,
-                                    cons: obj.cons,
-                                    alt: match store_this_to {
-                                        Some(this) => Box::new(Expr::Member(MemberExpr {
-                                            span: m.span,
-                                            obj: Box::new(Expr::Assign(AssignExpr {
-                                                span: DUMMY_SP,
-                                                op: op!("="),
-                                                left: this.into(),
-                                                right: obj.alt,
-                                            })),
-                                            prop: m.prop.take(),
-                                        })),
-                                        None => Box::new(Expr::Member(MemberExpr {
-                                            span: m.span,
-                                            obj: obj.alt,
-                                            prop: m.prop.take(),
-                                        })),
-                                    },
-                                });
-                            }
-                            Err(obj) => Box::new(obj),
-                        },
-                        _ => {
-                            m.obj.visit_mut_with(self);
-                            m.obj.take()
-                        }
-                    };
+        v: OptChainExpr,
+        mut chain: Vec<Gathering>,
+    ) -> (Expr, usize, Vec<Gathering>) {
+        let mut current = v;
+        let mut count = 0;
+        loop {
+            let OptChainExpr {
+                optional, mut base, ..
+            } = current;
 
-                    Err(Expr::Member(MemberExpr {
-                        span: m.span,
-                        obj: match store_this_to {
-                            Some(alias) => Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                op: op!("="),
-                                left: alias.into(),
-                                right: obj,
-                            })),
-                            _ => obj,
-                        },
-                        prop: m.prop.take(),
-                    }))
+            if optional {
+                count += 1;
+            }
+
+            let next;
+            match &mut *base {
+                OptChainBase::Member(m) => {
+                    next = m.obj.take();
+                    m.prop.visit_mut_with(self);
+                    chain.push(if optional {
+                        Gathering::OptMember(m.take(), self.memoize(&next))
+                    } else {
+                        Gathering::Member(m.take())
+                    });
+                }
+
+                OptChainBase::Call(c) => {
+                    next = c.callee.take();
+                    c.args.visit_mut_with(self);
+                    // I don't know why c is an OptCall instead of a CallExpr.
+                    chain.push(if optional {
+                        Gathering::OptCall(c.take().into(), self.memoize(&next))
+                    } else {
+                        Gathering::Call(c.take().into())
+                    });
                 }
             }
-            OptChainBase::Call(call) => {
-                let callee_name = alias_ident_for(&call.callee, "_ref");
 
-                if e.optional {
-                    self.vars_without_init.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: callee_name.clone().into(),
-                        init: None,
-                        definite: false,
-                    });
-
-                    let (this, init) = match &mut *call.callee {
-                        Expr::OptChain(callee) => {
-                            let this_obj = store_this_to.unwrap_or_else(|| {
-                                let v = private_ident!("_object");
-
-                                self.vars_without_init.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: v.clone().into(),
-                                    init: None,
-                                    definite: false,
-                                });
-
-                                v
-                            });
-
-                            match self.handle(callee, Some(this_obj.clone())) {
-                                Ok(cond) => {
-                                    let final_call = Box::new(Expr::Call(CallExpr {
-                                        span: call.span,
-                                        callee: callee_name
-                                            .clone()
-                                            .make_member(quote_ident!("call"))
-                                            .as_callee(),
-                                        args: once(this_obj.as_arg())
-                                            .chain(call.args.take())
-                                            .collect(),
-                                        type_args: Default::default(),
-                                    }));
-
-                                    {
-                                        return Ok(CondExpr {
-                                            span: DUMMY_SP,
-                                            test: cond.test,
-                                            cons: cond.cons,
-                                            alt: Box::new(Expr::Cond(CondExpr {
-                                                span: DUMMY_SP,
-                                                test: init_and_eq_null_or_undefined(
-                                                    &callee_name,
-                                                    cond.alt,
-                                                    self.c.no_document_all,
-                                                ),
-                                                cons: undefined(DUMMY_SP),
-                                                alt: final_call,
-                                            })),
-                                        });
-                                    }
-                                }
-
-                                Err(init) => {
-                                    let init = Box::new(init);
-                                    let init = init_and_eq_null_or_undefined(
-                                        &this_obj,
-                                        init,
-                                        self.c.no_document_all,
-                                    );
-                                    (Some(this_obj), init)
-                                }
-                            }
-                        }
-
-                        Expr::Member(m) => {
-                            let this_obj = store_this_to.unwrap_or_else(|| {
-                                let v = private_ident!("_object");
-
-                                self.vars_without_init.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: v.clone().into(),
-                                    init: None,
-                                    definite: false,
-                                });
-
-                                v
-                            });
-
-                            let cond = self.handle_optional_member(m, Some(this_obj.clone()));
-
-                            let final_call = Box::new(Expr::Call(CallExpr {
-                                span: call.span,
-                                callee: callee_name
-                                    .clone()
-                                    .make_member(quote_ident!("call"))
-                                    .as_callee(),
-                                args: once(this_obj.as_arg()).chain(call.args.take()).collect(),
-                                type_args: Default::default(),
-                            }));
-
-                            return Ok(CondExpr {
-                                span: DUMMY_SP,
-                                test: cond.test,
-                                cons: cond.cons,
-                                alt: Box::new(Expr::Cond(CondExpr {
-                                    span: DUMMY_SP,
-                                    test: init_and_eq_null_or_undefined(
-                                        &callee_name,
-                                        cond.alt,
-                                        self.c.no_document_all,
-                                    ),
-                                    cons: undefined(DUMMY_SP),
-                                    alt: final_call,
-                                })),
-                            });
-                        }
-
-                        _ => {
-                            call.callee.visit_mut_with(self);
-
-                            (None, call.callee.take())
-                        }
-                    };
-                    call.args.visit_mut_with(self);
-
-                    Ok(CondExpr {
-                        span: DUMMY_SP,
-                        test: init_and_eq_null_or_undefined(
-                            &callee_name,
-                            init,
-                            self.c.no_document_all,
-                        ),
-                        cons: undefined(DUMMY_SP),
-                        alt: match this {
-                            Some(this) => Box::new(Expr::Call(CallExpr {
-                                span: call.span,
-                                callee: callee_name.make_member(quote_ident!("call")).as_callee(),
-                                args: once(this.as_arg()).chain(call.args.take()).collect(),
-                                type_args: Default::default(),
-                            })),
-                            None => Box::new(Expr::Call(CallExpr {
-                                span: call.span,
-                                callee: callee_name.as_callee(),
-                                args: call.args.take(),
-                                type_args: Default::default(),
-                            })),
-                        },
-                    })
-                } else {
-                    let callee = match &mut *call.callee {
-                        Expr::OptChain(callee) => {
-                            self.vars_without_init.push(VarDeclarator {
-                                span: DUMMY_SP,
-                                name: callee_name.clone().into(),
-                                init: None,
-                                definite: false,
-                            });
-
-                            let this_obj = store_this_to.unwrap_or_else(|| {
-                                let v = private_ident!("_this");
-
-                                self.vars_without_init.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: v.clone().into(),
-                                    init: None,
-                                    definite: false,
-                                });
-
-                                v
-                            });
-
-                            let callee = self.handle(callee, Some(this_obj.clone()));
-                            match callee {
-                                Ok(cond) => {
-                                    return Ok(CondExpr {
-                                        span: DUMMY_SP,
-                                        test: cond.test,
-                                        cons: cond.cons,
-                                        alt: Box::new(Expr::Cond(CondExpr {
-                                            span: DUMMY_SP,
-                                            test: init_and_eq_null_or_undefined(
-                                                &callee_name,
-                                                cond.alt,
-                                                self.c.no_document_all,
-                                            ),
-                                            cons: undefined(DUMMY_SP),
-                                            alt: Box::new(Expr::Call(CallExpr {
-                                                span: call.span,
-                                                callee: callee_name
-                                                    .make_member(quote_ident!("call"))
-                                                    .as_callee(),
-                                                args: once(this_obj.as_arg())
-                                                    .chain(call.args.take())
-                                                    .collect(),
-                                                type_args: Default::default(),
-                                            })),
-                                        })),
-                                    })
-                                }
-                                Err(callee) => Box::new(callee),
-                            }
-                        }
-
-                        _ => {
-                            call.callee.visit_mut_with(self);
-
-                            call.callee.take()
-                        }
-                    };
-                    call.args.visit_mut_with(self);
-
-                    Err(Expr::Call(CallExpr {
-                        span: call.span,
-                        callee: callee.as_callee(),
-                        args: call.args.take(),
-                        type_args: Default::default(),
-                    }))
+            match *next {
+                Expr::OptChain(next) => {
+                    current = next;
                 }
+                base => return (base, count, chain),
             }
         }
     }
 
-    /// Returned statements are variable declarations without initializer
-    fn visit_mut_one_stmt_to<T>(&mut self, mut stmt: T, new: &mut Vec<T>)
-    where
-        T: StmtLike + VisitMutWith<Self>,
-    {
-        stmt.visit_mut_with(self);
+    /// Constructs a rightward nested conditional expression out of our
+    /// flattened chain.
+    fn construct(
+        &mut self,
+        data: (Expr, usize, Vec<Gathering>),
+        is_delete: bool,
+        no_document_all: bool,
+    ) -> Expr {
+        let (mut current, count, chain) = data;
 
-        if !self.vars_with_init.is_empty() {
-            new.push(T::from_stmt(
-                VarDecl {
-                    span: DUMMY_SP,
-                    declare: false,
-                    kind: VarDeclKind::Var,
-                    decls: mem::take(&mut self.vars_with_init),
+        // Stores partially constructed CondExprs for us to assemble later on.
+        let mut committed_cond = Vec::with_capacity(count);
+
+        // Stores the memo used to construct an optional chain, so that it can be used
+        // as the this context of an optional call:
+        // foo?.bar?.() ->
+        // (_foo = foo) == null
+        //   ? void 0
+        //   : (_foo_bar = _foo.bar) == null
+        //     ?  void 0 : _foo_bar.call(_foo)
+        let mut ctx = None;
+
+        // In the first pass, we construct a "current" node and several committed
+        // CondExprs. The conditionals will have an invalid alt, waiting for the
+        // second pass to properly construct them.
+        // We reverse iterate so that we can construct a rightward conditional
+        // `(_a = a) == null ? void 0 : (_a_b = _a.b) == null ? void 0 : _a_b.c`
+        // instead of a leftward one
+        // `(_a_b = (_a = a) == null ? void 0 : _a.b) == null ? void 0 : _a_b.c`
+        for v in chain.into_iter().rev() {
+            current = match v {
+                Gathering::Call(mut c) => {
+                    c.callee = current.as_callee();
+                    ctx = None;
+                    Expr::Call(c)
                 }
-                .into(),
-            ));
+                Gathering::Member(mut m) => {
+                    m.obj = Box::new(current);
+                    ctx = None;
+                    Expr::Member(m)
+                }
+                Gathering::OptCall(mut c, memo) => {
+                    let mut call = false;
+
+                    // foo.bar?.() -> (_foo_bar == null) ? void 0 : _foo_bar.call(foo)
+                    match &mut current {
+                        Expr::Member(m) => {
+                            call = true;
+                            let this = ctx.unwrap_or_else(|| {
+                                let this = self.memoize(&m.obj);
+                                m.obj = Box::new(Expr::Assign(AssignExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("="),
+                                    left: this.clone().into(),
+                                    right: m.obj.take(),
+                                }));
+                                this
+                            });
+                            c.args.insert(0, this.as_arg());
+                        }
+                        Expr::SuperProp(s) => {
+                            call = true;
+                            c.args.insert(0, ThisExpr { span: s.obj.span }.as_arg());
+                        }
+                        _ => {}
+                    }
+
+                    committed_cond.push(CondExpr {
+                        span: DUMMY_SP,
+                        test: init_and_eq_null_or_undefined(&memo, current, no_document_all),
+                        cons: if is_delete {
+                            true.into()
+                        } else {
+                            undefined(DUMMY_SP)
+                        },
+                        alt: Take::dummy(),
+                    });
+                    c.callee = if call {
+                        memo.make_member(quote_ident!("call")).as_callee()
+                    } else {
+                        memo.as_callee()
+                    };
+                    ctx = None;
+                    Expr::Call(c)
+                }
+                Gathering::OptMember(mut m, memo) => {
+                    committed_cond.push(CondExpr {
+                        span: DUMMY_SP,
+                        test: init_and_eq_null_or_undefined(&memo, current, no_document_all),
+                        cons: if is_delete {
+                            true.into()
+                        } else {
+                            undefined(DUMMY_SP)
+                        },
+                        alt: Take::dummy(),
+                    });
+                    ctx = Some(memo.clone());
+                    m.obj = memo.into();
+                    Expr::Member(m)
+                }
+            };
         }
-        new.push(stmt);
+
+        // At this point, `current` is the right-most expression `_a_b.c` in `a?.b?.c`
+        if is_delete {
+            current = Expr::Unary(UnaryExpr {
+                span: DUMMY_SP,
+                op: op!("delete"),
+                arg: Box::new(current),
+            });
+        }
+
+        // We now need to reverse iterate the conditionals to construct out tree.
+        for mut cond in committed_cond.into_iter().rev() {
+            cond.alt = Box::new(current);
+            current = Expr::Cond(cond)
+        }
+        current
+    }
+
+    fn memoize(&mut self, expr: &Expr) -> Ident {
+        let memo = alias_ident_for(expr, "_this");
+        self.vars.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: memo.clone().into(),
+            init: None,
+            definite: false,
+        });
+        memo
     }
 
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
@@ -445,41 +339,36 @@ impl OptChaining {
         T: Send + Sync + StmtLike + VisitMutWith<Self>,
         Vec<T>: VisitMutWith<Self>,
     {
-        let mut new: Vec<T> = vec![];
-
-        let init = self.vars_with_init.take();
-        let uninit = self.vars_without_init.take();
-        for stmt in stmts.drain(..) {
-            self.visit_mut_one_stmt_to(stmt, &mut new);
+        let uninit = self.vars.take();
+        for stmt in stmts.iter_mut() {
+            stmt.visit_mut_with(self);
         }
 
-        if !self.vars_without_init.is_empty() {
+        if !self.vars.is_empty() {
             prepend_stmt(
-                &mut new,
+                stmts,
                 T::from_stmt(
                     VarDecl {
                         span: DUMMY_SP,
                         declare: false,
                         kind: VarDeclKind::Var,
-                        decls: mem::take(&mut self.vars_without_init),
+                        decls: mem::take(&mut self.vars),
                     }
                     .into(),
                 ),
             );
         }
 
-        self.vars_with_init = init;
-        self.vars_without_init = uninit;
-        *stmts = new;
+        self.vars = uninit;
     }
 }
 
-fn init_and_eq_null_or_undefined(i: &Ident, init: Box<Expr>, no_document_all: bool) -> Box<Expr> {
+fn init_and_eq_null_or_undefined(i: &Ident, init: Expr, no_document_all: bool) -> Box<Expr> {
     let lhs = Box::new(Expr::Assign(AssignExpr {
         span: DUMMY_SP,
         op: op!("="),
         left: PatOrExpr::Pat(i.clone().into()),
-        right: init,
+        right: Box::new(init),
     }));
 
     if no_document_all {

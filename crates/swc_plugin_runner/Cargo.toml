@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_plugin_runner"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.97.0"
+version       = "0.97.3"
 
 [lib]
 bench = false
@@ -20,8 +20,6 @@ plugin_transform_host_js = [
 ]
 plugin_transform_host_native = [
   "wasmer/default",
-  # wasmer-wasix/default except networking, to avoid unexpected openssl-sys build failure on certain platforms.
-  # [TODO]: revert to /default once issue is resolved"wasmer-wasix/sys",
   "wasmer-wasix/sys",
   "wasmer-wasix/logging",
   "wasmer-wasix/host-fs",
@@ -65,8 +63,8 @@ swc_common = { version = "0.31.12", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_css_ast = { version = "0.137.12", path = "../swc_css_ast", optional = true }
-swc_ecma_ast = { version = "0.106.0", path = "../swc_ecma_ast", optional = true }
-swc_plugin_proxy = { version = "0.35.0", path = "../swc_plugin_proxy" }
+swc_ecma_ast = { version = "0.106.2", path = "../swc_ecma_ast", optional = true }
+swc_plugin_proxy = { version = "0.35.1", path = "../swc_plugin_proxy" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 wasmer-cache              = { version = "3.3.0", optional = true }
@@ -79,15 +77,15 @@ swc_atoms = { version = "0.5.6", path = '../swc_atoms' }
 swc_css_ast = { version = "0.137.12", path = "../swc_css_ast", features = [
   "rkyv-impl",
 ] }
-swc_css_parser = { version = "0.146.13", path = "../swc_css_parser" }
-swc_ecma_ast = { version = "0.106.0", path = "../swc_ecma_ast", features = [
+swc_css_parser = { version = "0.146.15", path = "../swc_css_parser" }
+swc_ecma_ast = { version = "0.106.2", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
 swc_ecma_loader = { version = "0.43.14", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "0.136.0", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "0.92.0", path = "../swc_ecma_visit" }
+swc_ecma_parser = { version = "0.136.3", path = "../swc_ecma_parser" }
+swc_ecma_visit = { version = "0.92.1", path = "../swc_ecma_visit" }
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
-testing = { version = "0.33.13", path = "../testing" }
+testing = { version = "0.33.15", path = "../testing" }
 
 [[bench]]
 harness = false

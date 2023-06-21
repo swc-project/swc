@@ -1416,9 +1416,13 @@ pub struct OptCall {
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
-impl Take for OptChainBase {
+impl Take for OptChainExpr {
     fn dummy() -> Self {
-        OptChainBase::Member(Take::dummy())
+        Self {
+            span: DUMMY_SP,
+            optional: false,
+            base: Box::new(OptChainBase::Member(Take::dummy())),
+        }
     }
 }
 

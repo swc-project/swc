@@ -3152,11 +3152,8 @@ test!(
     const tmp = tt?.map((t: any) => t).join((v: any) => v);
     ",
     "
-    var _tt_map_join, _this, _tt_map, _this1;
-const tmp = (_this1 = tt) === null || _this1 === void 0 ? void 0 : (_tt_map_join = (_this = \
-     (_tt_map = _this1.map) === null || _tt_map === void 0 ? void 0 : _tt_map.call(_this1, \
-     (t)=>t)).join) === null || _tt_map_join === void 0 ? void 0 : _tt_map_join.call(_this, \
-     (v)=>v);
+    var _tt
+const tmp = (_tt = tt) === null || _tt === void 0 ? void 0 : _tt.map((t)=>t).join((v)=>v);
     "
 );
 

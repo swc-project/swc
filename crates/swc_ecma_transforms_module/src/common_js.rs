@@ -16,8 +16,8 @@ use crate::{
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        clone_first_use_strict, define_es_module, emit_export_stmts, local_name_for_src, prop_name,
-        use_strict, ImportInterop, ObjPropKeyIdent,
+        clone_first_use_directive, define_es_module, emit_export_stmts, local_name_for_src,
+        prop_name, use_strict, ImportInterop, ObjPropKeyIdent,
     },
 };
 
@@ -111,11 +111,17 @@ where
         let mut strip = ModuleDeclStrip::new(self.const_var_kind);
         n.visit_mut_with(&mut strip);
 
-        let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.len() + 4);
+        let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.len() + 6);
+
+        stmts.extend(clone_first_use_directive(n, false).map(From::from));
 
         // "use strict";
         if self.config.strict_mode {
-            stmts.push(clone_first_use_strict(n).unwrap_or_else(use_strict).into());
+            stmts.push(
+                clone_first_use_directive(n, true)
+                    .unwrap_or_else(use_strict)
+                    .into(),
+            );
         }
 
         let ModuleDeclStrip {
@@ -150,7 +156,7 @@ where
         );
 
         stmts.extend(n.take().into_iter().filter(|item| match item {
-            ModuleItem::Stmt(stmt) => !stmt.is_use_strict(),
+            ModuleItem::Stmt(stmt) => !stmt.is_directive(),
             _ => false,
         }));
 
