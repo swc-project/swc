@@ -93,13 +93,15 @@ pub fn expand(
 
                 Arm {
                     attrs: Default::default(),
-                    pat: q!(
-                        Vars {
-                            Variant: &variant.ident
-                        },
-                        (__TypeVariant::Variant)
-                    )
-                    .parse(),
+                    pat: Pat::Path(
+                        q!(
+                            Vars {
+                                Variant: &variant.ident
+                            },
+                            (__TypeVariant::Variant)
+                        )
+                        .parse(),
+                    ),
                     guard: Default::default(),
                     fat_arrow_token: variant.ident.span().as_token(),
                     body: q!(
