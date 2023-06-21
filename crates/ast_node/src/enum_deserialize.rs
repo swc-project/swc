@@ -64,8 +64,13 @@ pub fn expand(
                         if !is_attr_name(attr, "tag") {
                             return None;
                         }
-                        let tags =
-                            parse2(attr.tokens.clone()).expect("failed to parse #[tag] attribute");
+                        let tokens = match &attr.meta {
+                            Meta::List(meta) => meta.tokens.clone(),
+                            _ => {
+                                panic!("#[tag] attribute must be in form of #[tag(..)]")
+                            }
+                        };
+                        let tags = parse2(tokens).expect("failed to parse #[tag] attribute");
 
                         Some(tags)
                     })
@@ -138,8 +143,13 @@ pub fn expand(
                         if !is_attr_name(attr, "tag") {
                             return None;
                         }
-                        let tags =
-                            parse2(attr.tokens.clone()).expect("failed to parse #[tag] attribute");
+                        let tokens = match &attr.meta {
+                            Meta::List(meta) => meta.tokens.clone(),
+                            _ => {
+                                panic!("#[tag] attribute must be in form of #[tag(..)]")
+                            }
+                        };
+                        let tags = parse2(tokens).expect("failed to parse #[tag] attribute");
 
                         Some(tags)
                     })
