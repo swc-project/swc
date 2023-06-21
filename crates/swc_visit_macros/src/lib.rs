@@ -10,10 +10,10 @@ use syn::{
     parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block, Expr,
     ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary, Field, FieldMutability,
     FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem,
-    ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, ItemTrait, ItemUse,
-    Lifetime, LifetimeDef, Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatType, PatWild, Path,
-    PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type,
-    TypePath, TypeReference, UnOp, UseTree, Variant, VisPublic, Visibility,
+    Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, ItemTrait, ItemUse, Lifetime, Member,
+    Pat, PatIdent, PatTuple, PatTupleStruct, PatType, PatWild, Path, PathArguments, Receiver,
+    ReturnType, Signature, Stmt, Token, TraitItem, Type, TypePath, TypeReference, UnOp, UseTree,
+    Variant, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -1174,8 +1174,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             pound_token: def_site(),
             style: AttrStyle::Outer,
             bracket_token: def_site(),
-            path: q!({ allow }).parse(),
-            tokens: q!({ (unused_variables) }).parse(),
+            meta: parse_quote!(allow(unused_variables)),
         });
 
         let mut fn_name = v.sig.ident.clone();
