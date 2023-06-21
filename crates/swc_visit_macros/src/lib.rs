@@ -9,11 +9,11 @@ use swc_macros_common::{call_site, def_site, make_doc_attr};
 use syn::{
     parse_macro_input, parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle,
     Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary,
-    Field, FieldMutability, FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument,
+    Field, FieldMutability, FieldPat, FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument,
     GenericParam, Generics, ImplItem, ImplItemFn, Index, Item, ItemEnum, ItemImpl, ItemMod,
-    ItemStruct, ItemTrait, ItemUse, Lifetime, LifetimeParam, Member, Pat, PatIdent, PatTupleStruct,
-    PatType, PatWild, Path, PathArguments, ReturnType, Signature, Stmt, Token, TraitItem,
-    TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
+    ItemStruct, ItemTrait, ItemUse, Lifetime, LifetimeParam, Member, Pat, PatIdent, PatStruct,
+    PatTupleStruct, PatType, PatWild, Path, PathArguments, ReturnType, Signature, Stmt, Token,
+    TraitItem, TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -2241,7 +2241,7 @@ fn make_arm_from_struct(
     use_ast_path: bool,
 ) -> Arm {
     let mut stmts = vec![];
-    let mut fields: Punctuated<FieldValue, Token![,]> = Default::default();
+    let mut fields: Punctuated<FieldPat, Token![,]> = Default::default();
 
     for (i, field) in variant.iter().enumerate() {
         let ty = &field.ty;
@@ -2340,7 +2340,14 @@ fn make_arm_from_struct(
 
     Arm {
         attrs: vec![],
-        pat: q!(Vars { Path: path, fields }, { Path { fields } }).parse(),
+        pat: Pat::Struct(PatStruct {
+            attrs: vec![],
+            qself: None,
+            path: path.clone(),
+            brace_token: def_site(),
+            fields,
+            rest: None,
+        }),
         guard: None,
         fat_arrow_token: def_site(),
         body: Box::new(Expr::Block(ExprBlock {
