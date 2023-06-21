@@ -277,12 +277,10 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
             pound_token: def_site(),
             style: AttrStyle::Outer,
             bracket_token: def_site(),
-            meta: parse_quote!({
-                cfg_attr(
-                    feature = "serde",
-                    derive(serde::Serialize, serde::Deserialize),
-                )
-            }),
+            meta: parse_quote!(cfg_attr(
+                feature = "serde",
+                derive(serde::Serialize, serde::Deserialize),
+            )),
         });
 
         items.push(Item::Enum(ItemEnum {
