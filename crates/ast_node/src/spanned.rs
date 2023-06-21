@@ -39,6 +39,7 @@ impl MyField {
             }
 
             match &attr.meta {
+                Meta::Path(..) => {}
                 Meta::List(list) => {
                     let input = parse2::<InputFieldAttr>(list.tokens.clone())
                         .expect("failed to parse as `InputFieldAttr`");
@@ -217,6 +218,7 @@ fn has_empty_span_attr(attrs: &[Attribute]) -> bool {
         }
 
         match &attr.meta {
+            Meta::Path(..) => true,
             Meta::List(t) => t.tokens.is_empty(),
             _ => false,
         }
