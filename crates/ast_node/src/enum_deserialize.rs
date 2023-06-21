@@ -176,20 +176,11 @@ pub fn expand(
                             (
                                 Pat::Lit(PatLit {
                                     attrs: Default::default(),
-                                    expr: Box::new(Expr::Lit(ExprLit {
-                                        attrs: Default::default(),
-                                        lit,
-                                    })),
+                                    lit,
                                 }),
                                 Pat::Lit(PatLit {
                                     attrs: Default::default(),
-                                    expr: Box::new(Expr::Lit(ExprLit {
-                                        attrs: Default::default(),
-                                        lit: Lit::ByteStr(LitByteStr::new(
-                                            s.as_bytes(),
-                                            call_site(),
-                                        )),
-                                    })),
+                                    lit: Lit::ByteStr(LitByteStr::new(s.as_bytes(), call_site())),
                                 }),
                             )
                         }

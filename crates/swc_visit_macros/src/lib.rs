@@ -2506,7 +2506,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemF
 
             let sig = method_sig_from_ident(mode, type_name);
 
-            TraitItemMethod {
+            TraitItemFn {
                 attrs,
                 sig,
                 default: Some(block),
@@ -2571,7 +2571,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemF
                 }
             };
 
-            TraitItemMethod {
+            TraitItemFn {
                 attrs,
                 sig: method_sig_from_ident(mode, type_name),
                 default: Some(block),
