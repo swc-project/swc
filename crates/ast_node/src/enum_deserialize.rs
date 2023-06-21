@@ -17,7 +17,7 @@ impl Parse for VariantAttr {
         let _paren_token = parenthesized!(content in input);
         Ok(VariantAttr {
             _paren_token,
-            tags: content.parse_terminated(Lit::parse)?,
+            tags: content.call(Punctuated::parse_terminated)?,
         })
     }
 }
