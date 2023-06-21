@@ -163,6 +163,7 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
                         leading_vert: None,
                         cases,
                     });
+                    continue;
                 }
 
                 panic!("Unsupported meta: {:#?}", attr.meta);
@@ -254,11 +255,17 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
                     path: qual_name,
                     attrs: Default::default(),
                 })),
-                _ => Box::new(
-                    Quote::new(def_site::<Span>())
-                        .quote_with(smart_quote!(Vars { qual_name }, { qual_name { .. } }))
-                        .parse(),
-                ),
+                _ => Box::new(Pat::Struct(PatStruct {
+                    attrs: Default::default(),
+                    qself: None,
+                    path: qual_name,
+                    brace_token: Default::default(),
+                    fields: Default::default(),
+                    rest: Some(PatRest {
+                        attrs: Default::default(),
+                        dot2_token: def_site(),
+                    }),
+                })),
             };
 
             Arm {
