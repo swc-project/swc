@@ -10,10 +10,10 @@ use syn::{
     parse_macro_input, parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle,
     Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary,
     Field, FieldMutability, FieldValue, Fields, FieldsUnnamed, FnArg, GenericArgument,
-    GenericParam, Generics, ImplItem, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct,
-    ItemTrait, ItemUse, Lifetime, Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatType,
-    PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem, Type,
-    TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
+    GenericParam, Generics, ImplItem, ImplItemFn, Index, Item, ItemEnum, ItemImpl, ItemMod,
+    ItemStruct, ItemTrait, ItemUse, Lifetime, Member, Pat, PatIdent, PatTuple, PatTupleStruct,
+    PatType, PatWild, Path, PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem,
+    Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -299,11 +299,9 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
     {
         let mut methods = vec![];
 
-        methods.push(ImplItem::Method(ImplItemMethod {
+        methods.push(ImplItem::Fn(ImplItemFn {
             attrs: vec![make_doc_attr("This is not consdered as a public API")],
-            vis: Visibility::Public(VisPublic {
-                pub_token: def_site(),
-            }),
+            vis: Visibility::Public(def_site()),
             defaultness: Default::default(),
             sig: Signature {
                 constness: Default::default(),
