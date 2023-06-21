@@ -4105,6 +4105,7 @@ dependencies = [
  "anyhow",
  "hex",
  "sha-1",
+ "testing",
  "tracing",
 ]
 
@@ -4736,7 +4737,6 @@ name = "swc_plugin_runner"
 version = "0.97.2"
 dependencies = [
  "anyhow",
- "cargo_metadata",
  "criterion",
  "enumset",
  "once_cell",
@@ -4965,6 +4965,7 @@ name = "testing"
 version = "0.33.14"
 dependencies = [
  "ansi_term",
+ "cargo_metadata",
  "difference",
  "once_cell",
  "pretty_assertions",
