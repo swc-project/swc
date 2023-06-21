@@ -595,12 +595,7 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
             paren_token: def_site(),
             inputs: {
                 let mut v = Punctuated::new();
-                v.push(FnArg::Receiver(Receiver {
-                    attrs: Default::default(),
-                    reference: Some((def_site(), None)),
-                    mutability: Some(def_site()),
-                    self_token: def_site(),
-                }));
+                v.push(FnArg::Receiver(parse_quote!(&mut self)));
                 v.push(FnArg::Typed(PatType {
                     attrs: Default::default(),
                     colon_token: def_site(),
@@ -2544,13 +2539,16 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemF
 
                 Block {
                     brace_token: def_site(),
-                    stmts: vec![Stmt::Expr(Expr::Match(ExprMatch {
-                        attrs: vec![],
-                        match_token: def_site(),
-                        expr: q!((n)).parse(),
-                        brace_token: def_site(),
-                        arms,
-                    }))],
+                    stmts: vec![Stmt::Expr(
+                        Expr::Match(ExprMatch {
+                            attrs: vec![],
+                            match_token: def_site(),
+                            expr: q!((n)).parse(),
+                            brace_token: def_site(),
+                            arms,
+                        }),
+                        None,
+                    )],
                 }
             };
 
