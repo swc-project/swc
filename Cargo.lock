@@ -104,7 +104,7 @@ checksum = "8da52d66c7071e2e3fa2a1e5c6d088fec47b593032b254f5e980de8ea54454d6"
 name = "ast_node"
 version = "0.9.4"
 dependencies = [
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "quote",
  "swc_macros_common",
@@ -1223,7 +1223,7 @@ dependencies = [
 name = "from_variant"
 version = "0.1.5"
 dependencies = [
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "swc_macros_common",
  "syn 2.0.13",
@@ -1662,7 +1662,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1c068d4c6b922cd6284c609cfa6dec0e41615c9c5a1a4ba729a970d8daba05fb"
 dependencies = [
  "Inflector",
- "pmutil",
+ "pmutil 0.5.3",
  "proc-macro2",
  "quote",
  "syn 1.0.109",
@@ -2517,6 +2517,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "pmutil"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6cd2c0e919213c5d304dcbeaf91c19d502654f96b0df773c563701d8d6e8607d"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.13",
+]
+
+[[package]]
 name = "ppv-lite86"
 version = "0.2.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3291,7 +3302,7 @@ version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b862d598fbc9f7085b017890e2e61433f501e7467f2c585323e1aa3c07ef8599"
 dependencies = [
- "pmutil",
+ "pmutil 0.5.3",
  "proc-macro2",
  "quote",
  "syn 1.0.109",
@@ -3382,7 +3393,7 @@ dependencies = [
 name = "string_enum"
 version = "0.4.0"
 dependencies = [
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "quote",
  "serde",
@@ -3608,7 +3619,7 @@ dependencies = [
 name = "swc_config_macro"
 version = "0.1.1"
 dependencies = [
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "quote",
  "swc_macros_common",
@@ -3715,7 +3726,7 @@ dependencies = [
 name = "swc_css_codegen_macros"
 version = "0.2.1"
 dependencies = [
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "quote",
  "swc_macros_common",
@@ -3899,7 +3910,7 @@ dependencies = [
 name = "swc_ecma_codegen_macros"
 version = "0.7.2"
 dependencies = [
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "quote",
  "swc_macros_common",
@@ -4087,7 +4098,7 @@ name = "swc_ecma_quote_macros"
 version = "0.47.3"
 dependencies = [
  "anyhow",
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "quote",
  "swc_atoms",
@@ -4206,7 +4217,7 @@ dependencies = [
 name = "swc_ecma_transforms_macros"
 version = "0.5.1"
 dependencies = [
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "quote",
  "swc_macros_common",
@@ -4440,7 +4451,7 @@ dependencies = [
 name = "swc_eq_ignore_macros"
 version = "0.1.1"
 dependencies = [
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "quote",
  "syn 2.0.13",
@@ -4560,7 +4571,7 @@ dependencies = [
 name = "swc_html_codegen_macros"
 version = "0.2.1"
 dependencies = [
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "quote",
  "swc_macros_common",
@@ -4639,7 +4650,7 @@ dependencies = [
 name = "swc_macros_common"
 version = "0.3.7"
 dependencies = [
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "quote",
  "syn 2.0.13",
@@ -4796,7 +4807,7 @@ name = "swc_visit_macros"
 version = "0.5.7"
 dependencies = [
  "Inflector",
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "quote",
  "swc_macros_common",
@@ -4844,7 +4855,7 @@ dependencies = [
 name = "swc_xml_codegen_macros"
 version = "0.1.1"
 dependencies = [
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "quote",
  "swc_macros_common",
@@ -4985,7 +4996,7 @@ dependencies = [
  "anyhow",
  "glob",
  "once_cell",
- "pmutil",
+ "pmutil 0.6.0",
  "proc-macro2",
  "quote",
  "regex",
