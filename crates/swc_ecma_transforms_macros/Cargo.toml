@@ -13,7 +13,7 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-pmutil      = "0.6.0"
+pmutil      = "0.6.1"
 proc-macro2 = "1"
 quote       = "1"
 syn         = { version = "2", features = ["fold", "parsing", "full"] }
