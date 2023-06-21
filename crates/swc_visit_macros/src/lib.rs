@@ -581,7 +581,7 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
         path: Ident::new("AstParentKind", call_site()).into(),
     });
 
-    let set_index_item = ImplItem::Method(ImplItemFn {
+    let set_index_item = ImplItem::Fn(ImplItemFn {
         attrs: Default::default(),
         vis: Visibility::Inherited,
         defaultness: Default::default(),
@@ -826,7 +826,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
         },
     });
 
-    let set_index_item = ImplItem::Method(ImplItemFn {
+    let set_index_item = ImplItem::Fn(ImplItemFn {
         attrs: Default::default(),
         vis: Visibility::Inherited,
         defaultness: Default::default(),
@@ -1366,7 +1366,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         .parse::<ItemImpl>();
 
         item.items
-            .extend(ref_methods.clone().into_iter().map(ImplItem::Method));
+            .extend(ref_methods.clone().into_iter().map(ImplItem::Fn));
 
         if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
             item.attrs.extend(feature_path_attrs())
@@ -1387,8 +1387,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         )
         .parse::<ItemImpl>();
 
-        item.items
-            .extend(ref_methods.into_iter().map(ImplItem::Method));
+        item.items.extend(ref_methods.into_iter().map(ImplItem::Fn));
 
         if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
             item.attrs.extend(feature_path_attrs())
@@ -1410,7 +1409,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         .parse::<ItemImpl>();
 
         item.items
-            .extend(optional_methods.into_iter().map(ImplItem::Method));
+            .extend(optional_methods.into_iter().map(ImplItem::Fn));
 
         if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
             item.attrs.extend(feature_path_attrs())
@@ -1437,7 +1436,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         .parse::<ItemImpl>();
 
         item.items
-            .extend(either_methods.into_iter().map(ImplItem::Method));
+            .extend(either_methods.into_iter().map(ImplItem::Fn));
 
         if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
             item.attrs.extend(feature_path_attrs())
@@ -1454,7 +1453,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         .parse::<ItemImpl>();
 
         item.items
-            .extend(visit_all_methods.into_iter().map(ImplItem::Method));
+            .extend(visit_all_methods.into_iter().map(ImplItem::Fn));
 
         tokens.push_tokens(&item);
         tokens.push_tokens(&q!({
