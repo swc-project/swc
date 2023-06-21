@@ -7,17 +7,13 @@ use syn::{
 };
 
 struct VariantAttr {
-    _paren_token: token::Paren,
     tags: Punctuated<Lit, Token![,]>,
 }
 
 impl Parse for VariantAttr {
     fn parse(input: ParseStream<'_>) -> syn::Result<Self> {
-        let content;
-        let _paren_token = parenthesized!(content in input);
         Ok(VariantAttr {
-            _paren_token,
-            tags: content.call(Punctuated::parse_terminated)?,
+            tags: input.call(Punctuated::parse_terminated)?,
         })
     }
 }
