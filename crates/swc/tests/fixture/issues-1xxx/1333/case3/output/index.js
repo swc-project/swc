@@ -75,8 +75,8 @@ class RequestHandler {
      * @param {Response} res
      * @return {* | Promise<any>}
      */ static async parseResponse(res) {
-        var _res_headers_get_startsWith, _this;
-        if ((_this = res.headers.get("Content-Type")) === null || _this === void 0 ? void 0 : (_res_headers_get_startsWith = _this.startsWith) === null || _res_headers_get_startsWith === void 0 ? void 0 : _res_headers_get_startsWith.call(_this, "application/json")) {
+        var _res_headers_get;
+        if ((_res_headers_get = res.headers.get("Content-Type")) === null || _res_headers_get === void 0 ? void 0 : _res_headers_get.startsWith("application/json")) {
             return await res.json();
         }
         return res.buffer();

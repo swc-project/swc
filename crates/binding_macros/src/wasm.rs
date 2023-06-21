@@ -258,6 +258,7 @@ macro_rules! build_print_sync {
                         None,
                         opts.config.emit_source_map_columns.into_bool(),
                         false,
+                        Default::default(),
                     ),"failed to print code")?;
 
                     serde_wasm_bindgen::to_value(&s)

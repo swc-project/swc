@@ -5,6 +5,73 @@
 
 
 
+- **(es/minifier)** Support `__NO_SIDE_EFFECTS__` (#7532) ([3ad07a7](https://github.com/swc-project/swc/commit/3ad07a7d2e5c9507a786dc338f0cf50191916aa3))
+
+
+- **(testing)** Add `CARGO_TARGET_DIR` and use it from other crates (#7552) ([46fb461](https://github.com/swc-project/swc/commit/46fb4619bafd56dfa3edd9064c1fe2ae4b6b78de))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Make `cargo deny` happy (#7560) ([c8d9338](https://github.com/swc-project/swc/commit/c8d933858333209ecf786b64948ac3c88e401be6))
+
+
+- **(ci)** Change condition for `ci` testing (#7533) ([724e75d](https://github.com/swc-project/swc/commit/724e75d2569d3c210d4e0d3c6861e17c906babed))
+
+## [1.3.66] - 2023-06-20
+
+### Bug Fixes
+
+
+
+- **(es)** Accept `parse` option for `minify()` (#7543) ([1d84e95](https://github.com/swc-project/swc/commit/1d84e952feefc3cd50e379455bb6648b82c42256))
+
+
+- **(es/compat)** Visit arrow body from optional chaining pass (#7549) ([bc6e950](https://github.com/swc-project/swc/commit/bc6e95052eaf60d71c544c8a88c8440d7a2b437c))
+
+
+- **(es/preset-env)** Don't log `Yield` to the console (#7548) ([8cfc4f9](https://github.com/swc-project/swc/commit/8cfc4f9e9ab43a5ed25c9b600b9dd7e5790c2d1e))
+
+
+- **(es/resolver)** Resolve the super class before registering a class name (#7550) ([1d9f972](https://github.com/swc-project/swc/commit/1d9f972fb44e0722fce8a83090cbada81decf577))
+
+### Features
+
+
+
+- **(es/codegen)** Support `preamble` (#7551) ([6e5d8b3](https://github.com/swc-project/swc/commit/6e5d8b3cf1af74d614d5c073d966da543c26e302))
+
+### Testing
+
+
+
+- **(es)** Add a test for a wrong issue (#7542) ([70bc605](https://github.com/swc-project/swc/commit/70bc605c6769759b0e896e7e5e91bb070d719552))
+
+
+- **(es)** Add one more test for a wrong issue (#7545) ([862f095](https://github.com/swc-project/swc/commit/862f095e656edf6c0e86f1ad8065d8095e162cfa))
+
+
+- **(plugin/runner)** Share `target` directory (#7544) ([aa82e5f](https://github.com/swc-project/swc/commit/aa82e5fff3452db38599bb0bf7fef7cd72b6a09f))
+
+## [1.3.65] - 2023-06-19
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Fix optional chaining (#7530) ([990e48e](https://github.com/swc-project/swc/commit/990e48e0e81c339b42b0bf33b62a6f7126b0e2e8))
+
+
+- **(es/module)** Add `"use strict"` while preserving directives (#7537) ([f42fdd2](https://github.com/swc-project/swc/commit/f42fdd21afad775358138c3aaed4ff3c41bfb16a))
+
+
+- **(es/typescript)** Don't panic of `@jsxFrag null` (#7540) ([76aa91f](https://github.com/swc-project/swc/commit/76aa91f83cf37a11aa55feba40d6f73819fc811d))
+
+### Features
+
+
+
 - **(es/module)** Preserve custom `use` directives (#7528) ([3e9dd88](https://github.com/swc-project/swc/commit/3e9dd88e37fcb99293a3683ea7a62214950f7860))
 
 ## [1.3.64] - 2023-06-14
