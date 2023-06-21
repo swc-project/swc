@@ -365,7 +365,13 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                                     elems: {
                                         let mut v = Punctuated::new();
 
-                                        v.push(q!({ idx }).parse());
+                                        v.push(Pat::Ident(PatIdent {
+                                            attrs: Default::default(),
+                                            by_ref: None,
+                                            mutability: None,
+                                            ident: Ident::new("idx", name.span()),
+                                            subpat: None,
+                                        }));
 
                                         v
                                     },
