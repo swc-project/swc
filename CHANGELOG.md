@@ -16,6 +16,9 @@
 
 - **(ci)** Make `cargo deny` happy (#7560) ([c8d9338](https://github.com/swc-project/swc/commit/c8d933858333209ecf786b64948ac3c88e401be6))
 
+
+- **(ci)** Change condition for `ci` testing (#7533) ([724e75d](https://github.com/swc-project/swc/commit/724e75d2569d3c210d4e0d3c6861e17c906babed))
+
 ## [1.3.66] - 2023-06-20
 
 ### Bug Fixes
