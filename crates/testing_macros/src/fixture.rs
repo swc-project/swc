@@ -12,7 +12,7 @@ use regex::Regex;
 use relative_path::RelativePath;
 use syn::{
     parse::{Parse, ParseStream},
-    Ident, Lit, LitStr, Meta, NestedMeta, Token,
+    Ident, Lit, LitStr, Meta, Token,
 };
 
 pub struct Config {
