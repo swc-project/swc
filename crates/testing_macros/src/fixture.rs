@@ -11,7 +11,6 @@ use proc_macro2::Span;
 use regex::Regex;
 use relative_path::RelativePath;
 use syn::{
-    parenthesized,
     parse::{Parse, ParseStream},
     parse2,
     punctuated::Punctuated,
@@ -187,17 +186,13 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<Quote>, Error> {
 }
 
 struct InputParen {
-    _paren_token: syn::token::Paren,
     input: Punctuated<LitStr, Token![,]>,
 }
 
 impl Parse for InputParen {
     fn parse(input: ParseStream) -> syn::Result<Self> {
-        let content;
-        let _paren_token = parenthesized!(content in input);
         Ok(Self {
-            _paren_token,
-            input: content.call(Punctuated::parse_terminated)?,
+            input: input.call(Punctuated::parse_terminated)?,
         })
     }
 }
