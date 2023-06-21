@@ -33,6 +33,7 @@ impl Builder {
             fields: self.fields,
             dot2_token: Default::default(),
             rest: Default::default(),
+            qself: None,
         }
     }
 }

@@ -51,7 +51,7 @@ pub fn internal_quote(input: proc_macro::TokenStream) -> proc_macro::TokenStream
             brace_token: Default::default(),
             stmts: stmts
                 .into_iter()
-                .chain(once(syn::Stmt::Expr(expr_for_ast_creation)))
+                .chain(once(syn::Stmt::Expr(expr_for_ast_creation, None)))
                 .collect(),
         },
     })
