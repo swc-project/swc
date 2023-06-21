@@ -10,7 +10,7 @@ mod fold;
 #[proc_macro_attribute]
 pub fn emitter(_attr: TokenStream, item: TokenStream) -> TokenStream {
     let item: ImplItemFn = syn::parse(item).expect("failed to parse input as an item");
-    let item = fold::InjectSelf { parser: None }.fold_impl_item_method(item);
+    let item = fold::InjectSelf { parser: None }.fold_impl_item_fn(item);
     let item = expand(item);
 
     print("emitter", item.dump())
