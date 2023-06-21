@@ -132,9 +132,10 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
 
             let str_value = get_str_value(v.attrs());
 
-            let mut pat: Pat = Quote::new(def_site::<Span>())
-                .quote_with(smart_quote!(Vars { str_value }, { str_value }))
-                .parse();
+            let mut pat: Pat = Pat::Lit(ExprLit {
+                attrs: Default::default(),
+                lit: Lit::Str(LitStr::new(&str_value, Span::call_site())),
+            });
 
             // Handle `string_enum(alias("foo"))`
             'outer: for attr in v
