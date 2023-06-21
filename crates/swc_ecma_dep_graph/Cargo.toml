@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_dep_graph"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.108.2"
+version       = "0.108.3"
 
 [lib]
 bench = false
@@ -20,5 +20,5 @@ swc_ecma_visit = { version = "0.92.1", path = "../swc_ecma_visit" }
 [dev-dependencies]
 pretty_assertions = "1.1"
 
-swc_ecma_parser = { version = "0.136.2", path = "../swc_ecma_parser" }
-testing         = { version = "0.33.14", path = "../testing" }
+swc_ecma_parser = { version = "0.136.3", path = "../swc_ecma_parser" }
+testing         = { version = "0.33.15", path = "../testing" }
