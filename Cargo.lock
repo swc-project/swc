@@ -4538,7 +4538,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.186.21"
+version = "0.186.22"
 dependencies = [
  "ahash 0.8.3",
  "anyhow",
