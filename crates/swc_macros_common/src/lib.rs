@@ -4,7 +4,7 @@ extern crate proc_macro;
 
 #[cfg(procmacro2_semver_exempt)]
 use pmutil::SpanExt;
-use pmutil::{q, synom_ext::FromSpan, Quote, SpanExt};
+use pmutil::{prelude::*, synom_ext::FromSpan, Quote, SpanExt};
 use proc_macro2::Span;
 use quote::ToTokens;
 use syn::*;
@@ -44,28 +44,21 @@ pub fn print(attr: &'static str, tokens: proc_macro2::TokenStream) -> proc_macro
 }
 
 pub fn is_attr_name(attr: &Attribute, name: &str) -> bool {
-    match *attr {
-        Attribute {
-            path:
-                Path {
-                    leading_colon: None,
-                    ref segments,
-                },
-            ..
-        } if segments.len() == 1 => segments.first().unwrap().ident == name,
-        _ => false,
-    }
+    attr.path().is_ident(name)
 }
 
 /// Returns `None` if `attr` is not a doc attribute.
 pub fn doc_str(attr: &Attribute) -> Option<String> {
     fn parse_tts(attr: &Attribute) -> String {
-        let meta = attr.parse_meta().ok();
-        match meta {
-            Some(Meta::NameValue(MetaNameValue {
-                lit: Lit::Str(s), ..
-            })) => s.value(),
-            _ => panic!("failed to parse {}", attr.tokens),
+        match &attr.meta {
+            Meta::NameValue(MetaNameValue {
+                value:
+                    Expr::Lit(ExprLit {
+                        lit: Lit::Str(s), ..
+                    }),
+                ..
+            }) => s.value(),
+            _ => panic!("failed to parse {:?}", attr.meta),
         }
     }
 
@@ -78,13 +71,7 @@ pub fn doc_str(attr: &Attribute) -> Option<String> {
 
 /// Creates a doc comment.
 pub fn make_doc_attr(s: &str) -> Attribute {
-    Attribute {
-        pound_token: def_site(),
-        style: AttrStyle::Outer,
-        bracket_token: def_site(),
-        path: Ident::new("doc", def_site()).into(),
-        tokens: q!(Vars { s },{ = s }).into(),
-    }
+    comment(s)
 }
 
 pub fn access_field(obj: &dyn ToTokens, idx: usize, f: &Field) -> Expr {

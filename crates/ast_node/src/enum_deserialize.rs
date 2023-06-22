@@ -7,17 +7,13 @@ use syn::{
 };
 
 struct VariantAttr {
-    _paren_token: token::Paren,
     tags: Punctuated<Lit, Token![,]>,
 }
 
 impl Parse for VariantAttr {
     fn parse(input: ParseStream<'_>) -> syn::Result<Self> {
-        let content;
-        let _paren_token = parenthesized!(content in input);
         Ok(VariantAttr {
-            _paren_token,
-            tags: content.parse_terminated(Lit::parse)?,
+            tags: input.call(Punctuated::parse_terminated)?,
         })
     }
 }
@@ -64,8 +60,13 @@ pub fn expand(
                         if !is_attr_name(attr, "tag") {
                             return None;
                         }
-                        let tags =
-                            parse2(attr.tokens.clone()).expect("failed to parse #[tag] attribute");
+                        let tokens = match &attr.meta {
+                            Meta::List(meta) => meta.tokens.clone(),
+                            _ => {
+                                panic!("#[tag] attribute must be in form of #[tag(..)]")
+                            }
+                        };
+                        let tags = parse2(tokens).expect("failed to parse #[tag] attribute");
 
                         Some(tags)
                     })
@@ -93,13 +94,15 @@ pub fn expand(
 
                 Arm {
                     attrs: Default::default(),
-                    pat: q!(
-                        Vars {
-                            Variant: &variant.ident
-                        },
-                        (__TypeVariant::Variant)
-                    )
-                    .parse(),
+                    pat: Pat::Path(
+                        q!(
+                            Vars {
+                                Variant: &variant.ident
+                            },
+                            (__TypeVariant::Variant)
+                        )
+                        .parse(),
+                    ),
                     guard: Default::default(),
                     fat_arrow_token: variant.ident.span().as_token(),
                     body: q!(
@@ -136,8 +139,13 @@ pub fn expand(
                         if !is_attr_name(attr, "tag") {
                             return None;
                         }
-                        let tags =
-                            parse2(attr.tokens.clone()).expect("failed to parse #[tag] attribute");
+                        let tokens = match &attr.meta {
+                            Meta::List(meta) => meta.tokens.clone(),
+                            _ => {
+                                panic!("#[tag] attribute must be in form of #[tag(..)]")
+                            }
+                        };
+                        let tags = parse2(tokens).expect("failed to parse #[tag] attribute");
 
                         Some(tags)
                     })
@@ -176,20 +184,11 @@ pub fn expand(
                             (
                                 Pat::Lit(PatLit {
                                     attrs: Default::default(),
-                                    expr: Box::new(Expr::Lit(ExprLit {
-                                        attrs: Default::default(),
-                                        lit,
-                                    })),
+                                    lit,
                                 }),
                                 Pat::Lit(PatLit {
                                     attrs: Default::default(),
-                                    expr: Box::new(Expr::Lit(ExprLit {
-                                        attrs: Default::default(),
-                                        lit: Lit::ByteStr(LitByteStr::new(
-                                            s.as_bytes(),
-                                            call_site(),
-                                        )),
-                                    })),
+                                    lit: Lit::ByteStr(LitByteStr::new(s.as_bytes(), call_site())),
                                 }),
                             )
                         }

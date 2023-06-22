@@ -1,6 +1,6 @@
 use pmutil::q;
 use proc_macro2::{Span, TokenStream};
-use syn::{Expr, Ident, ImplItem, ImplItemMethod, ItemImpl, Meta, Type};
+use syn::{Expr, Ident, ImplItem, ImplItemFn, ItemImpl, Meta, Type};
 
 use crate::common::Mode;
 
@@ -25,13 +25,13 @@ pub fn expand(attr: TokenStream, mut item: ItemImpl) -> ItemImpl {
         .map(|v| v.path().is_ident("explode"))
         .unwrap_or(false);
 
-    item.items.push(ImplItem::Method(make_par_visit_method(
+    item.items.push(ImplItem::Fn(make_par_visit_method(
         mode,
         "module_items",
         explode,
         100,
     )));
-    item.items.push(ImplItem::Method(make_par_visit_method(
+    item.items.push(ImplItem::Fn(make_par_visit_method(
         mode, "stmts", explode, 100,
     )));
 
@@ -85,12 +85,7 @@ fn explode_hook_method_name(explode: bool, suffix: &str) -> Option<Ident> {
     }
 }
 
-fn make_par_visit_method(
-    mode: Mode,
-    suffix: &str,
-    explode: bool,
-    threshold: usize,
-) -> ImplItemMethod {
+fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool, threshold: usize) -> ImplItemFn {
     let method_name = Ident::new(&format!("{}_{}", mode.prefix(), suffix), Span::call_site());
     let hook = post_visit_hook(mode, suffix);
     let explode_method_name = explode_hook_method_name(explode, suffix);

@@ -1584,8 +1584,8 @@
             function resolveHref(router, href, resolveAs) {
                 let base;
                 let urlAsString = "string" == typeof href ? href : _formatUrl.formatWithValidation(href);
-                const urlProtoMatch = urlAsString.match(/^[a-zA-Z]{1,}:\/\//), urlAsStringNoProto = urlProtoMatch ? urlAsString.slice(urlProtoMatch[0].length) : urlAsString, urlParts = urlAsStringNoProto.split("?");
-                if ((urlParts[0] || "").match(/(\/\/|\\)/)) {
+                const urlProtoMatch = urlAsString.match(/^[a-zA-Z]{1,}:\/\//), urlAsStringNoProto = urlProtoMatch ? urlAsString.slice(urlProtoMatch[0].length) : urlAsString;
+                if ((urlAsStringNoProto.split("?")[0] || "").match(/(\/\/|\\)/)) {
                     console.error("Invalid href passed to next/router: ".concat(urlAsString, ", repeated forward-slashes (//) or backslashes \\ are not valid in the href"));
                     const normalizedUrl = _utils.normalizeRepeatedSlashes(urlAsStringNoProto);
                     urlAsString = (urlProtoMatch ? urlProtoMatch[0] : "") + normalizedUrl;

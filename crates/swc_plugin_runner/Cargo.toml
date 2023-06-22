@@ -6,10 +6,11 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_plugin_runner"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.97.3"
+version       = "0.97.5"
 
 [lib]
-bench = false
+bench   = false
+doctest = false
 
 [features]
 default = ["filesystem_cache", "plugin_transform_host_native"]
@@ -48,44 +49,44 @@ __rkyv    = []
 rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
 [dependencies]
-anyhow       = "1.0.42"
+anyhow       = "1.0.71"
 enumset      = "1.0.12"
-once_cell    = "1.10.0"
-parking_lot  = "0.12.0"
+once_cell    = "1.18.0"
+parking_lot  = "0.12.1"
 serde        = { version = "1.0.126", features = ["derive"] }
 serde_json   = "1.0.64"
 tokio        = { version = "1", default-features = false, optional = true }
-tracing      = "0.1.32"
+tracing      = "0.1.37"
 wasmer       = { version = "3.3.0", default-features = false }
 wasmer-wasix = { version = "0.4.0", default-features = false }
 
-swc_common = { version = "0.31.12", path = "../swc_common", features = [
+swc_common = { version = "0.31.14", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_css_ast = { version = "0.137.12", path = "../swc_css_ast", optional = true }
-swc_ecma_ast = { version = "0.106.2", path = "../swc_ecma_ast", optional = true }
-swc_plugin_proxy = { version = "0.35.1", path = "../swc_plugin_proxy" }
+swc_css_ast = { version = "0.137.14", path = "../swc_css_ast", optional = true }
+swc_ecma_ast = { version = "0.106.4", path = "../swc_ecma_ast", optional = true }
+swc_plugin_proxy = { version = "0.35.3", path = "../swc_plugin_proxy" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 wasmer-cache              = { version = "3.3.0", optional = true }
 wasmer-compiler-cranelift = { version = "3.3.0", default-features = false }
 
 [dev-dependencies]
-criterion = "0.3"
+criterion = "0.5"
 
 swc_atoms = { version = "0.5.6", path = '../swc_atoms' }
-swc_css_ast = { version = "0.137.12", path = "../swc_css_ast", features = [
+swc_css_ast = { version = "0.137.14", path = "../swc_css_ast", features = [
   "rkyv-impl",
 ] }
-swc_css_parser = { version = "0.146.15", path = "../swc_css_parser" }
-swc_ecma_ast = { version = "0.106.2", path = "../swc_ecma_ast", features = [
+swc_css_parser = { version = "0.146.17", path = "../swc_css_parser" }
+swc_ecma_ast = { version = "0.106.4", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
-swc_ecma_loader = { version = "0.43.14", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "0.136.3", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "0.92.1", path = "../swc_ecma_visit" }
+swc_ecma_loader = { version = "0.43.16", path = "../swc_ecma_loader" }
+swc_ecma_parser = { version = "0.136.5", path = "../swc_ecma_parser" }
+swc_ecma_visit = { version = "0.92.3", path = "../swc_ecma_visit" }
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
-testing = { version = "0.33.15", path = "../testing" }
+testing = { version = "0.33.17", path = "../testing" }
 
 [[bench]]
 harness = false

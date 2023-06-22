@@ -5,7 +5,31 @@
 
 
 
+- **(es/minifier)** Support `__NO_SIDE_EFFECTS__` (#7532) ([3ad07a7](https://github.com/swc-project/swc/commit/3ad07a7d2e5c9507a786dc338f0cf50191916aa3))
+
+
+- **(es/minifier)** Enable `hoist_props` by default (#7535) ([07a8580](https://github.com/swc-project/swc/commit/07a858030c1a368b3152bfdb57471a35c47c3b32))
+
+
 - **(testing)** Add `CARGO_TARGET_DIR` and use it from other crates (#7552) ([46fb461](https://github.com/swc-project/swc/commit/46fb4619bafd56dfa3edd9064c1fe2ae4b6b78de))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Make `cargo deny` happy (#7560) ([c8d9338](https://github.com/swc-project/swc/commit/c8d933858333209ecf786b64948ac3c88e401be6))
+
+
+- **(ci)** Change condition for `ci` testing (#7533) ([724e75d](https://github.com/swc-project/swc/commit/724e75d2569d3c210d4e0d3c6861e17c906babed))
+
+### Build
+
+
+
+- **(cargo)** Update deps (#7564) ([d12dc70](https://github.com/swc-project/swc/commit/d12dc70c9108d5863e0ca2e4f05f4aefcfb4380e))
+
+
+- **(deps)** Update `syn` to `v2` (#7557) ([5441004](https://github.com/swc-project/swc/commit/54410047fa7ccb1330fb2e9db27a3c0b2a24a02e))
 
 ## [1.3.66] - 2023-06-20
 
