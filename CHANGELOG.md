@@ -26,6 +26,9 @@
 
 
 
+- **(cargo)** Update deps (#7564) ([d12dc70](https://github.com/swc-project/swc/commit/d12dc70c9108d5863e0ca2e4f05f4aefcfb4380e))
+
+
 - **(deps)** Update `syn` to `v2` (#7557) ([5441004](https://github.com/swc-project/swc/commit/54410047fa7ccb1330fb2e9db27a3c0b2a24a02e))
 
 ## [1.3.66] - 2023-06-20
