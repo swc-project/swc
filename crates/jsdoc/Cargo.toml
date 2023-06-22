@@ -15,7 +15,7 @@ bench = false
 serde-impl = ["serde"]
 
 [dependencies]
-nom   = "7.1.0"
+nom   = "7.1.3"
 serde = { version = "1", features = ["derive"], optional = true }
 
 swc_atoms  = { version = "0.5.6", path = "../swc_atoms" }
@@ -23,7 +23,7 @@ swc_common = { version = "0.31.14", path = "../swc_common" }
 
 [dev-dependencies]
 anyhow  = "1"
-dashmap = "5.1.0"
+dashmap = "5.4.0"
 
 swc_ecma_ast    = { version = "0.106.4", path = "../swc_ecma_ast" }
 swc_ecma_parser = { version = "0.136.5", path = "../swc_ecma_parser" }

@@ -39,7 +39,7 @@ rkyv = { package = "rkyv", version = "=0.7.42", optional = true, features = [
   "strict",
   "validation",
 ] }
-scoped-tls = "1.0.0"
+scoped-tls = "1.0.1"
 serde = { version = "1.0.133", features = ["derive"], optional = true }
 unicode-id = "0.3"
 
