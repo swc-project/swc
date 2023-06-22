@@ -12,7 +12,7 @@ version = "0.20.16"
 bench = false
 
 [dependencies]
-ahash = "0.7.6"
+ahash = "0.8.3"
 auto_impl = "0.5.0"
 petgraph = "0.6.0"
 swc_fast_graph = {version = "0.19.13", path = "../swc_fast_graph/"}
