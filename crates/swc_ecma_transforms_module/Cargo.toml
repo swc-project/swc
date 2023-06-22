@@ -17,7 +17,7 @@ Inflector  = "0.11.4"
 ahash      = "0.8.3"
 anyhow     = "1.0.71"
 bitflags   = "2.1.0"
-indexmap   = "1.6.1"
+indexmap   = "1.9.3"
 is-macro   = "0.3.0"
 path-clean = "0.1.0"
 pathdiff   = "0.2.0"
@@ -38,7 +38,7 @@ swc_ecma_utils = { version = "0.119.7", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.92.3", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-indexmap   = { version = "1.6.1", features = ["serde"] }
+indexmap   = { version = "1.9.3", features = ["serde"] }
 serde_json = "1"
 
 swc_ecma_loader = { version = "0.43.16", path = "../swc_ecma_loader", features = [

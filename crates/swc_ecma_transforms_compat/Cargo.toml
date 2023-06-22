@@ -22,7 +22,7 @@ concurrent = [
 [dependencies]
 ahash      = "0.8.3"
 arrayvec   = "0.7.2"
-indexmap   = "1.6.1"
+indexmap   = "1.9.3"
 is-macro   = "0.3.0"
 num-bigint = "0.4"
 rayon      = { version = "1.7.0", optional = true }
