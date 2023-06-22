@@ -593,16 +593,34 @@
                     }, this.compareInside = function(row, column) {
                         return this.end.row == row && this.end.column == column ? 1 : this.start.row == row && this.start.column == column ? -1 : this.compare(row, column);
                     }, this.clipRows = function(firstRow, lastRow) {
-                        if (this.end.row > lastRow) var end = {};
-                        else if (this.end.row < firstRow) var end = {};
-                        if (this.start.row > lastRow) var start = {};
-                        else if (this.start.row < firstRow) var start = {};
+                        if (this.end.row > lastRow) var end = {
+                            row: lastRow + 1,
+                            column: 0
+                        };
+                        else if (this.end.row < firstRow) var end = {
+                            row: firstRow,
+                            column: 0
+                        };
+                        if (this.start.row > lastRow) var start = {
+                            row: lastRow + 1,
+                            column: 0
+                        };
+                        else if (this.start.row < firstRow) var start = {
+                            row: firstRow,
+                            column: 0
+                        };
                         return Range.fromPoints(start || this.start, end || this.end);
                     }, this.extend = function(row, column) {
                         var cmp = this.compare(row, column);
                         if (0 == cmp) return this;
-                        if (-1 == cmp) var start = {};
-                        else var end = {};
+                        if (-1 == cmp) var start = {
+                            row: row,
+                            column: column
+                        };
+                        else var end = {
+                            row: row,
+                            column: column
+                        };
                         return Range.fromPoints(start || this.start, end || this.end);
                     }, this.isEmpty = function() {
                         return this.start.row === this.end.row && this.start.column === this.end.column;
