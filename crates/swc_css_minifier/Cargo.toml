@@ -22,7 +22,7 @@ swc_css_utils = { version = "0.134.13", path = "../swc_css_utils/" }
 swc_css_visit = { version = "0.136.13", path = "../swc_css_visit" }
 
 [dev-dependencies]
-criterion = "0.3"
+criterion = "0.5"
 
 swc_css_codegen = { version = "0.147.16", path = "../swc_css_codegen" }
 swc_css_parser  = { version = "0.146.16", path = "../swc_css_parser" }

@@ -42,7 +42,7 @@ swc_ecma_visit = { version = "0.92.2", path = "../swc_ecma_visit", optional = tr
 stacker = "0.1.15"
 
 [dev-dependencies]
-criterion         = "0.3"
+criterion         = "0.5"
 pretty_assertions = "1.1"
 serde_json        = "1"
 walkdir           = "2"

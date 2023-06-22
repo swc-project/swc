@@ -37,7 +37,7 @@ swc_estree_ast = { version = "0.21.13", path = "../swc_estree_ast" }
 swc_node_comments = { version = "0.18.13", path = "../swc_node_comments/" }
 
 [dev-dependencies]
-criterion         = "0.3"
+criterion         = "0.5"
 pretty_assertions = "1.1"
 
 swc                 = { version = "0.263.19", path = "../swc" }

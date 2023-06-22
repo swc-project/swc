@@ -32,7 +32,7 @@ swc_ecma_codegen_macros = { version = "0.7.3", path = "../swc_ecma_codegen_macro
 
 [dev-dependencies]
 base64     = "0.13"
-criterion  = "0.3"
+criterion  = "0.5"
 serde_json = "1"
 
 swc_common = { version = "0.31.13", path = "../swc_common", features = [

@@ -44,7 +44,7 @@ swc_html_utils = { version = "0.16.13", path = "../swc_html_utils" }
 swc_html_visit = { version = "0.31.13", path = "../swc_html_visit" }
 
 [dev-dependencies]
-criterion = "0.3"
+criterion = "0.5"
 
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
 testing       = { version = "0.33.16", path = "../testing" }

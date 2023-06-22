@@ -24,7 +24,7 @@ swc_ecma_utils            = { version = "0.119.6", path = "../swc_ecma_utils" }
 swc_ecma_visit            = { version = "0.92.2", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-criterion = "0.3"
+criterion = "0.5"
 
 swc_ecma_codegen             = { version = "0.141.7", path = "../swc_ecma_codegen" }
 swc_ecma_parser              = { version = "0.136.4", path = "../swc_ecma_parser" }
