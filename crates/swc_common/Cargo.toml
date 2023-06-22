@@ -61,7 +61,7 @@ string_cache = "0.8.7"
 termcolor = { version = "1.0", optional = true }
 tracing = "0.1.37"
 unicode-width = "0.1.4"
-url = "2.2.2"
+url = "2.4.0"
 
 ast_node             = { version = "0.9.5", path = "../ast_node" }
 better_scoped_tls    = { version = "0.1.0", path = "../better_scoped_tls" }
