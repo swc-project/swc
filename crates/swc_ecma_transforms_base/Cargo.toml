@@ -20,7 +20,7 @@ concurrent-renamer = ["rayon"]
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
 bitflags          = "2.1.0"
 indexmap          = "1.6.1"
-once_cell         = "1.10.0"
+once_cell         = "1.18.0"
 phf               = { version = "0.10", features = ["macros"] }
 rayon             = { version = "1", optional = true }
 rustc-hash        = "1.1.0"

@@ -322,7 +322,7 @@ __visit = ["__ecma", "swc_ecma_visit"]
 
 [dependencies]
 # 3rd party dependencies
-once_cell = { optional = true, version = "1.13.0" }
+once_cell = { optional = true, version = "1.18.0" }
 
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "0.52.19", path = "../binding_macros" }

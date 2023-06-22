@@ -15,7 +15,7 @@ bench = false
 [dependencies]
 auto_impl   = "0.5.0"
 parking_lot = "0.12.0"
-rayon       = "1.5.1"
+rayon       = "1.7.0"
 serde       = { version = "1.0.133", features = ["derive"] }
 thiserror   = "1.0.30"
 
