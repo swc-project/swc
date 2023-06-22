@@ -254,7 +254,7 @@ where
             // foo[i] = bar
             //
             // as `used_as_ref`.
-            is_id_ref: n.op == op!("="),
+            is_id_ref: matches!(n.op, op!("=") | op!("||=") | op!("&&=") | op!("??=")),
             ..self.ctx
         };
         n.right.visit_with(&mut *self.with_ctx(ctx));
