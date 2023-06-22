@@ -1888,7 +1888,9 @@
         },
         9650: function(module1, __unused_webpack_exports1, __webpack_require__1) {
             "use strict";
-            const ModuleError1 = __webpack_require__1(4473), { Buffer: Buffer1 } = __webpack_require__1(8764) || {}, { AbstractSublevelIterator: AbstractSublevelIterator1, AbstractSublevelKeyIterator: AbstractSublevelKeyIterator1, AbstractSublevelValueIterator: AbstractSublevelValueIterator1 } = __webpack_require__1(2970), kPrefix1 = Symbol('prefix'), kUpperBound1 = Symbol('upperBound'), kPrefixRange1 = Symbol('prefixRange'), kParent1 = Symbol('parent'), kUnfix1 = Symbol('unfix'), textEncoder1 = new TextEncoder(), defaults1 = {};
+            const ModuleError1 = __webpack_require__1(4473), { Buffer: Buffer1 } = __webpack_require__1(8764) || {}, { AbstractSublevelIterator: AbstractSublevelIterator1, AbstractSublevelKeyIterator: AbstractSublevelKeyIterator1, AbstractSublevelValueIterator: AbstractSublevelValueIterator1 } = __webpack_require__1(2970), kPrefix1 = Symbol('prefix'), kUpperBound1 = Symbol('upperBound'), kPrefixRange1 = Symbol('prefixRange'), kParent1 = Symbol('parent'), kUnfix1 = Symbol('unfix'), textEncoder1 = new TextEncoder(), defaults1 = {
+                separator: '!'
+            };
             module1.exports = function({ AbstractLevel: AbstractLevel1 }) {
                 class AbstractSublevel1 extends AbstractLevel1 {
                     static defaults(options1) {
@@ -3963,7 +3965,11 @@
             const common_11 = __webpack_require__1(536);
             common_11.default.init = function(apiConfig1 = {}) {
                 function getDefaultConfig1() {
-                    const defaults1 = {};
+                    const defaults1 = {
+                        host: "arweave.net",
+                        port: 443,
+                        protocol: "https"
+                    };
                     if (!window || !window.location || !window.location.protocol || !window.location.hostname) return defaults1;
                     const currentProtocol1 = window.location.protocol.replace(":", ""), currentHost1 = window.location.hostname, currentPort1 = window.location.port ? parseInt(window.location.port) : "https" == currentProtocol1 ? 443 : 80, isLocal1 = [
                         "localhost",
@@ -6304,7 +6310,9 @@
         },
         5546: function(module1, __unused_webpack_exports1, __webpack_require__1) {
             "use strict";
-            var process1 = __webpack_require__1(3454), utils1 = __webpack_require__1(4867), normalizeHeaderName1 = __webpack_require__1(6016), AxiosError1 = __webpack_require__1(723), transitionalDefaults1 = __webpack_require__1(7874), toFormData1 = __webpack_require__1(7675), DEFAULT_CONTENT_TYPE1 = {};
+            var process1 = __webpack_require__1(3454), utils1 = __webpack_require__1(4867), normalizeHeaderName1 = __webpack_require__1(6016), AxiosError1 = __webpack_require__1(723), transitionalDefaults1 = __webpack_require__1(7874), toFormData1 = __webpack_require__1(7675), DEFAULT_CONTENT_TYPE1 = {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            };
             function setContentTypeIfUnset1(headers1, value1) {
                 !utils1.isUndefined(headers1) && utils1.isUndefined(headers1['Content-Type']) && (headers1['Content-Type'] = value1);
             }
@@ -6847,7 +6855,16 @@
                         constructor: BigNumber1,
                         toString: null,
                         valueOf: null
-                    }, ONE1 = new BigNumber1(1), DECIMAL_PLACES1 = 20, ROUNDING_MODE1 = 4, TO_EXP_NEG1 = -7, TO_EXP_POS1 = 21, MIN_EXP1 = -10000000, MAX_EXP1 = 1e7, CRYPTO1 = !1, MODULO_MODE1 = 1, POW_PRECISION1 = 0, FORMAT1 = {}, ALPHABET1 = '0123456789abcdefghijklmnopqrstuvwxyz', alphabetHasNormalDecimalDigits1 = !0;
+                    }, ONE1 = new BigNumber1(1), DECIMAL_PLACES1 = 20, ROUNDING_MODE1 = 4, TO_EXP_NEG1 = -7, TO_EXP_POS1 = 21, MIN_EXP1 = -10000000, MAX_EXP1 = 1e7, CRYPTO1 = !1, MODULO_MODE1 = 1, POW_PRECISION1 = 0, FORMAT1 = {
+                        prefix: '',
+                        groupSize: 3,
+                        secondaryGroupSize: 0,
+                        groupSeparator: ',',
+                        decimalSeparator: '.',
+                        fractionGroupSize: 0,
+                        fractionGroupSeparator: '\xA0',
+                        suffix: ''
+                    }, ALPHABET1 = '0123456789abcdefghijklmnopqrstuvwxyz', alphabetHasNormalDecimalDigits1 = !0;
                     function BigNumber1(v3, b10) {
                         var alphabet1, c5, caseChanged1, e1, i2, isNum1, len3, str1, x3 = this;
                         if (!(x3 instanceof BigNumber1)) return new BigNumber1(v3, b10);
@@ -18661,7 +18678,16 @@
                 }
                 let funcIndex1 = 0, { costTable: costTable1, moduleStr: moduleStr1, fieldStr: fieldStr1, meterType: meterType1 } = opts1;
                 costTable1 || (costTable1 = defaultCostTable1), moduleStr1 || (moduleStr1 = 'metering'), fieldStr1 || (fieldStr1 = 'usegas'), meterType1 || (meterType1 = 'i32'), findSection1(json1, 'type') || createSection1(json1, 'type'), findSection1(json1, 'import') || createSection1(json1, 'import');
-                const importJson1 = {}, importType1 = {};
+                const importJson1 = {
+                    moduleStr: moduleStr1,
+                    fieldStr: fieldStr1,
+                    kind: 'function'
+                }, importType1 = {
+                    form: 'func',
+                    params: [
+                        meterType1
+                    ]
+                };
                 for (let section1 of json1 = json1.slice(0))switch((section1 = Object.assign(section1)).name){
                     case 'type':
                         importJson1.type = section1.entries.push(importType1) - 1, typeModule1 = section1;

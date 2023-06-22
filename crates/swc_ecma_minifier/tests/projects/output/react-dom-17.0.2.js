@@ -1888,7 +1888,11 @@
             if (window.addEventListener("error", handleWindowError), fakeNode.addEventListener(evtType, callCallback, !1), evt.initEvent(evtType, !1, !1), fakeNode.dispatchEvent(evt), windowEventDescriptor && Object.defineProperty(window, "event", windowEventDescriptor), didCall && didError && (didSetError ? isCrossOriginError && (error = Error("A cross-origin error was thrown. React doesn't have access to the actual error object in development. See https://reactjs.org/link/crossorigin-error for more information.")) : error = Error("An error was thrown inside one of your components, but React doesn't know what it was. This is likely due to browser flakiness. React does its best to preserve the \"Pause on exceptions\" behavior of the DevTools, which requires some DEV-mode only tricks. It's possible that these don't work in your browser. Try triggering the error in production mode, or switching to a modern browser. If you suspect that this is actually an issue with React, please file an issue."), this.onError(error)), window.removeEventListener("error", handleWindowError), !didCall) return restoreAfterDispatch(), invokeGuardedCallbackProd.apply(this, arguments);
         };
     }
-    var invokeGuardedCallbackImpl$1 = invokeGuardedCallbackImpl, hasError = !1, caughtError = null, hasRethrowError = !1, rethrowError = null, reporter = {};
+    var invokeGuardedCallbackImpl$1 = invokeGuardedCallbackImpl, hasError = !1, caughtError = null, hasRethrowError = !1, rethrowError = null, reporter = {
+        onError: function(error) {
+            hasError = !0, caughtError = error;
+        }
+    };
     function invokeGuardedCallback(name, func, context, a, b, c, d, e, f) {
         hasError = !1, caughtError = null, invokeGuardedCallbackImpl$1.apply(reporter, arguments);
     }
@@ -3676,7 +3680,16 @@
         "p",
         "rp",
         "rt"
-    ], emptyAncestorInfo = {};
+    ], emptyAncestorInfo = {
+        current: null,
+        formTag: null,
+        aTagInScope: null,
+        buttonTagInScope: null,
+        nobrTagInScope: null,
+        pTagInButtonScope: null,
+        listItemTagAutoclosing: null,
+        dlItemTagAutoclosing: null
+    };
     updatedAncestorInfo = function(oldInfo, tag) {
         var ancestorInfo = _assign({}, oldInfo || emptyAncestorInfo), info = {
             tag: tag
@@ -4207,8 +4220,12 @@
         if (isDisallowedContextReadInDEV && error("Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo()."), lastContextWithAllBitsObserved === context) ;
         else if (!1 === observedBits || 0 === observedBits) ;
         else {
-            ("number" != typeof observedBits || 1073741823 === observedBits) && (lastContextWithAllBitsObserved = context);
-            var resolvedObservedBits, contextItem = {};
+            "number" != typeof observedBits || 1073741823 === observedBits ? (lastContextWithAllBitsObserved = context, resolvedObservedBits = 1073741823) : resolvedObservedBits = observedBits;
+            var resolvedObservedBits, contextItem = {
+                context: context,
+                observedBits: resolvedObservedBits,
+                next: null
+            };
             if (null === lastContextDependency) {
                 if (!(null !== currentlyRenderingFiber)) throw Error("Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo().");
                 lastContextDependency = contextItem, currentlyRenderingFiber.dependencies = {
@@ -5103,7 +5120,13 @@
         renderLanes = 0, currentlyRenderingFiber$1 = null, currentHook = null, workInProgressHook = null, hookTypesDev = null, hookTypesUpdateIndexDev = -1, currentHookNameInDev = null, isUpdatingOpaqueValueInRenderPhase = !1, didScheduleRenderPhaseUpdateDuringThisPass = !1;
     }
     function mountWorkInProgressHook() {
-        var hook = {};
+        var hook = {
+            memoizedState: null,
+            baseState: null,
+            baseQueue: null,
+            queue: null,
+            next: null
+        };
         return null === workInProgressHook ? currentlyRenderingFiber$1.memoizedState = workInProgressHook = hook : workInProgressHook = workInProgressHook.next = hook, workInProgressHook;
     }
     function updateWorkInProgressHook() {
@@ -6242,7 +6265,10 @@
         }
     }
     didWarnAboutBadClass = {}, didWarnAboutModulePatternComponent = {}, didWarnAboutContextTypeOnFunctionComponent = {}, didWarnAboutGetDerivedStateOnFunctionComponent = {}, didWarnAboutFunctionRefs = {}, didWarnAboutReassigningProps = !1, didWarnAboutRevealOrder = {}, didWarnAboutTailOptions = {};
-    var SUSPENDED_MARKER = {};
+    var SUSPENDED_MARKER = {
+        dehydrated: null,
+        retryLane: 0
+    };
     function mountSuspenseOffscreenState(renderLanes) {
         return {
             baseLanes: renderLanes
@@ -6294,7 +6320,10 @@
         return workInProgress.memoizedState = null, _primaryChildFragment6;
     }
     function mountSuspenseFallbackChildren(workInProgress, primaryChildren, fallbackChildren, renderLanes) {
-        var primaryChildFragment, fallbackChildFragment, mode = workInProgress.mode, progressedPrimaryFragment = workInProgress.child, primaryChildProps = {};
+        var primaryChildFragment, fallbackChildFragment, mode = workInProgress.mode, progressedPrimaryFragment = workInProgress.child, primaryChildProps = {
+            mode: "hidden",
+            children: primaryChildren
+        };
         return (2 & mode) == 0 && null !== progressedPrimaryFragment ? ((primaryChildFragment = progressedPrimaryFragment).childLanes = 0, primaryChildFragment.pendingProps = primaryChildProps, 8 & workInProgress.mode && (primaryChildFragment.actualDuration = 0, primaryChildFragment.actualStartTime = -1, primaryChildFragment.selfBaseDuration = 0, primaryChildFragment.treeBaseDuration = 0), fallbackChildFragment = createFiberFromFragment(fallbackChildren, mode, renderLanes, null)) : (primaryChildFragment = createFiberFromOffscreen(primaryChildProps, mode, 0, null), fallbackChildFragment = createFiberFromFragment(fallbackChildren, mode, renderLanes, null)), primaryChildFragment.return = workInProgress, fallbackChildFragment.return = workInProgress, primaryChildFragment.sibling = fallbackChildFragment, workInProgress.child = primaryChildFragment, fallbackChildFragment;
     }
     function updateSuspensePrimaryChildren(current, workInProgress, primaryChildren, renderLanes) {
@@ -6305,7 +6334,10 @@
         return (2 & workInProgress.mode) == 0 && (primaryChildFragment.lanes = renderLanes), primaryChildFragment.return = workInProgress, primaryChildFragment.sibling = null, null !== currentFallbackChildFragment && (currentFallbackChildFragment.nextEffect = null, currentFallbackChildFragment.flags = 8, workInProgress.firstEffect = workInProgress.lastEffect = currentFallbackChildFragment), workInProgress.child = primaryChildFragment, primaryChildFragment;
     }
     function updateSuspenseFallbackChildren(current, workInProgress, primaryChildren, fallbackChildren, renderLanes) {
-        var primaryChildFragment, fallbackChildFragment, mode = workInProgress.mode, currentPrimaryChildFragment = current.child, currentFallbackChildFragment = currentPrimaryChildFragment.sibling, primaryChildProps = {};
+        var primaryChildFragment, fallbackChildFragment, mode = workInProgress.mode, currentPrimaryChildFragment = current.child, currentFallbackChildFragment = currentPrimaryChildFragment.sibling, primaryChildProps = {
+            mode: "hidden",
+            children: primaryChildren
+        };
         if ((2 & mode) == 0 && workInProgress.child !== currentPrimaryChildFragment) {
             (primaryChildFragment = workInProgress.child).childLanes = 0, primaryChildFragment.pendingProps = primaryChildProps, 8 & workInProgress.mode && (primaryChildFragment.actualDuration = 0, primaryChildFragment.actualStartTime = -1, primaryChildFragment.selfBaseDuration = currentPrimaryChildFragment.selfBaseDuration, primaryChildFragment.treeBaseDuration = currentPrimaryChildFragment.treeBaseDuration);
             var progressedLastEffect = primaryChildFragment.lastEffect;

@@ -241,7 +241,14 @@
         options || (options = {}), options.model && (this.model = options.model), void 0 !== options.comparator && (this.comparator = options.comparator), this._reset(), this.initialize.apply(this, arguments), models && this.reset(models, _.extend({
             silent: !0
         }, options));
-    }, setOptions = {}, addOptions = {};
+    }, setOptions = {
+        add: !0,
+        remove: !0,
+        merge: !0
+    }, addOptions = {
+        add: !0,
+        remove: !1
+    };
     _.extend(Collection.prototype, Events, {
         model: Model,
         initialize: function() {},

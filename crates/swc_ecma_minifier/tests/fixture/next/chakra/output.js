@@ -1866,7 +1866,19 @@
                         borderColor: mode("red.500", "red.300")(props)
                     }
                 };
-            }, baseStyleContainer$2 = {}, baseStyleLabel$3 = {}, baseStyleIcon$4 = {}, Checkbox = {
+            }, baseStyleContainer$2 = {
+                _disabled: {
+                    cursor: "not-allowed"
+                }
+            }, baseStyleLabel$3 = {
+                userSelect: "none",
+                _disabled: {
+                    opacity: 0.4
+                }
+            }, baseStyleIcon$4 = {
+                transitionProperty: "transform",
+                transitionDuration: "normal"
+            }, Checkbox = {
                 parts: checkboxAnatomy.keys,
                 baseStyle: function(props) {
                     return {
@@ -1935,7 +1947,31 @@
                     }
                 };
             }
-            var baseStyleOverlay$1 = {}, baseStyleDialogContainer$1 = {}, baseStyleHeader$2 = {}, baseStyleCloseButton$3 = {}, baseStyleBody$2 = {}, baseStyleFooter$2 = {}, sizes$g = {
+            var baseStyleOverlay$1 = {
+                bg: "blackAlpha.600",
+                zIndex: "overlay"
+            }, baseStyleDialogContainer$1 = {
+                display: "flex",
+                zIndex: "modal",
+                justifyContent: "center"
+            }, baseStyleHeader$2 = {
+                px: 6,
+                py: 4,
+                fontSize: "xl",
+                fontWeight: "semibold"
+            }, baseStyleCloseButton$3 = {
+                position: "absolute",
+                top: 2,
+                insetEnd: 3
+            }, baseStyleBody$2 = {
+                px: 6,
+                py: 2,
+                flex: 1,
+                overflow: "auto"
+            }, baseStyleFooter$2 = {
+                px: 6,
+                py: 4
+            }, sizes$g = {
                 xs: getSize$2("xs"),
                 sm: getSize$2("md"),
                 md: getSize$2("lg"),
@@ -2231,7 +2267,23 @@
                         verticalAlign: "text-bottom"
                     }
                 }
-            }, baseStyleGroupTitle = {}, baseStyleCommand = {}, baseStyleDivider = {}, baseStyleButton = {}, Menu = {
+            }, baseStyleGroupTitle = {
+                mx: 4,
+                my: 2,
+                fontWeight: "semibold",
+                fontSize: "sm"
+            }, baseStyleCommand = {
+                opacity: 0.6
+            }, baseStyleDivider = {
+                border: 0,
+                borderBottom: "1px solid",
+                borderColor: "inherit",
+                my: "0.5rem",
+                opacity: 0.6
+            }, baseStyleButton = {
+                transitionProperty: "common",
+                transitionDuration: "normal"
+            }, Menu = {
                 parts: menuAnatomy.keys,
                 baseStyle: function(props) {
                     return {
@@ -2271,7 +2323,10 @@
                         divider: baseStyleDivider
                     };
                 }
-            }, baseStyleOverlay = {}, baseStyleDialog = function(props) {
+            }, baseStyleOverlay = {
+                bg: "blackAlpha.600",
+                zIndex: "modal"
+            }, baseStyleDialog = function(props) {
                 var scrollBehavior = props.scrollBehavior;
                 return {
                     borderRadius: "md",
@@ -2282,7 +2337,19 @@
                     maxH: "inside" === scrollBehavior ? "calc(100% - 7.5rem)" : void 0,
                     boxShadow: mode("lg", "dark-lg")(props)
                 };
-            }, baseStyleHeader$1 = {}, baseStyleCloseButton$2 = {}, baseStyleFooter$1 = {};
+            }, baseStyleHeader$1 = {
+                px: 6,
+                py: 4,
+                fontSize: "xl",
+                fontWeight: "semibold"
+            }, baseStyleCloseButton$2 = {
+                position: "absolute",
+                top: 2,
+                insetEnd: 3
+            }, baseStyleFooter$1 = {
+                px: 6,
+                py: 4
+            };
             function getSize$1(value) {
                 return "full" === value ? {
                     dialog: {
@@ -2414,13 +2481,32 @@
                     return null != (_Input$variants$fille = Input.variants.filled(props).field) ? _Input$variants$fille : {};
                 },
                 unstyled: null != (_Input$variants$unsty$1 = Input.variants.unstyled.field) ? _Input$variants$unsty$1 : {}
-            }, defaultProps$a = Input.defaultProps, $popperBg = cssVar("popper-bg"), $arrowBg$1 = cssVar("popper-arrow-bg"), $arrowShadowColor = cssVar("popper-arrow-shadow-color"), baseStylePopper = {}, baseStyleContent = function(props) {
+            }, defaultProps$a = Input.defaultProps, $popperBg = cssVar("popper-bg"), $arrowBg$1 = cssVar("popper-arrow-bg"), $arrowShadowColor = cssVar("popper-arrow-shadow-color"), baseStylePopper = {
+                zIndex: 10
+            }, baseStyleContent = function(props) {
                 var _ref, bg = mode("white", "gray.700")(props), shadowColor = mode("gray.200", "whiteAlpha.300")(props);
                 return (_ref = {})[$popperBg.variable] = "colors." + bg, _ref.bg = $popperBg.reference, _ref[$arrowBg$1.variable] = $popperBg.reference, _ref[$arrowShadowColor.variable] = "colors." + shadowColor, _ref.width = "xs", _ref.border = "1px solid", _ref.borderColor = "inherit", _ref.borderRadius = "md", _ref.boxShadow = "sm", _ref.zIndex = "inherit", _ref._focusVisible = {
                     outline: 0,
                     boxShadow: "outline"
                 }, _ref;
-            }, baseStyleHeader = {}, baseStyleBody = {}, baseStyleFooter = {}, baseStyleCloseButton$1 = {}, Popover = {
+            }, baseStyleHeader = {
+                px: 3,
+                py: 2,
+                borderBottomWidth: "1px"
+            }, baseStyleBody = {
+                px: 3,
+                py: 2
+            }, baseStyleFooter = {
+                px: 3,
+                py: 2,
+                borderTopWidth: "1px"
+            }, baseStyleCloseButton$1 = {
+                position: "absolute",
+                borderRadius: "md",
+                top: 1,
+                insetEnd: 2,
+                padding: 2
+            }, Popover = {
                 parts: popoverAnatomy.keys,
                 baseStyle: function(props) {
                     return {
@@ -2433,7 +2519,12 @@
                         closeButton: baseStyleCloseButton$1
                     };
                 }
-            }, baseStyleLabel$2 = {}, baseStyleFilledTrack$1 = function(props) {
+            }, baseStyleLabel$2 = {
+                lineHeight: "1",
+                fontSize: "0.25em",
+                fontWeight: "bold",
+                color: "white"
+            }, baseStyleFilledTrack$1 = function(props) {
                 var c, t, isIndeterminate, hasStripe, stripeStyle, bgColor, gradient;
                 return sizes_501602a9_esm_extends({
                     transitionProperty: "common",
@@ -2538,7 +2629,17 @@
                     size: "md",
                     colorScheme: "blue"
                 }
-            }, baseStyleIcon$1 = {}, iconSpacing = {
+            }, baseStyleIcon$1 = {
+                width: "1.5rem",
+                height: "100%",
+                insetEnd: "0.5rem",
+                position: "relative",
+                color: "currentColor",
+                fontSize: "1.25rem",
+                _disabled: {
+                    opacity: 0.5
+                }
+            }, iconSpacing = {
                 paddingInlineEnd: "2rem"
             }, sizes$8 = lodash_mergewith_default()({}, Input.sizes, {
                 lg: {
@@ -2824,7 +2925,11 @@
                     size: "md",
                     colorScheme: "blue"
                 }
-            }, numericStyles = {}, Table = {
+            }, numericStyles = {
+                "&[data-is-numeric=true]": {
+                    textAlign: "end"
+                }
+            }, Table = {
                 parts: tableAnatomy.keys,
                 baseStyle: {
                     table: {
@@ -2989,7 +3094,9 @@
                     })[void 0 === _props$align ? "start" : _props$align],
                     flexDirection: "vertical" === props.orientation ? "column" : "row"
                 };
-            }, baseStyleTabpanel = {}, Tabs = {
+            }, baseStyleTabpanel = {
+                p: 4
+            }, Tabs = {
                 parts: tabsAnatomy.keys,
                 baseStyle: function(props) {
                     return {
@@ -4405,7 +4512,48 @@
                     insetEnd: 1,
                     top: 1
                 }));
-            }, toastMotionVariants = {}, ToastComponent = react.memo(function(props) {
+            }, toastMotionVariants = {
+                initial: function(props) {
+                    var _ref, position = props.position, dir = [
+                        "top",
+                        "bottom"
+                    ].includes(position) ? "y" : "x", factor = [
+                        "top-right",
+                        "bottom-right"
+                    ].includes(position) ? 1 : -1;
+                    return "bottom" === position && (factor = 1), (_ref = {
+                        opacity: 0
+                    })[dir] = 24 * factor, _ref;
+                },
+                animate: {
+                    opacity: 1,
+                    y: 0,
+                    x: 0,
+                    scale: 1,
+                    transition: {
+                        duration: 0.4,
+                        ease: [
+                            0.4,
+                            0,
+                            0.2,
+                            1
+                        ]
+                    }
+                },
+                exit: {
+                    opacity: 0,
+                    scale: 0.85,
+                    transition: {
+                        duration: 0.2,
+                        ease: [
+                            0.4,
+                            0,
+                            1,
+                            1
+                        ]
+                    }
+                }
+            }, ToastComponent = react.memo(function(props) {
                 var id = props.id, message = props.message, onCloseComplete = props.onCloseComplete, onRequestRemove = props.onRequestRemove, _props$requestClose = props.requestClose, requestClose = void 0 !== _props$requestClose && _props$requestClose, _props$position = props.position, position = void 0 === _props$position ? "bottom" : _props$position, _props$duration = props.duration, duration = void 0 === _props$duration ? 5000 : _props$duration, containerStyle = props.containerStyle, _props$motionVariants = props.motionVariants, _props$toastSpacing = props.toastSpacing, toastSpacing = void 0 === _props$toastSpacing ? "0.5rem" : _props$toastSpacing, _React$useState = react.useState(duration), delay = _React$useState[0], setDelay = _React$useState[1], isPresent = (0, use_presence.hO)();
                 (0, chakra_ui_hooks_esm.rf)(function() {
                     isPresent || null == onCloseComplete || onCloseComplete();

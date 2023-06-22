@@ -389,7 +389,9 @@
             return arguments.length ? (tickPadding = +_, axis) : tickPadding;
         }, axis;
     }
-    var noop = {};
+    var noop = {
+        value: ()=>{}
+    };
     function dispatch() {
         for(var t, i = 0, n = arguments.length, _ = {}; i < n; ++i){
             if (!(t = arguments[i] + "") || t in _ || /[\s.]/.test(t)) throw Error("illegal type: " + t);
@@ -1614,7 +1616,14 @@
             return Math.round(a * (1 - t) + b * t);
         };
     }
-    var degrees$1 = 180 / Math.PI, identity$2 = {};
+    var degrees$1 = 180 / Math.PI, identity$2 = {
+        translateX: 0,
+        translateY: 0,
+        rotate: 0,
+        skewX: 0,
+        scaleX: 1,
+        scaleY: 1
+    };
     function decompose(a, b, c, d, e, f) {
         var scaleX, scaleY, skewX;
         return (scaleX = Math.sqrt(a * a + b * b)) && (a /= scaleX, b /= scaleX), (skewX = a * c + b * d) && (c -= a * skewX, d -= b * skewX), (scaleY = Math.sqrt(c * c + d * d)) && (c /= scaleY, d /= scaleY, skewX /= scaleY), a * d < b * c && (a = -a, b = -b, skewX = -skewX, scaleX = -scaleX), {
@@ -2188,7 +2197,13 @@
         end: function() {
             var on0, on1, that = this, id = that._id, size = that.size();
             return new Promise(function(resolve, reject) {
-                var cancel = {}, end = {};
+                var cancel = {
+                    value: reject
+                }, end = {
+                    value: function() {
+                        0 == --size && resolve();
+                    }
+                };
                 that.each(function() {
                     var schedule = set$2(this, id), on = schedule.on;
                     on !== on0 && ((on1 = (on0 = on).copy())._.cancel.push(cancel), on1._.interrupt.push(cancel), on1._.end.push(end)), schedule.on = on1;
@@ -2274,7 +2289,12 @@
         }, elasticInOut.period = function(p) {
             return custom(a, p);
         }, elasticInOut;
-    }(1, 0.3), defaultTiming = {};
+    }(1, 0.3), defaultTiming = {
+        time: null,
+        delay: 0,
+        duration: 250,
+        ease: cubicInOut
+    };
     selection.prototype.interrupt = function(name) {
         return this.each(function() {
             interrupt(this, name);
@@ -2326,7 +2346,15 @@
     function noevent$1(event) {
         event.preventDefault(), event.stopImmediatePropagation();
     }
-    var MODE_DRAG = {}, MODE_SPACE = {}, MODE_HANDLE = {}, MODE_CENTER = {};
+    var MODE_DRAG = {
+        name: "drag"
+    }, MODE_SPACE = {
+        name: "space"
+    }, MODE_HANDLE = {
+        name: "handle"
+    }, MODE_CENTER = {
+        name: "center"
+    };
     const { abs, max: max$1, min: min$1 } = Math;
     function number1(e) {
         return [
@@ -4454,7 +4482,17 @@
     var prefixExponent, locale, lambda00, phi00, lambda0, cosPhi0, sinPhi0, areaRingSum = new Adder(), areaSum = new Adder(), areaStream = {
         point: noop$2,
         lineStart: noop$2,
-        lineEnd: noop$2
+        lineEnd: noop$2,
+        polygonStart: function() {
+            areaRingSum = new Adder(), areaStream.lineStart = areaRingStart, areaStream.lineEnd = areaRingEnd;
+        },
+        polygonEnd: function() {
+            var areaRing = +areaRingSum;
+            areaSum.add(areaRing < 0 ? tau$4 + areaRing : areaRing), this.lineStart = this.lineEnd = this.point = noop$2;
+        },
+        sphere: function() {
+            areaSum.add(tau$4);
+        }
     };
     function areaRingStart() {
         areaStream.point = areaPointFirst;
@@ -4508,7 +4546,65 @@
         var l = sqrt(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]);
         d[0] /= l, d[1] /= l, d[2] /= l;
     }
-    var boundsStream = {};
+    var boundsStream = {
+        point: boundsPoint,
+        lineStart: boundsLineStart,
+        lineEnd: boundsLineEnd,
+        polygonStart: function() {
+            boundsStream.point = boundsRingPoint, boundsStream.lineStart = boundsRingStart, boundsStream.lineEnd = boundsRingEnd, deltaSum = new Adder(), areaStream.polygonStart();
+        },
+        polygonEnd: function() {
+            areaStream.polygonEnd(), boundsStream.point = boundsPoint, boundsStream.lineStart = boundsLineStart, boundsStream.lineEnd = boundsLineEnd, areaRingSum < 0 ? (lambda0$1 = -(lambda1 = 180), phi0 = -(phi1 = 90)) : deltaSum > 1e-6 ? phi1 = 90 : deltaSum < -0.000001 && (phi0 = -90), range$1[0] = lambda0$1, range$1[1] = lambda1;
+        },
+        sphere: function() {
+            lambda0$1 = -(lambda1 = 180), phi0 = -(phi1 = 90);
+        }
+    };
+    function boundsPoint(lambda, phi) {
+        ranges.push(range$1 = [
+            lambda0$1 = lambda,
+            lambda1 = lambda
+        ]), phi < phi0 && (phi0 = phi), phi > phi1 && (phi1 = phi);
+    }
+    function linePoint(lambda, phi) {
+        var p = cartesian([
+            lambda * radians$1,
+            phi * radians$1
+        ]);
+        if (p0) {
+            var normal = cartesianCross(p0, p), inflection = cartesianCross([
+                normal[1],
+                -normal[0],
+                0
+            ], normal);
+            cartesianNormalizeInPlace(inflection);
+            var phii, delta = lambda - lambda2, sign = delta > 0 ? 1 : -1, lambdai = (inflection = spherical(inflection))[0] * degrees$2 * sign, antimeridian = abs$2(delta) > 180;
+            antimeridian ^ (sign * lambda2 < lambdai && lambdai < sign * lambda) ? (phii = inflection[1] * degrees$2) > phi1 && (phi1 = phii) : antimeridian ^ (sign * lambda2 < (lambdai = (lambdai + 360) % 360 - 180) && lambdai < sign * lambda) ? (phii = -inflection[1] * degrees$2) < phi0 && (phi0 = phii) : (phi < phi0 && (phi0 = phi), phi > phi1 && (phi1 = phi)), antimeridian ? lambda < lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda) : lambda1 >= lambda0$1 ? (lambda < lambda0$1 && (lambda0$1 = lambda), lambda > lambda1 && (lambda1 = lambda)) : lambda > lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda);
+        } else ranges.push(range$1 = [
+            lambda0$1 = lambda,
+            lambda1 = lambda
+        ]);
+        phi < phi0 && (phi0 = phi), phi > phi1 && (phi1 = phi), p0 = p, lambda2 = lambda;
+    }
+    function boundsLineStart() {
+        boundsStream.point = linePoint;
+    }
+    function boundsLineEnd() {
+        range$1[0] = lambda0$1, range$1[1] = lambda1, boundsStream.point = boundsPoint, p0 = null;
+    }
+    function boundsRingPoint(lambda, phi) {
+        if (p0) {
+            var delta = lambda - lambda2;
+            deltaSum.add(abs$2(delta) > 180 ? delta + (delta > 0 ? 360 : -360) : delta);
+        } else lambda00$1 = lambda, phi00$1 = phi;
+        areaStream.point(lambda, phi), linePoint(lambda, phi);
+    }
+    function boundsRingStart() {
+        areaStream.lineStart();
+    }
+    function boundsRingEnd() {
+        boundsRingPoint(lambda00$1, phi00$1), areaStream.lineEnd(), abs$2(deltaSum) > 1e-6 && (lambda0$1 = -(lambda1 = 180)), range$1[0] = lambda0$1, range$1[1] = lambda1, p0 = null;
+    }
     function angle(lambda0, lambda1) {
         return (lambda1 -= lambda0) < 0 ? lambda1 + 360 : lambda1;
     }
@@ -4519,19 +4615,51 @@
         return range[0] <= range[1] ? range[0] <= x && x <= range[1] : x < range[0] || range[1] < x;
     }
     var centroidStream = {
-        point: function(lambda, phi) {
-            lambda *= radians$1;
-            var cosPhi = cos$1(phi *= radians$1);
-            centroidPointCartesian(cosPhi * cos$1(lambda), cosPhi * sin$1(lambda), sin$1(phi));
+        sphere: noop$2,
+        point: centroidPoint,
+        lineStart: centroidLineStart,
+        lineEnd: centroidLineEnd,
+        polygonStart: function() {
+            centroidStream.lineStart = centroidRingStart, centroidStream.lineEnd = centroidRingEnd;
+        },
+        polygonEnd: function() {
+            centroidStream.lineStart = centroidLineStart, centroidStream.lineEnd = centroidLineEnd;
         }
     };
+    function centroidPoint(lambda, phi) {
+        lambda *= radians$1;
+        var cosPhi = cos$1(phi *= radians$1);
+        centroidPointCartesian(cosPhi * cos$1(lambda), cosPhi * sin$1(lambda), sin$1(phi));
+    }
     function centroidPointCartesian(x, y, z) {
         ++W0, X0 += (x - X0) / W0, Y0 += (y - Y0) / W0, Z0 += (z - Z0) / W0;
+    }
+    function centroidLineStart() {
+        centroidStream.point = centroidLinePointFirst;
+    }
+    function centroidLinePointFirst(lambda, phi) {
+        lambda *= radians$1;
+        var cosPhi = cos$1(phi *= radians$1);
+        x0 = cosPhi * cos$1(lambda), y0 = cosPhi * sin$1(lambda), z0 = sin$1(phi), centroidStream.point = centroidLinePoint, centroidPointCartesian(x0, y0, z0);
     }
     function centroidLinePoint(lambda, phi) {
         lambda *= radians$1;
         var cosPhi = cos$1(phi *= radians$1), x = cosPhi * cos$1(lambda), y = cosPhi * sin$1(lambda), z = sin$1(phi), w = atan2(sqrt((w = y0 * z - z0 * y) * w + (w = z0 * x - x0 * z) * w + (w = x0 * y - y0 * x) * w), x0 * x + y0 * y + z0 * z);
         W1 += w, X1 += w * (x0 + (x0 = x)), Y1 += w * (y0 + (y0 = y)), Z1 += w * (z0 + (z0 = z)), centroidPointCartesian(x0, y0, z0);
+    }
+    function centroidLineEnd() {
+        centroidStream.point = centroidPoint;
+    }
+    function centroidRingStart() {
+        centroidStream.point = centroidRingPointFirst;
+    }
+    function centroidRingEnd() {
+        centroidRingPoint(lambda00$2, phi00$2), centroidStream.point = centroidPoint;
+    }
+    function centroidRingPointFirst(lambda, phi) {
+        lambda00$2 = lambda, phi00$2 = phi, lambda *= radians$1, phi *= radians$1, centroidStream.point = centroidRingPoint;
+        var cosPhi = cos$1(phi);
+        centroidPointCartesian(x0 = cosPhi * cos$1(lambda), y0 = cosPhi * sin$1(lambda), z0 = sin$1(phi));
     }
     function centroidRingPoint(lambda, phi) {
         lambda *= radians$1;
@@ -4968,14 +5096,37 @@
             return clipStream;
         };
     }
-    var lengthStream = {};
+    var lengthStream = {
+        sphere: noop$2,
+        point: noop$2,
+        lineStart: function() {
+            lengthStream.point = lengthPointFirst, lengthStream.lineEnd = lengthLineEnd;
+        },
+        lineEnd: noop$2,
+        polygonStart: noop$2,
+        polygonEnd: noop$2
+    };
+    function lengthLineEnd() {
+        lengthStream.point = lengthStream.lineEnd = noop$2;
+    }
+    function lengthPointFirst(lambda, phi) {
+        lambda *= radians$1, phi *= radians$1, lambda0$2 = lambda, sinPhi0$1 = sin$1(phi), cosPhi0$1 = cos$1(phi), lengthStream.point = lengthPoint;
+    }
+    function lengthPoint(lambda, phi) {
+        lambda *= radians$1;
+        var sinPhi = sin$1(phi *= radians$1), cosPhi = cos$1(phi), delta = abs$2(lambda - lambda0$2), cosDelta = cos$1(delta), x = cosPhi * sin$1(delta), y = cosPhi0$1 * sinPhi - sinPhi0$1 * cosPhi * cosDelta, z = sinPhi0$1 * sinPhi + cosPhi0$1 * cosPhi * cosDelta;
+        lengthSum.add(atan2(sqrt(x * x + y * y), z)), lambda0$2 = lambda, sinPhi0$1 = sinPhi, cosPhi0$1 = cosPhi;
+    }
     function length$2(object) {
         return lengthSum = new Adder(), geoStream(object, lengthStream), +lengthSum;
     }
     var coordinates = [
         null,
         null
-    ], object$1 = {};
+    ], object$1 = {
+        type: "LineString",
+        coordinates: coordinates
+    };
     function distance(a, b) {
         return coordinates[0] = a, coordinates[1] = b, length$2(object$1);
     }
@@ -5148,7 +5299,7 @@
             ]
         ]);
     }
-    var lambda0$1, phi0, lambda1, phi1, lambda2, p0, ranges, range$1, W0, W1, X0, Y0, Z0, X1, Y1, Z1, X2, Y2, Z2, lambda00$2, phi00$2, x0, y0, z0, lengthSum, lambda0$2, sinPhi0$1, cosPhi0$1, x00, y00, x0$1, y0$1, identity$4 = (x)=>x, areaSum$1 = new Adder(), areaRingSum$1 = new Adder(), areaStream$1 = {
+    var lambda0$1, phi0, lambda1, phi1, lambda2, lambda00$1, phi00$1, p0, deltaSum, ranges, range$1, W0, W1, X0, Y0, Z0, X1, Y1, Z1, X2, Y2, Z2, lambda00$2, phi00$2, x0, y0, z0, lengthSum, lambda0$2, sinPhi0$1, cosPhi0$1, x00, y00, x0$1, y0$1, identity$4 = (x)=>x, areaSum$1 = new Adder(), areaRingSum$1 = new Adder(), areaStream$1 = {
         point: noop$2,
         lineStart: noop$2,
         lineEnd: noop$2,
@@ -6150,7 +6301,9 @@
             while (next.length)
         }
     };
-    var preroot = {}, ambiguous = {};
+    var preroot = {
+        depth: -1
+    }, ambiguous = {};
     function defaultId(d) {
         return d.id;
     }
@@ -9477,7 +9630,7 @@
         }
         return +adder;
     }, exports1.geoAlbers = albers, exports1.geoAlbersUsa = function() {
-        var cache, cacheStream, lower48Point, alaskaPoint, hawaiiPoint, lower48 = albers(), alaska = conicEqualArea().rotate([
+        var cache, cacheStream, lower48Point, alaskaPoint, hawaiiPoint, point, lower48 = albers(), alaska = conicEqualArea().rotate([
             154,
             0
         ]).center([
@@ -9495,10 +9648,17 @@
         ]).parallels([
             8,
             18
-        ]), pointStream = {};
+        ]), pointStream = {
+            point: function(x, y) {
+                point = [
+                    x,
+                    y
+                ];
+            }
+        };
         function albersUsa(coordinates) {
             var x = coordinates[0], y = coordinates[1];
-            return lower48Point.point(x, y), alaskaPoint.point(x, y), hawaiiPoint.point(x, y), null;
+            return point = null, lower48Point.point(x, y), point || (alaskaPoint.point(x, y), point) || (hawaiiPoint.point(x, y), point);
         }
         function reset() {
             return cache = cacheStream = null, albersUsa;
@@ -9596,7 +9756,7 @@
             ]; i < n; ++i)rangeContains(a, (b = ranges[i])[0]) || rangeContains(a, b[1]) ? (angle(a[0], b[1]) > angle(a[0], a[1]) && (a[1] = b[1]), angle(b[0], a[1]) > angle(a[0], a[1]) && (a[0] = b[0])) : merged.push(a = b);
             for(deltaMax = -1 / 0, n = merged.length - 1, i = 0, a = merged[n]; i <= n; a = b, ++i)b = merged[i], (delta = angle(a[1], b[0])) > deltaMax && (deltaMax = delta, lambda0$1 = b[0], lambda1 = a[1]);
         }
-        return ranges = null, lambda0$1 === 1 / 0 || phi0 === 1 / 0 ? [
+        return ranges = range$1 = null, lambda0$1 === 1 / 0 || phi0 === 1 / 0 ? [
             [
                 NaN,
                 NaN
@@ -9626,18 +9786,22 @@
             asin(z / m) * degrees$2
         ];
     }, exports1.geoCircle = function() {
-        var ring, center = constant$8([
+        var ring, rotate, center = constant$8([
             0,
             0
-        ]), radius = constant$8(90), precision = constant$8(6), stream = {};
+        ]), radius = constant$8(90), precision = constant$8(6), stream = {
+            point: function(x, y) {
+                ring.push(x = rotate(x, y)), x[0] *= degrees$2, x[1] *= degrees$2;
+            }
+        };
         function circle() {
             var c = center.apply(this, arguments), r = radius.apply(this, arguments) * radians$1, p = precision.apply(this, arguments) * radians$1;
-            return ring = [], rotateRadians(-c[0] * radians$1, -c[1] * radians$1, 0).invert, circleStream(stream, r, p, 1), c = {
+            return ring = [], rotate = rotateRadians(-c[0] * radians$1, -c[1] * radians$1, 0).invert, circleStream(stream, r, p, 1), c = {
                 type: "Polygon",
                 coordinates: [
                     ring
                 ]
-            }, ring = null, c;
+            }, ring = rotate = null, c;
         }
         return circle.center = function(_) {
             return arguments.length ? (center = "function" == typeof _ ? _ : constant$8([

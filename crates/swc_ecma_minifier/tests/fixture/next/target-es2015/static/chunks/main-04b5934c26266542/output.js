@@ -750,7 +750,18 @@
                 value: !0
             }), exports.default = exports.RouteAnnouncer = void 0;
             var _react = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)), _router = __webpack_require__(387);
-            const nextjsRouteAnnouncerStyles = {}, RouteAnnouncer = ()=>{
+            const nextjsRouteAnnouncerStyles = {
+                border: 0,
+                clip: "rect(0 0 0 0)",
+                height: "1px",
+                margin: "-1px",
+                overflow: "hidden",
+                padding: 0,
+                position: "absolute",
+                width: "1px",
+                whiteSpace: "nowrap",
+                wordWrap: "normal"
+            }, RouteAnnouncer = ()=>{
                 const { asPath } = _router.useRouter(), [routeAnnouncement, setRouteAnnouncement] = _react.default.useState(""), previouslyLoadedPath = _react.default.useRef(asPath);
                 return _react.default.useEffect(()=>{
                     if (previouslyLoadedPath.current !== asPath) {
@@ -2321,7 +2332,9 @@
                         locale: void 0,
                         isFallback
                     }, this._initialMatchesMiddlewarePromise = Promise.resolve(!1), !as1.startsWith("//")) {
-                        const options = {}, asPath = _utils.getURL();
+                        const options = {
+                            locale
+                        }, asPath = _utils.getURL();
                         this._initialMatchesMiddlewarePromise = matchesMiddleware({
                             router: this,
                             locale,
@@ -3029,7 +3042,10 @@
                 }), o(function() {
                     P = 0, q = -1, C = l(i, w = f("CLS", 0), T, y.reportAllChanges);
                 }));
-            }, x = {}, z = new Date, L = function(n, y) {
+            }, x = {
+                passive: !0,
+                capture: !0
+            }, z = new Date, L = function(n, y) {
                 T || (T = y, C = n, w = new Date, A(removeEventListener), S());
             }, S = function() {
                 if (C >= 0 && C < w - z) {

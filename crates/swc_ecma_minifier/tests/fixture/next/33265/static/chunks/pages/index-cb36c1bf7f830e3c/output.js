@@ -2685,7 +2685,12 @@
             }, Parser = function(_Stream) {
                 function Parser() {
                     (_this = _Stream.call(this) || this).lineStream = new LineStream(), _this.parseStream = new ParseStream(), _this.lineStream.pipe(_this.parseStream);
-                    var _this, currentMap, _key, self1 = (0, assertThisInitialized.Z)(_this), uris = [], currentUri = {}, hasParts = !1, noop = function() {}, defaultMediaGroups = {}, currentTimeline = 0;
+                    var _this, currentMap, _key, self1 = (0, assertThisInitialized.Z)(_this), uris = [], currentUri = {}, hasParts = !1, noop = function() {}, defaultMediaGroups = {
+                        AUDIO: {},
+                        VIDEO: {},
+                        "CLOSED-CAPTIONS": {},
+                        SUBTITLES: {}
+                    }, currentTimeline = 0;
                     _this.manifest = {
                         allowCache: !0,
                         discontinuityStarts: [],
@@ -4527,7 +4532,9 @@
                     for(var i = 0; i < cues.length; i++)paddedOverlay.appendChild(cues[i].displayState);
                     return;
                 }
-                var boxPositions = [], containerBox = BoxPosition.getSimpleBoxPosition(paddedOverlay), styleOptions = (containerBox.height, {});
+                var boxPositions = [], containerBox = BoxPosition.getSimpleBoxPosition(paddedOverlay), styleOptions = {
+                    font: Math.round(5 * containerBox.height) / 100 + "px sans-serif"
+                };
                 !function() {
                     for(var styleBox, cue, i = 0; i < cues.length; i++)cue = cues[i], styleBox = new CueStyleBox(window1, cue, styleOptions), paddedOverlay.appendChild(styleBox.div), function(window1, styleBox, containerBox, boxPositions) {
                         var boxPosition = new BoxPosition(styleBox), cue = styleBox.cue, linePos = function(cue) {

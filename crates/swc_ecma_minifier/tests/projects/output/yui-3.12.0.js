@@ -30,7 +30,9 @@ var YUI = function() {
         return loader ? (loader.ignoreRegistered = !1, loader.onEnd = null, loader.data = null, loader.required = [], loader.loadType = null) : (loader = new Y.Loader(Y.config), Y.Env._loader = loader), mods && mods.loader && (lCore = [].concat(lCore, YUI.Env.loaderExtras)), YUI.Env.core = Y.Array.dedupe([].concat(YUI.Env.core, lCore)), loader;
     }, clobber = function(r, s) {
         for(var i in s)s.hasOwnProperty(i) && (r[i] = s[i]);
-    }, ALREADY_DONE = {};
+    }, ALREADY_DONE = {
+        success: !0
+    };
     for(prop in docEl && -1 == docClass.indexOf(DOC_LABEL) && (docClass && (docClass += " "), docClass += DOC_LABEL, docEl.className = docClass), VERSION.indexOf("@") > -1 && (VERSION = "3.5.0"), proto = {
         applyConfig: function(o) {
             o = o || NOOP;

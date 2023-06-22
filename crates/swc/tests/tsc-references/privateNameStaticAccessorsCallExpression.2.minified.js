@@ -28,4 +28,7 @@ var _fieldFunc = {
         return function(a, ...b) {};
     },
     set: void 0
-}, _x = {};
+}, _x = {
+    writable: !0,
+    value: 1
+};

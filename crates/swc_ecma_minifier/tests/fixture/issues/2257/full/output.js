@@ -61,7 +61,13 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = void 0;
-            var _jsxRuntime = __webpack_require__(37712), style = {};
+            var _jsxRuntime = __webpack_require__(37712), style = {
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                margin: "100px 0",
+                color: "#ed3131"
+            };
             exports.default = function(param) {
                 var componentStack = param.componentStack, error = param.error;
                 return _jsxRuntime.jsxs("div", {
@@ -192,7 +198,9 @@
             }, exports.default = void 0;
             var swcHelpers = __webpack_require__(547), _react = __webpack_require__(59301), _createAppShared = __webpack_require__(60953), _reactAppRenderer = swcHelpers.interopRequireDefault(__webpack_require__(61929));
             __webpack_require__(53721);
-            var _loadStaticModules = swcHelpers.interopRequireDefault(__webpack_require__(98565)), _loadRuntimeModules = swcHelpers.interopRequireDefault(__webpack_require__(42792)), _appConfig = __webpack_require__(36660), _errorBoundary = swcHelpers.interopRequireDefault(__webpack_require__(11179)), buildConfig = {}, frameworkAppBase = _createAppShared.createBaseApp({
+            var _loadStaticModules = swcHelpers.interopRequireDefault(__webpack_require__(98565)), _loadRuntimeModules = swcHelpers.interopRequireDefault(__webpack_require__(42792)), _appConfig = __webpack_require__(36660), _errorBoundary = swcHelpers.interopRequireDefault(__webpack_require__(11179)), buildConfig = {
+                icestarkType: "normal"
+            }, frameworkAppBase = _createAppShared.createBaseApp({
                 loadRuntimeModules: _loadRuntimeModules.default,
                 createElement: _react.createElement,
                 runtimeAPI: {
@@ -994,7 +1002,13 @@
                 }
                 this._invoke = function(key, arg) {
                     return new Promise(function(resolve, reject) {
-                        var request = {};
+                        var request = {
+                            key: key,
+                            arg: arg,
+                            resolve: resolve,
+                            reject: reject,
+                            next: null
+                        };
                         back ? back = back.next = request : (front = back = request, resume(key, arg));
                     });
                 }, "function" != typeof gen.return && (this.return = void 0);
@@ -1156,7 +1170,11 @@
                         });
                     });
                 }, superClass), decorated = function(elements, decorators) {
-                    var newElements = [], finishers = [], placements = {};
+                    var newElements = [], finishers = [], placements = {
+                        static: [],
+                        prototype: [],
+                        own: []
+                    };
                     if (elements.forEach(function(element) {
                         _addElementPlacement(element, placements);
                     }), elements.forEach(function(element) {
@@ -2215,7 +2233,9 @@
         },
         52275: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var adapter, process = __webpack_require__(97671), utils = __webpack_require__(99677), normalizeHeaderName = __webpack_require__(43907), enhanceError = __webpack_require__(16488), DEFAULT_CONTENT_TYPE = {};
+            var adapter, process = __webpack_require__(97671), utils = __webpack_require__(99677), normalizeHeaderName = __webpack_require__(43907), enhanceError = __webpack_require__(16488), DEFAULT_CONTENT_TYPE = {
+                "Content-Type": "application/x-www-form-urlencoded"
+            };
             function setContentTypeIfUnset(headers, value) {
                 !utils.isUndefined(headers) && utils.isUndefined(headers["Content-Type"]) && (headers["Content-Type"] = value);
             }
@@ -6539,7 +6559,9 @@
                         if (state.facade === value) throw TypeError1("Promise can't be resolved itself");
                         var then = isThenable(value);
                         then ? microtask(function() {
-                            var wrapper = {};
+                            var wrapper = {
+                                done: !1
+                            };
                             try {
                                 then.call(value, bind(internalResolve, wrapper, state), bind(internalReject, wrapper, state));
                             } catch (error) {
@@ -9053,6 +9075,9 @@
             var extendStatics, _a, SHOW = "show", HIDE = "hide", LAUNCH = "launch", ERROR = "error";
             (_a = {})[SHOW] = "miniapp_pageshow", _a[HIDE] = "miniapp_pagehide";
             var DEFAULT_APP_CONFIG = {
+                app: {
+                    rootId: "root"
+                },
                 router: {
                     type: "hash"
                 }
@@ -9852,7 +9877,19 @@
         },
         94266: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var reactIs = __webpack_require__(99234), REACT_STATICS = {}, KNOWN_STATICS = {
+            var reactIs = __webpack_require__(99234), REACT_STATICS = {
+                childContextTypes: !0,
+                contextType: !0,
+                contextTypes: !0,
+                defaultProps: !0,
+                displayName: !0,
+                getDefaultProps: !0,
+                getDerivedStateFromError: !0,
+                getDerivedStateFromProps: !0,
+                mixins: !0,
+                propTypes: !0,
+                type: !0
+            }, KNOWN_STATICS = {
                 name: !0,
                 length: !0,
                 prototype: !0,
@@ -10452,6 +10489,10 @@
             }, __generator = this && this.__generator || function(thisArg, body) {
                 var f, y, t, g, _ = {
                     label: 0,
+                    sent: function() {
+                        if (1 & t[0]) throw t[1];
+                        return t[1];
+                    },
                     trys: [],
                     ops: []
                 };
@@ -11236,7 +11277,11 @@
                     this.onError(n);
                 }
             }
-            var Sb = !1, Tb = null, Ub = !1, Vb = null, Wb = {};
+            var Sb = !1, Tb = null, Ub = !1, Vb = null, Wb = {
+                onError: function(a) {
+                    Sb = !0, Tb = a;
+                }
+            };
             function Xb(a, b, c, d, e, f, g, h, k) {
                 Sb = !1, Tb = null, Rb.apply(Wb, arguments);
             }
@@ -13674,7 +13719,10 @@
                 var b = a.stateNode;
                 b.pendingContext ? Hf(a, b.pendingContext, b.pendingContext !== b.context) : b.context && Hf(a, b.context, !1), eh(a, b.containerInfo);
             }
-            var si = {};
+            var si = {
+                dehydrated: null,
+                retryLane: 0
+            };
             function ti(a, b, c) {
                 var a1, c1, d, e, f, g, h, a2, c2, d1, e1, g1, d2 = b.pendingProps, e2 = P.current, f1 = !1;
                 return ((g1 = 0 != (64 & b.flags)) || (g1 = (null === a || null !== a.memoizedState) && 0 != (2 & e2)), g1 ? (f1 = !0, b.flags &= -65) : null !== a && null === a.memoizedState || void 0 === d2.fallback || !0 === d2.unstable_avoidThisFallback || (e2 |= 1), I(P, 1 & e2), null === a) ? (void 0 !== d2.fallback && ph(b), a = d2.children, e2 = d2.fallback, f1) ? (a = ui(b, a, e2, c), b.child.memoizedState = {
@@ -16354,7 +16402,14 @@
                 for(var b = "https://reactjs.org/docs/error-decoder.html?invariant=" + a, c = 1; c < arguments.length; c++)b += "&args[]=" + encodeURIComponent(arguments[c]);
                 return "Minified React error #" + a + "; visit " + b + " for the full message or use the non-minified dev environment for full errors and additional helpful warnings.";
             }
-            var A = {}, B = {};
+            var A = {
+                isMounted: function() {
+                    return !1;
+                },
+                enqueueForceUpdate: function() {},
+                enqueueReplaceState: function() {},
+                enqueueSetState: function() {}
+            }, B = {};
             function C(a, b, c) {
                 this.props = a, this.context = b, this.refs = B, this.updater = c || A;
             }

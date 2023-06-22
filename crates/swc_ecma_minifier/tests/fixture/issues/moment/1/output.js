@@ -482,7 +482,55 @@
         var pos1 = input.length - 4, pos2 = input.length - 2;
         array[3] = toInt(input.substr(0, pos1)), array[4] = toInt(input.substr(pos1, 2)), array[5] = toInt(input.substr(pos2));
     });
-    var indexOf, globalLocale, getSetHour = makeGetSet("Hours", !0), baseConfig = {}, locales = {}, localeFamilies = {};
+    var indexOf, globalLocale, getSetHour = makeGetSet("Hours", !0), baseConfig = {
+        calendar: {
+            sameDay: "[Today at] LT",
+            nextDay: "[Tomorrow at] LT",
+            nextWeek: "dddd [at] LT",
+            lastDay: "[Yesterday at] LT",
+            lastWeek: "[Last] dddd [at] LT",
+            sameElse: "L"
+        },
+        longDateFormat: {
+            LTS: "h:mm:ss A",
+            LT: "h:mm A",
+            L: "MM/DD/YYYY",
+            LL: "MMMM D, YYYY",
+            LLL: "MMMM D, YYYY h:mm A",
+            LLLL: "dddd, MMMM D, YYYY h:mm A"
+        },
+        invalidDate: "Invalid date",
+        ordinal: "%d",
+        dayOfMonthOrdinalParse: /\d{1,2}/,
+        relativeTime: {
+            future: "in %s",
+            past: "%s ago",
+            s: "a few seconds",
+            ss: "%d seconds",
+            m: "a minute",
+            mm: "%d minutes",
+            h: "an hour",
+            hh: "%d hours",
+            d: "a day",
+            dd: "%d days",
+            w: "a week",
+            ww: "%d weeks",
+            M: "a month",
+            MM: "%d months",
+            y: "a year",
+            yy: "%d years"
+        },
+        months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"),
+        monthsShort: defaultLocaleMonthsShort,
+        week: {
+            dow: 0,
+            doy: 6
+        },
+        weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
+        weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
+        weekdaysShort: defaultLocaleWeekdaysShort,
+        meridiemParse: /[ap]\.?m?\.?/i
+    }, locales = {}, localeFamilies = {};
     function normalizeLocale(key) {
         return key ? key.toLowerCase().replace("_", "-") : key;
     }

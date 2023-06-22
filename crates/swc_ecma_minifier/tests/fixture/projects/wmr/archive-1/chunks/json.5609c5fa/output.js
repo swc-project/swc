@@ -1,5 +1,8 @@
 import { a as l, y, m } from "../index.f66dda46.js";
-const json = {};
+const json = {
+    foo: 42,
+    bar: "bar"
+};
 function JSONView() {
     const [fetched, setFetched] = l(null);
     return y(()=>{

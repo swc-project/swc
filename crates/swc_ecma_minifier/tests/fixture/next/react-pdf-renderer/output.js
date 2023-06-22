@@ -1195,19 +1195,33 @@
                         string: ""
                     }
                 ];
-                for(var n = [], i = r.props, o = (i.fill, i.fontFamily), a = i.fontWeight, u = i.fontStyle, l = (i.fontSize, i.textDecoration, i.textDecorationColor, i.textDecorationStyle, i.textTransform), s = (i.opacity, t ? t.getFont({
-                    fontFamily: void 0 === o ? "Helvetica" : o,
-                    fontWeight: a,
-                    fontStyle: u
-                }) : null), c = (s && s.data, {}), f = 0; f < r.children.length; f += 1){
-                    var d = r.children[f];
-                    d.type === T.TextInstance ? n.push({
-                        string: Z(d.value, l),
-                        attributes: c
-                    }) : d && n.push.apply(n, e(d));
+                for(var n = [], i = r.props, o = i.fill, a = void 0 === o ? "black" : o, u = i.fontFamily, l = void 0 === u ? "Helvetica" : u, s = i.fontWeight, c = i.fontStyle, f = i.fontSize, d = i.textDecoration, p = i.textDecorationColor, h = i.textDecorationStyle, y = i.textTransform, g = i.opacity, v = t ? t.getFont({
+                    fontFamily: l,
+                    fontWeight: s,
+                    fontStyle: c
+                }) : null, b = {
+                    font: v ? v.data : l,
+                    opacity: g,
+                    fontSize: void 0 === f ? 18 : f,
+                    color: a,
+                    underlineStyle: h,
+                    underline: "underline" === d || "underline line-through" === d || "line-through underline" === d,
+                    underlineColor: p || a,
+                    strike: "line-through" === d || "underline line-through" === d || "line-through underline" === d,
+                    strikeStyle: h,
+                    strikeColor: p || a
+                }, m = 0; m < r.children.length; m += 1){
+                    var D = r.children[m];
+                    D.type === T.TextInstance ? n.push({
+                        string: Z(D.value, y),
+                        attributes: b
+                    }) : D && n.push.apply(n, e(D));
                 }
                 return n;
-            }, ei = {}, eo = function(e, t) {
+            }, ei = {
+                before: -0.5,
+                after: -0.5
+            }, eo = function(e, t) {
                 if (!t.children) return t;
                 var r = t.children.map(function(t) {
                     var r, n, i = er(B.default(en(e, t)), {
@@ -1593,7 +1607,10 @@
                 }, e);
             })), function(e, t) {
                 return o.apply(this, arguments);
-            }), eH = {}, eZ = function(e, t) {
+            }), eH = {
+                color: "blue",
+                textDecoration: "underline"
+            }, eZ = function(e, t) {
                 var r = t.type === T.Link ? eH : {}, n = Array.isArray(t.style) ? [].concat(t.style, [
                     r
                 ]) : Object.assign({}, r, t.style);
@@ -2244,7 +2261,10 @@
                     bottom: (null == t ? void 0 : t.getComputedBottom()) || 0,
                     left: (null == t ? void 0 : t.getComputedLeft()) || 0
                 };
-            }, tB = {}, tM = function(e) {
+            }, tB = {
+                width: 0,
+                height: 0
+            }, tM = function(e) {
                 var t = e._yogaNode;
                 return t ? {
                     width: t.getComputedWidth(),
@@ -3925,8 +3945,25 @@
                 }), e.stroke(), e.undash();
             }, e7 = function(e, t) {
                 if (t.box && (t.box.borderTopWidth || t.box.borderRightWidth || t.box.borderBottomWidth || t.box.borderLeftWidth)) {
-                    var r = t.box, n = r.width, i = r.height, o = r.borderTopWidth, a = r.borderLeftWidth, u = r.borderRightWidth, l = r.borderBottomWidth, s = t.style, c = s.opacity, f = s.borderTopLeftRadius, d = s.borderTopRightRadius, p = s.borderBottomLeftRadius, h = s.borderBottomRightRadius, y = (s.borderTopColor, s.borderTopStyle, s.borderLeftColor, s.borderLeftStyle, s.borderRightColor, s.borderRightStyle, s.borderBottomColor, s.borderBottomStyle, {}), g = Math.min(void 0 === d ? 0 : d, 0.5 * n, 0.5 * i), v = Math.min(void 0 === f ? 0 : f, 0.5 * n, 0.5 * i), b = Math.min(void 0 === h ? 0 : h, 0.5 * n, 0.5 * i), m = Math.min(void 0 === p ? 0 : p, 0.5 * n, 0.5 * i);
-                    e.save(), e.strokeOpacity(c), o && (e.save(), e0(e, t.box, y, g, v), e1(e, t.box, y, g, v), e.restore()), u && (e.save(), e2(e, t.box, y, g, b), e3(e, t.box, y, g, b), e.restore()), l && (e.save(), e4(e, t.box, y, m, b), e5(e, t.box, y, m, b), e.restore()), a && (e.save(), e8(e, t.box, y, m, v), e6(e, t.box, y, m, v), e.restore()), e.restore();
+                    var r = t.box, n = r.width, i = r.height, o = r.borderTopWidth, a = r.borderLeftWidth, u = r.borderRightWidth, l = r.borderBottomWidth, s = t.style, c = s.opacity, f = s.borderTopLeftRadius, d = void 0 === f ? 0 : f, p = s.borderTopRightRadius, h = void 0 === p ? 0 : p, y = s.borderBottomLeftRadius, g = void 0 === y ? 0 : y, v = s.borderBottomRightRadius, b = void 0 === v ? 0 : v, m = s.borderTopColor, D = s.borderTopStyle, w = s.borderLeftColor, E = s.borderLeftStyle, _ = s.borderRightColor, x = s.borderRightStyle, S = s.borderBottomColor, A = s.borderBottomStyle, k = {
+                        borderTopColor: void 0 === m ? "black" : m,
+                        borderTopWidth: o,
+                        borderTopStyle: void 0 === D ? "solid" : D,
+                        borderLeftColor: void 0 === w ? "black" : w,
+                        borderLeftWidth: a,
+                        borderLeftStyle: void 0 === E ? "solid" : E,
+                        borderRightColor: void 0 === _ ? "black" : _,
+                        borderRightWidth: u,
+                        borderRightStyle: void 0 === x ? "solid" : x,
+                        borderBottomColor: void 0 === S ? "black" : S,
+                        borderBottomWidth: l,
+                        borderBottomStyle: void 0 === A ? "solid" : A,
+                        borderTopLeftRadius: d,
+                        borderTopRightRadius: h,
+                        borderBottomLeftRadius: g,
+                        borderBottomRightRadius: b
+                    }, T = Math.min(h, 0.5 * n, 0.5 * i), O = Math.min(d, 0.5 * n, 0.5 * i), C = Math.min(b, 0.5 * n, 0.5 * i), P = Math.min(g, 0.5 * n, 0.5 * i);
+                    e.save(), e.strokeOpacity(c), o && (e.save(), e0(e, t.box, k, T, O), e1(e, t.box, k, T, O), e.restore()), u && (e.save(), e2(e, t.box, k, T, C), e3(e, t.box, k, T, C), e.restore()), l && (e.save(), e4(e, t.box, k, P, C), e5(e, t.box, k, P, C), e.restore()), a && (e.save(), e8(e, t.box, k, P, O), e6(e, t.box, k, P, O), e.restore()), e.restore();
                 }
             }, e9 = function(e, t) {
                 var r, n = t.box, i = n.top, o = n.left, a = n.width, u = n.height, l = ek(t.style.backgroundColor), s = (0, m.isNil)(null === (r = t.style) || void 0 === r ? void 0 : r.opacity) ? 1 : t.style.opacity, c = Math.min(l.opacity, s);
@@ -5365,7 +5402,27 @@
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
-            var i = n(r(2065)), o = {}, a = {}, u = {}, l = {}, s = function(e, t) {
+            var i = n(r(2065)), o = {
+                before: 0.5,
+                after: 0.5,
+                priority: 1,
+                unconstrained: !1
+            }, a = {
+                before: 0.14453125,
+                after: 0.14453125,
+                priority: 2,
+                unconstrained: !1
+            }, u = {
+                before: -0.04296875,
+                after: -0.04296875,
+                priority: 1,
+                unconstrained: !1
+            }, l = {
+                before: -0.04296875,
+                after: -0.04296875,
+                priority: 2,
+                unconstrained: !1
+            }, s = function(e, t) {
                 var r = t.expandCharFactor || {}, n = t.shrinkCharFactor || {};
                 return "GROW" === e ? Object.assign({}, a, r) : Object.assign({}, l, n);
             }, c = function(e, t) {
@@ -18440,7 +18497,28 @@
                         }, t.shrinkBuf = function(e, t) {
                             return e.length === t ? e : e.subarray ? e.subarray(0, t) : (e.length = t, e);
                         };
-                        var n = {}, i = {};
+                        var n = {
+                            arraySet: function(e, t, r, n, i) {
+                                if (t.subarray && e.subarray) {
+                                    e.set(t.subarray(r, r + n), i);
+                                    return;
+                                }
+                                for(var o = 0; o < n; o++)e[i + o] = t[r + o];
+                            },
+                            flattenChunks: function(e) {
+                                var t, r, n, i, o, a;
+                                for(t = 0, n = 0, r = e.length; t < r; t++)n += e[t].length;
+                                for(t = 0, a = new Uint8Array(n), i = 0, r = e.length; t < r; t++)o = e[t], a.set(o, i), i += o.length;
+                                return a;
+                            }
+                        }, i = {
+                            arraySet: function(e, t, r, n, i) {
+                                for(var o = 0; o < n; o++)e[i + o] = t[r + o];
+                            },
+                            flattenChunks: function(e) {
+                                return [].concat.apply([], e);
+                            }
+                        };
                         t.setTyped = function(e) {
                             e ? (t.Buf8 = Uint8Array, t.Buf16 = Uint16Array, t.Buf32 = Int32Array, t.assign(t, n)) : (t.Buf8 = Array, t.Buf16 = Array, t.Buf32 = Array, t.assign(t, i));
                         }, t.setTyped(r);
@@ -25342,7 +25420,10 @@
                     var t = e.stateNode;
                     t.pendingContext ? eH(e, t.pendingContext, t.pendingContext !== t.context) : t.context && eH(e, t.context, !1), t4(e, t.containerInfo);
                 }
-                var r5 = {};
+                var r5 = {
+                    dehydrated: null,
+                    retryTime: 0
+                };
                 function r8(e, t, r) {
                     var n, i = t.mode, o = t.pendingProps, a = t7.current, u = !1;
                     if ((n = 0 != (64 & t.effectTag)) || (n = 0 != (2 & a) && (null === e || null !== e.memoizedState)), n ? (u = !0, t.effectTag &= -65) : null !== e && null === e.memoizedState || void 0 === o.fallback || !0 === o.unstable_avoidThisFallback || (a |= 1), eM(t7, 1 & a, t), null === e) {

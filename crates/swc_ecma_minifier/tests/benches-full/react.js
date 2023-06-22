@@ -58,7 +58,25 @@
         argsWithFormat.unshift('Warning: ' + format), Function.prototype.apply.call(console[level], console, argsWithFormat);
     }
     ReactSharedInternals.ReactDebugCurrentFrame = ReactDebugCurrentFrame;
-    var ReactNoopUpdateQueue = {}, emptyObject = {};
+    var didWarnStateUpdateForUnmountedComponent = {};
+    function warnNoop(publicInstance, callerName) {
+        var _constructor = publicInstance.constructor, componentName = _constructor && (_constructor.displayName || _constructor.name) || 'ReactClass', warningKey = componentName + "." + callerName;
+        didWarnStateUpdateForUnmountedComponent[warningKey] || (error("Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.", callerName, componentName), didWarnStateUpdateForUnmountedComponent[warningKey] = !0);
+    }
+    var ReactNoopUpdateQueue = {
+        isMounted: function(publicInstance) {
+            return !1;
+        },
+        enqueueForceUpdate: function(publicInstance, callback, callerName) {
+            warnNoop(publicInstance, 'forceUpdate');
+        },
+        enqueueReplaceState: function(publicInstance, completeState, callback, callerName) {
+            warnNoop(publicInstance, 'replaceState');
+        },
+        enqueueSetState: function(publicInstance, partialState, callback, callerName) {
+            warnNoop(publicInstance, 'setState');
+        }
+    }, emptyObject = {};
     function Component(props, context, updater) {
         this.props = props, this.context = context, this.refs = emptyObject, this.updater = updater || ReactNoopUpdateQueue;
     }

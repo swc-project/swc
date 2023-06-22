@@ -267,7 +267,12 @@
                 }
                 return null;
             }
-            var defaultNumberingSystem = {}, defaultNumberSymbols = {
+            var defaultNumberingSystem = {
+                latn: {
+                    _digits: '0123456789',
+                    _type: 'numeric'
+                }
+            }, defaultNumberSymbols = {
                 decimal: '.',
                 group: ',',
                 percentSign: '%',
@@ -340,7 +345,162 @@
                     }
                     return ret;
                 }, ParserBase.nPair = 'numericPair', ParserBase.nRegex = 'numericRegex', ParserBase.numberingSystems = defaultNumberingSystem, ParserBase;
-            }(), blazorCurrencyData = {};
+            }(), blazorCurrencyData = {
+                DJF: 'Fdj',
+                ERN: 'Nfk',
+                ETB: 'Br',
+                NAD: '$',
+                ZAR: 'R',
+                XAF: 'FCFA',
+                GHS: 'GH₵',
+                XDR: 'XDR',
+                AED: 'د.إ.‏',
+                BHD: 'د.ب.‏',
+                DZD: 'د.ج.‏',
+                EGP: 'ج.م.‏',
+                ILS: '₪',
+                IQD: 'د.ع.‏',
+                JOD: 'د.ا.‏',
+                KMF: 'CF',
+                KWD: 'د.ك.‏',
+                LBP: 'ل.ل.‏',
+                LYD: 'د.ل.‏',
+                MAD: 'د.م.‏',
+                MRU: 'أ.م.',
+                OMR: 'ر.ع.‏',
+                QAR: 'ر.ق.‏',
+                SAR: 'ر.س.‏',
+                SDG: 'ج.س.',
+                SOS: 'S',
+                SSP: '£',
+                SYP: 'ل.س.‏',
+                TND: 'د.ت.‏',
+                YER: 'ر.ي.‏',
+                CLP: '$',
+                INR: '₹',
+                TZS: 'TSh',
+                EUR: '€',
+                AZN: '₼',
+                RUB: '₽',
+                BYN: 'Br',
+                ZMW: 'K',
+                BGN: 'лв.',
+                NGN: '₦',
+                XOF: 'CFA',
+                BDT: '৳',
+                CNY: '¥',
+                BAM: 'КМ',
+                UGX: 'USh',
+                USD: '$',
+                CZK: 'Kč',
+                GBP: '£',
+                DKK: 'kr.',
+                KES: 'Ksh',
+                CHF: 'CHF',
+                MVR: 'ރ.',
+                BTN: 'Nu.',
+                XCD: 'EC$',
+                AUD: '$',
+                BBD: '$',
+                BIF: 'FBu',
+                BMD: '$',
+                BSD: '$',
+                BWP: 'P',
+                BZD: '$',
+                CAD: '$',
+                NZD: '$',
+                FJD: '$',
+                FKP: '£',
+                GIP: '£',
+                GMD: 'D',
+                GYD: '$',
+                HKD: '$',
+                IDR: 'Rp',
+                JMD: '$',
+                KYD: '$',
+                LRD: '$',
+                MGA: 'Ar',
+                MOP: 'MOP$',
+                MUR: 'Rs',
+                MWK: 'MK',
+                MYR: 'RM',
+                PGK: 'K',
+                PHP: '₱',
+                PKR: 'Rs',
+                RWF: 'RF',
+                SBD: '$',
+                SCR: 'SR',
+                SEK: 'kr',
+                SGD: '$',
+                SHP: '£',
+                SLL: 'Le',
+                ANG: 'NAf.',
+                SZL: 'E',
+                TOP: 'T$',
+                TTD: '$',
+                VUV: 'VT',
+                WST: 'WS$',
+                ARS: '$',
+                BOB: 'Bs',
+                BRL: 'R$',
+                COP: '$',
+                CRC: '₡',
+                CUP: '$',
+                DOP: '$',
+                GTQ: 'Q',
+                HNL: 'L',
+                MXN: '$',
+                NIO: 'C$',
+                PAB: 'B/.',
+                PEN: 'S/',
+                PYG: '₲',
+                UYU: '$',
+                VES: 'Bs.S',
+                IRR: 'ريال',
+                GNF: 'FG',
+                CDF: 'FC',
+                HTG: 'G',
+                XPF: 'FCFP',
+                HRK: 'kn',
+                HUF: 'Ft',
+                AMD: '֏',
+                ISK: 'kr',
+                JPY: '¥',
+                GEL: '₾',
+                CVE: '​',
+                KZT: '₸',
+                KHR: '៛',
+                KPW: '₩',
+                KRW: '₩',
+                KGS: 'сом',
+                AOA: 'Kz',
+                LAK: '₭',
+                MZN: 'MTn',
+                MKD: 'ден',
+                MNT: '₮',
+                BND: '$',
+                MMK: 'K',
+                NOK: 'kr',
+                NPR: 'रु',
+                AWG: 'Afl.',
+                SRD: '$',
+                PLN: 'zł',
+                AFN: '؋',
+                STN: 'Db',
+                MDL: 'L',
+                RON: 'lei',
+                UAH: '₴',
+                LKR: 'රු.',
+                ALL: 'Lekë',
+                RSD: 'дин.',
+                TJS: 'смн',
+                THB: '฿',
+                TMT: 'm.',
+                TRY: '₺',
+                UZS: 'сўм',
+                VND: '₫',
+                TWD: 'NT$'
+            };
             dateCorrection = [
                 28607,
                 28636,
@@ -2652,7 +2812,27 @@
                     dateSeparator: intl_base_IntlBase.getDateSeparator(dateObject)
                 });
             }
-            var blazorCultureFormats = {};
+            var blazorCultureFormats = {
+                'en-US': {
+                    d: 'M/d/y',
+                    D: 'EEEE, MMMM d, y',
+                    f: 'EEEE, MMMM d, y h:mm a',
+                    F: 'EEEE, MMMM d, y h:mm:s a',
+                    g: 'M/d/y h:mm a',
+                    G: 'M/d/yyyy h:mm:ss tt',
+                    m: 'MMMM d',
+                    M: 'MMMM d',
+                    r: 'ddd, dd MMM yyyy HH\':\'mm\':\'ss \'GMT\'',
+                    R: 'ddd, dd MMM yyyy HH\':\'mm\':\'ss \'GMT\'',
+                    s: 'yyyy\'-\'MM\'-\'dd\'T\'HH\':\'mm\':\'ss',
+                    t: 'h:mm tt',
+                    T: 'h:m:s tt',
+                    u: 'yyyy\'-\'MM\'-\'dd HH\':\'mm\':\'ss\'Z\'',
+                    U: 'dddd, MMMM d, yyyy h:mm:ss tt',
+                    y: 'MMMM yyyy',
+                    Y: 'MMMM yyyy'
+                }
+            };
             !function(IntlBase) {
                 IntlBase.negativeDataRegex = /^(('[^']+'|''|[^*#@0,.E])*)(\*.)?((([#,]*[0,]*0+)(\.0*[0-9]*#*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|[^*#@0,.E])*)$/, IntlBase.customRegex = /^(('[^']+'|''|[^*#@0,.])*)(\*.)?((([0#,]*[0,]*[0#]*[0#\ ]*)(\.[0#]*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|[^*#@0,.E])*)$/, IntlBase.latnParseRegex = /0|1|2|3|4|5|6|7|8|9/g;
                 var fractionRegex = /[0-9]/g;
@@ -4584,7 +4764,12 @@
                 if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) r = Reflect.decorate(decorators, target, key, desc);
                 else for(var i = decorators.length - 1; i >= 0; i--)(d = decorators[i]) && (r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r);
                 return c > 3 && r && Object.defineProperty(target, key, r), r;
-            }, defaultPosition = {}, isDraggedObject = {
+            }, defaultPosition = {
+                left: 0,
+                top: 0,
+                bottom: 0,
+                right: 0
+            }, isDraggedObject = {
                 isDragged: !1
             }, Position = function(_super) {
                 function Position() {
@@ -5929,7 +6114,10 @@
                     isRtl ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)(elements, CLASSNAMES.RTL) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)(elements, CLASSNAMES.RTL);
                 }
                 function setEnabled(isEnable, element, floatLabelType, inputContainer) {
-                    var disabledAttrs = {}, considerWrapper = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(inputContainer);
+                    var disabledAttrs = {
+                        disabled: 'disabled',
+                        'aria-disabled': 'true'
+                    }, considerWrapper = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(inputContainer);
                     isEnable ? (element.classList.remove(CLASSNAMES.DISABLE), removeAttributes(disabledAttrs, element), considerWrapper && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)([
                         inputContainer
                     ], CLASSNAMES.DISABLE)) : (element.classList.add(CLASSNAMES.DISABLE), addAttributes(disabledAttrs, element), considerWrapper && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
@@ -10250,7 +10438,22 @@
                                 }
                             }
                         ]
-                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), okButtonModel = {}, cancelButtonModel = {}, (0, ej2_base.le)(args.okButton) ? options1.buttons[0] = okButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, okButtonModel), (0, ej2_base.le)(args.cancelButton) ? options1.buttons[1] = cancelButtonModel : options1.buttons[1] = formButtonModel(options1.buttons[1], args.cancelButton, cancelButtonModel), options = options1), dialogElement)).close = function() {
+                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), okButtonModel = {
+                        buttonModel: {
+                            isPrimary: !0,
+                            content: 'OK'
+                        },
+                        click: function() {
+                            this.hide();
+                        }
+                    }, cancelButtonModel = {
+                        buttonModel: {
+                            content: 'Cancel'
+                        },
+                        click: function() {
+                            this.hide();
+                        }
+                    }, (0, ej2_base.le)(args.okButton) ? options1.buttons[0] = okButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, okButtonModel), (0, ej2_base.le)(args.cancelButton) ? options1.buttons[1] = cancelButtonModel : options1.buttons[1] = formButtonModel(options1.buttons[1], args.cancelButton, cancelButtonModel), options = options1), dialogElement)).close = function() {
                         args && args.close && args.close.apply(confirmDialogObj), confirmDialogObj.destroy(), confirmDialogObj.element.classList.contains('e-dlg-modal') ? (confirmDialogObj.element.parentElement.remove(), confirmDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : confirmDialogObj.element.remove();
                     }, confirmDialogObj;
                 };
@@ -17547,7 +17750,12 @@
                     var _this = this;
                     (0, ej2_base.le)(postRawFile) && (postRawFile = !0);
                     var eventArgs = {
-                        filesData: []
+                        event: args,
+                        cancel: !1,
+                        filesData: [],
+                        customFormData: [],
+                        postRawFile: postRawFile,
+                        currentRequest: null
                     };
                     this.trigger('beforeRemove', {
                         cancel: !1,
@@ -18816,7 +19024,10 @@
                 }, Toolbar.prototype.clstElement = function(tbrNavChk, trgt) {
                     return tbrNavChk && this.popObj && (0, ej2_base.pn)(this.popObj.element) ? this.popObj.element.querySelector('.' + CLS_ITEM) : this.element === trgt || tbrNavChk ? this.element.querySelector('.' + CLS_ITEM + ':not(.' + toolbar_CLS_DISABLE + ' ):not(.' + CLS_SEPARATOR + ' ):not(.' + CLS_HIDDEN + ' )') : (0, ej2_base.oq)(trgt, '.' + CLS_ITEM);
                 }, Toolbar.prototype.keyHandling = function(clst, e, trgt, navChk, scrollChk) {
-                    var ele, nodes, popObj = this.popObj, rootEle = this.element, popAnimate = {}, value = 'moveUp' === e.action ? 'previous' : 'next';
+                    var ele, nodes, popObj = this.popObj, rootEle = this.element, popAnimate = {
+                        name: 'FadeOut',
+                        duration: 100
+                    }, value = 'moveUp' === e.action ? 'previous' : 'next';
                     switch(e.action){
                         case 'moveRight':
                             if (this.isVertical) return;
@@ -18896,7 +19107,10 @@
                     var clst = (0, ej2_base.oq)(e.target, '.' + CLS_ITEM);
                     if (!((0, ej2_base.le)(clst) || clst.classList.contains(toolbar_CLS_DISABLE)) || popupNav.classList.contains(CLS_TBARNAV)) {
                         clst && (itemObj = this.items[this.tbarEle.indexOf(clst)]);
-                        var eventArgs = {};
+                        var eventArgs = {
+                            originalEvent: e,
+                            item: itemObj
+                        };
                         itemObj && !(0, ej2_base.le)(itemObj.click) && this.trigger('items[' + this.tbarEle.indexOf(clst) + '].click', eventArgs), eventArgs.cancel || this.trigger('clicked', eventArgs, function(clickedArgs) {
                             !(0, ej2_base.le)(_this.popObj) && isPopupElement && !clickedArgs.cancel && 'Popup' === _this.overflowMode && clickedArgs.item && 'Input' !== clickedArgs.item.type && _this.popObj.hide({
                                 name: 'FadeOut',

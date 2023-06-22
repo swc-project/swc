@@ -369,7 +369,10 @@
                 }
             };
             function computeImageArea(inputWidth, inputHeight, area) {
-                var context = {}, parsedArea = Object.keys(area).reduce(function(result, key) {
+                var context = {
+                    width: inputWidth,
+                    height: inputHeight
+                }, parsedArea = Object.keys(area).reduce(function(result, key) {
                     var value, parsed = {
                         value: parseFloat(value = area[key]),
                         unit: (value.indexOf("%"), value.length, "%")
@@ -6725,7 +6728,55 @@
                         }
                     };
                 }
-            }, config_config = {}, gl_vec2 = __webpack_require__(7), QuaggaContext_QuaggaContext = function QuaggaContext() {
+            }, config_config = {
+                inputStream: {
+                    name: "Live",
+                    type: "LiveStream",
+                    constraints: {
+                        width: 640,
+                        height: 480,
+                        facingMode: "environment"
+                    },
+                    area: {
+                        top: "0%",
+                        right: "0%",
+                        left: "0%",
+                        bottom: "0%"
+                    },
+                    singleChannel: !1
+                },
+                locate: !0,
+                numOfWorkers: 0,
+                decoder: {
+                    readers: [
+                        "code_128_reader"
+                    ],
+                    debug: {
+                        drawBoundingBox: !1,
+                        showFrequency: !1,
+                        drawScanline: !1,
+                        showPattern: !1
+                    }
+                },
+                locator: {
+                    halfSample: !0,
+                    patchSize: "medium",
+                    debug: {
+                        showCanvas: !1,
+                        showPatches: !1,
+                        showFoundPatches: !1,
+                        showSkeleton: !1,
+                        showLabels: !1,
+                        showPatchLabels: !1,
+                        showRemainingPatchLabels: !1,
+                        boxFromPatches: {
+                            showTransformed: !1,
+                            showTransformedBox: !1,
+                            showBB: !1
+                        }
+                    }
+                }
+            }, gl_vec2 = __webpack_require__(7), QuaggaContext_QuaggaContext = function QuaggaContext() {
                 classCallCheck_default()(this, QuaggaContext), defineProperty_default()(this, "config", void 0), defineProperty_default()(this, "inputStream", void 0), defineProperty_default()(this, "framegrabber", void 0), defineProperty_default()(this, "inputImageWrapper", void 0), defineProperty_default()(this, "stopped", !1), defineProperty_default()(this, "boxSize", void 0), defineProperty_default()(this, "resultCollector", void 0), defineProperty_default()(this, "decoder", void 0), defineProperty_default()(this, "workerPool", []), defineProperty_default()(this, "onUIThread", !0), defineProperty_default()(this, "canvasContainer", new QuaggaContext_CanvasContainer());
             }, QuaggaContext_CanvasInfo = function CanvasInfo() {
                 classCallCheck_default()(this, CanvasInfo), defineProperty_default()(this, "image", void 0), defineProperty_default()(this, "overlay", void 0);
@@ -6845,10 +6896,12 @@
                         "ended"
                     ], _eventHandlers = {}, _topRight = {
                         x: 0,
-                        y: 0
+                        y: 0,
+                        type: "Point"
                     }, _canvasSize = {
                         x: 0,
-                        y: 0
+                        y: 0,
+                        type: "XYSize"
                     }, inputStream = {
                         getRealWidth: function() {
                             return video.videoWidth;
@@ -6936,10 +6989,12 @@
                         "ended"
                     ], _eventHandlers = {}, _topRight = {
                         x: 0,
-                        y: 0
+                        y: 0,
+                        type: "Point"
                     }, _canvasSize = {
                         x: 0,
-                        y: 0
+                        y: 0,
+                        type: "XYSize"
                     };
                     function publishEvent(eventName, args) {
                         var j, handlers = _eventHandlers[eventName];

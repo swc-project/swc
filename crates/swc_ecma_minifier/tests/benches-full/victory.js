@@ -8972,7 +8972,12 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, VictoryArea = function(_React$Component) {
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50,
+                interpolation: "linear"
+            }, VictoryArea = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryArea() {
                     var call;
@@ -9524,7 +9529,11 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, VictoryAxis = function(_React$Component) {
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50
+            }, VictoryAxis = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryAxis() {
                     var call;
@@ -9903,7 +9912,9 @@
             }, getCornerRadius = function(cornerRadius, props) {
                 var realCornerRadius = {
                     topLeft: 0,
-                    topRight: 0
+                    topRight: 0,
+                    bottomLeft: 0,
+                    bottomRight: 0
                 };
                 return cornerRadius ? lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(cornerRadius) ? getCornerRadiusFromObject(cornerRadius, props) : (realCornerRadius.topLeft = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateProp(cornerRadius, props), realCornerRadius.topRight = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateProp(cornerRadius, props), realCornerRadius) : realCornerRadius;
             }, getStyle = function() {
@@ -10469,7 +10480,11 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, VictoryBar = function(_React$Component) {
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50
+            }, VictoryBar = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryBar() {
                     var call;
@@ -11016,7 +11031,16 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, VictoryBoxPlot = function(_React$Component) {
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: {
+                    top: 20,
+                    right: 20,
+                    bottom: 20,
+                    left: 20
+                }
+            }, VictoryBoxPlot = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryBoxPlot() {
                     var call;
@@ -11721,7 +11745,12 @@
                             y1: targetProps.y1,
                             scale: scale,
                             horizontal: horizontal
-                        }), _mutatedProps = {};
+                        }), _mutatedProps = {
+                            x2: x2,
+                            y2: y2,
+                            currentDomain: _currentDomain,
+                            parentSVG: parentSVG
+                        };
                         return lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(onBrushDomainChange) && onBrushDomainChange(_currentDomain, lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, _mutatedProps, targetProps)), [
                             {
                                 target: "parent",
@@ -11735,7 +11764,10 @@
                 },
                 onGlobalMouseUp: function(evt, targetProps) {
                     if (!targetProps.isPanning && !targetProps.isSelecting) return {};
-                    var x1 = targetProps.x1, y1 = targetProps.y1, x2 = targetProps.x2, y2 = targetProps.y2, isPanning = targetProps.isPanning, isSelecting = targetProps.isSelecting, onBrushDomainChange = targetProps.onBrushDomainChange, onBrushDomainChangeEnd = targetProps.onBrushDomainChangeEnd, onBrushCleared = targetProps.onBrushCleared, currentDomain = targetProps.currentDomain, allowResize = targetProps.allowResize, allowDrag = targetProps.allowDrag, defaultBrushArea = allowResize || targetProps.defaultBrushArea ? targetProps.defaultBrushArea : "move", mutatedProps = {};
+                    var x1 = targetProps.x1, y1 = targetProps.y1, x2 = targetProps.x2, y2 = targetProps.y2, isPanning = targetProps.isPanning, isSelecting = targetProps.isSelecting, onBrushDomainChange = targetProps.onBrushDomainChange, onBrushDomainChangeEnd = targetProps.onBrushDomainChangeEnd, onBrushCleared = targetProps.onBrushCleared, currentDomain = targetProps.currentDomain, allowResize = targetProps.allowResize, allowDrag = targetProps.allowDrag, defaultBrushArea = allowResize || targetProps.defaultBrushArea ? targetProps.defaultBrushArea : "move", mutatedProps = {
+                        isPanning: !1,
+                        isSelecting: !1
+                    };
                     if ((allowResize || void 0 !== defaultBrushArea && "none" !== defaultBrushArea) && (x1 === x2 || y1 === y2)) {
                         var cachedDomain = targetProps.cachedCurrentDomain || currentDomain, defaultDomain = this.getDefaultBrushArea(targetProps, cachedDomain, evt);
                         mutatedProps.currentDomain = defaultDomain, lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(onBrushDomainChange) && onBrushDomainChange(defaultDomain, lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, mutatedProps, targetProps)), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(onBrushDomainChangeEnd) && onBrushDomainChangeEnd(defaultDomain, lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, mutatedProps, targetProps)), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(onBrushCleared) && onBrushCleared(defaultDomain, lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, mutatedProps, targetProps));
@@ -12448,7 +12480,15 @@
                                         }
                                     ];
                                     if (allowDrag && isPanning) {
-                                        var fullRange = getFullRange(targetProps), range = panBox(targetProps, position), currentDomain = toDomain(targetProps, range), mutatedProps = ((Math.max.apply(Math, _toConsumableArray(range)) >= Math.max.apply(Math, _toConsumableArray(fullRange)) || Math.min.apply(Math, _toConsumableArray(range)) <= Math.min.apply(Math, _toConsumableArray(fullRange))) && targetProps.startPosition, {});
+                                        var fullRange = getFullRange(targetProps), range = panBox(targetProps, position), currentDomain = toDomain(targetProps, range), mutatedProps = {
+                                            startPosition: Math.max.apply(Math, _toConsumableArray(range)) >= Math.max.apply(Math, _toConsumableArray(fullRange)) || Math.min.apply(Math, _toConsumableArray(range)) <= Math.min.apply(Math, _toConsumableArray(fullRange)) ? targetProps.startPosition : position,
+                                            isPanning: !0,
+                                            brushDomain: currentDomain,
+                                            activeBrushes: {
+                                                brush: !0
+                                            },
+                                            parentSVG: parentSVG
+                                        };
                                         return lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(onBrushDomainChange) && onBrushDomainChange(currentDomain, lodash_defaults__WEBPACK_IMPORTED_MODULE_2___default()({}, mutatedProps, targetProps)), [
                                             {
                                                 mutation: function() {
@@ -12495,7 +12535,14 @@
                                     return [];
                                 },
                                 onMouseUp: function(evt, targetProps) {
-                                    var onBrushDomainChange = targetProps.onBrushDomainChange, brushDomain = targetProps.brushDomain, allowResize = targetProps.allowResize, mutatedProps = (targetProps.activeBrushes, {});
+                                    var onBrushDomainChange = targetProps.onBrushDomainChange, brushDomain = targetProps.brushDomain, allowResize = targetProps.allowResize, mutatedProps = {
+                                        isPanning: !1,
+                                        isSelecting: !1,
+                                        activeHandle: null,
+                                        startPosition: null,
+                                        brushDomain: brushDomain,
+                                        activeBrushes: targetProps.activeBrushes
+                                    };
                                     return allowResize && lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(onBrushDomainChange) && onBrushDomainChange(brushDomain, lodash_defaults__WEBPACK_IMPORTED_MODULE_2___default()({}, mutatedProps, targetProps)), [
                                         {
                                             mutation: function() {
@@ -12914,7 +12961,15 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, defaultData = [
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50,
+                candleColors: {
+                    positive: "#ffffff",
+                    negative: "#252525"
+                }
+            }, defaultData = [
                 {
                     x: new Date(2016, 6, 1),
                     open: 5,
@@ -13322,7 +13377,11 @@
             }), __webpack_require__.d(__webpack_exports__, "getChildComponents", function() {
                 return getChildComponents;
             });
-            var lodash_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_0__), lodash_defaults__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_1__), react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__), victory_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/index.js"), fallbackProps = {};
+            var lodash_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_0__), lodash_defaults__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_1__), react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__), victory_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/index.js"), fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50
+            };
             function getBackgroundWithProps(props, calculatedProps) {
                 var backgroundElement = props.backgroundComponent, height = props.polar ? calculatedProps.range.y[1] : calculatedProps.range.y[0] - calculatedProps.range.y[1], width = calculatedProps.range.x[1] - calculatedProps.range.x[0], xScale = props.horizontal ? calculatedProps.scale.y.range()[0] : calculatedProps.scale.x.range()[0], yScale = props.horizontal ? calculatedProps.scale.x.range()[1] : calculatedProps.scale.y.range()[1], xCoordinate = props.polar ? calculatedProps.origin.x : xScale, yCoordinate = props.polar ? calculatedProps.origin.y : yScale, parentName = props.name || "chart", backgroundProps = {
                     height: height,
@@ -13477,7 +13536,11 @@
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
             }
-            var fallbackProps = {}, VictoryChart = function(_React$Component) {
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50
+            }, VictoryChart = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryChart(props) {
                     var _this, call;
@@ -22262,7 +22325,11 @@
                 heightOverlapCoef: 1.05,
                 lineCapitalCoef: 1.15
             }, defaultStyle = {
-                fontSize: 0
+                lineHeight: 1,
+                letterSpacing: "0px",
+                fontSize: 0,
+                angle: 0,
+                fontFamily: ""
             }, _splitToLines = function(text) {
                 return Array.isArray(text) ? text : text.toString().split(/\r\n|\r|\n/g);
             }, _getSizeWithRotate = function(axisSize, dependentSize, angle) {
@@ -23684,7 +23751,11 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, VictoryErrorBar = function(_React$Component) {
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50
+            }, VictoryErrorBar = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryErrorBar() {
                     var call;
@@ -23887,7 +23958,12 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
-            var fallbackProps = {};
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50,
+                offset: 0
+            };
             function getCalculatedProps(props, childComponents) {
                 var role = "group";
                 props = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.modifyProps(props, fallbackProps, role);
@@ -23995,7 +24071,12 @@
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
             }
-            var fallbackProps = {}, VictoryGroup = function(_React$Component) {
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50,
+                offset: 0
+            }, VictoryGroup = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryGroup(props) {
                     var _this, call;
@@ -24361,7 +24442,11 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, VictoryHistogram = function(_React$Component) {
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50
+            }, VictoryHistogram = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryHistogram() {
                     var call;
@@ -25611,7 +25696,14 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, VictoryLegend = function(_React$Component) {
+            var fallbackProps = {
+                orientation: "vertical",
+                titleOrientation: "top",
+                width: 450,
+                height: 300,
+                x: 0,
+                y: 0
+            }, VictoryLegend = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryLegend() {
                     var call;
@@ -26034,7 +26126,12 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, VictoryLine = function(_React$Component) {
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50,
+                interpolation: "linear"
+            }, VictoryLine = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryLine() {
                     var call;
@@ -26450,7 +26547,28 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, VictoryPie = function(_React$Component) {
+            var fallbackProps = {
+                endAngle: 360,
+                height: 400,
+                innerRadius: 0,
+                cornerRadius: 0,
+                padAngle: 0,
+                padding: 30,
+                width: 400,
+                startAngle: 0,
+                colorScale: [
+                    "#ffffff",
+                    "#f0f0f0",
+                    "#d9d9d9",
+                    "#bdbdbd",
+                    "#969696",
+                    "#737373",
+                    "#525252",
+                    "#252525",
+                    "#000000"
+                ],
+                labelPosition: "centroid"
+            }, VictoryPie = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryPie() {
                     var call;
@@ -27038,7 +27156,11 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, VictoryPolarAxis = function(_React$Component) {
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50
+            }, VictoryPolarAxis = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryPolarAxis() {
                     var call;
@@ -27455,7 +27577,13 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, VictoryScatter = function(_React$Component) {
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50,
+                size: 3,
+                symbol: "circle"
+            }, VictoryScatter = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryScatter() {
                     var call;
@@ -27687,7 +27815,14 @@
                     evt.preventDefault();
                     var activateSelectedData = targetProps.activateSelectedData, allowSelection = targetProps.allowSelection, polar = targetProps.polar, selectedData = targetProps.selectedData;
                     if (!allowSelection) return {};
-                    var dimension = this.getDimension(targetProps), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), mutatedProps = (_Selection$getSVGEven.x, _Selection$getSVGEven.y, polar || "y" !== dimension || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[0], polar || "x" !== dimension || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[0], polar || "y" !== dimension || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[1], polar || "x" !== dimension || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[1], {});
+                    var dimension = this.getDimension(targetProps), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), x = _Selection$getSVGEven.x, y = _Selection$getSVGEven.y, mutatedProps = {
+                        x1: polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[0],
+                        y1: polar || "x" !== dimension ? y : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[0],
+                        select: !0,
+                        x2: polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[1],
+                        y2: polar || "x" !== dimension ? y : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[1],
+                        parentSVG: parentSVG
+                    };
                     selectedData && lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(targetProps.onSelectionCleared) && targetProps.onSelectionCleared(lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default()({}, mutatedProps, targetProps));
                     var parentMutation = [
                         {
@@ -28320,7 +28455,11 @@
             }), __webpack_require__.d(__webpack_exports__, "getCalculatedProps", function() {
                 return getCalculatedProps;
             });
-            var lodash_orderBy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/orderBy.js"), lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_orderBy__WEBPACK_IMPORTED_MODULE_0__), lodash_keys__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/keys.js"), lodash_keys__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_keys__WEBPACK_IMPORTED_MODULE_1__), lodash_assign__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_2__), react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js"), fallbackProps = {};
+            var lodash_orderBy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/orderBy.js"), lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_orderBy__WEBPACK_IMPORTED_MODULE_0__), lodash_keys__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/keys.js"), lodash_keys__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_keys__WEBPACK_IMPORTED_MODULE_1__), lodash_assign__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_2__), react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js"), fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50
+            };
             function getCalculatedProps(props, childComponents) {
                 childComponents = childComponents || react__WEBPACK_IMPORTED_MODULE_3___default.a.Children.toArray(props.children);
                 var props1, childComponents1, filterNullChildData, fillInMissingData, xMap, xKeys, xArr, datasets, role = "stack";
@@ -28478,7 +28617,11 @@
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
             }
-            var fallbackProps = {}, VictoryStack = function(_React$Component) {
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50
+            }, VictoryStack = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryStack(props) {
                     var _this, call;
@@ -28761,7 +28904,11 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, VictoryTooltip = function(_React$Component) {
+            var fallbackProps = {
+                cornerRadius: 5,
+                pointerLength: 10,
+                pointerWidth: 10
+            }, VictoryTooltip = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryTooltip(props) {
                     var _this, call;
@@ -29909,7 +30056,11 @@
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            var fallbackProps = {}, VictoryVoronoi = function(_React$Component) {
+            var fallbackProps = {
+                width: 450,
+                height: 300,
+                padding: 50
+            }, VictoryVoronoi = function(_React$Component) {
                 var protoProps, staticProps;
                 function VictoryVoronoi() {
                     var call;
@@ -30549,10 +30700,21 @@
                 },
                 onMouseMove: function(evt, targetProps, eventKey, ctx) {
                     if (targetProps.panning && targetProps.allowPan) {
-                        var scale = targetProps.scale, startX = targetProps.startX, startY = targetProps.startY, onZoomDomainChange = targetProps.onZoomDomainChange, zoomDimension = (targetProps.zoomDomain, targetProps.zoomDimension), horizontal = targetProps.horizontal, parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven3 = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), x = _Selection$getSVGEven3.x, y = _Selection$getSVGEven3.y, originalDomain = this.getDomain(targetProps), lastDomain = this.getLastDomain(targetProps, originalDomain), deltaX = horizontal ? y - startY : startX - x, deltaY = horizontal ? startX - x : y - startY, dx = deltaX / this.getDomainScale(lastDomain, scale, "x", horizontal), dy = deltaY / this.getDomainScale(lastDomain, scale, "y", horizontal), currentDomain = {
+                        var scale = targetProps.scale, startX = targetProps.startX, startY = targetProps.startY, onZoomDomainChange = targetProps.onZoomDomainChange, zoomDomain = targetProps.zoomDomain, zoomDimension = targetProps.zoomDimension, horizontal = targetProps.horizontal, parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven3 = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), x = _Selection$getSVGEven3.x, y = _Selection$getSVGEven3.y, originalDomain = this.getDomain(targetProps), lastDomain = this.getLastDomain(targetProps, originalDomain), deltaX = horizontal ? y - startY : startX - x, deltaY = horizontal ? startX - x : y - startY, dx = deltaX / this.getDomainScale(lastDomain, scale, "x", horizontal), dy = deltaY / this.getDomainScale(lastDomain, scale, "y", horizontal), currentDomain = {
                             x: "y" === zoomDimension ? originalDomain.x : this.pan(lastDomain.x, originalDomain.x, dx),
                             y: "x" === zoomDimension ? originalDomain.y : this.pan(lastDomain.y, originalDomain.y, dy)
-                        }, resumeAnimation = this.handleAnimation(ctx), mutatedProps = (this.checkDomainEquality(originalDomain, lastDomain), {});
+                        }, resumeAnimation = this.handleAnimation(ctx), zoomActive = !this.checkDomainEquality(originalDomain, lastDomain), mutatedProps = {
+                            parentControlledProps: [
+                                "domain"
+                            ],
+                            startX: x,
+                            startY: y,
+                            parentSVG: parentSVG,
+                            currentDomain: currentDomain,
+                            originalDomain: originalDomain,
+                            cachedZoomDomain: zoomDomain,
+                            zoomActive: zoomActive
+                        };
                         return lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(onZoomDomainChange) && onZoomDomainChange(currentDomain, lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, mutatedProps, targetProps)), [
                             {
                                 target: "parent",
@@ -30566,10 +30728,19 @@
                 },
                 onWheel: function(evt, targetProps, eventKey, ctx) {
                     if (targetProps.allowZoom) {
-                        var onZoomDomainChange = targetProps.onZoomDomainChange, zoomDimension = targetProps.zoomDimension, originalDomain = (targetProps.zoomDomain, this.getDomain(targetProps)), lastDomain = this.getLastDomain(targetProps, originalDomain), x = lastDomain.x, y = lastDomain.y, currentDomain = {
+                        var onZoomDomainChange = targetProps.onZoomDomainChange, zoomDimension = targetProps.zoomDimension, zoomDomain = targetProps.zoomDomain, originalDomain = this.getDomain(targetProps), lastDomain = this.getLastDomain(targetProps, originalDomain), x = lastDomain.x, y = lastDomain.y, currentDomain = {
                             x: "y" === zoomDimension ? lastDomain.x : this.scale(x, evt, targetProps, "x"),
                             y: "x" === zoomDimension ? lastDomain.y : this.scale(y, evt, targetProps, "y")
-                        }, resumeAnimation = this.handleAnimation(ctx), mutatedProps = (this.zoommingOut(evt) && targetProps.zoomActive && this.checkDomainEquality(originalDomain, lastDomain), {});
+                        }, resumeAnimation = this.handleAnimation(ctx), zoomActive = !this.zoommingOut(evt) || targetProps.zoomActive && !this.checkDomainEquality(originalDomain, lastDomain), mutatedProps = {
+                            currentDomain: currentDomain,
+                            originalDomain: originalDomain,
+                            cachedZoomDomain: zoomDomain,
+                            parentControlledProps: [
+                                "domain"
+                            ],
+                            panning: !1,
+                            zoomActive: zoomActive
+                        };
                         return lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(onZoomDomainChange) && onZoomDomainChange(currentDomain, lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, mutatedProps, targetProps)), [
                             {
                                 target: "parent",

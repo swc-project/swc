@@ -670,7 +670,15 @@
                 "onPauseResume",
                 "onReset",
                 "onUpdate"
-            ], DEFAULTS = {}, useCountUp = function(props) {
+            ], DEFAULTS = {
+                decimal: ".",
+                delay: null,
+                prefix: "",
+                suffix: "",
+                start: 0,
+                startOnMount: !0,
+                enableReinitialize: !0
+            }, useCountUp = function(props) {
                 var _useMemo = React.useMemo(function() {
                     return _objectSpread2(_objectSpread2({}, DEFAULTS), props);
                 }, [

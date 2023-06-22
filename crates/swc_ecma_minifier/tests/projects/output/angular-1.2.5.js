@@ -324,7 +324,13 @@
         }while (element !== endNode)
         return jqLite(elements);
     }
-    var version = {}, jqCache = JQLite.cache = {}, jqName = JQLite.expando = "ng-" + new Date().getTime(), jqId = 1, addEventListenerFn = window1.document.addEventListener ? function(element, type, fn) {
+    var version = {
+        full: "1.2.5",
+        major: 1,
+        minor: 2,
+        dot: 5,
+        codeName: "singularity-expansion"
+    }, jqCache = JQLite.cache = {}, jqName = JQLite.expando = "ng-" + new Date().getTime(), jqId = 1, addEventListenerFn = window1.document.addEventListener ? function(element, type, fn) {
         element.addEventListener(type, fn, !1);
     } : function(element, type, fn) {
         element.attachEvent("on" + type, fn);
@@ -3407,7 +3413,13 @@
             };
         };
     });
-    var nullFormCtrl = {};
+    var nullFormCtrl = {
+        $addControl: noop,
+        $removeControl: noop,
+        $setValidity: noop,
+        $setDirty: noop,
+        $setPristine: noop
+    };
     function FormController(element, attrs) {
         var form = this, parentForm = element.parent().controller("form") || nullFormCtrl, invalidCount = 0, errors = form.$error = {}, controls = [];
         function toggleValidCss(isValid, validationErrorKey) {
@@ -4104,7 +4116,9 @@
         "$compile",
         "$parse",
         function($compile, $parse) {
-            var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/, nullModelCtrl = {};
+            var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/, nullModelCtrl = {
+                $setViewValue: noop
+            };
             return {
                 restrict: "E",
                 require: [
@@ -4261,7 +4275,10 @@
     ], optionDirective = [
         "$interpolate",
         function($interpolate) {
-            var nullSelectCtrl = {};
+            var nullSelectCtrl = {
+                addOption: noop,
+                removeOption: noop
+            };
             return {
                 restrict: "E",
                 priority: 100,

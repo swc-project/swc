@@ -3681,7 +3681,21 @@
             event = normalizeEvent(this.dom, event), this.trigger(name, event);
         };
     });
-    var globalDOMHandlers = {};
+    var globalDOMHandlers = {
+        pointermove: function(event) {
+            isPointerFromTouch(event) || globalDOMHandlers.mousemove.call(this, event);
+        },
+        pointerup: function(event) {
+            globalDOMHandlers.mouseup.call(this, event);
+        },
+        mousemove: function(event) {
+            this.trigger('mousemove', event);
+        },
+        mouseup: function(event) {
+            var pointerCaptureReleasing = this.__pointerCapturing;
+            this.__togglePointerCapture(!1), this.trigger('mouseup', event), pointerCaptureReleasing && (event.zrEventControl = 'only_globalout', this.trigger('mouseout', event));
+        }
+    };
     function mountSingleDOMEventListener(scope, nativeEventName, listener, opt) {
         scope.mounted[nativeEventName] = listener, scope.listenerOpts[nativeEventName] = opt, addEventListener(scope.domTarget, nativeEventName, listener, opt);
     }
@@ -4031,6 +4045,10 @@
         var exponent = quantityExponent(val), exp10 = Math.pow(10, exponent), f = val / exp10;
         return val = (round ? f < 1.5 ? 1 : f < 2.5 ? 2 : f < 4 ? 3 : f < 7 ? 5 : 10 : f < 1 ? 1 : f < 2 ? 2 : f < 3 ? 3 : f < 5 ? 5 : 10) * exp10, exponent >= -20 ? +val.toFixed(exponent < 0 ? -exponent : 0) : val;
     }
+    function quantile(ascArr, p) {
+        var H = (ascArr.length - 1) * p + 1, h = Math.floor(H), v = +ascArr[h - 1], e = H - h;
+        return e ? v + e * (ascArr[h] - v) : v;
+    }
     function reformIntervals(list) {
         list.sort(function(a, b) {
             return !function littleThan(a, b, lg) {
@@ -4288,7 +4306,15 @@
             others: others
         };
     }
-    var SINGLE_REFERRING = {}, MULTIPLE_REFERRING = {};
+    var SINGLE_REFERRING = {
+        useDefault: !0,
+        enableAll: !1,
+        enableNone: !1
+    }, MULTIPLE_REFERRING = {
+        useDefault: !1,
+        enableAll: !0,
+        enableNone: !0
+    };
     function queryReferringComponents(ecModel, mainType, userOption, opt) {
         opt = opt || SINGLE_REFERRING;
         var indexOption = userOption.index, idOption = userOption.id, nameOption = userOption.name, result = {
@@ -4452,7 +4478,11 @@
         if (!newImageOrSrc) return image;
         if ('string' != typeof newImageOrSrc) return newImageOrSrc;
         if (image && image.__zrImageSrc === newImageOrSrc || !hostEl) return image;
-        var cachedImgObj = globalImageCache.get(newImageOrSrc), pendingWrap = {};
+        var cachedImgObj = globalImageCache.get(newImageOrSrc), pendingWrap = {
+            hostEl: hostEl,
+            cb: onload,
+            cbPayload: cbPayload
+        };
         return cachedImgObj ? isImageReady(image = cachedImgObj.image) || cachedImgObj.pending.push(pendingWrap) : ((image = new Image()).onload = image.onerror = imageOnLoad, globalImageCache.put(newImageOrSrc, image.__cachedImgObj = {
             image: image,
             pending: [
@@ -5591,7 +5621,9 @@
         }, Rect;
     }(Path);
     Rect.prototype.type = 'rect';
-    var DEFAULT_RICH_TEXT_COLOR = {}, DEFAULT_TEXT_ANIMATION_PROPS = {
+    var DEFAULT_RICH_TEXT_COLOR = {
+        fill: '#000'
+    }, DEFAULT_TEXT_ANIMATION_PROPS = {
         style: defaults({
             fill: !0,
             stroke: !0,
@@ -6023,7 +6055,10 @@
         }
     }
     function findComponentHighDownDispatchers(componentMainType, componentIndex, name, api) {
-        var focusSelf, ret = {};
+        var focusSelf, ret = {
+            focusSelf: !1,
+            dispatchers: null
+        };
         if (null == componentMainType || 'series' === componentMainType || null == componentIndex || null == name) return ret;
         var componentModel = api.getModel().getComponent(componentMainType, componentIndex);
         if (!componentModel) return ret;
@@ -7676,9 +7711,13 @@
         }
     });
     var defaultLeveledFormatter = {
+        year: '{yyyy}',
+        month: '{MMM}',
+        day: '{d}',
         hour: '{HH}:{mm}',
         minute: '{HH}:{mm}',
         second: '{HH}:{mm}:{ss}',
+        millisecond: '{hh}:{mm}:{ss} {SSS}',
         none: '{yyyy}-{MM}-{dd} {hh}:{mm}:{ss} {SSS}'
     }, fullDayFormatter = '{yyyy}-{MM}-{dd}', fullLeveledFormatter = {
         year: '{yyyy}',
@@ -12829,7 +12868,25 @@
             }
             return resource.load(nameMap, nameProperty);
         }
-    }, isObject$2 = isObject, hasWindow = 'undefined' != typeof window, IN_MAIN_PROCESS_KEY = '__flagInMainProcess', OPTION_UPDATED_KEY = '__optionUpdated', STATUS_NEEDS_UPDATE_KEY = '__needsUpdateStatus', ACTION_REG = /^[a-zA-Z0-9_]+$/, CONNECT_STATUS_KEY = '__connectUpdateStatus';
+    }, isObject$2 = isObject, hasWindow = 'undefined' != typeof window, PRIORITY = {
+        PROCESSOR: {
+            FILTER: 1000,
+            SERIES_FILTER: 800,
+            STATISTIC: 5000
+        },
+        VISUAL: {
+            LAYOUT: 1000,
+            PROGRESSIVE_LAYOUT: 1100,
+            GLOBAL: 2000,
+            CHART: 3000,
+            POST_CHART_LAYOUT: 4600,
+            COMPONENT: 4000,
+            BRUSH: 5000,
+            CHART_ITEM: 4500,
+            ARIA: 6000,
+            DECAL: 7000
+        }
+    }, IN_MAIN_PROCESS_KEY = '__flagInMainProcess', OPTION_UPDATED_KEY = '__optionUpdated', STATUS_NEEDS_UPDATE_KEY = '__needsUpdateStatus', ACTION_REG = /^[a-zA-Z0-9_]+$/, CONNECT_STATUS_KEY = '__connectUpdateStatus';
     function createRegisterEventWithLowercaseECharts(method) {
         return function() {
             for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
@@ -13625,6 +13682,12 @@
     function registerProcessor(priority, processor) {
         normalizeRegister(dataProcessorFuncs, priority, processor, 2000);
     }
+    function registerPostInit(postInitFunc) {
+        0 > indexOf(postInitFuncs, postInitFunc) && postInitFunc && postInitFuncs.push(postInitFunc);
+    }
+    function registerPostUpdate(postUpdateFunc) {
+        0 > indexOf(postUpdateFuncs, postUpdateFunc) && postUpdateFunc && postUpdateFuncs.push(postUpdateFunc);
+    }
     function registerAction(actionInfo, eventName, action) {
         'function' == typeof eventName && (action = eventName, eventName = '');
         var actionType = isObject$2(actionInfo) ? actionInfo.type : [
@@ -13637,6 +13700,12 @@
             action: action,
             actionInfo: actionInfo
         }), eventActionMap[eventName] = actionType);
+    }
+    function registerCoordinateSystem(type, coordSysCreator) {
+        CoordinateSystemManager.register(type, coordSysCreator);
+    }
+    function registerLayout(priority, layoutTask) {
+        normalizeRegister(visualFuncs, priority, layoutTask, 1000, 'layout');
     }
     function registerVisual(priority, visualTask) {
         normalizeRegister(visualFuncs, priority, visualTask, 3000, 'visual');
@@ -13652,6 +13721,20 @@
             stageHandler.__prio = priority, stageHandler.__raw = fn, targetList.push(stageHandler);
         }
     }
+    function registerLoading(name, loadingFx) {
+        loadingEffects[name] = loadingFx;
+    }
+    function registerMap(mapName, geoJson, specialAreas) {
+        geoSourceManager.registerMap(mapName, geoJson, specialAreas);
+    }
+    var registerTransform = function(externalTransform) {
+        var type = (externalTransform = clone(externalTransform)).type;
+        type || throwError('Must have a `type` when `registerTransform`.');
+        var typeParsed = type.split(':');
+        2 !== typeParsed.length && throwError('Name must include namespace like "ns:regression".');
+        var isBuiltIn = !1;
+        'echarts' === typeParsed[0] && (type = typeParsed[1], isBuiltIn = !0), externalTransform.__isBuiltIn = isBuiltIn, externalTransformMap.set(type, externalTransform);
+    };
     registerVisual(2000, {
         createOnAllSeries: !0,
         performRawSeries: !0,
@@ -13905,7 +13988,42 @@
             colorAll
         ]
     }, themeStorage.dark = theme;
-    var extensions = [], extensionRegisters = {};
+    var extensions = [], extensionRegisters = {
+        registerPreprocessor: registerPreprocessor,
+        registerProcessor: registerProcessor,
+        registerPostInit: registerPostInit,
+        registerPostUpdate: registerPostUpdate,
+        registerAction: registerAction,
+        registerCoordinateSystem: registerCoordinateSystem,
+        registerLayout: registerLayout,
+        registerVisual: registerVisual,
+        registerTransform: registerTransform,
+        registerLoading: registerLoading,
+        registerMap: registerMap,
+        PRIORITY: PRIORITY,
+        ComponentModel: ComponentModel,
+        ComponentView: ComponentView,
+        SeriesModel: SeriesModel,
+        ChartView: ChartView,
+        registerComponentModel: function(ComponentModelClass) {
+            ComponentModel.registerClass(ComponentModelClass);
+        },
+        registerComponentView: function(ComponentViewClass) {
+            ComponentView.registerClass(ComponentViewClass);
+        },
+        registerSeriesModel: function(SeriesModelClass) {
+            SeriesModel.registerClass(SeriesModelClass);
+        },
+        registerChartView: function(ChartViewClass) {
+            ChartView.registerClass(ChartViewClass);
+        },
+        registerSubTypeDefaulter: function(componentType, defaulter) {
+            ComponentModel.registerSubTypeDefaulter(componentType, defaulter);
+        },
+        registerPainter: function(painterType, PainterCtor) {
+            painterCtors[painterType] = PainterCtor;
+        }
+    };
     function use(ext) {
         if (isArray(ext)) {
             each(ext, function(singleExt) {
@@ -15729,10 +15847,7 @@
         quantity: quantity,
         quantityExponent: quantityExponent,
         nice: nice,
-        quantile: function(ascArr, p) {
-            var H = (ascArr.length - 1) * p + 1, h = Math.floor(H), v = +ascArr[h - 1], e = H - h;
-            return e ? v + e * (ascArr[h] - v) : v;
-        },
+        quantile: quantile,
         reformIntervals: reformIntervals,
         isNumeric: isNumeric,
         numericToNumber: numericToNumber
@@ -16038,16 +16153,50 @@
             indices: []
         });
     }
-    var mathRound = Math.round, mathSin$4 = Math.sin, mathCos$4 = Math.cos, PI$4 = Math.PI, PI2$7 = 2 * Math.PI, degree = 180 / PI$4;
+    var NONE = 'none', mathRound = Math.round, mathSin$4 = Math.sin, mathCos$4 = Math.cos, PI$4 = Math.PI, PI2$7 = 2 * Math.PI, degree = 180 / PI$4;
+    function round3(val) {
+        return mathRound(1e3 * val) / 1e3;
+    }
     function round4(val) {
         return mathRound(1e4 * val) / 1e4;
     }
     function isAroundZero$1(val) {
         return val < 1e-4 && val > -0.0001;
     }
-    !function() {
+    function setTransform(svgEl, m) {
+        m && attr(svgEl, 'transform', 'matrix(' + round3(m[0]) + ',' + round3(m[1]) + ',' + round3(m[2]) + ',' + round3(m[3]) + ',' + round4(m[4]) + ',' + round4(m[5]) + ')');
+    }
+    function attr(el, key, val) {
+        val && ('linear' === val.type || 'radial' === val.type) || el.setAttribute(key, val);
+    }
+    function bindStyle(svgEl, style, el) {
+        var fill, stroke, opacity = null == style.opacity ? 1 : style.opacity;
+        if (el instanceof ZRImage) {
+            svgEl.style.opacity = opacity + '';
+            return;
+        }
+        if (null != (fill = style.fill) && fill !== NONE) {
+            var fill1 = style.fill;
+            attr(svgEl, 'fill', fill1 = 'transparent' === fill1 ? NONE : fill1), attr(svgEl, 'fill-opacity', (null != style.fillOpacity ? style.fillOpacity * opacity : opacity) + '');
+        } else attr(svgEl, 'fill', NONE);
+        if (null != (stroke = style.stroke) && stroke !== NONE) {
+            var stroke1 = style.stroke;
+            attr(svgEl, 'stroke', stroke1 = 'transparent' === stroke1 ? NONE : stroke1);
+            var strokeWidth = style.lineWidth, strokeScale_1 = style.strokeNoScale ? el.getLineScale() : 1;
+            attr(svgEl, 'stroke-width', (strokeScale_1 ? strokeWidth / strokeScale_1 : 0) + ''), attr(svgEl, 'paint-order', style.strokeFirst ? 'stroke' : 'fill'), attr(svgEl, 'stroke-opacity', (null != style.strokeOpacity ? style.strokeOpacity * opacity : opacity) + '');
+            var lineDash = style.lineDash && strokeWidth > 0 && normalizeLineDash(style.lineDash, strokeWidth);
+            if (lineDash) {
+                var lineDashOffset = style.lineDashOffset;
+                strokeScale_1 && 1 !== strokeScale_1 && (lineDash = map(lineDash, function(rawVal) {
+                    return rawVal / strokeScale_1;
+                }), lineDashOffset && (lineDashOffset /= strokeScale_1, lineDashOffset = mathRound(lineDashOffset))), attr(svgEl, 'stroke-dasharray', lineDash.join(',')), attr(svgEl, 'stroke-dashoffset', (lineDashOffset || 0) + '');
+            } else attr(svgEl, 'stroke-dasharray', '');
+            style.lineCap && attr(svgEl, 'stroke-linecap', style.lineCap), style.lineJoin && attr(svgEl, 'stroke-linejoin', style.lineJoin), style.miterLimit && attr(svgEl, 'stroke-miterlimit', style.miterLimit + '');
+        } else attr(svgEl, 'stroke', NONE);
+    }
+    var SVGPathRebuilder = function() {
         function SVGPathRebuilder() {}
-        SVGPathRebuilder.prototype.reset = function() {
+        return SVGPathRebuilder.prototype.reset = function() {
             this._d = [], this._str = '';
         }, SVGPathRebuilder.prototype.moveTo = function(x, y) {
             this._add('M', x, y);
@@ -16085,9 +16234,46 @@
             this._str = this._invalid ? '' : this._d.join(' '), this._d = [];
         }, SVGPathRebuilder.prototype.getStr = function() {
             return this._str;
-        };
-    }();
-    var svgPath = {}, svgImage = {}, svgText = {}, Definable = function() {
+        }, SVGPathRebuilder;
+    }(), svgPath = {
+        brush: function(el) {
+            var style = el.style, svgEl = el.__svgEl;
+            svgEl || (svgEl = createElement('path'), el.__svgEl = svgEl), el.path || el.createPathProxy();
+            var path = el.path;
+            el.shapeChanged() && (path.beginPath(), el.buildPath(path, el.shape), el.pathUpdated());
+            var pathVersion = path.getVersion(), svgPathBuilder = el.__svgPathBuilder;
+            (el.__svgPathVersion !== pathVersion || !svgPathBuilder || el.style.strokePercent < 1) && (svgPathBuilder || (svgPathBuilder = el.__svgPathBuilder = new SVGPathRebuilder()), svgPathBuilder.reset(), path.rebuildPath(svgPathBuilder, el.style.strokePercent), svgPathBuilder.generateStr(), el.__svgPathVersion = pathVersion), attr(svgEl, 'd', svgPathBuilder.getStr()), bindStyle(svgEl, style, el), setTransform(svgEl, el.transform);
+        }
+    }, svgImage = {
+        brush: function(el) {
+            var style = el.style, image = style.image;
+            if (image instanceof HTMLImageElement ? image = image.src : image instanceof HTMLCanvasElement && (image = image.toDataURL()), image) {
+                var x = style.x || 0, y = style.y || 0, dw = style.width, dh = style.height, svgEl = el.__svgEl;
+                svgEl || (svgEl = createElement('image'), el.__svgEl = svgEl), image !== el.__imageSrc && (function(el, key, val) {
+                    el.setAttributeNS('http://www.w3.org/1999/xlink', key, val);
+                }(svgEl, 'href', image), el.__imageSrc = image), attr(svgEl, 'width', dw + ''), attr(svgEl, 'height', dh + ''), attr(svgEl, 'x', x + ''), attr(svgEl, 'y', y + ''), bindStyle(svgEl, style, el), setTransform(svgEl, el.transform);
+            }
+        }
+    }, TEXT_ALIGN_TO_ANCHOR = {
+        left: 'start',
+        right: 'end',
+        center: 'middle',
+        middle: 'middle'
+    }, svgText = {
+        brush: function(el) {
+            var y, lineHeight, textBaseline, style = el.style, text = style.text;
+            if (null != text && (text += ''), !(!text || isNaN(style.x) || isNaN(style.y))) {
+                var textSvgEl = el.__svgEl;
+                textSvgEl || (!function(el, key, val) {
+                    el.setAttributeNS('http://www.w3.org/XML/1998/namespace', key, val);
+                }(textSvgEl = createElement('text'), 'xml:space', 'preserve'), el.__svgEl = textSvgEl);
+                var font = style.font || DEFAULT_FONT;
+                textSvgEl.style.font = font, textSvgEl.textContent = text, bindStyle(textSvgEl, style, el), setTransform(textSvgEl, el.transform);
+                var x = style.x || 0, y1 = (y = style.y || 0, lineHeight = getLineHeight(font), 'top' === (textBaseline = style.textBaseline) ? y += lineHeight / 2 : 'bottom' === textBaseline && (y -= lineHeight / 2), y), textAlign = TEXT_ALIGN_TO_ANCHOR[style.textAlign] || style.textAlign;
+                attr(textSvgEl, 'dominant-baseline', 'central'), attr(textSvgEl, 'text-anchor', textAlign), attr(textSvgEl, 'x', x + ''), attr(textSvgEl, 'y', y1 + '');
+            }
+        }
+    }, Definable = function() {
         function Definable(zrId, svgRoot, tagNames, markLabel, domName) {
             this.nextId = 0, this._domName = '_dom', this.createElement = createElement, this._zrId = zrId, this._svgRoot = svgRoot, this._tagNames = 'string' == typeof tagNames ? [
                 tagNames
@@ -17264,7 +17450,9 @@
         }
         return SymbolDraw.prototype.updateData = function(data, opt) {
             opt = normalizeUpdateOpt(opt);
-            var group = this.group, seriesModel = data.hostModel, oldData = this._data, SymbolCtor = this._SymbolCtor, disableAnimation = opt.disableAnimation, seriesScope = makeSeriesScope(data), symbolUpdateOpt = {}, getSymbolPoint = opt.getSymbolPoint || function(idx) {
+            var group = this.group, seriesModel = data.hostModel, oldData = this._data, SymbolCtor = this._SymbolCtor, disableAnimation = opt.disableAnimation, seriesScope = makeSeriesScope(data), symbolUpdateOpt = {
+                disableAnimation: disableAnimation
+            }, getSymbolPoint = opt.getSymbolPoint || function(idx) {
                 return data.getItemLayout(idx);
             };
             oldData || group.removeAll(), data.diff(oldData).add(function(newIdx) {
@@ -17590,7 +17778,9 @@
             'endLabel',
             'show'
         ]) && console.warn('endLabel is not supported for lines in polar systems.'), createPolarClipPath(coordSys, hasAnimation, seriesModel);
-        var endLabelModel_1 = seriesModel.getModel('endLabel'), showEndLabel = endLabelModel_1.get('show'), valueAnimation_1 = endLabelModel_1.get('valueAnimation'), data_1 = seriesModel.getData(), labelAnimationRecord_1 = {}, during = showEndLabel ? function(percent, clipRect) {
+        var endLabelModel_1 = seriesModel.getModel('endLabel'), showEndLabel = endLabelModel_1.get('show'), valueAnimation_1 = endLabelModel_1.get('valueAnimation'), data_1 = seriesModel.getData(), labelAnimationRecord_1 = {
+            lastFrameIndex: 0
+        }, during = showEndLabel ? function(percent, clipRect) {
             lineView._endLabelOnDuring(percent, clipRect, data_1, labelAnimationRecord_1, valueAnimation_1, endLabelModel_1, coordSys);
         } : null, isHorizontal = coordSys.getBaseAxis().isHorizontal(), clipPath = createGridClipPath(coordSys, hasAnimation, seriesModel, function() {
             var endLabel = lineView._endLabel;
@@ -19380,7 +19570,12 @@
         value: valueAxis,
         time: timeAxis,
         log: logAxis
-    }, AXIS_TYPES = {};
+    }, AXIS_TYPES = {
+        value: 1,
+        category: 1,
+        time: 1,
+        log: 1
+    };
     function axisModelCreator(registers, axisName, BaseAxisModelClass, extraDefaultOption) {
         each(AXIS_TYPES, function(v, axisType) {
             var defaultOption = merge(merge({}, axisDefault[axisType], !0), extraDefaultOption, !0), AxisModel = function(_super) {
@@ -20288,7 +20483,9 @@
                 z2: -1
             }));
         }, GridView.type = 'grid', GridView;
-    }(ComponentView), extraOption = {};
+    }(ComponentView), extraOption = {
+        offset: 0
+    };
     function install$5(registers) {
         registers.registerComponentView(GridView), registers.registerComponentModel(GridModel), registers.registerCoordinateSystem('cartesian2d', Grid), axisModelCreator(registers, 'x', CartesianAxisModel, extraOption), axisModelCreator(registers, 'y', CartesianAxisModel, extraOption), registers.registerComponentView(CartesianXAxisView), registers.registerComponentView(CartesianYAxisView), registers.registerPreprocessor(function(option) {
             option.xAxis && option.yAxis && !option.grid && (option.grid = {});
@@ -20952,9 +21149,17 @@
             }, function(mapSeries) {
                 data || mapSeries.getHostGeoModel() !== mapOrGeoModel || (data = mapSeries.getData());
             });
-            var geo = mapOrGeoModel.coordinateSystem, regionsGroup = this._regionsGroup, group = this.group, transformInfo = geo.getTransformInfo(), transformInfoRoam = (transformInfo.raw, transformInfo.roam);
-            !regionsGroup.childAt(0) || payload ? (group.x = transformInfoRoam.x, group.y = transformInfoRoam.y, group.scaleX = transformInfoRoam.scaleX, group.scaleY = transformInfoRoam.scaleY, group.dirty()) : updateProps(group, transformInfoRoam, mapOrGeoModel), data && data.getVisual('visualMeta') && data.getVisual('visualMeta').length;
-            var viewBuildCtx = {};
+            var geo = mapOrGeoModel.coordinateSystem, regionsGroup = this._regionsGroup, group = this.group, transformInfo = geo.getTransformInfo(), transformInfoRaw = transformInfo.raw, transformInfoRoam = transformInfo.roam;
+            !regionsGroup.childAt(0) || payload ? (group.x = transformInfoRoam.x, group.y = transformInfoRoam.y, group.scaleX = transformInfoRoam.scaleX, group.scaleY = transformInfoRoam.scaleY, group.dirty()) : updateProps(group, transformInfoRoam, mapOrGeoModel);
+            var isVisualEncodedByVisualMap = data && data.getVisual('visualMeta') && data.getVisual('visualMeta').length > 0, viewBuildCtx = {
+                api: api,
+                geo: geo,
+                mapOrGeoModel: mapOrGeoModel,
+                data: data,
+                isVisualEncodedByVisualMap: isVisualEncodedByVisualMap,
+                isGeo: isGeo,
+                transformInfoRaw: transformInfoRaw
+            };
             'geoJSON' === geo.resourceType ? this._buildGeoJSON(viewBuildCtx) : 'geoSVG' === geo.resourceType && this._buildSVG(viewBuildCtx), this._updateController(mapOrGeoModel, ecModel, api), this._updateMapSelectHandler(mapOrGeoModel, regionsGroup, api, fromView);
         }, MapDraw.prototype._buildGeoJSON = function(viewBuildCtx) {
             var nameMap = this._regionsGroupByName = createHashMap(), regionsGroup = this._regionsGroup, transformInfoRaw = viewBuildCtx.transformInfoRaw, mapOrGeoModel = viewBuildCtx.mapOrGeoModel, data = viewBuildCtx.data, transformPoint = function(point) {
@@ -21608,7 +21813,9 @@
                 'emphasis',
                 'label',
                 'formatter'
-            ]), params = {};
+            ]), params = {
+                name: name
+            };
             return 'function' == typeof formatter ? (params.status = status, formatter(params)) : 'string' == typeof formatter ? formatter.replace('{a}', null != name ? name : '') : void 0;
         }, GeoModel.prototype.setZoom = function(zoom) {
             this.option.zoom = zoom;
@@ -22471,11 +22678,12 @@
             };
         }
     }
+    function getPathToRoot(node) {
+        for(var path = []; node;)(node = node.parentNode) && path.push(node);
+        return path.reverse();
+    }
     function aboveViewRoot(viewRoot, node) {
-        return indexOf(function(node) {
-            for(var path = []; node;)(node = node.parentNode) && path.push(node);
-            return path.reverse();
-        }(viewRoot), node) >= 0;
+        return indexOf(getPathToRoot(viewRoot), node) >= 0;
     }
     function wrapTreePathInfo(node, seriesModel) {
         for(var treePathInfo = []; node;){
@@ -23456,9 +23664,298 @@
             return null == index ? -1 : index;
         },
         fixed: noop
+    }, inner$8 = makeInner(), treemapVisual = {
+        seriesType: 'treemap',
+        reset: function(seriesModel) {
+            var root = seriesModel.getData().tree.root;
+            root.isRemoved() || function travelTree(node, designatedVisual, viewRootAncestors, seriesModel) {
+                var thisNodeColor, nodeModel = node.getModel(), nodeLayout = node.getLayout(), data = node.hostTree.data;
+                if (nodeLayout && !nodeLayout.invisible && nodeLayout.isInView) {
+                    var visuals, designatedVisualItemStyle, thisNodeColor1, nodeItemStyleModel = nodeModel.getModel('itemStyle'), visuals1 = (visuals = extend({}, designatedVisual), designatedVisualItemStyle = seriesModel.designatedVisualItemStyle, each([
+                        'color',
+                        'colorAlpha',
+                        'colorSaturation'
+                    ], function(visualName) {
+                        designatedVisualItemStyle[visualName] = designatedVisual[visualName];
+                        var val = nodeItemStyleModel.get(visualName);
+                        designatedVisualItemStyle[visualName] = null, null != val && (visuals[visualName] = val);
+                    }), visuals), existsStyle = data.ensureUniqueItemVisual(node.dataIndex, 'style'), borderColor = nodeItemStyleModel.get('borderColor'), borderColorSaturation = nodeItemStyleModel.get('borderColorSaturation');
+                    null != borderColorSaturation && (borderColor = null != (thisNodeColor1 = thisNodeColor = calculateColor(visuals1)) ? modifyHSL(thisNodeColor1, null, null, borderColorSaturation) : null), existsStyle.stroke = borderColor;
+                    var viewChildren = node.viewChildren;
+                    if (viewChildren && viewChildren.length) {
+                        var mapping_1 = function(node, nodeModel, nodeLayout, nodeItemStyleModel, visuals, viewChildren) {
+                            if (viewChildren && viewChildren.length) {
+                                var rangeVisual = getRangeVisual(nodeModel, 'color') || null != visuals.color && 'none' !== visuals.color && (getRangeVisual(nodeModel, 'colorAlpha') || getRangeVisual(nodeModel, 'colorSaturation'));
+                                if (rangeVisual) {
+                                    var visualMin = nodeModel.get('visualMin'), visualMax = nodeModel.get('visualMax'), dataExtent = nodeLayout.dataExtent.slice();
+                                    null != visualMin && visualMin < dataExtent[0] && (dataExtent[0] = visualMin), null != visualMax && visualMax > dataExtent[1] && (dataExtent[1] = visualMax);
+                                    var colorMappingBy = nodeModel.get('colorMappingBy'), opt = {
+                                        type: rangeVisual.name,
+                                        dataExtent: dataExtent,
+                                        visual: rangeVisual.range
+                                    };
+                                    'color' === opt.type && ('index' === colorMappingBy || 'id' === colorMappingBy) ? (opt.mappingMethod = 'category', opt.loop = !0) : opt.mappingMethod = 'linear';
+                                    var mapping = new VisualMapping(opt);
+                                    return inner$8(mapping).drColorMappingBy = colorMappingBy, mapping;
+                                }
+                            }
+                        }(0, nodeModel, nodeLayout, 0, visuals1, viewChildren);
+                        each(viewChildren, function(child, index) {
+                            if (child.depth >= viewRootAncestors.length || child === viewRootAncestors[child.depth]) {
+                                var childVisual = function(nodeModel, visuals, child, index, mapping, seriesModel) {
+                                    var childVisuals = extend({}, visuals);
+                                    if (mapping) {
+                                        var mappingType = mapping.type, colorMappingBy = 'color' === mappingType && inner$8(mapping).drColorMappingBy, value = 'index' === colorMappingBy ? index : 'id' === colorMappingBy ? seriesModel.mapIdToIndex(child.getId()) : child.getValue(nodeModel.get('visualDimension'));
+                                        childVisuals[mappingType] = mapping.mapValueToVisual(value);
+                                    }
+                                    return childVisuals;
+                                }(nodeModel, visuals1, child, index, mapping_1, seriesModel);
+                                travelTree(child, childVisual, viewRootAncestors, seriesModel);
+                            }
+                        });
+                    } else thisNodeColor = calculateColor(visuals1), existsStyle.fill = thisNodeColor;
+                }
+            }(root, {}, seriesModel.getViewRoot().getAncestors(), seriesModel);
+        }
     };
-    makeInner();
-    var treemapVisual = {}, treemapLayout = {};
+    function calculateColor(visuals) {
+        var color = getValueVisualDefine(visuals, 'color');
+        if (color) {
+            var colorAlpha = getValueVisualDefine(visuals, 'colorAlpha'), colorSaturation = getValueVisualDefine(visuals, 'colorSaturation');
+            return colorSaturation && (color = modifyHSL(color, null, null, colorSaturation)), colorAlpha && (color = modifyAlpha(color, colorAlpha)), color;
+        }
+    }
+    function getValueVisualDefine(visuals, name) {
+        var value = visuals[name];
+        if (null != value && 'none' !== value) return value;
+    }
+    function getRangeVisual(nodeModel, name) {
+        var range = nodeModel.get(name);
+        return isArray(range) && range.length ? {
+            name: name,
+            range: range
+        } : null;
+    }
+    var mathMax$7 = Math.max, mathMin$7 = Math.min, PATH_BORDER_WIDTH = [
+        'itemStyle',
+        'borderWidth'
+    ], PATH_GAP_WIDTH = [
+        'itemStyle',
+        'gapWidth'
+    ], PATH_UPPER_LABEL_SHOW = [
+        'upperLabel',
+        'show'
+    ], PATH_UPPER_LABEL_HEIGHT = [
+        'upperLabel',
+        'height'
+    ], treemapLayout = {
+        seriesType: 'treemap',
+        reset: function(seriesModel, ecModel, api, payload) {
+            var ecWidth = api.getWidth(), ecHeight = api.getHeight(), seriesOption = seriesModel.option, layoutInfo = getLayoutRect(seriesModel.getBoxLayoutParams(), {
+                width: api.getWidth(),
+                height: api.getHeight()
+            }), size = seriesOption.size || [], containerWidth = parsePercent$1(retrieve(layoutInfo.width, size[0]), ecWidth), containerHeight = parsePercent$1(retrieve(layoutInfo.height, size[1]), ecHeight), payloadType = payload && payload.type, targetInfo = retrieveTargetInfo(payload, [
+                'treemapZoomToNode',
+                'treemapRootToNode'
+            ], seriesModel), rootRect = 'treemapRender' === payloadType || 'treemapMove' === payloadType ? payload.rootRect : null, viewRoot = seriesModel.getViewRoot(), viewAbovePath = getPathToRoot(viewRoot);
+            if ('treemapMove' !== payloadType) {
+                var rootSize = 'treemapZoomToNode' === payloadType ? function(seriesModel, targetInfo, viewRoot, containerWidth, containerHeight) {
+                    var parent, currNode = (targetInfo || {}).node, defaultSize = [
+                        containerWidth,
+                        containerHeight
+                    ];
+                    if (!currNode || currNode === viewRoot) return defaultSize;
+                    for(var viewArea = containerWidth * containerHeight, area = viewArea * seriesModel.option.zoomToNodeRatio; parent = currNode.parentNode;){
+                        for(var sum = 0, siblings = parent.children, i = 0, len = siblings.length; i < len; i++)sum += siblings[i].getValue();
+                        var currNodeValue = currNode.getValue();
+                        if (0 === currNodeValue) return defaultSize;
+                        area *= sum / currNodeValue;
+                        var parentModel = parent.getModel(), borderWidth = parentModel.get(PATH_BORDER_WIDTH), upperHeight = Math.max(borderWidth, getUpperLabelHeight(parentModel));
+                        (area += 4 * borderWidth * borderWidth + (3 * borderWidth + upperHeight) * Math.pow(area, 0.5)) > 9007199254740991 && (area = 9007199254740991), currNode = parent;
+                    }
+                    area < viewArea && (area = viewArea);
+                    var scale = Math.pow(area / viewArea, 0.5);
+                    return [
+                        containerWidth * scale,
+                        containerHeight * scale
+                    ];
+                }(seriesModel, targetInfo, viewRoot, containerWidth, containerHeight) : rootRect ? [
+                    rootRect.width,
+                    rootRect.height
+                ] : [
+                    containerWidth,
+                    containerHeight
+                ], sort_1 = seriesOption.sort;
+                sort_1 && 'asc' !== sort_1 && 'desc' !== sort_1 && (sort_1 = 'desc');
+                var options = {
+                    squareRatio: seriesOption.squareRatio,
+                    sort: sort_1,
+                    leafDepth: seriesOption.leafDepth
+                };
+                viewRoot.hostTree.clearLayouts();
+                var viewRootLayout_1 = {
+                    x: 0,
+                    y: 0,
+                    width: rootSize[0],
+                    height: rootSize[1],
+                    area: rootSize[0] * rootSize[1]
+                };
+                viewRoot.setLayout(viewRootLayout_1), function squarify(node, options, hideChildren, depth) {
+                    if (!node.isRemoved()) {
+                        var width, height, thisLayout = node.getLayout();
+                        width = thisLayout.width, height = thisLayout.height;
+                        var nodeModel = node.getModel(), borderWidth = nodeModel.get(PATH_BORDER_WIDTH), halfGapWidth = nodeModel.get(PATH_GAP_WIDTH) / 2, upperLabelHeight = getUpperLabelHeight(nodeModel), upperHeight = Math.max(borderWidth, upperLabelHeight), layoutOffset = borderWidth - halfGapWidth, layoutOffsetUpper = upperHeight - halfGapWidth;
+                        node.setLayout({
+                            borderWidth: borderWidth,
+                            upperHeight: upperHeight,
+                            upperLabelHeight: upperLabelHeight
+                        }, !0);
+                        var totalArea = (width = mathMax$7(width - 2 * layoutOffset, 0)) * (height = mathMax$7(height - layoutOffset - layoutOffsetUpper, 0)), viewChildren = function(node, nodeModel, totalArea, options, hideChildren, depth) {
+                            var viewChildren, orderBy, viewChildren1 = node.children || [], orderBy1 = options.sort;
+                            'asc' !== orderBy1 && 'desc' !== orderBy1 && (orderBy1 = null);
+                            var overLeafDepth = null != options.leafDepth && options.leafDepth <= depth;
+                            if (hideChildren && !overLeafDepth) return node.viewChildren = [];
+                            viewChildren = viewChildren1 = filter(viewChildren1, function(child) {
+                                return !child.isRemoved();
+                            }), (orderBy = orderBy1) && viewChildren.sort(function(a, b) {
+                                var diff = 'asc' === orderBy ? a.getValue() - b.getValue() : b.getValue() - a.getValue();
+                                return 0 === diff ? 'asc' === orderBy ? a.dataIndex - b.dataIndex : b.dataIndex - a.dataIndex : diff;
+                            });
+                            var info = function(nodeModel, children, orderBy) {
+                                for(var dataExtent, sum = 0, i = 0, len = children.length; i < len; i++)sum += children[i].getValue();
+                                var dimension = nodeModel.get('visualDimension');
+                                return children && children.length ? 'value' === dimension && orderBy ? (dataExtent = [
+                                    children[children.length - 1].getValue(),
+                                    children[0].getValue()
+                                ], 'asc' === orderBy && dataExtent.reverse()) : (dataExtent = [
+                                    1 / 0,
+                                    -1 / 0
+                                ], each(children, function(child) {
+                                    var value = child.getValue(dimension);
+                                    value < dataExtent[0] && (dataExtent[0] = value), value > dataExtent[1] && (dataExtent[1] = value);
+                                })) : dataExtent = [
+                                    NaN,
+                                    NaN
+                                ], {
+                                    sum: sum,
+                                    dataExtent: dataExtent
+                                };
+                            }(nodeModel, viewChildren1, orderBy1);
+                            if (0 === info.sum || (info.sum = function(nodeModel, totalArea, sum, orderBy, orderedChildren) {
+                                if (!orderBy) return sum;
+                                for(var visibleMin = nodeModel.get('visibleMin'), len = orderedChildren.length, deletePoint = len, i = len - 1; i >= 0; i--){
+                                    var value = orderedChildren['asc' === orderBy ? len - i - 1 : i].getValue();
+                                    value / sum * totalArea < visibleMin && (deletePoint = i, sum -= value);
+                                }
+                                return 'asc' === orderBy ? orderedChildren.splice(0, len - deletePoint) : orderedChildren.splice(deletePoint, len - deletePoint), sum;
+                            }(nodeModel, totalArea, info.sum, orderBy1, viewChildren1), 0 === info.sum)) return node.viewChildren = [];
+                            for(var i = 0, len = viewChildren1.length; i < len; i++){
+                                var area = viewChildren1[i].getValue() / info.sum * totalArea;
+                                viewChildren1[i].setLayout({
+                                    area: area
+                                });
+                            }
+                            return overLeafDepth && (viewChildren1.length && node.setLayout({
+                                isLeafRoot: !0
+                            }, !0), viewChildren1.length = 0), node.viewChildren = viewChildren1, node.setLayout({
+                                dataExtent: info.dataExtent
+                            }, !0), viewChildren1;
+                        }(node, nodeModel, totalArea, options, hideChildren, depth);
+                        if (viewChildren.length) {
+                            var rect = {
+                                x: layoutOffset,
+                                y: layoutOffsetUpper,
+                                width: width,
+                                height: height
+                            }, rowFixedLength = mathMin$7(width, height), best = 1 / 0, row = [];
+                            row.area = 0;
+                            for(var i = 0, len = viewChildren.length; i < len;){
+                                var child = viewChildren[i];
+                                row.push(child), row.area += child.getLayout().area;
+                                var score = function(row, rowFixedLength, ratio) {
+                                    for(var areaMax = 0, areaMin = 1 / 0, i = 0, area = void 0, len = row.length; i < len; i++)(area = row[i].getLayout().area) && (area < areaMin && (areaMin = area), area > areaMax && (areaMax = area));
+                                    var squareArea = row.area * row.area, f = rowFixedLength * rowFixedLength * ratio;
+                                    return squareArea ? mathMax$7(f * areaMax / squareArea, squareArea / (f * areaMin)) : 1 / 0;
+                                }(row, rowFixedLength, options.squareRatio);
+                                score <= best ? (i++, best = score) : (row.area -= row.pop().getLayout().area, position(row, rowFixedLength, rect, halfGapWidth, !1), rowFixedLength = mathMin$7(rect.width, rect.height), row.length = row.area = 0, best = 1 / 0);
+                            }
+                            if (row.length && position(row, rowFixedLength, rect, halfGapWidth, !0), !hideChildren) {
+                                var childrenVisibleMin = nodeModel.get('childrenVisibleMin');
+                                null != childrenVisibleMin && totalArea < childrenVisibleMin && (hideChildren = !0);
+                            }
+                            for(var i = 0, len = viewChildren.length; i < len; i++)squarify(viewChildren[i], options, hideChildren, depth + 1);
+                        }
+                    }
+                }(viewRoot, options, !1, 0), viewRootLayout_1 = viewRoot.getLayout(), each(viewAbovePath, function(node, index) {
+                    var childValue = (viewAbovePath[index + 1] || viewRoot).getValue();
+                    node.setLayout(extend({
+                        dataExtent: [
+                            childValue,
+                            childValue
+                        ],
+                        borderWidth: 0,
+                        upperHeight: 0
+                    }, viewRootLayout_1));
+                });
+            }
+            var treeRoot = seriesModel.getData().tree.root;
+            treeRoot.setLayout(function(layoutInfo, rootRect, targetInfo) {
+                if (rootRect) return {
+                    x: rootRect.x,
+                    y: rootRect.y
+                };
+                var defaultPosition = {
+                    x: 0,
+                    y: 0
+                };
+                if (!targetInfo) return defaultPosition;
+                var targetNode = targetInfo.node, layout = targetNode.getLayout();
+                if (!layout) return defaultPosition;
+                for(var targetCenter = [
+                    layout.width / 2,
+                    layout.height / 2
+                ], node = targetNode; node;){
+                    var nodeLayout = node.getLayout();
+                    targetCenter[0] += nodeLayout.x, targetCenter[1] += nodeLayout.y, node = node.parentNode;
+                }
+                return {
+                    x: layoutInfo.width / 2 - targetCenter[0],
+                    y: layoutInfo.height / 2 - targetCenter[1]
+                };
+            }(layoutInfo, rootRect, targetInfo), !0), seriesModel.setLayoutInfo(layoutInfo), function prunning(node, clipRect, viewAbovePath, viewRoot, depth) {
+                var nodeLayout = node.getLayout(), nodeInViewAbovePath = viewAbovePath[depth], isAboveViewRoot = nodeInViewAbovePath && nodeInViewAbovePath === node;
+                if ((!nodeInViewAbovePath || isAboveViewRoot) && (depth !== viewAbovePath.length || node === viewRoot)) {
+                    node.setLayout({
+                        isInView: !0,
+                        invisible: !isAboveViewRoot && !clipRect.intersect(nodeLayout),
+                        isAboveViewRoot: isAboveViewRoot
+                    }, !0);
+                    var childClipRect = new BoundingRect(clipRect.x - nodeLayout.x, clipRect.y - nodeLayout.y, clipRect.width, clipRect.height);
+                    each(node.viewChildren || [], function(child) {
+                        prunning(child, childClipRect, viewAbovePath, viewRoot, depth + 1);
+                    });
+                }
+            }(treeRoot, new BoundingRect(-layoutInfo.x, -layoutInfo.y, ecWidth, ecHeight), viewAbovePath, viewRoot, 0);
+        }
+    };
+    function position(row, rowFixedLength, rect, halfGapWidth, flush) {
+        var idx0WhenH = rowFixedLength === rect.width ? 0 : 1, idx1WhenH = 1 - idx0WhenH, xy = [
+            'x',
+            'y'
+        ], wh = [
+            'width',
+            'height'
+        ], last = rect[xy[idx0WhenH]], rowOtherLength = rowFixedLength ? row.area / rowFixedLength : 0;
+        (flush || rowOtherLength > rect[wh[idx1WhenH]]) && (rowOtherLength = rect[wh[idx1WhenH]]);
+        for(var i = 0, rowLen = row.length; i < rowLen; i++){
+            var node = row[i], nodeLayout = {}, step = rowOtherLength ? node.getLayout().area / rowOtherLength : 0, wh1 = nodeLayout[wh[idx1WhenH]] = mathMax$7(rowOtherLength - 2 * halfGapWidth, 0), remain = rect[xy[idx0WhenH]] + rect[wh[idx0WhenH]] - last, modWH = i === rowLen - 1 || remain < step ? remain : step, wh0 = nodeLayout[wh[idx0WhenH]] = mathMax$7(modWH - 2 * halfGapWidth, 0);
+            nodeLayout[xy[idx1WhenH]] = rect[xy[idx1WhenH]] + mathMin$7(halfGapWidth, wh1 / 2), nodeLayout[xy[idx0WhenH]] = last + mathMin$7(halfGapWidth, wh0 / 2), last += modWH, node.setLayout(nodeLayout, !0);
+        }
+        rect[xy[idx1WhenH]] += rowOtherLength, rect[wh[idx1WhenH]] -= rowOtherLength;
+    }
+    function getUpperLabelHeight(model) {
+        return model.get(PATH_UPPER_LABEL_SHOW) ? model.get(PATH_UPPER_LABEL_HEIGHT) : 0;
+    }
     function categoryFilter(ecModel) {
         var legendModels = ecModel.findComponents({
             mainType: 'legend'
@@ -24690,7 +25187,11 @@
                 }
             }
         }, GraphSeriesModel;
-    }(SeriesModel), actionInfo = {}, PointerShape = function() {
+    }(SeriesModel), actionInfo = {
+        type: 'graphRoam',
+        event: 'graphRoam',
+        update: 'none'
+    }, PointerShape = function() {
         this.angle = 0, this.width = 10, this.r = 10, this.x = 0, this.y = 0;
     }, PointerPath = function(_super) {
         function PointerPath(opts) {
@@ -25529,7 +26030,34 @@
             }), encodeDefine;
         }
     }
-    var parallelVisual = {};
+    var opacityAccessPath$1 = [
+        'lineStyle',
+        'opacity'
+    ], parallelVisual = {
+        seriesType: 'parallel',
+        reset: function(seriesModel, ecModel) {
+            var coordSys = seriesModel.coordinateSystem, opacityMap = {
+                normal: seriesModel.get([
+                    'lineStyle',
+                    'opacity'
+                ]),
+                active: seriesModel.get('activeOpacity'),
+                inactive: seriesModel.get('inactiveOpacity')
+            };
+            return {
+                progress: function(params, data) {
+                    coordSys.eachActiveState(data, function(activeState, dataIndex) {
+                        var opacity = opacityMap[activeState];
+                        if ('normal' === activeState && data.hasItemOption) {
+                            var itemOpacity = data.getItemModel(dataIndex).get(opacityAccessPath$1, !0);
+                            null != itemOpacity && (opacity = itemOpacity);
+                        }
+                        data.ensureUniqueItemVisual(dataIndex, 'style').opacity = opacity;
+                    }, params.start, params.end);
+                }
+            };
+        }
+    };
     function parallelPreprocessor(option) {
         (function(option) {
             if (!option.parallel) {
@@ -25708,32 +26236,11 @@
     function restrict(value, extend) {
         return Math.min(null != extend[1] ? extend[1] : 1 / 0, Math.max(null != extend[0] ? extend[0] : -1 / 0, value));
     }
-    var mathMin$8 = Math.min, mathMax$8 = Math.max, mathFloor$2 = Math.floor, mathCeil$1 = Math.ceil, PI$7 = Math.PI;
-    function restrict$1(len, extent) {
-        return mathMin$8(mathMax$8(len, extent[0]), extent[1]);
-    }
-    function layoutAxisWithoutExpand(axisIndex, layoutInfo) {
-        var step = layoutInfo.layoutLength / (layoutInfo.axisCount - 1);
-        return {
-            position: step * axisIndex,
-            axisNameAvailableWidth: step,
-            axisLabelShow: !0
-        };
-    }
-    function layoutAxisWithExpand(axisIndex, layoutInfo) {
-        var position, nameTruncateMaxWidth, layoutLength = layoutInfo.layoutLength, axisExpandWidth = layoutInfo.axisExpandWidth, axisCount = layoutInfo.axisCount, axisCollapseWidth = layoutInfo.axisCollapseWidth, winInnerIndices = layoutInfo.winInnerIndices, axisNameAvailableWidth = axisCollapseWidth, axisLabelShow = !1;
-        return axisIndex < winInnerIndices[0] ? (position = axisIndex * axisCollapseWidth, nameTruncateMaxWidth = axisCollapseWidth) : axisIndex <= winInnerIndices[1] ? (position = layoutInfo.axisExpandWindow0Pos + axisIndex * axisExpandWidth - layoutInfo.axisExpandWindow[0], axisNameAvailableWidth = axisExpandWidth, axisLabelShow = !0) : (position = layoutLength - (axisCount - 1 - axisIndex) * axisCollapseWidth, nameTruncateMaxWidth = axisCollapseWidth), {
-            position: position,
-            axisNameAvailableWidth: axisNameAvailableWidth,
-            axisLabelShow: axisLabelShow,
-            nameTruncateMaxWidth: nameTruncateMaxWidth
-        };
-    }
-    !function() {
+    var mathMin$8 = Math.min, mathMax$8 = Math.max, mathFloor$2 = Math.floor, mathCeil$1 = Math.ceil, PI$7 = Math.PI, Parallel = function() {
         function Parallel(parallelModel, ecModel, api) {
             this.type = 'parallel', this._axesMap = createHashMap(), this._axesLayout = {}, this.dimensions = parallelModel.dimensions, this._model = parallelModel, this._init(parallelModel, ecModel, api);
         }
-        Parallel.prototype._init = function(parallelModel, ecModel, api) {
+        return Parallel.prototype._init = function(parallelModel, ecModel, api) {
             var dimensions = parallelModel.dimensions, parallelAxisIndex = parallelModel.parallelAxisIndex;
             each(dimensions, function(dim, idx) {
                 var axisIndex = parallelAxisIndex[idx], axisModel = ecModel.getComponent('parallelAxis', axisIndex), axis = this._axesMap.set(dim, new ParallelAxis(dim, createScaleByModel(axisModel), [
@@ -25892,9 +26399,42 @@
                 axisExpandWindow: axisExpandWindow,
                 behavior: behavior
             };
-        };
+        }, Parallel;
     }();
-    var parallelCoordSysCreator = {}, ParallelAxisModel = function(_super) {
+    function restrict$1(len, extent) {
+        return mathMin$8(mathMax$8(len, extent[0]), extent[1]);
+    }
+    function layoutAxisWithoutExpand(axisIndex, layoutInfo) {
+        var step = layoutInfo.layoutLength / (layoutInfo.axisCount - 1);
+        return {
+            position: step * axisIndex,
+            axisNameAvailableWidth: step,
+            axisLabelShow: !0
+        };
+    }
+    function layoutAxisWithExpand(axisIndex, layoutInfo) {
+        var position, nameTruncateMaxWidth, layoutLength = layoutInfo.layoutLength, axisExpandWidth = layoutInfo.axisExpandWidth, axisCount = layoutInfo.axisCount, axisCollapseWidth = layoutInfo.axisCollapseWidth, winInnerIndices = layoutInfo.winInnerIndices, axisNameAvailableWidth = axisCollapseWidth, axisLabelShow = !1;
+        return axisIndex < winInnerIndices[0] ? (position = axisIndex * axisCollapseWidth, nameTruncateMaxWidth = axisCollapseWidth) : axisIndex <= winInnerIndices[1] ? (position = layoutInfo.axisExpandWindow0Pos + axisIndex * axisExpandWidth - layoutInfo.axisExpandWindow[0], axisNameAvailableWidth = axisExpandWidth, axisLabelShow = !0) : (position = layoutLength - (axisCount - 1 - axisIndex) * axisCollapseWidth, nameTruncateMaxWidth = axisCollapseWidth), {
+            position: position,
+            axisNameAvailableWidth: axisNameAvailableWidth,
+            axisLabelShow: axisLabelShow,
+            nameTruncateMaxWidth: nameTruncateMaxWidth
+        };
+    }
+    var parallelCoordSysCreator = {
+        create: function(ecModel, api) {
+            var coordSysList = [];
+            return ecModel.eachComponent('parallel', function(parallelModel, idx) {
+                var coordSys = new Parallel(parallelModel, ecModel, api);
+                coordSys.name = 'parallel_' + idx, coordSys.resize(parallelModel, api), parallelModel.coordinateSystem = coordSys, coordSys.model = parallelModel, coordSysList.push(coordSys);
+            }), ecModel.eachSeries(function(seriesModel) {
+                if ('parallel' === seriesModel.get('coordinateSystem')) {
+                    var parallelModel = seriesModel.getReferringComponents('parallel', SINGLE_REFERRING).models[0];
+                    seriesModel.coordinateSystem = parallelModel.coordinateSystem;
+                }
+            }), coordSysList;
+        }
+    }, ParallelAxisModel = function(_super) {
         function ParallelAxisModel() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
             return _this.type = ParallelAxisModel.type, _this.activeIntervals = [], _this;
@@ -25963,7 +26503,16 @@
         sw: 'nesw',
         nw: 'nwse',
         se: 'nwse'
-    }, DEFAULT_BRUSH_OPT = {}, baseUID = 0, BrushController = function(_super) {
+    }, DEFAULT_BRUSH_OPT = {
+        brushStyle: {
+            lineWidth: 2,
+            stroke: 'rgba(210,219,238,0.3)',
+            fill: '#D2DBEE'
+        },
+        transformable: !0,
+        brushMode: 'single',
+        removeOnClick: !1
+    }, baseUID = 0, BrushController = function(_super) {
         function BrushController(zr) {
             var _this = _super.call(this) || this;
             return _this._track = [], _this._covers = [], _this._handlers = {}, assert(zr), _this._zr = zr, _this.group = new Group(), _this._uid = 'brushController_' + baseUID++, each(pointerHandlers, function(handler, eventName) {
@@ -26578,7 +27127,21 @@
         }, ParallelAxisView.prototype.dispose = function() {
             this._brushController.dispose();
         }, ParallelAxisView.type = 'parallelAxis', ParallelAxisView;
-    }(ComponentView), actionInfo$1 = {}, defaultAxisOption = {};
+    }(ComponentView), actionInfo$1 = {
+        type: 'axisAreaSelect',
+        event: 'axisAreaSelected'
+    }, defaultAxisOption = {
+        type: 'value',
+        areaSelectStyle: {
+            width: 20,
+            borderWidth: 1,
+            borderColor: 'rgba(160,197,232)',
+            color: 'rgba(160,197,232)',
+            opacity: 0.3
+        },
+        realtime: !0,
+        z: 10
+    };
     function install$g(registers) {
         registers.registerComponentView(ParallelView$1), registers.registerComponentModel(ParallelModel), registers.registerCoordinateSystem('parallel', parallelCoordSysCreator), registers.registerPreprocessor(parallelPreprocessor), registers.registerComponentModel(ParallelAxisModel), registers.registerComponentView(ParallelAxisView), axisModelCreator(registers, 'parallel', ParallelAxisModel, defaultAxisOption), registers.registerAction(actionInfo$1, function(payload, ecModel) {
             ecModel.eachComponent({
@@ -27307,7 +27870,58 @@
             }));
         });
     }
-    var boxplotTransform = {}, SKIP_PROPS = [
+    var boxplotTransform = {
+        type: 'echarts:boxplot',
+        transform: function(params) {
+            var upstream = params.upstream;
+            upstream.sourceFormat !== SOURCE_FORMAT_ARRAY_ROWS && throwError(makePrintable('source data is not applicable for this boxplot transform. Expect number[][].'));
+            var result = function(rawData, opt) {
+                for(var boxData = [], outliers = [], boundIQR = (opt = opt || {}).boundIQR, useExtreme = 'none' === boundIQR || 0 === boundIQR, i = 0; i < rawData.length; i++){
+                    var ascList = asc(rawData[i].slice()), Q1 = quantile(ascList, 0.25), Q2 = quantile(ascList, 0.5), Q3 = quantile(ascList, 0.75), min = ascList[0], max = ascList[ascList.length - 1], bound = (null == boundIQR ? 1.5 : boundIQR) * (Q3 - Q1), low = useExtreme ? min : Math.max(min, Q1 - bound), high = useExtreme ? max : Math.min(max, Q3 + bound), itemNameFormatter = opt.itemNameFormatter, itemName = isFunction(itemNameFormatter) ? itemNameFormatter({
+                        value: i
+                    }) : isString(itemNameFormatter) ? itemNameFormatter.replace('{value}', i + '') : i + '';
+                    boxData.push([
+                        itemName,
+                        low,
+                        Q1,
+                        Q2,
+                        Q3,
+                        high
+                    ]);
+                    for(var j = 0; j < ascList.length; j++){
+                        var dataItem = ascList[j];
+                        if (dataItem < low || dataItem > high) {
+                            var outlier = [
+                                itemName,
+                                dataItem
+                            ];
+                            outliers.push(outlier);
+                        }
+                    }
+                }
+                return {
+                    boxData: boxData,
+                    outliers: outliers
+                };
+            }(upstream.getRawData(), params.config);
+            return [
+                {
+                    dimensions: [
+                        'ItemName',
+                        'Low',
+                        'Q1',
+                        'Q2',
+                        'Q3',
+                        'High'
+                    ],
+                    data: result.boxData
+                },
+                {
+                    data: result.outliers
+                }
+            ];
+        }
+    }, SKIP_PROPS = [
         'color',
         'borderColor'
     ], CandlestickView = function(_super) {
@@ -28211,7 +28825,25 @@
                 opacity: 0.5
             }
         }, LinesSeriesModel;
-    }(SeriesModel), linesVisual = {}, HeatmapLayer = function() {
+    }(SeriesModel);
+    function normalize$3(a) {
+        return a instanceof Array || (a = [
+            a,
+            a
+        ]), a;
+    }
+    var linesVisual = {
+        seriesType: 'lines',
+        reset: function(seriesModel) {
+            var symbolType = normalize$3(seriesModel.get('symbol')), symbolSize = normalize$3(seriesModel.get('symbolSize')), data = seriesModel.getData();
+            return data.setVisual('fromSymbol', symbolType && symbolType[0]), data.setVisual('toSymbol', symbolType && symbolType[1]), data.setVisual('fromSymbolSize', symbolSize && symbolSize[0]), data.setVisual('toSymbolSize', symbolSize && symbolSize[1]), {
+                dataEach: data.hasItemOption ? function(data, idx) {
+                    var itemModel = data.getItemModel(idx), symbolType = normalize$3(itemModel.getShallow('symbol', !0)), symbolSize = normalize$3(itemModel.getShallow('symbolSize', !0));
+                    symbolType[0] && data.setItemVisual(idx, 'fromSymbol', symbolType[0]), symbolType[1] && data.setItemVisual(idx, 'toSymbol', symbolType[1]), symbolSize[0] && data.setItemVisual(idx, 'fromSymbolSize', symbolSize[0]), symbolSize[1] && data.setItemVisual(idx, 'toSymbolSize', symbolSize[1]);
+                } : null
+            };
+        }
+    }, HeatmapLayer = function() {
         function HeatmapLayer() {
             this.blurSize = 30, this.pointSize = 20, this.maxOpacity = 1, this.minOpacity = 0, this._gradientPixels = {
                 inRange: null,
@@ -29768,10 +30400,18 @@
         originX: 1,
         originY: 1,
         rotation: 1
-    }, STYLE_VISUAL_TYPE = (keys(TRANSFORM_PROPS).join(', '), {
+    }, transformPropNamesStr = keys(TRANSFORM_PROPS).join(', '), STYLE_VISUAL_TYPE = {
         color: 'fill',
         borderColor: 'stroke'
-    }), NON_STYLE_VISUAL_PROPS = {}, EMPHASIS = 'emphasis', NORMAL = 'normal', BLUR = 'blur', SELECT = 'select', STATES = [
+    }, NON_STYLE_VISUAL_PROPS = {
+        symbol: 1,
+        symbolSize: 1,
+        symbolKeepAspect: 1,
+        legendSymbol: 1,
+        visualMeta: 1,
+        liftZ: 1,
+        decal: 1
+    }, EMPHASIS = 'emphasis', NORMAL = 'normal', BLUR = 'blur', SELECT = 'select', STATES = [
         NORMAL,
         EMPHASIS,
         BLUR,
@@ -30199,7 +30839,43 @@
     }, checkTransformPropRefer = function(key, usedIn) {
         assert(hasOwn(TRANSFORM_PROPS, key), 'Prop `' + key + '` is not a permitted in `' + usedIn + "`. Only `" + keys(TRANSFORM_PROPS).join('`, `') + '` are permitted.');
     };
-    var tmpDuringScope = {}, customDuringAPI = {};
+    var tmpDuringScope = {}, customDuringAPI = {
+        setTransform: function(key, val) {
+            return assert(hasOwn(TRANSFORM_PROPS, key), 'Only ' + transformPropNamesStr + ' available in `setTransform`.'), tmpDuringScope.el[key] = val, this;
+        },
+        getTransform: function(key) {
+            return assert(hasOwn(TRANSFORM_PROPS, key), 'Only ' + transformPropNamesStr + ' available in `getTransform`.'), tmpDuringScope.el[key];
+        },
+        setShape: function(key, val) {
+            return assertNotReserved(key), (tmpDuringScope.el.shape || (tmpDuringScope.el.shape = {}))[key] = val, tmpDuringScope.isShapeDirty = !0, this;
+        },
+        getShape: function(key) {
+            assertNotReserved(key);
+            var shape = tmpDuringScope.el.shape;
+            if (shape) return shape[key];
+        },
+        setStyle: function(key, val) {
+            assertNotReserved(key);
+            var style = tmpDuringScope.el.style;
+            return style && (val != val && warn('style.' + key + ' must not be assigned with NaN.'), style[key] = val, tmpDuringScope.isStyleDirty = !0), this;
+        },
+        getStyle: function(key) {
+            assertNotReserved(key);
+            var style = tmpDuringScope.el.style;
+            if (style) return style[key];
+        },
+        setExtra: function(key, val) {
+            return assertNotReserved(key), (tmpDuringScope.el.extra || (tmpDuringScope.el.extra = {}))[key] = val, this;
+        },
+        getExtra: function(key) {
+            assertNotReserved(key);
+            var extra = tmpDuringScope.el.extra;
+            if (extra) return extra[key];
+        }
+    };
+    function assertNotReserved(key) {
+        if ('transition' === key || 'enterFrom' === key || 'leaveTo' === key) throw Error('key must not be "' + key + '"');
+    }
     function duringCall() {
         var el = this.el;
         if (el) {
@@ -32066,7 +32742,16 @@
             }
         });
     }
-    var angleAxisExtraOption = {}, radiusAxisExtraOption = {}, PolarView = function(_super) {
+    var angleAxisExtraOption = {
+        startAngle: 90,
+        clockwise: !0,
+        splitNumber: 12,
+        axisLabel: {
+            rotate: 0
+        }
+    }, radiusAxisExtraOption = {
+        splitNumber: 5
+    }, PolarView = function(_super) {
         function PolarView() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
             return _this.type = PolarView.type, _this;
@@ -33423,11 +34108,11 @@
             return _this.type = SelectDataZoomView.type, _this;
         }
         return __extends(SelectDataZoomView, _super), SelectDataZoomView.type = 'dataZoom.select', SelectDataZoomView;
-    }(DataZoomView), dataZoomProcessor = (function() {
+    }(DataZoomView), AxisProxy = function() {
         function AxisProxy(dimName, axisIndex, dataZoomModel, ecModel) {
             this._dimName = dimName, this._axisIndex = axisIndex, this.ecModel = ecModel, this._dataZoomModel = dataZoomModel;
         }
-        AxisProxy.prototype.hostedBy = function(dataZoomModel) {
+        return AxisProxy.prototype.hostedBy = function(dataZoomModel) {
             return this._dataZoomModel === dataZoomModel;
         }, AxisProxy.prototype.getDataValueWindow = function() {
             return this._valueWindow.slice();
@@ -33537,8 +34222,52 @@
                 var rawExtentInfo = axisModel.axis.scale.rawExtentInfo;
                 0 !== percentWindow[0] && rawExtentInfo.setDeterminedMinMax('min', +valueWindow[0].toFixed(precision)), 100 !== percentWindow[1] && rawExtentInfo.setDeterminedMinMax('max', +valueWindow[1].toFixed(precision)), rawExtentInfo.freeze();
             }
-        };
-    }(), {}), installed = !1;
+        }, AxisProxy;
+    }(), dataZoomProcessor = {
+        getTargetSeries: function(ecModel) {
+            function eachAxisModel(cb) {
+                ecModel.eachComponent('dataZoom', function(dataZoomModel) {
+                    dataZoomModel.eachTargetAxis(function(axisDim, axisIndex) {
+                        var axisModel = ecModel.getComponent(getAxisMainType(axisDim), axisIndex);
+                        cb(axisDim, axisIndex, axisModel, dataZoomModel);
+                    });
+                });
+            }
+            eachAxisModel(function(axisDim, axisIndex, axisModel, dataZoomModel) {
+                axisModel.__dzAxisProxy = null;
+            });
+            var proxyList = [];
+            eachAxisModel(function(axisDim, axisIndex, axisModel, dataZoomModel) {
+                axisModel.__dzAxisProxy || (axisModel.__dzAxisProxy = new AxisProxy(axisDim, axisIndex, dataZoomModel, ecModel), proxyList.push(axisModel.__dzAxisProxy));
+            });
+            var seriesModelMap = createHashMap();
+            return each(proxyList, function(axisProxy) {
+                each(axisProxy.getTargetSeriesModels(), function(seriesModel) {
+                    seriesModelMap.set(seriesModel.uid, seriesModel);
+                });
+            }), seriesModelMap;
+        },
+        overallReset: function(ecModel, api) {
+            ecModel.eachComponent('dataZoom', function(dataZoomModel) {
+                dataZoomModel.eachTargetAxis(function(axisDim, axisIndex) {
+                    dataZoomModel.getAxisProxy(axisDim, axisIndex).reset(dataZoomModel);
+                }), dataZoomModel.eachTargetAxis(function(axisDim, axisIndex) {
+                    dataZoomModel.getAxisProxy(axisDim, axisIndex).filterData(dataZoomModel, api);
+                });
+            }), ecModel.eachComponent('dataZoom', function(dataZoomModel) {
+                var axisProxy = dataZoomModel.findRepresentativeAxisProxy();
+                if (axisProxy) {
+                    var percentRange = axisProxy.getDataPercentWindow(), valueRange = axisProxy.getDataValueWindow();
+                    dataZoomModel.setCalculatedRange({
+                        start: percentRange[0],
+                        end: percentRange[1],
+                        startValue: valueRange[0],
+                        endValue: valueRange[1]
+                    });
+                }
+            });
+        }
+    }, installed = !1;
     function installCommon(registers) {
         installed || (installed = !0, registers.registerProcessor(registers.PRIORITY.PROCESSOR.FILTER, dataZoomProcessor), function(registers) {
             registers.registerAction('dataZoom', function(payload, ecModel) {
@@ -38014,7 +38743,10 @@
         'bar',
         'candlestick',
         'scatter'
-    ], REALTIME_ANIMATION_CONFIG = {}, SliderZoomView = function(_super) {
+    ], REALTIME_ANIMATION_CONFIG = {
+        easing: 'cubicOut',
+        duration: 100
+    }, SliderZoomView = function(_super) {
         function SliderZoomView() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
             return _this.type = SliderZoomView.type, _this._displayables = {}, _this;
@@ -39257,10 +39989,10 @@
                 itemSize[1]
             ], shapes = this._shapes, indicator = shapes.indicator;
             if (indicator) {
-                indicator.attr('invisible', !1), this.getControllerVisual(cursorValue, 'color', {
+                indicator.attr('invisible', !1);
+                var color = this.getControllerVisual(cursorValue, 'color', {
                     convertOpacityToAlpha: !0
-                });
-                var symbolSize = this.getControllerVisual(cursorValue, 'symbolSize'), y = linearMap(cursorValue, dataExtent, sizeExtent, !0), x = itemSize[0] - symbolSize / 2, oldIndicatorPos = {
+                }), symbolSize = this.getControllerVisual(cursorValue, 'symbolSize'), y = linearMap(cursorValue, dataExtent, sizeExtent, !0), x = itemSize[0] - symbolSize / 2, oldIndicatorPos = {
                     x: indicator.x,
                     y: indicator.y
                 };
@@ -39273,7 +40005,13 @@
                     verticalAlign: isHorizontal ? align : 'middle',
                     align: isHorizontal ? 'center' : align
                 });
-                var indicatorNewProps = {}, labelNewProps = {
+                var indicatorNewProps = {
+                    x: x,
+                    y: y,
+                    style: {
+                        fill: color
+                    }
+                }, labelNewProps = {
                     style: {
                         x: textPoint[0],
                         y: textPoint[1]
@@ -39415,7 +40153,11 @@
     function getCursor$1(orient) {
         return 'vertical' === orient ? 'ns-resize' : 'ew-resize';
     }
-    var visualMapActionInfo = {}, visualMapActionHander = function(payload, ecModel) {
+    var visualMapActionInfo = {
+        type: 'selectDataRange',
+        event: 'dataRangeSelected',
+        update: 'update'
+    }, visualMapActionHander = function(payload, ecModel) {
         ecModel.eachComponent({
             mainType: 'visualMap',
             query: payload
@@ -39869,7 +40611,14 @@
     function install$O(registers) {
         registers.registerComponentModel(PiecewiseModel), registers.registerComponentView(PiecewiseVisualMapView), installCommon$1(registers);
     }
-    var DEFAULT_OPTION = {}, inner$l = makeInner(), decalPaletteScope = {};
+    var DEFAULT_OPTION = {
+        label: {
+            enabled: !0
+        },
+        decal: {
+            show: !1
+        }
+    }, inner$l = makeInner(), decalPaletteScope = {};
     function ariaVisual(ecModel, api) {
         var ariaModel = ecModel.getModel('aria');
         if (ariaModel.get('enabled')) {
@@ -40106,12 +40855,72 @@
             return parseOption(subOption, getters);
         }), cond.children.length || throwError(errMsg), cond;
     }
-    (function(exprOption, getters) {
-        this._cond = parseOption(exprOption, getters);
-    }).prototype.evaluate = function() {
-        return this._cond.evaluate();
-    };
-    var filterTransform = {}, sortTransform = {}, DatasetModel = function(_super) {
+    var ConditionalExpressionParsed = function() {
+        function ConditionalExpressionParsed(exprOption, getters) {
+            this._cond = parseOption(exprOption, getters);
+        }
+        return ConditionalExpressionParsed.prototype.evaluate = function() {
+            return this._cond.evaluate();
+        }, ConditionalExpressionParsed;
+    }(), filterTransform = {
+        type: 'echarts:filter',
+        transform: function(params) {
+            for(var exprOption, getters, rawItem, upstream = params.upstream, condition = (exprOption = params.config, getters = {
+                valueGetterAttrMap: createHashMap({
+                    dimension: !0
+                }),
+                prepareGetValue: function(exprOption) {
+                    var dimLoose = exprOption.dimension;
+                    hasOwn(exprOption, 'dimension') || throwError(makePrintable('Relation condition must has prop "dimension" specified.', 'Illegal condition:', exprOption));
+                    var dimInfo = upstream.getDimensionInfo(dimLoose);
+                    return dimInfo || throwError(makePrintable('Can not find dimension info via: ' + dimLoose + '.\n', 'Existing dimensions: ', upstream.cloneAllDimensionInfo(), '.\n', 'Illegal condition:', exprOption, '.\n')), {
+                        dimIdx: dimInfo.index
+                    };
+                },
+                getValue: function(param) {
+                    return upstream.retrieveValueFromItem(rawItem, param.dimIdx);
+                }
+            }, new ConditionalExpressionParsed(exprOption, getters)), resultData = [], i = 0, len = upstream.count(); i < len; i++)rawItem = upstream.getRawDataItem(i), condition.evaluate() && resultData.push(rawItem);
+            return {
+                data: resultData
+            };
+        }
+    }, sampleLog = '';
+    sampleLog = 'Valid config is like: { dimension: "age", order: "asc" } or [{ dimension: "age", order: "asc"], { dimension: "date", order: "desc" }]';
+    var sortTransform = {
+        type: 'echarts:sort',
+        transform: function(params) {
+            var upstream = params.upstream, orderExprList = normalizeToArray(params.config);
+            orderExprList.length || throwError('Empty `config` in sort transform.');
+            var orderDefList = [];
+            each(orderExprList, function(orderExpr) {
+                var dimLoose = orderExpr.dimension, order = orderExpr.order, parserName = orderExpr.parser, incomparable = orderExpr.incomparable;
+                null == dimLoose && throwError('Sort transform config must has "dimension" specified.' + sampleLog), 'asc' !== order && 'desc' !== order && throwError('Sort transform config must has "order" specified.' + sampleLog), incomparable && 'min' !== incomparable && 'max' !== incomparable && throwError('incomparable must be "min" or "max" rather than "' + incomparable + '".'), 'asc' !== order && 'desc' !== order && throwError('order must be "asc" or "desc" rather than "' + order + '".');
+                var dimInfo = upstream.getDimensionInfo(dimLoose);
+                dimInfo || throwError(makePrintable('Can not find dimension info via: ' + dimLoose + '.\n', 'Existing dimensions: ', upstream.cloneAllDimensionInfo(), '.\n', 'Illegal config:', orderExpr, '.\n'));
+                var parser = parserName ? valueParserMap.get(parserName) : null;
+                parserName && !parser && throwError(makePrintable('Invalid parser name ' + parserName + '.\n', 'Illegal config:', orderExpr, '.\n')), orderDefList.push({
+                    dimIdx: dimInfo.index,
+                    parser: parser,
+                    comparator: new SortOrderComparator(order, incomparable)
+                });
+            });
+            var sourceFormat = upstream.sourceFormat;
+            sourceFormat !== SOURCE_FORMAT_ARRAY_ROWS && sourceFormat !== SOURCE_FORMAT_OBJECT_ROWS && throwError('sourceFormat "' + sourceFormat + '" is not supported yet');
+            for(var resultData = [], i = 0, len = upstream.count(); i < len; i++)resultData.push(upstream.getRawDataItem(i));
+            return resultData.sort(function(item0, item1) {
+                for(var i = 0; i < orderDefList.length; i++){
+                    var orderDef = orderDefList[i], val0 = upstream.retrieveValueFromItem(item0, orderDef.dimIdx), val1 = upstream.retrieveValueFromItem(item1, orderDef.dimIdx);
+                    orderDef.parser && (val0 = orderDef.parser(val0), val1 = orderDef.parser(val1));
+                    var result = orderDef.comparator.evaluate(val0, val1);
+                    if (0 !== result) return result;
+                }
+                return 0;
+            }), {
+                data: resultData
+            };
+        }
+    }, DatasetModel = function(_super) {
         function DatasetModel() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
             return _this.type = 'dataset', _this;
@@ -40442,25 +41251,7 @@
         registers.registerTransform(filterTransform), registers.registerTransform(sortTransform);
     }), use(function(registers) {
         registers.registerComponentModel(DatasetModel), registers.registerComponentView(DatasetView);
-    }), exports1.Axis = Axis, exports1.ChartView = ChartView, exports1.ComponentModel = ComponentModel, exports1.ComponentView = ComponentView, exports1.List = List, exports1.Model = Model, exports1.PRIORITY = {
-        PROCESSOR: {
-            FILTER: 1000,
-            SERIES_FILTER: 800,
-            STATISTIC: 5000
-        },
-        VISUAL: {
-            LAYOUT: 1000,
-            PROGRESSIVE_LAYOUT: 1100,
-            GLOBAL: 2000,
-            CHART: 3000,
-            POST_CHART_LAYOUT: 4600,
-            COMPONENT: 4000,
-            BRUSH: 5000,
-            CHART_ITEM: 4500,
-            ARIA: 6000,
-            DECAL: 7000
-        }
-    }, exports1.SeriesModel = SeriesModel, exports1.color = color, exports1.connect = function(groupId) {
+    }), exports1.Axis = Axis, exports1.ChartView = ChartView, exports1.ComponentModel = ComponentModel, exports1.ComponentView = ComponentView, exports1.List = List, exports1.Model = Model, exports1.PRIORITY = PRIORITY, exports1.SeriesModel = SeriesModel, exports1.color = color, exports1.connect = function(groupId) {
         if (isArray(groupId)) {
             var charts = groupId;
             groupId = null, each(charts, function(chart) {
@@ -40502,28 +41293,9 @@
         return chart.id = 'ec_' + idBase++, instances$1[chart.id] = chart, setAttribute(dom, DOM_ATTRIBUTE_KEY, chart.id), enableConnect(chart), each(postInitFuncs, function(postInitFunc) {
             postInitFunc(chart);
         }), chart;
-    }, exports1.innerDrawElementOnCanvas = brushSingle, exports1.matrix = matrix, exports1.number = number, exports1.parseGeoJSON = parseGeoJSON, exports1.parseGeoJson = parseGeoJSON, exports1.registerAction = registerAction, exports1.registerCoordinateSystem = function(type, coordSysCreator) {
-        CoordinateSystemManager.register(type, coordSysCreator);
-    }, exports1.registerLayout = function(priority, layoutTask) {
-        normalizeRegister(visualFuncs, priority, layoutTask, 1000, 'layout');
-    }, exports1.registerLoading = function(name, loadingFx) {
-        loadingEffects[name] = loadingFx;
-    }, exports1.registerLocale = registerLocale, exports1.registerMap = function(mapName, geoJson, specialAreas) {
-        geoSourceManager.registerMap(mapName, geoJson, specialAreas);
-    }, exports1.registerPostInit = function(postInitFunc) {
-        0 > indexOf(postInitFuncs, postInitFunc) && postInitFunc && postInitFuncs.push(postInitFunc);
-    }, exports1.registerPostUpdate = function(postUpdateFunc) {
-        0 > indexOf(postUpdateFuncs, postUpdateFunc) && postUpdateFunc && postUpdateFuncs.push(postUpdateFunc);
-    }, exports1.registerPreprocessor = registerPreprocessor, exports1.registerProcessor = registerProcessor, exports1.registerTheme = function(name, theme) {
+    }, exports1.innerDrawElementOnCanvas = brushSingle, exports1.matrix = matrix, exports1.number = number, exports1.parseGeoJSON = parseGeoJSON, exports1.parseGeoJson = parseGeoJSON, exports1.registerAction = registerAction, exports1.registerCoordinateSystem = registerCoordinateSystem, exports1.registerLayout = registerLayout, exports1.registerLoading = registerLoading, exports1.registerLocale = registerLocale, exports1.registerMap = registerMap, exports1.registerPostInit = registerPostInit, exports1.registerPostUpdate = registerPostUpdate, exports1.registerPreprocessor = registerPreprocessor, exports1.registerProcessor = registerProcessor, exports1.registerTheme = function(name, theme) {
         themeStorage[name] = theme;
-    }, exports1.registerTransform = function(externalTransform) {
-        var type = (externalTransform = clone(externalTransform)).type;
-        type || throwError('Must have a `type` when `registerTransform`.');
-        var typeParsed = type.split(':');
-        2 !== typeParsed.length && throwError('Name must include namespace like "ns:regression".');
-        var isBuiltIn = !1;
-        'echarts' === typeParsed[0] && (type = typeParsed[1], isBuiltIn = !0), externalTransform.__isBuiltIn = isBuiltIn, externalTransformMap.set(type, externalTransform);
-    }, exports1.registerVisual = registerVisual, exports1.setCanvasCreator = function(creator) {
+    }, exports1.registerTransform = registerTransform, exports1.registerVisual = registerVisual, exports1.setCanvasCreator = function(creator) {
         methods.createCanvas = creator;
     }, exports1.throttle = throttle, exports1.time = time, exports1.use = use, exports1.util = util$1, exports1.vector = vector, exports1.version = '5.1.1', exports1.zrUtil = util, exports1.zrender = zrender, Object.defineProperty(exports1, '__esModule', {
         value: !0

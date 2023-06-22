@@ -362,6 +362,7 @@
             input: "string" == typeof $TEXT ? function($TEXT, filename, html5_comments, shebang) {
                 var S = {
                     text: $TEXT,
+                    filename: filename,
                     pos: 0,
                     tokpos: 0,
                     line: 1,
@@ -2933,7 +2934,9 @@
         let current;
         const to_visit = [
             node
-        ], push = to_visit.push.bind(to_visit), stack = initial_stack ? initial_stack.slice() : [], parent_pop_indices = [], info = {};
+        ], push = to_visit.push.bind(to_visit), stack = initial_stack ? initial_stack.slice() : [], parent_pop_indices = [], info = {
+            parent: (n = 0)=>-1 === n ? current : initial_stack && n >= stack.length ? (n -= stack.length, initial_stack[initial_stack.length - (n + 1)]) : stack[stack.length - (1 + n)]
+        };
         for(; to_visit.length;){
             for(current = to_visit.pop(); parent_pop_indices.length && to_visit.length == parent_pop_indices[parent_pop_indices.length - 1];)stack.pop(), parent_pop_indices.pop();
             const ret = cb(current, info);

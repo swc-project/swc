@@ -1591,7 +1591,11 @@
         }, _proto.test = function(layers) {
             return (this.mask & layers.mask) != 0;
         }, Layers;
-    }(), _object3DId = 0, _v1$2 = new Vector3(), _q1 = new Quaternion(), _m1$1 = new Matrix4(), _target = new Vector3(), _position = new Vector3(), _scale = new Vector3(), _quaternion$2 = new Quaternion(), _xAxis = new Vector3(1, 0, 0), _yAxis = new Vector3(0, 1, 0), _zAxis = new Vector3(0, 0, 1), _addedEvent = {}, _removedEvent = {};
+    }(), _object3DId = 0, _v1$2 = new Vector3(), _q1 = new Quaternion(), _m1$1 = new Matrix4(), _target = new Vector3(), _position = new Vector3(), _scale = new Vector3(), _quaternion$2 = new Quaternion(), _xAxis = new Vector3(1, 0, 0), _yAxis = new Vector3(0, 1, 0), _zAxis = new Vector3(0, 0, 1), _addedEvent = {
+        type: 'added'
+    }, _removedEvent = {
+        type: 'removed'
+    };
     function Object3D() {
         Object.defineProperty(this, 'id', {
             value: _object3DId++
@@ -5590,7 +5594,9 @@
         return a.groupOrder !== b.groupOrder ? a.groupOrder - b.groupOrder : a.renderOrder !== b.renderOrder ? a.renderOrder - b.renderOrder : a.z !== b.z ? b.z - a.z : a.id - b.id;
     }
     function WebGLRenderList(properties) {
-        var renderItems = [], renderItemsIndex = 0, opaque = [], transparent = [], defaultProgram = {};
+        var renderItems = [], renderItemsIndex = 0, opaque = [], transparent = [], defaultProgram = {
+            id: -1
+        };
         function getNextRenderItem(object, geometry, material, groupOrder, z, group) {
             var renderItem = renderItems[renderItemsIndex], materialProperties = properties.get(material);
             return void 0 === renderItem ? (renderItem = {
@@ -6721,7 +6727,13 @@
         this.domElement = _canvas, this.debug = {
             checkShaderErrors: !0
         }, this.autoClear = !0, this.autoClearColor = !0, this.autoClearDepth = !0, this.autoClearStencil = !0, this.sortObjects = !0, this.clippingPlanes = [], this.localClippingEnabled = !1, this.gammaFactor = 2.0, this.outputEncoding = 3000, this.physicallyCorrectLights = !1, this.toneMapping = 0, this.toneMappingExposure = 1.0, this.maxMorphTargets = 8, this.maxMorphNormals = 4;
-        var _this = this, _isContextLost = !1, _framebuffer = null, _currentActiveCubeFace = 0, _currentActiveMipmapLevel = 0, _currentRenderTarget = null, _currentFramebuffer = null, _currentMaterialId = -1, _currentCamera = null, _currentViewport = new Vector4(), _currentScissor = new Vector4(), _currentScissorTest = null, _width = _canvas.width, _height = _canvas.height, _pixelRatio = 1, _opaqueSort = null, _transparentSort = null, _viewport = new Vector4(0, 0, _width, _height), _scissor = new Vector4(0, 0, _width, _height), _scissorTest = !1, _frustum = new Frustum(), _clippingEnabled = !1, _localClippingEnabled = !1, _projScreenMatrix = new Matrix4(), _vector3 = new Vector3(), _emptyScene = {};
+        var _this = this, _isContextLost = !1, _framebuffer = null, _currentActiveCubeFace = 0, _currentActiveMipmapLevel = 0, _currentRenderTarget = null, _currentFramebuffer = null, _currentMaterialId = -1, _currentCamera = null, _currentViewport = new Vector4(), _currentScissor = new Vector4(), _currentScissorTest = null, _width = _canvas.width, _height = _canvas.height, _pixelRatio = 1, _opaqueSort = null, _transparentSort = null, _viewport = new Vector4(0, 0, _width, _height), _scissor = new Vector4(0, 0, _width, _height), _scissorTest = !1, _frustum = new Frustum(), _clippingEnabled = !1, _localClippingEnabled = !1, _projScreenMatrix = new Matrix4(), _vector3 = new Vector3(), _emptyScene = {
+            background: null,
+            fog: null,
+            environment: null,
+            overrideMaterial: null,
+            isScene: !0
+        };
         function getTargetPixelRatio() {
             return null === _currentRenderTarget ? _pixelRatio : 1;
         }

@@ -684,7 +684,19 @@
         },
         8679: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var reactIs = __webpack_require__(9864), REACT_STATICS = {}, KNOWN_STATICS = {
+            var reactIs = __webpack_require__(9864), REACT_STATICS = {
+                childContextTypes: !0,
+                contextType: !0,
+                contextTypes: !0,
+                defaultProps: !0,
+                displayName: !0,
+                getDefaultProps: !0,
+                getDerivedStateFromError: !0,
+                getDerivedStateFromProps: !0,
+                mixins: !0,
+                propTypes: !0,
+                type: !0
+            }, KNOWN_STATICS = {
                 name: !0,
                 length: !0,
                 prototype: !0,
