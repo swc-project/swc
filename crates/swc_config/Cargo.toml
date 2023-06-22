@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_config"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.1.6"
+version       = "0.1.7"
 
 [dependencies]
 indexmap   = "1.9.3"

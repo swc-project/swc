@@ -6,7 +6,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_graph_analyzer"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.20.17"
+version = "0.20.18"
 
 [lib]
 bench = false
@@ -15,8 +15,8 @@ bench = false
 ahash = "0.8.3"
 auto_impl = "1.1.0"
 petgraph = "0.6.0"
-swc_fast_graph = {version = "0.19.14", path = "../swc_fast_graph/"}
+swc_fast_graph = {version = "0.19.15", path = "../swc_fast_graph/"}
 tracing = "0.1.37"
 
 [dev-dependencies]
-testing = {version = "0.33.17", path = "../testing"}
+testing = {version = "0.33.18", path = "../testing"}
