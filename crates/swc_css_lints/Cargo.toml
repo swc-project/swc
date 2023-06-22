@@ -17,7 +17,7 @@ auto_impl   = "1.1.0"
 parking_lot = "0.12.1"
 rayon       = "1.7.0"
 serde       = { version = "1.0.133", features = ["derive"] }
-thiserror   = "1.0.30"
+thiserror   = "1.0.40"
 
 swc_atoms     = { version = "0.5.6", path = "../swc_atoms" }
 swc_cached    = { version = "0.3.17", path = "../swc_cached" }

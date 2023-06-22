@@ -50,11 +50,11 @@ plugin_transform_host_native = [
 [dependencies]
 ahash        = "0.8.3"
 anyhow       = "1"
-base64       = "0.13.0"
+base64       = "0.21.2"
 dashmap      = "5.4.0"
 either       = "1"
 indexmap     = { version = "1.9.3", features = ["serde"] }
-jsonc-parser = { version = "0.21.0", features = ["serde"] }
+jsonc-parser = { version = "0.21.1", features = ["serde"] }
 lru          = "0.10.0"
 once_cell    = "1.18.0"
 parking_lot  = "0.12.1"

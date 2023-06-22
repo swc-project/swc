@@ -35,7 +35,7 @@ parking_lot   = "0.12.1"
 petgraph      = "0.6"
 radix_fmt     = "1"
 rayon         = { version = "1", optional = true }
-relative-path = "1.2"
+relative-path = "1.8"
 tracing       = "0.1.37"
 
 swc_atoms                        = { version = "0.5.6", path = "../swc_atoms" }
