@@ -3,5 +3,7 @@
 var x = require("./ch").x;
 x.grey, x.x.grey;
 //// [ch.js]
-var x = {};
+var x = {
+    grey: {}
+};
 export { x };
