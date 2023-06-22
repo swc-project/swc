@@ -979,6 +979,7 @@ where
         let ctx = Ctx {
             is_exact_arg: false,
             is_exact_reassignment: false,
+            is_id_ref: true,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
