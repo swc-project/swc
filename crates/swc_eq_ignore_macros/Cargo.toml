@@ -15,5 +15,5 @@ proc-macro = true
 [dependencies]
 pmutil      = "0.6.1"
 proc-macro2 = "1.0.60"
-quote       = "1.0.7"
+quote       = "1.0.28"
 syn         = { version = "2", features = ["full"] }

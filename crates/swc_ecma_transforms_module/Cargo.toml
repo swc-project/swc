@@ -20,7 +20,7 @@ bitflags   = "2.3.2"
 indexmap   = "1.9.3"
 is-macro   = "0.3.0"
 path-clean = "0.1.0"
-pathdiff   = "0.2.0"
+pathdiff   = "0.2.1"
 regex      = "1"
 serde      = { version = "1.0.118", features = ["derive"] }
 tracing    = "0.1.37"

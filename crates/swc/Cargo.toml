@@ -58,7 +58,7 @@ jsonc-parser = { version = "0.21.1", features = ["serde"] }
 lru          = "0.10.0"
 once_cell    = "1.18.0"
 parking_lot  = "0.12.1"
-pathdiff     = "0.2.0"
+pathdiff     = "0.2.1"
 regex        = "1"
 rustc-hash   = "1.1.0"
 serde        = { version = "1", features = ["derive"] }

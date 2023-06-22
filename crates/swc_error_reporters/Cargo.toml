@@ -13,7 +13,7 @@ bench = false
 
 [dependencies]
 anyhow      = "1"
-miette      = { version = "4.2.1", features = ["fancy"] }
+miette      = { version = "5.9.0", features = ["fancy"] }
 once_cell   = "1"
 parking_lot = "0.12.1"
 
