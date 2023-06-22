@@ -260,9 +260,9 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
 name = "bitflags"
-version = "2.1.0"
+version = "2.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c70beb79cbb5ce9c4f8e20849978f34225931f665bb49efa6982875a4d5facb3"
+checksum = "6dbe3c979c178231552ecba20214a8272df4e09f232a87aef4320cf06539aded"
 
 [[package]]
 name = "bitvec"
@@ -3635,7 +3635,6 @@ dependencies = [
  "ast_node",
  "atty",
  "better_scoped_tls",
- "bitflags 2.1.0",
  "bytecheck",
  "cfg-if",
  "criterion",
@@ -3766,7 +3765,7 @@ name = "swc_css_codegen"
 version = "0.147.18"
 dependencies = [
  "auto_impl",
- "bitflags 2.1.0",
+ "bitflags 2.3.2",
  "rustc-hash",
  "serde",
  "swc_atoms",
@@ -3794,7 +3793,7 @@ dependencies = [
 name = "swc_css_compat"
 version = "0.23.18"
 dependencies = [
- "bitflags 2.1.0",
+ "bitflags 2.3.2",
  "once_cell",
  "serde",
  "serde_json",
@@ -3865,7 +3864,6 @@ dependencies = [
 name = "swc_css_parser"
 version = "0.146.18"
 dependencies = [
- "bitflags 2.1.0",
  "criterion",
  "lexical",
  "serde",
@@ -3925,7 +3923,7 @@ name = "swc_ecma_ast"
 version = "0.106.5"
 dependencies = [
  "arbitrary",
- "bitflags 2.1.0",
+ "bitflags 2.3.2",
  "bytecheck",
  "is-macro",
  "num-bigint",
@@ -4207,7 +4205,7 @@ name = "swc_ecma_transforms_base"
 version = "0.129.12"
 dependencies = [
  "better_scoped_tls",
- "bitflags 2.1.0",
+ "bitflags 2.3.2",
  "criterion",
  "indexmap",
  "once_cell",
@@ -4288,7 +4286,7 @@ dependencies = [
  "Inflector",
  "ahash 0.8.3",
  "anyhow",
- "bitflags 2.1.0",
+ "bitflags 2.3.2",
  "indexmap",
  "is-macro",
  "path-clean",
@@ -4612,7 +4610,7 @@ name = "swc_html_codegen"
 version = "0.40.18"
 dependencies = [
  "auto_impl",
- "bitflags 2.1.0",
+ "bitflags 2.3.2",
  "rustc-hash",
  "swc_atoms",
  "swc_common",
@@ -4897,7 +4895,7 @@ name = "swc_xml_codegen"
 version = "0.11.19"
 dependencies = [
  "auto_impl",
- "bitflags 2.1.0",
+ "bitflags 2.3.2",
  "rustc-hash",
  "swc_atoms",
  "swc_common",
