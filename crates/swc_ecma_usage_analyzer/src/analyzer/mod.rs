@@ -249,23 +249,17 @@ where
             in_assign_lhs: false,
             is_exact_reassignment: false,
             is_delete_arg: false,
+            // We mark bar in
+            //
+            // foo[i] = bar
+            //
+            // as `used_as_ref`.
+            is_id_ref: n.op == op!("="),
             ..self.ctx
         };
         n.right.visit_with(&mut *self.with_ctx(ctx));
 
         if n.op == op!("=") {
-            {
-                // We mark bar in
-                //
-                // foo[i] = bar
-                //
-                // as `used_as_ref`.
-
-                if let Expr::Ident(rhs) = &*n.right {
-                    self.data.var_or_default(rhs.to_id()).mark_used_as_ref();
-                }
-            }
-
             let left = match &n.left {
                 PatOrExpr::Expr(left) => leftmost(left),
                 PatOrExpr::Pat(left) => match &**left {
