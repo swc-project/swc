@@ -26,7 +26,7 @@ rkyv = { package = "rkyv", version = "=0.7.42", optional = true, features = [
   "strict",
   "validation",
 ] }
-tracing = "0.1.32"
+tracing = "0.1.37"
 
 better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
 swc_common        = { version = "0.31.13", path = "../swc_common" }
