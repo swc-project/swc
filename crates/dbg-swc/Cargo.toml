@@ -13,7 +13,7 @@ name  = "dbg-swc"
 
 [dependencies]
 anyhow             = "1.0.71"
-clap               = { version = "3", features = ["derive"] }
+clap               = { version = "4", features = ["derive"] }
 dialoguer          = "0.10.4"
 flate2             = "1.0"
 rayon              = "1.7.0"

@@ -26,7 +26,7 @@ default    = []
 [dependencies]
 ahash         = "0.8"
 anyhow        = "1"
-crc           = "2.1.0"
+crc           = "3.0.1"
 dashmap       = { version = "5.4.0", optional = true }
 indexmap      = "1.9.3"
 is-macro      = "0.3.0"
@@ -53,9 +53,9 @@ swc_graph_analyzer               = { version = "0.20.19", path = "../swc_graph_a
 
 [dev-dependencies]
 hex        = "0.4"
-ntest      = "0.7.2"
+ntest      = "0.9.0"
 path-clean = "=0.1.0"
-reqwest    = { version = "0.11.13", features = ["blocking"] }
+reqwest    = { version = "0.11.18", features = ["blocking"] }
 sha-1      = "0.10"
 tempfile   = "3.6.0"
 url        = "2.4.0"
