@@ -501,6 +501,10 @@ impl VarDataLike for VarUsageInfo {
         self.reassigned = true;
     }
 
+    fn mark_used_as_ref(&mut self) {
+        self.used_as_ref = true;
+    }
+
     fn add_infects_to(&mut self, other: Access) {
         self.infects_to.push(other);
     }

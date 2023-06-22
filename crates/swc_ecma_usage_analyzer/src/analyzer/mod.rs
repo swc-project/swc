@@ -534,7 +534,9 @@ where
         match &n.orig {
             ModuleExportName::Ident(orig) => {
                 self.report_usage(orig, false);
-                self.data.var_or_default(orig.to_id()).prevent_inline();
+                let v = self.data.var_or_default(orig.to_id());
+                v.prevent_inline();
+                v.mark_used_as_ref();
             }
             ModuleExportName::Str(..) => {}
         };
