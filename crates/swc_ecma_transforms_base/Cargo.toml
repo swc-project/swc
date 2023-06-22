@@ -26,7 +26,7 @@ rayon             = { version = "1", optional = true }
 rustc-hash        = "1.1.0"
 serde             = { version = "1", features = ["derive"] }
 smallvec          = "1.8.0"
-tracing           = "0.1.32"
+tracing           = "0.1.37"
 
 swc_atoms       = { version = "0.5.6", path = "../swc_atoms" }
 swc_common      = { version = "0.31.13", path = "../swc_common" }

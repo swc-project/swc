@@ -30,7 +30,7 @@ petgraph   = "0.6"
 rayon      = { version = "1.7.0", optional = true }
 rustc-hash = "1.1.0"
 serde_json = "1.0.61"
-tracing    = "0.1.32"
+tracing    = "0.1.37"
 
 swc_atoms                  = { version = "0.5.6", path = "../swc_atoms" }
 swc_common                 = { version = "0.31.13", path = "../swc_common" }
