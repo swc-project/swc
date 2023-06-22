@@ -7,7 +7,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_node_bundler"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.50.20"
+version       = "0.50.21"
 
 [lib]
 bench = false
@@ -20,7 +20,7 @@ swc_v2     = ["serde-impl"]
 
 [dependencies]
 anyhow     = "1"
-dashmap    = "5.1.0"
+dashmap    = "5.4.0"
 is-macro   = "0.3.0"
 once_cell  = "1.18.0"
 regex      = "1"
@@ -29,24 +29,24 @@ serde_json = "1"
 tracing    = "0.1.37"
 
 string_enum = { version = "0.4.1", path = "../string_enum" }
-swc = { version = "0.263.20", path = "../swc" }
+swc = { version = "0.263.21", path = "../swc" }
 swc_atoms = { version = "0.5.6", path = "../swc_atoms" }
-swc_bundler = { version = "0.216.18", path = "../swc_bundler", features = [
+swc_bundler = { version = "0.216.19", path = "../swc_bundler", features = [
   "concurrent",
 ] }
-swc_common = { version = "0.31.14", path = "../swc_common", features = [
+swc_common = { version = "0.31.15", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "0.106.4", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.141.8", path = "../swc_ecma_codegen" }
-swc_ecma_loader = { version = "0.43.16", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "0.136.5", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "0.220.16", path = "../swc_ecma_transforms" }
-swc_ecma_utils = { version = "0.119.7", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.92.3", path = "../swc_ecma_visit" }
+swc_ecma_ast = { version = "0.106.5", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.141.9", path = "../swc_ecma_codegen" }
+swc_ecma_loader = { version = "0.43.17", path = "../swc_ecma_loader" }
+swc_ecma_parser = { version = "0.136.6", path = "../swc_ecma_parser" }
+swc_ecma_transforms = { version = "0.220.17", path = "../swc_ecma_transforms" }
+swc_ecma_utils = { version = "0.119.8", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "0.92.4", path = "../swc_ecma_visit" }
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
 
 [dev-dependencies]
-pretty_assertions = "1.1"
+pretty_assertions = "1.3"
 
-testing = { version = "0.33.17", path = "../testing" }
+testing = { version = "0.33.18", path = "../testing" }

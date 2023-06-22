@@ -1,3 +1,5 @@
+use std::num::NonZeroUsize;
+
 use anyhow::Error;
 use lru::LruCache;
 use parking_lot::Mutex;
@@ -29,7 +31,9 @@ where
 {
     pub fn new(cap: usize, inner: R) -> Self {
         Self {
-            cache: Mutex::new(LruCache::new(cap)),
+            cache: Mutex::new(LruCache::new(
+                NonZeroUsize::try_from(cap).expect("cap == 0"),
+            )),
             inner,
         }
     }
