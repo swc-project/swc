@@ -28,6 +28,12 @@
 
 - **(ci)** Change condition for `ci` testing (#7533) ([724e75d](https://github.com/swc-project/swc/commit/724e75d2569d3c210d4e0d3c6861e17c906babed))
 
+### Refactor
+
+
+
+- **(common)** Remove `add_bitflags` and update `bitflags` (#7571) ([95ac74e](https://github.com/swc-project/swc/commit/95ac74e6e494afc90f32c8fc9add2b1824f25db5))
+
 ### Build
 
 
