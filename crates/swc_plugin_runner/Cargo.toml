@@ -51,14 +51,15 @@ rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 [dependencies]
 anyhow       = "1.0.71"
 enumset      = "1.1.2"
+futures      = { version = "0.3" }
 once_cell    = "1.18.0"
 parking_lot  = "0.12.1"
 serde        = { version = "1.0.126", features = ["derive"] }
 serde_json   = "1.0.64"
 tokio        = { version = "1", default-features = false, optional = true }
 tracing      = "0.1.37"
-wasmer       = { version = "3.3.0", default-features = false }
-wasmer-wasix = { version = "0.4.0", default-features = false }
+wasmer       = { version = "4.0.0", default-features = false }
+wasmer-wasix = { version = "0.9.0", default-features = false }
 
 swc_common = { version = "0.31.16", path = "../swc_common", features = [
   "concurrent",
@@ -68,8 +69,8 @@ swc_ecma_ast = { version = "0.106.6", path = "../swc_ecma_ast", optional = true 
 swc_plugin_proxy = { version = "0.35.5", path = "../swc_plugin_proxy" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-wasmer-cache              = { version = "3.3.0", optional = true }
-wasmer-compiler-cranelift = { version = "3.3.0", default-features = false }
+wasmer-cache              = { version = "4.0.0", optional = true }
+wasmer-compiler-cranelift = { version = "4.0.0", default-features = false }
 
 [dev-dependencies]
 criterion = "0.5"

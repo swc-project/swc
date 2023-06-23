@@ -1,6 +1,19 @@
 use std::{path::PathBuf, sync::Arc};
 
-use wasmer_wasix::WasiRuntime;
+use wasmer_wasix::Runtime;
+
+#[derive(Debug)]
+struct StubHttpClient;
+
+impl wasmer_wasix::http::HttpClient for StubHttpClient {
+    fn request(
+        &self,
+        _request: wasmer_wasix::http::HttpRequest,
+    ) -> futures::future::BoxFuture<'_, Result<wasmer_wasix::http::HttpResponse, anyhow::Error>>
+    {
+        unimplemented!()
+    }
+}
 
 /// Construct a runtime for the wasix engine depends on the compilation
 /// features.
@@ -9,36 +22,33 @@ use wasmer_wasix::WasiRuntime;
 /// makes wasix initialization fails due to conflicting runtime. When specified,
 /// instead of using default runtime it'll try to use shared one.
 pub fn build_wasi_runtime(
-    fs_cache_path: Option<PathBuf>,
-) -> Option<Arc<dyn WasiRuntime + Send + Sync>> {
-    #[cfg(not(feature = "plugin_transform_host_native_shared_runtime"))]
-    return None;
+    _fs_cache_path: Option<PathBuf>,
+) -> Option<Arc<dyn Runtime + Send + Sync>> {
+    use wasmer_wasix::{
+        runtime::{
+            module_cache::{ModuleCache, SharedCache},
+            package_loader::BuiltinPackageLoader,
+            resolver::MultiSource,
+            task_manager::tokio::TokioTaskManager,
+        },
+        virtual_net, PluggableRuntime,
+    };
 
-    #[cfg(feature = "plugin_transform_host_native_shared_runtime")]
-    {
-        use wasmer_wasix::{
-            runners::Runner, runtime::task_manager::tokio::TokioTaskManager, PluggableRuntime,
-        };
+    let cache =
+        SharedCache::default().with_fallback(wasmer_wasix::runtime::module_cache::in_memory());
 
-        let tasks = TokioTaskManager::new(tokio::runtime::Handle::current());
-        let mut rt = PluggableRuntime::new(Arc::new(tasks));
+    let dummy_loader = BuiltinPackageLoader::new_with_client(".", Arc::new(StubHttpClient));
 
-        /* [TODO]: wasmer@4
-        #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
-        let cache = if let Some(fs_cache_path) = fs_cache_path {
-            SharedCache::default().with_fallback(wasmer_cache::FileSystemCache::new(fs_cache_path))
-        } else {
-            SharedCache::default().with_fallback(wasmer_wasix::runtime::module_cache::in_memory())
-        };
+    let rt = PluggableRuntime {
+        rt: Arc::new(TokioTaskManager::shared()),
+        networking: Arc::new(virtual_net::UnsupportedVirtualNetworking::default()),
+        engine: Some(wasmer::Engine::default()),
+        tty: None,
+        source: Arc::new(MultiSource::new()),
+        module_cache: Arc::new(cache),
+        http_client: None,
+        package_loader: Arc::new(dummy_loader),
+    };
 
-        #[cfg(not(feature = "filesystem_cache"))]
-        let cache = SharedCache::default().with_fallback(in_memory());
-         */
-
-        rt.set_engine(Some(wasmer::Engine::default()));
-        //[TODO]: wasmer@4
-        //rt.set_module_cache(cache);
-
-        return Some(Arc::new(rt));
-    }
+    Some(Arc::new(rt))
 }

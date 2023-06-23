@@ -31,7 +31,7 @@ use crate::plugin_module_bytes::{
 /// however it is not gauranteed to be compatible across wasmer's
 /// internal changes.
 /// https://github.com/wasmerio/wasmer/issues/2781
-const MODULE_SERIALIZATION_VERSION: &str = "v6";
+const MODULE_SERIALIZATION_VERSION: &str = "v7";
 
 #[derive(Default)]
 pub struct PluginModuleCacheInner {
