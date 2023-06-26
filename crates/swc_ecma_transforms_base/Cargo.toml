@@ -21,7 +21,7 @@ better_scoped_tls = { version = "0.1.1", path = "../better_scoped_tls" }
 bitflags          = "2.3.2"
 indexmap          = "2.0.0"
 once_cell         = "1.18.0"
-phf               = { version = "0.10", features = ["macros"] }
+phf               = { version = "0.11", features = ["macros"] }
 rayon             = { version = "1", optional = true }
 rustc-hash        = "1.1.0"
 serde             = { version = "1", features = ["derive"] }
