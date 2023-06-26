@@ -707,6 +707,7 @@ impl Optimizer<'_> {
                     if let Some(var) = self.data.vars.get(&i.to_id()) {
                         // technically this is inline
                         if !var.inline_prevented
+                            && !var.exported
                             && var.usage_count == 0
                             && var.declared
                             && (!var.declared_as_fn_param || !used_arguments || self.ctx.in_strict)

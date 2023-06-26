@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprCtx, IsEmpty, StmtExt};
+use swc_ecma_utils::{find_pat_ids, ExprCtx, IsEmpty, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -519,7 +519,13 @@ where
             Decl::Fn(f) => {
                 self.data.var_or_default(f.ident.to_id()).prevent_inline();
             }
-            Decl::Var(..) => {}
+            Decl::Var(v) => {
+                let ids = find_pat_ids(v);
+
+                for id in ids {
+                    self.data.var_or_default(id).mark_as_exported();
+                }
+            }
             _ => {}
         }
     }
