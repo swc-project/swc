@@ -1448,6 +1448,14 @@ impl VisitMut for SimplifyExpr {
         };
     }
 
+    fn visit_mut_export_default_expr(&mut self, expr: &mut ExportDefaultExpr) {
+        if let Expr::Paren(p) = &mut *expr.expr {
+            p.visit_mut_children_with(self);
+            return;
+        }
+        expr.visit_mut_children_with(self);
+    }
+
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         let mut child = SimplifyExpr {
             expr_ctx: self.expr_ctx.clone(),
