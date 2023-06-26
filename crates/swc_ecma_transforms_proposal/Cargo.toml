@@ -20,7 +20,7 @@ multi-module = ["swc_ecma_loader"]
 either     = "1.8.1"
 rustc-hash = "1"
 serde      = { version = "1.0.118", features = ["derive"] }
-smallvec   = "1.8.0"
+smallvec   = "1.10.0"
 
 swc_atoms                   = { version = "0.5.6", path = "../swc_atoms" }
 swc_common                  = { version = "0.31.16", path = "../swc_common" }
