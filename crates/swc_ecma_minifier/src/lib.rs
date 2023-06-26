@@ -100,6 +100,7 @@ pub fn optimize(
     let _timer = timer!("minify");
 
     let mut marks = Marks::new();
+    marks.top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
     marks.unresolved_mark = extra.unresolved_mark;
 
     debug_assert_valid(&n);

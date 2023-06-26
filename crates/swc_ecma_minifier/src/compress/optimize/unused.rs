@@ -710,6 +710,8 @@ impl Optimizer<'_> {
                             && var.usage_count == 0
                             && var.declared
                             && (!var.declared_as_fn_param || !used_arguments || self.ctx.in_strict)
+                            && (self.options.top_level()
+                                || i.span.ctxt != self.marks.top_level_ctxt)
                         {
                             report_change!(
                                 "unused: Dropping assignment to var '{}{:?}', which is never used",
