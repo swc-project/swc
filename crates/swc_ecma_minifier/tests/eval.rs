@@ -497,7 +497,7 @@ fn partial_8() {
     const mediumScreen = '680px'
     const animationDuration = '200ms'
     const animationName = 'my-cool-animation'
-    const obj = { }
+    const obj = { display: 'block' }
     
     export default ({ display }) => (
         css`
