@@ -3,59 +3,6 @@ var specific_microfront;
     "use strict";
     var __webpack_modules__ = ({
 
-        "webpack/container/entry/specific_page":
-            (function (__unused_webpack_module, exports, __webpack_require__) {
-
-                var moduleMap = {
-                    ".": function () {
-                        return Promise.all([]).then(function () { return function () { return (__webpack_require__("./workers.ts")); }; });
-                    }
-                };
-                var get = function (module, getScope) {
-                    __webpack_require__.R = getScope;
-                    getScope = (
-                        __webpack_require__.o(moduleMap, module)
-                            ? moduleMap[module]()
-                            : Promise.resolve().then(function () {
-                                throw new Error('Module "' + module + '" does not exist in container.');
-                            })
-                    );
-                    __webpack_require__.R = undefined;
-                    return getScope;
-                };
-                var init = function (shareScope, initScope) {
-                    if (!__webpack_require__.S) return;
-                    var name = "default"
-                    var oldScope = __webpack_require__.S[name];
-                    if (oldScope && oldScope !== shareScope) throw new Error("Container initialization failed as it has already been initialized with a different share scope");
-                    __webpack_require__.S[name] = shareScope;
-                    return __webpack_require__.I(name, initScope);
-                };
-
-                // This exports getters to disallow modifications
-                __webpack_require__.d(exports, {
-                    get: function () { return get; },
-                    init: function () { return init; }
-                });
-
-
-            }),
-
-        "react":
-            (function (module) {
-
-                module.exports = React;
-
-
-            }),
-
-        "jquery":
-            (function (module) {
-
-                module.exports = jQuery;
-
-
-            })
 
 
     });
