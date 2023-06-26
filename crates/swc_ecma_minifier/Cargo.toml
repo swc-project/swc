@@ -35,7 +35,7 @@ trace-ast   = []
 [dependencies]
 ahash             = "0.8.3"
 arrayvec          = "0.7.2"
-backtrace         = { version = "0.3.61", optional = true }
+backtrace         = { version = "0.3.67", optional = true }
 indexmap          = "2.0.0"
 num-bigint        = "0.4.3"
 num_cpus          = "1.13.1"
