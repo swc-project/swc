@@ -1281,6 +1281,16 @@ where
         self.scope.mark_with_stmt();
         n.visit_children_with(self);
     }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    fn visit_tagged_tpl(&mut self, n: &TaggedTpl) {
+        let ctx = Ctx {
+            is_id_ref: false,
+            ..self.ctx
+        };
+
+        n.visit_children_with(&mut *self.with_ctx(ctx))
+    }
 }
 
 fn leftmost(p: &Expr) -> Option<Id> {
