@@ -111,7 +111,7 @@ swc_visit = { version = "0.5.7", path = "../swc_visit" }
   default-features = false
   features         = ["type-def"]
   optional         = true
-  version          = "2.0.0"
+  version          = "2.13.0"
 
   [dependencies.napi]
   default-features = false
