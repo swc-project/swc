@@ -12,7 +12,7 @@ version     = "0.19.16"
 bench = false
 
 [dependencies]
-indexmap   = "1.9.3"
+indexmap   = "2.0.0"
 petgraph   = "0.6"
 rustc-hash = "1.1.0"
 
