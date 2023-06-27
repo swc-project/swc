@@ -5,6 +5,9 @@
 
 
 
+- **(es/minifier)** Don't drop assignments to unused top-level variables (#7581) ([a685c88](https://github.com/swc-project/swc/commit/a685c88c61248e5bff98fb339a71b40b8fd4e528))
+
+
 - **(es/parser)** Adjust context while parsing type arguments of TypeScript type queries (#7582) ([9d5dda1](https://github.com/swc-project/swc/commit/9d5dda12991dac031064b139eb61d2d03dcd8571))
 
 
