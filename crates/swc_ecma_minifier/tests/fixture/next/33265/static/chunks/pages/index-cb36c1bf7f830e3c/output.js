@@ -2168,7 +2168,7 @@
                                         NAMESPACE.isHTML(el.uri) && !el.closed ? end = function(source, elStartEnd, tagName, entityReplacer, domBuilder) {
                                             if (/^(?:script|textarea)$/i.test(tagName)) {
                                                 var elEndStart = source.indexOf("</" + tagName + ">", elStartEnd), text = source.substring(elStartEnd + 1, elEndStart);
-                                                if (/[&<]/.test(text)) return /^script$/i.test(tagName) ? (domBuilder.characters(text, 0, text.length), elEndStart) : (text = text.replace(/&#?\w+;/g, entityReplacer), domBuilder.characters(text, 0, text.length), elEndStart);
+                                                if (/[&<]/.test(text)) return /^script$/i.test(tagName) || (text = text.replace(/&#?\w+;/g, entityReplacer)), domBuilder.characters(text, 0, text.length), elEndStart;
                                             }
                                             return elStartEnd + 1;
                                         }(source, end, el.tagName, entityReplacer, domBuilder) : end++;

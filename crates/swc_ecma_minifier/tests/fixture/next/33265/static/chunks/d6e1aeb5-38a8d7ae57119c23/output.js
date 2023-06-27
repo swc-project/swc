@@ -5891,9 +5891,9 @@
                     ]);
                     return !sourceTech || ((str1 = sourceTech.tech, str2 = this.techName_, toTitleCase$1(str1) !== toTitleCase$1(str2)) ? (this.changingSrc_ = !0, this.loadTech_(sourceTech.tech, sourceTech.source), this.tech_.ready(function() {
                         _this15.changingSrc_ = !1;
-                    }), !1) : (this.ready(function() {
+                    })) : this.ready(function() {
                         this.tech_.constructor.prototype.hasOwnProperty("setSource") ? this.techCall_("setSource", source) : this.techCall_("src", source.src), this.changingSrc_ = !1;
-                    }, !0), !1));
+                    }, !0), !1);
                 }, _proto.load = function() {
                     this.techCall_("load");
                 }, _proto.reset = function() {
@@ -8962,7 +8962,7 @@
                     Object.keys(captionServices).forEach(function(serviceName) {
                         serviceProps = captionServices[serviceName], /^SERVICE/.test(serviceName) && (captionServiceEncodings[serviceName] = serviceProps.encoding);
                     }), this.serviceEncodings = captionServiceEncodings, this.current708Packet = null, this.services = {}, this.push = function(packet) {
-                        3 === packet.type ? (self1.new708Packet(), self1.add708Bytes(packet)) : (null === self1.current708Packet && self1.new708Packet(), self1.add708Bytes(packet));
+                        3 === packet.type ? self1.new708Packet() : null === self1.current708Packet && self1.new708Packet(), self1.add708Bytes(packet);
                     };
                 };
                 Cea708Stream.prototype = new Stream(), Cea708Stream.prototype.new708Packet = function() {
@@ -9616,7 +9616,7 @@
                         workingBytes.set(workingData.subarray(position, position + availableBytes)), workingWord = new DataView(workingBytes.buffer).getUint32(0), workingBitsAvailable = 8 * availableBytes, workingBytesAvailable -= availableBytes;
                     }, this.skipBits = function(count) {
                         var skipBytes;
-                        workingBitsAvailable > count ? (workingWord <<= count, workingBitsAvailable -= count) : (count -= workingBitsAvailable, skipBytes = Math.floor(count / 8), count -= 8 * skipBytes, workingBytesAvailable -= skipBytes, this.loadWord(), workingWord <<= count, workingBitsAvailable -= count);
+                        workingBitsAvailable > count || (count -= workingBitsAvailable, skipBytes = Math.floor(count / 8), count -= 8 * skipBytes, workingBytesAvailable -= skipBytes, this.loadWord()), workingWord <<= count, workingBitsAvailable -= count;
                     }, this.readBits = function(size) {
                         var bits = Math.min(workingBitsAvailable, size), valu = workingWord >>> 32 - bits;
                         return ((workingBitsAvailable -= bits) > 0 ? workingWord <<= bits : workingBytesAvailable > 0 && this.loadWord(), (bits = size - bits) > 0) ? valu << bits | this.readBits(bits) : valu;

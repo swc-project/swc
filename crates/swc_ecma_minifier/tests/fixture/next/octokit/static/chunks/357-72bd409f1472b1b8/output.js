@@ -629,7 +629,7 @@
                                 error: error1
                             }), !1;
                         }
-                        return blocked ? (job.doDrop(), !0) : reachedHWM && (null != (shifted = strategy === Bottleneck.prototype.strategy.LEAK ? this._queues.shiftLastFrom(options.priority) : strategy === Bottleneck.prototype.strategy.OVERFLOW_PRIORITY ? this._queues.shiftLastFrom(options.priority + 1) : strategy === Bottleneck.prototype.strategy.OVERFLOW ? job : void 0) && shifted.doDrop(), null == shifted || strategy === Bottleneck.prototype.strategy.OVERFLOW) ? (null == shifted && job.doDrop(), reachedHWM) : (job.doQueue(reachedHWM, blocked), this._queues.push(job), await this._drainAll(), reachedHWM);
+                        return blocked ? (job.doDrop(), !0) : (reachedHWM && (null != (shifted = strategy === Bottleneck.prototype.strategy.LEAK ? this._queues.shiftLastFrom(options.priority) : strategy === Bottleneck.prototype.strategy.OVERFLOW_PRIORITY ? this._queues.shiftLastFrom(options.priority + 1) : strategy === Bottleneck.prototype.strategy.OVERFLOW ? job : void 0) && shifted.doDrop(), null == shifted || strategy === Bottleneck.prototype.strategy.OVERFLOW) ? null == shifted && job.doDrop() : (job.doQueue(reachedHWM, blocked), this._queues.push(job), await this._drainAll()), reachedHWM);
                     }
                     _receive(job) {
                         return null != this._states.jobStatus(job.options.id) ? (job._reject(new Bottleneck.prototype.BottleneckError(`A job with the same id already exists (id=${job.options.id})`)), !1) : (job.doReceive(), this._submitLock.schedule(this._addToQueue, job));
