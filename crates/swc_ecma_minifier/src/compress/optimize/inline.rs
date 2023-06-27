@@ -281,7 +281,8 @@ impl Optimizer<'_> {
             }
 
             // Single use => inlined
-            if is_inline_enabled
+            if !self.ctx.is_exported
+                && is_inline_enabled
                 && usage.declared
                 && !should_preserve
                 && !usage.reassigned()
