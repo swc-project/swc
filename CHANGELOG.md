@@ -37,6 +37,9 @@
 
 - **(ci)** Change condition for `ci` testing (#7533) ([724e75d](https://github.com/swc-project/swc/commit/724e75d2569d3c210d4e0d3c6861e17c906babed))
 
+
+- **(ci)** Fix CI (#7589) ([c51eac6](https://github.com/swc-project/swc/commit/c51eac6075c161bdf4e8211fd6f96df8bd902e7d))
+
 ### Refactor
 
 
