@@ -65,7 +65,8 @@ impl ExplicitResourceManagement {
                     state.has_error.as_arg(),
                 ],
                 type_args: Default::default(),
-            };
+            }
+            .into_stmt();
 
             let try_stmt = TryStmt {
                 span: DUMMY_SP,
