@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use swc_common::Mark;
+use swc_common::{Mark, SyntaxContext};
 
 #[derive(Debug, Clone, Copy)]
 pub struct Marks {
@@ -47,6 +47,8 @@ pub struct Marks {
     /// preserve the side effects.
     pub fake_block: Mark,
 
+    pub top_level_ctxt: SyntaxContext,
+
     pub unresolved_mark: Mark,
 }
 
@@ -66,6 +68,7 @@ impl Marks {
             noinline: m(),
             pure: m(),
             fake_block: m(),
+            top_level_ctxt: SyntaxContext::empty().apply_mark(m()),
             unresolved_mark: m(),
         }
     }
