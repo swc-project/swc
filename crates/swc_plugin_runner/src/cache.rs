@@ -19,8 +19,9 @@ use wasmer::{Module, Store};
 #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
 use wasmer_cache::{Cache as WasmerCache, FileSystemCache, Hash};
 
-use crate::plugin_module_bytes::{
-    CompiledPluginModuleBytes, PluginModuleBytes, RawPluginModuleBytes,
+use crate::{
+    plugin_module_bytes::{CompiledPluginModuleBytes, PluginModuleBytes, RawPluginModuleBytes},
+    wasix_runtime::new_store,
 };
 
 /// Version for bytecode cache stored in local filesystem.
@@ -114,7 +115,7 @@ impl PluginModuleCacheInner {
             // If FilesystemCache is available, store serialized bytes into fs.
             if let Some(fs_cache_store) = &mut self.fs_cache_store {
                 let module_bytes_hash = Hash::generate(&raw_module_bytes);
-                let store = crate::plugin_module_bytes::new_store();
+                let store = new_store();
                 let module = Module::new(&store, raw_module_bytes.clone())
                     .context("Cannot compile plugin binary")?;
                 fs_cache_store.store(module_bytes_hash, &module)?;
@@ -154,7 +155,7 @@ impl PluginModuleCacheInner {
         #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
         if let Some(fs_cache_store) = &self.fs_cache_store {
             let hash = self.fs_cache_hash_store.get(key)?;
-            let store = crate::plugin_module_bytes::new_store();
+            let store = new_store();
             let module = unsafe { fs_cache_store.load(&store, *hash) };
             if let Ok(module) = module {
                 return Some(Box::new(CompiledPluginModuleBytes::new(
