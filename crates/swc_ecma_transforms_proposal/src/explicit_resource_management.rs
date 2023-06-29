@@ -13,6 +13,8 @@ pub fn explicit_resource_management() -> impl Fold + VisitMut {
 #[derive(Default)]
 struct ExplicitResourceManagement {
     state: Option<State>,
+
+    use_const: bool,
 }
 
 struct State {
@@ -171,7 +173,11 @@ impl VisitMut for ExplicitResourceManagement {
 
             *s = Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: DUMMY_SP,
-                kind: VarDeclKind::Const,
+                kind: if self.use_const {
+                    VarDeclKind::Const
+                } else {
+                    VarDeclKind::Var
+                },
                 declare: Default::default(),
                 decls: decl
                     .decls
@@ -203,6 +209,9 @@ impl VisitMut for ExplicitResourceManagement {
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        self.visit_mut_stmt_likes(stmts)
+        let old_use_const = self.use_const;
+        self.use_const = true;
+        self.visit_mut_stmt_likes(stmts);
+        self.use_const = old_use_const;
     }
 }
