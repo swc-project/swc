@@ -1,10 +1,10 @@
 export default function fn() {}
 try {
-  var _stack = [];
-  var x = babelHelpers.using(_stack, null);
+    var _stack = [];
+    var x = _using(_stack, null);
 } catch (_) {
-  var _error = _;
-  var _hasError = true;
-} finally {
-  babelHelpers.dispose(_stack, _error, _hasError);
+    var _error = _;
+    var _hasError = true;
+} finally{
+    _dispose(_stack, _error, _hasError);
 }
