@@ -125,10 +125,6 @@ impl VisitMut for ExplicitResourceManagement {
         self.visit_mut_stmt_likes(stmts)
     }
 
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        self.visit_mut_stmt_likes(stmts)
-    }
-
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         s.visit_mut_children_with(self);
 
@@ -151,5 +147,9 @@ impl VisitMut for ExplicitResourceManagement {
             )
             .into_stmt();
         }
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        self.visit_mut_stmt_likes(stmts)
     }
 }
