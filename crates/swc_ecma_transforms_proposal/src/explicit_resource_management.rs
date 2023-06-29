@@ -80,18 +80,6 @@ impl ExplicitResourceManagement {
             // Drop `;`
             try_body.retain(|stmt| !matches!(stmt, Stmt::Empty(..)));
 
-            // var has_error = true
-            let has_error_true = Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: vec![VarDeclarator {
-                    span: DUMMY_SP,
-                    name: state.has_error.clone().into(),
-                    init: Some(true.into()),
-                    definite: false,
-                }],
-            })));
             // var error = $catch_var
             let error_catch_var = Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: DUMMY_SP,
@@ -105,6 +93,18 @@ impl ExplicitResourceManagement {
                 }],
             })));
 
+            // var has_error = true
+            let has_error_true = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: vec![VarDeclarator {
+                    span: DUMMY_SP,
+                    name: state.has_error.clone().into(),
+                    init: Some(true.into()),
+                    definite: false,
+                }],
+            })));
             let dispose_expr = CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(dispose),
@@ -136,7 +136,7 @@ impl ExplicitResourceManagement {
                     param: Some(state.catch_var.into()),
                     body: BlockStmt {
                         span: DUMMY_SP,
-                        stmts: vec![has_error_true, error_catch_var],
+                        stmts: vec![error_catch_var, has_error_true],
                     },
                 }),
                 finalizer: Some(BlockStmt {
