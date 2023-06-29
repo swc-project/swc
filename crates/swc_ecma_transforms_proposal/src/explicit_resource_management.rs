@@ -171,7 +171,7 @@ impl VisitMut for ExplicitResourceManagement {
 
             *s = Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: DUMMY_SP,
-                kind: VarDeclKind::Var,
+                kind: VarDeclKind::Const,
                 declare: Default::default(),
                 decls: decl
                     .decls
