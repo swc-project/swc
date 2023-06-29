@@ -14,7 +14,7 @@ pub fn explicit_resource_management() -> impl Fold + VisitMut {
 struct ExplicitResourceManagement {
     state: Option<State>,
 
-    use_const: bool,
+    is_not_top_level: bool,
 }
 
 struct State {
@@ -202,7 +202,7 @@ impl VisitMut for ExplicitResourceManagement {
 
             *s = Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: DUMMY_SP,
-                kind: if self.use_const {
+                kind: if self.is_not_top_level {
                     VarDeclKind::Const
                 } else {
                     VarDeclKind::Var
@@ -238,9 +238,9 @@ impl VisitMut for ExplicitResourceManagement {
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        let old_use_const = self.use_const;
-        self.use_const = true;
+        let old_is_not_top_level = self.is_not_top_level;
+        self.is_not_top_level = true;
         self.visit_mut_stmt_likes(stmts);
-        self.use_const = old_use_const;
+        self.is_not_top_level = old_is_not_top_level;
     }
 }
