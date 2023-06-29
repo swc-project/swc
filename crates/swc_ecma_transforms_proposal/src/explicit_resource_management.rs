@@ -88,7 +88,54 @@ impl ExplicitResourceManagement {
                     new.push(T::from_stmt(stmt));
                 }
                 Ok(stmt) => try_body.push(stmt),
-                Err(stmt) => new.push(stmt),
+                Err(stmt) => match stmt.try_into_module_decl() {
+                    Ok(ModuleDecl::ExportDefaultDecl(decl)) => {
+                        let ident = match &decl.decl {
+                            DefaultDecl::Class(c) => c.ident.clone(),
+                            DefaultDecl::Fn(f) => f.ident.clone(),
+                            DefaultDecl::TsInterfaceDecl(_) => unreachable!(),
+                        };
+
+                        let ident = ident.unwrap_or_else(|| private_ident!("_default"));
+
+                        // export { C as default }
+                        new.push(
+                            T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                span: DUMMY_SP,
+                                specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: ModuleExportName::Ident(ident.clone()),
+                                    exported: Some(ModuleExportName::Ident(Ident::new(
+                                        "default".into(),
+                                        DUMMY_SP,
+                                    ))),
+                                    is_type_only: Default::default(),
+                                })],
+                                src: None,
+                                type_only: Default::default(),
+                                asserts: None,
+                            }))
+                            .unwrap(),
+                        );
+                        try_body.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            declare: Default::default(),
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: ident.into(),
+                                init: Some(match decl.decl {
+                                    DefaultDecl::Class(c) => Box::new(Expr::Class(c)),
+                                    DefaultDecl::Fn(f) => Box::new(Expr::Fn(f)),
+                                    DefaultDecl::TsInterfaceDecl(_) => unreachable!(),
+                                }),
+                                definite: Default::default(),
+                            }],
+                        }))));
+                    }
+                    Ok(stmt) => new.push(T::try_from_module_decl(stmt).unwrap()),
+                    Err(stmt) => new.push(stmt),
+                },
             }
         }
 
