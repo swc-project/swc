@@ -511,8 +511,9 @@ where
                                     }
                                 } else {
                                     if sel_index > 0 {
-                                        n.as_mut_compound_selector().map(|n|{
-                                            n.subclass_selectors = n.subclass_selectors.split_at(sel_index).0.to_vec();
+                                        n.as_mut_compound_selector().map(|n| {
+                                            n.subclass_selectors =
+                                                n.subclass_selectors.split_at(sel_index).0.to_vec();
                                         });
                                         new_children.push(n);
                                     }
@@ -537,8 +538,9 @@ where
                                     }
                                 } else {
                                     if sel_index > 0 {
-                                        n.as_mut_compound_selector().map(|n|{
-                                            n.subclass_selectors = n.subclass_selectors.split_at(sel_index).0.to_vec();
+                                        n.as_mut_compound_selector().map(|n| {
+                                            n.subclass_selectors =
+                                                n.subclass_selectors.split_at(sel_index).0.to_vec();
                                         });
                                         new_children.push(n);
                                     }
@@ -665,6 +667,6 @@ fn prepend_left_subclass_selectors(
             first.subclass_selectors.take(),
             sels.1[1..].to_vec(),
         ]
-            .concat();
+        .concat();
     }
 }
