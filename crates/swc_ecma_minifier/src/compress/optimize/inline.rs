@@ -96,6 +96,8 @@ impl Optimizer<'_> {
 
             self.vars.inline_with_multi_replacer(init);
 
+            let id = ident.to_id();
+
             // We inline arrays partially if it's pure (all elements are literal), and not
             // modified.
             // We don't drop definition, but we just inline array accesses with numeric
@@ -243,7 +245,17 @@ impl Optimizer<'_> {
                     _ => false,
                 }
             {
-                self.mode.store(ident.to_id(), &*init);
+                self.mode.store(id.clone(), &*init);
+
+                let usage_count = usage.usage_count;
+                let mut inc_usage = || {
+                    if let Expr::Ident(i) = &*init {
+                        if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
+                            u.ref_count += ref_count;
+                            u.usage_count += usage_count;
+                        }
+                    }
+                };
 
                 if self.options.inline != 0
                     && !should_preserve
@@ -264,7 +276,9 @@ impl Optimizer<'_> {
                     //     var.span = var.span.apply_mark(self.marks.non_top_level);
                     // }
 
-                    self.vars.lits.insert(ident.to_id(), init.take().into());
+                    inc_usage();
+
+                    self.vars.lits.insert(id.clone(), init.take().into());
 
                     ident.take();
                 } else if self.options.inline != 0 || self.options.reduce_vars {
@@ -274,11 +288,15 @@ impl Optimizer<'_> {
                         ident.span.ctxt
                     );
 
-                    self.mode.store(ident.to_id(), &*init);
+                    self.mode.store(id.clone(), &*init);
 
-                    self.vars.lits.insert(ident.to_id(), init.clone().into());
+                    inc_usage();
+
+                    self.vars.lits.insert(id.clone(), init.clone().into());
                 }
             }
+
+            let usage = self.data.vars.get(&id).unwrap();
 
             // Single use => inlined
             if !self.ctx.is_exported
@@ -759,13 +777,6 @@ impl Optimizer<'_> {
 
                     self.changed = true;
                     report_change!("inline: Replacing a variable `{}` with cheap expression", i);
-
-                    if let Expr::Ident(i) = &*value {
-                        if let Some(usage) = self.data.vars.get_mut(&i.to_id()) {
-                            usage.ref_count += 1;
-                            usage.usage_count += 1;
-                        }
-                    }
 
                     *e = *value;
                     return;
