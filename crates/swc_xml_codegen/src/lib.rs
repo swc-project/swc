@@ -166,22 +166,7 @@ where
         }
 
         if is_void_element {
-            if self.config.minify {
-                let need_space = match n.attributes.last() {
-                    Some(Attribute {
-                        value: Some(value), ..
-                    }) => !value.chars().any(|c| match c {
-                        c if c.is_ascii_whitespace() => true,
-                        '`' | '=' | '<' | '>' | '"' | '\'' => true,
-                        _ => false,
-                    }),
-                    _ => false,
-                };
-
-                if need_space {
-                    write_raw!(self, " ");
-                }
-            } else {
+            if !self.config.minify {
                 write_raw!(self, " ");
             }
 
