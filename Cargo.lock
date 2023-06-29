@@ -4897,7 +4897,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml"
-version = "0.11.20"
+version = "0.11.21"
 dependencies = [
  "swc_xml_ast",
  "swc_xml_codegen",
@@ -4918,7 +4918,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_codegen"
-version = "0.11.20"
+version = "0.11.21"
 dependencies = [
  "auto_impl",
  "bitflags 2.3.2",
