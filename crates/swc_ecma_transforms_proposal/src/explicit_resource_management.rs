@@ -1,3 +1,5 @@
+use std::iter::once;
+
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -179,11 +181,14 @@ impl VisitMut for ExplicitResourceManagement {
                         let init = CallExpr {
                             span: decl.span,
                             callee: helper!(using),
-                            args: vec![
-                                state.stack.clone().as_arg(),
-                                d.init.unwrap().as_arg(),
-                                decl.is_await.as_arg(),
-                            ],
+                            args: once(state.stack.clone().as_arg())
+                                .chain(once(d.init.unwrap().as_arg()))
+                                .chain(if decl.is_await {
+                                    Some(true.as_arg())
+                                } else {
+                                    None
+                                })
+                                .collect(),
                             type_args: Default::default(),
                         };
 
