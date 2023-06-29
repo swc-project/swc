@@ -133,6 +133,15 @@ impl<'a, I: Tokens> Parser<I> {
                 self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwaitInScript);
             }
 
+            if peeked_is!(self, "using") {
+                assert_and_bump!(self, "await");
+
+                let v = self.parse_using_decl(start, true)?;
+                if let Some(v) = v {
+                    return Ok(Stmt::Decl(Decl::Using(v)));
+                }
+            }
+
             let expr = self.parse_await_expr()?;
             let expr = self
                 .include_in_expr(true)
