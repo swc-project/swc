@@ -1,7 +1,7 @@
 export default function fn() {}
 try {
     var _stack = [];
-    var x = _using(_stack, null);
+    const x = _using(_stack, null);
 } catch (_) {
     var _error = _;
     var _hasError = true;
