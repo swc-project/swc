@@ -29,6 +29,9 @@
 - **(plugin/runner)** Update `wasmer` to `v4` (#7576) ([ab7b17c](https://github.com/swc-project/swc/commit/ab7b17cf106620caa1ba46adf23e6013cc4d6288))
 
 
+- **(plugin/runner)** Share runtime `Engine` (#7590) ([9512ea3](https://github.com/swc-project/swc/commit/9512ea31ff1bb0c70f4f96a620b429fa01f48e0c))
+
+
 - **(testing)** Add `CARGO_TARGET_DIR` and use it from other crates (#7552) ([46fb461](https://github.com/swc-project/swc/commit/46fb4619bafd56dfa3edd9064c1fe2ae4b6b78de))
 
 ### Miscellaneous Tasks
