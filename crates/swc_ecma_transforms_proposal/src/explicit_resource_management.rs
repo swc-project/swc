@@ -72,6 +72,7 @@ impl ExplicitResourceManagement {
                 }
             }
 
+            // Drop `;`
             try_body.retain(|stmt| !matches!(stmt, Stmt::Empty(..)));
 
             // var has_error = true
