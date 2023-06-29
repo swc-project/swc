@@ -381,6 +381,7 @@ define_helpers!(Helpers {
 
     apply_decs_2203_r: (),
     identity: (),
+    dispose: (),
 });
 
 pub fn inject_helpers(global_mark: Mark) -> impl Fold + VisitMut {
