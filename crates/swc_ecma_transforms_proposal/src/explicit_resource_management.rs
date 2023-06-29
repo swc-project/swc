@@ -1,7 +1,7 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{ExprFactory, ModuleItemLike, StmtLike};
+use swc_ecma_utils::{private_ident, ExprFactory, ModuleItemLike, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn explicit_resource_management() -> impl Fold + VisitMut {
@@ -18,6 +18,17 @@ struct State {
     has_error: Ident,
     error_var: Ident,
     catch_var: Ident,
+}
+
+impl Default for State {
+    fn default() -> Self {
+        Self {
+            stack: private_ident!("_stack"),
+            has_error: private_ident!("_hasError"),
+            error_var: private_ident!("_error"),
+            catch_var: private_ident!("_"),
+        }
+    }
 }
 
 impl ExplicitResourceManagement {
@@ -116,5 +127,29 @@ impl VisitMut for ExplicitResourceManagement {
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         self.visit_mut_stmt_likes(stmts)
+    }
+
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        s.visit_mut_children_with(self);
+
+        if let Stmt::Decl(Decl::Using(decl)) = s {
+            let state = self.state.get_or_insert_with(Default::default);
+
+            *s = Expr::from_exprs(
+                decl.decls
+                    .take()
+                    .into_iter()
+                    .map(|d| CallExpr {
+                        span: decl.span,
+                        callee: helper!(using),
+                        args: vec![state.stack.clone().as_arg(), d.init.unwrap().as_arg()],
+                        type_args: Default::default(),
+                    })
+                    .map(Expr::from)
+                    .map(Box::new)
+                    .collect(),
+            )
+            .into_stmt();
+        }
     }
 }
