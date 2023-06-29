@@ -18,6 +18,8 @@ struct State {
     has_error: Ident,
     error_var: Ident,
     catch_var: Ident,
+
+    has_await: bool,
 }
 
 impl Default for State {
@@ -27,6 +29,7 @@ impl Default for State {
             has_error: private_ident!("_hasError"),
             error_var: private_ident!("_error"),
             catch_var: private_ident!("_"),
+            has_await: false,
         }
     }
 }
@@ -100,7 +103,7 @@ impl ExplicitResourceManagement {
                 }],
             })));
 
-            let dispose_stmt = CallExpr {
+            let dispose_expr = CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(dispose),
                 args: vec![
@@ -109,6 +112,14 @@ impl ExplicitResourceManagement {
                     state.has_error.as_arg(),
                 ],
                 type_args: Default::default(),
+            };
+            let dispose_stmt = if state.has_await {
+                Expr::Await(AwaitExpr {
+                    span: DUMMY_SP,
+                    arg: Box::new(dispose_expr.into()),
+                })
+            } else {
+                dispose_expr.into()
             }
             .into_stmt();
 
@@ -153,6 +164,8 @@ impl VisitMut for ExplicitResourceManagement {
 
         if let Stmt::Decl(Decl::Using(decl)) = s {
             let state = self.state.get_or_insert_with(Default::default);
+
+            state.has_await |= decl.is_await;
 
             *s = Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: DUMMY_SP,
