@@ -1,7 +1,7 @@
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{ExprFactory, StmtLike};
+use swc_ecma_utils::{ExprFactory, ModuleItemLike, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn explicit_resource_management() -> impl Fold + VisitMut {
@@ -23,7 +23,7 @@ struct State {
 impl ExplicitResourceManagement {
     fn visit_mut_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike,
+        T: StmtLike + ModuleItemLike,
         Vec<T>: VisitMutWith<Self>,
     {
         let old_state = self.state.take();
@@ -31,6 +31,16 @@ impl ExplicitResourceManagement {
         stmts.visit_mut_with(self);
 
         if let Some(state) = self.state.take() {
+            let mut new = vec![];
+            let mut try_body = vec![];
+
+            for stmt in stmts.take() {
+                match stmt.try_into_stmt() {
+                    Ok(stmt) => try_body.push(stmt),
+                    Err(stmt) => new.push(stmt),
+                }
+            }
+
             // var has_error = true
             let has_error_true = Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: DUMMY_SP,
@@ -38,7 +48,7 @@ impl ExplicitResourceManagement {
                 declare: false,
                 decls: vec![VarDeclarator {
                     span: DUMMY_SP,
-                    name: state.has_error.into(),
+                    name: state.has_error.clone().into(),
                     init: Some(true.into()),
                     definite: false,
                 }],
@@ -50,7 +60,7 @@ impl ExplicitResourceManagement {
                 declare: false,
                 decls: vec![VarDeclarator {
                     span: DUMMY_SP,
-                    name: state.error_var.into(),
+                    name: state.error_var.clone().into(),
                     init: Some(state.catch_var.clone().into()),
                     definite: false,
                 }],
@@ -72,7 +82,7 @@ impl ExplicitResourceManagement {
                 span: DUMMY_SP,
                 block: BlockStmt {
                     span: DUMMY_SP,
-                    stmts: (),
+                    stmts: try_body,
                 },
                 handler: Some(CatchClause {
                     span: DUMMY_SP,
@@ -88,7 +98,9 @@ impl ExplicitResourceManagement {
                 }),
             };
 
-            *stmts = T::from_stmt(Stmt::Try(try_stmt));
+            new.push(T::from_stmt(Stmt::Try(Box::new(try_stmt))));
+
+            *stmts = new;
         }
 
         self.state = old_state;
