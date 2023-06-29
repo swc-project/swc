@@ -2,32 +2,30 @@ import { doSomething } from "somewhere";
 export * from "somewhere else";
 export * as ns from "somewhere else";
 function f() {
-  a;
-  B;
+    a;
+    B;
 }
 function h() {
-  b;
-  A;
+    b;
+    A;
 }
 export function g() {
-  c;
+    c;
 }
 export { f };
-export { b };
-export { B };
+export let { b } = {};
+export class B {
+}
 try {
-  var _stack = [];
-  doSomething();
-  var {
-    b
-  } = {};
-  var c = 2;
-  var A = class {};
-  var B = class {};
-  var x = babelHelpers.using(_stack, null);
+    var _stack = [];
+    doSomething();
+    let c = 2;
+    class A {
+    }
+    var x = _using(_stack, null);
 } catch (_) {
-  var _error = _;
-  var _hasError = true;
-} finally {
-  babelHelpers.dispose(_stack, _error, _hasError);
+    var _error = _;
+    var _hasError = true;
+} finally{
+    _dispose(_stack, _error, _hasError);
 }
