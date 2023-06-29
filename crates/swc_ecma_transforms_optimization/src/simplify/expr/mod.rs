@@ -1449,18 +1449,18 @@ impl VisitMut for SimplifyExpr {
     }
 
     fn visit_mut_export_default_expr(&mut self, expr: &mut ExportDefaultExpr) {
-        fn is_paren_wrap_fn(expr: &mut Expr, visitor: &mut SimplifyExpr) -> bool {
+        fn is_paren_wrap_fn_or_class(expr: &mut Expr, visitor: &mut SimplifyExpr) -> bool {
             match &mut *expr {
-                Expr::Fn(f) => {
-                    f.visit_mut_children_with(visitor);
+                Expr::Fn(..) | Expr::Class(..) => {
+                    expr.visit_mut_children_with(visitor);
                     true
                 }
-                Expr::Paren(p) => is_paren_wrap_fn(&mut p.expr, visitor),
+                Expr::Paren(p) => is_paren_wrap_fn_or_class(&mut p.expr, visitor),
                 _ => false,
             }
         }
 
-        if !is_paren_wrap_fn(&mut expr.expr, self) {
+        if !is_paren_wrap_fn_or_class(&mut expr.expr, self) {
             expr.visit_mut_children_with(self);
         }
     }
