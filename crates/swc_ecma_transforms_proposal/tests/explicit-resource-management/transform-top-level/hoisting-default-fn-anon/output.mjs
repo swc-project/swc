@@ -1,7 +1,8 @@
-export default function fn() {}
+export { fn as default };
 try {
     var _stack = [];
     var x = _using(_stack, null);
+    var fn = function fn() {};
 } catch (_) {
     var _error = _;
     var _hasError = true;
