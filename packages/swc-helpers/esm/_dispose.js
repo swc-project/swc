@@ -9,18 +9,12 @@ function dispose_SuppressedError(suppressed, error) {
             this.error = error;
             this.stack = new Error().stack;
         };
-        dispose_SuppressedError.prototype = Object.create(Error.prototype, {
-            constructor: {
-                value: dispose_SuppressedError,
-                writable: true,
-                configurable: true,
-            },
-        });
+        dispose_SuppressedError.prototype = Object.create(Error.prototype, { constructor: { value: dispose_SuppressedError, writable: true, configurable: true } });
     }
     return new dispose_SuppressedError(suppressed, error);
 }
 
-export default function _dispose(stack, error, hasError) {
+export function _dispose(stack, error, hasError) {
     function next() {
         while (stack.length > 0) {
             try {
@@ -43,3 +37,5 @@ export default function _dispose(stack, error, hasError) {
 
     return next();
 }
+
+export { _dispose as _ };
