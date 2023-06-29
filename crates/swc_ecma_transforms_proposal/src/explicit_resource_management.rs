@@ -49,115 +49,137 @@ impl ExplicitResourceManagement {
         stmts.visit_mut_children_with(self);
 
         if let Some(state) = self.state.take() {
-            let mut new = vec![];
-            let mut try_body = vec![];
-
-            let stack_var_decl = VarDeclarator {
-                span: DUMMY_SP,
-                name: state.stack.clone().into(),
-                init: Some(
-                    ArrayLit {
-                        span: DUMMY_SP,
-                        elems: vec![],
-                    }
-                    .into(),
-                ),
-                definite: Default::default(),
-            };
-
-            try_body.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: vec![stack_var_decl],
-            }))));
-
-            for stmt in stmts.take() {
-                match stmt.try_into_stmt() {
-                    Ok(stmt) => try_body.push(stmt),
-                    Err(stmt) => new.push(stmt),
-                }
-            }
-
-            // Drop `;`
-            try_body.retain(|stmt| !matches!(stmt, Stmt::Empty(..)));
-
-            // var error = $catch_var
-            let error_catch_var = Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: vec![VarDeclarator {
-                    span: DUMMY_SP,
-                    name: state.error_var.clone().into(),
-                    init: Some(state.catch_var.clone().into()),
-                    definite: false,
-                }],
-            })));
-
-            // var has_error = true
-            let has_error_true = Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: vec![VarDeclarator {
-                    span: DUMMY_SP,
-                    name: state.has_error.clone().into(),
-                    init: Some(true.into()),
-                    definite: false,
-                }],
-            })));
-            let dispose_expr = CallExpr {
-                span: DUMMY_SP,
-                callee: helper!(dispose),
-                args: vec![
-                    state.stack.as_arg(),
-                    state.error_var.as_arg(),
-                    state.has_error.as_arg(),
-                ],
-                type_args: Default::default(),
-            };
-            let dispose_stmt = if state.has_await {
-                Expr::Await(AwaitExpr {
-                    span: DUMMY_SP,
-                    arg: Box::new(dispose_expr.into()),
-                })
-            } else {
-                dispose_expr.into()
-            }
-            .into_stmt();
-
-            let try_stmt = TryStmt {
-                span: DUMMY_SP,
-                block: BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: try_body,
-                },
-                handler: Some(CatchClause {
-                    span: DUMMY_SP,
-                    param: Some(state.catch_var.into()),
-                    body: BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![error_catch_var, has_error_true],
-                    },
-                }),
-                finalizer: Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![dispose_stmt],
-                }),
-            };
-
-            new.push(T::from_stmt(Stmt::Try(Box::new(try_stmt))));
-
-            *stmts = new;
+            self.wrap_with_try(state, stmts);
         }
 
         self.state = old_state;
+    }
+
+    fn wrap_with_try<T>(&mut self, state: State, stmts: &mut Vec<T>)
+    where
+        T: StmtLike + ModuleItemLike,
+    {
+        let mut new = vec![];
+        let mut try_body = vec![];
+
+        let stack_var_decl = VarDeclarator {
+            span: DUMMY_SP,
+            name: state.stack.clone().into(),
+            init: Some(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![],
+                }
+                .into(),
+            ),
+            definite: Default::default(),
+        };
+
+        try_body.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Var,
+            declare: false,
+            decls: vec![stack_var_decl],
+        }))));
+
+        for stmt in stmts.take() {
+            match stmt.try_into_stmt() {
+                Ok(stmt) => try_body.push(stmt),
+                Err(stmt) => new.push(stmt),
+            }
+        }
+
+        // Drop `;`
+        try_body.retain(|stmt| !matches!(stmt, Stmt::Empty(..)));
+
+        // var error = $catch_var
+        let error_catch_var = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Var,
+            declare: false,
+            decls: vec![VarDeclarator {
+                span: DUMMY_SP,
+                name: state.error_var.clone().into(),
+                init: Some(state.catch_var.clone().into()),
+                definite: false,
+            }],
+        })));
+
+        // var has_error = true
+        let has_error_true = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Var,
+            declare: false,
+            decls: vec![VarDeclarator {
+                span: DUMMY_SP,
+                name: state.has_error.clone().into(),
+                init: Some(true.into()),
+                definite: false,
+            }],
+        })));
+        let dispose_expr = CallExpr {
+            span: DUMMY_SP,
+            callee: helper!(dispose),
+            args: vec![
+                state.stack.as_arg(),
+                state.error_var.as_arg(),
+                state.has_error.as_arg(),
+            ],
+            type_args: Default::default(),
+        };
+        let dispose_stmt = if state.has_await {
+            Expr::Await(AwaitExpr {
+                span: DUMMY_SP,
+                arg: Box::new(dispose_expr.into()),
+            })
+        } else {
+            dispose_expr.into()
+        }
+        .into_stmt();
+
+        let try_stmt = TryStmt {
+            span: DUMMY_SP,
+            block: BlockStmt {
+                span: DUMMY_SP,
+                stmts: try_body,
+            },
+            handler: Some(CatchClause {
+                span: DUMMY_SP,
+                param: Some(state.catch_var.into()),
+                body: BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![error_catch_var, has_error_true],
+                },
+            }),
+            finalizer: Some(BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![dispose_stmt],
+            }),
+        };
+
+        new.push(T::from_stmt(Stmt::Try(Box::new(try_stmt))));
+
+        *stmts = new;
     }
 }
 
 impl VisitMut for ExplicitResourceManagement {
     noop_visit_mut_type!();
+
+    fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
+        n.visit_mut_children_with(self);
+
+        if let ForHead::UsingDecl(decl) = &mut n.left {
+            let state = State::default();
+
+            let mut body = vec![*n.body.take()];
+            self.wrap_with_try(state, &mut body);
+            n.body = Box::new(Stmt::Block(BlockStmt {
+                span: DUMMY_SP,
+                stmts: body,
+            }))
+        }
+    }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_likes(stmts)
