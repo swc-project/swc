@@ -120,8 +120,18 @@ impl VisitMut for ConstModules {
                             ImportSpecifier::Namespace(ref s) => {
                                 self.scope.namespace.insert(s.local.to_id());
                             }
-                            ImportSpecifier::Default(..) => {
-                                panic!("const_module does not support default import")
+                            ImportSpecifier::Default(ref s) => {
+                                let imported = &s.local.sym;
+                                let default_import_key = JsWord::from("default");
+                                let value =
+                                    entry.get(&default_import_key).cloned().unwrap_or_else(|| {
+                                        panic!(
+                                            "The requested const_module `{}` does not provide \
+                                             default export",
+                                            import.src.value
+                                        )
+                                    });
+                                self.scope.imported.insert(imported.clone(), value);
                             }
                         };
                     }

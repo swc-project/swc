@@ -147,3 +147,16 @@ console.log({ bar });
 console.log({ bar: true });
 "#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |tester| tr(tester, &[("my-mod", &[("default", "true")])]),
+    default_import_issue_7601,
+    r#"
+import something from 'my-mod';
+console.log(something);
+"#,
+    r#"
+console.log(true);
+"#
+);
