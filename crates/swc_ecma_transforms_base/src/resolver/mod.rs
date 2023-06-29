@@ -675,6 +675,8 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
         // Create a child scope. The class name is only accessible within the class.
 
+        n.class.super_class.visit_mut_with(self);
+
         self.with_child(ScopeKind::Fn, |child| {
             child.ident_type = IdentType::Binding;
             n.ident.visit_mut_with(child);

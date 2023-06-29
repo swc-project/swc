@@ -50,7 +50,7 @@ impl Context {
 
         Some(LineCol {
             line: loc.line,
-            column: loc.col_display,
+            column: loc.col.0,
         })
     }
 

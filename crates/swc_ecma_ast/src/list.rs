@@ -1,7 +1,6 @@
 #![allow(unused)]
 #![allow(non_upper_case_globals)]
 use bitflags::bitflags;
-use swc_common::add_bitflags;
 
 bitflags! {
     /// Represents the formatting rule for a list of nodes.
@@ -9,172 +8,185 @@ bitflags! {
     pub struct ListFormat: u32 {
         /// Default value.
         const None = 0;
-    }
-}
 
-add_bitflags!(
-    ListFormat,
-    // Handled by bitflags! macro.
-    // Values { None: 0 },
-    /// Line separators
-    Values {
+        // Line separators
         /// Prints the list on a single line (default).
-        SingleLine: 0,
+        const SingleLine = 0;
         /// Prints the list on multiple lines.
-        MultiLine: 1 << 0,
+        const MultiLine = 1 << 0;
         /// Prints the list using line preservation if possible.
-        PreserveLines: 1 << 1,
-        LinesMask: SingleLine | MultiLine | PreserveLines,
-    },
-    /// Delimiters
-    Values {
+        const PreserveLines = 1 << 1;
+        const LinesMask = Self::MultiLine.bits() | Self::PreserveLines.bits();
+
+        // Delimiters
         /// There is no delimiter between list items (default).
-        NotDelimited: 0,
+        const NotDelimited = 0;
         /// Each list item is space-and-bar (" |") delimited.
-        BarDelimited: 1 << 2,
+        const BarDelimited = 1 << 2;
         /// Each list item is space-and-ampersand (" &") delimited.
-        AmpersandDelimited: 1 << 3,
-        /// Each list item is comma (",") delimited.
-        CommaDelimited: 1 << 4,
-        DelimitersMask: BarDelimited | AmpersandDelimited | CommaDelimited,
-    },
-    Values {
-        /// Write a trailing comma (",") if present.
-        AllowTrailingComma: 1 << 5,
-    },
-    /// Whitespace
-    Values {
+        const AmpersandDelimited = 1 << 3;
+        /// Each list item is comma (";") delimited.
+        const CommaDelimited = 1 << 4;
+        const DelimitersMask = Self::BarDelimited.bits()
+            | Self::AmpersandDelimited.bits()
+            | Self::CommaDelimited.bits();
+
+        // Write a trailing comma (";") if present.
+        const AllowTrailingComma = 1 << 5;
+
+        // Whitespace
         /// The list should be indented.
-        Indented: 1 << 6,
+        const Indented = 1 << 6;
         /// Inserts a space after the opening brace and before the closing
         /// brace.
-        SpaceBetweenBraces: 1 << 7,
+        const SpaceBetweenBraces = 1 << 7;
         /// Inserts a space between each sibling node.
-        SpaceBetweenSiblings: 1 << 8,
-    },
-    /// Brackets/Braces
-    Values {
+        const SpaceBetweenSiblings = 1 << 8;
+
+        // Brackets/Braces
         /// The list is surrounded by "{" and "}".
-        Braces: 1 << 9,
+        const Braces = 1 << 9;
         /// The list is surrounded by "(" and ")".
-        Parenthesis: 1 << 10,
+        const Parenthesis = 1 << 10;
         /// The list is surrounded by "<" and ">".
-        AngleBrackets: 1 << 11,
+        const AngleBrackets = 1 << 11;
         /// The list is surrounded by "[" and "]".
-        SquareBrackets: 1 << 12,
-        BracketsMask: Braces | Parenthesis | AngleBrackets | SquareBrackets,
-    },
-    Values {
+        const SquareBrackets = 1 << 12;
+        const BracketsMask = Self::Braces.bits()
+            | Self::Parenthesis.bits()
+            | Self::AngleBrackets.bits()
+            | Self::SquareBrackets.bits();
+
         /// Do not emit brackets if the list is undefined.
-        OptionalIfUndefined: 1 << 13,
+        const OptionalIfUndefined = 1 << 13;
         /// Do not emit brackets if the list is empty.
-        OptionalIfEmpty: 1 << 14,
-        Optional: OptionalIfUndefined | OptionalIfEmpty,
-    },
-    /// Others
-    Values {
+        const OptionalIfEmpty = 1 << 14;
+        const Optional = Self::OptionalIfUndefined.bits() | Self::OptionalIfEmpty.bits();
+
+        // Others
         /// Prefer adding a LineTerminator between synthesized nodes.
-        PreferNewLine: 1 << 15,
+        const PreferNewLine = 1 << 15;
         /// Do not emit a trailing NewLine for a MultiLine list.
-        NoTrailingNewLine: 1 << 16,
+        const NoTrailingNewLine = 1 << 16;
         /// Do not emit comments between each node
-        NoInterveningComments: 1 << 17,
-        /// If the literal is empty, do not add spaces between braces.
-        NoSpaceIfEmpty: 1 << 18,
-        SingleElement: 1 << 19,
-        ForceTrailingComma: 1 << 20,
-    },
-    // Optimization.
-    Values {
-        CanSkipTrailingComma: 1 << 21
-    },
-    /// Precomputed Formats
-    Values {
-        Modifiers: SingleLine | SpaceBetweenSiblings | NoInterveningComments,
-        HeritageClauses: SingleLine | SpaceBetweenSiblings,
-        SingleLineTypeLiteralMembers: SingleLine
-            | SpaceBetweenBraces
-            | SpaceBetweenSiblings
-            | Indented,
-        MultiLineTypeLiteralMembers: MultiLine | Indented,
-        TupleTypeElements: CommaDelimited | SpaceBetweenSiblings | SingleLine | Indented,
-        UnionTypeConstituents: BarDelimited | SpaceBetweenSiblings | SingleLine,
-        IntersectionTypeConstituents: AmpersandDelimited | SpaceBetweenSiblings | SingleLine,
-        ObjectBindingPatternElements: SingleLine
-            | SpaceBetweenBraces
-            | CommaDelimited
-            | SpaceBetweenSiblings
-            | NoSpaceIfEmpty,
-        ArrayBindingPatternElements: SingleLine
-            | CommaDelimited
-            | SpaceBetweenSiblings
-            | NoSpaceIfEmpty,
-        // ObjectLiteralExpressionProperties: PreserveLines
-        //     | CommaDelimited
-        //     | SpaceBetweenSiblings
-        //     | SpaceBetweenBraces
-        //     | Indented
-        //     | Braces
-        //     | NoSpaceIfEmpty,
-        ObjectLiteralExpressionProperties: MultiLine
-            | CommaDelimited
-            | SpaceBetweenSiblings
-            | SpaceBetweenBraces
-            | Indented
-            | Braces
-            | NoSpaceIfEmpty,
-        ArrayLiteralExpressionElements: PreserveLines
-            | CommaDelimited
-            | SpaceBetweenSiblings
-            | Indented
-            | SquareBrackets,
-        CommaListElements: CommaDelimited | SpaceBetweenSiblings | SingleLine,
-        CallExpressionArguments: CommaDelimited | SpaceBetweenSiblings | SingleLine | Parenthesis,
-        NewExpressionArguments: CommaDelimited
-            | SpaceBetweenSiblings
-            | SingleLine
-            | Parenthesis
-            | OptionalIfUndefined,
-        TemplateExpressionSpans: SingleLine | NoInterveningComments,
-        SingleLineBlockStatements: SpaceBetweenBraces | SpaceBetweenSiblings | SingleLine,
-        MultiLineBlockStatements: Indented | MultiLine,
-        VariableDeclarationList: CommaDelimited | SpaceBetweenSiblings | SingleLine,
-        SingleLineFunctionBodyStatements: SingleLine | SpaceBetweenSiblings | SpaceBetweenBraces,
-        MultiLineFunctionBodyStatements: MultiLine,
-        ClassHeritageClauses: SingleLine | SpaceBetweenSiblings,
-        ClassMembers: Indented | MultiLine,
-        InterfaceMembers: Indented | MultiLine,
-        EnumMembers: CommaDelimited | Indented | MultiLine,
-        CaseBlockClauses: Indented | MultiLine,
-        NamedImportsOrExportsElements: CommaDelimited
-            | SpaceBetweenSiblings
-            | AllowTrailingComma
-            | SingleLine
-            | SpaceBetweenBraces,
-        JsxElementOrFragmentChildren: SingleLine | NoInterveningComments,
-        JsxElementAttributes: SingleLine | SpaceBetweenSiblings | NoInterveningComments,
-        CaseOrDefaultClauseStatements: Indented | MultiLine | NoTrailingNewLine | OptionalIfEmpty,
-        HeritageClauseTypes: CommaDelimited | SpaceBetweenSiblings | SingleLine,
-        SourceFileStatements: MultiLine | NoTrailingNewLine,
-        Decorators: MultiLine | Optional,
-        TypeArguments: CommaDelimited
-            | SpaceBetweenSiblings
-            | SingleLine
-            | AngleBrackets
-            | Optional,
-        TypeParameters: CommaDelimited
-            | SpaceBetweenSiblings
-            | SingleLine
-            | AngleBrackets
-            | Optional,
-        Parameters: CommaDelimited | SpaceBetweenSiblings | SingleLine | Parenthesis,
-        IndexSignatureParameters: CommaDelimited
-            | SpaceBetweenSiblings
-            | SingleLine
-            | Indented
-            | SquareBrackets,
-    },
-);
+        const NoInterveningComments = 1 << 17;
+        /// If the literal is empty; do not add spaces between braces.
+        const NoSpaceIfEmpty = 1 << 18;
+        const SingleElement = 1 << 19;
+        const ForceTrailingComma = 1 << 20;
+
+        // Optimization.
+        const CanSkipTrailingComma = 1 << 21;
+
+        // Precomputed Formats
+        const Modifiers = Self::SingleLine.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::NoInterveningComments.bits();
+        const HeritageClauses = Self::SingleLine.bits() | Self::SpaceBetweenSiblings.bits();
+        const SingleLineTypeLiteralMembers = Self::SingleLine.bits()
+            | Self::SpaceBetweenBraces.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::Indented.bits();
+        const MultiLineTypeLiteralMembers = Self::MultiLine.bits() | Self::Indented.bits();
+        const TupleTypeElements = Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SingleLine.bits()
+            | Self::Indented.bits();
+        const UnionTypeConstituents = Self::BarDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SingleLine.bits();
+        const IntersectionTypeConstituents = Self::AmpersandDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SingleLine.bits();
+        const ObjectBindingPatternElements = Self::SingleLine.bits()
+            | Self::SpaceBetweenBraces.bits()
+            | Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::NoSpaceIfEmpty.bits();
+        const ArrayBindingPatternElements = Self::SingleLine.bits()
+            | Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::NoSpaceIfEmpty.bits();
+        const ObjectLiteralExpressionProperties = Self::MultiLine.bits()
+            | Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SpaceBetweenBraces.bits()
+            | Self::Indented.bits()
+            | Self::Braces.bits()
+            | Self::NoSpaceIfEmpty.bits();
+        const ArrayLiteralExpressionElements = Self::PreserveLines.bits()
+            | Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::Indented.bits()
+            | Self::SquareBrackets.bits();
+        const CommaListElements = Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SingleLine.bits();
+        const CallExpressionArguments = Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SingleLine.bits()
+            | Self::Parenthesis.bits();
+        const NewExpressionArguments = Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SingleLine.bits()
+            | Self::Parenthesis.bits()
+            | Self::OptionalIfUndefined.bits();
+        const TemplateExpressionSpans = Self::SingleLine.bits() | Self::NoInterveningComments.bits();
+        const SingleLineBlockStatements = Self::SpaceBetweenBraces.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SingleLine.bits();
+        const MultiLineBlockStatements = Self::Indented.bits() | Self::MultiLine.bits();
+        const VariableDeclarationList = Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SingleLine.bits();
+        const SingleLineFunctionBodyStatements = Self::SingleLine.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SpaceBetweenBraces.bits();
+        const MultiLineFunctionBodyStatements = Self::MultiLine.bits();
+        const ClassHeritageClauses = Self::SingleLine.bits() | Self::SpaceBetweenSiblings.bits();
+        const ClassMembers = Self::Indented.bits() | Self::MultiLine.bits();
+        const InterfaceMembers = Self::Indented.bits() | Self::MultiLine.bits();
+        const EnumMembers = Self::CommaDelimited.bits() | Self::Indented.bits() | Self::MultiLine.bits();
+        const CaseBlockClauses = Self::Indented.bits() | Self::MultiLine.bits();
+        const NamedImportsOrExportsElements = Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::AllowTrailingComma.bits()
+            | Self::SingleLine.bits()
+            | Self::SpaceBetweenBraces.bits();
+        const JsxElementOrFragmentChildren = Self::SingleLine.bits() | Self::NoInterveningComments.bits();
+        const JsxElementAttributes = Self::SingleLine.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::NoInterveningComments.bits();
+        const CaseOrDefaultClauseStatements = Self::Indented.bits()
+            | Self::MultiLine.bits()
+            | Self::NoTrailingNewLine.bits()
+            | Self::OptionalIfEmpty.bits();
+        const HeritageClauseTypes = Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SingleLine.bits();
+        const SourceFileStatements = Self::MultiLine.bits() | Self::NoTrailingNewLine.bits();
+        const Decorators = Self::MultiLine.bits() | Self::Optional.bits();
+        const TypeArguments = Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SingleLine.bits()
+            | Self::AngleBrackets.bits()
+            | Self::Optional.bits();
+        const TypeParameters = Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SingleLine.bits()
+            | Self::AngleBrackets.bits()
+            | Self::Optional.bits();
+        const Parameters = Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SingleLine.bits()
+            | Self::Parenthesis.bits();
+        const IndexSignatureParameters = Self::CommaDelimited.bits()
+            | Self::SpaceBetweenSiblings.bits()
+            | Self::SingleLine.bits()
+            | Self::Indented.bits()
+            | Self::SquareBrackets.bits();
+    }
+}
 
 impl ListFormat {
     pub fn opening_bracket(self) -> &'static str {

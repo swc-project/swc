@@ -5,10 +5,95 @@
 
 
 
+- **(xml/codegen)** Fix wrong minification of spaces in a self-closing tag (#7595) ([769d651](https://github.com/swc-project/swc/commit/769d6516a50796e6642d6724e8472dd32d871612))
+
+## [1.3.67] - 2023-06-29
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Don't drop assignments to unused top-level variables (#7581) ([a685c88](https://github.com/swc-project/swc/commit/a685c88c61248e5bff98fb339a71b40b8fd4e528))
+
+
+- **(es/parser)** Adjust context while parsing type arguments of TypeScript type queries (#7582) ([9d5dda1](https://github.com/swc-project/swc/commit/9d5dda12991dac031064b139eb61d2d03dcd8571))
+
+
+- **(estree/compat)** Adjust `loc.col` (#7565) ([d86f8f6](https://github.com/swc-project/swc/commit/d86f8f6a3c1f6ad5de3078ade5c8a905f7067f24))
+
+### Features
+
+
+
+- **(es/minifier)** Support `__NO_SIDE_EFFECTS__` (#7532) ([3ad07a7](https://github.com/swc-project/swc/commit/3ad07a7d2e5c9507a786dc338f0cf50191916aa3))
+
+
+- **(es/minifier)** Enable `hoist_props` by default (#7535) ([07a8580](https://github.com/swc-project/swc/commit/07a858030c1a368b3152bfdb57471a35c47c3b32))
+
+
+- **(es/minifier)** Inline constants even if they are exported (#7583) ([398e922](https://github.com/swc-project/swc/commit/398e922ca0214e03556bb84fe632e5e03badd533))
+
+
+- **(plugin/runner)** Update `wasmer` to `v4` (#7576) ([ab7b17c](https://github.com/swc-project/swc/commit/ab7b17cf106620caa1ba46adf23e6013cc4d6288))
+
+
+- **(plugin/runner)** Share runtime `Engine` (#7590) ([9512ea3](https://github.com/swc-project/swc/commit/9512ea31ff1bb0c70f4f96a620b429fa01f48e0c))
+
+
+- **(testing)** Add `CARGO_TARGET_DIR` and use it from other crates (#7552) ([46fb461](https://github.com/swc-project/swc/commit/46fb4619bafd56dfa3edd9064c1fe2ae4b6b78de))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Make `cargo deny` happy (#7560) ([c8d9338](https://github.com/swc-project/swc/commit/c8d933858333209ecf786b64948ac3c88e401be6))
+
+
+- **(ci)** Change condition for `ci` testing (#7533) ([724e75d](https://github.com/swc-project/swc/commit/724e75d2569d3c210d4e0d3c6861e17c906babed))
+
+
+- **(ci)** Fix CI (#7589) ([c51eac6](https://github.com/swc-project/swc/commit/c51eac6075c161bdf4e8211fd6f96df8bd902e7d))
+
+### Refactor
+
+
+
+- **(common)** Remove `add_bitflags` and update `bitflags` (#7571) ([95ac74e](https://github.com/swc-project/swc/commit/95ac74e6e494afc90f32c8fc9add2b1824f25db5))
+
+### Build
+
+
+
+- **(cargo)** Update deps (#7564) ([d12dc70](https://github.com/swc-project/swc/commit/d12dc70c9108d5863e0ca2e4f05f4aefcfb4380e))
+
+
+- **(cargo)** Update deps (#7566) ([d57d0d3](https://github.com/swc-project/swc/commit/d57d0d3ad3f8ce7ed449eec5896eb2f10b83a930))
+
+
+- **(deps)** Update `syn` to `v2` (#7557) ([5441004](https://github.com/swc-project/swc/commit/54410047fa7ccb1330fb2e9db27a3c0b2a24a02e))
+
+## [1.3.66] - 2023-06-20
+
+### Bug Fixes
+
+
+
 - **(es)** Accept `parse` option for `minify()` (#7543) ([1d84e95](https://github.com/swc-project/swc/commit/1d84e952feefc3cd50e379455bb6648b82c42256))
 
 
+- **(es/compat)** Visit arrow body from optional chaining pass (#7549) ([bc6e950](https://github.com/swc-project/swc/commit/bc6e95052eaf60d71c544c8a88c8440d7a2b437c))
+
+
 - **(es/preset-env)** Don't log `Yield` to the console (#7548) ([8cfc4f9](https://github.com/swc-project/swc/commit/8cfc4f9e9ab43a5ed25c9b600b9dd7e5790c2d1e))
+
+
+- **(es/resolver)** Resolve the super class before registering a class name (#7550) ([1d9f972](https://github.com/swc-project/swc/commit/1d9f972fb44e0722fce8a83090cbada81decf577))
+
+### Features
+
+
+
+- **(es/codegen)** Support `preamble` (#7551) ([6e5d8b3](https://github.com/swc-project/swc/commit/6e5d8b3cf1af74d614d5c073d966da543c26e302))
 
 ### Testing
 

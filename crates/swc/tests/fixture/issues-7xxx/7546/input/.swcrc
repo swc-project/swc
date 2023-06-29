@@ -1,0 +1,10 @@
+{
+    "jsc": {
+        "loose": true
+    },
+    "env": {
+        "include": [
+            "transform-classes"
+        ]
+    }
+}

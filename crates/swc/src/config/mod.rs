@@ -612,6 +612,15 @@ impl Options {
             }
         });
 
+        let preamble = if !cfg.jsc.output.preamble.is_empty() {
+            cfg.jsc.output.preamble
+        } else {
+            js_minify
+                .as_ref()
+                .map(|v| v.format.preamble.clone())
+                .unwrap_or_default()
+        };
+
         let pass = PassBuilder::new(
             cm,
             handler,
@@ -842,7 +851,7 @@ impl Options {
             comments: comments.cloned(),
             preserve_comments,
             emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
-            output: JscOutputConfig { charset },
+            output: JscOutputConfig { charset, preamble },
         })
     }
 }
@@ -1401,6 +1410,9 @@ pub struct JscConfig {
 pub struct JscOutputConfig {
     #[serde(default)]
     pub charset: Option<OutputCharset>,
+
+    #[serde(default)]
+    pub preamble: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

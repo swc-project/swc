@@ -309,3 +309,12 @@ pub fn unignore_fixture(fixture_path: &Path) {
 
     rename(fixture_path, &new_path).expect("failed to rename");
 }
+
+pub static CARGO_TARGET_DIR: Lazy<PathBuf> = Lazy::new(|| {
+    cargo_metadata::MetadataCommand::new()
+        .no_deps()
+        .exec()
+        .unwrap()
+        .target_directory
+        .into()
+});

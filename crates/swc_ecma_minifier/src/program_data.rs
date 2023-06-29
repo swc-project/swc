@@ -118,6 +118,9 @@ pub(crate) struct VarUsageInfo {
 
     pub(crate) callee_count: u32,
 
+    /// `a` in `foo(a)` or `foo({ a })`.
+    pub(crate) used_as_ref: bool,
+
     pub(crate) used_as_arg: bool,
 
     pub(crate) indexed_with_dynamic_key: bool,
@@ -173,6 +176,7 @@ impl Default for VarUsageInfo {
             used_recursively: Default::default(),
             is_top_level: Default::default(),
             assigned_fn_local: true,
+            used_as_ref: false,
         }
     }
 }
@@ -477,6 +481,7 @@ impl VarDataLike for VarUsageInfo {
     }
 
     fn mark_used_as_arg(&mut self) {
+        self.used_as_ref = true;
         self.used_as_arg = true
     }
 
@@ -502,6 +507,10 @@ impl VarDataLike for VarUsageInfo {
 
     fn prevent_inline(&mut self) {
         self.inline_prevented = true;
+    }
+
+    fn mark_as_exported(&mut self) {
+        self.exported = true;
     }
 
     fn mark_initialized_with_safe_value(&mut self) {
@@ -652,6 +661,10 @@ impl ProgramData {
                 ..Default::default()
             }
         });
+
+        if is_first {
+            e.used_as_ref |= ctx.is_id_ref;
+        }
 
         e.inline_prevented |= ctx.inline_prevented;
 

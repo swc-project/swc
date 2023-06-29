@@ -14,9 +14,8 @@ use swc_common::{
     SourceMap,
 };
 use wasmer::{AsStoreMut, FunctionEnv, Instance, Store, TypedFunction};
-use wasmer_wasix::{default_fs_backing, is_wasi_module, WasiEnv, WasiFunctionEnv, WasiRuntime};
+use wasmer_wasix::{default_fs_backing, is_wasi_module, Runtime, WasiEnv, WasiFunctionEnv};
 
-use crate::plugin_module_bytes::PluginModuleBytes;
 #[cfg(feature = "__rkyv")]
 use crate::{
     host_environment::BaseHostEnvironment,
@@ -28,6 +27,7 @@ use crate::{
     },
     memory_interop::write_into_memory_view,
 };
+use crate::{plugin_module_bytes::PluginModuleBytes, wasix_runtime::build_wasi_runtime};
 
 /// An internal state to the plugin transform.
 struct PluginTransformState {
@@ -173,7 +173,7 @@ pub struct TransformExecutor {
     metadata_context: Arc<TransformPluginMetadataContext>,
     plugin_config: Option<serde_json::Value>,
     module_bytes: Box<dyn PluginModuleBytes>,
-    runtime: Option<Arc<dyn WasiRuntime + Send + Sync>>,
+    runtime: Option<Arc<dyn Runtime + Send + Sync>>,
 }
 
 #[cfg(feature = "__rkyv")]
@@ -188,8 +188,17 @@ impl TransformExecutor {
         unresolved_mark: &swc_common::Mark,
         metadata_context: &Arc<TransformPluginMetadataContext>,
         plugin_config: Option<serde_json::Value>,
-        runtime: Option<Arc<dyn WasiRuntime + Send + Sync>>,
+        runtime: Option<Arc<dyn Runtime + Send + Sync>>,
     ) -> Self {
+        let runtime = if runtime.is_some() {
+            runtime
+        } else {
+            // https://github.com/wasmerio/wasmer/issues/4029
+            // prevent to wasienvbuilder invoke default PluggableRuntime::new which causes
+            // unexpected failure
+            build_wasi_runtime(None)
+        };
+
         Self {
             source_map: source_map.clone(),
             unresolved_mark: *unresolved_mark,
@@ -259,11 +268,12 @@ impl TransformExecutor {
         // TODO: wasm host native runtime throws 'Memory should be set on `WasiEnv`
         // first'
         let (instance, wasi_env) = if is_wasi_module(&module) {
-            let mut builder = WasiEnv::builder(self.module_bytes.get_module_name());
-
-            if let Some(runtime) = &self.runtime {
-                builder.set_runtime(runtime.clone());
-            }
+            let builder = WasiEnv::builder(self.module_bytes.get_module_name());
+            let builder = if let Some(runtime) = &self.runtime {
+                builder.runtime(runtime.clone())
+            } else {
+                builder
+            };
 
             // Implicitly enable filesystem access for the wasi plugin to cwd.
             //

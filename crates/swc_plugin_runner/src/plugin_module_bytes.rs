@@ -2,36 +2,7 @@ use anyhow::Error;
 use serde::{Deserialize, Serialize};
 use wasmer::{Module, Store};
 
-/// Creates an instnace of [Store].
-///
-/// This function exists because we need to disable simd.
-#[cfg(not(target_arch = "wasm32"))]
-#[allow(unused_mut)]
-pub(crate) fn new_store() -> Store {
-    // Use empty enumset to disable simd.
-    use enumset::EnumSet;
-    use wasmer::{BaseTunables, CompilerConfig, EngineBuilder, Target, Triple};
-    let mut set = EnumSet::new();
-
-    // [TODO]: Should we use is_x86_feature_detected! macro instead?
-    #[cfg(target_arch = "x86_64")]
-    set.insert(wasmer::CpuFeature::SSE2);
-    let target = Target::new(Triple::host(), set);
-
-    let config = wasmer_compiler_cranelift::Cranelift::default();
-    let mut engine = EngineBuilder::new(Box::new(config) as Box<dyn CompilerConfig>)
-        .set_target(Some(target))
-        .engine();
-    let tunables = BaseTunables::for_target(engine.target());
-    engine.set_tunables(tunables);
-
-    Store::new(engine)
-}
-
-#[cfg(target_arch = "wasm32")]
-fn new_store() -> Store {
-    Store::default()
-}
+use crate::wasix_runtime::new_store;
 
 // A trait abstracts plugin's wasm compilation and instantiation.
 // Depends on the caller, this could be a simple clone from existing module, or

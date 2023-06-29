@@ -27,7 +27,7 @@ pub fn create_plugin_transform_executor(
     metadata_context: &Arc<TransformPluginMetadataContext>,
     plugin_module: Box<dyn PluginModuleBytes>,
     plugin_config: Option<serde_json::Value>,
-    runtime: Option<Arc<dyn wasmer_wasix::WasiRuntime + Send + Sync>>,
+    runtime: Option<Arc<dyn wasmer_wasix::Runtime + Send + Sync>>,
 ) -> TransformExecutor {
     TransformExecutor::new(
         plugin_module,

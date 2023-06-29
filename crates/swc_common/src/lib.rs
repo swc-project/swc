@@ -66,7 +66,6 @@ mod eq;
 pub mod errors;
 pub mod input;
 pub mod iter;
-pub mod macros;
 pub mod pass;
 pub mod plugin;
 mod pos;

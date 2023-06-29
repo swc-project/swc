@@ -386,6 +386,7 @@ where
                 is_exact_arg: true,
                 is_exact_reassignment: false,
                 is_callee: false,
+                is_id_ref: true,
                 ..self.ctx
             };
             n.args.visit_with(&mut *self.with_ctx(ctx));
@@ -522,7 +523,7 @@ where
                 let ids = find_pat_ids(v);
 
                 for id in ids {
-                    self.data.var_or_default(id).prevent_inline();
+                    self.data.var_or_default(id).mark_as_exported();
                 }
             }
             _ => {}
@@ -599,10 +600,15 @@ where
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         if e.op.may_short_circuit() {
-            e.left.visit_with(self);
+            let ctx = Ctx {
+                is_id_ref: false,
+                ..self.ctx
+            };
+            e.left.visit_with(&mut *self.with_ctx(ctx));
             let ctx = Ctx {
                 in_cond: true,
                 is_delete_arg: false,
+                is_id_ref: false,
                 ..self.ctx
             };
             self.with_ctx(ctx).visit_in_cond(&e.right);
@@ -823,6 +829,7 @@ where
                 is_exact_arg: false,
                 is_exact_reassignment: false,
                 is_callee: false,
+                is_id_ref: false,
                 ..self.ctx
             };
             e.obj.visit_with(&mut *self.with_ctx(ctx));
@@ -1061,6 +1068,7 @@ where
             in_assign_lhs: false,
             in_await_arg: false,
             is_delete_arg: false,
+            is_id_ref: true,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -1073,6 +1081,7 @@ where
             let ctx = Ctx {
                 in_cond: self.ctx.in_cond || had_cond,
                 is_delete_arg: false,
+                is_id_ref: true,
                 ..self.ctx
             };
 
@@ -1089,6 +1098,7 @@ where
                 is_exact_arg: false,
                 is_exact_reassignment: false,
                 is_delete_arg: false,
+                is_id_ref: false,
                 ..self.ctx
             };
             c.visit_with(&mut *self.with_ctx(ctx));

@@ -7,26 +7,26 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_css_lints"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.56.14"
+version       = "0.56.19"
 
 [lib]
 bench = false
 
 [dependencies]
-auto_impl   = "0.5.0"
-parking_lot = "0.12.0"
-rayon       = "1.5.1"
+auto_impl   = "1.1.0"
+parking_lot = "0.12.1"
+rayon       = "1.7.0"
 serde       = { version = "1.0.133", features = ["derive"] }
 thiserror   = "1.0.30"
 
 swc_atoms     = { version = "0.5.6", path = "../swc_atoms" }
-swc_cached    = { version = "0.3.15", path = "../swc_cached" }
-swc_common    = { version = "0.31.12", path = "../swc_common" }
-swc_css_ast   = { version = "0.137.12", path = "../swc_css_ast" }
-swc_css_visit = { version = "0.136.12", path = "../swc_css_visit" }
+swc_cached    = { version = "0.3.17", path = "../swc_cached" }
+swc_common    = { version = "0.31.16", path = "../swc_common" }
+swc_css_ast   = { version = "0.137.16", path = "../swc_css_ast" }
+swc_css_visit = { version = "0.136.16", path = "../swc_css_visit" }
 
 [dev-dependencies]
 serde_json = "1.0.79"
 
-swc_css_parser = { version = "0.146.14", path = "../swc_css_parser" }
-testing        = { version = "0.33.14", path = "../testing" }
+swc_css_parser = { version = "0.146.19", path = "../swc_css_parser" }
+testing        = { version = "0.33.19", path = "../testing" }
