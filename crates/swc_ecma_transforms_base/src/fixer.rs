@@ -438,6 +438,15 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
+        if let Expr::Paren(p) = &mut *node.expr {
+            match &mut *p.expr {
+                Expr::Fn(..) | Expr::Class(..) => {
+                    p.expr.visit_mut_children_with(self);
+                    return;
+                }
+                _ => {}
+            }
+        }
         let old = self.ctx;
         self.ctx = Context::Default;
         node.visit_mut_children_with(self);
