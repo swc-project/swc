@@ -103,6 +103,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let ctx = Context {
             will_expect_colon_for_cond: false,
+            allow_using_decl: true,
             ..self.ctx()
         };
         self.with_ctx(ctx)
