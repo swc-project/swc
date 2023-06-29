@@ -172,6 +172,13 @@ impl VisitMut for ExplicitResourceManagement {
         if let ForHead::UsingDecl(decl) = &mut n.left {
             let state = State::default();
 
+            n.left = ForHead::VarDecl(Box::new(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Const,
+                declare: false,
+                decls: decl.decls.take(),
+            }));
+
             let mut body = vec![*n.body.take()];
             self.wrap_with_try(state, &mut body);
             n.body = Box::new(Stmt::Block(BlockStmt {
