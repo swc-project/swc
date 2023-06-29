@@ -10950,3 +10950,19 @@ fn issue_7274() {
         "###,
     );
 }
+
+#[test]
+fn issue_7591_1() {
+    run_default_exec_test(
+        r###"
+        var x = someFunction;
+
+        function someFunction() {
+            return 2;
+        }
+
+        console.log(x);
+        console.log(x);
+        "###,
+    );
+}
