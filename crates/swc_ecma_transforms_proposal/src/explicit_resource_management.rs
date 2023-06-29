@@ -72,6 +72,8 @@ impl ExplicitResourceManagement {
                 }
             }
 
+            try_body.retain(|stmt| !matches!(stmt, Stmt::Empty(..)));
+
             // var has_error = true
             let has_error_true = Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: DUMMY_SP,
