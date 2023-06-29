@@ -45,6 +45,26 @@ impl ExplicitResourceManagement {
             let mut new = vec![];
             let mut try_body = vec![];
 
+            let stack_var_decl = VarDeclarator {
+                span: DUMMY_SP,
+                name: state.stack.clone().into(),
+                init: Some(
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: vec![],
+                    }
+                    .into(),
+                ),
+                definite: Default::default(),
+            };
+
+            try_body.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: vec![stack_var_decl],
+            }))));
+
             for stmt in stmts.take() {
                 match stmt.try_into_stmt() {
                     Ok(stmt) => try_body.push(stmt),
