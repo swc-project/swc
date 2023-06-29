@@ -21,6 +21,7 @@
             "end": 20,
             "ctxt": 0
           },
+          "isAwait": false,
           "decls": [
             {
               "type": "VariableDeclarator",
