@@ -586,6 +586,7 @@ impl<I: Tokens> Parser<I> {
         let body = self
             .with_ctx(Context {
                 in_class_field: true,
+                allow_using_decl: true,
                 ..self.ctx()
             })
             .parse_block(false)?;
