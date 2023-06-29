@@ -511,10 +511,10 @@ where
                                     }
                                 } else {
                                     if sel_index > 0 {
-                                        n.as_mut_compound_selector().map(|n| {
+                                        if let Some(n) = n.as_mut_compound_selector() {
                                             n.subclass_selectors =
                                                 n.subclass_selectors.split_at(sel_index).0.to_vec();
-                                        });
+                                        }
                                         new_children.push(n);
                                     }
                                     self.data.is_global_mode = false;
@@ -538,10 +538,10 @@ where
                                     }
                                 } else {
                                     if sel_index > 0 {
-                                        n.as_mut_compound_selector().map(|n| {
+                                        if let Some(n) = n.as_mut_compound_selector() {
                                             n.subclass_selectors =
                                                 n.subclass_selectors.split_at(sel_index).0.to_vec();
-                                        });
+                                        }
                                         new_children.push(n);
                                     }
                                     self.data.is_global_mode = true;
