@@ -11,4 +11,5 @@
     <foo attributeName="He said &apos;OK&apos;"></foo>
     <foo attributeName="He said &amp;OK&amp;"></foo>
     <foo>He said &gt;OK&gt;</foo>
+    <foo attributeName="OK" />
 </note>
