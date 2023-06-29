@@ -39,7 +39,7 @@ impl ExplicitResourceManagement {
     {
         let old_state = self.state.take();
 
-        stmts.visit_mut_with(self);
+        stmts.visit_mut_children_with(self);
 
         if let Some(state) = self.state.take() {
             let mut new = vec![];
