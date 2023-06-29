@@ -84,6 +84,9 @@ impl ExplicitResourceManagement {
 
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
+                Ok(stmt @ Stmt::Decl(Decl::Fn(..))) => {
+                    new.push(T::from_stmt(stmt));
+                }
                 Ok(stmt) => try_body.push(stmt),
                 Err(stmt) => new.push(stmt),
             }
