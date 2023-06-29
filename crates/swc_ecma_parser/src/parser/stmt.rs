@@ -154,6 +154,16 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         match cur!(self, true)? {
+            tok!("await") if include_decl => {
+                if peeked_is!(self, "using") {
+                    assert_and_bump!(self, "await");
+                    let v = self.parse_using_decl(start, true)?;
+                    if let Some(v) = v {
+                        return Ok(Stmt::Decl(Decl::Using(v)));
+                    }
+                }
+            }
+
             tok!("break") | tok!("continue") => {
                 let is_break = is!(self, "break");
                 bump!(self);
@@ -302,7 +312,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!("using") if include_decl => {
-                let v = self.parse_using_decl(false)?;
+                let v = self.parse_using_decl(start, false)?;
                 if let Some(v) = v {
                     return Ok(Stmt::Decl(Decl::Using(v)));
                 }
@@ -762,7 +772,11 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
-    pub(super) fn parse_using_decl(&mut self, is_await: bool) -> PResult<Option<Box<UsingDecl>>> {
+    pub(super) fn parse_using_decl(
+        &mut self,
+        start: BytePos,
+        is_await: bool,
+    ) -> PResult<Option<Box<UsingDecl>>> {
         // using
         // reader = init()
 
@@ -776,7 +790,6 @@ impl<'a, I: Tokens> Parser<I> {
             return Ok(None);
         }
 
-        let start = cur_pos!(self);
         assert_and_bump!(self, "using");
 
         let mut decls = vec![];
