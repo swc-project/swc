@@ -133,6 +133,42 @@ impl ExplicitResourceManagement {
                             }],
                         }))));
                     }
+
+                    Ok(ModuleDecl::ExportDefaultExpr(decl)) => {
+                        let ident = private_ident!("_default");
+
+                        // export { _default as default }
+                        new.push(
+                            T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                span: DUMMY_SP,
+                                specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: ModuleExportName::Ident(ident.clone()),
+                                    exported: Some(ModuleExportName::Ident(Ident::new(
+                                        "default".into(),
+                                        DUMMY_SP,
+                                    ))),
+                                    is_type_only: Default::default(),
+                                })],
+                                src: None,
+                                type_only: Default::default(),
+                                asserts: None,
+                            }))
+                            .unwrap(),
+                        );
+                        try_body.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            declare: Default::default(),
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: ident.into(),
+                                init: Some(decl.expr),
+                                definite: Default::default(),
+                            }],
+                        }))));
+                    }
+
                     Ok(stmt) => new.push(T::try_from_module_decl(stmt).unwrap()),
                     Err(stmt) => new.push(stmt),
                 },
