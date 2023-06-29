@@ -852,8 +852,8 @@
             }();
             function getColorInfo(hue) {
                 hue >= 334 && hue <= 360 && (hue -= 360);
-                for(var _i = 0; _i < bounds.length; _i++){
-                    var color = defineColor(bounds[_i]);
+                for(var _i = 0, bounds_1 = bounds; _i < bounds_1.length; _i++){
+                    var color = defineColor(bounds_1[_i]);
                     if (color.hueRange && hue >= color.hueRange[0] && hue <= color.hueRange[1]) return color;
                 }
                 throw Error("Color not found");

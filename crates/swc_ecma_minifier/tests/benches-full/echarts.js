@@ -13674,7 +13674,8 @@
         connectedGroups[groupId] = !1;
     }
     function getInstanceByDom(dom) {
-        return instances$1[dom.getAttribute ? dom.getAttribute(DOM_ATTRIBUTE_KEY) : dom[DOM_ATTRIBUTE_KEY]];
+        var key;
+        return instances$1[key = DOM_ATTRIBUTE_KEY, dom.getAttribute ? dom.getAttribute(key) : dom[key]];
     }
     function registerPreprocessor(preprocessorFunc) {
         0 > indexOf(optionPreprocessorFuncs, preprocessorFunc) && optionPreprocessorFuncs.push(preprocessorFunc);

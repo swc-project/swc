@@ -2,7 +2,7 @@
     "object" == typeof exports && "undefined" != typeof module ? module.exports = factory() : "function" == typeof define && define.amd ? define(factory) : (global = global || self).CodeMirror = factory();
 }(this, function() {
     "use strict";
-    var e, optionHandlers, helpers, range, zwspSupported, badBidiRects, measureText, lastClick, lastDoubleClick, userAgent = navigator.userAgent, platform = navigator.platform, gecko = /gecko\/\d/i.test(userAgent), ie_upto10 = /MSIE \d/.test(userAgent), ie_11up = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(userAgent), edge = /Edge\/(\d+)/.exec(userAgent), ie = ie_upto10 || ie_11up || edge, ie_version = ie && (ie_upto10 ? document.documentMode || 6 : +(edge || ie_11up)[1]), webkit = !edge && /WebKit\//.test(userAgent), qtwebkit = webkit && /Qt\/\d+\.\d+/.test(userAgent), chrome = !edge && /Chrome\//.test(userAgent), presto = /Opera\//.test(userAgent), safari = /Apple Computer/.test(navigator.vendor), mac_geMountainLion = /Mac OS X 1\d\D([8-9]|\d\d)\D/.test(userAgent), phantom = /PhantomJS/.test(userAgent), ios = safari && (/Mobile\/\w+/.test(userAgent) || navigator.maxTouchPoints > 2), android = /Android/.test(userAgent), mobile = ios || android || /webOS|BlackBerry|Opera Mini|Opera Mobi|IEMobile/i.test(userAgent), mac = ios || /Mac/.test(platform), chromeOS = /\bCrOS\b/.test(userAgent), windows = /win/i.test(platform), presto_version = presto && userAgent.match(/Version\/(\d*\.\d*)/);
+    var e, CodeMirror, optionHandlers, helpers, CodeMirror1, range, zwspSupported, badBidiRects, measureText, lastClick, lastDoubleClick, userAgent = navigator.userAgent, platform = navigator.platform, gecko = /gecko\/\d/i.test(userAgent), ie_upto10 = /MSIE \d/.test(userAgent), ie_11up = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(userAgent), edge = /Edge\/(\d+)/.exec(userAgent), ie = ie_upto10 || ie_11up || edge, ie_version = ie && (ie_upto10 ? document.documentMode || 6 : +(edge || ie_11up)[1]), webkit = !edge && /WebKit\//.test(userAgent), qtwebkit = webkit && /Qt\/\d+\.\d+/.test(userAgent), chrome = !edge && /Chrome\//.test(userAgent), presto = /Opera\//.test(userAgent), safari = /Apple Computer/.test(navigator.vendor), mac_geMountainLion = /Mac OS X 1\d\D([8-9]|\d\d)\D/.test(userAgent), phantom = /PhantomJS/.test(userAgent), ios = safari && (/Mobile\/\w+/.test(userAgent) || navigator.maxTouchPoints > 2), android = /Android/.test(userAgent), mobile = ios || android || /webOS|BlackBerry|Opera Mini|Opera Mobi|IEMobile/i.test(userAgent), mac = ios || /Mac/.test(platform), chromeOS = /\bCrOS\b/.test(userAgent), windows = /win/i.test(platform), presto_version = presto && userAgent.match(/Version\/(\d*\.\d*)/);
     presto_version && (presto_version = Number(presto_version[1])), presto_version && presto_version >= 15 && (presto = !1, webkit = !0);
     var flipCtrlCmd = mac && (qtwebkit || presto && (null == presto_version || presto_version < 12.11)), captureRightClick = gecko || ie && ie_version >= 9;
     function classTest(cls) {
@@ -3394,7 +3394,7 @@
             }(copy, findSharedMarkers(this)), copy;
         },
         unlinkDoc: function(other) {
-            if (other instanceof CodeMirror && (other = other.doc), this.linked) {
+            if (other instanceof CodeMirror2 && (other = other.doc), this.linked) {
                 for(var i = 0; i < this.linked.length; ++i)if (this.linked[i].doc == other) {
                     this.linked.splice(i, 1), other.unlinkDoc(this), function(markers) {
                         for(var i = 0; i < markers.length; i++)!function(i) {
@@ -4272,13 +4272,13 @@
             return updateScrollbars(cm);
         }, 100);
     }
-    function CodeMirror(place, options) {
+    function CodeMirror2(place, options) {
         var this$1 = this;
-        if (!(this instanceof CodeMirror)) return new CodeMirror(place, options);
+        if (!(this instanceof CodeMirror2)) return new CodeMirror2(place, options);
         this.options = options = options ? copyObj(options) : {}, copyObj(defaults, options, !1);
         var doc = options.value;
         "string" == typeof doc ? doc = new Doc(doc, options.mode, null, options.lineSeparator, options.direction) : options.mode && (doc.modeOption = options.mode), this.doc = doc;
-        var input = new CodeMirror.inputStyles[options.inputStyle](this), display = this.display = new Display(place, doc, input, options);
+        var input = new CodeMirror2.inputStyles[options.inputStyle](this), display = this.display = new Display(place, doc, input, options);
         for(var opt in display.wrapper.CodeMirror = this, themeChanged(this), options.lineWrapping && (this.display.wrapper.className += " CodeMirror-wrap"), initScrollbars(this), this.state = {
             keyMaps: [],
             overlays: [],
@@ -4414,7 +4414,7 @@
         for(var i = 0; i < initHooks.length; ++i)initHooks[i](this);
         endOperation(this), webkit && options.lineWrapping && "optimizelegibility" == getComputedStyle(display.lineDiv).textRendering && (display.lineDiv.style.textRendering = "auto");
     }
-    CodeMirror.defaults = defaults, CodeMirror.optionHandlers = optionHandlers1;
+    CodeMirror2.defaults = defaults, CodeMirror2.optionHandlers = optionHandlers1;
     var initHooks = [];
     function indentLine(cm, n, how, aggressive) {
         var state, doc = cm.doc;
@@ -4441,7 +4441,7 @@
             }
         }
     }
-    CodeMirror.defineInitHook = function(f) {
+    CodeMirror2.defineInitHook = function(f) {
         return initHooks.push(f);
     };
     var lastCopied = null;
@@ -5106,7 +5106,7 @@
         }), option("autofocus", null), option("direction", "ltr", function(cm, val) {
             return cm.doc.setDirection(val);
         }, !0), option("phrases", null);
-    }(CodeMirror), optionHandlers = CodeMirror.optionHandlers, helpers = CodeMirror.helpers = {}, CodeMirror.prototype = {
+    }(CodeMirror2), optionHandlers = (CodeMirror = CodeMirror2).optionHandlers, helpers = CodeMirror.helpers = {}, CodeMirror.prototype = {
         constructor: CodeMirror,
         focus: function() {
             window.focus(), this.display.input.focus();
@@ -5437,29 +5437,29 @@
         });
     };
     var dontDelegate = "iter insert remove copy getEditor constructor".split(" ");
-    for(var prop in Doc.prototype)Doc.prototype.hasOwnProperty(prop) && 0 > indexOf(dontDelegate, prop) && (CodeMirror.prototype[prop] = function(method) {
+    for(var prop in Doc.prototype)Doc.prototype.hasOwnProperty(prop) && 0 > indexOf(dontDelegate, prop) && (CodeMirror2.prototype[prop] = function(method) {
         return function() {
             return method.apply(this.doc, arguments);
         };
     }(Doc.prototype[prop]));
-    return eventMixin(Doc), CodeMirror.inputStyles = {
+    return eventMixin(Doc), CodeMirror2.inputStyles = {
         textarea: TextareaInput,
         contenteditable: ContentEditableInput
-    }, CodeMirror.defineMode = function(name) {
-        CodeMirror.defaults.mode || "null" == name || (CodeMirror.defaults.mode = name), defineMode.apply(this, arguments);
-    }, CodeMirror.defineMIME = function(mime, spec) {
+    }, CodeMirror2.defineMode = function(name) {
+        CodeMirror2.defaults.mode || "null" == name || (CodeMirror2.defaults.mode = name), defineMode.apply(this, arguments);
+    }, CodeMirror2.defineMIME = function(mime, spec) {
         mimeModes[mime] = spec;
-    }, CodeMirror.defineMode("null", function() {
+    }, CodeMirror2.defineMode("null", function() {
         return {
             token: function(stream) {
                 return stream.skipToEnd();
             }
         };
-    }), CodeMirror.defineMIME("text/plain", "null"), CodeMirror.defineExtension = function(name, func) {
-        CodeMirror.prototype[name] = func;
-    }, CodeMirror.defineDocExtension = function(name, func) {
+    }), CodeMirror2.defineMIME("text/plain", "null"), CodeMirror2.defineExtension = function(name, func) {
+        CodeMirror2.prototype[name] = func;
+    }, CodeMirror2.defineDocExtension = function(name, func) {
         Doc.prototype[name] = func;
-    }, CodeMirror.fromTextArea = function(textarea, options) {
+    }, CodeMirror2.fromTextArea = function(textarea, options) {
         if ((options = options ? copyObj(options) : {}).value = textarea.value, !options.tabindex && textarea.tabIndex && (options.tabindex = textarea.tabIndex), !options.placeholder && textarea.placeholder && (options.placeholder = textarea.placeholder), null == options.autofocus) {
             var realSubmit, hasFocus = activeElt();
             options.autofocus = hasFocus == textarea || null != textarea.getAttribute("autofocus") && hasFocus == document.body;
@@ -5483,16 +5483,16 @@
                 cm.toTextArea = isNaN, save(), textarea.parentNode.removeChild(cm.getWrapperElement()), textarea.style.display = "", textarea.form && (off(textarea.form, "submit", save), options.leaveSubmitMethodAlone || "function" != typeof textarea.form.submit || (textarea.form.submit = realSubmit));
             };
         }, textarea.style.display = "none";
-        var cm = CodeMirror(function(node) {
+        var cm = CodeMirror2(function(node) {
             return textarea.parentNode.insertBefore(node, textarea.nextSibling);
         }, options);
         return cm;
-    }, CodeMirror.off = off, CodeMirror.on = on, CodeMirror.wheelEventPixels = function(e) {
+    }, (CodeMirror1 = CodeMirror2).off = off, CodeMirror1.on = on, CodeMirror1.wheelEventPixels = function(e) {
         var delta = wheelEventDelta(e);
         return delta.x *= wheelPixelsPerUnit, delta.y *= wheelPixelsPerUnit, delta;
-    }, CodeMirror.Doc = Doc, CodeMirror.splitLines = splitLinesAuto, CodeMirror.countColumn = countColumn, CodeMirror.findColumn = findColumn, CodeMirror.isWordChar = isWordCharBasic, CodeMirror.Pass = Pass, CodeMirror.signal = signal, CodeMirror.Line = Line, CodeMirror.changeEnd = changeEnd, CodeMirror.scrollbarModel = scrollbarModel, CodeMirror.Pos = Pos, CodeMirror.cmpPos = cmp, CodeMirror.modes = modes, CodeMirror.mimeModes = mimeModes, CodeMirror.resolveMode = resolveMode, CodeMirror.getMode = getMode, CodeMirror.modeExtensions = modeExtensions, CodeMirror.extendMode = function(mode, properties) {
+    }, CodeMirror1.Doc = Doc, CodeMirror1.splitLines = splitLinesAuto, CodeMirror1.countColumn = countColumn, CodeMirror1.findColumn = findColumn, CodeMirror1.isWordChar = isWordCharBasic, CodeMirror1.Pass = Pass, CodeMirror1.signal = signal, CodeMirror1.Line = Line, CodeMirror1.changeEnd = changeEnd, CodeMirror1.scrollbarModel = scrollbarModel, CodeMirror1.Pos = Pos, CodeMirror1.cmpPos = cmp, CodeMirror1.modes = modes, CodeMirror1.mimeModes = mimeModes, CodeMirror1.resolveMode = resolveMode, CodeMirror1.getMode = getMode, CodeMirror1.modeExtensions = modeExtensions, CodeMirror1.extendMode = function(mode, properties) {
         copyObj(properties, modeExtensions.hasOwnProperty(mode) ? modeExtensions[mode] : modeExtensions[mode] = {});
-    }, CodeMirror.copyState = copyState, CodeMirror.startState = startState, CodeMirror.innerMode = innerMode, CodeMirror.commands = commands, CodeMirror.keyMap = keyMap, CodeMirror.keyName = keyName, CodeMirror.isModifierKey = isModifierKey, CodeMirror.lookupKey = lookupKey, CodeMirror.normalizeKeyMap = function(keymap) {
+    }, CodeMirror1.copyState = copyState, CodeMirror1.startState = startState, CodeMirror1.innerMode = innerMode, CodeMirror1.commands = commands, CodeMirror1.keyMap = keyMap, CodeMirror1.keyName = keyName, CodeMirror1.isModifierKey = isModifierKey, CodeMirror1.lookupKey = lookupKey, CodeMirror1.normalizeKeyMap = function(keymap) {
         var copy = {};
         for(var keyname in keymap)if (keymap.hasOwnProperty(keyname)) {
             var value = keymap[keyname];
@@ -5513,5 +5513,5 @@
         }
         for(var prop in copy)keymap[prop] = copy[prop];
         return keymap;
-    }, CodeMirror.StringStream = StringStream, CodeMirror.SharedTextMarker = SharedTextMarker, CodeMirror.TextMarker = TextMarker, CodeMirror.LineWidget = LineWidget, CodeMirror.e_preventDefault = e_preventDefault, CodeMirror.e_stopPropagation = e_stopPropagation, CodeMirror.e_stop = e_stop, CodeMirror.addClass = addClass, CodeMirror.contains = contains, CodeMirror.rmClass = rmClass, CodeMirror.keyNames = keyNames, CodeMirror.version = "5.65.1", CodeMirror;
+    }, CodeMirror1.StringStream = StringStream, CodeMirror1.SharedTextMarker = SharedTextMarker, CodeMirror1.TextMarker = TextMarker, CodeMirror1.LineWidget = LineWidget, CodeMirror1.e_preventDefault = e_preventDefault, CodeMirror1.e_stopPropagation = e_stopPropagation, CodeMirror1.e_stop = e_stop, CodeMirror1.addClass = addClass, CodeMirror1.contains = contains, CodeMirror1.rmClass = rmClass, CodeMirror1.keyNames = keyNames, CodeMirror2.version = "5.65.1", CodeMirror2;
 });

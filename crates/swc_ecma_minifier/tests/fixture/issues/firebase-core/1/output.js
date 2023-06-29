@@ -450,9 +450,10 @@
             }();
             function Db() {
                 let b;
-                for(var a; b = null, tb.g && (b = tb.g, tb.g = tb.g.next, tb.g || (tb.h = null), b.next = null), a = b;){
+                for(; b = null, (a = tb).g && (b = a.g, a.g = a.g.next, a.g || (a.h = null), b.next = null), a1 = b;){
+                    var a, a1;
                     try {
-                        a.h.call(a.g);
+                        a1.h.call(a1.g);
                     } catch (c) {
                         !function(a) {
                             l.setTimeout(()=>{
@@ -460,7 +461,7 @@
                             }, 0);
                         }(c);
                     }
-                    vb.j(a), 100 > vb.h && (vb.h++, a.next = vb.g, vb.g = a);
+                    vb.j(a1), 100 > vb.h && (vb.h++, a1.next = vb.g, vb.g = a1);
                 }
                 Cb = !1;
             }

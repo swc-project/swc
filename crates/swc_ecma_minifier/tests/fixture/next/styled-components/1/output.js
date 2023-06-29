@@ -5260,7 +5260,7 @@
                 overflowY: !0,
                 display: !0,
                 verticalAlign: !0
-            }), index_esm_config = {
+            }), index_esm = layout, index_esm_config = {
                 color: {
                     property: "color",
                     scale: "colors"
@@ -5306,7 +5306,7 @@
                 },
                 textAlign: !0,
                 fontStyle: !0
-            }), flexbox = system({
+            }), typography_dist_index_esm = typography, flexbox = system({
                 alignItems: !0,
                 alignContent: !0,
                 justifyItems: !0,
@@ -5320,7 +5320,7 @@
                 justifySelf: !0,
                 alignSelf: !0,
                 order: !0
-            }), dist_index_esm_defaults = {
+            }), flexbox_dist_index_esm = flexbox, dist_index_esm_defaults = {
                 space: [
                     0,
                     4,
@@ -5357,7 +5357,7 @@
                 gridTemplateRows: !0,
                 gridTemplateAreas: !0,
                 gridArea: !0
-            }), border_dist_index_esm_config = {
+            }), grid_dist_index_esm = grid, border_dist_index_esm_config = {
                 border: {
                     property: "border",
                     scale: "borders"
@@ -5482,7 +5482,7 @@
                 backgroundRepeat: !0
             };
             background_dist_index_esm_config.bgImage = background_dist_index_esm_config.backgroundImage, background_dist_index_esm_config.bgSize = background_dist_index_esm_config.backgroundSize, background_dist_index_esm_config.bgPosition = background_dist_index_esm_config.backgroundPosition, background_dist_index_esm_config.bgRepeat = background_dist_index_esm_config.backgroundRepeat;
-            var background = system(background_dist_index_esm_config), position_dist_index_esm_defaults = {
+            var background = system(background_dist_index_esm_config), background_dist_index_esm = background, position_dist_index_esm_defaults = {
                 space: [
                     0,
                     4,
@@ -5520,7 +5520,7 @@
                     scale: "space",
                     defaultScale: position_dist_index_esm_defaults.space
                 }
-            }), space_dist_index_esm_defaults = {
+            }), position_dist_index_esm = position, space_dist_index_esm_defaults = {
                 space: [
                     0,
                     4,
@@ -5871,7 +5871,7 @@
             }), colorStyle = variant({
                 key: "colorStyles",
                 prop: "colors"
-            }), width = layout.width, height = layout.height, minWidth = layout.minWidth, minHeight = layout.minHeight, maxWidth = layout.maxWidth, maxHeight = layout.maxHeight, size = layout.size, verticalAlign = layout.verticalAlign, display = layout.display, overflow = layout.overflow, overflowX = layout.overflowX, overflowY = layout.overflowY, opacity = color.opacity, fontSize = typography.fontSize, fontFamily = typography.fontFamily, fontWeight = typography.fontWeight, lineHeight = typography.lineHeight, textAlign = typography.textAlign, fontStyle = typography.fontStyle, letterSpacing = typography.letterSpacing, alignItems = flexbox.alignItems, alignContent = flexbox.alignContent, justifyItems = flexbox.justifyItems, justifyContent = flexbox.justifyContent, flexWrap = flexbox.flexWrap, flexDirection = flexbox.flexDirection, flex = flexbox.flex, flexGrow = flexbox.flexGrow, flexShrink = flexbox.flexShrink, flexBasis = flexbox.flexBasis, justifySelf = flexbox.justifySelf, alignSelf = flexbox.alignSelf, order = flexbox.order, gridGap = grid.gridGap, gridColumnGap = grid.gridColumnGap, gridRowGap = grid.gridRowGap, gridColumn = grid.gridColumn, gridRow = grid.gridRow, gridAutoFlow = grid.gridAutoFlow, gridAutoColumns = grid.gridAutoColumns, gridAutoRows = grid.gridAutoRows, gridTemplateColumns = grid.gridTemplateColumns, gridTemplateRows = grid.gridTemplateRows, gridTemplateAreas = grid.gridTemplateAreas, gridArea = grid.gridArea, borderWidth = border_dist_index_esm.borderWidth, borderStyle = border_dist_index_esm.borderStyle, borderColor = border_dist_index_esm.borderColor, borderTop = border_dist_index_esm.borderTop, borderRight = border_dist_index_esm.borderRight, borderBottom = border_dist_index_esm.borderBottom, borderLeft = border_dist_index_esm.borderLeft, borderRadius = border_dist_index_esm.borderRadius, backgroundImage = background.backgroundImage, backgroundSize = background.backgroundSize, backgroundPosition = background.backgroundPosition, backgroundRepeat = background.backgroundRepeat, zIndex = position.zIndex, index_esm_top = position.top, right = position.right, bottom = position.bottom, left = position.left, style = function(_ref) {
+            }), width = index_esm.width, height = index_esm.height, minWidth = index_esm.minWidth, minHeight = index_esm.minHeight, maxWidth = index_esm.maxWidth, maxHeight = index_esm.maxHeight, size = index_esm.size, verticalAlign = index_esm.verticalAlign, display = index_esm.display, overflow = index_esm.overflow, overflowX = index_esm.overflowX, overflowY = index_esm.overflowY, opacity = color.opacity, fontSize = typography_dist_index_esm.fontSize, fontFamily = typography_dist_index_esm.fontFamily, fontWeight = typography_dist_index_esm.fontWeight, lineHeight = typography_dist_index_esm.lineHeight, textAlign = typography_dist_index_esm.textAlign, fontStyle = typography_dist_index_esm.fontStyle, letterSpacing = typography_dist_index_esm.letterSpacing, alignItems = flexbox_dist_index_esm.alignItems, alignContent = flexbox_dist_index_esm.alignContent, justifyItems = flexbox_dist_index_esm.justifyItems, justifyContent = flexbox_dist_index_esm.justifyContent, flexWrap = flexbox_dist_index_esm.flexWrap, flexDirection = flexbox_dist_index_esm.flexDirection, flex = flexbox_dist_index_esm.flex, flexGrow = flexbox_dist_index_esm.flexGrow, flexShrink = flexbox_dist_index_esm.flexShrink, flexBasis = flexbox_dist_index_esm.flexBasis, justifySelf = flexbox_dist_index_esm.justifySelf, alignSelf = flexbox_dist_index_esm.alignSelf, order = flexbox_dist_index_esm.order, gridGap = grid_dist_index_esm.gridGap, gridColumnGap = grid_dist_index_esm.gridColumnGap, gridRowGap = grid_dist_index_esm.gridRowGap, gridColumn = grid_dist_index_esm.gridColumn, gridRow = grid_dist_index_esm.gridRow, gridAutoFlow = grid_dist_index_esm.gridAutoFlow, gridAutoColumns = grid_dist_index_esm.gridAutoColumns, gridAutoRows = grid_dist_index_esm.gridAutoRows, gridTemplateColumns = grid_dist_index_esm.gridTemplateColumns, gridTemplateRows = grid_dist_index_esm.gridTemplateRows, gridTemplateAreas = grid_dist_index_esm.gridTemplateAreas, gridArea = grid_dist_index_esm.gridArea, borderWidth = border_dist_index_esm.borderWidth, borderStyle = border_dist_index_esm.borderStyle, borderColor = border_dist_index_esm.borderColor, borderTop = border_dist_index_esm.borderTop, borderRight = border_dist_index_esm.borderRight, borderBottom = border_dist_index_esm.borderBottom, borderLeft = border_dist_index_esm.borderLeft, borderRadius = border_dist_index_esm.borderRadius, backgroundImage = background_dist_index_esm.backgroundImage, backgroundSize = background_dist_index_esm.backgroundSize, backgroundPosition = background_dist_index_esm.backgroundPosition, backgroundRepeat = background_dist_index_esm.backgroundRepeat, zIndex = position_dist_index_esm.zIndex, index_esm_top = position_dist_index_esm.top, right = position_dist_index_esm.right, bottom = position_dist_index_esm.bottom, left = position_dist_index_esm.left, style = function(_ref) {
                 var prop = _ref.prop, cssProperty = _ref.cssProperty, alias = _ref.alias, key = _ref.key, transformValue = _ref.transformValue, scale = _ref.scale, properties = _ref.properties, config = {};
                 return config[prop] = createStyleFunction({
                     properties: properties,

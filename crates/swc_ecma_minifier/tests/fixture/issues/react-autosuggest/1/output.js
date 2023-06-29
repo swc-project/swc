@@ -93,7 +93,7 @@ var ItemsList = function(_Component) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(ItemsList, _Component);
-    var protoProps, staticProps, _super = function() {
+    var Constructor, protoProps, staticProps, _super = function() {
         var call, result, Super = _getPrototypeOf(ItemsList);
         if (function() {
             if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -121,7 +121,7 @@ var ItemsList = function(_Component) {
             _this.props.onHighlightedItemChange(null === highlightedItem ? null : highlightedItem.item);
         }), _this;
     }
-    return protoProps = [
+    return Constructor = ItemsList, protoProps = [
         {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
@@ -165,7 +165,7 @@ var ItemsList = function(_Component) {
                 }));
             }
         }
-    ], _defineProperties(ItemsList.prototype, protoProps), staticProps && _defineProperties(ItemsList, staticProps), ItemsList;
+    ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ItemsList;
 }(_react.Component);
 exports.default = ItemsList, _defineProperty(ItemsList, "propTypes", {
     items: _propTypes.default.array.isRequired,
