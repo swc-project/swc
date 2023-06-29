@@ -158,7 +158,11 @@ impl VisitMut for ExplicitResourceManagement {
                     .map(|d| CallExpr {
                         span: decl.span,
                         callee: helper!(using),
-                        args: vec![state.stack.clone().as_arg(), d.init.unwrap().as_arg()],
+                        args: vec![
+                            state.stack.clone().as_arg(),
+                            d.init.unwrap().as_arg(),
+                            decl.is_await.as_arg(),
+                        ],
                         type_args: Default::default(),
                     })
                     .map(Expr::from)
