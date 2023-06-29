@@ -151,25 +151,33 @@ impl VisitMut for ExplicitResourceManagement {
         if let Stmt::Decl(Decl::Using(decl)) = s {
             let state = self.state.get_or_insert_with(Default::default);
 
-            *s = Expr::from_exprs(
-                decl.decls
+            *s = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: Default::default(),
+                decls: decl
+                    .decls
                     .take()
                     .into_iter()
-                    .map(|d| CallExpr {
-                        span: decl.span,
-                        callee: helper!(using),
-                        args: vec![
-                            state.stack.clone().as_arg(),
-                            d.init.unwrap().as_arg(),
-                            decl.is_await.as_arg(),
-                        ],
-                        type_args: Default::default(),
+                    .map(|d| {
+                        let init = CallExpr {
+                            span: decl.span,
+                            callee: helper!(using),
+                            args: vec![
+                                state.stack.clone().as_arg(),
+                                d.init.unwrap().as_arg(),
+                                decl.is_await.as_arg(),
+                            ],
+                            type_args: Default::default(),
+                        };
+
+                        VarDeclarator {
+                            init: Some(init.into()),
+                            ..d
+                        }
                     })
-                    .map(Expr::from)
-                    .map(Box::new)
                     .collect(),
-            )
-            .into_stmt();
+            })));
         }
     }
 
