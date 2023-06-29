@@ -189,7 +189,9 @@ impl Optimizer<'_> {
                         if !usage.assigned_fn_local {
                             false
                         } else if let Some(u) = self.data.vars.get(&id.to_id()) {
-                            let mut should_inline = !u.reassigned() && u.declared;
+                            let mut should_inline = !u.reassigned()
+                                && u.declared
+                                && !(u.used_above_decl && usage.ref_count >= 2);
 
                             should_inline &=
                                 // Function declarations are hoisted
