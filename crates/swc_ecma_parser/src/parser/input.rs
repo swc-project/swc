@@ -502,4 +502,9 @@ impl<I: Tokens> Buffer<I> {
     pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {
         self.iter.set_token_context(c)
     }
+
+    #[inline]
+    pub(crate) fn reset_to(&mut self, to: BytePos) {
+        self.iter.reset_to(to)
+    }
 }
