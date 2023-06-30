@@ -598,6 +598,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             let type_args = p.parse_ts_type_args()?;
+            trace_cur!(p, try_parse_ts_type_args__after_type_args);
 
             if is_one_of!(
                 p, '<', // invalid syntax
