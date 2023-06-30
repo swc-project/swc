@@ -318,8 +318,8 @@ impl<I: Tokens> Buffer<I> {
 
     #[cold]
     #[inline(never)]
-    pub fn dump_cur(&mut self) -> String {
-        match self.cur() {
+    pub fn dump_cur(&self) -> String {
+        match &self.cur {
             Some(v) => format!("{:?}", v),
             None => "<eof>".to_string(),
         }
