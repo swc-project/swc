@@ -505,6 +505,7 @@ impl<I: Tokens> Buffer<I> {
 
     #[inline]
     pub(crate) fn reset_to(&mut self, to: BytePos) {
+        self.cur = None;
         self.iter.reset_to(to)
     }
 }
