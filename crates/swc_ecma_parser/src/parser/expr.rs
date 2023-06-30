@@ -688,11 +688,12 @@ impl<I: Tokens> Parser<I> {
         let obj = self.parse_primary_expr()?;
         return_if_arrow!(self, obj);
 
-        let type_args = if self.syntax().typescript() && is!(self, '<') {
+        let type_args = if self.syntax().typescript() {
             self.try_parse_ts_type_args()
         } else {
             None
         };
+
         let obj = if let Some(type_args) = type_args {
             trace_cur!(self, parse_member_expr_or_new_expr__with_type_args);
             Box::new(Expr::TsInstantiation(TsInstantiation {
@@ -1620,9 +1621,27 @@ impl<I: Tokens> Parser<I> {
         let callee = self.parse_new_expr()?;
         return_if_arrow!(self, callee);
 
-        let type_args = if self.input.syntax().typescript() && is!(self, '<') {
+        let type_args = if self.input.syntax().typescript() && is_one_of!(self, '<', "<<") {
+            let type_args_start = self.input.cur_pos();
             self.try_parse_ts(|p| {
+                trace_cur!(p, parse_lhs_expr__type_args);
+
+                if is!(p, "<<") {
+                    let ctx = Context {
+                        should_not_lex_lt_or_gt_as_type: false,
+                        in_type: true,
+                        ..p.ctx()
+                    };
+                    p.input.reset_to(type_args_start);
+                    p.input.set_ctx(ctx);
+                }
+
+                trace_cur!(p, parse_lhs_expr__before_type_args);
+
                 let type_args = p.parse_ts_type_args()?;
+
+                trace_cur!(p, parse_lhs_expr__after_type_args);
+
                 if is!(p, '(') {
                     Ok(Some(type_args))
                 } else {
