@@ -46,6 +46,8 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn add_module_mode_error(&self, error: Error);
 
     fn take_errors(&mut self) -> Vec<Error>;
+
+    fn reset_to(&mut self, to: BytePos);
 }
 
 #[derive(Clone)]
@@ -141,6 +143,8 @@ impl Tokens for TokensInput {
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
+
+    fn reset_to(&mut self, _: BytePos) {}
 }
 
 /// Note: Lexer need access to parser's context to lex correctly.
@@ -252,6 +256,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn take_errors(&mut self) -> Vec<Error> {
         self.inner.take_errors()
+    }
+
+    fn reset_to(&mut self, to: BytePos) {
+        self.inner.reset_to(to);
     }
 }
 
