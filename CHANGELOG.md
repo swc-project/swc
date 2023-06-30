@@ -5,6 +5,9 @@
 
 
 
+- **(css/modules)** Fix `:local` and `:global` (#7600) ([f0ab5b3](https://github.com/swc-project/swc/commit/f0ab5b39f79685023cfc9529bc60e96231ad18d7))
+
+
 - **(es/fixer)** Don't change default decls to default expr exports (#7585) ([e272545](https://github.com/swc-project/swc/commit/e2725451aa507c18222c5f66cf0a5a049c92bd0b))
 
 
