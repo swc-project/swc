@@ -580,7 +580,8 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         self.try_parse_ts(|p| {
-            if is!(p, "<<") {
+            let nested = is!(p, "<<");
+            if nested {
                 let ctx = Context {
                     should_not_lex_lt_or_gt_as_type: false,
                     in_type: true,
@@ -597,8 +598,9 @@ impl<I: Tokens> Parser<I> {
                 '>', '=', ">>", ">=", '+', '-', // becomes relational expression
                 /* these should be type arguments in function call or template,
                  * not instantiation expression */
-                '(', '`'
-            ) {
+                '`'
+            ) || is!(p, '(')
+            {
                 Ok(None)
             } else if p.input.had_line_break_before_cur()
                 || matches!(cur!(p, false), Ok(Token::BinOp(..)))
