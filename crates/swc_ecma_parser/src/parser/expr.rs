@@ -688,11 +688,21 @@ impl<I: Tokens> Parser<I> {
         let obj = self.parse_primary_expr()?;
         return_if_arrow!(self, obj);
 
-        let type_args = if self.syntax().typescript() && is!(self, '<') {
-            self.try_parse_ts_type_args()
-        } else {
-            None
+        let type_args = {
+            let ctx = Context {
+                should_not_lex_lt_or_gt_as_type: false,
+                ..self.ctx()
+            };
+            self.with_ctx(ctx).try_parse_ts(|p| {
+                //
+                if is!(p, '<') {
+                    Ok(p.try_parse_ts_type_args())
+                } else {
+                    Ok(None)
+                }
+            })
         };
+
         let obj = if let Some(type_args) = type_args {
             trace_cur!(self, parse_member_expr_or_new_expr__with_type_args);
             Box::new(Expr::TsInstantiation(TsInstantiation {
