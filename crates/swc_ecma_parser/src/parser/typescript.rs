@@ -574,10 +574,16 @@ impl<I: Tokens> Parser<I> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn try_parse_ts_type_args(&mut self) -> Option<Box<TsTypeParamInstantiation>> {
+        let start = self.input.cur_pos();
+
         trace_cur!(self, try_parse_ts_type_args);
         debug_assert!(self.input.syntax().typescript());
 
         self.try_parse_ts(|p| {
+            if is!(p, "<<") {
+                p.input.reset_to(start);
+            }
+
             let type_args = p.parse_ts_type_args()?;
 
             if is_one_of!(

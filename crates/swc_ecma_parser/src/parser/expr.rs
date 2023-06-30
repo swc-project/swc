@@ -686,7 +686,6 @@ impl<I: Tokens> Parser<I> {
             return self.parse_subscripts(base, true, false);
         }
         let obj = self.parse_primary_expr()?;
-        let start = self.input.cur_pos();
         return_if_arrow!(self, obj);
 
         let type_args = if self.syntax().typescript() {
@@ -695,18 +694,7 @@ impl<I: Tokens> Parser<I> {
                 in_type: true,
                 ..self.ctx()
             };
-            self.with_ctx(ctx).parse_with(|p| {
-                if is!(p, "<<") {
-                    p.input.reset_to(start);
-                }
-
-                //
-                if is!(p, '<') {
-                    Ok(p.try_parse_ts_type_args())
-                } else {
-                    Ok(None)
-                }
-            })?
+            self.with_ctx(ctx).try_parse_ts_type_args()
         } else {
             None
         };
