@@ -266,8 +266,7 @@
                         },
                         "value": "0",
                         "raw": "\"0\""
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   ],
                   "body": {

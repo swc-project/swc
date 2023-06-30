@@ -156,7 +156,7 @@ impl<C: Comments> Refresh<C> {
         let hoc_name = match callee.as_ref() {
             Expr::Ident(fn_name) => fn_name.sym.to_string(),
             // original react implement use `getSource` so we just follow them
-            Expr::Member(member) => self.cm.span_to_snippet(member.span).unwrap(),
+            Expr::Member(member) => self.cm.span_to_snippet(member.span).unwrap_or_default(),
             _ => return Persist::None,
         };
         let reg_str = (

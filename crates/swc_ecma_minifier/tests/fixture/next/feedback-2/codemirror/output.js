@@ -1823,7 +1823,8 @@
     }, NativeScrollbars.prototype.setScrollTop = function(pos) {
         this.vert.scrollTop != pos && (this.vert.scrollTop = pos), this.disableVert && this.enableZeroWidthBar(this.vert, this.disableVert, "vert");
     }, NativeScrollbars.prototype.zeroWidthHack = function() {
-        this.horiz.style.height = this.vert.style.width = mac && !mac_geMountainLion ? "12px" : "18px", this.horiz.style.pointerEvents = this.vert.style.pointerEvents = "none", this.disableHoriz = new Delayed(), this.disableVert = new Delayed();
+        var w = mac && !mac_geMountainLion ? "12px" : "18px";
+        this.horiz.style.height = this.vert.style.width = w, this.horiz.style.pointerEvents = this.vert.style.pointerEvents = "none", this.disableHoriz = new Delayed(), this.disableVert = new Delayed();
     }, NativeScrollbars.prototype.enableZeroWidthBar = function(bar, delay, type) {
         bar.style.pointerEvents = "auto", delay.set(1000, function maybeDisable() {
             var box = bar.getBoundingClientRect();

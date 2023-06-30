@@ -69,8 +69,7 @@
                   },
                   "value": "hello",
                   "raw": "\"hello\""
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {
@@ -181,8 +180,7 @@
                   },
                   "value": "hello",
                   "raw": "\"hello\""
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {
@@ -293,8 +291,7 @@
                   },
                   "value": "hello",
                   "raw": "\"hello\""
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "RestElement",
@@ -403,8 +400,7 @@
                   },
                   "value": "hello",
                   "raw": "\"hello\""
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "RestElement",
@@ -517,8 +513,7 @@
                     },
                     "value": "hello",
                     "raw": "\"hello\""
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               },
               {
@@ -661,8 +656,7 @@
                         },
                         "value": 10.0,
                         "raw": "10"
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   },
                   {
@@ -699,8 +693,7 @@
                           "ctxt": 0
                         },
                         "value": false
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   },
                   {
@@ -882,8 +875,7 @@
                           "ctxt": 0
                         },
                         "value": false
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   },
                   {

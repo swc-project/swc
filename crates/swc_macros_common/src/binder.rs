@@ -204,11 +204,12 @@ impl<'a> VariantBinder<'a> {
                     .collect();
                 // EnumName::VariantName { fields }
                 let pat = Pat::Struct(PatStruct {
-                    path,
-                    fields,
-                    brace_token,
-                    dot2_token: None,
                     attrs: Default::default(),
+                    qself: None,
+                    path,
+                    brace_token,
+                    fields,
+                    rest: None,
                 });
                 (pat, bindings)
             }
@@ -248,13 +249,11 @@ impl<'a> VariantBinder<'a> {
                     .collect();
                 // EnumName::VariantName ( fields )
                 let pat = Pat::TupleStruct(PatTupleStruct {
-                    path,
-                    pat: PatTuple {
-                        elems: pats,
-                        paren_token,
-                        attrs: Default::default(),
-                    },
                     attrs: Default::default(),
+                    qself: None,
+                    path,
+                    paren_token,
+                    elems: pats,
                 });
                 (pat, bindings)
             }

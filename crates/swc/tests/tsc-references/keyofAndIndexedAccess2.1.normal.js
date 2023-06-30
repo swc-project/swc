@@ -58,11 +58,11 @@ function f12(obj, k1, k2, k3) {
     obj[k3] = 123; // Error
 }
 export function getAllEntities(state) {
-    const { ids , entities  } = state;
+    const { ids, entities } = state;
     return ids.map((id)=>entities[id]);
 }
 export function getEntity(id, state) {
-    const { ids , entities  } = state;
+    const { ids, entities } = state;
     if (!ids.includes(id)) {
         return undefined;
     }

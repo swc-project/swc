@@ -32,7 +32,7 @@ function hasKey(obj, keys) {
     const key = keys[keys.length - 1];
     return key in o;
 }
-function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean = false , default: defaults = {} , stopEarly =false , string =[] , unknown =(i)=>i  } = {}) {
+function parse(args, { "--": doubleDash = false, alias = {}, boolean: __boolean = false, default: defaults = {}, stopEarly = false, string = [], unknown = (i)=>i } = {}) {
     const flags = {
         bools: {},
         strings: {},
@@ -1326,13 +1326,13 @@ const regExpEscapeChars = [
     "{",
     "|"
 ];
-const { basename: basename2 , delimiter: delimiter2 , dirname: dirname2 , extname: extname2 , format: format2 , fromFileUrl: fromFileUrl2 , isAbsolute: isAbsolute2 , join: join2 , normalize: normalize2 , parse: parse3 , relative: relative2 , resolve: resolve2 , sep: sep2 , toFileUrl: toFileUrl2 , toNamespacedPath: toNamespacedPath2  } = path;
+const { basename: basename2, delimiter: delimiter2, dirname: dirname2, extname: extname2, format: format2, fromFileUrl: fromFileUrl2, isAbsolute: isAbsolute2, join: join2, normalize: normalize2, parse: parse3, relative: relative2, resolve: resolve2, sep: sep2, toFileUrl: toFileUrl2, toNamespacedPath: toNamespacedPath2 } = path;
 const rangeEscapeChars = [
     "-",
     "\\",
     "]"
 ];
-function globToRegExp(glob, { extended =true , globstar: globstarOption = true , os =NATIVE_OS  } = {}) {
+function globToRegExp(glob, { extended = true, globstar: globstarOption = true, os = NATIVE_OS } = {}) {
     if (glob == "") {
         return /(?!)/;
     }
@@ -1555,7 +1555,7 @@ function isGlob(str) {
     }
     return false;
 }
-function normalizeGlob(glob, { globstar =false  } = {}) {
+function normalizeGlob(glob, { globstar = false } = {}) {
     if (glob.match(/\0/g)) {
         throw new Error(`Glob contains invalid characters: "${glob}"`);
     }
@@ -1566,7 +1566,7 @@ function normalizeGlob(glob, { globstar =false  } = {}) {
     const badParentPattern = new RegExp(`(?<=(${s}|^)\\*\\*${s})\\.\\.(?=${s}|$)`, "g");
     return normalize2(glob.replace(badParentPattern, "\0")).replace(/\0/g, "..");
 }
-function joinGlobs(globs, { extended =false , globstar =false  } = {}) {
+function joinGlobs(globs, { extended = false, globstar = false } = {}) {
     if (!globstar || globs.length == 0) {
         return join2(...globs);
     }
@@ -2419,7 +2419,7 @@ function include(path, exts, match, skip) {
     }
     return true;
 }
-async function* walk(root, { maxDepth =Infinity , includeFiles =true , includeDirs =true , followSymlinks =false , exts =undefined , match =undefined , skip =undefined  } = {}) {
+async function* walk(root, { maxDepth = Infinity, includeFiles = true, includeDirs = true, followSymlinks = false, exts = undefined, match = undefined, skip = undefined } = {}) {
     if (maxDepth < 0) {
         return;
     }
@@ -2459,7 +2459,7 @@ async function* walk(root, { maxDepth =Infinity , includeFiles =true , includeDi
         }
     }
 }
-function* walkSync(root, { maxDepth =Infinity , includeFiles =true , includeDirs =true , followSymlinks =false , exts =undefined , match =undefined , skip =undefined  } = {}) {
+function* walkSync(root, { maxDepth = Infinity, includeFiles = true, includeDirs = true, followSymlinks = false, exts = undefined, match = undefined, skip = undefined } = {}) {
     if (maxDepth < 0) {
         return;
     }
@@ -2521,7 +2521,7 @@ function comparePath(a, b) {
     if (a.path > b.path) return 1;
     return 0;
 }
-async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs =true , extended =false , globstar =false  } = {}) {
+async function* expandGlob(glob, { root = Deno.cwd(), exclude = [], includeDirs = true, extended = false, globstar = false } = {}) {
     const globOptions = {
         extended,
         globstar
@@ -2536,7 +2536,7 @@ async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs 
         ], globOptions);
     const excludePatterns = exclude.map(resolveFromRoot).map((s)=>globToRegExp(s, globOptions));
     const shouldInclude = (path)=>!excludePatterns.some((p)=>!!path.match(p));
-    const { segments , hasTrailingSep , winRoot  } = split(resolveFromRoot(glob));
+    const { segments, hasTrailingSep, winRoot } = split(resolveFromRoot(glob));
     let fixedRoot = winRoot != undefined ? winRoot : "/";
     while(segments.length > 0 && !isGlob(segments[0])){
         const seg = segments.shift();
@@ -2607,7 +2607,7 @@ async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs 
     }
     yield* currentMatches;
 }
-function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =true , extended =false , globstar =false  } = {}) {
+function* expandGlobSync(glob, { root = Deno.cwd(), exclude = [], includeDirs = true, extended = false, globstar = false } = {}) {
     const globOptions = {
         extended,
         globstar
@@ -2622,7 +2622,7 @@ function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =t
         ], globOptions);
     const excludePatterns = exclude.map(resolveFromRoot).map((s)=>globToRegExp(s, globOptions));
     const shouldInclude = (path)=>!excludePatterns.some((p)=>!!path.match(p));
-    const { segments , hasTrailingSep , winRoot  } = split(resolveFromRoot(glob));
+    const { segments, hasTrailingSep, winRoot } = split(resolveFromRoot(glob));
     let fixedRoot = winRoot != undefined ? winRoot : "/";
     while(segments.length > 0 && !isGlob(segments[0])){
         const seg = segments.shift();
@@ -2693,7 +2693,7 @@ function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =t
     }
     yield* currentMatches;
 }
-async function move(src, dest, { overwrite =false  } = {}) {
+async function move(src, dest, { overwrite = false } = {}) {
     const srcStat = await Deno.stat(src);
     if (srcStat.isDirectory && isSubdir(src, dest)) {
         throw new Error(`Cannot move '${src}' to a subdirectory of itself, '${dest}'.`);
@@ -2713,7 +2713,7 @@ async function move(src, dest, { overwrite =false  } = {}) {
     }
     return;
 }
-function moveSync(src, dest, { overwrite =false  } = {}) {
+function moveSync(src, dest, { overwrite = false } = {}) {
     const srcStat = Deno.statSync(src);
     if (srcStat.isDirectory && isSubdir(src, dest)) {
         throw new Error(`Cannot move '${src}' to a subdirectory of itself, '${dest}'.`);
@@ -3066,7 +3066,7 @@ async function init(input) {
     if (typeof input === 'string' || typeof Request === 'function' && input instanceof Request || typeof URL === 'function' && input instanceof URL) {
         input = fetch(input);
     }
-    const { instance , module  } = await load(await input, imports);
+    const { instance, module } = await load(await input, imports);
     wasm = instance.exports;
     init.__wbindgen_wasm_module = module;
     return wasm;

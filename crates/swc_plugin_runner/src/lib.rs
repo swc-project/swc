@@ -13,6 +13,7 @@ mod imported_fn;
 mod memory_interop;
 pub mod plugin_module_bytes;
 mod transform_executor;
+pub mod wasix_runtime;
 
 use plugin_module_bytes::PluginModuleBytes;
 
@@ -26,6 +27,7 @@ pub fn create_plugin_transform_executor(
     metadata_context: &Arc<TransformPluginMetadataContext>,
     plugin_module: Box<dyn PluginModuleBytes>,
     plugin_config: Option<serde_json::Value>,
+    runtime: Option<Arc<dyn wasmer_wasix::Runtime + Send + Sync>>,
 ) -> TransformExecutor {
     TransformExecutor::new(
         plugin_module,
@@ -33,6 +35,7 @@ pub fn create_plugin_transform_executor(
         unresolved_mark,
         metadata_context,
         plugin_config,
+        runtime,
     )
 }
 
@@ -43,6 +46,7 @@ pub fn create_plugin_transform_executor(
     metadata_context: &Arc<TransformPluginMetadataContext>,
     plugin_module: Box<dyn PluginModuleBytes>,
     plugin_config: Option<serde_json::Value>,
+    runtime: Option<()>,
 ) -> TransformExecutor {
     unimplemented!("Transform plugin cannot be used without serialization support")
 }

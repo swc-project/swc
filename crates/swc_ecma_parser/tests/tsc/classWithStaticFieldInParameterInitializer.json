@@ -107,8 +107,7 @@
                   "typeParams": null,
                   "superTypeParams": null,
                   "implements": []
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {

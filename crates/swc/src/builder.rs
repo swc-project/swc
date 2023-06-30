@@ -5,12 +5,8 @@ use either::Either;
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{
-    chain,
-    comments::{Comments, SingleThreadedComments},
-    errors::Handler,
-    sync::Lrc,
-    util::take::Take,
-    FileName, Mark, SourceMap,
+    chain, comments::Comments, errors::Handler, sync::Lrc, util::take::Take, FileName, Mark,
+    SourceMap,
 };
 use swc_ecma_ast::{EsVersion, Module, Script};
 use swc_ecma_minifier::option::{terser::TerserTopLevelOptions, MinifyOptions};
@@ -177,7 +173,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         base: &FileName,
         syntax: Syntax,
         module: Option<ModuleConfig>,
-        comments: Option<&'cmt SingleThreadedComments>,
+        comments: Option<&'cmt dyn Comments>,
     ) -> impl 'cmt + swc_ecma_visit::Fold
     where
         P: 'cmt,
@@ -241,7 +237,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                         nullish_coalescing: compat::es2020::nullish_coalescing::Config {
                             no_document_all: assumptions.no_document_all
                         },
-                        optional_chaining: compat::es2020::opt_chaining::Config {
+                        optional_chaining: compat::es2020::optional_chaining::Config {
                             no_document_all: assumptions.no_document_all,
                             pure_getter: assumptions.pure_getters
                         }
@@ -358,7 +354,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             as_folder(MinifierPass {
                 options: self.minify,
                 cm: self.cm.clone(),
-                comments: comments.cloned(),
+                comments,
                 top_level_mark: self.top_level_mark,
             }),
             Optional::new(
@@ -373,14 +369,14 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     }
 }
 
-struct MinifierPass {
+struct MinifierPass<'a> {
     options: Option<JsMinifyOptions>,
     cm: Lrc<SourceMap>,
-    comments: Option<SingleThreadedComments>,
+    comments: Option<&'a dyn Comments>,
     top_level_mark: Mark,
 }
 
-impl VisitMut for MinifierPass {
+impl VisitMut for MinifierPass<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, m: &mut Module) {

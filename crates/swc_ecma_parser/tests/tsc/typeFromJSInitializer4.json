@@ -86,8 +86,7 @@
                 "end": 231,
                 "ctxt": 0
               }
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -125,8 +124,7 @@
               },
               "value": "n",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -163,8 +161,7 @@
                 "ctxt": 0
               },
               "elements": []
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

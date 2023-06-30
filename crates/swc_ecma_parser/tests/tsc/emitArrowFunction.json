@@ -420,8 +420,7 @@
                   },
                   "value": 10.0,
                   "raw": "10"
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {

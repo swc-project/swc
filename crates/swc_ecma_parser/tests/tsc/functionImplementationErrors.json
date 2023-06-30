@@ -580,8 +580,7 @@
               },
               "value": "m",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -697,8 +696,7 @@
               },
               "value": "m",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {

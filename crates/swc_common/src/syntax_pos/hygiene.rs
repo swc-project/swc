@@ -196,14 +196,15 @@ impl Mark {
         }
 
         // Deserialize result, assign / return values as needed.
-        let context: MutableMarkContext = unsafe {
-            crate::plugin::serialized::deserialize_from_ptr(
+        let context: MutableMarkContext =
+            crate::plugin::serialized::PluginSerializedBytes::from_raw_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
+            .deserialize()
             .expect("Should able to deserialize")
-            .into_inner()
-        };
+            .into_inner();
+
         self = Mark::from_u32(context.0);
 
         return context.2 != 0;
@@ -237,14 +238,14 @@ impl Mark {
             __mark_least_ancestor(a.0, b.0, ptr as _);
         }
 
-        let context: MutableMarkContext = unsafe {
-            crate::plugin::serialized::deserialize_from_ptr(
+        let context: MutableMarkContext =
+            crate::plugin::serialized::PluginSerializedBytes::from_raw_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
+            .deserialize()
             .expect("Should able to deserialize")
-            .into_inner()
-        };
+            .into_inner();
         a = Mark::from_u32(context.0);
         b = Mark::from_u32(context.1);
 
@@ -435,14 +436,14 @@ impl SyntaxContext {
             __syntax_context_remove_mark_proxy(self.0, ptr as _);
         }
 
-        let context: MutableMarkContext = unsafe {
-            crate::plugin::serialized::deserialize_from_ptr(
+        let context: MutableMarkContext =
+            crate::plugin::serialized::PluginSerializedBytes::from_raw_ptr(
                 ptr,
                 len.try_into().expect("Should able to convert ptr length"),
             )
+            .deserialize()
             .expect("Should able to deserialize")
-            .into_inner()
-        };
+            .into_inner();
 
         *self = SyntaxContext(context.0);
 

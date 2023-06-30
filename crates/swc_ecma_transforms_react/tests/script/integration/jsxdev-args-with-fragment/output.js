@@ -1,4 +1,4 @@
-const { jsxDEV: _jsxDEV , Fragment: _Fragment  } = require("react/jsx-dev-runtime");
+const { jsxDEV: _jsxDEV, Fragment: _Fragment } = require("react/jsx-dev-runtime");
 var x = /*#__PURE__*/ _jsxDEV(_Fragment, {
     children: [
         /*#__PURE__*/ _jsxDEV("div", {

@@ -5,7 +5,7 @@ extern crate proc_macro;
 use pmutil::{smart_quote, Quote};
 use quote::quote_spanned;
 use swc_macros_common::prelude::*;
-use syn::{self, *};
+use syn::{self, parse::Parse, *};
 
 /// Creates `.as_str()` and then implements `Debug` and `Display` using it.
 ///
@@ -132,52 +132,41 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
 
             let str_value = get_str_value(v.attrs());
 
-            let mut pat: Pat = Quote::new(def_site::<Span>())
-                .quote_with(smart_quote!(Vars { str_value }, { str_value }))
-                .parse();
+            let mut pat: Pat = Pat::Lit(ExprLit {
+                attrs: Default::default(),
+                lit: Lit::Str(LitStr::new(&str_value, Span::call_site())),
+            });
 
             // Handle `string_enum(alias("foo"))`
-            'outer: for attr in v
+            for attr in v
                 .attrs()
                 .iter()
                 .filter(|attr| is_attr_name(attr, "string_enum"))
             {
-                let meta = attr.parse_meta().expect("failed to parse meta");
-                if let Meta::List(meta) = &meta {
-                    for meta in &meta.nested {
-                        //
-                        if let NestedMeta::Meta(Meta::List(meta)) = meta {
-                            if meta.path.is_ident("alias") {
-                                let mut cases = Punctuated::default();
+                if let Meta::List(meta) = &attr.meta {
+                    let mut cases = Punctuated::default();
 
-                                cases.push(pat);
+                    cases.push(pat);
 
-                                for lit in &meta.nested {
-                                    cases.push(Pat::Lit(PatLit {
-                                        attrs: Default::default(),
-                                        expr: Box::new(Expr::Lit(ExprLit {
-                                            attrs: Default::default(),
-                                            lit: match lit {
-                                                NestedMeta::Meta(_) => todo!(),
-                                                NestedMeta::Lit(v) => v.clone(),
-                                            },
-                                        })),
-                                    }))
-                                }
-
-                                pat = Pat::Or(PatOr {
-                                    attrs: Default::default(),
-                                    leading_vert: None,
-                                    cases,
-                                });
-
-                                continue 'outer;
-                            }
-                        }
+                    for item in parse2::<FieldAttr>(meta.tokens.clone())
+                        .expect("failed to parse `#[string_enum]`")
+                        .aliases
+                    {
+                        cases.push(Pat::Lit(PatLit {
+                            attrs: Default::default(),
+                            lit: Lit::Str(item.alias),
+                        }));
                     }
+
+                    pat = Pat::Or(PatOr {
+                        attrs: Default::default(),
+                        leading_vert: None,
+                        cases,
+                    });
+                    continue;
                 }
 
-                panic!("Unsupported meta: {:#?}", meta);
+                panic!("Unsupported meta: {:#?}", attr.meta);
             }
 
             let body = match *v.data() {
@@ -266,11 +255,17 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
                     path: qual_name,
                     attrs: Default::default(),
                 })),
-                _ => Box::new(
-                    Quote::new(def_site::<Span>())
-                        .quote_with(smart_quote!(Vars { qual_name }, { qual_name { .. } }))
-                        .parse(),
-                ),
+                _ => Box::new(Pat::Struct(PatStruct {
+                    attrs: Default::default(),
+                    qself: None,
+                    path: qual_name,
+                    brace_token: Default::default(),
+                    fields: Default::default(),
+                    rest: Some(PatRest {
+                        attrs: Default::default(),
+                        dot2_token: def_site(),
+                    }),
+                })),
             };
 
             Arm {
@@ -380,4 +375,39 @@ fn make_deserialize(i: &DeriveInput) -> ItemImpl {
         }))
         .parse::<ItemImpl>()
         .with_generics(i.generics.clone())
+}
+
+struct FieldAttr {
+    aliases: Punctuated<FieldAttrItem, Token![,]>,
+}
+
+impl Parse for FieldAttr {
+    fn parse(input: parse::ParseStream) -> Result<Self> {
+        Ok(Self {
+            aliases: input.call(Punctuated::parse_terminated)?,
+        })
+    }
+}
+
+/// `alias("text")` in `#[string_enum(alias("text"))]`.
+struct FieldAttrItem {
+    alias: LitStr,
+}
+
+impl Parse for FieldAttrItem {
+    fn parse(input: parse::ParseStream) -> Result<Self> {
+        let name: Ident = input.parse()?;
+
+        assert!(
+            name == "alias",
+            "#[derive(StringEnum) only supports `#[string_enum(alias(\"text\"))]]"
+        );
+
+        let alias;
+        parenthesized!(alias in input);
+
+        Ok(Self {
+            alias: alias.parse()?,
+        })
+    }
 }

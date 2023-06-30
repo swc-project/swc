@@ -1,0 +1,19 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "target": "es2020",
+        "transform": {
+            "hidden": {
+                "jest": true
+            }
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    },
+    "minify": false,
+    "sourceMaps": true
+}

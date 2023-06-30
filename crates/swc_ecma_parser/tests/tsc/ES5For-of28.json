@@ -66,8 +66,7 @@
                     },
                     "value": 0.0,
                     "raw": "0"
-                  },
-                  "typeAnnotation": null
+                  }
                 },
                 {
                   "type": "AssignmentPattern",
@@ -96,8 +95,7 @@
                     },
                     "value": 1.0,
                     "raw": "1"
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "optional": false,

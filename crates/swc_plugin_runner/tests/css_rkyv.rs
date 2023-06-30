@@ -14,12 +14,15 @@ use swc_common::{
     collections::AHashMap, plugin::metadata::TransformPluginMetadataContext, sync::Lazy, FileName,
     Mark,
 };
+use testing::CARGO_TARGET_DIR;
 use tracing::info;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     {
         let mut cmd = Command::new("cargo");
+        cmd.env("CARGO_TARGET_DIR", &*CARGO_TARGET_DIR);
+
         cmd.current_dir(dir);
         cmd.args(["build", "--target=wasm32-wasi", "--release"])
             .stderr(Stdio::inherit());
@@ -34,7 +37,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         }
     }
 
-    for entry in fs::read_dir(&dir.join("target").join("wasm32-wasi").join("release"))? {
+    for entry in fs::read_dir(&CARGO_TARGET_DIR.join("wasm32-wasi").join("release"))? {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();
@@ -107,6 +110,7 @@ fn invoke(input: PathBuf) -> Result<(), Error> {
             )),
             Box::new(PLUGIN_BYTES.clone()),
             Some(json!({ "pluginConfig": "testValue" })),
+            None,
         );
 
         info!("Created transform executor");
@@ -158,6 +162,7 @@ fn invoke(input: PathBuf) -> Result<(), Error> {
             )),
             Box::new(PLUGIN_BYTES.clone()),
             Some(json!({ "pluginConfig": "testValue" })),
+            None,
         );
 
         serialized_program = plugin_transform_executor
@@ -175,6 +180,7 @@ fn invoke(input: PathBuf) -> Result<(), Error> {
             )),
             Box::new(PLUGIN_BYTES.clone()),
             Some(json!({ "pluginConfig": "testValue" })),
+            None,
         );
 
         serialized_program = plugin_transform_executor

@@ -755,8 +755,7 @@
                   },
                   "value": "string",
                   "raw": "\"string\""
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "Identifier",

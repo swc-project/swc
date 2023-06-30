@@ -44,7 +44,7 @@ function fn5(x) {
 }
 function _fn5() {
     _fn5 = _async_to_generator(function*(x) {
-        var { x  } = y;
+        var { x } = y;
     });
     return _fn5.apply(this, arguments);
 }
@@ -53,7 +53,7 @@ function fn6(x) {
 }
 function _fn6() {
     _fn6 = _async_to_generator(function*(x) {
-        var { x , z  } = y;
+        var { x, z } = y;
     });
     return _fn6.apply(this, arguments);
 }
@@ -62,7 +62,7 @@ function fn7(x) {
 }
 function _fn7() {
     _fn7 = _async_to_generator(function*(x) {
-        var { x =y  } = y;
+        var { x = y } = y;
     });
     return _fn7.apply(this, arguments);
 }
@@ -71,7 +71,7 @@ function fn8(x) {
 }
 function _fn8() {
     _fn8 = _async_to_generator(function*(x) {
-        var { z: x  } = y;
+        var { z: x } = y;
     });
     return _fn8.apply(this, arguments);
 }
@@ -80,7 +80,7 @@ function fn9(x) {
 }
 function _fn9() {
     _fn9 = _async_to_generator(function*(x) {
-        var { z: { x  }  } = y;
+        var { z: { x } } = y;
     });
     return _fn9.apply(this, arguments);
 }
@@ -89,7 +89,7 @@ function fn10(x) {
 }
 function _fn10() {
     _fn10 = _async_to_generator(function*(x) {
-        var { z: { x  } = y  } = y;
+        var { z: { x } = y } = y;
     });
     return _fn10.apply(this, arguments);
 }
@@ -160,7 +160,7 @@ function fn18(_) {
     return _fn18.apply(this, arguments);
 }
 function _fn18() {
-    _fn18 = _async_to_generator(function*({ x  }) {
+    _fn18 = _async_to_generator(function*({ x }) {
         var x;
     });
     return _fn18.apply(this, arguments);
@@ -245,7 +245,7 @@ function fn26(x) {
 }
 function _fn26() {
     _fn26 = _async_to_generator(function*(x) {
-        try {} catch ({ x: x1  }) {
+        try {} catch ({ x: x1 }) {
             var x1;
         }
     });
@@ -298,7 +298,7 @@ function fn31(x) {
 }
 function _fn31() {
     _fn31 = _async_to_generator(function*(x) {
-        for(var { x  } = y;;){}
+        for(var { x } = y;;){}
     });
     return _fn31.apply(this, arguments);
 }
@@ -347,7 +347,7 @@ function fn36(x) {
 }
 function _fn36() {
     _fn36 = _async_to_generator(function*(x) {
-        for (var { x  } of y){}
+        for (var { x } of y){}
     });
     return _fn36.apply(this, arguments);
 }

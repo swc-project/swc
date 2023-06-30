@@ -111,6 +111,7 @@ where
         let Ctx {
             in_left_of_for_loop,
             in_pat_of_param,
+            in_pat_of_var_decl,
             ..
         } = self.ctx;
 
@@ -126,9 +127,8 @@ where
                 v.mark_declared_as_fn_param();
             }
 
-            if in_left_of_for_loop {
-                v.mark_reassigned();
-                v.mark_mutated();
+            if in_pat_of_var_decl && in_left_of_for_loop {
+                v.mark_declared_as_for_init();
             }
         } else {
             self.report_usage(i, true);
@@ -386,6 +386,7 @@ where
                 is_exact_arg: true,
                 is_exact_reassignment: false,
                 is_callee: false,
+                is_id_ref: true,
                 ..self.ctx
             };
             n.args.visit_with(&mut *self.with_ctx(ctx));
@@ -522,7 +523,7 @@ where
                 let ids = find_pat_ids(v);
 
                 for id in ids {
-                    self.data.var_or_default(id).prevent_inline();
+                    self.data.var_or_default(id).mark_as_exported();
                 }
             }
             _ => {}
@@ -599,10 +600,15 @@ where
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         if e.op.may_short_circuit() {
-            e.left.visit_with(self);
+            let ctx = Ctx {
+                is_id_ref: false,
+                ..self.ctx
+            };
+            e.left.visit_with(&mut *self.with_ctx(ctx));
             let ctx = Ctx {
                 in_cond: true,
                 is_delete_arg: false,
+                is_id_ref: false,
                 ..self.ctx
             };
             self.with_ctx(ctx).visit_in_cond(&e.right);
@@ -823,6 +829,7 @@ where
                 is_exact_arg: false,
                 is_exact_reassignment: false,
                 is_callee: false,
+                is_id_ref: false,
                 ..self.ctx
             };
             e.obj.visit_with(&mut *self.with_ctx(ctx));
@@ -850,12 +857,12 @@ where
                 v.mark_indexed_with_dynamic_key();
             }
 
-            if self.ctx.in_assign_lhs || self.ctx.is_delete_arg {
-                v.mark_has_property_mutation();
-            }
-
             if let MemberProp::Ident(prop) = &e.prop {
                 v.add_accessed_property(prop.sym.clone());
+            }
+
+            if self.ctx.in_assign_lhs || self.ctx.is_delete_arg {
+                self.data.mark_property_mutattion(obj.to_id(), self.ctx)
             }
         }
     }
@@ -1061,6 +1068,7 @@ where
             in_assign_lhs: false,
             in_await_arg: false,
             is_delete_arg: false,
+            is_id_ref: true,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -1073,6 +1081,7 @@ where
             let ctx = Ctx {
                 in_cond: self.ctx.in_cond || had_cond,
                 is_delete_arg: false,
+                is_id_ref: true,
                 ..self.ctx
             };
 
@@ -1089,6 +1098,7 @@ where
                 is_exact_arg: false,
                 is_exact_reassignment: false,
                 is_delete_arg: false,
+                is_id_ref: false,
                 ..self.ctx
             };
             c.visit_with(&mut *self.with_ctx(ctx));

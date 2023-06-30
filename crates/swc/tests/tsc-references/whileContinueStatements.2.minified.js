@@ -2,9 +2,9 @@
 for(;;);
 for(;;);
 for(;;);
-TWO: for(;;);
-FOUR: for(;;)FIVE: for(;;)continue FOUR;
-for(;;)SIX: for(;;)continue SIX;
+for(;;);
+FOUR: for(;;)for(;;)continue FOUR;
+for(;;)for(;;)continue;
 SEVEN: for(;;)for(;;)for(;;)continue SEVEN;
 for(;;);
 for(;;);

@@ -20,11 +20,7 @@
           "end": 9,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 5,
-          "end": 6,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
@@ -61,11 +57,7 @@
           "end": 23,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 15,
-          "end": 16,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
@@ -129,11 +121,7 @@
           "end": 36,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 32,
-          "end": 33,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
@@ -148,11 +136,7 @@
               "end": 32,
               "ctxt": 0
             },
-            "questionDotToken": {
-              "start": 26,
-              "end": 27,
-              "ctxt": 0
-            },
+            "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
@@ -201,11 +185,7 @@
           "end": 53,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 45,
-          "end": 46,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
@@ -220,11 +200,7 @@
               "end": 45,
               "ctxt": 0
             },
-            "questionDotToken": {
-              "start": 39,
-              "end": 40,
-              "ctxt": 0
-            },
+            "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
@@ -300,11 +276,7 @@
           "end": 65,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 61,
-          "end": 62,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {

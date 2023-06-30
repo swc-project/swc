@@ -57,11 +57,11 @@ class B extends A {
             // element access (assign)
             _superprop_set("x", f);
             // destructuring assign with property access
-            ({ f: _superprop_update_x._  } = {
+            ({ f: _superprop_update_x._ } = {
                 f
             });
             // destructuring assign with element access
-            ({ f: _superprop_update("x")._  } = {
+            ({ f: _superprop_update("x")._ } = {
                 f
             });
         })();

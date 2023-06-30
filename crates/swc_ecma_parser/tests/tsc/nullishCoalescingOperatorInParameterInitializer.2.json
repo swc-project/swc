@@ -181,8 +181,7 @@
                     "value": "d",
                     "raw": "\"d\""
                   }
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {
@@ -365,8 +364,7 @@
                     "value": "d",
                     "raw": "\"d\""
                   }
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "AssignmentPattern",
@@ -395,8 +393,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {

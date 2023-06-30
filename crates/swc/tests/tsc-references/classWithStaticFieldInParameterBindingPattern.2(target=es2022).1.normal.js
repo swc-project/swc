@@ -6,7 +6,7 @@ class C {
     static{
         this.x = 1;
     }
-}).x]: b = ""  })=>{
+}).x]: b = "" })=>{
     var C1;
 })();
 const x = "";
@@ -14,6 +14,6 @@ const x = "";
     static{
         this.x = 1;
     }
-}).x]: b = ""  }, d = x)=>{
+}).x]: b = "" }, d = x)=>{
     var x1;
 })();

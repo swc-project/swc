@@ -1385,7 +1385,7 @@ impl Take for PatOrExpr {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct OptChainExpr {
     pub span: Span,
-    pub question_dot_token: Span,
+    pub optional: bool,
     /// This is boxed to reduce the type size of [Expr].
     pub base: Box<OptChainBase>,
 }
@@ -1416,9 +1416,13 @@ pub struct OptCall {
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
 
-impl Take for OptChainBase {
+impl Take for OptChainExpr {
     fn dummy() -> Self {
-        OptChainBase::Member(Take::dummy())
+        Self {
+            span: DUMMY_SP,
+            optional: false,
+            base: Box::new(OptChainBase::Member(Take::dummy())),
+        }
     }
 }
 

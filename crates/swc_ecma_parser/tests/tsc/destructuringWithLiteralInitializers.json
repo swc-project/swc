@@ -949,8 +949,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -1210,8 +1209,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -1521,8 +1519,7 @@
                 "ctxt": 0
               },
               "properties": []
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -1986,8 +1983,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -2593,8 +2589,7 @@
                   },
                   "value": 0.0,
                   "raw": "0"
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "AssignmentPattern",
@@ -2623,8 +2618,7 @@
                   },
                   "value": 0.0,
                   "raw": "0"
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "optional": false,
@@ -2818,8 +2812,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -3014,8 +3007,7 @@
                     },
                     "value": 0.0,
                     "raw": "0"
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "optional": false,
@@ -3043,8 +3035,7 @@
                   }
                 }
               ]
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -3228,8 +3219,7 @@
                     },
                     "value": 0.0,
                     "raw": "0"
-                  },
-                  "typeAnnotation": null
+                  }
                 },
                 {
                   "type": "AssignmentPattern",
@@ -3258,8 +3248,7 @@
                     },
                     "value": 0.0,
                     "raw": "0"
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "optional": false,
@@ -3273,8 +3262,7 @@
                 "ctxt": 0
               },
               "elements": []
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

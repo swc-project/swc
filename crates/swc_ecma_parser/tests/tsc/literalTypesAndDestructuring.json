@@ -274,8 +274,7 @@
                     },
                     "value": 0.0,
                     "raw": "0"
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],
@@ -360,8 +359,7 @@
                     },
                     "value": 2.0,
                     "raw": "2"
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],
@@ -454,8 +452,7 @@
                       "value": 2.0,
                       "raw": "2"
                     }
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],

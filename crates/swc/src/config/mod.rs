@@ -25,7 +25,7 @@ use swc_cached::regex::CachedRegex;
 use swc_common::{
     chain,
     collections::{AHashMap, AHashSet},
-    comments::SingleThreadedComments,
+    comments::{Comments, SingleThreadedComments},
     errors::Handler,
     plugin::metadata::TransformPluginMetadataContext,
     FileName, Mark, SourceMap, SyntaxContext,
@@ -612,6 +612,15 @@ impl Options {
             }
         });
 
+        let preamble = if !cfg.jsc.output.preamble.is_empty() {
+            cfg.jsc.output.preamble
+        } else {
+            js_minify
+                .as_ref()
+                .map(|v| v.format.preamble.clone())
+                .unwrap_or_default()
+        };
+
         let pass = PassBuilder::new(
             cm,
             handler,
@@ -641,7 +650,7 @@ impl Options {
             base,
             syntax,
             cfg.module,
-            comments,
+            comments.map(|v| v as _),
         );
 
         let keep_import_assertions = experimental.keep_import_assertions.into_bool();
@@ -666,16 +675,16 @@ impl Options {
             {
                 use swc_ecma_loader::resolve::Resolve;
 
-                // Currently swc enables filesystemcache by default on Embedded runtime plugin
-                // target.
-                init_plugin_module_cache_once(true, &experimental.cache_root);
-
                 let plugin_resolver = CachingResolver::new(
                     40,
                     NodeModulesResolver::new(TargetEnv::Node, Default::default(), true),
                 );
 
                 if let Some(plugins) = &experimental.plugins {
+                    // Currently swc enables filesystemcache by default on Embedded runtime plugin
+                    // target.
+                    init_plugin_module_cache_once(true, &experimental.cache_root);
+
                     // Populate cache to the plugin modules if not loaded
                     for plugin_config in plugins.iter() {
                         let plugin_name = &plugin_config.0;
@@ -774,7 +783,7 @@ impl Options {
             // keep_import_assertions is false.
             Optional::new(import_assertions(), !keep_import_assertions),
             Optional::new(
-                typescript::strip_with_jsx(
+                typescript::strip_with_jsx::<Option<&dyn Comments>>(
                     cm.clone(),
                     typescript::Config {
                         pragma: Some(
@@ -800,7 +809,7 @@ impl Options {
                         import_export_assign_config,
                         ..Default::default()
                     },
-                    comments,
+                    comments.map(|v| v as _),
                     top_level_mark
                 ),
                 syntax.typescript()
@@ -809,9 +818,9 @@ impl Options {
             custom_before_pass(&program),
             // handle jsx
             Optional::new(
-                react::react(
+                react::react::<&dyn Comments>(
                     cm.clone(),
-                    comments,
+                    comments.map(|v| v as _),
                     transform.react,
                     top_level_mark,
                     unresolved_mark
@@ -842,7 +851,7 @@ impl Options {
             comments: comments.cloned(),
             preserve_comments,
             emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
-            output: JscOutputConfig { charset },
+            output: JscOutputConfig { charset, preamble },
         })
     }
 }
@@ -1043,6 +1052,9 @@ pub struct Config {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyOptions {
     #[serde(default)]
+    pub parse: JsMinifyParseOptions,
+
+    #[serde(default)]
     pub compress: BoolOrDataConfig<TerserCompressorOptions>,
 
     #[serde(default)]
@@ -1101,6 +1113,29 @@ pub struct TerserSourceMapOption {
 
     #[serde(default)]
     pub content: Option<String>,
+}
+
+/// Parser options for `minify()`, which should have the same API as terser.
+///
+/// `jsc.minify.parse` is ignored.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct JsMinifyParseOptions {
+    /// Not supported.
+    #[serde(default, alias = "bare_returns")]
+    pub bare_returns: bool,
+
+    /// Ignored, and always parsed.
+    #[serde(default = "true_by_default", alias = "html5_comments")]
+    pub html5_comments: bool,
+
+    /// Ignored, and always parsed.
+    #[serde(default = "true_by_default")]
+    pub shebang: bool,
+
+    /// Not supported.
+    #[serde(default)]
+    pub spidermonkey: bool,
 }
 
 /// `jsc.minify.format`.
@@ -1375,6 +1410,9 @@ pub struct JscConfig {
 pub struct JscOutputConfig {
     #[serde(default)]
     pub charset: Option<OutputCharset>,
+
+    #[serde(default)]
+    pub preamble: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1476,7 +1514,7 @@ pub enum ModuleConfig {
 impl ModuleConfig {
     pub fn build<'cmt>(
         cm: Arc<SourceMap>,
-        comments: Option<&'cmt SingleThreadedComments>,
+        comments: Option<&'cmt dyn Comments>,
         base_url: PathBuf,
         paths: CompiledPaths,
         base: &FileName,

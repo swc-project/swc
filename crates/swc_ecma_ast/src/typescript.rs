@@ -985,7 +985,6 @@ pub enum TsModuleName {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsImportEqualsDecl {
     pub span: Span,
-    pub declare: bool,
     pub is_export: bool,
     pub is_type_only: bool,
     pub id: Ident,

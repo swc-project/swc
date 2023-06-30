@@ -118,7 +118,7 @@ Toolbar.DEFAULTS = {}, Toolbar.DEFAULTS = {
             }
         },
         direction (value) {
-            const { align  } = this.quill.getFormat();
+            const { align } = this.quill.getFormat();
             'rtl' === value && null == align ? this.quill.format('align', 'right', Quill.sources.USER) : value || 'right' !== align || this.quill.format('align', !1, Quill.sources.USER), this.quill.format('direction', value, Quill.sources.USER);
         },
         indent (value) {

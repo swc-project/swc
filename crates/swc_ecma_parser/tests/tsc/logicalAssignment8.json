@@ -278,11 +278,7 @@
                           "end": 189,
                           "ctxt": 0
                         },
-                        "questionDotToken": {
-                          "start": 182,
-                          "end": 183,
-                          "ctxt": 0
-                        },
+                        "optional": true,
                         "base": {
                           "type": "MemberExpression",
                           "span": {
@@ -514,11 +510,7 @@
                           "end": 285,
                           "ctxt": 0
                         },
-                        "questionDotToken": {
-                          "start": 278,
-                          "end": 279,
-                          "ctxt": 0
-                        },
+                        "optional": true,
                         "base": {
                           "type": "MemberExpression",
                           "span": {
@@ -750,11 +742,7 @@
                           "end": 381,
                           "ctxt": 0
                         },
-                        "questionDotToken": {
-                          "start": 374,
-                          "end": 375,
-                          "ctxt": 0
-                        },
+                        "optional": true,
                         "base": {
                           "type": "MemberExpression",
                           "span": {

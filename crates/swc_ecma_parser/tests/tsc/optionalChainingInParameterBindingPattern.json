@@ -191,11 +191,7 @@
                           "end": 181,
                           "ctxt": 0
                         },
-                        "questionDotToken": {
-                          "start": 178,
-                          "end": 179,
-                          "ctxt": 0
-                        },
+                        "optional": true,
                         "base": {
                           "type": "MemberExpression",
                           "span": {
@@ -263,8 +259,7 @@
                         },
                         "value": "",
                         "raw": "\"\""
-                      },
-                      "typeAnnotation": null
+                      }
                     }
                   }
                 ],

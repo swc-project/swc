@@ -179,8 +179,7 @@
               },
               "arguments": [],
               "typeArguments": null
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -384,8 +383,7 @@
               },
               "arguments": [],
               "typeArguments": null
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -423,8 +421,7 @@
               },
               "value": "x",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

@@ -56,17 +56,14 @@ mod unused;
 mod util;
 
 /// This pass is similar to `node.optimize` of terser.
-pub(super) fn optimizer<'a, M>(
+pub(super) fn optimizer<'a>(
     marks: Marks,
     options: &'a CompressOptions,
     module_info: &'a ModuleInfo,
     data: &'a mut ProgramData,
-    mode: &'a M,
+    mode: &'a dyn Mode,
     debug_infinite_loop: bool,
-) -> impl 'a + VisitMut + Repeated
-where
-    M: Mode,
-{
+) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
         "top_retain should not contain empty string"
@@ -89,7 +86,6 @@ where
         typeofs: Default::default(),
         data,
         ctx: Default::default(),
-        label: Default::default(),
         mode,
         debug_infinite_loop,
         functions: Default::default(),
@@ -192,7 +188,7 @@ impl Ctx {
     }
 }
 
-struct Optimizer<'a, M> {
+struct Optimizer<'a> {
     marks: Marks,
     expr_ctx: ExprCtx,
 
@@ -219,12 +215,7 @@ struct Optimizer<'a, M> {
     data: &'a mut ProgramData,
     ctx: Ctx,
 
-    /// Closest label.
-    ///
-    /// Setting this to `None` means the label should be removed.
-    label: Option<Id>,
-
-    mode: &'a M,
+    mode: &'a dyn Mode,
 
     #[allow(unused)]
     debug_infinite_loop: bool,
@@ -297,7 +288,7 @@ impl Vars {
     }
 }
 
-impl<M> Repeated for Optimizer<'_, M> {
+impl Repeated for Optimizer<'_> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -324,10 +315,7 @@ impl From<&Function> for FnMetadata {
     }
 }
 
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     fn handle_stmts(&mut self, stmts: &mut Vec<Stmt>, will_terminate: bool) {
         // Skip if `use asm` exists.
         if maybe_par!(
@@ -1432,10 +1420,7 @@ where
     }
 }
 
-impl<M> VisitMut for Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl VisitMut for Optimizer<'_> {
     noop_visit_mut_type!();
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -1866,8 +1851,6 @@ where
             }
         }
 
-        self.collapse_assignment_to_vars(e);
-
         if e.is_seq() {
             debug_assert_valid(e);
         }
@@ -2201,9 +2184,6 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
-        let old_label = self.label.take();
-        self.label = Some(n.label.to_id());
-
         let ctx = Ctx {
             dont_use_prepend_nor_append: contains_leaping_continue_with_label(
                 &n.body,
@@ -2214,12 +2194,7 @@ where
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        if self.label.is_none() {
-            report_change!("Removing label `{}`", n.label);
-            n.label.take();
-        }
-
-        self.label = old_label;
+        self.try_remove_label(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

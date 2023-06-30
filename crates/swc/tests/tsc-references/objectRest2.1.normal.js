@@ -6,7 +6,7 @@ function rootConnection(name) {
     return {
         resolve: function() {
             var _ref = _async_to_generator(function*(context, args) {
-                const { objects  } = yield {
+                const { objects } = yield {
                     objects: 12
                 };
                 return _object_spread({}, connectionFromArray(objects, args));

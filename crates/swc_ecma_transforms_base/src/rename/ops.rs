@@ -500,7 +500,6 @@ impl<'a> VisitMut for Operator<'a> {
                             span: p.span,
                             left: renamed.into(),
                             right: default_expr,
-                            type_ann: None,
                         })),
                         None => renamed.into(),
                     },

@@ -55,8 +55,7 @@
               },
               "value": "yield",
               "optional": false
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

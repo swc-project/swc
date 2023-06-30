@@ -315,8 +315,7 @@ impl TerserCompressorOptions {
                 })
                 .collect(),
             hoist_fns: self.hoist_funs,
-            // TODO: Use self.defaults
-            hoist_props: self.hoist_props.unwrap_or(false),
+            hoist_props: self.hoist_props.unwrap_or(self.defaults),
             hoist_vars: self.hoist_vars,
             ie8: self.ie8,
             if_return: self.if_return.unwrap_or(self.defaults),

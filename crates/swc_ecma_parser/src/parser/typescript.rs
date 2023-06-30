@@ -185,6 +185,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseEntityName`
     fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<TsEntityName> {
         debug_assert!(self.input.syntax().typescript());
+        trace_cur!(self, parse_ts_entity_name);
 
         let init = self.parse_ident_name()?;
         if let Ident {
@@ -360,7 +361,11 @@ impl<I: Tokens> Parser<I> {
         };
 
         let type_args = if !self.input.had_line_break_before_cur() && is!(self, '<') {
-            Some(self.parse_ts_type_args()?)
+            let ctx = Context {
+                should_not_lex_lt_or_gt_as_type: false,
+                ..self.ctx()
+            };
+            Some(self.with_ctx(ctx).parse_ts_type_args()?)
         } else {
             None
         };
@@ -1177,7 +1182,6 @@ impl<I: Tokens> Parser<I> {
         expect!(self, ';');
         Ok(Box::new(TsImportEqualsDecl {
             span: span!(self, start),
-            declare: false,
             id,
             is_export,
             is_type_only,
@@ -1273,7 +1277,7 @@ impl<I: Tokens> Parser<I> {
 
         let _ = self.eat_any_ts_modifier()?;
 
-        if is_one_of!(self, IdentRef, "this") {
+        if is_one_of!(self, IdentName, "this") {
             bump!(self);
             return Ok(true);
         }
@@ -1828,6 +1832,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseParenthesizedType`
     fn parse_ts_parenthesized_type(&mut self) -> PResult<TsParenthesizedType> {
         debug_assert!(self.input.syntax().typescript());
+        trace_cur!(self, parse_ts_parenthesized_type);
 
         let start = cur_pos!(self);
         expect!(self, '(');

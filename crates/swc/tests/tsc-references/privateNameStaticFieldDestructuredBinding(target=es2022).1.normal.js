@@ -16,9 +16,9 @@ class A {
     constructor(){
         this.otherClass = A;
         let y;
-        ({ x: A.#field , y  } = this.testObject());
+        ({ x: A.#field, y } = this.testObject());
         [A.#field, y] = this.testArray();
-        ({ a: A.#field , b: [A.#field]  } = {
+        ({ a: A.#field, b: [A.#field] } = {
             a: 1,
             b: [
                 2
@@ -30,7 +30,7 @@ class A {
                 2
             ]
         ];
-        ({ a: A.#field = 1 , b: [A.#field = 1]  } = {
+        ({ a: A.#field = 1, b: [A.#field = 1] } = {
             b: []
         });
         [A.#field = 2] = [];

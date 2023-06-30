@@ -2,35 +2,42 @@
 [build]
 
 rustdocflags = ["--cfg", "docsrs"]
-rustflags    = []
+rustflags    = ["-Z", "share-generics=y"]
 
 [target.x86_64-unknown-linux-gnu]
-rustflags = ["-C", "target-feature=+sse2"]
+rustflags = ["-C", "target-feature=+sse2", "-Z", "share-generics=y"]
 
 [target.aarch64-apple-darwin]
-rustflags = []
+rustflags = ["-Z", "share-generics=y"]
 
 [target.aarch64-unknown-linux-gnu]
 linker    = "aarch64-linux-gnu-gcc"
-rustflags = []
+rustflags = ["-Z", "share-generics=y"]
 
 [target.aarch64-unknown-linux-musl]
-linker    = "aarch64-linux-musl-gcc"
-rustflags = ["-C", "target-feature=-crt-static", "-C", "link-arg=-lgcc"]
+linker = "aarch64-linux-musl-gcc"
+rustflags = [
+  "-C",
+  "target-feature=-crt-static",
+  "-C",
+  "link-arg=-lgcc",
+  "-Z",
+  "share-generics=y",
+]
 
 [target.armv7-unknown-linux-gnueabihf]
 linker    = "arm-linux-gnueabihf-gcc"
-rustflags = []
+rustflags = ["-Z", "share-generics=y"]
 
 [target.aarch64-linux-android]
-rustflags = []
+rustflags = ["-Z", "share-generics=y"]
 
 [target.x86_64-pc-windows-msvc]
 linker = "rust-lld"
 
 [target.aarch64-pc-windows-msvc]
 linker    = "rust-lld"
-rustflags = []
+rustflags = ["-Z", "share-generics=y"]
 
 [target.wasm32-unknown-unknown]
-rustflags = []
+rustflags = ["-Z", "share-generics=y"]

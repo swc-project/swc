@@ -142,8 +142,7 @@
                   "typeParams": null,
                   "superTypeParams": null,
                   "implements": []
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {
@@ -351,8 +350,7 @@
                   "typeParams": null,
                   "superTypeParams": null,
                   "implements": []
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "AssignmentPattern",
@@ -381,8 +379,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {

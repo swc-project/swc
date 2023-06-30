@@ -43,7 +43,7 @@ class ServerRouter {
     domainLocales;
     isPreview;
     isLocaleDomain;
-    constructor(pathname, query, as, { isFallback  }, isReady, basePath, locale, locales, defaultLocale, domainLocales, isPreview, isLocaleDomain){
+    constructor(pathname, query, as, { isFallback }, isReady, basePath, locale, locales, defaultLocale, domainLocales, isPreview, isLocaleDomain){
         this.route = pathname.replace(/\/$/, "") || "/";
         this.pathname = pathname;
         this.query = query;
@@ -94,7 +94,7 @@ const invalidKeysMsg = (methodName, invalidKeys)=>{
     return `Additional keys were returned from \`${methodName}\`. Properties intended for your component must be nested under the \`props\` key, e.g.:` + `\n\n\treturn { props: { title: 'My Title', content: '...' } }` + `\n\nKeys that need to be moved: ${invalidKeys.join(", ")}.` + `\nRead more: https://nextjs.org/docs/messages/invalid-getstaticprops-value`;
 };
 function checkRedirectValues(redirect, req, method) {
-    const { destination , permanent , statusCode , basePath  } = redirect;
+    const { destination, permanent, statusCode, basePath } = redirect;
     let errors = [];
     const hasStatusCode = typeof statusCode !== "undefined";
     const hasPermanent = typeof permanent !== "undefined";
@@ -126,7 +126,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     renderOpts.devOnlyCacheBusterQueryString = renderOpts.dev ? renderOpts.devOnlyCacheBusterQueryString || `?ts=${Date.now()}` : "";
     // don't modify original query object
     query = Object.assign({}, query);
-    const { err , dev =false , ampPath ="" , App , Document , pageConfig ={} , Component , buildManifest , fontManifest , reactLoadableManifest , ErrorDebug , getStaticProps , getStaticPaths , getServerSideProps , isDataReq , params , previewProps , basePath , devOnlyCacheBusterQueryString , supportsDynamicHTML , concurrentFeatures  } = renderOpts;
+    const { err, dev = false, ampPath = "", App, Document, pageConfig = {}, Component, buildManifest, fontManifest, reactLoadableManifest, ErrorDebug, getStaticProps, getStaticPaths, getServerSideProps, isDataReq, params, previewProps, basePath, devOnlyCacheBusterQueryString, supportsDynamicHTML, concurrentFeatures } = renderOpts;
     const getFontDefinition = (url)=>{
         if (fontManifest) {
             return getFontDefinitionFromManifest(url, fontManifest);
@@ -192,7 +192,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     }
     let asPath = renderOpts.resolvedAsPath || req.url;
     if (dev) {
-        const { isValidElementType  } = require("react-is");
+        const { isValidElementType } = require("react-is");
         if (!isValidElementType(Component)) {
             throw new Error(`The default export is not a React Component in page: "${pathname}"`);
         }
@@ -257,7 +257,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             const enhanceApp = (AppComp)=>{
                 return (props)=>/*#__PURE__*/ React.createElement(AppComp, props);
             };
-            const { html , head  } = await docCtx.renderPage({
+            const { html, head } = await docCtx.renderPage({
                 enhanceApp
             });
             const styles = jsxStyleRegistry.styles();
@@ -279,7 +279,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     let head = defaultHead(inAmpMode);
     let scriptLoader = {};
     const nextExport = !isSSG && (renderOpts.nextExport || dev && (isAutoExport || isFallback));
-    const AppContainer = ({ children  })=>/*#__PURE__*/ React.createElement(RouterContext.Provider, {
+    const AppContainer = ({ children })=>/*#__PURE__*/ React.createElement(RouterContext.Provider, {
             value: router
         }, /*#__PURE__*/ React.createElement(AmpStateContext.Provider, {
             value: ampState
@@ -558,7 +558,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                 if (dev && (props.router || props.Component)) {
                     throw new Error(`'router' and 'Component' can not be returned in getInitialProps from _app.js https://nextjs.org/docs/messages/cant-override-next-props`);
                 }
-                const { App: EnhancedApp , Component: EnhancedComponent  } = enhanceComponents(options, App, Component);
+                const { App: EnhancedApp, Component: EnhancedComponent } = enhanceComponents(options, App, Component);
                 const html = ReactDOMServer.renderToString(/*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(EnhancedApp, {
                     Component: EnhancedComponent,
                     router: router,
@@ -629,7 +629,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     }
     const hybridAmp = ampState.hybrid;
     const docComponentsRendered = {};
-    const { assetPrefix , buildId , customServer , defaultLocale , disableOptimizedLoading , domainLocales , locale , locales , runtimeConfig  } = renderOpts;
+    const { assetPrefix, buildId, customServer, defaultLocale, disableOptimizedLoading, domainLocales, locale, locales, runtimeConfig } = renderOpts;
     const htmlProps = {
         __NEXT_DATA__: {
             props,
@@ -760,7 +760,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     return new RenderResult(chainPipers(pipers));
 }
 function errorToJSON(err) {
-    const { name , message , stack  } = err;
+    const { name, message, stack } = err;
     return {
         name,
         message,
@@ -844,7 +844,7 @@ function renderToStream(element, generateStaticHTML) {
                 });
             }
         };
-        const { abort , startWriting  } = ReactDOMServer.pipeToNodeWritable(element, stream, {
+        const { abort, startWriting } = ReactDOMServer.pipeToNodeWritable(element, stream, {
             onError (error) {
                 if (!resolved) {
                     resolved = true;

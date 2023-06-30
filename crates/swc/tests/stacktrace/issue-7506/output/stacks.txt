@@ -1,0 +1,9 @@
+$DIR/tests/stacktrace/issue-7506/input/index.js:2
+    throw new Error()
+    ^
+
+
+Error
+    at getStackTrace ($DIR/tests/stacktrace/issue-7506/input/index.js:2:11)
+    at namedCallingFunction ($DIR/tests/stacktrace/issue-7506/input/index.js:7:13)
+    at Object.<anonymous> ($DIR/tests/stacktrace/issue-7506/input/index.js:9:1)

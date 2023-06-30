@@ -19,13 +19,13 @@ new class {
             foo
         }), _class_private_field_set(this, _value, {
             foo
-        }), _write_only_error("#value").foo = foo, ({ o: _class_private_field_destructure(this, _value).value  } = {
+        }), _write_only_error("#value").foo = foo, ({ o: _class_private_field_destructure(this, _value).value } = {
             o: {
                 foo
             }
         }), _class_private_field_destructure(this, _value).value = _extends({}, _object_destructuring_empty({
             foo
-        })), ({ foo: _write_only_error("#value").foo  } = {
+        })), ({ foo: _write_only_error("#value").foo } = {
             foo
         }), _write_only_error("#value").foo = _extends({}, _object_destructuring_empty({
             foo

@@ -1,1 +1,1 @@
-for ({ a , b  } of c);
+for ({ a, b } of c);

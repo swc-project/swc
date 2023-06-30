@@ -871,7 +871,7 @@ define!({
     }
     pub struct OptChainExpr {
         pub span: Span,
-        pub question_dot_token: Span,
+        pub optional: bool,
         pub base: Box<OptChainBase>,
     }
     pub enum OptChainBase {
@@ -1244,7 +1244,6 @@ define!({
         pub span: Span,
         pub left: Box<Pat>,
         pub right: Box<Expr>,
-        pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub struct RestPat {
         pub span: Span,
@@ -1809,7 +1808,6 @@ define!({
     }
     pub struct TsImportEqualsDecl {
         pub span: Span,
-        pub declare: bool,
         pub is_export: bool,
         pub is_type_only: bool,
         pub id: Ident,
@@ -1889,6 +1887,8 @@ define!({
 
     pub struct UsingDecl {
         pub span: Span,
+
+        pub is_await: bool,
 
         pub decls: Vec<VarDeclarator>,
     }

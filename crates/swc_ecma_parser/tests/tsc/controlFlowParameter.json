@@ -144,8 +144,7 @@
               },
               "arguments": [],
               "typeArguments": null
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -428,8 +427,7 @@
               },
               "arguments": [],
               "typeArguments": null
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -565,8 +563,7 @@
               },
               "value": 1.0,
               "raw": "1"
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -689,8 +686,7 @@
               },
               "arguments": [],
               "typeArguments": null
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -826,8 +822,7 @@
               },
               "value": 1.0,
               "raw": "1"
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -942,8 +937,7 @@
                 },
                 "kind": "any"
               }
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

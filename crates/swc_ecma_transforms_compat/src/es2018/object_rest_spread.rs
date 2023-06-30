@@ -87,7 +87,7 @@ macro_rules! impl_for_for_stmt {
                     stmt = Some(Stmt::Decl(
                         VarDecl {
                             span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
+                            kind: VarDeclKind::Let,
                             decls,
                             declare: false,
                         }
@@ -653,7 +653,6 @@ impl ObjectRest {
                                 span,
                                 left: var_ident.into(),
                                 right,
-                                ..n
                             }),
                         }
                     }
@@ -741,12 +740,7 @@ impl ObjectRest {
                     use_expr_for_assign,
                     use_member_for_array,
                 ));
-                return Pat::Assign(AssignPat {
-                    span,
-                    left,
-                    right,
-                    ..n
-                });
+                return Pat::Assign(AssignPat { span, left, right });
             }
             Pat::Array(n) => {
                 let ArrayPat { span, elems, .. } = n;

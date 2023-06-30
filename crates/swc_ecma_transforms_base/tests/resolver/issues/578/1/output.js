@@ -4,7 +4,7 @@ class SomeClass__2 {
         this.props = properties__3;
     }
     call() {
-        const { myFunction__4  } = this.props;
+        const { myFunction__4 } = this.props;
         if (myFunction__4) {
             myFunction__4();
         } else {

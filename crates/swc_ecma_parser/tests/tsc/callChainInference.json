@@ -386,69 +386,74 @@
               "ctxt": 0
             },
             "expression": {
-              "type": "CallExpression",
+              "type": "OptionalChainingExpression",
               "span": {
                 "start": 183,
                 "end": 198,
                 "ctxt": 0
               },
-              "callee": {
-                "type": "OptionalChainingExpression",
+              "optional": false,
+              "base": {
+                "type": "CallExpression",
                 "span": {
                   "start": 183,
-                  "end": 193,
+                  "end": 198,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 188,
-                  "end": 189,
-                  "ctxt": 0
-                },
-                "base": {
-                  "type": "MemberExpression",
+                "callee": {
+                  "type": "OptionalChainingExpression",
                   "span": {
                     "start": 183,
                     "end": 193,
                     "ctxt": 0
                   },
-                  "object": {
-                    "type": "Identifier",
+                  "optional": true,
+                  "base": {
+                    "type": "MemberExpression",
                     "span": {
                       "start": 183,
-                      "end": 188,
-                      "ctxt": 0
-                    },
-                    "value": "value",
-                    "optional": false
-                  },
-                  "property": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 190,
                       "end": 193,
                       "ctxt": 0
                     },
-                    "value": "foo",
-                    "optional": false
-                  }
-                }
-              },
-              "arguments": [
-                {
-                  "spread": null,
-                  "expression": {
-                    "type": "StringLiteral",
-                    "span": {
-                      "start": 194,
-                      "end": 197,
-                      "ctxt": 0
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 183,
+                        "end": 188,
+                        "ctxt": 0
+                      },
+                      "value": "value",
+                      "optional": false
                     },
-                    "value": "a",
-                    "raw": "\"a\""
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 190,
+                        "end": 193,
+                        "ctxt": 0
+                      },
+                      "value": "foo",
+                      "optional": false
+                    }
                   }
-                }
-              ],
-              "typeArguments": null
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 194,
+                        "end": 197,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "raw": "\"a\""
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
             }
           }
         ]
@@ -463,69 +468,74 @@
         "ctxt": 0
       },
       "expression": {
-        "type": "CallExpression",
+        "type": "OptionalChainingExpression",
         "span": {
           "start": 203,
           "end": 218,
           "ctxt": 0
         },
-        "callee": {
-          "type": "OptionalChainingExpression",
+        "optional": false,
+        "base": {
+          "type": "CallExpression",
           "span": {
             "start": 203,
-            "end": 213,
+            "end": 218,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 208,
-            "end": 209,
-            "ctxt": 0
-          },
-          "base": {
-            "type": "MemberExpression",
+          "callee": {
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 203,
               "end": 213,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "optional": true,
+            "base": {
+              "type": "MemberExpression",
               "span": {
                 "start": 203,
-                "end": 208,
-                "ctxt": 0
-              },
-              "value": "value",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 210,
                 "end": 213,
                 "ctxt": 0
               },
-              "value": "foo",
-              "optional": false
-            }
-          }
-        },
-        "arguments": [
-          {
-            "spread": null,
-            "expression": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 214,
-                "end": 217,
-                "ctxt": 0
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 203,
+                  "end": 208,
+                  "ctxt": 0
+                },
+                "value": "value",
+                "optional": false
               },
-              "value": "a",
-              "raw": "\"a\""
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 210,
+                  "end": 213,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "optional": false
+              }
             }
-          }
-        ],
-        "typeArguments": null
+          },
+          "arguments": [
+            {
+              "spread": null,
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 214,
+                  "end": 217,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "raw": "\"a\""
+              }
+            }
+          ],
+          "typeArguments": null
+        }
       }
     }
   ],

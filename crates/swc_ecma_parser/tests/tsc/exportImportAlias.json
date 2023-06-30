@@ -382,7 +382,6 @@
               "end": 295,
               "ctxt": 0
             },
-            "declare": false,
             "isExport": true,
             "isTypeOnly": false,
             "id": {
@@ -1213,7 +1212,6 @@
               "end": 692,
               "ctxt": 0
             },
-            "declare": false,
             "isExport": true,
             "isTypeOnly": false,
             "id": {
@@ -1931,7 +1929,6 @@
               "end": 1044,
               "ctxt": 0
             },
-            "declare": false,
             "isExport": true,
             "isTypeOnly": false,
             "id": {

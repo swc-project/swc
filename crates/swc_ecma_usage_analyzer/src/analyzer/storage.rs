@@ -29,6 +29,8 @@ pub trait Storage: Sized + Default {
 
     fn get_initialized_cnt(&self) -> usize;
     fn truncate_initialized_cnt(&mut self, len: usize);
+
+    fn mark_property_mutattion(&mut self, id: Id, ctx: Ctx);
 }
 
 pub trait ScopeDataLike: Sized + Default + Clone {
@@ -51,9 +53,9 @@ pub trait VarDataLike: Sized {
 
     fn mark_declared_as_fn_expr(&mut self);
 
-    fn mark_has_property_access(&mut self);
+    fn mark_declared_as_for_init(&mut self);
 
-    fn mark_has_property_mutation(&mut self);
+    fn mark_has_property_access(&mut self);
 
     fn mark_used_as_callee(&mut self);
 
@@ -69,6 +71,8 @@ pub trait VarDataLike: Sized {
     fn add_infects_to(&mut self, other: Access);
 
     fn prevent_inline(&mut self);
+
+    fn mark_as_exported(&mut self);
 
     fn mark_initialized_with_safe_value(&mut self);
 

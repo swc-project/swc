@@ -1204,7 +1204,7 @@
                         a.h = !1;
                         try {
                             const n = a.ba();
-                            a: switch(n){
+                            switch(n){
                                 case 200:
                                 case 201:
                                 case 202:
@@ -1213,7 +1213,7 @@
                                 case 304:
                                 case 1223:
                                     var c, d, b = !0;
-                                    break a;
+                                    break;
                                 default:
                                     b = !1;
                             }

@@ -1338,8 +1338,7 @@
                   },
                   "value": "x",
                   "optional": false
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {
@@ -1589,8 +1588,7 @@
                     },
                     "value": "expected",
                     "optional": false
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "body": {
@@ -1684,7 +1682,6 @@
         "end": 1376,
         "ctxt": 0
       },
-      "declare": false,
       "isExport": false,
       "isTypeOnly": false,
       "id": {

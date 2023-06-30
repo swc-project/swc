@@ -1,1 +1,1 @@
-self=self||[].push[{4:function(){0()},80288:0}];
+self=self||[].push[{4:function(){},80288:0}];
