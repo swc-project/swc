@@ -1591,9 +1591,27 @@ impl<I: Tokens> Parser<I> {
         let callee = self.parse_new_expr()?;
         return_if_arrow!(self, callee);
 
-        let type_args = if self.input.syntax().typescript() && is!(self, '<') {
+        let type_args = if self.input.syntax().typescript() && is_one_of!(self, '<', "<<") {
+            let type_args_stat = self.input.cur_pos();
             self.try_parse_ts(|p| {
+                trace_cur!(p, parse_lhs_expr__type_args);
+
+                if is!(p, "<<") {
+                    let ctx = Context {
+                        should_not_lex_lt_or_gt_as_type: false,
+                        in_type: true,
+                        ..p.ctx()
+                    };
+                    p.input.reset_to(type_args_stat);
+                    p.input.set_ctx(ctx);
+                }
+
+                trace_cur!(p, parse_lhs_expr__before_type_args);
+
                 let type_args = p.parse_ts_type_args()?;
+
+                trace_cur!(p, parse_lhs_expr__after_type_args);
+
                 if is!(p, '(') {
                     Ok(Some(type_args))
                 } else {
