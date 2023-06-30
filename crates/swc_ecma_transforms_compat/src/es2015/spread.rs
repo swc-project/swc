@@ -313,7 +313,7 @@ impl Spread {
                                 }
                             }
                             _ => {
-                                if args_len == 1 && !need_array {
+                                if !need_array {
                                     return if self.c.loose {
                                         *expr
                                     } else {
