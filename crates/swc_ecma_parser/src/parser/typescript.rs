@@ -458,7 +458,7 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Box<TsTypeParamDecl>> {
         trace_cur!(self, parse_ts_type_params);
 
-        self.in_type().parse_with(|p| {
+        let ret = self.in_type().parse_with(|p| {
             p.ts_in_no_context(|p| {
                 let start = cur_pos!(p);
 
@@ -480,7 +480,11 @@ impl<I: Tokens> Parser<I> {
                     params,
                 }))
             })
-        })
+        })?;
+
+        trace_cur!(self, parse_ts_type_params__end);
+
+        Ok(ret)
     }
 
     /// `tsParseTypeOrTypePredicateAnnotation`
