@@ -11,6 +11,9 @@
 - **(es/fixer)** Don't change default decls to default expr exports (#7585) ([e272545](https://github.com/swc-project/swc/commit/e2725451aa507c18222c5f66cf0a5a049c92bd0b))
 
 
+- **(es/parser)** Re-lex `<<` as two `<`-s if required (#7439) ([6850372](https://github.com/swc-project/swc/commit/68503726a78cfc37cd995eda69a3e8982b6fdf57))
+
+
 - **(plugin/runner)** Disable wasi env cleanup (#7607) ([8209594](https://github.com/swc-project/swc/commit/8209594a8c11d2a65061763fef5d3a7780976f39))
 
 
