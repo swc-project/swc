@@ -605,9 +605,8 @@ impl<I: Tokens> Parser<I> {
                 '>', '=', ">>", ">=", '+', '-', // becomes relational expression
                 /* these should be type arguments in function call or template,
                  * not instantiation expression */
-                '`'
-            ) || is!(p, '(')
-            {
+                '(', '`'
+            ) {
                 Ok(None)
             } else if p.input.had_line_break_before_cur()
                 || matches!(cur!(p, false), Ok(Token::BinOp(..)))
