@@ -581,7 +581,13 @@ impl<I: Tokens> Parser<I> {
 
         self.try_parse_ts(|p| {
             if is!(p, "<<") {
+                let ctx = Context {
+                    should_not_lex_lt_or_gt_as_type: false,
+                    in_type: true,
+                    ..p.ctx()
+                };
                 p.input.reset_to(start);
+                p.input.set_ctx(ctx);
             }
 
             let type_args = p.parse_ts_type_args()?;

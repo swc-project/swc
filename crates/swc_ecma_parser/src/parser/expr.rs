@@ -689,12 +689,7 @@ impl<I: Tokens> Parser<I> {
         return_if_arrow!(self, obj);
 
         let type_args = if self.syntax().typescript() {
-            let ctx = Context {
-                should_not_lex_lt_or_gt_as_type: false,
-                in_type: true,
-                ..self.ctx()
-            };
-            self.with_ctx(ctx).try_parse_ts_type_args()
+            self.try_parse_ts_type_args()
         } else {
             None
         };
