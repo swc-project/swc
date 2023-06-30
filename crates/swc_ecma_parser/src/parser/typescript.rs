@@ -456,6 +456,8 @@ impl<I: Tokens> Parser<I> {
         permit_in_out: bool,
         permit_const: bool,
     ) -> PResult<Box<TsTypeParamDecl>> {
+        trace_cur!(self, parse_ts_type_params);
+
         self.in_type().parse_with(|p| {
             p.ts_in_no_context(|p| {
                 let start = cur_pos!(p);
@@ -2024,6 +2026,8 @@ impl<I: Tokens> Parser<I> {
         permit_in_out: bool,
         permit_const: bool,
     ) -> PResult<Option<Box<TsTypeParamDecl>>> {
+        trace_cur!(self, try_parse_ts_type_params);
+
         if !cfg!(feature = "typescript") {
             return Ok(None);
         }
