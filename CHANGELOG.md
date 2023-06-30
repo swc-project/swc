@@ -16,6 +16,9 @@
 
 - **(es/compat)** Implement transform for explicit resource management (#7376) ([bcd5a1d](https://github.com/swc-project/swc/commit/bcd5a1d6665bc6f4aaa857d1f88b0da82a6c4a04))
 
+
+- **(es/optimization)** Support `default` imports for const modules (#7604) ([ac02b84](https://github.com/swc-project/swc/commit/ac02b84918932f2d51840b4c4cef9adf460fce40))
+
 ## [1.3.67] - 2023-06-29
 
 ### Bug Fixes
