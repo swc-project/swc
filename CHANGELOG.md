@@ -5,7 +5,19 @@
 
 
 
+- **(es/fixer)** Don't change default decls to default expr exports (#7585) ([e272545](https://github.com/swc-project/swc/commit/e2725451aa507c18222c5f66cf0a5a049c92bd0b))
+
+
 - **(xml/codegen)** Fix wrong minification of spaces in a self-closing tag (#7595) ([769d651](https://github.com/swc-project/swc/commit/769d6516a50796e6642d6724e8472dd32d871612))
+
+### Features
+
+
+
+- **(es/compat)** Implement transform for explicit resource management (#7376) ([bcd5a1d](https://github.com/swc-project/swc/commit/bcd5a1d6665bc6f4aaa857d1f88b0da82a6c4a04))
+
+
+- **(es/optimization)** Support `default` imports for const modules (#7604) ([ac02b84](https://github.com/swc-project/swc/commit/ac02b84918932f2d51840b4c4cef9adf460fce40))
 
 ## [1.3.67] - 2023-06-29
 
