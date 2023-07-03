@@ -1,7 +1,7 @@
-const ModalInner = ({ data }: { data: GetReturnOrderDetails.Result }) => {
+const ModalInner = ({ data }) => {
     return (
         <div className={styles.qcWrapper} ref={wrapperRef} id="qcDataScroll">
-            {data!.qcDataList.map(qcData => (
+            {data.qcDataList.map(qcData => (
                 <div className={styles.desc} key={qcData.flawDesc}>
                     <div className={styles.descTitle}>{qcData?.flawDesc}</div>
                     {qcData?.flawImageList?.length === 0 ? (
