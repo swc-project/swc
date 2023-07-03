@@ -28,6 +28,12 @@
 
 - **(es/optimization)** Support `default` imports for const modules (#7604) ([ac02b84](https://github.com/swc-project/swc/commit/ac02b84918932f2d51840b4c4cef9adf460fce40))
 
+### Refactor
+
+
+
+- **(es/compat)** Remove usage of `box_patterns` (#7613) ([0a26066](https://github.com/swc-project/swc/commit/0a26066b7b01d06a6d9e3df2ab7c7e47f4aa9e4c))
+
 ## [1.3.67] - 2023-06-29
 
 ### Bug Fixes
