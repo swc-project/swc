@@ -1198,64 +1198,6 @@
           }, [o, a, s]), t.default.useEffect(() => (!d(s._formValues, a) && s._updateFieldArray(a), () => {
             (s._options.shouldUnregister || i) && s.unregister(a)
           }), [a, s, n, i]), {
-            swap: t.default.useCallback((e, t) => {
-              const r = s._getFieldArray(a);
-              ve(r, e, t), ve(l.current, e, t), y(r), u(r), s._updateFieldArray(a, r, ve, {
-                argA: e,
-                argB: t
-              }, !1)
-            }, [y, a, s]),
-            move: t.default.useCallback((e, t) => {
-              const r = s._getFieldArray(a);
-              he(r, e, t), he(l.current, e, t), y(r), u(r), s._updateFieldArray(a, r, he, {
-                argA: e,
-                argB: t
-              }, !1)
-            }, [y, a, s]),
-            prepend: t.default.useCallback((e, t) => {
-              const r = O(fe(e)),
-                n = pe(s._getFieldArray(a), r);
-              s._names.focus = J(a, 0, t), l.current = pe(l.current, r.map(G)), y(n), u(n), s._updateFieldArray(a, n, pe, {
-                argA: me(e)
-              })
-            }, [y, a, s]),
-            append: t.default.useCallback((e, t) => {
-              const r = O(fe(e)),
-                n = ce(s._getFieldArray(a), r);
-              s._names.focus = J(a, n.length - 1, t), l.current = ce(l.current, r.map(G)), y(n), u(n), s._updateFieldArray(a, n, ce, {
-                argA: me(e)
-              })
-            }, [y, a, s]),
-            remove: t.default.useCallback(e => {
-              const t = _e(s._getFieldArray(a), e);
-              l.current = _e(l.current, e), y(t), u(t), s._updateFieldArray(a, t, _e, {
-                argA: e
-              })
-            }, [y, a, s]),
-            insert: t.default.useCallback((e, t, r) => {
-              const n = O(fe(t)),
-                i = ge(s._getFieldArray(a), e, n);
-              s._names.focus = J(a, e, r), l.current = ge(l.current, e, n.map(G)), y(i), u(i), s._updateFieldArray(a, i, ge, {
-                argA: e,
-                argB: me(t)
-              })
-            }, [y, a, s]),
-            update: t.default.useCallback((e, t) => {
-              const r = fe(t),
-                n = Ae(s._getFieldArray(a), e, r);
-              l.current = [...n].map((t, r) => t && r !== e ? l.current[r] : G()), y(n), u([...n]), s._updateFieldArray(a, n, Ae, {
-                argA: e,
-                argB: r
-              }, !0, !1)
-            }, [y, a, s]),
-            replace: t.default.useCallback(e => {
-              const t = O(fe(e));
-              l.current = t.map(G), y([...t]), u([...t]), s._updateFieldArray(a, [...t], e => e, {}, !0, !1)
-            }, [y, a, s]),
-            fields: t.default.useMemo(() => o.map((e, t) => ({
-              ...e,
-              [n]: l.current[t] || G()
-            })), [o, n])
           }
         }, exports.useForm = function (e = {}) {
           const r = t.default.useRef(),
