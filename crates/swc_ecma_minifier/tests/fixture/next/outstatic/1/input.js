@@ -20,7 +20,6 @@
         var i = e => !a(e) && !Array.isArray(e) && n(e) && !s(e),
           o = e => i(e) && e.target ? r(e.target) ? e.target.checked : e.target.value : e,
           u = (e, t) => e.has((e => e.substring(0, e.search(/\.\d+(\.|$)/)) || e)(t)),
-          l = e => Array.isArray(e) ? e.filter(Boolean) : [],
           c = e => void 0 === e,
           d = () => {
           };
@@ -39,8 +38,7 @@
         }
 
         function T(e) { }
-        var M = e => "string" == typeof e,
-          L = e => "function" == typeof e,
+        var L = e => "function" == typeof e,
           R = () => {
           };
 
@@ -71,8 +69,6 @@
 
         function H(e, t, r) {
         }
-        const z = () => {
-        };
         var G = () => {
         },
           K = (e, t, r) => !r && (t.watchAll || t.watch.has(e) || [...t.watch].some(t => e.startsWith(t) && /^\.\w+/.test(e.slice(t.length)))),
@@ -130,33 +126,9 @@
         var Ue = e => c(e) ? void 0 : te(e) ? e.source : i(e) ? te(e.value) ? e.value.source : e.value : e;
 
         function Be(e, t, r) {
-          const s = d(e, r);
-          if (s || $(r)) return {
-            error: s,
-            name: r
-          };
-          const a = r.split(".");
-          for (; a.length;) {
-            const s = a.join("."),
-              n = d(t, s),
-              i = d(e, s);
-            if (n && !Array.isArray(n) && r !== s) return {
-              name: r
-            };
-            if (i && i.type) return {
-              name: s,
-              error: i
-            };
-            a.pop()
-          }
-          return {
-            name: r
-          }
+
         }
         const Te = {
-          mode: p,
-          reValidateMode: h,
-          shouldFocusError: !0
         };
 
         function Me(e = {}) {
@@ -175,22 +147,12 @@
             _ = {
             },
             x = {};
-          const A = {
+          const F = {
           },
-            F = {
-            },
-            V = ye(n.mode),
-            S = ye(n.reValidateMode),
-            w = n.criteriaMode === v,
-            k = async e => {
-
-            }, D = (e, t, r, s) => {
-              const a = d(y, e);
-              if (a) {
-                const n = d(h, e, c(r) ? d(g, e) : r);
-                c(n) || s && s.defaultChecked || t ? H(h, e, t ? n : Oe(a._f)) : q(e, n), p.mount && k()
-              }
-            }, C = () => {
+            V = 0,
+            S = 0,
+            w = 0,
+            k = 0, D = 0, C = () => {
             }, E = async () => {
 
             }, U = async e => n.resolver ? await n.resolver({
