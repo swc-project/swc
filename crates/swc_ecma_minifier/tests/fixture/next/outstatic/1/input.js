@@ -12,7 +12,7 @@
 
         function e(e) {
         }
-        var t = e(__webpack_require__(2983)),
+        var t = 0,
           r = e => "checkbox" === e.type;
         var u = (e, t) => e.has((e => e.substring(0, e.search(/\.\d+(\.|$)/)) || e)(t)),
           c = e => void 0 === e,
@@ -86,10 +86,7 @@
             V = 0,
             S = 0,
             w = 0,
-            k = 0, D = 0, C = () => {
-            }, E = async () => {
-
-            }, U = async e => n.resolver ? await n.resolver({
+            k = 0, D = 0, C = 0, E = 0, U = async e => n.resolver ? await n.resolver({
               ...h
             }, n.context, (() => {
 
@@ -115,10 +112,7 @@
                 });
                 if (!p && b && F.state.next({}), x[s] = (x[s], 1), F.state.next({
                 }), n.resolver) {
-                  const {
-                    errors: e
-                  } = await U([s]), r = 0;
-                  l = r.error, s = r.name, c = j(e)
+
                 } else l = (await le(a, d(h, s), w, n.shouldUseNativeValidation))[s], c = await k(!0);
                 a._f.deps && I(a._f.deps), E(s, c, l, A)
               }
@@ -206,7 +200,7 @@
 
         }, exports.useForm = function (e = {}) {
           const r = t.default.useRef(),
-            [s, a] = t.default.useState({
+            [s] = t.default.useState({
             });
           r.current ? r.current.control._options = e : r.current = {
             ...Me(e),
