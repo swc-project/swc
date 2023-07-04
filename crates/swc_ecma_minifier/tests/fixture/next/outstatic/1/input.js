@@ -41,13 +41,6 @@
           p = "onSubmit",
           _ = "onTouched",
           v = "all",
-          b = "max",
-          x = "min",
-          A = "maxLength",
-          F = "minLength",
-          V = "pattern",
-          S = "required",
-          w = "validate",
           k = t.default.createContext(null),
           D = () => t.default.useContext(k);
         var C = (e, t, r, s = !0) => {
@@ -324,107 +317,7 @@
           value: t.value
         } : e, ne) : ne;
 
-        function oe(e, t, r = "validate") {
-          if (Z(e) || Array.isArray(e) && e.every(Z) || X(e) && !e) return {
-            type: r,
-            message: Z(e) ? e : "",
-            ref: t
-          }
-        }
-        var ue = e => i(e) && !te(e) ? e : {
-          value: e,
-          message: ""
-        },
-          le = async (e, t, s, n, o) => {
-            const {
-              ref: u,
-              refs: l,
-              required: c,
-              maxLength: d,
-              minLength: f,
-              min: m,
-              max: y,
-              pattern: g,
-              validate: h,
-              name: p,
-              valueAsNumber: _,
-              mount: v,
-              disabled: k
-            } = e._f;
-            if (!v || k) return {};
-            const D = l ? l[0] : u,
-              C = e => {
-                n && D.reportValidity && (D.setCustomValidity(X(e) ? "" : e || " "), D.reportValidity())
-              },
-              E = {},
-              O = ee(u),
-              U = r(u),
-              B = O || U,
-              T = (_ || Y(u)) && !u.value || "" === t || Array.isArray(t) && !t.length,
-              N = P.bind(null, p, s, E),
-              R = (e, t, r, s = A, a = F) => {
-                const n = e ? t : r;
-                E[p] = {
-                  type: e ? s : a,
-                  message: n,
-                  ref: u,
-                  ...N(e ? s : a, n)
-                }
-              };
-            if (o ? !Array.isArray(t) || !t.length : c && (!B && (T || a(t)) || X(t) && !t || U && !ae(l).isValid || O && !ie(l).isValid)) {
-              const {
-                value: e,
-                message: t
-              } = Z(c) ? {
-                value: !!c,
-                message: c
-              } : ue(c);
-              if (e && (E[p] = {
-                type: S,
-                message: t,
-                ref: D,
-                ...N(S, t)
-              }, !s)) return C(t), E
-            }
-            if (!(T || a(m) && a(y))) {
-              let e, r;
-              const n = ue(y),
-                i = ue(m);
-              if (a(t) || isNaN(t)) {
-                const s = u.valueAsDate || new Date(t);
-                M(n.value) && (e = s > new Date(n.value)), M(i.value) && (r = s < new Date(i.value))
-              } else {
-                const s = u.valueAsNumber || +t;
-                a(n.value) || (e = s > n.value), a(i.value) || (r = s < i.value)
-              }
-              if ((e || r) && (R(!!e, n.message, i.message, b, x), !s)) return C(E[p].message), E
-            }
-            if ((d || f) && !T && (M(t) || o && Array.isArray(t))) {
-              const e = ue(d),
-                r = ue(f),
-                n = !a(e.value) && t.length > e.value,
-                i = !a(r.value) && t.length < r.value;
-              if ((n || i) && (R(n, e.message, r.message), !s)) return C(E[p].message), E
-            }
-            if (g && !T && M(t)) {
-              const {
-                value: e,
-                message: r
-              } = ue(g);
-              if (te(e) && !t.match(e) && (E[p] = {
-                type: V,
-                message: r,
-                ref: u,
-                ...N(V, r)
-              }, !s)) return C(r), E
-            }
-            if (h)
-              if (L(h)) {
-              } else if (i(h)) {
-
-              }
-            return C(!0), E
-          };
+        var le = 0;
 
         var de = "undefined" != typeof window && void 0 !== window.HTMLElement && "undefined" != typeof document;
 
@@ -464,7 +357,7 @@
 
         function xe(e, t) {
           const r = $(t) ? [t] : I(t),
-            s = 1 == r.length ? e : function (e, t) {
+            s = 1 == r.length ? e : function () {
             }(e, r),
             a = r[r.length - 1];
           let n;
@@ -481,10 +374,6 @@
           return e
         }
 
-        function Fe() {
-          return {
-          }
-        }
         var Ve = e => a(e) || !n(e);
 
         function Se(e, t) {
@@ -701,14 +590,7 @@
                 }
               }
               return r.valid
-            }, T = (e, t) => (e && t && H(h, e, t), !Se(G(), g)), R = (e, t, r) => {
-              const s = {
-                ...p.mount ? h : c(t) ? g : M(e) ? {
-                  [e]: t
-                } : t
-              };
-              return N(e, _, s, r)
-            }, q = (e, t, s = {}) => {
+            }, T = (e, t) => (e && t && H(h, e, t), !Se(G(), g)), q = (e, t, s = {}) => {
               const n = d(y, e);
               let i = t;
               if (n) {
@@ -724,20 +606,6 @@
                   o = d(y, i);
                 !_.array.has(e) && Ve(n) && (!o || o._f) || s(n) ? q(i, n, r) : W(i, n, r)
               }
-            }, P = (e, t, r = {}) => {
-              const s = d(y, e),
-                n = _.array.has(e),
-                o = fe(t);
-              H(h, e, o), n ? (F.array.next({
-                name: e,
-                values: h
-              }), (A.isDirty || A.dirtyFields) && r.shouldDirty && (i.dirtyFields = je(g, h), F.state.next({
-                name: e,
-                dirtyFields: i.dirtyFields,
-                isDirty: T(e, o)
-              }))) : !s || s._f || a(o) ? q(e, o, r) : W(e, o, r), K(e, _) && F.state.next({}), F.watch.next({
-                name: e
-              })
             }, $ = async e => {
               const r = e.target;
               let s = r.name;
@@ -809,19 +677,6 @@
                 ...p.mount ? h : {}
               };
               return c(e) ? t : M(e) ? d(t, e) : e.map(e => d(t, e))
-            }, J = (e, t) => ({
-              invalid: !!d((t || i).errors, e),
-              isDirty: !!d((t || i).dirtyFields, e),
-              isTouched: !!d((t || i).touchedFields, e),
-              error: d((t || i).errors, e)
-            }), Z = (e, t = {}) => {
-              for (const r of e ? O(e) : _.mount) _.mount.delete(r), _.array.delete(r), d(y, r) && (t.keepValue || (xe(y, r), xe(h, r)), !t.keepError && xe(i.errors, r), !t.keepDirty && xe(i.dirtyFields, r), !t.keepTouched && xe(i.touchedFields, r), !n.shouldUnregister && !t.keepDefaultValue && xe(g, r));
-              F.watch.next({}), F.state.next({
-                ...i,
-                ...t.keepDirty ? {
-                  isDirty: T()
-                } : {}
-              }), !t.keepIsValid && k()
             }, te = (e, t = {}) => {
               let s = d(y, e);
               const a = X(t.disabled);
