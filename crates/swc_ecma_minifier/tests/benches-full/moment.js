@@ -1522,7 +1522,7 @@
         return out;
     }
     function listWeekdaysImpl(localeSorted, format, index, field) {
-        'boolean' == typeof localeSorted ? (isNumber(format) && (index = format, format = void 0), format = format || '') : (index = format = localeSorted, localeSorted = !1, isNumber(format) && (index = format, format = void 0), format = format || '');
+        'boolean' == typeof localeSorted || (index = format = localeSorted, localeSorted = !1), isNumber(format) && (index = format, format = void 0), format = format || '';
         var i, locale = getLocale(), shift = localeSorted ? locale._week.dow : 0, out = [];
         if (null != index) return get$1(format, (index + shift) % 7, field, 'day');
         for(i = 0; i < 7; i++)out[i] = get$1(format, (i + shift) % 7, field, 'day');

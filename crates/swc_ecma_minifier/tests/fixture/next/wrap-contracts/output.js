@@ -712,7 +712,7 @@
                 }, BN1.prototype.maskn = function(bits1) {
                     return this.clone().imaskn(bits1);
                 }, BN1.prototype.iaddn = function(num1) {
-                    return (assert1('number' == typeof num1), assert1(num1 < 0x4000000), num1 < 0) ? this.isubn(-num1) : 0 !== this.negative ? 1 === this.length && (0 | this.words[0]) <= num1 ? (this.words[0] = num1 - (0 | this.words[0]), this.negative = 0, this) : (this.negative = 0, this.isubn(num1), this.negative = 1, this) : this._iaddn(num1);
+                    return (assert1('number' == typeof num1), assert1(num1 < 0x4000000), num1 < 0) ? this.isubn(-num1) : 0 !== this.negative ? (1 === this.length && (0 | this.words[0]) <= num1 ? (this.words[0] = num1 - (0 | this.words[0]), this.negative = 0) : (this.negative = 0, this.isubn(num1), this.negative = 1), this) : this._iaddn(num1);
                 }, BN1.prototype._iaddn = function(num1) {
                     this.words[0] += num1;
                     for(var i2 = 0; i2 < this.length && this.words[i2] >= 0x4000000; i2++)this.words[i2] -= 0x4000000, i2 === this.length - 1 ? this.words[i2 + 1] = 1 : this.words[i2 + 1]++;
@@ -1265,11 +1265,11 @@
                     this.nextTick(callback1);
                 }
                 nextv(size1, options1, callback1) {
-                    return (callback1 = fromCallback1(callback1 = getCallback1(options1, callback1), kPromise1), options1 = getOptions1(options1, emptyOptions1), Number.isInteger(size1)) ? (this[kClosing1] ? this.nextTick(callback1, new ModuleError1('Iterator is not open: cannot call nextv() after close()', {
+                    return (callback1 = fromCallback1(callback1 = getCallback1(options1, callback1), kPromise1), options1 = getOptions1(options1, emptyOptions1), Number.isInteger(size1)) ? this[kClosing1] ? this.nextTick(callback1, new ModuleError1('Iterator is not open: cannot call nextv() after close()', {
                         code: 'LEVEL_ITERATOR_NOT_OPEN'
                     })) : this[kWorking1] ? this.nextTick(callback1, new ModuleError1('Iterator is busy: cannot call nextv() until previous call has completed', {
                         code: 'LEVEL_ITERATOR_BUSY'
-                    })) : (size1 < 1 && (size1 = 1), this[kLimit1] < 1 / 0 && (size1 = Math.min(size1, this[kLimit1] - this[kCount1])), this[kWorking1] = !0, this[kCallback1] = callback1, size1 <= 0 ? this.nextTick(this[kHandleMany1], null, []) : this._nextv(size1, options1, this[kHandleMany1])), callback1[kPromise1]) : (this.nextTick(callback1, TypeError("The first argument 'size' must be an integer")), callback1[kPromise1]);
+                    })) : (size1 < 1 && (size1 = 1), this[kLimit1] < 1 / 0 && (size1 = Math.min(size1, this[kLimit1] - this[kCount1])), this[kWorking1] = !0, this[kCallback1] = callback1, size1 <= 0 ? this.nextTick(this[kHandleMany1], null, []) : this._nextv(size1, options1, this[kHandleMany1])) : this.nextTick(callback1, TypeError("The first argument 'size' must be an integer")), callback1[kPromise1];
                 }
                 _nextv(size1, options1, callback1) {
                     const acc1 = [], onnext1 = (err1, key1, value1)=>err1 ? callback1(err1) : (this[kLegacy1] ? void 0 === key1 && void 0 === value1 : void 0 === key1) ? callback1(null, acc1) : void (acc1.push(this[kLegacy1] ? [
@@ -8004,7 +8004,7 @@
                 }, BN1.prototype.maskn = function(bits1) {
                     return this.clone().imaskn(bits1);
                 }, BN1.prototype.iaddn = function(num1) {
-                    return (assert1('number' == typeof num1), assert1(num1 < 0x4000000), num1 < 0) ? this.isubn(-num1) : 0 !== this.negative ? 1 === this.length && (0 | this.words[0]) < num1 ? (this.words[0] = num1 - (0 | this.words[0]), this.negative = 0, this) : (this.negative = 0, this.isubn(num1), this.negative = 1, this) : this._iaddn(num1);
+                    return (assert1('number' == typeof num1), assert1(num1 < 0x4000000), num1 < 0) ? this.isubn(-num1) : 0 !== this.negative ? (1 === this.length && (0 | this.words[0]) < num1 ? (this.words[0] = num1 - (0 | this.words[0]), this.negative = 0) : (this.negative = 0, this.isubn(num1), this.negative = 1), this) : this._iaddn(num1);
                 }, BN1.prototype._iaddn = function(num1) {
                     this.words[0] += num1;
                     for(var i2 = 0; i2 < this.length && this.words[i2] >= 0x4000000; i2++)this.words[i2] -= 0x4000000, i2 === this.length - 1 ? this.words[i2 + 1] = 1 : this.words[i2 + 1]++;
@@ -13558,7 +13558,7 @@
                         if ('hex' === enc1) for((msg1 = msg1.replace(/[^a-z0-9]+/ig, '')).length % 2 != 0 && (msg1 = '0' + msg1), i2 = 0; i2 < msg1.length; i2 += 2)res1.push(parseInt(msg1[i2] + msg1[i2 + 1], 16));
                     } else for(var p3 = 0, i2 = 0; i2 < msg1.length; i2++){
                         var c5 = msg1.charCodeAt(i2);
-                        c5 < 128 ? res1[p3++] = c5 : c5 < 2048 ? (res1[p3++] = c5 >> 6 | 192, res1[p3++] = 63 & c5 | 128) : isSurrogatePair1(msg1, i2) ? (c5 = 0x10000 + ((0x03FF & c5) << 10) + (0x03FF & msg1.charCodeAt(++i2)), res1[p3++] = c5 >> 18 | 240, res1[p3++] = c5 >> 12 & 63 | 128, res1[p3++] = c5 >> 6 & 63 | 128, res1[p3++] = 63 & c5 | 128) : (res1[p3++] = c5 >> 12 | 224, res1[p3++] = c5 >> 6 & 63 | 128, res1[p3++] = 63 & c5 | 128);
+                        c5 < 128 ? res1[p3++] = c5 : (c5 < 2048 ? res1[p3++] = c5 >> 6 | 192 : (isSurrogatePair1(msg1, i2) ? (c5 = 0x10000 + ((0x03FF & c5) << 10) + (0x03FF & msg1.charCodeAt(++i2)), res1[p3++] = c5 >> 18 | 240, res1[p3++] = c5 >> 12 & 63 | 128) : res1[p3++] = c5 >> 12 | 224, res1[p3++] = c5 >> 6 & 63 | 128), res1[p3++] = 63 & c5 | 128);
                     }
                 } else for(i2 = 0; i2 < msg1.length; i2++)res1[i2] = 0 | msg1[i2];
                 return res1;
@@ -13986,7 +13986,7 @@
                     var i2, type1 = typeof key1;
                     if ('string' === type1) {
                         var code1, bytes1 = [], length1 = key1.length, index1 = 0;
-                        for(i2 = 0; i2 < length1; ++i2)(code1 = key1.charCodeAt(i2)) < 0x80 ? bytes1[index1++] = code1 : code1 < 0x800 ? (bytes1[index1++] = 0xc0 | code1 >> 6, bytes1[index1++] = 0x80 | 0x3f & code1) : code1 < 0xd800 || code1 >= 0xe000 ? (bytes1[index1++] = 0xe0 | code1 >> 12, bytes1[index1++] = 0x80 | code1 >> 6 & 0x3f, bytes1[index1++] = 0x80 | 0x3f & code1) : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & key1.charCodeAt(++i2)), bytes1[index1++] = 0xf0 | code1 >> 18, bytes1[index1++] = 0x80 | code1 >> 12 & 0x3f, bytes1[index1++] = 0x80 | code1 >> 6 & 0x3f, bytes1[index1++] = 0x80 | 0x3f & code1);
+                        for(i2 = 0; i2 < length1; ++i2)(code1 = key1.charCodeAt(i2)) < 0x80 ? bytes1[index1++] = code1 : (code1 < 0x800 ? bytes1[index1++] = 0xc0 | code1 >> 6 : (code1 < 0xd800 || code1 >= 0xe000 ? bytes1[index1++] = 0xe0 | code1 >> 12 : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & key1.charCodeAt(++i2)), bytes1[index1++] = 0xf0 | code1 >> 18, bytes1[index1++] = 0x80 | code1 >> 12 & 0x3f), bytes1[index1++] = 0x80 | code1 >> 6 & 0x3f), bytes1[index1++] = 0x80 | 0x3f & code1);
                         key1 = bytes1;
                     } else if ('object' === type1) {
                         if (null === key1) throw Error(ERROR);
@@ -14014,7 +14014,7 @@
                         }
                         for(var code1, i2, index1 = 0, length1 = message1.length, blocks1 = this.blocks; index1 < length1;){
                             if (this.hashed && (this.hashed = !1, blocks1[0] = this.block, blocks1[16] = blocks1[1] = blocks1[2] = blocks1[3] = blocks1[4] = blocks1[5] = blocks1[6] = blocks1[7] = blocks1[8] = blocks1[9] = blocks1[10] = blocks1[11] = blocks1[12] = blocks1[13] = blocks1[14] = blocks1[15] = 0), notString1) for(i2 = this.start; index1 < length1 && i2 < 64; ++index1)blocks1[i2 >> 2] |= message1[index1] << SHIFT[3 & i2++];
-                            else for(i2 = this.start; index1 < length1 && i2 < 64; ++index1)(code1 = message1.charCodeAt(index1)) < 0x80 ? blocks1[i2 >> 2] |= code1 << SHIFT[3 & i2++] : code1 < 0x800 ? (blocks1[i2 >> 2] |= (0xc0 | code1 >> 6) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT[3 & i2++]) : code1 < 0xd800 || code1 >= 0xe000 ? (blocks1[i2 >> 2] |= (0xe0 | code1 >> 12) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 6 & 0x3f) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT[3 & i2++]) : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & message1.charCodeAt(++index1)), blocks1[i2 >> 2] |= (0xf0 | code1 >> 18) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 12 & 0x3f) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 6 & 0x3f) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT[3 & i2++]);
+                            else for(i2 = this.start; index1 < length1 && i2 < 64; ++index1)(code1 = message1.charCodeAt(index1)) < 0x80 ? blocks1[i2 >> 2] |= code1 << SHIFT[3 & i2++] : (code1 < 0x800 ? blocks1[i2 >> 2] |= (0xc0 | code1 >> 6) << SHIFT[3 & i2++] : (code1 < 0xd800 || code1 >= 0xe000 ? blocks1[i2 >> 2] |= (0xe0 | code1 >> 12) << SHIFT[3 & i2++] : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & message1.charCodeAt(++index1)), blocks1[i2 >> 2] |= (0xf0 | code1 >> 18) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 12 & 0x3f) << SHIFT[3 & i2++]), blocks1[i2 >> 2] |= (0x80 | code1 >> 6 & 0x3f) << SHIFT[3 & i2++]), blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT[3 & i2++]);
                             this.lastByteIndex = i2, this.bytes += i2 - this.start, i2 >= 64 ? (this.block = blocks1[16], this.start = i2 - 64, this.hash(), this.hashed = !0) : this.start = i2;
                         }
                         return this.bytes > 4294967295 && (this.hBytes += this.bytes / 4294967296 << 0, this.bytes = this.bytes % 4294967296), this;
@@ -14357,7 +14357,7 @@
                     }
                     var length1 = key1.length;
                     if (!notString1) {
-                        for(var code1, bytes1 = [], length1 = key1.length, index1 = 0, i2 = 0; i2 < length1; ++i2)(code1 = key1.charCodeAt(i2)) < 0x80 ? bytes1[index1++] = code1 : code1 < 0x800 ? (bytes1[index1++] = 0xc0 | code1 >> 6, bytes1[index1++] = 0x80 | 0x3f & code1) : code1 < 0xd800 || code1 >= 0xe000 ? (bytes1[index1++] = 0xe0 | code1 >> 12, bytes1[index1++] = 0x80 | code1 >> 6 & 0x3f, bytes1[index1++] = 0x80 | 0x3f & code1) : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & key1.charCodeAt(++i2)), bytes1[index1++] = 0xf0 | code1 >> 18, bytes1[index1++] = 0x80 | code1 >> 12 & 0x3f, bytes1[index1++] = 0x80 | code1 >> 6 & 0x3f, bytes1[index1++] = 0x80 | 0x3f & code1);
+                        for(var code1, bytes1 = [], length1 = key1.length, index1 = 0, i2 = 0; i2 < length1; ++i2)(code1 = key1.charCodeAt(i2)) < 0x80 ? bytes1[index1++] = code1 : (code1 < 0x800 ? bytes1[index1++] = 0xc0 | code1 >> 6 : (code1 < 0xd800 || code1 >= 0xe000 ? bytes1[index1++] = 0xe0 | code1 >> 12 : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & key1.charCodeAt(++i2)), bytes1[index1++] = 0xf0 | code1 >> 18, bytes1[index1++] = 0x80 | code1 >> 12 & 0x3f), bytes1[index1++] = 0x80 | code1 >> 6 & 0x3f), bytes1[index1++] = 0x80 | 0x3f & code1);
                         key1 = bytes1;
                     }
                     key1.length > 128 && (key1 = new Sha5121(bits1, !0).update(key1).array());
@@ -14380,7 +14380,7 @@
                     }
                     for(var code1, i2, index1 = 0, length1 = message1.length, blocks1 = this.blocks; index1 < length1;){
                         if (this.hashed && (this.hashed = !1, blocks1[0] = this.block, blocks1[1] = blocks1[2] = blocks1[3] = blocks1[4] = blocks1[5] = blocks1[6] = blocks1[7] = blocks1[8] = blocks1[9] = blocks1[10] = blocks1[11] = blocks1[12] = blocks1[13] = blocks1[14] = blocks1[15] = blocks1[16] = blocks1[17] = blocks1[18] = blocks1[19] = blocks1[20] = blocks1[21] = blocks1[22] = blocks1[23] = blocks1[24] = blocks1[25] = blocks1[26] = blocks1[27] = blocks1[28] = blocks1[29] = blocks1[30] = blocks1[31] = blocks1[32] = 0), notString1) for(i2 = this.start; index1 < length1 && i2 < 128; ++index1)blocks1[i2 >> 2] |= message1[index1] << SHIFT1[3 & i2++];
-                        else for(i2 = this.start; index1 < length1 && i2 < 128; ++index1)(code1 = message1.charCodeAt(index1)) < 0x80 ? blocks1[i2 >> 2] |= code1 << SHIFT1[3 & i2++] : code1 < 0x800 ? (blocks1[i2 >> 2] |= (0xc0 | code1 >> 6) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT1[3 & i2++]) : code1 < 0xd800 || code1 >= 0xe000 ? (blocks1[i2 >> 2] |= (0xe0 | code1 >> 12) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 6 & 0x3f) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT1[3 & i2++]) : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & message1.charCodeAt(++index1)), blocks1[i2 >> 2] |= (0xf0 | code1 >> 18) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 12 & 0x3f) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 6 & 0x3f) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT1[3 & i2++]);
+                        else for(i2 = this.start; index1 < length1 && i2 < 128; ++index1)(code1 = message1.charCodeAt(index1)) < 0x80 ? blocks1[i2 >> 2] |= code1 << SHIFT1[3 & i2++] : (code1 < 0x800 ? blocks1[i2 >> 2] |= (0xc0 | code1 >> 6) << SHIFT1[3 & i2++] : (code1 < 0xd800 || code1 >= 0xe000 ? blocks1[i2 >> 2] |= (0xe0 | code1 >> 12) << SHIFT1[3 & i2++] : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & message1.charCodeAt(++index1)), blocks1[i2 >> 2] |= (0xf0 | code1 >> 18) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 12 & 0x3f) << SHIFT1[3 & i2++]), blocks1[i2 >> 2] |= (0x80 | code1 >> 6 & 0x3f) << SHIFT1[3 & i2++]), blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT1[3 & i2++]);
                         this.lastByteIndex = i2, this.bytes += i2 - this.start, i2 >= 128 ? (this.block = blocks1[32], this.start = i2 - 128, this.hash(), this.hashed = !0) : this.start = i2;
                     }
                     return this.bytes > 4294967295 && (this.hBytes += this.bytes / 4294967296 << 0, this.bytes = this.bytes % 4294967296), this;
@@ -17088,9 +17088,9 @@
                         "use strict";
                         function destroy1(e1, t3) {
                             var r3 = this, n2 = this._readableState && this._readableState.destroyed, i2 = this._writableState && this._writableState.destroyed;
-                            return n2 || i2 ? (t3 ? t3(e1) : e1 && (this._writableState ? this._writableState.errorEmitted || (this._writableState.errorEmitted = !0, process1.nextTick(emitErrorNT1, this, e1)) : process1.nextTick(emitErrorNT1, this, e1)), this) : (this._readableState && (this._readableState.destroyed = !0), this._writableState && (this._writableState.destroyed = !0), this._destroy(e1 || null, function(e1) {
+                            return n2 || i2 ? t3 ? t3(e1) : e1 && (this._writableState ? this._writableState.errorEmitted || (this._writableState.errorEmitted = !0, process1.nextTick(emitErrorNT1, this, e1)) : process1.nextTick(emitErrorNT1, this, e1)) : (this._readableState && (this._readableState.destroyed = !0), this._writableState && (this._writableState.destroyed = !0), this._destroy(e1 || null, function(e1) {
                                 !t3 && e1 ? r3._writableState ? r3._writableState.errorEmitted ? process1.nextTick(emitCloseNT1, r3) : (r3._writableState.errorEmitted = !0, process1.nextTick(emitErrorAndCloseNT1, r3, e1)) : process1.nextTick(emitErrorAndCloseNT1, r3, e1) : t3 ? (process1.nextTick(emitCloseNT1, r3), t3(e1)) : process1.nextTick(emitCloseNT1, r3);
-                            }), this);
+                            })), this;
                         }
                         function emitErrorAndCloseNT1(e1, t3) {
                             emitErrorNT1(e1, t3), emitCloseNT1(e1);

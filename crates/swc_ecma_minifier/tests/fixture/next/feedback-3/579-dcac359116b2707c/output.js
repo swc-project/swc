@@ -54,11 +54,11 @@
                     },
                     8: (t)=>{
                         function e(r) {
-                            return "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? (t.exports = e = function(t) {
+                            return "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? t.exports = e = function(t) {
                                 return typeof t;
-                            }, t.exports.default = t.exports, t.exports.__esModule = !0) : (t.exports = e = function(t) {
+                            } : t.exports = e = function(t) {
                                 return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t;
-                            }, t.exports.default = t.exports, t.exports.__esModule = !0), e(r);
+                            }, t.exports.default = t.exports, t.exports.__esModule = !0, e(r);
                         }
                         t.exports = e, t.exports.default = t.exports, t.exports.__esModule = !0;
                     },
@@ -648,7 +648,7 @@
                                     var o = e.length - r.maxStringLength;
                                     return t(e.slice(0, r.maxStringLength), r) + "... " + o + " more character" + (o > 1 ? "s" : "");
                                 }
-                                return E(e.replace(/(['\\])/g, "\\$1").replace(/[\x00-\x1f]/g, U), "single", r);
+                                return E(e.replace(/(['\\])/g, "\\$1").replace(/[\x00-\x1f]/g, M), "single", r);
                             }(e, p);
                             if ("number" == typeof e) return 0 === e ? 1 / 0 / e > 0 ? "0" : "-0" : String(e);
                             if ("bigint" == typeof e) return String(e) + "n";
@@ -667,7 +667,7 @@
                                 };
                             }(p, o);
                             if (void 0 === n) n = [];
-                            else if (M(n, e) >= 0) return "[Circular]";
+                            else if (U(n, e) >= 0) return "[Circular]";
                             function O(e, r, i) {
                                 if (r && (n = n.slice()).push(r), i) {
                                     var a = {
@@ -697,7 +697,7 @@
                                 if (0 === e.length) return "[]";
                                 var V = C(e, O);
                                 return v && !function(t) {
-                                    for(var e = 0; e < t.length; e++)if (M(t[e], "\n") >= 0) return !1;
+                                    for(var e = 0; e < t.length; e++)if (U(t[e], "\n") >= 0) return !1;
                                     return !0;
                                 }(V) ? "[" + T(V, v) + "]" : "[ " + V.join(", ") + " ]";
                             }
@@ -803,12 +803,12 @@
                         function R(t) {
                             return b.call(t);
                         }
-                        function M(t, e) {
+                        function U(t, e) {
                             if (t.indexOf) return t.indexOf(e);
                             for(var r = 0, o = t.length; r < o; r++)if (t[r] === e) return r;
                             return -1;
                         }
-                        function U(t) {
+                        function M(t) {
                             var e = t.charCodeAt(0), r = {
                                 8: "b",
                                 9: "t",

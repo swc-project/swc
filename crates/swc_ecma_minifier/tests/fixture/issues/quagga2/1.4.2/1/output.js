@@ -596,13 +596,13 @@
         function(module1, exports1, __webpack_require__) {
             var superPropBase = __webpack_require__(227);
             function _get(target, property, receiver) {
-                return "undefined" != typeof Reflect && Reflect.get ? (module1.exports = _get = Reflect.get, module1.exports.default = module1.exports, module1.exports.__esModule = !0) : (module1.exports = _get = function(target, property, receiver) {
+                return "undefined" != typeof Reflect && Reflect.get ? module1.exports = _get = Reflect.get : module1.exports = _get = function(target, property, receiver) {
                     var base = superPropBase(target, property);
                     if (base) {
                         var desc = Object.getOwnPropertyDescriptor(base, property);
                         return desc.get ? desc.get.call(receiver) : desc.value;
                     }
-                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0), _get(target, property, receiver || target);
+                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0, _get(target, property, receiver || target);
             }
             module1.exports = _get, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
@@ -633,11 +633,11 @@
         },
         function(module1, exports1) {
             function _typeof(obj) {
-                return "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? (module1.exports = _typeof = function(obj) {
+                return "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? module1.exports = _typeof = function(obj) {
                     return typeof obj;
-                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0) : (module1.exports = _typeof = function(obj) {
+                } : module1.exports = _typeof = function(obj) {
                     return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0), _typeof(obj);
+                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0, _typeof(obj);
             }
             module1.exports = _typeof, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
@@ -3056,14 +3056,14 @@
         function(module1, exports1, __webpack_require__) {
             var setPrototypeOf = __webpack_require__(41), isNativeReflectConstruct = __webpack_require__(250);
             function _construct(Parent, args, Class) {
-                return isNativeReflectConstruct() ? (module1.exports = _construct = Reflect.construct, module1.exports.default = module1.exports, module1.exports.__esModule = !0) : (module1.exports = _construct = function(Parent, args, Class) {
+                return isNativeReflectConstruct() ? module1.exports = _construct = Reflect.construct : module1.exports = _construct = function(Parent, args, Class) {
                     var a = [
                         null
                     ];
                     a.push.apply(a, args);
                     var instance = new (Function.bind.apply(Parent, a))();
                     return Class && setPrototypeOf(instance, Class.prototype), instance;
-                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0), _construct.apply(null, arguments);
+                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0, _construct.apply(null, arguments);
             }
             module1.exports = _construct, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },

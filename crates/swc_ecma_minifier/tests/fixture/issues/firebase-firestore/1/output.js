@@ -411,7 +411,7 @@
                             const e = t[s + 1];
                             if ("\\" !== e && "." !== e && "`" !== e) throw new j(K.INVALID_ARGUMENT, "Path has invalid escape sequence: " + t);
                             n += e, s += 2;
-                        } else "`" === e ? (r = !r, s++) : "." !== e || r ? (n += e, s++) : (i(), s++);
+                        } else "`" === e ? r = !r : "." !== e || r ? n += e : i(), s++;
                     }
                     if (i(), r) throw new j(K.INVALID_ARGUMENT, "Unterminated ` in path: " + t);
                     return new ft(e);
