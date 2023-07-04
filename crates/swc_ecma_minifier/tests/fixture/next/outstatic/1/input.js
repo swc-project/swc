@@ -69,8 +69,7 @@
         },
           K = (e, t, r) => !r && (t.watchAll || t.watch.has(e) || [...t.watch].some(t => e.startsWith(t) && /^\.\w+/.test(e.slice(t.length)))),
           X = e => "boolean" == typeof e,
-          ee = e => "radio" === e.type,
-          te = e => e instanceof RegExp;
+          ee = e => "radio" === e.type;
 
         var le = 0;
 
@@ -102,9 +101,7 @@
         }
 
 
-        var we = e => {
-        },
-          De = 0;
+        var De = 0;
 
         function Ce(e, t = {}) {
           const r = Array.isArray(e);
@@ -116,7 +113,6 @@
         function Oe(e) {
 
         }
-        var Ue = e => c(e) ? void 0 : te(e) ? e.source : i(e) ? te(e.value) ? e.value.source : e.value : e;
 
         function Be(e, t, r) {
 
