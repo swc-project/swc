@@ -253,30 +253,14 @@
             ...e
           },
             i = {
-              isDirty: !1,
-              isValidating: !1,
-              dirtyFields: {},
-              isSubmitted: !1,
-              submitCount: 0,
-              touchedFields: {},
-              isSubmitting: !1,
-              isSubmitSuccessful: !1,
-              isValid: !1,
-              errors: {}
+
             },
             y = {},
             g = fe(n.defaultValues) || {},
             h = n.shouldUnregister ? {} : fe(g),
             p = {
-              action: !1,
-              mount: !1,
-              watch: !1
             },
             _ = {
-              mount: new Set,
-              unMount: new Set,
-              array: new Set,
-              watch: new Set
             },
             x = {};
           const A = {
@@ -517,12 +501,7 @@
                 ...n._formState
               }))
             }, [n]);
-          return B({
-            subject: n._subjects.state,
-            callback: i
-          }), t.default.useEffect(() => {
-            n._stateFlags.mount || (n._proxyFormState.isValid && n._updateValid(), n._stateFlags.mount = !0), n._stateFlags.watch && (n._stateFlags.watch = !1, n._subjects.state.next({})), n._removeUnmounted()
-          }), r.current.formState = C(s, n._proxyFormState), r.current
+
         }, exports.useFormContext = D, exports.useFormState = T, exports.useWatch = q;
         //# sourceMappingURL=index.cjs.js.map
 
