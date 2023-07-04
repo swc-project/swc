@@ -1245,11 +1245,11 @@ test!(
         mutable_template: true
     }),
     loose_tag,
-    r#"
+    r"
 var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
 var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
-    "#,
+    ",
     r#"
 function _templateObject() {
     const data = _tagged_template_literal_loose([
