@@ -136,18 +136,10 @@
               let r, s;
               const a = O(e);
               if (F.state.next({
-                isValidating: !0
               }), n.resolver) {
                 const t = await (async e => {
-                  const {
-                    errors: t
-                  } = await U();
-                  if (e)
-                    for (const r of e) {
-                      const e = d(t, r);
-                      e ? H(i.errors, r, e) : xe(i.errors, r)
-                    } else i.errors = t;
-                  return t
+
+
                 })(c(e) ? e : a);
                 r = j(t), s = e ? !a.some(e => d(t, e)) : r
               } else e ? (s = (await Promise.all(a.map(async e => {
