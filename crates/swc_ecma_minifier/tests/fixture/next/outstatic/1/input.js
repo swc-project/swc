@@ -16,7 +16,6 @@
           c = e => void 0 === e,
           d = () => {
           };
-        const k = t.default.createContext(null);
         var j = 0;
 
 
@@ -109,20 +108,7 @@
                       i = (e => ee(e) || r(e))(n),
                       o = s._f.refs || [];
                     if (i ? o.find(e => e === n) : n === s._f.ref) return;
-                    H(y, e, {
-                      _f: {
-                        ...s._f,
-                        ...i ? {
-                          refs: [...o.filter(De), n, ...Array.isArray(d(g, e)) ? [{}] : []],
-                          ref: {
-                            type: n.type,
-                            name: e
-                          }
-                        } : {
-                          ref: n
-                        }
-                      }
-                    }), D(e, !1, void 0, n)
+
                   } else s = d(y, e, {}), s._f && (s._f.mount = !1), (n.shouldUnregister || t.shouldUnregister) && (!u(_.array, e) || !p.action) && _.unMount.add(e)
                 }
               }
