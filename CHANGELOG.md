@@ -29,6 +29,9 @@
 - **(es/minifier)** Drop unused properties (#7534) ([47d2edd](https://github.com/swc-project/swc/commit/47d2edd4dc448a611396006852f30e2b8de1c42c))
 
 
+- **(es/minifier)** Compress common sub expressions in sequences (#7587) ([ff1ad95](https://github.com/swc-project/swc/commit/ff1ad95b59732282c014474609bbb405e0f9edb4))
+
+
 - **(es/optimization)** Support `default` imports for const modules (#7604) ([ac02b84](https://github.com/swc-project/swc/commit/ac02b84918932f2d51840b4c4cef9adf460fce40))
 
 ### Refactor
