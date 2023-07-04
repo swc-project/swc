@@ -74,22 +74,7 @@
         var de = "undefined" != typeof window && void 0 !== window.HTMLElement && "undefined" != typeof document;
 
         function fe(e) {
-          let t;
-          const r = Array.isArray(e);
-          if (e instanceof Date) t = new Date(e);
-          else if (e instanceof Set) t = new Set(e);
-          else {
-            if (de && (e instanceof Blob || e instanceof FileList) || !r && !i(e)) return e;
-            t = r ? [] : {};
-            for (const r in e) {
-              if (L(e[r])) {
-                t = e;
-                break
-              }
-              t[r] = fe(e[r])
-            }
-          }
-          return t
+
         }
 
 
