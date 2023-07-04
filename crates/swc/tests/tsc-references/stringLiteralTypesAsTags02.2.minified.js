@@ -1,6 +1,5 @@
 //// [stringLiteralTypesAsTags02.ts]
 var x = {
-    kind: "A",
-    a: 100
+    kind: "A"
 };
 x.kind, x.kind;

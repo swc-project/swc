@@ -11809,7 +11809,7 @@ margin: 0 10px;\
                         var startW, textW, endW, isLeftAligned = !0, isRightAligned = !0;
                         return lines.map(function(line) {
                             var m = line.match(/(\s*)(.*?)(\s*)([=:].*)/);
-                            return m ? null == startW ? (startW = m[1].length, textW = m[2].length, endW = m[3].length, m) : (startW + textW + endW != m[1].length + m[2].length + m[3].length && (isRightAligned = !1), startW != m[1].length && (isLeftAligned = !1), startW > m[1].length && (startW = m[1].length), textW < m[2].length && (textW = m[2].length), endW > m[3].length && (endW = m[3].length), m) : [
+                            return m ? (null == startW ? (startW = m[1].length, textW = m[2].length, endW = m[3].length) : (startW + textW + endW != m[1].length + m[2].length + m[3].length && (isRightAligned = !1), startW != m[1].length && (isLeftAligned = !1), startW > m[1].length && (startW = m[1].length), textW < m[2].length && (textW = m[2].length), endW > m[3].length && (endW = m[3].length)), m) : [
                                 line
                             ];
                         }).map(forceLeft ? alignLeft : isLeftAligned ? isRightAligned ? function(m) {

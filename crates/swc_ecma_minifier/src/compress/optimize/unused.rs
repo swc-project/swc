@@ -1,8 +1,8 @@
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
-use swc_ecma_utils::contains_ident_ref;
+use swc_ecma_utils::{contains_ident_ref, ExprExt};
 
 use super::Optimizer;
 #[cfg(feature = "debug")]
@@ -828,5 +828,74 @@ impl Optimizer<'_> {
             );
             f.ident = None;
         }
+    }
+
+    pub(super) fn drop_unused_properties(&mut self, v: &mut VarDeclarator) -> Option<()> {
+        if !self.options.hoist_props || self.ctx.is_exported {
+            return None;
+        }
+
+        let name = v.name.as_ident()?;
+        let obj = v.init.as_mut()?.as_mut_object()?;
+
+        let usage = self.data.vars.get(&name.to_id())?;
+
+        if usage.indexed_with_dynamic_key || usage.used_as_ref {
+            return None;
+        }
+
+        if obj.props.iter().any(|p| match p {
+            PropOrSpread::Spread(_) => true,
+            PropOrSpread::Prop(p) => match &**p {
+                Prop::Shorthand(_) => false,
+                Prop::KeyValue(p) => {
+                    p.key.is_computed() || p.value.may_have_side_effects(&self.expr_ctx)
+                }
+                Prop::Assign(_) => true,
+                Prop::Getter(p) => p.key.is_computed(),
+                Prop::Setter(p) => p.key.is_computed(),
+                Prop::Method(p) => p.key.is_computed(),
+            },
+        }) {
+            return None;
+        }
+
+        let should_preserve_property = |sym: &JsWord| {
+            if let "toString" = &**sym {
+                return true;
+            }
+            !usage.accessed_props.contains_key(sym)
+        };
+        let should_preserve = |key: &PropName| match key {
+            PropName::Ident(k) => should_preserve_property(&k.sym),
+            PropName::Str(k) => should_preserve_property(&k.value),
+            PropName::Num(..) => true,
+            PropName::Computed(..) => true,
+            PropName::BigInt(..) => true,
+        };
+
+        let len = obj.props.len();
+        obj.props.retain(|prop| match prop {
+            PropOrSpread::Spread(_) => {
+                unreachable!()
+            }
+            PropOrSpread::Prop(p) => match &**p {
+                Prop::Shorthand(p) => !should_preserve_property(&p.sym),
+                Prop::KeyValue(p) => !should_preserve(&p.key),
+                Prop::Assign(..) => {
+                    unreachable!()
+                }
+                Prop::Getter(p) => !should_preserve(&p.key),
+                Prop::Setter(p) => !should_preserve(&p.key),
+                Prop::Method(p) => !should_preserve(&p.key),
+            },
+        });
+
+        if obj.props.len() != len {
+            self.changed = true;
+            report_change!("unused: Removing unused properties");
+        }
+
+        None
     }
 }

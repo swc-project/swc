@@ -1,4 +1,4 @@
-var Events = {
+export var Events = {
     on: function(name, callback, context) {
         return eventsApi(this, "on", name, [
             callback,

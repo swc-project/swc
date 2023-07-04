@@ -1059,7 +1059,7 @@
             }
         }, Transformable.prototype.getGlobalScale = function(out) {
             var m = this.transform;
-            return (out = out || [], m) ? (out[0] = Math.sqrt(m[0] * m[0] + m[1] * m[1]), out[1] = Math.sqrt(m[2] * m[2] + m[3] * m[3]), m[0] < 0 && (out[0] = -out[0]), m[3] < 0 && (out[1] = -out[1]), out) : (out[0] = 1, out[1] = 1, out);
+            return (out = out || [], m) ? (out[0] = Math.sqrt(m[0] * m[0] + m[1] * m[1]), out[1] = Math.sqrt(m[2] * m[2] + m[3] * m[3]), m[0] < 0 && (out[0] = -out[0]), m[3] < 0 && (out[1] = -out[1])) : (out[0] = 1, out[1] = 1), out;
         }, Transformable.prototype.transformCoordToLocal = function(x, y) {
             var v2 = [
                 x,
@@ -4327,12 +4327,12 @@
                 firstCmpt
             ] : [], result;
         }
-        return 'none' === indexOption || !1 === indexOption ? (assert(opt.enableNone, '`"none"` or `false` is not a valid value on index option.'), result.models = [], result) : ('all' === indexOption && (assert(opt.enableAll, '`"all"` is not a valid value on index option.'), indexOption = idOption = nameOption = null), result.models = ecModel.queryComponents({
+        return 'none' === indexOption || !1 === indexOption ? (assert(opt.enableNone, '`"none"` or `false` is not a valid value on index option.'), result.models = []) : ('all' === indexOption && (assert(opt.enableAll, '`"all"` is not a valid value on index option.'), indexOption = idOption = nameOption = null), result.models = ecModel.queryComponents({
             mainType: mainType,
             index: indexOption,
             id: idOption,
             name: nameOption
-        }), result);
+        })), result;
     }
     function setAttribute(dom, key, value) {
         dom.setAttribute ? dom.setAttribute(key, value) : dom[key] = value;
@@ -36753,19 +36753,16 @@
             ], xLeft += sizePlusGap), showPrevBtn && (prevBtnPosition = [
                 xLeft,
                 0
-            ], xLeft += sizePlusGap), showNextBtn && (nextBtnPosition = [
-                xRight - controlSize,
-                0
-            ], xRight -= sizePlusGap)) : (showPlayBtn && (playPosition = [
+            ], xLeft += sizePlusGap)) : (showPlayBtn && (playPosition = [
                 xRight - controlSize,
                 0
             ], xRight -= sizePlusGap), showPrevBtn && (prevBtnPosition = [
                 0,
                 0
-            ], xLeft += sizePlusGap), showNextBtn && (nextBtnPosition = [
+            ], xLeft += sizePlusGap)), showNextBtn && (nextBtnPosition = [
                 xRight - controlSize,
                 0
-            ], xRight -= sizePlusGap));
+            ], xRight -= sizePlusGap);
             var axisExtent = [
                 xLeft,
                 xRight

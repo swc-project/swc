@@ -7235,7 +7235,7 @@
         var fixed = def.fixed;
         if (!fixed && "=" != node.operator && !node.logical) return finish_walk();
         var eq = "=" == node.operator, value = eq ? node.right : node;
-        return is_modified(compressor, tw, node, value, 0) ? finish_walk() : (def.references.push(sym), node.logical || (eq || (def.chained = !0), def.fixed = eq ? function() {
+        return is_modified(compressor, tw, node, value, 0) ? finish_walk() : ((def.references.push(sym), node.logical || (eq || (def.chained = !0), def.fixed = eq ? function() {
             return node.right;
         } : function() {
             return make_node(AST_Binary, node, {
@@ -7243,7 +7243,7 @@
                 left: fixed instanceof AST_Node ? fixed : fixed(),
                 right: node.right
             });
-        }), node.logical) ? (mark(tw, def, !1), push(tw), node.right.walk(tw), pop(tw), !0) : (mark(tw, def, !1), node.right.walk(tw), mark(tw, def, !0), mark_escaped(tw, def, sym.scope, node, value, 0, 1), !0);
+        }), node.logical) ? (mark(tw, def, !1), push(tw), node.right.walk(tw), pop(tw)) : (mark(tw, def, !1), node.right.walk(tw), mark(tw, def, !0), mark_escaped(tw, def, sym.scope, node, value, 0, 1)), !0);
     }), def_reduce_vars(AST_Binary, function(tw) {
         if (lazy_op.has(this.operator)) return this.left.walk(tw), push(tw), this.right.walk(tw), pop(tw), !0;
     }), def_reduce_vars(AST_Block, function(tw, descend, compressor) {
@@ -8705,7 +8705,7 @@
                 operator: "void",
                 expression: expressions[end]
             }), expressions.length = end + 1);
-        }(), 0 == end) ? ((self1 = maintain_this_binding(compressor.parent(), compressor.self(), expressions[0])) instanceof AST_Sequence || (self1 = self1.optimize(compressor)), self1) : (self1.expressions = expressions, self1);
+        }(), 0 == end) ? (self1 = maintain_this_binding(compressor.parent(), compressor.self(), expressions[0])) instanceof AST_Sequence || (self1 = self1.optimize(compressor)) : self1.expressions = expressions, self1;
     }), AST_Unary.DEFMETHOD("lift_sequences", function(compressor) {
         if (compressor.option("sequences") && this.expression instanceof AST_Sequence) {
             var x = this.expression.expressions.slice(), e = this.clone();

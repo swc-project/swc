@@ -11,6 +11,9 @@
 - **(es/fixer)** Don't change default decls to default expr exports (#7585) ([e272545](https://github.com/swc-project/swc/commit/e2725451aa507c18222c5f66cf0a5a049c92bd0b))
 
 
+- **(es/minifier)** Add usage to inlined ident eagerly (#7597) ([4f866de](https://github.com/swc-project/swc/commit/4f866de8788558a4f9f3e3f889048136c7896ee3))
+
+
 - **(es/parser)** Re-lex `<<` as two `<`-s if required (#7439) ([6850372](https://github.com/swc-project/swc/commit/68503726a78cfc37cd995eda69a3e8982b6fdf57))
 
 
@@ -26,7 +29,19 @@
 - **(es/compat)** Implement transform for explicit resource management (#7376) ([bcd5a1d](https://github.com/swc-project/swc/commit/bcd5a1d6665bc6f4aaa857d1f88b0da82a6c4a04))
 
 
+- **(es/minifier)** Drop unused properties (#7534) ([47d2edd](https://github.com/swc-project/swc/commit/47d2edd4dc448a611396006852f30e2b8de1c42c))
+
+
+- **(es/minifier)** Compress common sub expressions in sequences (#7587) ([ff1ad95](https://github.com/swc-project/swc/commit/ff1ad95b59732282c014474609bbb405e0f9edb4))
+
+
 - **(es/optimization)** Support `default` imports for const modules (#7604) ([ac02b84](https://github.com/swc-project/swc/commit/ac02b84918932f2d51840b4c4cef9adf460fce40))
+
+### Refactor
+
+
+
+- **(es/compat)** Remove usage of `box_patterns` (#7613) ([0a26066](https://github.com/swc-project/swc/commit/0a26066b7b01d06a6d9e3df2ab7c7e47f4aa9e4c))
 
 ## [1.3.67] - 2023-06-29
 
