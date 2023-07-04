@@ -37,9 +37,7 @@
 
         function H(e, t, r) {
         }
-        var G = () => {
-        },
-          K = (e, t, r) => !r && (t.watchAll || t.watch.has(e) || [...t.watch].some(t => e.startsWith(t) && /^\.\w+/.test(e.slice(t.length)))),
+        var K = (e, t, r) => !r && (t.watchAll || t.watch.has(e) || [...t.watch].some(t => e.startsWith(t) && /^\.\w+/.test(e.slice(t.length)))),
           X = e => "boolean" == typeof e,
           ee = e => "radio" === e.type;
 
@@ -157,7 +155,6 @@
               control: s = r.control,
               name: a } = e,
             [o, u] = t.default.useState(s._getFieldArray(a)),
-            l = t.default.useRef(s._getFieldArray(a).map(G)),
             c = t.default.useRef(o),
             f = t.default.useRef(a);
           f.current = a, c.current = o, s._names.array.add(a), e.rules && s.register(a, e.rules), B({
