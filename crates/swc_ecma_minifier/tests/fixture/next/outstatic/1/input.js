@@ -118,17 +118,7 @@
               }
               var u
             }, I = async (e, t = {}) => {
-              let r, s;
-              const a = O(e);
-              if (F.state.next({
-              }), n.resolver) {
-                const t = await (async () => {
 
-
-                })(c(e) ? e : a);
-                r = j(t), s = e ? !a.some(e => d(t, e)) : r
-              } else e ? (s = (await Promise.all(a.map(async () => {
-              }))).every(Boolean), (s || i.isValid) && k()) : s = r = await B(y);
             }, te = (e, t = {}) => {
               let s = d(y, e);
               const a = X(t.disabled);
