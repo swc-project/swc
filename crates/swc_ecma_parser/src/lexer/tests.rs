@@ -371,7 +371,7 @@ fn str_escape_3() {
 #[test]
 fn str_escape_hex() {
     assert_eq!(
-        lex(Syntax::default(), r#"'\x61'"#),
+        lex(Syntax::default(), r"'\x61'"),
         vec![Token::Str {
             value: "a".into(),
             raw: "'\\x61'".into(),
@@ -384,7 +384,7 @@ fn str_escape_hex() {
 #[test]
 fn str_escape_octal() {
     assert_eq!(
-        lex(Syntax::default(), r#"'Hello\012World'"#),
+        lex(Syntax::default(), r"'Hello\012World'"),
         vec![Token::Str {
             value: "Hello\nWorld".into(),
             raw: "'Hello\\012World'".into(),
@@ -397,7 +397,7 @@ fn str_escape_octal() {
 #[test]
 fn str_escape_unicode_long() {
     assert_eq!(
-        lex(Syntax::default(), r#"'\u{00000000034}'"#),
+        lex(Syntax::default(), r"'\u{00000000034}'"),
         vec![Token::Str {
             value: "4".into(),
             raw: "'\\u{00000000034}'".into(),
@@ -927,7 +927,7 @@ fn tpl() {
     );
 
     assert_eq!(
-        lex_tokens(Syntax::default(), r#"`te\nst${a}test`"#),
+        lex_tokens(Syntax::default(), r"`te\nst${a}test`"),
         vec![
             tok!('`'),
             Template {
@@ -1609,7 +1609,7 @@ fn issue_481() {
 #[test]
 fn issue_915_1() {
     assert_eq!(
-        lex_tokens(crate::Syntax::Es(Default::default()), r##"encode("\r\n")"##),
+        lex_tokens(crate::Syntax::Es(Default::default()), r#"encode("\r\n")"#),
         vec![
             Word(Word::Ident("encode".into())),
             LParen,
