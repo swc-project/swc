@@ -22,7 +22,7 @@
           u = (e, t) => e.has((e => e.substring(0, e.search(/\.\d+(\.|$)/)) || e)(t)),
           l = e => Array.isArray(e) ? e.filter(Boolean) : [],
           c = e => void 0 === e,
-          d = (e, t, r) => {
+          d = () => {
           };
         const f = "blur",
           m = "focusout",
@@ -32,8 +32,7 @@
           k = t.default.createContext(null),
           D = () => t.default.useContext(k);
         var j = 0,
-          O = 0,
-          U = 0;
+          O = 0;
 
         function B(e) {
 
@@ -41,10 +40,8 @@
 
         function T(e) { }
         var M = e => "string" == typeof e,
-          N = (e, t, r, s) => {
-          },
           L = e => "function" == typeof e,
-          R = e => {
+          R = () => {
           };
 
         function q(e) {
