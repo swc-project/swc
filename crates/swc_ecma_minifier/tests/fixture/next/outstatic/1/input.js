@@ -10,13 +10,7 @@
         "use strict";
 
         function e(e) {
-          return e && "object" == typeof e && "default" in e ? e : {
-            default: e
-          }
         }
-        Object.defineProperty(exports, "__esModule", ({
-          value: !0
-        }));
         var t = e(__webpack_require__(2983)),
           r = e => "checkbox" === e.type,
           s = e => e instanceof Date,
@@ -165,62 +159,8 @@
               value: l
             }));
           return t.default.useEffect(() => {
-            const e = (e, t) => {
-              const r = d(a._fields, e);
-              r && (r._f.mount = t)
-            };
-            return e(s, !0), () => {
-              const t = a._options.shouldUnregister || n;
-              (i ? t && !a._stateFlags.action : t) ? a.unregister(s) : e(s, !1)
-            }
-          }, [s, a, i, n]), {
-            field: {
-              name: s,
-              value: l,
-              onChange: t.default.useCallback(e => {
-                m.current.onChange({
-                  target: {
-                    value: o(e),
-                    name: s
-                  },
-                  type: y
-                })
-              }, [s]),
-              onBlur: t.default.useCallback(() => {
-                m.current.onBlur({
-                  target: {
-                    value: d(a._formValues, s),
-                    name: s
-                  },
-                  type: f
-                })
-              }, [s, a]),
-              ref: t.default.useCallback(e => {
-                const t = d(a._fields, s);
-                e && t && e.focus && (t._f.ref = {
-                  focus: () => e.focus(),
-                  select: () => e.select(),
-                  setCustomValidity: t => e.setCustomValidity(t),
-                  reportValidity: () => e.reportValidity()
-                })
-              }, [s, a._fields])
-            },
-            formState: c,
-            fieldState: Object.defineProperties({}, {
-              invalid: {
-                get: () => !!d(c.errors, s)
-              },
-              isDirty: {
-                get: () => !!d(c.dirtyFields, s)
-              },
-              isTouched: {
-                get: () => !!d(c.touchedFields, s)
-              },
-              error: {
-                get: () => d(c.errors, s)
-              }
-            })
-          }
+
+          }, [s, a, i, n]), {}
         }
         var P = (e, t, r, s, a) => t ? {
           ...r[e],
