@@ -1308,7 +1308,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     loose_template_revision,
-    r#"tag`\unicode and \u{55}`;
+    r"tag`\unicode and \u{55}`;
 tag`\01`;
 tag`\xg${0}right`;
 tag`left${0}\xg`;
@@ -1318,7 +1318,7 @@ tag`left${0}\u{-0}${1}right`;
 function a() {
 var undefined = 4;
 tag`\01`;
-}"#,
+}",
     r#"
 function _templateObject8() {
 const data = _tagged_template_literal_loose([void 0], ["\\01"]);

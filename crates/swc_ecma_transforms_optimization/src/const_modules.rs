@@ -219,7 +219,7 @@ impl VisitMut for ConstModules {
                     return;
                 }
 
-                if let Some(..) = self.scope.namespace.get(&id.to_id()) {
+                if self.scope.namespace.get(&id.to_id()).is_some() {
                     panic!(
                         "The const_module namespace `{}` cannot be used without member accessor",
                         id.sym
