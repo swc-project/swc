@@ -10,8 +10,6 @@
         "use strict";
 
 
-        function e(e) {
-        }
         var t = 0,
           r = e => "checkbox" === e.type;
         var u = (e, t) => e.has((e => e.substring(0, e.search(/\.\d+(\.|$)/)) || e)(t)),
@@ -20,8 +18,7 @@
           };
         const k = t.default.createContext(null),
           D = () => t.default.useContext(k);
-        var j = 0,
-          O = 0;
+        var j = 0;
 
         function B(e) {
 
@@ -86,14 +83,7 @@
             V = 0,
             S = 0,
             w = 0,
-            k = 0, D = 0, C = 0, E = 0, U = async e => n.resolver ? await n.resolver({
-              ...h
-            }, n.context, (() => {
-
-            })(e || _.mount, y, n.criteriaMode, n.shouldUseNativeValidation)) : {}, B = async (r = {
-            }) => {
-
-            }, $ = async e => {
+            k = 0, D = 0, C = 0, E = 0, $ = async e => {
               const r = e.target;
               let s = r.name;
               const a = d(y, s);
@@ -117,7 +107,7 @@
                 a._f.deps && I(a._f.deps), E(s, c, l, A)
               }
               var u
-            }, I = async (e, t = {}) => {
+            }, I = async (t = {}) => {
 
             }, te = (e, t = {}) => {
               let s = d(y, e);
@@ -171,16 +161,7 @@
             c = t.default.useRef(o),
             f = t.default.useRef(a);
           f.current = a, c.current = o, s._names.array.add(a), e.rules && s.register(a, e.rules), B({
-            callback: t.default.useCallback(({
-              values: e,
-              name: t
-            }) => {
-              if (t === f.current || !t) {
-                const t = d(e, f.current, []);
-                u(t), l.current = t.map(G)
-              }
-            }, []),
-            subject: s._subjects.array
+
           });
 
         }, exports.useForm = function (e = {}) {
