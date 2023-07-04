@@ -452,41 +452,10 @@
             }, []),
             subject: s._subjects.array
           });
-          return t.default.useEffect(() => {
-            if (s._stateFlags.action = !1, K(a, s._names) && s._subjects.state.next({}), m.current)
-              if (s._options.resolver) s._executeSchema([a]).then(e => {
-                const t = d(e.errors, a),
-                  r = d(s._formState.errors, a);
-                (r ? !t && r.type : t && t.type) && (t ? H(s._formState.errors, a, t) : xe(s._formState.errors, a), s._subjects.state.next({
-                  errors: s._formState.errors
-                }))
-              });
-              else {
-                const e = d(s._fields, a);
-                (!ye(s._options.mode).isOnSubmit || s._formState.isSubmitted) && e && e._f && le(e, d(s._formValues, a), s._options.criteriaMode === v, s._options.shouldUseNativeValidation, !0).then(e => !j(e) && s._subjects.state.next({
-                  errors: Q(s._formState.errors, e, a)
-                }))
-              } s._subjects.watch.next({
-                name: a,
-                values: s._formValues
-              }), s._names.focus && z(s._fields, e => e.startsWith(s._names.focus)), s._names.focus = "", s._proxyFormState.isValid && s._updateValid()
-          }, [o, a, s]), t.default.useEffect(() => (!d(s._formValues, a) && s._updateFieldArray(a), () => {
-            (s._options.shouldUnregister || i) && s.unregister(a)
-          }), [a, s, n, i]), {
-          }
+
         }, exports.useForm = function (e = {}) {
           const r = t.default.useRef(),
             [s, a] = t.default.useState({
-              isDirty: !1,
-              isValidating: !1,
-              dirtyFields: {},
-              isSubmitted: !1,
-              submitCount: 0,
-              touchedFields: {},
-              isSubmitting: !1,
-              isSubmitSuccessful: !1,
-              isValid: !1,
-              errors: {}
             });
           r.current ? r.current.control._options = e : r.current = {
             ...Me(e),
