@@ -103,10 +103,8 @@
 
 
         var we = e => {
-          const t = e ? e.ownerDocument : 0;
-          return e instanceof (t && t.defaultView ? t.defaultView.HTMLElement : HTMLElement)
         },
-          De = e => we(e) && e.isConnected;
+          De = 0;
 
         function Ce(e, t = {}) {
           const r = Array.isArray(e);
