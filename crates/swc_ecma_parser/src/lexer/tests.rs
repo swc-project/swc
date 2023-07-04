@@ -192,7 +192,7 @@ fn test262_lexer_error_0001() {
 #[test]
 fn test262_lexer_error_0002() {
     assert_eq!(
-        lex(Syntax::default(), r#"'use\x20strict';"#),
+        lex(Syntax::default(), r"'use\x20strict';"),
         vec![
             Token::Str {
                 value: "use strict".into(),
@@ -207,10 +207,7 @@ fn test262_lexer_error_0002() {
 
 #[test]
 fn test262_lexer_error_0003() {
-    assert_eq!(
-        lex(Syntax::default(), r#"\u0061"#),
-        vec!["a".span(0..6).lb()]
-    );
+    assert_eq!(lex(Syntax::default(), r"\u0061"), vec!["a".span(0..6).lb()]);
 }
 
 #[test]

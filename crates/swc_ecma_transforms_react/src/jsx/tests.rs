@@ -783,7 +783,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_xhtml_jsxtext_1,
-    r#"
+    r"
 <div>wow</div>;
 <div>wôw</div>;
 
@@ -794,7 +794,7 @@ test!(
 <div>this should parse as unicode: {'\u00a0 '}</div>;
 
 <div>w &lt; w</div>;
-"#,
+",
     r#"
 React.createElement("div", null, "wow");
 React.createElement("div", null, "w\xf4w");
@@ -814,9 +814,9 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_xhtml_jsxtext_2,
-    r#"
+    r"
 <div>this should not parse as unicode: \u00a0</div>;
-"#,
+",
     r#"
 React.createElement("div", null, "this should not parse as unicode: \\u00a0");
 "#,

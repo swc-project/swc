@@ -20,7 +20,7 @@ fn quote_expr_var_cloned() {
     .unwrap();
 }
 
-#[cfg(any(feature = "quote"))]
+#[cfg(feature = "quote")]
 #[test]
 fn quote_example() {
     let _stmt = quote!(
