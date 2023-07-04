@@ -540,10 +540,10 @@ pub trait ExprExt {
     fn is_immutable_value(&self) -> bool {
         // TODO(johnlenz): rename this function.  It is currently being used
         // in two disjoint cases:
-        // 1) We only care about the result of the expression
-        //    (in which case NOT here should return true)
-        // 2) We care that expression is a side-effect free and can't
-        //    be side-effected by other expressions.
+        // 1) We only care about the result of the expression (in which case NOT here
+        //    should return true)
+        // 2) We care that expression is a side-effect free and can't be side-effected
+        //    by other expressions.
         // This should only be used to say the value is immutable and
         // hasSideEffects and canBeSideEffected should be used for the other case.
         match *self.as_expr() {
