@@ -316,47 +316,9 @@
                 c(n) || s && s.defaultChecked || t ? H(h, e, t ? n : Oe(a._f)) : q(e, n), p.mount && k()
               }
             }, C = (e, t, r, s, a) => {
-              let n = !1;
-              const o = {
-                name: e
-              },
-                u = d(i.touchedFields, e);
-              if (A.isDirty) {
-                const e = i.isDirty;
-                i.isDirty = o.isDirty = T(), n = e !== o.isDirty
-              }
-              if (A.dirtyFields && (!r || s)) {
-                const r = d(i.dirtyFields, e);
-                Se(d(g, e), t) ? xe(i.dirtyFields, e) : H(i.dirtyFields, e, !0), o.dirtyFields = i.dirtyFields, n = n || r !== d(i.dirtyFields, e)
-              }
-              return r && !u && (H(i.touchedFields, e, r), o.touchedFields = i.touchedFields, n = n || A.touchedFields && u !== r), n && a && F.state.next(o), n ? o : {}
+
             }, E = async (r, s, a, n) => {
-              const o = d(i.errors, r),
-                u = A.isValid && i.isValid !== s;
-              var l;
-              if (e.delayError && a ? (l = () => ((e, t) => {
-                H(i.errors, e, t), F.state.next({
-                  errors: i.errors
-                })
-              })(r, a), t = e => {
-                clearTimeout(b), b = window.setTimeout(l, e)
-              }, t(e.delayError)) : (clearTimeout(b), t = null, a ? H(i.errors, r, a) : xe(i.errors, r)), (a ? !Se(o, a) : o) || !j(n) || u) {
-                const e = {
-                  ...n,
-                  ...u ? {
-                    isValid: s
-                  } : {},
-                  errors: i.errors,
-                  name: r
-                };
-                i = {
-                  ...i,
-                  ...e
-                }, F.state.next(e)
-              }
-              x[r]--, A.isValidating && !Object.values(x).some(e => e) && (F.state.next({
-                isValidating: !1
-              }), x = {})
+
             }, U = async e => n.resolver ? await n.resolver({
               ...h
             }, n.context, ((e, t, r, s) => {
