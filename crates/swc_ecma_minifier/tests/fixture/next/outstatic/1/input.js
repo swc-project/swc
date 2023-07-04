@@ -228,15 +228,8 @@
                 }
               }), _.mount.add(e), s ? a && H(h, e, t.disabled ? void 0 : d(h, e, Oe(s._f))) : D(e, !0, t.value), {
                 ...a ? {
-                  disabled: t.disabled
                 } : {},
                 ...n.shouldUseNativeValidation ? {
-                  required: !!t.required,
-                  min: Ue(t.min),
-                  max: Ue(t.max),
-                  minLength: Ue(t.minLength),
-                  maxLength: Ue(t.maxLength),
-                  pattern: Ue(t.pattern)
                 } : {},
                 name: e,
                 onChange: $,
