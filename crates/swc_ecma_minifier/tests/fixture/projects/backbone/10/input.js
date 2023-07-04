@@ -1,4 +1,4 @@
-const obj = {
+export const obj = {
     _ensureElement: function () {
         if (!this.el) {
             var attrs = _.extend({}, _.result(this, "attributes"));

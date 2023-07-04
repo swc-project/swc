@@ -119,8 +119,13 @@ impl PluginTransformState {
             guest_program_ptr.1,
         )?;
 
+        // [TODO]: disabled for now as it always panic if it is being called
+        // inside of tokio runtime
+        // https://github.com/wasmerio/wasmer/discussions/3966
+        // [NOTE]: this is not a critical as plugin does not have things to clean up
+        // in most cases
         if let Some(wasi_env) = &self.wasi_env {
-            wasi_env.cleanup(&mut self.store, None);
+            //wasi_env.cleanup(&mut self.store, None);
         }
 
         ret

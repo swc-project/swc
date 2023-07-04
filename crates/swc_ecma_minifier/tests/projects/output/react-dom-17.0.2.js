@@ -770,9 +770,8 @@
         var textContent = element.textContent;
         textContent === element._wrapperState.initialValue && "" !== textContent && null !== textContent && (element.value = textContent);
     }
-    var HTML_NAMESPACE = "http://www.w3.org/1999/xhtml", MATH_NAMESPACE = "http://www.w3.org/1998/Math/MathML", SVG_NAMESPACE = "http://www.w3.org/2000/svg", Namespaces = {
+    var HTML_NAMESPACE = "http://www.w3.org/1999/xhtml", SVG_NAMESPACE = "http://www.w3.org/2000/svg", Namespaces = {
         html: HTML_NAMESPACE,
-        mathml: MATH_NAMESPACE,
         svg: SVG_NAMESPACE
     };
     function getIntrinsicNamespace(type) {
@@ -780,7 +779,7 @@
             case "svg":
                 return SVG_NAMESPACE;
             case "math":
-                return MATH_NAMESPACE;
+                return "http://www.w3.org/1998/Math/MathML";
             default:
                 return HTML_NAMESPACE;
         }

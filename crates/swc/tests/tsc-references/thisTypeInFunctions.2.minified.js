@@ -30,7 +30,6 @@ function implicitThis(n) {
     return this.m + n + 12;
 }
 var impl = {
-    a: 12,
     explicitVoid2: function() {
         return _this.a;
     },

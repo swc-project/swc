@@ -66,14 +66,19 @@ impl VisitMut for OptChaining {
                 *e = self.construct(data, false, self.c.no_document_all);
             }
 
-            // delete foo?.bar -> foo == null ? true : delete foo.bar
             Expr::Unary(UnaryExpr {
-                arg: box Expr::OptChain(v),
+                arg,
                 op: op!("delete"),
                 ..
             }) => {
-                let data = self.gather(v.take(), vec![]);
-                *e = self.construct(data, true, self.c.no_document_all);
+                match &mut **arg {
+                    // delete foo?.bar -> foo == null ? true : delete foo.bar
+                    Expr::OptChain(v) => {
+                        let data = self.gather(v.take(), vec![]);
+                        *e = self.construct(data, true, self.c.no_document_all);
+                    }
+                    _ => e.visit_mut_children_with(self),
+                }
             }
 
             e => e.visit_mut_children_with(self),

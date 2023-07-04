@@ -298,6 +298,7 @@ impl Storage for ProgramData {
 
                     e.get_mut().callee_count += var_info.callee_count;
                     e.get_mut().used_as_arg |= var_info.used_as_arg;
+                    e.get_mut().used_as_ref |= var_info.used_as_ref;
                     e.get_mut().indexed_with_dynamic_key |= var_info.indexed_with_dynamic_key;
 
                     e.get_mut().pure_fn |= var_info.pure_fn;
@@ -499,6 +500,10 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_reassigned(&mut self) {
         self.reassigned = true;
+    }
+
+    fn mark_used_as_ref(&mut self) {
+        self.used_as_ref = true;
     }
 
     fn add_infects_to(&mut self, other: Access) {

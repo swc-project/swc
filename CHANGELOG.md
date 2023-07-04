@@ -5,7 +5,37 @@
 
 
 
+- **(css/modules)** Fix `:local` and `:global` (#7600) ([f0ab5b3](https://github.com/swc-project/swc/commit/f0ab5b39f79685023cfc9529bc60e96231ad18d7))
+
+
+- **(es/fixer)** Don't change default decls to default expr exports (#7585) ([e272545](https://github.com/swc-project/swc/commit/e2725451aa507c18222c5f66cf0a5a049c92bd0b))
+
+
+- **(es/parser)** Re-lex `<<` as two `<`-s if required (#7439) ([6850372](https://github.com/swc-project/swc/commit/68503726a78cfc37cd995eda69a3e8982b6fdf57))
+
+
+- **(plugin/runner)** Disable wasi env cleanup (#7607) ([8209594](https://github.com/swc-project/swc/commit/8209594a8c11d2a65061763fef5d3a7780976f39))
+
+
 - **(xml/codegen)** Fix wrong minification of spaces in a self-closing tag (#7595) ([769d651](https://github.com/swc-project/swc/commit/769d6516a50796e6642d6724e8472dd32d871612))
+
+### Features
+
+
+
+- **(es/compat)** Implement transform for explicit resource management (#7376) ([bcd5a1d](https://github.com/swc-project/swc/commit/bcd5a1d6665bc6f4aaa857d1f88b0da82a6c4a04))
+
+
+- **(es/minifier)** Drop unused properties (#7534) ([47d2edd](https://github.com/swc-project/swc/commit/47d2edd4dc448a611396006852f30e2b8de1c42c))
+
+
+- **(es/optimization)** Support `default` imports for const modules (#7604) ([ac02b84](https://github.com/swc-project/swc/commit/ac02b84918932f2d51840b4c4cef9adf460fce40))
+
+### Refactor
+
+
+
+- **(es/compat)** Remove usage of `box_patterns` (#7613) ([0a26066](https://github.com/swc-project/swc/commit/0a26066b7b01d06a6d9e3df2ab7c7e47f4aa9e4c))
 
 ## [1.3.67] - 2023-06-29
 

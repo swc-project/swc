@@ -2877,6 +2877,8 @@ impl VisitMut for Optimizer<'_> {
 
         self.store_var_for_prop_hoisting(var);
 
+        self.drop_unused_properties(var);
+
         debug_assert_valid(&var.init);
     }
 
