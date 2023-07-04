@@ -536,6 +536,7 @@ impl VarDataLike for VarUsageInfo {
 }
 
 impl ProgramData {
+    #[allow(clippy::single_range_in_vec_init)]
     pub(crate) fn expand_infected(
         &self,
         module_info: &ModuleInfo,
