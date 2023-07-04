@@ -7,7 +7,6 @@
 
     1985:
       (function (__unused_webpack_module, exports, __webpack_require__) {
-
         "use strict";
 
         function e(e) {
@@ -281,7 +280,6 @@
           },
           X = e => "boolean" == typeof e,
           Y = e => "file" === e.type,
-          Z = e => M(e) || t.default.isValidElement(e),
           ee = e => "radio" === e.type,
           te = e => e instanceof RegExp;
         const re = {
@@ -405,19 +403,11 @@
             for (const r in e) Array.isArray(e[r]) || i(e[r]) && !R(e[r]) ? (t[r] = Array.isArray(e[r]) ? [] : {}, Ce(e[r], t[r])) : a(e[r]) || (t[r] = !0);
           return t
         }
-        var je = (e, t) => function e(t, r, s) {
-          const n = Array.isArray(t);
-          if (i(t) || n)
-            for (const n in t) Array.isArray(t[n]) || i(t[n]) && !R(t[n]) ? c(r) || Ve(s[n]) ? s[n] = Array.isArray(t[n]) ? Ce(t[n], []) : {
-              ...Ce(t[n])
-            } : e(t[n], a(r) ? {} : r[n], s[n]) : s[n] = !Se(t[n], r[n]);
-          return s
-        }(e, t, Ce(t)),
-          Ee = (e, {
-            valueAsNumber: t,
-            valueAsDate: r,
-            setValueAs: s
-          }) => c(e) ? e : t ? "" === e || a(e) ? NaN : +e : r && M(e) ? new Date(e) : s ? s(e) : e;
+        var Ee = (e, {
+          valueAsNumber: t,
+          valueAsDate: r,
+          setValueAs: s
+        }) => c(e) ? e : t ? "" === e || a(e) ? NaN : +e : r && M(e) ? new Date(e) : s ? s(e) : e;
 
         function Oe(e) {
           const t = e.ref;
@@ -570,7 +560,7 @@
                 fields: a,
                 shouldUseNativeValidation: s
               }
-            })(e || _.mount, y, n.criteriaMode, n.shouldUseNativeValidation)) : {}, B = async (e, t, r = {
+            })(e || _.mount, y, n.criteriaMode, n.shouldUseNativeValidation)) : {}, B = async (r = {
               valid: !0
             }) => {
 
