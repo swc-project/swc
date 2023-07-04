@@ -10233,12 +10233,7 @@
                     };
                 }).prototype = new Stream();
                 var transmuxer = {
-                    Transmuxer: _Transmuxer,
-                    VideoSegmentStream: _VideoSegmentStream,
-                    AudioSegmentStream: _AudioSegmentStream,
-                    AUDIO_PROPERTIES: audioProperties,
-                    VIDEO_PROPERTIES: videoProperties,
-                    generateSegmentTimingInfo: generateSegmentTimingInfo
+                    Transmuxer: _Transmuxer
                 }, bin = {
                     toUnsigned: function(value) {
                         return value >>> 0;

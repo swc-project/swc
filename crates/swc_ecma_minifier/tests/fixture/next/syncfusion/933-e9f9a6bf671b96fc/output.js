@@ -19907,12 +19907,9 @@
                 else for(var i = decorators.length - 1; i >= 0; i--)(d = decorators[i]) && (r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r);
                 return c > 3 && r && Object.defineProperty(target, key, r), r;
             }, classNames = {
-                DISABLED: 'e-disabled',
-                FOCUS: 'e-focused',
                 ICON: 'e-menu-icon',
                 ITEM: 'e-item',
                 POPUP: 'e-dropdown-popup',
-                RTL: 'e-rtl',
                 SEPARATOR: 'e-separator',
                 VERTICAL: 'e-vertical'
             }, DropDownButton = function(_super) {
@@ -21194,7 +21191,6 @@
                 horizontalTooltipAfter: 'e-slider-horizontal-after',
                 verticalTooltipBefore: 'e-slider-vertical-before',
                 verticalTooltipAfter: 'e-slider-vertical-after',
-                materialTooltip: 'e-material-tooltip',
                 materialTooltipOpen: 'e-material-tooltip-open',
                 materialTooltipActive: 'e-tooltip-active',
                 materialSlider: 'e-material-slider',
@@ -21213,7 +21209,6 @@
                 sliderFirstTick: 'e-first-tick',
                 sliderLastTick: 'e-last-tick',
                 sliderButtonClass: 'e-slider-btn',
-                sliderTooltipWrapper: 'e-tooltip-wrap',
                 sliderTabTrack: 'e-tab-track',
                 sliderTabRange: 'e-tab-range',
                 sliderActiveHandle: 'e-handle-active',

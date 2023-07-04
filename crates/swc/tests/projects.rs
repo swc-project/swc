@@ -1095,7 +1095,7 @@ function test() {
 
 #[test]
 fn issue_7513_2() {
-    static INPUT: &str = "const cachedTextDecoder = { ignoreBOM: true, fatal: true };";
+    static INPUT: &str = "export const cachedTextDecoder = { ignoreBOM: true, fatal: true };";
 
     let cm = Lrc::<SourceMap>::default();
     let c = swc::Compiler::new(cm.clone());
@@ -1129,7 +1129,10 @@ fn issue_7513_2() {
         .unwrap();
 
     println!("{}", output.code);
-    assert_eq!(output.code, "const a={ignoreBOM:!0,fatal:!0};");
+    assert_eq!(
+        output.code,
+        "export const cachedTextDecoder={ignoreBOM:!0,fatal:!0};"
+    );
 }
 
 #[testing::fixture("tests/minify/**/input.js")]
