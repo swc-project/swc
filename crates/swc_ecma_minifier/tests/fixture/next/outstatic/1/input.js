@@ -31,9 +31,6 @@
         var le = 0;
 
 
-        function fe(e) {
-
-        }
 
         function Oe(e) {
 
@@ -48,7 +45,6 @@
 
             },
             y = {},
-            g = 0,
             h = 0,
             p = {
             },
@@ -80,7 +76,7 @@
                 if (!p && b && F.state.next({}), x[s] = (x[s], 1), F.state.next({
                 }), n.resolver) {
 
-                } else l = (await le(a, d(h, s), w, n.shouldUseNativeValidation))[s], c = await k(!0);
+                } else l = 0, c = 0;
                 a._f.deps && I(a._f.deps), E(s, c, l, A)
               }
               var u
@@ -109,11 +105,9 @@
         }
         exports.Controller = 0, exports.FormProvider = 0, exports.appendErrors = 0, exports.get = 0, exports.set = 0, exports.useController = 0, exports.useFieldArray = 0, exports.useForm = function (e = {}) {
           const r = t.default.useRef(),
-            [s] = t.default.useState({
-            });
+            ;
           r.current ? r.current.control._options = e : r.current = {
             ...Me(e),
-            formState: s
           };
 
         }, exports.useFormContext = 0, exports.useFormState = 0, exports.useWatch = 0;
