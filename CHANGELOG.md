@@ -8,6 +8,9 @@
 - **(css/modules)** Fix `:local` and `:global` (#7600) ([f0ab5b3](https://github.com/swc-project/swc/commit/f0ab5b39f79685023cfc9529bc60e96231ad18d7))
 
 
+- **(es/compat)** Visit transformed expression in optional chaining pass (#7614) ([c087c82](https://github.com/swc-project/swc/commit/c087c82aa3131ecafa2e42cdef6ecfba6c80b9b8))
+
+
 - **(es/fixer)** Don't change default decls to default expr exports (#7585) ([e272545](https://github.com/swc-project/swc/commit/e2725451aa507c18222c5f66cf0a5a049c92bd0b))
 
 
