@@ -1,7 +1,5 @@
 import { s as style, y, m } from "../index.f66dda46.js";
-const styles = {
-    about: "about_migxty"
-};
+const styles = {};
 function About({ query, title }) {
     return y(()=>(console.log("Mounted About: ", title), ()=>{
             console.log("Unmounting About: ", title);
