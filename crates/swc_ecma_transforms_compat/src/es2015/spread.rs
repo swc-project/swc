@@ -251,9 +251,11 @@ impl Spread {
             };
         }
 
+        let mut arg_list = vec![];
         for arg in args {
             if let Some(arg) = arg {
                 let ExprOrSpread { expr, spread } = arg;
+                arg_list.push(expr.clone().as_arg());
 
                 fn to_consumable_array(expr: Box<Expr>, span: Span) -> CallExpr {
                     if matches!(*expr, Expr::Lit(Lit::Str(..))) {
@@ -313,7 +315,7 @@ impl Spread {
                                 }
                             }
                             _ => {
-                                if !need_array {
+                                if args_len == 1 && !need_array {
                                     return if self.c.loose {
                                         *expr
                                     } else {
@@ -350,6 +352,20 @@ impl Spread {
             }
         }
         make_arr!();
+
+        if !buf.is_empty() && self.c.loose {
+            return Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![],
+                }
+                .make_member(quote_ident!("concat"))
+                .as_callee(),
+                args: arg_list,
+                type_args: Default::default(),
+            });
+        }
 
         if !buf.is_empty()
             && match first_arr {
