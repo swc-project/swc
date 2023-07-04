@@ -140,7 +140,7 @@ impl Scope {
     /// console.log(a)
     /// ```
     fn can_access(&self, id: &Id, parent: ParentScope, deny_let_const: bool) -> bool {
-        if let Some(..) = parent.get_var(id) {
+        if parent.get_var(id).is_some() {
             return true;
         }
 
