@@ -176,12 +176,6 @@
             },
             x = {};
           const A = {
-            isDirty: !1,
-            dirtyFields: !1,
-            touchedFields: !1,
-            isValidating: !1,
-            isValid: !1,
-            errors: !1
           },
             F = {
             },
@@ -189,10 +183,7 @@
             S = ye(n.reValidateMode),
             w = n.criteriaMode === v,
             k = async e => {
-              let t = !1;
-              return A.isValid && (t = n.resolver ? j((await U()).errors) : await B(y, !0), e || t === i.isValid || (i.isValid = t, F.state.next({
-                isValid: t
-              }))), t
+
             }, D = (e, t, r, s) => {
               const a = d(y, e);
               if (a) {
@@ -265,16 +256,6 @@
                   [e]: t
                 } : t)
               }))).every(Boolean), (s || i.isValid) && k()) : s = r = await B(y);
-              return F.state.next({
-                ...!M(e) || A.isValid && r !== i.isValid ? {} : {
-                  name: e
-                },
-                ...n.resolver ? {
-                  isValid: r
-                } : {},
-                errors: i.errors,
-                isValidating: !1
-              }), t.shouldFocus && !s && z(y, e => d(i.errors, e), e ? a : _.mount), s
             }, te = (e, t = {}) => {
               let s = d(y, e);
               const a = X(t.disabled);
