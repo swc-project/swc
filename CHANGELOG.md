@@ -11,6 +11,9 @@
 - **(es/fixer)** Don't change default decls to default expr exports (#7585) ([e272545](https://github.com/swc-project/swc/commit/e2725451aa507c18222c5f66cf0a5a049c92bd0b))
 
 
+- **(es/minifier)** Add usage to inlined ident eagerly (#7597) ([4f866de](https://github.com/swc-project/swc/commit/4f866de8788558a4f9f3e3f889048136c7896ee3))
+
+
 - **(es/parser)** Re-lex `<<` as two `<`-s if required (#7439) ([6850372](https://github.com/swc-project/swc/commit/68503726a78cfc37cd995eda69a3e8982b6fdf57))
 
 
