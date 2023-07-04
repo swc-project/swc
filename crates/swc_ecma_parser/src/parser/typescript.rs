@@ -361,7 +361,11 @@ impl<I: Tokens> Parser<I> {
         };
 
         let type_args = if !self.input.had_line_break_before_cur() && is!(self, '<') {
-            Some(self.parse_ts_type_args()?)
+            let ctx = Context {
+                should_not_lex_lt_or_gt_as_type: false,
+                ..self.ctx()
+            };
+            Some(self.with_ctx(ctx).parse_ts_type_args()?)
         } else {
             None
         };
@@ -457,7 +461,9 @@ impl<I: Tokens> Parser<I> {
         permit_in_out: bool,
         permit_const: bool,
     ) -> PResult<Box<TsTypeParamDecl>> {
-        self.in_type().parse_with(|p| {
+        trace_cur!(self, parse_ts_type_params);
+
+        let ret = self.in_type().parse_with(|p| {
             p.ts_in_no_context(|p| {
                 let start = cur_pos!(p);
 
@@ -479,7 +485,11 @@ impl<I: Tokens> Parser<I> {
                     params,
                 }))
             })
-        })
+        })?;
+
+        trace_cur!(self, parse_ts_type_params__end);
+
+        Ok(ret)
     }
 
     /// `tsParseTypeOrTypePredicateAnnotation`
@@ -575,11 +585,25 @@ impl<I: Tokens> Parser<I> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn try_parse_ts_type_args(&mut self) -> Option<Box<TsTypeParamInstantiation>> {
+        let start = self.input.cur_pos();
+
         trace_cur!(self, try_parse_ts_type_args);
         debug_assert!(self.input.syntax().typescript());
 
         self.try_parse_ts(|p| {
+            let nested = is!(p, "<<");
+            if nested {
+                let ctx = Context {
+                    should_not_lex_lt_or_gt_as_type: false,
+                    in_type: true,
+                    ..p.ctx()
+                };
+                p.input.reset_to(start);
+                p.input.set_ctx(ctx);
+            }
+
             let type_args = p.parse_ts_type_args()?;
+            trace_cur!(p, try_parse_ts_type_args__after_type_args);
 
             if is_one_of!(
                 p, '<', // invalid syntax
@@ -1841,9 +1865,12 @@ impl<I: Tokens> Parser<I> {
 
         // ----- inlined `self.tsFillSignature(tt.arrow, node)`
         let type_params = self.try_parse_ts_type_params(false, true)?;
+        trace_cur!(self, parse_ts_fn_or_constructor_type__after_type_params);
         expect!(self, '(');
         let params = self.parse_ts_binding_list_for_signature()?;
+        trace_cur!(self, parse_ts_fn_or_constructor_type__after_params);
         let type_ann = self.parse_ts_type_or_type_predicate_ann(&tok!("=>"))?;
+        trace_cur!(self, parse_ts_fn_or_constructor_type__after_type_ann);
         // ----- end
 
         Ok(if is_fn_type {
@@ -2011,6 +2038,8 @@ impl<I: Tokens> Parser<I> {
         permit_in_out: bool,
         permit_const: bool,
     ) -> PResult<Option<Box<TsTypeParamDecl>>> {
+        trace_cur!(self, try_parse_ts_type_params);
+
         if !cfg!(feature = "typescript") {
             return Ok(None);
         }

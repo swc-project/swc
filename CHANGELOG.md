@@ -5,6 +5,47 @@
 
 
 
+- **(css/modules)** Fix `:local` and `:global` (#7600) ([f0ab5b3](https://github.com/swc-project/swc/commit/f0ab5b39f79685023cfc9529bc60e96231ad18d7))
+
+
+- **(es/fixer)** Don't change default decls to default expr exports (#7585) ([e272545](https://github.com/swc-project/swc/commit/e2725451aa507c18222c5f66cf0a5a049c92bd0b))
+
+
+- **(es/parser)** Re-lex `<<` as two `<`-s if required (#7439) ([6850372](https://github.com/swc-project/swc/commit/68503726a78cfc37cd995eda69a3e8982b6fdf57))
+
+
+- **(plugin/runner)** Disable wasi env cleanup (#7607) ([8209594](https://github.com/swc-project/swc/commit/8209594a8c11d2a65061763fef5d3a7780976f39))
+
+
+- **(xml/codegen)** Fix wrong minification of spaces in a self-closing tag (#7595) ([769d651](https://github.com/swc-project/swc/commit/769d6516a50796e6642d6724e8472dd32d871612))
+
+### Features
+
+
+
+- **(es/compat)** Implement transform for explicit resource management (#7376) ([bcd5a1d](https://github.com/swc-project/swc/commit/bcd5a1d6665bc6f4aaa857d1f88b0da82a6c4a04))
+
+
+- **(es/optimization)** Support `default` imports for const modules (#7604) ([ac02b84](https://github.com/swc-project/swc/commit/ac02b84918932f2d51840b4c4cef9adf460fce40))
+
+### Refactor
+
+
+
+- **(es/compat)** Remove usage of `box_patterns` (#7613) ([0a26066](https://github.com/swc-project/swc/commit/0a26066b7b01d06a6d9e3df2ab7c7e47f4aa9e4c))
+
+## [1.3.67] - 2023-06-29
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Don't drop assignments to unused top-level variables (#7581) ([a685c88](https://github.com/swc-project/swc/commit/a685c88c61248e5bff98fb339a71b40b8fd4e528))
+
+
+- **(es/parser)** Adjust context while parsing type arguments of TypeScript type queries (#7582) ([9d5dda1](https://github.com/swc-project/swc/commit/9d5dda12991dac031064b139eb61d2d03dcd8571))
+
+
 - **(estree/compat)** Adjust `loc.col` (#7565) ([d86f8f6](https://github.com/swc-project/swc/commit/d86f8f6a3c1f6ad5de3078ade5c8a905f7067f24))
 
 ### Features
@@ -17,7 +58,13 @@
 - **(es/minifier)** Enable `hoist_props` by default (#7535) ([07a8580](https://github.com/swc-project/swc/commit/07a858030c1a368b3152bfdb57471a35c47c3b32))
 
 
+- **(es/minifier)** Inline constants even if they are exported (#7583) ([398e922](https://github.com/swc-project/swc/commit/398e922ca0214e03556bb84fe632e5e03badd533))
+
+
 - **(plugin/runner)** Update `wasmer` to `v4` (#7576) ([ab7b17c](https://github.com/swc-project/swc/commit/ab7b17cf106620caa1ba46adf23e6013cc4d6288))
+
+
+- **(plugin/runner)** Share runtime `Engine` (#7590) ([9512ea3](https://github.com/swc-project/swc/commit/9512ea31ff1bb0c70f4f96a620b429fa01f48e0c))
 
 
 - **(testing)** Add `CARGO_TARGET_DIR` and use it from other crates (#7552) ([46fb461](https://github.com/swc-project/swc/commit/46fb4619bafd56dfa3edd9064c1fe2ae4b6b78de))
@@ -30,6 +77,9 @@
 
 
 - **(ci)** Change condition for `ci` testing (#7533) ([724e75d](https://github.com/swc-project/swc/commit/724e75d2569d3c210d4e0d3c6861e17c906babed))
+
+
+- **(ci)** Fix CI (#7589) ([c51eac6](https://github.com/swc-project/swc/commit/c51eac6075c161bdf4e8211fd6f96df8bd902e7d))
 
 ### Refactor
 

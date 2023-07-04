@@ -75,6 +75,8 @@ pub trait VarDataLike: Sized {
 
     fn prevent_inline(&mut self);
 
+    fn mark_as_exported(&mut self);
+
     fn mark_initialized_with_safe_value(&mut self);
 
     fn mark_as_pure_fn(&mut self);

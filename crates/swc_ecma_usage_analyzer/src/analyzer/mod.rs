@@ -586,7 +586,7 @@ where
                 let ids = find_pat_ids(v);
 
                 for id in ids {
-                    self.data.var_or_default(id).prevent_inline();
+                    self.data.var_or_default(id).mark_as_exported();
                 }
             }
             _ => {}
