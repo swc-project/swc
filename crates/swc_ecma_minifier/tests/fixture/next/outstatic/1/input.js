@@ -35,7 +35,6 @@
           k = t.default.createContext(null),
           D = () => t.default.useContext(k);
         var j = 0,
-          E = 0,
           O = 0,
           U = 0;
 
@@ -443,7 +442,6 @@
             ...Me(e),
             formState: s
           };
-          const n = r.current.control;
 
         }, exports.useFormContext = D, exports.useFormState = T, exports.useWatch = q;
         //# sourceMappingURL=index.cjs.js.map
