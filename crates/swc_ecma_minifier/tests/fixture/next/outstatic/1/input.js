@@ -165,7 +165,6 @@
             return H(s, "root", t[r]), H(e, r, s), e
           },
           X = e => "boolean" == typeof e,
-          Y = e => "file" === e.type,
           ee = e => "radio" === e.type,
           te = e => e instanceof RegExp;
 
@@ -199,16 +198,11 @@
         function xe(e, t) {
         }
 
-        var Ve = 0;
 
-        function Se(e, t) {
-
-        }
         var we = e => {
           const t = e ? e.ownerDocument : 0;
           return e instanceof (t && t.defaultView ? t.defaultView.HTMLElement : HTMLElement)
         },
-          ke = e => "select-multiple" === e.type,
           De = e => we(e) && e.isConnected;
 
         function Ce(e, t = {}) {
@@ -217,11 +211,6 @@
             for (const r in e) Array.isArray(e[r]) || i(e[r]) && !R(e[r]) ? (t[r] = Array.isArray(e[r]) ? [] : {}, Ce(e[r], t[r])) : a(e[r]) || (t[r] = !0);
           return t
         }
-        var Ee = (e, {
-          valueAsNumber: t,
-          valueAsDate: r,
-          setValueAs: s
-        }) => c(e) ? e : t ? "" === e || a(e) ? NaN : +e : r && M(e) ? new Date(e) : s ? s(e) : e;
 
         function Oe(e) {
 
@@ -319,38 +308,12 @@
 
             }, U = async e => n.resolver ? await n.resolver({
               ...h
-            }, n.context, ((e, t, r, s) => {
-              const a = {};
-              for (const r of e) {
-                const e = d(t, r);
-                e && H(a, r, e._f)
-              }
-              return {
-                criteriaMode: r,
-                names: [...e],
-                fields: a,
-                shouldUseNativeValidation: s
-              }
+            }, n.context, (() => {
+
             })(e || _.mount, y, n.criteriaMode, n.shouldUseNativeValidation)) : {}, B = async (r = {
-              valid: !0
             }) => {
 
-            }, q = (e, t, s = {}) => {
-              const n = d(y, e);
-              let i = t;
-              if (n) {
-                const s = n._f;
-                s && (!s.disabled && H(h, e, Ee(t, s)), i = de && we(s.ref) && a(t) ? "" : t, ke(s.ref) ? [...s.ref.options].forEach(e => e.selected = i.includes(e.value)) : s.refs ? r(s.ref) ? s.refs.length > 1 ? s.refs.forEach(e => !e.disabled && (e.checked = Array.isArray(i) ? !!i.find(t => t === e.value) : i === e.value)) : s.refs[0] && (s.refs[0].checked = !!i) : s.refs.forEach(e => e.checked = e.value === i) : Y(s.ref) ? s.ref.value = "" : (s.ref.value = i, s.ref.type || F.watch.next({
-                  name: e
-                })))
-              } (s.shouldDirty || s.shouldTouch) && C(e, i, s.shouldTouch, s.shouldDirty, !0), s.shouldValidate && I(e)
-            }, W = (e, t, r) => {
-              for (const a in t) {
-                const n = t[a],
-                  i = `${e}.${a}`,
-                  o = d(y, i);
-                !_.array.has(e) && Ve(n) && (!o || o._f) || s(n) ? q(i, n, r) : W(i, n, r)
-              }
+            }, q = (s = {}) => {
             }, $ = async e => {
               const r = e.target;
               let s = r.name;
@@ -416,12 +379,6 @@
                 errors: i.errors,
                 isValidating: !1
               }), t.shouldFocus && !s && z(y, e => d(i.errors, e), e ? a : _.mount), s
-            }, G = e => {
-              const t = {
-                ...g,
-                ...p.mount ? h : {}
-              };
-              return c(e) ? t : M(e) ? d(t, e) : e.map(e => d(t, e))
             }, te = (e, t = {}) => {
               let s = d(y, e);
               const a = X(t.disabled);
