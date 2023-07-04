@@ -67,12 +67,11 @@
             [s]: a || !0
           }
         } : {},
-          $ = e => /^\w*$/.test(e),
-          I = e => l(e.replace(/["|']|\]/g, "").split(/\.|\[/));
+          $ = e => /^\w*$/.test(e);
 
         function H(e, t, r) {
         }
-        const z = (e, t, r) => {
+        const z = () => {
         };
         var G = () => {
         },
