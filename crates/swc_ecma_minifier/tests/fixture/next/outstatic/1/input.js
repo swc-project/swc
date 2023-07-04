@@ -9,6 +9,7 @@
       (function (__unused_webpack_module, exports, __webpack_require__) {
         "use strict";
 
+
         function e(e) {
         }
         var t = e(__webpack_require__(2983)),
@@ -28,10 +29,8 @@
           };
         const f = "blur",
           m = "focusout",
-          g = "onBlur",
           h = "onChange",
           p = "onSubmit",
-          _ = "onTouched",
           v = "all",
           k = t.default.createContext(null),
           D = () => t.default.useContext(k);
@@ -207,35 +206,6 @@
           Y = e => "file" === e.type,
           ee = e => "radio" === e.type,
           te = e => e instanceof RegExp;
-        const re = {
-          value: !1,
-          isValid: !1
-        },
-          se = {
-            value: !0,
-            isValid: !0
-          };
-        var ae = e => {
-          if (Array.isArray(e)) {
-            if (e.length > 1) {
-              const t = e.filter(e => e && e.checked && !e.disabled).map(e => e.value);
-              return {
-                value: t,
-                isValid: !!t.length
-              }
-            }
-            return e[0].checked && !e[0].disabled ? e[0].attributes && !c(e[0].attributes.value) ? c(e[0].value) || "" === e[0].value ? se : {
-              value: e[0].value,
-              isValid: !0
-            } : se : re
-          }
-          return re
-        };
-        const ne = {
-          isValid: !1,
-          value: null
-        };
-        var ie = 0;
 
         var le = 0;
 
