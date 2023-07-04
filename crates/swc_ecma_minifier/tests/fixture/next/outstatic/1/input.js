@@ -42,24 +42,9 @@
         }
 
         function W(e) {
-          const r = D(),
-            {
-              name: s,
-              control: a = r.control,
-              shouldUnregister: n
-            } = e,
-            i = u(a._names.array, s);
-          return t.default.useEffect(() => {
 
-          }, [s, a, i, n]), {}
         }
-        var P = (e, t, r, s, a) => t ? {
-          ...r[e],
-          types: {
-            ...r[e] && r[e].types ? r[e].types : {},
-            [s]: a || !0
-          }
-        } : {};
+        var P = 0;
 
         function H(e, t, r) {
         }
