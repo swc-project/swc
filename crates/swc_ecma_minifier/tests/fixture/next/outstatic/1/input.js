@@ -127,18 +127,14 @@
                 const A = C(s, g, p, !1),
                   D = !j(A) || b;
                 if (!p && F.watch.next({
-                  name: s,
-                  type: e.type
                 }), v) return D && F.state.next({
-                  name: s,
                   ...b ? {} : A
                 });
                 if (!p && b && F.state.next({}), x[s] = (x[s], 1), F.state.next({
-                  isValidating: !0
                 }), n.resolver) {
                   const {
                     errors: e
-                  } = await U([s]), t = Be(i.errors, y, s), r = Be(e, y, t.name || s);
+                  } = await U([s]), t = 0, r = 0;
                   l = r.error, s = r.name, c = j(e)
                 } else l = (await le(a, d(h, s), w, n.shouldUseNativeValidation))[s], c = await k(!0);
                 a._f.deps && I(a._f.deps), E(s, c, l, A)
