@@ -35,9 +35,7 @@
         }
 
         function T(e) { }
-        var L = e => "function" == typeof e,
-          R = () => {
-          };
+        var L = e => "function" == typeof e;
 
         function q(e) {
 
@@ -103,12 +101,6 @@
 
         var De = 0;
 
-        function Ce(e, t = {}) {
-          const r = Array.isArray(e);
-          if (i(e) || r)
-            for (const r in e) Array.isArray(e[r]) || i(e[r]) && !R(e[r]) ? (t[r] = Array.isArray(e[r]) ? [] : {}, Ce(e[r], t[r])) : a(e[r]) || (t[r] = !0);
-          return t
-        }
 
         function Oe(e) {
 
