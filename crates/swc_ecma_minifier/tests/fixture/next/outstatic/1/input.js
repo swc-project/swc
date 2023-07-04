@@ -142,13 +142,7 @@
               control: a = r.control,
               shouldUnregister: n
             } = e,
-            i = u(a._names.array, s),
-            l = q({
-              control: a,
-              name: s,
-              defaultValue: d(a._formValues, s, d(a._defaultValues, s, e.defaultValue)),
-              exact: !0
-            });
+            i = u(a._names.array, s);
           return t.default.useEffect(() => {
 
           }, [s, a, i, n]), {}
@@ -278,48 +272,14 @@
 
 
 
-        function be(e) {
-          for (const t in e)
-            if (!c(e[t])) return !1;
-          return !0
-        }
 
         function xe(e, t) {
-          const r = $(t) ? [t] : I(t),
-            s = 1 == r.length ? e : function () {
-            }(e, r),
-            a = r[r.length - 1];
-          let n;
-          s && delete s[a];
-          for (let t = 0; t < r.slice(0, -1).length; t++) {
-            let s, a = -1;
-            const o = r.slice(0, -(t + 1)),
-              u = o.length - 1;
-            for (t > 0 && (n = e); ++a < o.length;) {
-              const t = o[a];
-              s = s ? s[t] : e[t], u === a && (i(s) && j(s) || Array.isArray(s) && be(s)) && (n ? delete n[t] : delete e[t]), n = s
-            }
-          }
-          return e
         }
 
-        var Ve = e => a(e) || !n(e);
+        var Ve = 0;
 
         function Se(e, t) {
-          if (Ve(e) || Ve(t)) return e === t;
-          if (s(e) && s(t)) return e.getTime() === t.getTime();
-          const r = Object.keys(e),
-            a = Object.keys(t);
-          if (r.length !== a.length) return !1;
-          for (const n of r) {
-            const r = e[n];
-            if (!a.includes(n)) return !1;
-            if ("ref" !== n) {
-              const e = t[n];
-              if (s(r) && s(e) || i(r) && i(e) || Array.isArray(r) && Array.isArray(e) ? !Se(r, e) : r !== e) return !1
-            }
-          }
-          return !0
+
         }
         var we = e => {
           const t = e ? e.ownerDocument : 0;
