@@ -16,24 +16,12 @@
           c = e => void 0 === e,
           d = () => {
           };
-        const k = t.default.createContext(null),
-          D = () => t.default.useContext(k);
+        const k = t.default.createContext(null);
         var j = 0;
 
-        function B(e) {
 
-        }
 
-        function T(e) { }
 
-        function q(e) {
-
-        }
-
-        function W(e) {
-
-        }
-        var P = 0;
 
         function H(e, t, r) {
         }
@@ -150,7 +138,7 @@
             formState: s
           };
 
-        }, exports.useFormContext = D, exports.useFormState = T, exports.useWatch = q;
+        }, exports.useFormContext = 0, exports.useFormState = 0, exports.useWatch = 0;
         //# sourceMappingURL=index.cjs.js.map
 
 
