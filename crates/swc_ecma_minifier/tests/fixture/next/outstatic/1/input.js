@@ -50,48 +50,10 @@
           U = 0;
 
         function B(e) {
-          const r = t.default.useRef(e);
-          r.current = e, t.default.useEffect(() => {
-            const t = !e.disabled && r.current.subject.subscribe({
-              next: r.current.callback
-            });
-            return () => (e => {
-              e && e.unsubscribe()
-            })(t)
-          }, [e.disabled])
+
         }
 
-        function T(e) {
-          const r = D(),
-            {
-              control: s = r.control,
-              disabled: a,
-              name: n,
-              exact: i
-            } = e || {},
-            [o, u] = t.default.useState(s._formState),
-            l = t.default.useRef({
-              isDirty: !1,
-              dirtyFields: !1,
-              touchedFields: !1,
-              isValidating: !1,
-              isValid: !1,
-              errors: !1
-            }),
-            c = t.default.useRef(n),
-            d = t.default.useRef(!0);
-          c.current = n;
-          return B({
-            disabled: a,
-            callback: t.default.useCallback(e => d.current && U(c.current, e.name, i) && E(e, l.current) && u({
-              ...s._formState,
-              ...e
-            }), [s, i]),
-            subject: s._subjects.state
-          }), t.default.useEffect(() => (d.current = !0, () => {
-            d.current = !1
-          }), []), C(o, s._proxyFormState, l.current, !1)
-        }
+        function T(e) { }
         var M = e => "string" == typeof e,
           N = (e, t, r, s) => {
             const a = Array.isArray(e);
