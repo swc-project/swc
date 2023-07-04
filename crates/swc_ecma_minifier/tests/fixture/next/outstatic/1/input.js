@@ -289,7 +289,6 @@
               array: new Set,
               watch: new Set
             },
-            b = 0,
             x = {};
           const A = {
             isDirty: !1,
@@ -315,9 +314,8 @@
                 const n = d(h, e, c(r) ? d(g, e) : r);
                 c(n) || s && s.defaultChecked || t ? H(h, e, t ? n : Oe(a._f)) : q(e, n), p.mount && k()
               }
-            }, C = (e, t, r, s, a) => {
-
-            }, E = async (r, s, a, n) => {
+            }, C = () => {
+            }, E = async () => {
 
             }, U = async e => n.resolver ? await n.resolver({
               ...h
@@ -337,7 +335,7 @@
               valid: !0
             }) => {
 
-            }, T = (e, t) => (e && t && H(h, e, t), !Se(G(), g)), q = (e, t, s = {}) => {
+            }, q = (e, t, s = {}) => {
               const n = d(y, e);
               let i = t;
               if (n) {
