@@ -25,9 +25,6 @@
           };
         const f = "blur",
           m = "focusout",
-          h = "onChange",
-          p = "onSubmit",
-          v = "all",
           k = t.default.createContext(null),
           D = () => t.default.useContext(k);
         var j = 0,
@@ -64,8 +61,7 @@
             ...r[e] && r[e].types ? r[e].types : {},
             [s]: a || !0
           }
-        } : {},
-          $ = e => /^\w*$/.test(e);
+        } : {};
 
         function H(e, t, r) {
         }
@@ -98,7 +94,6 @@
           }
           return t
         }
-        var ye = 0;
 
 
 
@@ -162,7 +157,6 @@
             })(e || _.mount, y, n.criteriaMode, n.shouldUseNativeValidation)) : {}, B = async (r = {
             }) => {
 
-            }, q = (s = {}) => {
             }, $ = async e => {
               const r = e.target;
               let s = r.name;
