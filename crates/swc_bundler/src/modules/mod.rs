@@ -279,14 +279,9 @@ impl Modules {
                     .into_iter(),
             );
 
-            module.body.extend(
-                cloned
-                    .appended_stmts
-                    .get(&id)
-                    .cloned()
-                    .unwrap_or_default()
-                    .into_iter(),
-            );
+            module
+                .body
+                .extend(cloned.appended_stmts.get(&id).cloned().unwrap_or_default());
 
             stmts.extend(module.body);
         }
