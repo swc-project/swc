@@ -150,7 +150,7 @@ impl<'a> Lexer<'a> {
             raw_str.push_str(raw.0.as_ref().unwrap());
 
             val = {
-                if let Some(..) = dec_val {
+                if dec_val.is_some() {
                     raw_val.push_str(raw.0.as_ref().unwrap());
                 }
 
