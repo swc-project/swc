@@ -71,45 +71,10 @@
           I = e => l(e.replace(/["|']|\]/g, "").split(/\.|\[/));
 
         function H(e, t, r) {
-          let s = -1;
-          const a = $(t) ? [t] : I(t),
-            n = a.length,
-            o = n - 1;
-          for (; ++s < n;) {
-            const t = a[s];
-            let n = r;
-            if (s !== o) {
-              const r = e[t];
-              n = i(r) || Array.isArray(r) ? r : isNaN(+a[s + 1]) ? {} : []
-            }
-            e[t] = n, e = e[t]
-          }
-          return e
         }
         const z = (e, t, r) => {
-          for (const s of r || Object.keys(e)) {
-            const r = d(e, s);
-            if (r) {
-              const {
-                _f: e,
-                ...s
-              } = r;
-              if (e && t(e.name)) {
-                if (e.ref.focus && c(e.ref.focus())) break;
-                if (e.refs) {
-                  e.refs[0].focus();
-                  break
-                }
-              } else i(s) && z(s, t)
-            }
-          }
         };
         var G = () => {
-          const e = "undefined" == typeof performance ? Date.now() : 1e3 * performance.now();
-          return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, t => {
-            const r = (16 * Math.random() + e) % 16 | 0;
-            return ("x" == t ? r : 3 & r | 8).toString(16)
-          })
         },
           K = (e, t, r) => !r && (t.watchAll || t.watch.has(e) || [...t.watch].some(t => e.startsWith(t) && /^\.\w+/.test(e.slice(t.length)))),
           X = e => "boolean" == typeof e,
