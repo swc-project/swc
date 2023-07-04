@@ -505,22 +505,7 @@
         }
 
         function Fe() {
-          let e = [];
           return {
-            get observers() {
-              return e
-            },
-            next: t => {
-              for (const r of e) r.next(t)
-            },
-            subscribe: t => (e.push(t), {
-              unsubscribe: () => {
-                e = e.filter(e => e !== t)
-              }
-            }),
-            unsubscribe: () => {
-              e = []
-            }
           }
         }
         var Ve = e => a(e) || !n(e);
@@ -648,9 +633,6 @@
             errors: !1
           },
             F = {
-              watch: Fe(),
-              array: Fe(),
-              state: Fe()
             },
             V = ye(n.mode),
             S = ye(n.reValidateMode),
