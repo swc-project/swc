@@ -35,7 +35,6 @@
         }
 
         function T(e) { }
-        var L = e => "function" == typeof e;
 
         function q(e) {
 
@@ -56,7 +55,6 @@
 
         var le = 0;
 
-        var de = "undefined" != typeof window && void 0 !== window.HTMLElement && "undefined" != typeof document;
 
         function fe(e) {
 
@@ -76,15 +74,9 @@
 
         }
 
-        function Be(e, t, r) {
-
-        }
-        const Te = {
-        };
 
         function Me(e = {}) {
           let t, n = {
-            ...Te,
             ...e
           },
             i = {
@@ -119,8 +111,8 @@
               const a = d(y, s);
               if (a) {
                 let l, c;
-                const g = r.type ? Oe(a._f) : o(e),
-                  p = e.type === f || e.type === m,
+                const g = 0,
+                  p = 0,
                   v = !((u = a._f).mount && (u.required || u.min || u.max || u.maxLength || u.minLength || u.pattern || u.validate) || n.resolver || d(i.errors, s) || a._f.deps) || ((e, t, r, s, a) => !a.isOnAll && (!r && a.isOnTouch ? !(t || e) : (r ? s.isOnBlur : a.isOnBlur) ? !e : !(r ? s.isOnChange : a.isOnChange) || e))(p, d(i.touchedFields, s), i.isSubmitted, S, V),
                   b = K(s, _, p);
                 H(h, s, g), p ? (a._f.onBlur && a._f.onBlur(e), t && t(0)) : a._f.onChange && a._f.onChange(e);
@@ -134,7 +126,7 @@
                 }), n.resolver) {
                   const {
                     errors: e
-                  } = await U([s]), t = 0, r = 0;
+                  } = await U([s]), r = 0;
                   l = r.error, s = r.name, c = j(e)
                 } else l = (await le(a, d(h, s), w, n.shouldUseNativeValidation))[s], c = await k(!0);
                 a._f.deps && I(a._f.deps), E(s, c, l, A)
