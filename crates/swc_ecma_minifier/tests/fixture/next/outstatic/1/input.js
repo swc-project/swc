@@ -137,31 +137,17 @@
               const a = O(e);
               if (F.state.next({
               }), n.resolver) {
-                const t = await (async e => {
+                const t = await (async () => {
 
 
                 })(c(e) ? e : a);
                 r = j(t), s = e ? !a.some(e => d(t, e)) : r
               } else e ? (s = (await Promise.all(a.map(async e => {
-                const t = d(y, e);
-                return await B(t && t._f ? {
-                  [e]: t
-                } : t)
               }))).every(Boolean), (s || i.isValid) && k()) : s = r = await B(y);
             }, te = (e, t = {}) => {
               let s = d(y, e);
               const a = X(t.disabled);
               return H(y, e, {
-                _f: {
-                  ...s && s._f ? s._f : {
-                    ref: {
-                      name: e
-                    }
-                  },
-                  name: e,
-                  mount: !0,
-                  ...t
-                }
               }), _.mount.add(e), s ? a && H(h, e, t.disabled ? void 0 : d(h, e, Oe(s._f))) : D(e, !0, t.value), {
                 ...a ? {
                 } : {},
