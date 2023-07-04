@@ -287,7 +287,6 @@
             return ("x" == t ? r : 3 & r | 8).toString(16)
           })
         },
-          J = (e, t, r = {}) => r.shouldFocus || c(r.shouldFocus) ? r.focusName || `${e}.${c(r.focusIndex) ? t : r.focusIndex}.` : "",
           K = (e, t, r) => !r && (t.watchAll || t.watch.has(e) || [...t.watch].some(t => e.startsWith(t) && /^\.\w+/.test(e.slice(t.length)))),
           Q = (e, t, r) => {
             const s = l(d(e, r));
@@ -450,9 +449,6 @@
             return C(!0), E
           };
 
-        function ce(e, t) {
-          return [...e, ...O(t)]
-        }
         var de = "undefined" != typeof window && void 0 !== window.HTMLElement && "undefined" != typeof document;
 
         function fe(e) {
@@ -473,32 +469,15 @@
           }
           return t
         }
-        var me = e => Array.isArray(e) ? e.map(() => { }) : void 0,
-          ye = e => ({
-            isOnSubmit: !e || e === p,
-            isOnBlur: e === g,
-            isOnChange: e === h,
-            isOnAll: e === v,
-            isOnTouch: e === _
-          });
+        var ye = e => ({
+          isOnSubmit: !e || e === p,
+          isOnBlur: e === g,
+          isOnChange: e === h,
+          isOnAll: e === v,
+          isOnTouch: e === _
+        });
 
-        function ge(e, t, r) {
-          return [...e.slice(0, t), ...O(r), ...e.slice(t)]
-        }
-        var he = (e, t, r) => Array.isArray(e) ? (c(e[r]) && (e[r] = void 0), e.splice(r, 0, e.splice(t, 1)[0]), e) : [];
 
-        function pe(e, t) {
-          return [...O(t), ...O(e)]
-        }
-        var _e = (e, t) => c(t) ? [] : function (e, t) {
-          let r = 0;
-          const s = [...e];
-          for (const e of t) s.splice(e - r, 1), r++;
-          return l(s).length ? s : []
-        }(e, O(t).sort((e, t) => e - t)),
-          ve = (e, t, r) => {
-            e[t] = [e[r], e[r] = e[t]][0]
-          };
 
         function be(e) {
           for (const t in e)
@@ -509,10 +488,6 @@
         function xe(e, t) {
           const r = $(t) ? [t] : I(t),
             s = 1 == r.length ? e : function (e, t) {
-              const r = t.slice(0, -1).length;
-              let s = 0;
-              for (; s < r;) e = c(e) ? s++ : e[t[s++]];
-              return e
             }(e, r),
             a = r[r.length - 1];
           let n;
@@ -528,7 +503,6 @@
           }
           return e
         }
-        var Ae = (e, t, r) => (e[t] = r, e);
 
         function Fe() {
           let e = [];
@@ -1174,9 +1148,6 @@
             }, []),
             subject: s._subjects.array
           });
-          const y = t.default.useCallback(e => {
-            m.current = !0, s._updateFieldArray(a, e)
-          }, [s, a]);
           return t.default.useEffect(() => {
             if (s._stateFlags.action = !1, K(a, s._names) && s._subjects.state.next({}), m.current)
               if (s._options.resolver) s._executeSchema([a]).then(e => {
