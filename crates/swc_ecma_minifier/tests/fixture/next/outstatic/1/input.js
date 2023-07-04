@@ -573,23 +573,7 @@
             })(e || _.mount, y, n.criteriaMode, n.shouldUseNativeValidation)) : {}, B = async (e, t, r = {
               valid: !0
             }) => {
-              for (const s in e) {
-                const a = e[s];
-                if (a) {
-                  const {
-                    _f: e,
-                    ...s
-                  } = a;
-                  if (e) {
-                    const s = _.array.has(e.name),
-                      o = await le(a, d(h, e.name), w, n.shouldUseNativeValidation, s);
-                    if (o[e.name] && (r.valid = !1, t)) break;
-                    !t && (d(o, e.name) ? s ? Q(i.errors, o, e.name) : H(i.errors, e.name, o[e.name]) : xe(i.errors, e.name))
-                  }
-                  s && await B(s, t, r)
-                }
-              }
-              return r.valid
+
             }, T = (e, t) => (e && t && H(h, e, t), !Se(G(), g)), q = (e, t, s = {}) => {
               const n = d(y, e);
               let i = t;
