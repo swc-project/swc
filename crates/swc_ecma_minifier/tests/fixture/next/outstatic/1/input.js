@@ -35,14 +35,6 @@
 
         }
 
-
-
-
-
-
-        var De = 0;
-
-
         function Oe(e) {
 
         }
@@ -56,8 +48,8 @@
 
             },
             y = {},
-            g = fe(n.defaultValues) || {},
-            h = n.shouldUnregister ? {} : fe(g),
+            g = 0,
+            h = 0,
             p = {
             },
             _ = {
