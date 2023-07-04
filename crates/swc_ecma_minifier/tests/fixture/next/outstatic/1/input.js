@@ -34,17 +34,7 @@
           v = "all",
           k = t.default.createContext(null),
           D = () => t.default.useContext(k);
-        var C = (e, t, r, s = !0) => {
-          const a = {};
-          for (const n in e) Object.defineProperty(a, n, {
-            get: () => {
-              const a = n;
-              return t[a] !== v && (t[a] = !s || v), r && (r[a] = !0), e[a]
-            }
-          });
-          return a
-        },
-          j = 0,
+        var j = 0,
           E = 0,
           O = 0,
           U = 0;
@@ -160,10 +150,6 @@
           })
         },
           K = (e, t, r) => !r && (t.watchAll || t.watch.has(e) || [...t.watch].some(t => e.startsWith(t) && /^\.\w+/.test(e.slice(t.length)))),
-          Q = (e, t, r) => {
-            const s = l(d(e, r));
-            return H(s, "root", t[r]), H(e, r, s), e
-          },
           X = e => "boolean" == typeof e,
           ee = e => "radio" === e.type,
           te = e => e instanceof RegExp;
@@ -431,15 +417,11 @@
           const r = D(),
             {
               control: s = r.control,
-              name: a,
-              keyName: n = "id",
-              shouldUnregister: i
-            } = e,
+              name: a } = e,
             [o, u] = t.default.useState(s._getFieldArray(a)),
             l = t.default.useRef(s._getFieldArray(a).map(G)),
             c = t.default.useRef(o),
-            f = t.default.useRef(a),
-            m = t.default.useRef(!1);
+            f = t.default.useRef(a);
           f.current = a, c.current = o, s._names.array.add(a), e.rules && s.register(a, e.rules), B({
             callback: t.default.useCallback(({
               values: e,
@@ -461,15 +443,7 @@
             ...Me(e),
             formState: s
           };
-          const n = r.current.control,
-            i = t.default.useCallback(e => {
-              E(e, n._proxyFormState, !0) && (n._formState = {
-                ...n._formState,
-                ...e
-              }, a({
-                ...n._formState
-              }))
-            }, [n]);
+          const n = r.current.control;
 
         }, exports.useFormContext = D, exports.useFormState = T, exports.useWatch = q;
         //# sourceMappingURL=index.cjs.js.map
