@@ -28,7 +28,6 @@
           };
         const f = "blur",
           m = "focusout",
-          y = "change",
           g = "onBlur",
           h = "onChange",
           p = "onSubmit",
@@ -149,15 +148,7 @@
               name: s,
               defaultValue: d(a._formValues, s, d(a._defaultValues, s, e.defaultValue)),
               exact: !0
-            }),
-            c = T({
-              control: a,
-              name: s
-            }),
-            m = t.default.useRef(a.register(s, {
-              ...e.rules,
-              value: l
-            }));
+            });
           return t.default.useEffect(() => {
 
           }, [s, a, i, n]), {}
