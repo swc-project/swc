@@ -203,7 +203,10 @@ impl OptChaining {
                 Expr::OptChain(next) => {
                     current = next;
                 }
-                base => return (base, count, chain),
+                mut base => {
+                    base.visit_mut_children_with(self);
+                    return (base, count, chain);
+                }
             }
         }
     }
