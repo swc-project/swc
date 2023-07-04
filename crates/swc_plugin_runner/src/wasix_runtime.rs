@@ -1,7 +1,7 @@
 use std::{path::PathBuf, sync::Arc};
 
 use parking_lot::Mutex;
-use swc_common::sync::{Lazy, OnceCell};
+use swc_common::sync::Lazy;
 use wasmer::Store;
 use wasmer_wasix::Runtime;
 
