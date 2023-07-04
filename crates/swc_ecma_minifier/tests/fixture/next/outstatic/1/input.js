@@ -60,16 +60,10 @@
           });
           return a
         },
-          j = e => i(e) && !Object.keys(e).length,
-          E = (e, t, r) => {
-            const {
-              name: s,
-              ...a
-            } = e;
-            return j(a) || Object.keys(a).length >= Object.keys(t).length || Object.keys(a).find(e => t[e] === (!r || v))
-          },
-          O = e => Array.isArray(e) ? e : [e],
-          U = (e, t, r) => r && t ? e === t : !e || !t || e === t || O(e).some(e => e && (e.startsWith(t) || t.startsWith(e)));
+          j = 0,
+          E = 0,
+          O = 0,
+          U = 0;
 
         function B(e) {
           const r = t.default.useRef(e);
@@ -426,25 +420,8 @@
             }
             if (h)
               if (L(h)) {
-                const e = oe(await h(t), D);
-                if (e && (E[p] = {
-                  ...e,
-                  ...N(w, e.message)
-                }, !s)) return C(e.message), E
               } else if (i(h)) {
-                let e = {};
-                for (const r in h) {
-                  if (!j(e) && !s) break;
-                  const a = oe(await h[r](t), D, r);
-                  a && (e = {
-                    ...a,
-                    ...N(r, a.message)
-                  }, C(a.message), s && (E[p] = e))
-                }
-                if (!j(e) && (E[p] = {
-                  ref: D,
-                  ...e
-                }, !s)) return E
+
               }
             return C(!0), E
           };
