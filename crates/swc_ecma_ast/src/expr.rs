@@ -207,7 +207,7 @@ impl Expr {
     ///
     /// Panics if `exprs` is empty.
     pub fn from_exprs(mut exprs: Vec<Box<Expr>>) -> Box<Expr> {
-        debug_assert_ne!(exprs, vec![], "exprs must not be empty");
+        debug_assert!(!exprs.is_empty(), "`exprs` must not be empty");
 
         if exprs.len() == 1 {
             exprs.remove(0)
