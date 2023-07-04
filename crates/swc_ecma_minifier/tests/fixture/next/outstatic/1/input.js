@@ -141,27 +141,7 @@
             };
 
         }
-        exports.Controller = e => e.render(W(e)), exports.FormProvider = e => {
-          const {
-            children: r,
-            ...s
-          } = e;
-          return t.default.createElement(k.Provider, {
-            value: s
-          }, r)
-        }, exports.appendErrors = P, exports.get = d, exports.set = H, exports.useController = W, exports.useFieldArray = function (e) {
-          const r = D(),
-            {
-              control: s = r.control,
-              name: a } = e,
-            [o, u] = t.default.useState(s._getFieldArray(a)),
-            c = t.default.useRef(o),
-            f = t.default.useRef(a);
-          f.current = a, c.current = o, s._names.array.add(a), e.rules && s.register(a, e.rules), B({
-
-          });
-
-        }, exports.useForm = function (e = {}) {
+        exports.Controller = 0, exports.FormProvider = 0, exports.appendErrors = 0, exports.get = 0, exports.set = 0, exports.useController = 0, exports.useFieldArray = 0, exports.useForm = function (e = {}) {
           const r = t.default.useRef(),
             [s] = t.default.useState({
             });
