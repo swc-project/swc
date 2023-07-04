@@ -86,7 +86,7 @@ impl EqIgnoreSpan for BigInt {
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct EncodeBigInt;
 
-#[cfg(any(feature = "rkyv-impl"))]
+#[cfg(feature = "rkyv-impl")]
 impl rkyv::with::ArchiveWith<Box<BigIntValue>> for EncodeBigInt {
     type Archived = rkyv::Archived<String>;
     type Resolver = rkyv::Resolver<String>;
