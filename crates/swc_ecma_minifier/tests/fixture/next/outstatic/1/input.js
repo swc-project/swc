@@ -23,9 +23,6 @@
           l = e => Array.isArray(e) ? e.filter(Boolean) : [],
           c = e => void 0 === e,
           d = (e, t, r) => {
-            if (!t || !i(e)) return r;
-            const s = l(t.split(/[,[\].]+?/)).reduce((e, t) => a(e) ? e : e[t], e);
-            return c(s) || s === e ? c(e[t]) ? r : e[t] : s
           };
         const f = "blur",
           m = "focusout",
@@ -45,44 +42,13 @@
         function T(e) { }
         var M = e => "string" == typeof e,
           N = (e, t, r, s) => {
-            const a = Array.isArray(e);
-            return M(e) ? (s && t.watch.add(e), d(r, e)) : a ? e.map(e => (s && t.watch.add(e), d(r, e))) : (s && (t.watchAll = !0), r)
           },
           L = e => "function" == typeof e,
           R = e => {
-            for (const t in e)
-              if (L(e[t])) return !0;
-            return !1
           };
 
         function q(e) {
-          const r = D(),
-            {
-              control: s = r.control,
-              name: a,
-              defaultValue: n,
-              disabled: o,
-              exact: u
-            } = e || {},
-            l = t.default.useRef(a);
-          l.current = a;
-          const d = t.default.useCallback(e => {
-            if (U(l.current, e.name, u)) {
-              const t = N(l.current, s._names, e.values || s._formValues);
-              m(c(l.current) || i(t) && !R(t) ? {
-                ...t
-              } : Array.isArray(t) ? [...t] : c(t) ? n : t)
-            }
-          }, [s, u, n]);
-          B({
-            disabled: o,
-            subject: s._subjects.watch,
-            callback: d
-          });
-          const [f, m] = t.default.useState(c(n) ? s._getWatch(a) : n);
-          return t.default.useEffect(() => {
-            s._removeUnmounted()
-          }), f
+
         }
 
         function W(e) {
