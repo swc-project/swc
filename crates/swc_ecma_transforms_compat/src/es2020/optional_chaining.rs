@@ -64,7 +64,6 @@ impl VisitMut for OptChaining {
             Expr::OptChain(v) => {
                 let data = self.gather(v.take(), vec![]);
                 *e = self.construct(data, false, self.c.no_document_all);
-                e.visit_mut_children_with(self);
             }
 
             Expr::Unary(UnaryExpr {
@@ -204,7 +203,10 @@ impl OptChaining {
                 Expr::OptChain(next) => {
                     current = next;
                 }
-                base => return (base, count, chain),
+                mut base => {
+                    base.visit_mut_children_with(self);
+                    return (base, count, chain);
+                }
             }
         }
     }
