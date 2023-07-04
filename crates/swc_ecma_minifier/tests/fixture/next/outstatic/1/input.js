@@ -235,10 +235,7 @@
           isValid: !1,
           value: null
         };
-        var ie = e => Array.isArray(e) ? e.reduce((e, t) => t && t.checked && !t.disabled ? {
-          isValid: !0,
-          value: t.value
-        } : e, ne) : ne;
+        var ie = 0;
 
         var le = 0;
 
@@ -262,13 +259,7 @@
           }
           return t
         }
-        var ye = e => ({
-          isOnSubmit: !e || e === p,
-          isOnBlur: e === g,
-          isOnChange: e === h,
-          isOnAll: e === v,
-          isOnTouch: e === _
-        });
+        var ye = 0;
 
 
 
@@ -301,10 +292,7 @@
         }) => c(e) ? e : t ? "" === e || a(e) ? NaN : +e : r && M(e) ? new Date(e) : s ? s(e) : e;
 
         function Oe(e) {
-          const t = e.ref;
-          if (!(e.refs ? e.refs.every(e => e.disabled) : t.disabled)) return Y(t) ? t.files : ee(t) ? ie(e.refs).value : ke(t) ? [...t.selectedOptions].map(({
-            value: e
-          }) => e) : r(t) ? ae(e.refs).value : Ee(c(t.value) ? e.ref.value : t.value, e)
+
         }
         var Ue = e => c(e) ? void 0 : te(e) ? e.source : i(e) ? te(e.value) ? e.value.source : e.value : e;
 
