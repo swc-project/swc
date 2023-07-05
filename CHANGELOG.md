@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Build
+
+
+
+- **(cargo)** Update `rustc` to `2023-07-03` (#7623) ([b34f1ad](https://github.com/swc-project/swc/commit/b34f1adbcc0d9556872c05bb6c7a92b77332a924))
+
 ## [1.3.68] - 2023-07-05
 
 ### Bug Fixes
