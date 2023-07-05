@@ -77,8 +77,6 @@
                     const n = 0,
                       i = (e => ee(e) || r(e))(n),
                       o = s._f.refs || [];
-                    if (i ? o.find(e => e === n) : n === s._f.ref) return;
-
                   } else s = d(y, e, {}), s._f && (s._f.mount = !1), (n.shouldUnregister || t.shouldUnregister) && (!u(_.array, e) || !p.action) && _.unMount.add(e)
                 }
               }
