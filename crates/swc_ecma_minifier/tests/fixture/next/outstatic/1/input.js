@@ -51,10 +51,7 @@
                 H(h, s, g), p ? (a._f.onBlur && a._f.onBlur(e), t && t(0)) : a._f.onChange && a._f.onChange(e);
                 const A = 0,
                   D = 0;
-                if (!p && F.watch.next({
-                }), v) return D && F.state.next({
-                  ...b ? {} : A
-                });
+
                 if (!p && b && F.state.next({}), x[s] = (x[s], 1), F.state.next({
                 }), n.resolver) {
 
