@@ -768,7 +768,7 @@ pub static STATIC_PROPERTIES: DataMap<DataMap<&[&str]>> = data_map!(Map {
     },
 
     Symbol: Map {
-        asyncDispose: ["es.symbol.async-dispose"],
+        asyncDispose: ["esnext.symbol.async-dispose"],
         asyncIterator: ["es.symbol.async-iterator"],
         dispose: ["esnext.symbol.dispose"],
         for: ["es.symbol"],
