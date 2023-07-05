@@ -243,14 +243,14 @@ where
 
         self.unresolved = self.get_unresolved(m, has_eval);
 
+        if has_eval {
+            m.visit_mut_children_with(self);
+        }
+
         {
             let map = self.get_map(m, false, true, has_eval);
 
             m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
-        }
-
-        if has_eval {
-            m.visit_mut_children_with(self);
         }
     }
 
@@ -261,14 +261,14 @@ where
 
         self.unresolved = self.get_unresolved(m, has_eval);
 
+        if has_eval {
+            m.visit_mut_children_with(self);
+        }
+
         {
             let map = self.get_map(m, false, true, has_eval);
 
             m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
-        }
-
-        if has_eval {
-            m.visit_mut_children_with(self);
         }
     }
 }
