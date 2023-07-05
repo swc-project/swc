@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Refactor
+
+
+
+- **(bindings/node)** Remove unused `babelify` type (#7625) ([73c7769](https://github.com/swc-project/swc/commit/73c77694f11c2b98b6caca5fdd106390e3f82629))
+
 ### Build
 
 
