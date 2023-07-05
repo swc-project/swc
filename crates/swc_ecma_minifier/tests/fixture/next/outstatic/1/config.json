@@ -2,5 +2,6 @@
     "defaults": true,
     "conditionals": false,
     "collapse_vars": false,
+    "properties": false,
     "passes": 1
 }
