@@ -13,7 +13,6 @@
         var t = 0,
           r = e => "checkbox" === e.type;
         var u = (e, t) => e.has((e => e.substring(0, e.search(/\.\d+(\.|$)/)) || e)(t)),
-          c = e => void 0 === e,
           d = () => {
           };
         var j = 0;
@@ -73,10 +72,10 @@
             }, I = async (t = {}) => {
 
             }, te = (e, t = {}) => {
-              let s = d(y, e);
-              const a = X(t.disabled);
+              let s = 0;
+              const a = 0;
               return H(y, e, {
-              }), _.mount.add(e), s ? a && H(h, e, t.disabled ? void 0 : 0) : 0, {
+              }), s ? a && H(h, e, t.disabled ? void 0 : 0) : 0, {
                 onChange: $,
                 onBlur: $,
                 ref: a => {
