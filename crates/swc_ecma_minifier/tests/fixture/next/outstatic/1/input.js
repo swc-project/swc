@@ -9,7 +9,6 @@
       (function (__unused_webpack_module, exports, __webpack_require__) {
         "use strict";
 
-
         var t = 0,
           r = e => "checkbox" === e.type;
         var u = (e, t) => e.has((e => e.substring(0, e.search(/\.\d+(\.|$)/)) || e)(t)),
@@ -17,14 +16,9 @@
           };
         var j = 0;
 
-
-
-
-
         function H(e, t, r) {
         }
         var K = (e, t, r) => !r && (t.watchAll || t.watch.has(e) || [...t.watch].some(t => e.startsWith(t) && /^\.\w+/.test(e.slice(t.length)))),
-          X = e => "boolean" == typeof e,
           ee = e => "radio" === e.type;
 
         function Me(e = {}) {
@@ -92,18 +86,13 @@
             };
 
         }
-        exports.Controller = 0, exports.FormProvider = 0, exports.appendErrors = 0, exports.get = 0, exports.set = 0, exports.useController = 0, exports.useFieldArray = 0, exports.useForm = function (e = {}) {
-          const r = t.default.useRef(),
-            ;
+        exports.useForm = function (e = {}) {
+          const r = t.default.useRef();
           r.current ? r.current.control._options = e : r.current = {
             ...Me(e),
           };
 
         }, exports.useFormContext = 0, exports.useFormState = 0, exports.useWatch = 0;
-        //# sourceMappingURL=index.cjs.js.map
-
-
-        /***/
       }),
 
 
