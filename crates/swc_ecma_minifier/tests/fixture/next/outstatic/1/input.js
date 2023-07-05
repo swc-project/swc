@@ -52,10 +52,6 @@
                 const A = 0,
                   D = 0;
 
-                if (!p && b && F.state.next({}), x[s] = (x[s], 1), F.state.next({
-                }), n.resolver) {
-
-                }
                 a._f.deps && I(a._f.deps), E(s, c, l, A)
               }
               var u
