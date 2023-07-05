@@ -243,15 +243,13 @@ where
 
         self.unresolved = self.get_unresolved(m, has_eval);
 
+        let map = self.get_map(m, false, true, has_eval);
+
         if has_eval {
             m.visit_mut_children_with(self);
         }
 
-        {
-            let map = self.get_map(m, false, true, has_eval);
-
-            m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
-        }
+        m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
@@ -261,15 +259,13 @@ where
 
         self.unresolved = self.get_unresolved(m, has_eval);
 
+        let map = self.get_map(m, false, true, has_eval);
+
         if has_eval {
             m.visit_mut_children_with(self);
         }
 
-        {
-            let map = self.get_map(m, false, true, has_eval);
-
-            m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
-        }
+        m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
     }
 }
 
