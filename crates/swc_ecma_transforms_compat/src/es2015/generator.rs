@@ -1646,6 +1646,8 @@ impl Generator {
             self.emit_break(loop_label, None);
             self.end_loop_block();
         } else {
+            node.visit_mut_children_with(self);
+
             self.emit_stmt(Stmt::While(node));
         }
     }
