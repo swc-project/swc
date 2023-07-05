@@ -14,7 +14,6 @@
         var u = (e, t) => e.has((e => e.substring(0, e.search(/\.\d+(\.|$)/)) || e)(t)),
           d = () => {
           };
-        var j = 0;
 
         function H(e, t, r) {
         }
@@ -39,7 +38,7 @@
           },
             V = 0,
             S = 0,
-            C = 0, E = 0, $ = async e => {
+            E = 0, $ = async e => {
               const r = e.target;
               let s = r.name;
               const a = d(y, s);
@@ -92,7 +91,7 @@
             ...Me(e),
           };
 
-        }, exports.useFormContext = 0, exports.useFormState = 0, exports.useWatch = 0;
+        };
       }),
 
 
