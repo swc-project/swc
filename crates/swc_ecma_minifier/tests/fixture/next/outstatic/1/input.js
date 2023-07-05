@@ -50,7 +50,7 @@
                   v = !((u = a._f).mount && (u.required || u.min || u.max || u.maxLength || u.minLength || u.pattern || u.validate) || n.resolver || d(i.errors, s) || a._f.deps) || ((e, t, r, s, a) => !a.isOnAll && (!r && a.isOnTouch ? !(t || e) : (r ? s.isOnBlur : a.isOnBlur) ? !e : !(r ? s.isOnChange : a.isOnChange) || e))(p, d(i.touchedFields, s), i.isSubmitted, S, V),
                   b = K(s, _, p);
                 H(h, s, g), p ? (a._f.onBlur && a._f.onBlur(e), t && t(0)) : a._f.onChange && a._f.onChange(e);
-                const A = C(s, g, p, !1),
+                const A = 0,
                   D = !j(A) || b;
                 if (!p && F.watch.next({
                 }), v) return D && F.state.next({
