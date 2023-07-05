@@ -37,7 +37,7 @@
               let l, c;
               const g = 0,
                 p = 0;
-              H(h, s, g), p ? (a._f.onBlur && a._f.onBlur(e), t && t(0)) : a._f.onChange && a._f.onChange(e);
+              p ? (a._f.onBlur && a._f.onBlur(e), t && t(0)) : a._f.onChange && a._f.onChange(e);
               const A = 0;
 
               a._f.deps && E(s, c, l, A)
@@ -47,8 +47,7 @@
           }, te = (e, t = {}) => {
             let s = 0;
             const a = 0;
-            return H(y, e, {
-            }), s ? a && H(h, e, t.disabled ? void 0 : 0) : 0, {
+            return s ? a && H(h, e, t.disabled ? void 0 : 0) : 0, {
               onChange: $,
               onBlur: $,
               ref: a => {
