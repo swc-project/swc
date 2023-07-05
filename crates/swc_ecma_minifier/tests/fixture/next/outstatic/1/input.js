@@ -74,9 +74,9 @@
                 ref: a => {
                   if (a) {
                     te(e, t), s = d(y, e);
-                    const n = 0,
-                      i = (e => ee(e) || r(e))(n),
-                      o = s._f.refs || [];
+                    const n = 0;
+                    (e => ee(e) || r(e))(n),
+                      s._f.refs;
                   } else s = d(y, e, {}), s._f && (s._f.mount = !1), (n.shouldUnregister || t.shouldUnregister) && (!u(_.array, e) || !p.action) && _.unMount.add(e)
                 }
               }
