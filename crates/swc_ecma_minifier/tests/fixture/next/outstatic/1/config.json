@@ -1,4 +1,5 @@
 {
     "defaults": true,
+    "conditionals": false,
     "passes": 1
 }
