@@ -17,57 +17,50 @@
 
         function H(e, t, r) {
         }
-        var K = (e, t, r) => !r && (t.watchAll || t.watch.has(e) || [...t.watch].some(t => e.startsWith(t) && /^\.\w+/.test(e.slice(t.length)))),
-          ee = e => "radio" === e.type;
+        var ee = e => "radio" === e.type;
 
         function Me(e = {}) {
           let t, n = {
             ...e
           },
-            i = {
-
-            },
             y = {},
             h = 0,
             p = {
             },
             _ = {
             };
-          const V = 0,
-            S = 0,
-            E = 0, $ = async e => {
-              const r = e.target;
-              let s = r.name;
-              const a = d(y, s);
-              if (a) {
-                let l, c;
-                const g = 0,
-                  p = 0;
-                H(h, s, g), p ? (a._f.onBlur && a._f.onBlur(e), t && t(0)) : a._f.onChange && a._f.onChange(e);
-                const A = 0;
+          const E = 0, $ = async e => {
+            const r = e.target;
+            let s = r.name;
+            const a = d(y, s);
+            if (a) {
+              let l, c;
+              const g = 0,
+                p = 0;
+              H(h, s, g), p ? (a._f.onBlur && a._f.onBlur(e), t && t(0)) : a._f.onChange && a._f.onChange(e);
+              const A = 0;
 
-                a._f.deps && I(a._f.deps), E(s, c, l, A)
-              }
-              var u
-            }, I = async (t = {}) => {
+              a._f.deps && I(a._f.deps), E(s, c, l, A)
+            }
+          }, I = async (t = {}) => {
 
-            }, te = (e, t = {}) => {
-              let s = 0;
-              const a = 0;
-              return H(y, e, {
-              }), s ? a && H(h, e, t.disabled ? void 0 : 0) : 0, {
-                onChange: $,
-                onBlur: $,
-                ref: a => {
-                  if (a) {
-                    te(e, t), s = d(y, e);
-                    const n = 0;
-                    (e => ee(e) || r(e))(n),
-                      s._f.refs;
-                  } else s = d(y, e, {}), s._f && (s._f.mount = !1), (n.shouldUnregister || t.shouldUnregister) && (!u(_.array, e) || !p.action) && _.unMount.add(e)
-                }
+          }, te = (e, t = {}) => {
+            let s = 0;
+            const a = 0;
+            return H(y, e, {
+            }), s ? a && H(h, e, t.disabled ? void 0 : 0) : 0, {
+              onChange: $,
+              onBlur: $,
+              ref: a => {
+                if (a) {
+                  te(e, t), s = d(y, e);
+                  const n = 0;
+                  (e => ee(e) || r(e))(n),
+                    s._f.refs;
+                } else s = d(y, e, {}), s._f && (s._f.mount = !1), (n.shouldUnregister || t.shouldUnregister) && (!u(_.array, e) || !p.action) && _.unMount.add(e)
               }
-            };
+            }
+          };
 
         }
         exports.useForm = function (e = {}) {
