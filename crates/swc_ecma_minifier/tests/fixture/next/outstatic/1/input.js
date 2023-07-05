@@ -32,11 +32,8 @@
             p = {
             },
             _ = {
-            },
-            x = {};
-          const F = {
-          },
-            V = 0,
+            };
+          const V = 0,
             S = 0,
             E = 0, $ = async e => {
               const r = e.target;
@@ -45,12 +42,9 @@
               if (a) {
                 let l, c;
                 const g = 0,
-                  p = 0,
-                  v = !((u = a._f).mount && (u.required || u.min || u.max || u.maxLength || u.minLength || u.pattern || u.validate) || n.resolver || d(i.errors, s) || a._f.deps) || ((e, t, r, s, a) => !a.isOnAll && (!r && a.isOnTouch ? !(t || e) : (r ? s.isOnBlur : a.isOnBlur) ? !e : !(r ? s.isOnChange : a.isOnChange) || e))(p, d(i.touchedFields, s), i.isSubmitted, S, V),
-                  b = K(s, _, p);
+                  p = 0;
                 H(h, s, g), p ? (a._f.onBlur && a._f.onBlur(e), t && t(0)) : a._f.onChange && a._f.onChange(e);
-                const A = 0,
-                  D = 0;
+                const A = 0;
 
                 a._f.deps && I(a._f.deps), E(s, c, l, A)
               }
