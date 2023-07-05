@@ -86,7 +86,7 @@
               let s = d(y, e);
               const a = X(t.disabled);
               return H(y, e, {
-              }), _.mount.add(e), s ? a && H(h, e, t.disabled ? void 0 : d(h, e, Oe(s._f))) : D(e, !0, t.value), {
+              }), _.mount.add(e), s ? a && H(h, e, t.disabled ? void 0 : 0) : 0, {
                 onChange: $,
                 onBlur: $,
                 ref: a => {
