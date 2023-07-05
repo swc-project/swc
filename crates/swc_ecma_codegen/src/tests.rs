@@ -235,14 +235,14 @@ a;",
 #[test]
 fn no_octal_escape() {
     test_from_to(
-        r#"'\x00a';
+        r"'\x00a';
 '\x000';
 '\x001';
-'\x009'"#,
-        r#"'\x00a';
+'\x009'",
+        r"'\x00a';
 '\x000';
 '\x001';
-'\x009';"#,
+'\x009';",
     );
 }
 
@@ -355,11 +355,11 @@ fn named_and_namespace_export_from_min() {
 #[test]
 fn issue_450() {
     test_from_to(
-        r#"console.log(`
+        r"console.log(`
 \`\`\`html
 <h1>It works!</h1>
 \`\`\`
-`);"#,
+`);",
         "console.log(`\n\\`\\`\\`html\n<h1>It works!</h1>\n\\`\\`\\`\n`);",
     );
 }
@@ -438,24 +438,24 @@ fn tpl_escape_2() {
 #[test]
 fn tpl_escape_3() {
     test_from_to(
-        r#"`${resolvedDevice.toLowerCase()}\\`"#,
-        r#"`${resolvedDevice.toLowerCase()}\\`;"#,
+        r"`${resolvedDevice.toLowerCase()}\\`",
+        r"`${resolvedDevice.toLowerCase()}\\`;",
     );
 }
 
 #[test]
 fn tpl_escape_4() {
     test_from_to(
-        r#"`\\\\${firstPart}\\${path.slice(last)}`"#,
-        r#"`\\\\${firstPart}\\${path.slice(last)}`;"#,
+        r"`\\\\${firstPart}\\${path.slice(last)}`",
+        r"`\\\\${firstPart}\\${path.slice(last)}`;",
     );
 }
 
 #[test]
 fn tpl_escape_5() {
     test_from_to(
-        r#"const data = text.encode(`${arg}\0`);"#,
-        r#"const data = text.encode(`${arg}\0`);"#,
+        r"const data = text.encode(`${arg}\0`);",
+        r"const data = text.encode(`${arg}\0`);",
     );
 }
 
@@ -485,12 +485,12 @@ fn tpl_escape_6() {
 
 #[test]
 fn issue_915_1() {
-    test_identical(r#"relResolveCacheIdentifier = `${parent.path}\x00${request}`;"#);
+    test_identical(r"relResolveCacheIdentifier = `${parent.path}\x00${request}`;");
 }
 
 #[test]
 fn issue_915_2() {
-    test_identical(r#"relResolveCacheIdentifier = `${parent.path}\x00${request}`;"#);
+    test_identical(r"relResolveCacheIdentifier = `${parent.path}\x00${request}`;");
 }
 
 #[test]
@@ -500,7 +500,7 @@ fn issue_915_3() {
 
 #[test]
 fn issue_915_4() {
-    test_identical(r#"`\\r\\n--${this.boundary}`;"#);
+    test_identical(r"`\\r\\n--${this.boundary}`;");
 }
 
 #[test]
@@ -753,8 +753,8 @@ fn issue_3617_1() {
     let from = r"// a string of all valid unicode whitespaces
     module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
       '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF' + '\u{a0}';";
-    let expected = r#"// a string of all valid unicode whitespaces
-module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' + '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF' + '\u{a0}';"#;
+    let expected = r"// a string of all valid unicode whitespaces
+module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' + '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF' + '\u{a0}';";
 
     let out = parse_then_emit(
         from,
@@ -882,7 +882,7 @@ export default {
     \u3131: '\u11B0'
 };
         ",
-        r##"export default{\u3131:"\u11B0"}"##,
+        r#"export default{\u3131:"\u11B0"}"#,
         Config {
             ascii_only: true,
             ..Default::default()

@@ -291,10 +291,10 @@ impl<'a> Scope<'a> {
 
     /// True if the returned scope is self
     fn scope_for(&self, id: &Id) -> (&Scope, bool) {
-        if let Some(..) = self.constants.get(id) {
+        if self.constants.get(id).is_some() {
             return (self, true);
         }
-        if let Some(..) = self.find_binding_from_current(id) {
+        if self.find_binding_from_current(id).is_some() {
             return (self, true);
         }
 
@@ -509,7 +509,7 @@ impl<'a> Scope<'a> {
     }
 
     fn has_constant(&self, id: &Id) -> bool {
-        if let Some(..) = self.constants.get(id) {
+        if self.constants.get(id).is_some() {
             return true;
         }
 

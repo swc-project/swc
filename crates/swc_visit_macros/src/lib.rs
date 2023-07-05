@@ -2858,7 +2858,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     let ident = method_name(mode, arg);
 
                                     if let Mode::Fold(..) = mode {
-                                        if let Some(..) = as_box(arg) {
+                                        if as_box(arg).is_some() {
                                             let inner = inject_ast_path_arg_if_required(
                                                 mode,
                                                 q!(Vars { ident }, { _visitor.ident(n) }).parse(),
@@ -2932,7 +2932,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                     match mode {
                         Mode::Fold(v) => {
-                            if let Some(..) = as_box(arg) {
+                            if as_box(arg).is_some() {
                                 return match v {
                                     VisitorVariant::Normal => q!(
                                         Vars { ident },

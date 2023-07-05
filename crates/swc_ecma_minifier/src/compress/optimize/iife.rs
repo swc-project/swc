@@ -800,7 +800,7 @@ impl Optimizer<'_> {
 
                 // TODO: Check if parameter is used and inline if call is not related to parameters.
                 Expr::Call(e) => {
-                    if let Some(..) = e.callee.as_expr().and_then(|e| e.as_ident()) {
+                    if e.callee.as_expr().and_then(|e| e.as_ident()).is_some() {
                         return true;
                     }
 

@@ -660,8 +660,8 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             file_stem.push_str(&counter.to_string());
 
             // TODO workaround, fix - https://github.com/html5lib/html5lib-tests/pull/151
-            let need_skip_fragment = relative_path_to_test.contains("template_dat")
-                && matches!(counter, 109 | 110 | 111);
+            let need_skip_fragment =
+                relative_path_to_test.contains("template_dat") && matches!(counter, 109..=111);
 
             if !need_skip_fragment && !document_fragment.is_empty() {
                 file_stem += ".fragment_";

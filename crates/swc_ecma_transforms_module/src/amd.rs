@@ -453,10 +453,9 @@ where
 
     fn get_amd_module_id_from_comments(&self, span: Span) -> Option<String> {
         // https://github.com/microsoft/TypeScript/blob/1b9c8a15adc3c9a30e017a7048f98ef5acc0cada/src/compiler/parser.ts#L9648-L9658
-        let amd_module_re = Regex::new(
-            r##"(?i)^/\s*<amd-module.*?name\s*=\s*(?:(?:'([^']*)')|(?:"([^"]*)")).*?/>"##,
-        )
-        .unwrap();
+        let amd_module_re =
+            Regex::new(r#"(?i)^/\s*<amd-module.*?name\s*=\s*(?:(?:'([^']*)')|(?:"([^"]*)")).*?/>"#)
+                .unwrap();
 
         self.comments.as_ref().and_then(|comments| {
             comments

@@ -71,7 +71,7 @@ where
     }
 
     fn visit_mut_export_all(&mut self, n: &mut ExportAll) {
-        let mut src = &mut n.src;
+        let src = &mut n.src;
 
         let new = self
             .resolver

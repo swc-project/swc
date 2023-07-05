@@ -315,7 +315,7 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| json_parse(0),
         tpl,
-        r#"const a = [`\x22\x21\x224`];"#,
+        r"const a = [`\x22\x21\x224`];",
         r#"const a = JSON.parse('["\\"!\\"4"]');"#
     );
     test!(

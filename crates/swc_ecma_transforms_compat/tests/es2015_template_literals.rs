@@ -152,7 +152,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     template_revision,
-    r#"tag`\unicode and \u{55}`;
+    r"tag`\unicode and \u{55}`;
 tag`\01`;
 tag`\xg${0}right`;
 tag`left${0}\xg`;
@@ -162,7 +162,7 @@ tag`left${0}\u{-0}${1}right`;
 function a() {
   var undefined = 4;
   tag`\01`;
-}"#,
+}",
     r#"function _templateObject() {
     const data = _tagged_template_literal([
         void 0
@@ -428,7 +428,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_template_revision,
-    r#"
+    r"
 tag`\unicode and \u{55}`;
 
 tag`\01`;
@@ -443,7 +443,7 @@ function a() {
   tag`\01`;
 }
 
-"#,
+",
     r#"
 function _templateObject8() {
   const data = _tagged_template_literal([void 0], ["\\01"]);
@@ -708,12 +708,12 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_tag,
-    r#"
+    r"
 var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
 var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
 
-"#,
+",
     r#"
 function _templateObject() {
   const data = _tagged_template_literal(["wow\na", "b ", ""], ["wow\\na", "b ", ""]);
@@ -1245,11 +1245,11 @@ test!(
         mutable_template: true
     }),
     loose_tag,
-    r#"
+    r"
 var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
 var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
-    "#,
+    ",
     r#"
 function _templateObject() {
     const data = _tagged_template_literal_loose([
@@ -1308,7 +1308,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     loose_template_revision,
-    r#"tag`\unicode and \u{55}`;
+    r"tag`\unicode and \u{55}`;
 tag`\01`;
 tag`\xg${0}right`;
 tag`left${0}\xg`;
@@ -1318,7 +1318,7 @@ tag`left${0}\u{-0}${1}right`;
 function a() {
 var undefined = 4;
 tag`\01`;
-}"#,
+}",
     r#"
 function _templateObject8() {
 const data = _tagged_template_literal_loose([void 0], ["\\01"]);

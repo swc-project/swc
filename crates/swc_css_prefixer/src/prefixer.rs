@@ -504,7 +504,8 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
                 value: feature_name_value,
                 span: feature_name_span,
                 ..
-            }) = &n.name else {
+            }) = &n.name
+            else {
                 return;
             };
 

@@ -15,7 +15,7 @@ use super::EnumKind;
 pub(super) struct ParamMetadata;
 
 impl VisitMut for ParamMetadata {
-    fn visit_mut_class(&mut self, mut cls: &mut Class) {
+    fn visit_mut_class(&mut self, cls: &mut Class) {
         cls.visit_mut_children_with(self);
 
         let mut decorators = cls.decorators.take();

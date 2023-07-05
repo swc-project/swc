@@ -53,9 +53,9 @@ const LOG: bool = false && cfg!(debug_assertions);
 ///
 /// resolver does
 ///
-/// 1.  Define `a` with top level context.
+/// 1. Define `a` with top level context.
 ///
-/// 2.  Found a block, so visit block with a new syntax context.
+/// 2. Found a block, so visit block with a new syntax context.
 ///
 /// 3. Defined `a` with syntax context of the block statement.
 ////

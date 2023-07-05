@@ -70,7 +70,7 @@ impl Drop for Node {
         while let Some(node) = nodes.pop() {
             let children = mem::take(&mut *node.children.borrow_mut());
 
-            nodes.extend(children.into_iter());
+            nodes.extend(children);
         }
     }
 }

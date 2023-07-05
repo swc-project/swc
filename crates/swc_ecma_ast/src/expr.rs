@@ -169,7 +169,7 @@ pub enum Expr {
     Invalid(Invalid),
 }
 
-// Memory layout depedns on the version of rustc.
+// Memory layout depends on the version of rustc.
 // #[cfg(target_pointer_width = "64")]
 // assert_eq_size!(Expr, [u8; 80]);
 
@@ -207,7 +207,7 @@ impl Expr {
     ///
     /// Panics if `exprs` is empty.
     pub fn from_exprs(mut exprs: Vec<Box<Expr>>) -> Box<Expr> {
-        debug_assert_ne!(exprs, vec![], "exprs must not be empty");
+        debug_assert!(!exprs.is_empty(), "`exprs` must not be empty");
 
         if exprs.len() == 1 {
             exprs.remove(0)
