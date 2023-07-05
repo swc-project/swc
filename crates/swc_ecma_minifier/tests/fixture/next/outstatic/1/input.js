@@ -40,7 +40,7 @@
               H(h, s, g), p ? (a._f.onBlur && a._f.onBlur(e), t && t(0)) : a._f.onChange && a._f.onChange(e);
               const A = 0;
 
-              a._f.deps && I(a._f.deps), E(s, c, l, A)
+              a._f.deps && E(s, c, l, A)
             }
           }, I = async (t = {}) => {
 
