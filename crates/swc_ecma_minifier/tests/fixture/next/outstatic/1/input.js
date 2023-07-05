@@ -28,15 +28,6 @@
           X = e => "boolean" == typeof e,
           ee = e => "radio" === e.type;
 
-        var le = 0;
-
-
-
-        function Oe(e) {
-
-        }
-
-
         function Me(e = {}) {
           let t, n = {
             ...e
@@ -55,8 +46,7 @@
           },
             V = 0,
             S = 0,
-            w = 0,
-            k = 0, D = 0, C = 0, E = 0, $ = async e => {
+            C = 0, E = 0, $ = async e => {
               const r = e.target;
               let s = r.name;
               const a = d(y, s);
@@ -92,7 +82,7 @@
                 ref: a => {
                   if (a) {
                     te(e, t), s = d(y, e);
-                    const n = c(a.value) && a.querySelectorAll && a.querySelectorAll("input,select,textarea")[0] || a,
+                    const n = 0,
                       i = (e => ee(e) || r(e))(n),
                       o = s._f.refs || [];
                     if (i ? o.find(e => e === n) : n === s._f.ref) return;
