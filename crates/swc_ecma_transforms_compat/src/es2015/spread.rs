@@ -251,11 +251,30 @@ impl Spread {
             };
         }
 
-        let mut arg_list = vec![];
+        // shorthand [].concat(arr1, arr2) shoule be used under loose mode
+        if self.c.loose {
+            let mut arg_list = vec![];
+            for arg in args.flatten() {
+                let expr = arg.expr;
+                arg_list.push(expr.as_arg());
+            }
+
+            return Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![],
+                }
+                .make_member(quote_ident!("concat"))
+                .as_callee(),
+                args: arg_list,
+                type_args: Default::default(),
+            });
+        }
+
         for arg in args {
             if let Some(arg) = arg {
                 let ExprOrSpread { expr, spread } = arg;
-                arg_list.push(expr.clone().as_arg());
 
                 fn to_consumable_array(expr: Box<Expr>, span: Span) -> CallExpr {
                     if matches!(*expr, Expr::Lit(Lit::Str(..))) {
@@ -340,7 +359,6 @@ impl Spread {
                                         Expr::Call(to_consumable_array(expr, span))
                                     };
                                 }
-
                                 to_consumable_array(expr, span).as_arg()
                             }
                         });
@@ -352,20 +370,6 @@ impl Spread {
             }
         }
         make_arr!();
-
-        if !buf.is_empty() && self.c.loose {
-            return Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: ArrayLit {
-                    span: DUMMY_SP,
-                    elems: vec![],
-                }
-                .make_member(quote_ident!("concat"))
-                .as_callee(),
-                args: arg_list,
-                type_args: Default::default(),
-            });
-        }
 
         if !buf.is_empty()
             && match first_arr {
