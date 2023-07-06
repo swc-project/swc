@@ -1,6 +1,18 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/compat)** Visit children of `while` statement in the `generator` pass (#7624) ([d2ac2c1](https://github.com/swc-project/swc/commit/d2ac2c16a3d9067b3afa14ba6ae8745b553c6642))
+
+### Refactor
+
+
+
+- **(bindings/node)** Remove unused `babelify` type (#7625) ([73c7769](https://github.com/swc-project/swc/commit/73c77694f11c2b98b6caca5fdd106390e3f82629))
+
 ### Build
 
 
