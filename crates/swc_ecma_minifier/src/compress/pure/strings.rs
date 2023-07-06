@@ -347,7 +347,7 @@ impl Pure<'_> {
 
                 {
                     let l_last = l.quasis.pop().unwrap();
-                    let mut r_first = rt.quasis.first_mut().unwrap();
+                    let r_first = rt.quasis.first_mut().unwrap();
                     let new: Atom = format!("{}{}", l_last.raw, r_first.raw).into();
 
                     r_first.raw = new;

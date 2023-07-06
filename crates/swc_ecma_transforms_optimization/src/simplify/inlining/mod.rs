@@ -521,7 +521,7 @@ impl VisitMut for Inlining<'_> {
                 }
                 PatFoldingMode::VarDecl => {}
                 PatFoldingMode::Assign => {
-                    if let Some(..) = self.scope.find_binding_from_current(&i.to_id()) {
+                    if self.scope.find_binding_from_current(&i.to_id()).is_some() {
                     } else {
                         self.scope.add_write(&i.to_id(), false);
                     }

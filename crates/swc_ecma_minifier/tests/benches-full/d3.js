@@ -4208,7 +4208,7 @@
             (parent[i + 1 & 3] || parent[i + 2 & 3] || parent[i + 3 & 3]) && (retainer = parent, j = i);
         }
         for(; node.data !== d;)if (previous = node, !(node = node.next)) return this;
-        return ((next = node.next) && delete node.next, previous) ? (next ? previous.next = next : delete previous.next, this) : parent ? (next ? parent[i] = next : delete parent[i], (node = parent[0] || parent[1] || parent[2] || parent[3]) && node === (parent[3] || parent[2] || parent[1] || parent[0]) && !node.length && (retainer ? retainer[j] = node : this._root = node), this) : (this._root = next, this);
+        return ((next = node.next) && delete node.next, previous) ? next ? previous.next = next : delete previous.next : parent ? (next ? parent[i] = next : delete parent[i], (node = parent[0] || parent[1] || parent[2] || parent[3]) && node === (parent[3] || parent[2] || parent[1] || parent[0]) && !node.length && (retainer ? retainer[j] = node : this._root = node)) : this._root = next, this;
     }, treeProto.removeAll = function(data) {
         for(var i = 0, n = data.length; i < n; ++i)this.remove(data[i]);
         return this;
@@ -10067,11 +10067,11 @@
         return values;
     }, exports1.interval = function(callback, delay, time) {
         var t = new Timer, total = delay;
-        return null == delay ? (t.restart(callback, delay, time), t) : (t._restart = t.restart, t.restart = function(callback, delay, time) {
+        return null == delay || (t._restart = t.restart, t.restart = function(callback, delay, time) {
             delay = +delay, time = null == time ? now() : +time, t._restart(function tick(elapsed) {
                 elapsed += total, t._restart(tick, total += delay, time), callback(elapsed);
             }, delay, time);
-        }, t.restart(callback, delay, time), t);
+        }), t.restart(callback, delay, time), t;
     }, exports1.isoFormat = formatIso, exports1.isoParse = parseIso, exports1.json = function(input, init) {
         return fetch(input, init).then(responseJson);
     }, exports1.lab = lab, exports1.lch = function(l, c, h, opacity) {

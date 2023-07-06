@@ -256,7 +256,7 @@ impl Compiler {
 
                                         nested_of_media.extend(
                                             once(Rule::QualifiedRule(q))
-                                                .chain(rules.into_iter())
+                                                .chain(rules)
                                                 .map(From::from),
                                         );
                                     }

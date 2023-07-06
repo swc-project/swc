@@ -671,7 +671,7 @@ impl Options {
             // Embedded runtime plugin target, based on assumption we have
             // 1. filesystem access for the cache
             // 2. embedded runtime can compiles & execute wasm
-            #[cfg(all(any(feature = "plugin"), not(target_arch = "wasm32")))]
+            #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
             {
                 use swc_ecma_loader::resolve::Resolve;
 
@@ -730,7 +730,7 @@ impl Options {
             // 1. no filesystem access, loading binary / cache management should be
             // performed externally
             // 2. native runtime compiles & execute wasm (i.e v8 on node, chrome)
-            #[cfg(all(any(feature = "plugin"), target_arch = "wasm32"))]
+            #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
             {
                 handler.warn(
                     "Currently @swc/wasm does not support plugins, plugin transform will be \

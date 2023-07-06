@@ -1258,7 +1258,7 @@ where
                 ..self.ctx
             };
 
-            if let Some(..) = &self.marks {
+            if self.marks.is_some() {
                 if let VarDeclarator {
                     name: Pat::Ident(id),
                     init: Some(..),

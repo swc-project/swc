@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_common"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.31.16"
+version       = "0.31.17"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -66,7 +66,7 @@ url = "2.4.0"
 ast_node             = { version = "0.9.5", path = "../ast_node" }
 better_scoped_tls    = { version = "0.1.1", path = "../better_scoped_tls" }
 from_variant         = { version = "0.1.6", path = "../from_variant" }
-swc_atoms            = { version = "0.5.6", path = "../swc_atoms" }
+swc_atoms            = { version = "0.5.7", path = "../swc_atoms" }
 swc_eq_ignore_macros = { version = "0.1.2", path = "../swc_eq_ignore_macros" }
 swc_visit            = { version = "0.5.7", path = "../swc_visit" }
 

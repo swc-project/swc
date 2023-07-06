@@ -1,6 +1,20 @@
 # Changelog
 ## [unreleased]
 
+### Refactor
+
+
+
+- **(bindings/node)** Remove unused `babelify` type (#7625) ([73c7769](https://github.com/swc-project/swc/commit/73c77694f11c2b98b6caca5fdd106390e3f82629))
+
+### Build
+
+
+
+- **(cargo)** Update `rustc` to `2023-07-03` (#7623) ([b34f1ad](https://github.com/swc-project/swc/commit/b34f1adbcc0d9556872c05bb6c7a92b77332a924))
+
+## [1.3.68] - 2023-07-05
+
 ### Bug Fixes
 
 
@@ -8,7 +22,13 @@
 - **(css/modules)** Fix `:local` and `:global` (#7600) ([f0ab5b3](https://github.com/swc-project/swc/commit/f0ab5b39f79685023cfc9529bc60e96231ad18d7))
 
 
+- **(es/compat)** Visit transformed expression in optional chaining pass (#7614) ([c087c82](https://github.com/swc-project/swc/commit/c087c82aa3131ecafa2e42cdef6ecfba6c80b9b8))
+
+
 - **(es/fixer)** Don't change default decls to default expr exports (#7585) ([e272545](https://github.com/swc-project/swc/commit/e2725451aa507c18222c5f66cf0a5a049c92bd0b))
+
+
+- **(es/minifier)** Add usage to inlined ident eagerly (#7597) ([4f866de](https://github.com/swc-project/swc/commit/4f866de8788558a4f9f3e3f889048136c7896ee3))
 
 
 - **(es/parser)** Re-lex `<<` as two `<`-s if required (#7439) ([6850372](https://github.com/swc-project/swc/commit/68503726a78cfc37cd995eda69a3e8982b6fdf57))
@@ -27,6 +47,9 @@
 
 
 - **(es/minifier)** Drop unused properties (#7534) ([47d2edd](https://github.com/swc-project/swc/commit/47d2edd4dc448a611396006852f30e2b8de1c42c))
+
+
+- **(es/minifier)** Compress common sub expressions in sequences (#7587) ([ff1ad95](https://github.com/swc-project/swc/commit/ff1ad95b59732282c014474609bbb405e0f9edb4))
 
 
 - **(es/optimization)** Support `default` imports for const modules (#7604) ([ac02b84](https://github.com/swc-project/swc/commit/ac02b84918932f2d51840b4c4cef9adf460fce40))

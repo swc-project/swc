@@ -7,7 +7,7 @@
 )]
 
 use serde::{Deserialize, Serialize};
-#[cfg(any(feature = "plugin"))]
+#[cfg(feature = "plugin")]
 use swc_ecma_ast::*;
 #[cfg(not(any(feature = "plugin")))]
 use swc_ecma_transforms::pass::noop;
@@ -48,7 +48,7 @@ struct RustPlugins {
 }
 
 impl RustPlugins {
-    #[cfg(any(feature = "plugin"))]
+    #[cfg(feature = "plugin")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use anyhow::Context;
         if self.plugins.is_none() || self.plugins.as_ref().unwrap().is_empty() {
@@ -64,7 +64,7 @@ impl RustPlugins {
     }
 
     #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
-    #[cfg(all(any(feature = "plugin"), not(target_arch = "wasm32")))]
+    #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
     fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use anyhow::Context;
         use swc_common::plugin::serialized::PluginSerializedBytes;
@@ -145,7 +145,7 @@ impl RustPlugins {
         )
     }
 
-    #[cfg(all(any(feature = "plugin"), target_arch = "wasm32"))]
+    #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
     #[tracing::instrument(level = "info", skip_all)]
     fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         // [TODO]: unimplemented
@@ -156,14 +156,14 @@ impl RustPlugins {
 impl Fold for RustPlugins {
     noop_fold_type!();
 
-    #[cfg(any(feature = "plugin"))]
+    #[cfg(feature = "plugin")]
     fn fold_module(&mut self, n: Module) -> Module {
         self.apply(Program::Module(n))
             .expect("failed to invoke plugin")
             .expect_module()
     }
 
-    #[cfg(any(feature = "plugin"))]
+    #[cfg(feature = "plugin")]
     fn fold_script(&mut self, n: Script) -> Script {
         self.apply(Program::Script(n))
             .expect("failed to invoke plugin")

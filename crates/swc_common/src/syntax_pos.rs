@@ -158,7 +158,7 @@ pub enum FileName {
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct EncodePathBuf;
 
-#[cfg(any(feature = "rkyv-impl"))]
+#[cfg(feature = "rkyv-impl")]
 impl rkyv::with::ArchiveWith<PathBuf> for EncodePathBuf {
     type Archived = rkyv::string::ArchivedString;
     type Resolver = rkyv::string::StringResolver;
@@ -176,7 +176,7 @@ impl rkyv::with::ArchiveWith<PathBuf> for EncodePathBuf {
     }
 }
 
-#[cfg(any(feature = "rkyv-impl"))]
+#[cfg(feature = "rkyv-impl")]
 impl<S> rkyv::with::SerializeWith<PathBuf, S> for EncodePathBuf
 where
     S: ?Sized + rkyv::ser::Serializer,
@@ -188,7 +188,7 @@ where
     }
 }
 
-#[cfg(any(feature = "rkyv-impl"))]
+#[cfg(feature = "rkyv-impl")]
 impl<D> rkyv::with::DeserializeWith<rkyv::string::ArchivedString, PathBuf, D> for EncodePathBuf
 where
     D: ?Sized + rkyv::Fallible,
@@ -209,7 +209,7 @@ where
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct EncodeUrl;
 
-#[cfg(any(feature = "rkyv-impl"))]
+#[cfg(feature = "rkyv-impl")]
 impl rkyv::with::ArchiveWith<Url> for EncodeUrl {
     type Archived = rkyv::string::ArchivedString;
     type Resolver = rkyv::string::StringResolver;
@@ -225,7 +225,7 @@ impl rkyv::with::ArchiveWith<Url> for EncodeUrl {
     }
 }
 
-#[cfg(any(feature = "rkyv-impl"))]
+#[cfg(feature = "rkyv-impl")]
 impl<S> rkyv::with::SerializeWith<Url, S> for EncodeUrl
 where
     S: ?Sized + rkyv::ser::Serializer,
@@ -237,7 +237,7 @@ where
     }
 }
 
-#[cfg(any(feature = "rkyv-impl"))]
+#[cfg(feature = "rkyv-impl")]
 impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Url, D> for EncodeUrl
 where
     D: ?Sized + rkyv::Fallible,
@@ -575,7 +575,7 @@ impl Span {
     /// Dummy span, both position are extremely large numbers so they would be
     /// ignore by sourcemap, but can still have comments
     pub fn dummy_with_cmt() -> Self {
-        #[cfg(all(any(feature = "__plugin_mode"), target_arch = "wasm32"))]
+        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
         {
             let lo = BytePos(unsafe { __span_dummy_with_cmt_proxy() });
 

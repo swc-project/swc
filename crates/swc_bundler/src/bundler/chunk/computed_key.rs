@@ -70,7 +70,7 @@ where
                                     unimplemented!("module string names unimplemented")
                                 }
                             };
-                            if let Some(..) = ctx.transitive_remap.get(&exported.span.ctxt) {
+                            if ctx.transitive_remap.get(&exported.span.ctxt).is_some() {
                                 let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                                     span: DUMMY_SP,
                                     orig: orig.clone(),

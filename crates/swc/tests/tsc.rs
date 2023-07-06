@@ -90,7 +90,7 @@ struct TestUnitData {
 }
 
 static OPTION_REGEX: Lazy<Regex> =
-    Lazy::new(|| Regex::new(r#"^[\\/]{2}\s*@(\w+)\s*:\s*([^\r\n]*)"#).unwrap());
+    Lazy::new(|| Regex::new(r"^[\\/]{2}\s*@(\w+)\s*:\s*([^\r\n]*)").unwrap());
 
 fn matrix(input: &Path) -> Vec<TestUnitData> {
     let cm = Arc::<SourceMap>::default();

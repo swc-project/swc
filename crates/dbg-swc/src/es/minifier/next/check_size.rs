@@ -250,12 +250,12 @@ where
 
         c.arg("-e");
         c.arg(
-            r###"
+            r#"
             function looseJsonParse(obj) {
                 return Function('"use strict";return (' + obj + ")")();
             }
             console.log(JSON.stringify(looseJsonParse(process.argv[1])));
-            "###,
+            "#,
         );
 
         c.arg(s);

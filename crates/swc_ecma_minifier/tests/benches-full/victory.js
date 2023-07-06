@@ -5972,9 +5972,9 @@
             var _timer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-timer/src/timer.js");
             __webpack_exports__.default = function(callback, delay, time) {
                 var t = new _timer_js__WEBPACK_IMPORTED_MODULE_0__.Timer, total = delay;
-                return null == delay ? (t.restart(callback, delay, time), t) : (delay = +delay, time = null == time ? Object(_timer_js__WEBPACK_IMPORTED_MODULE_0__.now)() : +time, t.restart(function tick(elapsed) {
+                return null == delay ? t.restart(callback, delay, time) : (delay = +delay, time = null == time ? Object(_timer_js__WEBPACK_IMPORTED_MODULE_0__.now)() : +time, t.restart(function tick(elapsed) {
                     elapsed += total, t.restart(tick, total += delay, time), callback(elapsed);
-                }, delay, time), t);
+                }, delay, time)), t;
             };
         },
         "../../../node_modules/d3-timer/src/timeout.js": function(module1, __webpack_exports__, __webpack_require__) {
@@ -24281,7 +24281,7 @@
                 return Array.isArray(bins) ? (bin.domain([
                     bins[0],
                     bins[bins.length - 1]
-                ]), bin.thresholds(bins.slice(1, bins.length - 1)), bin) : Number.isInteger(bins) ? (bin.domain(niceScale.domain()), bin.thresholds(bins), bin) : dataOrBinsContainsDates ? (bin.domain(niceScale.domain()), bin.thresholds(niceScale.ticks()), bin) : (bin.domain(niceScale.domain()), bin);
+                ]), bin.thresholds(bins.slice(1, bins.length - 1))) : Number.isInteger(bins) ? (bin.domain(niceScale.domain()), bin.thresholds(bins)) : dataOrBinsContainsDates ? (bin.domain(niceScale.domain()), bin.thresholds(niceScale.ticks())) : bin.domain(niceScale.domain()), bin;
             }, getFormattedData = (func = function(_ref3) {
                 var _ref3$data = _ref3.data, data = void 0 === _ref3$data ? [] : _ref3$data, x = _ref3.x, bins = _ref3.bins;
                 if ((!data || !data.length) && !Array.isArray(bins)) return [];

@@ -2540,7 +2540,7 @@ impl VisitMut for Optimizer<'_> {
                     .take_stmts()
                     .into_iter()
                     .chain(once(s.take()))
-                    .chain(self.append_stmts.take_stmts().into_iter())
+                    .chain(self.append_stmts.take_stmts())
                     .filter(|s| match s {
                         Stmt::Empty(..) => false,
                         Stmt::Decl(Decl::Var(v)) => !v.decls.is_empty(),
