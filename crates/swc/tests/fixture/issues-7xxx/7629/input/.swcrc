@@ -1,0 +1,24 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false
+        },
+        "target": "es2018",
+        "loose": false,
+        "minify": {
+            "compress": false,
+            "mangle": false
+        },
+        "externalHelpers": false
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": false,
+    "isModule": true,
+    "env": {
+        "mode": "usage",
+        "coreJs": "3.29"
+    }
+}
