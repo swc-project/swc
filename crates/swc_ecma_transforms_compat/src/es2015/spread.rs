@@ -251,6 +251,27 @@ impl Spread {
             };
         }
 
+        // shorthand [].concat(arr1, arr2) shoule be used under loose mode
+        if self.c.loose {
+            let mut arg_list = vec![];
+            for arg in args.flatten() {
+                let expr = arg.expr;
+                arg_list.push(expr.as_arg());
+            }
+
+            return Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![],
+                }
+                .make_member(quote_ident!("concat"))
+                .as_callee(),
+                args: arg_list,
+                type_args: Default::default(),
+            });
+        }
+
         for arg in args {
             if let Some(arg) = arg {
                 let ExprOrSpread { expr, spread } = arg;
@@ -338,7 +359,6 @@ impl Spread {
                                         Expr::Call(to_consumable_array(expr, span))
                                     };
                                 }
-
                                 to_consumable_array(expr, span).as_arg()
                             }
                         });
