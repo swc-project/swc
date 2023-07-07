@@ -7,6 +7,9 @@
 
 - **(es/compat)** Visit children of `while` statement in the `generator` pass (#7624) ([d2ac2c1](https://github.com/swc-project/swc/commit/d2ac2c16a3d9067b3afa14ba6ae8745b553c6642))
 
+
+- **(es/compat)** Fix loose mode of the `spread` pass (#7608) ([a7daa5b](https://github.com/swc-project/swc/commit/a7daa5b28e45c0b310850279433178bf75f0f5f0))
+
 ### Refactor
 
 
