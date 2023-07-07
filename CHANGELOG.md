@@ -10,6 +10,9 @@
 
 - **(es/compat)** Fix loose mode of the `spread` pass (#7608) ([a7daa5b](https://github.com/swc-project/swc/commit/a7daa5b28e45c0b310850279433178bf75f0f5f0))
 
+
+- **(es/minifier)** Don't drop unused properties of top-level vars (#7638) ([19ba714](https://github.com/swc-project/swc/commit/19ba714ea11d6e733cd46ed3ce6b851ddc972e5a))
+
 ### Features
 
 
