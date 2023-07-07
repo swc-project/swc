@@ -835,6 +835,10 @@ impl Optimizer<'_> {
             return None;
         }
 
+        if self.ctx.top_level && !self.options.top_level() {
+            return None;
+        }
+
         let name = v.name.as_ident()?;
         let obj = v.init.as_mut()?.as_mut_object()?;
 
