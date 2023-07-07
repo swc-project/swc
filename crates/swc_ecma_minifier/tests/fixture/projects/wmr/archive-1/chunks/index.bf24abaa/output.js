@@ -1,5 +1,6 @@
 import { s as style, m } from "../index.f66dda46.js";
 const process = {
+    browser: !0,
     env: {
         FOO: "bar",
         OVERRIDE: "11",
