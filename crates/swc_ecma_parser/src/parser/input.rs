@@ -259,6 +259,17 @@ impl<I: Tokens> Tokens for Capturing<I> {
     }
 
     fn reset_to(&mut self, to: BytePos) {
+        let mut v = self.captured.borrow_mut();
+
+        // remove tokens that could change due to backtracing
+        while let Some(last) = v.last() {
+            if last.span.hi >= to {
+                v.pop();
+            } else {
+                break;
+            }
+        }
+
         self.inner.reset_to(to);
     }
 }
