@@ -126,6 +126,7 @@ impl Scope {
         self.children.iter_mut().for_each(|child| {
             child.prepare_renaming();
 
+            child.data.imports.extend(self.data.imports.iter().cloned());
             self.data.all.extend(child.data.all.iter().cloned());
         });
     }
@@ -219,7 +220,7 @@ impl Scope {
                 continue;
             }
 
-            if self.data.all.contains(left) {
+            if self.data.all.contains(left) || self.data.imports.contains(left) {
                 return false;
             }
         }
