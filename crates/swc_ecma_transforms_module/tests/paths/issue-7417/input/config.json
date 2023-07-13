@@ -3,5 +3,5 @@
     "paths": {
         "@/*": ["src/*"]
     },
-    "inputFile": "src/index.ts"
+    "inputFile": "src/lib/foo.ts"
 }
