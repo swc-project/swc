@@ -2988,7 +2988,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.54"
+version = "0.91.55"
 dependencies = [
  "anyhow",
  "atty",
