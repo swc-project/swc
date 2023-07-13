@@ -25,7 +25,7 @@ verify     = ["swc_ecma_visit"]
 
 [dependencies]
 either      = { version = "1.4" }
-lexical     = { version = "6.1.0", features = ["power-of-two"] }
+lexical     = { version = "6.1.0", features = ["power-of-two", "parse-integers", "parse-floats"], default-features = false }
 num-bigint  = "0.4"
 serde       = { version = "1", features = ["derive"] }
 smallvec    = "1.8.0"
