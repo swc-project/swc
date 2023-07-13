@@ -19,6 +19,12 @@
 
 - **(es/preset-env)** Update compat data (#7630) ([7e9e84e](https://github.com/swc-project/swc/commit/7e9e84e2306941de591700d3c5f15da2d43236bb))
 
+### Miscellaneous Tasks
+
+
+
+- **(es/parser)** Scope use of `lexical` to certain features (#7644) ([a961090](https://github.com/swc-project/swc/commit/a961090c9da5994ec83ad6ffca1074277d61431d))
+
 ### Refactor
 
 
