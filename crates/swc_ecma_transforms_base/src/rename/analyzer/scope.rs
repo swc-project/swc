@@ -77,16 +77,33 @@ pub(super) struct ScopeData {
     /// because we merge every items in children to current scope.
     all: FxHashSet<FastId>,
 
+    /// Identifiers used for imports cannot be used again.
+    ///
+    /// See https://github.com/swc-project/swc/issues/7634
+    imports: FxHashSet<FastId>,
+
     queue: Vec<Id>,
 }
 
 impl Scope {
-    pub(super) fn add_decl(&mut self, id: &Id, has_eval: bool, top_level_mark: Mark) {
+    pub(super) fn add_decl(
+        &mut self,
+        id: &Id,
+        has_eval: bool,
+        top_level_mark: Mark,
+        is_import: bool,
+    ) {
         if id.0 == js_word!("arguments") {
             return;
         }
 
-        self.data.all.insert(fast_id(id.clone()));
+        let fid = fast_id(id.clone());
+        if is_import {
+            self.data.imports.insert(fid.clone());
+        }
+
+        self.data.all.insert(fid);
+
         if !self.data.queue.contains(id) {
             if has_eval && id.1.outer().is_descendant_of(top_level_mark) {
                 return;
