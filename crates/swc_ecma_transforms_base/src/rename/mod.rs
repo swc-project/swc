@@ -251,7 +251,19 @@ where
         // (function-like nodes) does not have eval. This `eval` check includes
         // `eval` in children.
         //
-        // We calculate the top level map first,
+        // We calculate the top level map first, rename children, and then rename the
+        // top level.
+        //
+        //
+        // Order:
+        //
+        // 1. Top level map calculation
+        // 2. Per-unit map calculation
+        // 3. Per-unit renaming
+        // 4. Top level renaming
+        //
+        // This is because the the top level map may contain a mapping which conflicts
+        // with a map from one of the children.
         //
         // See https://github.com/swc-project/swc/pull/7615
         if has_eval {
