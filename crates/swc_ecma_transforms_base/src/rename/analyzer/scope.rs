@@ -71,13 +71,18 @@ pub(crate) type RenameMap = AHashMap<FastId, JsWord>;
 
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
+    /// All identifiers used by this scope or children.
+    ///
     /// This is add-only.
     ///
     /// If the add-only contraint is violated, it is very likely to be a bug,
     /// because we merge every items in children to current scope.
     all: FxHashSet<FastId>,
 
-    /// Identifiers used for imports cannot be used again.
+    /// Identifiers used for imports, for this scope or parents.
+    ///
+    /// This field exists because identifiers used for imports cannot be used
+    /// again.
     ///
     /// See https://github.com/swc-project/swc/issues/7634
     imports: FxHashSet<FastId>,
