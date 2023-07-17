@@ -245,6 +245,15 @@ where
 
         let map = self.get_map(m, false, true, has_eval);
 
+        // If we have eval, we cannot rename a whole program at once.
+        //
+        // Still, we can, and should rename some identifiers, if the containing scope
+        // (function-like nodes) does not have eval. This `eval` check includes
+        // `eval` in children.
+        //
+        // We calculate the top level map first,
+        //
+        // See https://github.com/swc-project/swc/pull/7615
         if has_eval {
             m.visit_mut_children_with(self);
         }
