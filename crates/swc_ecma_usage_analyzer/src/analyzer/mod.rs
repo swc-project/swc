@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, ExprCtx, IsEmpty, StmtExt};
+use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -1261,14 +1261,18 @@ where
             if self.marks.is_some() {
                 if let VarDeclarator {
                     name: Pat::Ident(id),
-                    init: Some(..),
+                    init: Some(init),
                     definite: false,
                     ..
                 } = e
                 {
                     let id = id.to_id();
-                    self.used_recursively
-                        .insert(id.clone(), RecursiveUsage::Var { can_ignore: false });
+                    self.used_recursively.insert(
+                        id.clone(),
+                        RecursiveUsage::Var {
+                            can_ignore: !init.may_have_side_effects(&self.expr_ctx),
+                        },
+                    );
                     e.init.visit_with(&mut *self.with_ctx(ctx));
                     self.used_recursively.remove(&id);
                     return;
