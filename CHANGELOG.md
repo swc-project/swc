@@ -25,6 +25,12 @@
 
 - **(es/modules)** Add a test for unreproducible issue (#7655) ([7528de1](https://github.com/swc-project/swc/commit/7528de189780cc6850fad2f744004353c8892a70))
 
+### Buiild
+
+
+
+- **(bindings/wasm)** Fix Wasm build (#7666) ([dc5135f](https://github.com/swc-project/swc/commit/dc5135f43f5fe01ed36c1b40a5647b2f1c3277b4))
+
 ## [1.3.69] - 2023-07-13
 
 ### Bug Fixes
