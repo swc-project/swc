@@ -1548,6 +1548,6 @@ fn test_es6_features() {
 #[test]
 fn test_export_default_paren_expr() {
     fold_same("import fn from './b'; export default (class fn {});");
-    fold_same("import fn from './b'; export default (function fn () {});");
+    fold_same("import fn from './b'; export default (function fn1 () {});");
     fold("export default ((foo));", "export default foo;");
 }
