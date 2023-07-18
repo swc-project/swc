@@ -53,17 +53,17 @@ function p() {
         });
     })).apply(this, arguments);
 }
-r(function(e) {
-    if ("\uD83D\uDC93" !== e.data) try {
-        var t = JSON.parse(e.data);
-        if ("sync" === t.action || "built" === t.action) {
-            if (!t.hash) return;
-            _ = t.hash, function() {
+r(function(o) {
+    if ("\uD83D\uDC93" !== o.data) try {
+        var s = JSON.parse(o.data);
+        if ("sync" === s.action || "built" === s.action) {
+            if (!s.hash) return;
+            _ = s.hash, function() {
                 p.apply(this, arguments);
             }();
-        } else "reloadPage" === t.action && document.location.reload(!0);
-    } catch (t) {
-        console.warn("Invalid HMR message: " + e.data + "\n" + t);
+        } else "reloadPage" === s.action && document.location.reload(!0);
+    } catch (e) {
+        console.warn("Invalid HMR message: " + o.data + "\n" + e);
     }
 }), c({
     assetPrefix: s,

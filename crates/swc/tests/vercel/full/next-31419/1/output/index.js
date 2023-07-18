@@ -53,18 +53,18 @@ Promise.all(assignAll).then(function() {
         return e.apply(this, arguments);
     };
 }());
-export var listOfUser = function(t) {
-    var e;
-    return new Promise((e = r(function(r, e) {
+export var listOfUser = function(e) {
+    var s;
+    return new Promise((s = r(function(r, t) {
         var s;
         return n(this, function(n) {
-            return s = 'Select Distinct id from "TABLE" Where id = \''.concat(t, "' And user_id IS not null"), postgreSQL.query(s, null, function(n, t) {
-                n ? e(n) : r(t.rows);
+            return s = 'Select Distinct id from "TABLE" Where id = \''.concat(e, "' And user_id IS not null"), postgreSQL.query(s, null, function(n, e) {
+                n ? t(n) : r(e.rows);
             }), [
                 2
             ];
         });
     }), function(r, n) {
-        return e.apply(this, arguments);
+        return s.apply(this, arguments);
     }));
 };
