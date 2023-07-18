@@ -2081,7 +2081,9 @@ where
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
-        let mut stack = vec![n];
+        dbg!(&*n);
+
+        let mut stack = vec![&mut *n];
         loop {
             let mut new_stack = vec![];
             for expr in stack {
@@ -2091,6 +2093,7 @@ where
             }
 
             if new_stack.is_empty() {
+                dbg!(&*n);
                 return;
             }
 
