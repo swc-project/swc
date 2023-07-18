@@ -521,7 +521,7 @@ impl Optimizer<'_> {
                             let vars = param_ids
                                 .iter()
                                 .map(|name| VarDeclarator {
-                                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                                    span: DUMMY_SP,
                                     name: Ident::new(
                                         name.sym.clone(),
                                         name.span.with_ctxt(new_ctxt),
@@ -535,7 +535,7 @@ impl Optimizer<'_> {
                             if !vars.is_empty() {
                                 self.prepend_stmts.push(
                                     VarDecl {
-                                        span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                                        span: DUMMY_SP,
                                         kind: VarDeclKind::Var,
                                         declare: Default::default(),
                                         decls: vars,
@@ -549,7 +549,7 @@ impl Optimizer<'_> {
                         for (idx, param) in param_ids.iter().enumerate() {
                             if let Some(arg) = call.args.get_mut(idx) {
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                                    span: DUMMY_SP,
                                     op: op!("="),
                                     left: PatOrExpr::Pat(
                                         Ident::new(
@@ -710,7 +710,7 @@ impl Optimizer<'_> {
         }
 
         // Don't create top-level variables.
-        if !param_ids.is_empty() && self.ctx.in_top_level() {
+        if !param_ids.is_empty() && !self.may_add_ident() {
             for pid in param_ids {
                 if let Some(usage) = self.data.vars.get(&pid.to_id()) {
                     if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
@@ -788,7 +788,7 @@ impl Optimizer<'_> {
                     return false;
                 }
 
-                if self.ctx.in_top_level() && !self.options.module {
+                if !self.may_add_ident() {
                     return false;
                 }
 
@@ -890,6 +890,8 @@ impl Optimizer<'_> {
         for (idx, param) in params.into_iter().enumerate() {
             let arg = args.get_mut(idx).map(|arg| arg.expr.take());
 
+            let no_arg = arg.is_none();
+
             if let Some(arg) = arg {
                 if let Some(usage) = self.data.vars.get(&orig_params[idx].to_id()) {
                     if usage.ref_count == 1
@@ -913,7 +915,7 @@ impl Optimizer<'_> {
 
                 exprs.push(
                     Expr::Assign(AssignExpr {
-                        span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                        span: DUMMY_SP,
                         op: op!("="),
                         left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
                         right: arg,
@@ -923,9 +925,13 @@ impl Optimizer<'_> {
             };
 
             vars.push(VarDeclarator {
-                span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                span: DUMMY_SP,
                 name: Pat::Ident(param.into()),
-                init: None,
+                init: if self.ctx.executed_multiple_time && no_arg {
+                    Some(undefined(DUMMY_SP))
+                } else {
+                    None
+                },
                 definite: Default::default(),
             });
         }
@@ -941,7 +947,7 @@ impl Optimizer<'_> {
 
             self.prepend_stmts.push(
                 VarDecl {
-                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                    span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
                     decls: vars,
@@ -956,13 +962,12 @@ impl Optimizer<'_> {
                     for decl in &mut var.decls {
                         if decl.init.is_some() {
                             exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                                span: DUMMY_SP,
                                 op: op!("="),
                                 left: PatOrExpr::Pat(Box::new(decl.name.clone())),
                                 right: decl.init.take().unwrap(),
                             })))
                         }
-                        decl.span = decl.span.apply_mark(self.marks.non_top_level);
                     }
 
                     self.prepend_stmts.push(stmt);

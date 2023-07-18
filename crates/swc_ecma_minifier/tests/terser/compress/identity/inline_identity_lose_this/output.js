@@ -1,12 +1,14 @@
 "use strict";
-const id = (x) => x;
+const id = (x)=>x;
 const func_bag = {
-    func: function () {
+    func: function() {
         return void 0 === this ? "PASS" : "FAIL";
-    },
+    }
 };
-func_bag.func2 = function () {
+func_bag.func2 = function() {
     return void 0 === this ? "PASS" : "FAIL";
 };
-console.log((0, func_bag.func)());
-console.log((0, func_bag.func2)());
+var x;
+console.log((x = func_bag.func)());
+var x1;
+console.log((x1 = func_bag.func2)());
