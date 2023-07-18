@@ -8,6 +8,9 @@
 - **(es/minifier)** Fix a bug about `eval` of name mangler (#7615) ([6be1f70](https://github.com/swc-project/swc/commit/6be1f7075d8d14cc56b05079ee134153ab65c6fc))
 
 
+- **(es/minifier)** Do not reuse identifier used for import bindings (#7639) ([a65be14](https://github.com/swc-project/swc/commit/a65be14a00f41e9b0b4439c31b49febeefd1f845))
+
+
 - **(es/module)** Skip CJS and AMD transformations for `Script` (#7661) ([a2d0408](https://github.com/swc-project/swc/commit/a2d040859790d10d445ba6b06e9fe88635d84c1b))
 
 ### Features
