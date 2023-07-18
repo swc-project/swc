@@ -176,6 +176,10 @@ impl Optimizer<'_> {
                 self.mode.store(ident.to_id(), &*init);
             }
 
+            if usage.used_recursively {
+                return;
+            }
+
             // Caution: for most case mutation of properties are ok, however if
             // new variant is added for multi inline, think carefully
             if is_inline_enabled
@@ -308,7 +312,7 @@ impl Optimizer<'_> {
                 && ref_count == 1
             {
                 match init {
-                    Expr::Fn(FnExpr { function: f, .. }) | Expr::Fn(FnExpr { function: f, .. })
+                    Expr::Fn(FnExpr { function: f, .. })
                         if matches!(
                             &**f,
                             Function { is_async: true, .. }

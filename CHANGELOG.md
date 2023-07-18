@@ -5,16 +5,51 @@
 
 
 
+- **(es/minifier)** Fix a bug about `eval` of name mangler (#7615) ([6be1f70](https://github.com/swc-project/swc/commit/6be1f7075d8d14cc56b05079ee134153ab65c6fc))
+
+
+- **(es/module)** Skip CJS and AMD transformations for `Script` (#7661) ([a2d0408](https://github.com/swc-project/swc/commit/a2d040859790d10d445ba6b06e9fe88635d84c1b))
+
+### Features
+
+
+
+- **(es/minifier)** Drop recursively used var declaration (#7649) ([04b0f6d](https://github.com/swc-project/swc/commit/04b0f6d8234bdcc34815a558c4c9eecf24c8e4e7))
+
+### Testing
+
+
+
+- **(es)** Add a test for a unreproducible issue (#7656) ([c0e4805](https://github.com/swc-project/swc/commit/c0e480593f7af001eb329f088dc29ea3f0f8df58))
+
+
+- **(es/modules)** Add a test for unreproducible issue (#7655) ([7528de1](https://github.com/swc-project/swc/commit/7528de189780cc6850fad2f744004353c8892a70))
+
+## [1.3.69] - 2023-07-13
+
+### Bug Fixes
+
+
+
 - **(es/compat)** Visit children of `while` statement in the `generator` pass (#7624) ([d2ac2c1](https://github.com/swc-project/swc/commit/d2ac2c16a3d9067b3afa14ba6ae8745b553c6642))
 
 
 - **(es/compat)** Fix loose mode of the `spread` pass (#7608) ([a7daa5b](https://github.com/swc-project/swc/commit/a7daa5b28e45c0b310850279433178bf75f0f5f0))
+
+
+- **(es/minifier)** Don't drop unused properties of top-level vars (#7638) ([19ba714](https://github.com/swc-project/swc/commit/19ba714ea11d6e733cd46ed3ce6b851ddc972e5a))
 
 ### Features
 
 
 
 - **(es/preset-env)** Update compat data (#7630) ([7e9e84e](https://github.com/swc-project/swc/commit/7e9e84e2306941de591700d3c5f15da2d43236bb))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/parser)** Scope use of `lexical` to certain features (#7644) ([a961090](https://github.com/swc-project/swc/commit/a961090c9da5994ec83ad6ffca1074277d61431d))
 
 ### Refactor
 
