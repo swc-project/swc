@@ -413,6 +413,17 @@ where
 
                 None
             }
+            js_word!("starting-style") => {
+                self.input.skip_ws();
+
+                if !is!(self, EOF) {
+                    let span = self.input.cur_span();
+
+                    return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                }
+
+                None
+            }
             _ => {
                 return Err(Error::new(Default::default(), ErrorKind::Ignore));
             }
@@ -737,6 +748,13 @@ where
                     .collect();
 
                 declaration_list
+            }
+            js_word!("starting-style") => {
+                let rule_list = self.parse_as::<Vec<Rule>>()?;
+                let rule_list: Vec<ComponentValue> =
+                    rule_list.into_iter().map(ComponentValue::from).collect();
+
+                rule_list
             }
             _ => {
                 return Err(Error::new(Default::default(), ErrorKind::Ignore));
