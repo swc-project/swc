@@ -95,6 +95,6 @@ const MAIN = async () => {
         setTimeout(r, 1000, 42);
     });
     await p;
-    console.log("Promise value is", p);
+    console.log("Promise value is", await p);
 };
 MAIN();
