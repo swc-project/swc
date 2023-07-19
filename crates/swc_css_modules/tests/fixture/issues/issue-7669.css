@@ -1,0 +1,16 @@
+.class:global > .inner {
+    color: blue;
+}
+.class:global[data-x=true] > .inner {
+    color: red;
+}
+.class:local[data-x=true] > .inner {
+    color: green;
+}
+.class[data-x=true]:global > .inner {
+    color: yellow;
+}
+.class[data-x=true]:local > .inner {
+    color: black;
+}
+
