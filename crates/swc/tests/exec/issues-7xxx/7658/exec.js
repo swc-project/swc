@@ -1,112 +1,73 @@
-/**
- * Most of this code is CancelablePromise implementation.
- * Scroll at the bottom, and look at the `Main` function.
- */
-
 class CancelError extends Error {
-    constructor(message: string) {
+    constructor(message) {
         super(message);
         this.name = "CancelError";
     }
-
-    public get isCancelled(): boolean {
+    get isCancelled() {
         return true;
     }
 }
-
-interface OnCancel {
-    readonly isResolved: boolean;
-    readonly isRejected: boolean;
-    readonly isCancelled: boolean;
-
-    (cancelHandler: () => void): void;
-}
-
-class CancelablePromise<T> implements Promise<T> {
-    #isResolved: boolean;
-    #isRejected: boolean;
-    #isCancelled: boolean;
-    readonly #cancelHandlers: (() => void)[];
-    readonly #promise: Promise<T>;
-    #resolve?: (value: T | PromiseLike<T>) => void;
-    #reject?: (reason?: any) => void;
-
-    constructor(
-        executor: (
-            resolve: (value: T | PromiseLike<T>) => void,
-            reject: (reason?: any) => void,
-            onCancel: OnCancel
-        ) => void
-    ) {
+class CancelablePromise {
+    #isResolved;
+    #isRejected;
+    #isCancelled;
+    #cancelHandlers;
+    #promise;
+    #resolve;
+    #reject;
+    constructor(executor) {
         this.#isResolved = false;
         this.#isRejected = false;
         this.#isCancelled = false;
         this.#cancelHandlers = [];
-        this.#promise = new Promise < T > ((resolve, reject) => {
+        this.#promise = new Promise((resolve, reject) => {
             this.#resolve = resolve;
             this.#reject = reject;
-
-            const onResolve = (value: T | PromiseLike<T>): void => {
+            const onResolve = (value) => {
                 if (this.#isResolved || this.#isRejected || this.#isCancelled) {
                     return;
                 }
                 this.#isResolved = true;
                 this.#resolve?.(value);
             };
-
-            const onReject = (reason?: any): void => {
+            const onReject = (reason) => {
                 if (this.#isResolved || this.#isRejected || this.#isCancelled) {
                     return;
                 }
                 this.#isRejected = true;
                 this.#reject?.(reason);
             };
-
-            const onCancel = (cancelHandler: () => void): void => {
+            const onCancel = (cancelHandler) => {
                 if (this.#isResolved || this.#isRejected || this.#isCancelled) {
                     return;
                 }
                 this.#cancelHandlers.push(cancelHandler);
             };
-
             Object.defineProperty(onCancel, "isResolved", {
-                get: (): boolean => this.#isResolved,
+                get: () => this.#isResolved
             });
-
             Object.defineProperty(onCancel, "isRejected", {
-                get: (): boolean => this.#isRejected,
+                get: () => this.#isRejected
             });
-
             Object.defineProperty(onCancel, "isCancelled", {
-                get: (): boolean => this.#isCancelled,
+                get: () => this.#isCancelled
             });
-
-            return executor(onResolve, onReject, onCancel as OnCancel);
+            return executor(onResolve, onReject, onCancel);
         });
     }
-
     get [Symbol.toStringTag]() {
         return "Cancellable Promise";
     }
-
-    public then<TResult1 = T, TResult2 = never>(
-        onFulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null,
-        onRejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null
-    ): Promise<TResult1 | TResult2> {
+    then(onFulfilled, onRejected) {
         return this.#promise.then(onFulfilled, onRejected);
     }
-
-    public catch<TResult = never>(
-        onRejected?: ((reason: any) => TResult | PromiseLike<TResult>) | null
-    ): Promise<T | TResult> {
+    catch(onRejected) {
         return this.#promise.catch(onRejected);
     }
-
-    public finally(onFinally?: (() => void) | null): Promise<T> {
+    finally(onFinally) {
         return this.#promise.finally(onFinally);
     }
-
-    public cancel(): void {
+    cancel() {
         if (this.#isResolved || this.#isRejected || this.#isCancelled) {
             return;
         }
@@ -124,22 +85,16 @@ class CancelablePromise<T> implements Promise<T> {
         this.#cancelHandlers.length = 0;
         this.#reject?.(new CancelError("Request aborted"));
     }
-
-    public get isCancelled(): boolean {
+    get isCancelled() {
         return this.#isCancelled;
     }
 }
-
 const MAIN = async () => {
     console.log("Running test");
-
     const p = new CancelablePromise((r) => {
         setTimeout(r, 1000, 42);
     });
-
     await p;
-
     console.log("Promise value is", p);
 };
-
 MAIN();
