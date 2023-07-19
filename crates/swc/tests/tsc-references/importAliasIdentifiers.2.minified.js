@@ -1,11 +1,9 @@
 //// [importAliasIdentifiers.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (moduleA || (moduleA = {})).Point = function Point(x, y) {
-    "use strict";
     _class_call_check(this, Point), this.x = x, this.y = y;
 };
 var moduleA, clodule = function clodule() {
-    "use strict";
     _class_call_check(this, clodule);
 };
 function fundule() {

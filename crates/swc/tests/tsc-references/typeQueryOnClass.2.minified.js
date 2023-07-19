@@ -2,7 +2,6 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 var C = function() {
-    "use strict";
     function C(x) {
         var _this = this;
         _class_call_check(this, C), this.x = x, this.ia = 1, this.ib = function() {

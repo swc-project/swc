@@ -1,5 +1,4 @@
 //// [importCallExpressionDeclarationEmit1.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

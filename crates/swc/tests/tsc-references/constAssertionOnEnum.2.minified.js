@@ -1,15 +1,13 @@
 //// [constAssertionOnEnum.ts]
 //// [enum.ts]
-export var Foo;
-!function(Foo) {
-    Foo[Foo.A = 0] = "A", Foo[Foo.B = 1] = "B";
-}(Foo || (Foo = {}));
+var Foo;
+var Foo1;
+export { Foo1 as Foo };
+(Foo = Foo1 || (Foo1 = {}))[Foo.A = 0] = "A", Foo[Foo.B = 1] = "B";
 //// [test.ts]
-var Bar;
+var Bar, Bar1;
 import { Foo } from './enum';
-!function(Bar) {
-    Bar[Bar.A = 0] = "A", Bar[Bar.B = 1] = "B";
-}(Bar || (Bar = {})), Foo.A, Bar.A;
+(Bar1 = Bar || (Bar = {}))[Bar1.A = 0] = "A", Bar1[Bar1.B = 1] = "B", Foo.A, Bar.A;
 //// [ns.ts]
 var ns;
 !function(ns1) {
@@ -17,7 +15,7 @@ var ns;
     (Foo = ns1.Foo || (ns1.Foo = {}))[Foo.X = 0] = "X", ns.Foo.X;
 }(ns || (ns = {}));
 //// [more.ts]
-export var Foo;
-!function(Foo) {
-    Foo[Foo.X = 0] = "X";
-}(Foo || (Foo = {})), Foo.X;
+var Foo;
+var Foo1;
+export { Foo1 as Foo };
+(Foo = Foo1 || (Foo1 = {}))[Foo.X = 0] = "X", Foo1.X;

@@ -1,7 +1,6 @@
 //// [typeOfThisInStaticMembers8.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C = function C() {
-    "use strict";
     _class_call_check(this, C);
 };
 C.f = 1, C.arrowFunctionBoundary = function() {
@@ -9,6 +8,5 @@ C.f = 1, C.arrowFunctionBoundary = function() {
 }, C.functionExprBoundary = function() {
     return this.f + 2;
 }, C.classExprBoundary = function _class() {
-    "use strict";
     _class_call_check(this, _class), this.a = this.f + 3;
 }, C.functionAndClassDeclBoundary = void 0;

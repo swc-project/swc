@@ -3,7 +3,6 @@ var ImmediatelyFix, WithCandidates;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(ImmediatelyFix) {
     var c = new (function() {
-        "use strict";
         function C() {
             _class_call_check(this, C);
         }
@@ -19,7 +18,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         return "";
     });
     var c2 = new (function() {
-        "use strict";
         function C2() {
             _class_call_check(this, C2);
         }

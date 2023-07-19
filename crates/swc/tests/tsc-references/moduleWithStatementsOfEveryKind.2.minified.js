@@ -8,17 +8,14 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
     Module || (Module = {}), (Color1 = Color || (Color = {}))[Color1.Blue = 0] = "Blue", Color1[Color1.Red = 1] = "Red";
 }(A || (A = {})), function(Y) {
     var Color, A = function A() {
-        "use strict";
         _class_call_check(this, A);
     };
     Y.A = A;
     var AA = function AA() {
-        "use strict";
         _class_call_check(this, AA);
     };
     Y.AA = AA;
     var B = function(AA) {
-        "use strict";
         _inherits(B, AA);
         var _super = _create_super(B);
         function B() {
@@ -28,7 +25,6 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
     }(AA);
     Y.B = B;
     var BB = function(A) {
-        "use strict";
         _inherits(BB, A);
         var _super = _create_super(BB);
         function BB() {

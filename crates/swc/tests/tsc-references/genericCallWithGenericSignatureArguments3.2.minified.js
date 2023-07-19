@@ -1,7 +1,3 @@
 //// [genericCallWithGenericSignatureArguments3.ts]
-var E, F;
-!function(E) {
-    E[E.A = 0] = "A";
-}(E || (E = {})), function(F) {
-    F[F.A = 0] = "A";
-}(F || (F = {})), E.A;
+var E, F, E1, F1;
+(E1 = E || (E = {}))[E1.A = 0] = "A", (F1 = F || (F = {}))[F1.A = 0] = "A", E.A;

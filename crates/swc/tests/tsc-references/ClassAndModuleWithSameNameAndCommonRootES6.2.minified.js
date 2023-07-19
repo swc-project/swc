@@ -1,12 +1,10 @@
 //// [class.ts]
-var X;
-!function(X) {
-    (X.Y || (X.Y = {})).Point = class {
-        constructor(x, y){
-            this.x = x, this.y = y;
-        }
-    };
-}(X || (X = {}));
+var X, X1;
+((X1 = X || (X = {})).Y || (X1.Y = {})).Point = class {
+    constructor(x, y){
+        this.x = x, this.y = y;
+    }
+};
 //// [module.ts]
 var X;
 !function(X) {

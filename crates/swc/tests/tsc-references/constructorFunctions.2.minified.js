@@ -18,7 +18,6 @@ var C4 = function() {
     if (!_instanceof(this, C4)) return new C4();
 };
 C4(), new C4(), new function c5_v2() {
-    "use strict";
     _class_call_check(this, c5_v2);
 }(), new function() {
     this.functions = [

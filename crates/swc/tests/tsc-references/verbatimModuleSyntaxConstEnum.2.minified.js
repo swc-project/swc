@@ -1,5 +1,5 @@
 //// [verbatimModuleSyntaxConstEnum.ts]
-export var E;
-!function(E) {
-    E[E.A = 1] = "A";
-}(E || (E = {}));
+var E;
+var E1;
+export { E1 as E };
+(E = E1 || (E1 = {}))[E.A = 1] = "A";

@@ -3,10 +3,8 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var A = function A() {
-    "use strict";
     _class_call_check(this, A);
 }, K = function(_B1) {
-    "use strict";
     _inherits(K, _B1);
     var _super = _create_super(K);
     function K() {
@@ -14,7 +12,6 @@ var A = function A() {
     }
     return K;
 }(function(A) {
-    "use strict";
     _inherits(_class, A);
     var _super = _create_super(_class);
     function _class() {
@@ -22,7 +19,6 @@ var A = function A() {
     }
     return _class;
 }(A)), C = function(_anon) {
-    "use strict";
     _inherits(C, _anon);
     var _super = _create_super(C);
     function C() {
@@ -30,7 +26,6 @@ var A = function A() {
     }
     return C;
 }(new function B2() {
-    "use strict";
     _class_call_check(this, B2), this.anon = function(A) {
         _inherits(_class, A);
         var _super = _create_super(_class);
@@ -40,7 +35,6 @@ var A = function A() {
         return _class;
     }(A);
 }().anon), S = function(b3Number) {
-    "use strict";
     _inherits(S, b3Number);
     var _super = _create_super(S);
     function S() {
@@ -48,7 +42,6 @@ var A = function A() {
     }
     return S;
 }(function(A) {
-    "use strict";
     _inherits(Inner, A);
     var _super = _create_super(Inner);
     function Inner() {

@@ -11,7 +11,6 @@ System.register([], function(_export, _context) {
 System.register([
     "@swc/helpers/_/_class_call_check"
 ], function(_export, _context) {
-    "use strict";
     var _class_call_check;
     return {
         setters: [
@@ -23,7 +22,6 @@ System.register([
             _context.import("./0"), _context.import("./0").then(function(zero) {
                 return zero.foo();
             }), _export("p2", _context.import("./0")), _export("D", function() {
-                "use strict";
                 function D() {
                     _class_call_check(this, D);
                 }

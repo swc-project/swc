@@ -1,5 +1,4 @@
 //// [file.js]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "myTypes", {
@@ -10,7 +9,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 const myTypes = {};
 //// [file2.js]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), function(target, all) {

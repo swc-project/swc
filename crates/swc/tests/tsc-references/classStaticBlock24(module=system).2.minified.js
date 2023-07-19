@@ -2,7 +2,6 @@
 System.register([
     "@swc/helpers/_/_class_call_check"
 ], function(_export, _context) {
-    "use strict";
     var _class_call_check, C;
     return {
         setters: [
@@ -12,7 +11,6 @@ System.register([
         ],
         execute: function() {
             _export("C", C = function C() {
-                "use strict";
                 _class_call_check(this, C);
             }), C.x = 1;
         }

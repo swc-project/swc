@@ -1,5 +1,4 @@
 //// [a.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
@@ -12,7 +11,6 @@ const x = new Promise((resolve, reject)=>{
     resolve({});
 }), _default = x;
 //// [b.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

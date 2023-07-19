@@ -1,5 +1,4 @@
 //// [defaultExportsCannotMerge04.ts]
-"use strict";
 var Foo;
 function Foo() {}
 Object.defineProperty(exports, "__esModule", {

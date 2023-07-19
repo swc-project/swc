@@ -3,7 +3,6 @@ var A;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(A) {
     var Point2d = function() {
-        "use strict";
         function Point2d(x, y) {
             _class_call_check(this, Point2d), this.x = x, this.y = y;
         }

@@ -1,7 +1,5 @@
 //// [exportStar.ts]
-"use strict";
 //// [t1.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), function(target, all) {
@@ -19,7 +17,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 var x = 1, y = 2;
 //// [t2.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), function(target, all) {
@@ -38,7 +35,6 @@ Object.defineProperty(exports, "__esModule", {
 var _default = "hello";
 function foo() {}
 //// [t3.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), function(target, all) {
@@ -59,14 +55,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 var x = "x", y = "y", z = "z";
 //// [t4.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var _export_star = require("@swc/helpers/_/_export_star");
 _export_star._(require("./t1"), exports), _export_star._(require("./t2"), exports), _export_star._(require("./t3"), exports);
 //// [main.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
