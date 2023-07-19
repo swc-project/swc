@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(css/modules)** Preserve attr selectors used with `:global` (#7670) ([11b4679](https://github.com/swc-project/swc/commit/11b4679231bdfa8662fdcb1dade4dc1146f8e11d))
+
 ## [1.3.70] - 2023-07-18
 
 ### Bug Fixes
