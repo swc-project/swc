@@ -902,9 +902,9 @@ pub trait ExprExt {
                 Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
                 _ => return (Pure, Unknown),
             },
-            Expr::Ident(Ident { sym, .. }) => match *sym {
-                js_word!("undefined") | js_word!("NaN") => NAN,
-                js_word!("Infinity") => INFINITY,
+            Expr::Ident(Ident { sym, span, .. }) => match *sym {
+                js_word!("undefined") | js_word!("NaN") if span.ctxt == ctx.unresolved_ctxt => NAN,
+                js_word!("Infinity") if span.ctxt == ctx.unresolved_ctxt => INFINITY,
                 _ => return (Pure, Unknown),
             },
             Expr::Unary(UnaryExpr {
@@ -915,8 +915,9 @@ pub trait ExprExt {
                 &**arg,
                 Expr::Ident(Ident {
                     sym: js_word!("Infinity"),
+                    span,
                     ..
-                })
+                }) if span.ctxt == ctx.unresolved_ctxt
             ) =>
             {
                 -INFINITY
@@ -1005,8 +1006,10 @@ pub trait ExprExt {
                 // converted. unimplemented!("TplLit.
                 // as_string()")
             }
-            Expr::Ident(Ident { ref sym, .. }) => match *sym {
-                js_word!("undefined") | js_word!("Infinity") | js_word!("NaN") => {
+            Expr::Ident(Ident { ref sym, span, .. }) => match *sym {
+                js_word!("undefined") | js_word!("Infinity") | js_word!("NaN")
+                    if span.ctxt == ctx.unresolved_ctxt =>
+                {
                     Known(Cow::Borrowed(&**sym))
                 }
                 _ => Unknown,
