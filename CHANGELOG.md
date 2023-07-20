@@ -7,6 +7,12 @@
 
 - **(css/modules)** Preserve attr selectors used with `:global` (#7670) ([11b4679](https://github.com/swc-project/swc/commit/11b4679231bdfa8662fdcb1dade4dc1146f8e11d))
 
+### Features
+
+
+
+- **(css/parser)** Support `@starting-style` (#7677) ([cfb7b51](https://github.com/swc-project/swc/commit/cfb7b511eebe068b3c57f4540b90cb59c922d7e9))
+
 ### Refactor
 
 
