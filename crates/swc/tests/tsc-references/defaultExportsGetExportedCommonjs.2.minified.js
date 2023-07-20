@@ -1,5 +1,4 @@
 //// [a.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
@@ -11,7 +10,6 @@ Object.defineProperty(exports, "__esModule", {
 class Foo {
 }
 //// [b.ts]
-"use strict";
 function foo() {}
 Object.defineProperty(exports, "__esModule", {
     value: !0

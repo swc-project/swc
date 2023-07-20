@@ -1,7 +1,5 @@
 //// [exportsAndImports2-es6.ts]
-"use strict";
 //// [t1.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), function(target, all) {
@@ -19,7 +17,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 var x = "x", y = "y";
 //// [t2.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), function(target, all) {
@@ -37,7 +34,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 const _t1 = require("./t1");
 //// [t3.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), function(target, all) {

@@ -2,7 +2,6 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 x.f(), xUnion.f(42), xUnion.f(), xAny.f(), xUnknown.f(), xNever.f();
 var MyPromise = function MyPromise(executor) {
-    "use strict";
     _class_call_check(this, MyPromise);
 };
 new MyPromise(function(resolve) {

@@ -5,10 +5,8 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 !function(OnlyDerived) {
     var Base = function Base() {
-        "use strict";
         _class_call_check(this, Base);
     }, Derived = function(Base) {
-        "use strict";
         _inherits(Derived, Base);
         var _super = _create_super(Derived);
         function Derived() {
@@ -16,7 +14,6 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
         }
         return Derived;
     }(Base), Derived2 = function(Base) {
-        "use strict";
         _inherits(Derived2, Base);
         var _super = _create_super(Derived2);
         function Derived2() {
@@ -27,10 +24,8 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
     new Derived(), new Derived2();
 }(OnlyDerived || (OnlyDerived = {})), function(WithBase) {
     var Base = function Base() {
-        "use strict";
         _class_call_check(this, Base);
     }, Derived2 = function(Base) {
-        "use strict";
         _inherits(Derived2, Base);
         var _super = _create_super(Derived2);
         function Derived2() {

@@ -3,12 +3,10 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function C() {
-    "use strict";
     _class_call_check(this, C);
 };
 !function() {
     arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : function(C) {
-        "use strict";
         _inherits(_class, C);
         var _super = _create_super(_class);
         function _class() {
@@ -18,7 +16,6 @@ var C = function C() {
     }(C).x = 1;
 }(), function() {
     arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : function(C) {
-        "use strict";
         _inherits(_class, C);
         var _super = _create_super(_class);
         function _class() {

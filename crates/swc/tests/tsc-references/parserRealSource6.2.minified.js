@@ -43,14 +43,11 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         return ast;
     };
     TypeScript1.TypeCollectionContext = function TypeCollectionContext(scopeChain, checker) {
-        "use strict";
         _class_call_check(this, TypeCollectionContext), this.scopeChain = scopeChain, this.checker = checker, this.script = null;
     }, TypeScript1.MemberScopeContext = function MemberScopeContext(flow, pos, matchFlag) {
-        "use strict";
         _class_call_check(this, MemberScopeContext), this.flow = flow, this.pos = pos, this.matchFlag = matchFlag, this.type = null, this.ast = null, this.options = new AstWalkOptions();
     };
     var EnclosingScopeContext = function() {
-        "use strict";
         function EnclosingScopeContext(logger, script, text, pos, isMemberCompletion) {
             _class_call_check(this, EnclosingScopeContext), this.logger = logger, this.script = script, this.text = text, this.pos = pos, this.isMemberCompletion = isMemberCompletion, this.scopeGetter = null, this.objectLiteralScopeGetter = null, this.scopeStartAST = null, this.skipNextFuncDeclForClass = !1, this.deepestModuleDecl = null, this.enclosingClassDecl = null, this.enclosingObjectLit = null, this.publicsOnly = !0, this.useFullAst = !1;
         }

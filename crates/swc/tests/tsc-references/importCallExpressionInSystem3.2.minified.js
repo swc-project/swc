@@ -13,7 +13,6 @@ System.register([], function(_export, _context) {
 });
 //// [2.ts]
 System.register([], function(_export, _context) {
-    "use strict";
     async function foo() {
         class C extends (await _context.import("./0")).B {
         }

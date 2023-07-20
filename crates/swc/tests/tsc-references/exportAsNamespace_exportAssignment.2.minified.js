@@ -1,10 +1,7 @@
 //// [exportAsNamespace_exportAssignment.ts]
-"use strict";
 //// [a.ts]
-"use strict";
 module.exports = {};
 //// [b.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "ns", {

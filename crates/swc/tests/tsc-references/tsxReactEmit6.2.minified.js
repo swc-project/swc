@@ -1,9 +1,6 @@
 //// [tsxReactEmit6.tsx]
-"use strict";
 //// [file.tsx]
-"use strict";
 //// [react-consumer.tsx]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

@@ -1,5 +1,4 @@
 //// [declarationEmitThisPredicates01.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), function(target, all) {
@@ -16,7 +15,6 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _instanceof = require("@swc/helpers/_/_instanceof"), _create_super = require("@swc/helpers/_/_create_super"), C = function() {
-    "use strict";
     function C() {
         _class_call_check._(this, C);
     }
@@ -24,7 +22,6 @@ var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits =
         return _instanceof._(this, D);
     }, C;
 }(), D = function(C) {
-    "use strict";
     _inherits._(D, C);
     var _super = _create_super._(D);
     function D() {

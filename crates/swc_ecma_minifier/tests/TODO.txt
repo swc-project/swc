@@ -182,8 +182,6 @@ functions/issue_3125/input.js
 functions/issue_3166/input.js
 functions/issue_t131a/input.js
 functions/issue_t131b/input.js
-functions/loop_init_arg/input.js
-functions/use_before_init_in_loop/input.js
 global_defs/issue_3217/input.js
 harmony/array_literal_with_spread_2b/input.js
 harmony/array_literal_with_spread_4b/input.js

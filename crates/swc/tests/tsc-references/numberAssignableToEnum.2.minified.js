@@ -1,5 +1,3 @@
 //// [numberAssignableToEnum.ts]
-var E;
-!function(E) {
-    E[E.A = 0] = "A";
-}(E || (E = {}));
+var E, E1;
+(E1 = E || (E = {}))[E1.A = 0] = "A";

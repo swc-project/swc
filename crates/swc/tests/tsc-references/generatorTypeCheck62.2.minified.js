@@ -1,5 +1,4 @@
 //// [generatorTypeCheck62.ts]
-"use strict";
 function strategy(stratName, gen) {
     return function*(state) {
         for (let next of gen(state))next && (next.lastStrategyApplied = stratName), yield next;

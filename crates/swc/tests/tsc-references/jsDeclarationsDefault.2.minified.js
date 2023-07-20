@@ -9,7 +9,6 @@ export { foo as bar };
 //// [index3.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var Foo = function Foo() {
-    "use strict";
     _class_call_check(this, Foo), this.a = null;
 };
 export var X = Foo;
@@ -20,7 +19,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 import Fab from "./index3";
 var Bar = function(Fab1) {
-    "use strict";
     _inherits(Bar, Fab1);
     var _super = _create_super(Bar);
     function Bar() {

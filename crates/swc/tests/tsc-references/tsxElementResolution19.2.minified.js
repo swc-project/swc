@@ -12,7 +12,6 @@ define([
     "exports",
     "@swc/helpers/_/_class_call_check"
 ], function(require, exports, _class_call_check) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), Object.defineProperty(exports, "MyClass", {
@@ -22,7 +21,6 @@ define([
         }
     });
     var MyClass = function MyClass() {
-        "use strict";
         _class_call_check._(this, MyClass);
     };
 });
@@ -34,7 +32,6 @@ define([
     "react",
     "./file1"
 ], function(require, exports, _interop_require_wildcard, _react, _file1) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), _react = _interop_require_wildcard._(_react), _file1.MyClass;
