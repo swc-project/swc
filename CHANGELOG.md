@@ -13,6 +13,12 @@
 
 - **(css/parser)** Support `@starting-style` (#7677) ([cfb7b51](https://github.com/swc-project/swc/commit/cfb7b511eebe068b3c57f4540b90cb59c922d7e9))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI (#7679) ([57398af](https://github.com/swc-project/swc/commit/57398af2708ebd72c489fa81b9573259b0a71d15))
+
 ### Refactor
 
 
