@@ -1,5 +1,4 @@
 //// [typeGuardsInExternalModule.ts]
-"use strict";
 var var1, var2;
 Object.defineProperty(exports, "__esModule", {
     value: !0

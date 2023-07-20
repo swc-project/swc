@@ -1,6 +1,4 @@
 //// [stringLiteralTypeIsSubtypeOfString.ts]
-var E;
+var E, E1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-!function(E) {
-    E[E.A = 0] = "A";
-}(E || (E = {}));
+(E1 = E || (E = {}))[E1.A = 0] = "A";

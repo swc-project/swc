@@ -5,12 +5,10 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 !function(M) {
     var A = function A() {
-        "use strict";
         _class_call_check(this, A);
     };
     M.A = A;
     var B = function(A) {
-        "use strict";
         _inherits(B, A);
         var _super = _create_super(B);
         function B() {

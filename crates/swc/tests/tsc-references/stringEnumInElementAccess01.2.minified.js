@@ -1,5 +1,3 @@
 //// [stringEnumInElementAccess01.ts]
-var E;
-!function(E) {
-    E.A = "a", E.B = "b", E.C = "c";
-}(E || (E = {})), item[e];
+var E, E1;
+(E1 = E || (E = {})).A = "a", E1.B = "b", E1.C = "c", item[e];

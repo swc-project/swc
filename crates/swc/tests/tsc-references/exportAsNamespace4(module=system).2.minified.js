@@ -24,7 +24,6 @@ System.register([
 System.register([
     "./0"
 ], function(_export, _context) {
-    "use strict";
     var ns;
     return {
         setters: [
@@ -42,7 +41,6 @@ System.register([
     "./1",
     "./11"
 ], function(_export, _context) {
-    "use strict";
     var foo, foo1;
     return {
         setters: [

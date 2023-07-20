@@ -1,7 +1,3 @@
 //// [exponentiationOperatorWithEnumUnion.ts]
-var E, F;
-!function(E) {
-    E[E.a = 0] = "a", E[E.b = 1] = "b";
-}(E || (E = {})), function(F) {
-    F[F.c = 0] = "c", F[F.d = 1] = "d";
-}(F || (F = {})), E.a, E.a, E.a, E.b, E.a, E.b, E.b, E.b;
+var E, F, E1, F1;
+(E1 = E || (E = {}))[E1.a = 0] = "a", E1[E1.b = 1] = "b", (F1 = F || (F = {}))[F1.c = 0] = "c", F1[F1.d = 1] = "d", E.a, E.a, E.a, E.b, E.a, E.b, E.b, E.b;

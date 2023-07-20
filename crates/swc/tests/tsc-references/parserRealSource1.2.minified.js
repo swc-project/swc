@@ -14,7 +14,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         };
     }(TypeScript.CompilerDiagnostics || (TypeScript.CompilerDiagnostics = {}));
     var NullLogger = function() {
-        "use strict";
         function NullLogger() {
             _class_call_check(this, NullLogger);
         }
@@ -33,7 +32,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }();
     TypeScript.NullLogger = NullLogger;
     var LoggerAdapter = function() {
-        "use strict";
         function LoggerAdapter(logger) {
             _class_call_check(this, LoggerAdapter), this.logger = logger, this._information = this.logger.information(), this._debug = this.logger.debug(), this._warning = this.logger.warning(), this._error = this.logger.error(), this._fatal = this.logger.fatal();
         }
@@ -54,7 +52,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }();
     TypeScript.LoggerAdapter = LoggerAdapter;
     var BufferedLogger = function() {
-        "use strict";
         function BufferedLogger() {
             _class_call_check(this, BufferedLogger), this.logContents = [];
         }

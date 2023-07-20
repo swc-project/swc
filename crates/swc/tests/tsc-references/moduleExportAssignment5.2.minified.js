@@ -1,7 +1,6 @@
 //// [axios.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var axios = new (function() {
-    "use strict";
     function Axios() {
         _class_call_check(this, Axios);
     }

@@ -2,7 +2,6 @@
 System.register([
     "./b"
 ], function(_export, _context) {
-    "use strict";
     var foo;
     return _export("default", void 0), {
         setters: [
@@ -20,7 +19,6 @@ System.register([
 System.register([
     "./a"
 ], function(_export, _context) {
-    "use strict";
     var Foo;
     return _export("default", function() {
         new Foo();

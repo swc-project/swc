@@ -1,5 +1,4 @@
 //// [multipleDefaultExports02.ts]
-"use strict";
 //// [m1.ts]
 //! 
 //!   x the name `default` is exported multiple times
@@ -19,7 +18,6 @@
 //! Error: 
 //!   > Exported identifiers must be unique
 //// [m2.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), (0, require("@swc/helpers/_/_interop_require_default")._(require("./m1")).default)();

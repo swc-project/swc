@@ -10,6 +10,5 @@ function _templateObject() {
     }, data;
 }
 as(_templateObject()), as(function Foo() {
-    "use strict";
     _class_call_check(this, Foo);
 });

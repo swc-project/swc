@@ -1,7 +1,5 @@
 //// [verbatimModuleSyntaxRestrictionsCJS.ts]
-"use strict";
 //// [/decl.d.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
@@ -12,9 +10,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 const _default = esmy;
 //// [/ambient.d.ts]
-"use strict";
 //// [/main.ts]
-"use strict";
 var Values;
 Object.defineProperty(exports, "__esModule", {
     value: !0
@@ -36,16 +32,13 @@ Promise.resolve().then(()=>_interop_require_wildcard._(require("./decl")));
 const x = 1;
 (Values || (Values = {})).x = 1;
 //// [/main2.ts]
-"use strict";
 module.exports = {
     x: 1
 };
 //// [/main3.ts]
-"use strict";
 var ns;
 (ns || (ns = {})).x = 1, module.exports = ns;
 //// [/main4.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
@@ -56,7 +49,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 const _default = 1;
 //// [/main5.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
@@ -68,12 +60,10 @@ Object.defineProperty(exports, "__esModule", {
 class C {
 }
 //// [/main6.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 //// [/main7.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

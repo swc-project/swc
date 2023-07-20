@@ -7,7 +7,6 @@ define([
     "require",
     "exports"
 ], function(require, exports) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), Object.defineProperty(exports, "default", {
@@ -25,7 +24,6 @@ define([
     "@swc/helpers/_/_interop_require_wildcard",
     "./t1"
 ], function(require, exports, _interop_require_wildcard, _t1) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
@@ -39,7 +37,6 @@ define([
     "@swc/helpers/_/_interop_require_wildcard",
     "./t1"
 ], function(require, exports, _interop_require_wildcard, _t1) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), function(target, all) {

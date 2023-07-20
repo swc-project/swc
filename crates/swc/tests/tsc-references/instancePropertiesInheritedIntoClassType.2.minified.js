@@ -6,7 +6,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 !function(NonGeneric) {
     var d = new (function(C) {
-        "use strict";
         _inherits(D, C);
         var _super = _create_super(D);
         function D() {
@@ -14,7 +13,6 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
         }
         return D;
     }(function() {
-        "use strict";
         function C(a, b) {
             _class_call_check(this, C), this.a = a, this.b = b;
         }
@@ -33,7 +31,6 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
     r.x, r.y, r.y = 4, d.y();
 }(NonGeneric || (NonGeneric = {})), function(Generic) {
     var d = new (function(C) {
-        "use strict";
         _inherits(D, C);
         var _super = _create_super(D);
         function D() {
@@ -41,7 +38,6 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
         }
         return D;
     }(function() {
-        "use strict";
         function C(a, b) {
             _class_call_check(this, C), this.a = a, this.b = b;
         }

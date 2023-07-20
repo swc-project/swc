@@ -1,5 +1,3 @@
 //// [stringEnumLiteralTypes3.ts]
-var Choice;
-!function(Choice) {
-    Choice.Unknown = "", Choice.Yes = "yes", Choice.No = "no";
-}(Choice || (Choice = {}));
+var Choice, Choice1;
+(Choice1 = Choice || (Choice = {})).Unknown = "", Choice1.Yes = "yes", Choice1.No = "no";

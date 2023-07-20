@@ -2,11 +2,9 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 module.exports = {
     Thing: function Thing() {
-        "use strict";
         _class_call_check(this, Thing), this.x = 1;
     },
     AnotherThing: function AnotherThing() {
-        "use strict";
         _class_call_check(this, AnotherThing), this.y = 2;
     },
     foo: function() {

@@ -2,7 +2,6 @@
 var i, i2;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (void 0)(1), new (function() {
-    "use strict";
     function C() {
         _class_call_check(this, C);
     }
@@ -10,7 +9,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         return null;
     }, C;
 }())().f(1), i.f(1), new (function() {
-    "use strict";
     function C2() {
         _class_call_check(this, C2);
     }

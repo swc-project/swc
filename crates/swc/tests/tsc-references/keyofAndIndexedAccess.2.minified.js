@@ -1,11 +1,9 @@
 //// [keyofAndIndexedAccess.ts]
-var E, Flag;
+var E, Flag, E1, Flag1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-!function(E) {
-    E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
-}(E || (E = {})), one(function() {}), on({
+(E1 = E || (E = {}))[E1.A = 0] = "A", E1[E1.B = 1] = "B", E1[E1.C = 2] = "C", one(function() {}), on({
     test: function() {}
 }), on({
     test: function(x) {}
@@ -17,7 +15,6 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
     "hello",
     35
 ]), new (function(SampleClass) {
-    "use strict";
     _inherits(AnotherSampleClass, SampleClass);
     var _super = _create_super(AnotherSampleClass);
     function AnotherSampleClass(props) {
@@ -29,8 +26,5 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
         this.props.foo.concat;
     }, AnotherSampleClass;
 }(function SampleClass(props) {
-    "use strict";
     _class_call_check(this, SampleClass), this.props = Object.freeze(props);
-}))({}), function(Flag) {
-    Flag.FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";
-}(Flag || (Flag = {}));
+}))({}), (Flag1 = Flag || (Flag = {})).FLAG_1 = "flag_1", Flag1.FLAG_2 = "flag_2";

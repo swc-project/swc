@@ -1,4 +1,6 @@
 var a = "PASS";
-for (var k in "12") (b = void 0), (b >>= 1) && (a = "FAIL"), (b = 2);
-var b;
+for(var k in "12"){
+    var b = void 0;
+    void ((b >>= 1) && (a = "FAIL"), b = 2);
+}
 console.log(a);

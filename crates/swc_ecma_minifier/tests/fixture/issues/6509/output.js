@@ -12,6 +12,7 @@ export var modifiers = {
                 0
             ];
             else {
+                var offset1, popperOffsets, referenceOffsets;
                 var offsets1;
                 var useHeight;
                 var fragments;
@@ -28,7 +29,7 @@ export var modifiers = {
                     return frag.trim();
                 })).indexOf(find(fragments, function(frag) {
                     return -1 !== frag.search(/,|\s/);
-                })), fragments[divider] && -1 === fragments[divider].indexOf(',') && console.warn('Offsets separated by white space(s) are deprecated, use a comma (,) instead.'), splitRegex = /\s*,\s*|\s+/, (ops = (-1 !== divider ? [
+                })), fragments[divider] && -1 === fragments[divider].indexOf(',') && console.warn('Offsets separated by white space(s) are deprecated, use a comma (,) instead.'), splitRegex = /\s*,\s*|\s+/, (ops = (ops = -1 !== divider ? [
                     fragments.slice(0, divider).concat([
                         fragments[divider].split(splitRegex)[0]
                     ]),

@@ -1,6 +1,4 @@
 //// [invalidVoidAssignments.ts]
-var x, M, E;
+var x, M, E, E1;
 import "@swc/helpers/_/_class_call_check";
-(M || (M = {})).x = 1, M = x, function(E) {
-    E[E.A = 0] = "A";
-}(E || (E = {})), x = E, x = E.A;
+(M || (M = {})).x = 1, M = x, (E1 = E || (E = {}))[E1.A = 0] = "A", x = E, x = E.A;

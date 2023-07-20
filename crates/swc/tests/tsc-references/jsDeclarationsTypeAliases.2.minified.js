@@ -9,7 +9,6 @@ module.exports = {
         };
     },
     ExportedThing: function ExportedThing() {
-        "use strict";
         _class_call_check(this, ExportedThing), this.z = "ok";
     }
 };

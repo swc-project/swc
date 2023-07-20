@@ -4,7 +4,6 @@ import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var d2, Derived = function(Base) {
-    "use strict";
     _inherits(Derived, Base);
     var _super = _create_super(Derived);
     function Derived() {
@@ -12,7 +11,6 @@ var d2, Derived = function(Base) {
     }
     return Derived;
 }(function() {
-    "use strict";
     function Base(x) {
         _class_call_check(this, Base);
     }

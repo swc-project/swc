@@ -9,7 +9,6 @@ function foo() {
     return 1;
 }
 var A = function() {
-    "use strict";
     function A() {
         _class_call_check(this, A);
     }

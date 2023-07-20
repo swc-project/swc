@@ -1,7 +1,6 @@
 //// [index.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 module.exports.a = function() {}, module.exports.b = function() {}, module.exports.b.cat = "cat", module.exports.c = function() {}, module.exports.c.Cls = function _class() {
-    "use strict";
     _class_call_check(this, _class);
 }, module.exports.d = function(a, b) {
     return null;

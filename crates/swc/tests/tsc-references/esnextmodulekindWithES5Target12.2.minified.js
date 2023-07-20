@@ -1,16 +1,13 @@
 //// [esnextmodulekindWithES5Target12.ts]
+var E, E1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 export var C = function C() {
-    "use strict";
     _class_call_check(this, C);
 };
 (C || (C = {})).x = 1;
-export var E;
-!function(E) {
-    E[E.w = 1] = "w";
-}(E || (E = {})), function(E) {
-    E[E.x = 2] = "x";
-}(E || (E = {})), (E || (E = {})).y = 1, (E || (E = {})).z = 1;
+var E2;
+export { E2 as E };
+(E = E2 || (E2 = {}))[E.w = 1] = "w", (E1 = E2 || (E2 = {}))[E1.x = 2] = "x", (E2 || (E2 = {})).y = 1, (E2 || (E2 = {})).z = 1;
 export var N;
 (N || (N = {})).x = 1;
 export function F() {}

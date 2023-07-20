@@ -1,7 +1,5 @@
 //// [defaultExportsCannotMerge02.ts]
-"use strict";
 //// [m1.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
@@ -11,11 +9,9 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 var _class_call_check = require("@swc/helpers/_/_class_call_check"), Decl = function Decl() {
-    "use strict";
     _class_call_check._(this, Decl);
 };
 //// [m2.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

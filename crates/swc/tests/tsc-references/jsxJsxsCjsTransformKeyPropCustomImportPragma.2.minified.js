@@ -1,5 +1,4 @@
 //// [preact.tsx]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -14,7 +13,6 @@ _object_spread_props._(_object_spread._({}, props), {
     key: "bar"
 });
 //// [react.tsx]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

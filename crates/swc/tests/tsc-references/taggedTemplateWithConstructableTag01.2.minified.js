@@ -10,6 +10,5 @@ function _templateObject() {
     }, data;
 }
 !function CtorTag() {
-    "use strict";
     _class_call_check(this, CtorTag);
 }(_templateObject());

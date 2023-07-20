@@ -1,5 +1,5 @@
 use swc_atoms::{js_word, JsWord};
-use swc_common::{util::take::Take, Span, DUMMY_SP};
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
 use swc_ecma_utils::{contains_ident_ref, ExprExt};
@@ -28,39 +28,19 @@ impl Optimizer<'_> {
             return;
         }
 
-        if !self.options.top_level()
-            && (self.ctx.is_top_level_for_block_level_vars() || self.ctx.in_top_level())
-            && !var.span.has_mark(self.marks.non_top_level)
-        {
-            match self.ctx.var_kind {
-                Some(VarDeclKind::Const) | Some(VarDeclKind::Let) => {
-                    if self.ctx.is_top_level_for_block_level_vars() {
-                        log_abort!("unused: Top-level (block level)");
-                        return;
-                    }
-                }
-                _ => {
-                    if self.ctx.in_top_level() {
-                        log_abort!("unused: Top-level");
-                        return;
-                    }
-                }
-            }
-        }
-
         #[cfg(debug_assertions)]
         let had_init = var.init.is_some();
 
         match &mut var.init {
             Some(init) => match &**init {
                 Expr::Invalid(..) => {
-                    self.drop_unused_vars(var.span, &mut var.name, None);
+                    self.drop_unused_vars(&mut var.name, None);
                 }
                 // I don't know why, but terser preserves this
                 Expr::Fn(FnExpr { function, .. })
                     if matches!(&**function, Function { is_async: true, .. }) => {}
                 _ => {
-                    self.drop_unused_vars(var.span, &mut var.name, Some(init));
+                    self.drop_unused_vars(&mut var.name, Some(init));
 
                     if var.name.is_invalid() {
                         report_change!("unused: Removing an unused variable declarator");
@@ -72,7 +52,7 @@ impl Optimizer<'_> {
                 }
             },
             None => {
-                self.drop_unused_vars(var.span, &mut var.name, var.init.as_deref_mut());
+                self.drop_unused_vars(&mut var.name, var.init.as_deref_mut());
             }
         }
 
@@ -109,59 +89,23 @@ impl Optimizer<'_> {
             }
         }
 
-        self.take_pat_if_unused(DUMMY_SP, pat, None, false)
+        self.take_pat_if_unused(pat, None, false)
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    pub(super) fn drop_unused_vars(
-        &mut self,
-        var_declarator_span: Span,
-        name: &mut Pat,
-        init: Option<&mut Expr>,
-    ) {
+    pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
         if self.ctx.is_exported || self.ctx.in_asm {
             return;
         }
 
-        let has_mark = var_declarator_span.has_mark(self.marks.non_top_level);
-
-        if !has_mark {
-            if (!self.options.unused && !self.options.side_effects)
-                || self.ctx.in_var_decl_of_for_in_or_of_loop
-            {
-                return;
-            }
-        }
-
         trace_op!("unused: drop_unused_vars({})", dump(&*name, false));
 
-        // Top-level
-        if !has_mark {
-            match self.ctx.var_kind {
-                Some(VarDeclKind::Var) => {
-                    if !self.options.top_level() && self.options.top_retain.is_empty() {
-                        if self.ctx.in_top_level() {
-                            log_abort!(
-                                "unused: [X] Preserving `var` `{}` because it's top-level",
-                                dump(&*name, false)
-                            );
+        if !self.options.unused && !self.options.side_effects {
+            return;
+        }
 
-                            return;
-                        }
-                    }
-                }
-                Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
-                    if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
-                        log_abort!(
-                            "unused: Preserving block scoped var `{}` because it's top-level",
-                            dump(&*name, false)
-                        );
-
-                        return;
-                    }
-                }
-                None => {}
-            }
+        if self.ctx.in_var_decl_of_for_in_or_of_loop {
+            return;
         }
 
         if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
@@ -178,13 +122,13 @@ impl Optimizer<'_> {
             return;
         }
 
-        self.take_pat_if_unused(var_declarator_span, name, init, true);
+        self.take_pat_if_unused(name, init, true);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
         for param in params.iter_mut().rev() {
-            self.take_pat_if_unused(DUMMY_SP, &mut param.pat, None, false);
+            self.take_pat_if_unused(&mut param.pat, None, false);
 
             if !param.pat.is_invalid() {
                 return;
@@ -193,18 +137,11 @@ impl Optimizer<'_> {
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn take_ident_of_pat_if_unused(
-        &mut self,
-        parent_span: Span,
-        i: &mut Ident,
-        init: Option<&mut Expr>,
-    ) {
+    fn take_ident_of_pat_if_unused(&mut self, i: &mut Ident, init: Option<&mut Expr>) {
         trace_op!("unused: Checking identifier `{}`", i);
 
-        if !parent_span.has_mark(self.marks.non_top_level)
-            && self.options.top_retain.contains(&i.sym)
-        {
-            log_abort!("unused: [X] Top-retain");
+        if !self.may_remove_ident(i) {
+            log_abort!("unused: Preserving var `{:#?}` because it's top-level", i);
             return;
         }
 
@@ -325,7 +262,6 @@ impl Optimizer<'_> {
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn take_pat_if_unused(
         &mut self,
-        parent_span: Span,
         name: &mut Pat,
         mut init: Option<&mut Expr>,
         is_var_decl: bool,
@@ -357,7 +293,7 @@ impl Optimizer<'_> {
 
         match name {
             Pat::Ident(i) => {
-                self.take_ident_of_pat_if_unused(parent_span, &mut i.id, init);
+                self.take_ident_of_pat_if_unused(&mut i.id, init);
 
                 // Removed
                 if i.id.is_dummy() {
@@ -377,7 +313,7 @@ impl Optimizer<'_> {
                                 .as_mut()
                                 .and_then(|expr| self.access_numeric_property(expr, idx));
 
-                            self.take_pat_if_unused(parent_span, p, elem, is_var_decl);
+                            self.take_pat_if_unused(p, elem, is_var_decl);
                         }
                         None => {}
                     }
@@ -404,12 +340,12 @@ impl Optimizer<'_> {
                                 continue;
                             }
 
-                            self.take_pat_if_unused(parent_span, &mut p.value, None, is_var_decl);
+                            self.take_pat_if_unused(&mut p.value, None, is_var_decl);
                         }
                         ObjectPatProp::Assign(AssignPatProp {
                             key, value: None, ..
                         }) => {
-                            self.take_ident_of_pat_if_unused(parent_span, key, None);
+                            self.take_ident_of_pat_if_unused(key, None);
                         }
                         _ => {}
                     }
@@ -655,9 +591,7 @@ impl Optimizer<'_> {
             _ => return,
         };
 
-        let has_mark = assign.span.has_mark(self.marks.non_top_level);
-
-        if !has_mark && !self.options.unused {
+        if !self.options.unused {
             return;
         }
 
@@ -678,17 +612,6 @@ impl Optimizer<'_> {
             dump(&assign.left, false)
         );
 
-        if !has_mark
-            && (!self.options.top_level() && self.options.top_retain.is_empty())
-            && self.ctx.in_top_level()
-        {
-            log_abort!(
-                "unused: Preserving assignment to `{}` because it's top-level",
-                dump(&assign.left, false)
-            );
-            return;
-        }
-
         assign.left.map_with_mut(|v| v.normalize_ident());
 
         match &mut assign.left {
@@ -700,7 +623,7 @@ impl Optimizer<'_> {
             }
             PatOrExpr::Pat(left) => {
                 if let Pat::Ident(i) = &**left {
-                    if self.options.top_retain.contains(&i.id.sym) {
+                    if !self.may_remove_ident(&i.id) {
                         return;
                     }
 
@@ -711,8 +634,6 @@ impl Optimizer<'_> {
                             && var.usage_count == 0
                             && var.declared
                             && (!var.declared_as_fn_param || !used_arguments || self.ctx.in_strict)
-                            && (self.options.top_level()
-                                || i.span.ctxt != self.marks.top_level_ctxt)
                         {
                             report_change!(
                                 "unused: Dropping assignment to var '{}{:?}', which is never used",

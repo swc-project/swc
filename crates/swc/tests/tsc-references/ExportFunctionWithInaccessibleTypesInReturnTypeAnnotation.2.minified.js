@@ -3,11 +3,9 @@ var A;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(A) {
     A.Point = function Point() {
-        "use strict";
         _class_call_check(this, Point);
     };
     var Line = function Line(start, end) {
-        "use strict";
         _class_call_check(this, Line), this.start = start, this.end = end;
     };
     A.fromOrigin = function(p) {

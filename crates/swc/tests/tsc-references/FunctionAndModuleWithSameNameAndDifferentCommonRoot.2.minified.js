@@ -7,12 +7,10 @@ var A;
     };
 };
 //// [module.ts]
-var B;
-!function(B) {
-    (B.Point || (B.Point = {})).Origin = {
-        x: 0,
-        y: 0
-    };
-}(B || (B = {}));
+var B, B1;
+((B1 = B || (B = {})).Point || (B1.Point = {})).Origin = {
+    x: 0,
+    y: 0
+};
 //// [test.ts]
 A.Point, B.Point.Origin;

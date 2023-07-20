@@ -2,13 +2,11 @@
 //// [external.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 export var Reflect = function Reflect() {
-    "use strict";
     _class_call_check(this, Reflect);
 };
 export var Baz;
 Baz || (Baz = {});
 var _default = function _default() {
-    "use strict";
     _class_call_check(this, _default);
 };
 export { _default as default };
@@ -19,7 +17,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -56,7 +53,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -72,7 +68,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -88,7 +83,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -104,7 +98,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -120,7 +113,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -136,7 +128,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -152,7 +143,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -168,7 +158,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -184,7 +173,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -200,7 +188,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -216,7 +203,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -232,7 +218,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -249,7 +234,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 Reflect || (Reflect = {});
 var Reflect, C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -266,7 +250,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 Reflect || (Reflect = {});
 var Reflect, C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -283,7 +266,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 Reflect || (Reflect = {});
 var Reflect, C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -300,7 +282,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 Reflect || (Reflect = {});
 var Reflect, C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -316,7 +297,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -332,7 +312,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -348,7 +327,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -364,7 +342,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -380,7 +357,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -396,7 +372,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -412,7 +387,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -428,7 +402,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -444,7 +417,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -460,7 +432,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -476,7 +447,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -492,7 +462,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -508,7 +477,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -524,7 +492,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -540,7 +507,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -556,7 +522,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -572,7 +537,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -588,7 +552,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -604,7 +567,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -620,7 +582,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -636,7 +597,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -652,7 +612,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -668,7 +627,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -684,7 +642,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -701,7 +658,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 !function() {
     var C = function(B1) {
-        "use strict";
         _inherits(C, B1);
         var _super = _create_super(C);
         function C() {
@@ -719,7 +675,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 !function() {
     var C = function(B1) {
-        "use strict";
         _inherits(C, B1);
         var _super = _create_super(C);
         function C() {
@@ -736,7 +691,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -752,7 +706,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var C = function(B1) {
-    "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {

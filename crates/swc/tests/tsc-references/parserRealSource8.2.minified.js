@@ -74,11 +74,9 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         }
     };
     TypeScript1.AssignScopeContext = function AssignScopeContext(scopeChain, typeFlow, modDeclChain) {
-        "use strict";
         _class_call_check(this, AssignScopeContext), this.scopeChain = scopeChain, this.typeFlow = typeFlow, this.modDeclChain = modDeclChain;
     }, TypeScript1.pushAssignScope = pushAssignScope, TypeScript1.popAssignScope = popAssignScope, TypeScript1.instanceCompare = instanceCompare, TypeScript1.instanceFilterStop = instanceFilterStop;
     var ScopeSearchFilter = function() {
-        "use strict";
         function ScopeSearchFilter(select, stop) {
             _class_call_check(this, ScopeSearchFilter), this.select = select, this.stop = stop, this.result = null;
         }

@@ -1,17 +1,13 @@
 //// [forStatements.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var M, C = function C() {
-    "use strict";
+var M, M1, C = function C() {
     _class_call_check(this, C);
 };
-for(!function(M) {
-    M.A = function A() {
-        "use strict";
-        _class_call_check(this, A);
-    }, M.F2 = function(x) {
-        return x.toString();
-    };
-}(M || (M = {}));;);
+for((M = M1 || (M1 = {})).A = function A() {
+    _class_call_check(this, A);
+}, M.F2 = function(x) {
+    return x.toString();
+};;);
 for(;;);
 for(;;);
 for(;;);
@@ -21,7 +17,6 @@ for(;;);
 for(new C();;);
 for(new C();;);
 for(new function D() {
-    "use strict";
     _class_call_check(this, D);
 }();;);
 for(;;);
@@ -30,5 +25,5 @@ for(;;);
 for(;;);
 for(;;);
 for(;;);
-for(new M.A();;);
+for(new M1.A();;);
 for(;;);

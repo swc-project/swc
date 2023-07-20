@@ -6,7 +6,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 }, function(E) {
     var Color;
     (Color = E.Color || (E.Color = {}))[Color.Red = 0] = "Red", E.fn = function() {}, E.C = function C() {
-        "use strict";
         _class_call_check(this, C);
     }, (E.M || (E.M = {})).x = 42;
 }(E || (E = {})), function(F) {
