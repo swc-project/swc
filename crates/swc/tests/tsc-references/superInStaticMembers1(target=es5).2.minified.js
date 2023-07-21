@@ -16,7 +16,7 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var C = function(B1) {
+var Reflect, Reflect1, Reflect2, Reflect3, C = function(B1) {
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -24,28 +24,19 @@ var C = function(B1) {
     }
     return C;
 }(B);
-!function() {
-    var Reflect, Reflect1;
-    C._ = [
-        void _get(_get_prototype_of(C), "w", C).call(C),
-        void _get(_get_prototype_of(C), "w", C).call(C),
-        void _get(_get_prototype_of(C), "w", C).call(C),
-        void _get(_get_prototype_of(C), "w", C).call(C),
-        void _get(_get_prototype_of(C), "w", C).call(C),
-        void (Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C)),
-        void (Reflect1 || (Reflect1 = {}), _get(_get_prototype_of(C), "w", C).call(C)),
-        void _get(_get_prototype_of(C), "w", C).call(C),
-        void _get(_get_prototype_of(C), "w", C).call(C),
-        void _get(_get_prototype_of(C), "w", C).call(C),
-        void _get(_get_prototype_of(C), "w", C).call(C)
-    ];
-}(), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), function() {
-    var Reflect;
-    Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C);
-}(), function() {
-    var Reflect;
-    Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C);
-}(), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C);
+C._ = [
+    void _get(_get_prototype_of(C), "w", C).call(C),
+    void _get(_get_prototype_of(C), "w", C).call(C),
+    void _get(_get_prototype_of(C), "w", C).call(C),
+    void _get(_get_prototype_of(C), "w", C).call(C),
+    void _get(_get_prototype_of(C), "w", C).call(C),
+    void (Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C)),
+    void (Reflect1 || (Reflect1 = {}), _get(_get_prototype_of(C), "w", C).call(C)),
+    void _get(_get_prototype_of(C), "w", C).call(C),
+    void _get(_get_prototype_of(C), "w", C).call(C),
+    void _get(_get_prototype_of(C), "w", C).call(C),
+    void _get(_get_prototype_of(C), "w", C).call(C)
+], _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), Reflect2 || (Reflect2 = {}), _get(_get_prototype_of(C), "w", C).call(C), Reflect3 || (Reflect3 = {}), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C);
 //// [varInContainingScopeStaticField1.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
@@ -651,39 +642,35 @@ var C = function(B1) {
 }(B);
 _get(_get_prototype_of(C), "w", C).call(C);
 //// [inContainingClassExprStaticField.ts]
+var C;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-!function() {
-    var C = function(B1) {
-        _inherits(C, B1);
-        var _super = _create_super(C);
-        function C() {
-            return _class_call_check(this, C), _super.apply(this, arguments);
-        }
-        return C;
-    }(B);
-    C._ = _get(_get_prototype_of(C), "w", C).call(C);
-}();
+(C = function(B1) {
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B))._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [inContainingClassExprStaticBlock.ts]
+var C;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-!function() {
-    var C = function(B1) {
-        _inherits(C, B1);
-        var _super = _create_super(C);
-        function C() {
-            return _class_call_check(this, C), _super.apply(this, arguments);
-        }
-        return C;
-    }(B);
-    _get(_get_prototype_of(C), "w", C).call(C);
-}();
+_get(_get_prototype_of(C = function(B1) {
+    _inherits(C, B1);
+    var _super = _create_super(C);
+    function C() {
+        return _class_call_check(this, C), _super.apply(this, arguments);
+    }
+    return C;
+}(B)), "w", C).call(C);
 //// [funcExprInContainingScopeStaticField.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";

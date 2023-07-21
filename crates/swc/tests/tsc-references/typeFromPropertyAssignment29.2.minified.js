@@ -6,7 +6,7 @@ function ExpandoDecl(n) {
 ExpandoDecl.prop = 2, ExpandoDecl.m = function(n) {
     return n + 1;
 }, ExpandoDecl.prop, ExpandoDecl.m(12), ExpandoDecl(101).length;
-var Ns, ExpandoExpr = function(n) {
+var Ns, ExpandoNamespace, Ns1, ExpandoExpr = function(n) {
     return n.toString();
 };
 ExpandoExpr.prop = {
@@ -24,12 +24,9 @@ function ExpandoMerge(n) {
 }
 ExpandoArrow.prop = 2, ExpandoArrow.m = function(n) {
     return n + 1;
-}, ExpandoMerge.p1 = 111, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222, (ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge.p1, ExpandoMerge.p2, ExpandoMerge.p3, ExpandoMerge(1), function(Ns) {
-    var ExpandoNamespace = function() {};
-    ExpandoNamespace.p6 = 42, Ns.foo = function() {
-        return ExpandoNamespace;
-    };
-}(Ns || (Ns = {}));
+}, ExpandoMerge.p1 = 111, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222, (ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge.p1, ExpandoMerge.p2, ExpandoMerge.p3, ExpandoMerge(1), Ns = Ns1 || (Ns1 = {}), (ExpandoNamespace = function() {}).p6 = 42, Ns.foo = function() {
+    return ExpandoNamespace;
+};
 var ExpandoExpr2 = function(n) {
     return n.toString();
 };
