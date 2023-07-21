@@ -585,7 +585,7 @@ impl<I: Tokens> Parser<I> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn try_parse_ts_type_args(&mut self) -> Option<Box<TsTypeParamInstantiation>> {
-        let start_state = self.input.state();
+        let start_input = self.input.clone();
 
         trace_cur!(self, try_parse_ts_type_args);
         debug_assert!(self.input.syntax().typescript());
@@ -598,7 +598,7 @@ impl<I: Tokens> Parser<I> {
                     in_type: true,
                     ..p.ctx()
                 };
-                p.input.reset_to(start_state);
+                p.input = start_input;
                 p.input.set_ctx(ctx);
             }
 

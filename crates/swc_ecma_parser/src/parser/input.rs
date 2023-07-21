@@ -483,15 +483,4 @@ impl<I: Tokens> Buffer<I> {
     pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {
         self.iter.set_token_context(c)
     }
-
-    #[inline]
-    pub(crate) fn state(&self) -> I {
-        self.iter.clone()
-    }
-
-    #[inline]
-    pub(crate) fn reset_to(&mut self, state: I) {
-        self.cur = None;
-        self.iter = state;
-    }
 }
