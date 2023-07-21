@@ -238,6 +238,7 @@ impl Optimizer<'_> {
                             && !(usage.has_property_mutation
                                 || usage.executed_multiple_time
                                 || usage.used_as_arg && ref_count > 1)
+                            && ref_count - 1 <= usage.callee_count
                     }
                     _ => false,
                 }

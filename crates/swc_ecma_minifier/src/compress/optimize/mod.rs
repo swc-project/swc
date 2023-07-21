@@ -118,7 +118,6 @@ struct Ctx {
 
     /// `true` only for [Callee::Expr].
     is_callee: bool,
-    in_call_arg: bool,
 
     var_kind: Option<VarDeclKind>,
 
@@ -644,17 +643,17 @@ impl Optimizer<'_> {
         }
     }
 
-    fn remove_invalid(&mut self, e: &mut Expr) {
+    fn remove_invalid_bin(&mut self, e: &mut Expr) {
         if let Expr::Bin(BinExpr { left, right, .. }) = e {
-            self.remove_invalid(left);
-            self.remove_invalid(right);
+            self.remove_invalid_bin(left);
+            self.remove_invalid_bin(right);
 
             if left.is_invalid() {
                 *e = *right.take();
-                self.remove_invalid(e);
+                self.remove_invalid_bin(e);
             } else if right.is_invalid() {
                 *e = *left.take();
-                self.remove_invalid(e);
+                self.remove_invalid_bin(e);
             }
         }
     }
@@ -1615,7 +1614,6 @@ impl VisitMut for Optimizer<'_> {
 
         {
             let ctx = Ctx {
-                in_call_arg: true,
                 is_this_aware_callee: false,
                 is_lhs_of_assign: false,
                 is_exact_lhs_of_assign: false,
@@ -1796,7 +1794,7 @@ impl VisitMut for Optimizer<'_> {
             debug_assert_valid(e);
         }
 
-        self.remove_invalid(e);
+        self.remove_invalid_bin(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -2298,7 +2296,6 @@ impl VisitMut for Optimizer<'_> {
 
         {
             let ctx = Ctx {
-                in_call_arg: true,
                 is_exact_lhs_of_assign: false,
                 is_lhs_of_assign: false,
                 ..self.ctx
