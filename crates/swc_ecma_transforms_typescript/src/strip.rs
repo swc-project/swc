@@ -2067,6 +2067,21 @@ where
                         });
                     }
 
+                    Expr::Call(ce)
+                        if ce.callee.is_expr() && ce.callee.as_expr().unwrap().is_opt_chain() =>
+                    {
+                        *n = Expr::OptChain(OptChainExpr {
+                            span: ce.span,
+                            optional: false,
+                            base: Box::new(OptChainBase::Call(OptCall {
+                                span: ce.span,
+                                callee: ce.callee.take().expect_expr(),
+                                args: ce.args.take(),
+                                type_args: ce.type_args.take(),
+                            })),
+                        });
+                    }
+
                     _ => {}
                 }
                 return;
