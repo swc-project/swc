@@ -2043,8 +2043,6 @@ where
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
-        dbg!(&*n);
-
         let mut stack = vec![&mut *n];
         loop {
             let mut new_stack = vec![];
@@ -2071,7 +2069,6 @@ where
 
                     _ => {}
                 }
-                dbg!(&*n);
                 return;
             }
 
