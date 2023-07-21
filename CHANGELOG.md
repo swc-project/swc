@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Only cast global `Infinity`/`undefined`/`NaN` (#7684) ([241c04a](https://github.com/swc-project/swc/commit/241c04ab4a2e7e7f34563fdc8a355f82c6ba03e8))
 
+
+- **(es/minifier)** Drop line comments starting with `!` (#7689) ([951138c](https://github.com/swc-project/swc/commit/951138cd13339ca7b5cb5305203e466fcd4a0b0e))
+
 ### Features
 
 
