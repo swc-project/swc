@@ -449,49 +449,11 @@ where
                 expr.visit_mut_with(self);
                 let expr = *expr.take();
 
-                dbg!(&expr);
-
-                // https://github.com/swc-project/swc/issues/7659
-                // a?.b!.c
-                // should be identical to
-                // a?.b.c
-                // and it's optional chaining expression with optional = false
-                match expr {
-                    Expr::Member(me) if me.obj.is_opt_chain() => {
-                        *n = Expr::OptChain(OptChainExpr {
-                            span: me.span,
-                            optional: false,
-                            base: Box::new(OptChainBase::Member(me)),
-                        });
-                        return vec![];
-                    }
-
-                    _ => {}
-                }
                 *n = expr;
             }
 
             Expr::Member(MemberExpr { obj, prop, .. }) => {
                 obj.visit_mut_with(self);
-
-                dbg!(&obj);
-
-                // https://github.com/swc-project/swc/issues/7659
-                // a?.b!.c
-                // should be identical to
-                // a?.b.c
-                // and it's optional chaining expression with optional = false
-                match &mut **obj {
-                    Expr::Member(me) if me.obj.is_opt_chain() => {
-                        **obj = Expr::OptChain(OptChainExpr {
-                            span: me.span,
-                            optional: false,
-                            base: Box::new(OptChainBase::Member(me.take())),
-                        });
-                    }
-
-                    _ => {}
-                }
 
                 match prop {
                     MemberProp::Ident(i) => i.optional = false,
@@ -2093,6 +2055,22 @@ where
             }
 
             if new_stack.is_empty() {
+                // https://github.com/swc-project/swc/issues/7659
+                // a?.b!.c
+                // should be identical to
+                // a?.b.c
+                // and it's optional chaining expression with optional = false
+                match n {
+                    Expr::Member(me) if me.obj.is_opt_chain() => {
+                        *n = Expr::OptChain(OptChainExpr {
+                            span: me.span,
+                            optional: false,
+                            base: Box::new(OptChainBase::Member(me.take())),
+                        });
+                    }
+
+                    _ => {}
+                }
                 dbg!(&*n);
                 return;
             }
