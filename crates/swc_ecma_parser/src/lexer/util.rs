@@ -244,6 +244,7 @@ impl<'a> Lexer<'a> {
 
         self.input.bump_bytes(idx);
         let end = self.cur_pos();
+        let original_input = self.input.clone();
 
         if let Some(comments) = self.comments_buffer.as_mut() {
             let s = self.input.slice(slice_start, end);
@@ -264,7 +265,7 @@ impl<'a> Lexer<'a> {
             }
         }
 
-        self.input.reset_to(end);
+        self.input = original_input;
     }
 
     /// Expects current char to be '/' and next char to be '*'.

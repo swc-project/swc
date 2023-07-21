@@ -206,7 +206,7 @@ impl<'a> Lexer<'a> {
             return Ok(false);
         }
 
-        let start = self.input.cur_pos();
+        let start_input = self.input.clone();
         self.input.bump();
         let c = self.input.cur();
         if c == Some('!') {
@@ -218,7 +218,7 @@ impl<'a> Lexer<'a> {
             }
             Ok(false)
         } else {
-            self.input.reset_to(start);
+            self.input = start_input;
             Ok(false)
         }
     }
@@ -887,7 +887,8 @@ impl<'a> Lexer<'a> {
             raw.push('{');
         }
 
-        let state = self.input.cur_pos();
+        let start_pos = self.input.cur_pos();
+        let start_input = self.input.clone();
         let c = match self.read_int_u32::<16>(if is_curly { 0 } else { 4 }, raw) {
             Ok(Some(val)) => {
                 if 0x0010_ffff >= val {
@@ -928,7 +929,7 @@ impl<'a> Lexer<'a> {
                 chars.push(c.into());
             }
             _ => {
-                self.input.reset_to(state);
+                self.input = start_input;
 
                 chars.push(Char::from('\\'));
                 chars.push(Char::from('u'));
@@ -965,7 +966,7 @@ impl<'a> Lexer<'a> {
 
         if is_curly {
             if !self.eat(b'}') {
-                self.error(state, SyntaxError::InvalidUnicodeEscape)?
+                self.error(start_pos, SyntaxError::InvalidUnicodeEscape)?
             }
 
             raw.push('}');
@@ -1046,6 +1047,7 @@ impl<'a> Lexer<'a> {
 
     /// Expects current char to be '/'
     fn read_regexp(&mut self, start: BytePos) -> LexResult<Token> {
+        // todo: need to figure out how to remove this one
         self.input.reset_to(start);
 
         debug_assert_eq!(self.cur(), Some('/'));

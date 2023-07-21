@@ -115,7 +115,7 @@ impl<'a> Lexer<'a> {
         debug_assert_eq!(c, Some('&'));
         self.input.bump();
 
-        let start_pos = self.input.cur_pos();
+        let start_input = self.input.clone();
 
         for _ in 0..10 {
             let c = match self.input.cur() {
@@ -147,7 +147,7 @@ impl<'a> Lexer<'a> {
             s.push(c)
         }
 
-        self.input.reset_to(start_pos);
+        self.input = start_input;
 
         Ok(('&', "&".to_string()))
     }
