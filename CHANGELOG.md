@@ -7,6 +7,9 @@
 
 - **(css/modules)** Preserve attr selectors used with `:global` (#7670) ([11b4679](https://github.com/swc-project/swc/commit/11b4679231bdfa8662fdcb1dade4dc1146f8e11d))
 
+
+- **(es/minifier)** Only cast global `Infinity`/`undefined`/`NaN` (#7684) ([241c04a](https://github.com/swc-project/swc/commit/241c04ab4a2e7e7f34563fdc8a355f82c6ba03e8))
+
 ### Features
 
 
