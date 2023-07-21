@@ -3776,6 +3776,7 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                             let mut inner_buf = String::new();
 
                             inner_buf.push('\\');
+                            inner_buf.push('\\');
                             inner_buf.push('u');
 
                             if is_curly {
