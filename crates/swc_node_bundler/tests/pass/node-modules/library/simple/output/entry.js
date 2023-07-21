@@ -208,5 +208,5 @@ var load = __swcpack_require__.bind(void 0, function(module, exports) {
 var load1 = __swcpack_require__.bind(void 0, function(module, exports) {
     module.exports = load();
 });
-var { default: progress  } = load1();
+var { default: progress } = load1();
 console.log(progress);

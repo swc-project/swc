@@ -1,0 +1,14 @@
+{
+  "class": [
+    {
+      "type": "local",
+      "name": "__local__class"
+    }
+  ],
+  "inner": [
+    {
+      "type": "local",
+      "name": "__local__inner"
+    }
+  ]
+}

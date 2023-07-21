@@ -3152,7 +3152,8 @@ test!(
     const tmp = tt?.map((t: any) => t).join((v: any) => v);
     ",
     "
-    const tmp = tt === null || tt === void 0 ? void 0 : tt.map((t) => t).join((v) => v);
+    var _tt
+const tmp = (_tt = tt) === null || _tt === void 0 ? void 0 : _tt.map((t)=>t).join((v)=>v);
     "
 );
 

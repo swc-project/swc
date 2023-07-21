@@ -329,7 +329,6 @@
               "end": 253,
               "ctxt": 0
             },
-            "declare": false,
             "isExport": false,
             "isTypeOnly": false,
             "id": {
@@ -390,7 +389,6 @@
               "end": 309,
               "ctxt": 0
             },
-            "declare": false,
             "isExport": false,
             "isTypeOnly": false,
             "id": {
@@ -421,7 +419,6 @@
               "end": 331,
               "ctxt": 0
             },
-            "declare": false,
             "isExport": false,
             "isTypeOnly": false,
             "id": {
@@ -737,7 +734,6 @@
               "end": 461,
               "ctxt": 0
             },
-            "declare": false,
             "isExport": false,
             "isTypeOnly": false,
             "id": {
@@ -870,7 +866,6 @@
               "end": 543,
               "ctxt": 0
             },
-            "declare": false,
             "isExport": false,
             "isTypeOnly": false,
             "id": {

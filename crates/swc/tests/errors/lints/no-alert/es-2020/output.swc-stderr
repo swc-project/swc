@@ -22,16 +22,6 @@
     `----
 
   x Unexpected alert
-    ,-[6:1]
-  6 |     globalThis.alert();
-  7 | }
-  8 | globalThis.alert();
-  9 | window?.alert(foo);
-    : ^^^^^^^^^^^^^^^^^^
- 10 | (window?.alert)(foo);
-    `----
-
-  x Unexpected alert
     ,-[7:1]
   7 | }
   8 | globalThis.alert();

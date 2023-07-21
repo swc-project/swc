@@ -12,16 +12,12 @@ use crate::{
         optimize::Ctx,
         util::{negate, negate_cost},
     },
-    mode::Mode,
     DISABLE_BUGGY_PASSES,
 };
 
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     /// Negates the condition of a `if` statement to reduce body size.
     pub(super) fn negate_if_stmt(&mut self, stmt: &mut IfStmt) {
         let alt = match stmt.alt.as_deref_mut() {
@@ -618,6 +614,87 @@ where
                     span: DUMMY_SP,
                     exprs: vec![first, Box::new(alt.take())],
                 }))
+            }
+
+            (Expr::Seq(left), Expr::Seq(right)) => {
+                let left_len = left.exprs.len();
+                let right_len = right.exprs.len();
+                let min_len = left_len.min(right_len);
+
+                let mut idx = 0;
+
+                while idx < min_len
+                    && left.exprs[left_len - idx - 1]
+                        .eq_ignore_span(&right.exprs[right_len - idx - 1])
+                    && !matches!(
+                        &*left.exprs[left_len - idx - 1],
+                        Expr::Yield(..) | Expr::Fn(..)
+                    )
+                {
+                    idx += 1;
+                }
+
+                if idx == 0 {
+                    None
+                } else if idx == left_len {
+                    self.changed = true;
+                    report_change!("conditionals: Reducing similar seq expr in cons");
+
+                    let mut alt = right.exprs.take();
+
+                    alt.truncate(alt.len() - idx);
+
+                    let mut seq = vec![Box::new(Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        left: test.take(),
+                        op: op!("||"),
+                        right: Expr::from_exprs(alt),
+                    }))];
+                    seq.append(&mut left.exprs);
+
+                    Some(Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: seq,
+                    }))
+                } else if idx == right_len {
+                    self.changed = true;
+                    report_change!("conditionals: Reducing similar seq expr in alt");
+
+                    let mut cons = left.exprs.take();
+
+                    cons.truncate(cons.len() - idx);
+
+                    let mut seq = vec![Box::new(Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        left: test.take(),
+                        op: op!("&&"),
+                        right: Expr::from_exprs(cons),
+                    }))];
+                    seq.append(&mut right.exprs);
+
+                    Some(Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: seq,
+                    }))
+                } else {
+                    self.changed = true;
+                    report_change!("conditionals: Reducing similar seq expr");
+                    let _ = left.exprs.split_off(left_len - idx);
+                    let mut common = right.exprs.split_off(right_len - idx);
+
+                    let mut seq = vec![Box::new(Expr::Cond(CondExpr {
+                        span: DUMMY_SP,
+                        test: test.take(),
+                        cons: Box::new(Expr::Seq(left.take())),
+                        alt: Box::new(Expr::Seq(right.take())),
+                    }))];
+                    seq.append(&mut common);
+
+                    Some(Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: seq,
+                    }))
+                }
             }
 
             _ => None,

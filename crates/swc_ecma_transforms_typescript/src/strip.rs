@@ -155,7 +155,7 @@ pub fn strip_with_config(config: Config, top_level_mark: Mark) -> impl Fold + Vi
     chain!(
         as_folder(Strip {
             config,
-            comments: NoopComments,
+            comments: Option::<NoopComments>::None,
             jsx: None,
             top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
             ts_enum_lit: ts_enum_lit.clone(),
@@ -248,6 +248,7 @@ fn id_for_jsx(e: &Expr) -> Id {
     match e {
         Expr::Ident(i) => i.to_id(),
         Expr::Member(MemberExpr { obj, .. }) => id_for_jsx(obj),
+        Expr::Lit(Lit::Null(..)) => (js_word!("null"), Default::default()),
         _ => {
             panic!("failed to determine top-level Id for jsx expression")
         }
@@ -1118,10 +1119,6 @@ where
                             is_type_only: true,
                             module_ref: TsModuleRef::TsExternalModuleRef(..),
                             ..
-                        } | TsImportEqualsDecl {
-                            declare: true,
-                            module_ref: TsModuleRef::TsExternalModuleRef(..),
-                            ..
                         }
                     ) =>
                 {
@@ -1184,7 +1181,6 @@ where
                         &*import,
                         TsImportEqualsDecl {
                             module_ref: TsModuleRef::TsEntityName(..),
-                            declare: false,
                             ..
                         }
                     ) =>
@@ -1886,7 +1882,6 @@ where
                                             span,
                                             left: i.into(),
                                             right,
-                                            type_ann: None,
                                         }),
                                     },
                                 )
@@ -2301,10 +2296,6 @@ where
                             is_type_only: true,
                             module_ref: TsModuleRef::TsExternalModuleRef(..),
                             ..
-                        } | TsImportEqualsDecl {
-                            declare: true,
-                            module_ref: TsModuleRef::TsExternalModuleRef(..),
-                            ..
                         }
                     ) =>
                 {
@@ -2362,7 +2353,6 @@ where
                         &*import,
                         TsImportEqualsDecl {
                             module_ref: TsModuleRef::TsEntityName(..),
-                            declare: false,
                             ..
                         }
                     ) =>

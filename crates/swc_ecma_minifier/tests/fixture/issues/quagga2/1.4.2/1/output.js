@@ -596,13 +596,13 @@
         function(module1, exports1, __webpack_require__) {
             var superPropBase = __webpack_require__(227);
             function _get(target, property, receiver) {
-                return "undefined" != typeof Reflect && Reflect.get ? (module1.exports = _get = Reflect.get, module1.exports.default = module1.exports, module1.exports.__esModule = !0) : (module1.exports = _get = function(target, property, receiver) {
+                return "undefined" != typeof Reflect && Reflect.get ? module1.exports = _get = Reflect.get : module1.exports = _get = function(target, property, receiver) {
                     var base = superPropBase(target, property);
                     if (base) {
                         var desc = Object.getOwnPropertyDescriptor(base, property);
                         return desc.get ? desc.get.call(receiver) : desc.value;
                     }
-                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0), _get(target, property, receiver || target);
+                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0, _get(target, property, receiver || target);
             }
             module1.exports = _get, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
@@ -633,11 +633,11 @@
         },
         function(module1, exports1) {
             function _typeof(obj) {
-                return "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? (module1.exports = _typeof = function(obj) {
+                return "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? module1.exports = _typeof = function(obj) {
                     return typeof obj;
-                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0) : (module1.exports = _typeof = function(obj) {
+                } : module1.exports = _typeof = function(obj) {
                     return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0), _typeof(obj);
+                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0, _typeof(obj);
             }
             module1.exports = _typeof, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
@@ -3056,14 +3056,14 @@
         function(module1, exports1, __webpack_require__) {
             var setPrototypeOf = __webpack_require__(41), isNativeReflectConstruct = __webpack_require__(250);
             function _construct(Parent, args, Class) {
-                return isNativeReflectConstruct() ? (module1.exports = _construct = Reflect.construct, module1.exports.default = module1.exports, module1.exports.__esModule = !0) : (module1.exports = _construct = function(Parent, args, Class) {
+                return isNativeReflectConstruct() ? module1.exports = _construct = Reflect.construct : module1.exports = _construct = function(Parent, args, Class) {
                     var a = [
                         null
                     ];
                     a.push.apply(a, args);
                     var instance = new (Function.bind.apply(Parent, a))();
                     return Class && setPrototypeOf(instance, Class.prototype), instance;
-                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0), _construct.apply(null, arguments);
+                }, module1.exports.default = module1.exports, module1.exports.__esModule = !0, _construct.apply(null, arguments);
             }
             module1.exports = _construct, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         },
@@ -4965,10 +4965,7 @@
                         }
                     }
                 ]), Code39Reader;
-            }(barcode_reader), get = __webpack_require__(13), get_default = __webpack_require__.n(get), patterns = {
-                IOQ: /[IOQ]/g,
-                AZ09: /[A-Z0-9]{17}/
-            }, code_39_vin_reader = function(_Code39Reader) {
+            }(barcode_reader), get = __webpack_require__(13), get_default = __webpack_require__.n(get), code_39_vin_reader = function(_Code39Reader) {
                 inherits_default()(Code39VINReader, _Code39Reader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -5007,7 +5004,7 @@
                             var result = get_default()(getPrototypeOf_default()(Code39VINReader.prototype), "decode", this).call(this, row, start);
                             if (!result) return null;
                             var code = result.code;
-                            return code ? (code = code.replace(patterns.IOQ, "")).match(patterns.AZ09) ? this._checkChecksum(code) ? (result.code = code, result) : null : (console.log("Failed AZ09 pattern code:", code), null) : null;
+                            return code ? (code = code.replace(/[IOQ]/g, "")).match(/[A-Z0-9]{17}/) ? this._checkChecksum(code) ? (result.code = code, result) : null : (console.log("Failed AZ09 pattern code:", code), null) : null;
                         }
                     }
                 ]), Code39VINReader;
@@ -6304,10 +6301,7 @@
                         }
                     }
                 ]), Code93Reader;
-            }(barcode_reader), code_32_reader_patterns = {
-                AEIO: /[AEIO]/g,
-                AZ09: /[A-Z0-9]/
-            }, code_32_reader = function(_Code39Reader) {
+            }(barcode_reader), code_32_reader = function(_Code39Reader) {
                 inherits_default()(Code32Reader, _Code39Reader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -6355,7 +6349,7 @@
                             var result = get_default()(getPrototypeOf_default()(Code32Reader.prototype), "decode", this).call(this, row, start);
                             if (!result) return null;
                             var code = result.code;
-                            if (!code || (code = code.replace(code_32_reader_patterns.AEIO, ""), !this._checkChecksum(code))) return null;
+                            if (!code || (code = code.replace(/[AEIO]/g, ""), !this._checkChecksum(code))) return null;
                             var code32 = this._decodeCode32(code);
                             return code32 ? (result.code = code32, result) : null;
                         }

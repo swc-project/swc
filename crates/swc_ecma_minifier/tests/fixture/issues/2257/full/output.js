@@ -7290,10 +7290,7 @@
                 return null === match ? {
                     value: void 0,
                     done: state.done = !0
-                } : state.global ? ("" === toString1(match[0]) && (R.lastIndex = advanceStringIndex(S, toLength(R.lastIndex), state.unicode)), {
-                    value: match,
-                    done: !1
-                }) : (state.done = !0, {
+                } : (state.global ? "" === toString1(match[0]) && (R.lastIndex = advanceStringIndex(S, toLength(R.lastIndex), state.unicode)) : state.done = !0, {
                     value: match,
                     done: !1
                 });
@@ -10426,7 +10423,7 @@
                 options = Object.assign({
                     parseFragmentIdentifier: !0
                 }, options);
-                const { url , query , fragmentIdentifier  } = exports.parseUrl(input, options);
+                const { url, query, fragmentIdentifier } = exports.parseUrl(input, options);
                 return exports.stringifyUrl({
                     url,
                     query: filterObject(query, filter),
@@ -11055,7 +11052,6 @@
             }
             var kb = {
                 html: "http://www.w3.org/1999/xhtml",
-                mathml: "http://www.w3.org/1998/Math/MathML",
                 svg: "http://www.w3.org/2000/svg"
             };
             function lb(a) {
@@ -11238,8 +11234,7 @@
                 if (null === c) return null;
                 var d = Db(c);
                 if (null === d) return null;
-                c = d[b];
-                a: switch(b){
+                switch(c = d[b], b){
                     case "onClick":
                     case "onClickCapture":
                     case "onDoubleClick":
@@ -11252,7 +11247,7 @@
                     case "onMouseUpCapture":
                     case "onMouseEnter":
                         (d = !d.disabled) || (d = !("button" === (a = a.type) || "input" === a || "select" === a || "textarea" === a)), a = !d;
-                        break a;
+                        break;
                     default:
                         a = !1;
                 }
@@ -11423,7 +11418,7 @@
                 }
             }
             function tc(a, b, c, d, e, f) {
-                return null === a || a.nativeEvent !== f ? (a = rc(b, c, d, e, f), null !== b && null !== (b = Cb(b)) && fc(b), a) : (a.eventSystemFlags |= d, b = a.targetContainers, null !== e && -1 === b.indexOf(e) && b.push(e), a);
+                return null === a || a.nativeEvent !== f ? (a = rc(b, c, d, e, f), null !== b && null !== (b = Cb(b)) && fc(b)) : (a.eventSystemFlags |= d, b = a.targetContainers, null !== e && -1 === b.indexOf(e) && b.push(e)), a;
             }
             function xc(a) {
                 if (null !== a.blockedOn) return !1;
@@ -12298,7 +12293,7 @@
                         }
                     }
                     if (0 == (7 & b)) {
-                        a: if (h = "mouseover" === a || "pointerover" === a, k = "mouseout" === a || "pointerout" === a, !(h && 0 == (16 & b) && (x = c.relatedTarget || c.fromElement) && (wc(x) || x[ff])) && (k || h) && (h = e.window === e ? e : (h = e.ownerDocument) ? h.defaultView || h.parentWindow : window, k ? (x = c.relatedTarget || c.toElement, k = d, null !== (x = x ? wc(x) : null) && (z = Zb(x), x !== z || 5 !== x.tag && 6 !== x.tag) && (x = null)) : (k = null, x = d), k !== x)) {
+                        if (h = "mouseover" === a || "pointerover" === a, k = "mouseout" === a || "pointerout" === a, !(h && 0 == (16 & b) && (x = c.relatedTarget || c.fromElement) && (wc(x) || x[ff])) && (k || h) && (h = e.window === e ? e : (h = e.ownerDocument) ? h.defaultView || h.parentWindow : window, k ? (x = c.relatedTarget || c.toElement, k = d, null !== (x = x ? wc(x) : null) && (z = Zb(x), x !== z || 5 !== x.tag && 6 !== x.tag) && (x = null)) : (k = null, x = d), k !== x)) {
                             if (w = Bd, v = "onMouseLeave", u = "onMouseEnter", t = "mouse", ("pointerout" === a || "pointerover" === a) && (w = Td, v = "onPointerLeave", u = "onPointerEnter", t = "pointer"), z = null == k ? h : ue(k), q = null == x ? h : ue(x), (h = new w(v, t + "leave", k, c, e)).target = z, h.relatedTarget = q, v = null, wc(e) === d && ((w = new w(u, t + "enter", x, c, e)).target = q, w.relatedTarget = z, v = w), z = v, k && x) b: {
                                 for(w = k, u = x, t = 0, q = w; q; q = gf(q))t++;
                                 for(q = 0, v = u; v; v = gf(v))q++;
@@ -12890,16 +12885,16 @@
                     return a && null === b.alternate && (b.flags = 2), b;
                 }
                 function h(a, b, c, d) {
-                    return null === b || 6 !== b.tag ? ((b = Ug(c, a.mode, d)).return = a, b) : ((b = e(b, c)).return = a, b);
+                    return null === b || 6 !== b.tag ? (b = Ug(c, a.mode, d)).return = a : (b = e(b, c)).return = a, b;
                 }
                 function k(a, b, c, d) {
-                    return null !== b && b.elementType === c.type ? ((d = e(b, c.props)).ref = Qg(a, b, c), d.return = a, d) : ((d = Vg(c.type, c.key, c.props, null, a.mode, d)).ref = Qg(a, b, c), d.return = a, d);
+                    return null !== b && b.elementType === c.type ? (d = e(b, c.props)).ref = Qg(a, b, c) : (d = Vg(c.type, c.key, c.props, null, a.mode, d)).ref = Qg(a, b, c), d.return = a, d;
                 }
                 function l(a, b, c, d) {
-                    return null === b || 4 !== b.tag || b.stateNode.containerInfo !== c.containerInfo || b.stateNode.implementation !== c.implementation ? ((b = Wg(c, a.mode, d)).return = a, b) : ((b = e(b, c.children || [])).return = a, b);
+                    return null === b || 4 !== b.tag || b.stateNode.containerInfo !== c.containerInfo || b.stateNode.implementation !== c.implementation ? (b = Wg(c, a.mode, d)).return = a : (b = e(b, c.children || [])).return = a, b;
                 }
                 function n(a, b, c, d, f) {
-                    return null === b || 7 !== b.tag ? ((b = Xg(c, a.mode, d, f)).return = a, b) : ((b = e(b, c)).return = a, b);
+                    return null === b || 7 !== b.tag ? (b = Xg(c, a.mode, d, f)).return = a : (b = e(b, c)).return = a, b;
                 }
                 function A(a, b, c) {
                     if ("string" == typeof b || "number" == typeof b) return (b = Ug("" + b, a.mode, c)).return = a, b;
@@ -12987,7 +12982,7 @@
                             }
                             return g(a1);
                     }
-                    if ("string" == typeof f1 || "number" == typeof f1) return f1 = "" + f1, null !== d1 && 6 === d1.tag ? (c(a1, d1.sibling), (d1 = e(d1, f1)).return = a1, a1 = d1) : (c(a1, d1), (d1 = Ug(f1, a1.mode, h)).return = a1, a1 = d1), g(a1);
+                    if ("string" == typeof f1 || "number" == typeof f1) return f1 = "" + f1, null !== d1 && 6 === d1.tag ? (c(a1, d1.sibling), (d1 = e(d1, f1)).return = a1) : (c(a1, d1), (d1 = Ug(f1, a1.mode, h)).return = a1), g(a1 = d1);
                     if (Pg(f1)) return function(e, g, h, k) {
                         for(var l = null, t = null, u = g, z = g = 0, q = null; null !== u && z < h.length; z++){
                             u.index > z ? (q = u, u = null) : q = u.sibling;
@@ -13781,7 +13776,7 @@
                             a.child.return = a, a = a.child;
                             continue;
                         }
-                        if (a === b) break a;
+                        if (a === b) break;
                         for(; null === a.sibling;){
                             if (null === a.return || a.return === b) break a;
                             a = a.return;
@@ -14132,7 +14127,7 @@
                     if (5 === c.tag || 6 === c.tag) {
                         a: for(var g = a, h = c, k = h;;)if (bj(g, k), null !== k.child && 4 !== k.tag) k.child.return = k, k = k.child;
                         else {
-                            if (k === h) break a;
+                            if (k === h) break;
                             for(; null === k.sibling;){
                                 if (null === k.return || k.return === h) break a;
                                 k = k.return;
@@ -17001,11 +16996,10 @@
             }
             function H(a, b) {
                 var c = a.length;
-                a.push(b);
-                a: for(;;){
+                for(a.push(b);;){
                     var d = c - 1 >>> 1, e = a[d];
                     if (void 0 !== e && 0 < I(e, b)) a[d] = b, a[c] = e, c = d;
-                    else break a;
+                    else break;
                 }
             }
             function J(a) {
@@ -17017,11 +17011,11 @@
                     var c = a.pop();
                     if (c !== b) {
                         a[0] = c;
-                        a: for(var d = 0, e = a.length; d < e;){
+                        for(var d = 0, e = a.length; d < e;){
                             var m = 2 * (d + 1) - 1, n = a[m], v = m + 1, r = a[v];
                             if (void 0 !== n && 0 > I(n, c)) void 0 !== r && 0 > I(r, n) ? (a[d] = r, a[v] = c, d = v) : (a[d] = n, a[m] = c, d = m);
                             else if (void 0 !== r && 0 > I(r, c)) a[d] = r, a[v] = c, d = v;
-                            else break a;
+                            else break;
                         }
                     }
                     return b;

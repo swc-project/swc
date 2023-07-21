@@ -1,5 +1,4 @@
 //// [intersectionsAndEmptyObjects.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -18,7 +17,6 @@ testDictionary(d5);
 const d6 = intersectDictionaries(d3, d3);
 testDictionary(d6), mock(Promise.resolve().then(()=>_interop_require_wildcard._(require("./ex"))));
 //// [ex.d.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

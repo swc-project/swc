@@ -195,7 +195,7 @@ where
         let mut stmts = vec![var_stmt];
 
         for item in self {
-            stmts.push(syn::Stmt::Semi(
+            stmts.push(syn::Stmt::Expr(
                 q!(
                     Vars {
                         item: item.to_code(cx)
@@ -203,11 +203,11 @@ where
                     { items.push(item) }
                 )
                 .parse(),
-                Default::default(),
+                Some(Default::default()),
             ));
         }
 
-        stmts.push(syn::Stmt::Expr(q!(Vars {}, { items }).parse()));
+        stmts.push(syn::Stmt::Expr(q!(Vars {}, { items }).parse(), None));
 
         syn::Expr::Block(ExprBlock {
             attrs: Default::default(),

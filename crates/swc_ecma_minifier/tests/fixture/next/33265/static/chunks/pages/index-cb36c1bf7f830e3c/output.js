@@ -2168,7 +2168,7 @@
                                         NAMESPACE.isHTML(el.uri) && !el.closed ? end = function(source, elStartEnd, tagName, entityReplacer, domBuilder) {
                                             if (/^(?:script|textarea)$/i.test(tagName)) {
                                                 var elEndStart = source.indexOf("</" + tagName + ">", elStartEnd), text = source.substring(elStartEnd + 1, elEndStart);
-                                                if (/[&<]/.test(text)) return /^script$/i.test(tagName) ? (domBuilder.characters(text, 0, text.length), elEndStart) : (text = text.replace(/&#?\w+;/g, entityReplacer), domBuilder.characters(text, 0, text.length), elEndStart);
+                                                if (/[&<]/.test(text)) return /^script$/i.test(tagName) || (text = text.replace(/&#?\w+;/g, entityReplacer)), domBuilder.characters(text, 0, text.length), elEndStart;
                                             }
                                             return elStartEnd + 1;
                                         }(source, end, el.tagName, entityReplacer, domBuilder) : end++;
@@ -3010,7 +3010,6 @@
                 DASH_EMPTY_MANIFEST: "DASH_EMPTY_MANIFEST",
                 DASH_INVALID_XML: "DASH_INVALID_XML",
                 NO_BASE_URL: "NO_BASE_URL",
-                MISSING_SEGMENT_INFORMATION: "MISSING_SEGMENT_INFORMATION",
                 SEGMENT_TIME_UNSPECIFIED: "SEGMENT_TIME_UNSPECIFIED",
                 UNSUPPORTED_UTC_TIMING_SCHEME: "UNSUPPORTED_UTC_TIMING_SCHEME"
             }, urlTypeToSegment = function(_ref) {

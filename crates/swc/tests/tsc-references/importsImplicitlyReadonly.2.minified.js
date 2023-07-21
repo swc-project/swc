@@ -1,7 +1,5 @@
 //// [importsImplicitlyReadonly.ts]
-"use strict";
 //// [a.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), function(target, all) {

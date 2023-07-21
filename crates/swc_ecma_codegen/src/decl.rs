@@ -38,6 +38,11 @@ where
     fn emit_using_decl(&mut self, node: &UsingDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        if node.is_await {
+            keyword!("await");
+            space!();
+        }
+
         keyword!("using");
         space!();
 

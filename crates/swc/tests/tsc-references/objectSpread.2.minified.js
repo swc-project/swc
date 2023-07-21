@@ -40,7 +40,6 @@ _object_spread_props(_object_spread({}, o), {
     c: 7
 }).a = 12, _object_spread({}, function() {}), _object_spread({}, anything);
 var c = new (function() {
-    "use strict";
     function C() {
         _class_call_check(this, C), this.p = 1;
     }

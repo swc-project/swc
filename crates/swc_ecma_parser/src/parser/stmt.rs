@@ -103,6 +103,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let ctx = Context {
             will_expect_colon_for_cond: false,
+            allow_using_decl: true,
             ..self.ctx()
         };
         self.with_ctx(ctx)
@@ -132,6 +133,15 @@ impl<'a, I: Tokens> Parser<I> {
                 self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwaitInScript);
             }
 
+            if peeked_is!(self, "using") {
+                assert_and_bump!(self, "await");
+
+                let v = self.parse_using_decl(start, true)?;
+                if let Some(v) = v {
+                    return Ok(Stmt::Decl(Decl::Using(v)));
+                }
+            }
+
             let expr = self.parse_await_expr()?;
             let expr = self
                 .include_in_expr(true)
@@ -154,6 +164,16 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         match cur!(self, true)? {
+            tok!("await") if include_decl => {
+                if peeked_is!(self, "using") {
+                    assert_and_bump!(self, "await");
+                    let v = self.parse_using_decl(start, true)?;
+                    if let Some(v) = v {
+                        return Ok(Stmt::Decl(Decl::Using(v)));
+                    }
+                }
+            }
+
             tok!("break") | tok!("continue") => {
                 let is_break = is!(self, "break");
                 bump!(self);
@@ -302,7 +322,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!("using") if include_decl => {
-                let v = self.parse_using_decl()?;
+                let v = self.parse_using_decl(start, false)?;
                 if let Some(v) = v {
                     return Ok(Stmt::Decl(Decl::Using(v)));
                 }
@@ -744,13 +764,13 @@ impl<'a, I: Tokens> Parser<I> {
                     Pat::Ident(BindingIdent { type_ann, .. })
                     | Pat::Array(ArrayPat { type_ann, .. })
                     | Pat::Rest(RestPat { type_ann, .. })
-                    | Pat::Object(ObjectPat { type_ann, .. })
-                    | Pat::Assign(AssignPat { type_ann, .. }) => {
+                    | Pat::Object(ObjectPat { type_ann, .. }) => {
                         *type_ann = Some(Box::new(TsTypeAnn {
                             span: span!(self, type_ann_start),
                             type_ann: ty,
                         }));
                     }
+                    Pat::Assign(..) => {}
                     Pat::Invalid(_) => {}
                     Pat::Expr(_) => {}
                 }
@@ -762,7 +782,11 @@ impl<'a, I: Tokens> Parser<I> {
         }
     }
 
-    pub(super) fn parse_using_decl(&mut self) -> PResult<Option<Box<UsingDecl>>> {
+    pub(super) fn parse_using_decl(
+        &mut self,
+        start: BytePos,
+        is_await: bool,
+    ) -> PResult<Option<Box<UsingDecl>>> {
         // using
         // reader = init()
 
@@ -776,7 +800,6 @@ impl<'a, I: Tokens> Parser<I> {
             return Ok(None);
         }
 
-        let start = cur_pos!(self);
         assert_and_bump!(self, "using");
 
         let mut decls = vec![];
@@ -822,6 +845,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         Ok(Some(Box::new(UsingDecl {
             span: span!(self, start),
+            is_await,
             decls,
         })))
     }
@@ -951,9 +975,6 @@ impl<'a, I: Tokens> Parser<I> {
             let type_annotation = self.try_parse_ts_type_ann()?;
             match name {
                 Pat::Array(ArrayPat {
-                    ref mut type_ann, ..
-                })
-                | Pat::Assign(AssignPat {
                     ref mut type_ann, ..
                 })
                 | Pat::Ident(BindingIdent {
@@ -1230,7 +1251,6 @@ impl<'a, I: Tokens> Parser<I> {
                         let type_ann = match decl.decls[0].name {
                             Pat::Ident(ref v) => Some(&v.type_ann),
                             Pat::Array(ref v) => Some(&v.type_ann),
-                            Pat::Assign(ref v) => Some(&v.type_ann),
                             Pat::Rest(ref v) => Some(&v.type_ann),
                             Pat::Object(ref v) => Some(&v.type_ann),
                             _ => None,
@@ -1282,6 +1302,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             let pat = Box::new(UsingDecl {
                 span: span!(self, start),
+                is_await: false,
                 decls: vec![decl],
             });
 

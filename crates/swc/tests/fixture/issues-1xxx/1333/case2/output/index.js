@@ -97,7 +97,7 @@ class Shard extends _utils.Emitter {
     /**
      * Destroys this shard.
      * @param {ShardDestroyOptions} [options={}]
-     */ destroy({ code =1000 , emit =true , log =true , reset =false  } = {}) {
+     */ destroy({ code = 1000, emit = true, log = true, reset = false } = {}) {
         if (log) {
             this._debug(`Destroying; Code = ${code}, Resetting? = ${reset ? "yes" : "no"}`);
         }

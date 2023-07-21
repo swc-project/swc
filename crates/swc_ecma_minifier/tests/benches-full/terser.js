@@ -3752,7 +3752,7 @@
         });
         const assert_clause_to_moz = (assert_clause)=>{
             const assertions = [];
-            if (assert_clause) for (const { key , value  } of assert_clause.properties){
+            if (assert_clause) for (const { key, value } of assert_clause.properties){
                 const key_moz = is_basic_identifier_string(key) ? {
                     type: "Identifier",
                     name: key
@@ -4123,11 +4123,11 @@
             this.current += str;
         }
         insertAt(char, index) {
-            const { committed , current  } = this;
+            const { committed, current } = this;
             index < committed.length ? this.committed = committed.slice(0, index) + char + committed.slice(index) : index === committed.length ? this.committed += char : (index -= committed.length, this.committed += current.slice(0, index) + char, this.current = current.slice(index));
         }
         charAt(index) {
-            const { committed  } = this;
+            const { committed } = this;
             return index < committed.length ? committed[index] : this.current[index - committed.length];
         }
         curLength() {
@@ -4257,7 +4257,7 @@
         var mapping_token, mapping_name, has_parens = !1, might_need_space = !1, might_need_semicolon = !1, might_add_newline = 0, need_newline_indented = !1, need_space = !1, newline_insert = -1, last = "", mappings = options.source_map && [], do_add_mapping = mappings ? function() {
             mappings.forEach(function(mapping) {
                 try {
-                    let { name , token  } = mapping;
+                    let { name, token } = mapping;
                     "name" == token.type || "privatename" === token.type ? name = token.value : name instanceof AST_Symbol && (name = "string" === token.type ? token.value : name.name), options.source_map.add(mapping.token.file, mapping.line, mapping.col, mapping.token.line, mapping.token.col, is_basic_identifier_string(name) ? name : void 0);
                 } catch (ex) {}
             }), mappings = [];
@@ -4919,7 +4919,7 @@
             });
         }
         DEFPRINT(AST_RegExp, function(self1, output) {
-            let { source , flags  } = self1.getValue();
+            let { source, flags } = self1.getValue();
             source = regexp_source_fix(source), flags = flags ? function(flags) {
                 const existing_flags = new Set(flags.split(""));
                 let out = "";
@@ -5092,8 +5092,7 @@
         var ext = scope.enclosed, nth_identifier = options.nth_identifier;
         out: for(;;){
             var m = nth_identifier.get(++scope.cname);
-            if (!(ALL_RESERVED_WORDS.has(m) || options.reserved.has(m))) {
-                if (unmangleable_names && unmangleable_names.has(m)) continue out;
+            if (!(ALL_RESERVED_WORDS.has(m) || options.reserved.has(m)) && !(unmangleable_names && unmangleable_names.has(m))) {
                 for(let i = ext.length; --i >= 0;){
                     const def = ext[i], name = def.mangled_name || def.unmangleable(options) && def.name;
                     if (m == name) continue out;
@@ -5102,7 +5101,7 @@
             }
         }
     }
-    SymbolDef.next_id = 1, AST_Scope.DEFMETHOD("figure_out_scope", function(options, { parent_scope =null , toplevel =this  } = {}) {
+    SymbolDef.next_id = 1, AST_Scope.DEFMETHOD("figure_out_scope", function(options, { parent_scope = null, toplevel = this } = {}) {
         if (options = defaults(options, {
             cache: null,
             ie8: !1,
@@ -5218,9 +5217,9 @@
             return ancestry.reverse(), ancestry;
         })(), new_scope_enclosed_set = new Set(scope.enclosed), to_enclose = [];
         for (const scope_topdown of scope_ancestry)for (const def of (to_enclose.forEach((e)=>push_uniq(scope_topdown.enclosed, e)), scope_topdown.variables.values()))new_scope_enclosed_set.has(def) && (push_uniq(to_enclose, def), push_uniq(scope_topdown.enclosed, def));
-    }), AST_Scope.DEFMETHOD("create_symbol", function(SymClass, { source , tentative_name , scope , conflict_scopes =[
+    }), AST_Scope.DEFMETHOD("create_symbol", function(SymClass, { source, tentative_name, scope, conflict_scopes = [
         scope
-    ] , init =null  } = {}) {
+    ], init = null } = {}) {
         let symbol_name;
         if (conflict_scopes = function(scopes) {
             const found_scopes = new Set();
@@ -5644,7 +5643,7 @@
     }, AST_SymbolClassProperty.prototype._size = function() {
         return this.name.length;
     }, AST_SymbolRef.prototype._size = AST_SymbolDeclaration.prototype._size = function() {
-        const { name , thedef  } = this;
+        const { name, thedef } = this;
         return thedef && thedef.global ? name.length : "arguments" === name ? 9 : AST_Symbol.prototype._size.call(this);
     }, AST_NewTarget.prototype._size = ()=>10, AST_SymbolImportForeign.prototype._size = function() {
         return this.name.length;
@@ -5653,7 +5652,7 @@
     }, AST_This.prototype._size = ()=>4, AST_Super.prototype._size = ()=>5, AST_String.prototype._size = function() {
         return this.value.length + 2;
     }, AST_Number.prototype._size = function() {
-        const { value  } = this;
+        const { value } = this;
         return 0 === value ? 1 : value > 0 && Math.floor(value) === value ? Math.floor(Math.log10(value) + 1) : value.toString().length;
     }, AST_BigInt.prototype._size = function() {
         return this.value.length;
@@ -6909,7 +6908,7 @@
                 var sym, parent = scanner.parent();
                 if (node instanceof AST_Assign && (node.logical || "=" != node.operator && lhs.equivalent_to(node.left)) || node instanceof AST_Await || node instanceof AST_Call && lhs instanceof AST_PropAccess && lhs.equivalent_to(node.expression) || node instanceof AST_Debugger || node instanceof AST_Destructuring || node instanceof AST_Expansion && node.expression instanceof AST_Symbol && (node.expression instanceof AST_This || node.expression.definition().references.length > 1) || node instanceof AST_IterationStatement && !(node instanceof AST_For) || node instanceof AST_LoopControl || node instanceof AST_Try || node instanceof AST_With || node instanceof AST_Yield || node instanceof AST_Export || node instanceof AST_Class || parent instanceof AST_For && node !== parent.init || !replace_all && node instanceof AST_SymbolRef && !node.is_declared(compressor) && !pure_prop_access_globals.has(node) || node instanceof AST_SymbolRef && parent instanceof AST_Call && has_annotation(parent, _NOINLINE)) return abort = !0, node;
                 if (!stop_if_hit && (!lhs_local || !replace_all) && (parent instanceof AST_Binary && lazy_op.has(parent.operator) && parent.left !== node || parent instanceof AST_Conditional && parent.condition !== node || parent instanceof AST_If && parent.condition !== node) && (stop_if_hit = parent), can_replace && !(node instanceof AST_SymbolDeclaration) && lhs.equivalent_to(node) && !function(newScope, lvalues) {
-                    for (const { def  } of lvalues.values()){
+                    for (const { def } of lvalues.values()){
                         let current = newScope;
                         for(; current && current !== def.scope;){
                             let nested_def = current.variables.get(def.name);
@@ -7236,7 +7235,7 @@
         var fixed = def.fixed;
         if (!fixed && "=" != node.operator && !node.logical) return finish_walk();
         var eq = "=" == node.operator, value = eq ? node.right : node;
-        return is_modified(compressor, tw, node, value, 0) ? finish_walk() : (def.references.push(sym), node.logical || (eq || (def.chained = !0), def.fixed = eq ? function() {
+        return is_modified(compressor, tw, node, value, 0) ? finish_walk() : ((def.references.push(sym), node.logical || (eq || (def.chained = !0), def.fixed = eq ? function() {
             return node.right;
         } : function() {
             return make_node(AST_Binary, node, {
@@ -7244,7 +7243,7 @@
                 left: fixed instanceof AST_Node ? fixed : fixed(),
                 right: node.right
             });
-        }), node.logical) ? (mark(tw, def, !1), push(tw), node.right.walk(tw), pop(tw), !0) : (mark(tw, def, !1), node.right.walk(tw), mark(tw, def, !0), mark_escaped(tw, def, sym.scope, node, value, 0, 1), !0);
+        }), node.logical) ? (mark(tw, def, !1), push(tw), node.right.walk(tw), pop(tw)) : (mark(tw, def, !1), node.right.walk(tw), mark(tw, def, !0), mark_escaped(tw, def, sym.scope, node, value, 0, 1)), !0);
     }), def_reduce_vars(AST_Binary, function(tw) {
         if (lazy_op.has(this.operator)) return this.left.walk(tw), push(tw), this.right.walk(tw), pop(tw), !0;
     }), def_reduce_vars(AST_Block, function(tw, descend, compressor) {
@@ -7348,7 +7347,7 @@
         return tw.in_loop = this, push(tw), descend(), pop(tw), tw.in_loop = saved_loop, !0;
     });
     class Compressor extends TreeWalker {
-        constructor(options, { false_by_default =!1 , mangle_options =!1  }){
+        constructor(options, { false_by_default = !1, mangle_options = !1 }){
             super(), void 0 === options.defaults || options.defaults || (false_by_default = !0), this.options = defaults(options, {
                 arguments: !1,
                 arrows: !false_by_default,
@@ -7834,7 +7833,7 @@
                 if (sym.scope === self1 && 1 != (def = sym.definition()).escaped && !def.assignments && !def.direct_access && !def.single_use && !compressor.exposed(def) && !top_retain(def) && (value = sym.fixed_value()) === node.value && value instanceof AST_Object && !value.properties.some((prop)=>prop instanceof AST_Expansion || prop.computed_key())) {
                     descend(node, this);
                     const defs = new Map(), assignments = [];
-                    return value.properties.forEach(({ key , value  })=>{
+                    return value.properties.forEach(({ key, value })=>{
                         const scope = find_scope(hoister), symbol = self1.create_symbol(sym.CTOR, {
                             source: sym,
                             scope,
@@ -8706,7 +8705,7 @@
                 operator: "void",
                 expression: expressions[end]
             }), expressions.length = end + 1);
-        }(), 0 == end) ? ((self1 = maintain_this_binding(compressor.parent(), compressor.self(), expressions[0])) instanceof AST_Sequence || (self1 = self1.optimize(compressor)), self1) : (self1.expressions = expressions, self1);
+        }(), 0 == end) ? (self1 = maintain_this_binding(compressor.parent(), compressor.self(), expressions[0])) instanceof AST_Sequence || (self1 = self1.optimize(compressor)) : self1.expressions = expressions, self1;
     }), AST_Unary.DEFMETHOD("lift_sequences", function(compressor) {
         if (compressor.option("sequences") && this.expression instanceof AST_Sequence) {
             var x = this.expression.expressions.slice(), e = this.clone();
@@ -17800,7 +17799,7 @@
             total: 1e-3 * (timings.end - timings.start)
         }), result;
     }
-    async function run_cli({ program , packageJson , fs , path  }) {
+    async function run_cli({ program, packageJson, fs, path }) {
         let filesList;
         const skip_keys = new Set([
             "cname",

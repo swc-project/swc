@@ -11,9 +11,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Item from "./Item";
 import compareObjects from "./compareObjects";
-var ItemsList = /*#__PURE__*/ function(Component) {
+var ItemsList = /*#__PURE__*/ function(Component1) {
     "use strict";
-    _inherits(ItemsList, Component);
+    _inherits(ItemsList, Component1);
     var _super = _create_super(ItemsList);
     function ItemsList() {
         _class_call_check(this, ItemsList);

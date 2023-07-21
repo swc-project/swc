@@ -1,7 +1,5 @@
 //// [exportsAndImportsWithUnderscores2.ts]
-"use strict";
 //// [m1.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
@@ -15,7 +13,6 @@ var _default = {
     __proto__: {}
 };
 //// [m2.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

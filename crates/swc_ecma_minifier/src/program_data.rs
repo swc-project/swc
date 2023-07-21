@@ -74,6 +74,8 @@ pub(crate) struct VarUsageInfo {
     pub(crate) declared_as_fn_decl: bool,
     pub(crate) declared_as_fn_expr: bool,
 
+    pub(crate) declared_as_for_init: bool,
+
     pub(crate) assign_count: u32,
     pub(crate) mutation_by_call_count: u32,
 
@@ -116,6 +118,9 @@ pub(crate) struct VarUsageInfo {
 
     pub(crate) callee_count: u32,
 
+    /// `a` in `foo(a)` or `foo({ a })`.
+    pub(crate) used_as_ref: bool,
+
     pub(crate) used_as_arg: bool,
 
     pub(crate) indexed_with_dynamic_key: bool,
@@ -144,6 +149,7 @@ impl Default for VarUsageInfo {
             declared_as_fn_param: Default::default(),
             declared_as_fn_decl: Default::default(),
             declared_as_fn_expr: Default::default(),
+            declared_as_for_init: Default::default(),
             assign_count: Default::default(),
             mutation_by_call_count: Default::default(),
             usage_count: Default::default(),
@@ -170,6 +176,7 @@ impl Default for VarUsageInfo {
             used_recursively: Default::default(),
             is_top_level: Default::default(),
             assigned_fn_local: true,
+            used_as_ref: false,
         }
     }
 }
@@ -291,6 +298,7 @@ impl Storage for ProgramData {
 
                     e.get_mut().callee_count += var_info.callee_count;
                     e.get_mut().used_as_arg |= var_info.used_as_arg;
+                    e.get_mut().used_as_ref |= var_info.used_as_ref;
                     e.get_mut().indexed_with_dynamic_key |= var_info.indexed_with_dynamic_key;
 
                     e.get_mut().pure_fn |= var_info.pure_fn;
@@ -399,6 +407,31 @@ impl Storage for ProgramData {
     fn truncate_initialized_cnt(&mut self, len: usize) {
         self.initialized_vars.truncate(len)
     }
+
+    fn mark_property_mutattion(&mut self, id: Id, ctx: Ctx) {
+        let e = self.vars.entry(id).or_default();
+        e.has_property_mutation = true;
+
+        let mut to_mark_mutate = Vec::new();
+        for (other, kind) in &e.infects_to {
+            if *kind == AccessKind::Reference {
+                to_mark_mutate.push(other.clone())
+            }
+        }
+
+        for other in to_mark_mutate {
+            let other = self.vars.entry(other).or_insert_with(|| {
+                let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
+
+                VarUsageInfo {
+                    used_above_decl: !simple_assign,
+                    ..Default::default()
+                }
+            });
+
+            other.has_property_mutation = true;
+        }
+    }
 }
 
 impl ScopeDataLike for ScopeData {
@@ -436,12 +469,12 @@ impl VarDataLike for VarUsageInfo {
         self.declared_as_fn_expr = true;
     }
 
-    fn mark_has_property_access(&mut self) {
-        self.has_property_access = true;
+    fn mark_declared_as_for_init(&mut self) {
+        self.declared_as_for_init = true;
     }
 
-    fn mark_has_property_mutation(&mut self) {
-        self.has_property_mutation = true;
+    fn mark_has_property_access(&mut self) {
+        self.has_property_access = true;
     }
 
     fn mark_used_as_callee(&mut self) {
@@ -449,6 +482,7 @@ impl VarDataLike for VarUsageInfo {
     }
 
     fn mark_used_as_arg(&mut self) {
+        self.used_as_ref = true;
         self.used_as_arg = true
     }
 
@@ -468,12 +502,20 @@ impl VarDataLike for VarUsageInfo {
         self.reassigned = true;
     }
 
+    fn mark_used_as_ref(&mut self) {
+        self.used_as_ref = true;
+    }
+
     fn add_infects_to(&mut self, other: Access) {
         self.infects_to.push(other);
     }
 
     fn prevent_inline(&mut self) {
         self.inline_prevented = true;
+    }
+
+    fn mark_as_exported(&mut self) {
+        self.exported = true;
     }
 
     fn mark_initialized_with_safe_value(&mut self) {
@@ -494,6 +536,7 @@ impl VarDataLike for VarUsageInfo {
 }
 
 impl ProgramData {
+    #[allow(clippy::single_range_in_vec_init)]
     pub(crate) fn expand_infected(
         &self,
         module_info: &ModuleInfo,
@@ -625,6 +668,10 @@ impl ProgramData {
             }
         });
 
+        if is_first {
+            e.used_as_ref |= ctx.is_id_ref;
+        }
+
         e.inline_prevented |= ctx.inline_prevented;
 
         if is_first {
@@ -643,15 +690,6 @@ impl ProgramData {
 
         // Passing object as a argument is possibly modification.
         e.mutated |= is_modify || (call_may_mutate && ctx.is_exact_arg);
-        let mut to_mark_mutate = Vec::new();
-        if call_may_mutate && ctx.is_exact_arg {
-            e.has_property_mutation = true;
-            for (other, kind) in e.infects_to.clone() {
-                if kind == AccessKind::Reference {
-                    to_mark_mutate.push(other)
-                }
-            }
-        }
 
         e.executed_multiple_time |= ctx.executed_multiple_time;
         e.used_in_cond |= ctx.in_cond;
@@ -669,7 +707,7 @@ impl ProgramData {
                     && e.var_kind != Some(VarDeclKind::Const)
                     && !inited
                 {
-                    self.initialized_vars.insert(i);
+                    self.initialized_vars.insert(i.clone());
                     e.assign_count -= 1;
                     e.var_initialized = true;
                 } else {
@@ -688,19 +726,8 @@ impl ProgramData {
             e.usage_count += 1;
         }
 
-        for other in to_mark_mutate {
-            let other = self.vars.entry(other).or_insert_with(|| {
-                // trace!("insert({}{:?})", i.0, i.1);
-
-                let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
-
-                VarUsageInfo {
-                    used_above_decl: !simple_assign,
-                    ..Default::default()
-                }
-            });
-
-            other.has_property_mutation = true;
+        if call_may_mutate && ctx.is_exact_arg {
+            self.mark_property_mutattion(i, ctx)
         }
     }
 }

@@ -27,7 +27,6 @@ functions/unsafe_call_expansion_1/input.js
 functions/unsafe_call_expansion_2/input.js
 hoist_props/contains_this_1/input.js
 hoist_props/contains_this_2/input.js
-hoist_props/direct_access_1/input.js
 hoist_props/hoist_class/input.js
 hoist_props/hoist_class_with_new/input.js
 hoist_props/issue_2473_4/input.js
@@ -135,9 +134,6 @@ pure_getters/issue_2313_6/input.js
 pure_getters/issue_2838/input.js
 pure_getters/issue_2938_3/input.js
 pure_getters/issue_2938_4/input.js
-pure_getters/set_immutable_1/input.js
-pure_getters/set_immutable_3/input.js
-pure_getters/set_immutable_5/input.js
 pure_getters/set_immutable_6/input.js
 pure_getters/set_mutable_1/input.js
 pure_getters/set_mutable_2/input.js

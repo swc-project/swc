@@ -138,6 +138,7 @@ impl Task for BundleTask {
                                 None,
                                 true,
                                 false,
+                                Default::default(),
                             )?;
 
                             Ok((k, output))

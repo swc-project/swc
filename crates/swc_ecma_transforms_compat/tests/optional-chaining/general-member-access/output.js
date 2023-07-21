@@ -1,0 +1,11 @@
+var _foo, _a_b_c, _a, _a_b_c_d, _a_b, _a_b_c_d1, _a_b_c1, _orders, _orders_, _orders1, _client, _orders_client_key, _a1, _c, _a2;
+(_foo = foo) === null || _foo === void 0 ? void 0 : _foo.bar;
+(_a = a) === null || _a === void 0 ? void 0 : (_a_b_c = _a.b.c) === null || _a_b_c === void 0 ? void 0 : _a_b_c.d.e;
+(_a_b = a.b) === null || _a_b === void 0 ? void 0 : (_a_b_c_d = _a_b.c.d) === null || _a_b_c_d === void 0 ? void 0 : _a_b_c_d.e;
+(_a_b_c1 = a.b.c) === null || _a_b_c1 === void 0 ? void 0 : (_a_b_c_d1 = _a_b_c1.d) === null || _a_b_c_d1 === void 0 ? void 0 : _a_b_c_d1.e;
+(_orders = orders) === null || _orders === void 0 ? void 0 : _orders[0].price;
+(_orders1 = orders) === null || _orders1 === void 0 ? void 0 : (_orders_ = _orders1[0]) === null || _orders_ === void 0 ? void 0 : _orders_.price;
+orders[(_client = client) === null || _client === void 0 ? void 0 : _client.key].price;
+(_orders_client_key = orders[client.key]) === null || _orders_client_key === void 0 ? void 0 : _orders_client_key.price;
+(0, (_a1 = a) === null || _a1 === void 0 ? void 0 : _a1.b).c;
+(0, (_c = (0, (_a2 = a) === null || _a2 === void 0 ? void 0 : _a2.b).c) === null || _c === void 0 ? void 0 : _c.d).e;

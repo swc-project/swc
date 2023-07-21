@@ -1,4 +1,4 @@
-export function func({ a , b , ...rest }: {
+export function func({ a, b, ...rest }: {
     a: string;
     b: string;
 }) {

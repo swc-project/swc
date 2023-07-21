@@ -14,15 +14,11 @@ use super::{util::NormalMultiReplacer, Optimizer};
 use crate::debug::dump;
 use crate::{
     compress::optimize::Ctx,
-    mode::Mode,
     util::{idents_captured_by, idents_used_by, make_number},
 };
 
 /// Methods related to the option `negate_iife`.
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     /// Negates iife, while ignore return value.
     pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
         if !self.options.negate_iife || self.ctx.in_bang_arg || self.ctx.dont_use_negated_iife {
@@ -115,10 +111,7 @@ where
 }
 
 /// Methods related to iife.
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     /// # Example
     ///
     /// ## Input
@@ -528,7 +521,7 @@ where
                             let vars = param_ids
                                 .iter()
                                 .map(|name| VarDeclarator {
-                                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                                    span: DUMMY_SP,
                                     name: Ident::new(
                                         name.sym.clone(),
                                         name.span.with_ctxt(new_ctxt),
@@ -542,7 +535,7 @@ where
                             if !vars.is_empty() {
                                 self.prepend_stmts.push(
                                     VarDecl {
-                                        span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                                        span: DUMMY_SP,
                                         kind: VarDeclKind::Var,
                                         declare: Default::default(),
                                         decls: vars,
@@ -556,7 +549,7 @@ where
                         for (idx, param) in param_ids.iter().enumerate() {
                             if let Some(arg) = call.args.get_mut(idx) {
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                                    span: DUMMY_SP,
                                     op: op!("="),
                                     left: PatOrExpr::Pat(
                                         Ident::new(
@@ -717,7 +710,7 @@ where
         }
 
         // Don't create top-level variables.
-        if !param_ids.is_empty() && self.ctx.in_top_level() {
+        if !param_ids.is_empty() && !self.may_add_ident() {
             for pid in param_ids {
                 if let Some(usage) = self.data.vars.get(&pid.to_id()) {
                     if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
@@ -795,7 +788,7 @@ where
                     return false;
                 }
 
-                if self.ctx.in_top_level() && !self.options.module {
+                if !self.may_add_ident() {
                     return false;
                 }
 
@@ -807,7 +800,7 @@ where
 
                 // TODO: Check if parameter is used and inline if call is not related to parameters.
                 Expr::Call(e) => {
-                    if let Some(..) = e.callee.as_expr().and_then(|e| e.as_ident()) {
+                    if e.callee.as_expr().and_then(|e| e.as_ident()).is_some() {
                         return true;
                     }
 
@@ -897,6 +890,8 @@ where
         for (idx, param) in params.into_iter().enumerate() {
             let arg = args.get_mut(idx).map(|arg| arg.expr.take());
 
+            let no_arg = arg.is_none();
+
             if let Some(arg) = arg {
                 if let Some(usage) = self.data.vars.get(&orig_params[idx].to_id()) {
                     if usage.ref_count == 1
@@ -920,7 +915,7 @@ where
 
                 exprs.push(
                     Expr::Assign(AssignExpr {
-                        span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                        span: DUMMY_SP,
                         op: op!("="),
                         left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
                         right: arg,
@@ -930,9 +925,13 @@ where
             };
 
             vars.push(VarDeclarator {
-                span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                span: DUMMY_SP,
                 name: Pat::Ident(param.into()),
-                init: None,
+                init: if self.ctx.executed_multiple_time && no_arg {
+                    Some(undefined(DUMMY_SP))
+                } else {
+                    None
+                },
                 definite: Default::default(),
             });
         }
@@ -948,7 +947,7 @@ where
 
             self.prepend_stmts.push(
                 VarDecl {
-                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                    span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: Default::default(),
                     decls: vars,
@@ -963,13 +962,12 @@ where
                     for decl in &mut var.decls {
                         if decl.init.is_some() {
                             exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                                span: DUMMY_SP,
                                 op: op!("="),
                                 left: PatOrExpr::Pat(Box::new(decl.name.clone())),
                                 right: decl.init.take().unwrap(),
                             })))
                         }
-                        decl.span = decl.span.apply_mark(self.marks.non_top_level);
                     }
 
                     self.prepend_stmts.push(stmt);

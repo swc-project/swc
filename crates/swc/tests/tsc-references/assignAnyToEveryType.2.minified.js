@@ -1,6 +1,4 @@
 //// [assignAnyToEveryType.ts]
-var E, M;
+var E, M, E1;
 import "@swc/helpers/_/_class_call_check";
-!function(E) {
-    E[E.A = 0] = "A";
-}(E || (E = {})), E.A, (M || (M = {})).foo = 1;
+(E1 = E || (E = {}))[E1.A = 0] = "A", E.A, (M || (M = {})).foo = 1;

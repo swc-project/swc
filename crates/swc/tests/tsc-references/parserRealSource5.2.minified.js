@@ -3,7 +3,6 @@ var TypeScript;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(TypeScript) {
     var PrintContext = function() {
-        "use strict";
         function PrintContext(outfile, parser) {
             _class_call_check(this, PrintContext), this.outfile = outfile, this.parser = parser, this.builder = "", this.indent1 = "  ", this.indentStrings = [], this.indentAmt = 0;
         }

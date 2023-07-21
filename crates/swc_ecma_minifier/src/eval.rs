@@ -12,7 +12,7 @@ use swc_ecma_visit::VisitMutWith;
 use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
     mode::Mode,
-    option::CompressOptions,
+    option::{CompressOptions, TopLevelOptions},
 };
 
 pub struct Evaluator {
@@ -63,7 +63,7 @@ impl Mode for Eval {
         w.cache.insert(id, Box::new(value.clone()));
     }
 
-    fn force_str_for_tpl() -> bool {
+    fn force_str_for_tpl(&self) -> bool {
         true
     }
 }
@@ -81,6 +81,7 @@ impl Evaluator {
                 marks,
                 &CompressOptions {
                     hoist_props: true,
+                    top_level: Some(TopLevelOptions { functions: true }),
                     ..Default::default()
                 },
                 &data,
@@ -240,7 +241,7 @@ impl Evaluator {
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: false,
-                    force_str_for_tpl: Eval::force_str_for_tpl(),
+                    force_str_for_tpl: self.data.force_str_for_tpl(),
                     #[cfg(feature = "debug")]
                     debug_infinite_loop: false,
                 },

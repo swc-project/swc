@@ -2,16 +2,10 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
 
-use crate::{
-    compress::{optimize::Optimizer, util::UnreachableHandler},
-    mode::Mode,
-};
+use crate::compress::{optimize::Optimizer, util::UnreachableHandler};
 
 /// Methods related to the option `loops`.
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     /// `for(a;b;c;) break;` => `a;b;`
     pub(super) fn optimize_loops_with_break(&mut self, s: &mut Stmt) {
         if !self.options.loops {
@@ -25,27 +19,12 @@ where
         };
 
         // We only care about instant breaks.
-        match &*f.body {
-            Stmt::Break(BreakStmt { label: None, .. }) => {}
-            Stmt::Break(BreakStmt {
-                label: Some(label), ..
-            }) => {
-                if let Some(closest_label) = self.label.clone() {
-                    if closest_label.0 != label.sym {
-                        return;
-                    }
-                } else {
-                    return;
-                }
-            }
-            _ => {
-                return;
-            }
-        }
+        let label = match &mut *f.body {
+            Stmt::Break(b) => b.label.take(),
+            _ => return,
+        };
 
         self.changed = true;
-        // Remove the labeled statement.
-        self.label = None;
         report_change!("loops: Removing a for loop with instant break");
         self.prepend_stmts
             .extend(f.init.take().map(|init| match init {
@@ -61,6 +40,13 @@ where
                 expr,
             })
         }));
+        if label.is_some() {
+            self.prepend_stmts.push(Stmt::Break(BreakStmt {
+                span: DUMMY_SP,
+                label,
+            }));
+        }
+
         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
     }
 

@@ -540,10 +540,10 @@ pub trait ExprExt {
     fn is_immutable_value(&self) -> bool {
         // TODO(johnlenz): rename this function.  It is currently being used
         // in two disjoint cases:
-        // 1) We only care about the result of the expression
-        //    (in which case NOT here should return true)
-        // 2) We care that expression is a side-effect free and can't
-        //    be side-effected by other expressions.
+        // 1) We only care about the result of the expression (in which case NOT here
+        //    should return true)
+        // 2) We care that expression is a side-effect free and can't be side-effected
+        //    by other expressions.
         // This should only be used to say the value is immutable and
         // hasSideEffects and canBeSideEffected should be used for the other case.
         match *self.as_expr() {
@@ -902,9 +902,9 @@ pub trait ExprExt {
                 Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
                 _ => return (Pure, Unknown),
             },
-            Expr::Ident(Ident { sym, .. }) => match *sym {
-                js_word!("undefined") | js_word!("NaN") => NAN,
-                js_word!("Infinity") => INFINITY,
+            Expr::Ident(Ident { sym, span, .. }) => match *sym {
+                js_word!("undefined") | js_word!("NaN") if span.ctxt == ctx.unresolved_ctxt => NAN,
+                js_word!("Infinity") if span.ctxt == ctx.unresolved_ctxt => INFINITY,
                 _ => return (Pure, Unknown),
             },
             Expr::Unary(UnaryExpr {
@@ -915,8 +915,9 @@ pub trait ExprExt {
                 &**arg,
                 Expr::Ident(Ident {
                     sym: js_word!("Infinity"),
+                    span,
                     ..
-                })
+                }) if span.ctxt == ctx.unresolved_ctxt
             ) =>
             {
                 -INFINITY
@@ -1005,8 +1006,10 @@ pub trait ExprExt {
                 // converted. unimplemented!("TplLit.
                 // as_string()")
             }
-            Expr::Ident(Ident { ref sym, .. }) => match *sym {
-                js_word!("undefined") | js_word!("Infinity") | js_word!("NaN") => {
+            Expr::Ident(Ident { ref sym, span, .. }) => match *sym {
+                js_word!("undefined") | js_word!("Infinity") | js_word!("NaN")
+                    if span.ctxt == ctx.unresolved_ctxt =>
+                {
                     Known(Cow::Borrowed(&**sym))
                 }
                 _ => Unknown,
@@ -2269,6 +2272,17 @@ pub fn prepend_stmts<T: StmtLike>(
 
 pub trait IsDirective {
     fn as_ref(&self) -> Option<&Stmt>;
+    fn is_directive(&self) -> bool {
+        match self.as_ref() {
+            Some(Stmt::Expr(expr)) => match &*expr.expr {
+                Expr::Lit(Lit::Str(Str {
+                    raw: Some(value), ..
+                })) => value.starts_with("\"use ") || value.starts_with("'use "),
+                _ => false,
+            },
+            _ => false,
+        }
+    }
     fn is_use_strict(&self) -> bool {
         match self.as_ref() {
             Some(Stmt::Expr(expr)) => match *expr.expr {
@@ -2972,7 +2986,6 @@ impl VisitMut for IdentRenamer<'_> {
                                 span: DUMMY_SP,
                                 left: Box::new(Pat::Ident(p.key.clone().into())),
                                 right: default,
-                                type_ann: Default::default(),
                             })),
                         });
                     }

@@ -53,9 +53,9 @@ const LOG: bool = false && cfg!(debug_assertions);
 ///
 /// resolver does
 ///
-/// 1.  Define `a` with top level context.
+/// 1. Define `a` with top level context.
 ///
-/// 2.  Found a block, so visit block with a new syntax context.
+/// 2. Found a block, so visit block with a new syntax context.
 ///
 /// 3. Defined `a` with syntax context of the block statement.
 ////
@@ -588,7 +588,6 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
         // visit the type first so that it doesn't resolve any
         // identifiers from the others
-        node.type_ann.visit_mut_with(self);
         node.left.visit_mut_with(self);
         node.right.visit_mut_with(self);
     }
@@ -675,6 +674,8 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
         // Create a child scope. The class name is only accessible within the class.
+
+        n.class.super_class.visit_mut_with(self);
 
         self.with_child(ScopeKind::Fn, |child| {
             child.ident_type = IdentType::Binding;

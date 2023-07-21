@@ -1,0 +1,19 @@
+{
+  "mappings": "AAAA,4DAA4D;AAC5D,kCAAkC;;;;;+BACJ;AAE9BA,SAAS,mBAAmB;IACxBC,GAAG,4DAA4D;QAC3D,IAAIC;QACJ,SAASC;YACLD,QAAQE,IAAAA,4BAAa;QACzB;QACAD;QAEAE,OAAOH,KAAK,CAAC,EAAE,EAAEI,SAAS,CAAC;IAC/B;AACJ",
+  "names": [
+    "describe",
+    "it",
+    "stack",
+    "namedCallingFunction",
+    "getStackTrace",
+    "expect",
+    "toContain"
+  ],
+  "sources": [
+    "../../input/index.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright (c) Microsoft Corporation. All rights reserved.\n// Licensed under the MIT License.\nimport { getStackTrace } from 'common/get-stack-trace';\n\ndescribe('get-stack-trace', () => {\n    it(\"should include the calling function's name in third line\", () => {\n        let stack: string[] | undefined;\n        function namedCallingFunction() {\n            stack = getStackTrace();\n        }\n        namedCallingFunction();\n\n        expect(stack[2]).toContain('namedCallingFunction');\n    });\n});"
+  ],
+  "version": 3
+}

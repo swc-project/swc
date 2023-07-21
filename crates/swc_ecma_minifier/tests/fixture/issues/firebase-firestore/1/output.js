@@ -411,7 +411,7 @@
                             const e = t[s + 1];
                             if ("\\" !== e && "." !== e && "`" !== e) throw new j(K.INVALID_ARGUMENT, "Path has invalid escape sequence: " + t);
                             n += e, s += 2;
-                        } else "`" === e ? (r = !r, s++) : "." !== e || r ? (n += e, s++) : (i(), s++);
+                        } else "`" === e ? r = !r : "." !== e || r ? n += e : i(), s++;
                     }
                     if (i(), r) throw new j(K.INVALID_ARGUMENT, "Unterminated ` in path: " + t);
                     return new ft(e);
@@ -2793,7 +2793,7 @@
                     let s = pn;
                     const i = new Pt(e.path.child("")), r = this.docs.getIteratorFrom(i);
                     for(; r.hasNext();){
-                        const { key: t , value: { document: i , readTime: o  }  } = r.getNext();
+                        const { key: t, value: { document: i, readTime: o } } = r.getNext();
                         if (!e.path.isPrefixOf(t.path)) break;
                         0 >= o.compareTo(n) || Pe(e, i) && (s = s.insert(i.key, i.clone()));
                     }
@@ -4053,7 +4053,7 @@
             async function sc(t, e, n, s) {
                 t.Wo = (e, n, s)=>(async function(t, e, n, s) {
                         let i = e.view.bo(n);
-                        i.Ln && (i = await yr(t.localStore, e.query, !1).then(({ documents: t  })=>e.view.bo(t, i)));
+                        i.Ln && (i = await yr(t.localStore, e.query, !1).then(({ documents: t })=>e.view.bo(t, i)));
                         const r = s && s.targetChanges.get(e.targetId), o = e.view.applyChanges(i, t.isPrimaryClient, r);
                         return mc(t, e.targetId, o.Do), o.snapshot;
                     })(t, e, n, s);
@@ -4944,7 +4944,7 @@
                 })(n, t._query).then((n)=>new xu(e, s, t, n));
             }
             !function(t, e = !0) {
-                C = _firebase_app__WEBPACK_IMPORTED_MODULE_0__.Jn, (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__.Xd)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.wA("firestore", (t, { options: n  })=>{
+                C = _firebase_app__WEBPACK_IMPORTED_MODULE_0__.Jn, (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__.Xd)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.wA("firestore", (t, { options: n })=>{
                     const s = t.getProvider("app").getImmediate(), i = new ka(s, new H(t.getProvider("auth-internal")));
                     return n = Object.assign({
                         useFetchStreams: e

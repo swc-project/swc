@@ -3,7 +3,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var BaseA = function() {
-    "use strict";
     function BaseA(x) {
         _class_call_check(this, BaseA), this.x = x;
     }
@@ -11,7 +10,6 @@ var BaseA = function() {
         new BaseA(1);
     }, BaseA;
 }(), BaseB = function() {
-    "use strict";
     function BaseB(x) {
         _class_call_check(this, BaseB), this.x = x;
     }
@@ -19,7 +17,6 @@ var BaseA = function() {
         new BaseB(2);
     }, BaseB;
 }(), BaseC = function() {
-    "use strict";
     function BaseC(x) {
         _class_call_check(this, BaseC), this.x = x;
     }
@@ -29,7 +26,6 @@ var BaseA = function() {
         new BaseC(4);
     }, BaseC;
 }(), DerivedA = function(BaseA1) {
-    "use strict";
     _inherits(DerivedA, BaseA1);
     var _super = _create_super(DerivedA);
     function DerivedA(x) {
@@ -45,7 +41,6 @@ var BaseA = function() {
         new BaseA(7);
     }, DerivedA;
 }(BaseA), DerivedB = function(BaseB1) {
-    "use strict";
     _inherits(DerivedB, BaseB1);
     var _super = _create_super(DerivedB);
     function DerivedB(x) {
@@ -61,7 +56,6 @@ var BaseA = function() {
         new BaseB(9);
     }, DerivedB;
 }(BaseB), DerivedC = function(BaseC1) {
-    "use strict";
     _inherits(DerivedC, BaseC1);
     var _super = _create_super(DerivedC);
     function DerivedC(x) {

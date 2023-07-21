@@ -504,7 +504,8 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
                 value: feature_name_value,
                 span: feature_name_span,
                 ..
-            }) = &n.name else {
+            }) = &n.name
+            else {
                 return;
             };
 
@@ -807,6 +808,76 @@ impl Prefixer {
         }
 
         false
+    }
+
+    fn add_declaration2<'a>(
+        &mut self,
+        n: &Declaration,
+        property: JsWord,
+        value: Option<Box<dyn 'a + Fn() -> Vec<ComponentValue>>>,
+    ) {
+        if should_prefix(&property, self.env, true) && !self.is_duplicate(&property) {
+            let name = DeclarationName::Ident(Ident {
+                span: DUMMY_SP,
+                value: property,
+                raw: None,
+            });
+
+            if let Some(value) = value {
+                let mut declaration = Declaration {
+                    span: n.span,
+                    name,
+                    value: value(),
+                    important: n.important.clone(),
+                };
+
+                // TODO should we handle with prefix?
+                declaration.visit_mut_with(self);
+
+                self.added_declarations.push(Box::new(declaration));
+            } else {
+                let mut declaration = Declaration {
+                    span: n.span,
+                    name,
+                    value: n.value.clone(),
+                    important: n.important.clone(),
+                };
+
+                declaration.visit_mut_with(self);
+
+                self.added_declarations.push(Box::new(declaration));
+            }
+        }
+    }
+
+    fn add_declaration3<'a>(
+        &mut self,
+        n: &Declaration,
+        prefix: Prefix,
+        property: JsWord,
+        value: Box<dyn 'a + Fn() -> Vec<ComponentValue>>,
+    ) {
+        if should_prefix(&property, self.env, true) {
+            // Use only specific prefix in prefixed at-rules or rule, i.e.
+            // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
+            if self.rule_prefix == Some(prefix) || self.rule_prefix.is_none() {
+                // Check we don't have prefixed property
+                if !self.is_duplicate(&property) {
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: property,
+                        raw: None,
+                    });
+
+                    self.added_declarations.push(Box::new(Declaration {
+                        span: n.span,
+                        name,
+                        value: value(),
+                        important: n.important.clone(),
+                    }));
+                }
+            }
+        }
     }
 }
 
@@ -1604,87 +1675,26 @@ impl VisitMut for Prefixer {
         // TODO avoid insert moz/etc prefixes for `appearance: -webkit-button;`
         // TODO check logic for duplicate values
         macro_rules! add_declaration {
+            ($prefix:expr, $property:expr, None) => {{
+                self.add_declaration3(
+                    &n,
+                    $prefix,
+                    $property,
+                    Box::new(|| match $prefix {
+                        Prefix::Webkit => webkit_value.clone(),
+                        Prefix::Moz => moz_value.clone(),
+                        Prefix::O => o_value.clone(),
+                        Prefix::Ms => ms_value.clone(),
+                    }),
+                );
+            }};
+
             ($prefix:expr,$property:expr, $value:expr) => {{
-                let property: JsWord = $property;
-
-                if should_prefix(&*property, self.env, true) {
-                    // Use only specific prefix in prefixed at-rules or rule, i.e.
-                    // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
-                    if self.rule_prefix == Some($prefix) || self.rule_prefix.is_none() {
-                        // Check we don't have prefixed property
-                        if !self.is_duplicate(&$property) {
-                            let name = DeclarationName::Ident(Ident {
-                                span: DUMMY_SP,
-                                value: property,
-                                raw: None,
-                            });
-
-                            let value: Option<Box<dyn Fn() -> Vec<ComponentValue>>> = $value;
-
-                            if let Some(value) = value {
-                                self.added_declarations.push(Box::new(Declaration {
-                                    span: n.span,
-                                    name,
-                                    value: value(),
-                                    important: n.important.clone(),
-                                }));
-                            } else {
-                                let new_value = match $prefix {
-                                    Prefix::Webkit => webkit_value.clone(),
-                                    Prefix::Moz => moz_value.clone(),
-                                    Prefix::O => o_value.clone(),
-                                    Prefix::Ms => ms_value.clone(),
-                                };
-
-                                self.added_declarations.push(Box::new(Declaration {
-                                    span: n.span,
-                                    name,
-                                    value: new_value,
-                                    important: n.important.clone(),
-                                }));
-                            }
-                        }
-                    }
-                }
+                self.add_declaration3(&n, $prefix, $property, $value);
             }};
 
             ($property:expr, $value:expr) => {{
-                let property: JsWord = $property;
-
-                if should_prefix(&*property, self.env, true) && !self.is_duplicate(&$property) {
-                    let name = DeclarationName::Ident(Ident {
-                        span: DUMMY_SP,
-                        value: property,
-                        raw: None,
-                    });
-
-                    let value: Option<Box<dyn Fn() -> Vec<ComponentValue>>> = $value;
-
-                    if let Some(value) = value {
-                        let mut declaration = Declaration {
-                            span: n.span,
-                            name,
-                            value: value(),
-                            important: n.important.clone(),
-                        };
-
-                        // TODO should we handle with prefix?
-                        declaration.visit_mut_with(self);
-
-                        self.added_declarations.push(Box::new(declaration));
-                    } else {
-                        let mut declaration = Declaration {
-                            span: n.span,
-                            name,
-                            value: n.value.clone(),
-                            important: n.important.clone(),
-                        };
-
-                        declaration.visit_mut_with(self);
-
-                        self.added_declarations.push(Box::new(declaration));
-                    }
-                }
+                self.add_declaration2(&n, $property, $value);
             }};
         }
 
@@ -2204,7 +2214,7 @@ impl VisitMut for Prefixer {
                     add_declaration!(
                         Prefix::Webkit,
                         js_word!("-webkit-box-flex"),
-                        Some(Box::new(|| { vec![spec_2009_value.clone()] }))
+                        Box::new(|| { vec![spec_2009_value.clone()] })
                     );
                 } else {
                     add_declaration!(Prefix::Webkit, js_word!("-webkit-box-flex"), None);
@@ -2216,7 +2226,7 @@ impl VisitMut for Prefixer {
                     add_declaration!(
                         Prefix::Moz,
                         js_word!("-moz-box-flex"),
-                        Some(Box::new(|| { vec![spec_2009_value.clone()] }))
+                        Box::new(|| { vec![spec_2009_value.clone()] })
                     );
                 } else {
                     add_declaration!(Prefix::Webkit, js_word!("-moz-box-flex"), None);
@@ -2226,7 +2236,7 @@ impl VisitMut for Prefixer {
                     add_declaration!(
                         Prefix::Ms,
                         js_word!("-ms-flex"),
-                        Some(Box::new(|| {
+                        Box::new(|| {
                             let mut value = ms_value.clone();
 
                             if let Some(ComponentValue::Integer(box Integer {
@@ -2253,7 +2263,7 @@ impl VisitMut for Prefixer {
                             }
 
                             value
-                        }))
+                        })
                     );
                 } else {
                     add_declaration!(Prefix::Ms, js_word!("-ms-flex"), None);
@@ -2308,12 +2318,12 @@ impl VisitMut for Prefixer {
                     add_declaration!(
                         Prefix::Webkit,
                         js_word!("-webkit-box-orient"),
-                        Some(Box::new(|| { vec![to_ident!(orient)] }))
+                        Box::new(|| { vec![to_ident!(orient)] })
                     );
                     add_declaration!(
                         Prefix::Webkit,
                         js_word!("-webkit-box-direction"),
-                        Some(Box::new(|| { vec![to_ident!(direction)] }))
+                        Box::new(|| { vec![to_ident!(direction)] })
                     );
                 }
 
@@ -2323,12 +2333,12 @@ impl VisitMut for Prefixer {
                     add_declaration!(
                         Prefix::Moz,
                         js_word!("-moz-box-orient"),
-                        Some(Box::new(|| { vec![to_ident!(orient)] }))
+                        Box::new(|| { vec![to_ident!(orient)] })
                     );
                     add_declaration!(
                         Prefix::Webkit,
                         js_word!("-moz-box-direction"),
-                        Some(Box::new(|| { vec![to_ident!(direction)] }))
+                        Box::new(|| { vec![to_ident!(direction)] })
                     );
                 }
 
@@ -2384,12 +2394,12 @@ impl VisitMut for Prefixer {
                     add_declaration!(
                         Prefix::Webkit,
                         js_word!("-webkit-box-orient"),
-                        Some(Box::new(|| { vec![to_ident!(orient)] }))
+                        Box::new(|| { vec![to_ident!(orient)] })
                     );
                     add_declaration!(
                         Prefix::Webkit,
                         js_word!("-webkit-box-direction"),
-                        Some(Box::new(|| { vec![to_ident!(direction)] }))
+                        Box::new(|| { vec![to_ident!(direction)] })
                     );
                 }
 
@@ -2399,12 +2409,12 @@ impl VisitMut for Prefixer {
                     add_declaration!(
                         Prefix::Moz,
                         js_word!("-moz-box-orient"),
-                        Some(Box::new(|| { vec![to_ident!(orient)] }))
+                        Box::new(|| { vec![to_ident!(orient)] })
                     );
                     add_declaration!(
                         Prefix::Moz,
                         js_word!("-moz-box-direction"),
-                        Some(Box::new(|| { vec![to_ident!(direction)] }))
+                        Box::new(|| { vec![to_ident!(direction)] })
                     );
                 }
 
@@ -2421,7 +2431,7 @@ impl VisitMut for Prefixer {
                     add_declaration!(
                         Prefix::Webkit,
                         js_word!("-webkit-box-pack"),
-                        Some(Box::new(|| {
+                        Box::new(|| {
                             let mut old_spec_webkit_new_value = webkit_value.clone();
 
                             replace_ident(&mut old_spec_webkit_new_value, "flex-start", "start");
@@ -2433,7 +2443,7 @@ impl VisitMut for Prefixer {
                             );
 
                             old_spec_webkit_new_value
-                        }))
+                        })
                     );
                 }
 
@@ -2443,7 +2453,7 @@ impl VisitMut for Prefixer {
                     add_declaration!(
                         Prefix::Moz,
                         js_word!("-moz-box-pack"),
-                        Some(Box::new(|| {
+                        Box::new(|| {
                             let mut old_spec_moz_value = moz_value.clone();
 
                             replace_ident(&mut old_spec_moz_value, "flex-start", "start");
@@ -2451,14 +2461,14 @@ impl VisitMut for Prefixer {
                             replace_ident(&mut old_spec_moz_value, "space-between", "justify");
 
                             old_spec_moz_value
-                        }))
+                        })
                     );
                 }
 
                 add_declaration!(
                     Prefix::Ms,
                     js_word!("-ms-flex-pack"),
-                    Some(Box::new(|| {
+                    Box::new(|| {
                         let mut old_spec_ms_value = ms_value.clone();
 
                         replace_ident(&mut old_spec_ms_value, "flex-start", "start");
@@ -2467,7 +2477,7 @@ impl VisitMut for Prefixer {
                         replace_ident(&mut old_spec_ms_value, "space-around", "distribute");
 
                         old_spec_ms_value
-                    }))
+                    })
                 );
             }
 
@@ -2500,7 +2510,7 @@ impl VisitMut for Prefixer {
                         add_declaration!(
                             Prefix::Webkit,
                             js_word!("-webkit-box-ordinal-group"),
-                            Some(Box::new(|| { vec![to_integer!(old_spec_num)] }))
+                            Box::new(|| { vec![to_integer!(old_spec_num)] })
                         );
                     }
                     _ => {
@@ -2519,7 +2529,7 @@ impl VisitMut for Prefixer {
                         add_declaration!(
                             Prefix::Moz,
                             js_word!("-moz-box-ordinal-group"),
-                            Some(Box::new(|| { vec![to_integer!(old_spec_num)] }))
+                            Box::new(|| { vec![to_integer!(old_spec_num)] })
                         );
                     }
                     _ => {
@@ -2534,39 +2544,39 @@ impl VisitMut for Prefixer {
                 add_declaration!(
                     Prefix::Webkit,
                     js_word!("-webkit-box-align"),
-                    Some(Box::new(|| {
+                    Box::new(|| {
                         let mut old_spec_webkit_new_value = webkit_value.clone();
 
                         replace_ident(&mut old_spec_webkit_new_value, "flex-end", "end");
                         replace_ident(&mut old_spec_webkit_new_value, "flex-start", "start");
 
                         old_spec_webkit_new_value
-                    }))
+                    })
                 );
                 add_declaration!(Prefix::Webkit, js_word!("-webkit-align-items"), None);
                 add_declaration!(
                     Prefix::Moz,
                     js_word!("-moz-box-align"),
-                    Some(Box::new(|| {
+                    Box::new(|| {
                         let mut old_spec_moz_value = moz_value.clone();
 
                         replace_ident(&mut old_spec_moz_value, "flex-end", "end");
                         replace_ident(&mut old_spec_moz_value, "flex-start", "start");
 
                         old_spec_moz_value
-                    }))
+                    })
                 );
                 add_declaration!(
                     Prefix::Ms,
                     js_word!("-ms-flex-align"),
-                    Some(Box::new(|| {
+                    Box::new(|| {
                         let mut old_spec_ms_value = ms_value.clone();
 
                         replace_ident(&mut old_spec_ms_value, "flex-end", "end");
                         replace_ident(&mut old_spec_ms_value, "flex-start", "start");
 
                         old_spec_ms_value
-                    }))
+                    })
                 );
             }
 
@@ -2575,14 +2585,14 @@ impl VisitMut for Prefixer {
                 add_declaration!(
                     Prefix::Ms,
                     js_word!("-ms-flex-item-align"),
-                    Some(Box::new(|| {
+                    Box::new(|| {
                         let mut spec_2012_ms_value = ms_value.clone();
 
                         replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
                         replace_ident(&mut spec_2012_ms_value, "flex-start", "start");
 
                         spec_2012_ms_value
-                    }))
+                    })
                 );
             }
 
@@ -2591,7 +2601,7 @@ impl VisitMut for Prefixer {
                 add_declaration!(
                     Prefix::Ms,
                     js_word!("-ms-flex-line-pack"),
-                    Some(Box::new(|| {
+                    Box::new(|| {
                         let mut spec_2012_ms_value = ms_value.clone();
 
                         replace_ident(&mut spec_2012_ms_value, "flex-end", "end");
@@ -2600,7 +2610,7 @@ impl VisitMut for Prefixer {
                         replace_ident(&mut spec_2012_ms_value, "space-around", "distribute");
 
                         spec_2012_ms_value
-                    }))
+                    })
                 );
             }
 
@@ -2645,7 +2655,7 @@ impl VisitMut for Prefixer {
                         add_declaration!(
                             Prefix::Ms,
                             js_word!("-ms-interpolation-mode"),
-                            Some(Box::new(|| { old_spec_ms_value.clone() }))
+                            Box::new(|| { old_spec_ms_value.clone() })
                         );
                     }
                 }
@@ -2818,7 +2828,7 @@ impl VisitMut for Prefixer {
                             add_declaration!(
                                 Prefix::Ms,
                                 js_word!("-ms-user-select"),
-                                Some(Box::new(|| { vec![to_ident!("element")] }))
+                                Box::new(|| { vec![to_ident!("element")] })
                             );
                         }
                         js_word!("all") => {}
@@ -2962,7 +2972,7 @@ impl VisitMut for Prefixer {
                             add_declaration!(
                                 Prefix::Webkit,
                                 js_word!("-webkit-text-decoration-skip"),
-                                Some(Box::new(|| { vec![to_ident!("ink")] }))
+                                Box::new(|| { vec![to_ident!("ink")] })
                             );
                         }
                         _ => {
@@ -3128,14 +3138,14 @@ impl VisitMut for Prefixer {
                                         add_declaration!(
                                             Prefix::Ms,
                                             js_word!("-ms-writing-mode"),
-                                            Some(Box::new(|| { vec![to_ident!("tb-lr")] }))
+                                            Box::new(|| { vec![to_ident!("tb-lr")] })
                                         );
                                     }
                                     Some("rtl") => {
                                         add_declaration!(
                                             Prefix::Ms,
                                             js_word!("-ms-writing-mode"),
-                                            Some(Box::new(|| { vec![to_ident!("bt-lr")] }))
+                                            Box::new(|| { vec![to_ident!("bt-lr")] })
                                         );
                                     }
                                     _ => {}
@@ -3154,14 +3164,14 @@ impl VisitMut for Prefixer {
                                         add_declaration!(
                                             Prefix::Ms,
                                             js_word!("-ms-writing-mode"),
-                                            Some(Box::new(|| { vec![to_ident!("tb-rl")] }))
+                                            Box::new(|| { vec![to_ident!("tb-rl")] })
                                         );
                                     }
                                     Some("rtl") => {
                                         add_declaration!(
                                             Prefix::Ms,
                                             js_word!("-ms-writing-mode"),
-                                            Some(Box::new(|| { vec![to_ident!("bt-rl")] }))
+                                            Box::new(|| { vec![to_ident!("bt-rl")] })
                                         );
                                     }
                                     _ => {}
@@ -3180,14 +3190,14 @@ impl VisitMut for Prefixer {
                                         add_declaration!(
                                             Prefix::Ms,
                                             js_word!("-ms-writing-mode"),
-                                            Some(Box::new(|| { vec![to_ident!("lr-tb")] }))
+                                            Box::new(|| { vec![to_ident!("lr-tb")] })
                                         );
                                     }
                                     Some("rtl") => {
                                         add_declaration!(
                                             Prefix::Ms,
                                             js_word!("-ms-writing-mode"),
-                                            Some(Box::new(|| { vec![to_ident!("rl-tb")] }))
+                                            Box::new(|| { vec![to_ident!("rl-tb")] })
                                         );
                                     }
                                     _ => {}
@@ -3291,21 +3301,22 @@ impl VisitMut for Prefixer {
             }
 
             js_word!("touch-action") => {
+                let env = self.env;
                 add_declaration!(
                     Prefix::Ms,
                     js_word!("-ms-touch-action"),
-                    Some(Box::new(|| {
+                    Box::new(|| {
                         let mut new_ms_value = ms_value.clone();
 
-                        if should_prefix("-ms-pan-x", self.env, false) {
+                        if should_prefix("-ms-pan-x", env, false) {
                             replace_ident(&mut new_ms_value, "pan-x", "-ms-pan-x");
                         }
 
-                        if should_prefix("-ms-pan-y", self.env, false) {
+                        if should_prefix("-ms-pan-y", env, false) {
                             replace_ident(&mut new_ms_value, "pan-y", "-ms-pan-y");
                         }
 
-                        if should_prefix("-ms-double-tap-zoom", self.env, false) {
+                        if should_prefix("-ms-double-tap-zoom", env, false) {
                             replace_ident(
                                 &mut new_ms_value,
                                 "double-tap-zoom",
@@ -3313,20 +3324,20 @@ impl VisitMut for Prefixer {
                             );
                         }
 
-                        if should_prefix("-ms-manipulation", self.env, false) {
+                        if should_prefix("-ms-manipulation", env, false) {
                             replace_ident(&mut new_ms_value, "manipulation", "-ms-manipulation");
                         }
 
-                        if should_prefix("-ms-none", self.env, false) {
+                        if should_prefix("-ms-none", env, false) {
                             replace_ident(&mut new_ms_value, "none", "-ms-none");
                         }
 
-                        if should_prefix("-ms-pinch-zoom", self.env, false) {
+                        if should_prefix("-ms-pinch-zoom", env, false) {
                             replace_ident(&mut new_ms_value, "pinch-zoom", "-ms-pinch-zoom");
                         }
 
                         new_ms_value
-                    }))
+                    })
                 );
 
                 add_declaration!(Prefix::Ms, js_word!("-ms-touch-action"), None);
@@ -3603,14 +3614,14 @@ impl VisitMut for Prefixer {
                             add_declaration!(
                                 Prefix::Ms,
                                 js_word!("-ms-scroll-chaining"),
-                                Some(Box::new(|| { vec![to_ident!("chained")] }))
+                                Box::new(|| { vec![to_ident!("chained")] })
                             );
                         }
                         js_word!("none") | js_word!("contain") => {
                             add_declaration!(
                                 Prefix::Ms,
                                 js_word!("-ms-scroll-chaining"),
-                                Some(Box::new(|| { vec![to_ident!("none")] }))
+                                Box::new(|| { vec![to_ident!("none")] })
                             );
                         }
                         _ => {
@@ -3681,7 +3692,7 @@ impl VisitMut for Prefixer {
                             add_declaration!(
                                 Prefix::Webkit,
                                 js_word!("-webkit-column-break-before"),
-                                Some(Box::new(|| { vec![to_ident!("always")] }))
+                                Box::new(|| { vec![to_ident!("always")] })
                             );
                         }
                         _ => {}
@@ -3718,7 +3729,7 @@ impl VisitMut for Prefixer {
                             add_declaration!(
                                 Prefix::Webkit,
                                 js_word!("-webkit-column-break-after"),
-                                Some(Box::new(|| { vec![to_ident!("always")] }))
+                                Box::new(|| { vec![to_ident!("always")] })
                             );
                         }
                         _ => {}
@@ -3895,7 +3906,7 @@ impl VisitMut for Prefixer {
             self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
-                value: ms_value,
+                value: ms_value.clone(),
                 important: n.important.clone(),
             }));
         }

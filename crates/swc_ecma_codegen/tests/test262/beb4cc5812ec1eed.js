@@ -1,3 +1,3 @@
 function* a() {
-    ({ [yield]: a  } = 1);
+    ({ [yield]: a } = 1);
 }

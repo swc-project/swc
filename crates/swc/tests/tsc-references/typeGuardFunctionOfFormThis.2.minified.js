@@ -4,7 +4,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var b, crate, RoyalGuard = function() {
-    "use strict";
     function RoyalGuard() {
         _class_call_check(this, RoyalGuard);
     }
@@ -15,7 +14,6 @@ var b, crate, RoyalGuard = function() {
         return _instanceof(this, FollowerGuard);
     }, RoyalGuard;
 }(), LeadGuard = function(RoyalGuard) {
-    "use strict";
     _inherits(LeadGuard, RoyalGuard);
     var _super = _create_super(LeadGuard);
     function LeadGuard() {
@@ -23,7 +21,6 @@ var b, crate, RoyalGuard = function() {
     }
     return LeadGuard.prototype.lead = function() {}, LeadGuard;
 }(RoyalGuard), FollowerGuard = function(RoyalGuard) {
-    "use strict";
     _inherits(FollowerGuard, RoyalGuard);
     var _super = _create_super(FollowerGuard);
     function FollowerGuard() {
@@ -37,7 +34,6 @@ var holder2 = {
 };
 holder2.a.isLeader(), holder2.a;
 var ArrowGuard = function ArrowGuard() {
-    "use strict";
     var _this = this;
     _class_call_check(this, ArrowGuard), this.isElite = function() {
         return _instanceof(_this, ArrowElite);
@@ -45,7 +41,6 @@ var ArrowGuard = function ArrowGuard() {
         return _instanceof(_this, ArrowMedic);
     };
 }, ArrowElite = function(ArrowGuard) {
-    "use strict";
     _inherits(ArrowElite, ArrowGuard);
     var _super = _create_super(ArrowElite);
     function ArrowElite() {
@@ -53,7 +48,6 @@ var ArrowGuard = function ArrowGuard() {
     }
     return ArrowElite.prototype.defend = function() {}, ArrowElite;
 }(ArrowGuard), ArrowMedic = function(ArrowGuard) {
-    "use strict";
     _inherits(ArrowMedic, ArrowGuard);
     var _super = _create_super(ArrowMedic);
     function ArrowMedic() {
@@ -63,7 +57,6 @@ var ArrowGuard = function ArrowGuard() {
 }(ArrowGuard), guard = new ArrowGuard();
 guard.isElite() ? guard.defend() : guard.isMedic() && guard.heal(), crate.isSundries() ? crate.contents.broken = !0 : crate.isSupplies() && (crate.contents.spoiled = !0), a.isFollower = b.isFollower, a.isLeader = b.isLeader;
 var MimicGuard = function() {
-    "use strict";
     function MimicGuard() {
         _class_call_check(this, MimicGuard);
     }
@@ -74,7 +67,6 @@ var MimicGuard = function() {
         return _instanceof(this, MimicFollower);
     }, MimicGuard;
 }(), MimicLeader = function(MimicGuard) {
-    "use strict";
     _inherits(MimicLeader, MimicGuard);
     var _super = _create_super(MimicLeader);
     function MimicLeader() {
@@ -82,7 +74,6 @@ var MimicGuard = function() {
     }
     return MimicLeader.prototype.lead = function() {}, MimicLeader;
 }(MimicGuard), MimicFollower = function(MimicGuard) {
-    "use strict";
     _inherits(MimicFollower, MimicGuard);
     var _super = _create_super(MimicFollower);
     function MimicFollower() {

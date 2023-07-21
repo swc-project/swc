@@ -54,11 +54,11 @@ class B extends A {
             // element access (assign)
             _superprop_set("x", f);
             // destructuring assign with property access
-            ({ f: _superprop_update_x._  } = {
+            ({ f: _superprop_update_x._ } = {
                 f
             });
             // destructuring assign with element access
-            ({ f: _superprop_update("x")._  } = {
+            ({ f: _superprop_update("x")._ } = {
                 f
             });
             // property access in arrow
@@ -104,7 +104,7 @@ class B extends A {
             // property access (assign)
             _superprop_set_x(f);
             // destructuring assign with property access
-            ({ f: _superprop_update_x._  } = {
+            ({ f: _superprop_update_x._ } = {
                 f
             });
             // property access (assign) in arrow
@@ -144,7 +144,7 @@ class B extends A {
             // element access (assign)
             _superprop_set("x", f);
             // destructuring assign with element access
-            ({ f: _superprop_update("x")._  } = {
+            ({ f: _superprop_update("x")._ } = {
                 f
             });
             // element access (assign) in arrow
@@ -184,7 +184,7 @@ class B extends A {
             // property access (assign)
             _superprop_set_x(f);
             // destructuring assign with property access
-            ({ f: _superprop_update_x._  } = {
+            ({ f: _superprop_update_x._ } = {
                 f
             });
             // property access (assign) in arrow
@@ -224,7 +224,7 @@ class B extends A {
             // element access (assign)
             _superprop_set("x", f);
             // destructuring assign with element access
-            ({ f: _superprop_update("x")._  } = {
+            ({ f: _superprop_update("x")._ } = {
                 f
             });
             // element access (assign) in arrow

@@ -131,6 +131,8 @@ pub struct Combinator {
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
 pub enum CombinatorValue {
     /// ` `
     Descendant,
@@ -264,6 +266,8 @@ pub struct AttributeSelector {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(

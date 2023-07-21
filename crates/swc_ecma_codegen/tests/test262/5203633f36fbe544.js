@@ -1,2 +1,2 @@
 "use strict";
-var { yield: a  } = b;
+var { yield: a } = b;

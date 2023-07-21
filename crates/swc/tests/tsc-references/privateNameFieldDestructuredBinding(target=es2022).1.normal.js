@@ -17,9 +17,9 @@ class A {
         this.#field = 1;
         this.otherObject = new A();
         let y;
-        ({ x: this.#field , y  } = this.testObject());
+        ({ x: this.#field, y } = this.testObject());
         [this.#field, y] = this.testArray();
-        ({ a: this.#field , b: [this.#field]  } = {
+        ({ a: this.#field, b: [this.#field] } = {
             a: 1,
             b: [
                 2
@@ -31,7 +31,7 @@ class A {
                 2
             ]
         ];
-        ({ a: this.#field = 1 , b: [this.#field = 1]  } = {
+        ({ a: this.#field = 1, b: [this.#field = 1] } = {
             b: []
         });
         [this.#field = 2] = [];

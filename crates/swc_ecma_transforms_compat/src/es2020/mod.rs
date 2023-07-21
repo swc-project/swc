@@ -4,12 +4,12 @@ use swc_ecma_visit::Fold;
 
 pub use self::{
     export_namespace_from::export_namespace_from, nullish_coalescing::nullish_coalescing,
-    opt_chaining::optional_chaining,
+    optional_chaining::optional_chaining,
 };
 
 mod export_namespace_from;
 pub mod nullish_coalescing;
-pub mod opt_chaining;
+pub mod optional_chaining;
 
 pub fn es2020(config: Config) -> impl Fold {
     chain!(
@@ -25,5 +25,5 @@ pub struct Config {
     #[serde(flatten)]
     pub nullish_coalescing: nullish_coalescing::Config,
     #[serde(flatten)]
-    pub optional_chaining: opt_chaining::Config,
+    pub optional_chaining: optional_chaining::Config,
 }

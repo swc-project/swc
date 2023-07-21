@@ -317,7 +317,6 @@ impl Visit for UsageVisitor {
     /// - `yield*`
     fn visit_yield_expr(&mut self, e: &YieldExpr) {
         e.visit_children_with(self);
-        println!("Yield");
 
         if e.delegate {
             self.add(&["web.dom.iterable"])

@@ -882,11 +882,7 @@
           "end": 465,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 460,
-          "end": 461,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -931,11 +927,7 @@
           "end": 477,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 468,
-          "end": 469,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -988,11 +980,7 @@
           "end": 520,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 515,
-          "end": 516,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -1037,11 +1025,7 @@
           "end": 532,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 523,
-          "end": 524,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {

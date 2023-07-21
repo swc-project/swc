@@ -355,6 +355,22 @@ impl Visit for IdentUsageCollector {
         n.visit_children_with(self);
     }
 
+    fn visit_getter_prop(&mut self, n: &GetterProp) {
+        if self.ignore_nested {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_setter_prop(&mut self, n: &SetterProp) {
+        if self.ignore_nested {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
     fn visit_ident(&mut self, n: &Ident) {
         self.ids.insert(n.to_id());
     }

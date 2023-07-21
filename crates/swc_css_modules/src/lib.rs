@@ -502,11 +502,7 @@ where
                                             complex_selector.children.clone();
                                         prepend_left_subclass_selectors(
                                             &mut complex_selector_children,
-                                            selector
-                                                .subclass_selectors
-                                                .split_at(sel_index)
-                                                .0
-                                                .to_vec(),
+                                            selector.subclass_selectors.split_at(sel_index),
                                         );
                                         new_children.extend(complex_selector_children);
 
@@ -514,6 +510,12 @@ where
                                         self.data.is_in_local_pseudo_class = old_inside;
                                     }
                                 } else {
+                                    if sel_index > 0 {
+                                        if let Some(n) = n.as_mut_compound_selector() {
+                                            n.subclass_selectors.remove(sel_index);
+                                        }
+                                        new_children.push(n);
+                                    }
                                     self.data.is_global_mode = false;
                                 }
 
@@ -529,15 +531,17 @@ where
                                             complex_selector.children.clone();
                                         prepend_left_subclass_selectors(
                                             &mut complex_selector_children,
-                                            selector
-                                                .subclass_selectors
-                                                .split_at(sel_index)
-                                                .0
-                                                .to_vec(),
+                                            selector.subclass_selectors.split_at(sel_index),
                                         );
                                         new_children.extend(complex_selector_children);
                                     }
                                 } else {
+                                    if sel_index > 0 {
+                                        if let Some(n) = n.as_mut_compound_selector() {
+                                            n.subclass_selectors.remove(sel_index);
+                                        }
+                                        new_children.push(n);
+                                    }
                                     self.data.is_global_mode = true;
                                 }
 
@@ -651,11 +655,16 @@ fn process_local<C>(
 
 fn prepend_left_subclass_selectors(
     complex_selector_children: &mut [ComplexSelectorChildren],
-    left_sels: Vec<SubclassSelector>,
+    sels: (&[SubclassSelector], &[SubclassSelector]),
 ) {
     if let Some(ComplexSelectorChildren::CompoundSelector(first)) =
         complex_selector_children.get_mut(0)
     {
-        first.subclass_selectors = [left_sels, first.subclass_selectors.take()].concat();
+        first.subclass_selectors = [
+            sels.0.to_vec(),
+            first.subclass_selectors.take(),
+            sels.1[1..].to_vec(),
+        ]
+        .concat();
     }
 }

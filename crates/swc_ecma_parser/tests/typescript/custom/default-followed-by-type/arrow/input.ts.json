@@ -85,8 +85,7 @@
                   },
                   "value": "Hello",
                   "raw": "\"Hello\""
-                },
-                "typeAnnotation": null
+                }
               },
               {
                 "type": "Identifier",

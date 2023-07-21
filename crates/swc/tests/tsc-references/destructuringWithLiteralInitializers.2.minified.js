@@ -1,4 +1,5 @@
 //// [destructuringWithLiteralInitializers.ts]
+var param, param1, param2, param3, param4, param5, param6;
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 function f4() {
     var _ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
@@ -40,36 +41,22 @@ function g5() {
     var _ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [], 2);
     _ref[0], _ref[1];
 }
-!function(param) {
-    param.x, param.y;
-}({
+(param = {
     x: 1,
     y: 1
-}), function(param) {
-    param.x, param.y;
-}({
+}).x, param.y, (param1 = {
     x: 1
-}), function(param) {
-    param.x, param.y;
-}({
+}).x, param1.y, (param2 = {
     x: 1,
     y: 1
-}), function(param) {
-    param.x, param.y;
-}({}), function(param) {
-    param.x, param.y;
-}({
+}).x, param2.y, (param3 = {}).x, param3.y, (param4 = {
     x: 1
-}), function(param) {
-    param.x, param.y;
-}({
+}).x, param4.y, (param5 = {
     y: 1
-}), function(param) {
-    param.x, param.y;
-}({
+}).x, param5.y, (param6 = {
     x: 1,
     y: 1
-}), f4(), f4({
+}).x, param6.y, f4(), f4({
     x: 1,
     y: 1
 }), f5(), f5({

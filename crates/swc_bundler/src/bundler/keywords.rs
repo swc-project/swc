@@ -91,7 +91,6 @@ impl VisitMut for KeywordRenamer {
                                 span: pat.span,
                                 left: Box::new(Pat::Ident(renamed.into())),
                                 right: default.take(),
-                                type_ann: None,
                             })),
                         });
                     }

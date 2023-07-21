@@ -182,8 +182,6 @@ functions/issue_3125/input.js
 functions/issue_3166/input.js
 functions/issue_t131a/input.js
 functions/issue_t131b/input.js
-functions/loop_init_arg/input.js
-functions/use_before_init_in_loop/input.js
 global_defs/issue_3217/input.js
 harmony/array_literal_with_spread_2b/input.js
 harmony/array_literal_with_spread_4b/input.js
@@ -275,10 +273,6 @@ keep_names/keep_some_classnames/input.js
 keep_names/keep_some_fnames/input.js
 keep_names/keep_some_fnames_reduce/input.js
 keep_quoted_strict/keep_quoted_strict/input.js
-labels/labels_1/input.js
-labels/labels_2/input.js
-labels/labels_4/input.js
-logical_assignment/assign_in_conditional_part/input.js
 logical_assignment/assignment_in_left_part_2/input.js
 loops/drop_if_else_break_1/input.js
 loops/issue_2740_3/input.js

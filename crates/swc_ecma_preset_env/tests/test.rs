@@ -212,7 +212,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
             };
 
             let actual_src = print(&actual);
-            if let Ok(..) = env::var("UPDATE") {
+            if env::var("UPDATE").is_ok() {
                 NormalizedOutput::from(actual_src.clone())
                     .compare_to_file(dir.join("output.mjs"))
                     .unwrap();

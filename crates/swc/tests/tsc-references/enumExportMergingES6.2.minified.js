@@ -1,9 +1,5 @@
 //// [enumExportMergingES6.ts]
-export var Animals;
-!function(Animals) {
-    Animals[Animals.Cat = 1] = "Cat";
-}(Animals || (Animals = {})), function(Animals) {
-    Animals[Animals.Dog = 2] = "Dog";
-}(Animals || (Animals = {})), function(Animals) {
-    Animals[Animals.CatDog = Cat | Dog] = "CatDog";
-}(Animals || (Animals = {}));
+var Animals, Animals1, Animals2;
+var Animals3;
+export { Animals3 as Animals };
+(Animals = Animals3 || (Animals3 = {}))[Animals.Cat = 1] = "Cat", (Animals1 = Animals3 || (Animals3 = {}))[Animals1.Dog = 2] = "Dog", (Animals2 = Animals3 || (Animals3 = {}))[Animals2.CatDog = Cat | Dog] = "CatDog";

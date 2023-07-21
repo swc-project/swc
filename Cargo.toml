@@ -20,7 +20,7 @@ members = [
   "crates/swc_timer",
   "crates/swc_xml",
 ]
-
+resolver = "2"
 [profile.release]
 # lto = true
 

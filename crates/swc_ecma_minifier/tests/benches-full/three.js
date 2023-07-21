@@ -769,7 +769,7 @@
             return this._onChangeCallback(), this;
         }, _proto.setFromUnitVectors = function(vFrom, vTo) {
             var r = vFrom.dot(vTo) + 1;
-            return r < 0.000001 ? (r = 0, Math.abs(vFrom.x) > Math.abs(vFrom.z) ? (this._x = -vFrom.y, this._y = vFrom.x, this._z = 0, this._w = r) : (this._x = 0, this._y = -vFrom.z, this._z = vFrom.y, this._w = r)) : (this._x = vFrom.y * vTo.z - vFrom.z * vTo.y, this._y = vFrom.z * vTo.x - vFrom.x * vTo.z, this._z = vFrom.x * vTo.y - vFrom.y * vTo.x, this._w = r), this.normalize();
+            return r < 0.000001 ? (r = 0, Math.abs(vFrom.x) > Math.abs(vFrom.z) ? (this._x = -vFrom.y, this._y = vFrom.x, this._z = 0) : (this._x = 0, this._y = -vFrom.z, this._z = vFrom.y)) : (this._x = vFrom.y * vTo.z - vFrom.z * vTo.y, this._y = vFrom.z * vTo.x - vFrom.x * vTo.z, this._z = vFrom.x * vTo.y - vFrom.y * vTo.x), this._w = r, this.normalize();
         }, _proto.angleTo = function(q) {
             return 2 * Math.acos(Math.abs(MathUtils.clamp(this.dot(q), -1, 1)));
         }, _proto.rotateTowards = function(q, step) {
@@ -1229,7 +1229,7 @@
             var deltaLengthSq = this.center.distanceToSquared(point);
             return void 0 === target && (console.warn('THREE.Sphere: .clampPoint() target is now required'), target = new Vector3()), target.copy(point), deltaLengthSq > this.radius * this.radius && (target.sub(this.center).normalize(), target.multiplyScalar(this.radius).add(this.center)), target;
         }, _proto.getBoundingBox = function(target) {
-            return (void 0 === target && (console.warn('THREE.Sphere: .getBoundingBox() target is now required'), target = new Box3()), this.isEmpty()) ? (target.makeEmpty(), target) : (target.set(this.center, this.center), target.expandByScalar(this.radius), target);
+            return (void 0 === target && (console.warn('THREE.Sphere: .getBoundingBox() target is now required'), target = new Box3()), this.isEmpty()) ? target.makeEmpty() : (target.set(this.center, this.center), target.expandByScalar(this.radius)), target;
         }, _proto.applyMatrix4 = function(matrix) {
             return this.center.applyMatrix4(matrix), this.radius = this.radius * matrix.getMaxScaleOnAxis(), this;
         }, _proto.translate = function(offset) {
@@ -1700,7 +1700,7 @@
                 for(var i = 0; i < arguments.length; i++)this.add(arguments[i]);
                 return this;
             }
-            return object === this ? (console.error('THREE.Object3D.add: object can\'t be added as a child of itself.', object), this) : (object && object.isObject3D ? (null !== object.parent && object.parent.remove(object), object.parent = this, this.children.push(object), object.dispatchEvent(_addedEvent)) : console.error('THREE.Object3D.add: object not an instance of THREE.Object3D.', object), this);
+            return object === this ? console.error('THREE.Object3D.add: object can\'t be added as a child of itself.', object) : object && object.isObject3D ? (null !== object.parent && object.parent.remove(object), object.parent = this, this.children.push(object), object.dispatchEvent(_addedEvent)) : console.error('THREE.Object3D.add: object not an instance of THREE.Object3D.', object), this;
         },
         remove: function(object) {
             if (arguments.length > 1) {
@@ -13073,8 +13073,8 @@
             lastInactiveAction._cacheIndex = cacheIndex, actions[cacheIndex] = lastInactiveAction, actions.pop(), action._cacheIndex = null;
             var clipUuid = action._clip.uuid, actionsByClip = this._actionsByClip, actionsForClip = actionsByClip[clipUuid], knownActionsForClip = actionsForClip.knownActions, lastKnownAction = knownActionsForClip[knownActionsForClip.length - 1], byClipCacheIndex = action._byClipCacheIndex;
             lastKnownAction._byClipCacheIndex = byClipCacheIndex, knownActionsForClip[byClipCacheIndex] = lastKnownAction, knownActionsForClip.pop(), action._byClipCacheIndex = null;
-            var actionByRoot = actionsForClip.actionByRoot, rootUuid = (action._localRoot || this._root).uuid;
-            delete actionByRoot[rootUuid], 0 === knownActionsForClip.length && delete actionsByClip[clipUuid], this._removeInactiveBindingsForAction(action);
+            var rootUuid = (action._localRoot || this._root).uuid;
+            delete actionsForClip.actionByRoot[rootUuid], 0 === knownActionsForClip.length && delete actionsByClip[clipUuid], this._removeInactiveBindingsForAction(action);
         },
         _removeInactiveBindingsForAction: function(action) {
             for(var bindings = action._propertyBindings, i = 0, n = bindings.length; i !== n; ++i){

@@ -2213,6 +2213,7 @@ src
 srcdoc
 srcset
 start
+starting-style
 startOffset
 startoffset
 static

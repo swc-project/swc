@@ -1,5 +1,3 @@
 //// [constEnum3.ts]
-var TestType;
-!function(TestType) {
-    TestType[TestType.foo = 0] = "foo", TestType[TestType.bar = 1] = "bar";
-}(TestType || (TestType = {}));
+var TestType, TestType1;
+(TestType1 = TestType || (TestType = {}))[TestType1.foo = 0] = "foo", TestType1[TestType1.bar = 1] = "bar";

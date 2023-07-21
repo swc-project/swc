@@ -2,13 +2,9 @@ use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 
 use super::Optimizer;
-use crate::mode::Mode;
 
 /// Methods related to option `dead_code`.
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     /// Optimize return value or argument of throw.
     ///
     /// This methods removes some useless assignments.

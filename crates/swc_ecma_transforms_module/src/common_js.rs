@@ -16,8 +16,8 @@ use crate::{
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        clone_first_use_strict, define_es_module, emit_export_stmts, local_name_for_src, prop_name,
-        use_strict, ImportInterop, ObjPropKeyIdent,
+        clone_first_use_directive, define_es_module, emit_export_stmts, local_name_for_src,
+        prop_name, use_strict, ImportInterop, ObjPropKeyIdent,
     },
 };
 
@@ -90,7 +90,7 @@ where
 {
     noop_visit_mut_type!();
 
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+    fn visit_mut_module(&mut self, n: &mut Module) {
         let import_interop = self.config.import_interop();
 
         let mut module_map = Default::default();
@@ -98,7 +98,7 @@ where
         let mut has_ts_import_equals = false;
 
         // handle `import foo = require("mod")`
-        n.iter_mut().for_each(|item| {
+        n.body.iter_mut().for_each(|item| {
             if let ModuleItem::ModuleDecl(module_decl) = item {
                 *item = self.handle_ts_import_equals(
                     module_decl.take(),
@@ -109,13 +109,19 @@ where
         });
 
         let mut strip = ModuleDeclStrip::new(self.const_var_kind);
-        n.visit_mut_with(&mut strip);
+        n.body.visit_mut_with(&mut strip);
 
-        let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.len() + 4);
+        let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.body.len() + 6);
+
+        stmts.extend(clone_first_use_directive(&n.body, false).map(From::from));
 
         // "use strict";
         if self.config.strict_mode {
-            stmts.push(clone_first_use_strict(n).unwrap_or_else(use_strict).into());
+            stmts.push(
+                clone_first_use_directive(&n.body, true)
+                    .unwrap_or_else(use_strict)
+                    .into(),
+            );
         }
 
         let ModuleDeclStrip {
@@ -149,8 +155,8 @@ where
             .map(From::from),
         );
 
-        stmts.extend(n.take().into_iter().filter(|item| match item {
-            ModuleItem::Stmt(stmt) => !stmt.is_use_strict(),
+        stmts.extend(n.body.take().into_iter().filter(|item| match item {
+            ModuleItem::Stmt(stmt) => !stmt.is_directive(),
             _ => false,
         }));
 
@@ -178,7 +184,11 @@ where
             self.config.allow_top_level_this,
         ));
 
-        *n = stmts;
+        n.body = stmts;
+    }
+
+    fn visit_mut_script(&mut self, _: &mut Script) {
+        // skip script
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
@@ -385,7 +395,6 @@ where
                 if matches!(
                     &*v,
                     TsImportEqualsDecl {
-                        declare: false,
                         is_type_only: false,
                         module_ref: TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { .. }),
                         ..

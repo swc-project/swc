@@ -9,7 +9,6 @@ use swc_ecma_visit::VisitMutWith;
 use super::Optimizer;
 use crate::{
     compress::optimize::util::is_valid_for_lhs,
-    mode::Mode,
     program_data::VarUsageInfo,
     util::{
         idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
@@ -17,10 +16,7 @@ use crate::{
 };
 
 /// Methods related to option `inline`.
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
     /// Stores the value of a variable to inline it.
     ///
     /// This method may remove value of initializer. It mean that the value will
@@ -29,27 +25,22 @@ where
         &mut self,
         ident: &mut Ident,
         init: &mut Expr,
-        mut should_preserve: bool,
         can_drop: bool,
     ) {
+        let may_remove = self.may_remove_ident(ident);
+
         trace_op!(
-            "inline: store_var_for_inlining({}, should_preserve = {:?})",
+            "inline: store_var_for_inlining({}, may_remove = {:?})",
             crate::debug::dump(ident, false),
-            should_preserve
+            may_remove
         );
 
         if self.data.top.has_eval_call {
             return;
         }
 
-        // TODO: Check for side effect between original decl position and inlined
-        // position
-
         // We will inline if possible.
         if ident.sym == js_word!("arguments") {
-            return;
-        }
-        if self.options.top_retain.contains(&ident.sym) {
             return;
         }
 
@@ -69,7 +60,7 @@ where
                 return;
             }
 
-            if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
+            if !may_remove && usage.var_kind != Some(VarDeclKind::Const) {
                 log_abort!(
                     "inline: [x] Preserving non-const variable `{}` because it's top-level",
                     crate::debug::dump(ident, false)
@@ -96,9 +87,9 @@ where
             let is_inline_enabled =
                 self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0;
 
-            should_preserve |= !self.options.top_level() && usage.is_top_level;
-
             self.vars.inline_with_multi_replacer(init);
+
+            let id = ident.to_id();
 
             // We inline arrays partially if it's pure (all elements are literal), and not
             // modified.
@@ -178,6 +169,10 @@ where
                 self.mode.store(ident.to_id(), &*init);
             }
 
+            if usage.used_recursively {
+                return;
+            }
+
             // Caution: for most case mutation of properties are ok, however if
             // new variant is added for multi inline, think carefully
             if is_inline_enabled
@@ -189,24 +184,35 @@ where
                         ..
                     }) => false,
 
-                    Expr::Ident(id) if !id.eq_ignore_span(ident) && usage.assigned_fn_local => self
-                        .data
-                        .vars
-                        .get(&id.to_id())
-                        .filter(|a| {
-                            !a.reassigned() && a.declared && {
+                    Expr::Ident(id) if !id.eq_ignore_span(ident) => {
+                        if !usage.assigned_fn_local {
+                            false
+                        } else if let Some(u) = self.data.vars.get(&id.to_id()) {
+                            let mut should_inline = !u.reassigned() && u.declared;
+
+                            should_inline &=
                                 // Function declarations are hoisted
                                 //
                                 // As we copy expressions, this can cause a problem.
                                 // See https://github.com/swc-project/swc/issues/6463
                                 //
                                 // We check callee_count of `usage` because we copy simple functions
-                                !a.used_above_decl
-                                    || !a.declared_as_fn_decl
-                                    || usage.callee_count == 0
+                                !u.used_above_decl
+                                    || !u.declared_as_fn_decl
+                                    || usage.callee_count == 0;
+
+                            if u.declared_as_for_init && !usage.is_fn_local {
+                                should_inline &= !matches!(
+                                    u.var_kind,
+                                    Some(VarDeclKind::Let | VarDeclKind::Const)
+                                )
                             }
-                        })
-                        .is_some(),
+
+                            should_inline
+                        } else {
+                            false
+                        }
+                    }
 
                     Expr::Lit(lit) => match lit {
                         Lit::Str(s) => {
@@ -228,17 +234,28 @@ where
                     }) => arg.is_lit(),
                     Expr::This(..) => usage.is_fn_local,
                     Expr::Arrow(arr) => {
-                        !(usage.used_as_arg && ref_count > 1)
-                            && is_arrow_simple_enough_for_copy(arr)
-                            && !usage.has_property_mutation
+                        is_arrow_simple_enough_for_copy(arr)
+                            && !(usage.has_property_mutation
+                                || usage.executed_multiple_time
+                                || usage.used_as_arg && ref_count > 1)
                     }
                     _ => false,
                 }
             {
-                self.mode.store(ident.to_id(), &*init);
+                self.mode.store(id.clone(), &*init);
+
+                let usage_count = usage.usage_count;
+                let mut inc_usage = || {
+                    if let Expr::Ident(i) = &*init {
+                        if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
+                            u.ref_count += ref_count;
+                            u.usage_count += usage_count;
+                        }
+                    }
+                };
 
                 if self.options.inline != 0
-                    && !should_preserve
+                    && may_remove
                     && match init {
                         Expr::Arrow(..) => self.options.unused,
                         _ => true,
@@ -252,11 +269,9 @@ where
                         ident.span.ctxt
                     );
 
-                    // if self.ctx.var_kind == Some(VarDeclKind::Const) {
-                    //     var.span = var.span.apply_mark(self.marks.non_top_level);
-                    // }
+                    inc_usage();
 
-                    self.vars.lits.insert(ident.to_id(), init.take().into());
+                    self.vars.lits.insert(id.clone(), init.take().into());
 
                     ident.take();
                 } else if self.options.inline != 0 || self.options.reduce_vars {
@@ -266,22 +281,27 @@ where
                         ident.span.ctxt
                     );
 
-                    self.mode.store(ident.to_id(), &*init);
+                    self.mode.store(id.clone(), &*init);
 
-                    self.vars.lits.insert(ident.to_id(), init.clone().into());
+                    inc_usage();
+
+                    self.vars.lits.insert(id.clone(), init.clone().into());
                 }
             }
 
+            let usage = self.data.vars.get(&id).unwrap();
+
             // Single use => inlined
-            if is_inline_enabled
+            if !self.ctx.is_exported
+                && is_inline_enabled
                 && usage.declared
-                && !should_preserve
+                && may_remove
                 && !usage.reassigned()
                 && (usage.can_inline_var() || usage.is_mutated_only_by_one_call())
                 && ref_count == 1
             {
                 match init {
-                    Expr::Fn(FnExpr { function: f, .. }) | Expr::Fn(FnExpr { function: f, .. })
+                    Expr::Fn(FnExpr { function: f, .. })
                         if matches!(
                             &**f,
                             Function { is_async: true, .. }
@@ -525,21 +545,13 @@ where
             return;
         }
 
-        if (!self.options.top_level() && self.options.top_retain.is_empty())
-            && self.ctx.in_top_level()
-        {
+        if !self.may_remove_ident(&i) {
             log_abort!("inline: [x] Top level");
             return;
         }
 
         if self.has_noinline(decl.span()) {
             log_abort!("inline: [x] Has noinline");
-            return;
-        }
-
-        // Respect `top_retain`
-        if self.ctx.in_top_level() && self.options.top_retain.contains(&i.sym) {
-            log_abort!("inline: [x] top_retain");
             return;
         }
 
@@ -704,85 +716,80 @@ where
 
     /// Actually inlines variables.
     pub(super) fn inline(&mut self, e: &mut Expr) {
-        if let Expr::Member(me) = e {
-            if let MemberProp::Computed(ref mut prop) = me.prop {
-                if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
-                    if let Expr::Ident(obj) = &*me.obj {
-                        let new = self.vars.lits_for_array_access.get(&obj.to_id());
+        match e {
+            Expr::Member(me) => {
+                if let MemberProp::Computed(prop) = &mut me.prop {
+                    if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
+                        if let Expr::Ident(obj) = &*me.obj {
+                            let new = self.vars.lits_for_array_access.get(&obj.to_id());
 
-                        if let Some(new) = new {
-                            report_change!("inline: Inlined array access");
-                            self.changed = true;
+                            if let Some(new) = new {
+                                report_change!("inline: Inlined array access");
+                                self.changed = true;
 
-                            me.obj = new.clone();
-                            // TODO(kdy1): Optimize performance by skipping visiting of children
-                            // nodes.
-                            e.visit_mut_with(&mut expr_simplifier(
-                                self.marks.unresolved_mark,
-                                Default::default(),
-                            ));
+                                me.obj = new.clone();
+                                // TODO(kdy1): Optimize performance by skipping visiting of children
+                                // nodes.
+                                e.visit_mut_with(&mut expr_simplifier(
+                                    self.marks.unresolved_mark,
+                                    Default::default(),
+                                ));
+                            }
                         }
-                        return;
                     }
                 }
             }
-        }
-
-        if let Expr::Ident(i) = e {
-            let id = i.to_id();
-            if let Some(value) = self
-                .vars
-                .lits
-                .get(&id)
-                .or_else(|| {
-                    if self.ctx.is_callee {
-                        self.vars.simple_functions.get(&i.to_id())
-                    } else {
-                        None
-                    }
-                })
-                .cloned()
-            {
-                if !matches!(&*value, Expr::Ident(..) | Expr::Member(..)) && self.ctx.is_update_arg
+            Expr::Ident(i) => {
+                let id = i.to_id();
+                if let Some(value) = self
+                    .vars
+                    .lits
+                    .get(&id)
+                    .or_else(|| {
+                        if self.ctx.is_callee {
+                            self.vars.simple_functions.get(&i.to_id())
+                        } else {
+                            None
+                        }
+                    })
+                    .cloned()
                 {
-                    return;
-                }
-
-                self.changed = true;
-                report_change!("inline: Replacing a variable `{}` with cheap expression", i);
-
-                if let Expr::Ident(i) = &*value {
-                    if let Some(usage) = self.data.vars.get_mut(&i.to_id()) {
-                        usage.ref_count += 1;
-                        usage.usage_count += 1;
-                    }
-                }
-
-                *e = *value;
-                return;
-            }
-
-            // Check without cloning
-            if let Some(value) = self.vars.vars_for_inlining.get(&i.to_id()) {
-                if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(value) {
-                    return;
-                }
-
-                if let Expr::Member(..) = &**value {
-                    if self.ctx.executed_multiple_time {
+                    if !matches!(&*value, Expr::Ident(..) | Expr::Member(..))
+                        && self.ctx.is_update_arg
+                    {
                         return;
                     }
+
+                    self.changed = true;
+                    report_change!("inline: Replacing a variable `{}` with cheap expression", i);
+
+                    *e = *value;
+                    return;
+                }
+
+                // Check without cloning
+                if let Some(value) = self.vars.vars_for_inlining.get(&i.to_id()) {
+                    if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(value) {
+                        return;
+                    }
+
+                    if let Expr::Member(..) = &**value {
+                        if self.ctx.executed_multiple_time {
+                            return;
+                        }
+                    }
+                }
+
+                if let Some(value) = self.vars.vars_for_inlining.remove(&i.to_id()) {
+                    self.changed = true;
+                    report_change!("inline: Replacing '{}' with an expression", i);
+
+                    *e = *value;
+
+                    log_abort!("inline: [Change] {}", crate::debug::dump(&*e, false))
                 }
             }
-
-            if let Some(value) = self.vars.vars_for_inlining.remove(&i.to_id()) {
-                self.changed = true;
-                report_change!("inline: Replacing '{}' with an expression", i);
-
-                *e = *value;
-
-                log_abort!("inline: [Change] {}", crate::debug::dump(&*e, false))
-            }
+            _ => (),
         }
     }
 }

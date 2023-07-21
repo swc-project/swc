@@ -1,3 +1,5 @@
+#![allow(clippy::redundant_closure_call)]
+
 extern crate swc_node_base;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};

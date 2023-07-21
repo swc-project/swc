@@ -1,4 +1,7 @@
-use std::{iter::once, mem::transmute};
+use std::{
+    iter::once,
+    mem::{take, transmute},
+};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
@@ -15,10 +18,25 @@ pub fn decorator_2022_03() -> impl VisitMut + Fold {
     as_folder(Decorator202203::default())
 }
 
-#[derive(Debug, Default)]
+#[derive(Default)]
 struct Decorator202203 {
     /// Variables without initializer.
     extra_vars: Vec<VarDeclarator>,
+
+    extra_lets: Vec<VarDeclarator>,
+
+    state: ClassState,
+
+    /// Prepended before the class
+    pre_class_inits: Vec<Box<Expr>>,
+
+    rename_map: FxHashMap<Id, Id>,
+
+    extra_exports: Vec<ExportSpecifier>,
+}
+
+#[derive(Default)]
+struct ClassState {
     static_lhs: Vec<Ident>,
     proto_lhs: Vec<Ident>,
 
@@ -33,17 +51,8 @@ struct Decorator202203 {
     /// Injected into static blocks.
     extra_stmts: Vec<Stmt>,
 
-    /// Prepended before the class
-    pre_class_inits: Vec<Box<Expr>>,
-
     class_lhs: Vec<Option<Pat>>,
     class_decorators: Vec<Option<ExprOrSpread>>,
-
-    extra_lets: Vec<VarDeclarator>,
-
-    extra_exports: Vec<ExportSpecifier>,
-
-    rename_map: FxHashMap<Id, Id>,
 }
 
 impl Decorator202203 {
@@ -81,11 +90,11 @@ impl Decorator202203 {
 
     /// Moves `cur_inits` to `extra_stmts`.
     fn consume_inits(&mut self) {
-        if self.init_proto_args.is_empty()
-            && self.init_static_args.is_empty()
-            && self.init_proto.is_none()
-            && self.init_static.is_none()
-            && self.class_decorators.is_empty()
+        if self.state.init_proto_args.is_empty()
+            && self.state.init_static_args.is_empty()
+            && self.state.init_proto.is_none()
+            && self.state.init_static.is_none()
+            && self.state.class_decorators.is_empty()
         {
             return;
         }
@@ -93,11 +102,16 @@ impl Decorator202203 {
         let mut e_lhs = vec![];
         let mut combined_args = vec![ThisExpr { span: DUMMY_SP }.as_arg()];
 
-        for id in self.static_lhs.drain(..).chain(self.proto_lhs.drain(..)) {
+        for id in self
+            .state
+            .static_lhs
+            .drain(..)
+            .chain(self.state.proto_lhs.drain(..))
+        {
             e_lhs.push(Some(id.into()));
         }
 
-        if let Some(init) = self.init_proto.clone() {
+        if let Some(init) = self.state.init_proto.clone() {
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: Pat::Ident(init.clone().into()),
@@ -108,7 +122,7 @@ impl Decorator202203 {
             e_lhs.push(Some(init.into()));
         }
 
-        if let Some(init) = self.init_static.clone() {
+        if let Some(init) = self.state.init_static.clone() {
             self.extra_vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: Pat::Ident(init.clone().into()),
@@ -123,9 +137,10 @@ impl Decorator202203 {
             ArrayLit {
                 span: DUMMY_SP,
                 elems: self
+                    .state
                     .init_static_args
                     .drain(..)
-                    .chain(self.init_proto_args.drain(..))
+                    .chain(self.state.init_proto_args.drain(..))
                     .collect(),
             }
             .as_arg(),
@@ -134,7 +149,7 @@ impl Decorator202203 {
         combined_args.push(
             ArrayLit {
                 span: DUMMY_SP,
-                elems: self.class_decorators.take(),
+                elems: self.state.class_decorators.take(),
             }
             .as_arg(),
         );
@@ -153,14 +168,14 @@ impl Decorator202203 {
             }))
         };
 
-        let c_pat = if self.class_lhs.is_empty() {
+        let c_pat = if self.state.class_lhs.is_empty() {
             None
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
                 key: PropName::Ident(quote_ident!("c")),
                 value: Box::new(Pat::Array(ArrayPat {
                     span: DUMMY_SP,
-                    elems: self.class_lhs.take(),
+                    elems: self.state.class_lhs.take(),
                     type_ann: Default::default(),
                     optional: false,
                 })),
@@ -184,13 +199,13 @@ impl Decorator202203 {
             })),
         }));
 
-        self.extra_stmts.push(Stmt::Expr(ExprStmt {
+        self.state.extra_stmts.push(Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
             expr,
         }));
 
-        if let Some(init) = self.init_static.take() {
-            self.extra_stmts.push(Stmt::Expr(ExprStmt {
+        if let Some(init) = self.state.init_static.take() {
+            self.state.extra_stmts.push(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
                 expr: Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
@@ -332,8 +347,10 @@ impl Decorator202203 {
             replace_ident(&mut class.body, ident.to_id(), &new_class_name);
         }
 
-        self.class_lhs.push(Some(new_class_name.clone().into()));
-        self.class_lhs.push(Some(init_class.clone().into()));
+        self.state
+            .class_lhs
+            .push(Some(new_class_name.clone().into()));
+        self.state.class_lhs.push(Some(init_class.clone().into()));
 
         self.extra_vars.push(VarDeclarator {
             span: DUMMY_SP,
@@ -343,7 +360,7 @@ impl Decorator202203 {
         });
 
         let decorators = self.preserve_side_effect_of_decorators(class.decorators.take());
-        self.class_decorators.extend(decorators);
+        self.state.class_decorators.extend(decorators);
 
         {
             let call_stmt = CallExpr {
@@ -367,6 +384,8 @@ impl Decorator202203 {
     }
 
     fn handle_class_decl(&mut self, c: &mut ClassDecl) -> Option<Stmt> {
+        let old_state = take(&mut self.state);
+
         if !c.class.decorators.is_empty() {
             let decorators = self.preserve_side_effect_of_decorators(c.class.decorators.take());
 
@@ -392,10 +411,12 @@ impl Decorator202203 {
             self.rename_map
                 .insert(c.ident.to_id(), new_class_name.to_id());
 
-            self.class_lhs.push(Some(new_class_name.clone().into()));
-            self.class_lhs.push(Some(init_class.clone().into()));
+            self.state
+                .class_lhs
+                .push(Some(new_class_name.clone().into()));
+            self.state.class_lhs.push(Some(init_class.clone().into()));
 
-            self.class_decorators.extend(decorators);
+            self.state.class_decorators.extend(decorators);
 
             let mut body = c.class.body.take();
 
@@ -594,6 +615,8 @@ impl Decorator202203 {
                     implements: Default::default(),
                 });
 
+                self.state = old_state;
+
                 return Some(
                     NewExpr {
                         span: DUMMY_SP,
@@ -633,9 +656,13 @@ impl Decorator202203 {
                     },
                 }));
 
+                self.state = old_state;
+
                 return Some(Stmt::Decl(Decl::Class(c.take())));
             }
         }
+
+        self.state = old_state;
 
         None
     }
@@ -706,12 +733,12 @@ impl VisitMut for Decorator202203 {
     noop_visit_mut_type!();
 
     fn visit_mut_class(&mut self, n: &mut Class) {
-        let old_stmts = self.extra_stmts.take();
+        let old_stmts = self.state.extra_stmts.take();
 
         n.visit_mut_children_with(self);
 
-        if !self.is_init_proto_called {
-            if let Some(init_proto) = self.init_proto.clone() {
+        if !self.state.is_init_proto_called {
+            if let Some(init_proto) = self.state.init_proto.clone() {
                 let c = self.ensure_constructor(n);
 
                 inject_after_super(
@@ -728,23 +755,23 @@ impl VisitMut for Decorator202203 {
 
         self.consume_inits();
 
-        if !self.extra_stmts.is_empty() {
+        if !self.state.extra_stmts.is_empty() {
             n.body.insert(
                 0,
                 ClassMember::StaticBlock(StaticBlock {
                     span: DUMMY_SP,
                     body: BlockStmt {
                         span: DUMMY_SP,
-                        stmts: self.extra_stmts.take(),
+                        stmts: self.state.extra_stmts.take(),
                     },
                 }),
             );
         }
 
-        self.init_proto = None;
-        self.is_init_proto_called = false;
+        self.state.init_proto = None;
+        self.state.is_init_proto_called = false;
 
-        self.extra_stmts = old_stmts;
+        self.state.extra_stmts = old_stmts;
     }
 
     fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
@@ -768,10 +795,12 @@ impl VisitMut for Decorator202203 {
             });
 
             if p.is_static {
-                self.init_static
+                self.state
+                    .init_static
                     .get_or_insert_with(|| private_ident!("_initStatic"));
             } else {
-                self.init_proto
+                self.state
+                    .init_proto
                     .get_or_insert_with(|| private_ident!("_initProto"));
             }
 
@@ -808,15 +837,15 @@ impl VisitMut for Decorator202203 {
                 .as_arg(),
             );
             if p.is_static {
-                self.init_static_args.push(arg);
+                self.state.init_static_args.push(arg);
             } else {
-                self.init_proto_args.push(arg);
+                self.state.init_proto_args.push(arg);
             }
 
             if p.is_static {
-                self.static_lhs.push(init.clone());
+                self.state.static_lhs.push(init.clone());
             } else {
-                self.proto_lhs.push(init.clone());
+                self.state.proto_lhs.push(init.clone());
             }
 
             match p.kind {
@@ -920,23 +949,25 @@ impl VisitMut for Decorator202203 {
                         value: if accessor.decorators.is_empty() {
                             accessor.value
                         } else {
-                            let init_proto = if self.is_init_proto_called || accessor.is_static {
-                                None
-                            } else {
-                                self.is_init_proto_called = true;
+                            let init_proto =
+                                if self.state.is_init_proto_called || accessor.is_static {
+                                    None
+                                } else {
+                                    self.state.is_init_proto_called = true;
 
-                                let init_proto = self
-                                    .init_proto
-                                    .get_or_insert_with(|| private_ident!("_initProto"))
-                                    .clone();
+                                    let init_proto = self
+                                        .state
+                                        .init_proto
+                                        .get_or_insert_with(|| private_ident!("_initProto"))
+                                        .clone();
 
-                                Some(Box::new(Expr::Call(CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: init_proto.clone().as_callee(),
-                                    args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
-                                    type_args: Default::default(),
-                                })))
-                            };
+                                    Some(Box::new(Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: init_proto.clone().as_callee(),
+                                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                                        type_args: Default::default(),
+                                    })))
+                                };
 
                             let init_call = Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
@@ -1161,22 +1192,26 @@ impl VisitMut for Decorator202203 {
                         };
 
                         if accessor.is_static {
-                            self.static_lhs.push(init);
-                            self.init_static_args.push(Some(initialize_init));
-                            self.static_lhs
+                            self.state.static_lhs.push(init);
+                            self.state.init_static_args.push(Some(initialize_init));
+                            self.state
+                                .static_lhs
                                 .extend(getter_var.into_iter().chain(setter_var));
                         } else {
-                            self.proto_lhs.push(init);
-                            self.init_proto_args.push(Some(initialize_init));
-                            self.proto_lhs
+                            self.state.proto_lhs.push(init);
+                            self.state.init_proto_args.push(Some(initialize_init));
+                            self.state
+                                .proto_lhs
                                 .extend(getter_var.into_iter().chain(setter_var));
                         }
 
                         if accessor.is_static {
-                            self.init_static
+                            self.state
+                                .init_static
                                 .get_or_insert_with(|| private_ident!("_initStatic"));
                         } else {
-                            self.init_proto
+                            self.state
+                                .init_proto
                                 .get_or_insert_with(|| private_ident!("_initProto"));
                         }
                     }
@@ -1283,10 +1318,12 @@ impl VisitMut for Decorator202203 {
         let (name, _init) = self.initializer_name(&mut n.key, "call");
 
         if n.is_static {
-            self.init_static
+            self.state
+                .init_static
                 .get_or_insert_with(|| private_ident!("_initStatic"));
         } else {
-            self.init_proto
+            self.state
+                .init_proto
                 .get_or_insert_with(|| private_ident!("_initProto"));
         }
 
@@ -1312,9 +1349,9 @@ impl VisitMut for Decorator202203 {
             .as_arg(),
         );
         if n.is_static {
-            self.init_static_args.push(arg);
+            self.state.init_static_args.push(arg);
         } else {
-            self.init_proto_args.push(arg);
+            self.state.init_proto_args.push(arg);
         }
     }
 
@@ -1361,11 +1398,11 @@ impl VisitMut for Decorator202203 {
         };
 
         if p.is_static {
-            self.static_lhs.push(init);
-            self.init_static_args.push(initialize_init);
+            self.state.static_lhs.push(init);
+            self.state.init_static_args.push(initialize_init);
         } else {
-            self.proto_lhs.push(init);
-            self.init_proto_args.push(initialize_init);
+            self.state.proto_lhs.push(init);
+            self.state.init_proto_args.push(initialize_init);
         }
     }
 
@@ -1586,11 +1623,11 @@ impl VisitMut for Decorator202203 {
         };
 
         if p.is_static {
-            self.static_lhs.push(init);
-            self.init_static_args.push(Some(initialize_init));
+            self.state.static_lhs.push(init);
+            self.state.init_static_args.push(Some(initialize_init));
         } else {
-            self.proto_lhs.push(init);
-            self.init_proto_args.push(Some(initialize_init));
+            self.state.proto_lhs.push(init);
+            self.state.init_proto_args.push(Some(initialize_init));
         }
     }
 
@@ -1608,9 +1645,9 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        let old_state = take(&mut self.state);
         let old_pre_class_inits = self.pre_class_inits.take();
         let old_extra_lets = self.extra_lets.take();
-        let old_extra_stmts = self.extra_stmts.take();
         let old_extra_vars = self.extra_vars.take();
 
         let mut new = Vec::with_capacity(n.len());
@@ -1650,9 +1687,9 @@ impl VisitMut for Decorator202203 {
         *n = new;
 
         self.extra_vars = old_extra_vars;
-        self.extra_stmts = old_extra_stmts;
         self.extra_lets = old_extra_lets;
         self.pre_class_inits = old_pre_class_inits;
+        self.state = old_state;
     }
 }
 

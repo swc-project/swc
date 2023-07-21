@@ -857,8 +857,7 @@
                         }
                       }
                     ]
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               ],
               "body": {
@@ -1518,8 +1517,7 @@
                 "ctxt": 0
               },
               "properties": []
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

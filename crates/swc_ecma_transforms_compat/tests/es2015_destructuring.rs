@@ -2285,7 +2285,7 @@ test_exec!(
     syntax(),
     |_| tr(),
     issue_7418,
-    r###"
+    r#"
     const truc = { as: "OK"}
 
     function x(as) {
@@ -2297,5 +2297,5 @@ test_exec!(
     }
 
     x()();
-    "###
+    "#
 );

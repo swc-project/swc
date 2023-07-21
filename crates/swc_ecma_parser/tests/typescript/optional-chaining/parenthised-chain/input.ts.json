@@ -34,11 +34,7 @@
               "end": 6,
               "ctxt": 0
             },
-            "questionDotToken": {
-              "start": 3,
-              "end": 4,
-              "ctxt": 0
-            },
+            "optional": true,
             "base": {
               "type": "MemberExpression",
               "span": {
@@ -116,11 +112,7 @@
                 "end": 17,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 14,
-                "end": 15,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -180,11 +172,7 @@
           "end": 39,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 36,
-          "end": 37,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -193,101 +181,102 @@
             "ctxt": 0
           },
           "object": {
-            "type": "MemberExpression",
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 25,
               "end": 36,
               "ctxt": 0
             },
-            "object": {
-              "type": "OptionalChainingExpression",
+            "optional": false,
+            "base": {
+              "type": "MemberExpression",
               "span": {
                 "start": 25,
-                "end": 34,
+                "end": 36,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 31,
-                "end": 32,
-                "ctxt": 0
-              },
-              "base": {
-                "type": "MemberExpression",
+              "object": {
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 25,
                   "end": 34,
                   "ctxt": 0
                 },
-                "object": {
-                  "type": "ParenthesisExpression",
+                "optional": true,
+                "base": {
+                  "type": "MemberExpression",
                   "span": {
                     "start": 25,
-                    "end": 31,
+                    "end": 34,
                     "ctxt": 0
                   },
-                  "expression": {
-                    "type": "OptionalChainingExpression",
+                  "object": {
+                    "type": "ParenthesisExpression",
                     "span": {
-                      "start": 26,
-                      "end": 30,
+                      "start": 25,
+                      "end": 31,
                       "ctxt": 0
                     },
-                    "questionDotToken": {
-                      "start": 27,
-                      "end": 28,
-                      "ctxt": 0
-                    },
-                    "base": {
-                      "type": "MemberExpression",
+                    "expression": {
+                      "type": "OptionalChainingExpression",
                       "span": {
                         "start": 26,
                         "end": 30,
                         "ctxt": 0
                       },
-                      "object": {
-                        "type": "Identifier",
+                      "optional": true,
+                      "base": {
+                        "type": "MemberExpression",
                         "span": {
                           "start": 26,
-                          "end": 27,
-                          "ctxt": 0
-                        },
-                        "value": "a",
-                        "optional": false
-                      },
-                      "property": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 29,
                           "end": 30,
                           "ctxt": 0
                         },
-                        "value": "b",
-                        "optional": false
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 26,
+                            "end": 27,
+                            "ctxt": 0
+                          },
+                          "value": "a",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 29,
+                            "end": 30,
+                            "ctxt": 0
+                          },
+                          "value": "b",
+                          "optional": false
+                        }
                       }
                     }
-                  }
-                },
-                "property": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 33,
-                    "end": 34,
-                    "ctxt": 0
                   },
-                  "value": "c",
-                  "optional": false
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 33,
+                      "end": 34,
+                      "ctxt": 0
+                    },
+                    "value": "c",
+                    "optional": false
+                  }
                 }
-              }
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 35,
-                "end": 36,
-                "ctxt": 0
               },
-              "value": "d",
-              "optional": false
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 35,
+                  "end": 36,
+                  "ctxt": 0
+                },
+                "value": "d",
+                "optional": false
+              }
             }
           },
           "property": {

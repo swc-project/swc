@@ -230,9 +230,7 @@ impl Babelify for AssignPat {
             base: ctx.base(self.span),
             left: self.left.babelify(ctx).into(),
             right: Box::alloc().init(self.right.babelify(ctx).into()),
-            type_annotation: self
-                .type_ann
-                .map(|a| Box::alloc().init(a.babelify(ctx).into())),
+            type_annotation: None,
             decorators: Default::default(),
         }
     }

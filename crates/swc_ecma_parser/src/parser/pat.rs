@@ -81,7 +81,6 @@ impl<I: Tokens> Parser<I> {
                 span: span!(self, start),
                 left: Box::new(left),
                 right,
-                type_ann: None,
             }));
         }
 
@@ -262,7 +261,6 @@ impl<I: Tokens> Parser<I> {
             Pat::Assign(AssignPat {
                 span: span!(self, start),
                 left: Box::new(pat),
-                type_ann: None,
                 right,
             })
         } else {
@@ -416,7 +414,6 @@ impl<I: Tokens> Parser<I> {
                         span: span!(self, pat_start),
                         left: Box::new(pat),
                         right,
-                        type_ann: None,
                     }
                     .into();
                 }
@@ -607,7 +604,6 @@ impl<I: Tokens> Parser<I> {
                         PatOrExpr::Pat(left) => left,
                     },
                     right,
-                    type_ann: None,
                 }))
             }
             Expr::Object(ObjectLit {
@@ -1051,7 +1047,6 @@ mod tests {
                 elems: vec![
                     None,
                     Some(Pat::Assign(AssignPat {
-                        type_ann: None,
                         span,
                         left: Box::new(Pat::Ident(ident("a").into())),
                         right: Box::new(Expr::Lit(Lit::Num(Number {

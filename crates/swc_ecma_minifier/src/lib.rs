@@ -100,6 +100,7 @@ pub fn optimize(
     let _timer = timer!("minify");
 
     let mut marks = Marks::new();
+    marks.top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
     marks.unresolved_mark = extra.unresolved_mark;
 
     debug_assert_valid(&n);
@@ -237,7 +238,7 @@ pub fn optimize(
                 None,
                 marks,
                 PureOptimizerConfig {
-                    force_str_for_tpl: Minification::force_str_for_tpl(),
+                    force_str_for_tpl: Minification.force_str_for_tpl(),
                     enable_join_vars: true,
                     #[cfg(feature = "debug")]
                     debug_infinite_loop: false,

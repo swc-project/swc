@@ -89,7 +89,7 @@ impl_struct!(JSXNamespacedName, [ns, name]);
 impl_struct!(JSXEmptyExpr, [span]);
 impl_struct!(JSXElement, [span, opening, closing, children]);
 impl_struct!(JSXFragment, [span, opening, closing, children]);
-impl_struct!(OptChainExpr, [span, question_dot_token, base]);
+impl_struct!(OptChainExpr, [span, optional, base]);
 
 impl_struct!(ParenExpr, [span, expr]);
 impl_struct!(

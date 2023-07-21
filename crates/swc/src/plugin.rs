@@ -7,7 +7,7 @@
 )]
 
 use serde::{Deserialize, Serialize};
-#[cfg(any(feature = "plugin"))]
+#[cfg(feature = "plugin")]
 use swc_ecma_ast::*;
 #[cfg(not(any(feature = "plugin")))]
 use swc_ecma_transforms::pass::noop;
@@ -48,7 +48,7 @@ struct RustPlugins {
 }
 
 impl RustPlugins {
-    #[cfg(any(feature = "plugin"))]
+    #[cfg(feature = "plugin")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use anyhow::Context;
         if self.plugins.is_none() || self.plugins.as_ref().unwrap().is_empty() {
@@ -64,7 +64,7 @@ impl RustPlugins {
     }
 
     #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
-    #[cfg(all(any(feature = "plugin"), not(target_arch = "wasm32")))]
+    #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
     fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use anyhow::Context;
         use swc_common::plugin::serialized::PluginSerializedBytes;
@@ -100,6 +100,15 @@ impl RustPlugins {
                             .expect("plugin module should be loaded");
 
                         let plugin_name = plugin_module_bytes.get_module_name().to_string();
+                        let runtime = swc_plugin_runner::wasix_runtime::build_wasi_runtime(
+                            crate::config::PLUGIN_MODULE_CACHE
+                                .inner
+                                .get()
+                                .unwrap()
+                                .lock()
+                                .get_fs_cache_root()
+                                .map(|v| std::path::PathBuf::from(v)),
+                        );
                         let mut transform_plugin_executor =
                             swc_plugin_runner::create_plugin_transform_executor(
                                 &self.source_map,
@@ -107,6 +116,7 @@ impl RustPlugins {
                                 &self.metadata_context,
                                 plugin_module_bytes,
                                 Some(p.1),
+                                runtime,
                             );
 
                         let span = tracing::span!(
@@ -135,7 +145,7 @@ impl RustPlugins {
         )
     }
 
-    #[cfg(all(any(feature = "plugin"), target_arch = "wasm32"))]
+    #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
     #[tracing::instrument(level = "info", skip_all)]
     fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         // [TODO]: unimplemented
@@ -146,14 +156,14 @@ impl RustPlugins {
 impl Fold for RustPlugins {
     noop_fold_type!();
 
-    #[cfg(any(feature = "plugin"))]
+    #[cfg(feature = "plugin")]
     fn fold_module(&mut self, n: Module) -> Module {
         self.apply(Program::Module(n))
             .expect("failed to invoke plugin")
             .expect_module()
     }
 
-    #[cfg(any(feature = "plugin"))]
+    #[cfg(feature = "plugin")]
     fn fold_script(&mut self, n: Script) -> Script {
         self.apply(Program::Script(n))
             .expect("failed to invoke plugin")

@@ -720,6 +720,7 @@ hoist/hoist_funs/input.js
 hoist/hoist_no_destructurings/input.js
 hoist/hoist_vars/input.js
 hoist_props/contains_this_3/input.js
+hoist_props/direct_access_1/input.js
 hoist_props/direct_access_2/input.js
 hoist_props/direct_access_3/input.js
 hoist_props/does_not_hoist_objects_with_computed_props/input.js
@@ -998,13 +999,17 @@ keep_names/keep_classnames/input.js
 keep_names/keep_fnames/input.js
 keep_names/keep_fnames_and_avoid_collisions/input.js
 keep_names/keep_var_fnames/input.js
+labels/labels_1/input.js
 labels/labels_10/input.js
+labels/labels_2/input.js
 labels/labels_3/input.js
+labels/labels_4/input.js
 labels/labels_5/input.js
 labels/labels_6/input.js
 labels/labels_7/input.js
 labels/labels_8/input.js
 labels/labels_9/input.js
+logical_assignment/assign_in_conditional_part/input.js
 logical_assignment/assign_in_conditional_part_reused/input.js
 logical_assignment/logical_assignment_not_always_happens/input.js
 logical_assignment/prematurely_evaluate_assignment/input.js
@@ -1207,8 +1212,11 @@ pure_getters/issue_2313_7/input.js
 pure_getters/issue_2678/input.js
 pure_getters/issue_2938_1/input.js
 pure_getters/issue_2938_2/input.js
+pure_getters/set_immutable_1/input.js
 pure_getters/set_immutable_2/input.js
+pure_getters/set_immutable_3/input.js
 pure_getters/set_immutable_4/input.js
+pure_getters/set_immutable_5/input.js
 pure_getters/strict/input.js
 pure_globals/globals_whose_access_is_pure/input.js
 pure_globals/window_access_is_impure/input.js

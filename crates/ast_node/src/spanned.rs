@@ -2,7 +2,7 @@
 
 use pmutil::{smart_quote, Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
-use syn::*;
+use syn::{parse::Parse, *};
 
 struct MyField {
     /// Name of the field.
@@ -16,6 +16,18 @@ struct MyField {
     pub hi: bool,
 }
 
+struct InputFieldAttr {
+    kinds: Punctuated<Ident, Token![,]>,
+}
+
+impl Parse for InputFieldAttr {
+    fn parse(input: parse::ParseStream) -> Result<Self> {
+        let kinds = input.call(Punctuated::parse_terminated)?;
+
+        Ok(Self { kinds })
+    }
+}
+
 impl MyField {
     fn from_field(f: &Field) -> Self {
         let mut lo = false;
@@ -26,21 +38,19 @@ impl MyField {
                 continue;
             }
 
-            let meta = attr.parse_meta().unwrap();
-            match meta {
+            match &attr.meta {
+                Meta::Path(..) => {}
                 Meta::List(list) => {
-                    for nested in list.nested {
-                        match nested {
-                            NestedMeta::Meta(Meta::Path(ident)) => {
-                                if ident.is_ident("lo") {
-                                    lo = true;
-                                } else if ident.is_ident("hi") {
-                                    hi = true;
-                                } else {
-                                    panic!("Unknown span attribute: {:?}", ident)
-                                }
-                            }
-                            _ => panic!("Unknown span attribute"),
+                    let input = parse2::<InputFieldAttr>(list.tokens.clone())
+                        .expect("failed to parse as `InputFieldAttr`");
+
+                    for kind in input.kinds {
+                        if kind == "lo" {
+                            lo = true
+                        } else if kind == "hi" {
+                            hi = true
+                        } else {
+                            panic!("Unknown span attribute: {:?}", kind)
                         }
                     }
                 }
@@ -207,6 +217,10 @@ fn has_empty_span_attr(attrs: &[Attribute]) -> bool {
             return false;
         }
 
-        attr.tokens.is_empty()
+        match &attr.meta {
+            Meta::Path(..) => true,
+            Meta::List(t) => t.tokens.is_empty(),
+            _ => false,
+        }
     })
 }

@@ -12,6 +12,5 @@ export var directive = function(class_) {
     };
 };
 export var classMap = directive(function ClassMapDirective() {
-    "use strict";
     _class_call_check(this, ClassMapDirective);
 });

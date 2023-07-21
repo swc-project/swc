@@ -519,8 +519,7 @@
                   },
                   "value": "hello",
                   "raw": "\"hello\""
-                },
-                "typeAnnotation": null
+                }
               }
             },
             {

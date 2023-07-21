@@ -1,5 +1,5 @@
 //// [typeofANonExportedType.ts]
-var M, E;
+var M, E, M1, E1, foo;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 export var r1;
 export var r2;
@@ -10,27 +10,19 @@ export var r4b;
 export var i;
 export var r5;
 export var r5;
-!function(M) {
-    M.foo = "", M.C = function C() {
-        "use strict";
-        _class_call_check(this, C);
-    };
-}(M || (M = {}));
+(M1 = M || (M = {})).foo = "", M1.C = function C() {
+    _class_call_check(this, C);
+};
 export var r6;
 export var r7;
 export var r8;
 export var r9;
-!function(E) {
-    E[E.A = 0] = "A";
-}(E || (E = {}));
+(E1 = E || (E = {}))[E1.A = 0] = "A";
 export var r10;
 export var r11;
 export var r12;
-function foo() {}
-!function(foo) {
-    foo.y = 1, foo.C = function C() {
-        "use strict";
-        _class_call_check(this, C);
-    };
-}(foo || (foo = {}));
+function foo1() {}
+(foo = foo1 || (foo1 = {})).y = 1, foo.C = function C() {
+    _class_call_check(this, C);
+};
 export var r13;

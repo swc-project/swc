@@ -20,7 +20,7 @@ use crate::{
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        clone_first_use_strict, define_es_module, emit_export_stmts, local_name_for_src,
+        clone_first_use_directive, define_es_module, emit_export_stmts, local_name_for_src,
         use_strict, ImportInterop,
     },
 };
@@ -129,8 +129,8 @@ where
 {
     noop_visit_mut_type!();
 
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        if let Some(first) = n.first() {
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        if let Some(first) = n.body.first() {
             if self.module_id.is_none() {
                 self.module_id = self.get_amd_module_id_from_comments(first.span());
             }
@@ -139,13 +139,13 @@ where
         let import_interop = self.config.import_interop();
 
         let mut strip = ModuleDeclStrip::new(self.const_var_kind);
-        n.visit_mut_with(&mut strip);
+        n.body.visit_mut_with(&mut strip);
 
-        let mut stmts: Vec<Stmt> = Vec::with_capacity(n.len() + 4);
+        let mut stmts: Vec<Stmt> = Vec::with_capacity(n.body.len() + 4);
 
         // "use strict";
         if self.config.strict_mode {
-            stmts.push(clone_first_use_strict(n).unwrap_or_else(use_strict));
+            stmts.push(clone_first_use_directive(&n.body, true).unwrap_or_else(use_strict));
         }
 
         let ModuleDeclStrip {
@@ -169,8 +169,8 @@ where
                 .map(From::from),
         );
 
-        stmts.extend(n.take().into_iter().filter_map(|item| match item {
-            ModuleItem::Stmt(stmt) if !stmt.is_use_strict() => Some(stmt),
+        stmts.extend(n.body.take().into_iter().filter_map(|item| match item {
+            ModuleItem::Stmt(stmt) if !stmt.is_directive() => Some(stmt),
             _ => None,
         }));
 
@@ -256,12 +256,16 @@ where
             .as_arg(),
         );
 
-        *n = vec![
+        n.body = vec![
             quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "define")
                 .as_call(DUMMY_SP, amd_call_args)
                 .into_stmt()
                 .into(),
         ];
+    }
+
+    fn visit_mut_script(&mut self, _: &mut Script) {
+        // skip script
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
@@ -453,10 +457,9 @@ where
 
     fn get_amd_module_id_from_comments(&self, span: Span) -> Option<String> {
         // https://github.com/microsoft/TypeScript/blob/1b9c8a15adc3c9a30e017a7048f98ef5acc0cada/src/compiler/parser.ts#L9648-L9658
-        let amd_module_re = Regex::new(
-            r##"(?i)^/\s*<amd-module.*?name\s*=\s*(?:(?:'([^']*)')|(?:"([^"]*)")).*?/>"##,
-        )
-        .unwrap();
+        let amd_module_re =
+            Regex::new(r#"(?i)^/\s*<amd-module.*?name\s*=\s*(?:(?:'([^']*)')|(?:"([^"]*)")).*?/>"#)
+                .unwrap();
 
         self.comments.as_ref().and_then(|comments| {
             comments

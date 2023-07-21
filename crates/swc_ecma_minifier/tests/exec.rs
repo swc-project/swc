@@ -244,10 +244,10 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
 }
 
 fn run_default_exec_test(input_src: &str) {
-    let config = r###"{
+    let config = r#"{
         "defaults": true,
         "toplevel": true
-    }"###;
+    }"#;
 
     run_exec_test(input_src, config, false);
 }
@@ -268,125 +268,125 @@ for (var i = 0; i < 10; i++) _loop(i);
 fns.forEach(fn => fn());
 
 console.log(arr);"###;
-    let config = r###"{
+    let config = r#"{
     "defaults": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn conditionals_reduce_6() {
-    let src = r###"function x() {
+    let src = r#"function x() {
 }
 function y() {
     return "foo";
 }
-console.log((y() || false) && x());"###;
-    let config = r###"{
+console.log((y() || false) && x());"#;
+    let config = r#"{
     "booleans": true,
     "conditionals": true,
     "evaluate": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn conditionals_reduce_1() {
-    let src = r###"function x() {
+    let src = r#"function x() {
 }
 function y() {
     return "foo";
 }
-console.log(x() && true && y());"###;
-    let config = r###"{
+console.log(x() && true && y());"#;
+    let config = r#"{
     "booleans": true,
     "conditionals": true,
     "evaluate": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn conditionals_reduce_4() {
-    let src = r###"function x() {
+    let src = r#"function x() {
 }
 function y() {
     return "foo";
 }
-console.log(y() || false || x());"###;
-    let config = r###"{
+console.log(y() || false || x());"#;
+    let config = r#"{
     "booleans": true,
     "conditionals": true,
     "evaluate": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn conditionals_reduce_3() {
-    let src = r###"function x() {
+    let src = r#"function x() {
 }
 function y() {
     return "foo";
 }
-console.log(x() || false || y());"###;
-    let config = r###"{
+console.log(x() || false || y());"#;
+    let config = r#"{
     "booleans": true,
     "conditionals": true,
     "evaluate": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn conditionals_reduce_2() {
-    let src = r###"function x() {
+    let src = r#"function x() {
 }
 function y() {
     return "foo";
 }
-console.log(y() && true && x());"###;
-    let config = r###"{
+console.log(y() && true && x());"#;
+    let config = r#"{
     "booleans": true,
     "conditionals": true,
     "evaluate": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn conditionals_reduce_5() {
-    let src = r###"function x() {
+    let src = r#"function x() {
 }
 function y() {
     return "foo";
 }
-console.log((x() || false) && y());"###;
-    let config = r###"{
+console.log((x() || false) && y());"#;
+    let config = r#"{
     "booleans": true,
     "conditionals": true,
     "evaluate": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn vercel_001() {
-    let src = r###"function _interop_require_default(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+    let src = r#"function _interop_require_default(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _class_call_check(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -413,18 +413,18 @@ function ItemsList() {
 
 
 new ItemsList();
-console.log('PASS')"###;
-    let config = r###"{
+console.log('PASS')"#;
+    let config = r#"{
     "defaults": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn vercel_002() {
-    let src = r###"function _interop_require_default(obj) {
+    let src = r#"function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
@@ -466,18 +466,18 @@ function ItemsList() {
     }, _temp), _possible_constructor_return(_this, _ret);
 }
 new ItemsList();
-console.log("PASS");"###;
-    let config = r###"{
+console.log("PASS");"#;
+    let config = r#"{
     "defaults": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn regexp_1() {
-    let src = r###"
+    let src = r#"
 
 function compile(attributePattern, flags) {
     return new RegExp(`(?:^|;)\\s*${attributePattern}\\s*=\\s*` + `(` + `[^";\\s][^;\\s]*` + `|` + `"(?:[^"\\\\]|\\\\"?)+"?` + `)`, flags);
@@ -485,10 +485,10 @@ function compile(attributePattern, flags) {
 
 console.log(compile("foo", "g"));
 console.log(compile("bar", "g"));
-console.log(compile("baz", "g"));"###;
-    let config = r###"{
+console.log(compile("baz", "g"));"#;
+    let config = r#"{
     "defaults": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -547,21 +547,21 @@ fn iife_reassign_1() {
     c = 6;
     return c;
 }())"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "passes": 3,
     "reduce_vars": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn emotion_react_1() {
-    let src = r###"
+    let src = r#"
 /* harmony default export */
 var emotion_memoize_browser_esm = (memoize);
 
@@ -936,11 +936,11 @@ console.log(serializeStyles(`:root {
   }`));
 console.log(serializeStyles(`:root {
     --background-color: rebeccapurple;
-  }`));"###;
-    let config = r###"{
+  }`));"#;
+    let config = r#"{
     "defaults": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -964,11 +964,11 @@ console.log(
         };
     })()()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "conditionals": true,
     "if_return": true,
     "unsafe_undefined": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -984,11 +984,11 @@ console.log(
         };
     })(1)()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "conditionals": true,
     "if_return": true,
     "unsafe": false
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1007,10 +1007,10 @@ a = 2;
 function g() {}
 function h() {}
 console.log((b = 3));"###;
-    let config = r###"{
+    let config = r#"{
     "top_retain": "f,a,o",
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1054,12 +1054,12 @@ console.log(
     new Beta().num(),
     new Carrot().num()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "defaults": true,
     "inline": 3,
     "passes": 2,
     "top_retain": "Alpha,z"
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1073,12 +1073,12 @@ function g() {
     return 3;
 }
 console.log(f(), f(), g(), g());"###;
-    let config = r###"{
+    let config = r#"{
     "defaults": true,
     "inline": 3,
     "passes": 3,
     "top_retain": "f"
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1092,12 +1092,12 @@ function g() {
     return 3;
 }
 console.log(f(), g());"###;
-    let config = r###"{
+    let config = r#"{
     "defaults": true,
     "inline": 3,
     "passes": 3,
     "top_retain": "f"
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1135,12 +1135,12 @@ function f6(a) {
     return a;
 }
 console.log(f1(), f2(), f3(), f4(), f5(), f6());"###;
-    let config = r###"{
+    let config = r#"{
     "passes": 2,
     "reduce_vars": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1154,12 +1154,12 @@ fn terser_drop_unused_issue_2846() {
 }
 var c = f();
 console.log(c);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1173,14 +1173,14 @@ function f(b) {
 }
 f();
 console.log(a);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "reduce_vars": true,
     "sequences": true,
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1199,10 +1199,10 @@ a = 2;
 function g() {}
 function h() {}
 console.log((b = 3));"###;
-    let config = r###"{
+    let config = r#"{
     "top_retain": ["f", "a", "o"],
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1217,17 +1217,17 @@ fn terser_drop_unused_chained_3() {
         return c;
     })(1, 2)
 );"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_drop_unused_issue_2665() {
-    let src = r###"var a = 1;
+    let src = r#"var a = 1;
 function g() {
     a-- && g();
 }
@@ -1235,8 +1235,8 @@ typeof h == "function" && h();
 function h() {
     typeof g == "function" && g();
 }
-console.log(a);"###;
-    let config = r###"{
+console.log(a);"#;
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "keep_fargs": false,
@@ -1247,14 +1247,14 @@ console.log(a);"###;
     "toplevel": true,
     "typeofs": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_drop_unused_issue_2516_2() {
-    let src = r###"function foo() {
+    let src = r#"function foo() {
     function qux(x) {
         bar.call(null, x);
     }
@@ -1268,14 +1268,14 @@ fn terser_drop_unused_issue_2516_2() {
 }
 var Baz;
 foo();
-Baz(2);"###;
-    let config = r###"{
+Baz(2);"#;
+    let config = r#"{
     "collapse_vars": true,
     "passes": 2,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1294,11 +1294,11 @@ a = 2;
 function g() {}
 function h() {}
 console.log((b = 3));"###;
-    let config = r###"{
+    let config = r#"{
     "top_retain": "f,a,o",
     "toplevel": "funcs",
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1319,9 +1319,9 @@ fn terser_drop_unused_issue_1709() {
         return z;
     })()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1335,10 +1335,10 @@ var a = 1,
 console.log(a, b);
 var a = 3;
 console.log(a, b);"###;
-    let config = r###"{
+    let config = r#"{
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1357,10 +1357,10 @@ a = 2;
 function g() {}
 function h() {}
 console.log((b = 3));"###;
-    let config = r###"{
+    let config = r#"{
     "toplevel": "funcs",
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1374,12 +1374,12 @@ console.log(delete (a = Infinity));
 console.log(delete (a = 1 / 0));
 console.log(delete (a = NaN));
 console.log(delete (a = 0 / 0));"###;
-    let config = r###"{
+    let config = r#"{
     "booleans": true,
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1392,11 +1392,11 @@ fn terser_drop_unused_issue_2226_3() {
         return a;
     })(1, 2)
 );"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1404,17 +1404,17 @@ fn terser_drop_unused_issue_2226_3() {
 #[test]
 #[ignore]
 fn terser_drop_unused_issue_3146_3() {
-    let src = r###"var g = "PASS";
+    let src = r#"var g = "PASS";
 (function (f) {
     var g = "FAIL";
     f("console.log(g)", g[g]);
 })(function (a) {
     eval(a);
-});"###;
-    let config = r###"{
+});"#;
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1422,17 +1422,17 @@ fn terser_drop_unused_issue_3146_3() {
 #[test]
 #[ignore]
 fn terser_drop_unused_issue_3146_4() {
-    let src = r###"var g = "PASS";
+    let src = r#"var g = "PASS";
 (function (f) {
     var g = "FAIL";
     f("console.log(g)", g[g]);
 })(function (a) {
     eval(a);
-});"###;
-    let config = r###"{
+});"#;
+    let config = r#"{
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1451,11 +1451,11 @@ a = 2;
 function g() {}
 function h() {}
 console.log((b = 3));"###;
-    let config = r###"{
+    let config = r#"{
     "top_retain": "f,a,o",
     "toplevel": "vars",
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1468,12 +1468,12 @@ fn terser_drop_unused_issue_2226_2() {
         return a;
     })(1, 2)
 );"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1485,10 +1485,10 @@ fn terser_drop_unused_drop_fargs() {
 }
 
 console.log(f())"###;
-    let config = r###"{
+    let config = r#"{
     "keep_fargs": false,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1501,7 +1501,7 @@ fn terser_drop_unused_issue_2136_3() {
 !(function (a, ...b) {
     f(b[0]);
 })(1, 2, 3);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "inline": true,
@@ -1512,7 +1512,7 @@ fn terser_drop_unused_issue_2136_3() {
     "toplevel": true,
     "unsafe": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1525,12 +1525,12 @@ function f(b) {
 }
 f(1);
 console.log(a);"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_vars": true,
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1539,11 +1539,11 @@ console.log(a);"###;
 fn terser_drop_unused_double_assign_2() {
     let src = r###"for (var i = 0; i < 2; i++) (a = void 0), (a = {}), console.log(a);
 var a;"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1556,30 +1556,30 @@ fn terser_drop_unused_issue_2136_2() {
 !(function (a, ...b) {
     f(b[0]);
 })(1, 2, 3);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_drop_unused_issue_t183() {
-    let src = r###"function foo(val) {
+    let src = r#"function foo(val) {
     function bar(x) {
         if (x) return x;
         bar(x - 1);
     }
     return bar(val);
 }
-console.log(foo("PASS"));"###;
-    let config = r###"{
+console.log(foo("PASS"));"#;
+    let config = r#"{
     "defaults": true,
     "top_retain": []
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1598,17 +1598,17 @@ a = 2;
 function g() {}
 function h() {}
 console.log((b = 3));"###;
-    let config = r###"{
+    let config = r#"{
     "toplevel": "vars",
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_drop_unused_issue_2516_1() {
-    let src = r###"function foo() {
+    let src = r#"function foo() {
     function qux(x) {
         bar.call(null, x);
     }
@@ -1622,12 +1622,12 @@ fn terser_drop_unused_issue_2516_1() {
 }
 var Baz;
 foo();
-Baz(2);"###;
-    let config = r###"{
+Baz(2);"#;
+    let config = r#"{
     "collapse_vars": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1642,10 +1642,10 @@ console.log(
         return n ? n * f(n - 1) : 1;
     })(5)
 );"###;
-    let config = r###"{
+    let config = r#"{
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1664,11 +1664,11 @@ a = 2;
 function g() {}
 function h() {}
 console.log((b = 3));"###;
-    let config = r###"{
+    let config = r#"{
     "keep_fargs": false,
     "toplevel": "vars",
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1683,9 +1683,9 @@ fn terser_drop_unused_issue_1968() {
     }
 }
 console.log(f(1));"###;
-    let config = r###"{
+    let config = r#"{
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1702,9 +1702,9 @@ fn terser_drop_unused_issue_1715_4() {
     }
 })();
 console.log(a);"###;
-    let config = r###"{
+    let config = r#"{
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1738,16 +1738,16 @@ console.log(f2())
 console.log(f3())
 console.log(f4())
 console.log(f5())"###;
-    let config = r###"{
+    let config = r#"{
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_drop_unused_issue_3146_1() {
-    let src = r###"(function (f) {
+    let src = r#"(function (f) {
     f("g()");
 })(function (a) {
     eval(a);
@@ -1755,11 +1755,11 @@ fn terser_drop_unused_issue_3146_1() {
         if (!b) b = "PASS";
         console.log(b);
     }
-});"###;
-    let config = r###"{
+});"#;
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1773,13 +1773,13 @@ console.log(delete (a = Infinity));
 console.log(delete (a = 1 / 0));
 console.log(delete (a = NaN));
 console.log(delete (a = 0 / 0));"###;
-    let config = r###"{
+    let config = r#"{
     "booleans": true,
     "keep_infinity": true,
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1798,11 +1798,11 @@ a = 2;
 function g() {}
 function h() {}
 console.log((b = 3));"###;
-    let config = r###"{
+    let config = r#"{
     "top_retain": "f,a,o",
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1821,11 +1821,11 @@ console.log(
         },
     })
 );"###;
-    let config = r###"{
+    let config = r#"{
     "comparisons": true,
     "pure_getters": "strict",
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1844,17 +1844,17 @@ fn terser_pure_getters_impure_getter_2() {
     },
     b: 1,
 }.b);"###;
-    let config = r###"{
+    let config = r#"{
     "pure_getters": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_pure_getters_issue_2838() {
-    let src = r###"function f(a, b) {
+    let src = r#"function f(a, b) {
     (a || b).c = "PASS";
     (function () {
         return f(a, b);
@@ -1862,18 +1862,18 @@ fn terser_pure_getters_issue_2838() {
 }
 var o = {};
 f(null, o);
-console.log(o.c);"###;
-    let config = r###"{
+console.log(o.c);"#;
+    let config = r#"{
     "pure_getters": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_pure_getters_issue_2938_4() {
-    let src = r###"var Parser = function Parser() {};
+    let src = r#"var Parser = function Parser() {};
 var p = Parser.prototype;
 var unused = p.x;
 p.initialContext = function initialContext() {
@@ -1881,39 +1881,39 @@ p.initialContext = function initialContext() {
     console.log("PASS");
 };
 p.braceIsBlock = function () {};
-new Parser().initialContext();"###;
-    let config = r###"{
+new Parser().initialContext();"#;
+    let config = r#"{
     "pure_getters": true,
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_pure_getters_set_mutable_1() {
-    let src = r###"!(function a() {
+    let src = r#"!(function a() {
     a.foo += "";
     if (a.foo) console.log("PASS");
     else console.log("FAIL");
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "pure_getters": "strict",
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_pure_getters_issue_2938_3() {
-    let src = r###"function f(a) {
+    let src = r#"function f(a) {
     var unused = a.a;
     a.b = "PASS";
     a.c;
@@ -1921,23 +1921,23 @@ fn terser_pure_getters_issue_2938_3() {
 var o = {};
 o.d;
 f(o);
-console.log(o.b);"###;
-    let config = r###"{
+console.log(o.b);"#;
+    let config = r#"{
     "pure_getters": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_pure_getters_set_immutable_6() {
-    let src = r###"var a = 1;
+    let src = r#"var a = 1;
 a.foo += "";
 if (a.foo) console.log("FAIL");
-else console.log("PASS");"###;
-    let config = r###"{
+else console.log("PASS");"#;
+    let config = r#"{
     "collapse_vars": true,
     "conditionals": true,
     "evaluate": true,
@@ -1947,18 +1947,18 @@ else console.log("PASS");"###;
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_pure_getters_set_immutable_1() {
-    let src = r###"var a = 1;
+    let src = r#"var a = 1;
 a.foo += "";
 if (a.foo) console.log("FAIL");
-else console.log("PASS");"###;
-    let config = r###"{
+else console.log("PASS");"#;
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "pure_getters": "strict",
@@ -1966,19 +1966,19 @@ else console.log("PASS");"###;
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_pure_getters_set_mutable_2() {
-    let src = r###"!(function a() {
+    let src = r#"!(function a() {
     a.foo += "";
     if (a.foo) console.log("PASS");
     else console.log("FAIL");
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "collapse_vars": true,
     "conditionals": true,
     "pure_getters": "strict",
@@ -1986,7 +1986,7 @@ fn terser_pure_getters_set_mutable_2() {
     "reduce_vars": true,
     "sequences": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -1998,11 +1998,11 @@ fn terser_dead_code_issue_2860_1() {
         return (a ^= 1);
     })()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "dead_code": true,
     "evaluate": true,
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2046,17 +2046,17 @@ try {
 } catch (e) {
     console.log(e.name);
 }"###;
-    let config = r###"{
+    let config = r#"{
     "side_effects": true,
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_block_scope_issue_334() {
-    let src = r###"(function (A) {
+    let src = r#"(function (A) {
     (function () {
         doPrint();
     })();
@@ -2068,11 +2068,11 @@ function print(A) {
     if (!A.x) {
         console.log(A);
     }
-}"###;
-    let config = r###"{
+}"#;
+    let config = r#"{
     "defaults": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2088,10 +2088,10 @@ fn terser_hoist_props_issue_3021() {
     var b = {};
 })();
 console.log(a, b);"###;
-    let config = r###"{
+    let config = r#"{
     "hoist_props": true,
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2105,7 +2105,7 @@ fn terser_hoist_props_contains_this_2() {
     p: 1,
 };
 console.log(o.p, o.p, o.u);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "hoist_props": true,
     "inline": true,
@@ -2114,7 +2114,7 @@ console.log(o.p, o.p, o.u);"###;
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2122,35 +2122,35 @@ console.log(o.p, o.p, o.u);"###;
 #[test]
 #[ignore]
 fn terser_hoist_props_issue_851_hoist_to_conflicting_name() {
-    let src = r###"const BBB = { CCC: "PASS" };
+    let src = r#"const BBB = { CCC: "PASS" };
 if (id(true)) {
     const BBB_CCC = BBB.CCC;
     console.log(BBB_CCC);
-}"###;
-    let config = r###"{
+}"#;
+    let config = r#"{
     "hoist_props": true,
     "reduce_vars": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_hoist_props_name_collision_1() {
-    let src = r###"var obj_foo = 1;
+    let src = r#"var obj_foo = 1;
 var obj_bar = 2;
 function f() {
     var obj = { foo: 3, bar: 4, "b-r": 5, "b+r": 6, "b!r": 7 };
     console.log(obj_foo, obj.foo, obj.bar, obj["b-r"], obj["b+r"], obj["b!r"]);
 }
-f();"###;
-    let config = r###"{
+f();"#;
+    let config = r#"{
     "hoist_props": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2165,7 +2165,7 @@ fn terser_hoist_props_new_this() {
     },
 };
 console.log(new o.f(o.a).b, o.b);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "hoist_props": true,
     "inline": true,
@@ -2174,7 +2174,7 @@ console.log(new o.f(o.a).b, o.b);"###;
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2183,11 +2183,11 @@ console.log(new o.f(o.a).b, o.b);"###;
 fn terser_hoist_props_toplevel_let() {
     let src = r###"let a = { b: 1, c: 2 };
 console.log(a.b + a.c);"###;
-    let config = r###"{
+    let config = r#"{
     "hoist_props": true,
     "reduce_vars": true,
     "toplevel": false
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2199,7 +2199,7 @@ fn terser_hoist_props_undefined_key() {
 o[a] = 1;
 o.b = 2;
 console.log(o[a] + o.b);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "hoist_props": true,
     "join_vars": true,
@@ -2207,7 +2207,7 @@ console.log(o[a] + o.b);"###;
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2218,13 +2218,13 @@ fn terser_hoist_props_direct_access_1() {
 var obj = { a: 1, b: 2 };
 for (var k in obj) a++;
 console.log(a, obj.a);"###;
-    let config = r###"{
+    let config = r#"{
     "hoist_props": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2233,13 +2233,13 @@ console.log(a, obj.a);"###;
 fn terser_hoist_props_issue_2473_3() {
     let src = r###"var o = { a: 1, b: 2 };
 console.log(o.a, o.b);"###;
-    let config = r###"{
+    let config = r#"{
     "hoist_props": true,
     "reduce_vars": true,
     "top_retain": "o",
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2250,13 +2250,13 @@ fn terser_hoist_props_issue_2473_4() {
     var o = { a: 1, b: 2 };
     console.log(o.a, o.b);
 })();"###;
-    let config = r###"{
+    let config = r#"{
     "hoist_props": true,
     "reduce_vars": true,
     "top_retain": "o",
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2265,11 +2265,11 @@ fn terser_hoist_props_issue_2473_4() {
 fn terser_hoist_props_toplevel_const() {
     let src = r###"const a = { b: 1, c: 2 };
 console.log(a.b + a.c);"###;
-    let config = r###"{
+    let config = r#"{
     "hoist_props": true,
     "reduce_vars": true,
     "toplevel": false
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2287,7 +2287,7 @@ fn terser_hoist_props_issue_2377_3() {
     },
 };
 console.log(obj.foo, obj.cube(3));"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "hoist_props": true,
     "inline": true,
@@ -2297,7 +2297,7 @@ console.log(obj.foo, obj.cube(3));"###;
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2311,13 +2311,13 @@ fn terser_hoist_props_issue_2508_2() {
     },
 };
 o.f(o.a);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "hoist_props": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2331,13 +2331,13 @@ fn terser_hoist_props_issue_2508_5() {
     },
 };
 o.f(o.f);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "hoist_props": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2355,7 +2355,7 @@ fn terser_hoist_props_issue_2377_2() {
     },
 };
 console.log(obj.foo, obj.cube(3));"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "hoist_props": true,
     "inline": true,
@@ -2364,7 +2364,7 @@ console.log(obj.foo, obj.cube(3));"###;
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2373,11 +2373,11 @@ console.log(obj.foo, obj.cube(3));"###;
 fn terser_hoist_props_toplevel_var() {
     let src = r###"var a = { b: 1, c: 2 };
 console.log(a.b + a.c);"###;
-    let config = r###"{
+    let config = r#"{
     "hoist_props": true,
     "reduce_vars": true,
     "toplevel": false
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2392,17 +2392,17 @@ fn terser_hoist_props_issue_3046() {
         return a;
     })(0)
 );"###;
-    let config = r###"{
+    let config = r#"{
     "hoist_props": true,
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_hoist_props_name_collision_3() {
-    let src = r###"var o = {
+    let src = r#"var o = {
         p: 1,
         "+": function (x) {
             return x;
@@ -2413,13 +2413,13 @@ fn terser_hoist_props_name_collision_3() {
     },
     o__$0 = 2,
     o__$1 = 3;
-console.log(o.p === o.p, o["+"](4), o["-"](5));"###;
-    let config = r###"{
+console.log(o.p === o.p, o["+"](4), o["-"](5));"#;
+    let config = r#"{
     "hoist_props": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2436,7 +2436,7 @@ fn terser_hoist_props_hoist_class_with_new() {
     y: 2,
 };
 console.log(o.p.name, o.p === o.p, new o.p(o.x).value, new o.p(o.y).value);"###;
-    let config = r###"{
+    let config = r#"{
     "comparisons": true,
     "evaluate": true,
     "hoist_props": true,
@@ -2448,7 +2448,7 @@ console.log(o.p.name, o.p === o.p, new o.p(o.x).value, new o.p(o.y).value);"###;
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, true);
 }
@@ -2463,7 +2463,7 @@ fn terser_hoist_props_hoist_function_with_call() {
     y: 2,
 };
 console.log(o.p.name, o.p === o.p, o.p(o.x), o.p(o.y));"###;
-    let config = r###"{
+    let config = r#"{
     "comparisons": true,
     "evaluate": true,
     "hoist_props": true,
@@ -2474,14 +2474,14 @@ console.log(o.p.name, o.p === o.p, o.p(o.x), o.p(o.y));"###;
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_hoist_props_name_collision_2() {
-    let src = r###"var o = {
+    let src = r#"var o = {
         p: 1,
         "+": function (x) {
             return x;
@@ -2492,31 +2492,31 @@ fn terser_hoist_props_name_collision_2() {
     },
     o__$0 = 2,
     o__$1 = 3;
-console.log(o.p === o.p, o["+"](4), o["-"](5), o__$0, o__$1);"###;
-    let config = r###"{
+console.log(o.p === o.p, o["+"](4), o["-"](5), o__$0, o__$1);"#;
+    let config = r#"{
     "hoist_props": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_hoist_props_direct_access_2() {
-    let src = r###"var o = { a: 1 };
+    let src = r#"var o = { a: 1 };
 var f = function (k) {
     if (o[k]) return "PASS";
 };
-console.log(f("a"));"###;
-    let config = r###"{
+console.log(f("a"));"#;
+    let config = r#"{
     "hoist_props": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2536,7 +2536,7 @@ var o = {
     y: 2,
 };
 console.log(o.p.name, o.p === o.p, run(o.p, o.x), run(o.p, o.y));"###;
-    let config = r###"{
+    let config = r#"{
     "comparisons": true,
     "evaluate": true,
     "hoist_props": true,
@@ -2548,7 +2548,7 @@ console.log(o.p.name, o.p === o.p, run(o.p, o.x), run(o.p, o.y));"###;
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, true);
 }
@@ -2562,13 +2562,13 @@ fn terser_hoist_props_issue_2519() {
     return d.x * scale;
 }
 console.log(testFunc());"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "hoist_props": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2586,7 +2586,7 @@ fn terser_hoist_props_issue_2377_1() {
     },
 };
 console.log(obj.foo, obj.cube(3));"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "hoist_props": true,
     "inline": true,
@@ -2594,7 +2594,7 @@ console.log(obj.foo, obj.cube(3));"###;
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2608,13 +2608,13 @@ fn terser_hoist_props_issue_2508_6() {
     },
 };
 o.f(o.f);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "hoist_props": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2628,13 +2628,13 @@ fn terser_hoist_props_issue_2508_1() {
     },
 };
 o.f(o.a);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "hoist_props": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2643,12 +2643,12 @@ o.f(o.a);"###;
 fn terser_identity_inline_identity_extra_params() {
     let src = r###"const id = (x) => x;
 console.log(id(1, console.log(2)), id(3, 4));"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true,
     "reduce_vars": true,
     "unused": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2659,12 +2659,12 @@ fn terser_identity_inline_identity_function() {
     return x;
 }
 console.log(id(1), id(2));"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true,
     "reduce_vars": true,
     "unused": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2676,23 +2676,23 @@ fn terser_identity_inline_identity_duplicate_arg_var() {
     var x;
 };
 console.log(id(1), id(2));"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true,
     "reduce_vars": true,
     "unused": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_template_string_regex_2() {
-    let src = r###"console.log(`${/a/} ${6 / 2} ${/b/.test("b")} ${1 ? /c/ : /d/}`);"###;
-    let config = r###"{
+    let src = r#"console.log(`${/a/} ${6 / 2} ${/b/.test("b")} ${1 ? /c/ : /d/}`);"#;
+    let config = r#"{
     "evaluate": true,
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2708,9 +2708,9 @@ var baz = `1 ${2 + `3 ${any} 4` + 5} 6`;
 console.log(foo);
 console.log(bar);
 console.log(baz);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2721,17 +2721,17 @@ fn terser_destructuring_destructuring_assign_of_computed_key() {
 let four = 4;
 ({ [5 + 2 - four]: x } = { [1 + 2]: 42 });
 console.log(x);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_destructuring_unused_destructuring_getter_side_effect_2() {
-    let src = r###"function extract(obj) {
+    let src = r#"function extract(obj) {
     const { a: a, b: b } = obj;
     console.log(b);
 }
@@ -2743,11 +2743,11 @@ extract({
         return s;
     },
     b: 4,
-});"###;
-    let config = r###"{
+});"#;
+    let config = r#"{
     "pure_getters": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2756,46 +2756,46 @@ extract({
 fn terser_destructuring_mangle_destructuring_decl_array() {
     let src = r###"var [, t, e, n, s, o = 2, r = [1 + 2]] = [9, 8, 7, 6];
 console.log(t, e, n, s, o, r);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "unused": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_destructuring_issue_3205_4() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     function f(o) {
         var { a: x } = o;
         console.log(x);
     }
     f({ a: "PASS" });
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "inline": 3,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_destructuring_issue_3205_3() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     function f(o, { a: x } = o) {
         console.log(x);
     }
     f({ a: "PASS" });
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "inline": 3,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2807,7 +2807,7 @@ console.log(y);
 if (0) {
     console.log(z);
 }"###;
-    let config = r###"{
+    let config = r#"{
     "conditionals": true,
     "evaluate": true,
     "toplevel": true,
@@ -2815,7 +2815,7 @@ if (0) {
     "pure_getters": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2825,84 +2825,84 @@ fn terser_destructuring_arrow_func_with_destructuring_args() {
     let src = r###"(({ foo: foo = 1 + 0, bar: bar = 2 }, [car = 3, far = 4]) => {
     console.log(foo, bar, car, far);
 })({ bar: 5 - 0 }, [, 6]);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "unused": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_destructuring_issue_3205_2() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     function f() {
         var o = { a: "PASS" },
             { a: x } = o;
         console.log(x);
     }
     f();
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "inline": 3,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_destructuring_empty_object_destructuring_3() {
-    let src = r###"var {} = Object;
+    let src = r#"var {} = Object;
 let { L: L } = Object,
     L2 = "foo";
 const bar = "bar",
-    { prop: C1, C2: C2 = console.log("side effect"), C3: C3 } = Object;"###;
-    let config = r###"{
+    { prop: C1, C2: C2 = console.log("side effect"), C3: C3 } = Object;"#;
+    let config = r#"{
     "pure_getters": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_destructuring_empty_object_destructuring_4() {
-    let src = r###"var {} = Object;
+    let src = r#"var {} = Object;
 let { L: L } = Object,
     L2 = "foo";
 const bar = "bar",
-    { prop: C1, C2: C2 = console.log("side effect"), C3: C3 } = Object;"###;
-    let config = r###"{
+    { prop: C1, C2: C2 = console.log("side effect"), C3: C3 } = Object;"#;
+    let config = r#"{
     "pure_getters": true,
     "toplevel": true,
     "unsafe": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_destructuring_issue_3205_5() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     function f(g) {
         var o = g,
             { a: x } = o;
         console.log(x);
     }
     f({ a: "PASS" });
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "inline": 3,
     "passes": 4,
     "reduce_vars": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2913,11 +2913,11 @@ fn terser_destructuring_unused_destructuring_decl_1() {
 var { U: u, V: V } = { V: 3 };
 const { C: C, D: D } = { C: 1, D: 4 };
 console.log(L, V);"###;
-    let config = r###"{
+    let config = r#"{
     "pure_getters": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2931,24 +2931,24 @@ fn terser_destructuring_mangle_destructuring_decl() {
 }
 test({ a: { t: 1, e: 2, n: 3, s: 4, o: 5, r: 6 } });
 test({});"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_destructuring_unused_destructuring_arrow_param() {
-    let src = r###"let bar = ({ w: w = console.log("side effect"), x: x, y: z }) => {
+    let src = r#"let bar = ({ w: w = console.log("side effect"), x: x, y: z }) => {
     console.log(x);
 };
-bar({ x: 4, y: 5, z: 6 });"###;
-    let config = r###"{
+bar({ x: 4, y: 5, z: 6 });"#;
+    let config = r#"{
     "pure_getters": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2958,11 +2958,11 @@ fn terser_destructuring_anon_func_with_destructuring_args() {
     let src = r###"(function ({ foo: foo = 1 + 0, bar: bar = 2 }, [car = 3, far = 4]) {
     console.log(foo, bar, car, far);
 })({ bar: 5 - 0 }, [, 6]);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "unused": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2978,11 +2978,11 @@ fn terser_destructuring_mangle_destructuring_assign_toplevel_true() {
 let t, e, n;
 test({ a: { t: 1, e: 2, n: 3, s: 4, o: 5, r: 6 } });
 test({});"###;
-    let config = r###"{
+    let config = r#"{
     "toplevel": true,
     "evaluate": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -2996,11 +2996,11 @@ fn terser_destructuring_mangle_destructuring_decl_collapse_vars() {
 }
 test({ a: { t: 1, e: 2, n: 3, s: 4, o: 5, r: 6 } });
 test({});"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3011,12 +3011,12 @@ fn terser_destructuring_unused_destructuring_decl_5() {
 let { e: e, f: g, h: h = new Object(2) } = { e: 8 };
 var { w: w, x: y, z: z = new Object(3) } = { w: 4, x: 5, y: 6 };
 console.log(c, e, z + 0);"###;
-    let config = r###"{
+    let config = r#"{
     "pure_getters": true,
     "toplevel": true,
     "top_retain": ["a", "e", "w"],
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3032,18 +3032,18 @@ fn terser_destructuring_mangle_destructuring_assign_toplevel_false() {
 let t, e, n;
 test({ a: { t: 1, e: 2, n: 3, s: 4, o: 5, r: 6 } });
 test({});"###;
-    let config = r###"{
+    let config = r#"{
     "toplevel": false,
     "evaluate": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_arrow_issue_2105_2() {
-    let src = r###"((factory) => {
+    let src = r#"((factory) => {
     factory();
 })(() =>
     ((fn) => {
@@ -3061,8 +3061,8 @@ fn terser_arrow_issue_2105_2() {
         };
         return bar;
     })
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "passes": 2,
@@ -3070,14 +3070,14 @@ fn terser_arrow_issue_2105_2() {
     "reduce_vars": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_arrow_issue_2105_1() {
-    let src = r###"!(function (factory) {
+    let src = r#"!(function (factory) {
     factory();
 })(function () {
     return (function (fn) {
@@ -3095,8 +3095,8 @@ fn terser_arrow_issue_2105_1() {
         }
         return bar;
     });
-});"###;
-    let config = r###"{
+});"#;
+    let config = r#"{
     "unsafe_arrows": true,
     "collapse_vars": true,
     "ecma": 2015,
@@ -3107,7 +3107,7 @@ fn terser_arrow_issue_2105_1() {
     "side_effects": true,
     "unsafe_methods": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3127,7 +3127,7 @@ fn terser_arrow_issue_2084() {
     })(-1);
 })();
 console.log(c);"###;
-    let config = r###"{
+    let config = r#"{
     "unsafe_arrows": true,
     "collapse_vars": true,
     "conditionals": true,
@@ -3140,7 +3140,7 @@ console.log(c);"###;
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3156,11 +3156,11 @@ fn terser_issue_t120_issue_t120_4() {
     x--;
     t(2)
 );"###;
-    let config = r###"{
+    let config = r#"{
     "defaults": true,
     "inline": 3,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3177,18 +3177,18 @@ fn terser_issue_t120_issue_t120_5() {
 
 )
     t(3);"###;
-    let config = r###"{
+    let config = r#"{
     "defaults": true,
     "inline": 3,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_class_properties_mangle_keep_quoted() {
-    let src = r###"class Foo {
+    let src = r#"class Foo {
     bar = "bar";
     static zzz = "zzz";
     toString() {
@@ -3196,7 +3196,7 @@ fn terser_class_properties_mangle_keep_quoted() {
     }
 }
 
-console.log(new Foo().toString())"###;
+console.log(new Foo().toString())"#;
     let config = r###"{}"###;
 
     run_exec_test(src, config, false);
@@ -3204,7 +3204,7 @@ console.log(new Foo().toString())"###;
 
 #[test]
 fn terser_class_properties_static_means_execution() {
-    let src = r###"let x = 0;
+    let src = r#"let x = 0;
 class NoProps {}
 class WithProps {
     prop = (x = x === 1 ? "PASS" : "FAIL");
@@ -3215,12 +3215,12 @@ class WithStaticProps {
 new NoProps();
 new WithProps();
 new WithStaticProps();
-console.log(x);"###;
-    let config = r###"{
+console.log(x);"#;
+    let config = r#"{
     "toplevel": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3231,7 +3231,7 @@ fn terser_issue_1447_conditional_false_stray_else_in_loop() {
     if (i <= 2) continue;
     console.log(i);
 }"###;
-    let config = r###"{
+    let config = r#"{
     "booleans": true,
     "comparisons": true,
     "conditionals": false,
@@ -3243,7 +3243,7 @@ fn terser_issue_1447_conditional_false_stray_else_in_loop() {
     "loops": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3255,7 +3255,7 @@ var o2 = { x: 3, z: 4 };
 var cloned = { ...o1 };
 var merged = { ...o1, ...o2 };
 console.log(cloned, merged);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "join_vars": true,
@@ -3266,7 +3266,7 @@ console.log(cloned, merged);"###;
     "toplevel": true,
     "unsafe": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3296,7 +3296,7 @@ function doSomething(x) {
 }
 const value = 10;
 foo();"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "inline": 3,
@@ -3307,7 +3307,7 @@ foo();"###;
     "toplevel": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3339,7 +3339,7 @@ function doSomething(x) {
 }
 const value = 10;
 foo();"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "inline": true,
@@ -3350,14 +3350,14 @@ foo();"###;
     "toplevel": false,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_harmony_issue_2874_1() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     function foo() {
         let letters = ["A", "B", "C"];
         let result = [2, 1, 0].map((key) => bar(letters[key] + key));
@@ -3367,8 +3367,8 @@ fn terser_harmony_issue_2874_1() {
         return () => console.log(value);
     }
     foo().map((fn) => fn());
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "inline": 3,
@@ -3377,7 +3377,7 @@ fn terser_harmony_issue_2874_1() {
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3446,7 +3446,7 @@ function doSomething(x) {
 }
 const value = 10;
 foo();"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "inline": true,
@@ -3457,14 +3457,14 @@ foo();"###;
     "toplevel": false,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_harmony_issue_2874_2() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     let keys = [];
     function foo() {
         var result = [2, 1, 0].map((value) => {
@@ -3479,8 +3479,8 @@ fn terser_harmony_issue_2874_2() {
         return () => console.log(letters[key] + key);
     }
     foo().map((fn) => fn());
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "inline": 3,
@@ -3489,14 +3489,14 @@ fn terser_harmony_issue_2874_2() {
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_harmony_issue_t80() {
-    let src = r###"function foo(data = []) {
+    let src = r#"function foo(data = []) {
     var u,
         v = "unused";
     if (arguments.length == 1) {
@@ -3504,21 +3504,21 @@ fn terser_harmony_issue_t80() {
     }
     return data;
 }
-console.log(JSON.stringify([foo(), foo(null), foo(5, 6)]));"###;
-    let config = r###"{
+console.log(JSON.stringify([foo(), foo(null), foo(5, 6)]));"#;
+    let config = r#"{
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_harmony_issue_2349() {
-    let src = r###"function foo(boo, key) {
+    let src = r#"function foo(boo, key) {
     const value = boo.get();
     return value.map(({ [key]: bar }) => bar);
 }
-console.log(foo({ get: () => [{ blah: 42 }] }, "blah"));"###;
+console.log(foo({ get: () => [{ blah: 42 }] }, "blah"));"#;
     let config = r###"{}"###;
 
     run_exec_test(src, config, false);
@@ -3526,7 +3526,7 @@ console.log(foo({ get: () => [{ blah: 42 }] }, "blah"));"###;
 
 #[test]
 fn terser_harmony_issue_2874_3() {
-    let src = r###"function f() {
+    let src = r#"function f() {
     return x + y;
 }
 let x, y;
@@ -3536,8 +3536,8 @@ let a = (z) => {
     console.log(f());
 };
 a(1);
-a(2);"###;
-    let config = r###"{
+a(2);"#;
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "inline": 3,
@@ -3547,14 +3547,14 @@ a(2);"###;
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_harmony_issue_2349b() {
-    let src = r###"function foo(boo, key) {
+    let src = r#"function foo(boo, key) {
     const value = boo.get();
     return value.map(function ({ [key]: bar }) {
         return bar;
@@ -3569,8 +3569,8 @@ console.log(
         },
         "blah"
     )
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "arrows": true,
     "collapse_vars": true,
     "ecma": 2015,
@@ -3584,14 +3584,14 @@ console.log(
     "side_effects": true,
     "unsafe_arrows": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_1275_string_plus_optimization() {
-    let src = r###"function foo(anything) {
+    let src = r#"function foo(anything) {
     function throwing_function() {
         throw "nope";
     }
@@ -3605,8 +3605,8 @@ fn terser_issue_1275_string_plus_optimization() {
     console.log("" + anything);
     console.log(anything + "");
 }
-foo();"###;
-    let config = r###"{
+foo();"#;
+    let config = r#"{
     "booleans": true,
     "comparisons": true,
     "conditionals": true,
@@ -3617,14 +3617,14 @@ foo();"###;
     "join_vars": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_async_async_inline() {
-    let src = r###"(async function () {
+    let src = r#"(async function () {
     return await 3;
 })();
 (async function (x) {
@@ -3646,8 +3646,8 @@ top();
 async function async_top() {
     console.log("async_top");
 }
-async_top();"###;
-    let config = r###"{
+async_top();"#;
+    let config = r#"{
     "collapse_vars": true,
     "conditionals": true,
     "evaluate": true,
@@ -3658,7 +3658,7 @@ async_top();"###;
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3666,18 +3666,18 @@ async_top();"###;
 #[test]
 #[ignore]
 fn terser_logical_assignments_assign_in_conditional_part() {
-    let src = r###"var status = "PASS";
+    let src = r#"var status = "PASS";
 var nil = null;
 var nil_prop = { prop: null };
 nil &&= console.log((status = "FAIL"));
 nil_prop.prop &&= console.log((status = "FAIL"));
-console.log(status);"###;
-    let config = r###"{
+console.log(status);"#;
+    let config = r#"{
     "toplevel": true,
     "evaluate": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3685,16 +3685,16 @@ console.log(status);"###;
 #[test]
 #[ignore]
 fn terser_logical_assignments_assignment_in_left_part() {
-    let src = r###"var status = "FAIL";
+    let src = r#"var status = "FAIL";
 var x = {};
 x[(status = "PASS")] ||= 1;
-console.log(status);"###;
-    let config = r###"{
+console.log(status);"#;
+    let config = r#"{
     "toplevel": true,
     "evaluate": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3705,11 +3705,11 @@ fn terser_labels_labels_4() {
     if (i < 3) continue out;
     console.log(i);
 }"###;
-    let config = r###"{
+    let config = r#"{
     "conditionals": true,
     "dead_code": true,
     "if_return": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3720,11 +3720,11 @@ fn terser_labels_labels_3() {
     if (i < 3) continue;
     console.log(i);
 }"###;
-    let config = r###"{
+    let config = r#"{
     "conditionals": true,
     "dead_code": true,
     "if_return": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3741,7 +3741,7 @@ console.log('PASS')"###;
 
 #[test]
 fn terser_issue_t292_no_flatten_with_var_colliding_with_arg_value_inner_scope() {
-    let src = r###"var g = ["a"];
+    let src = r#"var g = ["a"];
 function problem(arg) {
     return g.indexOf(arg);
 }
@@ -3759,8 +3759,8 @@ function b(test) {
 function c(arg) {
     return b(a(arg));
 }
-console.log(c("a"));"###;
-    let config = r###"{
+console.log(c("a"));"#;
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "reduce_funcs": true,
@@ -3768,14 +3768,14 @@ console.log(c("a"));"###;
     "sequences": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_t292_no_flatten_with_arg_colliding_with_arg_value_inner_scope() {
-    let src = r###"var g = ["a"];
+    let src = r#"var g = ["a"];
 function problem(arg) {
     return g.indexOf(arg);
 }
@@ -3791,8 +3791,8 @@ function b(problem) {
 function c(arg) {
     return b(a(arg));
 }
-console.log(c("a"));"###;
-    let config = r###"{
+console.log(c("a"));"#;
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "reduce_funcs": true,
@@ -3800,14 +3800,14 @@ console.log(c("a"));"###;
     "sequences": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_1770_numeric_literal() {
-    let src = r###"var obj = {
+    let src = r#"var obj = {
     0: 0,
     "-0": 1,
     42: 2,
@@ -3825,7 +3825,7 @@ console.log(obj[42], obj["42"]);
 
 console.log(obj[37], obj["o"], obj[37], obj["37"]);
 
-console.log(obj[1e42], obj["j"], obj["1e+42"]);"###;
+console.log(obj[1e42], obj["j"], obj["1e+42"]);"#;
     let config = r###"{}"###;
 
     run_exec_test(src, config, false);
@@ -3833,7 +3833,7 @@ console.log(obj[1e42], obj["j"], obj["1e+42"]);"###;
 
 #[test]
 fn terser_issue_1770_mangle_props() {
-    let src = r###"var obj = { undefined: 1, NaN: 2, Infinity: 3, "-Infinity": 4, null: 5 };
+    let src = r#"var obj = { undefined: 1, NaN: 2, Infinity: 3, "-Infinity": 4, null: 5 };
 console.log(
     obj[void 0],
     obj[undefined],
@@ -3849,7 +3849,7 @@ console.log(
     obj["-Infinity"],
     obj[null],
     obj["null"]
-);"###;
+);"#;
     let config = r###"{}"###;
 
     run_exec_test(src, config, false);
@@ -3857,15 +3857,15 @@ console.log(
 
 #[test]
 fn terser_issue_1105_infinity_not_in_with_scope() {
-    let src = r###"var o = { Infinity: "oInfinity" };
+    let src = r#"var o = { Infinity: "oInfinity" };
 var vInfinity = "Infinity";
 vInfinity = Infinity;
 
 console.log(o)
-console.log(vInfinity)"###;
-    let config = r###"{
+console.log(vInfinity)"#;
+    let config = r#"{
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3884,34 +3884,34 @@ fn terser_reduce_vars_issue_3113_1() {
     g((a = 1));
 })();
 console.log(c);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_2799_2() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     function foo() {
         Function.prototype.call.apply(console.log, [null, "PASS"]);
     }
     foo();
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "reduce_vars": true,
     "unsafe_proto": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_recursive_inlining_1() {
-    let src = r###"!(function () {
+    let src = r#"!(function () {
     function foo() {
         bar();
     }
@@ -3919,12 +3919,12 @@ fn terser_reduce_vars_recursive_inlining_1() {
         foo();
     }
     console.log("PASS");
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3935,14 +3935,14 @@ fn terser_reduce_vars_var_assign_2() {
     var a;
     if ((a = 2)) console.log(a);
 })();"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -3954,20 +3954,20 @@ fn terser_reduce_vars_issue_2757_1() {
     let v;
     console.log(u, v);
 })();"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "reduce_vars": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_inverted_var() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     (function () {
         var a = 1;
         return a;
@@ -4005,15 +4005,15 @@ fn terser_reduce_vars_inverted_var() {
         return c;
         var c = "foo";
     })()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "passes": 3,
     "reduce_vars": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4023,13 +4023,13 @@ fn terser_reduce_vars_pure_getters_3() {
     let src = r###"var a;
 var a = a && a.b;
 console.log(a && a.b)"###;
-    let config = r###"{
+    let config = r#"{
     "pure_getters": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4057,20 +4057,20 @@ console.log(
         return o.p;
     })()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unsafe": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_2420_2() {
-    let src = r###"function f() {
+    let src = r#"function f() {
     var that = this;
     if (that.bar) that.foo();
     else
@@ -4084,19 +4084,19 @@ f.call({
         console.log("foo", this.bar);
     },
 });
-f.call({});"###;
-    let config = r###"{
+f.call({});"#;
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_escape_expansion() {
-    let src = r###"function main() {
+    let src = r#"function main() {
     var thing = baz();
     if (thing !== (thing = baz())) console.log("FAIL");
     else console.log("PASS");
@@ -4108,13 +4108,13 @@ function bar(...x) {
 function baz() {
     return bar(...[foo]);
 }
-main();"###;
-    let config = r###"{
+main();"#;
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4132,7 +4132,7 @@ console.log(
         },
     })
 );"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "inline": true,
@@ -4141,14 +4141,14 @@ console.log(
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_2420_3() {
-    let src = r###"function f() {
+    let src = r#"function f() {
     var that = this;
     if (that.bar) that.foo();
     else
@@ -4162,12 +4162,12 @@ f.call({
         console.log("foo", this.bar);
     },
 });
-f.call({});"###;
-    let config = r###"{
+f.call({});"#;
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4175,17 +4175,17 @@ f.call({});"###;
 #[test]
 #[ignore]
 fn terser_reduce_vars_iife_eval_2() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     var x = function f() {
         return f;
     };
     console.log(x() === eval("x"));
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4195,13 +4195,13 @@ fn terser_reduce_vars_pure_getters_2() {
     let src = r###"var a;
 var a = a && a.b;
 console.log(a && a.b)"###;
-    let config = r###"{
+    let config = r#"{
     "pure_getters": "strict",
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4226,12 +4226,12 @@ fn terser_reduce_vars_func_modified() {
 }
 
 console.log(f(1423796))"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4244,29 +4244,29 @@ fn terser_reduce_vars_issue_2860_1() {
         a ^= 2;
     })()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "dead_code": true,
     "evaluate": true,
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_2836() {
-    let src = r###"function f() {
+    let src = r#"function f() {
     return "FAIL";
 }
 console.log(f());
 function f() {
     return "PASS";
-}"###;
-    let config = r###"{
+}"#;
+    let config = r#"{
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4286,7 +4286,7 @@ fn terser_reduce_vars_chained_assignments() {
     return b;
 }
 console.log(f().toString(16));"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "reduce_vars": true,
@@ -4295,7 +4295,7 @@ console.log(f().toString(16));"###;
     "toplevel": true,
     "unsafe": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4304,12 +4304,12 @@ console.log(f().toString(16));"###;
 fn terser_reduce_vars_obj_for_1() {
     let src = r###"var o = { a: 1 };
 for (var i = o.a--; i; i--) console.log(i);"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4320,11 +4320,11 @@ fn terser_reduce_vars_iife() {
     b++;
     console.log(a - 1, b * 1, c + 2);
 })(1, 2, 3);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4341,11 +4341,11 @@ fn terser_reduce_vars_inner_var_label() {
 
 f(123123)
 f(0)"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4354,14 +4354,14 @@ f(0)"###;
 fn terser_reduce_vars_side_effects_assign() {
     let src = r###"var a = typeof void (a && a.in == 1, 0);
 console.log(a);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "sequences": true,
     "side_effects": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4374,11 +4374,11 @@ fn terser_reduce_vars_defun_catch_6() {
     console.log(a);
 }
 function a() {}"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4401,14 +4401,14 @@ fn terser_reduce_vars_passes() {
 }
 
 f()"###;
-    let config = r###"{
+    let config = r#"{
     "conditionals": true,
     "evaluate": true,
     "passes": 2,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4421,11 +4421,11 @@ try {
 } catch (a) {
     console.log(a);
 }"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4443,13 +4443,13 @@ fn terser_reduce_vars_unsafe_evaluate_array_2() {
     },
 ];
 console.log(arr[0], arr[1], arr[2](2), arr[3]);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4466,7 +4466,7 @@ fn terser_reduce_vars_issue_1670_6() {
             break;
     }
 })(1);"###;
-    let config = r###"{
+    let config = r#"{
     "dead_code": true,
     "evaluate": true,
     "keep_fargs": false,
@@ -4475,7 +4475,7 @@ fn terser_reduce_vars_issue_1670_6() {
     "side_effects": true,
     "switches": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4495,20 +4495,20 @@ function h(a, b) {
     return typeof a;
 }
 console.log(f([]), g([]), h([]));"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "keep_fargs": false,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_1670_1() {
-    let src = r###"(function f() {
+    let src = r#"(function f() {
     switch (1) {
         case 0:
             var a = true;
@@ -4517,8 +4517,8 @@ fn terser_reduce_vars_issue_1670_1() {
             if (typeof a === "undefined") console.log("PASS");
             else console.log("FAIL");
     }
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "comparisons": true,
     "conditionals": true,
     "dead_code": true,
@@ -4529,7 +4529,7 @@ fn terser_reduce_vars_issue_1670_1() {
     "switches": true,
     "typeofs": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4545,12 +4545,12 @@ var indirect_foo = function (x, y, z) {
 var sum = 0;
 for (var i = 0; i < 100; ++i) sum += indirect_foo(i, i + 1, 3 * i);
 console.log(sum);"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4562,13 +4562,13 @@ function b() {}
 console.log(typeof a, typeof b);
 var a = 42,
     b;"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_vars": true,
     "toplevel": true,
     "typeofs": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4582,21 +4582,21 @@ var B = {
     },
 };
 B.c;"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_unused_modified() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     (function () {
         var b = 1,
             c = "FAIL";
@@ -4604,11 +4604,11 @@ fn terser_reduce_vars_unused_modified() {
         b = 1;
         return c;
     })()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4629,12 +4629,12 @@ function f1() {
 
 f0()
 f1()"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4647,9 +4647,9 @@ fn terser_reduce_vars_duplicate_lambda_defun_name_1() {
         return f.length;
     })()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4670,7 +4670,7 @@ function z() {
 }
 z();
 z();"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true,
     "passes": 2,
     "reduce_funcs": true,
@@ -4678,7 +4678,7 @@ z();"###;
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4693,13 +4693,13 @@ fn terser_reduce_vars_unsafe_evaluate_array_4() {
     },
 ];
 console.log(arr[0], arr[1], arr[2], arr[0]);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4715,10 +4715,10 @@ fn terser_reduce_vars_issue_2774() {
         },
     }.a
 );"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4729,11 +4729,11 @@ fn terser_reduce_vars_lvalues_def_2() {
 var a = (b += 1),
     b = NaN;
 console.log(a, b);"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4746,7 +4746,7 @@ fn terser_reduce_vars_func_arg_2() {
 })(function (a) {
     return a;
 });"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "passes": 2,
@@ -4755,7 +4755,7 @@ fn terser_reduce_vars_func_arg_2() {
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4773,14 +4773,14 @@ function f1() {
 
 console.log(f0())
 console.log(f1())"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "side_effects": true,
     "unsafe": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4794,12 +4794,12 @@ function p() {
     console.log(c());
 }
 p();"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4814,7 +4814,7 @@ fn terser_reduce_vars_defun_inline_3() {
 }
 
 console.log(f())"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "passes": 3,
@@ -4822,7 +4822,7 @@ console.log(f())"###;
     "reduce_vars": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4842,10 +4842,10 @@ fn terser_reduce_vars_issue_3113_2() {
     g();
 })();
 console.log(c);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4866,11 +4866,11 @@ fn terser_reduce_vars_issue_2799_1() {
         }
     })()(5)
 );"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4881,18 +4881,18 @@ fn terser_reduce_vars_iife_new() {
     b++;
     console.log(a - 1, b * 1, c + 2);
 })(1, 2, 3);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_recursive_inlining_3() {
-    let src = r###"!(function () {
+    let src = r#"!(function () {
     function foo(x) {
         console.log("foo", x);
         if (x) bar(x - 1);
@@ -4906,20 +4906,20 @@ fn terser_reduce_vars_recursive_inlining_3() {
         if (x) foo(x - 1);
     }
     qux(4);
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "passes": 2,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_recursive_inlining_4() {
-    let src = r###"!(function () {
+    let src = r#"!(function () {
     function foo(x) {
         console.log("foo", x);
         if (x) bar(x - 1);
@@ -4934,12 +4934,12 @@ fn terser_reduce_vars_recursive_inlining_4() {
     }
     qux(4);
     bar(5);
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -4956,7 +4956,7 @@ fn terser_reduce_vars_issue_2757_2() {
     }
     console.log(2);
 })();"###;
-    let config = r###"{
+    let config = r#"{
     "conditionals": true,
     "evaluate": true,
     "inline": true,
@@ -4965,14 +4965,14 @@ fn terser_reduce_vars_issue_2757_2() {
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_recursive_inlining_2() {
-    let src = r###"!(function () {
+    let src = r#"!(function () {
     function foo() {
         qux();
     }
@@ -4983,12 +4983,12 @@ fn terser_reduce_vars_recursive_inlining_2() {
         bar();
     }
     console.log("PASS");
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5000,14 +5000,14 @@ fn terser_reduce_vars_var_assign_1() {
     a = 2;
     console.log(a);
 })();"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5024,19 +5024,19 @@ console.log(
         return some.thing;
     })()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_2449() {
-    let src = r###"var a = "PASS";
+    let src = r#"var a = "PASS";
 function f() {
     return a;
 }
@@ -5046,21 +5046,21 @@ function g() {
 (function () {
     var a = "FAIL";
     if (a == a) console.log(g());
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "passes": 10,
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_2420_1() {
-    let src = r###"function run() {
+    let src = r#"function run() {
     var self = this;
     if (self.count++) self.foo();
     else self.bar();
@@ -5075,12 +5075,12 @@ var o = {
     },
 };
 run.call(o);
-run.call(o);"###;
-    let config = r###"{
+run.call(o);"#;
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5105,11 +5105,11 @@ fn terser_reduce_vars_issue_2485() {
 };
 var bar = foo({});
 console.log(bar.baz([1, 2, 3]));"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5121,12 +5121,12 @@ fn terser_reduce_vars_inner_var_for_2() {
     for (var b = 1; --b; ) var a = 2;
     console.log(a);
 })();"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5144,7 +5144,7 @@ console.log(
         },
     })
 );"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "inline": true,
@@ -5155,7 +5155,7 @@ console.log(
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5163,7 +5163,7 @@ console.log(
 #[test]
 #[ignore]
 fn terser_reduce_vars_reduce_vars() {
-    let src = r###"var A = 1;
+    let src = r#"var A = 1;
 (function f0() {
     var a = 2;
     console.log(a - 5);
@@ -5188,8 +5188,8 @@ fn terser_reduce_vars_reduce_vars() {
         return "no";
     }
 })();
-console.log(A + 1);"###;
-    let config = r###"{
+console.log(A + 1);"#;
+    let config = r#"{
     "conditionals": true,
     "evaluate": true,
     "global_defs": {
@@ -5200,14 +5200,14 @@ console.log(A + 1);"###;
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_modified() {
-    let src = r###"function f0() {
+    let src = r#"function f0() {
     var a = 1,
         b = 2;
     b++;
@@ -5260,14 +5260,14 @@ function f5(a) {
     console.log(typeof A ? "yes" : "no");
     console.log(typeof B ? "yes" : "no");
 }
-f0(), f1(), f2(), f3(), f4(), f5();"###;
-    let config = r###"{
+f0(), f1(), f2(), f3(), f4(), f5();"#;
+    let config = r#"{
     "conditionals": true,
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5296,27 +5296,27 @@ console.log(
         return o.p;
     })()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unsafe": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_2669() {
-    let src = r###"let foo;
-console.log(([foo] = ["PASS"]) && foo);"###;
-    let config = r###"{
+    let src = r#"let foo;
+console.log(([foo] = ["PASS"]) && foo);"#;
+    let config = r#"{
     "evaluate": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5329,11 +5329,11 @@ fn terser_reduce_vars_defun_catch_3() {
 } catch (a) {
     console.log(a);
 }"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5346,13 +5346,13 @@ fn terser_reduce_vars_issue_2860_2() {
         a ^= 2;
     })()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "dead_code": true,
     "evaluate": true,
     "inline": true,
     "passes": 2,
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5368,19 +5368,19 @@ function g() {
     var a = 1;
 }
 console.log(f(), g());"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_2496() {
-    let src = r###"function execute(callback) {
+    let src = r#"function execute(callback) {
     callback();
 }
 class Foo {
@@ -5397,14 +5397,14 @@ class Foo {
         });
     }
 }
-new Foo("FAIL").run();"###;
-    let config = r###"{
+new Foo("FAIL").run();"#;
+    let config = r#"{
     "passes": 2,
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5417,11 +5417,11 @@ fn terser_reduce_vars_defun_catch_2() {
 } catch (a) {
     console.log(a);
 }"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5437,12 +5437,12 @@ function g() {}
 [1, 2, 3].forEach(function () {
     f(g);
 });"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5454,19 +5454,19 @@ fn terser_reduce_vars_issue_1850_2() {
 }
 var a = 1;
 f();"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": "funcs",
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_3110_3() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     function foo() {
         return isDev ? "foo" : "bar";
     }
@@ -5474,8 +5474,8 @@ fn terser_reduce_vars_issue_3110_3() {
     var isDev = true;
     var obj = { foo: foo };
     console.log(obj.foo());
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "conditionals": true,
     "evaluate": true,
     "inline": true,
@@ -5484,7 +5484,7 @@ fn terser_reduce_vars_issue_3110_3() {
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5505,12 +5505,12 @@ fn terser_reduce_vars_defun_redefine() {
 }
 
 console.log(f())"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5532,7 +5532,7 @@ function z() {
 }
 z();
 z();"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true,
     "passes": 2,
     "reduce_funcs": true,
@@ -5540,7 +5540,7 @@ z();"###;
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5558,13 +5558,13 @@ fn terser_reduce_vars_unsafe_evaluate_object_2() {
     },
 };
 console.log(obj.foo, obj.bar, obj.square(2), obj.cube);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5579,12 +5579,12 @@ function p() {
 }
 p();
 p();"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5604,7 +5604,7 @@ function h(a, b) {
     return typeof a;
 }
 console.log(f([]), g([]), h([]));"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "keep_fargs": false,
@@ -5613,14 +5613,14 @@ console.log(f([]), g([]), h([]));"###;
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_1670_2() {
-    let src = r###"(function f() {
+    let src = r#"(function f() {
     switch (1) {
         case 0:
             var a = true;
@@ -5629,8 +5629,8 @@ fn terser_reduce_vars_issue_1670_2() {
             if (typeof a === "undefined") console.log("PASS");
             else console.log("FAIL");
     }
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "conditionals": true,
     "dead_code": true,
     "evaluate": true,
@@ -5640,7 +5640,7 @@ fn terser_reduce_vars_issue_1670_2() {
     "side_effects": true,
     "switches": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5667,12 +5667,12 @@ function f2() {
 console.log(f0())
 console.log(f1())
 console.log(f2())"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5688,12 +5688,12 @@ fn terser_reduce_vars_perf_7() {
 var sum = 0;
 for (var i = 0; i < 100; ++i) sum += indirect_foo(i, i + 1, 3 * i);
 console.log(sum);"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5710,7 +5710,7 @@ fn terser_reduce_vars_issue_1670_5() {
             break;
     }
 })(1);"###;
-    let config = r###"{
+    let config = r#"{
     "dead_code": true,
     "evaluate": true,
     "keep_fargs": false,
@@ -5719,7 +5719,7 @@ fn terser_reduce_vars_issue_1670_5() {
     "side_effects": true,
     "switches": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5737,12 +5737,12 @@ function h() {
 }
 h();
 h();"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5761,13 +5761,13 @@ fn terser_reduce_vars_defun_call() {
 
 
 console.log(f())"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5783,12 +5783,12 @@ fn terser_reduce_vars_defun_label() {
     }
     console.log(f(2));
 })();"###;
-    let config = r###"{
+    let config = r#"{
     "passes": 2,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5796,7 +5796,7 @@ fn terser_reduce_vars_defun_label() {
 #[test]
 #[ignore]
 fn terser_reduce_vars_unsafe_evaluate_modified() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     (function () {
         var o = { p: 1 };
         o.p++;
@@ -5860,14 +5860,14 @@ console.log(
         console.log({ q: o }.q.p++);
         return o.p;
     })()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unsafe": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5878,11 +5878,11 @@ fn terser_reduce_vars_lvalues_def_1() {
 var a = b++,
     b = NaN;
 console.log(a, b);"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -5895,7 +5895,7 @@ fn terser_reduce_vars_func_arg_1() {
 })(function () {
     return a;
 });"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "passes": 2,
@@ -5904,14 +5904,14 @@ fn terser_reduce_vars_func_arg_1() {
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_escape_local_sequence() {
-    let src = r###"function main() {
+    let src = r#"function main() {
     var thing = baz();
     if (thing !== (thing = baz())) console.log("PASS");
     else console.log("FAIL");
@@ -5921,39 +5921,39 @@ function baz() {
     function bar() {}
     return foo, bar;
 }
-main();"###;
-    let config = r###"{
+main();"#;
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_regex_loop() {
-    let src = r###"function f(x) {
+    let src = r#"function f(x) {
     for (var r, s = "acdabcdeabbb"; (r = x().exec(s)); ) console.log(r[0]);
 }
 var a = /ab*/g;
 f(function () {
     return a;
-});"###;
-    let config = r###"{
+});"#;
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_3140_4() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     var a;
     function f() {}
     f.g = function g() {
@@ -5970,18 +5970,18 @@ fn terser_reduce_vars_issue_3140_4() {
     return f;
 })()
     .g()
-    .g();"###;
-    let config = r###"{
+    .g();"#;
+    let config = r#"{
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_1670_4() {
-    let src = r###"(function f() {
+    let src = r#"(function f() {
     switch (1) {
         case 0:
             var a = true;
@@ -5990,8 +5990,8 @@ fn terser_reduce_vars_issue_1670_4() {
             if (typeof a === "undefined") console.log("PASS");
             else console.log("FAIL");
     }
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "conditionals": true,
     "dead_code": true,
     "evaluate": true,
@@ -6001,7 +6001,7 @@ fn terser_reduce_vars_issue_1670_4() {
     "side_effects": true,
     "switches": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6021,7 +6021,7 @@ function h(a, b) {
     return typeof a;
 }
 console.log(f([]), g([]), h([]));"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "evaluate": true,
     "inline": true,
@@ -6033,14 +6033,14 @@ console.log(f([]), g([]), h([]));"###;
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_3140_3() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     var a;
     function f() {}
     f.g = function g() {
@@ -6059,18 +6059,18 @@ fn terser_reduce_vars_issue_3140_3() {
     return f;
 })()
     .g()
-    .g();"###;
-    let config = r###"{
+    .g();"#;
+    let config = r#"{
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_reduce_vars_issue_1670_3() {
-    let src = r###"(function f() {
+    let src = r#"(function f() {
     switch (1) {
         case 0:
             var a = true;
@@ -6079,8 +6079,8 @@ fn terser_reduce_vars_issue_1670_3() {
             if (typeof a === "undefined") console.log("PASS");
             else console.log("FAIL");
     }
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "comparisons": true,
     "conditionals": true,
     "dead_code": true,
@@ -6091,7 +6091,7 @@ fn terser_reduce_vars_issue_1670_3() {
     "switches": true,
     "typeofs": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6109,12 +6109,12 @@ for (var i = 0; i < 100; ++i) {
     sum += indirect_foo(i, i + 1, 3 * i);
 }
 console.log(sum);"###;
-    let config = r###"{
+    let config = r#"{
     "reduce_funcs": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6127,17 +6127,17 @@ console.log(
         return a && ++b;
     })(b--)
 );"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_collapse_vars_issue_2436_14() {
-    let src = r###"var a = "PASS";
+    let src = r#"var a = "PASS";
 var b = {};
 (function () {
     var c = a;
@@ -6145,12 +6145,12 @@ var b = {};
         (function (c, d) {
             console.log(c, d);
         })(b, c);
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "collapse_vars": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6171,19 +6171,19 @@ function f0(bar) {
 }
 f0(false);
 console.log(c);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "passes": 2,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_collapse_vars_issue_2436_13() {
-    let src = r###"var a = "PASS";
+    let src = r#"var a = "PASS";
 (function () {
     function f(b) {
         (function g(b) {
@@ -6192,13 +6192,13 @@ fn terser_collapse_vars_issue_2436_13() {
     }
     f();
 })();
-console.log(a);"###;
-    let config = r###"{
+console.log(a);"#;
+    let config = r#"{
     "collapse_vars": true,
     "passes": 2,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6211,18 +6211,18 @@ console.log(
         return a && ++b;
     })(b--)
 );"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_collapse_vars_issue_2203_1() {
-    let src = r###"a = "FAIL";
+    let src = r#"a = "FAIL";
 console.log(
     {
         a: "PASS",
@@ -6232,11 +6232,11 @@ console.log(
             })((String, Object, this));
         },
     }.b()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6255,9 +6255,9 @@ fn terser_collapse_vars_issue_2914_2() {
     }
 }
 console.log(read([129]));"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6273,10 +6273,10 @@ fn terser_collapse_vars_issue_2319_1() {
         })()
     )
 );"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6288,9 +6288,9 @@ function f(b) {
     return [b, b, b];
 }
 for (var c in ((a = console), f(a))) console.log(c);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6302,17 +6302,17 @@ fn terser_collapse_vars_inner_lvalues() {
 var a = (--b || a || 3).toString(),
     c = --b + -a;
 console.log(null, a, b);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_collapse_vars_issue_2298() {
-    let src = r###"!(function () {
+    let src = r#"!(function () {
     function f() {
         var a = undefined;
         var undefined = a++;
@@ -6326,14 +6326,14 @@ fn terser_collapse_vars_issue_2298() {
         }
     }
     f();
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "collapse_vars": true,
     "passes": 2,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6348,10 +6348,10 @@ fn terser_collapse_vars_chained_3() {
         return c;
     })(1, 2)
 );"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6373,7 +6373,7 @@ function f2() {
 
 f1()
 f2()"###;
-    let config = r###"{
+    let config = r#"{
     "booleans": true,
     "collapse_vars": true,
     "comparisons": true,
@@ -6389,7 +6389,7 @@ f2()"###;
     "sequences": true,
     "side_effects": true,
     "unused": false
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6400,10 +6400,10 @@ fn terser_collapse_vars_chained_2() {
 var a = 2;
 a = 3 / a;
 console.log(a);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6431,27 +6431,27 @@ function f3(b, c) {
 f1(1, 2);
 f2(3, 4);
 f3(5, 6);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "sequences": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_collapse_vars_var_side_effects_2() {
-    let src = r###"var print = console.log.bind(console);
+    let src = r#"var print = console.log.bind(console);
 function foo(x) {
     var twice = x.y * 2;
     print("Foo:", twice);
 }
-foo({ y: 10 });"###;
-    let config = r###"{
+foo({ y: 10 });"#;
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6466,28 +6466,28 @@ fn terser_collapse_vars_issue_3032() {
         },
     }.f()[0]
 );"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "pure_getters": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_collapse_vars_var_side_effects_3() {
-    let src = r###"var print = console.log.bind(console);
+    let src = r#"var print = console.log.bind(console);
 function foo(x) {
     var twice = x.y * 2;
     print("Foo:", twice);
 }
-foo({ y: 10 });"###;
-    let config = r###"{
+foo({ y: 10 });"#;
+    let config = r#"{
     "collapse_vars": true,
     "pure_getters": true,
     "unsafe": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6508,7 +6508,7 @@ try {
 } catch (e) {
     console.log(e);
 }"###;
-    let config = r###"{
+    let config = r#"{
     "booleans": true,
     "collapse_vars": true,
     "comparisons": true,
@@ -6524,14 +6524,14 @@ try {
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_collapse_vars_issue_2203_4() {
-    let src = r###"a = "FAIL";
+    let src = r#"a = "FAIL";
 console.log(
     {
         a: "PASS",
@@ -6539,18 +6539,18 @@ console.log(
             return ((c) => c.a)((String, Object, (() => this)()));
         },
     }.b()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_collapse_vars_issue_2203_3() {
-    let src = r###"a = "FAIL";
+    let src = r#"a = "FAIL";
 console.log(
     {
         a: "PASS",
@@ -6560,11 +6560,11 @@ console.log(
             })((String, Object, (() => this)()));
         },
     }.b()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6579,17 +6579,17 @@ fn terser_collapse_vars_issue_2187_1() {
 })(function () {
     console.log(a);
 });"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_collapse_vars_var_defs() {
-    let src = r###"var f1 = function (x, y) {
+    let src = r#"var f1 = function (x, y) {
     var a,
         b,
         r = x + y,
@@ -6599,8 +6599,8 @@ fn terser_collapse_vars_var_defs() {
         b = 7;
     console.log(a + b);
 };
-f1("1", 0);"###;
-    let config = r###"{
+f1("1", 0);"#;
+    let config = r#"{
     "booleans": true,
     "collapse_vars": true,
     "comparisons": true,
@@ -6616,14 +6616,14 @@ f1("1", 0);"###;
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_collapse_vars_issue_2203_2() {
-    let src = r###"a = "PASS";
+    let src = r#"a = "PASS";
 console.log(
     {
         a: "FAIL",
@@ -6639,11 +6639,11 @@ console.log(
             );
         },
     }.b()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6660,7 +6660,7 @@ fn terser_collapse_vars_collapse_vars_seq() {
     return a + b;
 };
 console.log(f1(1, 2));"###;
-    let config = r###"{
+    let config = r#"{
     "booleans": true,
     "collapse_vars": true,
     "comparisons": true,
@@ -6676,14 +6676,14 @@ console.log(f1(1, 2));"###;
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_collapse_vars_issue_2319_3() {
-    let src = r###""use strict";
+    let src = r#""use strict";
 console.log(
     (function (a) {
         return a;
@@ -6692,11 +6692,11 @@ console.log(
             return this;
         })()
     )
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6712,10 +6712,10 @@ fn terser_collapse_vars_may_throw_2() {
     console.log(b);
 }
 f(0);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6727,7 +6727,7 @@ fn terser_collapse_vars_issue_2453() {
 }
 const a = 42;
 log(a);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "conditionals": true,
     "inline": true,
@@ -6738,7 +6738,7 @@ log(a);"###;
     "sequences": true,
     "side_effects": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6766,11 +6766,11 @@ function f3(b, c) {
 f1(1, 2);
 f2(3, 4);
 f3(5, 6);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "sequences": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6780,10 +6780,10 @@ fn terser_collapse_vars_chained_1() {
     let src = r###"var a = 2;
 var a = 3 / a;
 console.log(a);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6794,18 +6794,18 @@ fn terser_collapse_vars_reduce_vars_assign() {
     var a = 1;
     (a = [].length), console.log(a);
 })();"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "reduce_funcs": true,
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_inline_inline_within_extends_2() {
-    let src = r###"class Baz extends foo(bar(Array)) {
+    let src = r#"class Baz extends foo(bar(Array)) {
     constructor() {
         super(...arguments);
     }
@@ -6827,8 +6827,8 @@ function bar(bar_base) {
         }
     };
 }
-console.log(new Baz(1, "PASS", 3).second());"###;
-    let config = r###"{
+console.log(new Baz(1, "PASS", 3).second());"#;
+    let config = r#"{
     "defaults": true,
     "evaluate": true,
     "inline": 3,
@@ -6839,43 +6839,43 @@ console.log(new Baz(1, "PASS", 3).second());"###;
     "collapse_vars": false,
     "unused": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_evaluate_unsafe_float_key() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     { 2.72: 1 } + 1,
     { 2.72: 1 }[2.72] + 1,
     { 2.72: 1 }["2.72"] + 1,
     { 2.72: 1 }[3.14] + 1,
     { 2.72: 1 }[2.72][3.14] + 1,
     { 2.72: 1 }[2.72]["3.14"] + 1
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "evaluate": true,
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_evaluate_unsafe_float_key_complex() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     { 2.72: { 3.14: 1 }, 3.14: 1 } + 1,
     { 2.72: { 3.14: 1 }, 3.14: 1 }[2.72] + 1,
     { 2.72: { 3.14: 1 }, 3.14: 1 }["2.72"] + 1,
     { 2.72: { 3.14: 1 }, 3.14: 1 }[3.14] + 1,
     { 2.72: { 3.14: 1 }, 3.14: 1 }[2.72][3.14] + 1,
     { 2.72: { 3.14: 1 }, 3.14: 1 }[2.72]["3.14"] + 1
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "evaluate": true,
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -6887,7 +6887,7 @@ fn terser_issue_892_dont_mangle_arguments() {
         not_arguments = 9;
     console.log(not_arguments, arguments);
 })(5, 6, 7);"###;
-    let config = r###"{
+    let config = r#"{
     "booleans": true,
     "comparisons": true,
     "conditionals": true,
@@ -6906,14 +6906,14 @@ fn terser_issue_892_dont_mangle_arguments() {
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_issue_t64() {
-    let src = r###"var obj = {};
+    let src = r#"var obj = {};
 obj.Base = class {
     constructor() {
         this.id = "PASS";
@@ -6925,33 +6925,33 @@ obj.Derived = class extends obj.Base {
         console.log(this.id);
     }
 };
-new obj.Derived();"###;
-    let config = r###"{
+new obj.Derived();"#;
+    let config = r#"{
     "collapse_vars": true,
     "join_vars": true,
     "properties": true,
     "reduce_vars": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_computed_property() {
-    let src = r###"console.log({ a: "bar", [console.log("foo")]: 42 }.a);"###;
-    let config = r###"{
+    let src = r#"console.log({ a: "bar", [console.log("foo")]: 42 }.a);"#;
+    let config = r#"{
     "properties": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_sub_properties() {
-    let src = r###"const a = {};
+    let src = r#"const a = {};
 
 a[0] = 0;
 a["0"] = 1;
@@ -6963,18 +6963,18 @@ a[0 / 0] = 6;
 a[null] = 7;
 a[undefined] = 8;
 
-console.log(a)"###;
-    let config = r###"{
+console.log(a)"#;
+    let config = r#"{
     "evaluate": true,
     "properties": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_dont_mangle_computed_property_2() {
-    let src = r###"const prop = Symbol("foo");
+    let src = r#"const prop = Symbol("foo");
 const obj = {
     [prop]: "bar",
     baz: 1,
@@ -7001,26 +7001,26 @@ console.log(
     obj[NaN],
     obj.void
 );
-console.log(obj.null, obj.undefined, obj.Infinity, obj.NaN);"###;
-    let config = r###"{
+console.log(obj.null, obj.undefined, obj.Infinity, obj.NaN);"#;
+    let config = r#"{
     "defaults": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_prop_side_effects_2() {
-    let src = r###"var C = 1;
+    let src = r#"var C = 1;
 console.log(C);
 var obj = {
     "": function () {
         return C + C;
     },
 };
-console.log(obj[""]());"###;
-    let config = r###"{
+console.log(obj[""]());"#;
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "passes": 2,
@@ -7030,7 +7030,7 @@ console.log(obj[""]());"###;
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7042,11 +7042,11 @@ o[0] = 0;
 o[-0] = 1;
 o[-1] = 2;
 console.log(o[0], o[-0], o[-1]);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "join_vars": true,
     "properties": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7062,24 +7062,24 @@ console.log(
         },
     }.p()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true,
     "properties": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_issue_869_1() {
-    let src = r###"var o = { p: "FAIL" };
+    let src = r#"var o = { p: "FAIL" };
 Object.defineProperty(o, "p", {
     get: function () {
         return "PASS";
     },
 });
-console.log(o.p);"###;
+console.log(o.p);"#;
     let config = r###"{}"###;
 
     run_exec_test(src, config, false);
@@ -7090,83 +7090,83 @@ fn terser_properties_join_object_assignments_undefined_2() {
     let src = r###"var o = {};
 o[undefined] = 1;
 console.log(o[undefined]);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "join_vars": true,
     "properties": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_issue_2208_5() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     {
         p: "FAIL",
         p: function () {
             return 42;
         },
     }.p()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "inline": true,
     "properties": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_issue_2513() {
-    let src = r###"!(function (Infinity, NaN, undefined) {
+    let src = r#"!(function (Infinity, NaN, undefined) {
     console.log("a"[1 / 0], "b"["Infinity"]);
     console.log("c"[0 / 0], "d"["NaN"]);
     console.log("e"[void 0], "f"["undefined"]);
-})(0, 0, 0);"###;
-    let config = r###"{
+})(0, 0, 0);"#;
+    let config = r#"{
     "evaluate": true,
     "properties": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_join_object_assignments_return_1() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     (function () {
         var o = { p: 3 };
         return (o.q = "foo");
     })()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "join_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_issue_2816_ecma6() {
-    let src = r###""use strict";
+    let src = r#""use strict";
 var o = { a: 1 };
 o.b = 2;
 o.a = 3;
 o.c = 4;
-console.log(o.a, o.b, o.c);"###;
-    let config = r###"{
+console.log(o.a, o.b, o.c);"#;
+    let config = r#"{
     "ecma": "6",
     "join_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_join_object_assignments_1() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     (function () {
         var x = { a: 1, c: (console.log("c"), "C") };
         x.b = 2;
@@ -7177,18 +7177,18 @@ fn terser_properties_join_object_assignments_1() {
             (x.bar = x);
         return x;
     })()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "evaluate": true,
     "join_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_dont_mangle_computed_property_1() {
-    let src = r###""AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    let src = r#""AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
 "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC";
 const prop = Symbol("foo");
@@ -7218,7 +7218,7 @@ console.log(
     obj[NaN],
     obj.void
 );
-console.log(obj.null, obj.undefined, obj.Infinity, obj.NaN);"###;
+console.log(obj.null, obj.undefined, obj.Infinity, obj.NaN);"#;
     let config = r###"{}"###;
 
     run_exec_test(src, config, false);
@@ -7226,15 +7226,15 @@ console.log(obj.null, obj.undefined, obj.Infinity, obj.NaN);"###;
 
 #[test]
 fn terser_properties_join_object_assignments_if() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     (function () {
         var o = {};
         if ((o.a = "PASS")) return o.a;
     })()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "join_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7245,11 +7245,11 @@ fn terser_properties_join_object_assignments_nan_2() {
 o[NaN] = 1;
 o[0 / 0] = 2;
 console.log(o[NaN], o[NaN]);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "join_vars": true,
     "properties": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7264,7 +7264,7 @@ var obj = {
     },
 };
 console.log(obj.bar());"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "properties": true,
@@ -7273,7 +7273,7 @@ console.log(obj.bar());"###;
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7283,11 +7283,11 @@ fn terser_properties_join_object_assignments_null_1() {
     let src = r###"var o = {};
 o[null] = 1;
 console.log(o[null]);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "join_vars": true,
     "properties": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7301,20 +7301,20 @@ fn terser_properties_issue_2208_7() {
         },
     }.p()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "ecma": 2015,
     "inline": true,
     "properties": true,
     "side_effects": true,
     "unsafe_arrows": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_issue_869_2() {
-    let src = r###"var o = { p: "FAIL" };
+    let src = r#"var o = { p: "FAIL" };
 Object.defineProperties(o, {
     p: {
         get: function () {
@@ -7322,7 +7322,7 @@ Object.defineProperties(o, {
         },
     },
 });
-console.log(o.p);"###;
+console.log(o.p);"#;
     let config = r###"{}"###;
 
     run_exec_test(src, config, false);
@@ -7339,11 +7339,11 @@ console.log(
             })(),
     }.p()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true,
     "properties": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7353,24 +7353,24 @@ fn terser_properties_join_object_assignments_undefined_1() {
     let src = r###"var o = {};
 o[undefined] = 1;
 console.log(o[undefined]);"###;
-    let config = r###"{
+    let config = r#"{
     "join_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_join_object_assignments_forin() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     (function () {
         var o = {};
         for (var a in ((o.a = "PASS"), o)) return o[a];
     })()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "join_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7380,25 +7380,25 @@ fn terser_properties_join_object_assignments_void_0() {
     let src = r###"var o = {};
 o[void 0] = 1;
 console.log(o[void 0]);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "join_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_join_object_assignments_return_2() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     (function () {
         var o = { p: 3 };
         return (o.q = /foo/), (o.r = "bar");
     })()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "join_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7408,11 +7408,11 @@ fn terser_properties_join_object_assignments_regex() {
     let src = r###"var o = {};
 o[/rx/] = 1;
 console.log(o[/rx/]);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "join_vars": true,
     "properties": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7423,7 +7423,7 @@ fn terser_properties_join_object_assignments_2() {
 o.bar = 2;
 o.baz = 3;
 console.log(o.foo, o.bar + o.bar, o.foo * o.bar * o.baz);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "hoist_props": true,
     "join_vars": true,
@@ -7431,32 +7431,32 @@ console.log(o.foo, o.bar + o.bar, o.foo * o.bar * o.baz);"###;
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_properties_join_object_assignments_return_3() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     (function () {
         var o = { p: 3 };
         return (o.q = "foo"), (o.p += ""), console.log(o.q), o.p;
     })()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "join_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_1321_issue_1321_no_debug() {
-    let src = r###"var x = {};
+    let src = r#"var x = {};
 x.foo = 1;
 x["a"] = 2 * x.foo;
-console.log(x.foo, x["a"]);"###;
+console.log(x.foo, x["a"]);"#;
     let config = r###"{}"###;
 
     run_exec_test(src, config, false);
@@ -7464,10 +7464,10 @@ console.log(x.foo, x["a"]);"###;
 
 #[test]
 fn terser_issue_1321_issue_1321_with_quoted() {
-    let src = r###"var x = {};
+    let src = r#"var x = {};
 x.foo = 1;
 x["a"] = 2 * x.foo;
-console.log(x.foo, x["a"]);"###;
+console.log(x.foo, x["a"]);"#;
     let config = r###"{}"###;
 
     run_exec_test(src, config, false);
@@ -7475,10 +7475,10 @@ console.log(x.foo, x["a"]);"###;
 
 #[test]
 fn terser_issue_1321_issue_1321_debug() {
-    let src = r###"var x = {};
+    let src = r#"var x = {};
 x.foo = 1;
 x["_$foo$_"] = 2 * x.foo;
-console.log(x.foo, x["_$foo$_"]);"###;
+console.log(x.foo, x["_$foo$_"]);"#;
     let config = r###"{}"###;
 
     run_exec_test(src, config, false);
@@ -7486,7 +7486,7 @@ console.log(x.foo, x["_$foo$_"]);"###;
 
 #[test]
 fn terser_issue_976_eval_collapse_vars() {
-    let src = r###"function f1() {
+    let src = r#"function f1() {
     var e = 7;
     var s = "abcdef";
     var i = 2;
@@ -7512,8 +7512,8 @@ function p2() {
     var a = 2;
     console.log(a - 5);
     eval("console.log(a);");
-})(eval);"###;
-    let config = r###"{
+})(eval);"#;
+    let config = r#"{
     "booleans": true,
     "collapse_vars": true,
     "comparisons": true,
@@ -7529,14 +7529,14 @@ function p2() {
     "sequences": false,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_array_constructor_unsafe() {
-    let src = r###"const foo = 'string'
+    let src = r#"const foo = 'string'
 
 console.log(new Array());
 console.log(new Array(0));
@@ -7548,40 +7548,40 @@ console.log(Array(12));
 console.log(new Array(foo));
 console.log(Array(foo));
 console.log(new Array("foo"));
-console.log(Array("foo"));"###;
-    let config = r###"{
+console.log(Array("foo"));"#;
+    let config = r#"{
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_sequences_forin() {
-    let src = r###"var o = [];
+    let src = r#"var o = [];
 o.push("PASS");
-for (var a in o) console.log(o[a]);"###;
-    let config = r###"{
+for (var a in o) console.log(o[a]);"#;
+    let config = r#"{
     "sequences": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_sequences_for_init_var() {
-    let src = r###"var a = "PASS";
+    let src = r#"var a = "PASS";
 (function () {
     var b = 42;
     for (var c = 5; c > 0; ) c--;
     a = "FAIL";
     var a;
 })();
-console.log(a);"###;
-    let config = r###"{
+console.log(a);"#;
+    let config = r#"{
     "join_vars": true,
     "unused": false
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7592,10 +7592,10 @@ fn terser_sequences_func_def_1() {
     return (f = 0), !!f;
 }
 console.log(f());"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7613,7 +7613,7 @@ while (--L1 > 0) {
     }
 }
 console.log(a, b);"###;
-    let config = r###"{
+    let config = r#"{
     "booleans": true,
     "collapse_vars": true,
     "conditionals": true,
@@ -7622,7 +7622,7 @@ console.log(a, b);"###;
     "loops": true,
     "sequences": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7636,7 +7636,7 @@ function f19() {
 }
 f19();
 console.log(a, b);"###;
-    let config = r###"{
+    let config = r#"{
     "booleans": true,
     "collapse_vars": true,
     "conditionals": true,
@@ -7644,7 +7644,7 @@ console.log(a, b);"###;
     "join_vars": true,
     "sequences": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7669,20 +7669,20 @@ function f2() {
     return a[2];
 }
 console.log(f0(), f1(), f2());"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unsafe": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_keep_quoted_strict_keep_quoted_strict() {
-    let src = r###"var propa = 1;
+    let src = r#"var propa = 1;
 var a = {
     propa,
     get propb() {
@@ -7708,11 +7708,11 @@ Object.defineProperty(c, "propa", { value: 9 });
 Object.defineProperty(c, "propc", { value: 10 });
 console.log(a.propa, a.propb, a.propc, a["propc"], a.propd, a["propd"]);
 console.log(b["propa"], b["propb"], b.propc, b["propc"], b.propd, b["propd"]);
-console.log(c.propa, c["propc"]);"###;
-    let config = r###"{
+console.log(c.propa, c["propc"]);"#;
+    let config = r#"{
     "evaluate": true,
     "properties": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7732,12 +7732,12 @@ function f() {
 }
 f();
 console.log(a, b);"###;
-    let config = r###"{
+    let config = r#"{
     "dead_code": true,
     "evaluate": true,
     "side_effects": true,
     "switches": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7756,14 +7756,14 @@ fn terser_functions_issue_2107() {
         })()
 );
 console.log(c);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "passes": 3,
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7782,12 +7782,12 @@ fn terser_functions_issue_2630_5() {
     }
 })();
 console.log(c);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7804,7 +7804,7 @@ fn terser_functions_issue_2630_2() {
     }
 })();
 console.log(c);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "passes": 2,
@@ -7812,7 +7812,7 @@ console.log(c);"###;
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7830,9 +7830,9 @@ console.log(
             return a;
         })()
 );"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7852,11 +7852,11 @@ fn terser_functions_issue_2630_3() {
     }
 })();
 console.log(a);"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7875,31 +7875,31 @@ fn terser_functions_issue_2630_4() {
     }
 })();
 console.log(a);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "reduce_vars": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_functions_issue_1841_2() {
-    let src = r###"var b = 10;
+    let src = r#"var b = 10;
 !(function (arg) {
     for (var key in "hi") var n = arg.baz, n = [(b = 42)];
 })(--b);
-console.log(b);"###;
-    let config = r###"{
+console.log(b);"#;
+    let config = r#"{
     "keep_fargs": false,
     "pure_getters": false,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7921,21 +7921,21 @@ fn terser_functions_issue_t131a() {
     }
     console.log(JSON.stringify(one()), JSON.stringify(two()));
 })();"###;
-    let config = r###"{
+    let config = r#"{
     "inline": 1,
     "join_vars": true,
     "reduce_vars": true,
     "side_effects": true,
     "passes": 2,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_functions_unsafe_apply_1() {
-    let src = r###"(function (a, b) {
+    let src = r#"(function (a, b) {
     console.log(a, b);
 }.apply("foo", ["bar"]));
 (function (a, b) {
@@ -7943,15 +7943,15 @@ fn terser_functions_unsafe_apply_1() {
 }.apply("foo", ["bar"]));
 (function (a, b) {
     console.log(a, b);
-}.apply("foo", ["bar"], "baz"));"###;
-    let config = r###"{
+}.apply("foo", ["bar"], "baz"));"#;
+    let config = r#"{
     "inline": true,
     "passes": 2,
     "reduce_vars": true,
     "side_effects": true,
     "unsafe": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7967,13 +7967,13 @@ fn terser_functions_issue_2898() {
     }
 })();
 console.log(c);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "reduce_vars": true,
     "sequences": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -7990,26 +7990,26 @@ fn terser_functions_inline_1() {
     var c = b;
     console.log(c);
 })(3);"###;
-    let config = r###"{
+    let config = r#"{
     "inline": 1,
     "side_effects": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_functions_issue_3125() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     function () {
         return "PASS";
     }.call()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "inline": true,
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8028,18 +8028,18 @@ do {
     })(3);
 } while (0);
 console.log(b);"###;
-    let config = r###"{
+    let config = r#"{
     "dead_code": true,
     "inline": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_functions_issue_2531_1() {
-    let src = r###"function outer() {
+    let src = r#"function outer() {
     function inner(value) {
         function closure() {
             return value;
@@ -8050,33 +8050,33 @@ fn terser_functions_issue_2531_1() {
     }
     return inner("Hello");
 }
-console.log("Greeting:", outer()());"###;
-    let config = r###"{
+console.log("Greeting:", outer()());"#;
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_functions_use_before_init_in_loop() {
-    let src = r###"var a = "PASS";
+    let src = r#"var a = "PASS";
 for (var b = 2; --b >= 0; )
     (function () {
         var c = (function () {
             return 1;
         })(c && (a = "FAIL"));
     })();
-console.log(a);"###;
-    let config = r###"{
+console.log(a);"#;
+    let config = r#"{
     "inline": true,
     "side_effects": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8085,9 +8085,9 @@ console.log(a);"###;
 fn terser_functions_unsafe_apply_expansion_2() {
     let src = r###"var values = [2, 3];
 console.log.apply(console, [1, ...values, 4]);"###;
-    let config = r###"{
+    let config = r#"{
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8103,27 +8103,27 @@ fn terser_functions_issue_2663_2() {
     }
     for (i in { a: 1, b: 2, c: 3 }) fn(i);
 })();"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true,
     "reduce_vars": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_functions_unsafe_call_3() {
-    let src = r###"console.log(
+    let src = r#"console.log(
     function () {
         return arguments[0] + eval("arguments")[1];
     }.call(0, 1, 2)
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "side_effects": true,
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8133,9 +8133,9 @@ fn terser_functions_unsafe_call_expansion_1() {
     let src = r###"(function (...a) {
     console.log(...a);
 }.call(console, 1, ...[2, 3], 4));"###;
-    let config = r###"{
+    let config = r#"{
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8153,7 +8153,7 @@ fn terser_functions_issue_2630_1() {
     }
 })();
 console.log(c);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "passes": 2,
@@ -8162,23 +8162,23 @@ console.log(c);"###;
     "sequences": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_functions_issue_203() {
-    let src = r###"var m = {};
+    let src = r#"var m = {};
 var fn = Function("require", "module", "exports", "module.exports = 42;");
 fn(null, m, m.exports);
-console.log(m.exports);"###;
-    let config = r###"{
+console.log(m.exports);"#;
+    let config = r#"{
     "keep_fargs": false,
     "side_effects": true,
     "unsafe_Function": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8197,29 +8197,29 @@ fn terser_functions_issue_2842() {
     }
     return testMinify();
 })();"###;
-    let config = r###"{
+    let config = r#"{
     "side_effects": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_functions_issue_1841_1() {
-    let src = r###"var b = 10;
+    let src = r#"var b = 10;
 !(function (arg) {
     for (var key in "hi") var n = arg.baz, n = [(b = 42)];
 })(--b);
-console.log(b);"###;
-    let config = r###"{
+console.log(b);"#;
+    let config = r#"{
     "keep_fargs": false,
     "pure_getters": "strict",
     "reduce_funcs": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8231,12 +8231,12 @@ fn terser_functions_issue_2476() {
 }
 for (var sum = 0, i = 0; i < 10; i++) sum += foo(i, i + 1, 3 * i);
 console.log(sum);"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true,
     "reduce_vars": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8258,10 +8258,10 @@ fn terser_functions_issue_t131b() {
     }
     console.log(JSON.stringify(one()), JSON.stringify(two()));
 })();"###;
-    let config = r###"{
+    let config = r#"{
     "defaults": true,
     "passes": 2
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8278,18 +8278,18 @@ fn terser_functions_inline_2() {
     var c = b;
     console.log(c);
 })(3);"###;
-    let config = r###"{
+    let config = r#"{
     "inline": 2,
     "side_effects": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_functions_issue_2531_3() {
-    let src = r###"function outer() {
+    let src = r#"function outer() {
     function inner(value) {
         function closure() {
             return value;
@@ -8300,8 +8300,8 @@ fn terser_functions_issue_2531_3() {
     }
     return inner("Hello");
 }
-console.log("Greeting:", outer()());"###;
-    let config = r###"{
+console.log("Greeting:", outer()());"#;
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "passes": 3,
@@ -8310,7 +8310,7 @@ console.log("Greeting:", outer()());"###;
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8327,18 +8327,18 @@ fn terser_functions_inline_3() {
     var c = b;
     console.log(c);
 })(3);"###;
-    let config = r###"{
+    let config = r#"{
     "inline": 3,
     "side_effects": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_functions_issue_2657() {
-    let src = r###""use strict";
+    let src = r#""use strict";
 console.log(
     (function f() {
         return h;
@@ -8350,14 +8350,14 @@ console.log(
             return a;
         }
     })()(42)
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "inline": true,
     "reduce_vars": true,
     "sequences": true,
     "passes": 2,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8365,9 +8365,9 @@ console.log(
 #[test]
 fn terser_functions_unsafe_apply_expansion_1() {
     let src = r###"console.log.apply(console, [1, ...[2, 3], 4]);"###;
-    let config = r###"{
+    let config = r#"{
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8382,17 +8382,17 @@ do {
     })(3);
 } while (0);
 console.log(b);"###;
-    let config = r###"{
+    let config = r#"{
     "inline": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_functions_issue_2531_2() {
-    let src = r###"function outer() {
+    let src = r#"function outer() {
     function inner(value) {
         function closure() {
             return value;
@@ -8403,8 +8403,8 @@ fn terser_functions_issue_2531_2() {
     }
     return inner("Hello");
 }
-console.log("Greeting:", outer()());"###;
-    let config = r###"{
+console.log("Greeting:", outer()());"#;
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "passes": 3,
@@ -8412,7 +8412,7 @@ console.log("Greeting:", outer()());"###;
     "reduce_vars": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8423,16 +8423,16 @@ fn terser_functions_unsafe_call_expansion_2() {
 (function (...a) {
     console.log(...a);
 }.call(console, 1, ...values, 4));"###;
-    let config = r###"{
+    let config = r#"{
     "unsafe": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_functions_issue_2783() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     return g;
     function f(a) {
         var b = a.b;
@@ -8444,42 +8444,42 @@ fn terser_functions_issue_2783() {
             console.log(f(o));
         }
     }
-})()({ b: "PASS" }, 1);"###;
-    let config = r###"{
+})()({ b: "PASS" }, 1);"#;
+    let config = r#"{
     "collapse_vars": true,
     "conditionals": true,
     "if_return": true,
     "inline": true,
     "reduce_vars": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_functions_unsafe_call_1() {
-    let src = r###"(function (a, b) {
+    let src = r#"(function (a, b) {
     console.log(a, b);
 }.call("foo", "bar"));
 (function (a, b) {
     console.log(this, a, b);
-}.call("foo", "bar"));"###;
-    let config = r###"{
+}.call("foo", "bar"));"#;
+    let config = r#"{
     "inline": true,
     "passes": 2,
     "reduce_vars": true,
     "side_effects": true,
     "unsafe": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_1466_different_variable_in_multiple_for_of() {
-    let src = r###"var test = ["a", "b", "c"];
+    let src = r#"var test = ["a", "b", "c"];
 for (let tmp of test) {
     console.log(tmp);
     let dd;
@@ -8487,8 +8487,8 @@ for (let tmp of test) {
     for (let t of dd) {
         console.log(t);
     }
-}"###;
-    let config = r###"{
+}"#;
+    let config = r#"{
     "hoist_funs": true,
     "dead_code": true,
     "conditionals": true,
@@ -8502,14 +8502,14 @@ for (let tmp of test) {
     "join_vars": true,
     "side_effects": true,
     "collapse_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_1466_same_variable_in_multiple_for_of() {
-    let src = r###"var test = ["a", "b", "c"];
+    let src = r#"var test = ["a", "b", "c"];
 for (let tmp of test) {
     console.log(tmp);
     let dd;
@@ -8517,8 +8517,8 @@ for (let tmp of test) {
     for (let tmp of dd) {
         console.log(tmp);
     }
-}"###;
-    let config = r###"{
+}"#;
+    let config = r#"{
     "hoist_funs": true,
     "dead_code": true,
     "conditionals": true,
@@ -8532,14 +8532,14 @@ for (let tmp of test) {
     "join_vars": true,
     "side_effects": true,
     "collapse_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_1466_same_variable_in_multiple_for_of_sequences_let() {
-    let src = r###"var test = ["a", "b", "c"];
+    let src = r#"var test = ["a", "b", "c"];
 for (let tmp of test) {
     console.log(tmp);
     let dd;
@@ -8547,8 +8547,8 @@ for (let tmp of test) {
     for (let tmp of dd) {
         console.log(tmp);
     }
-}"###;
-    let config = r###"{
+}"#;
+    let config = r#"{
     "hoist_funs": true,
     "dead_code": true,
     "conditionals": true,
@@ -8563,14 +8563,14 @@ for (let tmp of test) {
     "sequences": true,
     "side_effects": true,
     "collapse_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_1466_same_variable_in_multiple_for_in_sequences_const() {
-    let src = r###"var test = ["a", "b", "c"];
+    let src = r#"var test = ["a", "b", "c"];
 for (const tmp in test) {
     console.log(tmp);
     let dd;
@@ -8578,8 +8578,8 @@ for (const tmp in test) {
     for (const tmp in test) {
         console.log(tmp);
     }
-}"###;
-    let config = r###"{
+}"#;
+    let config = r#"{
     "hoist_funs": true,
     "dead_code": true,
     "conditionals": true,
@@ -8594,7 +8594,7 @@ for (const tmp in test) {
     "sequences": true,
     "side_effects": true,
     "collapse_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8608,7 +8608,7 @@ fn terser_issue_1466_more_variable_in_multiple_for() {
         console.log(a, b, m, k, i);
     }
 }"###;
-    let config = r###"{
+    let config = r#"{
     "hoist_funs": true,
     "dead_code": true,
     "conditionals": true,
@@ -8622,14 +8622,14 @@ fn terser_issue_1466_more_variable_in_multiple_for() {
     "join_vars": true,
     "side_effects": true,
     "collapse_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_1466_different_variable_in_multiple_for_in() {
-    let src = r###"var test = ["a", "b", "c"];
+    let src = r#"var test = ["a", "b", "c"];
 for (let tmp in test) {
     console.log(tmp);
     let dd;
@@ -8637,8 +8637,8 @@ for (let tmp in test) {
     for (let t in test) {
         console.log(t);
     }
-}"###;
-    let config = r###"{
+}"#;
+    let config = r#"{
     "hoist_funs": true,
     "dead_code": true,
     "conditionals": true,
@@ -8652,14 +8652,14 @@ for (let tmp in test) {
     "join_vars": true,
     "side_effects": true,
     "collapse_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_1466_same_variable_in_multiple_for_in() {
-    let src = r###"var test = ["a", "b", "c"];
+    let src = r#"var test = ["a", "b", "c"];
 for (let tmp in test) {
     console.log(tmp);
     let dd;
@@ -8667,8 +8667,8 @@ for (let tmp in test) {
     for (let tmp in test) {
         console.log(tmp);
     }
-}"###;
-    let config = r###"{
+}"#;
+    let config = r#"{
     "hoist_funs": true,
     "dead_code": true,
     "conditionals": true,
@@ -8682,14 +8682,14 @@ for (let tmp in test) {
     "join_vars": true,
     "side_effects": true,
     "collapse_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_1466_same_variable_in_multiple_for_in_sequences_let() {
-    let src = r###"var test = ["a", "b", "c"];
+    let src = r#"var test = ["a", "b", "c"];
 for (let tmp in test) {
     console.log(tmp);
     let dd;
@@ -8697,8 +8697,8 @@ for (let tmp in test) {
     for (let tmp in test) {
         console.log(tmp);
     }
-}"###;
-    let config = r###"{
+}"#;
+    let config = r#"{
     "hoist_funs": true,
     "dead_code": true,
     "conditionals": true,
@@ -8713,14 +8713,14 @@ for (let tmp in test) {
     "sequences": true,
     "side_effects": true,
     "collapse_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_1466_same_variable_in_multiple_for_of_sequences_const() {
-    let src = r###"var test = ["a", "b", "c"];
+    let src = r#"var test = ["a", "b", "c"];
 for (const tmp of test) {
     console.log(tmp);
     let dd;
@@ -8728,8 +8728,8 @@ for (const tmp of test) {
     for (const tmp of dd) {
         console.log(tmp);
     }
-}"###;
-    let config = r###"{
+}"#;
+    let config = r#"{
     "hoist_funs": true,
     "dead_code": true,
     "conditionals": true,
@@ -8744,18 +8744,18 @@ for (const tmp of test) {
     "sequences": true,
     "side_effects": true,
     "collapse_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_747_dont_reuse_prop() {
-    let src = r###""aaaaaaaaaabbbbb";
+    let src = r#""aaaaaaaaaabbbbb";
 var obj = {};
 obj.a = 123;
 obj.asd = 256;
-console.log(obj.a);"###;
+console.log(obj.a);"#;
     let config = r###"{}"###;
 
     run_exec_test(src, config, false);
@@ -8763,11 +8763,11 @@ console.log(obj.a);"###;
 
 #[test]
 fn terser_issue_747_unmangleable_props_should_always_be_reserved() {
-    let src = r###""aaaaaaaaaabbbbb";
+    let src = r#""aaaaaaaaaabbbbb";
 var obj = {};
 obj.asd = 256;
 obj.a = 123;
-console.log(obj.a);"###;
+console.log(obj.a);"#;
     let config = r###"{}"###;
 
     run_exec_test(src, config, false);
@@ -8779,10 +8779,10 @@ fn terser_loops_issue_2740_7() {
     b = 0;
 for (const a = 1; a < 3; ++b) break;
 console.log(a, b);"###;
-    let config = r###"{
+    let config = r#"{
     "dead_code": true,
     "loops": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8793,10 +8793,10 @@ fn terser_loops_issue_2740_8() {
     b = 0;
 for (const a = 1; a < 3; ++b) break;
 console.log(a, b);"###;
-    let config = r###"{
+    let config = r#"{
     "dead_code": true,
     "loops": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8807,10 +8807,10 @@ fn terser_loops_issue_2740_6() {
     b = 0;
 for (const a = 1; a < 3; ++b) break;
 console.log(a, b);"###;
-    let config = r###"{
+    let config = r#"{
     "dead_code": true,
     "loops": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8823,10 +8823,10 @@ fn terser_loops_issue_2740_3() {
     }
 }
 console.log(x, y);"###;
-    let config = r###"{
+    let config = r#"{
     "dead_code": true,
     "loops": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8839,11 +8839,11 @@ fn terser_loops_issue_2740_4() {
     }
 }
 console.log(x, y);"###;
-    let config = r###"{
+    let config = r#"{
     "dead_code": true,
     "loops": true,
     "passes": 2
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8857,11 +8857,11 @@ fn terser_loops_issue_2740_5() {
     }
 }
 console.log(x, y);"###;
-    let config = r###"{
+    let config = r#"{
     "dead_code": true,
     "loops": true,
     "passes": 2
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8886,31 +8886,31 @@ f();"###;
 
 #[test]
 fn terser_rename_mangle_catch_var() {
-    let src = r###"var a = "FAIL";
+    let src = r#"var a = "FAIL";
 try {
     throw 1;
 } catch (args) {
     var a = "PASS";
 }
-console.log(a);"###;
-    let config = r###"{
+console.log(a);"#;
+    let config = r#"{
     "ie8": false,
     "toplevel": false
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_negate_iife_issue_1254_negate_iife_true() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     return function () {
         console.log("test");
     };
-})()();"###;
-    let config = r###"{
+})()();"#;
+    let config = r#"{
     "negate_iife": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8929,13 +8929,13 @@ fn terser_try_catch_catch_destructuring_with_sequence() {
 
 #[test]
 fn terser_issue_281_pure_annotation_1() {
-    let src = r###"(function () {
+    let src = r#"(function () {
     console.log("hello");
-})();"###;
-    let config = r###"{
+})();"#;
+    let config = r#"{
     "inline": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8947,13 +8947,13 @@ fn terser_issue_281_keep_fargs() {
     a++;
 })(a++ + (a && a.var));
 console.log(a);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "keep_fargs": true,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -8965,73 +8965,73 @@ fn terser_issue_281_drop_fargs() {
     a++;
 })(a++ + (a && a.var));
 console.log(a);"###;
-    let config = r###"{
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "keep_fargs": false,
     "side_effects": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_issue_281_pure_annotation_2() {
-    let src = r###"(function (n) {
+    let src = r#"(function (n) {
     console.log("hello", n);
-})(42);"###;
-    let config = r###"{
+})(42);"#;
+    let config = r#"{
     "collapse_vars": true,
     "inline": true,
     "side_effects": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_arguments_duplicate_parameter_with_arguments() {
-    let src = r###"(function (a, a) {
+    let src = r#"(function (a, a) {
     console.log((a = "foo"), arguments[0]);
-})("baz", "Bar");"###;
-    let config = r###"{
+})("baz", "Bar");"#;
+    let config = r#"{
     "arguments": true,
     "defaults": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_arguments_destructuring_1() {
-    let src = r###"(function (a, { d: d }) {
+    let src = r#"(function (a, { d: d }) {
     console.log((a = "foo"), arguments[0]);
-})("baz", { d: "Bar" });"###;
-    let config = r###"{
+})("baz", { d: "Bar" });"#;
+    let config = r#"{
     "arguments": true,
     "defaults": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_arguments_destructuring_2() {
-    let src = r###"(function ({ d: d }, a) {
+    let src = r#"(function ({ d: d }, a) {
     console.log((a = "foo"), arguments[0].d);
-})({ d: "Bar" }, "baz");"###;
-    let config = r###"{
+})({ d: "Bar" }, "baz");"#;
+    let config = r#"{
     "arguments": true,
     "defaults": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_arguments_modified_strict() {
-    let src = r###""use strict";
+    let src = r#""use strict";
 (function (a, b) {
     var c = arguments[0];
     var d = arguments[1];
@@ -9040,18 +9040,18 @@ fn terser_arguments_modified_strict() {
     arguments[0] = "moo";
     arguments[1] *= 2;
     console.log(a, b, c, d, arguments[0], arguments[1]);
-})("bar", 42);"###;
-    let config = r###"{
+})("bar", 42);"#;
+    let config = r#"{
     "arguments": true,
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_arguments_replace_index() {
-    let src = r###"var arguments = [];
+    let src = r#"var arguments = [];
 console.log(arguments[0]);
 (function () {
     console.log(arguments[1], arguments["1"], arguments["foo"]);
@@ -9065,19 +9065,19 @@ console.log(arguments[0]);
 (function () {
     var arguments;
     console.log(arguments[1], arguments["1"], arguments["foo"]);
-})("bar", 42);"###;
-    let config = r###"{
+})("bar", 42);"#;
+    let config = r#"{
     "arguments": true,
     "evaluate": true,
     "properties": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_arguments_modified() {
-    let src = r###"(function (a, b) {
+    let src = r#"(function (a, b) {
     var c = arguments[0];
     var d = arguments[1];
     var a = "foo";
@@ -9085,29 +9085,29 @@ fn terser_arguments_modified() {
     arguments[0] = "moo";
     arguments[1] *= 2;
     console.log(a, b, c, d, arguments[0], arguments[1]);
-})("bar", 42);"###;
-    let config = r###"{
+})("bar", 42);"#;
+    let config = r#"{
     "arguments": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_arguments_replace_index_strict() {
-    let src = r###""use strict";
+    let src = r#""use strict";
 (function () {
     console.log(arguments[1], arguments["1"], arguments["foo"]);
 })("bar", 42);
 (function (a, b) {
     console.log(arguments[1], arguments["1"], arguments["foo"]);
-})("bar", 42);"###;
-    let config = r###"{
+})("bar", 42);"#;
+    let config = r#"{
     "arguments": true,
     "evaluate": true,
     "properties": true,
     "reduce_vars": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -9118,17 +9118,17 @@ fn terser_arguments_issue_687() {
     return arguments.length;
 }
 console.log(shouldBePure())"###;
-    let config = r###"{
+    let config = r#"{
     "defaults": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_arguments_replace_index_keep_fargs() {
-    let src = r###"var arguments = [];
+    let src = r#"var arguments = [];
 console.log(arguments[0]);
 (function () {
     console.log(arguments[1], arguments["1"], arguments["foo"]);
@@ -9142,13 +9142,13 @@ console.log(arguments[0]);
 (function () {
     var arguments;
     console.log(arguments[1], arguments["1"], arguments["foo"]);
-})("bar", 42);"###;
-    let config = r###"{
+})("bar", 42);"#;
+    let config = r#"{
     "arguments": true,
     "evaluate": true,
     "keep_fargs": false,
     "properties": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -9159,11 +9159,11 @@ fn terser_typeof_issue_2728_3() {
     function arguments() {}
     console.log(typeof arguments);
 })();"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_vars": true,
     "typeofs": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -9172,19 +9172,19 @@ fn terser_typeof_issue_2728_3() {
 fn terser_typeof_issue_2728_4() {
     let src = r###"function arguments() {}
 console.log(typeof arguments);"###;
-    let config = r###"{
+    let config = r#"{
     "evaluate": true,
     "reduce_vars": true,
     "toplevel": true,
     "typeofs": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn terser_typeof_typeof_defun_1() {
-    let src = r###"function f() {
+    let src = r#"function f() {
     console.log("YES");
 }
 function g() {
@@ -9197,8 +9197,8 @@ function h() {
 g = 42;
 "function" == typeof f && f();
 "function" == typeof g && g();
-"function" == typeof h && h();"###;
-    let config = r###"{
+"function" == typeof h && h();"#;
+    let config = r#"{
     "evaluate": true,
     "inline": true,
     "passes": 2,
@@ -9207,7 +9207,7 @@ g = 42;
     "toplevel": true,
     "typeofs": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -9215,7 +9215,7 @@ g = 42;
 #[test]
 #[ignore]
 fn terser_pure_funcs_issue_3065_4() {
-    let src = r###"var debug = function (msg) {
+    let src = r#"var debug = function (msg) {
     console.log(msg);
 };
 debug(
@@ -9223,14 +9223,14 @@ debug(
         console.log("PASS");
         return "FAIL";
     })()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "pure_funcs": ["debug"],
     "reduce_vars": true,
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -9238,7 +9238,7 @@ debug(
 #[test]
 #[ignore]
 fn terser_pure_funcs_issue_3065_3() {
-    let src = r###"function debug(msg) {
+    let src = r#"function debug(msg) {
     console.log(msg);
 }
 debug(
@@ -9246,21 +9246,21 @@ debug(
         console.log("PASS");
         return "FAIL";
     })()
-);"###;
-    let config = r###"{
+);"#;
+    let config = r#"{
     "pure_funcs": ["debug"],
     "reduce_vars": true,
     "side_effects": true,
     "toplevel": true,
     "unused": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn issues_vercel_ms_1() {
-    let src = r###"const s = 1000;
+    let src = r#"const s = 1000;
 const m = s * 60;
 const h = m * 60;
 const d = h * 24;
@@ -9382,11 +9382,11 @@ console.log(ms(12321341234217))
 console.log(ms(12321341234217))
 console.log(ms(12321341234217))
 console.log(ms(12321341234217))
-console.log(ms(12321341234217))"###;
-    let config = r###"{
+console.log(ms(12321341234217))"#;
+    let config = r#"{
     "defaults": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -9417,16 +9417,16 @@ const cls = class ClassB {
 
 
 new cls().it();"###;
-    let config = r###"{
+    let config = r#"{
     "defaults": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn issues_2011_2() {
-    let src = r###"function _class_call_check(instance, Constructor) {
+    let src = r#"function _class_call_check(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
@@ -9485,17 +9485,17 @@ var cls = function () {
     _define_property(ClassB, "MyA", ClassA);
     return ClassB;
 }();
-new cls().it();"###;
-    let config = r###"{
+new cls().it();"#;
+    let config = r#"{
     "defaults": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn murmur2_1() {
-    let src = r###"function murmur2(str) {
+    let src = r#"function murmur2(str) {
     // 'm' and 'r' are mixing constants generated offline.
     // They're not really 'magic', they just happen to work well.
     // const m = 0x5bd1e995;
@@ -9548,18 +9548,18 @@ fn murmur2_1() {
 
 console.log(murmur2("123421334"))
 console.log(murmur2("123asd ;nv"))
-console.log(murmur2("1va1ns`klj"))"###;
-    let config = r###"{
+console.log(murmur2("1va1ns`klj"))"#;
+    let config = r#"{
     "defaults": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn murmur2_reduced() {
-    let src = r###"function murmur2(str) {
+    let src = r#"function murmur2(str) {
     var h = 0;
     var k, i = 0, len = str.length;
     for (; len >= 4; ++i, len -= 4) {
@@ -9583,11 +9583,11 @@ fn murmur2_reduced() {
 }
 console.log(murmur2("123421334"));
 console.log(murmur2("123asd ;nv"));
-console.log(murmur2("1va1ns`klj"));"###;
-    let config = r###"{
+console.log(murmur2("1va1ns`klj"));"#;
+    let config = r#"{
     "defaults": true,
     "toplevel": true
-}"###;
+}"#;
 
     run_exec_test(src, config, false);
 }
@@ -9608,10 +9608,10 @@ fn plotly_1() {
     console.log(log2(4))
     console.log(log2(8))
     "###;
-    let config = r###"{
+    let config = r#"{
         "defaults": true,
         "toplevel": true
-    }"###;
+    }"#;
 
     run_exec_test(src, config, false);
 }
@@ -9637,10 +9637,10 @@ fn internal_1() {
     console.log(P().calc(1, 1))
     "###;
 
-    let config = r###"{
+    let config = r#"{
         "defaults": true,
         "toplevel": true
-    }"###;
+    }"#;
 
     run_exec_test(src, config, false);
 }
@@ -9666,10 +9666,10 @@ fn direct_eval_1() {
     obj[2](obj[1]());
     "###;
 
-    let config = r###"{
+    let config = r#"{
         "defaults": true,
         "toplevel": true
-    }"###;
+    }"#;
 
     run_exec_test(src, config, false);
 }
@@ -9705,17 +9705,17 @@ fn indirect_eval_1() {
     obj[2](obj[1]());
     "###;
 
-    let config = r###"{
+    let config = r#"{
         "defaults": true,
         "toplevel": true
-    }"###;
+    }"#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn try_catch_1() {
-    let src = r###"
+    let src = r#"
     var a = "FAIL";
     try {
         throw 1;
@@ -9724,14 +9724,14 @@ fn try_catch_1() {
     }
     console.log(a);
 
-    "###;
+    "#;
 
     run_default_exec_test(src);
 }
 
 #[test]
 fn try_catch_2() {
-    let src = r###"
+    let src = r#"
     var a = "PASS";
     try {
         throw "FAIL1";
@@ -9739,14 +9739,14 @@ fn try_catch_2() {
         var a = "FAIL2";
     }
     console.log(a);
-    "###;
+    "#;
 
     run_default_exec_test(src);
 }
 
 #[test]
 fn try_catch_3() {
-    let src = r###"
+    let src = r#"
     var a = "FAIL";
     try {
         throw 1;
@@ -9754,14 +9754,14 @@ fn try_catch_3() {
         var a = "PASS";
     }
     console.log(a);
-    "###;
+    "#;
 
     run_default_exec_test(src);
 }
 
 #[test]
 fn try_catch_4() {
-    let src = r###"
+    let src = r#"
     "aaaaaaaa";
     var a = 1,
         b = "FAIL";
@@ -9775,14 +9775,14 @@ fn try_catch_4() {
         }
     }
     console.log(b);
-    "###;
+    "#;
 
     run_default_exec_test(src);
 }
 
 #[test]
 fn try_catch_5() {
-    let src = r###"
+    let src = r#"
     var a = "PASS";
     try {
         throw "FAIL1";
@@ -9790,14 +9790,14 @@ fn try_catch_5() {
         var a = "FAIL2";
     }
     console.log(a);
-    "###;
+    "#;
 
     run_default_exec_test(src);
 }
 
 #[test]
 fn issue_4444_1() {
-    let src = r###"
+    let src = r#"
     const test = () => {
         let a = 0;
         let b = 0;
@@ -9811,9 +9811,9 @@ fn issue_4444_1() {
       
       const [a, b, c] = test();
       console.log("test", a, b, c);
-    "###;
+    "#;
 
-    let config = r###"
+    let config = r#"
     {
         "arguments": false,
         "arrows": false,
@@ -9858,7 +9858,7 @@ fn issue_4444_1() {
         "unsafe_undefined": false,
         "unused": true
       }
-    "###;
+    "#;
 
     run_exec_test(src, config, false);
 }
@@ -9880,7 +9880,7 @@ fn terser_insane_1() {
     f();
     "###;
 
-    let config = r###"
+    let config = r#"
     {
         "conditionals": true,
         "negate_iife": true,
@@ -9891,7 +9891,7 @@ fn terser_insane_1() {
         "toplevel": true,
         "unused": true
     }
-    "###;
+    "#;
 
     run_exec_test(src, config, false);
 }
@@ -9917,7 +9917,7 @@ fn terser_insane_2() {
     f();
     "###;
 
-    let config = r###"
+    let config = r#"
     {
         "conditionals": true,
         "negate_iife": true,
@@ -9928,14 +9928,14 @@ fn terser_insane_2() {
         "toplevel": true,
         "unused": true
     }
-    "###;
+    "#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn issue_4788_1() {
-    let src = r###"
+    let src = r#"
     let id = 0;
 
     const obj = {
@@ -9958,7 +9958,7 @@ fn issue_4788_1() {
     };
 
     obj3.foo;
-    "###;
+    "#;
 
     run_default_exec_test(src);
 }
@@ -9979,7 +9979,7 @@ fn issue_5645() {
     
     console.log(g(1))
     "###;
-    let config = r###"
+    let config = r#"
     {
         "arguments": false,
         "arrows": false,
@@ -10026,16 +10026,16 @@ fn issue_5645() {
         "const_to_let": false,
         "pristine_globals": false
     }
-    "###;
+    "#;
 
     run_exec_test(src, config, false);
 }
 
 #[test]
 fn issue_5799() {
-    let src = r###"
+    let src = r"
     console.log(`\u2014`)
-    "###;
+    ";
 
     run_default_exec_test(src);
 }
@@ -10059,7 +10059,7 @@ fn issue_5914() {
         console.log(instance.options.config); 
     "###;
 
-    let config = r###"
+    let config = r#"
         {
             "arguments": false,
             "arrows": true,
@@ -10106,7 +10106,7 @@ fn issue_5914() {
             "const_to_let": true,
             "pristine_globals": true
         }
-    "###;
+    "#;
 
     run_exec_test(src, config, false);
 }
@@ -10276,7 +10276,7 @@ fn issue_6217_1() {
         bar(null);
         bar(null);
     "###,
-        r###"
+        r#"
         {
             "arguments": false,
             "arrows": false,
@@ -10323,7 +10323,7 @@ fn issue_6217_1() {
             "const_to_let": false,
             "pristine_globals": false
         }
-        "###,
+        "#,
         false,
     );
 }
@@ -10362,7 +10362,7 @@ fn issue_6279_2() {
 #[test]
 fn issue_6463_1() {
     run_default_exec_test(
-        r###"
+        r#"
             var foo_1 = foo;
 
             function foo() {
@@ -10371,14 +10371,14 @@ fn issue_6463_1() {
 
             foo_1();
             foo_1();
-        "###,
+        "#,
     );
 }
 
 #[test]
 fn issue_6528() {
     run_default_exec_test(
-        r###"
+        r#"
         const foo = {
             "+1": 1,
             "2": 2,
@@ -10391,7 +10391,7 @@ fn issue_6528() {
         console.log(foo[2]);
         console.log(foo[-3]);
         console.log(foo["-3"]);
-        "###,
+        "#,
     )
 }
 
@@ -10433,7 +10433,7 @@ fn issue_6728() {
 #[test]
 fn issue_6750_1() {
     run_default_exec_test(
-        r###"
+        r#"
         let current_component;
 
         function set_current_component(component) {
@@ -10457,14 +10457,14 @@ fn issue_6750_1() {
         } catch (e) {
             console.log('PASS')
         }
-        "###,
+        "#,
     )
 }
 
 #[test]
 fn issue_6750_2() {
     run_exec_test(
-        r###"
+        r#"
         let current_component;
 
         function set_current_component(component) {
@@ -10488,11 +10488,11 @@ fn issue_6750_2() {
         } catch (e) {
             console.log('PASS')
         }
-        "###,
-        r###"{
+        "#,
+        r#"{
             "defaults": true,
             "sequences": false
-        }"###,
+        }"#,
         false,
     )
 }
@@ -10500,7 +10500,7 @@ fn issue_6750_2() {
 #[test]
 fn issue_6899_1() {
     run_exec_test(
-        r###"
+        r#"
         // this the original code, just for comparison
         function Limit(min, max) {
         var length = Math.abs(min - max);
@@ -10540,8 +10540,8 @@ fn issue_6899_1() {
         return self;
         }
         console.log("The result should be 0. And it is:", Limit(0,3).constrain(-1))
-        "###,
-        r###"
+        "#,
+        r#"
         {
             "arguments": false,
             "arrows": true,
@@ -10588,7 +10588,7 @@ fn issue_6899_1() {
             "const_to_let": true,
             "pristine_globals": true
         }
-        "###,
+        "#,
         false,
     )
 }
@@ -10596,7 +10596,7 @@ fn issue_6899_1() {
 #[test]
 fn issue_6899_2() {
     run_default_exec_test(
-        r###"
+        r#"
         // this the original code, just for comparison
         function Limit(min, max) {
         var length = Math.abs(min - max);
@@ -10636,14 +10636,14 @@ fn issue_6899_2() {
         return self;
         }
         console.log("The result should be 0. And it is:", Limit(0,3).constrain(-1))
-        "###,
+        "#,
     );
 }
 
 #[test]
 fn issue_6899_3() {
     run_default_exec_test(
-        r###"
+        r#"
         console.log("The result should be 0. And it is:", function(n, e) {
             var r = Math.abs(n - e);
         
@@ -10674,14 +10674,14 @@ fn issue_6899_3() {
             }
         }(0, 3).constrain(-1));
 
-        "###,
+        "#,
     );
 }
 
 #[test]
 fn issue_6899_4() {
     run_exec_test(
-        r###"
+        r#"
         console.log("The result should be 0. And it is:", function(n, e) {
             var r = Math.abs(n - e);
         
@@ -10712,13 +10712,13 @@ fn issue_6899_4() {
             }
         }(0, 3).constrain(-1));
 
-        "###,
-        r###"
+        "#,
+        r#"
         {
             "inline": true,
             "passes": 2
         }
-        "###,
+        "#,
         false,
     );
 }
@@ -10726,7 +10726,7 @@ fn issue_6899_4() {
 #[test]
 fn issue_6899_5() {
     run_exec_test(
-        r###"
+        r#"
         console.log("The result should be 0. And it is:", function(n, e) {
             var r = Math.abs(n - e);
         
@@ -10748,13 +10748,13 @@ fn issue_6899_5() {
                 
             }
         }(0, 3).constrain(-1));
-        "###,
-        r###"
+        "#,
+        r#"
         {
             "inline": true,
             "passes": 2
         }
-        "###,
+        "#,
         false,
     );
 }
@@ -10762,7 +10762,7 @@ fn issue_6899_5() {
 #[test]
 fn issue_6903_1() {
     run_default_exec_test(
-        r###"
+        r#"
         function test(a, b) {
             let wrapper = (e) => e
             wrapper = (e) => (["not", e])
@@ -10772,14 +10772,14 @@ fn issue_6903_1() {
             return wrapper(1)
         }
         console.log(test(true, "bad"))
-        "###,
+        "#,
     );
 }
 
 #[test]
 fn issue_6903_2() {
     run_exec_test(
-        r###"
+        r#"
         function test(a, b) {
             let wrapper = (e) => e
             wrapper = (e) => (["not", e])
@@ -10789,14 +10789,14 @@ fn issue_6903_2() {
             return wrapper(1)
         }
         console.log(test(true, "bad"))
-        "###,
-        r###"
+        "#,
+        r#"
         {
             "if_return": true,
             "join_vars": true,
             "side_effects": true,
             "conditionals": true
-        }"###,
+        }"#,
         false,
     );
 }
@@ -10804,7 +10804,7 @@ fn issue_6903_2() {
 #[test]
 fn issue_6903_3() {
     run_exec_test(
-        r###"
+        r#"
         function test(a, b) {
             let wrapper = (e)=>e;
             return ((wrapper = (e)=>[
@@ -10813,11 +10813,11 @@ fn issue_6903_3() {
                 ]), a) ? wrapper(b) : wrapper(1);
         }
         console.log(test(true, "bad"));
-        "###,
-        r###"
+        "#,
+        r#"
         {
             "conditionals": true
-        }"###,
+        }"#,
         false,
     );
 }
@@ -10889,12 +10889,12 @@ fn issue_6914_2() {
             }
         }
         "###,
-        r###"
+        r#"
         {
             "inline": true,
             "toplevel": true
         }
-        "###,
+        "#,
         false,
     );
 }
@@ -10922,12 +10922,12 @@ fn issue_6914_3() {
                 }();
             }());
         "###,
-        r###"
+        r#"
         {
             "inline": true,
             "toplevel": true
         }
-        "###,
+        "#,
         false,
     );
 }
@@ -10935,7 +10935,7 @@ fn issue_6914_3() {
 #[test]
 fn issue_7274() {
     run_default_exec_test(
-        r###"
+        r#"
         if (
             // incorrect:
             "😋📋👌".length === 3
@@ -10947,6 +10947,6 @@ fn issue_7274() {
             new Response(123);
         }
         console.log('PASS');
-        "###,
+        "#,
     );
 }

@@ -436,6 +436,8 @@ pub struct MediaFeatureBoolean {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(
@@ -764,6 +766,8 @@ pub struct SizeFeatureBoolean {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+#[cfg_attr(feature = "rkyv", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(

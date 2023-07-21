@@ -295,6 +295,7 @@ where
         formatting_space!();
 
         emit!(n.module_ref);
+        formatting_semi!();
     }
 
     #[emitter]
@@ -483,7 +484,7 @@ where
         punct!("[");
         emit!(n.type_param.name);
 
-        if let Some(..) = &n.type_param.constraint {
+        if n.type_param.constraint.is_some() {
             space!();
             keyword!("in");
             space!();

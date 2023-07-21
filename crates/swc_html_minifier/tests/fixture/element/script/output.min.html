@@ -42,7 +42,7 @@
     <script>alert(1)</script>
 </svg>
     <svg viewBox="0 0 10 10">
-        <script>window.addEventListener("DOMContentLoaded",()=>{function t(){let t=Math.round(255*Math.random()).toString(16).padStart(2,"0"),n=Math.round(255*Math.random()).toString(16).padStart(2,"0"),r=Math.round(255*Math.random()).toString(16).padStart(2,"0");return`#${t}${n}${r}`}document.querySelector("circle").addEventListener("click",n=>{n.target.style.fill=t()})})</script>
+        <script>window.addEventListener("DOMContentLoaded",()=>{document.querySelector("circle").addEventListener("click",t=>{t.target.style.fill=function(){let t=Math.round(255*Math.random()).toString(16).padStart(2,"0"),n=Math.round(255*Math.random()).toString(16).padStart(2,"0"),r=Math.round(255*Math.random()).toString(16).padStart(2,"0");return`#${t}${n}${r}`}()})})</script>
 
         <circle cx=5 cy=5 r=4 />
     </svg>
@@ -54,7 +54,7 @@
             alert('test')
         </script>
     </math>
-    <script blocking="a render">console.log("block")</script><script>!function(t){var t="test"+Math.random()+t;alert("1 "+(2+Math.random())),console.log(Math.random())}("test"),window.jQuery||document.write('<script src="jquery.js"><\/script>')</script>
+    <script blocking="a render">console.log("block")</script><script>!function(r){var r=Math.random();alert("1 "+(2+Math.random())),console.log(Math.random())}(0),window.jQuery||document.write('<script src="jquery.js"><\/script>')</script>
     <div>test</div>
     
     <div>topLevel - script</div>

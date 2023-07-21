@@ -359,8 +359,7 @@
                       "end": 414,
                       "ctxt": 0
                     }
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],
@@ -1157,8 +1156,7 @@
                       "end": 1136,
                       "ctxt": 0
                     }
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],
@@ -2375,8 +2373,7 @@
                       "end": 2289,
                       "ctxt": 0
                     }
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],
@@ -3408,8 +3405,7 @@
                       "end": 3076,
                       "ctxt": 0
                     }
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],
@@ -4375,8 +4371,7 @@
                 "end": 4001,
                 "ctxt": 0
               }
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -4712,8 +4707,7 @@
                       "end": 4257,
                       "ctxt": 0
                     }
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],
@@ -5049,8 +5043,7 @@
                     "end": 4513,
                     "ctxt": 0
                   }
-                },
-                "typeAnnotation": null
+                }
               }
             ],
             "body": {

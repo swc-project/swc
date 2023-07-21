@@ -56,21 +56,24 @@ mod unused;
 mod util;
 
 /// This pass is similar to `node.optimize` of terser.
-pub(super) fn optimizer<'a, M>(
+pub(super) fn optimizer<'a>(
     marks: Marks,
     options: &'a CompressOptions,
     module_info: &'a ModuleInfo,
     data: &'a mut ProgramData,
-    mode: &'a M,
+    mode: &'a dyn Mode,
     debug_infinite_loop: bool,
-) -> impl 'a + VisitMut + Repeated
-where
-    M: Mode,
-{
+) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
         "top_retain should not contain empty string"
     );
+
+    let mut ctx = Ctx::default();
+
+    if options.module {
+        ctx.in_strict = true
+    }
 
     Optimizer {
         marks,
@@ -88,8 +91,7 @@ where
         simple_props: Default::default(),
         typeofs: Default::default(),
         data,
-        ctx: Default::default(),
-        label: Default::default(),
+        ctx,
         mode,
         debug_infinite_loop,
         functions: Default::default(),
@@ -192,7 +194,7 @@ impl Ctx {
     }
 }
 
-struct Optimizer<'a, M> {
+struct Optimizer<'a> {
     marks: Marks,
     expr_ctx: ExprCtx,
 
@@ -219,12 +221,7 @@ struct Optimizer<'a, M> {
     data: &'a mut ProgramData,
     ctx: Ctx,
 
-    /// Closest label.
-    ///
-    /// Setting this to `None` means the label should be removed.
-    label: Option<Id>,
-
-    mode: &'a M,
+    mode: &'a dyn Mode,
 
     #[allow(unused)]
     debug_infinite_loop: bool,
@@ -297,7 +294,7 @@ impl Vars {
     }
 }
 
-impl<M> Repeated for Optimizer<'_, M> {
+impl Repeated for Optimizer<'_> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -324,10 +321,27 @@ impl From<&Function> for FnMetadata {
     }
 }
 
-impl<M> Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl Optimizer<'_> {
+    fn may_remove_ident(&self, id: &Ident) -> bool {
+        if id.span.ctxt != self.marks.top_level_ctxt {
+            return true;
+        }
+
+        if self.options.top_level() {
+            return !self.options.top_retain.contains(&id.sym);
+        }
+
+        false
+    }
+
+    fn may_add_ident(&self) -> bool {
+        if !self.ctx.in_top_level() {
+            return true;
+        }
+
+        self.options.top_level()
+    }
+
     fn handle_stmts(&mut self, stmts: &mut Vec<Stmt>, will_terminate: bool) {
         // Skip if `use asm` exists.
         if maybe_par!(
@@ -925,7 +939,7 @@ where
             }) => {
                 if let Pat::Ident(i) = &mut **pat {
                     let old = i.id.to_id();
-                    self.store_var_for_inlining(&mut i.id, right, false, true);
+                    self.store_var_for_inlining(&mut i.id, right, true);
 
                     if i.is_dummy() && self.options.unused {
                         report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
@@ -1432,10 +1446,7 @@ where
     }
 }
 
-impl<M> VisitMut for Optimizer<'_, M>
-where
-    M: Mode,
-{
+impl VisitMut for Optimizer<'_> {
     noop_visit_mut_type!();
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -1756,7 +1767,7 @@ where
                 if let Some(i) = left.as_ident_mut() {
                     let old = i.to_id();
 
-                    self.store_var_for_inlining(i, right, false, false);
+                    self.store_var_for_inlining(i, right, false);
 
                     if i.is_dummy() && self.options.unused {
                         report_change!("inline: Removed variable ({}, {:?})", old.0, old.1);
@@ -1865,8 +1876,6 @@ where
                 debug_assert_valid(e);
             }
         }
-
-        self.collapse_assignment_to_vars(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -2201,9 +2210,6 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
-        let old_label = self.label.take();
-        self.label = Some(n.label.to_id());
-
         let ctx = Ctx {
             dont_use_prepend_nor_append: contains_leaping_continue_with_label(
                 &n.body,
@@ -2214,12 +2220,7 @@ where
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        if self.label.is_none() {
-            report_change!("Removing label `{}`", n.label);
-            n.label.take();
-        }
-
-        self.label = old_label;
+        self.try_remove_label(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2565,7 +2566,7 @@ where
                     .take_stmts()
                     .into_iter()
                     .chain(once(s.take()))
-                    .chain(self.append_stmts.take_stmts().into_iter())
+                    .chain(self.append_stmts.take_stmts())
                     .filter(|s| match s {
                         Stmt::Empty(..) => false,
                         Stmt::Decl(Decl::Var(v)) => !v.decls.is_empty(),
@@ -2890,10 +2891,7 @@ where
             ..
         } = var
         {
-            let should_preserve = !var.span.has_mark(self.marks.non_top_level)
-                && (!self.options.top_level() && self.options.top_retain.is_empty())
-                && self.ctx.in_top_level();
-            self.store_var_for_inlining(&mut id.id, init, should_preserve, false);
+            self.store_var_for_inlining(&mut id.id, init, false);
 
             if init.is_invalid() {
                 var.init = None
@@ -2901,6 +2899,8 @@ where
         };
 
         self.store_var_for_prop_hoisting(var);
+
+        self.drop_unused_properties(var);
 
         debug_assert_valid(&var.init);
     }

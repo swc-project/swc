@@ -1,4 +1,4 @@
-const obj = {
+export const obj = {
     flatten: function () {
         var array = [];
         for (var i = 0, l = this.length; i < l; i++) {

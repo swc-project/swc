@@ -729,7 +729,7 @@ where
                     },
                     // A tfoot element's end tag can be omitted if there is no more content in the
                     // parent element.
-                    js_word!("tfoot") => matches!(next, None),
+                    js_word!("tfoot") => next.is_none(),
                     // A tr element's end tag can be omitted if the tr element is immediately
                     // followed by another tr element, or if there is no more content in the parent
                     // element.

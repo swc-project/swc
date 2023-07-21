@@ -632,22 +632,22 @@ impl<I: Tokens> Parser<I> {
             if is_new_expr {
                 match *callee {
                     Expr::OptChain(OptChainExpr {
-                        question_dot_token, ..
+                        span,
+                        optional: true,
+                        ..
                     }) => {
-                        syntax_error!(
-                            self,
-                            question_dot_token,
-                            SyntaxError::OptChainCannotFollowConstructorCall
-                        )
+                        syntax_error!(self, span, SyntaxError::OptChainCannotFollowConstructorCall)
                     }
                     Expr::Member(MemberExpr { ref obj, .. }) => {
                         if let Expr::OptChain(OptChainExpr {
-                            question_dot_token, ..
+                            span,
+                            optional: true,
+                            ..
                         }) = **obj
                         {
                             syntax_error!(
                                 self,
-                                question_dot_token,
+                                span,
                                 SyntaxError::OptChainCannotFollowConstructorCall
                             )
                         }
@@ -715,11 +715,12 @@ impl<I: Tokens> Parser<I> {
         let obj = self.parse_primary_expr()?;
         return_if_arrow!(self, obj);
 
-        let type_args = if self.syntax().typescript() && is!(self, '<') {
+        let type_args = if self.syntax().typescript() {
             self.try_parse_ts_type_args()
         } else {
             None
         };
+
         let obj = if let Some(type_args) = type_args {
             trace_cur!(self, parse_member_expr_or_new_expr__with_type_args);
             Box::new(Expr::TsInstantiation(TsInstantiation {
@@ -1087,6 +1088,11 @@ impl<I: Tokens> Parser<I> {
         let tpl = Box::new(self.parse_tpl(true)?);
 
         let span = span!(self, tagged_tpl_start);
+
+        if tag.is_opt_chain() {
+            self.emit_err(span, SyntaxError::TaggedTplInOptChain);
+        }
+
         Ok(TaggedTpl {
             span,
             tag,
@@ -1240,10 +1246,30 @@ impl<I: Tokens> Parser<I> {
                         // above. (won't be any undefined arguments)
                         let args = p.parse_args(is_dynamic_import)?;
 
+                        let obj = mut_obj_opt.take().unwrap();
+
+                        if let Callee::Expr(callee) = &obj {
+                            if let Expr::OptChain(..) = &**callee {
+                                return Ok(Some((
+                                    Box::new(Expr::OptChain(OptChainExpr {
+                                        span: span!(p, start),
+                                        base: Box::new(OptChainBase::Call(OptCall {
+                                            span: span!(p, start),
+                                            callee: obj.expect_expr(),
+                                            type_args: Some(type_args),
+                                            args,
+                                        })),
+                                        optional: false,
+                                    })),
+                                    true,
+                                )));
+                            }
+                        }
+
                         Ok(Some((
                             Box::new(Expr::Call(CallExpr {
                                 span: span!(p, start),
-                                callee: mut_obj_opt.take().unwrap(),
+                                callee: obj,
                                 type_args: Some(type_args),
                                 args,
                             })),
@@ -1354,15 +1380,16 @@ impl<I: Tokens> Parser<I> {
                         }
                     }
                     Callee::Expr(obj) => {
+                        let is_opt_chain = obj.is_opt_chain();
                         let expr = MemberExpr {
                             span,
                             obj,
                             prop: MemberProp::Computed(prop),
                         };
-                        let expr = if let Some(question_dot_token) = question_dot_token {
+                        let expr = if is_opt_chain || question_dot_token.is_some() {
                             Expr::OptChain(OptChainExpr {
                                 span,
-                                question_dot_token,
+                                optional: question_dot_token.is_some(),
                                 base: Box::new(OptChainBase::Member(expr)),
                             })
                         } else {
@@ -1397,7 +1424,11 @@ impl<I: Tokens> Parser<I> {
             };
             let args = self.parse_args(obj.is_import())?;
             let span = span!(self, start);
-            return if let Some(question_dot_token) = question_dot_token {
+            return if question_dot_token.is_some()
+                || match &obj {
+                    Callee::Expr(obj) => obj.is_opt_chain(),
+                    _ => false,
+                } {
                 match obj {
                     Callee::Super(_) | Callee::Import(_) => {
                         syntax_error!(self, self.input.cur_span(), SyntaxError::SuperCallOptional)
@@ -1405,7 +1436,7 @@ impl<I: Tokens> Parser<I> {
                     Callee::Expr(callee) => Ok((
                         Box::new(Expr::OptChain(OptChainExpr {
                             span,
-                            question_dot_token,
+                            optional: question_dot_token.is_some(),
                             base: Box::new(OptChainBase::Call(OptCall {
                                 span: span!(self, start),
                                 callee,
@@ -1499,10 +1530,10 @@ impl<I: Tokens> Parser<I> {
                     }
                     Callee::Expr(obj) => {
                         let expr = MemberExpr { span, obj, prop };
-                        let expr = if let Some(question_dot_token) = question_dot_token {
+                        let expr = if expr.obj.is_opt_chain() || question_dot_token.is_some() {
                             Expr::OptChain(OptChainExpr {
                                 span: span!(self, start),
-                                question_dot_token,
+                                optional: question_dot_token.is_some(),
                                 base: Box::new(OptChainBase::Member(expr)),
                             })
                         } else {
@@ -1617,9 +1648,27 @@ impl<I: Tokens> Parser<I> {
         let callee = self.parse_new_expr()?;
         return_if_arrow!(self, callee);
 
-        let type_args = if self.input.syntax().typescript() && is!(self, '<') {
+        let type_args = if self.input.syntax().typescript() && is_one_of!(self, '<', "<<") {
+            let type_args_start = self.input.cur_pos();
             self.try_parse_ts(|p| {
+                trace_cur!(p, parse_lhs_expr__type_args);
+
+                if is!(p, "<<") {
+                    let ctx = Context {
+                        should_not_lex_lt_or_gt_as_type: false,
+                        in_type: true,
+                        ..p.ctx()
+                    };
+                    p.input.reset_to(type_args_start);
+                    p.input.set_ctx(ctx);
+                }
+
+                trace_cur!(p, parse_lhs_expr__before_type_args);
+
                 let type_args = p.parse_ts_type_args()?;
+
+                trace_cur!(p, parse_lhs_expr__after_type_args);
+
                 if is!(p, '(') {
                     Ok(Some(type_args))
                 } else {
@@ -1660,13 +1709,25 @@ impl<I: Tokens> Parser<I> {
             };
             let args = self.parse_args(is_import)?;
 
-            let call_expr = Box::new(Expr::Call(CallExpr {
-                span: span!(self, start),
+            let call_expr = match callee {
+                Callee::Expr(e) if e.is_opt_chain() => Box::new(Expr::OptChain(OptChainExpr {
+                    span: span!(self, start),
+                    base: Box::new(OptChainBase::Call(OptCall {
+                        span: span!(self, start),
+                        callee: e,
+                        args,
+                        type_args,
+                    })),
+                    optional: false,
+                })),
+                _ => Box::new(Expr::Call(CallExpr {
+                    span: span!(self, start),
 
-                callee,
-                args,
-                type_args,
-            }));
+                    callee,
+                    args,
+                    type_args,
+                })),
+            };
 
             return self.parse_subscripts(Callee::Expr(call_expr), false, false);
         }
@@ -1845,11 +1906,6 @@ impl<I: Tokens> Parser<I> {
                         ref mut span,
                         ..
                     })
-                    | Pat::Assign(AssignPat {
-                        ref mut type_ann,
-                        ref mut span,
-                        ..
-                    })
                     | Pat::Object(ObjectPat {
                         ref mut type_ann,
                         ref mut span,
@@ -1868,7 +1924,7 @@ impl<I: Tokens> Parser<I> {
                         *type_ann = new_type_ann;
                     }
                     Pat::Expr(ref expr) => unreachable!("invalid pattern: Expr({:?})", expr),
-                    Pat::Invalid(..) => {
+                    Pat::Assign(..) | Pat::Invalid(..) => {
                         // We don't have to panic here.
                         // See: https://github.com/swc-project/swc/issues/1170
                         //
@@ -1884,7 +1940,6 @@ impl<I: Tokens> Parser<I> {
                         span: span!(self, pat_start),
                         left: Box::new(pat),
                         right,
-                        type_ann: None,
                     });
                 }
 

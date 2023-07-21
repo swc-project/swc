@@ -1,5 +1,5 @@
 class a extends b {
     c() {
-        ({ d: super[e]  } = f);
+        ({ d: super[e] } = f);
     }
 }

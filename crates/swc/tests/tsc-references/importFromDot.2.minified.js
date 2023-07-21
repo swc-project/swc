@@ -1,7 +1,5 @@
 //// [importFromDot.ts]
-"use strict";
 //// [a.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "rootA", {
@@ -12,7 +10,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 var rootA = 0;
 //// [a/index.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "indexInA", {
@@ -23,7 +20,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 var indexInA = 0;
 //// [a/b.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

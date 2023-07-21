@@ -74,6 +74,11 @@ fn fixtures() -> Result<(), Error> {
                 compile_fail: false,
                 no_run: false,
                 ignore_message: Default::default(),
+                source_file: Default::default(),
+                start_line: 0,
+                start_col: 0,
+                end_line: 0,
+                end_col: 0,
             },
             testfn: DynTestFn(Box::alloc().init(move || {
                 GLOBALS.set(&Default::default(), || {

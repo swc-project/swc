@@ -1,4 +1,4 @@
-var _myVar_target_value, _myVar_target_value_toLowerCase;
+var _myVar_target_value_toLowerCase, _myVar_target_value;
 var myVar = {
     target: {
         value: "ABC"

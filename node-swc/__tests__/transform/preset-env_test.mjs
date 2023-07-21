@@ -152,7 +152,7 @@ it("should respect custom transform option", async () => {
             }
         }
         const spread = 1;
-        const { foo , ...rest } = {
+        const { foo, ...rest } = {
             ...spread
         };
         function bar() {

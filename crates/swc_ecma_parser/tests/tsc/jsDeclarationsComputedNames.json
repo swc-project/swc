@@ -217,8 +217,7 @@
                       },
                       "value": 12.0,
                       "raw": "12"
-                    },
-                    "typeAnnotation": null
+                    }
                   }
                 }
               ],
@@ -359,8 +358,7 @@
                                 }
                               }
                             ]
-                          },
-                          "typeAnnotation": null
+                          }
                         }
                       ],
                       "body": {
@@ -680,8 +678,7 @@
                     },
                     "value": "InnerSym",
                     "optional": false
-                  },
-                  "typeAnnotation": null
+                  }
                 }
               }
             ],

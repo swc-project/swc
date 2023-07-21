@@ -147,7 +147,7 @@ impl<'a> VisitMut for Operator<'a> {
         let exported = s.orig.clone();
 
         if let ModuleExportName::Ident(orig) = &mut s.orig {
-            if let Ok(..) = self.rename_ident(orig) {
+            if self.rename_ident(orig).is_ok() {
                 match &exported {
                     ModuleExportName::Ident(exported) => {
                         if orig.sym == exported.sym {
@@ -177,7 +177,7 @@ impl<'a> VisitMut for Operator<'a> {
         let imported = s.local.clone();
         let local = self.rename_ident(&mut s.local);
 
-        if let Ok(..) = local {
+        if local.is_ok() {
             if s.local.sym == imported.sym {
                 return;
             }
@@ -488,7 +488,7 @@ impl<'a> VisitMut for Operator<'a> {
 
         if let ObjectPatProp::Assign(p) = n {
             let mut renamed = p.key.clone();
-            if let Ok(..) = self.rename_ident(&mut renamed) {
+            if self.rename_ident(&mut renamed).is_ok() {
                 if renamed.sym == p.key.sym {
                     return;
                 }
@@ -500,7 +500,6 @@ impl<'a> VisitMut for Operator<'a> {
                             span: p.span,
                             left: renamed.into(),
                             right: default_expr,
-                            type_ann: None,
                         })),
                         None => renamed.into(),
                     },
@@ -514,7 +513,7 @@ impl<'a> VisitMut for Operator<'a> {
         match prop {
             Prop::Shorthand(i) => {
                 let mut renamed = i.clone();
-                if let Ok(..) = self.rename_ident(&mut renamed) {
+                if self.rename_ident(&mut renamed).is_ok() {
                     if renamed.sym == i.sym {
                         return;
                     }
@@ -590,7 +589,7 @@ impl VisitMut for VarFolder<'_, '_> {
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         let orig = i.clone();
-        if let Ok(..) = self.orig.rename_ident(i) {
+        if self.orig.rename_ident(i).is_ok() {
             self.renamed
                 .push(ExportSpecifier::Named(ExportNamedSpecifier {
                     span: i.span,

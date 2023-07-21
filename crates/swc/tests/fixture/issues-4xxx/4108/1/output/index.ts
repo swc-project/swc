@@ -8,7 +8,7 @@ import { Transaction } from "@solana/web3.js";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 export var getErrorForTransaction = function() {
     var _ref = _async_to_generator(function(connection, txid) {
-        var tx, errors;
+        var _tx, tx, errors;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -26,7 +26,7 @@ export var getErrorForTransaction = function() {
                 case 2:
                     tx = _state.sent();
                     errors = [];
-                    if ((tx === null || tx === void 0 ? void 0 : tx.meta) && tx.meta.logMessages) {
+                    if (((_tx = tx) === null || _tx === void 0 ? void 0 : _tx.meta) && tx.meta.logMessages) {
                         tx.meta.logMessages.forEach(function(log) {
                             var regex = /Error: (.*)/gm;
                             var m;
@@ -366,7 +366,7 @@ export var sendTransactions = function() {
 }();
 export var sendTransaction = function() {
     var _ref = _async_to_generator(function(connection, wallet, instructions, signers) {
-        var awaitConfirmation, commitment, includesFeePayer, block, transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, confirmation, errors;
+        var awaitConfirmation, commitment, includesFeePayer, block, transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, _confirmation, _confirmation1, confirmation, errors;
         var _arguments = arguments;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -454,8 +454,8 @@ export var sendTransaction = function() {
                 case 7:
                     confirmation = _state.sent();
                     if (!confirmation) throw new Error("Timed out awaiting confirmation on transaction");
-                    slot = (confirmation === null || confirmation === void 0 ? void 0 : confirmation.slot) || 0;
-                    if (!(confirmation === null || confirmation === void 0 ? void 0 : confirmation.err)) return [
+                    slot = ((_confirmation = confirmation) === null || _confirmation === void 0 ? void 0 : _confirmation.slot) || 0;
+                    if (!((_confirmation1 = confirmation) === null || _confirmation1 === void 0 ? void 0 : _confirmation1.err)) return [
                         3,
                         9
                     ];
@@ -574,7 +574,7 @@ export function sendSignedTransaction(_) {
 }
 function _sendSignedTransaction() {
     _sendSignedTransaction = _async_to_generator(function(param) {
-        var signedTransaction, connection, _param_timeout, timeout, rawTransaction, startTime, slot, txid, done, confirmation, err, simulateResult, e, i, line;
+        var signedTransaction, connection, _param_timeout, timeout, rawTransaction, startTime, slot, txid, done, _confirmation, confirmation, err, simulateResult, e, i, line;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -639,7 +639,7 @@ function _sendSignedTransaction() {
                         console.error(confirmation.err);
                         throw new Error("Transaction failed: Custom instruction error");
                     }
-                    slot = (confirmation === null || confirmation === void 0 ? void 0 : confirmation.slot) || 0;
+                    slot = ((_confirmation = confirmation) === null || _confirmation === void 0 ? void 0 : _confirmation.slot) || 0;
                     return [
                         3,
                         10

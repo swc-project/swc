@@ -35508,8 +35508,7 @@
                         "value": "Default",
                         "optional": false
                       }
-                    },
-                    "typeAnnotation": null
+                    }
                   }
                 }
               ],

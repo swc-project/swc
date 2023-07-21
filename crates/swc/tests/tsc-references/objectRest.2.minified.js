@@ -9,36 +9,36 @@ var _tmp, _o, o = {
     b: 'no'
 };
 _extends({}, _object_destructuring_empty(o));
-var { a  } = o;
+var { a } = o;
 _object_without_properties(o, [
     "a"
 ]);
-var { a , b: renamed  } = o;
+var { a, b: renamed } = o;
 _object_without_properties(o, [
     "a",
     "b"
 ]);
-var { b: renamed  } = o, justA = _object_without_properties(o, [
+var { b: renamed } = o, justA = _object_without_properties(o, [
     'b'
-]), { b: renamed  } = o, justA = _object_without_properties(o, [
+]), { b: renamed } = o, justA = _object_without_properties(o, [
     'b'
-]), { b: { 0: n , 1: oooo  }  } = o, justA = _object_without_properties(o, [
+]), { b: { 0: n, 1: oooo } } = o, justA = _object_without_properties(o, [
     "b"
 ]);
 let o2 = {
     c: 'terrible idea?',
     d: 'yes'
 };
-var { d: renamed  } = o2;
+var { d: renamed } = o2;
 _object_without_properties(o2, [
     "d"
 ]);
-var { x , n1: { y , n2: { z  }  }  } = nestedrest;
+var { x, n1: { y, n2: { z } } } = nestedrest;
 _extends({}, _object_destructuring_empty(nestedrest.n1.n2.n3)), _object_without_properties(nestedrest, [
     "x",
     "n1"
 ]);
-var { x: { ka  } , y: other  } = complex;
+var { x: { ka }, y: other } = complex;
 _object_without_properties(complex.x, [
     "ka"
 ]), _object_without_properties(complex, [
@@ -49,11 +49,11 @@ _object_without_properties(complex.x, [
 ]), _object_without_properties(complex, [
     "x",
     "y"
-]), { x: { ka  } , y: other  } = complex;
+]), { x: { ka }, y: other } = complex;
 var _ref = {
     x: 1,
     y: 2
-}, { x  } = _ref;
+}, { x } = _ref;
 _object_without_properties(_ref, [
     "x"
 ]), _object_without_properties(_tmp = {
@@ -61,7 +61,7 @@ _object_without_properties(_ref, [
     y: 2
 }, [
     "x"
-]), { x  } = _tmp;
+]), { x } = _tmp;
 var removable = new class {
     set z(value) {}
     get both() {
@@ -69,20 +69,20 @@ var removable = new class {
     }
     set both(value) {}
     m() {}
-}(), { removed  } = removable;
+}(), { removed } = removable;
 _object_without_properties(removable, [
     "removed"
 ]);
-var { removed  } = removable;
+var { removed } = removable;
 _object_without_properties(removable, [
     "removed"
 ]);
 let computed = 'b', computed2 = 'a';
-var { [computed]: stillNotGreat , [computed2]: soSo  } = o, o = _object_without_properties(o, [
+var { [computed]: stillNotGreat, [computed2]: soSo } = o, o = _object_without_properties(o, [
     computed,
     computed2
 ].map(_to_property_key));
 o = _object_without_properties(_o = o, [
     computed,
     computed2
-].map(_to_property_key)), { [computed]: stillNotGreat , [computed2]: soSo  } = _o;
+].map(_to_property_key)), { [computed]: stillNotGreat, [computed2]: soSo } = _o;

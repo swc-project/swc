@@ -217,7 +217,6 @@
         "end": 423,
         "ctxt": 0
       },
-      "declare": false,
       "isExport": false,
       "isTypeOnly": false,
       "id": {
@@ -256,7 +255,6 @@
         "end": 471,
         "ctxt": 0
       },
-      "declare": false,
       "isExport": false,
       "isTypeOnly": true,
       "id": {

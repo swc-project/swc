@@ -61,7 +61,7 @@ function renderToStream__2(element__3, generateStaticHTML__3) {
                 });
             }
         };
-        const { abort__4 , startWriting__4  } = ReactDOMServer.pipeToNodeWritable(element__3, stream__4, {
+        const { abort__4, startWriting__4 } = ReactDOMServer.pipeToNodeWritable(element__3, stream__4, {
             onError (error__22) {
                 if (!resolved__4) {
                     resolved__4 = true;

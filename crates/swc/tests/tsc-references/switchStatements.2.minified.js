@@ -7,10 +7,8 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
     return "";
 }, void 0 === x || _type_of(x), void 0 === M || _type_of(M), M.fn(1);
 var M, x, C = function C() {
-    "use strict";
     _class_call_check(this, C);
 }, D = function(C) {
-    "use strict";
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {

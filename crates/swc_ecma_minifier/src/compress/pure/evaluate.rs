@@ -358,11 +358,8 @@ impl Pure<'_> {
                     }
                 };
                 // 8. Let s be the empty String.
-                // 9. If x < 0, then
-                //     a. Set s to "-".
-                //     b. Set x to -x.
-                // 10. If x ≥ 10**21, then
-                //     a. Let m be ! ToString(𝔽(x)).
+                // 9. If x < 0, then a. Set s to "-". b. Set x to -x.
+                // 10. If x ≥ 10**21, then a. Let m be ! ToString(𝔽(x)).
                 let value = if x >= 1e21 || x <= -1e21 {
                     format!("{:e}", x).replace('e', "e+")
                 } else {
@@ -781,18 +778,15 @@ fn f64_to_precision(value: f64, precision: usize) -> String {
     let mut m: String;
     let mut e: i32;
 
-    // 8. If x < 0, then
-    //     a. Set s to the code unit 0x002D (HYPHEN-MINUS).
-    //     b. Set x to -x.
+    // 8. If x < 0, then a. Set s to the code unit 0x002D (HYPHEN-MINUS). b. Set x
+    //    to -x.
     if x < 0. {
         s.push('-');
         x = -x;
     }
 
-    // 9. If x = 0, then
-    //     a. Let m be the String value consisting of p occurrences of the code unit
-    //        0x0030 (DIGIT ZERO).
-    //     b. Let e be 0.
+    // 9. If x = 0, then a. Let m be the String value consisting of p occurrences of
+    //    the code unit 0x0030 (DIGIT ZERO). b. Let e be 0.
     if x == 0.0 {
         m = "0".repeat(precision);
         e = 0;

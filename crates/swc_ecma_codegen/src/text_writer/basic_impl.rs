@@ -13,6 +13,7 @@ use super::{Result, WriteJs};
 /// https://github.com/Microsoft/TypeScript/blob/45eaf42006/src/compiler/utilities.ts#L2548
 pub struct JsWriter<'a, W: Write> {
     indent: usize,
+    indent_str: &'static str,
     line_start: bool,
     line_count: usize,
     line_pos: usize,
@@ -33,6 +34,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
     ) -> Self {
         JsWriter {
             indent: Default::default(),
+            indent_str: "    ",
             line_start: true,
             line_count: 0,
             line_pos: Default::default(),
@@ -44,15 +46,25 @@ impl<'a, W: Write> JsWriter<'a, W> {
         }
     }
 
+    pub fn preamble(&mut self, s: &str) -> Result {
+        self.raw_write(s)?;
+        self.update_pos(s);
+
+        Ok(())
+    }
+
+    /// Sets the indentation string. Defaults to four spaces.
+    pub fn set_indent_str(&mut self, indent_str: &'static str) {
+        self.indent_str = indent_str;
+    }
+
     #[inline]
     fn write_indent_string(&mut self) -> Result {
-        const INDENT: &str = "    ";
-
         for _ in 0..self.indent {
-            self.raw_write(INDENT)?;
+            self.raw_write(self.indent_str)?;
         }
         if self.srcmap.is_some() {
-            self.line_pos += INDENT.len() * self.indent;
+            self.line_pos += self.indent_str.len() * self.indent;
         }
 
         Ok(())
@@ -322,5 +334,28 @@ fn compute_line_starts(s: &str) -> LineStart {
     LineStart {
         line_count: count,
         byte_pos: line_start,
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use std::sync::Arc;
+
+    use swc_common::SourceMap;
+
+    use super::JsWriter;
+    use crate::text_writer::WriteJs;
+
+    #[test]
+    fn changes_indent_str() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut writer = JsWriter::new(source_map, "\n", &mut output, None);
+        writer.set_indent_str("\t");
+        writer.increase_indent().unwrap();
+        writer.write_indent_string().unwrap();
+        writer.increase_indent().unwrap();
+        writer.write_indent_string().unwrap();
+        assert_eq!(output, "\t\t\t".as_bytes());
     }
 }

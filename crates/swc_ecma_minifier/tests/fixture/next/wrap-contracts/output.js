@@ -4,7 +4,7 @@
     ],
     {
         8161: function(module1, __unused_webpack_exports1, __webpack_require__1) {
-            const elliptic1 = __webpack_require__1(6266), BN1 = __webpack_require__1(3783), { sha256: sha2561  } = __webpack_require__1(2023), { sha512: sha5121  } = __webpack_require__1(3434), EC1 = new elliptic1.ec('secp256k1');
+            const elliptic1 = __webpack_require__1(6266), BN1 = __webpack_require__1(3783), { sha256: sha2561 } = __webpack_require__1(2023), { sha512: sha5121 } = __webpack_require__1(3434), EC1 = new elliptic1.ec('secp256k1');
             function toBytesInt321(num1) {
                 return new Uint8Array([
                     (0xff000000 & num1) >> 24,
@@ -712,7 +712,7 @@
                 }, BN1.prototype.maskn = function(bits1) {
                     return this.clone().imaskn(bits1);
                 }, BN1.prototype.iaddn = function(num1) {
-                    return (assert1('number' == typeof num1), assert1(num1 < 0x4000000), num1 < 0) ? this.isubn(-num1) : 0 !== this.negative ? 1 === this.length && (0 | this.words[0]) <= num1 ? (this.words[0] = num1 - (0 | this.words[0]), this.negative = 0, this) : (this.negative = 0, this.isubn(num1), this.negative = 1, this) : this._iaddn(num1);
+                    return (assert1('number' == typeof num1), assert1(num1 < 0x4000000), num1 < 0) ? this.isubn(-num1) : 0 !== this.negative ? (1 === this.length && (0 | this.words[0]) <= num1 ? (this.words[0] = num1 - (0 | this.words[0]), this.negative = 0) : (this.negative = 0, this.isubn(num1), this.negative = 1), this) : this._iaddn(num1);
                 }, BN1.prototype._iaddn = function(num1) {
                     this.words[0] += num1;
                     for(var i2 = 0; i2 < this.length && this.words[i2] >= 0x4000000; i2++)this.words[i2] -= 0x4000000, i2 === this.length - 1 ? this.words[i2 + 1] = 1 : this.words[i2 + 1]++;
@@ -1146,7 +1146,7 @@
         },
         9464: function(__unused_webpack_module1, exports1, __webpack_require__1) {
             "use strict";
-            const { fromCallback: fromCallback1  } = __webpack_require__1(6957), ModuleError1 = __webpack_require__1(4473), { getCallback: getCallback1 , getOptions: getOptions1  } = __webpack_require__1(2520), kPromise1 = Symbol('promise'), kStatus1 = Symbol('status'), kOperations1 = Symbol('operations'), kFinishClose1 = Symbol('finishClose'), kCloseCallbacks1 = Symbol('closeCallbacks');
+            const { fromCallback: fromCallback1 } = __webpack_require__1(6957), ModuleError1 = __webpack_require__1(4473), { getCallback: getCallback1, getOptions: getOptions1 } = __webpack_require__1(2520), kPromise1 = Symbol('promise'), kStatus1 = Symbol('status'), kOperations1 = Symbol('operations'), kFinishClose1 = Symbol('finishClose'), kCloseCallbacks1 = Symbol('closeCallbacks');
             class AbstractChainedBatch1 {
                 constructor(db1){
                     if ('object' != typeof db1 || null === db1) {
@@ -1227,7 +1227,7 @@
         },
         3961: function(__unused_webpack_module1, exports1, __webpack_require__1) {
             "use strict";
-            const { fromCallback: fromCallback1  } = __webpack_require__1(6957), ModuleError1 = __webpack_require__1(4473), { getOptions: getOptions1 , getCallback: getCallback1  } = __webpack_require__1(2520), kPromise1 = Symbol('promise'), kCallback1 = Symbol('callback'), kWorking1 = Symbol('working'), kHandleOne1 = Symbol('handleOne'), kHandleMany1 = Symbol('handleMany'), kAutoClose1 = Symbol('autoClose'), kFinishWork1 = Symbol('finishWork'), kReturnMany1 = Symbol('returnMany'), kClosing1 = Symbol('closing'), kHandleClose1 = Symbol('handleClose'), kClosed1 = Symbol('closed'), kCloseCallbacks1 = Symbol('closeCallbacks'), kKeyEncoding1 = Symbol('keyEncoding'), kValueEncoding1 = Symbol('valueEncoding'), kAbortOnClose1 = Symbol('abortOnClose'), kLegacy1 = Symbol('legacy'), kKeys1 = Symbol('keys'), kValues1 = Symbol('values'), kLimit1 = Symbol('limit'), kCount1 = Symbol('count'), emptyOptions1 = Object.freeze({}), noop1 = ()=>{};
+            const { fromCallback: fromCallback1 } = __webpack_require__1(6957), ModuleError1 = __webpack_require__1(4473), { getOptions: getOptions1, getCallback: getCallback1 } = __webpack_require__1(2520), kPromise1 = Symbol('promise'), kCallback1 = Symbol('callback'), kWorking1 = Symbol('working'), kHandleOne1 = Symbol('handleOne'), kHandleMany1 = Symbol('handleMany'), kAutoClose1 = Symbol('autoClose'), kFinishWork1 = Symbol('finishWork'), kReturnMany1 = Symbol('returnMany'), kClosing1 = Symbol('closing'), kHandleClose1 = Symbol('handleClose'), kClosed1 = Symbol('closed'), kCloseCallbacks1 = Symbol('closeCallbacks'), kKeyEncoding1 = Symbol('keyEncoding'), kValueEncoding1 = Symbol('valueEncoding'), kAbortOnClose1 = Symbol('abortOnClose'), kLegacy1 = Symbol('legacy'), kKeys1 = Symbol('keys'), kValues1 = Symbol('values'), kLimit1 = Symbol('limit'), kCount1 = Symbol('count'), emptyOptions1 = Object.freeze({}), noop1 = ()=>{};
             let warnedEnd1 = !1;
             class CommonIterator1 {
                 constructor(db1, options1, legacy1){
@@ -1265,11 +1265,11 @@
                     this.nextTick(callback1);
                 }
                 nextv(size1, options1, callback1) {
-                    return (callback1 = fromCallback1(callback1 = getCallback1(options1, callback1), kPromise1), options1 = getOptions1(options1, emptyOptions1), Number.isInteger(size1)) ? (this[kClosing1] ? this.nextTick(callback1, new ModuleError1('Iterator is not open: cannot call nextv() after close()', {
+                    return (callback1 = fromCallback1(callback1 = getCallback1(options1, callback1), kPromise1), options1 = getOptions1(options1, emptyOptions1), Number.isInteger(size1)) ? this[kClosing1] ? this.nextTick(callback1, new ModuleError1('Iterator is not open: cannot call nextv() after close()', {
                         code: 'LEVEL_ITERATOR_NOT_OPEN'
                     })) : this[kWorking1] ? this.nextTick(callback1, new ModuleError1('Iterator is busy: cannot call nextv() until previous call has completed', {
                         code: 'LEVEL_ITERATOR_BUSY'
-                    })) : (size1 < 1 && (size1 = 1), this[kLimit1] < 1 / 0 && (size1 = Math.min(size1, this[kLimit1] - this[kCount1])), this[kWorking1] = !0, this[kCallback1] = callback1, size1 <= 0 ? this.nextTick(this[kHandleMany1], null, []) : this._nextv(size1, options1, this[kHandleMany1])), callback1[kPromise1]) : (this.nextTick(callback1, TypeError("The first argument 'size' must be an integer")), callback1[kPromise1]);
+                    })) : (size1 < 1 && (size1 = 1), this[kLimit1] < 1 / 0 && (size1 = Math.min(size1, this[kLimit1] - this[kCount1])), this[kWorking1] = !0, this[kCallback1] = callback1, size1 <= 0 ? this.nextTick(this[kHandleMany1], null, []) : this._nextv(size1, options1, this[kHandleMany1])) : this.nextTick(callback1, TypeError("The first argument 'size' must be an integer")), callback1[kPromise1];
                 }
                 _nextv(size1, options1, callback1) {
                     const acc1 = [], onnext1 = (err1, key1, value1)=>err1 ? callback1(err1) : (this[kLegacy1] ? void 0 === key1 && void 0 === value1 : void 0 === key1) ? callback1(null, acc1) : void (acc1.push(this[kLegacy1] ? [
@@ -1469,12 +1469,12 @@
         },
         9071: function(__unused_webpack_module1, exports1, __webpack_require__1) {
             "use strict";
-            const { supports: supports1  } = __webpack_require__1(1675), { Transcoder: Transcoder1  } = __webpack_require__1(8499), { EventEmitter: EventEmitter1  } = __webpack_require__1(7187), { fromCallback: fromCallback1  } = __webpack_require__1(6957), ModuleError1 = __webpack_require__1(4473), { AbstractIterator: AbstractIterator1  } = __webpack_require__1(3961), { DefaultKeyIterator: DefaultKeyIterator1 , DefaultValueIterator: DefaultValueIterator1  } = __webpack_require__1(5429), { DeferredIterator: DeferredIterator1 , DeferredKeyIterator: DeferredKeyIterator1 , DeferredValueIterator: DeferredValueIterator1  } = __webpack_require__1(593), { DefaultChainedBatch: DefaultChainedBatch1  } = __webpack_require__1(4765), { getCallback: getCallback1 , getOptions: getOptions1  } = __webpack_require__1(2520), rangeOptions1 = __webpack_require__1(56), kPromise1 = Symbol('promise'), kLanded1 = Symbol('landed'), kResources1 = Symbol('resources'), kCloseResources1 = Symbol('closeResources'), kOperations1 = Symbol('operations'), kUndefer1 = Symbol('undefer'), kDeferOpen1 = Symbol('deferOpen'), kOptions1 = Symbol('options'), kStatus1 = Symbol('status'), kDefaultOptions1 = Symbol('defaultOptions'), kTranscoder1 = Symbol('transcoder'), kKeyEncoding1 = Symbol('keyEncoding'), kValueEncoding1 = Symbol('valueEncoding'), noop1 = ()=>{};
+            const { supports: supports1 } = __webpack_require__1(1675), { Transcoder: Transcoder1 } = __webpack_require__1(8499), { EventEmitter: EventEmitter1 } = __webpack_require__1(7187), { fromCallback: fromCallback1 } = __webpack_require__1(6957), ModuleError1 = __webpack_require__1(4473), { AbstractIterator: AbstractIterator1 } = __webpack_require__1(3961), { DefaultKeyIterator: DefaultKeyIterator1, DefaultValueIterator: DefaultValueIterator1 } = __webpack_require__1(5429), { DeferredIterator: DeferredIterator1, DeferredKeyIterator: DeferredKeyIterator1, DeferredValueIterator: DeferredValueIterator1 } = __webpack_require__1(593), { DefaultChainedBatch: DefaultChainedBatch1 } = __webpack_require__1(4765), { getCallback: getCallback1, getOptions: getOptions1 } = __webpack_require__1(2520), rangeOptions1 = __webpack_require__1(56), kPromise1 = Symbol('promise'), kLanded1 = Symbol('landed'), kResources1 = Symbol('resources'), kCloseResources1 = Symbol('closeResources'), kOperations1 = Symbol('operations'), kUndefer1 = Symbol('undefer'), kDeferOpen1 = Symbol('deferOpen'), kOptions1 = Symbol('options'), kStatus1 = Symbol('status'), kDefaultOptions1 = Symbol('defaultOptions'), kTranscoder1 = Symbol('transcoder'), kKeyEncoding1 = Symbol('keyEncoding'), kValueEncoding1 = Symbol('valueEncoding'), noop1 = ()=>{};
             class AbstractLevel1 extends EventEmitter1 {
                 constructor(manifest1, options1){
                     if (super(), 'object' != typeof manifest1 || null === manifest1) throw TypeError("The first argument 'manifest' must be an object");
                     options1 = getOptions1(options1);
-                    const { keyEncoding: keyEncoding1 , valueEncoding: valueEncoding1 , passive: passive1 , ...forward1 } = options1;
+                    const { keyEncoding: keyEncoding1, valueEncoding: valueEncoding1, passive: passive1, ...forward1 } = options1;
                     for (const encoding1 of (this[kResources1] = new Set(), this[kOperations1] = [], this[kDeferOpen1] = !0, this[kOptions1] = forward1, this[kStatus1] = 'opening', this.supports = supports1(manifest1, {
                         status: !0,
                         promises: !0,
@@ -1685,7 +1685,7 @@
                     if (maybeError1(this, callback1)) return callback1[kPromise1];
                     if (!Array.isArray(operations1)) return this.nextTick(callback1, TypeError("The first argument 'operations' must be an array")), callback1[kPromise1];
                     if (0 === operations1.length) return this.nextTick(callback1), callback1[kPromise1];
-                    const mapped1 = Array(operations1.length), { keyEncoding: ke1 , valueEncoding: ve1 , ...forward1 } = options1;
+                    const mapped1 = Array(operations1.length), { keyEncoding: ke1, valueEncoding: ve1, ...forward1 } = options1;
                     for(let i2 = 0; i2 < operations1.length; i2++){
                         if ('object' != typeof operations1[i2] || null === operations1[i2]) return this.nextTick(callback1, TypeError('A batch operation must be an object')), callback1[kPromise1];
                         const op1 = Object.assign({}, operations1[i2]);
@@ -1794,7 +1794,7 @@
                 }
             }
             AbstractLevel1.prototype.nextTick = __webpack_require__1(6909);
-            const { AbstractSublevel: AbstractSublevel1  } = __webpack_require__1(9650)({
+            const { AbstractSublevel: AbstractSublevel1 } = __webpack_require__1(9650)({
                 AbstractLevel: AbstractLevel1
             });
             exports1.AbstractLevel = AbstractLevel1, exports1.AbstractSublevel = AbstractSublevel1;
@@ -1812,7 +1812,7 @@
         },
         2970: function(__unused_webpack_module1, exports1, __webpack_require__1) {
             "use strict";
-            const { AbstractIterator: AbstractIterator1 , AbstractKeyIterator: AbstractKeyIterator1 , AbstractValueIterator: AbstractValueIterator1  } = __webpack_require__1(3961), kUnfix1 = Symbol('unfix'), kIterator1 = Symbol('iterator'), kHandleOne1 = Symbol('handleOne'), kHandleMany1 = Symbol('handleMany'), kCallback1 = Symbol('callback');
+            const { AbstractIterator: AbstractIterator1, AbstractKeyIterator: AbstractKeyIterator1, AbstractValueIterator: AbstractValueIterator1 } = __webpack_require__1(3961), kUnfix1 = Symbol('unfix'), kIterator1 = Symbol('iterator'), kHandleOne1 = Symbol('handleOne'), kHandleMany1 = Symbol('handleMany'), kCallback1 = Symbol('callback');
             class AbstractSublevelIterator1 extends AbstractIterator1 {
                 constructor(db1, options1, iterator1, unfix1){
                     super(db1, options1), this[kIterator1] = iterator1, this[kUnfix1] = unfix1, this[kHandleOne1] = this[kHandleOne1].bind(this), this[kHandleMany1] = this[kHandleMany1].bind(this), this[kCallback1] = null;
@@ -1888,10 +1888,10 @@
         },
         9650: function(module1, __unused_webpack_exports1, __webpack_require__1) {
             "use strict";
-            const ModuleError1 = __webpack_require__1(4473), { Buffer: Buffer1  } = __webpack_require__1(8764) || {}, { AbstractSublevelIterator: AbstractSublevelIterator1 , AbstractSublevelKeyIterator: AbstractSublevelKeyIterator1 , AbstractSublevelValueIterator: AbstractSublevelValueIterator1  } = __webpack_require__1(2970), kPrefix1 = Symbol('prefix'), kUpperBound1 = Symbol('upperBound'), kPrefixRange1 = Symbol('prefixRange'), kParent1 = Symbol('parent'), kUnfix1 = Symbol('unfix'), textEncoder1 = new TextEncoder(), defaults1 = {
+            const ModuleError1 = __webpack_require__1(4473), { Buffer: Buffer1 } = __webpack_require__1(8764) || {}, { AbstractSublevelIterator: AbstractSublevelIterator1, AbstractSublevelKeyIterator: AbstractSublevelKeyIterator1, AbstractSublevelValueIterator: AbstractSublevelValueIterator1 } = __webpack_require__1(2970), kPrefix1 = Symbol('prefix'), kUpperBound1 = Symbol('upperBound'), kPrefixRange1 = Symbol('prefixRange'), kParent1 = Symbol('parent'), kUnfix1 = Symbol('unfix'), textEncoder1 = new TextEncoder(), defaults1 = {
                 separator: '!'
             };
-            module1.exports = function({ AbstractLevel: AbstractLevel1  }) {
+            module1.exports = function({ AbstractLevel: AbstractLevel1 }) {
                 class AbstractSublevel1 extends AbstractLevel1 {
                     static defaults(options1) {
                         if ('string' == typeof options1) throw new ModuleError1('The subleveldown string shorthand for { separator } has been removed', {
@@ -1906,7 +1906,7 @@
                         };
                     }
                     constructor(db1, name1, options1){
-                        const { separator: separator1 , manifest: manifest1 , ...forward1 } = AbstractSublevel1.defaults(options1);
+                        const { separator: separator1, manifest: manifest1, ...forward1 } = AbstractSublevel1.defaults(options1);
                         name1 = trim1(name1, separator1);
                         const reserved1 = separator1.charCodeAt(0) + 1, parent1 = db1[kParent1] || db1;
                         if (!textEncoder1.encode(name1).every((x3)=>x3 > reserved1 && x3 < 127)) throw new ModuleError1(`Prefix must use bytes > ${reserved1} < 127`, {
@@ -2035,7 +2035,7 @@
         },
         4765: function(__unused_webpack_module1, exports1, __webpack_require__1) {
             "use strict";
-            const { AbstractChainedBatch: AbstractChainedBatch1  } = __webpack_require__1(9464), ModuleError1 = __webpack_require__1(4473), kEncoded1 = Symbol('encoded');
+            const { AbstractChainedBatch: AbstractChainedBatch1 } = __webpack_require__1(9464), ModuleError1 = __webpack_require__1(4473), kEncoded1 = Symbol('encoded');
             class DefaultChainedBatch1 extends AbstractChainedBatch1 {
                 constructor(db1){
                     super(db1), this[kEncoded1] = [];
@@ -2068,7 +2068,7 @@
         },
         5429: function(__unused_webpack_module1, exports1, __webpack_require__1) {
             "use strict";
-            const { AbstractKeyIterator: AbstractKeyIterator1 , AbstractValueIterator: AbstractValueIterator1  } = __webpack_require__1(3961), kIterator1 = Symbol('iterator'), kCallback1 = Symbol('callback'), kHandleOne1 = Symbol('handleOne'), kHandleMany1 = Symbol('handleMany');
+            const { AbstractKeyIterator: AbstractKeyIterator1, AbstractValueIterator: AbstractValueIterator1 } = __webpack_require__1(3961), kIterator1 = Symbol('iterator'), kCallback1 = Symbol('callback'), kHandleOne1 = Symbol('handleOne'), kHandleMany1 = Symbol('handleMany');
             class DefaultKeyIterator1 extends AbstractKeyIterator1 {
                 constructor(db1, options1){
                     super(db1, options1), this[kIterator1] = db1.iterator({
@@ -2114,7 +2114,7 @@
         },
         593: function(__unused_webpack_module1, exports1, __webpack_require__1) {
             "use strict";
-            const { AbstractIterator: AbstractIterator1 , AbstractKeyIterator: AbstractKeyIterator1 , AbstractValueIterator: AbstractValueIterator1  } = __webpack_require__1(3961), ModuleError1 = __webpack_require__1(4473), kNut1 = Symbol('nut'), kUndefer1 = Symbol('undefer'), kFactory1 = Symbol('factory');
+            const { AbstractIterator: AbstractIterator1, AbstractKeyIterator: AbstractKeyIterator1, AbstractValueIterator: AbstractValueIterator1 } = __webpack_require__1(3961), ModuleError1 = __webpack_require__1(4473), kNut1 = Symbol('nut'), kUndefer1 = Symbol('undefer'), kFactory1 = Symbol('factory');
             class DeferredIterator1 extends AbstractIterator1 {
                 constructor(db1, options1){
                     super(db1, options1), this[kNut1] = null, this[kFactory1] = ()=>db1.iterator(options1), this.db.defer(()=>this[kUndefer1]());
@@ -2200,11 +2200,11 @@
                             DECIMAL_PLACES: decimals1
                         }))(value1);
                 }
-                winstonToAr(winstonString1, { formatted: formatted1 = !1 , decimals: decimals1 = 12 , trim: trim1 = !0  } = {}) {
+                winstonToAr(winstonString1, { formatted: formatted1 = !1, decimals: decimals1 = 12, trim: trim1 = !0 } = {}) {
                     let number1 = this.stringToBigNum(winstonString1, decimals1).shiftedBy(-12);
                     return formatted1 ? number1.toFormat(decimals1) : number1.toFixed(decimals1);
                 }
-                arToWinston(arString1, { formatted: formatted1 = !1  } = {}) {
+                arToWinston(arString1, { formatted: formatted1 = !1 } = {}) {
                     let number1 = this.stringToBigNum(arString1).shiftedBy(12);
                     return formatted1 ? number1.toFormat() : number1.toFixed(0);
                 }
@@ -2260,7 +2260,7 @@
                     throw Error(`Error while loading block data: ${response1}`);
                 }
                 async getCurrent() {
-                    const { current: current1  } = await this.network.getInfo();
+                    const { current: current1 } = await this.network.getInfo();
                     return await this.get(current1);
                 }
             }
@@ -2542,7 +2542,7 @@
                         });
                     });
                 }
-                sign(jwk1, data1, { saltLength: saltLength1  } = {}) {
+                sign(jwk1, data1, { saltLength: saltLength1 } = {}) {
                     return new Promise((resolve1, reject1)=>{
                         resolve1(crypto1.createSign(this.hashAlgorithm).update(data1).sign({
                             key: this.jwkToPem(jwk1),
@@ -2831,7 +2831,7 @@
                 }), chunks1;
             }
             async function generateLeaves1(chunks1) {
-                return Promise.all(chunks1.map(async ({ dataHash: dataHash1 , minByteRange: minByteRange1 , maxByteRange: maxByteRange1  })=>({
+                return Promise.all(chunks1.map(async ({ dataHash: dataHash1, minByteRange: minByteRange1, maxByteRange: maxByteRange1 })=>({
                         type: "leaf",
                         id: await hash1(await Promise.all([
                             hash1(dataHash1),
@@ -3179,7 +3179,7 @@
                 setOwner(owner1) {
                     this.owner = owner1;
                 }
-                setSignature({ id: id1 , owner: owner1 , reward: reward1 , tags: tags1 , signature: signature1  }) {
+                setSignature({ id: id1, owner: owner1, reward: reward1, tags: tags1, signature: signature1 }) {
                     this.id = id1, this.owner = owner1, reward1 && (this.reward = reward1), tags1 && (this.tags = tags1), this.signature = signature1;
                 }
                 async prepareChunks(data1) {
@@ -3774,11 +3774,11 @@
                             DECIMAL_PLACES: decimals1
                         }))(value1);
                 }
-                winstonToAr(winstonString1, { formatted: formatted1 = !1 , decimals: decimals1 = 12 , trim: trim1 = !0  } = {}) {
+                winstonToAr(winstonString1, { formatted: formatted1 = !1, decimals: decimals1 = 12, trim: trim1 = !0 } = {}) {
                     let number1 = this.stringToBigNum(winstonString1, decimals1).shiftedBy(-12);
                     return formatted1 ? number1.toFormat(decimals1) : number1.toFixed(decimals1);
                 }
-                arToWinston(arString1, { formatted: formatted1 = !1  } = {}) {
+                arToWinston(arString1, { formatted: formatted1 = !1 } = {}) {
                     let number1 = this.stringToBigNum(arString1).shiftedBy(12);
                     return formatted1 ? number1.toFormat() : number1.toFixed(0);
                 }
@@ -3829,7 +3829,7 @@
                     throw Error(`Error while loading block data: ${response1}`);
                 }
                 async getCurrent() {
-                    const { current: current1  } = await this.network.getInfo();
+                    const { current: current1 } = await this.network.getInfo();
                     return await this.get(current1);
                 }
             }
@@ -4085,7 +4085,7 @@
                         qi: jwk1.qi
                     };
                 }
-                async sign(jwk1, data1, { saltLength: saltLength1  } = {}) {
+                async sign(jwk1, data1, { saltLength: saltLength1 } = {}) {
                     let signature1 = await this.driver.sign({
                         name: "RSA-PSS",
                         saltLength: 32
@@ -4285,7 +4285,7 @@
                 }), chunks1;
             }
             async function generateLeaves1(chunks1) {
-                return Promise.all(chunks1.map(async ({ dataHash: dataHash1 , minByteRange: minByteRange1 , maxByteRange: maxByteRange1  })=>({
+                return Promise.all(chunks1.map(async ({ dataHash: dataHash1, minByteRange: minByteRange1, maxByteRange: maxByteRange1 })=>({
                         type: "leaf",
                         id: await hash1(await Promise.all([
                             hash1(dataHash1),
@@ -4577,7 +4577,7 @@
                 setOwner(owner1) {
                     this.owner = owner1;
                 }
-                setSignature({ id: id1 , owner: owner1 , reward: reward1 , tags: tags1 , signature: signature1  }) {
+                setSignature({ id: id1, owner: owner1, reward: reward1, tags: tags1, signature: signature1 }) {
                     this.id = id1, this.owner = owner1, reward1 && (this.reward = reward1), tags1 && (this.tags = tags1), this.signature = signature1;
                 }
                 async prepareChunks(data1) {
@@ -8004,7 +8004,7 @@
                 }, BN1.prototype.maskn = function(bits1) {
                     return this.clone().imaskn(bits1);
                 }, BN1.prototype.iaddn = function(num1) {
-                    return (assert1('number' == typeof num1), assert1(num1 < 0x4000000), num1 < 0) ? this.isubn(-num1) : 0 !== this.negative ? 1 === this.length && (0 | this.words[0]) < num1 ? (this.words[0] = num1 - (0 | this.words[0]), this.negative = 0, this) : (this.negative = 0, this.isubn(num1), this.negative = 1, this) : this._iaddn(num1);
+                    return (assert1('number' == typeof num1), assert1(num1 < 0x4000000), num1 < 0) ? this.isubn(-num1) : 0 !== this.negative ? (1 === this.length && (0 | this.words[0]) < num1 ? (this.words[0] = num1 - (0 | this.words[0]), this.negative = 0) : (this.negative = 0, this.isubn(num1), this.negative = 1), this) : this._iaddn(num1);
                 }, BN1.prototype._iaddn = function(num1) {
                     this.words[0] += num1;
                     for(var i2 = 0; i2 < this.length && this.words[i2] >= 0x4000000; i2++)this.words[i2] -= 0x4000000, i2 === this.length - 1 ? this.words[i2 + 1] = 1 : this.words[i2 + 1]++;
@@ -8464,13 +8464,13 @@
         },
         1708: function(__unused_webpack_module1, exports1, __webpack_require__1) {
             "use strict";
-            const { AbstractLevel: AbstractLevel1  } = __webpack_require__1(875), ModuleError1 = __webpack_require__1(4473), parallel1 = __webpack_require__1(9967), { fromCallback: fromCallback1  } = __webpack_require__1(6957), { Iterator: Iterator1  } = __webpack_require__1(8212), deserialize1 = __webpack_require__1(9687), clear1 = __webpack_require__1(7753), createKeyRange1 = __webpack_require__1(1217), DEFAULT_PREFIX1 = 'level-js-', kIDB1 = Symbol('idb'), kNamePrefix1 = Symbol('namePrefix'), kLocation1 = Symbol('location'), kVersion1 = Symbol('version'), kStore1 = Symbol('store'), kOnComplete1 = Symbol('onComplete'), kPromise1 = Symbol('promise');
+            const { AbstractLevel: AbstractLevel1 } = __webpack_require__1(875), ModuleError1 = __webpack_require__1(4473), parallel1 = __webpack_require__1(9967), { fromCallback: fromCallback1 } = __webpack_require__1(6957), { Iterator: Iterator1 } = __webpack_require__1(8212), deserialize1 = __webpack_require__1(9687), clear1 = __webpack_require__1(7753), createKeyRange1 = __webpack_require__1(1217), DEFAULT_PREFIX1 = 'level-js-', kIDB1 = Symbol('idb'), kNamePrefix1 = Symbol('namePrefix'), kLocation1 = Symbol('location'), kVersion1 = Symbol('version'), kStore1 = Symbol('store'), kOnComplete1 = Symbol('onComplete'), kPromise1 = Symbol('promise');
             class BrowserLevel1 extends AbstractLevel1 {
                 constructor(location1, options1, _1){
                     if ('function' == typeof options1 || 'function' == typeof _1) throw new ModuleError1('The levelup-style callback argument has been removed', {
                         code: 'LEVEL_LEGACY'
                     });
-                    const { prefix: prefix1 , version: version1 , ...forward1 } = options1 || {};
+                    const { prefix: prefix1, version: version1, ...forward1 } = options1 || {};
                     if (super({
                         encodings: {
                             view: !0
@@ -8629,7 +8629,7 @@
         },
         8212: function(__unused_webpack_module1, exports1, __webpack_require__1) {
             "use strict";
-            const { AbstractIterator: AbstractIterator1  } = __webpack_require__1(875), createKeyRange1 = __webpack_require__1(1217), deserialize1 = __webpack_require__1(9687), kCache1 = Symbol('cache'), kFinished1 = Symbol('finished'), kOptions1 = Symbol('options'), kCurrentOptions1 = Symbol('currentOptions'), kPosition1 = Symbol('position'), kLocation1 = Symbol('location'), kFirst1 = Symbol('first'), emptyOptions1 = {};
+            const { AbstractIterator: AbstractIterator1 } = __webpack_require__1(875), createKeyRange1 = __webpack_require__1(1217), deserialize1 = __webpack_require__1(9687), kCache1 = Symbol('cache'), kFinished1 = Symbol('finished'), kOptions1 = Symbol('options'), kCurrentOptions1 = Symbol('currentOptions'), kPosition1 = Symbol('position'), kLocation1 = Symbol('location'), kFirst1 = Symbol('first'), emptyOptions1 = {};
             class Iterator1 extends AbstractIterator1 {
                 constructor(db1, location1, options1){
                     super(db1, options1), this[kCache1] = [], this[kFinished1] = 0 === this.limit, this[kOptions1] = options1, this[kCurrentOptions1] = {
@@ -8654,7 +8654,7 @@
                         store1[method1](keyRange1, 'prev').onsuccess = (ev1)=>{
                             const cursor1 = ev1.target.result;
                             if (cursor1) {
-                                const { key: key1 , value: value1  } = cursor1;
+                                const { key: key1, value: value1 } = cursor1;
                                 this[kPosition1] = key1, entries1.push([
                                     this[kOptions1].keys && void 0 !== key1 ? deserialize1(key1) : void 0,
                                     this[kOptions1].values && void 0 !== value1 ? deserialize1(value1) : void 0
@@ -13558,7 +13558,7 @@
                         if ('hex' === enc1) for((msg1 = msg1.replace(/[^a-z0-9]+/ig, '')).length % 2 != 0 && (msg1 = '0' + msg1), i2 = 0; i2 < msg1.length; i2 += 2)res1.push(parseInt(msg1[i2] + msg1[i2 + 1], 16));
                     } else for(var p3 = 0, i2 = 0; i2 < msg1.length; i2++){
                         var c5 = msg1.charCodeAt(i2);
-                        c5 < 128 ? res1[p3++] = c5 : c5 < 2048 ? (res1[p3++] = c5 >> 6 | 192, res1[p3++] = 63 & c5 | 128) : isSurrogatePair1(msg1, i2) ? (c5 = 0x10000 + ((0x03FF & c5) << 10) + (0x03FF & msg1.charCodeAt(++i2)), res1[p3++] = c5 >> 18 | 240, res1[p3++] = c5 >> 12 & 63 | 128, res1[p3++] = c5 >> 6 & 63 | 128, res1[p3++] = 63 & c5 | 128) : (res1[p3++] = c5 >> 12 | 224, res1[p3++] = c5 >> 6 & 63 | 128, res1[p3++] = 63 & c5 | 128);
+                        c5 < 128 ? res1[p3++] = c5 : (c5 < 2048 ? res1[p3++] = c5 >> 6 | 192 : (isSurrogatePair1(msg1, i2) ? (c5 = 0x10000 + ((0x03FF & c5) << 10) + (0x03FF & msg1.charCodeAt(++i2)), res1[p3++] = c5 >> 18 | 240, res1[p3++] = c5 >> 12 & 63 | 128) : res1[p3++] = c5 >> 12 | 224, res1[p3++] = c5 >> 6 & 63 | 128), res1[p3++] = 63 & c5 | 128);
                     }
                 } else for(i2 = 0; i2 < msg1.length; i2++)res1[i2] = 0 | msg1[i2];
                 return res1;
@@ -13986,7 +13986,7 @@
                     var i2, type1 = typeof key1;
                     if ('string' === type1) {
                         var code1, bytes1 = [], length1 = key1.length, index1 = 0;
-                        for(i2 = 0; i2 < length1; ++i2)(code1 = key1.charCodeAt(i2)) < 0x80 ? bytes1[index1++] = code1 : code1 < 0x800 ? (bytes1[index1++] = 0xc0 | code1 >> 6, bytes1[index1++] = 0x80 | 0x3f & code1) : code1 < 0xd800 || code1 >= 0xe000 ? (bytes1[index1++] = 0xe0 | code1 >> 12, bytes1[index1++] = 0x80 | code1 >> 6 & 0x3f, bytes1[index1++] = 0x80 | 0x3f & code1) : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & key1.charCodeAt(++i2)), bytes1[index1++] = 0xf0 | code1 >> 18, bytes1[index1++] = 0x80 | code1 >> 12 & 0x3f, bytes1[index1++] = 0x80 | code1 >> 6 & 0x3f, bytes1[index1++] = 0x80 | 0x3f & code1);
+                        for(i2 = 0; i2 < length1; ++i2)(code1 = key1.charCodeAt(i2)) < 0x80 ? bytes1[index1++] = code1 : (code1 < 0x800 ? bytes1[index1++] = 0xc0 | code1 >> 6 : (code1 < 0xd800 || code1 >= 0xe000 ? bytes1[index1++] = 0xe0 | code1 >> 12 : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & key1.charCodeAt(++i2)), bytes1[index1++] = 0xf0 | code1 >> 18, bytes1[index1++] = 0x80 | code1 >> 12 & 0x3f), bytes1[index1++] = 0x80 | code1 >> 6 & 0x3f), bytes1[index1++] = 0x80 | 0x3f & code1);
                         key1 = bytes1;
                     } else if ('object' === type1) {
                         if (null === key1) throw Error(ERROR);
@@ -14014,7 +14014,7 @@
                         }
                         for(var code1, i2, index1 = 0, length1 = message1.length, blocks1 = this.blocks; index1 < length1;){
                             if (this.hashed && (this.hashed = !1, blocks1[0] = this.block, blocks1[16] = blocks1[1] = blocks1[2] = blocks1[3] = blocks1[4] = blocks1[5] = blocks1[6] = blocks1[7] = blocks1[8] = blocks1[9] = blocks1[10] = blocks1[11] = blocks1[12] = blocks1[13] = blocks1[14] = blocks1[15] = 0), notString1) for(i2 = this.start; index1 < length1 && i2 < 64; ++index1)blocks1[i2 >> 2] |= message1[index1] << SHIFT[3 & i2++];
-                            else for(i2 = this.start; index1 < length1 && i2 < 64; ++index1)(code1 = message1.charCodeAt(index1)) < 0x80 ? blocks1[i2 >> 2] |= code1 << SHIFT[3 & i2++] : code1 < 0x800 ? (blocks1[i2 >> 2] |= (0xc0 | code1 >> 6) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT[3 & i2++]) : code1 < 0xd800 || code1 >= 0xe000 ? (blocks1[i2 >> 2] |= (0xe0 | code1 >> 12) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 6 & 0x3f) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT[3 & i2++]) : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & message1.charCodeAt(++index1)), blocks1[i2 >> 2] |= (0xf0 | code1 >> 18) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 12 & 0x3f) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 6 & 0x3f) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT[3 & i2++]);
+                            else for(i2 = this.start; index1 < length1 && i2 < 64; ++index1)(code1 = message1.charCodeAt(index1)) < 0x80 ? blocks1[i2 >> 2] |= code1 << SHIFT[3 & i2++] : (code1 < 0x800 ? blocks1[i2 >> 2] |= (0xc0 | code1 >> 6) << SHIFT[3 & i2++] : (code1 < 0xd800 || code1 >= 0xe000 ? blocks1[i2 >> 2] |= (0xe0 | code1 >> 12) << SHIFT[3 & i2++] : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & message1.charCodeAt(++index1)), blocks1[i2 >> 2] |= (0xf0 | code1 >> 18) << SHIFT[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 12 & 0x3f) << SHIFT[3 & i2++]), blocks1[i2 >> 2] |= (0x80 | code1 >> 6 & 0x3f) << SHIFT[3 & i2++]), blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT[3 & i2++]);
                             this.lastByteIndex = i2, this.bytes += i2 - this.start, i2 >= 64 ? (this.block = blocks1[16], this.start = i2 - 64, this.hash(), this.hashed = !0) : this.start = i2;
                         }
                         return this.bytes > 4294967295 && (this.hBytes += this.bytes / 4294967296 << 0, this.bytes = this.bytes % 4294967296), this;
@@ -14357,7 +14357,7 @@
                     }
                     var length1 = key1.length;
                     if (!notString1) {
-                        for(var code1, bytes1 = [], length1 = key1.length, index1 = 0, i2 = 0; i2 < length1; ++i2)(code1 = key1.charCodeAt(i2)) < 0x80 ? bytes1[index1++] = code1 : code1 < 0x800 ? (bytes1[index1++] = 0xc0 | code1 >> 6, bytes1[index1++] = 0x80 | 0x3f & code1) : code1 < 0xd800 || code1 >= 0xe000 ? (bytes1[index1++] = 0xe0 | code1 >> 12, bytes1[index1++] = 0x80 | code1 >> 6 & 0x3f, bytes1[index1++] = 0x80 | 0x3f & code1) : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & key1.charCodeAt(++i2)), bytes1[index1++] = 0xf0 | code1 >> 18, bytes1[index1++] = 0x80 | code1 >> 12 & 0x3f, bytes1[index1++] = 0x80 | code1 >> 6 & 0x3f, bytes1[index1++] = 0x80 | 0x3f & code1);
+                        for(var code1, bytes1 = [], length1 = key1.length, index1 = 0, i2 = 0; i2 < length1; ++i2)(code1 = key1.charCodeAt(i2)) < 0x80 ? bytes1[index1++] = code1 : (code1 < 0x800 ? bytes1[index1++] = 0xc0 | code1 >> 6 : (code1 < 0xd800 || code1 >= 0xe000 ? bytes1[index1++] = 0xe0 | code1 >> 12 : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & key1.charCodeAt(++i2)), bytes1[index1++] = 0xf0 | code1 >> 18, bytes1[index1++] = 0x80 | code1 >> 12 & 0x3f), bytes1[index1++] = 0x80 | code1 >> 6 & 0x3f), bytes1[index1++] = 0x80 | 0x3f & code1);
                         key1 = bytes1;
                     }
                     key1.length > 128 && (key1 = new Sha5121(bits1, !0).update(key1).array());
@@ -14380,7 +14380,7 @@
                     }
                     for(var code1, i2, index1 = 0, length1 = message1.length, blocks1 = this.blocks; index1 < length1;){
                         if (this.hashed && (this.hashed = !1, blocks1[0] = this.block, blocks1[1] = blocks1[2] = blocks1[3] = blocks1[4] = blocks1[5] = blocks1[6] = blocks1[7] = blocks1[8] = blocks1[9] = blocks1[10] = blocks1[11] = blocks1[12] = blocks1[13] = blocks1[14] = blocks1[15] = blocks1[16] = blocks1[17] = blocks1[18] = blocks1[19] = blocks1[20] = blocks1[21] = blocks1[22] = blocks1[23] = blocks1[24] = blocks1[25] = blocks1[26] = blocks1[27] = blocks1[28] = blocks1[29] = blocks1[30] = blocks1[31] = blocks1[32] = 0), notString1) for(i2 = this.start; index1 < length1 && i2 < 128; ++index1)blocks1[i2 >> 2] |= message1[index1] << SHIFT1[3 & i2++];
-                        else for(i2 = this.start; index1 < length1 && i2 < 128; ++index1)(code1 = message1.charCodeAt(index1)) < 0x80 ? blocks1[i2 >> 2] |= code1 << SHIFT1[3 & i2++] : code1 < 0x800 ? (blocks1[i2 >> 2] |= (0xc0 | code1 >> 6) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT1[3 & i2++]) : code1 < 0xd800 || code1 >= 0xe000 ? (blocks1[i2 >> 2] |= (0xe0 | code1 >> 12) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 6 & 0x3f) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT1[3 & i2++]) : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & message1.charCodeAt(++index1)), blocks1[i2 >> 2] |= (0xf0 | code1 >> 18) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 12 & 0x3f) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 6 & 0x3f) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT1[3 & i2++]);
+                        else for(i2 = this.start; index1 < length1 && i2 < 128; ++index1)(code1 = message1.charCodeAt(index1)) < 0x80 ? blocks1[i2 >> 2] |= code1 << SHIFT1[3 & i2++] : (code1 < 0x800 ? blocks1[i2 >> 2] |= (0xc0 | code1 >> 6) << SHIFT1[3 & i2++] : (code1 < 0xd800 || code1 >= 0xe000 ? blocks1[i2 >> 2] |= (0xe0 | code1 >> 12) << SHIFT1[3 & i2++] : (code1 = 0x10000 + ((0x3ff & code1) << 10 | 0x3ff & message1.charCodeAt(++index1)), blocks1[i2 >> 2] |= (0xf0 | code1 >> 18) << SHIFT1[3 & i2++], blocks1[i2 >> 2] |= (0x80 | code1 >> 12 & 0x3f) << SHIFT1[3 & i2++]), blocks1[i2 >> 2] |= (0x80 | code1 >> 6 & 0x3f) << SHIFT1[3 & i2++]), blocks1[i2 >> 2] |= (0x80 | 0x3f & code1) << SHIFT1[3 & i2++]);
                         this.lastByteIndex = i2, this.bytes += i2 - this.start, i2 >= 128 ? (this.block = blocks1[32], this.start = i2 - 128, this.hash(), this.hashed = !0) : this.start = i2;
                     }
                     return this.bytes > 4294967295 && (this.hBytes += this.bytes / 4294967296 << 0, this.bytes = this.bytes % 4294967296), this;
@@ -14606,7 +14606,7 @@
         },
         8499: function(__unused_webpack_module1, exports1, __webpack_require__1) {
             "use strict";
-            const ModuleError1 = __webpack_require__1(4473), encodings1 = __webpack_require__1(8002), { Encoding: Encoding1  } = __webpack_require__1(8266), { BufferFormat: BufferFormat1 , ViewFormat: ViewFormat1 , UTF8Format: UTF8Format1  } = __webpack_require__1(2376), kFormats1 = Symbol('formats'), kEncodings1 = Symbol('encodings'), validFormats1 = new Set([
+            const ModuleError1 = __webpack_require__1(4473), encodings1 = __webpack_require__1(8002), { Encoding: Encoding1 } = __webpack_require__1(8266), { BufferFormat: BufferFormat1, ViewFormat: ViewFormat1, UTF8Format: UTF8Format1 } = __webpack_require__1(2376), kFormats1 = Symbol('formats'), kEncodings1 = Symbol('encodings'), validFormats1 = new Set([
                 'buffer',
                 'view',
                 'utf8'
@@ -14634,7 +14634,7 @@
                             });
                         } else if ('object' != typeof encoding1 || null === encoding1) throw TypeError("First argument 'encoding' must be a string or object");
                         else resolved1 = from1(encoding1);
-                        const { name: name1 , format: format1  } = resolved1;
+                        const { name: name1, format: format1 } = resolved1;
                         if (!this[kFormats1].has(format1)) {
                             if (this[kFormats1].has('view')) resolved1 = resolved1.createViewTranscoder();
                             else if (this[kFormats1].has('buffer')) resolved1 = resolved1.createBufferTranscoder();
@@ -14727,11 +14727,11 @@
         },
         8002: function(__unused_webpack_module1, exports1, __webpack_require__1) {
             "use strict";
-            const { Buffer: Buffer1  } = __webpack_require__1(8764) || {
+            const { Buffer: Buffer1 } = __webpack_require__1(8764) || {
                 Buffer: {
                     isBuffer: ()=>!1
                 }
-            }, { textEncoder: textEncoder1 , textDecoder: textDecoder1  } = __webpack_require__1(5850)(), { BufferFormat: BufferFormat1 , ViewFormat: ViewFormat1 , UTF8Format: UTF8Format1  } = __webpack_require__1(2376), identity1 = (v3)=>v3;
+            }, { textEncoder: textEncoder1, textDecoder: textDecoder1 } = __webpack_require__1(5850)(), { BufferFormat: BufferFormat1, ViewFormat: ViewFormat1, UTF8Format: UTF8Format1 } = __webpack_require__1(2376), identity1 = (v3)=>v3;
             exports1.utf8 = new UTF8Format1({
                 encode: function(data1) {
                     return Buffer1.isBuffer(data1) ? data1.toString('utf8') : ArrayBuffer.isView(data1) ? textDecoder1.decode(data1) : String(data1);
@@ -14816,7 +14816,7 @@
         },
         2376: function(__unused_webpack_module1, exports1, __webpack_require__1) {
             "use strict";
-            const { Buffer: Buffer1  } = __webpack_require__1(8764) || {}, { Encoding: Encoding1  } = __webpack_require__1(8266), textEndec1 = __webpack_require__1(5850);
+            const { Buffer: Buffer1 } = __webpack_require__1(8764) || {}, { Encoding: Encoding1 } = __webpack_require__1(8266), textEndec1 = __webpack_require__1(5850);
             class BufferFormat1 extends Encoding1 {
                 constructor(options1){
                     super({
@@ -14871,7 +14871,7 @@
                     });
                 }
                 createViewTranscoder() {
-                    const { textEncoder: textEncoder1 , textDecoder: textDecoder1  } = textEndec1();
+                    const { textEncoder: textEncoder1, textDecoder: textDecoder1 } = textEndec1();
                     return new ViewFormat1({
                         encode: (data1)=>textEncoder1.encode(this.encode(data1)),
                         decode: (data1)=>this.decode(textDecoder1.decode(data1)),
@@ -15779,7 +15779,7 @@
         1271: function(__unused_webpack_module1, exports1, __webpack_require__1) {
             "use strict";
             __webpack_require__1(3454);
-            const { AbstractLevel: AbstractLevel1 , AbstractIterator: AbstractIterator1 , AbstractKeyIterator: AbstractKeyIterator1 , AbstractValueIterator: AbstractValueIterator1  } = __webpack_require__1(875), ModuleError1 = __webpack_require__1(4473), createRBT1 = __webpack_require__1(4977), rangeOptions1 = new Set([
+            const { AbstractLevel: AbstractLevel1, AbstractIterator: AbstractIterator1, AbstractKeyIterator: AbstractKeyIterator1, AbstractValueIterator: AbstractValueIterator1 } = __webpack_require__1(875), ModuleError1 = __webpack_require__1(4473), createRBT1 = __webpack_require__1(4977), rangeOptions1 = new Set([
                 'gt',
                 'gte',
                 'lt',
@@ -15893,7 +15893,7 @@
                     if ('object' == typeof location1 && null !== location1 && (options1 = location1), 'function' == typeof location1 || 'function' == typeof options1 || 'function' == typeof _1) throw new ModuleError1('The levelup-style callback argument has been removed', {
                         code: 'LEVEL_LEGACY'
                     });
-                    let { storeEncoding: storeEncoding1 , ...forward1 } = options1 || {};
+                    let { storeEncoding: storeEncoding1, ...forward1 } = options1 || {};
                     if (![
                         'buffer',
                         'view',
@@ -17088,9 +17088,9 @@
                         "use strict";
                         function destroy1(e1, t3) {
                             var r3 = this, n2 = this._readableState && this._readableState.destroyed, i2 = this._writableState && this._writableState.destroyed;
-                            return n2 || i2 ? (t3 ? t3(e1) : e1 && (this._writableState ? this._writableState.errorEmitted || (this._writableState.errorEmitted = !0, process1.nextTick(emitErrorNT1, this, e1)) : process1.nextTick(emitErrorNT1, this, e1)), this) : (this._readableState && (this._readableState.destroyed = !0), this._writableState && (this._writableState.destroyed = !0), this._destroy(e1 || null, function(e1) {
+                            return n2 || i2 ? t3 ? t3(e1) : e1 && (this._writableState ? this._writableState.errorEmitted || (this._writableState.errorEmitted = !0, process1.nextTick(emitErrorNT1, this, e1)) : process1.nextTick(emitErrorNT1, this, e1)) : (this._readableState && (this._readableState.destroyed = !0), this._writableState && (this._writableState.destroyed = !0), this._destroy(e1 || null, function(e1) {
                                 !t3 && e1 ? r3._writableState ? r3._writableState.errorEmitted ? process1.nextTick(emitCloseNT1, r3) : (r3._writableState.errorEmitted = !0, process1.nextTick(emitErrorAndCloseNT1, r3, e1)) : process1.nextTick(emitErrorAndCloseNT1, r3, e1) : t3 ? (process1.nextTick(emitCloseNT1, r3), t3(e1)) : process1.nextTick(emitCloseNT1, r3);
-                            }), this);
+                            })), this;
                         }
                         function emitErrorAndCloseNT1(e1, t3) {
                             emitErrorNT1(e1, t3), emitCloseNT1(e1);
@@ -18676,7 +18676,7 @@
                         }
                     }
                 }
-                let funcIndex1 = 0, { costTable: costTable1 , moduleStr: moduleStr1 , fieldStr: fieldStr1 , meterType: meterType1  } = opts1;
+                let funcIndex1 = 0, { costTable: costTable1, moduleStr: moduleStr1, fieldStr: fieldStr1, meterType: meterType1 } = opts1;
                 costTable1 || (costTable1 = defaultCostTable1), moduleStr1 || (moduleStr1 = 'metering'), fieldStr1 || (fieldStr1 = 'usegas'), meterType1 || (meterType1 = 'i32'), findSection1(json1, 'type') || createSection1(json1, 'type'), findSection1(json1, 'import') || createSection1(json1, 'import');
                 const importJson1 = {
                     moduleStr: moduleStr1,
@@ -19778,7 +19778,7 @@
             const workers1 = [], availableWorkers1 = [], waitingForWorkerQueue1 = [], currentlyProcessingIdToRequestMap1 = new Map();
             function handleResult1(e1) {
                 makeWorkerAvailable1(e1.target);
-                const { id: id1 , error: error1 , data: data1  } = e1.data, request1 = currentlyProcessingIdToRequestMap1.get(id1);
+                const { id: id1, error: error1, data: data1 } = e1.data, request1 = currentlyProcessingIdToRequestMap1.get(id1);
                 currentlyProcessingIdToRequestMap1.delete(id1), error1 ? request1.reject(error1) : request1.resolve(data1);
             }
             function startWorker1(url1) {
@@ -19834,7 +19834,7 @@
                     }
                 };
                 {
-                    const { Worker: Worker1  } = dynamicRequire1(module1, 'worker_threads');
+                    const { Worker: Worker1 } = dynamicRequire1(module1, 'worker_threads');
                     return {
                         createWorker: async (url1)=>new Worker1(url1),
                         addEventListener (worker1, fn1) {
@@ -19884,7 +19884,7 @@
                                     makeWorkerAvailable1(worker1);
                                     return;
                                 }
-                                const { id: id1 , src: src1 , uncompressedSize: uncompressedSize1 , type: type1 , resolve: resolve1 , reject: reject1  } = waitingForWorkerQueue1.shift();
+                                const { id: id1, src: src1, uncompressedSize: uncompressedSize1, type: type1, resolve: resolve1, reject: reject1 } = waitingForWorkerQueue1.shift();
                                 currentlyProcessingIdToRequestMap1.set(id1, {
                                     id: id1,
                                     resolve: resolve1,
@@ -19905,7 +19905,7 @@
                         }
                     }
                     for(; waitingForWorkerQueue1.length;){
-                        const { src: src1 , uncompressedSize: uncompressedSize1 , type: type1 , resolve: resolve1  } = waitingForWorkerQueue1.shift();
+                        const { src: src1, uncompressedSize: uncompressedSize1, type: type1, resolve: resolve1 } = waitingForWorkerQueue1.shift();
                         let data1 = src1;
                         isBlob1(src1) && (data1 = await readBlobAsUint8Array1(src1)), inflateRawLocal1(data1, uncompressedSize1, type1, resolve1);
                     }
@@ -20092,7 +20092,7 @@
                 };
             }
             async function readEntryDataAsArrayBuffer1(reader1, rawEntry1) {
-                const { decompress: decompress1 , fileDataStart: fileDataStart1  } = await readEntryDataHeader1(reader1, rawEntry1);
+                const { decompress: decompress1, fileDataStart: fileDataStart1 } = await readEntryDataHeader1(reader1, rawEntry1);
                 if (!decompress1) {
                     const dataView1 = await readAs1(reader1, fileDataStart1, rawEntry1.compressedSize);
                     return isTypedArraySameAsArrayBuffer1(dataView1) ? dataView1.buffer : dataView1.slice().buffer;
@@ -20101,7 +20101,7 @@
                 return result1;
             }
             async function readEntryDataAsBlob1(reader1, rawEntry1, type1) {
-                const { decompress: decompress1 , fileDataStart: fileDataStart1  } = await readEntryDataHeader1(reader1, rawEntry1);
+                const { decompress: decompress1, fileDataStart: fileDataStart1 } = await readEntryDataHeader1(reader1, rawEntry1);
                 if (!decompress1) {
                     const typedArrayOrBlob1 = await readAsBlobOrTypedArray1(reader1, fileDataStart1, rawEntry1.compressedSize, type1);
                     return isBlob1(typedArrayOrBlob1) ? typedArrayOrBlob1 : new Blob([
@@ -20133,7 +20133,7 @@
                 return await findEndOfCentralDirector1(reader1, totalLength1);
             }
             async function unzip1(source1) {
-                const { zip: zip1 , entries: entries1  } = await unzipRaw1(source1);
+                const { zip: zip1, entries: entries1 } = await unzipRaw1(source1);
                 return {
                     zip: zip1,
                     entries: Object.fromEntries(entries1.map((v3)=>[
@@ -20849,7 +20849,7 @@
                     });
                     const initBenchmark1 = Benchmark_11.Benchmark.measure();
                     if (this.maybeResetRootContract(), null != this._parentContract && null == sortKeyOrBlockHeight1) throw Error('SortKey MUST be always set for non-root contract calls');
-                    const { stateEvaluator: stateEvaluator1  } = this.warp, sortKey1 = 'number' == typeof sortKeyOrBlockHeight1 ? this._sorter.generateLastSortKey(sortKeyOrBlockHeight1) : sortKeyOrBlockHeight1, executionContext1 = await this.createExecutionContext(this._contractTxId, sortKey1, !1, interactions1);
+                    const { stateEvaluator: stateEvaluator1 } = this.warp, sortKey1 = 'number' == typeof sortKeyOrBlockHeight1 ? this._sorter.generateLastSortKey(sortKeyOrBlockHeight1) : sortKeyOrBlockHeight1, executionContext1 = await this.createExecutionContext(this._contractTxId, sortKey1, !1, interactions1);
                     this.logger.info('Execution Context', {
                         srcTxId: null === (_a1 = executionContext1.contractDefinition) || void 0 === _a1 ? void 0 : _a1.srcTxId,
                         missingInteractions: null === (_b1 = executionContext1.sortedInteractions) || void 0 === _b1 ? void 0 : _b1.length,
@@ -20885,7 +20885,7 @@
                         input: input1,
                         options: options1
                     }), !this.signer) throw Error("Wallet not connected. Use 'connect' method first.");
-                    const { arweave: arweave1 , interactionsLoader: interactionsLoader1  } = this.warp, effectiveTags1 = (null == options1 ? void 0 : options1.tags) || [], effectiveTransfer1 = (null == options1 ? void 0 : options1.transfer) || CreateContract_11.emptyTransfer, effectiveStrict1 = (null == options1 ? void 0 : options1.strict) === !0, effectiveVrf1 = (null == options1 ? void 0 : options1.vrf) === !0, effectiveDisableBundling1 = (null == options1 ? void 0 : options1.disableBundling) === !0, effectiveReward1 = null == options1 ? void 0 : options1.reward, bundleInteraction1 = 'warp' == interactionsLoader1.type() && !effectiveDisableBundling1;
+                    const { arweave: arweave1, interactionsLoader: interactionsLoader1 } = this.warp, effectiveTags1 = (null == options1 ? void 0 : options1.tags) || [], effectiveTransfer1 = (null == options1 ? void 0 : options1.transfer) || CreateContract_11.emptyTransfer, effectiveStrict1 = (null == options1 ? void 0 : options1.strict) === !0, effectiveVrf1 = (null == options1 ? void 0 : options1.vrf) === !0, effectiveDisableBundling1 = (null == options1 ? void 0 : options1.disableBundling) === !0, effectiveReward1 = null == options1 ? void 0 : options1.reward, bundleInteraction1 = 'warp' == interactionsLoader1.type() && !effectiveDisableBundling1;
                     if (bundleInteraction1 && effectiveTransfer1.target != CreateContract_11.emptyTransfer.target && effectiveTransfer1.winstonQty != CreateContract_11.emptyTransfer.winstonQty) throw Error('Ar Transfers are not allowed for bundled interactions');
                     if (effectiveVrf1 && !bundleInteraction1) throw Error('Vrf generation is only available for bundle interaction');
                     if (bundleInteraction1) return await this.bundleInteraction(input1, {
@@ -20965,14 +20965,14 @@
                     }, this;
                 }
                 async waitForConfirmation(transactionId1) {
-                    const { arweave: arweave1  } = this.warp, status1 = await arweave1.transactions.getStatus(transactionId1);
+                    const { arweave: arweave1 } = this.warp, status1 = await arweave1.transactions.getStatus(transactionId1);
                     if (null !== status1.confirmed) return this.logger.info(`Transaction ${transactionId1} confirmed`, status1), status1;
                     this.logger.info(`Transaction ${transactionId1} not yet confirmed. Waiting another 20 seconds before next check.`), await (0, utils_11.sleep)(20000), await this.waitForConfirmation(transactionId1);
                 }
                 async createExecutionContext(contractTxId1, upToSortKey1, forceDefinitionLoad1 = !1, interactions1) {
                     var _a1;
                     let handler1, contractDefinition1, sortedInteractions1;
-                    const { definitionLoader: definitionLoader1 , interactionsLoader: interactionsLoader1 , executorFactory: executorFactory1 , stateEvaluator: stateEvaluator1  } = this.warp, benchmark1 = Benchmark_11.Benchmark.measure(), cachedState1 = await stateEvaluator1.latestAvailableState(contractTxId1, upToSortKey1);
+                    const { definitionLoader: definitionLoader1, interactionsLoader: interactionsLoader1, executorFactory: executorFactory1, stateEvaluator: stateEvaluator1 } = this.warp, benchmark1 = Benchmark_11.Benchmark.measure(), cachedState1 = await stateEvaluator1.latestAvailableState(contractTxId1, upToSortKey1);
                     this.logger.debug('cache lookup', benchmark1.elapsed()), benchmark1.reset();
                     const evolvedSrcTxId1 = Evolve_11.Evolve.evolvedSrcTxId(null === (_a1 = null == cachedState1 ? void 0 : cachedState1.cachedValue) || void 0 === _a1 ? void 0 : _a1.state);
                     return this.logger.debug('Cached state', cachedState1, upToSortKey1), cachedState1 && cachedState1.sortKey == upToSortKey1 ? (this.logger.debug('State fully cached, not loading interactions.'), (forceDefinitionLoad1 || evolvedSrcTxId1) && (contractDefinition1 = await definitionLoader1.load(contractTxId1, evolvedSrcTxId1), handler1 = await executorFactory1.create(contractDefinition1, this._evaluationOptions))) : ([contractDefinition1, sortedInteractions1] = await Promise.all([
@@ -21006,7 +21006,7 @@
                 async callContract(input1, caller1, sortKey1, tags1 = [], transfer1 = CreateContract_11.emptyTransfer) {
                     let effectiveCaller1;
                     this.logger.info('Call contract input', input1), this.maybeResetRootContract(), this.signer || this.logger.warn('Wallet not set.');
-                    const { arweave: arweave1 , stateEvaluator: stateEvaluator1  } = this.warp;
+                    const { arweave: arweave1, stateEvaluator: stateEvaluator1 } = this.warp;
                     let executionContext1 = await this.createExecutionContext(this._contractTxId, sortKey1, !0);
                     const currentBlockData1 = 'mainnet' == this.warp.environment ? await this._arweaveWrapper.warpGwBlock() : await arweave1.blocks.getCurrent();
                     if (caller1) effectiveCaller1 = caller1;
@@ -21090,7 +21090,7 @@
                     return hash1.update(jsonState1), hash1.digest('hex');
                 }
                 async syncState(externalUrl1, params1) {
-                    const { stateEvaluator: stateEvaluator1  } = this.warp, response1 = await fetch(`${externalUrl1}?${new URLSearchParams({
+                    const { stateEvaluator: stateEvaluator1 } = this.warp, response1 = await fetch(`${externalUrl1}?${new URLSearchParams({
                         id: this._contractTxId,
                         ...params1
                     })}`).then((res1)=>res1.ok ? res1.json() : Promise.reject(res1)).catch((error1)=>{
@@ -21107,7 +21107,7 @@
                 }
                 async save(sourceData1) {
                     if (!this.signer) throw Error("Wallet not connected. Use 'connect' method first.");
-                    const { arweave: arweave1  } = this.warp, source1 = new SourceImpl_11.SourceImpl(arweave1), srcTx1 = await source1.save(sourceData1, this.signer);
+                    const { arweave: arweave1 } = this.warp, source1 = new SourceImpl_11.SourceImpl(arweave1), srcTx1 = await source1.save(sourceData1, this.signer);
                     return srcTx1.id;
                 }
                 get callingInteraction() {
@@ -21200,7 +21200,7 @@
                     this.arweave = arweave1, this.warp = warp1, this.logger = LoggerFactory_11.LoggerFactory.INST.create('DefaultCreateContract'), this.deployFromSourceTx = this.deployFromSourceTx.bind(this);
                 }
                 async deploy(contractData1, disableBundling1) {
-                    const { wallet: wallet1 , initState: initState1 , tags: tags1 , transfer: transfer1 , data: data1  } = contractData1, effectiveUseBundler1 = void 0 == disableBundling1 ? 'warp' == this.warp.definitionLoader.type() : !disableBundling1, source1 = new SourceImpl_11.SourceImpl(this.arweave), srcTx1 = await source1.save(contractData1, wallet1, effectiveUseBundler1);
+                    const { wallet: wallet1, initState: initState1, tags: tags1, transfer: transfer1, data: data1 } = contractData1, effectiveUseBundler1 = void 0 == disableBundling1 ? 'warp' == this.warp.definitionLoader.type() : !disableBundling1, source1 = new SourceImpl_11.SourceImpl(this.arweave), srcTx1 = await source1.save(contractData1, wallet1, effectiveUseBundler1);
                     return this.logger.debug('Creating new contract'), await this.deployFromSourceTx({
                         srcTxId: srcTx1.id,
                         wallet: wallet1,
@@ -21213,7 +21213,7 @@
                 async deployFromSourceTx(contractData1, disableBundling1, srcTx1 = null) {
                     let responseOk1, response1;
                     this.logger.debug('Creating new contract from src tx');
-                    const { wallet: wallet1 , srcTxId: srcTxId1 , initState: initState1 , tags: tags1 , transfer: transfer1 , data: data1  } = contractData1, effectiveUseBundler1 = void 0 == disableBundling1 ? 'warp' == this.warp.definitionLoader.type() : !disableBundling1;
+                    const { wallet: wallet1, srcTxId: srcTxId1, initState: initState1, tags: tags1, transfer: transfer1, data: data1 } = contractData1, effectiveUseBundler1 = void 0 == disableBundling1 ? 'warp' == this.warp.definitionLoader.type() : !disableBundling1;
                     let contractTX1 = await this.arweave.createTransaction({
                         data: (null == data1 ? void 0 : data1.body) || initState1
                     }, wallet1);
@@ -21286,7 +21286,7 @@
                 async save(contractData1, signer1, useBundler1 = !1) {
                     let srcTx1, response1;
                     this.logger.debug('Creating new contract source');
-                    const { src: src1 , wasmSrcCodeDir: wasmSrcCodeDir1 , wasmGlueCode: wasmGlueCode1  } = contractData1, contractType1 = src1 instanceof Buffer1 ? 'wasm' : 'js';
+                    const { src: src1, wasmSrcCodeDir: wasmSrcCodeDir1, wasmGlueCode: wasmGlueCode1 } = contractData1, contractType1 = src1 instanceof Buffer1 ? 'wasm' : 'js';
                     let wasmLang1 = null, wasmVersion1 = null;
                     const metadata1 = {}, data1 = [];
                     if ('wasm' == contractType1) {
@@ -21442,7 +21442,7 @@
                     this.contractTxId = contractTxId1, this.depth = depth1, this.label = label1, this.interactions = new Map();
                 }
                 addInteractionData(interactionData1) {
-                    const { interaction: interaction1 , interactionTx: interactionTx1  } = interactionData1, interactionCall1 = InteractionCall1.create(new InteractionInput1(interactionTx1.id, interactionTx1.sortKey, interactionTx1.block.height, interactionTx1.block.timestamp, null == interaction1 ? void 0 : interaction1.caller, null == interaction1 ? void 0 : interaction1.input.function, null == interaction1 ? void 0 : interaction1.input, interactionTx1.dry, new Map()));
+                    const { interaction: interaction1, interactionTx: interactionTx1 } = interactionData1, interactionCall1 = InteractionCall1.create(new InteractionInput1(interactionTx1.id, interactionTx1.sortKey, interactionTx1.block.height, interactionTx1.block.timestamp, null == interaction1 ? void 0 : interaction1.caller, null == interaction1 ? void 0 : interaction1.input.function, null == interaction1 ? void 0 : interaction1.input, interactionTx1.dry, new Map()));
                     return this.interactions.set(interactionTx1.id, interactionCall1), interactionCall1;
                 }
                 getInteraction(txId1) {
@@ -21974,7 +21974,7 @@
                     this.logger.debug('init state', s3);
                     const initState1 = JSON.parse(await this.evalInitialState(contractTx1));
                     this.logger.debug('Parsing src and init state', benchmark1.elapsed());
-                    const { src: src1 , srcBinary: srcBinary1 , srcWasmLang: srcWasmLang1 , contractType: contractType1 , metadata: metadata1 , srcTx: srcTx1  } = await this.loadContractSource(contractSrcTxId1);
+                    const { src: src1, srcBinary: srcBinary1, srcWasmLang: srcWasmLang1, contractType: contractType1, metadata: metadata1, srcTx: srcTx1 } = await this.loadContractSource(contractSrcTxId1);
                     return {
                         txId: contractTxId1,
                         srcTxId: contractSrcTxId1,
@@ -22042,7 +22042,7 @@
                 }
                 async doReadState(missingInteractions1, baseState1, executionContext1, currentTx1) {
                     var _a1;
-                    const { ignoreExceptions: ignoreExceptions1 , stackTrace: stackTrace1 , internalWrites: internalWrites1  } = executionContext1.evaluationOptions, { contract: contract1 , contractDefinition: contractDefinition1 , sortedInteractions: sortedInteractions1  } = executionContext1;
+                    const { ignoreExceptions: ignoreExceptions1, stackTrace: stackTrace1, internalWrites: internalWrites1 } = executionContext1.evaluationOptions, { contract: contract1, contractDefinition: contractDefinition1, sortedInteractions: sortedInteractions1 } = executionContext1;
                     let currentState1 = baseState1.state, currentSortKey1 = null;
                     const validity1 = baseState1.validity, errorMessages1 = baseState1.errorMessages;
                     null == executionContext1 || executionContext1.handler.initState(currentState1);
@@ -22124,7 +22124,7 @@
                                 state: toCache1
                             }), await this.onStateUpdate(missingInteraction1, executionContext1, toCache1);
                         }
-                        for (const { modify: modify1  } of this.executionContextModifiers)executionContext1 = await modify1(currentState1, executionContext1);
+                        for (const { modify: modify1 } of this.executionContextModifiers)executionContext1 = await modify1(currentState1, executionContext1);
                     }
                     const evalStateResult1 = new StateEvaluator_11.EvalStateResult(currentState1, validity1, errorMessages1);
                     return null !== lastConfirmedTxState1 && await this.onStateEvaluated(lastConfirmedTxState1.tx, executionContext1, lastConfirmedTxState1.state), new SortKeyCache_11.SortKeyCacheResult(currentSortKey1, evalStateResult1);
@@ -22223,7 +22223,7 @@
                                             wasm_bindgen__convert__closures__invoke2_mut__: null,
                                             _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__: null
                                         }
-                                    }, wasmModule1 = await getWasmModule1(wasmResponse1, contractDefinition1.srcBinary), moduleImports1 = WebAssembly.Module.imports(wasmModule1), wbindgenImports1 = moduleImports1.filter((imp1)=>'__wbindgen_placeholder__' === imp1.module).map((imp1)=>imp1.name), { imports: imports1 , exports: exports1  } = (0, rust_wasm_imports_11.rustWasmImports)(swGlobal1, wbindgenImports1, wasmInstanceExports1, contractDefinition1.metadata.dtor);
+                                    }, wasmModule1 = await getWasmModule1(wasmResponse1, contractDefinition1.srcBinary), moduleImports1 = WebAssembly.Module.imports(wasmModule1), wbindgenImports1 = moduleImports1.filter((imp1)=>'__wbindgen_placeholder__' === imp1.module).map((imp1)=>imp1.name), { imports: imports1, exports: exports1 } = (0, rust_wasm_imports_11.rustWasmImports)(swGlobal1, wbindgenImports1, wasmInstanceExports1, contractDefinition1.metadata.dtor);
                                     jsExports1 = exports1, wasmInstance1 = await WebAssembly.instantiate(wasmModule1, imports1), wasmInstanceExports1.exports = wasmInstance1.exports;
                                     const moduleExports1 = Object.keys(wasmInstance1.exports);
                                     moduleExports1.forEach((moduleExport1)=>{
@@ -22323,7 +22323,7 @@
                     return sortKey1 ? parseInt(sortKey1.split(',')[0]) : null;
                 }
                 async addSortKey(txInfo1) {
-                    const { node: node1  } = txInfo1;
+                    const { node: node1 } = txInfo1;
                     void 0 !== txInfo1.node.sortKey && txInfo1.node.source == WarpGatewayInteractionsLoader_11.SourceType.WARP_SEQUENCER ? this.logger.debug('Using sortKey from sequencer', txInfo1.node.sortKey) : txInfo1.node.sortKey = await this.createSortKey(node1.block.id, node1.id, node1.block.height);
                 }
                 generateLastSortKey(blockHeight1) {
@@ -22566,7 +22566,7 @@
                             sortKey: interactionTx1.sortKey,
                             transaction: this.swGlobal.transaction.id
                         });
-                        const { stateEvaluator: stateEvaluator1  } = executionContext1.warp, childContract1 = executionContext1.warp.contract(contractTxId1, executionContext1.contract, interactionTx1);
+                        const { stateEvaluator: stateEvaluator1 } = executionContext1.warp, childContract1 = executionContext1.warp.contract(contractTxId1, executionContext1.contract, interactionTx1);
                         await stateEvaluator1.onContractCall(interactionTx1, executionContext1, currentResult1);
                         const stateWithValidity1 = await childContract1.readState(interactionTx1.sortKey, [
                             ...currentTx1 || [],
@@ -22598,9 +22598,9 @@
                     super(swGlobal1, contractDefinition1), this.contractFunction = contractFunction1;
                 }
                 async handle(executionContext1, currentResult1, interactionData1) {
-                    const { timeoutId: timeoutId1 , timeoutPromise: timeoutPromise1  } = (0, utils_11.timeout)(executionContext1.evaluationOptions.maxInteractionEvaluationTimeSeconds);
+                    const { timeoutId: timeoutId1, timeoutPromise: timeoutPromise1 } = (0, utils_11.timeout)(executionContext1.evaluationOptions.maxInteractionEvaluationTimeSeconds);
                     try {
-                        const { interaction: interaction1 , interactionTx: interactionTx1 , currentTx: currentTx1  } = interactionData1, stateCopy1 = (0, utils_11.deepCopy)(currentResult1.state, executionContext1.evaluationOptions.useFastCopy);
+                        const { interaction: interaction1, interactionTx: interactionTx1, currentTx: currentTx1 } = interactionData1, stateCopy1 = (0, utils_11.deepCopy)(currentResult1.state, executionContext1.evaluationOptions.useFastCopy);
                         this.swGlobal._activeTx = interactionTx1, this.swGlobal.caller = interaction1.caller, this.assignReadContractState(executionContext1, currentTx1, currentResult1, interactionTx1), this.assignViewContractState(executionContext1), this.assignWrite(executionContext1, currentTx1), this.assignRefreshState(executionContext1);
                         const handlerResult1 = await Promise.race([
                             timeoutPromise1,
@@ -22650,7 +22650,7 @@
                 }
                 async handle(executionContext1, currentResult1, interactionData1) {
                     try {
-                        const { interaction: interaction1 , interactionTx: interactionTx1 , currentTx: currentTx1  } = interactionData1;
+                        const { interaction: interaction1, interactionTx: interactionTx1, currentTx: currentTx1 } = interactionData1;
                         this.swGlobal._activeTx = interactionTx1, this.swGlobal.caller = interaction1.caller, this.swGlobal.gasLimit = executionContext1.evaluationOptions.gasLimit, this.swGlobal.gasUsed = 0, this.assignReadContractState(executionContext1, currentTx1, currentResult1, interactionTx1), this.assignWrite(executionContext1, currentTx1);
                         const handlerResult1 = await this.doHandle(interaction1);
                         return {
@@ -22775,7 +22775,7 @@
                     return this.splitted[0];
                 }
                 async sourceCode() {
-                    const { entries: entries1  } = await (0, unzipit_11.unzip)(this.splitted[1]), result1 = new Map();
+                    const { entries: entries1 } = await (0, unzipit_11.unzip)(this.splitted[1]), result1 = new Map();
                     for (const [name1, entry1] of Object.entries(entries1)){
                         if (entry1.isDirectory) continue;
                         const content1 = await entry1.text();
@@ -23986,7 +23986,7 @@
                     this.logger = LoggerFactory_11.LoggerFactory.INST.create('Evolve'), this.modify = this.modify.bind(this);
                 }
                 async modify(state1, executionContext1) {
-                    const { definitionLoader: definitionLoader1 , executorFactory: executorFactory1  } = executionContext1.warp, contractTxId1 = executionContext1.contractDefinition.txId, evolvedSrcTxId1 = Evolve1.evolvedSrcTxId(state1), currentSrcTxId1 = executionContext1.contractDefinition.srcTxId;
+                    const { definitionLoader: definitionLoader1, executorFactory: executorFactory1 } = executionContext1.warp, contractTxId1 = executionContext1.contractDefinition.txId, evolvedSrcTxId1 = Evolve1.evolvedSrcTxId(state1), currentSrcTxId1 = executionContext1.contractDefinition.srcTxId;
                     if (evolvedSrcTxId1 && (this.logger.debug('Checking evolve:', {
                         current: currentSrcTxId1,
                         evolvedSrcTxId: evolvedSrcTxId1

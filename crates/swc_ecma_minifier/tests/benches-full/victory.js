@@ -5972,9 +5972,9 @@
             var _timer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-timer/src/timer.js");
             __webpack_exports__.default = function(callback, delay, time) {
                 var t = new _timer_js__WEBPACK_IMPORTED_MODULE_0__.Timer, total = delay;
-                return null == delay ? (t.restart(callback, delay, time), t) : (delay = +delay, time = null == time ? Object(_timer_js__WEBPACK_IMPORTED_MODULE_0__.now)() : +time, t.restart(function tick(elapsed) {
+                return null == delay ? t.restart(callback, delay, time) : (delay = +delay, time = null == time ? Object(_timer_js__WEBPACK_IMPORTED_MODULE_0__.now)() : +time, t.restart(function tick(elapsed) {
                     elapsed += total, t.restart(tick, total += delay, time), callback(elapsed);
-                }, delay, time), t);
+                }, delay, time)), t;
             };
         },
         "../../../node_modules/d3-timer/src/timeout.js": function(module1, __webpack_exports__, __webpack_require__) {
@@ -6864,7 +6864,7 @@
                     for(var _i = 0, _n2 = hull.length; _i < _n2; ++_i)hullIndex[hull[_i]] = _i;
                     hull.length <= 2 && hull.length > 0 && (this.triangles = new Int32Array(3).fill(-1), this.halfedges = new Int32Array(3).fill(-1), this.triangles[0] = hull[0], this.triangles[1] = hull[1], this.triangles[2] = hull[1], inedges[hull[0]] = 1, 2 === hull.length && (inedges[hull[1]] = 0));
                 }, _proto.neighbors = function(i) {
-                    var results = [], inedges = this.inedges, hull = this.hull, _hullIndex = this._hullIndex, halfedges = this.halfedges, triangles = this.triangles, e0 = inedges[i];
+                    var results = [], hull = this.hull, _hullIndex = this._hullIndex, halfedges = this.halfedges, triangles = this.triangles, e0 = this.inedges[i];
                     if (-1 === e0) return results;
                     var e = e0, p0 = -1;
                     do {
@@ -6881,8 +6881,8 @@
                     for(var c, i0 = i; (c = this._step(i, x, y)) >= 0 && c !== i && c !== i0;)i = c;
                     return c;
                 }, _proto._step = function(i, x, y) {
-                    var inedges = this.inedges, points = this.points;
-                    if (-1 === inedges[i] || !points.length) return (i + 1) % (points.length >> 1);
+                    var points = this.points;
+                    if (-1 === this.inedges[i] || !points.length) return (i + 1) % (points.length >> 1);
                     for(var c = i, dc = Math.pow(x - points[2 * i], 2) + Math.pow(y - points[2 * i + 1], 2), _iterator = this.neighbors(i), _isArray = Array.isArray(_iterator), _i2 = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;){
                         if (_isArray) {
                             if (_i2 >= _iterator.length) break;
@@ -24281,7 +24281,7 @@
                 return Array.isArray(bins) ? (bin.domain([
                     bins[0],
                     bins[bins.length - 1]
-                ]), bin.thresholds(bins.slice(1, bins.length - 1)), bin) : Number.isInteger(bins) ? (bin.domain(niceScale.domain()), bin.thresholds(bins), bin) : dataOrBinsContainsDates ? (bin.domain(niceScale.domain()), bin.thresholds(niceScale.ticks()), bin) : (bin.domain(niceScale.domain()), bin);
+                ]), bin.thresholds(bins.slice(1, bins.length - 1))) : Number.isInteger(bins) ? (bin.domain(niceScale.domain()), bin.thresholds(bins)) : dataOrBinsContainsDates ? (bin.domain(niceScale.domain()), bin.thresholds(niceScale.ticks())) : bin.domain(niceScale.domain()), bin;
             }, getFormattedData = (func = function(_ref3) {
                 var _ref3$data = _ref3.data, data = void 0 === _ref3$data ? [] : _ref3$data, x = _ref3.x, bins = _ref3.bins;
                 if ((!data || !data.length) && !Array.isArray(bins)) return [];

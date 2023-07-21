@@ -8,7 +8,7 @@ Object.defineProperty(exports, "AnElement", {
         return AnElement;
     }
 });
-const AnElement = ({ prop1 , prop2 , prop3 , num , data  })=>{
+const AnElement = ({ prop1, prop2, prop3, num, data })=>{
     return /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement(SomeElement, {
         prop1: prop1,
         prop2: true,

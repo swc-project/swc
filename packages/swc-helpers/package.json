@@ -230,6 +230,10 @@
             "import": "./esm/_define_property.js",
             "default": "./cjs/_define_property.cjs"
         },
+        "./_/_dispose": {
+            "import": "./esm/_dispose.js",
+            "default": "./cjs/_dispose.cjs"
+        },
         "./_/_export_star": {
             "import": "./esm/_export_star.js",
             "default": "./cjs/_export_star.cjs"
@@ -421,6 +425,10 @@
         "./_/_update": {
             "import": "./esm/_update.js",
             "default": "./cjs/_update.cjs"
+        },
+        "./_/_using": {
+            "import": "./esm/_using.js",
+            "default": "./cjs/_using.cjs"
         },
         "./_/_wrap_async_generator": {
             "import": "./esm/_wrap_async_generator.js",

@@ -24,13 +24,15 @@ class C extends B {
     C.y2 = C.x();
 })();
 (()=>{
-    C.y3 = C === null || C === void 0 ? void 0 : C.x();
+    var _C;
+    C.y3 = (_C = C) === null || _C === void 0 ? void 0 : _C.x();
 })();
 (()=>{
     C.y4 = C["x"]();
 })();
 (()=>{
-    C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
+    var _C;
+    C.y5 = (_C = C) === null || _C === void 0 ? void 0 : _C["x"]();
 })();
 (()=>{
     C.z1 = _get(_get_prototype_of(C), "a", C);
@@ -71,12 +73,12 @@ class C extends B {
     ];
 })();
 (()=>{
-    C.z11 = { x: _update(_get_prototype_of(C), "a", C, true)._  } = {
+    C.z11 = { x: _update(_get_prototype_of(C), "a", C, true)._ } = {
         x: 0
     };
 })();
 (()=>{
-    C.z12 = { x: _update(_get_prototype_of(C), "a", C, true)._ = 0  } = {
+    C.z12 = { x: _update(_get_prototype_of(C), "a", C, true)._ = 0 } = {
         x: 0
     };
 })();

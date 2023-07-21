@@ -20,7 +20,7 @@ function f5(a = a) {
 function f6(async = async) {
     return async;
 }
-function f7({ [foo]: bar  }) {
+function f7({ [foo]: bar }) {
     let foo1 = 2;
 }
 class Foo {

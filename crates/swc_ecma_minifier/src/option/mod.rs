@@ -185,7 +185,7 @@ pub struct CompressOptions {
     #[cfg_attr(feature = "extra-serde", serde(alias = "hoist_funs"))]
     pub hoist_fns: bool,
 
-    #[cfg_attr(feature = "extra-serde", serde(default))]
+    #[cfg_attr(feature = "extra-serde", serde(default = "true_by_default"))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "hoist_props"))]
     pub hoist_props: bool,
 
@@ -391,7 +391,7 @@ impl Default for CompressOptions {
             expr: false,
             global_defs: Default::default(),
             hoist_fns: false,
-            hoist_props: false,
+            hoist_props: true,
             hoist_vars: false,
             ie8: false,
             if_return: true,

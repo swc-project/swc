@@ -21,7 +21,7 @@ impl Pure<'_> {
             function,
         }) = e
         {
-            if contains_this_expr(&function.body) {
+            if contains_this_expr(&function.body) || function.is_generator {
                 return;
             }
 

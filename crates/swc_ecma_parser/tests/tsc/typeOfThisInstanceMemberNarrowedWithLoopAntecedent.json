@@ -981,11 +981,7 @@
                           "end": 572,
                           "ctxt": 0
                         },
-                        "questionDotToken": {
-                          "start": 566,
-                          "end": 567,
-                          "ctxt": 0
-                        },
+                        "optional": true,
                         "base": {
                           "type": "MemberExpression",
                           "span": {

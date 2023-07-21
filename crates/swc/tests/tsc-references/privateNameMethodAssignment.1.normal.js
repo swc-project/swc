@@ -13,7 +13,7 @@ class A3 {
         a, _read_only_error("#method"); // Error, not writable 
         b, _read_only_error("#method") //Error, not writable 
         ;
-        ({ x: _class_private_field_destructure(this, _method).value  } = {
+        ({ x: _class_private_field_destructure(this, _method).value } = {
             x: ()=>{}
         }); //Error, not writable 
         let x = _class_private_method_get(this, _method, method);

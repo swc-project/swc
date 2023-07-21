@@ -52,7 +52,6 @@ impl VisitMut for Rename {
                                 span: DUMMY_SP,
                                 left: Box::new(Pat::Ident(p.key.clone().into())),
                                 right: default,
-                                type_ann: Default::default(),
                             })),
                         });
                     }

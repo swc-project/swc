@@ -183,8 +183,7 @@
               },
               "value": 1.0,
               "raw": "1"
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -222,8 +221,7 @@
               },
               "value": "abc",
               "raw": "\"abc\""
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -260,8 +258,7 @@
                 "ctxt": 0
               },
               "value": true
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -317,8 +314,7 @@
                 "value": "A",
                 "optional": false
               }
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],
@@ -1617,8 +1613,7 @@
               },
               "value": 1.0,
               "raw": "1"
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -1681,8 +1676,7 @@
               },
               "value": "abc",
               "raw": "\"abc\""
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -1743,8 +1737,7 @@
                 "ctxt": 0
               },
               "value": true
-            },
-            "typeAnnotation": null
+            }
           }
         },
         {
@@ -1839,8 +1832,7 @@
                 "value": "A",
                 "optional": false
               }
-            },
-            "typeAnnotation": null
+            }
           }
         }
       ],

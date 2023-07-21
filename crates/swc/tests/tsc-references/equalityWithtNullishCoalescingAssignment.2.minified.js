@@ -1,4 +1,3 @@
 //// [equalityWithtNullishCoalescingAssignment.ts]
-!function(a) {
-    null != a || (a = !0), !1 === a && console.log(a);
-}(!1);
+var a;
+null != (a = !1) || (a = !0), !1 === a && console.log(a);

@@ -15,7 +15,7 @@ use super::EnumKind;
 pub(super) struct ParamMetadata;
 
 impl VisitMut for ParamMetadata {
-    fn visit_mut_class(&mut self, mut cls: &mut Class) {
+    fn visit_mut_class(&mut self, cls: &mut Class) {
         cls.visit_mut_children_with(self);
 
         let mut decorators = cls.decorators.take();
@@ -498,10 +498,7 @@ fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
         Pat::Rest(p) => p.type_ann.as_deref(),
         Pat::Object(p) => p.type_ann.as_deref(),
         Pat::Assign(p) => {
-            return p
-                .type_ann
-                .as_deref()
-                .or_else(|| get_type_ann_of_pat(&p.left));
+            return get_type_ann_of_pat(&p.left);
         }
         Pat::Invalid(_) => None,
         Pat::Expr(_) => None,

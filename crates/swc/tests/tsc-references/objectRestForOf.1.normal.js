@@ -4,7 +4,7 @@ import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 let array;
 for (let _ref of array){
-    let { x  } = _ref, restOf = _object_without_properties(_ref, [
+    let { x } = _ref, restOf = _object_without_properties(_ref, [
         "x"
     ]);
     [
@@ -18,7 +18,7 @@ for (var _ref of array){
     var _ref1;
     _ref1 = _ref, rrestOff = _object_without_properties(_ref1, [
         "x"
-    ]), ({ x: xx  } = _ref1), _ref1;
+    ]), ({ x: xx } = _ref1), _ref1;
     [
         xx,
         rrestOff

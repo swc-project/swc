@@ -10,14 +10,13 @@ use swc_ecma_testing::{exec_node_js, JsExecOptions};
 
 static IGNORED_PASS_TESTS: &[&str] = &[
     // Temporally ignored
-    "431ecef8c85d4d24.js",
-    "8386fbff927a9e0e.js",
-    "5654d4106d7025c2.js",
+    "16c7073c546fdd58.js",
     "369fd0a1e40030d8.js",
     "3df03e7e138b7760.js",
     "5333f04581124314.js",
     "a157424306915066.js",
     "ce5f3bc27d5ccaac.js",
+    "d4e81043d808dc31.js",
     // Stack size (Stupid parens)
     "6b5e7e125097d439.js",
     "714be6d28082eaa7.js",

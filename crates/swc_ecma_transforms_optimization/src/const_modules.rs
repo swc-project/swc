@@ -6,7 +6,7 @@ use std::{
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     errors::HANDLER,
     sync::Lrc,
@@ -120,8 +120,18 @@ impl VisitMut for ConstModules {
                             ImportSpecifier::Namespace(ref s) => {
                                 self.scope.namespace.insert(s.local.to_id());
                             }
-                            ImportSpecifier::Default(..) => {
-                                panic!("const_module does not support default import")
+                            ImportSpecifier::Default(ref s) => {
+                                let imported = &s.local.sym;
+                                let default_import_key = js_word!("default");
+                                let value =
+                                    entry.get(&default_import_key).cloned().unwrap_or_else(|| {
+                                        panic!(
+                                            "The requested const_module `{}` does not provide \
+                                             default export",
+                                            import.src.value
+                                        )
+                                    });
+                                self.scope.imported.insert(imported.clone(), value);
                             }
                         };
                     }
@@ -153,7 +163,7 @@ impl VisitMut for ConstModules {
                     return;
                 }
 
-                if let Some(..) = self.scope.namespace.get(&id.to_id()) {
+                if self.scope.namespace.get(&id.to_id()).is_some() {
                     panic!(
                         "The const_module namespace `{}` cannot be used without member accessor",
                         sym
@@ -209,7 +219,7 @@ impl VisitMut for ConstModules {
                     return;
                 }
 
-                if let Some(..) = self.scope.namespace.get(&id.to_id()) {
+                if self.scope.namespace.get(&id.to_id()).is_some() {
                     panic!(
                         "The const_module namespace `{}` cannot be used without member accessor",
                         id.sym

@@ -327,11 +327,7 @@
           "end": 223,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 214,
-          "end": 215,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -493,88 +489,93 @@
         "ctxt": 0
       },
       "expression": {
-        "type": "MemberExpression",
+        "type": "OptionalChainingExpression",
         "span": {
           "start": 255,
           "end": 266,
           "ctxt": 0
         },
-        "object": {
-          "type": "OptionalChainingExpression",
+        "optional": false,
+        "base": {
+          "type": "MemberExpression",
           "span": {
             "start": 255,
-            "end": 259,
+            "end": 266,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 256,
-            "end": 257,
-            "ctxt": 0
-          },
-          "base": {
-            "type": "MemberExpression",
+          "object": {
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 255,
               "end": 259,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "optional": true,
+            "base": {
+              "type": "MemberExpression",
               "span": {
                 "start": 255,
-                "end": 256,
-                "ctxt": 0
-              },
-              "value": "o",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 258,
                 "end": 259,
                 "ctxt": 0
               },
-              "value": "x",
-              "optional": false
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 255,
+                  "end": 256,
+                  "ctxt": 0
+                },
+                "value": "o",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 258,
+                  "end": 259,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              }
             }
-          }
-        },
-        "property": {
-          "type": "Computed",
-          "span": {
-            "start": 259,
-            "end": 266,
-            "ctxt": 0
           },
-          "expression": {
-            "type": "AssignmentExpression",
+          "property": {
+            "type": "Computed",
             "span": {
-              "start": 260,
-              "end": 265,
+              "start": 259,
+              "end": 266,
               "ctxt": 0
             },
-            "operator": "=",
-            "left": {
-              "type": "Identifier",
+            "expression": {
+              "type": "AssignmentExpression",
               "span": {
                 "start": 260,
-                "end": 261,
-                "ctxt": 0
-              },
-              "value": "b",
-              "optional": false,
-              "typeAnnotation": null
-            },
-            "right": {
-              "type": "NumericLiteral",
-              "span": {
-                "start": 264,
                 "end": 265,
                 "ctxt": 0
               },
-              "value": 1.0,
-              "raw": "1"
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 260,
+                  "end": 261,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 264,
+                  "end": 265,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
             }
           }
         }
@@ -689,11 +690,7 @@
           "end": 308,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 299,
-          "end": 300,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
@@ -853,89 +850,94 @@
         "ctxt": 0
       },
       "expression": {
-        "type": "CallExpression",
+        "type": "OptionalChainingExpression",
         "span": {
           "start": 339,
           "end": 350,
           "ctxt": 0
         },
-        "callee": {
-          "type": "OptionalChainingExpression",
+        "optional": false,
+        "base": {
+          "type": "CallExpression",
           "span": {
             "start": 339,
-            "end": 343,
+            "end": 350,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 340,
-            "end": 341,
-            "ctxt": 0
-          },
-          "base": {
-            "type": "MemberExpression",
+          "callee": {
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 339,
               "end": 343,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "optional": true,
+            "base": {
+              "type": "MemberExpression",
               "span": {
                 "start": 339,
-                "end": 340,
-                "ctxt": 0
-              },
-              "value": "o",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 342,
                 "end": 343,
                 "ctxt": 0
               },
-              "value": "x",
-              "optional": false
-            }
-          }
-        },
-        "arguments": [
-          {
-            "spread": null,
-            "expression": {
-              "type": "AssignmentExpression",
-              "span": {
-                "start": 344,
-                "end": 349,
-                "ctxt": 0
-              },
-              "operator": "=",
-              "left": {
+              "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 344,
-                  "end": 345,
+                  "start": 339,
+                  "end": 340,
                   "ctxt": 0
                 },
-                "value": "d",
-                "optional": false,
-                "typeAnnotation": null
+                "value": "o",
+                "optional": false
               },
-              "right": {
-                "type": "NumericLiteral",
+              "property": {
+                "type": "Identifier",
                 "span": {
-                  "start": 348,
+                  "start": 342,
+                  "end": 343,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              }
+            }
+          },
+          "arguments": [
+            {
+              "spread": null,
+              "expression": {
+                "type": "AssignmentExpression",
+                "span": {
+                  "start": 344,
                   "end": 349,
                   "ctxt": 0
                 },
-                "value": 1.0,
-                "raw": "1"
+                "operator": "=",
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 344,
+                    "end": 345,
+                    "ctxt": 0
+                  },
+                  "value": "d",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "right": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 348,
+                    "end": 349,
+                    "ctxt": 0
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                }
               }
             }
-          }
-        ],
-        "typeArguments": null
+          ],
+          "typeArguments": null
+        }
       }
     },
     {
@@ -1215,11 +1217,7 @@
           "end": 486,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 481,
-          "end": 482,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "CallExpression",
           "span": {
@@ -1682,69 +1680,74 @@
         "ctxt": 0
       },
       "test": {
-        "type": "CallExpression",
+        "type": "OptionalChainingExpression",
         "span": {
           "start": 662,
           "end": 670,
           "ctxt": 0
         },
-        "callee": {
-          "type": "OptionalChainingExpression",
+        "optional": false,
+        "base": {
+          "type": "CallExpression",
           "span": {
             "start": 662,
-            "end": 667,
+            "end": 670,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 664,
-            "end": 665,
-            "ctxt": 0
-          },
-          "base": {
-            "type": "MemberExpression",
+          "callee": {
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 662,
               "end": 667,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "optional": true,
+            "base": {
+              "type": "MemberExpression",
               "span": {
                 "start": 662,
-                "end": 664,
-                "ctxt": 0
-              },
-              "value": "o2",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 666,
                 "end": 667,
                 "ctxt": 0
               },
-              "value": "f",
-              "optional": false
-            }
-          }
-        },
-        "arguments": [
-          {
-            "spread": null,
-            "expression": {
-              "type": "Identifier",
-              "span": {
-                "start": 668,
-                "end": 669,
-                "ctxt": 0
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 662,
+                  "end": 664,
+                  "ctxt": 0
+                },
+                "value": "o2",
+                "optional": false
               },
-              "value": "x",
-              "optional": false
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 666,
+                  "end": 667,
+                  "ctxt": 0
+                },
+                "value": "f",
+                "optional": false
+              }
             }
-          }
-        ],
-        "typeArguments": null
+          },
+          "arguments": [
+            {
+              "spread": null,
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 668,
+                  "end": 669,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              }
+            }
+          ],
+          "typeArguments": null
+        }
       },
       "consequent": {
         "type": "BlockStatement",
@@ -1822,11 +1825,7 @@
                 "end": 737,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 734,
-                "end": 735,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -1865,69 +1864,74 @@
               "ctxt": 0
             },
             "expression": {
-              "type": "CallExpression",
+              "type": "OptionalChainingExpression",
               "span": {
                 "start": 743,
                 "end": 751,
                 "ctxt": 0
               },
-              "callee": {
-                "type": "OptionalChainingExpression",
+              "optional": false,
+              "base": {
+                "type": "CallExpression",
                 "span": {
                   "start": 743,
-                  "end": 748,
+                  "end": 751,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 745,
-                  "end": 746,
-                  "ctxt": 0
-                },
-                "base": {
-                  "type": "MemberExpression",
+                "callee": {
+                  "type": "OptionalChainingExpression",
                   "span": {
                     "start": 743,
                     "end": 748,
                     "ctxt": 0
                   },
-                  "object": {
-                    "type": "Identifier",
+                  "optional": true,
+                  "base": {
+                    "type": "MemberExpression",
                     "span": {
                       "start": 743,
-                      "end": 745,
-                      "ctxt": 0
-                    },
-                    "value": "o2",
-                    "optional": false
-                  },
-                  "property": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 747,
                       "end": 748,
                       "ctxt": 0
                     },
-                    "value": "f",
-                    "optional": false
-                  }
-                }
-              },
-              "arguments": [
-                {
-                  "spread": null,
-                  "expression": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 749,
-                      "end": 750,
-                      "ctxt": 0
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 743,
+                        "end": 745,
+                        "ctxt": 0
+                      },
+                      "value": "o2",
+                      "optional": false
                     },
-                    "value": "x",
-                    "optional": false
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 747,
+                        "end": 748,
+                        "ctxt": 0
+                      },
+                      "value": "f",
+                      "optional": false
+                    }
                   }
-                }
-              ],
-              "typeArguments": null
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 749,
+                        "end": 750,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
             }
           }
         ]
@@ -1990,11 +1994,7 @@
                 "end": 786,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 783,
-                "end": 784,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -2114,11 +2114,7 @@
           "end": 812,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 809,
-          "end": 810,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -2468,11 +2464,7 @@
             "end": 903,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 900,
-            "end": 901,
-            "ctxt": 0
-          },
+          "optional": true,
           "base": {
             "type": "MemberExpression",
             "span": {
@@ -2589,11 +2581,7 @@
                 "end": 940,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 937,
-                "end": 938,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -2666,11 +2654,7 @@
                 "end": 968,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 965,
-                "end": 966,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -2772,11 +2756,7 @@
           "end": 991,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 988,
-          "end": 989,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -2990,11 +2970,7 @@
           "end": 1053,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 1050,
-          "end": 1051,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -3154,11 +3130,7 @@
                 "end": 1116,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 1113,
-                "end": 1114,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -3267,11 +3239,7 @@
                 "end": 1156,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 1153,
-                "end": 1154,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -3427,11 +3395,7 @@
           "end": 1185,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 1182,
-          "end": 1183,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -3765,11 +3729,7 @@
           "end": 1269,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 1266,
-          "end": 1267,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -3778,80 +3738,85 @@
             "ctxt": 0
           },
           "object": {
-            "type": "MemberExpression",
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 1257,
               "end": 1266,
               "ctxt": 0
             },
-            "object": {
-              "type": "OptionalChainingExpression",
+            "optional": false,
+            "base": {
+              "type": "MemberExpression",
               "span": {
                 "start": 1257,
-                "end": 1264,
+                "end": 1266,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 1261,
-                "end": 1262,
-                "ctxt": 0
-              },
-              "base": {
-                "type": "MemberExpression",
+              "object": {
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 1257,
                   "end": 1264,
                   "ctxt": 0
                 },
-                "object": {
+                "optional": true,
+                "base": {
                   "type": "MemberExpression",
                   "span": {
                     "start": 1257,
-                    "end": 1261,
+                    "end": 1264,
                     "ctxt": 0
                   },
                   "object": {
-                    "type": "Identifier",
+                    "type": "MemberExpression",
                     "span": {
                       "start": 1257,
-                      "end": 1259,
+                      "end": 1261,
                       "ctxt": 0
                     },
-                    "value": "o5",
-                    "optional": false
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1257,
+                        "end": 1259,
+                        "ctxt": 0
+                      },
+                      "value": "o5",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1260,
+                        "end": 1261,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "optional": false
+                    }
                   },
                   "property": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1260,
-                      "end": 1261,
+                      "start": 1263,
+                      "end": 1264,
                       "ctxt": 0
                     },
-                    "value": "x",
+                    "value": "y",
                     "optional": false
                   }
-                },
-                "property": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 1263,
-                    "end": 1264,
-                    "ctxt": 0
-                  },
-                  "value": "y",
-                  "optional": false
                 }
-              }
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 1265,
-                "end": 1266,
-                "ctxt": 0
               },
-              "value": "z",
-              "optional": false
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1265,
+                  "end": 1266,
+                  "ctxt": 0
+                },
+                "value": "z",
+                "optional": false
+              }
             }
           },
           "property": {
@@ -4140,11 +4105,7 @@
                 "end": 1348,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 1345,
-                "end": 1346,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -4237,74 +4198,98 @@
               "ctxt": 0
             },
             "expression": {
-              "type": "MemberExpression",
+              "type": "OptionalChainingExpression",
               "span": {
                 "start": 1362,
                 "end": 1373,
                 "ctxt": 0
               },
-              "object": {
+              "optional": false,
+              "base": {
                 "type": "MemberExpression",
                 "span": {
                   "start": 1362,
-                  "end": 1371,
+                  "end": 1373,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "OptionalChainingExpression",
                   "span": {
                     "start": 1362,
-                    "end": 1369,
+                    "end": 1371,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 1366,
-                    "end": 1367,
-                    "ctxt": 0
-                  },
+                  "optional": false,
                   "base": {
                     "type": "MemberExpression",
                     "span": {
                       "start": 1362,
-                      "end": 1369,
+                      "end": 1371,
                       "ctxt": 0
                     },
                     "object": {
-                      "type": "MemberExpression",
+                      "type": "OptionalChainingExpression",
                       "span": {
                         "start": 1362,
-                        "end": 1366,
+                        "end": 1369,
                         "ctxt": 0
                       },
-                      "object": {
-                        "type": "Identifier",
+                      "optional": true,
+                      "base": {
+                        "type": "MemberExpression",
                         "span": {
                           "start": 1362,
-                          "end": 1364,
+                          "end": 1369,
                           "ctxt": 0
                         },
-                        "value": "o5",
-                        "optional": false
-                      },
-                      "property": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 1365,
-                          "end": 1366,
-                          "ctxt": 0
+                        "object": {
+                          "type": "MemberExpression",
+                          "span": {
+                            "start": 1362,
+                            "end": 1366,
+                            "ctxt": 0
+                          },
+                          "object": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 1362,
+                              "end": 1364,
+                              "ctxt": 0
+                            },
+                            "value": "o5",
+                            "optional": false
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 1365,
+                              "end": 1366,
+                              "ctxt": 0
+                            },
+                            "value": "x",
+                            "optional": false
+                          }
                         },
-                        "value": "x",
-                        "optional": false
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 1368,
+                            "end": 1369,
+                            "ctxt": 0
+                          },
+                          "value": "y",
+                          "optional": false
+                        }
                       }
                     },
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 1368,
-                        "end": 1369,
+                        "start": 1370,
+                        "end": 1371,
                         "ctxt": 0
                       },
-                      "value": "y",
+                      "value": "z",
                       "optional": false
                     }
                   }
@@ -4312,23 +4297,13 @@
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 1370,
-                    "end": 1371,
+                    "start": 1372,
+                    "end": 1373,
                     "ctxt": 0
                   },
-                  "value": "z",
+                  "value": "w",
                   "optional": false
                 }
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1372,
-                  "end": 1373,
-                  "ctxt": 0
-                },
-                "value": "w",
-                "optional": false
               }
             }
           },
@@ -4346,11 +4321,7 @@
                 "end": 1399,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 1396,
-                "end": 1397,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -4359,80 +4330,85 @@
                   "ctxt": 0
                 },
                 "object": {
-                  "type": "MemberExpression",
+                  "type": "OptionalChainingExpression",
                   "span": {
                     "start": 1387,
                     "end": 1396,
                     "ctxt": 0
                   },
-                  "object": {
-                    "type": "OptionalChainingExpression",
+                  "optional": false,
+                  "base": {
+                    "type": "MemberExpression",
                     "span": {
                       "start": 1387,
-                      "end": 1394,
+                      "end": 1396,
                       "ctxt": 0
                     },
-                    "questionDotToken": {
-                      "start": 1391,
-                      "end": 1392,
-                      "ctxt": 0
-                    },
-                    "base": {
-                      "type": "MemberExpression",
+                    "object": {
+                      "type": "OptionalChainingExpression",
                       "span": {
                         "start": 1387,
                         "end": 1394,
                         "ctxt": 0
                       },
-                      "object": {
+                      "optional": true,
+                      "base": {
                         "type": "MemberExpression",
                         "span": {
                           "start": 1387,
-                          "end": 1391,
+                          "end": 1394,
                           "ctxt": 0
                         },
                         "object": {
-                          "type": "Identifier",
+                          "type": "MemberExpression",
                           "span": {
                             "start": 1387,
-                            "end": 1389,
+                            "end": 1391,
                             "ctxt": 0
                           },
-                          "value": "o5",
-                          "optional": false
+                          "object": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 1387,
+                              "end": 1389,
+                              "ctxt": 0
+                            },
+                            "value": "o5",
+                            "optional": false
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 1390,
+                              "end": 1391,
+                              "ctxt": 0
+                            },
+                            "value": "x",
+                            "optional": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
                           "span": {
-                            "start": 1390,
-                            "end": 1391,
+                            "start": 1393,
+                            "end": 1394,
                             "ctxt": 0
                           },
-                          "value": "x",
+                          "value": "y",
                           "optional": false
                         }
-                      },
-                      "property": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 1393,
-                          "end": 1394,
-                          "ctxt": 0
-                        },
-                        "value": "y",
-                        "optional": false
                       }
-                    }
-                  },
-                  "property": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1395,
-                      "end": 1396,
-                      "ctxt": 0
                     },
-                    "value": "z",
-                    "optional": false
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1395,
+                        "end": 1396,
+                        "ctxt": 0
+                      },
+                      "value": "z",
+                      "optional": false
+                    }
                   }
                 },
                 "property": {
@@ -4508,11 +4484,7 @@
                 "end": 1439,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 1436,
-                "end": 1437,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -4569,80 +4541,85 @@
               "ctxt": 0
             },
             "expression": {
-              "type": "MemberExpression",
+              "type": "OptionalChainingExpression",
               "span": {
                 "start": 1445,
                 "end": 1454,
                 "ctxt": 0
               },
-              "object": {
-                "type": "OptionalChainingExpression",
+              "optional": false,
+              "base": {
+                "type": "MemberExpression",
                 "span": {
                   "start": 1445,
-                  "end": 1452,
+                  "end": 1454,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 1449,
-                  "end": 1450,
-                  "ctxt": 0
-                },
-                "base": {
-                  "type": "MemberExpression",
+                "object": {
+                  "type": "OptionalChainingExpression",
                   "span": {
                     "start": 1445,
                     "end": 1452,
                     "ctxt": 0
                   },
-                  "object": {
+                  "optional": true,
+                  "base": {
                     "type": "MemberExpression",
                     "span": {
                       "start": 1445,
-                      "end": 1449,
+                      "end": 1452,
                       "ctxt": 0
                     },
                     "object": {
-                      "type": "Identifier",
+                      "type": "MemberExpression",
                       "span": {
                         "start": 1445,
-                        "end": 1447,
+                        "end": 1449,
                         "ctxt": 0
                       },
-                      "value": "o5",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1445,
+                          "end": 1447,
+                          "ctxt": 0
+                        },
+                        "value": "o5",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 1448,
+                          "end": 1449,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false
+                      }
                     },
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 1448,
-                        "end": 1449,
+                        "start": 1451,
+                        "end": 1452,
                         "ctxt": 0
                       },
-                      "value": "x",
+                      "value": "y",
                       "optional": false
                     }
-                  },
-                  "property": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1451,
-                      "end": 1452,
-                      "ctxt": 0
-                    },
-                    "value": "y",
-                    "optional": false
                   }
-                }
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1453,
-                  "end": 1454,
-                  "ctxt": 0
                 },
-                "value": "z",
-                "optional": false
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1453,
+                    "end": 1454,
+                    "ctxt": 0
+                  },
+                  "value": "z",
+                  "optional": false
+                }
               }
             }
           },
@@ -4660,11 +4637,7 @@
                 "end": 1472,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 1469,
-                "end": 1470,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -4673,80 +4646,85 @@
                   "ctxt": 0
                 },
                 "object": {
-                  "type": "MemberExpression",
+                  "type": "OptionalChainingExpression",
                   "span": {
                     "start": 1460,
                     "end": 1469,
                     "ctxt": 0
                   },
-                  "object": {
-                    "type": "OptionalChainingExpression",
+                  "optional": false,
+                  "base": {
+                    "type": "MemberExpression",
                     "span": {
                       "start": 1460,
-                      "end": 1467,
+                      "end": 1469,
                       "ctxt": 0
                     },
-                    "questionDotToken": {
-                      "start": 1464,
-                      "end": 1465,
-                      "ctxt": 0
-                    },
-                    "base": {
-                      "type": "MemberExpression",
+                    "object": {
+                      "type": "OptionalChainingExpression",
                       "span": {
                         "start": 1460,
                         "end": 1467,
                         "ctxt": 0
                       },
-                      "object": {
+                      "optional": true,
+                      "base": {
                         "type": "MemberExpression",
                         "span": {
                           "start": 1460,
-                          "end": 1464,
+                          "end": 1467,
                           "ctxt": 0
                         },
                         "object": {
-                          "type": "Identifier",
+                          "type": "MemberExpression",
                           "span": {
                             "start": 1460,
-                            "end": 1462,
+                            "end": 1464,
                             "ctxt": 0
                           },
-                          "value": "o5",
-                          "optional": false
+                          "object": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 1460,
+                              "end": 1462,
+                              "ctxt": 0
+                            },
+                            "value": "o5",
+                            "optional": false
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 1463,
+                              "end": 1464,
+                              "ctxt": 0
+                            },
+                            "value": "x",
+                            "optional": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
                           "span": {
-                            "start": 1463,
-                            "end": 1464,
+                            "start": 1466,
+                            "end": 1467,
                             "ctxt": 0
                           },
-                          "value": "x",
+                          "value": "y",
                           "optional": false
                         }
-                      },
-                      "property": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 1466,
-                          "end": 1467,
-                          "ctxt": 0
-                        },
-                        "value": "y",
-                        "optional": false
                       }
-                    }
-                  },
-                  "property": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1468,
-                      "end": 1469,
-                      "ctxt": 0
                     },
-                    "value": "z",
-                    "optional": false
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1468,
+                        "end": 1469,
+                        "ctxt": 0
+                      },
+                      "value": "z",
+                      "optional": false
+                    }
                   }
                 },
                 "property": {
@@ -4959,11 +4937,7 @@
           "end": 1517,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 1514,
-          "end": 1515,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -5020,80 +4994,85 @@
         "ctxt": 0
       },
       "expression": {
-        "type": "MemberExpression",
+        "type": "OptionalChainingExpression",
         "span": {
           "start": 1519,
           "end": 1528,
           "ctxt": 0
         },
-        "object": {
-          "type": "OptionalChainingExpression",
+        "optional": false,
+        "base": {
+          "type": "MemberExpression",
           "span": {
             "start": 1519,
-            "end": 1526,
+            "end": 1528,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 1523,
-            "end": 1524,
-            "ctxt": 0
-          },
-          "base": {
-            "type": "MemberExpression",
+          "object": {
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 1519,
               "end": 1526,
               "ctxt": 0
             },
-            "object": {
+            "optional": true,
+            "base": {
               "type": "MemberExpression",
               "span": {
                 "start": 1519,
-                "end": 1523,
+                "end": 1526,
                 "ctxt": 0
               },
               "object": {
-                "type": "Identifier",
+                "type": "MemberExpression",
                 "span": {
                   "start": 1519,
-                  "end": 1521,
+                  "end": 1523,
                   "ctxt": 0
                 },
-                "value": "o5",
-                "optional": false
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1519,
+                    "end": 1521,
+                    "ctxt": 0
+                  },
+                  "value": "o5",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1522,
+                    "end": 1523,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                }
               },
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 1522,
-                  "end": 1523,
+                  "start": 1525,
+                  "end": 1526,
                   "ctxt": 0
                 },
-                "value": "x",
+                "value": "y",
                 "optional": false
               }
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 1525,
-                "end": 1526,
-                "ctxt": 0
-              },
-              "value": "y",
-              "optional": false
             }
-          }
-        },
-        "property": {
-          "type": "Identifier",
-          "span": {
-            "start": 1527,
-            "end": 1528,
-            "ctxt": 0
           },
-          "value": "z",
-          "optional": false
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 1527,
+              "end": 1528,
+              "ctxt": 0
+            },
+            "value": "z",
+            "optional": false
+          }
         }
       }
     },
@@ -5111,11 +5090,7 @@
           "end": 1542,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 1539,
-          "end": 1540,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -5124,80 +5099,85 @@
             "ctxt": 0
           },
           "object": {
-            "type": "MemberExpression",
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 1530,
               "end": 1539,
               "ctxt": 0
             },
-            "object": {
-              "type": "OptionalChainingExpression",
+            "optional": false,
+            "base": {
+              "type": "MemberExpression",
               "span": {
                 "start": 1530,
-                "end": 1537,
+                "end": 1539,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 1534,
-                "end": 1535,
-                "ctxt": 0
-              },
-              "base": {
-                "type": "MemberExpression",
+              "object": {
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 1530,
                   "end": 1537,
                   "ctxt": 0
                 },
-                "object": {
+                "optional": true,
+                "base": {
                   "type": "MemberExpression",
                   "span": {
                     "start": 1530,
-                    "end": 1534,
+                    "end": 1537,
                     "ctxt": 0
                   },
                   "object": {
-                    "type": "Identifier",
+                    "type": "MemberExpression",
                     "span": {
                       "start": 1530,
-                      "end": 1532,
+                      "end": 1534,
                       "ctxt": 0
                     },
-                    "value": "o5",
-                    "optional": false
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1530,
+                        "end": 1532,
+                        "ctxt": 0
+                      },
+                      "value": "o5",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1533,
+                        "end": 1534,
+                        "ctxt": 0
+                      },
+                      "value": "x",
+                      "optional": false
+                    }
                   },
                   "property": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1533,
-                      "end": 1534,
+                      "start": 1536,
+                      "end": 1537,
                       "ctxt": 0
                     },
-                    "value": "x",
+                    "value": "y",
                     "optional": false
                   }
-                },
-                "property": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 1536,
-                    "end": 1537,
-                    "ctxt": 0
-                  },
-                  "value": "y",
-                  "optional": false
                 }
-              }
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 1538,
-                "end": 1539,
-                "ctxt": 0
               },
-              "value": "z",
-              "optional": false
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1538,
+                  "end": 1539,
+                  "ctxt": 0
+                },
+                "value": "z",
+                "optional": false
+              }
             }
           },
           "property": {
@@ -5641,55 +5621,60 @@
         "ctxt": 0
       },
       "test": {
-        "type": "CallExpression",
+        "type": "OptionalChainingExpression",
         "span": {
           "start": 1702,
           "end": 1709,
           "ctxt": 0
         },
-        "callee": {
-          "type": "OptionalChainingExpression",
+        "optional": false,
+        "base": {
+          "type": "CallExpression",
           "span": {
             "start": 1702,
-            "end": 1707,
+            "end": 1709,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 1704,
-            "end": 1705,
-            "ctxt": 0
-          },
-          "base": {
-            "type": "MemberExpression",
+          "callee": {
+            "type": "OptionalChainingExpression",
             "span": {
               "start": 1702,
               "end": 1707,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
+            "optional": true,
+            "base": {
+              "type": "MemberExpression",
               "span": {
                 "start": 1702,
-                "end": 1704,
-                "ctxt": 0
-              },
-              "value": "o6",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 1706,
                 "end": 1707,
                 "ctxt": 0
               },
-              "value": "f",
-              "optional": false
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1702,
+                  "end": 1704,
+                  "ctxt": 0
+                },
+                "value": "o6",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1706,
+                  "end": 1707,
+                  "ctxt": 0
+                },
+                "value": "f",
+                "optional": false
+              }
             }
-          }
-        },
-        "arguments": [],
-        "typeArguments": null
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
       },
       "consequent": {
         "type": "BlockStatement",
@@ -5795,11 +5780,7 @@
                 "end": 1768,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 1765,
-                "end": 1766,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -5901,11 +5882,7 @@
           "end": 1791,
           "ctxt": 0
         },
-        "questionDotToken": {
-          "start": 1788,
-          "end": 1789,
-          "ctxt": 0
-        },
+        "optional": true,
         "base": {
           "type": "MemberExpression",
           "span": {
@@ -6660,11 +6637,7 @@
                       "end": 2163,
                       "ctxt": 0
                     },
-                    "questionDotToken": {
-                      "start": 2158,
-                      "end": 2159,
-                      "ctxt": 0
-                    },
+                    "optional": true,
                     "base": {
                       "type": "CallExpression",
                       "span": {
@@ -6779,11 +6752,7 @@
                       "end": 2226,
                       "ctxt": 0
                     },
-                    "questionDotToken": {
-                      "start": 2221,
-                      "end": 2222,
-                      "ctxt": 0
-                    },
+                    "optional": true,
                     "base": {
                       "type": "CallExpression",
                       "span": {
@@ -6940,11 +6909,7 @@
                       "end": 2323,
                       "ctxt": 0
                     },
-                    "questionDotToken": {
-                      "start": 2318,
-                      "end": 2319,
-                      "ctxt": 0
-                    },
+                    "optional": true,
                     "base": {
                       "type": "CallExpression",
                       "span": {
@@ -7059,11 +7024,7 @@
                       "end": 2382,
                       "ctxt": 0
                     },
-                    "questionDotToken": {
-                      "start": 2378,
-                      "end": 2379,
-                      "ctxt": 0
-                    },
+                    "optional": true,
                     "base": {
                       "type": "CallExpression",
                       "span": {
@@ -7438,11 +7399,7 @@
                   "end": 2538,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 2533,
-                  "end": 2534,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -7553,11 +7510,7 @@
                   "end": 2591,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 2582,
-                  "end": 2583,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -7678,55 +7631,60 @@
               },
               "operator": "===",
               "left": {
-                "type": "CallExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 2637,
                   "end": 2645,
                   "ctxt": 0
                 },
-                "callee": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "CallExpression",
                   "span": {
                     "start": 2637,
-                    "end": 2643,
+                    "end": 2645,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 2638,
-                    "end": 2639,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "callee": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 2637,
                       "end": 2643,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 2637,
-                        "end": 2638,
-                        "ctxt": 0
-                      },
-                      "value": "o",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 2640,
                         "end": 2643,
                         "ctxt": 0
                       },
-                      "value": "bar",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 2637,
+                          "end": 2638,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 2640,
+                          "end": 2643,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      }
                     }
-                  }
-                },
-                "arguments": [],
-                "typeArguments": null
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -7809,11 +7767,7 @@
                   "end": 2694,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 2689,
-                  "end": 2690,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -7924,11 +7878,7 @@
                   "end": 2746,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 2737,
-                  "end": 2738,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -8049,55 +7999,60 @@
               },
               "operator": "==",
               "left": {
-                "type": "CallExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 2791,
                   "end": 2799,
                   "ctxt": 0
                 },
-                "callee": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "CallExpression",
                   "span": {
                     "start": 2791,
-                    "end": 2797,
+                    "end": 2799,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 2792,
-                    "end": 2793,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "callee": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 2791,
                       "end": 2797,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 2791,
-                        "end": 2792,
-                        "ctxt": 0
-                      },
-                      "value": "o",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 2794,
                         "end": 2797,
                         "ctxt": 0
                       },
-                      "value": "bar",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 2791,
+                          "end": 2792,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 2794,
+                          "end": 2797,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      }
                     }
-                  }
-                },
-                "arguments": [],
-                "typeArguments": null
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -8317,11 +8272,7 @@
                   "end": 2897,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 2892,
-                  "end": 2893,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -8432,11 +8383,7 @@
                   "end": 2950,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 2941,
-                  "end": 2942,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -8557,55 +8504,60 @@
               },
               "operator": "===",
               "left": {
-                "type": "CallExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 2996,
                   "end": 3004,
                   "ctxt": 0
                 },
-                "callee": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "CallExpression",
                   "span": {
                     "start": 2996,
-                    "end": 3002,
+                    "end": 3004,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 2997,
-                    "end": 2998,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "callee": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 2996,
                       "end": 3002,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 2996,
-                        "end": 2997,
-                        "ctxt": 0
-                      },
-                      "value": "o",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 2999,
                         "end": 3002,
                         "ctxt": 0
                       },
-                      "value": "bar",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 2996,
+                          "end": 2997,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 2999,
+                          "end": 3002,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      }
                     }
-                  }
-                },
-                "arguments": [],
-                "typeArguments": null
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -8688,11 +8640,7 @@
                   "end": 3053,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 3048,
-                  "end": 3049,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -8803,11 +8751,7 @@
                   "end": 3105,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 3096,
-                  "end": 3097,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -8928,55 +8872,60 @@
               },
               "operator": "==",
               "left": {
-                "type": "CallExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 3150,
                   "end": 3158,
                   "ctxt": 0
                 },
-                "callee": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "CallExpression",
                   "span": {
                     "start": 3150,
-                    "end": 3156,
+                    "end": 3158,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 3151,
-                    "end": 3152,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "callee": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 3150,
                       "end": 3156,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 3150,
-                        "end": 3151,
-                        "ctxt": 0
-                      },
-                      "value": "o",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 3153,
                         "end": 3156,
                         "ctxt": 0
                       },
-                      "value": "bar",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3150,
+                          "end": 3151,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3153,
+                          "end": 3156,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      }
                     }
-                  }
-                },
-                "arguments": [],
-                "typeArguments": null
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -9215,11 +9164,7 @@
                   "end": 3273,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 3268,
-                  "end": 3269,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -9330,11 +9275,7 @@
                   "end": 3336,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 3327,
-                  "end": 3328,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -9455,55 +9396,60 @@
               },
               "operator": "===",
               "left": {
-                "type": "CallExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 3392,
                   "end": 3400,
                   "ctxt": 0
                 },
-                "callee": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "CallExpression",
                   "span": {
                     "start": 3392,
-                    "end": 3398,
+                    "end": 3400,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 3393,
-                    "end": 3394,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "callee": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 3392,
                       "end": 3398,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 3392,
-                        "end": 3393,
-                        "ctxt": 0
-                      },
-                      "value": "o",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 3395,
                         "end": 3398,
                         "ctxt": 0
                       },
-                      "value": "bar",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3392,
+                          "end": 3393,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3395,
+                          "end": 3398,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      }
                     }
-                  }
-                },
-                "arguments": [],
-                "typeArguments": null
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -9586,11 +9532,7 @@
                   "end": 3459,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 3454,
-                  "end": 3455,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -9701,11 +9643,7 @@
                   "end": 3521,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 3512,
-                  "end": 3513,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -9826,55 +9764,60 @@
               },
               "operator": "==",
               "left": {
-                "type": "CallExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 3576,
                   "end": 3584,
                   "ctxt": 0
                 },
-                "callee": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "CallExpression",
                   "span": {
                     "start": 3576,
-                    "end": 3582,
+                    "end": 3584,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 3577,
-                    "end": 3578,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "callee": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 3576,
                       "end": 3582,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 3576,
-                        "end": 3577,
-                        "ctxt": 0
-                      },
-                      "value": "o",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 3579,
                         "end": 3582,
                         "ctxt": 0
                       },
-                      "value": "bar",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3576,
+                          "end": 3577,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3579,
+                          "end": 3582,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      }
                     }
-                  }
-                },
-                "arguments": [],
-                "typeArguments": null
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -10113,11 +10056,7 @@
                   "end": 3705,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 3700,
-                  "end": 3701,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -10228,11 +10167,7 @@
                   "end": 3758,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 3749,
-                  "end": 3750,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -10353,55 +10288,60 @@
               },
               "operator": "===",
               "left": {
-                "type": "CallExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 3804,
                   "end": 3812,
                   "ctxt": 0
                 },
-                "callee": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "CallExpression",
                   "span": {
                     "start": 3804,
-                    "end": 3810,
+                    "end": 3812,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 3805,
-                    "end": 3806,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "callee": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 3804,
                       "end": 3810,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 3804,
-                        "end": 3805,
-                        "ctxt": 0
-                      },
-                      "value": "o",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 3807,
                         "end": 3810,
                         "ctxt": 0
                       },
-                      "value": "bar",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3804,
+                          "end": 3805,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3807,
+                          "end": 3810,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      }
                     }
-                  }
-                },
-                "arguments": [],
-                "typeArguments": null
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -10484,11 +10424,7 @@
                   "end": 3861,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 3856,
-                  "end": 3857,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -10599,11 +10535,7 @@
                   "end": 3923,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 3914,
-                  "end": 3915,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -10724,55 +10656,60 @@
               },
               "operator": "==",
               "left": {
-                "type": "CallExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 3978,
                   "end": 3986,
                   "ctxt": 0
                 },
-                "callee": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "CallExpression",
                   "span": {
                     "start": 3978,
-                    "end": 3984,
+                    "end": 3986,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 3979,
-                    "end": 3980,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "callee": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 3978,
                       "end": 3984,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 3978,
-                        "end": 3979,
-                        "ctxt": 0
-                      },
-                      "value": "o",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 3981,
                         "end": 3984,
                         "ctxt": 0
                       },
-                      "value": "bar",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3978,
+                          "end": 3979,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 3981,
+                          "end": 3984,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      }
                     }
-                  }
-                },
-                "arguments": [],
-                "typeArguments": null
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -10956,11 +10893,7 @@
                   "end": 4084,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 4079,
-                  "end": 4080,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -11071,11 +11004,7 @@
                   "end": 4141,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 4132,
-                  "end": 4133,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -11196,55 +11125,60 @@
               },
               "operator": "!==",
               "left": {
-                "type": "CallExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 4191,
                   "end": 4199,
                   "ctxt": 0
                 },
-                "callee": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "CallExpression",
                   "span": {
                     "start": 4191,
-                    "end": 4197,
+                    "end": 4199,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 4192,
-                    "end": 4193,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "callee": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 4191,
                       "end": 4197,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 4191,
-                        "end": 4192,
-                        "ctxt": 0
-                      },
-                      "value": "o",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 4194,
                         "end": 4197,
                         "ctxt": 0
                       },
-                      "value": "bar",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 4191,
+                          "end": 4192,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 4194,
+                          "end": 4197,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      }
                     }
-                  }
-                },
-                "arguments": [],
-                "typeArguments": null
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -11327,11 +11261,7 @@
                   "end": 4252,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 4247,
-                  "end": 4248,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -11442,11 +11372,7 @@
                   "end": 4308,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 4299,
-                  "end": 4300,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -11567,55 +11493,60 @@
               },
               "operator": "!=",
               "left": {
-                "type": "CallExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 4357,
                   "end": 4365,
                   "ctxt": 0
                 },
-                "callee": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "CallExpression",
                   "span": {
                     "start": 4357,
-                    "end": 4363,
+                    "end": 4365,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 4358,
-                    "end": 4359,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "callee": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 4357,
                       "end": 4363,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 4357,
-                        "end": 4358,
-                        "ctxt": 0
-                      },
-                      "value": "o",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 4360,
                         "end": 4363,
                         "ctxt": 0
                       },
-                      "value": "bar",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 4357,
+                          "end": 4358,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 4360,
+                          "end": 4363,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      }
                     }
-                  }
-                },
-                "arguments": [],
-                "typeArguments": null
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -11799,11 +11730,7 @@
                   "end": 4458,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 4453,
-                  "end": 4454,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -11912,11 +11839,7 @@
                   "end": 4520,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 4511,
-                  "end": 4512,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -12035,55 +11958,60 @@
               },
               "operator": "!==",
               "left": {
-                "type": "CallExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 4575,
                   "end": 4583,
                   "ctxt": 0
                 },
-                "callee": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "CallExpression",
                   "span": {
                     "start": 4575,
-                    "end": 4581,
+                    "end": 4583,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 4576,
-                    "end": 4577,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "callee": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 4575,
                       "end": 4581,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 4575,
-                        "end": 4576,
-                        "ctxt": 0
-                      },
-                      "value": "o",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 4578,
                         "end": 4581,
                         "ctxt": 0
                       },
-                      "value": "bar",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 4575,
+                          "end": 4576,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 4578,
+                          "end": 4581,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      }
                     }
-                  }
-                },
-                "arguments": [],
-                "typeArguments": null
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
               },
               "right": {
                 "type": "NullLiteral",
@@ -12164,11 +12092,7 @@
                   "end": 4641,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 4636,
-                  "end": 4637,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -12277,11 +12201,7 @@
                   "end": 4692,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 4683,
-                  "end": 4684,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -12400,55 +12320,60 @@
               },
               "operator": "!=",
               "left": {
-                "type": "CallExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 4736,
                   "end": 4744,
                   "ctxt": 0
                 },
-                "callee": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "CallExpression",
                   "span": {
                     "start": 4736,
-                    "end": 4742,
+                    "end": 4744,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 4737,
-                    "end": 4738,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "callee": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 4736,
                       "end": 4742,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 4736,
-                        "end": 4737,
-                        "ctxt": 0
-                      },
-                      "value": "o",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 4739,
                         "end": 4742,
                         "ctxt": 0
                       },
-                      "value": "bar",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 4736,
+                          "end": 4737,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 4739,
+                          "end": 4742,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      }
                     }
-                  }
-                },
-                "arguments": [],
-                "typeArguments": null
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
               },
               "right": {
                 "type": "NullLiteral",
@@ -12630,11 +12555,7 @@
                   "end": 4826,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 4821,
-                  "end": 4822,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -12745,11 +12666,7 @@
                   "end": 4883,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 4874,
-                  "end": 4875,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -12870,55 +12787,60 @@
               },
               "operator": "!==",
               "left": {
-                "type": "CallExpression",
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 4933,
                   "end": 4941,
                   "ctxt": 0
                 },
-                "callee": {
-                  "type": "OptionalChainingExpression",
+                "optional": false,
+                "base": {
+                  "type": "CallExpression",
                   "span": {
                     "start": 4933,
-                    "end": 4939,
+                    "end": 4941,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 4934,
-                    "end": 4935,
-                    "ctxt": 0
-                  },
-                  "base": {
-                    "type": "MemberExpression",
+                  "callee": {
+                    "type": "OptionalChainingExpression",
                     "span": {
                       "start": 4933,
                       "end": 4939,
                       "ctxt": 0
                     },
-                    "object": {
-                      "type": "Identifier",
+                    "optional": true,
+                    "base": {
+                      "type": "MemberExpression",
                       "span": {
                         "start": 4933,
-                        "end": 4934,
-                        "ctxt": 0
-                      },
-                      "value": "o",
-                      "optional": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 4936,
                         "end": 4939,
                         "ctxt": 0
                       },
-                      "value": "bar",
-                      "optional": false
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 4933,
+                          "end": 4934,
+                          "ctxt": 0
+                        },
+                        "value": "o",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 4936,
+                          "end": 4939,
+                          "ctxt": 0
+                        },
+                        "value": "bar",
+                        "optional": false
+                      }
                     }
-                  }
-                },
-                "arguments": [],
-                "typeArguments": null
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
               },
               "right": {
                 "type": "Identifier",
@@ -13138,11 +13060,7 @@
                   "end": 5049,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 5044,
-                  "end": 5045,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -13298,11 +13216,7 @@
                   "end": 5140,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 5135,
-                  "end": 5136,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -13458,11 +13372,7 @@
                   "end": 5231,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 5226,
-                  "end": 5227,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -13618,11 +13528,7 @@
                   "end": 5321,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 5316,
-                  "end": 5317,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -13915,11 +13821,7 @@
                   "end": 5468,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 5463,
-                  "end": 5464,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -14075,11 +13977,7 @@
                   "end": 5569,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 5564,
-                  "end": 5565,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -14235,11 +14133,7 @@
                   "end": 5670,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 5665,
-                  "end": 5666,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -14395,11 +14289,7 @@
                   "end": 5770,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 5765,
-                  "end": 5766,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -14656,11 +14546,7 @@
                   "end": 5910,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 5905,
-                  "end": 5906,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -14816,11 +14702,7 @@
                   "end": 6005,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 6000,
-                  "end": 6001,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -14976,11 +14858,7 @@
                   "end": 6100,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 6095,
-                  "end": 6096,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -15136,11 +15014,7 @@
                   "end": 6194,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 6189,
-                  "end": 6190,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -15405,11 +15279,7 @@
                     "end": 6335,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 6330,
-                    "end": 6331,
-                    "ctxt": 0
-                  },
+                  "optional": true,
                   "base": {
                     "type": "MemberExpression",
                     "span": {
@@ -15529,11 +15399,7 @@
                     "end": 6398,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 6389,
-                    "end": 6390,
-                    "ctxt": 0
-                  },
+                  "optional": true,
                   "base": {
                     "type": "MemberExpression",
                     "span": {
@@ -15663,55 +15529,60 @@
                 },
                 "operator": "typeof",
                 "argument": {
-                  "type": "CallExpression",
+                  "type": "OptionalChainingExpression",
                   "span": {
                     "start": 6454,
                     "end": 6462,
                     "ctxt": 0
                   },
-                  "callee": {
-                    "type": "OptionalChainingExpression",
+                  "optional": false,
+                  "base": {
+                    "type": "CallExpression",
                     "span": {
                       "start": 6454,
-                      "end": 6460,
+                      "end": 6462,
                       "ctxt": 0
                     },
-                    "questionDotToken": {
-                      "start": 6455,
-                      "end": 6456,
-                      "ctxt": 0
-                    },
-                    "base": {
-                      "type": "MemberExpression",
+                    "callee": {
+                      "type": "OptionalChainingExpression",
                       "span": {
                         "start": 6454,
                         "end": 6460,
                         "ctxt": 0
                       },
-                      "object": {
-                        "type": "Identifier",
+                      "optional": true,
+                      "base": {
+                        "type": "MemberExpression",
                         "span": {
                           "start": 6454,
-                          "end": 6455,
-                          "ctxt": 0
-                        },
-                        "value": "o",
-                        "optional": false
-                      },
-                      "property": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 6457,
                           "end": 6460,
                           "ctxt": 0
                         },
-                        "value": "bar",
-                        "optional": false
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 6454,
+                            "end": 6455,
+                            "ctxt": 0
+                          },
+                          "value": "o",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 6457,
+                            "end": 6460,
+                            "ctxt": 0
+                          },
+                          "value": "bar",
+                          "optional": false
+                        }
                       }
-                    }
-                  },
-                  "arguments": [],
-                  "typeArguments": null
+                    },
+                    "arguments": [],
+                    "typeArguments": null
+                  }
                 }
               },
               "right": {
@@ -15795,11 +15666,7 @@
                   "end": 6514,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 6509,
-                  "end": 6510,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -16019,11 +15886,7 @@
                     "end": 6612,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 6607,
-                    "end": 6608,
-                    "ctxt": 0
-                  },
+                  "optional": true,
                   "base": {
                     "type": "MemberExpression",
                     "span": {
@@ -16143,11 +16006,7 @@
                     "end": 6675,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 6666,
-                    "end": 6667,
-                    "ctxt": 0
-                  },
+                  "optional": true,
                   "base": {
                     "type": "MemberExpression",
                     "span": {
@@ -16277,55 +16136,60 @@
                 },
                 "operator": "typeof",
                 "argument": {
-                  "type": "CallExpression",
+                  "type": "OptionalChainingExpression",
                   "span": {
                     "start": 6731,
                     "end": 6739,
                     "ctxt": 0
                   },
-                  "callee": {
-                    "type": "OptionalChainingExpression",
+                  "optional": false,
+                  "base": {
+                    "type": "CallExpression",
                     "span": {
                       "start": 6731,
-                      "end": 6737,
+                      "end": 6739,
                       "ctxt": 0
                     },
-                    "questionDotToken": {
-                      "start": 6732,
-                      "end": 6733,
-                      "ctxt": 0
-                    },
-                    "base": {
-                      "type": "MemberExpression",
+                    "callee": {
+                      "type": "OptionalChainingExpression",
                       "span": {
                         "start": 6731,
                         "end": 6737,
                         "ctxt": 0
                       },
-                      "object": {
-                        "type": "Identifier",
+                      "optional": true,
+                      "base": {
+                        "type": "MemberExpression",
                         "span": {
                           "start": 6731,
-                          "end": 6732,
-                          "ctxt": 0
-                        },
-                        "value": "o",
-                        "optional": false
-                      },
-                      "property": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 6734,
                           "end": 6737,
                           "ctxt": 0
                         },
-                        "value": "bar",
-                        "optional": false
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 6731,
+                            "end": 6732,
+                            "ctxt": 0
+                          },
+                          "value": "o",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 6734,
+                            "end": 6737,
+                            "ctxt": 0
+                          },
+                          "value": "bar",
+                          "optional": false
+                        }
                       }
-                    }
-                  },
-                  "arguments": [],
-                  "typeArguments": null
+                    },
+                    "arguments": [],
+                    "typeArguments": null
+                  }
                 }
               },
               "right": {
@@ -16409,11 +16273,7 @@
                   "end": 6791,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 6786,
-                  "end": 6787,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -16633,11 +16493,7 @@
                     "end": 6894,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 6889,
-                    "end": 6890,
-                    "ctxt": 0
-                  },
+                  "optional": true,
                   "base": {
                     "type": "MemberExpression",
                     "span": {
@@ -16802,11 +16658,7 @@
                     "end": 6995,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 6990,
-                    "end": 6991,
-                    "ctxt": 0
-                  },
+                  "optional": true,
                   "base": {
                     "type": "MemberExpression",
                     "span": {
@@ -16971,11 +16823,7 @@
                     "end": 7096,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 7091,
-                    "end": 7092,
-                    "ctxt": 0
-                  },
+                  "optional": true,
                   "base": {
                     "type": "MemberExpression",
                     "span": {
@@ -17140,11 +16988,7 @@
                     "end": 7196,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 7191,
-                    "end": 7192,
-                    "ctxt": 0
-                  },
+                  "optional": true,
                   "base": {
                     "type": "MemberExpression",
                     "span": {
@@ -17410,11 +17254,7 @@
                     "end": 7336,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 7331,
-                    "end": 7332,
-                    "ctxt": 0
-                  },
+                  "optional": true,
                   "base": {
                     "type": "MemberExpression",
                     "span": {
@@ -17579,11 +17419,7 @@
                     "end": 7440,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 7435,
-                    "end": 7436,
-                    "ctxt": 0
-                  },
+                  "optional": true,
                   "base": {
                     "type": "MemberExpression",
                     "span": {
@@ -17748,11 +17584,7 @@
                     "end": 7544,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 7539,
-                    "end": 7540,
-                    "ctxt": 0
-                  },
+                  "optional": true,
                   "base": {
                     "type": "MemberExpression",
                     "span": {
@@ -17917,11 +17749,7 @@
                     "end": 7647,
                     "ctxt": 0
                   },
-                  "questionDotToken": {
-                    "start": 7642,
-                    "end": 7643,
-                    "ctxt": 0
-                  },
+                  "optional": true,
                   "base": {
                     "type": "MemberExpression",
                     "span": {
@@ -18509,11 +18337,7 @@
                             "end": 7927,
                             "ctxt": 0
                           },
-                          "questionDotToken": {
-                            "start": 7922,
-                            "end": 7923,
-                            "ctxt": 0
-                          },
+                          "optional": true,
                           "base": {
                             "type": "MemberExpression",
                             "span": {
@@ -18672,11 +18496,7 @@
                               "end": 7990,
                               "ctxt": 0
                             },
-                            "questionDotToken": {
-                              "start": 7985,
-                              "end": 7986,
-                              "ctxt": 0
-                            },
+                            "optional": true,
                             "base": {
                               "type": "MemberExpression",
                               "span": {
@@ -18854,11 +18674,7 @@
                                 "end": 8067,
                                 "ctxt": 0
                               },
-                              "questionDotToken": {
-                                "start": 8062,
-                                "end": 8063,
-                                "ctxt": 0
-                              },
+                              "optional": true,
                               "base": {
                                 "type": "MemberExpression",
                                 "span": {
@@ -19021,11 +18837,7 @@
                             "end": 8150,
                             "ctxt": 0
                           },
-                          "questionDotToken": {
-                            "start": 8145,
-                            "end": 8146,
-                            "ctxt": 0
-                          },
+                          "optional": true,
                           "base": {
                             "type": "MemberExpression",
                             "span": {
@@ -19215,11 +19027,7 @@
                 "end": 8232,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 8227,
-                "end": 8228,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -19626,11 +19434,7 @@
                   "end": 8557,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 8552,
-                  "end": 8553,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -20284,11 +20088,7 @@
                 "end": 9025,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 9019,
-                "end": 9020,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {
@@ -20862,11 +20662,7 @@
                   "end": 9395,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 9389,
-                  "end": 9390,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -21295,11 +21091,7 @@
                   "end": 9706,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 9692,
-                  "end": 9693,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -21519,11 +21311,7 @@
                         "end": 9895,
                         "ctxt": 0
                       },
-                      "questionDotToken": {
-                        "start": 9881,
-                        "end": 9882,
-                        "ctxt": 0
-                      },
+                      "optional": true,
                       "base": {
                         "type": "MemberExpression",
                         "span": {
@@ -21965,11 +21753,7 @@
             "end": 10118,
             "ctxt": 0
           },
-          "questionDotToken": {
-            "start": 10113,
-            "end": 10114,
-            "ctxt": 0
-          },
+          "optional": true,
           "base": {
             "type": "MemberExpression",
             "span": {
@@ -22104,11 +21888,7 @@
                   "end": 10164,
                   "ctxt": 0
                 },
-                "questionDotToken": {
-                  "start": 10159,
-                  "end": 10160,
-                  "ctxt": 0
-                },
+                "optional": true,
                 "base": {
                   "type": "MemberExpression",
                   "span": {
@@ -22532,11 +22312,7 @@
                 "end": 10397,
                 "ctxt": 0
               },
-              "questionDotToken": {
-                "start": 10389,
-                "end": 10390,
-                "ctxt": 0
-              },
+              "optional": true,
               "base": {
                 "type": "MemberExpression",
                 "span": {

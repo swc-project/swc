@@ -4,7 +4,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var M, M2, m2, a2, M3, m3, a3, m = M;
 M.Point, m.Point, function(M2) {
     var Point = function() {
-        "use strict";
         function Point() {
             _class_call_check(this, Point);
         }

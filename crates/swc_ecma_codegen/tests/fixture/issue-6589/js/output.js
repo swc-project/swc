@@ -1,4 +1,4 @@
-export function func({ a , b , ...rest }) {
+export function func({ a, b, ...rest }) {
     console.log(a, b, rest);
 }
 const other = {

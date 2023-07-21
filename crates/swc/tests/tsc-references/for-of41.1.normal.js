@@ -9,7 +9,7 @@ var array = [
         }
     }
 ];
-for (var { x: [a] , y: { p  }  } of array){
+for (var { x: [a], y: { p } } of array){
     a;
     p;
 }
