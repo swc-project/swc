@@ -1622,7 +1622,7 @@ impl<I: Tokens> Parser<I> {
         return_if_arrow!(self, callee);
 
         let type_args = if self.input.syntax().typescript() && is_one_of!(self, '<', "<<") {
-            let type_args_start = self.input.cur_pos();
+            let type_args_start_state = self.input.state();
             self.try_parse_ts(|p| {
                 trace_cur!(p, parse_lhs_expr__type_args);
 
@@ -1632,7 +1632,7 @@ impl<I: Tokens> Parser<I> {
                         in_type: true,
                         ..p.ctx()
                     };
-                    p.input.reset_to(type_args_start);
+                    p.input.reset_to(type_args_start_state);
                     p.input.set_ctx(ctx);
                 }
 

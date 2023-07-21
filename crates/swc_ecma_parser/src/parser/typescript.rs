@@ -585,7 +585,7 @@ impl<I: Tokens> Parser<I> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn try_parse_ts_type_args(&mut self) -> Option<Box<TsTypeParamInstantiation>> {
-        let start = self.input.cur_pos();
+        let start_state = self.input.state();
 
         trace_cur!(self, try_parse_ts_type_args);
         debug_assert!(self.input.syntax().typescript());
@@ -598,7 +598,7 @@ impl<I: Tokens> Parser<I> {
                     in_type: true,
                     ..p.ctx()
                 };
-                p.input.reset_to(start);
+                p.input.reset_to(start_state);
                 p.input.set_ctx(ctx);
             }
 
@@ -2955,7 +2955,7 @@ mod tests {
                 parser
                     .parse_typescript_module()
                     .map_err(|e| e.into_diagnostic(handler).emit())?;
-                let tokens: Vec<TokenAndSpan> = parser.input().take();
+                let tokens: Vec<TokenAndSpan> = parser.input().take().collect();
                 let tokens = tokens.into_iter().map(|t| t.token).collect::<Vec<_>>();
                 assert_eq!(tokens.len(), 9, "Tokens: {:#?}", tokens);
                 Ok(())
@@ -2979,7 +2979,7 @@ mod tests {
             parser
                 .parse_typescript_module()
                 .map_err(|e| e.into_diagnostic(handler).emit())?;
-            let tokens: Vec<TokenAndSpan> = parser.input().take();
+            let tokens: Vec<TokenAndSpan> = parser.input().take().collect();
             let token = &tokens[10];
             assert_eq!(
                 token.token,
@@ -2987,6 +2987,30 @@ mod tests {
                 "Token: {:#?}",
                 token.token
             );
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    #[test]
+    fn issue_7621() {
+        crate::with_test_sess("const test = a << 1", |handler, input| {
+            let lexer = Lexer::new(
+                Syntax::Typescript(Default::default()),
+                EsVersion::Es2019,
+                input,
+                None,
+            );
+            let lexer = Capturing::new(lexer);
+
+            let mut parser = Parser::new_from(lexer);
+            parser
+                .parse_typescript_module()
+                .map_err(|e| e.into_diagnostic(handler).emit())?;
+            let tokens = parser.input().take().map(|t| t.token).collect::<Vec<_>>();
+            assert_eq!(tokens.len(), 6, "Tokens: {:#?}", tokens);
+            // should parse as << and not two < tokens
+            assert_eq!(tokens[4], Token::BinOp(BinOpToken::LShift));
             Ok(())
         })
         .unwrap();

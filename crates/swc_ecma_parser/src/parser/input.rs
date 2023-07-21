@@ -1,4 +1,4 @@
-use std::{cell::RefCell, mem, mem::take, rc::Rc};
+use std::{cell::RefCell, mem::take, rc::Rc};
 
 use lexer::TokenContexts;
 use swc_common::{BytePos, Span};
@@ -6,7 +6,7 @@ use swc_common::{BytePos, Span};
 use super::Parser;
 use crate::{
     error::Error,
-    lexer::{self},
+    lexer::{self, util::SinglyLinkedList},
     token::*,
     Context, EsVersion, Syntax,
 };
@@ -46,8 +46,6 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn add_module_mode_error(&self, error: Error);
 
     fn take_errors(&mut self) -> Vec<Error>;
-
-    fn reset_to(&mut self, to: BytePos);
 }
 
 #[derive(Clone)]
@@ -143,15 +141,13 @@ impl Tokens for TokensInput {
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
-
-    fn reset_to(&mut self, _: BytePos) {}
 }
 
 /// Note: Lexer need access to parser's context to lex correctly.
 #[derive(Debug)]
 pub struct Capturing<I: Tokens> {
     inner: I,
-    captured: Rc<RefCell<Vec<TokenAndSpan>>>,
+    captured: SinglyLinkedList<TokenAndSpan>,
 }
 
 impl<I: Tokens> Clone for Capturing<I> {
@@ -172,8 +168,8 @@ impl<I: Tokens> Capturing<I> {
     }
 
     /// Take captured tokens
-    pub fn take(&mut self) -> Vec<TokenAndSpan> {
-        mem::take(&mut *self.captured.borrow_mut())
+    pub fn take(&mut self) -> impl Iterator<Item = TokenAndSpan> {
+        self.captured.take_all()
     }
 }
 
@@ -185,18 +181,7 @@ impl<I: Tokens> Iterator for Capturing<I> {
 
         match next {
             Some(ts) => {
-                let mut v = self.captured.borrow_mut();
-
-                // remove tokens that could change due to backtracing
-                while let Some(last) = v.last() {
-                    if last.span.lo >= ts.span.lo {
-                        v.pop();
-                    } else {
-                        break;
-                    }
-                }
-
-                v.push(ts.clone());
+                self.captured.push(ts.clone());
 
                 Some(ts)
             }
@@ -256,10 +241,6 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn take_errors(&mut self) -> Vec<Error> {
         self.inner.take_errors()
-    }
-
-    fn reset_to(&mut self, to: BytePos) {
-        self.inner.reset_to(to);
     }
 }
 
@@ -504,8 +485,13 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline]
-    pub(crate) fn reset_to(&mut self, to: BytePos) {
+    pub(crate) fn state(&self) -> I {
+        self.iter.clone()
+    }
+
+    #[inline]
+    pub(crate) fn reset_to(&mut self, state: I) {
         self.cur = None;
-        self.iter.reset_to(to)
+        self.iter = state;
     }
 }
