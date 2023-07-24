@@ -2493,8 +2493,11 @@ struct UsageCounter<'a> {
     expr_usage: usize,
     pat_usage: usize,
 
+    abort: bool,
+
     target: &'a Ident,
     in_lhs: bool,
+    in_abort: bool,
 }
 
 impl Visit for UsageCounter<'_> {
@@ -2502,6 +2505,11 @@ impl Visit for UsageCounter<'_> {
 
     fn visit_ident(&mut self, i: &Ident) {
         if self.target.sym == i.sym && self.target.span.ctxt == i.span.ctxt {
+            if self.in_abort {
+                self.abort = true;
+                return;
+            }
+
             if self.in_lhs {
                 self.pat_usage += 1;
             } else {
@@ -2519,6 +2527,13 @@ impl Visit for UsageCounter<'_> {
             c.expr.visit_with(self);
             self.in_lhs = old;
         }
+    }
+
+    fn visit_update_expr(&mut self, e: &UpdateExpr) {
+        let old_in_abort = self.in_abort;
+        self.in_abort = true;
+        e.visit_children_with(self);
+        self.in_abort = old_in_abort;
     }
 
     fn visit_pat(&mut self, p: &Pat) {
