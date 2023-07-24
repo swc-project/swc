@@ -2542,6 +2542,20 @@ impl Visit for UsageCounter<'_> {
         self.in_abort = old_in_abort;
     }
 
+    fn visit_await_expr(&mut self, e: &AwaitExpr) {
+        let old_in_abort = self.in_abort;
+        self.in_abort = true;
+        e.visit_children_with(self);
+        self.in_abort = old_in_abort;
+    }
+
+    fn visit_yield_expr(&mut self, e: &YieldExpr) {
+        let old_in_abort = self.in_abort;
+        self.in_abort = true;
+        e.visit_children_with(self);
+        self.in_abort = old_in_abort;
+    }
+
     fn visit_pat(&mut self, p: &Pat) {
         let old = self.in_lhs;
         self.in_lhs = true;
