@@ -2031,9 +2031,11 @@ impl Optimizer<'_> {
                             pat_usage: Default::default(),
                             target: a_id,
                             in_lhs: false,
+                            abort: false,
+                            in_abort: false,
                         };
                         b.visit_with(&mut v);
-                        if v.expr_usage != 1 || v.pat_usage != 0 {
+                        if v.expr_usage != 1 || v.pat_usage != 0 || v.abort {
                             log_abort!(
                                 "sequences: Aborting merging of an update expression because of \
                                  usage counts ({}, ref = {}, pat = {})",
@@ -2103,9 +2105,11 @@ impl Optimizer<'_> {
                             pat_usage: Default::default(),
                             target: a_id,
                             in_lhs: false,
+                            abort: false,
+                            in_abort: false,
                         };
                         b.visit_with(&mut v);
-                        if v.expr_usage != 1 || v.pat_usage != 0 {
+                        if v.expr_usage != 1 || v.pat_usage != 0 || v.abort {
                             log_abort!(
                                 "sequences: Aborting merging of an update expression because of \
                                  usage counts ({}, ref = {}, pat = {})",
@@ -2426,9 +2430,11 @@ impl Optimizer<'_> {
                 pat_usage: Default::default(),
                 target: &left_id,
                 in_lhs: false,
+                abort: false,
+                in_abort: false,
             };
             b.visit_with(&mut v);
-            if v.expr_usage != 1 || v.pat_usage != 0 {
+            if v.expr_usage != 1 || v.pat_usage != 0 || v.abort {
                 log_abort!(
                     "sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = {})",
                     left_id.sym,
