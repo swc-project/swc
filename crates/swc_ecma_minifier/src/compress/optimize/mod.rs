@@ -69,6 +69,12 @@ pub(super) fn optimizer<'a>(
         "top_retain should not contain empty string"
     );
 
+    let mut ctx = Ctx::default();
+
+    if options.module {
+        ctx.in_strict = true
+    }
+
     Optimizer {
         marks,
         expr_ctx: ExprCtx {
@@ -85,7 +91,7 @@ pub(super) fn optimizer<'a>(
         simple_props: Default::default(),
         typeofs: Default::default(),
         data,
-        ctx: Default::default(),
+        ctx,
         mode,
         debug_infinite_loop,
         functions: Default::default(),
@@ -316,6 +322,26 @@ impl From<&Function> for FnMetadata {
 }
 
 impl Optimizer<'_> {
+    fn may_remove_ident(&self, id: &Ident) -> bool {
+        if id.span.ctxt != self.marks.top_level_ctxt {
+            return true;
+        }
+
+        if self.options.top_level() {
+            return !self.options.top_retain.contains(&id.sym);
+        }
+
+        false
+    }
+
+    fn may_add_ident(&self) -> bool {
+        if !self.ctx.in_top_level() {
+            return true;
+        }
+
+        self.options.top_level()
+    }
+
     fn handle_stmts(&mut self, stmts: &mut Vec<Stmt>, will_terminate: bool) {
         // Skip if `use asm` exists.
         if maybe_par!(
@@ -913,7 +939,7 @@ impl Optimizer<'_> {
             }) => {
                 if let Pat::Ident(i) = &mut **pat {
                     let old = i.id.to_id();
-                    self.store_var_for_inlining(&mut i.id, right, false, true);
+                    self.store_var_for_inlining(&mut i.id, right, true);
 
                     if i.is_dummy() && self.options.unused {
                         report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
@@ -1741,7 +1767,7 @@ impl VisitMut for Optimizer<'_> {
                 if let Some(i) = left.as_ident_mut() {
                     let old = i.to_id();
 
-                    self.store_var_for_inlining(i, right, false, false);
+                    self.store_var_for_inlining(i, right, false);
 
                     if i.is_dummy() && self.options.unused {
                         report_change!("inline: Removed variable ({}, {:?})", old.0, old.1);
@@ -2865,10 +2891,7 @@ impl VisitMut for Optimizer<'_> {
             ..
         } = var
         {
-            let should_preserve = !var.span.has_mark(self.marks.non_top_level)
-                && (!self.options.top_level() && self.options.top_retain.is_empty())
-                && self.ctx.in_top_level();
-            self.store_var_for_inlining(&mut id.id, init, should_preserve, false);
+            self.store_var_for_inlining(&mut id.id, init, false);
 
             if init.is_invalid() {
                 var.init = None

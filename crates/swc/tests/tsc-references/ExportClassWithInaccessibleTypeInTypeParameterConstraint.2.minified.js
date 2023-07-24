@@ -9,7 +9,6 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
         y: 0
     };
     var Point3d = function(Point) {
-        "use strict";
         _inherits(Point3d, Point);
         var _super = _create_super(Point3d);
         function Point3d() {
@@ -17,7 +16,6 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
         }
         return Point3d;
     }(function Point() {
-        "use strict";
         _class_call_check(this, Point);
     });
     A.Point3d = Point3d, A.Origin3d = {
@@ -26,7 +24,6 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
         z: 0
     };
     var Line = function() {
-        "use strict";
         function Line(start, end) {
             _class_call_check(this, Line), this.start = start, this.end = end;
         }

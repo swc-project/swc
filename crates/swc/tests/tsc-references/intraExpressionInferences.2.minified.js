@@ -52,7 +52,6 @@ callIt({
     b: function(a) {}
 });
 var Wrapper = function Wrapper() {
-    "use strict";
     _class_call_check(this, Wrapper);
 };
 function example(options) {

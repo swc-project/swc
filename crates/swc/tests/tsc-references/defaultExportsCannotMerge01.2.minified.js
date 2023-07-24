@@ -1,8 +1,6 @@
 //// [defaultExportsCannotMerge01.ts]
-"use strict";
 //// [m1.ts]
-"use strict";
-var Decl;
+var Decl, Decl1;
 function Decl() {
     return 0;
 }
@@ -20,11 +18,8 @@ Object.defineProperty(exports, "__esModule", {
     default: function() {
         return Decl;
     }
-}), function(Decl) {
-    Decl.x = 10, Decl.y = 20;
-}(Decl || (Decl = {}));
+}), (Decl1 = Decl || (Decl = {})).x = 10, Decl1.y = 20;
 //// [m2.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

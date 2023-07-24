@@ -3,7 +3,6 @@ define([
     "require",
     "exports"
 ], function(require, exports) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), Object.defineProperty(exports, "default", {
@@ -22,7 +21,6 @@ define([
     "@swc/helpers/_/_interop_require_wildcard",
     "@swc/helpers/_/_ts_generator"
 ], function(require, exports, _async_to_generator, _interop_require_wildcard, _ts_generator) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });

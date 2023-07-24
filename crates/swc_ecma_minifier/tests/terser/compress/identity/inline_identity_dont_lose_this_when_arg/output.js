@@ -2,4 +2,5 @@
 const func_bag = {
     leak: leak
 };
-leak(func_bag.leak);
+var x;
+leak(x = func_bag.leak);

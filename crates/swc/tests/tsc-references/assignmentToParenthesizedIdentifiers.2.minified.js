@@ -1,5 +1,5 @@
 //// [assignmentToParenthesizedIdentifiers.ts]
-var M, M2, E;
+var M, M2, E, E1;
 import "@swc/helpers/_/_class_call_check";
 !function(M) {
     var y;
@@ -23,6 +23,4 @@ import "@swc/helpers/_/_class_call_check";
     x: ""
 }, M2.M3 = {
     x: ""
-}, function(E) {
-    E[E.A = 0] = "A";
-}(E || (E = {}));
+}, (E1 = E || (E = {}))[E1.A = 0] = "A";

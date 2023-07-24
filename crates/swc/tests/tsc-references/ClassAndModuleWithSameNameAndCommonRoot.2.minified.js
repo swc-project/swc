@@ -1,12 +1,9 @@
 //// [class.ts]
-var X;
+var X, X1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-!function(X) {
-    (X.Y || (X.Y = {})).Point = function Point(x, y) {
-        "use strict";
-        _class_call_check(this, Point), this.x = x, this.y = y;
-    };
-}(X || (X = {}));
+((X1 = X || (X = {})).Y || (X1.Y = {})).Point = function Point(x, y) {
+    _class_call_check(this, Point), this.x = x, this.y = y;
+};
 //// [module.ts]
 var X;
 !function(X) {
@@ -18,7 +15,6 @@ new X.Y.Point(1, 1), X.Y.Point.Origin;
 //// [simple.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A = function A() {
-    "use strict";
     _class_call_check(this, A);
 };
 (A || (A = {})).Instance = new A(), A.Instance, new A();

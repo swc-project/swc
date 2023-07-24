@@ -8,7 +8,6 @@ define([
     "exports",
     "@swc/helpers/_/_class_call_check"
 ], function(require, exports, _class_call_check) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), function(target, all) {
@@ -63,7 +62,6 @@ define([
     var E, D, x, E1, D1, M, v = 1;
     function f() {}
     var C = function C() {
-        "use strict";
         _class_call_check._(this, C);
     };
     (E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", (D = D1 || (D1 = {}))[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", (M || (M = {})).x = x;
@@ -75,7 +73,6 @@ define([
     "exports",
     "./t1"
 ], function(require, exports, _t1) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), function(target, all) {
@@ -122,7 +119,6 @@ define([
     "exports",
     "./t1"
 ], function(require, exports, _t1) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), function(target, all) {

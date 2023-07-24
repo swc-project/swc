@@ -1,11 +1,9 @@
 //// [mod1.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 exports.Bar = function _class() {
-    "use strict";
     _class_call_check(this, _class);
 }, module.exports = {
     Baz: function Baz() {
-        "use strict";
         _class_call_check(this, Baz);
     }
 }, exports.Quid = 2, module.exports = {

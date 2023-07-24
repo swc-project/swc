@@ -8,7 +8,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _set } from "@swc/helpers/_/_set";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var SomeBase = function() {
-    "use strict";
     function SomeBase() {
         _class_call_check(this, SomeBase), this.privateMember = 0, this.publicMember = 0;
     }

@@ -1,5 +1,4 @@
 //// [vs/foo_0.ts]
-"use strict";
 var x;
 Object.defineProperty(exports, "__esModule", {
     value: !0
@@ -10,12 +9,10 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 //// [vs/fum.d.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 //// [foo_1.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

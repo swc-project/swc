@@ -4,13 +4,10 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var ctor1, ctor2, ctor3, ctor4, ctor5, ctor6, C1 = function C1() {
-    "use strict";
     _class_call_check(this, C1);
 }, C2 = function C2() {
-    "use strict";
     _class_call_check(this, C2);
 }, D1 = function(C1) {
-    "use strict";
     _inherits(D1, C1);
     var _super = _create_super(D1);
     function D1() {

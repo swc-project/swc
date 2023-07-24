@@ -1,5 +1,5 @@
 //// [for-inStatements.ts]
-var aString, anAny, c, d, e, i, M, Color;
+var aString, anAny, c, d, e, i, M, Color, Color1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
@@ -34,11 +34,8 @@ for(var x in function(x, y) {
 });
 for(var x in i[42]);
 for(var x in (M || (M = {})).X = function X() {
-    "use strict";
     _class_call_check(this, X);
 }, M);
 for(var x in M.X);
-for(var x in !function(Color) {
-    Color[Color.Red = 0] = "Red", Color[Color.Blue = 1] = "Blue";
-}(Color || (Color = {})), Color);
+for(var x in (Color1 = Color || (Color = {}))[Color1.Red = 0] = "Red", Color1[Color1.Blue = 1] = "Blue", Color);
 for(var x in Color.Blue);

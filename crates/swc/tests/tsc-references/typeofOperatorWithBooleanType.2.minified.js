@@ -5,7 +5,6 @@ function foo() {
     return !0;
 }
 var BOOLEAN, M, A = function() {
-    "use strict";
     function A() {
         _class_call_check(this, A);
     }

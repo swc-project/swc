@@ -410,6 +410,13 @@ impl Options {
                             c.toplevel = Some(TerserTopLevelOptions::Bool(true));
                         }
 
+                        if matches!(
+                            cfg.module,
+                            None | Some(ModuleConfig::Es6 | ModuleConfig::NodeNext)
+                        ) {
+                            c.module = true;
+                        }
+
                         c
                     })
                     .map(BoolOrDataConfig::from_obj)

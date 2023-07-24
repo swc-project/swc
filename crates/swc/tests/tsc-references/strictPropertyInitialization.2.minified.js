@@ -1,8 +1,6 @@
 //// [strictPropertyInitialization.ts]
-var E;
+var E, E1;
 import "@swc/helpers/_/_class_private_field_get";
 import "@swc/helpers/_/_class_private_field_init";
 import "@swc/helpers/_/_class_private_field_set";
-Symbol(), function(E) {
-    E.A = "A", E.B = "B";
-}(E || (E = {})), E.A;
+Symbol(), (E1 = E || (E = {})).A = "A", E1.B = "B", E.A;

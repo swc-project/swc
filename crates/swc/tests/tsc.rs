@@ -34,6 +34,8 @@ use testing::NormalizedOutput;
         "privateNameImplicitDeclaration.ts",
         "privateNameStaticAccessorsDerivedClasses.ts",
         "privateNameStaticAccessorssDerivedClasses.ts",
+        "jsDeclarationsEnums.ts",
+        "typeofAnExportedType.ts"
     )
 )]
 #[testing::fixture(

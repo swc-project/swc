@@ -1,6 +1,56 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(css/modules)** Preserve attr selectors used with `:global` (#7670) ([11b4679](https://github.com/swc-project/swc/commit/11b4679231bdfa8662fdcb1dade4dc1146f8e11d))
+
+
+- **(es/minifier)** Only cast global `Infinity`/`undefined`/`NaN` (#7684) ([241c04a](https://github.com/swc-project/swc/commit/241c04ab4a2e7e7f34563fdc8a355f82c6ba03e8))
+
+
+- **(es/minifier)** Drop line comments starting with `!` (#7689) ([951138c](https://github.com/swc-project/swc/commit/951138cd13339ca7b5cb5305203e466fcd4a0b0e))
+
+### Features
+
+
+
+- **(css/parser)** Support `@starting-style` (#7677) ([cfb7b51](https://github.com/swc-project/swc/commit/cfb7b511eebe068b3c57f4540b90cb59c922d7e9))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI (#7679) ([57398af](https://github.com/swc-project/swc/commit/57398af2708ebd72c489fa81b9573259b0a71d15))
+
+### Refactor
+
+
+
+- **(es/minifier)** Respect `toplevel` and `module` options (#7671) ([9893bd2](https://github.com/swc-project/swc/commit/9893bd2d43de60978dd28c44c8e4032170b11987))
+
+## [1.3.70] - 2023-07-18
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix a bug about `eval` of name mangler (#7615) ([6be1f70](https://github.com/swc-project/swc/commit/6be1f7075d8d14cc56b05079ee134153ab65c6fc))
+
+
+- **(es/minifier)** Do not reuse identifier used for import bindings (#7639) ([a65be14](https://github.com/swc-project/swc/commit/a65be14a00f41e9b0b4439c31b49febeefd1f845))
+
+
+- **(es/module)** Skip CJS and AMD transformations for `Script` (#7661) ([a2d0408](https://github.com/swc-project/swc/commit/a2d040859790d10d445ba6b06e9fe88635d84c1b))
+
+### Features
+
+
+
+- **(es/minifier)** Drop recursively used var declaration (#7649) ([04b0f6d](https://github.com/swc-project/swc/commit/04b0f6d8234bdcc34815a558c4c9eecf24c8e4e7))
+
 ### Testing
 
 
@@ -9,6 +59,12 @@
 
 
 - **(es/modules)** Add a test for unreproducible issue (#7655) ([7528de1](https://github.com/swc-project/swc/commit/7528de189780cc6850fad2f744004353c8892a70))
+
+### Buiild
+
+
+
+- **(bindings/wasm)** Fix Wasm build (#7666) ([dc5135f](https://github.com/swc-project/swc/commit/dc5135f43f5fe01ed36c1b40a5647b2f1c3277b4))
 
 ## [1.3.69] - 2023-07-13
 

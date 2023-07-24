@@ -1,14 +1,11 @@
 //// [optionalBindingParameters2.ts]
-!function(param) {
-    param.x, param.y, param.z;
-}({
+var param, param1;
+(param = {
     x: "",
     y: 0,
     z: !1
-}), function(param) {
-    param.x, param.y, param.z;
-}({
+}).x, param.y, param.z, (param1 = {
     x: !1,
     y: 0,
     z: ""
-});
+}).x, param1.y, param1.z;

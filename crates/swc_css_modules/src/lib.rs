@@ -512,8 +512,7 @@ where
                                 } else {
                                     if sel_index > 0 {
                                         if let Some(n) = n.as_mut_compound_selector() {
-                                            n.subclass_selectors =
-                                                n.subclass_selectors.split_at(sel_index).0.to_vec();
+                                            n.subclass_selectors.remove(sel_index);
                                         }
                                         new_children.push(n);
                                     }
@@ -539,8 +538,7 @@ where
                                 } else {
                                     if sel_index > 0 {
                                         if let Some(n) = n.as_mut_compound_selector() {
-                                            n.subclass_selectors =
-                                                n.subclass_selectors.split_at(sel_index).0.to_vec();
+                                            n.subclass_selectors.remove(sel_index);
                                         }
                                         new_children.push(n);
                                     }

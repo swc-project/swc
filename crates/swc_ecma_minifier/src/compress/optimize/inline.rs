@@ -25,27 +25,22 @@ impl Optimizer<'_> {
         &mut self,
         ident: &mut Ident,
         init: &mut Expr,
-        mut should_preserve: bool,
         can_drop: bool,
     ) {
+        let may_remove = self.may_remove_ident(ident);
+
         trace_op!(
-            "inline: store_var_for_inlining({}, should_preserve = {:?})",
+            "inline: store_var_for_inlining({}, may_remove = {:?})",
             crate::debug::dump(ident, false),
-            should_preserve
+            may_remove
         );
 
         if self.data.top.has_eval_call {
             return;
         }
 
-        // TODO: Check for side effect between original decl position and inlined
-        // position
-
         // We will inline if possible.
         if ident.sym == js_word!("arguments") {
-            return;
-        }
-        if self.options.top_retain.contains(&ident.sym) {
             return;
         }
 
@@ -65,7 +60,7 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
+            if !may_remove && usage.var_kind != Some(VarDeclKind::Const) {
                 log_abort!(
                     "inline: [x] Preserving non-const variable `{}` because it's top-level",
                     crate::debug::dump(ident, false)
@@ -91,8 +86,6 @@ impl Optimizer<'_> {
 
             let is_inline_enabled =
                 self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0;
-
-            should_preserve |= !self.options.top_level() && usage.is_top_level;
 
             self.vars.inline_with_multi_replacer(init);
 
@@ -174,6 +167,10 @@ impl Optimizer<'_> {
 
             if !usage.mutated {
                 self.mode.store(ident.to_id(), &*init);
+            }
+
+            if usage.used_recursively {
+                return;
             }
 
             // Caution: for most case mutation of properties are ok, however if
@@ -258,7 +255,7 @@ impl Optimizer<'_> {
                 };
 
                 if self.options.inline != 0
-                    && !should_preserve
+                    && may_remove
                     && match init {
                         Expr::Arrow(..) => self.options.unused,
                         _ => true,
@@ -271,10 +268,6 @@ impl Optimizer<'_> {
                         ident.sym,
                         ident.span.ctxt
                     );
-
-                    // if self.ctx.var_kind == Some(VarDeclKind::Const) {
-                    //     var.span = var.span.apply_mark(self.marks.non_top_level);
-                    // }
 
                     inc_usage();
 
@@ -302,13 +295,13 @@ impl Optimizer<'_> {
             if !self.ctx.is_exported
                 && is_inline_enabled
                 && usage.declared
-                && !should_preserve
+                && may_remove
                 && !usage.reassigned()
                 && (usage.can_inline_var() || usage.is_mutated_only_by_one_call())
                 && ref_count == 1
             {
                 match init {
-                    Expr::Fn(FnExpr { function: f, .. }) | Expr::Fn(FnExpr { function: f, .. })
+                    Expr::Fn(FnExpr { function: f, .. })
                         if matches!(
                             &**f,
                             Function { is_async: true, .. }
@@ -552,21 +545,13 @@ impl Optimizer<'_> {
             return;
         }
 
-        if (!self.options.top_level() && self.options.top_retain.is_empty())
-            && self.ctx.in_top_level()
-        {
+        if !self.may_remove_ident(&i) {
             log_abort!("inline: [x] Top level");
             return;
         }
 
         if self.has_noinline(decl.span()) {
             log_abort!("inline: [x] Has noinline");
-            return;
-        }
-
-        // Respect `top_retain`
-        if self.ctx.in_top_level() && self.options.top_retain.contains(&i.sym) {
-            log_abort!("inline: [x] top_retain");
             return;
         }
 

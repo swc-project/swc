@@ -1,8 +1,6 @@
 //// [ns.ts]
-var ExpandoMerge;
-!function(ExpandoMerge) {
-    ExpandoMerge.p3 = 333, ExpandoMerge.p4 = 4, ExpandoMerge.p5 = 5, ExpandoMerge.p6 = 6, ExpandoMerge.p7 = 7, ExpandoMerge.p8 = 6, ExpandoMerge.p9 = 7;
-}(ExpandoMerge || (ExpandoMerge = {})), (ExpandoMerge || (ExpandoMerge = {})).p2 = 222;
+var ExpandoMerge, ExpandoMerge1;
+(ExpandoMerge1 = ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge1.p4 = 4, ExpandoMerge1.p5 = 5, ExpandoMerge1.p6 = 6, ExpandoMerge1.p7 = 7, ExpandoMerge1.p8 = 6, ExpandoMerge1.p9 = 7, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222;
 //// [expando.ts]
 function ExpandoMerge(n) {
     return n;

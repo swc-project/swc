@@ -6,7 +6,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 import * as React from "react";
 export var Text = function(_React_Component) {
-    "use strict";
     _inherits(Text, _React_Component);
     var _super = _create_super(Text);
     function Text() {

@@ -1,7 +1,11 @@
-var o = { a: 1, b: 2 };
-console.log(
-    (function (c) {
-        o = { a: 3, b: 4 };
-        return { x: c.a, y: c.b };
-    })(o)
-);
+var c, o = {
+    a: 1,
+    b: 2
+};
+console.log((c = o, o = {
+    a: 3,
+    b: 4
+}, {
+    x: c.a,
+    y: c.b
+}));

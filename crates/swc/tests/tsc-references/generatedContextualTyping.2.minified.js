@@ -3,10 +3,8 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var x181, x182, x183, x184, x185, x186, x187, x188, x189, x190, x191, x192, x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, Base = function Base() {
-    "use strict";
     _class_call_check(this, Base);
 }, Derived1 = function(Base) {
-    "use strict";
     _inherits(Derived1, Base);
     var _super = _create_super(Derived1);
     function Derived1() {
@@ -14,7 +12,6 @@ var x181, x182, x183, x184, x185, x186, x187, x188, x189, x190, x191, x192, x193
     }
     return Derived1;
 }(Base), Derived2 = function(Base) {
-    "use strict";
     _inherits(Derived2, Base);
     var _super = _create_super(Derived2);
     function Derived2() {

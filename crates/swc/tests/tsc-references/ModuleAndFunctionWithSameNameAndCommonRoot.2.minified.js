@@ -1,11 +1,9 @@
 //// [module.ts]
-var A;
-!function(A) {
-    (A.Point || (A.Point = {})).Origin = {
-        x: 0,
-        y: 0
-    };
-}(A || (A = {}));
+var A, A1;
+((A1 = A || (A = {})).Point || (A1.Point = {})).Origin = {
+    x: 0,
+    y: 0
+};
 //// [function.ts]
 var A;
 (A || (A = {})).Point = function() {

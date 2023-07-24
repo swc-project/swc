@@ -1,5 +1,3 @@
 //// [asiPreventsParsingAsNamespace05.ts]
-var a;
-!function(a) {
-    (a.b || (a.b = {})).c = 20;
-}(a || (a = {}));
+var a, a1;
+((a1 = a || (a = {})).b || (a1.b = {})).c = 20;

@@ -1,7 +1,5 @@
 //// [importCallExpressionInCJS5.ts]
-"use strict";
 //// [0.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), function(target, all) {
@@ -26,7 +24,6 @@ function foo() {
     return "foo";
 }
 //// [1.ts]
-"use strict";
 function backup() {
     return "backup";
 }
@@ -39,7 +36,6 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 //// [2.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "D", {
