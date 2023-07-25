@@ -873,7 +873,7 @@ where
             };
             c.visit_with(&mut *self.with_ctx(ctx));
         }
-        if let Expr::Ident(obj) = &*e.obj {
+        for_each_id_ref_in_expr(&e.obj, |obj| {
             let v = self.data.var_or_default(obj.to_id());
             v.mark_has_property_access();
 
@@ -892,7 +892,7 @@ where
             if self.ctx.in_assign_lhs || self.ctx.is_delete_arg {
                 self.data.mark_property_mutattion(obj.to_id(), self.ctx)
             }
-        }
+        })
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
@@ -1304,6 +1304,19 @@ where
     fn visit_with_stmt(&mut self, n: &WithStmt) {
         self.scope.mark_with_stmt();
         n.visit_children_with(self);
+    }
+}
+
+/// - `a` => `a`
+/// - `a ? b : c` => `b`, `c`
+fn for_each_id_ref_in_expr(e: &Expr, mut op: impl FnMut(&Ident)) {
+    match e {
+        Expr::Ident(i) => op(i),
+        Expr::Cond(c) => {
+            for_each_id_ref_in_expr(&c.cons, &mut op);
+            for_each_id_ref_in_expr(&c.alt, &mut op);
+        }
+        _ => {}
     }
 }
 
