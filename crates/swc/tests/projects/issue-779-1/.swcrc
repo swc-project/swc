@@ -1,5 +1,9 @@
 {
-    "test": [".*.tsx$", ".*.ts$", ".*.js$"],
+    "test": [
+        ".*.tsx$",
+        ".*.ts$",
+        ".*.js$"
+    ],
     "module": {
         "type": "commonjs"
     },
@@ -19,7 +23,6 @@
             "decorators": true,
             "dynamicImport": true
         },
-        "target": "es2016",
         "loose": true,
         "transform": {
             "optimizer": {
