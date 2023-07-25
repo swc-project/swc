@@ -306,7 +306,7 @@ where
             self.with_ctx(ctx).visit_in_cond(&e.right);
         } else {
             if e.op == op!("in") {
-                for_each_id_ref_in_expr(&e.right, |obj| {
+                for_each_id_ref_in_expr(&e.right, &mut |obj| {
                     let var = self.data.var_or_default(obj.to_id());
 
                     match &*e.left {
@@ -354,7 +354,7 @@ where
         }
 
         if let Callee::Expr(callee) = &n.callee {
-            for_each_id_ref_in_expr(callee, |callee| {
+            for_each_id_ref_in_expr(callee, &mut |callee| {
                 self.data
                     .var_or_default(callee.to_id())
                     .mark_used_as_callee();
@@ -419,7 +419,7 @@ where
         }
 
         for arg in &n.args {
-            for_each_id_ref_in_expr(&arg.expr, |arg| {
+            for_each_id_ref_in_expr(&arg.expr, &mut |arg| {
                 self.data.var_or_default(arg.to_id()).mark_used_as_arg();
             })
         }
@@ -644,7 +644,7 @@ where
         e.visit_children_with(self);
 
         if e.spread.is_some() {
-            for_each_id_ref_in_expr(&e.expr, |i| {
+            for_each_id_ref_in_expr(&e.expr, &mut |i| {
                 self.data
                     .var_or_default(i.to_id())
                     .mark_indexed_with_dynamic_key();
@@ -873,7 +873,7 @@ where
             };
             c.visit_with(&mut *self.with_ctx(ctx));
         }
-        for_each_id_ref_in_expr(&e.obj, |obj| {
+        for_each_id_ref_in_expr(&e.obj, &mut |obj| {
             let v = self.data.var_or_default(obj.to_id());
             v.mark_has_property_access();
 
@@ -1065,7 +1065,7 @@ where
     fn visit_spread_element(&mut self, e: &SpreadElement) {
         e.visit_children_with(self);
 
-        for_each_id_ref_in_expr(&e.expr, |i| {
+        for_each_id_ref_in_expr(&e.expr, &mut |i| {
             self.data
                 .var_or_default(i.to_id())
                 .mark_indexed_with_dynamic_key();
@@ -1309,15 +1309,15 @@ where
 
 /// - `a` => `a`
 /// - `a ? b : c` => `b`, `c`
-fn for_each_id_ref_in_expr(e: &Expr, mut op: impl FnMut(&Ident)) {
+fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
     match e {
         Expr::Ident(i) => op(i),
         Expr::Cond(c) => {
-            for_each_id_ref_in_expr(&c.cons, &mut op);
-            for_each_id_ref_in_expr(&c.alt, &mut op);
+            for_each_id_ref_in_expr(&c.cons, op);
+            for_each_id_ref_in_expr(&c.alt, op);
         }
         Expr::Seq(s) => {
-            for_each_id_ref_in_expr(s.exprs.last().unwrap(), &mut op);
+            for_each_id_ref_in_expr(s.exprs.last().unwrap(), op);
         }
         _ => {}
     }
