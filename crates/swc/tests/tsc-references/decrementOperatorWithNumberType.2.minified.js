@@ -1,13 +1,10 @@
 //// [decrementOperatorWithNumberType.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var NUMBER, M, NUMBER1 = [
+var n, NUMBER, M, NUMBER1 = [
     1,
     2
 ];
-!function(M) {
-    var n;
-    M.n = n;
-}(M || (M = {}));
+(M || (M = {})).n = n;
 var objA = new function A() {
     _class_call_check(this, A);
 }();

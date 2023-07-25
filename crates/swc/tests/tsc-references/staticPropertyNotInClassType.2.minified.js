@@ -1,45 +1,35 @@
 //// [staticPropertyNotInClassType.ts]
-var NonGeneric, Generic;
+var NonGeneric, Generic, C, c, C1, c1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
-!function(NonGeneric) {
-    var C = function() {
-        function C(a, b) {
-            _class_call_check(this, C), this.a = a, this.b = b;
+NonGeneric || (NonGeneric = {}), ((C = function() {
+    function C(a, b) {
+        _class_call_check(this, C), this.a = a, this.b = b;
+    }
+    return C.prototype.fn = function() {
+        return this;
+    }, _create_class(C, null, [
+        {
+            key: "x",
+            get: function() {
+                return 1;
+            },
+            set: function(v) {}
         }
-        return C.prototype.fn = function() {
-            return this;
-        }, _create_class(C, null, [
-            {
-                key: "x",
-                get: function() {
-                    return 1;
-                },
-                set: function(v) {}
-            }
-        ]), C;
-    }();
-    (C || (C = {})).bar = "";
-    var c = new C(1, 2);
-    c.fn(), c.foo, c.bar, c.x;
-}(NonGeneric || (NonGeneric = {})), function(Generic) {
-    var C = function() {
-        function C(a, b) {
-            _class_call_check(this, C), this.a = a, this.b = b;
+    ]), C;
+}()) || (C = {})).bar = "", (c = new C(1, 2)).fn(), c.foo, c.bar, c.x, Generic || (Generic = {}), ((C1 = function() {
+    function C(a, b) {
+        _class_call_check(this, C), this.a = a, this.b = b;
+    }
+    return C.prototype.fn = function() {
+        return this;
+    }, _create_class(C, null, [
+        {
+            key: "x",
+            get: function() {
+                return 1;
+            },
+            set: function(v) {}
         }
-        return C.prototype.fn = function() {
-            return this;
-        }, _create_class(C, null, [
-            {
-                key: "x",
-                get: function() {
-                    return 1;
-                },
-                set: function(v) {}
-            }
-        ]), C;
-    }();
-    (C || (C = {})).bar = "";
-    var c = new C(1, "");
-    c.fn(), c.foo, c.bar, c.x;
-}(Generic || (Generic = {}));
+    ]), C;
+}()) || (C1 = {})).bar = "", (c1 = new C1(1, "")).fn(), c1.foo, c1.bar, c1.x;

@@ -464,7 +464,7 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
+                if !self.may_add_ident() {
                     match &*f.body {
                         BlockStmtOrExpr::BlockStmt(body) => {
                             let has_decl =
@@ -583,7 +583,7 @@ impl Optimizer<'_> {
             Expr::Fn(f) => {
                 trace_op!("iife: Expr::Fn(..)");
 
-                if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
+                if !self.may_add_ident() {
                     let body = f.function.body.as_ref().unwrap();
                     let has_decl = body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
                     if has_decl {

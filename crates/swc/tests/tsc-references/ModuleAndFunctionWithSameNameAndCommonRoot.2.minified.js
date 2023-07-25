@@ -13,16 +13,13 @@ var A;
     };
 };
 //// [simple.ts]
-var B;
-!function(B) {
-    var Point = function() {
-        return {
-            x: 0,
-            y: 0
-        };
-    };
-    (Point = B.Point || (B.Point = {})).Origin = {
+var B, B1, Point;
+Point = function() {
+    return {
         x: 0,
         y: 0
-    }, B.Point = Point;
-}(B || (B = {}));
+    };
+}, (Point = (B1 = B || (B = {})).Point || (B1.Point = {})).Origin = {
+    x: 0,
+    y: 0
+}, B1.Point = Point;
