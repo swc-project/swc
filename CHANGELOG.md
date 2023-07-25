@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es)** Add a validation for a wrong config (#7704) ([900701f](https://github.com/swc-project/swc/commit/900701fbf24912dce219f97baa8c11c533966896))
+
 ## [1.3.71] - 2023-07-25
 
 ### Bug Fixes
