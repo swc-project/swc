@@ -18,7 +18,6 @@
             "decorators": true,
             "dynamicImport": true
         },
-        "target": "es2019",
         "loose": true,
         "transform": {
             "optimizer": {
