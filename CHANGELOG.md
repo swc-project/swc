@@ -34,6 +34,9 @@
 
 - **(es/minifier)** Respect `toplevel` and `module` options (#7671) ([9893bd2](https://github.com/swc-project/swc/commit/9893bd2d43de60978dd28c44c8e4032170b11987))
 
+
+- **(es/minifier)** Respect top-level when invoking IIFE  (#7690) ([bf72362](https://github.com/swc-project/swc/commit/bf723625b02204c4d2e9228d53ac53c9d41221a1))
+
 ## [1.3.70] - 2023-07-18
 
 ### Bug Fixes
