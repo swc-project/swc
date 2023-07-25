@@ -306,7 +306,7 @@ where
             self.with_ctx(ctx).visit_in_cond(&e.right);
         } else {
             if e.op == op!("in") {
-                if let Expr::Ident(obj) = &*e.right {
+                for_each_id_ref_in_expr(&e.right, |obj| {
                     let var = self.data.var_or_default(obj.to_id());
 
                     match &*e.left {
@@ -318,7 +318,7 @@ where
                             var.mark_indexed_with_dynamic_key();
                         }
                     }
-                }
+                })
             }
 
             let ctx = Ctx {
@@ -354,11 +354,11 @@ where
         }
 
         if let Callee::Expr(callee) = &n.callee {
-            if let Expr::Ident(callee) = &**callee {
+            for_each_id_ref_in_expr(callee, |callee| {
                 self.data
                     .var_or_default(callee.to_id())
                     .mark_used_as_callee();
-            }
+            });
 
             match &**callee {
                 Expr::Fn(callee) => {
@@ -419,9 +419,9 @@ where
         }
 
         for arg in &n.args {
-            if let Expr::Ident(arg) = &*arg.expr {
+            for_each_id_ref_in_expr(&arg.expr, |arg| {
                 self.data.var_or_default(arg.to_id()).mark_used_as_arg();
-            }
+            })
         }
 
         if let Callee::Expr(callee) = &n.callee {
@@ -644,11 +644,11 @@ where
         e.visit_children_with(self);
 
         if e.spread.is_some() {
-            if let Expr::Ident(i) = &*e.expr {
+            for_each_id_ref_in_expr(&e.expr, |i| {
                 self.data
                     .var_or_default(i.to_id())
                     .mark_indexed_with_dynamic_key();
-            }
+            });
         }
     }
 
@@ -1065,11 +1065,11 @@ where
     fn visit_spread_element(&mut self, e: &SpreadElement) {
         e.visit_children_with(self);
 
-        if let Expr::Ident(i) = &*e.expr {
+        for_each_id_ref_in_expr(&e.expr, |i| {
             self.data
                 .var_or_default(i.to_id())
                 .mark_indexed_with_dynamic_key();
-        }
+        });
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
@@ -1315,6 +1315,9 @@ fn for_each_id_ref_in_expr(e: &Expr, mut op: impl FnMut(&Ident)) {
         Expr::Cond(c) => {
             for_each_id_ref_in_expr(&c.cons, &mut op);
             for_each_id_ref_in_expr(&c.alt, &mut op);
+        }
+        Expr::Seq(s) => {
+            for_each_id_ref_in_expr(s.exprs.last().unwrap(), &mut op);
         }
         _ => {}
     }
