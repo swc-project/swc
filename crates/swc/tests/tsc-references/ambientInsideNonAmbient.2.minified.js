@@ -1,6 +1,3 @@
 //// [ambientInsideNonAmbient.ts]
-var M2;
-!function(M2) {
-    var E;
-    E || (E = {});
-}(M2 || (M2 = {}));
+var M2, E;
+M2 || (M2 = {}), E || (E = {});

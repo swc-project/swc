@@ -13,6 +13,9 @@
 
 - **(es/minifier)** Drop line comments starting with `!` (#7689) ([951138c](https://github.com/swc-project/swc/commit/951138cd13339ca7b5cb5305203e466fcd4a0b0e))
 
+
+- **(es/typescript)** Fix handling of optional chaining (#7660) ([c017874](https://github.com/swc-project/swc/commit/c01787408522202f3c717c0ecfa8e00aedef9142))
+
 ### Features
 
 
@@ -30,6 +33,9 @@
 
 
 - **(es/minifier)** Respect `toplevel` and `module` options (#7671) ([9893bd2](https://github.com/swc-project/swc/commit/9893bd2d43de60978dd28c44c8e4032170b11987))
+
+
+- **(es/minifier)** Respect top-level when invoking IIFE  (#7690) ([bf72362](https://github.com/swc-project/swc/commit/bf723625b02204c4d2e9228d53ac53c9d41221a1))
 
 ## [1.3.70] - 2023-07-18
 

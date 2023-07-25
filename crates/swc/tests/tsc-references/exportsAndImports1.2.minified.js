@@ -30,15 +30,12 @@ Object.defineProperty(exports, "__esModule", {
         return a;
     }
 });
-var E, D, E1, D1, M, _class_call_check = require("@swc/helpers/_/_class_call_check"), v = 1;
+var E, D, x, E1, D1, M, _class_call_check = require("@swc/helpers/_/_class_call_check"), v = 1;
 function f() {}
 var C = function C() {
     _class_call_check._(this, C);
 };
-(E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", (D = D1 || (D1 = {}))[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", function(M) {
-    var x;
-    M.x = x;
-}(M || (M = {}));
+(E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", (D = D1 || (D1 = {}))[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", (M || (M = {})).x = x;
 var a = M.x;
 //// [t2.ts]
 Object.defineProperty(exports, "__esModule", {
