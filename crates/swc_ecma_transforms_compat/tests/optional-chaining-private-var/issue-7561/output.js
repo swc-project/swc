@@ -1,10 +1,6 @@
-// …
-var _x = new WeakMap();
 class Foo {
+    #x;
     test() {
-        (_this = this) === null || _this === void 0
-          ? void 0
-          : _class_private_field_get(_this.y , _x);
+        this === null || this === void 0 ? void 0 : this.y.#x;
     }
-    // …
 }
