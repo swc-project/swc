@@ -184,6 +184,15 @@ impl OptChaining {
                     next = m.obj.take();
                     m.prop.visit_mut_with(self);
                     chain.push(if optional {
+                        println!("next {:#?}", &next);
+                        match *next {
+                            Expr::This(_) => Gathering::OptMember(
+                                m.take(),
+                                Ident::new(js_word!("this"), DUMMY_SP),
+                            ),
+                            _ => Gathering::OptMember(m.take(), self.memoize(&next)),
+                        }
+
                         //Gathering::OptMember(m.take(), self.memoize(&next))
                         // let result = Gathering::OptMember(m.take(),
                         // self.memoize(&next));
@@ -191,7 +200,8 @@ impl OptChaining {
                         // result
                         // let expr = m.take();
                         // let span = expr.span;
-                        Gathering::OptMember(m.take(), Ident::new(js_word!("this"), DUMMY_SP))
+                        // Gathering::OptMember(m.take(),
+                        // Ident::new(js_word!("this"), DUMMY_SP))
                     } else {
                         Gathering::Member(m.take())
                         // let result = Gathering::Member(m.take());
@@ -311,11 +321,17 @@ impl OptChaining {
                     Expr::Call(c)
                 }
                 Gathering::OptMember(mut m, memo) => {
-                    // println!("Memo - {:#?}", memo);
+                    println!("Memo - {:#?}", memo);
+                    println!("M - {:#?}", m);
+
                     committed_cond.push(CondExpr {
                         span: DUMMY_SP,
                         // test: init_and_eq_null_or_undefined(&memo, current, no_document_all),
-                        test: eq_null_or_undefined(&memo, no_document_all),
+                        test: if memo.sym == js_word!("this") {
+                            eq_null_or_undefined(&memo, no_document_all)
+                        } else {
+                            init_and_eq_null_or_undefined(&memo, current, no_document_all)
+                        },
                         cons: if is_delete {
                             true.into()
                         } else {
