@@ -1,6 +1,7 @@
 use std::mem;
 
 use serde::Deserialize;
+use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -175,15 +176,27 @@ impl OptChaining {
                 count += 1;
             }
 
+            // println!("Base - {:#?}", base);
             let next;
             match &mut *base {
                 OptChainBase::Member(m) => {
+                    // println!("OptChainBase::Member {:#?}", m);
                     next = m.obj.take();
                     m.prop.visit_mut_with(self);
                     chain.push(if optional {
-                        Gathering::OptMember(m.take(), self.memoize(&next))
+                        //Gathering::OptMember(m.take(), self.memoize(&next))
+                        // let result = Gathering::OptMember(m.take(),
+                        // self.memoize(&next));
+                        // println!("OptMember - {:#?}", result);
+                        // result
+                        // let expr = m.take();
+                        // let span = expr.span;
+                        Gathering::OptMember(m.take(), Ident::new(js_word!("this"), DUMMY_SP))
                     } else {
                         Gathering::Member(m.take())
+                        // let result = Gathering::Member(m.take());
+                        // println!("Member - {:#?}", result);
+                        // result
                     });
                 }
 
@@ -220,6 +233,7 @@ impl OptChaining {
         no_document_all: bool,
     ) -> Expr {
         let (mut current, count, chain) = data;
+        // println!("Construct - {:#?}", chain);
 
         // Stores partially constructed CondExprs for us to assemble later on.
         let mut committed_cond = Vec::with_capacity(count);
@@ -297,9 +311,11 @@ impl OptChaining {
                     Expr::Call(c)
                 }
                 Gathering::OptMember(mut m, memo) => {
+                    // println!("Memo - {:#?}", memo);
                     committed_cond.push(CondExpr {
                         span: DUMMY_SP,
-                        test: init_and_eq_null_or_undefined(&memo, current, no_document_all),
+                        // test: init_and_eq_null_or_undefined(&memo, current, no_document_all),
+                        test: eq_null_or_undefined(&memo, no_document_all),
                         cons: if is_delete {
                             true.into()
                         } else {
@@ -309,6 +325,9 @@ impl OptChaining {
                     });
                     ctx = Some(memo.clone());
                     m.obj = memo.into();
+                    // let result = Expr::Member(m);
+                    // println!("OPTMEMBER - {:#?}", result);
+                    // result
                     Expr::Member(m)
                 }
             };
@@ -332,6 +351,7 @@ impl OptChaining {
     }
 
     fn memoize(&mut self, expr: &Expr) -> Ident {
+        // println!("Memoize - {:#?}", expr);
         let memo = alias_ident_for(expr, "_this");
         self.vars.push(VarDeclarator {
             span: DUMMY_SP,
@@ -378,6 +398,46 @@ fn init_and_eq_null_or_undefined(i: &Ident, init: Expr, no_document_all: bool) -
         left: PatOrExpr::Pat(i.clone().into()),
         right: Box::new(init),
     }));
+
+    if no_document_all {
+        return Box::new(Expr::Bin(BinExpr {
+            span: DUMMY_SP,
+            left: lhs,
+            op: op!("=="),
+            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+        }));
+    }
+
+    let null_cmp = Box::new(Expr::Bin(BinExpr {
+        span: DUMMY_SP,
+        left: lhs,
+        op: op!("==="),
+        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+    }));
+
+    let void_cmp = Box::new(Expr::Bin(BinExpr {
+        span: DUMMY_SP,
+        left: Box::new(Expr::Ident(i.clone())),
+        op: op!("==="),
+        right: undefined(DUMMY_SP),
+    }));
+
+    Box::new(Expr::Bin(BinExpr {
+        span: DUMMY_SP,
+        left: null_cmp,
+        op: op!("||"),
+        right: void_cmp,
+    }))
+}
+
+fn eq_null_or_undefined(i: &Ident, no_document_all: bool) -> Box<Expr> {
+    // let lhs = Box::new(Expr::Assign(AssignExpr {
+    //     span: DUMMY_SP,
+    //     op: op!("="),
+    //     left: PatOrExpr::Pat(i.clone().into()),
+    //     right: Box::new(init),
+    // }));
+    let lhs = Box::new(Expr::Ident(i.clone()));
 
     if no_document_all {
         return Box::new(Expr::Bin(BinExpr {
