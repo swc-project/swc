@@ -340,22 +340,20 @@
     function translateY(y) {
         return "translate(0," + (y + 0.5) + ")";
     }
-    function number$1(scale) {
-        return (d)=>+scale(d);
-    }
-    function center(scale) {
-        var offset = Math.max(0, scale.bandwidth() - 1) / 2;
-        return scale.round() && (offset = Math.round(offset)), function(d) {
-            return +scale(d) + offset;
-        };
-    }
     function entering() {
         return !this.__axis;
     }
     function axis(orient, scale) {
         var tickArguments = [], tickValues = null, tickFormat = null, tickSizeInner = 6, tickSizeOuter = 6, tickPadding = 3, k = 1 === orient || 4 === orient ? -1 : 1, x = 4 === orient || 2 === orient ? "x" : "y", transform = 1 === orient || 3 === orient ? translateX : translateY;
         function axis(context) {
-            var values = null == tickValues ? scale.ticks ? scale.ticks.apply(scale, tickArguments) : scale.domain() : tickValues, format = null == tickFormat ? scale.tickFormat ? scale.tickFormat.apply(scale, tickArguments) : identity$1 : tickFormat, spacing = Math.max(tickSizeInner, 0) + tickPadding, range = scale.range(), range0 = +range[0] + 0.5, range1 = +range[range.length - 1] + 0.5, position = (scale.bandwidth ? center : number$1)(scale.copy()), selection = context.selection ? context.selection() : context, path = selection.selectAll(".domain").data([
+            var values = null == tickValues ? scale.ticks ? scale.ticks.apply(scale, tickArguments) : scale.domain() : tickValues, format = null == tickFormat ? scale.tickFormat ? scale.tickFormat.apply(scale, tickArguments) : identity$1 : tickFormat, spacing = Math.max(tickSizeInner, 0) + tickPadding, range = scale.range(), range0 = +range[0] + 0.5, range1 = +range[range.length - 1] + 0.5, position = (scale.bandwidth ? function(scale) {
+                var offset = Math.max(0, scale.bandwidth() - 1) / 2;
+                return scale.round() && (offset = Math.round(offset)), function(d) {
+                    return +scale(d) + offset;
+                };
+            } : function(scale) {
+                return (d)=>+scale(d);
+            })(scale.copy()), selection = context.selection ? context.selection() : context, path = selection.selectAll(".domain").data([
                 null
             ]), tick = selection.selectAll(".tick").data(values, scale).order(), tickExit = tick.exit(), tickEnter = tick.enter().append("g").attr("class", "tick"), line = tick.select("line"), text = tick.select("text");
             path = path.merge(path.enter().insert("path", ".tick").attr("class", "domain").attr("stroke", "currentColor")), tick = tick.merge(tickEnter), line = line.merge(tickEnter.append("line").attr("stroke", "currentColor").attr(x + "2", k * tickSizeInner)), text = text.merge(tickEnter.append("text").attr("fill", "currentColor").attr(x, k * spacing).attr("dy", 1 === orient ? "0em" : 3 === orient ? "0.71em" : "0.32em")), context !== selection && (path = path.transition(context), tick = tick.transition(context), line = line.transition(context), text = text.transition(context), tickExit = tickExit.transition(context).attr("opacity", 1e-6).attr("transform", function(d) {
@@ -463,20 +461,18 @@
             local: name
         } : name;
     }
-    function creatorInherit(name) {
-        return function() {
-            var document1 = this.ownerDocument, uri = this.namespaceURI;
-            return uri === xhtml && document1.documentElement.namespaceURI === xhtml ? document1.createElement(name) : document1.createElementNS(uri, name);
-        };
-    }
-    function creatorFixed(fullname) {
-        return function() {
-            return this.ownerDocument.createElementNS(fullname.space, fullname.local);
-        };
-    }
     function creator(name) {
         var fullname = namespace(name);
-        return (fullname.local ? creatorFixed : creatorInherit)(fullname);
+        return (fullname.local ? function(fullname) {
+            return function() {
+                return this.ownerDocument.createElementNS(fullname.space, fullname.local);
+            };
+        } : function(name) {
+            return function() {
+                var document1 = this.ownerDocument, uri = this.namespaceURI;
+                return uri === xhtml && document1.documentElement.namespaceURI === xhtml ? document1.createElement(name) : document1.createElementNS(uri, name);
+            };
+        })(fullname);
     }
     function none() {}
     function selector(selector) {
@@ -535,75 +531,11 @@
     function ascending$1(a, b) {
         return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
     }
-    function attrRemove(name) {
-        return function() {
-            this.removeAttribute(name);
-        };
-    }
-    function attrRemoveNS(fullname) {
-        return function() {
-            this.removeAttributeNS(fullname.space, fullname.local);
-        };
-    }
-    function attrConstant(name, value) {
-        return function() {
-            this.setAttribute(name, value);
-        };
-    }
-    function attrConstantNS(fullname, value) {
-        return function() {
-            this.setAttributeNS(fullname.space, fullname.local, value);
-        };
-    }
-    function attrFunction(name, value) {
-        return function() {
-            var v = value.apply(this, arguments);
-            null == v ? this.removeAttribute(name) : this.setAttribute(name, v);
-        };
-    }
-    function attrFunctionNS(fullname, value) {
-        return function() {
-            var v = value.apply(this, arguments);
-            null == v ? this.removeAttributeNS(fullname.space, fullname.local) : this.setAttributeNS(fullname.space, fullname.local, v);
-        };
-    }
     function defaultView(node) {
         return node.ownerDocument && node.ownerDocument.defaultView || node.document && node || node.defaultView;
     }
-    function styleRemove(name) {
-        return function() {
-            this.style.removeProperty(name);
-        };
-    }
-    function styleConstant(name, value, priority) {
-        return function() {
-            this.style.setProperty(name, value, priority);
-        };
-    }
-    function styleFunction(name, value, priority) {
-        return function() {
-            var v = value.apply(this, arguments);
-            null == v ? this.style.removeProperty(name) : this.style.setProperty(name, v, priority);
-        };
-    }
     function styleValue(node, name) {
         return node.style.getPropertyValue(name) || defaultView(node).getComputedStyle(node, null).getPropertyValue(name);
-    }
-    function propertyRemove(name) {
-        return function() {
-            delete this[name];
-        };
-    }
-    function propertyConstant(name, value) {
-        return function() {
-            this[name] = value;
-        };
-    }
-    function propertyFunction(name, value) {
-        return function() {
-            var v = value.apply(this, arguments);
-            null == v ? delete this[name] : this[name] = v;
-        };
     }
     function classArray(string) {
         return string.trim().split(/^|\s+/);
@@ -620,48 +552,11 @@
     function classedRemove(node, names) {
         for(var list = classList(node), i = -1, n = names.length; ++i < n;)list.remove(names[i]);
     }
-    function classedTrue(names) {
-        return function() {
-            classedAdd(this, names);
-        };
-    }
-    function classedFalse(names) {
-        return function() {
-            classedRemove(this, names);
-        };
-    }
-    function classedFunction(names, value) {
-        return function() {
-            (value.apply(this, arguments) ? classedAdd : classedRemove)(this, names);
-        };
-    }
     function textRemove() {
         this.textContent = "";
     }
-    function textConstant(value) {
-        return function() {
-            this.textContent = value;
-        };
-    }
-    function textFunction(value) {
-        return function() {
-            var v = value.apply(this, arguments);
-            this.textContent = null == v ? "" : v;
-        };
-    }
     function htmlRemove() {
         this.innerHTML = "";
-    }
-    function htmlConstant(value) {
-        return function() {
-            this.innerHTML = value;
-        };
-    }
-    function htmlFunction(value) {
-        return function() {
-            var v = value.apply(this, arguments);
-            this.innerHTML = null == v ? "" : v;
-        };
     }
     function raise() {
         this.nextSibling && this.parentNode.appendChild(this);
@@ -718,16 +613,6 @@
     function dispatchEvent(node, type, params) {
         var window1 = defaultView(node), event = window1.CustomEvent;
         "function" == typeof event ? event = new event(type, params) : (event = window1.document.createEvent("Event"), params ? (event.initEvent(type, params.bubbles, params.cancelable), event.detail = params.detail) : event.initEvent(type, !1, !1)), node.dispatchEvent(event);
-    }
-    function dispatchConstant(type, params) {
-        return function() {
-            return dispatchEvent(this, type, params);
-        };
-    }
-    function dispatchFunction(type, params) {
-        return function() {
-            return dispatchEvent(this, type, params.apply(this, arguments));
-        };
     }
     EnterNode.prototype = {
         constructor: EnterNode,
@@ -898,13 +783,65 @@
                 var node = this.node();
                 return fullname.local ? node.getAttributeNS(fullname.space, fullname.local) : node.getAttribute(fullname);
             }
-            return this.each((null == value ? fullname.local ? attrRemoveNS : attrRemove : "function" == typeof value ? fullname.local ? attrFunctionNS : attrFunction : fullname.local ? attrConstantNS : attrConstant)(fullname, value));
+            return this.each((null == value ? fullname.local ? function(fullname) {
+                return function() {
+                    this.removeAttributeNS(fullname.space, fullname.local);
+                };
+            } : function(name) {
+                return function() {
+                    this.removeAttribute(name);
+                };
+            } : "function" == typeof value ? fullname.local ? function(fullname, value) {
+                return function() {
+                    var v = value.apply(this, arguments);
+                    null == v ? this.removeAttributeNS(fullname.space, fullname.local) : this.setAttributeNS(fullname.space, fullname.local, v);
+                };
+            } : function(name, value) {
+                return function() {
+                    var v = value.apply(this, arguments);
+                    null == v ? this.removeAttribute(name) : this.setAttribute(name, v);
+                };
+            } : fullname.local ? function(fullname, value) {
+                return function() {
+                    this.setAttributeNS(fullname.space, fullname.local, value);
+                };
+            } : function(name, value) {
+                return function() {
+                    this.setAttribute(name, value);
+                };
+            })(fullname, value));
         },
         style: function(name, value, priority) {
-            return arguments.length > 1 ? this.each((null == value ? styleRemove : "function" == typeof value ? styleFunction : styleConstant)(name, value, null == priority ? "" : priority)) : styleValue(this.node(), name);
+            return arguments.length > 1 ? this.each((null == value ? function(name) {
+                return function() {
+                    this.style.removeProperty(name);
+                };
+            } : "function" == typeof value ? function(name, value, priority) {
+                return function() {
+                    var v = value.apply(this, arguments);
+                    null == v ? this.style.removeProperty(name) : this.style.setProperty(name, v, priority);
+                };
+            } : function(name, value, priority) {
+                return function() {
+                    this.style.setProperty(name, value, priority);
+                };
+            })(name, value, null == priority ? "" : priority)) : styleValue(this.node(), name);
         },
         property: function(name, value) {
-            return arguments.length > 1 ? this.each((null == value ? propertyRemove : "function" == typeof value ? propertyFunction : propertyConstant)(name, value)) : this.node()[name];
+            return arguments.length > 1 ? this.each((null == value ? function(name) {
+                return function() {
+                    delete this[name];
+                };
+            } : "function" == typeof value ? function(name, value) {
+                return function() {
+                    var v = value.apply(this, arguments);
+                    null == v ? delete this[name] : this[name] = v;
+                };
+            } : function(name, value) {
+                return function() {
+                    this[name] = value;
+                };
+            })(name, value)) : this.node()[name];
         },
         classed: function(name, value) {
             var names = classArray(name + "");
@@ -912,13 +849,43 @@
                 for(var list = classList(this.node()), i = -1, n = names.length; ++i < n;)if (!list.contains(names[i])) return !1;
                 return !0;
             }
-            return this.each(("function" == typeof value ? classedFunction : value ? classedTrue : classedFalse)(names, value));
+            return this.each(("function" == typeof value ? function(names, value) {
+                return function() {
+                    (value.apply(this, arguments) ? classedAdd : classedRemove)(this, names);
+                };
+            } : value ? function(names) {
+                return function() {
+                    classedAdd(this, names);
+                };
+            } : function(names) {
+                return function() {
+                    classedRemove(this, names);
+                };
+            })(names, value));
         },
         text: function(value) {
-            return arguments.length ? this.each(null == value ? textRemove : ("function" == typeof value ? textFunction : textConstant)(value)) : this.node().textContent;
+            return arguments.length ? this.each(null == value ? textRemove : ("function" == typeof value ? function(value) {
+                return function() {
+                    var v = value.apply(this, arguments);
+                    this.textContent = null == v ? "" : v;
+                };
+            } : function(value) {
+                return function() {
+                    this.textContent = value;
+                };
+            })(value)) : this.node().textContent;
         },
         html: function(value) {
-            return arguments.length ? this.each(null == value ? htmlRemove : ("function" == typeof value ? htmlFunction : htmlConstant)(value)) : this.node().innerHTML;
+            return arguments.length ? this.each(null == value ? htmlRemove : ("function" == typeof value ? function(value) {
+                return function() {
+                    var v = value.apply(this, arguments);
+                    this.innerHTML = null == v ? "" : v;
+                };
+            } : function(value) {
+                return function() {
+                    this.innerHTML = value;
+                };
+            })(value)) : this.node().innerHTML;
         },
         raise: function() {
             return this.each(raise);
@@ -966,7 +933,15 @@
             return this;
         },
         dispatch: function(type, params) {
-            return this.each(("function" == typeof params ? dispatchFunction : dispatchConstant)(type, params));
+            return this.each(("function" == typeof params ? function(type, params) {
+                return function() {
+                    return dispatchEvent(this, type, params.apply(this, arguments));
+                };
+            } : function(type, params) {
+                return function() {
+                    return dispatchEvent(this, type, params);
+                };
+            })(type, params));
         },
         [Symbol.iterator]: function*() {
             for(var groups = this._groups, j = 0, m = groups.length; j < m; ++j)for(var node, group = groups[j], i = 0, n = group.length; i < n; ++i)(node = group[i]) && (yield node);
@@ -1880,39 +1855,6 @@
             empty && delete node.__transition;
         }
     }
-    function tweenRemove(id, name) {
-        var tween0, tween1;
-        return function() {
-            var schedule = set$2(this, id), tween = schedule.tween;
-            if (tween !== tween0) {
-                tween1 = tween0 = tween;
-                for(var i = 0, n = tween1.length; i < n; ++i)if (tween1[i].name === name) {
-                    (tween1 = tween1.slice()).splice(i, 1);
-                    break;
-                }
-            }
-            schedule.tween = tween1;
-        };
-    }
-    function tweenFunction(id, name, value) {
-        var tween0, tween1;
-        if ("function" != typeof value) throw Error();
-        return function() {
-            var schedule = set$2(this, id), tween = schedule.tween;
-            if (tween !== tween0) {
-                tween1 = (tween0 = tween).slice();
-                for(var t = {
-                    name: name,
-                    value: value
-                }, i = 0, n = tween1.length; i < n; ++i)if (tween1[i].name === name) {
-                    tween1[i] = t;
-                    break;
-                }
-                i === n && tween1.push(t);
-            }
-            schedule.tween = tween1;
-        };
-    }
     function tweenValue(transition, name, value) {
         var id = transition._id;
         return transition.each(function() {
@@ -1925,84 +1867,6 @@
     function interpolate$1(a, b) {
         var c;
         return ("number" == typeof b ? interpolateNumber : b instanceof color ? interpolateRgb : (c = color(b)) ? (b = c, interpolateRgb) : interpolateString)(a, b);
-    }
-    function attrRemove$1(name) {
-        return function() {
-            this.removeAttribute(name);
-        };
-    }
-    function attrRemoveNS$1(fullname) {
-        return function() {
-            this.removeAttributeNS(fullname.space, fullname.local);
-        };
-    }
-    function attrConstant$1(name, interpolate, value1) {
-        var string00, interpolate0, string1 = value1 + "";
-        return function() {
-            var string0 = this.getAttribute(name);
-            return string0 === string1 ? null : string0 === string00 ? interpolate0 : interpolate0 = interpolate(string00 = string0, value1);
-        };
-    }
-    function attrConstantNS$1(fullname, interpolate, value1) {
-        var string00, interpolate0, string1 = value1 + "";
-        return function() {
-            var string0 = this.getAttributeNS(fullname.space, fullname.local);
-            return string0 === string1 ? null : string0 === string00 ? interpolate0 : interpolate0 = interpolate(string00 = string0, value1);
-        };
-    }
-    function attrFunction$1(name, interpolate, value) {
-        var string00, string10, interpolate0;
-        return function() {
-            var string0, string1, value1 = value(this);
-            return null == value1 ? void this.removeAttribute(name) : (string0 = this.getAttribute(name)) === (string1 = value1 + "") ? null : string0 === string00 && string1 === string10 ? interpolate0 : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
-        };
-    }
-    function attrFunctionNS$1(fullname, interpolate, value) {
-        var string00, string10, interpolate0;
-        return function() {
-            var string0, string1, value1 = value(this);
-            return null == value1 ? void this.removeAttributeNS(fullname.space, fullname.local) : (string0 = this.getAttributeNS(fullname.space, fullname.local)) === (string1 = value1 + "") ? null : string0 === string00 && string1 === string10 ? interpolate0 : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
-        };
-    }
-    function attrTweenNS(fullname, value) {
-        var t0, i0;
-        function tween() {
-            var i = value.apply(this, arguments);
-            return i !== i0 && (t0 = (i0 = i) && function(t) {
-                this.setAttributeNS(fullname.space, fullname.local, i.call(this, t));
-            }), t0;
-        }
-        return tween._value = value, tween;
-    }
-    function attrTween(name, value) {
-        var t0, i0;
-        function tween() {
-            var i = value.apply(this, arguments);
-            return i !== i0 && (t0 = (i0 = i) && function(t) {
-                this.setAttribute(name, i.call(this, t));
-            }), t0;
-        }
-        return tween._value = value, tween;
-    }
-    function delayFunction(id, value) {
-        return function() {
-            init(this, id).delay = +value.apply(this, arguments);
-        };
-    }
-    function delayConstant(id, value) {
-        return value = +value, function() {
-            init(this, id).delay = value;
-        };
-    }
-    function durationFunction(id, value) {
-        return function() {
-            set$2(this, id).duration = +value.apply(this, arguments);
-        };
-    }
-    function durationConstant(id, value) {
-        return value = +value, function() {
-            set$2(this, id).duration = value;
-        };
     }
     var Selection$1 = selection.prototype.constructor;
     function styleRemove$1(name) {
@@ -2085,7 +1949,39 @@
         },
         attr: function(name, value) {
             var fullname = namespace(name), i = "transform" === fullname ? interpolateTransformSvg : interpolate$1;
-            return this.attrTween(name, "function" == typeof value ? (fullname.local ? attrFunctionNS$1 : attrFunction$1)(fullname, i, tweenValue(this, "attr." + name, value)) : null == value ? (fullname.local ? attrRemoveNS$1 : attrRemove$1)(fullname) : (fullname.local ? attrConstantNS$1 : attrConstant$1)(fullname, i, value));
+            return this.attrTween(name, "function" == typeof value ? (fullname.local ? function(fullname, interpolate, value) {
+                var string00, string10, interpolate0;
+                return function() {
+                    var string0, string1, value1 = value(this);
+                    return null == value1 ? void this.removeAttributeNS(fullname.space, fullname.local) : (string0 = this.getAttributeNS(fullname.space, fullname.local)) === (string1 = value1 + "") ? null : string0 === string00 && string1 === string10 ? interpolate0 : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
+                };
+            } : function(name, interpolate, value) {
+                var string00, string10, interpolate0;
+                return function() {
+                    var string0, string1, value1 = value(this);
+                    return null == value1 ? void this.removeAttribute(name) : (string0 = this.getAttribute(name)) === (string1 = value1 + "") ? null : string0 === string00 && string1 === string10 ? interpolate0 : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
+                };
+            })(fullname, i, tweenValue(this, "attr." + name, value)) : null == value ? (fullname.local ? function(fullname) {
+                return function() {
+                    this.removeAttributeNS(fullname.space, fullname.local);
+                };
+            } : function(name) {
+                return function() {
+                    this.removeAttribute(name);
+                };
+            })(fullname) : (fullname.local ? function(fullname, interpolate, value1) {
+                var string00, interpolate0, string1 = value1 + "";
+                return function() {
+                    var string0 = this.getAttributeNS(fullname.space, fullname.local);
+                    return string0 === string1 ? null : string0 === string00 ? interpolate0 : interpolate0 = interpolate(string00 = string0, value1);
+                };
+            } : function(name, interpolate, value1) {
+                var string00, interpolate0, string1 = value1 + "";
+                return function() {
+                    var string0 = this.getAttribute(name);
+                    return string0 === string1 ? null : string0 === string00 ? interpolate0 : interpolate0 = interpolate(string00 = string0, value1);
+                };
+            })(fullname, i, value));
         },
         attrTween: function(name, value) {
             var key = "attr." + name;
@@ -2093,7 +1989,25 @@
             if (null == value) return this.tween(key, null);
             if ("function" != typeof value) throw Error();
             var fullname = namespace(name);
-            return this.tween(key, (fullname.local ? attrTweenNS : attrTween)(fullname, value));
+            return this.tween(key, (fullname.local ? function(fullname, value) {
+                var t0, i0;
+                function tween() {
+                    var i = value.apply(this, arguments);
+                    return i !== i0 && (t0 = (i0 = i) && function(t) {
+                        this.setAttributeNS(fullname.space, fullname.local, i.call(this, t));
+                    }), t0;
+                }
+                return tween._value = value, tween;
+            } : function(name, value) {
+                var t0, i0;
+                function tween() {
+                    var i = value.apply(this, arguments);
+                    return i !== i0 && (t0 = (i0 = i) && function(t) {
+                        this.setAttribute(name, i.call(this, t));
+                    }), t0;
+                }
+                return tween._value = value, tween;
+            })(fullname, value));
         },
         style: function(name, value, priority) {
             var name1, string00, string10, interpolate0, name2, value1, string001, string101, interpolate01, id, name3, on0, on1, listener0, remove, key, event, name4, string002, interpolate02, string1, i = "transform" == (name += "") ? interpolateTransformCss : interpolate$1;
@@ -2166,15 +2080,62 @@
                 for(var t, tween = get$1(this.node(), id).tween, i = 0, n = tween.length; i < n; ++i)if ((t = tween[i]).name === name) return t.value;
                 return null;
             }
-            return this.each((null == value ? tweenRemove : tweenFunction)(id, name, value));
+            return this.each((null == value ? function(id, name) {
+                var tween0, tween1;
+                return function() {
+                    var schedule = set$2(this, id), tween = schedule.tween;
+                    if (tween !== tween0) {
+                        tween1 = tween0 = tween;
+                        for(var i = 0, n = tween1.length; i < n; ++i)if (tween1[i].name === name) {
+                            (tween1 = tween1.slice()).splice(i, 1);
+                            break;
+                        }
+                    }
+                    schedule.tween = tween1;
+                };
+            } : function(id, name, value) {
+                var tween0, tween1;
+                if ("function" != typeof value) throw Error();
+                return function() {
+                    var schedule = set$2(this, id), tween = schedule.tween;
+                    if (tween !== tween0) {
+                        tween1 = (tween0 = tween).slice();
+                        for(var t = {
+                            name: name,
+                            value: value
+                        }, i = 0, n = tween1.length; i < n; ++i)if (tween1[i].name === name) {
+                            tween1[i] = t;
+                            break;
+                        }
+                        i === n && tween1.push(t);
+                    }
+                    schedule.tween = tween1;
+                };
+            })(id, name, value));
         },
         delay: function(value) {
             var id = this._id;
-            return arguments.length ? this.each(("function" == typeof value ? delayFunction : delayConstant)(id, value)) : get$1(this.node(), id).delay;
+            return arguments.length ? this.each(("function" == typeof value ? function(id, value) {
+                return function() {
+                    init(this, id).delay = +value.apply(this, arguments);
+                };
+            } : function(id, value) {
+                return value = +value, function() {
+                    init(this, id).delay = value;
+                };
+            })(id, value)) : get$1(this.node(), id).delay;
         },
         duration: function(value) {
             var id = this._id;
-            return arguments.length ? this.each(("function" == typeof value ? durationFunction : durationConstant)(id, value)) : get$1(this.node(), id).duration;
+            return arguments.length ? this.each(("function" == typeof value ? function(id, value) {
+                return function() {
+                    set$2(this, id).duration = +value.apply(this, arguments);
+                };
+            } : function(id, value) {
+                return value = +value, function() {
+                    set$2(this, id).duration = value;
+                };
+            })(id, value)) : get$1(this.node(), id).duration;
         },
         ease: function(value) {
             var id = this._id;

@@ -26320,7 +26320,22 @@
                 ], idx = axis.inverse ? 1 : 0;
                 axis.setExtent(axisExtent[idx], axisExtent[1 - idx]);
             }), each(dimensions, function(dim, idx) {
-                var posInfo = (layoutInfo.axisExpandable ? layoutAxisWithExpand : layoutAxisWithoutExpand)(idx, layoutInfo), positionTable = {
+                var posInfo = (layoutInfo.axisExpandable ? function(axisIndex, layoutInfo) {
+                    var position, nameTruncateMaxWidth, layoutLength = layoutInfo.layoutLength, axisExpandWidth = layoutInfo.axisExpandWidth, axisCount = layoutInfo.axisCount, axisCollapseWidth = layoutInfo.axisCollapseWidth, winInnerIndices = layoutInfo.winInnerIndices, axisNameAvailableWidth = axisCollapseWidth, axisLabelShow = !1;
+                    return axisIndex < winInnerIndices[0] ? (position = axisIndex * axisCollapseWidth, nameTruncateMaxWidth = axisCollapseWidth) : axisIndex <= winInnerIndices[1] ? (position = layoutInfo.axisExpandWindow0Pos + axisIndex * axisExpandWidth - layoutInfo.axisExpandWindow[0], axisNameAvailableWidth = axisExpandWidth, axisLabelShow = !0) : (position = layoutLength - (axisCount - 1 - axisIndex) * axisCollapseWidth, nameTruncateMaxWidth = axisCollapseWidth), {
+                        position: position,
+                        axisNameAvailableWidth: axisNameAvailableWidth,
+                        axisLabelShow: axisLabelShow,
+                        nameTruncateMaxWidth: nameTruncateMaxWidth
+                    };
+                } : function(axisIndex, layoutInfo) {
+                    var step = layoutInfo.layoutLength / (layoutInfo.axisCount - 1);
+                    return {
+                        position: step * axisIndex,
+                        axisNameAvailableWidth: step,
+                        axisLabelShow: !0
+                    };
+                })(idx, layoutInfo), positionTable = {
                     horizontal: {
                         x: posInfo.position,
                         y: layoutInfo.axisLength
@@ -26403,23 +26418,6 @@
     }();
     function restrict$1(len, extent) {
         return mathMin$8(mathMax$8(len, extent[0]), extent[1]);
-    }
-    function layoutAxisWithoutExpand(axisIndex, layoutInfo) {
-        var step = layoutInfo.layoutLength / (layoutInfo.axisCount - 1);
-        return {
-            position: step * axisIndex,
-            axisNameAvailableWidth: step,
-            axisLabelShow: !0
-        };
-    }
-    function layoutAxisWithExpand(axisIndex, layoutInfo) {
-        var position, nameTruncateMaxWidth, layoutLength = layoutInfo.layoutLength, axisExpandWidth = layoutInfo.axisExpandWidth, axisCount = layoutInfo.axisCount, axisCollapseWidth = layoutInfo.axisCollapseWidth, winInnerIndices = layoutInfo.winInnerIndices, axisNameAvailableWidth = axisCollapseWidth, axisLabelShow = !1;
-        return axisIndex < winInnerIndices[0] ? (position = axisIndex * axisCollapseWidth, nameTruncateMaxWidth = axisCollapseWidth) : axisIndex <= winInnerIndices[1] ? (position = layoutInfo.axisExpandWindow0Pos + axisIndex * axisExpandWidth - layoutInfo.axisExpandWindow[0], axisNameAvailableWidth = axisExpandWidth, axisLabelShow = !0) : (position = layoutLength - (axisCount - 1 - axisIndex) * axisCollapseWidth, nameTruncateMaxWidth = axisCollapseWidth), {
-            position: position,
-            axisNameAvailableWidth: axisNameAvailableWidth,
-            axisLabelShow: axisLabelShow,
-            nameTruncateMaxWidth: nameTruncateMaxWidth
-        };
     }
     var parallelCoordSysCreator = {
         create: function(ecModel, api) {
