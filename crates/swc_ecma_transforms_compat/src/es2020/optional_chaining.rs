@@ -182,7 +182,6 @@ impl OptChaining {
                     next = m.obj.take();
                     m.prop.visit_mut_with(self);
                     chain.push(if optional {
-                        println!("next {:#?}", &next);
                         match *next {
                             Expr::This(_) => Gathering::OptMember(
                                 m.take(),
@@ -228,7 +227,6 @@ impl OptChaining {
         no_document_all: bool,
     ) -> Expr {
         let (mut current, count, chain) = data;
-        // println!("Construct - {:#?}", chain);
 
         // Stores partially constructed CondExprs for us to assemble later on.
         let mut committed_cond = Vec::with_capacity(count);
@@ -345,7 +343,6 @@ impl OptChaining {
     }
 
     fn memoize(&mut self, expr: &Expr) -> Ident {
-        // println!("Memoize - {:#?}", expr);
         let memo = alias_ident_for(expr, "_this");
         self.vars.push(VarDeclarator {
             span: DUMMY_SP,
@@ -425,12 +422,6 @@ fn init_and_eq_null_or_undefined(i: &Ident, init: Expr, no_document_all: bool) -
 }
 
 fn eq_null_or_undefined(i: &Ident, no_document_all: bool) -> Box<Expr> {
-    // let lhs = Box::new(Expr::Assign(AssignExpr {
-    //     span: DUMMY_SP,
-    //     op: op!("="),
-    //     left: PatOrExpr::Pat(i.clone().into()),
-    //     right: Box::new(init),
-    // }));
     let lhs = Box::new(Expr::Ident(i.clone()));
 
     if no_document_all {
