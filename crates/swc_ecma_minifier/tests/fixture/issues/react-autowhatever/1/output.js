@@ -36,7 +36,7 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     })(o, p);
 }
-var ItemsList = function(Component1) {
+var ItemsList = function(Component) {
     "use strict";
     var protoProps, staticProps;
     function ItemsList() {
@@ -59,7 +59,7 @@ var ItemsList = function(Component1) {
                 configurable: !0
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
-    }(ItemsList, Component1), protoProps = [
+    }(ItemsList, Component), protoProps = [
         {
             key: "shouldComponentUpdate",
             value: function(nextProps) {
