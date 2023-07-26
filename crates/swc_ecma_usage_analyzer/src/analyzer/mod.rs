@@ -1316,6 +1316,15 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
             for_each_id_ref_in_expr(&c.cons, op);
             for_each_id_ref_in_expr(&c.alt, op);
         }
+        Expr::Bin(
+            b @ BinExpr {
+                op: op!("||") | op!("??") | op!("&&"),
+                ..
+            },
+        ) => {
+            for_each_id_ref_in_expr(&b.left, op);
+            for_each_id_ref_in_expr(&b.right, op);
+        }
         Expr::Seq(s) => {
             for_each_id_ref_in_expr(s.exprs.last().unwrap(), op);
         }
