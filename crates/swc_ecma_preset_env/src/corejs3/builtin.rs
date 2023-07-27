@@ -26,12 +26,12 @@ static ARRAY_NATURE_ITERATORS_WITH_TAG: &[&str] =
 
 static COMMON_ITERATORS_WITH_TAG: &[&str] = &concat2(COMMON_ITERATORS, &["es.object.to-string"]);
 
-static ErrorDependencies: &[&str] = &["es.error.cause", "es.error.to-string"];
+static ERROR_DEPENDENCIES: &[&str] = &["es.error.cause", "es.error.to-string"];
 
-static SuppressedErrorDependencies: &[&str] =
-    &concat2(&["esnext.suppressed-error.constructor"], ErrorDependencies);
+static SUPPRESSED_ERROR_DEPENDENCIES: &[&str] =
+    &concat2(&["esnext.suppressed-error.constructor"], ERROR_DEPENDENCIES);
 
-static TypedArrayDependencies: &[&str] = &[
+static TYPED_ARRAY_DEPENDENCIES: &[&str] = &[
     "es.typed-array.at",
     "es.typed-array.copy-within",
     "es.typed-array.every",
@@ -73,13 +73,15 @@ static TypedArrayDependencies: &[&str] = &[
     "esnext.typed-array.unique-by",
 ];
 
-static PromiseDependencies: &[&str] = &["es.promise", "es.object.to-string"];
+static PROMISE_DEPENDENCIES: &[&str] = &["es.promise", "es.object.to-string"];
 
-static PromiseDependenciesWithIterators: &[&str] = &concat2(PromiseDependencies, CommonIterators);
+static PROMISE_DEPENDENCIES_WITH_ITERATORS: &[&str] =
+    &concat2(PROMISE_DEPENDENCIES, CommonIterators);
 
-static SymbolDependencies: &[&str] = &["es.symbol", "es.symbol.description", "es.object.to-string"];
+static SYMBOL_DEPENDENCIES: &[&str] =
+    &["es.symbol", "es.symbol.description", "es.object.to-string"];
 
-static MapDependencies: &[&str] = &concat2(
+static MAP_DEPENDENCIES: &[&str] = &concat2(
     &[
         "es.map",
         "esnext.map.delete-all",
@@ -97,10 +99,10 @@ static MapDependencies: &[&str] = &concat2(
         "esnext.map.some",
         "esnext.map.update",
     ],
-    CommonIteratorsWithTag,
+    COMMON_ITERATORS_WITH_TAG,
 );
 
-static SetDependencies: &[&str] = &concat2(
+static SET_DEPENDENCIES: &[&str] = &concat2(
     &[
         "es.set",
         "esnext.set.add-all",
@@ -127,35 +129,35 @@ static SetDependencies: &[&str] = &concat2(
         "esnext.set.union",
         "esnext.set.union.v2",
     ],
-    CommonIteratorsWithTag,
+    COMMON_ITERATORS_WITH_TAG,
 );
 
-static WeakMapDependencies: &[&str] = concat2(
+static WEAK_MAP_DEPENDENCIES: &[&str] = &concat2(
     &[
         "es.weak-map",
         "esnext.weak-map.delete-all",
         "esnext.weak-map.emplace",
     ],
-    CommonIteratorsWithTag,
+    COMMON_ITERATORS_WITH_TAG,
 );
 
-static WeakSetDependencies: &[&str] = concat2(
+static WEAK_SET_DEPENDENCIES: &[&str] = &concat2(
     &[
         "es.weak-set",
         "esnext.weak-set.add-all",
         "esnext.weak-set.delete-all",
     ],
-    CommonIteratorsWithTag,
+    COMMON_ITERATORS_WITH_TAG,
 );
 
-static DOMExceptionDependencies: &[&str] = &[
+static DOMEXCEPTION_DEPENDENCIES: &[&str] = &[
     "web.dom-exception.constructor",
     "web.dom-exception.stack",
     "web.dom-exception.to-string-tag",
     "es.error.to-string",
 ];
 
-static URLSearchParamsDependencies: &[&str] = &concat2(
+static URLSEARCH_PARAMS_DEPENDENCIES: &[&str] = &concat2(
     &[
         "web.url-search-params",
         "web.url-search-params.delete",
@@ -165,10 +167,10 @@ static URLSearchParamsDependencies: &[&str] = &concat2(
     CommonIteratorsWithTag,
 );
 
-static AsyncIteratorDependencies: &[&str] =
-    &concat2(&["esnext.async-iterator.constructor"], PromiseDependencies);
+static ASYNC_ITERATOR_DEPENDENCIES: &[&str] =
+    &concat2(&["esnext.async-iterator.constructor"], PROMISE_DEPENDENCIES);
 
-static AsyncIteratorProblemMethods: &[&str] = &[
+static ASYNC_ITERATOR_PROBLEM_METHODS: &[&str] = &[
     "esnext.async-iterator.every",
     "esnext.async-iterator.filter",
     "esnext.async-iterator.find",
@@ -179,9 +181,9 @@ static AsyncIteratorProblemMethods: &[&str] = &[
     "esnext.async-iterator.some",
 ];
 
-static IteratorDependencies: &[&str] = &["esnext.iterator.constructor", "es.object.to-string"];
+static ITERATOR_DEPENDENCIES: &[&str] = &["esnext.iterator.constructor", "es.object.to-string"];
 
-pub static BuiltIns: ObjectMap<CoreJSPolyfillDescriptor> = data_map!({
+pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = data_map!({
   AsyncDisposableStack: define("async-disposable-stack", [
     "esnext.async-disposable-stack.constructor",
     "es.object.to-string",
@@ -287,7 +289,7 @@ pub static BuiltIns: ObjectMap<CoreJSPolyfillDescriptor> = data_map!({
   unescape: define("unescape", ["es.unescape"]),
 });
 
-pub static StaticProperties: ObjectMap2<CoreJSPolyfillDescriptor> = data_map!({
+pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = data_map!({
   AsyncIterator: {
     from: define("async-iterator/from", [
       "esnext.async-iterator.from",
