@@ -4,7 +4,7 @@ pub(crate) type ObjectMap<T> = FxHashMap<&'static str, T>;
 pub(crate) type ObjectMap2<V> = ObjectMap<ObjectMap<V>>;
 
 pub(crate) fn descriptor(
-    pure: &'static str,
+    pure: Option<&'static str>,
     global: &'static [&'static str],
     name: &'static str,
     exclude: &'static [&'static str],
@@ -19,7 +19,7 @@ pub(crate) fn descriptor(
 
 #[derive(Debug)]
 pub(crate) struct CoreJSPolyfillDescriptor {
-    pub pure: &'static str,
+    pub pure: Option<&'static str>,
     pub global: &'static [&'static str],
     pub name: &'static str,
     pub exclude: &'static [&'static str],
@@ -41,6 +41,13 @@ macro_rules! define_descriptor {
         [$first:literal, $($global:tt)*]
     ) => {{
         define_descriptor!(@Done, Some($pure), [$first, $($global)*], $first, &[])
+    }};
+
+    (
+        null,
+        [$first:literal, $($global:tt)*]
+    ) => {{
+        define_descriptor!(@Done, None, [$first, $($global)*], $first, &[])
     }};
 
     // @Indirect: No need to distinguish `$pure`.
