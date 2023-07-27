@@ -9,10 +9,21 @@ pub(crate) fn descriptor(
     name: &'static str,
     exclude: &'static [&'static str],
 ) -> CoreJSPolyfillDescriptor {
+    CoreJSPolyfillDescriptor {
+        pure,
+        global,
+        name,
+        exclude,
+    }
 }
 
 #[derive(Debug)]
-pub(crate) struct CoreJSPolyfillDescriptor {}
+pub(crate) struct CoreJSPolyfillDescriptor {
+    pub pure: &'static str,
+    pub global: &'static [&'static str],
+    pub name: &'static str,
+    pub exclude: &'static [&'static str],
+}
 
 macro_rules! val {
     (& $v:expr) => {
