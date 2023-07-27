@@ -229,7 +229,7 @@ macro_rules! map {
                 $(
                     $i : $e,
                 )*
-                $ni : map_value!(Map { $($m)* }),
+                $ni : map!(Map { $($m)* }),
             },
             Rest {
                 $($rest)*
@@ -320,7 +320,7 @@ macro_rules! map {
 
     // Done
     (
-        @Ident,
+        @Key,
         Map {
             $($i:ident : $e:expr,)*
         },
