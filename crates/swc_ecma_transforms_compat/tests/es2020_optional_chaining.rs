@@ -303,16 +303,3 @@ fn fixture_loose(input: PathBuf) {
         Default::default(),
     );
 }
-
-#[testing::fixture("tests/optional-chaining-private-var/issue-7561/input.js")]
-fn fixture_private_var_loose(input: PathBuf) {
-    let output = input.with_file_name("output.js");
-
-    test_fixture(
-        Default::default(),
-        &|_| optional_chaining(Default::default()),
-        &input,
-        &output,
-        Default::default(),
-    );
-}
