@@ -62,14 +62,20 @@ macro_rules! define_descriptor {
         $pure:literal,
         [$first:literal, $($global:tt)*]
     ) => {{
-        define_descriptor!(@Done, Some($pure), expand_array_like!([$first, $($global)*]), $first, &[])
+        define_descriptor!(@Done, Some($pure), &expand_array_like!([$first, $($global)*]), $first, &[])
     }};
 
     (
         null,
         [$first:literal, $($global:tt)*]
     ) => {{
-        define_descriptor!(@Done, None, expand_array_like!([$first, $($global)*]), $first, &[])
+        define_descriptor!(@Done, None, &expand_array_like!([$first, $($global)*]), $first, &[])
+    }};
+    (
+        null,
+        [$first:literal]
+    ) => {{
+        define_descriptor!(@Done, None, &[$first], $first, &[])
     }};
 
     // @Indirect: No need to distinguish `$pure`.
