@@ -7,6 +7,213 @@ macro_rules! val {
     };
 }
 
+macro_rules! d {
+    (
+        Map {
+            $($rest:tt)+
+        }
+    ) => {{
+        d!(@Key, Map {}, Rest {$($rest)*})
+    }};
+
+    (
+        @Key,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            $ni:ident : $($rest:tt)+
+        }
+    ) => {{
+        d!(@Value, Map {
+            $(
+                $i : $e,
+            )*
+        },
+        Rest {
+            $($rest)*
+        },
+        Wip {
+            $ni
+        })
+    }};
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            [$($v:tt)*], $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        d!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : val!(&[$($v)*]),
+        }, Rest {$($rest)*})
+    };
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            &[$($v:tt)*], $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        d!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : val!(&[$($v)*]),
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            $v:literal, $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        d!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : &[$v],
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            $v:literal $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        d!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : &[$v],
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            &$v:ident, $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        d!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : $v,
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            Map { $($m:tt)* }, $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        d!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : d!(Map { $($m)* }),
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            $v:ident, $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        d!(@Ident, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : $v,
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
+    // Done
+    (
+        @Ident,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {}
+    ) => {
+        &[
+            $(
+                (stringify!($i), $e)
+            ),*
+        ]
+    };
+}
+
 macro_rules! data_map {
     (
         Map {

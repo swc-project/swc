@@ -1,3 +1,5 @@
+use crate::util::DataMap;
+
 const fn concat2<const N: usize>(a: &[&'static str], b: &[&'static str]) -> [&'static str; N] {
     assert!(N == a.len() + b.len());
 
@@ -183,7 +185,7 @@ static ASYNC_ITERATOR_PROBLEM_METHODS: &[&str] = &[
 
 static ITERATOR_DEPENDENCIES: &[&str] = &["esnext.iterator.constructor", "es.object.to-string"];
 
-pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = data_map!(Map{
+pub static BUILT_INS: DataMap<CoreJSPolyfillDescriptor> = d!(Map{
   AsyncDisposableStack: define("async-disposable-stack", [
     "esnext.async-disposable-stack.constructor",
     "es.object.to-string",
@@ -289,8 +291,8 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = data_map!(Map{
   unescape: define("unescape", ["es.unescape"]),
 });
 
-pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = data_map!(Map{
-  AsyncIterator: {
+pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = d!(Map{
+  AsyncIterator: Map {
     from: define("async-iterator/from", [
       "esnext.async-iterator.from",
       ...AsyncIteratorDependencies,
@@ -298,7 +300,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = data_map!(M
       ...CommonIterators,
     ]),
   },
-  Array: {
+  Array: Map {
     from: define("array/from", ["es.array.from", "es.string.iterator"]),
     fromAsync: define("array/from-async", [
       "esnext.array.from-async",
@@ -670,7 +672,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = data_map!(M
   },
 });
 
-pub static InstanceProperties: ObjectMap = data_map!(Map{
+pub static InstanceProperties: DataMap = d!(Map{
   asIndexedPairs: define("instance/asIndexedPairs", [
     "esnext.async-iterator.as-indexed-pairs",
     ...AsyncIteratorDependencies,
