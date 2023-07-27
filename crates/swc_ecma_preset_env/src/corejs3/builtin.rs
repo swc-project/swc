@@ -183,7 +183,7 @@ static ASYNC_ITERATOR_PROBLEM_METHODS: &[&str] = &[
 
 static ITERATOR_DEPENDENCIES: &[&str] = &["esnext.iterator.constructor", "es.object.to-string"];
 
-pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = data_map!({
+pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = data_map!(Map{
   AsyncDisposableStack: define("async-disposable-stack", [
     "esnext.async-disposable-stack.constructor",
     "es.object.to-string",
@@ -289,7 +289,7 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = data_map!({
   unescape: define("unescape", ["es.unescape"]),
 });
 
-pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = data_map!({
+pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = data_map!(Map{
   AsyncIterator: {
     from: define("async-iterator/from", [
       "esnext.async-iterator.from",
@@ -670,7 +670,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = data_map!({
   },
 });
 
-pub static InstanceProperties: ObjectMap = data_map!({
+pub static InstanceProperties: ObjectMap = data_map!(Map{
   asIndexedPairs: define("instance/asIndexedPairs", [
     "esnext.async-iterator.as-indexed-pairs",
     ...AsyncIteratorDependencies,
