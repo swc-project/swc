@@ -243,7 +243,7 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   Uint8ClampedArray: typed("es.typed-array.uint8-clamped-array"),
   Uint16Array: typed("es.typed-array.uint16-array"),
   Uint32Array: typed("es.typed-array.uint32-array"),
-  Map: define("map/index", MapDependencies),
+  Map: define("map/index", MAP_DEPENDENCIES),
   Number: define(null, ["es.number.constructor"]),
   Observable: define("observable/index", [
     "esnext.observable",
@@ -271,9 +271,9 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   URL: define("url/index", ["web.url", URLSearchParamsDependencies]),
   URLSearchParams: define(
     "url-search-params/index",
-    URLSearchParamsDependencies,
+    URLSearchParamsDependencies
   ),
-  WeakMap: define("weak-map/index", WeakMapDependencies),
+  WeakMap: define("weak-map/index", WeakMAP_DEPENDENCIES),
   WeakSet: define("weak-set/index", WeakSetDependencies),
 
   atob: define("atob", ["web.atob", DOMExceptionDependencies]),
@@ -404,10 +404,10 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   },
 
   Map: Map {
-    from: define(null, ["esnext.map.from", MapDependencies]),
-    groupBy: define(null, ["esnext.map.group-by", MapDependencies]),
-    keyBy: define(null, ["esnext.map.key-by", MapDependencies]),
-    of: define(null, ["esnext.map.of", MapDependencies]),
+    from: define(null, ["esnext.map.from", MAP_DEPENDENCIES]),
+    groupBy: define(null, ["esnext.map.group-by", MAP_DEPENDENCIES]),
+    keyBy: define(null, ["esnext.map.key-by", MAP_DEPENDENCIES]),
+    of: define(null, ["esnext.map.of", MAP_DEPENDENCIES]),
   },
 
   Number: Map {
@@ -658,8 +658,8 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   },
 
   WeakMap: Map {
-    from: define(null, ["esnext.weak-map.from", WeakMapDependencies]),
-    of: define(null, ["esnext.weak-map.of", WeakMapDependencies]),
+    from: define(null, ["esnext.weak-map.from", WeakMAP_DEPENDENCIES]),
+    of: define(null, ["esnext.weak-map.of", WeakMAP_DEPENDENCIES]),
   },
 
   WeakSet: Map {
