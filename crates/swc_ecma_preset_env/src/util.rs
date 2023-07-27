@@ -50,7 +50,7 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Ident, Map {
+        d!(@Key, Map {
             $(
                 $i : $e,
             )*
@@ -70,7 +70,7 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Ident, Map {
+        d!(@Key, Map {
             $(
                 $i : $e,
             )*
@@ -93,7 +93,7 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Ident, Map {
+        d!(@Key, Map {
             $(
                 $i : $e,
             )*
@@ -116,7 +116,7 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Ident, Map {
+        d!(@Key, Map {
             $(
                 $i : $e,
             )*
@@ -139,7 +139,7 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Ident, Map {
+        d!(@Key, Map {
             $(
                 $i : $e,
             )*
@@ -163,7 +163,7 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Ident, Map {
+        d!(@Key, Map {
             $(
                 $i : $e,
             )*
@@ -187,7 +187,7 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Ident, Map {
+        d!(@Key, Map {
             $(
                 $i : $e,
             )*
