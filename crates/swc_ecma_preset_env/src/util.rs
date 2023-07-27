@@ -6,9 +6,11 @@ pub(crate) type ObjectMap2<V> = ObjectMap<ObjectMap<V>>;
 pub(crate) fn descriptor(
     pure: Option<&'static str>,
     global: &'static [&'static str],
-    name: &'static str,
+    name: Option<&'static str>,
     exclude: &'static [&'static str],
 ) -> CoreJSPolyfillDescriptor {
+    let name = name.unwrap_or_else(|| global[0]);
+
     CoreJSPolyfillDescriptor {
         pure,
         global,
@@ -71,37 +73,42 @@ macro_rules! expand_array_like {
 
 /// Calls [`descriptor`].
 macro_rules! define_descriptor {
-    (
-        $pure:literal,
-        [$first:tt, $($global:tt)*]
-    ) => {{
-        define_descriptor!(@Done, Some($pure), &expand_array_like!([$first, $($global)*]), $first, &[])
-    }};
 
     (
         $pure:literal,
-        [$first:tt]
+        [$($global:tt)*]
     ) => {{
-        define_descriptor!(@Done, Some($pure), &expand_array_like!([$first]), $first, &[])
+        define_descriptor!(@Done, Some($pure), &expand_array_like!([$($global)*]), None, &[])
     }};
 
     (
         null,
-        [$first:tt, $($global:tt)*]
+        [$($global:tt)*]
     ) => {{
-        define_descriptor!(@Done, None, &expand_array_like!([$first, $($global)*]), $first, &[])
+        define_descriptor!(@Done, None, &expand_array_like!([$($global)*]), None, &[])
     }};
-    (
-        null,
-        [$first:tt]
-    ) => {{
-        define_descriptor!(@Done, None, &[$first], $first, &[])
-    }};
+
+
     (
         null,
         $global:ident
     ) => {{
-        define_descriptor!(@Done, None, &expand_array_like!($global), $first, &[])
+        define_descriptor!(@Done, None, &expand_array_like!($global), None, &[])
+    }};
+
+    (
+        $pure:literal,
+        $global:ident
+    ) => {{
+        define_descriptor!(@Done, Some($pure), &expand_array_like!($global), None, &[])
+    }};
+
+    (
+        $pure:literal,
+        $global:ident,
+        $first:tt
+    ) => {{
+        define_descriptor!(@Done, Some($pure), &expand_array_like!($($global)*), $first, &[])
     }};
 
 
