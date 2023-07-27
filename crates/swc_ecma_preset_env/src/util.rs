@@ -52,18 +52,6 @@ macro_rules! define_descriptor {
     }};
 }
 
-macro_rules! value_of_map {
-    ((
-        Map {
-            $(
-                $tt:tt
-            )*
-        }
-    )) => {{
-        map!($($tt)*)
-    }};
-}
-
 macro_rules! map {
     (
         Map {
@@ -283,7 +271,7 @@ macro_rules! map {
                 $(
                     $i : $e,
                 )*
-                $ni : value_of_map!(define_descriptor!($($args)*)),
+                $ni : define_descriptor!($($args)*),
             },
             Rest {
                 $($rest)*
@@ -309,7 +297,7 @@ macro_rules! map {
                 $(
                     $i : $e,
                 )*
-                $ni : value_of_map!(crate::util::typed_descriptor($($args)*)),
+                $ni : typed_descriptor($($args)*),
             },
             Rest {
                 $($rest)*
