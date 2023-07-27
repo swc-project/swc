@@ -224,7 +224,7 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "es.object.to-string",
   ]),
   Date: define(null, ["es.date.to-string"]),
-  DOMException: define("dom-exception", DOMExceptionDependencies),
+  DOMException: define("dom-exception", DOMEXCEPTION_DEPENDENCIES),
   DisposableStack: define("disposable-stack", [
     "esnext.disposable-stack.constructor",
     "es.object.to-string",

@@ -40,15 +40,18 @@ macro_rules! define_descriptor {
         $pure:literal,
         [$first:literal, $($global:tt)*]
     ) => {{
-        define_descriptor!($pure, [$first, $($global)*], $first)
+        define_descriptor!(@Done, Some($pure), [$first, $($global)*], $first, &[])
     }};
 
+    // @Indirect: No need to distinguish `$pure`.
     (
-        $pure:literal,
+        @Done,
+        $pure:expr,
         [$($global:tt)*],
         $name:literal,
+        $exclude:expr
     ) => {{
-        $crate::util::descriptor($pure, &[$($global)*], $name, &[])
+        $crate::util::descriptor($pure, &[$($global)*], $name, $exclude)
     }};
 }
 
