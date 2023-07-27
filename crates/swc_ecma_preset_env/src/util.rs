@@ -208,15 +208,18 @@ macro_rules! map {
             $ni:ident
         }
     ) => {
-        map!(@Key, Map {
-            $(
-                $i : $e,
-            )*
-            $ni : map!(Map { $($m)* }),
-        },
-        Rest {
-            $($rest)*
-        })
+        map!(
+            @Key,
+            Map {
+                $(
+                    $i : $e,
+                )*
+                $ni : map!(Map { $($m)* }),
+            },
+            Rest {
+                $($rest)*
+            }
+        )
     };
 
 
@@ -232,15 +235,18 @@ macro_rules! map {
             $ni:ident
         }
     ) => {
-        map!(@Key, Map {
-            $(
-                $i : $e,
-            )*
-            $ni : $v,
-        },
-        Rest {
-            $($rest)*
-        })
+        map!(
+            @Key,
+            Map {
+                $(
+                    $i : $e,
+                )*
+                $ni : $v,
+            },
+            Rest {
+                $($rest)*
+            }
+        )
     };
 
 
@@ -256,15 +262,18 @@ macro_rules! map {
             $ni:ident
         }
     ) => {
-        map!(@Key, Map {
-            $(
-                $i : $e,
-            )*
-            $ni : define_descriptor($($args)*),
-        },
-        Rest {
-            $($rest)*
-        })
+        map!(
+            @Key,
+            Map {
+                $(
+                    $i : $e,
+                )*
+                $ni : define_descriptor!($($args)*),
+            },
+            Rest {
+                $($rest)*
+            }
+        )
     };
 
     (
@@ -279,15 +288,18 @@ macro_rules! map {
             $ni:ident
         }
     ) => {
-        map!(@Key, Map {
-            $(
-                $i : $e,
-            )*
-            $ni : crate::util::typed_descriptor($($args)*),
-        },
-        Rest {
-            $($rest)*
-        })
+        map!(
+            @Key,
+            Map {
+                $(
+                    $i : $e,
+                )*
+                $ni : crate::util::typed_descriptor($($args)*),
+            },
+            Rest {
+                $($rest)*
+            }
+        )
     };
 
 
