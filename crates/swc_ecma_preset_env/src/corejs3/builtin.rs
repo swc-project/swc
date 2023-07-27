@@ -76,7 +76,7 @@ static TYPED_ARRAY_DEPENDENCIES: &[&str] = &[
 static PROMISE_DEPENDENCIES: &[&str] = &["es.promise", "es.object.to-string"];
 
 static PROMISE_DEPENDENCIES_WITH_ITERATORS: &[&str] =
-    &concat2(PROMISE_DEPENDENCIES, CommonIterators);
+    &concat2(PROMISE_DEPENDENCIES, COMMON_ITERATORS);
 
 static SYMBOL_DEPENDENCIES: &[&str] =
     &["es.symbol", "es.symbol.description", "es.object.to-string"];
@@ -164,7 +164,7 @@ static URLSEARCH_PARAMS_DEPENDENCIES: &[&str] = &concat2(
         "web.url-search-params.has",
         "web.url-search-params.size",
     ],
-    CommonIteratorsWithTag,
+    COMMON_ITERATORS_WITH_TAG,
 );
 
 static ASYNC_ITERATOR_DEPENDENCIES: &[&str] =
