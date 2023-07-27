@@ -50,12 +50,12 @@ macro_rules! expand_array_like {
     }};
 
     ([$($tt:tt)*]) => {{
-        expand_array_like!(@ARRAY, All(&[]), Wip([]), Rest($($tt)*))
+        expand_array_like!(@ARRAY, All(&[]), Wip(), Rest($($tt)*))
     }};
 
     // Eat string literal as much as we can, and create a single array literal from them.
     (@ARRAY, All($all:expr), Wip($($s:literal,)*), Rest($first:literal, $($rest:tt)+)) => {{
-        expand_array_like!(@ARRAY, All($all), Wip($($s,)*, $first), Rest($($rest)*))
+        expand_array_like!(@ARRAY, All($all), Wip($($s),* $first), Rest($($rest)*))
     }};
 
     // We need to stop eating string literals.
@@ -125,7 +125,7 @@ macro_rules! define_descriptor {
         @Done,
         $pure:expr,
         $global:expr,
-        $name:literal,
+        $name:expr,
         $exclude:expr
     ) => {{
         $crate::util::descriptor($pure, $global, $name, $exclude)
