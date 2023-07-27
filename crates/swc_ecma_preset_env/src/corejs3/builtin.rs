@@ -204,12 +204,12 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "esnext.async-iterator.async-dispose",
     "esnext.iterator.dispose",
     PromiseDependencies,
-    SuppressedErrorDependencies,
+    SuppressedERROR_DEPENDENCIES,
   ]),
-  AsyncIterator: define("async-iterator/index", AsyncIteratorDependencies),
+  AsyncIterator: define("async-iterator/index", ASYNC_ITERATOR_DEPENDENCIES),
   AggregateError: define("aggregate-error", [
     "es.aggregate-error",
-    ErrorDependencies,
+    ERROR_DEPENDENCIES,
     CommonIteratorsWithTag,
     "es.aggregate-error.cause",
   ]),
@@ -229,16 +229,16 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "esnext.disposable-stack.constructor",
     "es.object.to-string",
     "esnext.iterator.dispose",
-    SuppressedErrorDependencies,
+    SuppressedERROR_DEPENDENCIES,
   ]),
-  Error: define(null, ErrorDependencies),
-  EvalError: define(null, ErrorDependencies),
+  Error: define(null, ERROR_DEPENDENCIES),
+  EvalError: define(null, ERROR_DEPENDENCIES),
   Float32Array: typed("es.typed-array.float32-array"),
   Float64Array: typed("es.typed-array.float64-array"),
   Int8Array: typed("es.typed-array.int8-array"),
   Int16Array: typed("es.typed-array.int16-array"),
   Int32Array: typed("es.typed-array.int32-array"),
-  Iterator: define("iterator/index", IteratorDependencies),
+  Iterator: define("iterator/index", ITERATOR_DEPENDENCIES),
   Uint8Array: typed("es.typed-array.uint8-array"),
   Uint8ClampedArray: typed("es.typed-array.uint8-clamped-array"),
   Uint16Array: typed("es.typed-array.uint16-array"),
@@ -252,8 +252,8 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     CommonIteratorsWithTag,
   ]),
   Promise: define("promise/index", PromiseDependencies),
-  RangeError: define(null, ErrorDependencies),
-  ReferenceError: define(null, ErrorDependencies),
+  RangeError: define(null, ERROR_DEPENDENCIES),
+  ReferenceError: define(null, ERROR_DEPENDENCIES),
   Reflect: define(null, ["es.reflect.to-string-tag", "es.object.to-string"]),
   RegExp: define(null, [
     "es.regexp.constructor",
@@ -263,11 +263,11 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "es.regexp.to-string",
   ]),
   Set: define("set/index", SetDependencies),
-  SuppressedError: define("suppressed-error", SuppressedErrorDependencies),
+  SuppressedError: define("suppressed-error", SUPPRESSED_ERROR_DEPENDENCIES),
   Symbol: define("symbol/index", SymbolDependencies),
-  SyntaxError: define(null, ErrorDependencies),
-  TypeError: define(null, ErrorDependencies),
-  URIError: define(null, ErrorDependencies),
+  SyntaxError: define(null, ERROR_DEPENDENCIES),
+  TypeError: define(null, ERROR_DEPENDENCIES),
+  URIError: define(null, ERROR_DEPENDENCIES),
   URL: define("url/index", ["web.url", URLSearchParamsDependencies]),
   URLSearchParams: define(
     "url-search-params/index",
@@ -307,7 +307,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   AsyncIterator: Map {
     from: define("async-iterator/from", [
       "esnext.async-iterator.from",
-      AsyncIteratorDependencies,
+      AsyncITERATOR_DEPENDENCIES,
       AsyncIteratorProblemMethods,
       CommonIterators,
     ]),
@@ -350,7 +350,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   Iterator: Map {
     from: define("iterator/from", [
       "esnext.iterator.from",
-      IteratorDependencies,
+      ITERATOR_DEPENDENCIES,
       CommonIterators,
     ]),
     range: define("iterator/range", [
@@ -678,18 +678,18 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   Float64Array: TYPED_ARRAY_STATIC_METHODS,
 
   WebAssembly: Map {
-    CompileError: define(null, ErrorDependencies),
-    LinkError: define(null, ErrorDependencies),
-    RuntimeError: define(null, ErrorDependencies),
+    CompileError: define(null, ERROR_DEPENDENCIES),
+    LinkError: define(null, ERROR_DEPENDENCIES),
+    RuntimeError: define(null, ERROR_DEPENDENCIES),
   },
 });
 
 pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   asIndexedPairs: define("instance/asIndexedPairs", [
     "esnext.async-iterator.as-indexed-pairs",
-    AsyncIteratorDependencies,
+    AsyncITERATOR_DEPENDENCIES,
     "esnext.iterator.as-indexed-pairs",
-    IteratorDependencies,
+    ITERATOR_DEPENDENCIES,
   ]),
   at: define("instance/at", [
     // TODO: We should introduce overloaded instance methods definition
@@ -716,9 +716,9 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   dotAll: define(null, ["es.regexp.dot-all"]),
   drop: define("instance/drop", [
     "esnext.async-iterator.drop",
-    AsyncIteratorDependencies,
+    AsyncITERATOR_DEPENDENCIES,
     "esnext.iterator.drop",
-    IteratorDependencies,
+    ITERATOR_DEPENDENCIES,
   ]),
   emplace: define("instance/emplace", [
     "esnext.map.emplace",
@@ -733,9 +733,9 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     // esnext.async-iterator.every depends on es.promise
     // but we don't want to pull es.promise when esnext.async-iterator is disabled
     //
-    // AsyncIteratorDependencies
+    // AsyncITERATOR_DEPENDENCIES
     "esnext.iterator.every",
-    IteratorDependencies,
+    ITERATOR_DEPENDENCIES,
   ]),
   exec: define(null, ["es.regexp.exec"]),
   fill: define("instance/fill", ["es.array.fill"]),
@@ -743,7 +743,7 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "es.array.filter",
     "esnext.async-iterator.filter",
     "esnext.iterator.filter",
-    IteratorDependencies,
+    ITERATOR_DEPENDENCIES,
   ]),
   filterReject: define("instance/filterReject", ["esnext.array.filter-reject"]),
   finally: define(null, ["es.promise.finally", PromiseDependencies]),
@@ -751,7 +751,7 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "es.array.find",
     "esnext.async-iterator.find",
     "esnext.iterator.find",
-    IteratorDependencies,
+    ITERATOR_DEPENDENCIES,
   ]),
   findIndex: define("instance/find-index", ["es.array.find-index"]),
   findLast: define("instance/find-last", ["es.array.find-last"]),
@@ -765,7 +765,7 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "es.array.unscopables.flat-map",
     "esnext.async-iterator.flat-map",
     "esnext.iterator.flat-map",
-    IteratorDependencies,
+    ITERATOR_DEPENDENCIES,
   ]),
   flat: define("instance/flat", ["es.array.flat", "es.array.unscopables.flat"]),
   getYear: define(null, ["es.date.get-year"]),
@@ -787,7 +787,7 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "es.array.for-each",
     "esnext.async-iterator.for-each",
     "esnext.iterator.for-each",
-    IteratorDependencies,
+    ITERATOR_DEPENDENCIES,
     "web.dom-collections.for-each",
   ]),
   includes: define("instance/includes", [
@@ -796,9 +796,9 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   ]),
   indexed: define("instance/indexed", [
     "esnext.async-iterator.indexed",
-    AsyncIteratorDependencies,
+    AsyncITERATOR_DEPENDENCIES,
     "esnext.iterator.indexed",
-    IteratorDependencies,
+    ITERATOR_DEPENDENCIES,
   ]),
   indexOf: define("instance/index-of", ["es.array.index-of"]),
   isWellFormed: define("instance/is-well-formed", ["es.string.is-well-formed"]),
@@ -827,7 +827,7 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "es.array.reduce",
     "esnext.async-iterator.reduce",
     "esnext.iterator.reduce",
-    IteratorDependencies,
+    ITERATOR_DEPENDENCIES,
   ]),
   reduceRight: define("instance/reduce-right", ["es.array.reduce-right"]),
   repeat: define("instance/repeat", ["es.string.repeat"]),
@@ -846,7 +846,7 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "es.array.some",
     "esnext.async-iterator.some",
     "esnext.iterator.some",
-    IteratorDependencies,
+    ITERATOR_DEPENDENCIES,
   ]),
   sort: define("instance/sort", ["es.array.sort"]),
   splice: define("instance/splice", ["es.array.splice"]),
@@ -859,21 +859,21 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   sup: define(null, ["es.string.sup"]),
   take: define("instance/take", [
     "esnext.async-iterator.take",
-    AsyncIteratorDependencies,
+    AsyncITERATOR_DEPENDENCIES,
     "esnext.iterator.take",
-    IteratorDependencies,
+    ITERATOR_DEPENDENCIES,
   ]),
   test: define(null, ["es.regexp.test", "es.regexp.exec"]),
   toArray: define("instance/to-array", [
     "esnext.async-iterator.to-array",
-    AsyncIteratorDependencies,
+    AsyncITERATOR_DEPENDENCIES,
     "esnext.iterator.to-array",
-    IteratorDependencies,
+    ITERATOR_DEPENDENCIES,
   ]),
   toAsync: define(null, [
     "esnext.iterator.to-async",
-    IteratorDependencies,
-    AsyncIteratorDependencies,
+    ITERATOR_DEPENDENCIES,
+    AsyncITERATOR_DEPENDENCIES,
     AsyncIteratorProblemMethods,
   ]),
   toExponential: define(null, ["es.number.to-exponential"]),
