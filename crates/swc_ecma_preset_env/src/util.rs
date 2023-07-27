@@ -47,22 +47,22 @@ macro_rules! expand_array_like {
         expand_array_like!($first)
     }};
 
-    ([$first:tt, $($rest:tt)*]) => {{
-        expand_array_like!(@ARRAY, All(&[]), Wip($first), Rest($($rest)*))
+    ([$($tt:tt)*]) => {{
+        expand_array_like!(@ARRAY, All(&[]), Wip([]), Rest($($tt)*))
     }};
 
     // Eat string literal as much as we can, and create a single array literal from them.
-    (@ARRAY, All($all:expr), Wip($($s:literal),*), Rest($first:literal, $($rest:tt)+)) => {{
+    (@ARRAY, All($all:expr), Wip($($s:literal,)*), Rest($first:literal, $($rest:tt)+)) => {{
         expand_array_like!(@ARRAY, All($all), Wip($($s,)*, $first), Rest($($rest)*))
     }};
 
     // We need to stop eating string literals.
-    (@ARRAY, All($all:expr), Wip($($s:literal),*), Rest($first:ident, $($rest:tt)+)) => {{
+    (@ARRAY, All($all:expr), Wip($($s:literal,)*), Rest($first:ident, $($rest:tt)+)) => {{
 
 
     }};
     // Done
-    (@ARRAY, All($all:expr), Wip($($s:literal),*), Rest()) => {{
+    (@ARRAY, All($all:expr), Wip($($s:literal,)*), Rest()) => {{
         static CUR_LIT: &[&str]= &[$($s),*];
 
         CUR_LIT
@@ -79,6 +79,13 @@ macro_rules! define_descriptor {
     }};
 
     (
+        $pure:literal,
+        [$first:tt]
+    ) => {{
+        define_descriptor!(@Done, Some($pure), &expand_array_like!([$first]), $first, &[])
+    }};
+
+    (
         null,
         [$first:tt, $($global:tt)*]
     ) => {{
@@ -89,6 +96,21 @@ macro_rules! define_descriptor {
         [$first:tt]
     ) => {{
         define_descriptor!(@Done, None, &[$first], $first, &[])
+    }};
+    (
+        null,
+        $global:ident
+    ) => {{
+        define_descriptor!(@Done, None, &expand_array_like!($global), $first, &[])
+    }};
+
+
+    (
+        $pure:literal,
+        $($global:tt)*,
+        $first:tt
+    ) => {{
+        define_descriptor!(@Done, Some($pure), &expand_array_like!($($global)*), $first, &[])
     }};
 
     // @Indirect: No need to distinguish `$pure`.
