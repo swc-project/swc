@@ -1,3 +1,19 @@
+use rustc_hash::FxHashMap;
+
+pub(crate) type ObjectMap<T> = FxHashMap<&'static str, T>;
+pub(crate) type ObjectMap2<V> = ObjectMap<ObjectMap<V>>;
+
+pub(crate) fn define(
+    pure: &'static str,
+    global: &'static [&'static str],
+    name: &'static str,
+    exclude: &'static [&'static str],
+) -> CoreJSPolyfillDescriptor {
+}
+
+#[derive(Debug)]
+pub(crate) struct CoreJSPolyfillDescriptor {}
+
 macro_rules! val {
     (& $v:expr) => {
         &$v
@@ -5,6 +21,11 @@ macro_rules! val {
     ($v:expr) => {
         &$v
     };
+}
+
+/// Calls [`define`].
+macro_rules! descriptor {
+    () => {};
 }
 
 macro_rules! map {
@@ -197,6 +218,31 @@ macro_rules! map {
             $($rest)*
         })
     };
+
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            define($($args:tt)*), $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        map!(@Key, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : define,
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
 
     // Done
     (

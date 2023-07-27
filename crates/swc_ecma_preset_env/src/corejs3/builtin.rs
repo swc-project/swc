@@ -1,4 +1,4 @@
-use crate::util::DataMap;
+use crate::util::{CoreJSPolyfillDescriptor, DataMap};
 
 const fn concat2<const N: usize>(a: &[&'static str], b: &[&'static str]) -> [&'static str; N] {
     assert!(N == a.len() + b.len());
