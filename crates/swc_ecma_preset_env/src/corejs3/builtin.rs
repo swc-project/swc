@@ -1,4 +1,4 @@
-use crate::util::{CoreJSPolyfillDescriptor, DataMap, ObjectMap, ObjectMap2};
+use crate::util::{CoreJSPolyfillDescriptor, ObjectMap, ObjectMap2};
 
 const fn concat2<const N: usize>(a: &[&'static str], b: &[&'static str]) -> [&'static str; N] {
     assert!(N == a.len() + b.len());
@@ -152,14 +152,14 @@ static WEAK_SET_DEPENDENCIES: &[&str] = &concat2(
     COMMON_ITERATORS_WITH_TAG,
 );
 
-static DOMEXCEPTION_DEPENDENCIES: &[&str] = &[
+static DOM_EXCEPTION_DEPENDENCIES: &[&str] = &[
     "web.dom-exception.constructor",
     "web.dom-exception.stack",
     "web.dom-exception.to-string-tag",
     "es.error.to-string",
 ];
 
-static URLSEARCH_PARAMS_DEPENDENCIES: &[&str] = &concat2(
+static URL_SEARCH_PARAMS_DEPENDENCIES: &[&str] = &concat2(
     &[
         "web.url-search-params",
         "web.url-search-params.delete",
@@ -224,7 +224,7 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "es.object.to-string",
   ]),
   Date: define(null, ["es.date.to-string"]),
-  DOMException: define("dom-exception", DOMEXCEPTION_DEPENDENCIES),
+  DOMException: define("dom-exception", DOM_EXCEPTION_DEPENDENCIES),
   DisposableStack: define("disposable-stack", [
     "esnext.disposable-stack.constructor",
     "es.object.to-string",
@@ -262,22 +262,22 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "es.regexp.sticky",
     "es.regexp.to-string",
   ]),
-  Set: define("set/index", SetDependencies),
+  Set: define("set/index", SET_DEPENDENCIES),
   SuppressedError: define("suppressed-error", SUPPRESSED_ERROR_DEPENDENCIES),
   Symbol: define("symbol/index", SYMBOL_DEPENDENCIES),
   SyntaxError: define(null, ERROR_DEPENDENCIES),
   TypeError: define(null, ERROR_DEPENDENCIES),
   URIError: define(null, ERROR_DEPENDENCIES),
-  URL: define("url/index", ["web.url", URLSearchParamsDependencies]),
+  URL: define("url/index", ["web.url", URL_SEARCH_PARAMS_DEPENDENCIES]),
   URLSearchParams: define(
     "url-search-params/index",
-    URLSearchParamsDependencies
+    URL_SEARCH_PARAMS_DEPENDENCIES
   ),
   WeakMap: define("weak-map/index", WEAK_MAP_DEPENDENCIES),
   WeakSet: define("weak-set/index", WEAK_SET_DEPENDENCIES),
 
-  atob: define("atob", ["web.atob", DOMExceptionDependencies]),
-  btoa: define("btoa", ["web.btoa", DOMExceptionDependencies]),
+  atob: define("atob", ["web.atob", DOM_EXCEPTION_DEPENDENCIES]),
+  btoa: define("btoa", ["web.btoa", DOM_EXCEPTION_DEPENDENCIES]),
   clearImmediate: define("clear-immediate", ["web.immediate"]),
   compositeKey: define("composite-key", ["esnext.composite-key"]),
   compositeSymbol: define("composite-symbol", ["esnext.composite-symbol"]),
@@ -293,7 +293,7 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   setTimeout: define("set-timeout", ["web.timers"]),
   structuredClone: define("structured-clone", [
     "web.structured-clone",
-    DOMExceptionDependencies,
+    DOM_EXCEPTION_DEPENDENCIES,
     "es.array.iterator",
     "es.object.keys",
     "es.object.to-string",
@@ -556,8 +556,8 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   },
 
   Set: Map {
-    from: define(null, ["esnext.set.from", SetDependencies]),
-    of: define(null, ["esnext.set.of", SetDependencies]),
+    from: define(null, ["esnext.set.from", SET_DEPENDENCIES]),
+    of: define(null, ["esnext.set.of", SET_DEPENDENCIES]),
   },
 
   String: Map {
@@ -709,7 +709,7 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   bold: define(null, ["es.string.bold"]),
   codePointAt: define("instance/code-point-at", ["es.string.code-point-at"]),
   codePoints: define("instance/code-points", ["esnext.string.code-points"]),
-  concat: define("instance/concat", ["es.array.concat"], undefined, ["String"]),
+  concat: define("instance/concat", ["es.array.concat"], None, ["String"]),
   copyWithin: define("instance/copy-within", ["es.array.copy-within"]),
   demethodize: define("instance/demethodize", ["esnext.function.demethodize"]),
   description: define(null, ["es.symbol", "es.symbol.description"]),
