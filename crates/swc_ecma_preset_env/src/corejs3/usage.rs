@@ -54,7 +54,7 @@ impl UsageVisitor {
     }
 
     /// Add imports
-    fn add(&mut self, features: &CoreJSPolyfillDescriptor) {
+    fn add(&mut self, features: &[&str]) {
         let UsageVisitor {
             shipped_proposals,
             is_any_target,
