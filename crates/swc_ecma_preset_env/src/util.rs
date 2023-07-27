@@ -297,7 +297,7 @@ macro_rules! map {
                 $(
                     $i : $e,
                 )*
-                $ni : typed_descriptor($($args)*),
+                $ni : crate::util::typed_descriptor($($args)*),
             },
             Rest {
                 $($rest)*
