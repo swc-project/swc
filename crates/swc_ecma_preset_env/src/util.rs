@@ -27,7 +27,15 @@ macro_rules! val {
 macro_rules! define_descriptor {
     (
         $pure:literal,
-        $($global:tt)*,
+        [$first:literal, $($global:tt)*]
+    ) => {{
+        define_descriptor!($pure, [$first, $($global)*], $first)
+    }};
+
+    (
+        $pure:literal,
+        [$($global:tt)*],
+        $name:literal,
     ) => {{}};
 }
 
@@ -239,7 +247,30 @@ macro_rules! map {
             $(
                 $i : $e,
             )*
-            $ni : crate::util::define_descriptor($($args)*),
+            $ni : define_descriptor($($args)*),
+        },
+        Rest {
+            $($rest)*
+        })
+    };
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            typed($($args:tt)*), $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        map!(@Key, Map {
+            $(
+                $i : $e,
+            )*
+            $ni : crate::util::typed_descriptor($($args)*),
         },
         Rest {
             $($rest)*
