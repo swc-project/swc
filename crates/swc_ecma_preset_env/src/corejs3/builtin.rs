@@ -185,6 +185,18 @@ static ASYNC_ITERATOR_PROBLEM_METHODS: &[&str] = &[
 
 static ITERATOR_DEPENDENCIES: &[&str] = &["esnext.iterator.constructor", "es.object.to-string"];
 
+static TypedArrayStaticMethods: ObjectMap<CoreJsPolyfillDescriptor> = map!(Map {
+    from: define(null, ["es.typed-array.from"]),
+    fromAsync: define(
+        null,
+        [
+            "esnext.typed-array.from-async",
+            PromiseDependenciesWithIterators,
+        ]
+    ),
+    of: define(null, ["es.typed-array.of"]),
+});
+
 pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   AsyncDisposableStack: define("async-disposable-stack", [
     "esnext.async-disposable-stack.constructor",
@@ -655,7 +667,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     of: define(null, ["esnext.weak-set.of", WeakSetDependencies]),
   },
 
-  Int8Array: TypedArrayStaticMethods,
+  Int8Array: TYPED_ARRAY_STATIC_METHODS,
   Uint8Array: TypedArrayStaticMethods,
   Uint8ClampedArray: TypedArrayStaticMethods,
   Int16Array: TypedArrayStaticMethods,
