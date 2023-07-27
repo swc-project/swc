@@ -44,7 +44,7 @@ macro_rules! write_comments {
                     $e.wr.write_comment("*/")?;
 
                     if !$e.cfg.minify {
-                        $e.wr.write_space()?;
+                        $e.wr.write_line()?;
                     }
                 }
             }
