@@ -21,7 +21,7 @@ const fn concat2<const N: usize>(a: &[&'static str], b: &[&'static str]) -> [&'s
 
 static ARRAY_NATURE_ITERATORS: &[&str] = &["es.array.iterator", "web.dom-collections.iterator"];
 
-static COMMON_ITERATORS: &[&str] = &concat2(ARRAY_NATURE_ITERATORS, &["es.string.iterator"]);
+pub static COMMON_ITERATORS: &[&str] = &concat2(ARRAY_NATURE_ITERATORS, &["es.string.iterator"]);
 
 static ARRAY_NATURE_ITERATORS_WITH_TAG: &[&str] =
     &concat2(ARRAY_NATURE_ITERATORS, &["es.object.to-string"]);
@@ -75,7 +75,7 @@ static TYPED_ARRAY_DEPENDENCIES: &[&str] = &[
     "esnext.typed-array.unique-by",
 ];
 
-static PROMISE_DEPENDENCIES: &[&str] = &["es.promise", "es.object.to-string"];
+pub static PROMISE_DEPENDENCIES: &[&str] = &["es.promise", "es.object.to-string"];
 
 static PROMISE_DEPENDENCIES_WITH_ITERATORS: &[&str] =
     &concat2(PROMISE_DEPENDENCIES, COMMON_ITERATORS);

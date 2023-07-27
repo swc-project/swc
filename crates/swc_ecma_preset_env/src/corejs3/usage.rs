@@ -5,18 +5,11 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-use super::data::{BUILTINS, MODULES_BY_VERSION};
-use crate::{
-    corejs3::{
-        compat::DATA as CORE_JS_COMPAT_DATA,
-        data::{
-            COMMON_ITERATORS, INSTANCE_PROPERTIES, POSSIBLE_GLOBAL_OBJECTS, PROMISE_DEPENDENCIES,
-            REGEXP_DEPENDENCIES, STATIC_PROPERTIES,
-        },
-    },
-    util::DataMapExt,
-    Versions,
+use super::{
+    builtin::{BUILT_INS, INSTANCE_PROPERTIES, STATIC_PROPERTIES},
+    data::{MODULES_BY_VERSION, POSSIBLE_GLOBAL_OBJECTS},
 };
+use crate::{corejs3, corejs3::compat::DATA as CORE_JS_COMPAT_DATA, util::DataMapExt, Versions};
 
 pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
@@ -90,7 +83,7 @@ impl UsageVisitor {
     }
 
     fn add_builtin(&mut self, built_in: &str) {
-        if let Some(features) = BUILTINS.get_data(built_in) {
+        if let Some(features) = BUILT_INS.get_data(built_in) {
             self.add(features)
         }
     }
