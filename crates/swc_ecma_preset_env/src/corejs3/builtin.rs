@@ -490,7 +490,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     ]),
   },
 
-  Reflect: {
+  Reflect: Map {
     apply: define("reflect/apply", ["es.reflect.apply"]),
     construct: define("reflect/construct", ["es.reflect.construct"]),
     defineMetadata: define("reflect/define-metadata", [
@@ -543,12 +543,12 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     ]),
   },
 
-  Set: {
+  Set: Map {
     from: define(null, ["esnext.set.from", SetDependencies]),
     of: define(null, ["esnext.set.of", SetDependencies]),
   },
 
-  String: {
+  String: Map {
     cooked: define("string/cooked", ["esnext.string.cooked"]),
     dedent: define("string/dedent", [
       "esnext.string.dedent",
@@ -561,7 +561,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     raw: define("string/raw", ["es.string.raw"]),
   },
 
-  Symbol: {
+  Symbol: Map {
     asyncDispose: define("symbol/async-dispose", [
       "esnext.symbol.async-dispose",
       "esnext.async-iterator.async-dispose",
@@ -641,16 +641,16 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     unscopables: define("symbol/unscopables", ["es.symbol.unscopables"]),
   },
 
-  URL: {
+  URL: Map {
     canParse: define("url/can-parse", ["web.url.can-parse", "web.url"]),
   },
 
-  WeakMap: {
+  WeakMap: Map {
     from: define(null, ["esnext.weak-map.from", WeakMapDependencies]),
     of: define(null, ["esnext.weak-map.of", WeakMapDependencies]),
   },
 
-  WeakSet: {
+  WeakSet: Map {
     from: define(null, ["esnext.weak-set.from", WeakSetDependencies]),
     of: define(null, ["esnext.weak-set.of", WeakSetDependencies]),
   },
@@ -665,7 +665,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   Float32Array: TypedArrayStaticMethods,
   Float64Array: TypedArrayStaticMethods,
 
-  WebAssembly: {
+  WebAssembly: Map {
     CompileError: define(null, ErrorDependencies),
     LinkError: define(null, ErrorDependencies),
     RuntimeError: define(null, ErrorDependencies),
@@ -897,5 +897,5 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   __defineSetter__: define(null, ["es.object.define-setter"]),
   __lookupGetter__: define(null, ["es.object.lookup-getter"]),
   __lookupSetter__: define(null, ["es.object.lookup-setter"]),
-  ["__proto__"]: define(null, ["es.object.proto"]),
+  __proto__: define(null, ["es.object.proto"]),
 });
