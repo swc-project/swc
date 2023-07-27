@@ -6,7 +6,9 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::{
-    builtin::{BUILT_INS, INSTANCE_PROPERTIES, STATIC_PROPERTIES},
+    builtin::{
+        BUILT_INS, COMMON_ITERATORS, INSTANCE_PROPERTIES, PROMISE_DEPENDENCIES, STATIC_PROPERTIES,
+    },
     data::{MODULES_BY_VERSION, POSSIBLE_GLOBAL_OBJECTS},
 };
 use crate::{corejs3, corejs3::compat::DATA as CORE_JS_COMPAT_DATA, util::DataMapExt, Versions};

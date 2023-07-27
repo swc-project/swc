@@ -185,7 +185,7 @@ static ASYNC_ITERATOR_PROBLEM_METHODS: &[&str] = &[
 
 static ITERATOR_DEPENDENCIES: &[&str] = &["esnext.iterator.constructor", "es.object.to-string"];
 
-pub static BUILT_INS: DataMap<CoreJSPolyfillDescriptor> = map!(Map{
+pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   AsyncDisposableStack: define("async-disposable-stack", [
     "esnext.async-disposable-stack.constructor",
     "es.object.to-string",
