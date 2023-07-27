@@ -11,7 +11,9 @@ use super::{
     },
     data::{MODULES_BY_VERSION, POSSIBLE_GLOBAL_OBJECTS},
 };
-use crate::{corejs3::compat::DATA as CORE_JS_COMPAT_DATA, Versions};
+use crate::{
+    corejs3::compat::DATA as CORE_JS_COMPAT_DATA, util::CoreJSPolyfillDescriptor, Versions,
+};
 
 pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
@@ -52,7 +54,7 @@ impl UsageVisitor {
     }
 
     /// Add imports
-    fn add(&mut self, features: &[&'static str]) {
+    fn add(&mut self, features: &CoreJSPolyfillDescriptor) {
         let UsageVisitor {
             shipped_proposals,
             is_any_target,
