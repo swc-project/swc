@@ -11,7 +11,7 @@ use super::{
     },
     data::{MODULES_BY_VERSION, POSSIBLE_GLOBAL_OBJECTS},
 };
-use crate::{corejs3, corejs3::compat::DATA as CORE_JS_COMPAT_DATA, util::DataMapExt, Versions};
+use crate::{corejs3::compat::DATA as CORE_JS_COMPAT_DATA, Versions};
 
 pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
@@ -85,7 +85,7 @@ impl UsageVisitor {
     }
 
     fn add_builtin(&mut self, built_in: &str) {
-        if let Some(features) = BUILT_INS.get_data(built_in) {
+        if let Some(features) = BUILT_INS.get(built_in) {
             self.add(features)
         }
     }
@@ -108,15 +108,15 @@ impl UsageVisitor {
                 self.add_builtin(prop);
             }
 
-            if let Some(map) = STATIC_PROPERTIES.get_data(obj) {
-                if let Some(features) = map.get_data(prop) {
+            if let Some(map) = STATIC_PROPERTIES.get(&**obj) {
+                if let Some(features) = map.get(prop) {
                     self.add(features);
                     return;
                 }
             }
         }
 
-        if let Some(features) = INSTANCE_PROPERTIES.get_data(prop) {
+        if let Some(features) = INSTANCE_PROPERTIES.get(&**prop) {
             self.add(features);
         }
     }

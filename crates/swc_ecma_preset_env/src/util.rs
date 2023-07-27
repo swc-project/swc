@@ -36,7 +36,9 @@ macro_rules! define_descriptor {
         $pure:literal,
         [$($global:tt)*],
         $name:literal,
-    ) => {{}};
+    ) => {{
+        $crate::util::descriptor($pure, &[$($global)*], $name, &[])
+    }};
 }
 
 macro_rules! map {
