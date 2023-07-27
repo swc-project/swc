@@ -264,7 +264,7 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   ]),
   Set: define("set/index", SetDependencies),
   SuppressedError: define("suppressed-error", SUPPRESSED_ERROR_DEPENDENCIES),
-  Symbol: define("symbol/index", SymbolDependencies),
+  Symbol: define("symbol/index", SYMBOL_DEPENDENCIES),
   SyntaxError: define(null, ERROR_DEPENDENCIES),
   TypeError: define(null, ERROR_DEPENDENCIES),
   URIError: define(null, ERROR_DEPENDENCIES),
@@ -273,8 +273,8 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "url-search-params/index",
     URLSearchParamsDependencies
   ),
-  WeakMap: define("weak-map/index", WeakMAP_DEPENDENCIES),
-  WeakSet: define("weak-set/index", WeakSetDependencies),
+  WeakMap: define("weak-map/index", WEAK_MAP_DEPENDENCIES),
+  WeakSet: define("weak-set/index", WEAK_SET_DEPENDENCIES),
 
   atob: define("atob", ["web.atob", DOMExceptionDependencies]),
   btoa: define("btoa", ["web.btoa", DOMExceptionDependencies]),
@@ -658,13 +658,13 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   },
 
   WeakMap: Map {
-    from: define(null, ["esnext.weak-map.from", WeakMAP_DEPENDENCIES]),
-    of: define(null, ["esnext.weak-map.of", WeakMAP_DEPENDENCIES]),
+    from: define(null, ["esnext.weak-map.from", WEAK_MAP_DEPENDENCIES]),
+    of: define(null, ["esnext.weak-map.of", WEAK_MAP_DEPENDENCIES]),
   },
 
   WeakSet: Map {
-    from: define(null, ["esnext.weak-set.from", WeakSetDependencies]),
-    of: define(null, ["esnext.weak-set.of", WeakSetDependencies]),
+    from: define(null, ["esnext.weak-set.from", WEAK_SET_DEPENDENCIES]),
+    of: define(null, ["esnext.weak-set.of", WEAK_SET_DEPENDENCIES]),
   },
 
   Int8Array: TYPED_ARRAY_STATIC_METHODS,
@@ -725,7 +725,7 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
     "esnext.weak-map.emplace",
   ]),
   endsWith: define("instance/ends-with", ["es.string.ends-with"]),
-  entries: define("instance/entries", ArrayNatureIteratorsWithTag),
+  entries: define("instance/entries", ARRAY_NATURE_ITERATORS_WITH_TAG),
   every: define("instance/every", [
     "es.array.every",
     "esnext.async-iterator.every",
@@ -804,7 +804,7 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   isWellFormed: define("instance/is-well-formed", ["es.string.is-well-formed"]),
   italic: define(null, ["es.string.italics"]),
   join: define(null, ["es.array.join"]),
-  keys: define("instance/keys", ArrayNatureIteratorsWithTag),
+  keys: define("instance/keys", ARRAY_NATURE_ITERATORS_WITH_TAG),
   lastIndex: define(null, ["esnext.array.last-index"]),
   lastIndexOf: define("instance/last-index-of", ["es.array.last-index-of"]),
   lastItem: define(null, ["esnext.array.last-item"]),
@@ -903,7 +903,7 @@ pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   uniqueBy: define("instance/unique-by", ["esnext.array.unique-by", "es.map"]),
   unshift: define("instance/unshift", ["es.array.unshift"]),
   unThis: define("instance/un-this", ["esnext.function.un-this"]),
-  values: define("instance/values", ArrayNatureIteratorsWithTag),
+  values: define("instance/values", ARRAY_NATURE_ITERATORS_WITH_TAG),
   with: define("instance/with", ["es.array.with"]),
   __defineGetter__: define(null, ["es.object.define-getter"]),
   __defineSetter__: define(null, ["es.object.define-setter"]),
