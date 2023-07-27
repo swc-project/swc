@@ -191,14 +191,14 @@ pub static BUILT_INS: DataMap<CoreJSPolyfillDescriptor> = map!(Map{
     "es.object.to-string",
     "esnext.async-iterator.async-dispose",
     "esnext.iterator.dispose",
-    ...PromiseDependencies,
-    ...SuppressedErrorDependencies,
+    PromiseDependencies,
+    SuppressedErrorDependencies,
   ]),
   AsyncIterator: define("async-iterator/index", AsyncIteratorDependencies),
   AggregateError: define("aggregate-error", [
     "es.aggregate-error",
-    ...ErrorDependencies,
-    ...CommonIteratorsWithTag,
+    ErrorDependencies,
+    CommonIteratorsWithTag,
     "es.aggregate-error.cause",
   ]),
   ArrayBuffer: define(null, [
@@ -217,7 +217,7 @@ pub static BUILT_INS: DataMap<CoreJSPolyfillDescriptor> = map!(Map{
     "esnext.disposable-stack.constructor",
     "es.object.to-string",
     "esnext.iterator.dispose",
-    ...SuppressedErrorDependencies,
+    SuppressedErrorDependencies,
   ]),
   Error: define(null, ErrorDependencies),
   EvalError: define(null, ErrorDependencies),
@@ -237,7 +237,7 @@ pub static BUILT_INS: DataMap<CoreJSPolyfillDescriptor> = map!(Map{
     "esnext.observable",
     "esnext.symbol.observable",
     "es.object.to-string",
-    ...CommonIteratorsWithTag,
+    CommonIteratorsWithTag,
   ]),
   Promise: define("promise/index", PromiseDependencies),
   RangeError: define(null, ErrorDependencies),
@@ -256,7 +256,7 @@ pub static BUILT_INS: DataMap<CoreJSPolyfillDescriptor> = map!(Map{
   SyntaxError: define(null, ErrorDependencies),
   TypeError: define(null, ErrorDependencies),
   URIError: define(null, ErrorDependencies),
-  URL: define("url/index", ["web.url", ...URLSearchParamsDependencies]),
+  URL: define("url/index", ["web.url", URLSearchParamsDependencies]),
   URLSearchParams: define(
     "url-search-params/index",
     URLSearchParamsDependencies,
@@ -264,8 +264,8 @@ pub static BUILT_INS: DataMap<CoreJSPolyfillDescriptor> = map!(Map{
   WeakMap: define("weak-map/index", WeakMapDependencies),
   WeakSet: define("weak-set/index", WeakSetDependencies),
 
-  atob: define("atob", ["web.atob", ...DOMExceptionDependencies]),
-  btoa: define("btoa", ["web.btoa", ...DOMExceptionDependencies]),
+  atob: define("atob", ["web.atob", DOMExceptionDependencies]),
+  btoa: define("btoa", ["web.btoa", DOMExceptionDependencies]),
   clearImmediate: define("clear-immediate", ["web.immediate"]),
   compositeKey: define("composite-key", ["esnext.composite-key"]),
   compositeSymbol: define("composite-symbol", ["esnext.composite-symbol"]),
@@ -281,7 +281,7 @@ pub static BUILT_INS: DataMap<CoreJSPolyfillDescriptor> = map!(Map{
   setTimeout: define("set-timeout", ["web.timers"]),
   structuredClone: define("structured-clone", [
     "web.structured-clone",
-    ...DOMExceptionDependencies,
+    DOMExceptionDependencies,
     "es.array.iterator",
     "es.object.keys",
     "es.object.to-string",
@@ -295,16 +295,16 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   AsyncIterator: Map {
     from: define("async-iterator/from", [
       "esnext.async-iterator.from",
-      ...AsyncIteratorDependencies,
-      ...AsyncIteratorProblemMethods,
-      ...CommonIterators,
+      AsyncIteratorDependencies,
+      AsyncIteratorProblemMethods,
+      CommonIterators,
     ]),
   },
   Array: Map {
     from: define("array/from", ["es.array.from", "es.string.iterator"]),
     fromAsync: define("array/from-async", [
       "esnext.array.from-async",
-      ...PromiseDependenciesWithIterators,
+      PromiseDependenciesWithIterators,
     ]),
     isArray: define("array/is-array", ["es.array.is-array"]),
     isTemplateObject: define("array/is-template-object", [
@@ -338,8 +338,8 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   Iterator: {
     from: define("iterator/from", [
       "esnext.iterator.from",
-      ...IteratorDependencies,
-      ...CommonIterators,
+      IteratorDependencies,
+      CommonIterators,
     ]),
     range: define("iterator/range", [
       "esnext.iterator.range",
@@ -392,10 +392,10 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   },
 
   Map: {
-    from: define(null, ["esnext.map.from", ...MapDependencies]),
-    groupBy: define(null, ["esnext.map.group-by", ...MapDependencies]),
-    keyBy: define(null, ["esnext.map.key-by", ...MapDependencies]),
-    of: define(null, ["esnext.map.of", ...MapDependencies]),
+    from: define(null, ["esnext.map.from", MapDependencies]),
+    groupBy: define(null, ["esnext.map.group-by", MapDependencies]),
+    keyBy: define(null, ["esnext.map.key-by", MapDependencies]),
+    of: define(null, ["esnext.map.of", MapDependencies]),
   },
 
   Number: {
@@ -475,18 +475,18 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     all: define(null, PromiseDependenciesWithIterators),
     allSettled: define(null, [
       "es.promise.all-settled",
-      ...PromiseDependenciesWithIterators,
+      PromiseDependenciesWithIterators,
     ]),
     any: define(null, [
       "es.promise.any",
       "es.aggregate-error",
-      ...PromiseDependenciesWithIterators,
+      PromiseDependenciesWithIterators,
     ]),
     race: define(null, PromiseDependenciesWithIterators),
-    try: define(null, ["esnext.promise.try", ...PromiseDependencies]),
+    try: define(null, ["esnext.promise.try", PromiseDependencies]),
     withResolvers: define(null, [
       "esnext.promise.with-resolvers",
-      ...PromiseDependencies,
+      PromiseDependencies,
     ]),
   },
 
@@ -544,8 +544,8 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   },
 
   Set: {
-    from: define(null, ["esnext.set.from", ...SetDependencies]),
-    of: define(null, ["esnext.set.of", ...SetDependencies]),
+    from: define(null, ["esnext.set.from", SetDependencies]),
+    of: define(null, ["esnext.set.of", SetDependencies]),
   },
 
   String: {
@@ -600,7 +600,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     ]),
     iterator: define("symbol/iterator", [
       "es.symbol.iterator",
-      ...CommonIteratorsWithTag,
+      CommonIteratorsWithTag,
     ]),
     keyFor: define("symbol/key-for", [], "es.symbol"),
     match: define("symbol/match", ["es.symbol.match", "es.string.match"]),
@@ -646,13 +646,13 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   },
 
   WeakMap: {
-    from: define(null, ["esnext.weak-map.from", ...WeakMapDependencies]),
-    of: define(null, ["esnext.weak-map.of", ...WeakMapDependencies]),
+    from: define(null, ["esnext.weak-map.from", WeakMapDependencies]),
+    of: define(null, ["esnext.weak-map.of", WeakMapDependencies]),
   },
 
   WeakSet: {
-    from: define(null, ["esnext.weak-set.from", ...WeakSetDependencies]),
-    of: define(null, ["esnext.weak-set.of", ...WeakSetDependencies]),
+    from: define(null, ["esnext.weak-set.from", WeakSetDependencies]),
+    of: define(null, ["esnext.weak-set.of", WeakSetDependencies]),
   },
 
   Int8Array: TypedArrayStaticMethods,
@@ -675,9 +675,9 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
 pub static InstanceProperties: DataMap = map!(Map{
   asIndexedPairs: define("instance/asIndexedPairs", [
     "esnext.async-iterator.as-indexed-pairs",
-    ...AsyncIteratorDependencies,
+    AsyncIteratorDependencies,
     "esnext.iterator.as-indexed-pairs",
-    ...IteratorDependencies,
+    IteratorDependencies,
   ]),
   at: define("instance/at", [
     // TODO: We should introduce overloaded instance methods definition
@@ -704,9 +704,9 @@ pub static InstanceProperties: DataMap = map!(Map{
   dotAll: define(null, ["es.regexp.dot-all"]),
   drop: define("instance/drop", [
     "esnext.async-iterator.drop",
-    ...AsyncIteratorDependencies,
+    AsyncIteratorDependencies,
     "esnext.iterator.drop",
-    ...IteratorDependencies,
+    IteratorDependencies,
   ]),
   emplace: define("instance/emplace", [
     "esnext.map.emplace",
@@ -721,9 +721,9 @@ pub static InstanceProperties: DataMap = map!(Map{
     // esnext.async-iterator.every depends on es.promise
     // but we don't want to pull es.promise when esnext.async-iterator is disabled
     //
-    // ...AsyncIteratorDependencies
+    // AsyncIteratorDependencies
     "esnext.iterator.every",
-    ...IteratorDependencies,
+    IteratorDependencies,
   ]),
   exec: define(null, ["es.regexp.exec"]),
   fill: define("instance/fill", ["es.array.fill"]),
@@ -731,15 +731,15 @@ pub static InstanceProperties: DataMap = map!(Map{
     "es.array.filter",
     "esnext.async-iterator.filter",
     "esnext.iterator.filter",
-    ...IteratorDependencies,
+    IteratorDependencies,
   ]),
   filterReject: define("instance/filterReject", ["esnext.array.filter-reject"]),
-  finally: define(null, ["es.promise.finally", ...PromiseDependencies]),
+  finally: define(null, ["es.promise.finally", PromiseDependencies]),
   find: define("instance/find", [
     "es.array.find",
     "esnext.async-iterator.find",
     "esnext.iterator.find",
-    ...IteratorDependencies,
+    IteratorDependencies,
   ]),
   findIndex: define("instance/find-index", ["es.array.find-index"]),
   findLast: define("instance/find-last", ["es.array.find-last"]),
@@ -753,7 +753,7 @@ pub static InstanceProperties: DataMap = map!(Map{
     "es.array.unscopables.flat-map",
     "esnext.async-iterator.flat-map",
     "esnext.iterator.flat-map",
-    ...IteratorDependencies,
+    IteratorDependencies,
   ]),
   flat: define("instance/flat", ["es.array.flat", "es.array.unscopables.flat"]),
   getYear: define(null, ["es.date.get-year"]),
@@ -775,7 +775,7 @@ pub static InstanceProperties: DataMap = map!(Map{
     "es.array.for-each",
     "esnext.async-iterator.for-each",
     "esnext.iterator.for-each",
-    ...IteratorDependencies,
+    IteratorDependencies,
     "web.dom-collections.for-each",
   ]),
   includes: define("instance/includes", [
@@ -784,9 +784,9 @@ pub static InstanceProperties: DataMap = map!(Map{
   ]),
   indexed: define("instance/indexed", [
     "esnext.async-iterator.indexed",
-    ...AsyncIteratorDependencies,
+    AsyncIteratorDependencies,
     "esnext.iterator.indexed",
-    ...IteratorDependencies,
+    IteratorDependencies,
   ]),
   indexOf: define("instance/index-of", ["es.array.index-of"]),
   isWellFormed: define("instance/is-well-formed", ["es.string.is-well-formed"]),
@@ -815,7 +815,7 @@ pub static InstanceProperties: DataMap = map!(Map{
     "es.array.reduce",
     "esnext.async-iterator.reduce",
     "esnext.iterator.reduce",
-    ...IteratorDependencies,
+    IteratorDependencies,
   ]),
   reduceRight: define("instance/reduce-right", ["es.array.reduce-right"]),
   repeat: define("instance/repeat", ["es.string.repeat"]),
@@ -834,7 +834,7 @@ pub static InstanceProperties: DataMap = map!(Map{
     "es.array.some",
     "esnext.async-iterator.some",
     "esnext.iterator.some",
-    ...IteratorDependencies,
+    IteratorDependencies,
   ]),
   sort: define("instance/sort", ["es.array.sort"]),
   splice: define("instance/splice", ["es.array.splice"]),
@@ -847,22 +847,22 @@ pub static InstanceProperties: DataMap = map!(Map{
   sup: define(null, ["es.string.sup"]),
   take: define("instance/take", [
     "esnext.async-iterator.take",
-    ...AsyncIteratorDependencies,
+    AsyncIteratorDependencies,
     "esnext.iterator.take",
-    ...IteratorDependencies,
+    IteratorDependencies,
   ]),
   test: define(null, ["es.regexp.test", "es.regexp.exec"]),
   toArray: define("instance/to-array", [
     "esnext.async-iterator.to-array",
-    ...AsyncIteratorDependencies,
+    AsyncIteratorDependencies,
     "esnext.iterator.to-array",
-    ...IteratorDependencies,
+    IteratorDependencies,
   ]),
   toAsync: define(null, [
     "esnext.iterator.to-async",
-    ...IteratorDependencies,
-    ...AsyncIteratorDependencies,
-    ...AsyncIteratorProblemMethods,
+    IteratorDependencies,
+    AsyncIteratorDependencies,
+    AsyncIteratorProblemMethods,
   ]),
   toExponential: define(null, ["es.number.to-exponential"]),
   toFixed: define(null, ["es.number.to-fixed"]),

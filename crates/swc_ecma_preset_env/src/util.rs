@@ -25,7 +25,10 @@ macro_rules! val {
 
 /// Calls [`descriptor`].
 macro_rules! define_descriptor {
-    () => {};
+    (
+        $pure:literal,
+        $($global:tt)*,
+    ) => {{}};
 }
 
 macro_rules! map {
@@ -236,7 +239,7 @@ macro_rules! map {
             $(
                 $i : $e,
             )*
-            $ni : define,
+            $ni : crate::util::define_descriptor($($args)*),
         },
         Rest {
             $($rest)*
