@@ -571,6 +571,15 @@ where
         }));
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr) {
+        n.visit_children_with(self);
+
+        if let Expr::Ident(ident) = &*n.expr {
+            self.data.var_or_default(ident.to_id()).mark_used_as_ref();
+        }
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_export_decl(&mut self, n: &ExportDecl) {
         n.visit_children_with(self);
