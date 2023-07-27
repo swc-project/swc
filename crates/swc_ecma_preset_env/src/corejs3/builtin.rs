@@ -185,7 +185,7 @@ static ASYNC_ITERATOR_PROBLEM_METHODS: &[&str] = &[
 
 static ITERATOR_DEPENDENCIES: &[&str] = &["esnext.iterator.constructor", "es.object.to-string"];
 
-static TypedArrayStaticMethods: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map {
+static TYPED_ARRAY_STATIC_METHODS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map {
     from: define(null, ["es.typed-array.from"]),
     fromAsync: define(
         null,
@@ -667,15 +667,15 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     of: define(null, ["esnext.weak-set.of", WeakSetDependencies]),
   },
 
-  Int8Array: TypedArrayStaticMethods,
-  Uint8Array: TypedArrayStaticMethods,
-  Uint8ClampedArray: TypedArrayStaticMethods,
-  Int16Array: TypedArrayStaticMethods,
-  Uint16Array: TypedArrayStaticMethods,
-  Int32Array: TypedArrayStaticMethods,
-  Uint32Array: TypedArrayStaticMethods,
-  Float32Array: TypedArrayStaticMethods,
-  Float64Array: TypedArrayStaticMethods,
+  Int8Array: TYPED_ARRAY_STATIC_METHODS,
+  Uint8Array: TYPED_ARRAY_STATIC_METHODS,
+  Uint8ClampedArray: TYPED_ARRAY_STATIC_METHODS,
+  Int16Array: TYPED_ARRAY_STATIC_METHODS,
+  Uint16Array: TYPED_ARRAY_STATIC_METHODS,
+  Int32Array: TYPED_ARRAY_STATIC_METHODS,
+  Uint32Array: TYPED_ARRAY_STATIC_METHODS,
+  Float32Array: TYPED_ARRAY_STATIC_METHODS,
+  Float64Array: TYPED_ARRAY_STATIC_METHODS,
 
   WebAssembly: Map {
     CompileError: define(null, ErrorDependencies),
