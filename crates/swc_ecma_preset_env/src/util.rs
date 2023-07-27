@@ -52,6 +52,18 @@ macro_rules! define_descriptor {
     }};
 }
 
+macro_rules! map_value {
+    ((
+        Map {
+            $(
+                $tt:tt
+            )*
+        }
+    )) => {{
+        map!($($tt)*)
+    }};
+}
+
 macro_rules! map {
     (
         Map {
