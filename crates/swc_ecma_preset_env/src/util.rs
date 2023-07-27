@@ -70,17 +70,20 @@ macro_rules! map {
             $ni:ident : $($rest:tt)+
         }
     ) => {{
-        map!(@Value, Map {
-            $(
-                $i : $e,
-            )*
-        },
-        Rest {
-            $($rest)*
-        },
-        Wip {
-            $ni
-        })
+        map!(
+            @Value,
+            Map {
+                $(
+                    $i : $e,
+                )*
+            },
+            Rest {
+                $($rest)*
+            },
+            Wip {
+                $ni
+            }
+        )
     }};
 
     (
