@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript"
+        },
+        "loose": false,
+        "minify": {
+            "compress": {
+                "hoist_props": true
+            }
+        }
+    }
+}
