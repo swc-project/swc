@@ -1,4 +1,4 @@
-use crate::util::{CoreJSPolyfillDescriptor, DataMap};
+use crate::util::{CoreJSPolyfillDescriptor, DataMap, ObjectMap, ObjectMap2};
 
 const fn concat2<const N: usize>(a: &[&'static str], b: &[&'static str]) -> [&'static str; N] {
     assert!(N == a.len() + b.len());
@@ -313,29 +313,29 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     of: define("array/of", ["es.array.of"]),
   },
 
-  ArrayBuffer: {
+  ArrayBuffer: Map {
     isView: define(null, ["es.array-buffer.is-view"]),
   },
 
-  BigInt: {
+  BigInt: Map {
     range: define("bigint/range", [
       "esnext.bigint.range",
       "es.object.to-string",
     ]),
   },
 
-  Date: {
+  Date: Map {
     now: define("date/now", ["es.date.now"]),
   },
 
-  Function: {
+  Function: Map {
     isCallable: define("function/is-callable", ["esnext.function.is-callable"]),
     isConstructor: define("function/is-constructor", [
       "esnext.function.is-constructor",
     ]),
   },
 
-  Iterator: {
+  Iterator: Map {
     from: define("iterator/from", [
       "esnext.iterator.from",
       IteratorDependencies,
@@ -347,7 +347,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     ]),
   },
 
-  JSON: {
+  JSON: Map {
     isRawJSON: define("json/is-raw-json", ["esnext.json.is-raw-json"]),
     parse: define("json/parse", ["esnext.json.parse", "es.object.keys"]),
     rawJSON: define("json/raw-json", [
@@ -358,7 +358,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     stringify: define("json/stringify", ["es.json.stringify"], "es.symbol"),
   },
 
-  Math: {
+  Math: Map {
     DEG_PER_RAD: define("math/deg-per-rad", ["esnext.math.deg-per-rad"]),
     RAD_PER_DEG: define("math/rad-per-deg", ["esnext.math.rad-per-deg"]),
     acosh: define("math/acosh", ["es.math.acosh"]),
@@ -391,14 +391,14 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     umulh: define("math/umulh", ["esnext.math.umulh"]),
   },
 
-  Map: {
+  Map: Map {
     from: define(null, ["esnext.map.from", MapDependencies]),
     groupBy: define(null, ["esnext.map.group-by", MapDependencies]),
     keyBy: define(null, ["esnext.map.key-by", MapDependencies]),
     of: define(null, ["esnext.map.of", MapDependencies]),
   },
 
-  Number: {
+  Number: Map {
     EPSILON: define("number/epsilon", ["es.number.epsilon"]),
     MAX_SAFE_INTEGER: define("number/max-safe-integer", [
       "es.number.max-safe-integer",
@@ -421,7 +421,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     ]),
   },
 
-  Object: {
+  Object: Map {
     assign: define("object/assign", ["es.object.assign"]),
     create: define("object/create", ["es.object.create"]),
     defineProperties: define("object/define-properties", [
@@ -471,7 +471,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
     values: define("object/values", ["es.object.values"]),
   },
 
-  Promise: {
+  Promise: Map {
     all: define(null, PromiseDependenciesWithIterators),
     allSettled: define(null, [
       "es.promise.all-settled",
@@ -672,7 +672,7 @@ pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
   },
 });
 
-pub static InstanceProperties: DataMap = map!(Map{
+pub static INSTANCE_PROPERTIES: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   asIndexedPairs: define("instance/asIndexedPairs", [
     "esnext.async-iterator.as-indexed-pairs",
     AsyncIteratorDependencies,
