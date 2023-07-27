@@ -7,13 +7,13 @@ macro_rules! val {
     };
 }
 
-macro_rules! d {
+macro_rules! map {
     (
         Map {
             $($rest:tt)+
         }
     ) => {{
-        d!(@Key, Map {}, Rest {$($rest)*})
+        map!(@Key, Map {}, Rest {$($rest)*})
     }};
 
     (
@@ -25,7 +25,7 @@ macro_rules! d {
             $ni:ident : $($rest:tt)+
         }
     ) => {{
-        d!(@Value, Map {
+        map!(@Value, Map {
             $(
                 $i : $e,
             )*
@@ -50,7 +50,7 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Key, Map {
+        map!(@Key, Map {
             $(
                 $i : $e,
             )*
@@ -70,7 +70,7 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Key, Map {
+        map!(@Key, Map {
             $(
                 $i : $e,
             )*
@@ -93,7 +93,7 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Key, Map {
+        map!(@Key, Map {
             $(
                 $i : $e,
             )*
@@ -116,7 +116,7 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Key, Map {
+        map!(@Key, Map {
             $(
                 $i : $e,
             )*
@@ -139,7 +139,7 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Key, Map {
+        map!(@Key, Map {
             $(
                 $i : $e,
             )*
@@ -163,11 +163,11 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Key, Map {
+        map!(@Key, Map {
             $(
                 $i : $e,
             )*
-            $ni : d!(Map { $($m)* }),
+            $ni : map!(Map { $($m)* }),
         },
         Rest {
             $($rest)*
@@ -187,7 +187,7 @@ macro_rules! d {
             $ni:ident
         }
     ) => {
-        d!(@Key, Map {
+        map!(@Key, Map {
             $(
                 $i : $e,
             )*
