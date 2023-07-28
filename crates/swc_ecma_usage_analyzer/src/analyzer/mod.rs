@@ -1396,11 +1396,23 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
                     Prop::Shorthand(p) => {
                         op(p);
                     }
-                    Prop::KeyValue(p) => {}
-                    Prop::Assign(p) => {}
-                    Prop::Getter(p) => {}
-                    Prop::Setter(p) => {}
-                    Prop::Method(p) => {}
+                    Prop::KeyValue(p) => {
+                        for_each_id_ref_in_prop_name(&p.key, op);
+                        for_each_id_ref_in_expr(&p.value, op);
+                    }
+                    Prop::Assign(p) => {
+                        for_each_id_ref_in_expr(&p.value, op);
+                    }
+                    Prop::Getter(p) => {
+                        for_each_id_ref_in_prop_name(&p.key, op);
+                    }
+                    Prop::Setter(p) => {
+                        for_each_id_ref_in_prop_name(&p.key, op);
+                        for_each_id_ref_in_pat(&p.param, op);
+                    }
+                    Prop::Method(p) => {
+                        for_each_id_ref_in_fn(&p.function, op);
+                    }
                 },
             });
         }
