@@ -8,3 +8,4 @@ export class Test {
    */
   method() {}
 }
+/* inline comments */ let x = 1;

@@ -3,7 +3,7 @@ use swc_common::comments::CommentKind;
 use super::*;
 
 macro_rules! write_comments {
-    ($e:expr, $prefix_space:expr, $cmts:expr) => {{
+    ($e:expr, $prefix_space:expr, $cmts:expr, $cm:expr) => {{
         let cmts = match $cmts {
             Some(v) => v,
             None => return Ok(()),
@@ -44,7 +44,18 @@ macro_rules! write_comments {
                     $e.wr.write_comment("*/")?;
 
                     if !$e.cfg.minify {
-                        $e.wr.write_line()?;
+                        let hi_loc = $cm.lookup_char_pos(cmt.span.hi());
+                        let line = hi_loc.file.get_line(hi_loc.line - 1);
+
+                        if let Some(line) = line {
+                            let next_char =
+                                line.chars().nth(hi_loc.col_display).unwrap_or_default();
+                            if next_char.is_whitespace() {
+                                $e.wr.write_space()?;
+                            } else {
+                                $e.wr.write_line()?;
+                            }
+                        }
                     }
                 }
             }
@@ -75,8 +86,7 @@ where
         };
 
         let cmts = comments.take_trailing(pos);
-
-        write_comments!(self, prefix_space, &cmts)
+        write_comments!(self, prefix_space, &cmts, self.cm)
     }
 
     pub(super) fn emit_leading_comments(&mut self, mut pos: BytePos, is_hi: bool) -> Result {
@@ -92,8 +102,9 @@ where
         if is_hi {
             pos = pos - BytePos(1)
         }
+        let cmts = comments.take_leading(pos);
 
-        write_comments!(self, false, comments.take_leading(pos))
+        write_comments!(self, false, cmts, self.cm)
     }
 
     #[inline(always)]
