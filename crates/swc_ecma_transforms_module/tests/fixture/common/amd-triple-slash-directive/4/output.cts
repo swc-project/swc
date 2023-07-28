@@ -1,4 +1,5 @@
-/*/<amd-module name='should-ignore'/> */ "use strict";
+/*/<amd-module name='should-ignore'/> */
+"use strict";
 class Foo {
     x: number;
     constructor(){

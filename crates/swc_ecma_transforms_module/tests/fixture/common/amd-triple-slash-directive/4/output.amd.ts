@@ -1,4 +1,5 @@
-/*/<amd-module name='should-ignore'/> */ define([
+/*/<amd-module name='should-ignore'/> */
+define([
     "require"
 ], function(require) {
     "use strict";
