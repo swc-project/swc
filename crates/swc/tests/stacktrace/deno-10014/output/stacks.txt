@@ -1,6 +1,7 @@
 $DIR/tests/stacktrace/deno-10014/input/index.js:10
         throw new Error("Hello");
-              ^
+        ^
+
 
 Error: Hello
     at t ($DIR/tests/stacktrace/deno-10014/input/index.js:10:15)
