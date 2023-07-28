@@ -79,7 +79,7 @@ macro_rules! expand_array_like {
 
 
     // Done
-    (@ARRAY, All($all:expr), Wip($($s:literal,)*), Rest()) => {{
+    (@ARRAY, All($all:expr), Wip($($s:literal)*), Rest()) => {{
         static CUR_LIT: &[&str]= &[$($s),*];
 
         concat2($all, CUR_LIT)
