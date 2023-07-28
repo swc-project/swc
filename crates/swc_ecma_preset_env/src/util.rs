@@ -54,17 +54,30 @@ macro_rules! expand_array_like {
     }};
 
     // Eat string literal as much as we can, and create a single array literal from them.
-    (@ARRAY, All($all:expr), Wip($($s:literal,)*), Rest($first:literal, $($rest:tt)+)) => {{
-        expand_array_like!(@ARRAY, All($all), Wip($($s),* $first), Rest($($rest)*))
+    (@ARRAY, All($all:expr), Wip($($s:literal)*), Rest($first:literal, $($rest:tt)*)) => {{
+        expand_array_like!(@ARRAY, All($all), Wip($($s)* $first), Rest($($rest)*))
+    }};
+
+    (@ARRAY, All($all:expr), Wip($($s:literal)*), Rest($first:literal)) => {{
+        expand_array_like!(@ARRAY, All($all), Wip($($s)* $first), Rest())
     }};
 
     // We need to stop eating string literals.
-    (@ARRAY, All($all:expr), Wip($($s:literal,)*), Rest($first:ident, $($rest:tt)+)) => {{
+    (@ARRAY, All($all:expr), Wip($($s:literal)*), Rest($first:ident, $($rest:tt)*)) => {{
         static PREV: &[&str]= &[$($s),*];
         static CUR: &[&str] = &concat2(PREV, $first);
 
         concat2($all, CUR)
     }};
+
+    (@ARRAY, All($all:expr), Wip($($s:literal)*), Rest($first:ident)) => {{
+        static PREV: &[&str]= &[$($s),*];
+        static CUR: &[&str] = &concat2(PREV, $first);
+
+        concat2($all, CUR)
+    }};
+
+
     // Done
     (@ARRAY, All($all:expr), Wip($($s:literal,)*), Rest()) => {{
         static CUR_LIT: &[&str]= &[$($s),*];
