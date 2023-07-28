@@ -608,12 +608,6 @@ where
                 for id in ids {
                     self.data.var_or_default(id).mark_as_exported();
                 }
-
-                for d in &v.decls {
-                    if let Some(init) = &d.init {
-                        self.mark_expr_used_as_ref(init);
-                    }
-                }
             }
             _ => {}
         }
@@ -1303,6 +1297,7 @@ where
             let ctx = Ctx {
                 inline_prevented: self.ctx.inline_prevented || prevent_inline,
                 in_pat_of_var_decl: false,
+                is_id_ref: true,
                 ..self.ctx
             };
 
