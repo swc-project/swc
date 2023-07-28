@@ -1,6 +1,6 @@
 use once_cell::sync::Lazy;
 
-use crate::util::{CoreJSPolyfillDescriptor, ObjectMap, ObjectMap2};
+use crate::util::{descriptor, CoreJSPolyfillDescriptor, ObjectMap, ObjectMap2};
 
 const fn concat2<const N: usize>(a: &[&'static str], b: &[&'static str]) -> [&'static str; N] {
     assert!(N == a.len() + b.len());
@@ -19,6 +19,14 @@ const fn concat2<const N: usize>(a: &[&'static str], b: &[&'static str]) -> [&'s
     }
 
     res
+}
+
+fn typed(name: &'static str) -> CoreJSPolyfillDescriptor {
+    let mut global = Vec::with_capacity(1 + TYPED_ARRAY_DEPENDENCIES.len());
+    global.push(name);
+    global.extend_from_slice(TYPED_ARRAY_DEPENDENCIES);
+
+    descriptor(None, global.leak(), Some(name), &[])
 }
 
 static ARRAY_NATURE_ITERATORS: &[&str] = &["es.array.iterator", "web.dom-collections.iterator"];

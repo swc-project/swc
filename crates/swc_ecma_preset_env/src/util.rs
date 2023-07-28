@@ -395,7 +395,7 @@ macro_rules! map {
             $($i:ident : $e:expr,)*
         },
         Rest {
-            typed($($args:tt)*), $($rest:tt)*
+            $callee:ident($($args:tt)*), $($rest:tt)*
         },
         Wip {
             $ni:ident
@@ -407,7 +407,7 @@ macro_rules! map {
                 $(
                     $i : $e,
                 )*
-                $ni : crate::util::typed_descriptor($($args)*),
+                $ni : $callee($($args)*),
             },
             Rest {
                 $($rest)*
