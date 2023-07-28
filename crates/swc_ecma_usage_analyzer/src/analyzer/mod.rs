@@ -1434,15 +1434,37 @@ fn for_each_id_ref_in_class(c: &Class, op: &mut impl FnMut(&Ident)) {
             });
         }
 
-        ClassMember::Method(m) => {}
+        ClassMember::Method(m) => {
+            for_each_id_ref_in_prop_name(&m.key, op);
+            for_each_id_ref_in_fn(&m.function, op);
+        }
 
-        ClassMember::PrivateMethod(m) => {}
+        ClassMember::PrivateMethod(m) => {
+            for_each_id_ref_in_fn(&m.function, op);
+        }
 
-        ClassMember::ClassProp(m) => {}
+        ClassMember::ClassProp(m) => {
+            for_each_id_ref_in_prop_name(&m.key, op);
+            if let Some(value) = &m.value {
+                for_each_id_ref_in_expr(value, op);
+            }
+        }
 
-        ClassMember::PrivateProp(m) => {}
+        ClassMember::PrivateProp(m) => {
+            if let Some(value) = &m.value {
+                for_each_id_ref_in_expr(value, op);
+            }
+        }
 
-        ClassMember::AutoAccessor(m) => {}
+        ClassMember::AutoAccessor(m) => {
+            if let Key::Public(key) = &m.key {
+                for_each_id_ref_in_prop_name(key, op);
+            }
+
+            if let Some(v) = &m.value {
+                for_each_id_ref_in_expr(v, op);
+            }
+        }
 
         ClassMember::Empty(..)
         | ClassMember::StaticBlock(..)
