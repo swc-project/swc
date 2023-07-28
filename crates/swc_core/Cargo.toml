@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.79.28"
+version       = "0.79.29"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -129,7 +129,7 @@ testing_transform = ["__ecma", "__testing_transform"]
 # Enable swc_ecma_ast / swc_atoms support.
 # TODO: currently both are enabled at once, we may want to separate them.
 ecma_ast       = ["__ecma", "swc_ecma_ast", "swc_atoms"]
-ecma_ast_serde = ["ecma_ast", "swc_ecma_ast/serde-impl"]
+ecma_ast_serde = ["ecma_ast", "swc_ecma_ast/serde-impl", "swc_ecma_visit/serde"]
 
 # Enable swc_ecma_parser support.
 ecma_parser            = ["__parser"]

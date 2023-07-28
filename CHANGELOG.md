@@ -7,6 +7,9 @@
 
 - **(es)** Add a validation for a wrong config (#7704) ([900701f](https://github.com/swc-project/swc/commit/900701fbf24912dce219f97baa8c11c533966896))
 
+
+- **(swc_core)** Expose `visit/serde` as serde feature (#7722) ([2bc9637](https://github.com/swc-project/swc/commit/2bc96373b736ce4d81336c1c0340a1d4f7d7f4b0))
+
 ## [1.3.71] - 2023-07-25
 
 ### Bug Fixes

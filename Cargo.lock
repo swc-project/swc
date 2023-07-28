@@ -3709,7 +3709,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.79.28"
+version = "0.79.29"
 dependencies = [
  "anyhow",
  "binding_macros",
