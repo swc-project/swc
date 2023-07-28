@@ -1,3 +1,4 @@
 function a() {
     "use strict";
-/* Comment */ }
+/* Comment */
+}
