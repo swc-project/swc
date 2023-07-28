@@ -1421,8 +1421,21 @@ fn for_each_id_ref_in_class(c: &Class, op: &mut impl FnMut(&Ident)) {
         ClassMember::AutoAccessor(m) => {}
     });
 }
+fn for_each_id_ref_in_prop_name(p: &PropName, op: &mut impl FnMut(&Ident)) {
+    if let PropName::Computed(p) = p {
+        for_each_id_ref_in_expr(&p.expr, op);
+    }
+}
 
-fn for_each_id_ref_in_fn(c: &Function, op: &mut impl FnMut(&Ident)) {}
+fn for_each_id_ref_in_pat(p: &Pat, op: &mut impl FnMut(&Ident)) {
+    match p {}
+}
+
+fn for_each_id_ref_in_fn(f: &Function, op: &mut impl FnMut(&Ident)) {
+    for p in &f.params {
+        for_each_id_ref_in_pat(&p.pat, op);
+    }
+}
 
 fn leftmost(p: &Expr) -> Option<Id> {
     match p {
