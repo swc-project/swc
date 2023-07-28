@@ -8,6 +8,7 @@
             "compress": {
                 "hoist_props": true
             }
-        }
+        },
+        "target": "es2022"
     }
 }
