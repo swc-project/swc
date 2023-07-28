@@ -1,6 +1,6 @@
-var obj = {
+let obj = {
     foo: 1,
     bar: 2
 };
 console.log(obj.bar);
-export var o = obj;
+export const o = obj;

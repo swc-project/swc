@@ -1,4 +1,4 @@
-var obj = {
+let obj = {
     foo: 1,
     bar: 2
 };
