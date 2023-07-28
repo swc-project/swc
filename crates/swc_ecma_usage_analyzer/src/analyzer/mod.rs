@@ -1428,7 +1428,45 @@ fn for_each_id_ref_in_prop_name(p: &PropName, op: &mut impl FnMut(&Ident)) {
 }
 
 fn for_each_id_ref_in_pat(p: &Pat, op: &mut impl FnMut(&Ident)) {
-    match p {}
+    match p {
+        Pat::Ident(..) => {
+            // IdentifierBinding is not IdentifierReference
+        }
+        Pat::Array(p) => {
+            p.elems.iter().flatten().for_each(|e| {
+                for_each_id_ref_in_pat(e, op);
+            });
+        }
+        Pat::Rest(p) => {
+            for_each_id_ref_in_pat(&p.arg, op);
+        }
+        Pat::Object(p) => {
+            p.props.iter().for_each(|p| match p {
+                ObjectPatProp::KeyValue(p) => {
+                    for_each_id_ref_in_prop_name(&p.key, op);
+                    for_each_id_ref_in_pat(&p.value, op);
+                }
+                ObjectPatProp::Assign(p) => {
+                    // We skip key because it's IdentifierBinding
+
+                    if let Some(value) = &p.value {
+                        for_each_id_ref_in_expr(value, op);
+                    }
+                }
+                ObjectPatProp::Rest(p) => {
+                    for_each_id_ref_in_pat(&p.arg, op);
+                }
+            });
+        }
+        Pat::Assign(p) => {
+            for_each_id_ref_in_pat(&p.left, op);
+            for_each_id_ref_in_expr(&p.right, op);
+        }
+        Pat::Invalid(..) => {}
+        Pat::Expr(p) => {
+            for_each_id_ref_in_expr(p, op);
+        }
+    }
 }
 
 fn for_each_id_ref_in_fn(f: &Function, op: &mut impl FnMut(&Ident)) {
