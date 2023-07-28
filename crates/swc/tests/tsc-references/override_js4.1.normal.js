@@ -21,6 +21,7 @@ var B = /*#__PURE__*/ function(A) {
         return _super.apply(this, arguments);
     }
     var _proto = B.prototype;
-    /** @override  */ _proto.doSomethang = function doSomethang() {};
+    /** @override  */
+    _proto.doSomethang = function doSomethang() {};
     return B;
 }(A);

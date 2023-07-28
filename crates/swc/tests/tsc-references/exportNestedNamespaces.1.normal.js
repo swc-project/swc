@@ -15,7 +15,8 @@ var k = new s.n.K();
 k.x;
 var classic = new s.Classic();
 /** @param {s.n.K} c
-    @param {s.Classic} classic */ function f(c, classic) {
+    @param {s.Classic} classic */
+function f(c, classic) {
     c.x;
     classic.p;
 }

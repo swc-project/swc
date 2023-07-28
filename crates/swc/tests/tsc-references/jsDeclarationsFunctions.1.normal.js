@@ -12,7 +12,8 @@ c.Cls = function _class() {
  * @param {number} a
  * @param {number} b
  * @return {string} 
- */ export function d(a, b) {
+ */
+export function d(a, b) {
     return /** @type {*} */ null;
 }
 /**
@@ -20,27 +21,31 @@ c.Cls = function _class() {
  * @param {T} a
  * @param {U} b
  * @return {T & U} 
- */ export function e(a, b) {
+ */
+export function e(a, b) {
     return /** @type {*} */ null;
 }
 /**
  * @template T
  * @param {T} a
- */ export function f(a) {
+ */
+export function f(a) {
     return a;
 }
 f.self = f;
 /**
  * @param {{x: string}} a
  * @param {{y: typeof b}} b
- */ function g(a, b) {
+ */
+function g(a, b) {
     return a.x && b.y();
 }
 export { g };
 /**
  * @param {{x: string}} a
  * @param {{y: typeof b}} b
- */ function hh(a, b) {
+ */
+function hh(a, b) {
     return a.x && b.y();
 }
 export { hh as h };

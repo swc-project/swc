@@ -9,7 +9,8 @@
  * @property {string} [w="hi"]
  *
  * @param {Opts} opts
- */ function foo(opts) {
+ */
+function foo(opts) {
     opts.x;
 }
 foo({
@@ -21,7 +22,8 @@ foo({
  * @property anotherY {string=}
  * 
  * @param {AnotherOpts} opts
- */ function foo1(opts) {
+ */
+function foo1(opts) {
     opts.anotherX;
 }
 foo1({
@@ -35,7 +37,8 @@ foo1({
  * @property {string} [w="hi"]
  *
  * @param {Opts1} opts
- */ function foo2(opts) {
+ */
+function foo2(opts) {
     opts.x;
 }
 foo2({

@@ -71,7 +71,8 @@ function serializeQueryParameters(parameters) {
  * @param {object} SearchParameters - optional additional parameters to send to the algolia API
  * @param {number} stalledSearchDelay - time (in ms) after the search is stalled
  * @return {InstantSearchManager} a new instance of InstantSearchManager
- */ export default function createInstantSearchManager(param) {
+ */
+export default function createInstantSearchManager(param) {
     var indexName = param.indexName, _param_initialState = param.initialState, initialState = _param_initialState === void 0 ? {} : _param_initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay;
     var createStore = function createStore(initialState) {
         var state = initialState;

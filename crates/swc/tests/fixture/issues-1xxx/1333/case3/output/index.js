@@ -25,25 +25,29 @@ const headers = [
 var /**
      * Used for sequential requests.
      * @type {AsyncQueue}
-     */ _queue = /*#__PURE__*/ new WeakMap();
+     */
+_queue = /*#__PURE__*/ new WeakMap();
 class RequestHandler {
     /**
      * Whether this handler is inactive or not.
      * @return {boolean}
-     */ get inactive() {
+     */
+    get inactive() {
         return !_class_private_field_get._(this, _queue).remaining && !this._limited;
     }
     /**
      * Whether the rate-limit bucket is currently limited.
      * @return {boolean}
      * @private
-     */ get _limited() {
+     */
+    get _limited() {
         return this.remaining <= 0 && Date.now() < this.reset;
     }
     /**
      * The time until the rate-limit bucket resets.
      * @private
-     */ get _untilReset() {
+     */
+    get _untilReset() {
         return this.reset - Date.now();
     }
     /**
@@ -53,7 +57,8 @@ class RequestHandler {
      * @param {string} url The URL.
      *
      * @returns {string} The created route.
-     */ static makeRoute(method, url) {
+     */
+    static makeRoute(method, url) {
         const route = url.replace(/\/([a-z-]+)\/(?:\d{17,19})/g, (match, p)=>[
                 "channels",
                 "guilds",
@@ -74,7 +79,8 @@ class RequestHandler {
      * Converts the response to usable data
      * @param {Response} res
      * @return {* | Promise<any>}
-     */ static async parseResponse(res) {
+     */
+    static async parseResponse(res) {
         var _res_headers_get;
         if ((_res_headers_get = res.headers.get("Content-Type")) === null || _res_headers_get === void 0 ? void 0 : _res_headers_get.startsWith("application/json")) {
             return await res.json();
@@ -87,7 +93,8 @@ class RequestHandler {
      * @param {Request} request The request data.
      *
      * @return {Promise<*>}
-     */ async push(url, request) {
+     */
+    async push(url, request) {
         await _class_private_field_get._(this, _queue).wait();
         try {
             await this.rest.globalTimeout;
@@ -101,7 +108,8 @@ class RequestHandler {
                  * Emitted whenever a routes rate-lim\it bucket was exceeded.
                  * @event RequestHandler#rate-limited
                  * @property {RateLimitedData} data The rate-limit data.
-                 */ this.rest.client.emit(_utils.ClientEvent.LIMITED, {
+                 */
+                this.rest.client.emit(_utils.ClientEvent.LIMITED, {
                     limit: this.limit,
                     method: request.method,
                     url
@@ -121,7 +129,8 @@ class RequestHandler {
      *
      * @return {Promise<*>}
      * @private
-     */ async _make(url, request, tries = 0) {
+     */
+    async _make(url, request, tries = 0) {
         const signal = new _AbortSignal.AbortSignal();
         const timeout = _utils.Timers.setTimeout(()=>signal.abort(), this.rest.options.timeout);
         let res;
@@ -176,7 +185,8 @@ class RequestHandler {
     /**
      * @param {Rest} rest The REST Manager.
      * @param {string} id The ID of this request handler.
-     */ constructor(rest, id){
+     */
+    constructor(rest, id){
         _class_private_field_init._(this, _queue, {
             writable: true,
             value: new _utils.AsyncQueue()
@@ -184,23 +194,28 @@ class RequestHandler {
         /**
          * The REST Manager.
          * @type {Rest}
-         */ this.rest = rest;
+         */
+        this.rest = rest;
         /**
          * The ID of this request handler.
          * @type {string}
-         */ this.id = id;
+         */
+        this.id = id;
         /**
          * Timestamp in which the rate-limit will reset.
          * @type {number}
-         */ this.reset = -1;
+         */
+        this.reset = -1;
         /**
          * The remaining requests that can be made.
          * @type {number}
-         */ this.remaining = 1;
+         */
+        this.remaining = 1;
         /**
          * The total number of requests that can be made.
          * @type {number}
-         */ this.limit = Infinity;
+         */
+        this.limit = Infinity;
     }
 }
 /**
@@ -208,6 +223,7 @@ class RequestHandler {
  * @param {Response} res The request response.
  * @param {string[]} headers The headers to fetch.
  * @return {string[]} The header values.
- */ function getHeaders(res, headers) {
+ */
+function getHeaders(res, headers) {
     return headers.map((headerName)=>res.headers.get(headerName));
 }

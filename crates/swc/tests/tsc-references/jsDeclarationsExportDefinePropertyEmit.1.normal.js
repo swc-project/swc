@@ -12,7 +12,8 @@ Object.defineProperty(module.exports.b, "cat", {
  * @param {number} a
  * @param {number} b
  * @return {string} 
- */ function d(a, b) {
+ */
+function d(a, b) {
     return /** @type {*} */ null;
 }
 Object.defineProperty(module.exports, "d", {
@@ -23,7 +24,8 @@ Object.defineProperty(module.exports, "d", {
  * @param {T} a
  * @param {U} b
  * @return {T & U} 
- */ function e(a, b) {
+ */
+function e(a, b) {
     return /** @type {*} */ null;
 }
 Object.defineProperty(module.exports, "e", {
@@ -32,7 +34,8 @@ Object.defineProperty(module.exports, "e", {
 /**
  * @template T
  * @param {T} a
- */ function f(a) {
+ */
+function f(a) {
     return a;
 }
 Object.defineProperty(module.exports, "f", {
@@ -44,7 +47,8 @@ Object.defineProperty(module.exports.f, "self", {
 /**
  * @param {{x: string}} a
  * @param {{y: typeof module.exports.b}} b
- */ function g(a, b) {
+ */
+function g(a, b) {
     return a.x && b.y();
 }
 Object.defineProperty(module.exports, "g", {
@@ -53,7 +57,8 @@ Object.defineProperty(module.exports, "g", {
 /**
  * @param {{x: string}} a
  * @param {{y: typeof module.exports.b}} b
- */ function hh(a, b) {
+ */
+function hh(a, b) {
     return a.x && b.y();
 }
 Object.defineProperty(module.exports, "h", {

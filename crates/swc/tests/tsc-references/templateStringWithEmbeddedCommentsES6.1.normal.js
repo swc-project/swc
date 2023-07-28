@@ -3,5 +3,6 @@
 middle${/* Multi-
  * line
  * comment
- */ 20}
+ */
+20}
 tail`;

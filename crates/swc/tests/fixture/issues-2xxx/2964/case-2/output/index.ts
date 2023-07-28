@@ -22,12 +22,14 @@ _export(exports, {
 const _object_without_properties = require("@swc/helpers/_/_object_without_properties");
 //top comment
 const noop = ()=>{};
-/* istanbul ignore next */ const badIstanbul = (test)=>{
+/* istanbul ignore next */
+const badIstanbul = (test)=>{
     const { value } = test, pixelParams = _object_without_properties._(test, [
         "value"
     ]);
     console.log("fail");
 };
-/* istanbul ignore next: UI-5137 */ const downloadDocument = ()=>{
+/* istanbul ignore next: UI-5137 */
+const downloadDocument = ()=>{
     console.log("fail");
 };

@@ -1,5 +1,8 @@
 //// [bug39372.js]
-/** @typedef {ReadonlyArray<Json>} JsonArray */ /** @typedef {{ readonly [key: string]: Json }} JsonRecord */ /** @typedef {boolean | number | string | null | JsonRecord | JsonArray | readonly []} Json */ /**
+/** @typedef {ReadonlyArray<Json>} JsonArray */
+/** @typedef {{ readonly [key: string]: Json }} JsonRecord */
+/** @typedef {boolean | number | string | null | JsonRecord | JsonArray | readonly []} Json */
+/**
  * @template T
  * @typedef {{
   $A: {
@@ -16,4 +19,6 @@
     T[K] extends string ? string
       : XMLObject<T[K]>
   )
-}} XMLObject<T> */ /** @type {XMLObject<{foo:string}>} */ var p = {};
+}} XMLObject<T> */
+/** @type {XMLObject<{foo:string}>} */
+var p = {};

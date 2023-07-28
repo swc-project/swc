@@ -1,5 +1,6 @@
 //// [parserAstSpans1.ts]
-/** i1 is interface with properties*/ import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
+/** i1 is interface with properties*/
+import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _get } from "@swc/helpers/_/_get";
@@ -14,8 +15,10 @@ var c1 = /*#__PURE__*/ function() {
     var _proto = c1.prototype;
     _proto.i1_f1 = function i1_f1() {};
     _proto.i1_nc_f1 = function i1_nc_f1() {};
-    /** c1_f1*/ _proto.f1 = function f1() {};
-    /** c1_nc_f1*/ _proto.nc_f1 = function nc_f1() {};
+    /** c1_f1*/
+    _proto.f1 = function f1() {};
+    /** c1_nc_f1*/
+    _proto.nc_f1 = function nc_f1() {};
     return c1;
 }();
 var i1_i;
@@ -53,14 +56,17 @@ var c2 = /*#__PURE__*/ function() {
         this.c2_p1 = a;
     }
     var _proto = c2.prototype;
-    /** c2 c2_f1*/ _proto.c2_f1 = function c2_f1() {};
+    /** c2 c2_f1*/
+    _proto.c2_f1 = function c2_f1() {};
     _proto.c2_nc_f1 = function c2_nc_f1() {};
-    /** c2 f1*/ _proto.f1 = function f1() {};
+    /** c2 f1*/
+    _proto.f1 = function f1() {};
     _proto.nc_f1 = function nc_f1() {};
     _create_class(c2, [
         {
             key: "c2_prop",
-            get: /** c2 c2_prop*/ function get() {
+            get: /** c2 c2_prop*/
+            function get() {
                 return 10;
             }
         },
@@ -72,7 +78,8 @@ var c2 = /*#__PURE__*/ function() {
         },
         {
             key: "prop",
-            get: /** c2 prop*/ function get() {
+            get: /** c2 prop*/
+            function get() {
                 return 10;
             }
         },
@@ -97,12 +104,14 @@ var c3 = /*#__PURE__*/ function(c2) {
         return _this;
     }
     var _proto = c3.prototype;
-    /** c3 f1*/ _proto.f1 = function f1() {};
+    /** c3 f1*/
+    _proto.f1 = function f1() {};
     _proto.nc_f1 = function nc_f1() {};
     _create_class(c3, [
         {
             key: "prop",
-            get: /** c3 prop*/ function get() {
+            get: /** c3 prop*/
+            function get() {
                 return 10;
             }
         },
@@ -170,7 +179,8 @@ i2_i.i2_l1();
 i2_i.i2_nc_l1();
 i2_i.l1();
 i2_i.nc_l1();
-/**c5 class*/ var c5 = function c5() {
+/**c5 class*/
+var c5 = function c5() {
     "use strict";
     _class_call_check(this, c5);
 };

@@ -26,7 +26,8 @@ Workspace.Object = /*#__PURE__*/ function(_Common_Object) {
     }
     return _class;
 }(Common.Object);
-/** @type {Workspace.Object} */ var am;
+/** @type {Workspace.Object} */
+var am;
 //// [roots.js]
 var First = {};
 var Common = {};

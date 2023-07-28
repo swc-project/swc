@@ -2,9 +2,8 @@ $DIR/tests/stacktrace/issue-622/input/index.js:3
         throw call();
         ^
 
-
 ReferenceError: call is not defined
-    at <anonymous> ($DIR/tests/stacktrace/issue-622/input/index.js:3:9)
+    at null.<anonymous> ($DIR/tests/stacktrace/issue-622/input/index.js:3:9)
     at step ($DIR/tests/stacktrace/issue-622/input/_exec.js:109:23)
     at Object.next ($DIR/tests/stacktrace/issue-622/input/_exec.js:50:20)
     at asyncGeneratorStep ($DIR/tests/stacktrace/issue-622/input/_exec.js:4:28)
@@ -13,4 +12,4 @@ ReferenceError: call is not defined
     at new Promise (<anonymous>)
     at $DIR/tests/stacktrace/issue-622/input/_exec.js:19:16
     at foo ($DIR/tests/stacktrace/issue-622/input/index.js:1:16)
-    at foo ($DIR/tests/stacktrace/issue-622/input/index.js:1:16)
+    at null.foo ($DIR/tests/stacktrace/issue-622/input/index.js:1:16)

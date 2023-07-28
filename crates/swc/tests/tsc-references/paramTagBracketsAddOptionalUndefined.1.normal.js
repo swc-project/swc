@@ -3,7 +3,8 @@
  * @param {number} [p]
  * @param {number=} q
  * @param {number} [r=101]
- */ function f(p, q, r) {
+ */
+function f(p, q, r) {
     p = undefined;
     q = undefined;
     // note that, unlike TS, JSDOC [r=101] retains | undefined because

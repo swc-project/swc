@@ -1,4 +1,5 @@
 function test() {
     return(/* my multiline
-             comment */ 0);
+             comment */
+    0);
 }

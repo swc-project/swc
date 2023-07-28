@@ -5,7 +5,8 @@
  * @property {number} r
  * @property {number} g
  * @property {number} b
- */ // All of these should be Colors, but I only use some of them here.
+ */
+// All of these should be Colors, but I only use some of them here.
 export var Palette = /** @satisfies {Record<string, Color>} */ {
     white: {
         r: 255,

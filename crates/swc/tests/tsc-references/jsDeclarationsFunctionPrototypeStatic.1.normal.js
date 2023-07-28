@@ -8,4 +8,4 @@ MyClass.staticProperty = 123; /**
  *
  * @callback DoneCB
  * @param {number} failures - Number of failures that occurred.
- */ 
+ */

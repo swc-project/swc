@@ -6,7 +6,8 @@ var EE = /*#__PURE__*/ function() {
         _class_call_check(this, EE);
     }
     var _proto = EE.prototype;
-    /** @param {string} s */ _proto.on = function on(s) {};
+    /** @param {string} s */
+    _proto.on = function on(s) {};
     return EE;
 }();
 var npmlog = module.exports = new EE();

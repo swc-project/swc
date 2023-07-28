@@ -1,4 +1,5 @@
-/*pre: 1*/ test();
+/*pre: 1*/
+test();
 test(123 /*post: 3*/ );
 test(/*pre: 4*/ 123);
 test(/*pre: 5*/ 123 /*post: 6*/ );

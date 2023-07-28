@@ -3,5 +3,6 @@
  * long
  * license
  * header
- */ "use strict";
+ */
+"use strict";
 console.log(new Error().stack);

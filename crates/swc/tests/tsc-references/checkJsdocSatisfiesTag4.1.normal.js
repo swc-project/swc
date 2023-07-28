@@ -3,11 +3,13 @@
 /**
  * @typedef {Object} Foo
  * @property {number} a
- */ export default /** @satisfies {Foo} */ {};
+ */
+export default /** @satisfies {Foo} */ {};
 //// [/b.js]
 /**
  * @typedef {Object} Foo
  * @property {number} a
- */ export default /** @satisfies {Foo} */ {
+ */
+export default /** @satisfies {Foo} */ {
     a: 1
 };

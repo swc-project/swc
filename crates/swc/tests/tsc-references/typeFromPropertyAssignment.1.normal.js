@@ -18,7 +18,9 @@ Outer.Inner = /*#__PURE__*/ function() {
     _proto.n = function n(a, b) {};
     return I;
 }();
-/** @type {Outer} */ var si;
+/** @type {Outer} */
+var si;
 si.m;
-/** @type {Outer.Inner} */ var oi;
+/** @type {Outer.Inner} */
+var oi;
 oi.n;

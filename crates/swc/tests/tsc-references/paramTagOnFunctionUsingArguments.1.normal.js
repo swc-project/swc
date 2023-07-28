@@ -2,7 +2,8 @@
 //// [a.js]
 /**
  * @param {string} first
- */ function concat() {
+ */
+function concat() {
     var s = "";
     for(var i = 0, l = arguments.length; i < l; i++){
         s += arguments[i];
@@ -11,7 +12,8 @@
 }
 /**
  * @param {...string} strings
- */ function correct() {
+ */
+function correct() {
     arguments;
 }
 correct(1, 2, 3) // oh no

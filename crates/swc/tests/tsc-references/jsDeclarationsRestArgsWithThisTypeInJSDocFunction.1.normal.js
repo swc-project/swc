@@ -8,6 +8,7 @@ export var Clazz = /*#__PURE__*/ function() {
     var _proto = Clazz.prototype;
     /**
    * @param {function(this:Object, ...*):*} functionDeclaration
-   */ _proto.method = function method(functionDeclaration) {};
+   */
+    _proto.method = function method(functionDeclaration) {};
     return Clazz;
 }();

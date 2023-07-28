@@ -6,7 +6,8 @@
  *
  * @path ch07/7.6/S7.6_A4.2_T1.js
  * @description Check RUSSIAN CAPITAL ALPHABET
- */ //CHECK#А-Я
+ */
+//CHECK#А-Я
 var А = 1;
 if (А !== 1) {
     $ERROR("#А");

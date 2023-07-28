@@ -2,7 +2,8 @@
 /**
  * @constructor
  * @param {string} name
- */ function Person(name) {
+ */
+function Person(name) {
     this.name = name;
 }
 Person.prototype.describe = function() {
@@ -28,7 +29,8 @@ Object.defineProperty(Person.prototype, "readonlyAccessor", {
     }
 });
 Object.defineProperty(Person.prototype, "setonlyAccessor", {
-    /** @param {string} str */ set: function set(str) {
+    /** @param {string} str */
+    set: function set(str) {
         this.rwAccessors = Number(str);
     }
 });

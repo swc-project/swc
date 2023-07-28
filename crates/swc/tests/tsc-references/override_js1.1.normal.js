@@ -22,8 +22,10 @@ var D = /*#__PURE__*/ function(B) {
     }
     var _proto = D.prototype;
     _proto.foo = function foo(v) {};
-    /** @override */ _proto.fooo = function fooo(v) {};
-    /** @override */ _proto.bar = function bar(v) {};
+    /** @override */
+    _proto.fooo = function fooo(v) {};
+    /** @override */
+    _proto.bar = function bar(v) {};
     return D;
 }(B);
 var C = /*#__PURE__*/ function() {
@@ -33,7 +35,9 @@ var C = /*#__PURE__*/ function() {
     }
     var _proto = C.prototype;
     _proto.foo = function foo() {};
-    /** @override */ _proto.fooo = function fooo(v) {};
-    /** @override */ _proto.bar = function bar(v) {};
+    /** @override */
+    _proto.fooo = function fooo(v) {};
+    /** @override */
+    _proto.bar = function bar(v) {};
     return C;
 }();

@@ -1,6 +1,8 @@
 //// [cb.js]
 /** @callback Miracle
  * @returns {string} What were you expecting
- */ /** @type {Miracle} smallId */ var sid = function() {
+ */
+/** @type {Miracle} smallId */
+var sid = function() {
     return "!";
 };

@@ -1,2 +1,3 @@
 //// [parseThrowsTag.ts]
-/** @throws {Error} comment */ function f() {}
+/** @throws {Error} comment */
+function f() {}

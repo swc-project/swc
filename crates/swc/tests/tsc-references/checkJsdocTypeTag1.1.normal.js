@@ -1,31 +1,41 @@
 //// [checkJsdocTypeTag1.ts]
 //// [0.js]
 // @ts-check
-/** @type {String} */ var S = "hello world";
-/** @type {number} */ var n = 10;
-/** @type {*} */ var anyT = 2;
+/** @type {String} */
+var S = "hello world";
+/** @type {number} */
+var n = 10;
+/** @type {*} */
+var anyT = 2;
 anyT = "hello";
-/** @type {?} */ var anyT1 = 2;
+/** @type {?} */
+var anyT1 = 2;
 anyT1 = "hi";
-/** @type {Function} */ var x = function(a) {
+/** @type {Function} */
+var x = function(a) {
     return a + 1;
 };
 x(1);
-/** @type {function} */ var y = function(a) {
+/** @type {function} */
+var y = function(a) {
     return a + 1;
 };
 y(1);
-/** @type {function (number)} */ var x1 = function(a) {
+/** @type {function (number)} */
+var x1 = function(a) {
     return a + 1;
 };
 x1(0);
-/** @type {function (number): number} */ var x2 = function(a) {
+/** @type {function (number): number} */
+var x2 = function(a) {
     return a + 1;
 };
 x2(0);
 /**
  * @type {object}
- */ var props = {};
+ */
+var props = {};
 /**
  * @type {Object}
- */ var props = {};
+ */
+var props = {};

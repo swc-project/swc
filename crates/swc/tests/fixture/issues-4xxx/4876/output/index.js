@@ -5,5 +5,6 @@
 more
 
 else
-*/ // a
+*/
+// a
 console.log(1); // b

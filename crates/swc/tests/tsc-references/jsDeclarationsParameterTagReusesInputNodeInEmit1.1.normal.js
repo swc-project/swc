@@ -8,14 +8,18 @@ const BaseFactory = ()=>{
 BaseFactory.Base = Base;
 module.exports = BaseFactory;
 //// [file.js]
-/** @typedef {import('./base')} BaseFactory */ /**
+/** @typedef {import('./base')} BaseFactory */
+/**
  * @callback BaseFactoryFactory
  * @param {import('./base')} factory
- */ /** @enum {import('./base')} */ const couldntThinkOfAny = {};
+ */
+/** @enum {import('./base')} */
+const couldntThinkOfAny = {};
 /**
  *
  * @param {InstanceType<BaseFactory["Base"]>} base
  * @returns {InstanceType<BaseFactory["Base"]>}
- */ const test = (base)=>{
+ */
+const test = (base)=>{
     return base;
 };

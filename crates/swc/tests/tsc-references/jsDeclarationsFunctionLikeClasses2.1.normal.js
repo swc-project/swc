@@ -1,16 +1,19 @@
 //// [source.js]
 /**
  * @param {number} len
- */ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
+ */
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 export function Vec(len) {
     /**
      * @type {number[]}
-     */ this.storage = new Array(len);
+     */
+    this.storage = new Array(len);
 }
 Vec.prototype = {
     /**
      * @param {Vec} other
-     */ dot: function dot(other) {
+     */
+    dot: function dot(other) {
         if (other.storage.length !== this.storage.length) {
             throw new Error("Dot product only applicable for vectors of equal length");
         }
@@ -31,7 +34,8 @@ Vec.prototype = {
 /**
  * @param {number} x
  * @param {number} y
- */ export function Point2D(x1, y1) {
+ */
+export function Point2D(x1, y1) {
     if (!_instanceof(this, Point2D)) {
         return new Point2D(x1, y1);
     }
@@ -46,7 +50,8 @@ Point2D.prototype = {
     },
     /**
      * @param {number} x
-     */ set x (x){
+     */
+    set x (x){
         this.storage[0] = x;
     },
     get y () {
@@ -54,7 +59,8 @@ Point2D.prototype = {
     },
     /**
      * @param {number} y
-     */ set y (y){
+     */
+    set y (y){
         this.storage[1] = y;
     }
 };

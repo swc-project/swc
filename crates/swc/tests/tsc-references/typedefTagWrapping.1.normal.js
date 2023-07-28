@@ -3,13 +3,15 @@
 /** 
  * @typedef {function(string): boolean}
  * Type1
- */ /**
+ */
+/**
  * Tries to use a type whose name is on a different
  * line than the typedef tag.
  * @param {Type1} func The function to call.
  * @param {string} arg The argument to call it with.
  * @returns {boolean} The return.
- */ function callIt(func, arg) {
+ */
+function callIt(func, arg) {
     return func(arg);
 }
 //// [mod2.js]
@@ -19,11 +21,13 @@
  *   str: string,
  *   boo: boolean
  * }} Type2
- */ /**
+ */
+/**
  * Makes use of a type with a multiline type expression.
  * @param {Type2} obj The object.
  * @returns {string|number} The return.
- */ function check(obj) {
+ */
+function check(obj) {
     return obj.boo ? obj.num : obj.str;
 }
 //// [mod3.js]
@@ -32,14 +36,16 @@
  *
  * @typedef {function(boolean, string, number):
  *     (string|number)} StringOrNumber1
- */ /**
+ */
+/**
  * Makes use of a function type with a long signature.
  * @param {StringOrNumber1} func The function.
  * @param {boolean} bool The condition.
  * @param {string} str The string.
  * @param {number} num The number.
  * @returns {string|number} The return.
- */ function use1(func, bool, str, num) {
+ */
+function use1(func, bool, str, num) {
     return func(bool, str, num);
 }
 //// [mod4.js]
@@ -49,14 +55,16 @@
  * @typedef {function(boolean, string,
  *    number):
  *    (string|number)} StringOrNumber2
- */ /**
+ */
+/**
  * Makes use of a function type with a long signature.
  * @param {StringOrNumber2} func The function.
  * @param {boolean} bool The condition.
  * @param {string} str The string.
  * @param {number} num The number.
  * @returns {string|number} The return.
- */ function use2(func, bool, str, num) {
+ */
+function use2(func, bool, str, num) {
     return func(bool, str, num);
 }
 //// [mod5.js]
@@ -69,11 +77,13 @@
  *   boo:
  *   boolean
  * }} Type5
- */ /**
+ */
+/**
  * Makes use of a type with a multiline type expression.
  * @param {Type5} obj The object.
  * @returns {string|number} The return.
- */ function check5(obj) {
+ */
+function check5(obj) {
     return obj.boo ? obj.num : obj.str;
 }
 //// [mod6.js]
@@ -84,11 +94,13 @@
  *   bar:
  *   *
  * }} Type6
- */ /**
+ */
+/**
  * Makes use of a type with a multiline type expression.
  * @param {Type6} obj The object.
  * @returns {*} The return.
- */ function check6(obj) {
+ */
+function check6(obj) {
     return obj.foo;
 }
 //// [mod7.js]
@@ -100,4 +112,4 @@
      bar:
      *
    }} Type7
- */ 
+ */

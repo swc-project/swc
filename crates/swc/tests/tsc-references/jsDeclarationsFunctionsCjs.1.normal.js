@@ -12,7 +12,8 @@ module.exports.c.Cls = function _class() {
  * @param {number} a
  * @param {number} b
  * @return {string} 
- */ module.exports.d = function d(a, b) {
+ */
+module.exports.d = function d(a, b) {
     return /** @type {*} */ null;
 };
 /**
@@ -20,27 +21,31 @@ module.exports.c.Cls = function _class() {
  * @param {T} a
  * @param {U} b
  * @return {T & U} 
- */ module.exports.e = function e(a, b) {
+ */
+module.exports.e = function e(a, b) {
     return /** @type {*} */ null;
 };
 /**
  * @template T
  * @param {T} a
- */ module.exports.f = function f(a) {
+ */
+module.exports.f = function f(a) {
     return a;
 };
 module.exports.f.self = module.exports.f;
 /**
  * @param {{x: string}} a
  * @param {{y: typeof module.exports.b}} b
- */ function g(a, b) {
+ */
+function g(a, b) {
     return a.x && b.y();
 }
 module.exports.g = g;
 /**
  * @param {{x: string}} a
  * @param {{y: typeof module.exports.b}} b
- */ function hh(a, b) {
+ */
+function hh(a, b) {
     return a.x && b.y();
 }
 module.exports.h = hh;

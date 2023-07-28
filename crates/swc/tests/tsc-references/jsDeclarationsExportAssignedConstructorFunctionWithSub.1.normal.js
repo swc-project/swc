@@ -1,7 +1,8 @@
 //// [jsDeclarationsExportAssignedConstructorFunctionWithSub.js]
 /**
  * @param {number} p
- */ module.exports = function(p) {
+ */
+module.exports = function(p) {
     this.t = 12 + p;
 };
 module.exports.Sub = function() {

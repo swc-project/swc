@@ -13,7 +13,8 @@
  * @param {string | number} a
  * @param {string | number} b
  * @returns {string | number}
- */ export function overloaded(a, b) {
+ */
+export function overloaded(a, b) {
     if (typeof a === "string" && typeof b === "string") {
         return a + b;
     } else if (typeof a === "number" && typeof b === "number") {
@@ -34,7 +35,8 @@ var o3 = overloaded("a", false);
  * @param {string} a
  * @param {boolean} b
  * @returns {string}
- */ export function uncheckedInternally(a, b) {
+ */
+export function uncheckedInternally(a, b) {
     return a + b;
 }
 uncheckedInternally(1, 2);

@@ -5,7 +5,11 @@
  * @template W
  * @template X That last one had no comment
  * @typedef {{ t: T, u: U, v: V, w: W, x: X }} Everything
- */ /** @type {Everything<{ a: number, b: 'hi', c: never }, undefined, { c: true, d: 1 }, number, string>} */ var tuvwx;
-/** @type {Everything<{ a: number  }, undefined, { c: 1, d: 1 }, number, string>} */ var wrong;
-/** @type {Everything<{ a: number  }>} */ var insufficient;
+ */
+/** @type {Everything<{ a: number, b: 'hi', c: never }, undefined, { c: true, d: 1 }, number, string>} */
+var tuvwx;
+/** @type {Everything<{ a: number  }, undefined, { c: 1, d: 1 }, number, string>} */
+var wrong;
+/** @type {Everything<{ a: number  }>} */
+var insufficient;
 //// [test.ts]

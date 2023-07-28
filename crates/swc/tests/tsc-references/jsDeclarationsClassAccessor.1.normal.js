@@ -17,7 +17,8 @@ import { Base } from "./base.js";
 export class Argument extends Base {
     /**
      * @param {*} tokeniser
-     */ static parse(tokeniser) {
+     */
+    static parse(tokeniser) {
         return;
     }
     get type() {
@@ -25,5 +26,6 @@ export class Argument extends Base {
     }
     /**
      * @param {*} defs
-     */ *validate(defs) {}
+     */
+    *validate(defs) {}
 }

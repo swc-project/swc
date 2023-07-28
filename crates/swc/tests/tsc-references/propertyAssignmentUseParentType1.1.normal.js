@@ -10,4 +10,5 @@ inlined.nun = 456;
 export var ignoreJsdoc = function() {
     return true;
 };
-/** @type {string} make sure to ignore jsdoc! */ ignoreJsdoc.extra = 111;
+/** @type {string} make sure to ignore jsdoc! */
+ignoreJsdoc.extra = 111;

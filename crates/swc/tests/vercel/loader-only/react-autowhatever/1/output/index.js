@@ -59,7 +59,8 @@ var ItemsList = /*#__PURE__*/ function(Component1) {
                             allItemProps.ref = _this.storeHighlightedItemReference;
                         }
                         // `key` is provided by theme()
-                        /* eslint-disable react/jsx-key */ return /*#__PURE__*/ _jsx(Item, _object_spread_props(_object_spread({}, allItemProps), {
+                        /* eslint-disable react/jsx-key */
+                        return /*#__PURE__*/ _jsx(Item, _object_spread_props(_object_spread({}, allItemProps), {
                             sectionIndex: sectionIndex,
                             isHighlighted: isHighlighted,
                             itemIndex: itemIndex,
@@ -67,7 +68,8 @@ var ItemsList = /*#__PURE__*/ function(Component1) {
                             renderItem: renderItem,
                             renderItemData: renderItemData
                         }));
-                    /* eslint-enable react/jsx-key */ })
+                    /* eslint-enable react/jsx-key */
+                    })
                 }));
             }
         }

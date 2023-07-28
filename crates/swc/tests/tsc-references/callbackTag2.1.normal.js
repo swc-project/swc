@@ -3,24 +3,30 @@
  * @callback Id
  * @param {T} t
  * @returns {T} Maybe just return 120 and cast it?
- */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+ */
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var x = 1;
-/** @type {Id<string>} I actually wanted to write `const "120"` */ var one_twenty = function(s) {
+/** @type {Id<string>} I actually wanted to write `const "120"` */
+var one_twenty = function(s) {
     return "120";
 };
 /** @template S
  * @callback SharedId
  * @param {S} ego
  * @return {S}
- */ var SharedClass = function SharedClass() {
+ */
+var SharedClass = function SharedClass() {
     "use strict";
     _class_call_check(this, SharedClass);
-    /** @type {SharedId<S>} */ this.id;
+    /** @type {SharedId<S>} */
+    this.id;
 };
-/** @type {SharedId<number>} */ var outside = function(n) {
+/** @type {SharedId<number>} */
+var outside = function(n) {
     return n + 1;
 };
-/** @type {Final<{ fantasy }, { heroes }>} */ var noreturn = function(barts, tidus, noctis) {
+/** @type {Final<{ fantasy }, { heroes }>} */
+var noreturn = function(barts, tidus, noctis) {
     return "cecil" /**
  * @template V,X
  * @callback Final
@@ -28,5 +34,6 @@ var x = 1;
  * @param {X} tidus - Titus
  * @param {X & V} noctis - "Prince Noctis Lucius Caelum"
  * @return {"cecil" | "zidane"}
- */ ;
+ */
+    ;
 };

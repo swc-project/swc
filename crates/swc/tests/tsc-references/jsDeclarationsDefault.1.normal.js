@@ -39,10 +39,10 @@ export default Bar;
 // merge type alias and const (OK)
 export default 12; /**
  * @typedef {string | number} default
- */ 
+ */
 //// [index6.js]
 // merge type alias and function (OK)
 export default function func() {}
  /**
  * @typedef {string | number} default
- */ 
+ */

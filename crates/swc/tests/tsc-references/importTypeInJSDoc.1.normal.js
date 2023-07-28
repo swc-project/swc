@@ -11,7 +11,8 @@
 //// [index.js]
 /**
  * @typedef {import("./externs")} Foo
- */ let a = /** @type {Foo} */ /** @type {*} */ undefined;
+ */
+let a = /** @type {Foo} */ /** @type {*} */ undefined;
 a = new Foo({
     doer: Foo.Bar
 });

@@ -5,7 +5,8 @@ function C1() {
      * @param {number} x
      * @param {number} y
      * @returns {number}
-     */ this.prop = function(x, y) {
+     */
+    this.prop = function(x, y) {
         return x + y;
     };
 }
@@ -14,7 +15,8 @@ function C1() {
  * @param {number} x
  * @param {number} y
  * @returns {number}
- */ C1.prototype.method = function(x, y) {
+ */
+C1.prototype.method = function(x, y) {
     return x + y;
 };
 /**
@@ -22,7 +24,8 @@ function C1() {
  * @param {number} x
  * @param {number} y
  * @returns {number}
- */ C1.staticProp = function(x, y) {
+ */
+C1.staticProp = function(x, y) {
     return x + y;
 };
 class C2 {
@@ -31,7 +34,8 @@ class C2 {
      * @param {number} x
      * @param {number} y
      * @returns {number}
-     */ method1(x, y) {
+     */
+    method1(x, y) {
         return x + y;
     }
 }
@@ -40,7 +44,8 @@ class C2 {
  * @param {number} x
  * @param {number} y
  * @returns {number}
- */ C2.prototype.method2 = function(x, y) {
+ */
+C2.prototype.method2 = function(x, y) {
     return x + y;
 };
 /**
@@ -48,6 +53,7 @@ class C2 {
  * @param {number} x
  * @param {number} y
  * @returns {number}
- */ C2.staticProp = function(x, y) {
+ */
+C2.staticProp = function(x, y) {
     return x + y;
 };

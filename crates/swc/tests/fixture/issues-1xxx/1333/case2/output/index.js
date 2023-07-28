@@ -2,7 +2,8 @@
  * Copyright (c) 2020. MeLike2D All Rights Reserved.
  * Neo is licensed under the MIT License.
  * See the LICENSE file in the project root for more details.
- */ "use strict";
+ */
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
@@ -25,58 +26,71 @@ const connectionStates = Object.keys(_ws.default);
 var /**
      * The serialization handler.
      * @type {Serialization}
-     */ _serialization1 = /*#__PURE__*/ new WeakMap(), /**
+     */
+_serialization1 = /*#__PURE__*/ new WeakMap(), /**
      * The compression handler.
      * @type {Compression}
-     */ _compression1 = /*#__PURE__*/ new WeakMap(), /**
+     */
+_compression1 = /*#__PURE__*/ new WeakMap(), /**
      * The current sequence.
      * @type {number}
-     */ _seq = /*#__PURE__*/ new WeakMap(), /**
+     */
+_seq = /*#__PURE__*/ new WeakMap(), /**
      * The shard sequence when the websocket last closed.
      * @type {number}
-     */ _closingSeq = /*#__PURE__*/ new WeakMap(), /**
+     */
+_closingSeq = /*#__PURE__*/ new WeakMap(), /**
      * The rate-limit bucket.
      * @type {Bucket}
-     */ _bucket = /*#__PURE__*/ new WeakMap(), /**
+     */
+_bucket = /*#__PURE__*/ new WeakMap(), /**
      * The rate-limit bucket for presence updates.
      * @type {Bucket}
-     */ _presenceBucket = /*#__PURE__*/ new WeakMap(), /**
+     */
+_presenceBucket = /*#__PURE__*/ new WeakMap(), /**
      * The current connection.
      * @type {WebSocket}
-     */ _ws1 = /*#__PURE__*/ new WeakMap(), /**
+     */
+_ws1 = /*#__PURE__*/ new WeakMap(), /**
      * Packets that are waiting to be sent.
      * @type {DiscordPacket[]}
-     */ _queue = /*#__PURE__*/ new WeakMap();
+     */
+_queue = /*#__PURE__*/ new WeakMap();
 class Shard extends _utils.Emitter {
     /**
      * The current sequence
      * @type {number}
-     */ get seq() {
+     */
+    get seq() {
         return _class_private_field_get._(this, _seq);
     }
     /**
      * The closing sequence.
      * @type {number}
-     */ get closingSeq() {
+     */
+    get closingSeq() {
         return _class_private_field_get._(this, _closingSeq);
     }
     /**
      * The client instance.
      * @type {Client}
-     */ get client() {
+     */
+    get client() {
         return this.manager.client;
     }
     /**
      * Whether this shard is connected to the gateway or not.
      * @type {boolean}
-     */ get connected() {
+     */
+    get connected() {
         return _class_private_field_get._(this, _ws1) && _class_private_field_get._(this, _ws1).readyState === _ws.default.OPEN;
     }
     /**
      * Send a new packet to the discord gateway.
      * @param {DiscordPacket} data The packet to send.
      * @param {boolean} [prioritized=false] Whether to prioritize this packet.
-     */ send(data, prioritized = false) {
+     */
+    send(data, prioritized = false) {
         if (this.connected) {
             let _i = 0, _w = 1;
             const func = ()=>{
@@ -97,7 +111,8 @@ class Shard extends _utils.Emitter {
     /**
      * Destroys this shard.
      * @param {ShardDestroyOptions} [options={}]
-     */ destroy({ code = 1000, emit = true, log = true, reset = false } = {}) {
+     */
+    destroy({ code = 1000, emit = true, log = true, reset = false } = {}) {
         if (log) {
             this._debug(`Destroying; Code = ${code}, Resetting? = ${reset ? "yes" : "no"}`);
         }
@@ -120,7 +135,8 @@ class Shard extends _utils.Emitter {
                     /**
                      * Emitted whenever the shard was destroyed.
                      * @event Shard#destroyed
-                     */ this.emit(_utils.ShardEvent.DESTROYED);
+                     */
+                    this.emit(_utils.ShardEvent.DESTROYED);
                 }
             }
         } else if (emit) {
@@ -141,18 +157,21 @@ class Shard extends _utils.Emitter {
         _class_private_field_set._(this, _bucket, new _utils.Bucket(120, 6e4));
     }
     connect() {
-        /* Step 0 - Check if a connection already exists. If so identify the session. */ if (this.connected) {
+        /* Step 0 - Check if a connection already exists. If so identify the session. */
+        if (this.connected) {
             this._debug("A connection is already present, attempting to identify.");
             this.session.identify();
             return;
         }
-        /* Step 1 - If a socket is already present, destroy it. */ if (_class_private_field_get._(this, _ws1)) {
+        /* Step 1 - If a socket is already present, destroy it. */
+        if (_class_private_field_get._(this, _ws1)) {
             this._debug("A connection is already present, cleaning up...");
             this.destroy({
                 emit: false
             });
         }
-        /* Step 2 - Setup serialization and compression. */ const qs = new URLSearchParams();
+        /* Step 2 - Setup serialization and compression. */
+        const qs = new URLSearchParams();
         qs.append("v", this.manager.options.version.toString());
         // Step 2.1 - Serialization
         const encoding = this.manager.options.useEtf ? "etf" : "json";
@@ -163,21 +182,26 @@ class Shard extends _utils.Emitter {
             _class_private_field_set._(this, _compression1, _compression.Compression.create(this.manager.compression).on("data", (buffer)=>this._packet(buffer)).on("error", (error)=>this.emit(_utils.ShardEvent.ERROR, error)).on("debug", (message)=>this._debug(message)));
             qs.append("compress", "zlib-stream");
         }
-        /* Step 5 - Set the status and wait for the hello op code. */ this.status = this.status === _utils.Status.DISCONNECTED ? _utils.Status.RECONNECTING : _utils.Status.CONNECTING;
+        /* Step 5 - Set the status and wait for the hello op code. */
+        this.status = this.status === _utils.Status.DISCONNECTED ? _utils.Status.RECONNECTING : _utils.Status.CONNECTING;
         this.session.setHelloTimeout();
         /**
          * The timestamp in which this shard connected.
          * @type {number}
-         */ this.connectedAt = Date.now();
-        /* Step 6 - Connect to the gateway. */ const uri = this.manager.gatewayUrl.replace(/\/*$/m, "");
+         */
+        this.connectedAt = Date.now();
+        /* Step 6 - Connect to the gateway. */
+        const uri = this.manager.gatewayUrl.replace(/\/*$/m, "");
         _class_private_field_set._(this, _ws1, new _ws.default(`${uri}/?${qs}`));
-        /* Step 7 - Attach the listeners. */ _class_private_field_get._(this, _ws1).onopen = this._open.bind(this);
+        /* Step 7 - Attach the listeners. */
+        _class_private_field_get._(this, _ws1).onopen = this._open.bind(this);
         _class_private_field_get._(this, _ws1).onclose = this._close.bind(this);
         _class_private_field_get._(this, _ws1).onerror = this._error.bind(this);
         _class_private_field_get._(this, _ws1).onmessage = this._message.bind(this);
     }
     _packet(raw) {
-        /** @type {DiscordPacket} */ let pak;
+        /** @type {DiscordPacket} */
+        let pak;
         try {
             pak = _class_private_field_get._(this, _serialization1).decode(raw);
             this.manager.emit(_utils.ClientEvent.RAW_PACKET, pak, this);
@@ -190,7 +214,8 @@ class Shard extends _utils.Emitter {
                 /**
                  * Emitted whenever the Shard receives the READY payload.
                  * @event Shard#ready
-                 */ this.emit(_utils.ShardEvent.READY);
+                 */
+                this.emit(_utils.ShardEvent.READY);
                 this.session.id = pak.d.session_id;
                 this.expectedGuilds = new Set(pak.d.guilds.map((g)=>g.id));
                 this.status = _utils.Status.WAITING_FOR_GUILDS;
@@ -201,7 +226,8 @@ class Shard extends _utils.Emitter {
                 /**
                  * Emitted when a shards connection has been resumed.
                  * @event Shard#resumed
-                 */ this.emit(_utils.ShardEvent.RESUMED);
+                 */
+                this.emit(_utils.ShardEvent.RESUMED);
                 this.status = _utils.Status.READY;
                 this.heartbeat.acked = true;
                 this.heartbeat.new("resumed");
@@ -262,7 +288,8 @@ class Shard extends _utils.Emitter {
          * The ready timeout.
          * @type {NodeJS.Timeout}
          * @private
-         */ this._readyTimeout = _utils.Timers.setTimeout(()=>{
+         */
+        this._readyTimeout = _utils.Timers.setTimeout(()=>{
             this._debug("Didn't receive any more guilds within 15 seconds.");
             this.status = _utils.Status.READY;
             delete this._readyTimeout;
@@ -272,7 +299,8 @@ class Shard extends _utils.Emitter {
     /**
      * Called whenever the websocket opens.
      * @private
-     */ _open() {
+     */
+    _open() {
         var _class_private_field_get1;
         this.status = _utils.Status.HANDSHAKING;
         this._debug(`Connected. ${(_class_private_field_get1 = _class_private_field_get._(this, _ws1)) === null || _class_private_field_get1 === void 0 ? void 0 : _class_private_field_get1.url} in ${Date.now() - this.connectedAt}`);
@@ -291,7 +319,8 @@ class Shard extends _utils.Emitter {
      * Called whenever the websocket encounters an error.
      * @param {WebSocket.ErrorEvent} event
      * @private
-     */ _error(event) {
+     */
+    _error(event) {
         const error = event.error ? event.error : event;
         if (error) {
             this.manager.client.emit(_utils.ClientEvent.SHARD_ERROR, error, this);
@@ -301,7 +330,8 @@ class Shard extends _utils.Emitter {
      * Called whenever the websocket closes.
      * @param {WebSocket.CloseEvent} evt
      * @private
-     */ _close(evt) {
+     */
+    _close(evt) {
         var _ref;
         const reason = (_ref = evt.reason || _utils.GatewayCloseCode[evt.code]) !== null && _ref !== void 0 ? _ref : "unknown";
         this._debug(`Closed; Code = ${evt.code}, Clean? = ${evt.wasClean}, Reason = ${reason}`);
@@ -319,32 +349,37 @@ class Shard extends _utils.Emitter {
          * Emitted whenever the shard's websocket closes.
          * @event Shard#close
          * @param {WebSocket.CloseEvent} event The received event
-         */ this.emit(_utils.ShardEvent.CLOSE, evt);
+         */
+        this.emit(_utils.ShardEvent.CLOSE, evt);
     }
     /**
      * Called whenever the websocket receives a message.
      * @param {WebSocket.MessageEvent} evt
      * @private
-     */ _message(evt) {
+     */
+    _message(evt) {
         return _class_private_field_get._(this, _compression1) ? _class_private_field_get._(this, _compression1).add(evt.data) : this._packet(evt.data);
     }
     /**
      * Cleans up the WebSocket connection listeners.
      * @private
-     */ _cleanupConnection() {
+     */
+    _cleanupConnection() {
         _class_private_field_get._(this, _ws1).onopen = _class_private_field_get._(this, _ws1).onclose = _class_private_field_get._(this, _ws1).onerror = _class_private_field_get._(this, _ws1).onmessage = null;
     }
     /**
      * Used for debugging shard stuff.
      * @param {string} message The debug message.
      * @private
-     */ _debug(message) {
+     */
+    _debug(message) {
         return this.manager._debug(message, this);
     }
     /**
      * @param {ShardManager} manager The shard manager.
      * @param {number} id The ID of this shard.
-     */ constructor(manager, id){
+     */
+    constructor(manager, id){
         super();
         _class_private_field_init._(this, _serialization1, {
             writable: true,
@@ -381,31 +416,38 @@ class Shard extends _utils.Emitter {
         /**
          * The sharding manager.
          * @type {ShardManager}
-         */ this.manager = manager;
+         */
+        this.manager = manager;
         /**
          * The ID of this shard.
          * @type {number}
-         */ this.id = id;
+         */
+        this.id = id;
         /**
          * The session stuff for this shard.
          * @type {Session}
-         */ this.session = new _connection.Session(this);
+         */
+        this.session = new _connection.Session(this);
         /**
          * The heartbeat stuff for this shard.
          * @type {Heartbeat}
-         */ this.heartbeat = new _connection.Heartbeat(this);
+         */
+        this.heartbeat = new _connection.Heartbeat(this);
         /**
          * The latency of this shard.
          * @type {number}
-         */ this.latency = 0;
+         */
+        this.latency = 0;
         /**
          * The status of this shard.
          * @type {Status}
-         */ this.status = _utils.Status.IDLE;
+         */
+        this.status = _utils.Status.IDLE;
         /**
          * Guilds that are expected to be received.
          * @type {Set<string>}
-         */ this.expectedGuilds = new Set();
+         */
+        this.expectedGuilds = new Set();
         _class_private_field_set._(this, _seq, -1);
         _class_private_field_set._(this, _closingSeq, 0);
         _class_private_field_set._(this, _queue, []);
@@ -420,10 +462,11 @@ class Shard extends _utils.Emitter {
  * @property {*} [d]
  * @property {number | null} [s]
  * @property {string} [t]
- */  /**
+ */
+ /**
  * @typedef {Object} ShardDestroyOptions
  * @property {boolean} [reset=false] Whether to reset the shard.
  * @property {boolean} [emit=true] Whether to emit the "destroyed" event.
  * @property {boolean} [log=false] Whether to emit a debug log.
  * @property {number} [code=1000] The code to use.
- */ 
+ */

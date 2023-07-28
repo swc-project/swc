@@ -8,7 +8,8 @@ export var A = /*#__PURE__*/ function() {
         _class_call_check(this, A);
     }
     var _proto = A.prototype;
-    /** @returns {this} */ _proto.method = function method() {
+    /** @returns {this} */
+    _proto.method = function method() {
         return this;
     };
     return A;

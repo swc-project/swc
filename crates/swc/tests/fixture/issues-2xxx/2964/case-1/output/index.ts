@@ -1,4 +1,5 @@
-/* istanbul ignore next */ // preserved comment
+/* istanbul ignore next */
+// preserved comment
 var x = 1;
 // Stacked Comment
 // Another comment

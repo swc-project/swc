@@ -2,7 +2,8 @@
 /**
  * @constructor
  * @param {number} numberOxen
- */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+ */
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
@@ -10,11 +11,14 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
 function Wagon(numberOxen) {
     this.numberOxen = numberOxen;
 }
-/** @param {Wagon[]=} wagons */ Wagon.circle = function(wagons) {
+/** @param {Wagon[]=} wagons */
+Wagon.circle = function(wagons) {
     return wagons ? wagons.length : 3.14;
 };
-/** @param {*[]=} supplies - *[]= is my favourite type */ Wagon.prototype.load = function(supplies) {};
-/** @param {*[]=} supplies - Yep, still a great type */ Wagon.prototype.weight = function(supplies) {
+/** @param {*[]=} supplies - *[]= is my favourite type */
+Wagon.prototype.load = function(supplies) {};
+/** @param {*[]=} supplies - Yep, still a great type */
+Wagon.prototype.weight = function(supplies) {
     return supplies ? supplies.length : -1;
 };
 Wagon.prototype.speed = function() {
@@ -37,7 +41,8 @@ var Sql = /*#__PURE__*/ function(Wagon) {
      * @param {Array.<string>} files
      * @param {"csv" | "json" | "xmlolololol"} format
      * This is not assignable, so should have a type error
-     */ _proto.load = function load(files, format) {
+     */
+    _proto.load = function load(files, format) {
         if (format === "xmlolololol") {
             throw new Error("please do not use XML. It was a joke.");
         } else {
@@ -65,7 +70,8 @@ var Drakkhen = /*#__PURE__*/ function(Dragon1) {
 //// [second.ts]
 /**
  * @constructor
- */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+ */
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 function Dragon(numberEaten) {
@@ -107,13 +113,15 @@ c.numberOxen;
 /**
  * @template T
  * @param {T} flavour
- */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+ */
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 function Soup(flavour) {
     this.flavour = flavour;
 }
-/** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ var Chowder = /*#__PURE__*/ function(Soup) {
+/** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */
+var Chowder = /*#__PURE__*/ function(Soup) {
     "use strict";
     _inherits(Chowder, Soup);
     var _super = _create_super(Chowder);

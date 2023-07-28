@@ -15,7 +15,8 @@ export var Foo = /*#__PURE__*/ function() {
     };
     return Foo;
 }();
-/** @class */ function C() {
+/** @class */
+function C() {
     this.x = 0;
     this.x = function() {
         this.x.toString();

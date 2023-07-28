@@ -23,22 +23,26 @@ Object.defineProperty(x, "houseNumber", {
     }
 });
 Object.defineProperty(x, "zipStr", {
-    /** @param {string} str */ set: function set(str) {
+    /** @param {string} str */
+    set: function set(str) {
         this.zip = Number(str);
     }
 });
 /**
  * @param {{name: string}} named
- */ function takeName(named) {
+ */
+function takeName(named) {
     return named.name;
 }
 takeName(x);
 /**
  * @type {number}
- */ var a = x.zip;
+ */
+var a = x.zip;
 /**
  * @type {number}
- */ var b = x.houseNumber;
+ */
+var b = x.houseNumber;
 var returnExemplar = function() {
     return x;
 };
@@ -51,7 +55,8 @@ var expected = /** @type {{name: string, readonly middleInit: string, readonly l
  * 
  * @param {typeof returnExemplar} a 
  * @param {typeof needsExemplar} b 
- */ function match(a, b) {}
+ */
+function match(a, b) {}
 match(function() {
     return expected;
 }, function() {

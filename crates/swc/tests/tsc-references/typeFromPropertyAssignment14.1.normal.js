@@ -7,7 +7,8 @@ Outer.Inner.prototype = {
     m: function m() {}
 };
 //// [use.js]
-/** @type {Outer.Inner} */ var inner;
+/** @type {Outer.Inner} */
+var inner;
 inner.x;
 inner.m();
 var inno = new Outer.Inner();

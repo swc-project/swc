@@ -8,18 +8,21 @@ export class Foo {
      * @overload
      * @param {string} a
      * @param {number} b
-     */ /**
+     */
+    /**
      * @constructor
      * @overload
      * @param {number} a
-     */ /**
+     */
+    /**
      * @constructor
      * @overload
      * @param {string} a
      */ /**
      * @constructor
      * @param {number | string} a
-     */ constructor(a, b){
+     */
+    constructor(a, b){
         this.#a = true ? 1 : "1";
         this.#a = a;
         this.#b = b;

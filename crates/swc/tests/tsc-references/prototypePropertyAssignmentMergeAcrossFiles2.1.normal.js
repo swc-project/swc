@@ -9,9 +9,11 @@ Ns.Two.prototype = {};
 //// [other.js]
 /**
  * @type {Ns.One}
- */ var one;
+ */
+var one;
 one.wat;
 /**
  * @type {Ns.Two}
- */ var two;
+ */
+var two;
 two.wat;

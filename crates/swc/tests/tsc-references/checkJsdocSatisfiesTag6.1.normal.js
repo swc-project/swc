@@ -4,7 +4,8 @@
  * @typedef {Object} Point2d
  * @property {number} x
  * @property {number} y
- */ // Undesirable behavior today with type annotation
+ */
+// Undesirable behavior today with type annotation
 var a = /** @satisfies {Partial<Point2d>} */ {
     x: 10
 };

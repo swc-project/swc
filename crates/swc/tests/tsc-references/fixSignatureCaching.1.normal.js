@@ -53,7 +53,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
      *        If you provide a value < 0, then this "fuzzy" check is disabled.
      * @constructor
      * @global
-     */ function MobileDetect(userAgent, maxPhoneWidth) {
+     */
+        function MobileDetect(userAgent, maxPhoneWidth) {
             this.ua = userAgent || "";
             this._cache = {};
             //600dp is typical 7" tablet minimum width
@@ -388,7 +389,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
      * @param {String} userAgent the navigator.userAgent (or HTTP-Header 'User-Agent').
      * @returns {String|null} the matched key if found, otherwise <tt>null</tt>
      * @private
-     */ impl.findMatch = function(rules, userAgent) {
+     */
+        impl.findMatch = function(rules, userAgent) {
             for(var key in rules){
                 if (hasOwnProp.call(rules, key)) {
                     if (rules[key].test(userAgent)) {
@@ -404,7 +406,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
      * @param {String} userAgent the navigator.userAgent (or HTTP-Header 'User-Agent').
      * @returns {Array} an array of matched keys, may be empty when there is no match, but not <tt>null</tt>
      * @private
-     */ impl.findMatches = function(rules, userAgent) {
+     */
+        impl.findMatches = function(rules, userAgent) {
             var result = [];
             for(var key in rules){
                 if (hasOwnProp.call(rules, key)) {
@@ -422,7 +425,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
      * @param {String} userAgent
      * @return {String} version or <tt>null</tt> if version not found
      * @private
-     */ impl.getVersionStr = function(propertyName, userAgent) {
+     */
+        impl.getVersionStr = function(propertyName, userAgent) {
             var props = impl.mobileDetectRules.props, patterns, i, len, match;
             if (hasOwnProp.call(props, propertyName)) {
                 patterns = props[propertyName];
@@ -444,7 +448,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
      * @param {String} userAgent
      * @return {Number} version or <tt>NaN</tt> if version not found
      * @private
-     */ impl.getVersion = function(propertyName, userAgent) {
+     */
+        impl.getVersion = function(propertyName, userAgent) {
             var version = impl.getVersionStr(propertyName, userAgent);
             return version ? impl.prepareVersionNo(version) : NaN;
         };
@@ -454,7 +459,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
      * @param {String} version
      * @return {Number} the version number as a floating number
      * @private
-     */ impl.prepareVersionNo = function(version) {
+     */
+        impl.prepareVersionNo = function(version) {
             var numbers;
             numbers = version.split(/[a-z._ \/\-]/i);
             if (numbers.length === 1) {
@@ -599,7 +605,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
          *
          * @returns {String} the key for the phone family or tablet family, e.g. "Nexus".
          * @function MobileDetect#mobile
-         */ mobile: function mobile() {
+         */
+            mobile: function mobile() {
                 impl.prepareDetectionCache(this._cache, this.ua, this.maxPhoneWidth);
                 return this._cache.mobile;
             },
@@ -627,7 +634,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
          *
          * @returns {String} the key of the phone family or producer, e.g. "iPhone"
          * @function MobileDetect#phone
-         */ phone: function phone() {
+         */
+            phone: function phone() {
                 impl.prepareDetectionCache(this._cache, this.ua, this.maxPhoneWidth);
                 return this._cache.phone;
             },
@@ -674,7 +682,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
          *
          * @returns {String} the key of the tablet family or producer, e.g. "SamsungTablet"
          * @function MobileDetect#tablet
-         */ tablet: function tablet() {
+         */
+            tablet: function tablet() {
                 impl.prepareDetectionCache(this._cache, this.ua, this.maxPhoneWidth);
                 return this._cache.tablet;
             },
@@ -693,7 +702,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
          *
          * @returns {String} the key for the detected user-agent or <tt>null</tt>
          * @function MobileDetect#userAgent
-         */ userAgent: function userAgent() {
+         */
+            userAgent: function userAgent() {
                 if (this._cache.userAgent === undefined) {
                     this._cache.userAgent = impl.findMatch(impl.mobileDetectRules.uas, this.ua);
                 }
@@ -714,7 +724,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
          *
          * @returns {Array} the array of detected user-agent keys or <tt>[]</tt>
          * @function MobileDetect#userAgents
-         */ userAgents: function userAgents() {
+         */
+            userAgents: function userAgents() {
                 if (this._cache.userAgents === undefined) {
                     this._cache.userAgents = impl.findMatches(impl.mobileDetectRules.uas, this.ua);
                 }
@@ -729,7 +740,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
          *
          * @returns {String} the key for the detected operating system.
          * @function MobileDetect#os
-         */ os: function os() {
+         */
+            os: function os() {
                 if (this._cache.os === undefined) {
                     this._cache.os = impl.detectOS(this.ua);
                 }
@@ -752,7 +764,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
          * @returns {Number} the version as float or <tt>NaN</tt> if User-Agent doesn't contain this version.
          *          Be careful when comparing this value with '==' operator!
          * @function MobileDetect#version
-         */ version: function version(key) {
+         */
+            version: function version(key) {
                 return impl.getVersion(key, this.ua);
             },
             /**
@@ -771,7 +784,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
          * @returns {String} the "raw" version as String or <tt>null</tt> if User-Agent doesn't contain this version.
          *
          * @function MobileDetect#versionStr
-         */ versionStr: function versionStr(key) {
+         */
+            versionStr: function versionStr(key) {
                 return impl.getVersionStr(key, this.ua);
             },
             /**
@@ -787,7 +801,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
          * @returns {boolean} <tt>true</tt> when the given key is one of the defined keys of userAgent, os, phone,
          *                    tablet or one of the listed additional keys, otherwise <tt>false</tt>
          * @function MobileDetect#is
-         */ is: function is(key) {
+         */
+            is: function is(key) {
                 return containsIC(this.userAgents(), key) || equalIC(key, this.os()) || equalIC(key, this.phone()) || equalIC(key, this.tablet()) || containsIC(impl.findMatches(impl.mobileDetectRules.utils, this.ua), key);
             },
             /**
@@ -797,7 +812,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
          *                        (a string will be converted to a case-insensitive RegExp).
          * @returns {boolean} <tt>true</tt> when the pattern matches, otherwise <tt>false</tt>
          * @function MobileDetect#match
-         */ match: function match(pattern) {
+         */
+            match: function match(pattern) {
                 if (!_instanceof(pattern, RegExp)) {
                     pattern = new RegExp(pattern, "i");
                 }
@@ -812,7 +828,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
          * @returns {boolean|undefined} <code>undefined</code> if screen size wasn't detectable, else <code>true</code>
          *          when screen.width is less or equal to maxPhoneWidth, otherwise <code>false</code>.<br>
          *          Will always return <code>undefined</code> server-side.
-         */ isPhoneSized: function isPhoneSized(maxPhoneWidth) {
+         */
+            isPhoneSized: function isPhoneSized(maxPhoneWidth) {
                 return MobileDetect.isPhoneSized(maxPhoneWidth || this.maxPhoneWidth);
             },
             /**
@@ -820,7 +837,8 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
          *
          * @returns {String} one of the mobile grades ('A', 'B', 'C').
          * @function MobileDetect#mobileGrade
-         */ mobileGrade: function mobileGrade() {
+         */
+            mobileGrade: function mobileGrade() {
                 if (this._cache.grade === undefined) {
                     this._cache.grade = impl.mobileGrade(this);
                 }

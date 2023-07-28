@@ -2,12 +2,14 @@
 /** @callback Con - some kind of continuation
  * @param {object | undefined} error
  * @return {any} I don't even know what this should return
- */ module.exports = C;
+ */
+module.exports = C;
 function C() {
     this.p = 1;
 }
 //// [use.js]
-/** @param {import('./mod1').Con} k */ function f(k) {
+/** @param {import('./mod1').Con} k */
+function f(k) {
     if (1 === 2 - 1) {
     // I guess basic math works!
     }

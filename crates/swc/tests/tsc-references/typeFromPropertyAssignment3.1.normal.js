@@ -8,7 +8,9 @@ Outer.Inner = function I() {
     _class_call_check(this, I);
     this.x = 1;
 };
-/** @type {Outer} */ var ja;
+/** @type {Outer} */
+var ja;
 ja.y;
-/** @type {Outer.Inner} */ var da;
+/** @type {Outer.Inner} */
+var da;
 da.x;

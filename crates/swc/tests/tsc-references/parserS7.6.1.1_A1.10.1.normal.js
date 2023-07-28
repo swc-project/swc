@@ -7,4 +7,5 @@
  * @path ch07/7.6/7.6.1/7.6.1.1/S7.6.1.1_A1.10.js
  * @description Checking if execution of "for=1" fails
  * @negative
- */ //for = 1;
+ */
+//for = 1;

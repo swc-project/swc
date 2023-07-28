@@ -5,7 +5,8 @@ Outer.Inner.prototype = {
     x: 1,
     m: function m() {}
 };
-/** @type {Outer.Inner} */ var inner;
+/** @type {Outer.Inner} */
+var inner;
 inner.x;
 inner.m();
 var inno = new Outer.Inner();

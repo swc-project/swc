@@ -4,17 +4,23 @@ import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_fie
 import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
 var /**
      * @public
-     */ _a = /*#__PURE__*/ new WeakMap(), /**
+     */
+_a = /*#__PURE__*/ new WeakMap(), /**
      * @private
-     */ _b = /*#__PURE__*/ new WeakMap(), /**
+     */
+_b = /*#__PURE__*/ new WeakMap(), /**
      * @protected
-     */ _c = /*#__PURE__*/ new WeakMap(), /**
+     */
+_c = /*#__PURE__*/ new WeakMap(), /**
      * @public
-     */ _aMethod = /*#__PURE__*/ new WeakSet(), /**
+     */
+_aMethod = /*#__PURE__*/ new WeakSet(), /**
      * @private
-     */ _bMethod = /*#__PURE__*/ new WeakSet(), /**
+     */
+_bMethod = /*#__PURE__*/ new WeakSet(), /**
      * @protected
-     */ _cMethod = /*#__PURE__*/ new WeakSet(), _aProp = /*#__PURE__*/ new WeakMap(), _bProp = /*#__PURE__*/ new WeakMap(), _cProp = /*#__PURE__*/ new WeakMap();
+     */
+_cMethod = /*#__PURE__*/ new WeakSet(), _aProp = /*#__PURE__*/ new WeakMap(), _bProp = /*#__PURE__*/ new WeakMap(), _cProp = /*#__PURE__*/ new WeakMap();
 class A {
     constructor(){
         _class_private_method_init(this, _aMethod);
@@ -22,27 +28,33 @@ class A {
         _class_private_method_init(this, _cMethod);
         /**
      * @public
-     */ _class_private_field_init(this, _aProp, {
+     */
+        _class_private_field_init(this, _aProp, {
             get: get_aProp,
             set: /**
      * @public
-     */ set_aProp
+     */
+            set_aProp
         });
         /**
      * @private
-     */ _class_private_field_init(this, _bProp, {
+     */
+        _class_private_field_init(this, _bProp, {
             get: get_bProp,
             set: /**
      * @private
-     */ set_bProp
+     */
+            set_bProp
         });
         /**
     * @protected
-    */ _class_private_field_init(this, _cProp, {
+    */
+        _class_private_field_init(this, _cProp, {
             get: get_cProp,
             set: /**
      * @protected
-     */ set_cProp
+     */
+            set_cProp
         });
         _class_private_field_init(this, _a, {
             writable: true,

@@ -7,7 +7,8 @@
 /**
  * @path ch15/15.4/15.4.4/15.4.4.14/15.4.4.14-9-2.js
  * @description Array.prototype.indexOf must return correct index (Number)
- */ function testcase() {
+ */
+function testcase() {
     var obj = {
         toString: function toString() {
             return 0;

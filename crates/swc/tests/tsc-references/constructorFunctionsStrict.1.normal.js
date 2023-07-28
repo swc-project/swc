@@ -1,5 +1,6 @@
 //// [a.js]
-/** @param {number} x */ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
+/** @param {number} x */
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 function C(x) {
     this.x = x;
 }
@@ -11,7 +12,8 @@ c.x = undefined // should error
 ;
 c.y = undefined // ok
 ;
-/** @param {number} x */ function A(x) {
+/** @param {number} x */
+function A(x) {
     if (!_instanceof(this, A)) {
         return new A(x);
     }

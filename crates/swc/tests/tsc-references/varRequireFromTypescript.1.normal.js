@@ -13,7 +13,8 @@ crunch.n;
 /**
  * @param {ex.Greatest} greatest
  * @param {ex.Crunch} wrap
- */ function f(greatest, wrap) {
+ */
+function f(greatest, wrap) {
     greatest.day;
     wrap.n;
 }

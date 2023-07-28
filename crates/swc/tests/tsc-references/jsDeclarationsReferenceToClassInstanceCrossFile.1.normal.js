@@ -18,14 +18,16 @@ var Render = /*#__PURE__*/ function() {
         /**
          * Object list
          * @type {Rectangle[]}
-         */ this.objects = [];
+         */
+        this.objects = [];
     }
     var _proto = Render.prototype;
     /**
      * Adds a rectangle
      * 
      * @returns {Rectangle} the rect
-     */ _proto.addRectangle = function addRectangle() {
+     */
+    _proto.addRectangle = function addRectangle() {
         var obj = new Rectangle();
         this.objects.push(obj);
         return obj;

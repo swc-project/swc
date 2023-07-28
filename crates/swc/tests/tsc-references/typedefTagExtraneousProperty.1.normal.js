@@ -1,7 +1,9 @@
 //// [typedefTagExtraneousProperty.js]
 /** @typedef {Object.<string,string>} Mmap
  * @property {string} ignoreMe - should be ignored
- */ /** @type {Mmap} */ var y = {
+ */
+/** @type {Mmap} */
+var y = {
     bye: "no"
 };
 y;

@@ -2,7 +2,8 @@
 // Contextual typing for parenthesized substitution expressions in tagged templates.
 /**
  * tempFun - Can't have fun for too long.
- */ function tempFun(tempStrs, g, x) {
+ */
+function tempFun(tempStrs, g, x) {
     return g(x);
 }
 var a = tempFun`${(x)=>x}  ${10}`;

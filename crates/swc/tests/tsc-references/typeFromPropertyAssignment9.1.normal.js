@@ -1,6 +1,7 @@
 //// [a.js]
 var my = my || {};
-/** @param {number} n */ my.method = function(n) {
+/** @param {number} n */
+my.method = function(n) {
     return n + 1;
 };
 my.number = 1;
@@ -17,7 +18,8 @@ my.predicate.query.another = function() {
 my.predicate.query.result = 'none';
 /** @param {number} first
  *  @param {number} second
- */ my.predicate.sort = my.predicate.sort || function(first, second) {
+ */
+my.predicate.sort = my.predicate.sort || function(first, second) {
     return first > second ? first : second;
 };
 my.predicate.type = class {

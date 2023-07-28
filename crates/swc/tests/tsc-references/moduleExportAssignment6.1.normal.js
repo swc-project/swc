@@ -10,7 +10,8 @@ var C = /*#__PURE__*/ function() {
         ];
     }
     var _proto = C.prototype;
-    /** @param {number} y */ _proto.m = function m(y) {
+    /** @param {number} y */
+    _proto.m = function m(y) {
         return this.x + y;
     };
     return C;

@@ -1,12 +1,15 @@
 //// [genericSetterInClassTypeJsDoc.js]
 /**
  * @template T
- */ class Box {
+ */
+class Box {
     #value;
-    /** @param {T} initialValue */ constructor(initialValue){
+    /** @param {T} initialValue */
+    constructor(initialValue){
         this.#value = initialValue;
     }
-    /** @type {T} */ get value() {
+    /** @type {T} */
+    get value() {
         return this.#value;
     }
     set value(value) {

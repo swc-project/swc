@@ -8,7 +8,8 @@ exports.A = function() {
 //// [a.js]
 "use strict";
 var A = require("./a-ext").A;
-/** @param {A} p */ function a(p) {
+/** @param {A} p */
+function a(p) {
     p.x;
 }
 //// [b-ext.js]
@@ -25,7 +26,8 @@ exports.B = function _class() {
 //// [b.js]
 "use strict";
 var B = require("./b-ext").B;
-/** @param {B} p */ function b(p) {
+/** @param {B} p */
+function b(p) {
     p.x;
 }
 //// [c-ext.js]
@@ -45,7 +47,8 @@ function C() {
 //// [c.js]
 "use strict";
 var C = require("./c-ext").C;
-/** @param {C} p */ function c(p) {
+/** @param {C} p */
+function c(p) {
     p.x;
 }
 //// [d-ext.js]
@@ -65,7 +68,8 @@ var D = function D() {
 //// [d.js]
 "use strict";
 var D = require("./d-ext").D;
-/** @param {D} p */ function d(p) {
+/** @param {D} p */
+function d(p) {
     p.x;
 }
 //// [e-ext.js]
@@ -88,7 +92,8 @@ var E = function E() {
 //// [e.js]
 "use strict";
 var E = require("./e-ext").E;
-/** @param {E} p */ function e(p) {
+/** @param {E} p */
+function e(p) {
     p.x;
 }
 //// [f.js]
@@ -96,7 +101,8 @@ var E = require("./e-ext").E;
 var F = function F() {
     this.x = 1;
 };
-/** @param {F} p */ function f(p) {
+/** @param {F} p */
+function f(p) {
     p.x;
 }
 //// [g.js]
@@ -104,7 +110,8 @@ var F = function F() {
 function G() {
     this.x = 1;
 }
-/** @param {G} p */ function g(p) {
+/** @param {G} p */
+function g(p) {
     p.x;
 }
 //// [h.js]
@@ -118,6 +125,7 @@ var H = function H() {
     _class_call_check._(this, H);
     this.x = 1;
 };
-/** @param {H} p */ function h(p) {
+/** @param {H} p */
+function h(p) {
     p.x;
 }

@@ -1,20 +1,24 @@
 //// [file.js]
 /**
   * @param {Array=} y desc
-  */ function x(y) {}
+  */
+function x(y) {}
 // @ts-ignore
 /** @param {function (Array)} func Invoked
- */ function y(func) {
+ */
+function y(func) {
     return;
 }
 /**
  * @return {(Array.<> | null)} list of devices
- */ function z() {
+ */
+function z() {
     return null;
 }
 /**
  * 
  * @return {?Promise} A promise
- */ function w() {
+ */
+function w() {
     return null;
 }

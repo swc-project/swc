@@ -16,7 +16,8 @@ function foo() {
 function bar() {
     return 4;
 }
-/** @typedef {() => number} buz */ module.exports = {
+/** @typedef {() => number} buz */
+module.exports = {
     Thing: Thing,
     AnotherThing: AnotherThing,
     foo: foo,
@@ -35,7 +36,8 @@ function bar() {
  * @param {import("./mod").baz} e
  * @param {import("./mod").buz} f
  * @param {import("./mod").literal} g
- */ function jstypes(a, b, c, d, e, f, g) {
+ */
+function jstypes(a, b, c, d, e, f, g) {
     return a.x + b.y + c() + d() + e() + f() + g.length;
 }
 /**
@@ -46,7 +48,8 @@ function bar() {
  * @param {typeof import("./mod").baz} e
  * @param {typeof import("./mod").buz} f
  * @param {typeof import("./mod").literal} g
- */ function jsvalues(a, b, c, d, e, f, g) {
+ */
+function jsvalues(a, b, c, d, e, f, g) {
     return a.length + b.length + c() + d() + e() + f() + g.length;
 }
 //// [index.ts]

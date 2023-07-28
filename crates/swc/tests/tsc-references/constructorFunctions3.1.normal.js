@@ -15,12 +15,15 @@ StaticToo;
 // Both!
 function A() {
     this.x = 1;
-    /** @type {1} */ this.second = 1;
+    /** @type {1} */
+    this.second = 1;
 }
-/** @param {number} n */ A.prototype.z = function f(n) {
+/** @param {number} n */
+A.prototype.z = function f(n) {
     return n + this.x;
 };
-/** @param {number} m */ A.t = function g(m) {
+/** @param {number} m */
+A.t = function g(m) {
     return m + 1;
 };
 var a = new A();

@@ -4,4 +4,5 @@
  * Checks if `value` is classified as an `Array` object.
  *
  * @type Function
- */ var isArray = Array.isArray;
+ */
+var isArray = Array.isArray;

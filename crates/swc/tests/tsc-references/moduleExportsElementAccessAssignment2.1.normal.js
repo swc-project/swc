@@ -7,7 +7,8 @@ var GlobalThing = {
  * @param {*} type 
  * @param {*} ctor
  * @param {*} exports
- */ function f(type, ctor, exports) {
+ */
+function f(type, ctor, exports) {
     if (typeof exports !== "undefined") {
         exports["AST_" + type] = ctor;
     }

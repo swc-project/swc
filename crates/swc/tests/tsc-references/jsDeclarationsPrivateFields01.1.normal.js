@@ -9,7 +9,8 @@ export class C {
     get #screamingHello() {
         return this.#hello.toUpperCase();
     }
-    /** @param value {string} */ set #screamingHello(value) {
+    /** @param value {string} */
+    set #screamingHello(value) {
         throw "NO";
     }
     getWorld() {

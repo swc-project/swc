@@ -1,2 +1,3 @@
 //// [bug26693.js]
-/** @typedef {module:locale} hi */ export { };
+/** @typedef {module:locale} hi */
+export { };

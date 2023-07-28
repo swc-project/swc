@@ -13,12 +13,14 @@ var C2 = function C21() {
 };
 var c2_v1 = C2();
 var c2_v2 = new C2();
-/** @class */ function C3() {
+/** @class */
+function C3() {
     if (!_instanceof(this, C3)) return new C3();
 }
 var c3_v1 = C3(); // error: @class tag requires 'new'
 var c3_v2 = new C3();
-/** @class */ var C4 = function C41() {
+/** @class */
+var C4 = function C41() {
     if (!_instanceof(this, C4)) return new C4();
 };
 var c4_v1 = C4(); // error: @class tag requires 'new'
@@ -32,7 +34,8 @@ c5_v2 = function c5_v2() {
     _class_call_check(this, c5_v2);
 };
 new c5_v2();
-/** @class */ function C6() {
+/** @class */
+function C6() {
     this.functions = [
         function(x) {
             return x;
@@ -49,5 +52,6 @@ var c6_v1 = new C6();
 /**
  * @constructor
  * @param {number} num
- */ function C7(num) {}
+ */
+function C7(num) {}
 var c7_v1 = new C7();

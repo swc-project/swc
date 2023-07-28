@@ -6,7 +6,8 @@ Inner.prototype = {
 };
 // incremental assignments still work
 Inner.prototype.j = 2;
-/** @type {string} */ Inner.prototype.k;
+/** @type {string} */
+Inner.prototype.k;
 var inner = new Inner();
 inner.m();
 inner.i;

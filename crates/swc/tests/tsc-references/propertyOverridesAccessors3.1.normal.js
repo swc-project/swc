@@ -6,7 +6,8 @@ class Animal {
     }
     set sound(val) {
         this._sound = val;
-    /* some important code here, perhaps tracking known sounds, etc */ }
+    /* some important code here, perhaps tracking known sounds, etc */
+    }
     makeSound() {
         console.log(this._sound);
     }

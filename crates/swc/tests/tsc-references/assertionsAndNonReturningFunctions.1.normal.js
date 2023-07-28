@@ -1,24 +1,30 @@
 //// [assertionsAndNonReturningFunctions.js]
-/** @typedef {(check: boolean) => asserts check} AssertFunc */ /** @type {AssertFunc} */ var assert = function(check) {
+/** @typedef {(check: boolean) => asserts check} AssertFunc */
+/** @type {AssertFunc} */
+var assert = function(check) {
     if (!check) throw new Error();
 };
-/** @type {(x: unknown) => asserts x is string } */ function assertIsString(x) {
+/** @type {(x: unknown) => asserts x is string } */
+function assertIsString(x) {
     if (!(typeof x === "string")) throw new Error();
 }
 /**
  * @param {boolean} check
  * @returns {asserts check}
-*/ function assert2(check) {
+*/
+function assert2(check) {
     if (!check) throw new Error();
 }
 /**
  * @returns {never}
- */ function fail() {
+ */
+function fail() {
     throw new Error();
 }
 /**
  * @param {*} x 
- */ function f1(x) {
+ */
+function f1(x) {
     if (!!true) {
         assert(typeof x === "string");
         x.length;
@@ -38,7 +44,8 @@
 }
 /**
  * @param {boolean} b 
- */ function f2(b) {
+ */
+function f2(b) {
     switch(b){
         case true:
             return 1;

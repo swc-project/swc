@@ -8,8 +8,10 @@ A.B = /*#__PURE__*/ function() {
     }
     var _proto = _class.prototype;
     _proto.m = function m() {
-        /** @type {string[]} */ var x = [];
-        /** @type {number[]} */ var y;
+        /** @type {string[]} */
+        var x = [];
+        /** @type {number[]} */
+        var y;
         y = x;
     };
     return _class;

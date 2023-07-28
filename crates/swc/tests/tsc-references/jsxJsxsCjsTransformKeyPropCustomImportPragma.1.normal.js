@@ -1,6 +1,7 @@
 //// [preact.tsx]
 /// <reference path="/.lib/react16.d.ts" />
-/* @jsxImportSource preact */ "use strict";
+/* @jsxImportSource preact */
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
@@ -19,7 +20,8 @@ var b = /*#__PURE__*/ (0, _preact.createElement)("div", _object_spread_props._(_
 }), "text");
 //// [react.tsx]
 /// <reference path="/.lib/react16.d.ts" />
-/* @jsxImportSource react */ "use strict";
+/* @jsxImportSource react */
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });

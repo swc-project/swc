@@ -4,9 +4,11 @@
 *     a: number | string;
 *     b: boolean | string[];
 * }} Foo
-*/ /**
+*/
+/**
 * @template {Foo} T
-*/ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+*/
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var A = function A(a) {
@@ -19,7 +21,8 @@ var A = function A(a) {
 *     a: string,
 *     b: string[]
 * }>}
-*/ var B = /*#__PURE__*/ function(A) {
+*/
+var B = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(B, A);
     var _super = _create_super(B);
@@ -34,7 +37,8 @@ var A = function A(a) {
  *     a: string,
  *     b: string
  * }>}
- */ var C = /*#__PURE__*/ function(A) {
+ */
+var C = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(C, A);
     var _super = _create_super(C);
@@ -46,7 +50,8 @@ var A = function A(a) {
 }(A);
 /**
  * @extends {A<{a: string, b: string[]}>}
- */ var D = /*#__PURE__*/ function(A) {
+ */
+var D = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(D, A);
     var _super = _create_super(D);
@@ -58,7 +63,8 @@ var A = function A(a) {
 }(A);
 /**
  * @extends {A<{a: string, b: string}>}
- */ var E = /*#__PURE__*/ function(A) {
+ */
+var E = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(E, A);
     var _super = _create_super(E);

@@ -2,8 +2,10 @@
 var o = {
     /**
      * @type {"a"}
-     */ a: "a",
-    /** @type {() => 'b'} */ n: function() {
+     */
+    a: "a",
+    /** @type {() => 'b'} */
+    n: function() {
         return "b";
     }
 };

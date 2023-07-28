@@ -1,6 +1,7 @@
 //// [preact.tsx]
 /// <reference path="/.lib/react16.d.ts" />
-/* @jsxImportSource preact */ "use strict";
+/* @jsxImportSource preact */
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
@@ -16,7 +17,8 @@ var a = /*#__PURE__*/ (0, _jsxruntime.jsxs)(_jsxruntime.Fragment, {
 });
 //// [react.tsx]
 /// <reference path="/.lib/react16.d.ts" />
-/* @jsxImportSource react */ "use strict";
+/* @jsxImportSource react */
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });

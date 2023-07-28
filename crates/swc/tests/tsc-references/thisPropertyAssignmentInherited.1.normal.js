@@ -18,7 +18,8 @@ export var Element = /*#__PURE__*/ function() {
             key: "textContent",
             get: /**
    * @returns {String}
-   */ function get() {
+   */
+            function get() {
                 return "";
             },
             set: function set(x) {}

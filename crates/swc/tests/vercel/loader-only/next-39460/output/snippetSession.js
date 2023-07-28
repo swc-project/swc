@@ -1,7 +1,8 @@
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+ *--------------------------------------------------------------------------------------------*/
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";

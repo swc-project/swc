@@ -22,6 +22,7 @@ var D = /*#__PURE__*/ function(B) {
     }
     var _proto = D.prototype;
     _proto.foo = function foo(v) {};
-    /** @override */ _proto.fooo = function fooo(v) {};
+    /** @override */
+    _proto.fooo = function fooo(v) {};
     return D;
 }(B);

@@ -3,4 +3,5 @@
 .concat(10, "\nmiddle", /* Multi-
  * line
  * comment
- */ 20, "\ntail");
+ */
+20, "\ntail");

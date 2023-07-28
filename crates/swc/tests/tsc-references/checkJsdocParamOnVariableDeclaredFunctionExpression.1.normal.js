@@ -4,11 +4,14 @@
 /**
  * @param {number=} n
  * @param {string} [s]
- */ var x = function foo(n, s) {};
+ */
+var x = function foo(n, s) {};
 var y;
 /**
  * @param {boolean!} b
- */ y = function bar(b) {};
+ */
+y = function bar(b) {};
 /**
  * @param {string} s
- */ var one = function one(s) {}, two = function two(untyped) {};
+ */
+var one = function one(s) {}, two = function two(untyped) {};

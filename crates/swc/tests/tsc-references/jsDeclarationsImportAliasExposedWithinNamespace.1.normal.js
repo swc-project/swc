@@ -3,7 +3,8 @@
  * @namespace myTypes
  * @global
  * @type {Object<string,*>}
- */ "use strict";
+ */
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
@@ -38,14 +39,17 @@ _export(exports, {
  * @namespace testFnTypes
  * @global
  * @type {Object<string,*>}
- */ const testFnTypes = {
+ */
+const testFnTypes = {
 };
-/** @typedef {boolean|myTypes.typeC} testFnTypes.input */ /**
+/** @typedef {boolean|myTypes.typeC} testFnTypes.input */
+/**
  * @function testFn
  * @description A test function.
  * @param {testFnTypes.input} input - Input.
  * @returns {number|null} Result.
- */ function testFn(input) {
+ */
+function testFn(input) {
     if (typeof input === 'number') {
         return 2 * input;
     } else {

@@ -2,7 +2,8 @@
 // non top-level:
 // all references to _map, set, get, addon should be ok
 (function container() {
-    /** @constructor */ var Multimap = function Multimap() {
+    /** @constructor */
+    var Multimap = function Multimap() {
         this._map = {};
         this._map;
         this.set;

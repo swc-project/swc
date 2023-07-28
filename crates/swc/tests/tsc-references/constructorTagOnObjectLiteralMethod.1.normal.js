@@ -1,6 +1,7 @@
 //// [example.js]
 var obj = {
-    /** @constructor */ Foo: function Foo() {
+    /** @constructor */
+    Foo: function Foo() {
         this.bar = "bar";
     }
 };

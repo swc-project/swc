@@ -7,7 +7,9 @@ Outer.Inner = class I {
         return [];
     }
 };
-/** @type {!Outer.Inner} */ Outer.i;
+/** @type {!Outer.Inner} */
+Outer.i;
 //// [b.js]
 var msgs = Outer.i.messages();
-/** @param {Outer.Inner} inner */ function x(inner) {}
+/** @param {Outer.Inner} inner */
+function x(inner) {}

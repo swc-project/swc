@@ -1,6 +1,7 @@
 //// [checkJsdocSatisfiesTag7.ts]
 //// [/a.js]
-/** @typedef {"a" | "b" | "c" | "d"} Keys */ var p = /** @satisfies {Record<Keys, unknown>} */ {
+/** @typedef {"a" | "b" | "c" | "d"} Keys */
+var p = /** @satisfies {Record<Keys, unknown>} */ {
     a: 0,
     b: "hello",
     x: 8 // Should error, 'x' isn't in 'Keys'

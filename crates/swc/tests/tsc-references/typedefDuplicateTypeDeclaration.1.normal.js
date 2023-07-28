@@ -3,4 +3,4 @@
  * @typedef Name
  * @type {string}
  * @type {Oops}
- */ 
+ */

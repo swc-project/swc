@@ -10,14 +10,16 @@ export var C = /*#__PURE__*/ function() {
      * @template T
      * @this {T}
      * @return {T}
-     */ _proto.b = function b() {
+     */
+    _proto.b = function b() {
         return this;
     };
     /**
      * @template T
      * @this {T}
      * @return {T}
-     */ C.a = function a() {
+     */
+    C.a = function a() {
         return this;
     };
     return C;

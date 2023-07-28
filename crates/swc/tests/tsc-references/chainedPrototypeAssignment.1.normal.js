@@ -10,7 +10,8 @@ var B = function B() {
 exports.A = A;
 exports.B = B;
 A.prototype = B.prototype = {
-    /** @param {number} n */ m: function m(n) {
+    /** @param {number} n */
+    m: function m(n) {
         return n + 1;
     }
 };

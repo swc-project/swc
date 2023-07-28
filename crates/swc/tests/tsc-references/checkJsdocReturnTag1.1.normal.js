@@ -3,16 +3,19 @@
 // @ts-check
 /**
  * @returns {string} This comment is not currently exposed
- */ function f() {
+ */
+function f() {
     return "hello";
 }
 /**
  * @returns {string=} This comment is not currently exposed
- */ function f1() {
+ */
+function f1() {
     return "hello world";
 }
 /**
  * @returns {string|number} This comment is not currently exposed
- */ function f2() {
+ */
+function f2() {
     return 5 || "hello";
 }

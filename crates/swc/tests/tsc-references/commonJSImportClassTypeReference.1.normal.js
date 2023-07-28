@@ -1,7 +1,8 @@
 //// [commonJSImportClassTypeReference.ts]
 //// [main.js]
 var K = require("./mod1").K;
-/** @param {K} k */ function f(k) {
+/** @param {K} k */
+function f(k) {
     k.values();
 }
 //// [mod1.js]

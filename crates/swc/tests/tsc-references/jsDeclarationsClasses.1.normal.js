@@ -31,7 +31,8 @@ export var D = function D(a, b) {
 };
 /**
  * @template T,U
- */ export var E = /*#__PURE__*/ function() {
+ */
+export var E = /*#__PURE__*/ function() {
     "use strict";
     function E(a, b) {
         _class_call_check(this, E);
@@ -42,18 +43,21 @@ export var D = function D(a, b) {
             key: "f1",
             get: /**
      * @return {U}
-     */ function get() {
+     */
+            function get() {
                 return /** @type {*} */ null;
             },
             set: /**
      * @param {U} _p
-     */ function set(_p) {}
+     */
+            function set(_p) {}
         },
         {
             key: "f2",
             get: /**
      * @return {U}
-     */ function get() {
+     */
+            function get() {
                 return /** @type {*} */ null;
             }
         },
@@ -61,25 +65,29 @@ export var D = function D(a, b) {
             key: "f3",
             set: /**
      * @param {U} _p
-     */ function set(_p) {}
+     */
+            function set(_p) {}
         }
     ], [
         {
             key: "s1",
             get: /**
      * @return {string}
-     */ function get() {
+     */
+            function get() {
                 return "";
             },
             set: /**
      * @param {string} _p
-     */ function set(_p) {}
+     */
+            function set(_p) {}
         },
         {
             key: "s2",
             get: /**
      * @return {string}
-     */ function get() {
+     */
+            function get() {
                 return "";
             }
         },
@@ -87,7 +95,8 @@ export var D = function D(a, b) {
             key: "s3",
             set: /**
      * @param {string} _p
-     */ function set(_p) {}
+     */
+            function set(_p) {}
         }
     ]);
     return E;
@@ -97,7 +106,8 @@ export var D = function D(a, b) {
 })();
 /**
  * @template T,U
- */ export var F = /*#__PURE__*/ function() {
+ */
+export var F = /*#__PURE__*/ function() {
     "use strict";
     function F(a, b) {
         _class_call_check(this, F);
@@ -106,7 +116,8 @@ export var D = function D(a, b) {
      * @template A,B
      * @param {A} a
      * @param {B} b
-     */ F.create = function create(a, b) {
+     */
+    F.create = function create(a, b) {
         return new F(a, b);
     };
     return F;
@@ -168,7 +179,8 @@ export var M = /*#__PURE__*/ function(_superClass) {
 }(null);
 /**
  * @template T
- */ export var N = /*#__PURE__*/ function(L) {
+ */
+export var N = /*#__PURE__*/ function(L) {
     "use strict";
     _inherits(N, L);
     var _super = _create_super(N);
@@ -184,7 +196,8 @@ export var M = /*#__PURE__*/ function(_superClass) {
 /**
  * @template U
  * @extends {N<U>}
- */ export var O = /*#__PURE__*/ function(N) {
+ */
+export var O = /*#__PURE__*/ function(N) {
     "use strict";
     _inherits(O, N);
     var _super = _create_super(O);

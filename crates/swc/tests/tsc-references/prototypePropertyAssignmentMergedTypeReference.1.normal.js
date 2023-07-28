@@ -5,4 +5,5 @@ var f = function f() {
     return 12;
 };
 f.prototype.a = "a";
-/** @type {new () => f} */ var x = f;
+/** @type {new () => f} */
+var x = f;

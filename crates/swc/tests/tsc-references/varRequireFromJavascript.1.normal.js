@@ -20,6 +20,7 @@ crunch.n;
 // types work
 /**
  * @param {ex.Crunch} wrap
- */ function f(wrap) {
+ */
+function f(wrap) {
     wrap.n;
 }

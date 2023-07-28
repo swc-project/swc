@@ -1,14 +1,17 @@
 //// [foo.js]
 /**
  * @constructor
- */ class A {
+ */
+class A {
     constructor(){}
 }
 /**
  * @extends {A}
- */ /**
+ */
+/**
  * @constructor
- */ class B extends A {
+ */
+class B extends A {
     constructor(){
         super();
     }

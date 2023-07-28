@@ -5,4 +5,5 @@
  * @param {number} a
  * @param {number} [b]
  * @param {number} c
- */ function foo(a, b, c) {}
+ */
+function foo(a, b, c) {}

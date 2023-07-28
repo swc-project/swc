@@ -4,8 +4,10 @@
  * @property {Object} icons
  * @property {string} icons.image32
  * @property {string} icons.image64
- */ var ex;
-/** @type {App} */ var app = {
+ */
+var ex;
+/** @type {App} */
+var app = {
     name: "name",
     icons: {
         image32: "x.png",
@@ -17,13 +19,17 @@
  * @property {Object} oops
  * @property {string} horrible
  * @type {string} idea
- */ var intercessor = 1;
-/** @type {Opp} */ var mistake;
+ */
+var intercessor = 1;
+/** @type {Opp} */
+var mistake;
 /** @typedef {Object} Upp
  * @property {string} name
  * @property {Object} not
  * @property {string} nested
- */ /** @type {Upp} */ var sala = {
+ */
+/** @type {Upp} */
+var sala = {
     name: "uppsala",
     not: 0,
     nested: "ok"

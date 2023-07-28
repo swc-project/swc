@@ -6,4 +6,5 @@ MyClass.bar;
 //// [b.js]
 import MC from './a';
 MC.bar;
-/** @type {MC.bar} */ var x;
+/** @type {MC.bar} */
+var x;

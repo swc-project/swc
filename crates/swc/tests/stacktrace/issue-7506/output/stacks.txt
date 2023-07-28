@@ -1,7 +1,6 @@
 $DIR/tests/stacktrace/issue-7506/input/index.js:2
     throw new Error()
-    ^
-
+          ^
 
 Error
     at getStackTrace ($DIR/tests/stacktrace/issue-7506/input/index.js:2:11)
