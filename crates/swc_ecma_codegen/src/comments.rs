@@ -54,10 +54,10 @@ macro_rules! write_comments {
                             if let Some(line) = line {
                                 let next_char =
                                     line.chars().nth(hi_loc.col_display).unwrap_or_default();
-                                if next_char.is_whitespace() {
-                                    $e.wr.write_space()?;
-                                } else {
+                                if next_char == '\0' {
                                     $e.wr.write_line()?;
+                                } else {
+                                    $e.wr.write_space()?;
                                 }
                             }
                         } else {
