@@ -462,10 +462,6 @@ where
     fn visit_class(&mut self, n: &Class) {
         n.decorators.visit_with(self);
 
-        for_each_id_ref_in_class(n, &mut |i| {
-            self.data.var_or_default(i.to_id()).mark_used_as_ref();
-        });
-
         {
             let ctx = Ctx {
                 inline_prevented: true,
@@ -796,10 +792,6 @@ where
     fn visit_function(&mut self, n: &Function) {
         n.decorators.visit_with(self);
 
-        for_each_id_ref_in_fn(n, &mut |i| {
-            self.data.var_or_default(i.to_id()).mark_used_as_ref();
-        });
-
         let is_standalone = self
             .marks
             .map(|marks| n.span.has_mark(marks.standalone))
@@ -978,6 +970,7 @@ where
         let ctx = Ctx {
             in_pat_of_param: true,
             var_decl_kind_of_pat: None,
+            is_id_ref: true,
             ..self.ctx
         };
         n.pat.visit_with(&mut *self.with_ctx(ctx));
