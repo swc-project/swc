@@ -259,8 +259,6 @@ impl Visit for UsageVisitor {
         }
     }
 
-    // TODO: https://github.com/babel/babel/blob/00758308/packages/babel-preset-env/src/polyfills/corejs3/usage-plugin.js#L198-L206
-
     /// `yield*`
     fn visit_yield_expr(&mut self, e: &YieldExpr) {
         e.visit_children_with(self);
