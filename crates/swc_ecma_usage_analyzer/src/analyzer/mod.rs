@@ -462,6 +462,10 @@ where
     fn visit_class(&mut self, n: &Class) {
         n.decorators.visit_with(self);
 
+        for_each_id_ref_in_class(n, &mut |i| {
+            self.data.var_or_default(i.to_id()).mark_used_as_ref();
+        });
+
         {
             let ctx = Ctx {
                 inline_prevented: true,
@@ -791,6 +795,10 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_function(&mut self, n: &Function) {
         n.decorators.visit_with(self);
+
+        for_each_id_ref_in_fn(n, &mut |i| {
+            self.data.var_or_default(i.to_id()).mark_used_as_ref();
+        });
 
         let is_standalone = self
             .marks
@@ -1345,6 +1353,10 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
             for_each_id_ref_in_class(&c.class, op);
         }
 
+        Expr::Fn(f) => {
+            for_each_id_ref_in_fn(&f.function, op);
+        }
+
         Expr::Seq(s) => {
             for_each_id_ref_in_expr(s.exprs.last().unwrap(), op);
         }
@@ -1389,6 +1401,8 @@ fn for_each_id_ref_in_class(c: &Class, op: &mut impl FnMut(&Ident)) {
         ClassMember::AutoAccessor(m) => {}
     });
 }
+
+fn for_each_id_ref_in_fn(c: &Function, op: &mut impl FnMut(&Ident)) {}
 
 fn leftmost(p: &Expr) -> Option<Id> {
     match p {
