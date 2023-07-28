@@ -601,6 +601,13 @@ where
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr) {
+        n.visit_children_with(self);
+
+        self.mark_expr_used_as_ref(&n.expr);
+    }
+
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         match &n.orig {
             ModuleExportName::Ident(orig) => {
@@ -1313,13 +1320,6 @@ where
     fn visit_with_stmt(&mut self, n: &WithStmt) {
         self.scope.mark_with_stmt();
         n.visit_children_with(self);
-    }
-
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr) {
-        n.visit_children_with(self);
-
-        self.mark_expr_used_as_ref(&n.expr);
     }
 }
 
