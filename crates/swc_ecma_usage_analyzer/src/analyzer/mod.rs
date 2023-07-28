@@ -1305,6 +1305,15 @@ where
         self.scope.mark_with_stmt();
         n.visit_children_with(self);
     }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr) {
+        n.visit_children_with(self);
+
+        for_each_id_ref_in_expr(&n.expr, &mut |ident| {
+            self.data.var_or_default(ident.to_id()).mark_used_as_ref();
+        });
+    }
 }
 
 /// - `a` => `a`
