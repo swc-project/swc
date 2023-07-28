@@ -509,6 +509,28 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_class_prop(&mut self, n: &ClassProp) {
+        let ctx = Ctx {
+            is_delete_arg: false,
+            is_id_ref: true,
+            ..self.ctx
+        };
+
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_computed_prop_name(&mut self, n: &ComputedPropName) {
+        let ctx = Ctx {
+            is_delete_arg: false,
+            is_id_ref: true,
+            ..self.ctx
+        };
+
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_cond_expr(&mut self, n: &CondExpr) {
         n.test.visit_with(self);
 
@@ -1041,6 +1063,17 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_private_prop(&mut self, n: &PrivateProp) {
+        let ctx = Ctx {
+            is_delete_arg: false,
+            is_id_ref: true,
+            ..self.ctx
+        };
+
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_prop(&mut self, n: &Prop) {
         let ctx = Ctx {
             is_exact_arg: false,
@@ -1323,17 +1356,6 @@ where
     fn visit_with_stmt(&mut self, n: &WithStmt) {
         self.scope.mark_with_stmt();
         n.visit_children_with(self);
-    }
-
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn visit_computed_prop_name(&mut self, n: &ComputedPropName) {
-        let ctx = Ctx {
-            is_delete_arg: false,
-            is_id_ref: true,
-            ..self.ctx
-        };
-
-        n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 }
 
