@@ -10,6 +10,10 @@ let positions = {
     bottom: 4
 };
 export function PositionRender({ isRtl, position }) {
-    let display = ('fe-fe-fe' === isRtl ? rtlPositions : positions)[position];
+    let display = ('fe-fe-fe' === isRtl ? [
+        rtlPositions ?? 1
+    ] : {
+        positions
+    })[position];
     return React.createElement("h1", null, "PositionRender: ", display);
 }
