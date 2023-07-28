@@ -6,10 +6,12 @@ let Sample = class Sample {
     method(p0: Symbol, p1: typeof sym, p2: string | null, p3: never, p4: string | never, p5: string | null, p6: Maybe<string>, p7: Object | string, p8: string & MyStringType, p9: string[], p10: [string, number], p11: void, p12: this is number, p13: null | undefined, p14: string | (string | null), p15: Object, p16: any, p17: bigint) {}
     /**
      * Member Expression
-     */ method2(p0: Decorate.Name = "abc", p1: Decorate.Name) {}
+     */
+    method2(p0: Decorate.Name = "abc", p1: Decorate.Name) {}
     /**
      * Assignments
-     */ assignments(p0: string = "abc") {}
+     */
+    assignments(p0: string = "abc") {}
 };
 _ts_decorate([
     Decorate,

@@ -3,7 +3,8 @@ export let Product = class Product extends TimestampedEntity {
     price: number;
     type: ProductType;
     productEntityId: string;
-    /* ANCHOR: Relations ------------------------------------------------------ */ orders: Order[];
+    /* ANCHOR: Relations ------------------------------------------------------ */
+    orders: Order[];
     discounts: Discount[];
 };
 _ts_decorate([
