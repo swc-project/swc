@@ -47,3 +47,20 @@ it("should work with amd and external helpers", () => {
     expect(out.code).toContain(`_class_call_check._(this, Foo);`);
     expect(out.code).toContain(`_inherits._(Bar, Foo);`);
 });
+
+it('should not require filename if no exports in umd', () => {
+    const code = `console.log('test')`;
+
+    const out = swc.transformSync(code, {
+        jsc: {
+            parser: {
+                syntax: 'ecmascript',
+            },
+        },
+        module: {
+            type: 'umd',
+        },
+        isModule: true,
+    });
+    expect(out.code).toContain(`function(global`);
+});

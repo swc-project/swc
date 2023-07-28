@@ -373,6 +373,10 @@ impl Options {
         let unresolved_mark = self.unresolved_mark.unwrap_or_else(Mark::new);
         let top_level_mark = self.top_level_mark.unwrap_or_else(Mark::new);
 
+        if target.is_some() && cfg.env.is_some() {
+            bail!("`jsc.env` and `jsc.target` cannot be used together");
+        }
+
         let es_version = target.unwrap_or_default();
 
         let syntax = syntax.unwrap_or_default();

@@ -6,7 +6,6 @@
             "decorators": false,
             "dynamicImport": true
         },
-        "target": "es5",
         "loose": true,
         "externalHelpers": false
     },
