@@ -183,12 +183,6 @@ where
         t.visit_children_with(self);
         self.data.truncate_initialized_cnt(cnt)
     }
-
-    fn mark_expr_used_as_ref(&mut self, e: &Expr) {
-        for_each_id_ref_in_expr(e, &mut |i| {
-            self.data.var_or_default(i.to_id()).mark_used_as_ref();
-        });
-    }
 }
 
 impl<S> Visit for UsageAnalyzer<S>
@@ -360,7 +354,9 @@ where
         }
 
         if let Callee::Expr(callee) = &n.callee {
-            self.mark_expr_used_as_ref(callee);
+            for_each_id_ref_in_expr(callee, &mut |i| {
+                self.data.var_or_default(i.to_id()).mark_used_as_callee();
+            });
 
             match &**callee {
                 Expr::Fn(callee) => {
