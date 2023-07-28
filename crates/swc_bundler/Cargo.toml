@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license       = "Apache-2.0"
 name          = "swc_bundler"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.217.23"
+version       = "0.217.24"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -45,7 +45,7 @@ swc_ecma_codegen                 = { version = "0.142.4", path = "../swc_ecma_co
 swc_ecma_loader                  = { version = "0.43.20", path = "../swc_ecma_loader" }
 swc_ecma_parser                  = { version = "0.137.4", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base         = { version = "0.130.6", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "0.190.14", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_optimization = { version = "0.190.15", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils                   = { version = "0.120.5", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { version = "0.93.2", path = "../swc_ecma_visit" }
 swc_fast_graph                   = { version = "0.19.18", path = "../swc_fast_graph/" }
@@ -64,11 +64,11 @@ swc_ecma_loader = { version = "0.43.20", path = "../swc_ecma_loader", features =
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "0.184.23", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "0.184.24", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
 swc_ecma_transforms_proposal = { version = "0.164.11", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_react = { version = "0.176.12", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "0.180.13", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_react = { version = "0.176.13", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_typescript = { version = "0.180.14", path = "../swc_ecma_transforms_typescript" }
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
 testing = { version = "0.33.21", path = "../testing" }
