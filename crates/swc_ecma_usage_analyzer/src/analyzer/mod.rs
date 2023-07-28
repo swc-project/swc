@@ -1343,6 +1343,30 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
         Expr::Seq(s) => {
             for_each_id_ref_in_expr(s.exprs.last().unwrap(), op);
         }
+
+        Expr::Array(arr) => {
+            arr.elems.iter().flatten().for_each(|e| {
+                for_each_id_ref_in_expr(&e.expr, op);
+            });
+        }
+
+        Expr::Object(obj) => {
+            obj.props.iter().for_each(|p| match p {
+                PropOrSpread::Spread(p) => {
+                    for_each_id_ref_in_expr(&p.expr, op);
+                }
+                PropOrSpread::Prop(p) => match &**p {
+                    Prop::Shorthand(p) => {
+                        op(p);
+                    }
+                    Prop::KeyValue(p) => {}
+                    Prop::Assign(p) => {}
+                    Prop::Getter(p) => {}
+                    Prop::Setter(p) => {}
+                    Prop::Method(p) => {}
+                },
+            });
+        }
         _ => {}
     }
 }
