@@ -603,9 +603,12 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr) {
-        n.visit_children_with(self);
+        let ctx = Ctx {
+            is_id_ref: true,
+            ..self.ctx
+        };
 
-        self.mark_expr_used_as_ref(&n.expr);
+        n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
