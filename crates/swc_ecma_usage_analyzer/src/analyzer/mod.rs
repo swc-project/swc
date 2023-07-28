@@ -1410,15 +1410,31 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
 
 fn for_each_id_ref_in_class(c: &Class, op: &mut impl FnMut(&Ident)) {
     c.body.iter().for_each(|m| match m {
-        ClassMember::Constructor(m) => {}
+        ClassMember::Constructor(m) => {
+            for_each_id_ref_in_prop_name(&m.key, op);
+            m.params.iter().for_each(|p| match p {
+                ParamOrTsParamProp::TsParamProp(..) => {
+                    unreachable!()
+                }
+                ParamOrTsParamProp::Param(p) => {
+                    for_each_id_ref_in_pat(&p.pat, op);
+                }
+            });
+        }
+
         ClassMember::Method(m) => {}
+
         ClassMember::PrivateMethod(m) => {}
+
         ClassMember::ClassProp(m) => {}
+
         ClassMember::PrivateProp(m) => {}
-        ClassMember::TsIndexSignature(m) => {}
-        ClassMember::Empty(m) => {}
-        ClassMember::StaticBlock(m) => {}
+
         ClassMember::AutoAccessor(m) => {}
+
+        ClassMember::Empty(..)
+        | ClassMember::StaticBlock(..)
+        | ClassMember::TsIndexSignature(..) => {}
     });
 }
 fn for_each_id_ref_in_prop_name(p: &PropName, op: &mut impl FnMut(&Ident)) {
