@@ -19,6 +19,12 @@
 
 - **(swc_core)** Expose `visit/serde` as serde feature (#7722) ([2bc9637](https://github.com/swc-project/swc/commit/2bc96373b736ce4d81336c1c0340a1d4f7d7f4b0))
 
+### Refactor
+
+
+
+- **(es/parser)** Make `stacker` an optional dependency (#7720) ([864bdef](https://github.com/swc-project/swc/commit/864bdefbe0012ddbe93075c70f0b2b44577a5424))
+
 ## [1.3.71] - 2023-07-25
 
 ### Bug Fixes
