@@ -1,3 +1,5 @@
+use std::panic;
+
 use swc_common::comments::CommentKind;
 
 use super::*;
@@ -44,17 +46,22 @@ macro_rules! write_comments {
                     $e.wr.write_comment("*/")?;
 
                     if !$e.cfg.minify {
-                        let hi_loc = $cm.lookup_char_pos(cmt.span.hi());
-                        let line = hi_loc.file.get_line(hi_loc.line - 1);
-
-                        if let Some(line) = line {
-                            let next_char =
-                                line.chars().nth(hi_loc.col_display).unwrap_or_default();
-                            if next_char.is_whitespace() {
-                                $e.wr.write_space()?;
-                            } else {
-                                $e.wr.write_line()?;
+                        let result = panic::catch_unwind(panic::AssertUnwindSafe(|| {
+                            $cm.lookup_char_pos(cmt.span.hi())
+                        }));
+                        if let Ok(hi_loc) = result {
+                            let line = hi_loc.file.get_line(hi_loc.line - 1);
+                            if let Some(line) = line {
+                                let next_char =
+                                    line.chars().nth(hi_loc.col_display).unwrap_or_default();
+                                if next_char.is_whitespace() {
+                                    $e.wr.write_space()?;
+                                } else {
+                                    $e.wr.write_line()?;
+                                }
                             }
+                        } else {
+                            $e.wr.write_space()?;
                         }
                     }
                 }
