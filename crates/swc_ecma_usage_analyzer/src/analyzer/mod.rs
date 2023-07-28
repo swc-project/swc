@@ -360,7 +360,7 @@ where
         }
 
         if let Callee::Expr(callee) = &n.callee {
-            self.mark_expr_used_as_ref(&callee);
+            self.mark_expr_used_as_ref(callee);
 
             match &**callee {
                 Expr::Fn(callee) => {
