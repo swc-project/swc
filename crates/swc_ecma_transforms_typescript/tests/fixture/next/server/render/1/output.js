@@ -537,7 +537,8 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
      *
      * These rules help ensure that other existing features like request caching,
      * coalescing, and ISR continue working as intended.
-     */ const generateStaticHTML = supportsDynamicHTML !== true;
+     */
+    const generateStaticHTML = supportsDynamicHTML !== true;
     const renderDocument = async ()=>{
         if (Document.getInitialProps) {
             const renderPage = (options = {})=>{

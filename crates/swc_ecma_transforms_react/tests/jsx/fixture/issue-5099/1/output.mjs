@@ -1,4 +1,6 @@
-/** @jsx h */ /** @jsxFrag */ import { h } from "preact";
+/** @jsx h */
+/** @jsxFrag */
+import { h } from "preact";
 import { Marked } from "markdown";
 export const handler = {
     async GET (req, ctx) {

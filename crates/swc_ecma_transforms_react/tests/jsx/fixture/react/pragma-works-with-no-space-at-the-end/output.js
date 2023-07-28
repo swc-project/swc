@@ -1,1 +1,2 @@
-/* @jsx foo*/ /*#__PURE__*/ foo("div", null, "Hi");
+/* @jsx foo*/
+/*#__PURE__*/ foo("div", null, "Hi");
