@@ -183,6 +183,12 @@ where
         t.visit_children_with(self);
         self.data.truncate_initialized_cnt(cnt)
     }
+
+    fn mark_expr_used_as_ref(&mut self, e: &Expr) {
+        for_each_id_ref_in_expr(e, &mut |i| {
+            self.data.var_or_default(i.to_id()).mark_used_as_ref();
+        });
+    }
 }
 
 impl<S> Visit for UsageAnalyzer<S>
@@ -307,7 +313,7 @@ where
         } else {
             if e.op == op!("in") {
                 for_each_id_ref_in_expr(&e.right, &mut |obj| {
-                    let var = self.data.var_or_default(obj.to_id());
+                    let var: &mut <S as Storage>::VarData = self.data.var_or_default(obj.to_id());
 
                     match &*e.left {
                         Expr::Lit(Lit::Str(prop)) => {
@@ -354,11 +360,7 @@ where
         }
 
         if let Callee::Expr(callee) = &n.callee {
-            for_each_id_ref_in_expr(callee, &mut |callee| {
-                self.data
-                    .var_or_default(callee.to_id())
-                    .mark_used_as_callee();
-            });
+            self.mark_expr_used_as_ref(&callee);
 
             match &**callee {
                 Expr::Fn(callee) => {
@@ -591,9 +593,7 @@ where
 
                 for d in &v.decls {
                     if let Some(init) = &d.init {
-                        for_each_id_ref_in_expr(init, &mut |ident| {
-                            self.data.var_or_default(ident.to_id()).mark_used_as_ref();
-                        });
+                        self.mark_expr_used_as_ref(init);
                     }
                 }
             }
@@ -1318,9 +1318,7 @@ where
     fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr) {
         n.visit_children_with(self);
 
-        for_each_id_ref_in_expr(&n.expr, &mut |ident| {
-            self.data.var_or_default(ident.to_id()).mark_used_as_ref();
-        });
+        self.mark_expr_used_as_ref(&n.expr);
     }
 }
 
