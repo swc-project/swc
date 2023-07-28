@@ -126,9 +126,9 @@ macro_rules! define_descriptor {
         $pure:literal,
         [$($global:tt)*],
         None,
-        $($exclude:tt)*
+        $exclude:tt
     ) => {{
-        define_descriptor!(@Done, Some($pure), &expand_array_like!([$($global)*]), None, &[$($exclude)*])
+        define_descriptor!(@Done, Some($pure), &expand_array_like!([$($global)*]), None, &$exclude)
     }};
 
     // @Indirect: No need to distinguish `$pure`.
