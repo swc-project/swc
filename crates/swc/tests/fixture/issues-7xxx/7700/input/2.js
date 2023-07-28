@@ -1,3 +1,4 @@
+
 const positions = {
     top: 1,
     left: 2,
@@ -14,7 +15,7 @@ const rtlPositions = {
 
 export function PositionRender({ isRtl, position }) {
 
-    const display = (isRtl === 'fe-fe-fe' ? rtlPositions : positions)[position];
+    const display = (isRtl === 'fe-fe-fe' ? [rtlPositions] : { positions })[position];
 
     return <h1>
         PositionRender: {display}
