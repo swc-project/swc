@@ -7,7 +7,7 @@
         "transform": {
             "react": {}
         },
-        "target": "es5",
+        "target": "esnext",
         "loose": true,
         "minify": {
             "compress": {
@@ -59,8 +59,5 @@
         },
     },
     "isModule": true,
-    "module": {
-        "type": "commonjs"
-    },
     "minify": false
 }
