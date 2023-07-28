@@ -8,6 +8,9 @@
 - **(es/compat)** Fix handling of private members in optional chaining pass (#7610) ([7ba7b6e](https://github.com/swc-project/swc/commit/7ba7b6ec1fd7170ef7a321a6bd4931984e1a08d4))
 
 
+- **(es/minifier)** Do not drop used properties (#7702) ([f901b41](https://github.com/swc-project/swc/commit/f901b417d1a37f679ff4c5a54e81671684d9f485))
+
+
 - **(es/module)** Do not determine module name for modules without exports in UMD (#7718) ([40136f7](https://github.com/swc-project/swc/commit/40136f7c54bdc347d5f725549a27e1104433ff36))
 
 ### Features
