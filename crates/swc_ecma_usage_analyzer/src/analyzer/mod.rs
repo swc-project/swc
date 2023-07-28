@@ -588,6 +588,14 @@ where
                 for id in ids {
                     self.data.var_or_default(id).mark_as_exported();
                 }
+
+                for d in &v.decls {
+                    if let Some(init) = &d.init {
+                        for_each_id_ref_in_expr(init, &mut |ident| {
+                            self.data.var_or_default(ident.to_id()).mark_used_as_ref();
+                        });
+                    }
+                }
             }
             _ => {}
         }
