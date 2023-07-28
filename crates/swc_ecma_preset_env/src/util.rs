@@ -3,8 +3,6 @@ use rustc_hash::FxHashMap;
 pub(crate) type ObjectMap<T> = FxHashMap<&'static str, T>;
 pub(crate) type ObjectMap2<V> = ObjectMap<ObjectMap<V>>;
 
-pub(crate) fn init_map<T>(s: &[(&'static str, T)]) -> ObjectMap<T> {}
-
 pub(crate) fn descriptor(
     pure: Option<&'static str>,
     global: &'static [&'static str],
@@ -425,13 +423,15 @@ macro_rules! map {
             $($i:ident : $e:expr,)*
         },
         Rest {}
-    ) => {
-        $crate::util::init_map(&[
-            $(
-                (stringify!($i), $e)
-            ),*
-        ])
-    };
+    ) => {{
+        let mut map = ObjectMap::default();
+
+        $(
+            map.insert(stringify!($i), $e);
+        )*
+
+        map
+    }};
 }
 
 macro_rules! data_map {
