@@ -1,3 +1,5 @@
+use once_cell::sync::Lazy;
+
 use crate::util::{CoreJSPolyfillDescriptor, ObjectMap, ObjectMap2};
 
 const fn concat2<const N: usize>(a: &[&'static str], b: &[&'static str]) -> [&'static str; N] {
@@ -303,7 +305,7 @@ pub static BUILT_INS: ObjectMap<CoreJSPolyfillDescriptor> = map!(Map{
   unescape: define("unescape", ["es.unescape"]),
 });
 
-pub static STATIC_PROPERTIES: ObjectMap2<CoreJSPolyfillDescriptor> = map!(Map{
+pub static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
   AsyncIterator: Map {
     from: define("async-iterator/from", [
       "esnext.async-iterator.from",
