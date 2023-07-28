@@ -1321,6 +1321,17 @@ where
         self.scope.mark_with_stmt();
         n.visit_children_with(self);
     }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_computed_prop_name(&mut self, n: &ComputedPropName) {
+        let ctx = Ctx {
+            is_delete_arg: false,
+            is_id_ref: true,
+            ..self.ctx
+        };
+
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
 }
 
 /// - `a` => `a`
