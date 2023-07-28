@@ -1340,6 +1340,11 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
             for_each_id_ref_in_expr(&b.left, op);
             for_each_id_ref_in_expr(&b.right, op);
         }
+
+        Expr::Class(c) => {
+            for_each_id_ref_in_class(&c.class, op);
+        }
+
         Expr::Seq(s) => {
             for_each_id_ref_in_expr(s.exprs.last().unwrap(), op);
         }
@@ -1369,6 +1374,20 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
         }
         _ => {}
     }
+}
+
+fn for_each_id_ref_in_class(c: &Class, op: &mut impl FnMut(&Ident)) {
+    c.body.iter().for_each(|m| match m {
+        ClassMember::Constructor(m) => {}
+        ClassMember::Method(m) => {}
+        ClassMember::PrivateMethod(m) => {}
+        ClassMember::ClassProp(m) => {}
+        ClassMember::PrivateProp(m) => {}
+        ClassMember::TsIndexSignature(m) => {}
+        ClassMember::Empty(m) => {}
+        ClassMember::StaticBlock(m) => {}
+        ClassMember::AutoAccessor(m) => {}
+    });
 }
 
 fn leftmost(p: &Expr) -> Option<Id> {
