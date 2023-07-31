@@ -2,6 +2,15 @@ use once_cell::sync::Lazy;
 
 use crate::util::{descriptor, CoreJSPolyfillDescriptor, ObjectMap, ObjectMap2};
 
+fn dynamic_concat(a: &[&'static str], b: &[&'static str]) -> &'static [&'static str] {
+    let mut res = Vec::with_capacity(a.len() + b.len());
+
+    res.extend_from_slice(a);
+    res.extend_from_slice(b);
+
+    res.leak()
+}
+
 const fn concat2<const N: usize>(a: &[&'static str], b: &[&'static str]) -> [&'static str; N] {
     assert!(N == a.len() + b.len());
 

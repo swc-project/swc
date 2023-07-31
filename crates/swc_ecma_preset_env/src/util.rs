@@ -65,16 +65,14 @@ macro_rules! expand_array_like {
     // We need to stop eating string literals.
     (@ARRAY, All($all:expr), Wip($($s:literal)*), Rest($first:ident, $($rest:tt)*)) => {{
         static PREV: &[&str]= &[$($s),*];
-        static CUR: &[&str] = &concat2(PREV, $first);
 
-        concat2($all, CUR)
+        dynamic_concat($all, dynamic_concat(PREV, $first))
     }};
 
     (@ARRAY, All($all:expr), Wip($($s:literal)*), Rest($first:ident)) => {{
         static PREV: &[&str]= &[$($s),*];
-        static CUR: &[&str] = &concat2(PREV, $first);
 
-        concat2($all, CUR)
+        dynamic_concat($all, dynamic_concat(PREV, $first))
     }};
 
 
@@ -82,7 +80,7 @@ macro_rules! expand_array_like {
     (@ARRAY, All($all:expr), Wip($($s:literal)*), Rest()) => {{
         static CUR_LIT: &[&str]= &[$($s),*];
 
-        concat2($all, CUR_LIT)
+        dynamic_concat($all, CUR_LIT)
     }};
 }
 
