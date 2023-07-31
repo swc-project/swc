@@ -1032,10 +1032,11 @@ pub trait ExprExt {
                 Unknown => return Value::Unknown,
             })),
             Expr::Array(ArrayLit { ref elems, .. }) => {
-                let mut first = true;
                 let mut buf = String::new();
+                let len = elems.len();
                 // null, undefined is "" in array literal.
-                for elem in elems {
+                for (idx, elem) in elems.iter().enumerate() {
+                    let last = idx == len - 1;
                     let e = match *elem {
                         Some(ref elem) => {
                             let ExprOrSpread { ref expr, .. } = *elem;
@@ -1055,9 +1056,7 @@ pub trait ExprExt {
                     };
                     buf.push_str(&e);
 
-                    if first {
-                        first = false;
-                    } else {
+                    if !last {
                         buf.push(',');
                     }
                 }
