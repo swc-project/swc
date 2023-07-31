@@ -218,7 +218,7 @@ static TYPED_ARRAY_STATIC_METHODS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = l
     of: define(null, ["es.typed-array.of"]),
 });
 
-pub static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
+pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
   AsyncDisposableStack: define("async-disposable-stack", [
     "esnext.async-disposable-stack.constructor",
     "es.object.to-string",
@@ -324,7 +324,7 @@ pub static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
   unescape: define("unescape", ["es.unescape"]),
 });
 
-pub static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
+pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
   AsyncIterator: Map {
     from: define("async-iterator/from", [
       "esnext.async-iterator.from",
@@ -705,7 +705,7 @@ pub static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> = lazy_
   },
 });
 
-pub static INSTANCE_PROPERTIES: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
+pub(crate) static INSTANCE_PROPERTIES: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
   asIndexedPairs: define("instance/asIndexedPairs", [
     "esnext.async-iterator.as-indexed-pairs",
     ASYNC_ITERATOR_DEPENDENCIES,
