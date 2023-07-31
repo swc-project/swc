@@ -182,16 +182,9 @@ impl Visit for UsageVisitor {
     fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
-        match &e.callee {
-            Callee::Import(_) => self.add(PROMISE_DEPENDENCIES),
-            Callee::Expr(expr) => match **expr {
-                Expr::Ident(ref ident) if ident.sym == js_word!("RegExp") => {
-                    self.add(REGEXP_DEPENDENCIES)
-                }
-                _ => {}
-            },
-            _ => {}
-        };
+        if let Callee::Import(_) = &e.callee {
+            self.add(PROMISE_DEPENDENCIES)
+        }
     }
 
     fn visit_expr(&mut self, e: &Expr) {
