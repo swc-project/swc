@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = "Apache-2.0"
 name        = "swc_ecma_lints"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.85.8"
+version     = "0.85.9"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
@@ -35,7 +35,7 @@ swc_ecma_visit = { version = "0.93.2", path = "../swc_ecma_visit" }
 [dev-dependencies]
 swc_ecma_codegen         = { version = "0.142.5", path = "../swc_ecma_codegen" }
 swc_ecma_parser          = { version = "0.137.5", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.130.8", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "0.130.9", path = "../swc_ecma_transforms_base" }
 testing                  = { version = "0.33.21", path = "../testing" }
 
 [features]
