@@ -1,5 +1,5 @@
 {
-    "toplevel": false,
+    "toplevel": true,
     "keep_classnames": false,
     "keep_fnames": false,
     "keep_private_props": false,

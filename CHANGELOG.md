@@ -1,11 +1,43 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/minifier)** Handle synthesized export default expression (#7707) ([5ea6f27](https://github.com/swc-project/swc/commit/5ea6f27eb07df768c6fab2bdff744e402480c53f))
+
+
+- **(es/utils)** Fix string evaluation of array literals (#7731) ([e8c58cf](https://github.com/swc-project/swc/commit/e8c58cfd779f7c9dcfae06200ec2f726fbc74758))
+
+## [1.3.72] - 2023-07-28
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Fix handling of private members in optional chaining pass (#7610) ([7ba7b6e](https://github.com/swc-project/swc/commit/7ba7b6ec1fd7170ef7a321a6bd4931984e1a08d4))
+
+
+- **(es/minifier)** Do not drop used properties (#7702) ([f901b41](https://github.com/swc-project/swc/commit/f901b417d1a37f679ff4c5a54e81671684d9f485))
+
+
+- **(es/module)** Do not determine module name for modules without exports in UMD (#7718) ([40136f7](https://github.com/swc-project/swc/commit/40136f7c54bdc347d5f725549a27e1104433ff36))
+
 ### Features
 
 
 
 - **(es)** Add a validation for a wrong config (#7704) ([900701f](https://github.com/swc-project/swc/commit/900701fbf24912dce219f97baa8c11c533966896))
+
+
+- **(swc_core)** Expose `visit/serde` as serde feature (#7722) ([2bc9637](https://github.com/swc-project/swc/commit/2bc96373b736ce4d81336c1c0340a1d4f7d7f4b0))
+
+### Refactor
+
+
+
+- **(es/parser)** Make `stacker` an optional dependency (#7720) ([864bdef](https://github.com/swc-project/swc/commit/864bdefbe0012ddbe93075c70f0b2b44577a5424))
 
 ## [1.3.71] - 2023-07-25
 

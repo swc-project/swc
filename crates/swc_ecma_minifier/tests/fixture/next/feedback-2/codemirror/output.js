@@ -1358,7 +1358,36 @@
                 y -= heightAtLine(lineObj);
                 var preparedMeasure = prepareMeasureForLine(cm, lineObj), widgetHeight = widgetTopHeight(lineObj), begin = 0, end = lineObj.text.length, ltr = !0, order = getOrder(lineObj, cm.doc.direction);
                 if (order) {
-                    var part = (cm.options.lineWrapping ? coordsBidiPartWrapped : coordsBidiPart)(cm, lineObj, lineNo, preparedMeasure, order, x, y);
+                    var part = (cm.options.lineWrapping ? function(cm, lineObj, _lineNo, preparedMeasure, order, x, y) {
+                        var ref = wrappedLineExtent(cm, lineObj, preparedMeasure, y), begin = ref.begin, end = ref.end;
+                        /\s/.test(lineObj.text.charAt(end - 1)) && end--;
+                        for(var part = null, closestDist = null, i = 0; i < order.length; i++){
+                            var p = order[i];
+                            if (!(p.from >= end) && !(p.to <= begin)) {
+                                var endX = measureCharPrepared(cm, preparedMeasure, 1 != p.level ? Math.min(end, p.to) - 1 : Math.max(begin, p.from)).right, dist = endX < x ? x - endX + 1e9 : endX - x;
+                                (!part || closestDist > dist) && (part = p, closestDist = dist);
+                            }
+                        }
+                        return part || (part = order[order.length - 1]), part.from < begin && (part = {
+                            from: begin,
+                            to: part.to,
+                            level: part.level
+                        }), part.to > end && (part = {
+                            from: part.from,
+                            to: end,
+                            level: part.level
+                        }), part;
+                    } : function(cm, lineObj, lineNo, preparedMeasure, order, x, y) {
+                        var index = findFirst(function(i) {
+                            var part = order[i], ltr = 1 != part.level;
+                            return boxIsAfter(cursorCoords(cm, Pos(lineNo, ltr ? part.to : part.from, ltr ? "before" : "after"), "line", lineObj, preparedMeasure), x, y, !0);
+                        }, 0, order.length - 1), part = order[index];
+                        if (index > 0) {
+                            var ltr = 1 != part.level, start = cursorCoords(cm, Pos(lineNo, ltr ? part.from : part.to, ltr ? "after" : "before"), "line", lineObj, preparedMeasure);
+                            boxIsAfter(start, x, y, !0) && start.top > y && (part = order[index - 1]);
+                        }
+                        return part;
+                    })(cm, lineObj, lineNo, preparedMeasure, order, x, y);
                     begin = (ltr = 1 != part.level) ? part.from : part.to - 1, end = ltr ? part.to : part.from - 1;
                 }
                 var baseX, sticky, chAround = null, boxAround = null, ch = findFirst(function(ch) {
@@ -1407,37 +1436,6 @@
     }
     function boxIsAfter(box, x, y, left) {
         return !(box.bottom <= y) && (box.top > y || (left ? box.left : box.right) > x);
-    }
-    function coordsBidiPart(cm, lineObj, lineNo, preparedMeasure, order, x, y) {
-        var index = findFirst(function(i) {
-            var part = order[i], ltr = 1 != part.level;
-            return boxIsAfter(cursorCoords(cm, Pos(lineNo, ltr ? part.to : part.from, ltr ? "before" : "after"), "line", lineObj, preparedMeasure), x, y, !0);
-        }, 0, order.length - 1), part = order[index];
-        if (index > 0) {
-            var ltr = 1 != part.level, start = cursorCoords(cm, Pos(lineNo, ltr ? part.from : part.to, ltr ? "after" : "before"), "line", lineObj, preparedMeasure);
-            boxIsAfter(start, x, y, !0) && start.top > y && (part = order[index - 1]);
-        }
-        return part;
-    }
-    function coordsBidiPartWrapped(cm, lineObj, _lineNo, preparedMeasure, order, x, y) {
-        var ref = wrappedLineExtent(cm, lineObj, preparedMeasure, y), begin = ref.begin, end = ref.end;
-        /\s/.test(lineObj.text.charAt(end - 1)) && end--;
-        for(var part = null, closestDist = null, i = 0; i < order.length; i++){
-            var p = order[i];
-            if (!(p.from >= end) && !(p.to <= begin)) {
-                var endX = measureCharPrepared(cm, preparedMeasure, 1 != p.level ? Math.min(end, p.to) - 1 : Math.max(begin, p.from)).right, dist = endX < x ? x - endX + 1e9 : endX - x;
-                (!part || closestDist > dist) && (part = p, closestDist = dist);
-            }
-        }
-        return part || (part = order[order.length - 1]), part.from < begin && (part = {
-            from: begin,
-            to: part.to,
-            level: part.level
-        }), part.to > end && (part = {
-            from: part.from,
-            to: end,
-            level: part.level
-        }), part;
     }
     function textHeight(display) {
         if (null != display.cachedTextHeight) return display.cachedTextHeight;
