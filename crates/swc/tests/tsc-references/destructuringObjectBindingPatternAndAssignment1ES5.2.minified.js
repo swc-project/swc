@@ -1,6 +1,8 @@
 //// [destructuringObjectBindingPatternAndAssignment1ES5.ts]
 (void 0).a1;
-var tmp = {};
+var tmp = {
+    b21: "world"
+};
 function foo1() {
     return {
         prop1: 2

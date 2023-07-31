@@ -1,3 +1,4 @@
+use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -47,6 +48,46 @@ impl VisitMut for PostcompressOptimizer<'_> {
                 export.decl.visit_mut_with(self);
             }
         }
+    }
+
+    fn visit_mut_module_decl(&mut self, m: &mut ModuleDecl) {
+        if let ModuleDecl::ExportDefaultExpr(e) = m {
+            match &mut *e.expr {
+                Expr::Fn(f) => {
+                    if f.ident.is_some() {
+                        if self.options.top_level() {
+                            *m = ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                                span: e.span,
+                                decl: DefaultDecl::Fn(f.take()),
+                            })
+                        }
+                    } else {
+                        *m = ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                            span: e.span,
+                            decl: DefaultDecl::Fn(f.take()),
+                        })
+                    }
+                }
+                Expr::Class(c) => {
+                    if c.ident.is_some() {
+                        if self.options.top_level() {
+                            *m = ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                                span: e.span,
+                                decl: DefaultDecl::Class(c.take()),
+                            })
+                        }
+                    } else {
+                        *m = ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                            span: e.span,
+                            decl: DefaultDecl::Class(c.take()),
+                        })
+                    }
+                }
+                _ => (),
+            }
+        }
+
+        m.visit_mut_children_with(self)
     }
 
     fn visit_mut_module_items(&mut self, nodes: &mut Vec<ModuleItem>) {

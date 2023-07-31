@@ -54,7 +54,7 @@ export default function(s, c) {
     } catch (e) {
         throw Error("object" == typeof e && null !== e && "message" in e ? "".concat(e.message, ". value=").concat(JSON.stringify(s)) : "An unknown error has occurred.");
     }
-};
+}
 function e(e, s, c, a) {
     return "".concat(Math.round(e / c), " ").concat(a).concat(s >= 1.5 * c ? "s" : "");
 }
