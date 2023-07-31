@@ -53,6 +53,14 @@ impl UsageVisitor {
         }
     }
 
+    fn add(&mut self, desc: &CoreJSPolyfillDescriptor) {
+        let deps = desc.global;
+
+        // TODO: Exclude based on object
+
+        self.may_inject_global(deps)
+    }
+
     /// Add imports
     fn may_inject_global(&mut self, features: &[&str]) {
         let UsageVisitor {
@@ -152,7 +160,7 @@ impl Visit for UsageVisitor {
     fn visit_array_pat(&mut self, p: &ArrayPat) {
         p.visit_children_with(self);
 
-        self.add(COMMON_ITERATORS)
+        self.may_inject_global(COMMON_ITERATORS)
     }
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
