@@ -4146,6 +4146,7 @@ dependencies = [
  "once_cell",
  "preset_env_base",
  "pretty_assertions",
+ "rustc-hash",
  "semver 1.0.17",
  "serde",
  "serde_json",
