@@ -55,7 +55,11 @@
         '[object Uint32Array]': !0,
         '[object Float32Array]': !0,
         '[object Float64Array]': !0
-    }, objToString = Object.prototype.toString, arrayProto = Array.prototype, nativeForEach = arrayProto.forEach, nativeFilter = arrayProto.filter, nativeSlice = arrayProto.slice, nativeMap = arrayProto.map, ctorFunction = (function() {}).constructor, protoFunction = ctorFunction ? ctorFunction.prototype : null, methods = {}, idStart = 0x0907;
+    }, objToString = Object.prototype.toString, arrayProto = Array.prototype, nativeForEach = arrayProto.forEach, nativeFilter = arrayProto.filter, nativeSlice = arrayProto.slice, nativeMap = arrayProto.map, ctorFunction = (function() {}).constructor, protoFunction = ctorFunction ? ctorFunction.prototype : null, methods = {};
+    function $override(name, fn) {
+        methods[name] = fn;
+    }
+    var idStart = 0x0907;
     function guid() {
         return idStart++;
     }
@@ -67,12 +71,12 @@
         if (null == source || 'object' != typeof source) return source;
         var result = source, typeStr = objToString.call(source);
         if ('[object Array]' === typeStr) {
-            if (!source[primitiveKey]) {
+            if (!isPrimitive(source)) {
                 result = [];
                 for(var i = 0, len = source.length; i < len; i++)result[i] = clone(source[i]);
             }
         } else if (TYPED_ARRAY[typeStr]) {
-            if (!source[primitiveKey]) {
+            if (!isPrimitive(source)) {
                 var Ctor = source.constructor;
                 if (Ctor.from) result = Ctor.from(source);
                 else {
@@ -80,14 +84,14 @@
                     for(var i = 0, len = source.length; i < len; i++)result[i] = clone(source[i]);
                 }
             }
-        } else if (!BUILTIN_OBJECT[typeStr] && !source[primitiveKey] && !isDom(source)) for(var key in result = {}, source)source.hasOwnProperty(key) && (result[key] = clone(source[key]));
+        } else if (!BUILTIN_OBJECT[typeStr] && !isPrimitive(source) && !isDom(source)) for(var key in result = {}, source)source.hasOwnProperty(key) && (result[key] = clone(source[key]));
         return result;
     }
     function merge(target, source, overwrite) {
         if (!isObject(source) || !isObject(target)) return overwrite ? clone(source) : target;
         for(var key in source)if (source.hasOwnProperty(key)) {
             var targetProp = target[key], sourceProp = source[key];
-            !(isObject(sourceProp) && isObject(targetProp)) || isArray(sourceProp) || isArray(targetProp) || isDom(sourceProp) || isDom(targetProp) || isBuiltInObject(sourceProp) || isBuiltInObject(targetProp) || sourceProp[primitiveKey] || targetProp[primitiveKey] ? !overwrite && key in target || (target[key] = clone(source[key])) : merge(targetProp, sourceProp, overwrite);
+            !(isObject(sourceProp) && isObject(targetProp)) || isArray(sourceProp) || isArray(targetProp) || isDom(sourceProp) || isDom(targetProp) || isBuiltInObject(sourceProp) || isBuiltInObject(targetProp) || isPrimitive(sourceProp) || isPrimitive(targetProp) ? !overwrite && key in target || (target[key] = clone(source[key])) : merge(targetProp, sourceProp, overwrite);
         }
         return target;
     }
@@ -224,6 +228,9 @@
     function isRegExp(value) {
         return '[object RegExp]' === objToString.call(value);
     }
+    function eqNaN(value) {
+        return value != value;
+    }
     function retrieve() {
         for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
         for(var i = 0, len = args.length; i < len; i++)if (null != args[i]) return args[i];
@@ -267,6 +274,9 @@
     var primitiveKey = '__ec_primitive__';
     function setAsPrimitive(obj) {
         obj[primitiveKey] = !0;
+    }
+    function isPrimitive(obj) {
+        return obj[primitiveKey];
     }
     var HashMap = function() {
         function HashMap(obj) {
@@ -314,9 +324,7 @@
     function noop() {}
     var util = Object.freeze({
         __proto__: null,
-        $override: function(name, fn) {
-            methods[name] = fn;
-        },
+        $override: $override,
         guid: guid,
         logError: logError,
         clone: clone,
@@ -349,9 +357,7 @@
         isGradientObject: isGradientObject,
         isPatternObject: isPatternObject,
         isRegExp: isRegExp,
-        eqNaN: function(value) {
-            return value != value;
-        },
+        eqNaN: eqNaN,
         retrieve: retrieve,
         retrieve2: retrieve2,
         retrieve3: retrieve3,
@@ -360,9 +366,7 @@
         assert: assert,
         trim: trim,
         setAsPrimitive: setAsPrimitive,
-        isPrimitive: function(obj) {
-            return obj[primitiveKey];
-        },
+        isPrimitive: isPrimitive,
         HashMap: HashMap,
         createHashMap: createHashMap,
         concatArray: concatArray,
@@ -3917,6 +3921,9 @@
         var zr = new ZRender(guid(), dom, opts);
         return instances[zr.id] = zr, zr;
     }
+    function registerPainter(name, Ctor) {
+        painterCtors[name] = Ctor;
+    }
     var zrender = Object.freeze({
         __proto__: null,
         init: init,
@@ -3930,9 +3937,7 @@
         getInstance: function(id) {
             return instances[id];
         },
-        registerPainter: function(name, Ctor) {
-            painterCtors[name] = Ctor;
-        },
+        registerPainter: registerPainter,
         version: '5.1.0'
     });
     function linearMap(val, domain, range, clamp) {
@@ -4092,7 +4097,7 @@
     function makePrintable() {
         for(var hintInfo = [], _i = 0; _i < arguments.length; _i++)hintInfo[_i] = arguments[_i];
         var makePrintableStringIfPossible_1 = function(val) {
-            return void 0 === val ? 'undefined' : val === 1 / 0 ? 'Infinity' : val === -1 / 0 ? '-Infinity' : val != val ? 'NaN' : val instanceof Date ? 'Date(' + val.toISOString() + ')' : isFunction(val) ? 'function () { ... }' : isRegExp(val) ? val + '' : null;
+            return void 0 === val ? 'undefined' : val === 1 / 0 ? 'Infinity' : val === -1 / 0 ? '-Infinity' : eqNaN(val) ? 'NaN' : val instanceof Date ? 'Date(' + val.toISOString() + ')' : isFunction(val) ? 'function () { ... }' : isRegExp(val) ? val + '' : null;
         };
         return map(hintInfo, function(arg) {
             if (isString(arg)) return arg;
@@ -6961,7 +6966,7 @@
             }, itemTooltipOptionObj)
         };
     }
-    _customShapeMap.circle = Circle, _customShapeMap.ellipse = Ellipse, _customShapeMap.sector = Sector, _customShapeMap.ring = Ring, _customShapeMap.polygon = Polygon, _customShapeMap.polyline = Polyline, _customShapeMap.rect = Rect, _customShapeMap.line = Line, _customShapeMap.bezierCurve = BezierCurve, _customShapeMap.arc = Arc;
+    registerShape('circle', Circle), registerShape('ellipse', Ellipse), registerShape('sector', Sector), registerShape('ring', Ring), registerShape('polygon', Polygon), registerShape('polyline', Polyline), registerShape('rect', Rect), registerShape('line', Line), registerShape('bezierCurve', BezierCurve), registerShape('arc', Arc);
     var graphic = Object.freeze({
         __proto__: null,
         extendShape: extendShape,
@@ -14021,7 +14026,7 @@
             ComponentModel.registerSubTypeDefaulter(componentType, defaulter);
         },
         registerPainter: function(painterType, PainterCtor) {
-            painterCtors[painterType] = PainterCtor;
+            registerPainter(painterType, PainterCtor);
         }
     };
     function use(ext) {
@@ -15660,9 +15665,9 @@
                 ];
             }
         }, ScaleRawExtentInfo.prototype.calculate = function() {
-            var value, value1, isOrdinal = this._isOrdinal, dataMin = this._dataMin, dataMax = this._dataMax, axisDataLen = this._axisDataLen, boundaryGapInner = this._boundaryGapInner, span = isOrdinal ? null : dataMax - dataMin || Math.abs(dataMin), min = 'dataMin' === this._modelMinRaw ? dataMin : this._modelMinNum, max = 'dataMax' === this._modelMaxRaw ? dataMax : this._modelMaxNum, minFixed = null != min, maxFixed = null != max;
+            var isOrdinal = this._isOrdinal, dataMin = this._dataMin, dataMax = this._dataMax, axisDataLen = this._axisDataLen, boundaryGapInner = this._boundaryGapInner, span = isOrdinal ? null : dataMax - dataMin || Math.abs(dataMin), min = 'dataMin' === this._modelMinRaw ? dataMin : this._modelMinNum, max = 'dataMax' === this._modelMaxRaw ? dataMax : this._modelMaxNum, minFixed = null != min, maxFixed = null != max;
             null == min && (min = isOrdinal ? axisDataLen ? 0 : NaN : dataMin - boundaryGapInner[0] * span), null == max && (max = isOrdinal ? axisDataLen ? axisDataLen - 1 : NaN : dataMax + boundaryGapInner[1] * span), null != min && isFinite(min) || (min = NaN), null != max && isFinite(max) || (max = NaN), min > max && (min = NaN, max = NaN);
-            var isBlank = (value = min) != value || (value1 = max) != value1 || isOrdinal && !axisDataLen;
+            var isBlank = eqNaN(min) || eqNaN(max) || isOrdinal && !axisDataLen;
             this._needCrossZero && (min > 0 && max > 0 && !minFixed && (min = 0), min < 0 && max < 0 && !maxFixed && (max = 0));
             var determinedMin = this._determinedMin, determinedMax = this._determinedMax;
             return null != determinedMin && (min = determinedMin, minFixed = !0), null != determinedMax && (max = determinedMax, maxFixed = !0), {
@@ -15692,7 +15697,7 @@
         return rawExtentInfo || (rawExtentInfo = new ScaleRawExtentInfo(scale, model, originalExtent), scale.rawExtentInfo = rawExtentInfo), rawExtentInfo;
     }
     function parseAxisModelMinMax(scale, minMax) {
-        return null == minMax ? null : minMax != minMax ? NaN : scale.parse(minMax);
+        return null == minMax ? null : eqNaN(minMax) ? NaN : scale.parse(minMax);
     }
     function getScaleExtent(scale, model) {
         var scaleType = scale.type, rawExtentResult = ensureScaleRawExtentInfo(scale, model, scale.getExtent()).calculate();
@@ -25969,8 +25974,8 @@
         return dataGroup.add(line), data.setItemGraphicEl(dataIndex, line), line;
     }
     function makeSeriesScope$2(seriesModel) {
-        var value, smooth = seriesModel.get('smooth', !0);
-        return !0 === smooth && (smooth = 0.3), (value = smooth = numericToNumber(smooth)) != value && (smooth = 0), {
+        var smooth = seriesModel.get('smooth', !0);
+        return !0 === smooth && (smooth = 0.3), eqNaN(smooth = numericToNumber(smooth)) && (smooth = 0), {
             smooth: smooth
         };
     }
@@ -26320,7 +26325,22 @@
                 ], idx = axis.inverse ? 1 : 0;
                 axis.setExtent(axisExtent[idx], axisExtent[1 - idx]);
             }), each(dimensions, function(dim, idx) {
-                var posInfo = (layoutInfo.axisExpandable ? layoutAxisWithExpand : layoutAxisWithoutExpand)(idx, layoutInfo), positionTable = {
+                var posInfo = (layoutInfo.axisExpandable ? function(axisIndex, layoutInfo) {
+                    var position, nameTruncateMaxWidth, layoutLength = layoutInfo.layoutLength, axisExpandWidth = layoutInfo.axisExpandWidth, axisCount = layoutInfo.axisCount, axisCollapseWidth = layoutInfo.axisCollapseWidth, winInnerIndices = layoutInfo.winInnerIndices, axisNameAvailableWidth = axisCollapseWidth, axisLabelShow = !1;
+                    return axisIndex < winInnerIndices[0] ? (position = axisIndex * axisCollapseWidth, nameTruncateMaxWidth = axisCollapseWidth) : axisIndex <= winInnerIndices[1] ? (position = layoutInfo.axisExpandWindow0Pos + axisIndex * axisExpandWidth - layoutInfo.axisExpandWindow[0], axisNameAvailableWidth = axisExpandWidth, axisLabelShow = !0) : (position = layoutLength - (axisCount - 1 - axisIndex) * axisCollapseWidth, nameTruncateMaxWidth = axisCollapseWidth), {
+                        position: position,
+                        axisNameAvailableWidth: axisNameAvailableWidth,
+                        axisLabelShow: axisLabelShow,
+                        nameTruncateMaxWidth: nameTruncateMaxWidth
+                    };
+                } : function(axisIndex, layoutInfo) {
+                    var step = layoutInfo.layoutLength / (layoutInfo.axisCount - 1);
+                    return {
+                        position: step * axisIndex,
+                        axisNameAvailableWidth: step,
+                        axisLabelShow: !0
+                    };
+                })(idx, layoutInfo), positionTable = {
                     horizontal: {
                         x: posInfo.position,
                         y: layoutInfo.axisLength
@@ -26403,23 +26423,6 @@
     }();
     function restrict$1(len, extent) {
         return mathMin$8(mathMax$8(len, extent[0]), extent[1]);
-    }
-    function layoutAxisWithoutExpand(axisIndex, layoutInfo) {
-        var step = layoutInfo.layoutLength / (layoutInfo.axisCount - 1);
-        return {
-            position: step * axisIndex,
-            axisNameAvailableWidth: step,
-            axisLabelShow: !0
-        };
-    }
-    function layoutAxisWithExpand(axisIndex, layoutInfo) {
-        var position, nameTruncateMaxWidth, layoutLength = layoutInfo.layoutLength, axisExpandWidth = layoutInfo.axisExpandWidth, axisCount = layoutInfo.axisCount, axisCollapseWidth = layoutInfo.axisCollapseWidth, winInnerIndices = layoutInfo.winInnerIndices, axisNameAvailableWidth = axisCollapseWidth, axisLabelShow = !1;
-        return axisIndex < winInnerIndices[0] ? (position = axisIndex * axisCollapseWidth, nameTruncateMaxWidth = axisCollapseWidth) : axisIndex <= winInnerIndices[1] ? (position = layoutInfo.axisExpandWindow0Pos + axisIndex * axisExpandWidth - layoutInfo.axisExpandWindow[0], axisNameAvailableWidth = axisExpandWidth, axisLabelShow = !0) : (position = layoutLength - (axisCount - 1 - axisIndex) * axisCollapseWidth, nameTruncateMaxWidth = axisCollapseWidth), {
-            position: position,
-            axisNameAvailableWidth: axisNameAvailableWidth,
-            axisLabelShow: axisLabelShow,
-            nameTruncateMaxWidth: nameTruncateMaxWidth
-        };
     }
     var parallelCoordSysCreator = {
         create: function(ecModel, api) {
@@ -30657,8 +30660,8 @@
             !dimInfo && throwError(dimension + " is not a valid dimension.");
             var ordinalMeta = dimInfo.ordinalMeta;
             return function(rawIdx, dataIndex) {
-                var value, key = data.get(diffByDimName, dataIndex);
-                return ordinalMeta && (key = ordinalMeta.categories[key]), null == key || (value = key) != value ? rawIdx + '' : '_ec_' + key;
+                var key = data.get(diffByDimName, dataIndex);
+                return ordinalMeta && (key = ordinalMeta.categories[key]), null == key || eqNaN(key) ? rawIdx + '' : '_ec_' + key;
             };
         }
     }
@@ -30857,7 +30860,7 @@
         setStyle: function(key, val) {
             assertNotReserved(key);
             var style = tmpDuringScope.el.style;
-            return style && (val != val && warn('style.' + key + ' must not be assigned with NaN.'), style[key] = val, tmpDuringScope.isStyleDirty = !0), this;
+            return style && (eqNaN(val) && warn('style.' + key + ' must not be assigned with NaN.'), style[key] = val, tmpDuringScope.isStyleDirty = !0), this;
         },
         getStyle: function(key) {
             assertNotReserved(key);
@@ -41293,7 +41296,7 @@
     }, exports1.innerDrawElementOnCanvas = brushSingle, exports1.matrix = matrix, exports1.number = number, exports1.parseGeoJSON = parseGeoJSON, exports1.parseGeoJson = parseGeoJSON, exports1.registerAction = registerAction, exports1.registerCoordinateSystem = registerCoordinateSystem, exports1.registerLayout = registerLayout, exports1.registerLoading = registerLoading, exports1.registerLocale = registerLocale, exports1.registerMap = registerMap, exports1.registerPostInit = registerPostInit, exports1.registerPostUpdate = registerPostUpdate, exports1.registerPreprocessor = registerPreprocessor, exports1.registerProcessor = registerProcessor, exports1.registerTheme = function(name, theme) {
         themeStorage[name] = theme;
     }, exports1.registerTransform = registerTransform, exports1.registerVisual = registerVisual, exports1.setCanvasCreator = function(creator) {
-        methods.createCanvas = creator;
+        $override('createCanvas', creator);
     }, exports1.throttle = throttle, exports1.time = time, exports1.use = use, exports1.util = util$1, exports1.vector = vector, exports1.version = '5.1.1', exports1.zrUtil = util, exports1.zrender = zrender, Object.defineProperty(exports1, '__esModule', {
         value: !0
     });
