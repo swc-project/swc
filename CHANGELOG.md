@@ -16,6 +16,12 @@
 
 - **(es/preset-env)** Update builtin definitions for `core-js` imports (#7715) ([b4f3332](https://github.com/swc-project/swc/commit/b4f3332b21fc2b04e9824469568401725d1dfca5))
 
+### Testing
+
+
+
+- **(es/compat)** Add a test for optional chaining with loose mode (#7726) ([216c4f1](https://github.com/swc-project/swc/commit/216c4f17df449847c3cc3a62b9f5694d2416eca1))
+
 ## [1.3.72] - 2023-07-28
 
 ### Bug Fixes
