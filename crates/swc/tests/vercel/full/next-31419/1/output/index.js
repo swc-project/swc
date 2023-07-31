@@ -3,16 +3,16 @@ import { _ as e } from "@swc/helpers/_/_async_to_generator";
 import { _ as t } from "@swc/helpers/_/_ts_generator";
 import { _ as n } from "@swc/helpers/_/_ts_values";
 Promise.all(assignAll).then((r = e(function(r) {
-    var s, i, c, o, a;
-    return t(this, function(e) {
-        switch(e.label){
+    var e, s, i, c, o;
+    return t(this, function(a) {
+        switch(a.label){
             case 0:
-                for(o in s = function(e) {
+                for(c in e = function(e) {
                     var n;
                     return t(this, function(t) {
                         switch(t.label){
                             case 0:
-                                return n = r[e], i += "'".concat(n.id, "', "), [
+                                return n = r[e], s += "'".concat(n.id, "', "), [
                                     4,
                                     listOfUser(n.id)
                                 ];
@@ -24,21 +24,21 @@ Promise.all(assignAll).then((r = e(function(r) {
                                 ];
                         }
                     });
-                }, i = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', c = [], r);
-                a = 0, e.label = 1;
+                }, s = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', i = [], r);
+                o = 0, a.label = 1;
             case 1:
-                if (!(a < c.length)) return [
+                if (!(o < i.length)) return [
                     3,
                     4
                 ];
                 return [
                     5,
-                    n(s(c[a]))
+                    n(e(i[o]))
                 ];
             case 2:
-                e.label = 3;
+                a.label = 3;
             case 3:
-                return a++, [
+                return o++, [
                     3,
                     1
                 ];
@@ -48,12 +48,12 @@ Promise.all(assignAll).then((r = e(function(r) {
                 ];
         }
     });
-}), function(s) {
+}), function(e) {
     return r.apply(this, arguments);
 }));
 export var listOfUser = function(r) {
-    var s;
-    return new Promise((s = e(function(e, n) {
+    var n;
+    return new Promise((n = e(function(e, n) {
         var s;
         return t(this, function(t) {
             return s = 'Select Distinct id from "TABLE" Where id = \''.concat(r, "' And user_id IS not null"), postgreSQL.query(s, null, function(r, t) {
@@ -63,6 +63,6 @@ export var listOfUser = function(r) {
             ];
         });
     }), function(r, e) {
-        return s.apply(this, arguments);
+        return n.apply(this, arguments);
     }));
 };
