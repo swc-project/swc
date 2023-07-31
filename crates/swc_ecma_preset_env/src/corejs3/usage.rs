@@ -62,7 +62,7 @@ impl UsageVisitor {
     }
 
     /// Add imports
-    fn may_inject_global(&mut self, features: &[&str]) {
+    fn may_inject_global(&mut self, features: &[&'static str]) {
         let UsageVisitor {
             shipped_proposals,
             is_any_target,

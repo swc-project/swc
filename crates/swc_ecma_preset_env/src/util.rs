@@ -19,7 +19,7 @@ pub(crate) fn descriptor(
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub(crate) struct CoreJSPolyfillDescriptor {
     pub pure: Option<&'static str>,
     pub global: &'static [&'static str],
@@ -353,6 +353,32 @@ macro_rules! map {
                     $i : $e,
                 )*
                 $ni : $v,
+            },
+            Rest {
+                $($rest)*
+            }
+        )
+    };
+
+    (
+        @Value,
+        Map {
+            $($i:ident : $e:expr,)*
+        },
+        Rest {
+            *$v:ident, $($rest:tt)*
+        },
+        Wip {
+            $ni:ident
+        }
+    ) => {
+        map!(
+            @Key,
+            Map {
+                $(
+                    $i : $e,
+                )*
+                $ni : (*$v).clone(),
             },
             Rest {
                 $($rest)*
