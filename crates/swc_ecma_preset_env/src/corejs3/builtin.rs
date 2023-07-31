@@ -31,17 +31,19 @@ fn typed(name: &'static str) -> CoreJSPolyfillDescriptor {
 
 static ARRAY_NATURE_ITERATORS: &[&str] = &["es.array.iterator", "web.dom-collections.iterator"];
 
-pub static COMMON_ITERATORS: &[&str] = &concat2(ARRAY_NATURE_ITERATORS, &["es.string.iterator"]);
+pub static COMMON_ITERATORS: &[&str] =
+    &concat2::<3>(ARRAY_NATURE_ITERATORS, &["es.string.iterator"]);
 
 static ARRAY_NATURE_ITERATORS_WITH_TAG: &[&str] =
-    &concat2(ARRAY_NATURE_ITERATORS, &["es.object.to-string"]);
+    &concat2::<3>(ARRAY_NATURE_ITERATORS, &["es.object.to-string"]);
 
-static COMMON_ITERATORS_WITH_TAG: &[&str] = &concat2(COMMON_ITERATORS, &["es.object.to-string"]);
+static COMMON_ITERATORS_WITH_TAG: &[&str] =
+    &concat2::<4>(COMMON_ITERATORS, &["es.object.to-string"]);
 
 static ERROR_DEPENDENCIES: &[&str] = &["es.error.cause", "es.error.to-string"];
 
 static SUPPRESSED_ERROR_DEPENDENCIES: &[&str] =
-    &concat2(&["esnext.suppressed-error.constructor"], ERROR_DEPENDENCIES);
+    &concat2::<3>(&["esnext.suppressed-error.constructor"], ERROR_DEPENDENCIES);
 
 static TYPED_ARRAY_DEPENDENCIES: &[&str] = &[
     "es.typed-array.at",
@@ -88,12 +90,12 @@ static TYPED_ARRAY_DEPENDENCIES: &[&str] = &[
 pub static PROMISE_DEPENDENCIES: &[&str] = &["es.promise", "es.object.to-string"];
 
 static PROMISE_DEPENDENCIES_WITH_ITERATORS: &[&str] =
-    &concat2(PROMISE_DEPENDENCIES, COMMON_ITERATORS);
+    &concat2::<5>(PROMISE_DEPENDENCIES, COMMON_ITERATORS);
 
 static SYMBOL_DEPENDENCIES: &[&str] =
     &["es.symbol", "es.symbol.description", "es.object.to-string"];
 
-static MAP_DEPENDENCIES: &[&str] = &concat2(
+static MAP_DEPENDENCIES: &[&str] = &concat2::<19>(
     &[
         "es.map",
         "esnext.map.delete-all",
@@ -114,7 +116,7 @@ static MAP_DEPENDENCIES: &[&str] = &concat2(
     COMMON_ITERATORS_WITH_TAG,
 );
 
-static SET_DEPENDENCIES: &[&str] = &concat2(
+static SET_DEPENDENCIES: &[&str] = &concat2::<28>(
     &[
         "es.set",
         "esnext.set.add-all",
@@ -144,7 +146,7 @@ static SET_DEPENDENCIES: &[&str] = &concat2(
     COMMON_ITERATORS_WITH_TAG,
 );
 
-static WEAK_MAP_DEPENDENCIES: &[&str] = &concat2(
+static WEAK_MAP_DEPENDENCIES: &[&str] = &concat2::<7>(
     &[
         "es.weak-map",
         "esnext.weak-map.delete-all",
@@ -153,7 +155,7 @@ static WEAK_MAP_DEPENDENCIES: &[&str] = &concat2(
     COMMON_ITERATORS_WITH_TAG,
 );
 
-static WEAK_SET_DEPENDENCIES: &[&str] = &concat2(
+static WEAK_SET_DEPENDENCIES: &[&str] = &concat2::<7>(
     &[
         "es.weak-set",
         "esnext.weak-set.add-all",
@@ -169,7 +171,7 @@ static DOM_EXCEPTION_DEPENDENCIES: &[&str] = &[
     "es.error.to-string",
 ];
 
-static URL_SEARCH_PARAMS_DEPENDENCIES: &[&str] = &concat2(
+static URL_SEARCH_PARAMS_DEPENDENCIES: &[&str] = &concat2::<8>(
     &[
         "web.url-search-params",
         "web.url-search-params.delete",
@@ -180,7 +182,7 @@ static URL_SEARCH_PARAMS_DEPENDENCIES: &[&str] = &concat2(
 );
 
 static ASYNC_ITERATOR_DEPENDENCIES: &[&str] =
-    &concat2(&["esnext.async-iterator.constructor"], PROMISE_DEPENDENCIES);
+    &concat2::<3>(&["esnext.async-iterator.constructor"], PROMISE_DEPENDENCIES);
 
 static ASYNC_ITERATOR_PROBLEM_METHODS: &[&str] = &[
     "esnext.async-iterator.every",
