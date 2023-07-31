@@ -218,6 +218,12 @@ static TYPED_ARRAY_STATIC_METHODS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = l
     of: define(null, ["es.typed-array.of"]),
 });
 
+static DATA_VIEW_DEPENDENCIES: &[&str] = &[
+    "es.data-view",
+    "es.array-buffer.slice",
+    "es.object.to-string",
+];
+
 pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
   AsyncDisposableStack: define("async-disposable-stack", [
     "esnext.async-disposable-stack.constructor",
@@ -244,6 +250,7 @@ pub(crate) static BUILT_INS: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_ma
     "es.array-buffer.slice",
     "es.object.to-string",
   ]),
+  DataView: define(null, DATA_VIEW_DEPENDENCIES),
   Date: define(null, ["es.date.to-string"]),
   DOMException: define("dom-exception", DOM_EXCEPTION_DEPENDENCIES),
   DisposableStack: define("disposable-stack", [
@@ -404,6 +411,7 @@ pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> 
     degrees: define("math/degrees", ["esnext.math.degrees"]),
     expm1: define("math/expm1", ["es.math.expm1"]),
     fround: define("math/fround", ["es.math.fround"]),
+    f16round: define("math/f16round", ["esnext.math.f16round"]),
     fscale: define("math/fscale", ["esnext.math.fscale"]),
     hypot: define("math/hypot", ["es.math.hypot"]),
     iaddh: define("math/iaddh", ["esnext.math.iaddh"]),
@@ -705,230 +713,300 @@ pub(crate) static STATIC_PROPERTIES: Lazy<ObjectMap2<CoreJSPolyfillDescriptor>> 
   },
 });
 
-pub(crate) static INSTANCE_PROPERTIES: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map{
-  asIndexedPairs: define("instance/asIndexedPairs", [
-    "esnext.async-iterator.as-indexed-pairs",
-    ASYNC_ITERATOR_DEPENDENCIES,
-    "esnext.iterator.as-indexed-pairs",
-    ITERATOR_DEPENDENCIES,
-  ]),
-  at: define("instance/at", [
-    // TODO: We should introduce overloaded instance methods definition
-    // Before that is implemented, the `esnext.string.at` must be the first
-    // In pure mode, the provider resolves the descriptor as a "pure" `esnext.string.at`
-    // and treats the compat-data of `esnext.string.at` as the compat-data of
-    // pure import `instance/at`. The first polyfill here should have the lowest corejs
-    // supported versions.
-    "esnext.string.at",
-    "es.string.at-alternative",
-    "es.array.at",
-  ]),
-  anchor: define(null, ["es.string.anchor"]),
-  big: define(null, ["es.string.big"]),
-  bind: define("instance/bind", ["es.function.bind"]),
-  blink: define(null, ["es.string.blink"]),
-  bold: define(null, ["es.string.bold"]),
-  codePointAt: define("instance/code-point-at", ["es.string.code-point-at"]),
-  codePoints: define("instance/code-points", ["esnext.string.code-points"]),
-  concat: define("instance/concat", ["es.array.concat"], None, ["String"]),
-  copyWithin: define("instance/copy-within", ["es.array.copy-within"]),
-  demethodize: define("instance/demethodize", ["esnext.function.demethodize"]),
-  description: define(null, ["es.symbol", "es.symbol.description"]),
-  dotAll: define(null, ["es.regexp.dot-all"]),
-  drop: define("instance/drop", [
-    "esnext.async-iterator.drop",
-    ASYNC_ITERATOR_DEPENDENCIES,
-    "esnext.iterator.drop",
-    ITERATOR_DEPENDENCIES,
-  ]),
-  emplace: define("instance/emplace", [
-    "esnext.map.emplace",
-    "esnext.weak-map.emplace",
-  ]),
-  endsWith: define("instance/ends-with", ["es.string.ends-with"]),
-  entries: define("instance/entries", ARRAY_NATURE_ITERATORS_WITH_TAG),
-  every: define("instance/every", [
-    "es.array.every",
-    "esnext.async-iterator.every",
-    // TODO: add async iterator dependencies when we support sub-dependencies
-    // esnext.async-iterator.every depends on es.promise
-    // but we don't want to pull es.promise when esnext.async-iterator is disabled
-    //
-    // ASYNC_ITERATOR_DEPENDENCIES
-    "esnext.iterator.every",
-    ITERATOR_DEPENDENCIES,
-  ]),
-  exec: define(null, ["es.regexp.exec"]),
-  fill: define("instance/fill", ["es.array.fill"]),
-  filter: define("instance/filter", [
-    "es.array.filter",
-    "esnext.async-iterator.filter",
-    "esnext.iterator.filter",
-    ITERATOR_DEPENDENCIES,
-  ]),
-  filterReject: define("instance/filterReject", ["esnext.array.filter-reject"]),
-  finally: define(null, ["es.promise.finally", PROMISE_DEPENDENCIES]),
-  find: define("instance/find", [
-    "es.array.find",
-    "esnext.async-iterator.find",
-    "esnext.iterator.find",
-    ITERATOR_DEPENDENCIES,
-  ]),
-  findIndex: define("instance/find-index", ["es.array.find-index"]),
-  findLast: define("instance/find-last", ["es.array.find-last"]),
-  findLastIndex: define("instance/find-last-index", [
-    "es.array.find-last-index",
-  ]),
-  fixed: define(null, ["es.string.fixed"]),
-  flags: define("instance/flags", ["es.regexp.flags"]),
-  flatMap: define("instance/flat-map", [
-    "es.array.flat-map",
-    "es.array.unscopables.flat-map",
-    "esnext.async-iterator.flat-map",
-    "esnext.iterator.flat-map",
-    ITERATOR_DEPENDENCIES,
-  ]),
-  flat: define("instance/flat", ["es.array.flat", "es.array.unscopables.flat"]),
-  getYear: define(null, ["es.date.get-year"]),
-  group: define("instance/group", ["esnext.array.group"]),
-  groupBy: define("instance/group-by", ["esnext.array.group-by"]),
-  groupByToMap: define("instance/group-by-to-map", [
-    "esnext.array.group-by-to-map",
-    "es.map",
-    "es.object.to-string",
-  ]),
-  groupToMap: define("instance/group-to-map", [
-    "esnext.array.group-to-map",
-    "es.map",
-    "es.object.to-string",
-  ]),
-  fontcolor: define(null, ["es.string.fontcolor"]),
-  fontsize: define(null, ["es.string.fontsize"]),
-  forEach: define("instance/for-each", [
-    "es.array.for-each",
-    "esnext.async-iterator.for-each",
-    "esnext.iterator.for-each",
-    ITERATOR_DEPENDENCIES,
-    "web.dom-collections.for-each",
-  ]),
-  includes: define("instance/includes", [
-    "es.array.includes",
-    "es.string.includes",
-  ]),
-  indexed: define("instance/indexed", [
-    "esnext.async-iterator.indexed",
-    ASYNC_ITERATOR_DEPENDENCIES,
-    "esnext.iterator.indexed",
-    ITERATOR_DEPENDENCIES,
-  ]),
-  indexOf: define("instance/index-of", ["es.array.index-of"]),
-  isWellFormed: define("instance/is-well-formed", ["es.string.is-well-formed"]),
-  italic: define(null, ["es.string.italics"]),
-  join: define(null, ["es.array.join"]),
-  keys: define("instance/keys", ARRAY_NATURE_ITERATORS_WITH_TAG),
-  lastIndex: define(null, ["esnext.array.last-index"]),
-  lastIndexOf: define("instance/last-index-of", ["es.array.last-index-of"]),
-  lastItem: define(null, ["esnext.array.last-item"]),
-  link: define(null, ["es.string.link"]),
-  map: define("instance/map", [
-    "es.array.map",
-    "esnext.async-iterator.map",
-    "esnext.iterator.map",
-  ]),
-  match: define(null, ["es.string.match", "es.regexp.exec"]),
-  matchAll: define("instance/match-all", [
-    "es.string.match-all",
-    "es.regexp.exec",
-  ]),
-  name: define(null, ["es.function.name"]),
-  padEnd: define("instance/pad-end", ["es.string.pad-end"]),
-  padStart: define("instance/pad-start", ["es.string.pad-start"]),
-  push: define("instance/push", ["es.array.push"]),
-  reduce: define("instance/reduce", [
-    "es.array.reduce",
-    "esnext.async-iterator.reduce",
-    "esnext.iterator.reduce",
-    ITERATOR_DEPENDENCIES,
-  ]),
-  reduceRight: define("instance/reduce-right", ["es.array.reduce-right"]),
-  repeat: define("instance/repeat", ["es.string.repeat"]),
-  replace: define(null, ["es.string.replace", "es.regexp.exec"]),
-  replaceAll: define("instance/replace-all", [
-    "es.string.replace-all",
-    "es.string.replace",
-    "es.regexp.exec",
-  ]),
-  reverse: define("instance/reverse", ["es.array.reverse"]),
-  search: define(null, ["es.string.search", "es.regexp.exec"]),
-  setYear: define(null, ["es.date.set-year"]),
-  slice: define("instance/slice", ["es.array.slice"]),
-  small: define(null, ["es.string.small"]),
-  some: define("instance/some", [
-    "es.array.some",
-    "esnext.async-iterator.some",
-    "esnext.iterator.some",
-    ITERATOR_DEPENDENCIES,
-  ]),
-  sort: define("instance/sort", ["es.array.sort"]),
-  splice: define("instance/splice", ["es.array.splice"]),
-  split: define(null, ["es.string.split", "es.regexp.exec"]),
-  startsWith: define("instance/starts-with", ["es.string.starts-with"]),
-  sticky: define(null, ["es.regexp.sticky"]),
-  strike: define(null, ["es.string.strike"]),
-  sub: define(null, ["es.string.sub"]),
-  substr: define(null, ["es.string.substr"]),
-  sup: define(null, ["es.string.sup"]),
-  take: define("instance/take", [
-    "esnext.async-iterator.take",
-    ASYNC_ITERATOR_DEPENDENCIES,
-    "esnext.iterator.take",
-    ITERATOR_DEPENDENCIES,
-  ]),
-  test: define(null, ["es.regexp.test", "es.regexp.exec"]),
-  toArray: define("instance/to-array", [
-    "esnext.async-iterator.to-array",
-    ASYNC_ITERATOR_DEPENDENCIES,
-    "esnext.iterator.to-array",
-    ITERATOR_DEPENDENCIES,
-  ]),
-  toAsync: define(null, [
-    "esnext.iterator.to-async",
-    ITERATOR_DEPENDENCIES,
-    ASYNC_ITERATOR_DEPENDENCIES,
-    AsyncIteratorProblemMethods,
-  ]),
-  toExponential: define(null, ["es.number.to-exponential"]),
-  toFixed: define(null, ["es.number.to-fixed"]),
-  toGMTString: define(null, ["es.date.to-gmt-string"]),
-  toISOString: define(null, ["es.date.to-iso-string"]),
-  toJSON: define(null, ["es.date.to-json", "web.url.to-json"]),
-  toPrecision: define(null, ["es.number.to-precision"]),
-  toReversed: define("instance/to-reversed", ["es.array.to-reversed"]),
-  toSorted: define("instance/to-sorted", [
-    "es.array.to-sorted",
-    "es.array.sort",
-  ]),
-  toSpliced: define("instance/to-spliced", ["es.array.to-spliced"]),
-  toString: define(null, [
-    "es.object.to-string",
-    "es.error.to-string",
-    "es.date.to-string",
-    "es.regexp.to-string",
-  ]),
-  toWellFormed: define("instance/to-well-formed", ["es.string.to-well-formed"]),
-  trim: define("instance/trim", ["es.string.trim"]),
-  trimEnd: define("instance/trim-end", ["es.string.trim-end"]),
-  trimLeft: define("instance/trim-left", ["es.string.trim-start"]),
-  trimRight: define("instance/trim-right", ["es.string.trim-end"]),
-  trimStart: define("instance/trim-start", ["es.string.trim-start"]),
-  uniqueBy: define("instance/unique-by", ["esnext.array.unique-by", "es.map"]),
-  unshift: define("instance/unshift", ["es.array.unshift"]),
-  unThis: define("instance/un-this", ["esnext.function.un-this"]),
-  values: define("instance/values", ARRAY_NATURE_ITERATORS_WITH_TAG),
-  with: define("instance/with", ["es.array.with"]),
-  __defineGetter__: define(null, ["es.object.define-getter"]),
-  __defineSetter__: define(null, ["es.object.define-setter"]),
-  __lookupGetter__: define(null, ["es.object.lookup-getter"]),
-  __lookupSetter__: define(null, ["es.object.lookup-setter"]),
-  __proto__: define(null, ["es.object.proto"]),
+pub(crate) static INSTANCE_PROPERTIES: Lazy<ObjectMap<CoreJSPolyfillDescriptor>> = lazy_map!(Map {
+    asIndexedPairs: define(
+        "instance/asIndexedPairs",
+        [
+            "esnext.async-iterator.as-indexed-pairs",
+            ASYNC_ITERATOR_DEPENDENCIES,
+            "esnext.iterator.as-indexed-pairs",
+            ITERATOR_DEPENDENCIES,
+        ]
+    ),
+    at: define(
+        "instance/at",
+        [
+            // TODO: We should introduce overloaded instance methods definition
+            // Before that is implemented, the `esnext.string.at` must be the first
+            // In pure mode, the provider resolves the descriptor as a "pure" `esnext.string.at`
+            // and treats the compat-data of `esnext.string.at` as the compat-data of
+            // pure import `instance/at`. The first polyfill here should have the lowest corejs
+            // supported versions.
+            "esnext.string.at",
+            "es.string.at-alternative",
+            "es.array.at",
+        ]
+    ),
+    anchor: define(null, ["es.string.anchor"]),
+    big: define(null, ["es.string.big"]),
+    bind: define("instance/bind", ["es.function.bind"]),
+    blink: define(null, ["es.string.blink"]),
+    bold: define(null, ["es.string.bold"]),
+    codePointAt: define("instance/code-point-at", ["es.string.code-point-at"]),
+    codePoints: define("instance/code-points", ["esnext.string.code-points"]),
+    concat: define("instance/concat", ["es.array.concat"], None, ["String"]),
+    copyWithin: define("instance/copy-within", ["es.array.copy-within"]),
+    demethodize: define("instance/demethodize", ["esnext.function.demethodize"]),
+    description: define(null, ["es.symbol", "es.symbol.description"]),
+    dotAll: define(null, ["es.regexp.dot-all"]),
+    drop: define(
+        "instance/drop",
+        [
+            "esnext.async-iterator.drop",
+            ASYNC_ITERATOR_DEPENDENCIES,
+            "esnext.iterator.drop",
+            ITERATOR_DEPENDENCIES,
+        ]
+    ),
+    emplace: define(
+        "instance/emplace",
+        ["esnext.map.emplace", "esnext.weak-map.emplace",]
+    ),
+    endsWith: define("instance/ends-with", ["es.string.ends-with"]),
+    entries: define("instance/entries", ARRAY_NATURE_ITERATORS_WITH_TAG),
+    every: define(
+        "instance/every",
+        [
+            "es.array.every",
+            "esnext.async-iterator.every",
+            // TODO: add async iterator dependencies when we support sub-dependencies
+            // esnext.async-iterator.every depends on es.promise
+            // but we don't want to pull es.promise when esnext.async-iterator is disabled
+            //
+            // ASYNC_ITERATOR_DEPENDENCIES
+            "esnext.iterator.every",
+            ITERATOR_DEPENDENCIES,
+        ]
+    ),
+    exec: define(null, ["es.regexp.exec"]),
+    fill: define("instance/fill", ["es.array.fill"]),
+    filter: define(
+        "instance/filter",
+        [
+            "es.array.filter",
+            "esnext.async-iterator.filter",
+            "esnext.iterator.filter",
+            ITERATOR_DEPENDENCIES,
+        ]
+    ),
+    filterReject: define("instance/filterReject", ["esnext.array.filter-reject"]),
+    finally: define(null, ["es.promise.finally", PROMISE_DEPENDENCIES]),
+    find: define(
+        "instance/find",
+        [
+            "es.array.find",
+            "esnext.async-iterator.find",
+            "esnext.iterator.find",
+            ITERATOR_DEPENDENCIES,
+        ]
+    ),
+    findIndex: define("instance/find-index", ["es.array.find-index"]),
+    findLast: define("instance/find-last", ["es.array.find-last"]),
+    findLastIndex: define("instance/find-last-index", ["es.array.find-last-index",]),
+    fixed: define(null, ["es.string.fixed"]),
+    flags: define("instance/flags", ["es.regexp.flags"]),
+    flatMap: define(
+        "instance/flat-map",
+        [
+            "es.array.flat-map",
+            "es.array.unscopables.flat-map",
+            "esnext.async-iterator.flat-map",
+            "esnext.iterator.flat-map",
+            ITERATOR_DEPENDENCIES,
+        ]
+    ),
+    flat: define(
+        "instance/flat",
+        ["es.array.flat", "es.array.unscopables.flat"]
+    ),
+    getFloat16: define(
+        null,
+        ["esnext.data-view.get-float16", DATA_VIEW_DEPENDENCIES]
+    ),
+    getUint8Clamped: define(
+        null,
+        ["esnext.data-view.get-uint8-clamped", DATA_VIEW_DEPENDENCIES]
+    ),
+    getYear: define(null, ["es.date.get-year"]),
+    group: define("instance/group", ["esnext.array.group"]),
+    groupBy: define("instance/group-by", ["esnext.array.group-by"]),
+    groupByToMap: define(
+        "instance/group-by-to-map",
+        [
+            "esnext.array.group-by-to-map",
+            "es.map",
+            "es.object.to-string",
+        ]
+    ),
+    groupToMap: define(
+        "instance/group-to-map",
+        ["esnext.array.group-to-map", "es.map", "es.object.to-string",]
+    ),
+    fontcolor: define(null, ["es.string.fontcolor"]),
+    fontsize: define(null, ["es.string.fontsize"]),
+    forEach: define(
+        "instance/for-each",
+        [
+            "es.array.for-each",
+            "esnext.async-iterator.for-each",
+            "esnext.iterator.for-each",
+            ITERATOR_DEPENDENCIES,
+            "web.dom-collections.for-each",
+        ]
+    ),
+    includes: define(
+        "instance/includes",
+        ["es.array.includes", "es.string.includes",]
+    ),
+    indexed: define(
+        "instance/indexed",
+        [
+            "esnext.async-iterator.indexed",
+            ASYNC_ITERATOR_DEPENDENCIES,
+            "esnext.iterator.indexed",
+            ITERATOR_DEPENDENCIES,
+        ]
+    ),
+    indexOf: define("instance/index-of", ["es.array.index-of"]),
+    isWellFormed: define("instance/is-well-formed", ["es.string.is-well-formed"]),
+    italic: define(null, ["es.string.italics"]),
+    join: define(null, ["es.array.join"]),
+    keys: define("instance/keys", ARRAY_NATURE_ITERATORS_WITH_TAG),
+    lastIndex: define(null, ["esnext.array.last-index"]),
+    lastIndexOf: define("instance/last-index-of", ["es.array.last-index-of"]),
+    lastItem: define(null, ["esnext.array.last-item"]),
+    link: define(null, ["es.string.link"]),
+    map: define(
+        "instance/map",
+        [
+            "es.array.map",
+            "esnext.async-iterator.map",
+            "esnext.iterator.map",
+        ]
+    ),
+    match: define(null, ["es.string.match", "es.regexp.exec"]),
+    matchAll: define(
+        "instance/match-all",
+        ["es.string.match-all", "es.regexp.exec",]
+    ),
+    name: define(null, ["es.function.name"]),
+    padEnd: define("instance/pad-end", ["es.string.pad-end"]),
+    padStart: define("instance/pad-start", ["es.string.pad-start"]),
+    push: define("instance/push", ["es.array.push"]),
+    reduce: define(
+        "instance/reduce",
+        [
+            "es.array.reduce",
+            "esnext.async-iterator.reduce",
+            "esnext.iterator.reduce",
+            ITERATOR_DEPENDENCIES,
+        ]
+    ),
+    reduceRight: define("instance/reduce-right", ["es.array.reduce-right"]),
+    repeat: define("instance/repeat", ["es.string.repeat"]),
+    replace: define(null, ["es.string.replace", "es.regexp.exec"]),
+    replaceAll: define(
+        "instance/replace-all",
+        [
+            "es.string.replace-all",
+            "es.string.replace",
+            "es.regexp.exec",
+        ]
+    ),
+    reverse: define("instance/reverse", ["es.array.reverse"]),
+    search: define(null, ["es.string.search", "es.regexp.exec"]),
+    setFloat16: define(
+        null,
+        ["esnext.data-view.set-float16", DATA_VIEW_DEPENDENCIES]
+    ),
+    setUint8Clamped: define(
+        null,
+        ["esnext.data-view.set-uint8-clamped", DATA_VIEW_DEPENDENCIES]
+    ),
+    setYear: define(null, ["es.date.set-year"]),
+    slice: define("instance/slice", ["es.array.slice"]),
+    small: define(null, ["es.string.small"]),
+    some: define(
+        "instance/some",
+        [
+            "es.array.some",
+            "esnext.async-iterator.some",
+            "esnext.iterator.some",
+            ITERATOR_DEPENDENCIES,
+        ]
+    ),
+    sort: define("instance/sort", ["es.array.sort"]),
+    splice: define("instance/splice", ["es.array.splice"]),
+    split: define(null, ["es.string.split", "es.regexp.exec"]),
+    startsWith: define("instance/starts-with", ["es.string.starts-with"]),
+    sticky: define(null, ["es.regexp.sticky"]),
+    strike: define(null, ["es.string.strike"]),
+    sub: define(null, ["es.string.sub"]),
+    substr: define(null, ["es.string.substr"]),
+    sup: define(null, ["es.string.sup"]),
+    take: define(
+        "instance/take",
+        [
+            "esnext.async-iterator.take",
+            ASYNC_ITERATOR_DEPENDENCIES,
+            "esnext.iterator.take",
+            ITERATOR_DEPENDENCIES,
+        ]
+    ),
+    test: define(null, ["es.regexp.test", "es.regexp.exec"]),
+    toArray: define(
+        "instance/to-array",
+        [
+            "esnext.async-iterator.to-array",
+            ASYNC_ITERATOR_DEPENDENCIES,
+            "esnext.iterator.to-array",
+            ITERATOR_DEPENDENCIES,
+        ]
+    ),
+    toAsync: define(
+        null,
+        [
+            "esnext.iterator.to-async",
+            ITERATOR_DEPENDENCIES,
+            ASYNC_ITERATOR_DEPENDENCIES,
+            AsyncIteratorProblemMethods,
+        ]
+    ),
+    toExponential: define(null, ["es.number.to-exponential"]),
+    toFixed: define(null, ["es.number.to-fixed"]),
+    toGMTString: define(null, ["es.date.to-gmt-string"]),
+    toISOString: define(null, ["es.date.to-iso-string"]),
+    toJSON: define(null, ["es.date.to-json", "web.url.to-json"]),
+    toPrecision: define(null, ["es.number.to-precision"]),
+    toReversed: define("instance/to-reversed", ["es.array.to-reversed"]),
+    toSorted: define(
+        "instance/to-sorted",
+        ["es.array.to-sorted", "es.array.sort",]
+    ),
+    toSpliced: define("instance/to-spliced", ["es.array.to-spliced"]),
+    toString: define(
+        null,
+        [
+            "es.object.to-string",
+            "es.error.to-string",
+            "es.date.to-string",
+            "es.regexp.to-string",
+        ]
+    ),
+    toWellFormed: define("instance/to-well-formed", ["es.string.to-well-formed"]),
+    trim: define("instance/trim", ["es.string.trim"]),
+    trimEnd: define("instance/trim-end", ["es.string.trim-end"]),
+    trimLeft: define("instance/trim-left", ["es.string.trim-start"]),
+    trimRight: define("instance/trim-right", ["es.string.trim-end"]),
+    trimStart: define("instance/trim-start", ["es.string.trim-start"]),
+    uniqueBy: define("instance/unique-by", ["esnext.array.unique-by", "es.map"]),
+    unshift: define("instance/unshift", ["es.array.unshift"]),
+    unThis: define("instance/un-this", ["esnext.function.un-this"]),
+    values: define("instance/values", ARRAY_NATURE_ITERATORS_WITH_TAG),
+    with: define("instance/with", ["es.array.with"]),
+    __defineGetter__: define(null, ["es.object.define-getter"]),
+    __defineSetter__: define(null, ["es.object.define-setter"]),
+    __lookupGetter__: define(null, ["es.object.lookup-getter"]),
+    __lookupSetter__: define(null, ["es.object.lookup-setter"]),
+    __proto__: define(null, ["es.object.proto"]),
 });
