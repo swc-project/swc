@@ -54,7 +54,7 @@ impl UsageVisitor {
     }
 
     /// Add imports
-    fn add(&mut self, features: &[&str]) {
+    fn may_inject_global(&mut self, features: &[&str]) {
         let UsageVisitor {
             shipped_proposals,
             is_any_target,
@@ -183,7 +183,7 @@ impl Visit for UsageVisitor {
         e.visit_children_with(self);
 
         if let Callee::Import(_) = &e.callee {
-            self.add(PROMISE_DEPENDENCIES)
+            self.may_inject_global(PROMISE_DEPENDENCIES)
         }
     }
 
@@ -199,7 +199,7 @@ impl Visit for UsageVisitor {
     fn visit_expr_or_spread(&mut self, e: &ExprOrSpread) {
         e.visit_children_with(self);
         if e.spread.is_some() {
-            self.add(COMMON_ITERATORS)
+            self.may_inject_global(COMMON_ITERATORS)
         }
     }
 
@@ -207,14 +207,14 @@ impl Visit for UsageVisitor {
     fn visit_for_of_stmt(&mut self, s: &ForOfStmt) {
         s.visit_children_with(self);
 
-        self.add(COMMON_ITERATORS)
+        self.may_inject_global(COMMON_ITERATORS)
     }
 
     fn visit_function(&mut self, f: &Function) {
         f.visit_children_with(self);
 
         if f.is_async {
-            self.add(PROMISE_DEPENDENCIES)
+            self.may_inject_global(PROMISE_DEPENDENCIES)
         }
     }
 
@@ -257,7 +257,7 @@ impl Visit for UsageVisitor {
         e.visit_children_with(self);
 
         if e.delegate {
-            self.add(COMMON_ITERATORS)
+            self.may_inject_global(COMMON_ITERATORS)
         }
     }
 }
