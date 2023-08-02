@@ -6,7 +6,7 @@ use swc_common::{BytePos, Span};
 use super::Parser;
 use crate::{
     error::Error,
-    lexer::{self, util::SinglyLinkedList},
+    lexer::{self, util::BufferedSinglyLinkedList},
     token::*,
     Context, EsVersion, Syntax,
 };
@@ -147,7 +147,8 @@ impl Tokens for TokensInput {
 #[derive(Debug)]
 pub struct Capturing<I: Tokens> {
     inner: I,
-    captured: SinglyLinkedList<TokenAndSpan>,
+    // use a buffered singly linked list because clones occur infrequently
+    captured: BufferedSinglyLinkedList<TokenAndSpan>,
 }
 
 impl<I: Tokens> Clone for Capturing<I> {

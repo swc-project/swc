@@ -1,5 +1,3 @@
-use std::{iter::Rev, vec::IntoIter};
-
 use swc_common::{comments::Comment, BytePos};
 
 use super::util::SinglyLinkedList;
@@ -39,11 +37,11 @@ impl CommentsBuffer {
         self.pending_leading.push(comment);
     }
 
-    pub fn take_comments(&mut self) -> Rev<IntoIter<BufferedComment>> {
+    pub fn take_comments(&mut self) -> impl Iterator<Item = BufferedComment> {
         self.comments.take_all()
     }
 
-    pub fn take_pending_leading(&mut self) -> Rev<IntoIter<Comment>> {
+    pub fn take_pending_leading(&mut self) -> impl Iterator<Item = Comment> {
         self.pending_leading.take_all()
     }
 }

@@ -2,7 +2,7 @@
 //!
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
-use std::{char, iter::Rev, rc::Rc, vec::IntoIter};
+use std::{cell::RefCell, char, rc::Rc};
 
 use smartstring::{LazyCompact, SmartString};
 use swc_common::{
@@ -417,11 +417,83 @@ impl CharExt for char {
     }
 }
 
-/// A one direction linked list that can be cheaply
+#[derive(Debug)]
+struct BufferedSinglyLinkedListState<T: Clone> {
+    current: Vec<T>,
+    past: SinglyLinkedList<Vec<T>>,
+}
+
+impl<T: Clone> Default for BufferedSinglyLinkedListState<T> {
+    fn default() -> Self {
+        Self {
+            current: Default::default(),
+            past: Default::default(),
+        }
+    }
+}
+
+/// A buffered one-directional linked list that can be cheaply
 /// cloned with the clone maintaining its position in the list.
-#[derive(Debug, Clone)]
+/// This slightly differs from the `SinglyLinkedList` in that
+/// it internally stores a buffer of items between clones.
+#[derive(Debug)]
+pub(crate) struct BufferedSinglyLinkedList<T: Clone>(RefCell<BufferedSinglyLinkedListState<T>>);
+
+impl<T: Clone> Default for BufferedSinglyLinkedList<T> {
+    fn default() -> Self {
+        Self(Default::default())
+    }
+}
+
+impl<T: Clone> Clone for BufferedSinglyLinkedList<T> {
+    fn clone(&self) -> Self {
+        let state = {
+            // A clone causes a snapshot of the state and we want to clone cheaply,
+            // so we maintain a current buffer that we push onto a shared singly linked
+            // list when a clone occurs.
+            let mut captured = self.0.borrow_mut();
+            if !captured.current.is_empty() {
+                let current = std::mem::take(&mut captured.current);
+                captured.past.push(current);
+            }
+            BufferedSinglyLinkedListState {
+                current: Default::default(),
+                past: captured.past.clone(),
+            }
+        };
+
+        Self(RefCell::new(state))
+    }
+}
+
+impl<T: Clone> BufferedSinglyLinkedList<T> {
+    pub fn push(&self, item: T) {
+        self.0.borrow_mut().current.push(item);
+    }
+
+    pub fn take_all(&self) -> impl Iterator<Item = T> {
+        let mut captured = self.0.take();
+        captured
+            .past
+            .take_all()
+            .flatten()
+            .chain(captured.current.into_iter())
+    }
+}
+
+/// A one-directional linked list that can be cheaply
+/// cloned with the clone maintaining its position in the list.
+#[derive(Debug)]
 pub(crate) struct SinglyLinkedList<T: Clone> {
     last_node: Option<Rc<SinglyLinkedListNode<T>>>,
+}
+
+impl<T: Clone> Clone for SinglyLinkedList<T> {
+    fn clone(&self) -> Self {
+        Self {
+            last_node: self.last_node.clone(),
+        }
+    }
 }
 
 impl<T: Clone> Default for SinglyLinkedList<T> {
@@ -431,7 +503,7 @@ impl<T: Clone> Default for SinglyLinkedList<T> {
 }
 
 impl<T: Clone> SinglyLinkedList<T> {
-    pub fn take_all(&mut self) -> Rev<IntoIter<T>> {
+    pub fn take_all(&mut self) -> impl Iterator<Item = T> {
         // these are stored in reverse, so we need to reverse them back
         let mut items = Vec::new();
         let mut current_node = self.last_node.take();
