@@ -1,7 +1,6 @@
 array_constructor/array_constructor_unsafe/input.js
 conditionals/hoist_decl/input.js
 dead_code/unsafe_builtin/input.js
-evaluate/unsafe_array/input.js
 evaluate/unsafe_charAt/input.js
 evaluate/unsafe_charAt_bad_index/input.js
 evaluate/unsafe_charAt_noop/input.js
