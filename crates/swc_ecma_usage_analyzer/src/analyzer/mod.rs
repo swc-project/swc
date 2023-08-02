@@ -966,6 +966,7 @@ where
             let ctx = Ctx {
                 in_call_arg_of: Some(CalleeKind::from_expr(&n.callee, &self.expr_ctx)),
                 is_exact_arg: true,
+                is_id_ref: true,
                 ..self.ctx
             };
             n.args.visit_with(&mut *self.with_ctx(ctx));
