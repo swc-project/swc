@@ -563,7 +563,7 @@ impl Fold for SystemJs {
                     right: match *assign.right {
                         Expr::Ident(ident) => Box::new(self.fold_module_name_ident(ident)),
                         Expr::Assign(_) if assign.op == AssignOp::Assign => {
-                            return Expr::Assign(AssignExpr {
+                            return self.replace_assign_expr(AssignExpr {
                                 right: assign.right,
                                 ..assign
                             });
