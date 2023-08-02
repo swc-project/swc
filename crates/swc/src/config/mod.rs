@@ -374,7 +374,7 @@ impl Options {
         let top_level_mark = self.top_level_mark.unwrap_or_else(Mark::new);
 
         if target.is_some() && cfg.env.is_some() {
-            bail!("`jsc.env` and `jsc.target` cannot be used together");
+            bail!("`jsc.env` and `target` cannot be used together");
         }
 
         let es_version = target.unwrap_or_default();
