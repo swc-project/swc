@@ -532,6 +532,7 @@ evaluate/prop_function/input.js
 evaluate/string_case/input.js
 evaluate/string_charCodeAt/input.js
 evaluate/unary_prefix/input.js
+evaluate/unsafe_array/input.js
 evaluate/unsafe_array_bad_index/input.js
 evaluate/unsafe_constant/input.js
 evaluate/unsafe_string/input.js
@@ -634,10 +635,12 @@ functions/issue_2783/input.js
 functions/issue_2842/input.js
 functions/issue_3054/input.js
 functions/issue_485_crashing_1530/input.js
+functions/loop_init_arg/input.js
 functions/no_webkit/input.js
 functions/non_ascii_function_identifier_name/input.js
 functions/recursive_inline_1/input.js
 functions/recursive_inline_2/input.js
+functions/use_before_init_in_loop/input.js
 functions/webkit/input.js
 global_defs/conditional_chains/input.js
 global_defs/expanded/input.js
@@ -705,6 +708,7 @@ harmony/issue_2874_3/input.js
 harmony/issue_3028/input.js
 harmony/issue_3061/input.js
 harmony/issue_t80/input.js
+harmony/module_enables_strict_mode/input.js
 harmony/new_target/input.js
 harmony/number_literals/input.js
 harmony/object_literal_method_using_arguments/input.js
