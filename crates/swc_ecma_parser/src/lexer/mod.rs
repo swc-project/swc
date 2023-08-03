@@ -293,6 +293,7 @@ impl<'a> Lexer<'a> {
     fn read_token_zero(&mut self) -> LexResult<Token> {
         let next = self.input.peek();
 
+        #[cfg(feature = "lexical")]
         let bigint = match next {
             Some('x') | Some('X') => {
                 self.read_radix_number::<16, { lexical::NumberFormatBuilder::hexadecimal() }>()
@@ -302,6 +303,24 @@ impl<'a> Lexer<'a> {
             }
             Some('b') | Some('B') => {
                 self.read_radix_number::<2, { lexical::NumberFormatBuilder::binary() }>()
+            }
+            _ => {
+                return self.read_number(false).map(|v| match v {
+                    Left((value, raw)) => Num { value, raw },
+                    Right((value, raw)) => BigInt { value, raw },
+                });
+            }
+        };
+        #[cfg(not(feature = "lexical"))]
+        let bigint = match next {
+            Some('x') | Some('X') => {
+                self.read_radix_number::<16, 0>()
+            }
+            Some('o') | Some('O') => {
+                self.read_radix_number::<8, 0>()
+            }
+            Some('b') | Some('B') => {
+                self.read_radix_number::<2, 0>()
             }
             _ => {
                 return self.read_number(false).map(|v| match v {
