@@ -1071,7 +1071,7 @@ pub struct JsMinifyOptions {
     #[serde(default)]
     pub mangle: BoolOrDataConfig<MangleOptions>,
 
-    #[serde(default)]
+    #[serde(default, alias = "output")]
     pub format: JsMinifyFormatOptions,
 
     #[serde(default)]
