@@ -19,14 +19,15 @@ bench = false
 [features]
 # Used for debugging
 debug      = []
-default    = ["typescript", "stacker"]
+default    = ["typescript", "stacker", "lexical"]
 typescript = []
 verify     = ["swc_ecma_visit"]
 
 [dependencies]
 either      = { version = "1.4" }
-lexical     = { version = "6.1.0", features = ["power-of-two", "parse-integers", "parse-floats"], default-features = false }
+lexical     = { version = "6.1.0", features = ["power-of-two", "parse-integers", "parse-floats"], default-features = false, optional = true }
 num-bigint  = "0.4"
+num-traits  = { version = "0.2.15", optional = true }
 serde       = { version = "1", features = ["derive"] }
 smallvec    = "1.8.0"
 smartstring = "1"
