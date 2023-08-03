@@ -724,12 +724,15 @@ mod tests {
     }
 
     #[test]
-    #[cfg(feature = "lexical")]
     fn read_radix_number() {
+        #[cfg(feature = "lexical")]
+        const FORMAT : u128 = lexical::NumberFormatBuilder::octal();
+        #[cfg(not(feature = "lexical"))]
+        const FORMAT : u128 = 0;
         assert_eq!(
             (0o73 as f64, "0o73".into()),
             lex("0o73", |l| l
-                .read_radix_number::<8, { lexical::NumberFormatBuilder::octal() }>()
+                .read_radix_number::<8, FORMAT>()
                 .unwrap()
                 .left()
                 .unwrap())
@@ -763,7 +766,6 @@ mod tests {
     }
 
     #[test]
-    #[cfg(feature = "lexical")]
     fn large_bin_number() {
         const LONG: &str =
             "0B11111111111111111111111111111111111111111111111101001010100000010111110001111111111";
@@ -784,7 +786,10 @@ mod tests {
              111111111111111111111111111111111111111111111111111111111111111111\
              111111111111111111111111111111111111111111111111111111111111111111\
              0010111110001111111111";
+        #[cfg(feature = "lexical")]
         const FORMAT: u128 = lexical::NumberFormatBuilder::binary();
+        #[cfg(not(feature = "lexical"))]
+        const FORMAT: u128 = 0;
         assert_eq!(
             lex(LONG, |l| l
                 .read_radix_number::<2, FORMAT>()
