@@ -1,4 +1,15 @@
 # Changelog
+## [1.3.74] - 2023-08-02
+
+### Bug Fixes
+
+
+
+- **(es)** Fix typo in a warning (#7740) ([22e06cc](https://github.com/swc-project/swc/commit/22e06cce630b365b17f390559e065ee48cb3d2b9))
+
+
+- **(es/minifier)** Mark args of `new`s as references (#7743) ([3873f58](https://github.com/swc-project/swc/commit/3873f5849999e49b732fef9959cb12ce6159c078))
+
 ## [1.3.73] - 2023-08-01
 
 ### Bug Fixes
