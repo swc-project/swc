@@ -7,6 +7,12 @@
 
 - **(es/module)** Fix handling of continuous assignments in `systemjs` (#7741) ([f713f6a](https://github.com/swc-project/swc/commit/f713f6aba84ffe84bed9dff80a772b0cd78135b8))
 
+### Features
+
+
+
+- **(es)** Alias `format` as `output` for `minify()` (#7746) ([28dfc51](https://github.com/swc-project/swc/commit/28dfc518879b9125a382b48e8310895e137d4fd4))
+
 ## [1.3.74] - 2023-08-02
 
 ### Bug Fixes
