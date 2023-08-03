@@ -4115,8 +4115,8 @@ version = "0.137.5"
 dependencies = [
  "criterion",
  "either",
- "lexical",
  "num-bigint",
+ "num-traits",
  "pretty_assertions",
  "serde",
  "serde_json",
