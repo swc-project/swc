@@ -295,13 +295,13 @@ impl<'a> Lexer<'a> {
 
         let bigint = match next {
             Some('x') | Some('X') => {
-                self.read_radix_number::<16, { lexical::NumberFormatBuilder::hexadecimal() }>()
+                self.read_radix_number::<16>()
             }
             Some('o') | Some('O') => {
-                self.read_radix_number::<8, { lexical::NumberFormatBuilder::octal() }>()
+                self.read_radix_number::<8>()
             }
             Some('b') | Some('B') => {
-                self.read_radix_number::<2, { lexical::NumberFormatBuilder::binary() }>()
+                self.read_radix_number::<2>()
             }
             _ => {
                 return self.read_number(false).map(|v| match v {
