@@ -59,17 +59,14 @@ impl<'a> Lexer<'a> {
         } else {
             let starts_with_zero = self.cur().unwrap() == '0';
 
-            // Use read_number_no_dot to support long numbers.
+            // Use read_number_no_dot to support long numbers.                                                                                                                            
             #[cfg(feature = "lexical")]
-            let (val, s, mut raw, not_octal) = self
-                .read_number_no_dot_as_str::<10, { lexical::NumberFormatBuilder::from_radix(10) }>(
-                )?;
+            const FORMAT: u128 = lexical::NumberFormatBuilder::from_radix(10);
             #[cfg(not(feature = "lexical"))]
+            const FORMAT: u128 = 0;
             let (val, s, mut raw, not_octal) = self
-                .read_number_no_dot_as_str::<10, 0>(
+                .read_number_no_dot_as_str::<10, FORMAT>(
                 )?;
-
-            
 
             if self.eat(b'n') {
                 raw.push('n');
@@ -369,31 +366,26 @@ impl<'a> Lexer<'a> {
         let raw_number_str = raw_str.replace('_', "");
         
         #[cfg(feature = "lexical")]
-        return Ok((
-            lexical::parse_with_options::<f64, _, FORMAT>(
-                raw_number_str.as_bytes(),
-                &lexical::parse_float_options::Options::from_radix(RADIX),
-            )
-                .expect("failed to parse float using lexical"),
+        let parsed_float = lexical::parse_with_options::<f64, _, FORMAT>(
+            raw_number_str.as_bytes(),
+            &lexical::parse_float_options::Options::from_radix(RADIX),
+        )
+            .expect("failed to parse float using lexical");
+
+        #[cfg(not(feature = "lexical"))]
+        let parsed_float = BigIntValue::from_str_radix(
+            &raw_number_str,
+            RADIX as u32,
+        )
+            .expect("failed to parse float using BigInt")
+            .to_f64()
+            .expect("failed to parse float using BigInt");
+
+        Ok((parsed_float,
             LazyBigInt::new(raw_number_str),
             raw_str,
             non_octal,
-        ));
-        #[cfg(not(feature = "lexical"))]
-        {
-            let parsed_int = BigIntValue::from_str_radix(
-                &raw_number_str,
-                RADIX as u32,
-            )
-                .expect("failed to parse float using BigInt");
-            let parsed_float = parsed_int.to_f64().expect("failed to parse float using BigInt");
-            return Ok((
-                parsed_float,
-                LazyBigInt::new(raw_number_str),
-                raw_str,
-                non_octal,
-            ));
-        }
+        ))
     }
 
     /// Ensure that ident cannot directly follow numbers.
