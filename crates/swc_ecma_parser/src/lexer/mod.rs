@@ -313,15 +313,9 @@ impl<'a> Lexer<'a> {
         };
         #[cfg(not(feature = "lexical"))]
         let bigint = match next {
-            Some('x') | Some('X') => {
-                self.read_radix_number::<16, 0>()
-            }
-            Some('o') | Some('O') => {
-                self.read_radix_number::<8, 0>()
-            }
-            Some('b') | Some('B') => {
-                self.read_radix_number::<2, 0>()
-            }
+            Some('x') | Some('X') => self.read_radix_number::<16, 0>(),
+            Some('o') | Some('O') => self.read_radix_number::<8, 0>(),
+            Some('b') | Some('B') => self.read_radix_number::<2, 0>(),
             _ => {
                 return self.read_number(false).map(|v| match v {
                     Left((value, raw)) => Num { value, raw },
