@@ -6,8 +6,7 @@ use std::{borrow::Cow, fmt::Write};
 
 use either::Either;
 use num_bigint::BigInt as BigIntValue;
-use num_traits::Num as NumTrait;
-use num_traits::ToPrimitive;
+use num_traits::{Num as NumTrait, ToPrimitive};
 use smartstring::{LazyCompact, SmartString};
 use swc_common::SyntaxContext;
 use tracing::trace;
@@ -58,9 +57,7 @@ impl<'a> Lexer<'a> {
             let starts_with_zero = self.cur().unwrap() == '0';
 
             // Use read_number_no_dot to support long numbers.
-            let (val, s, mut raw, not_octal) = self
-                .read_number_no_dot_as_str::<10>(
-                )?;
+            let (val, s, mut raw, not_octal) = self.read_number_no_dot_as_str::<10>()?;
 
             if self.eat(b'n') {
                 raw.push('n');
@@ -104,9 +101,17 @@ impl<'a> Lexer<'a> {
                             self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                         } else {
                             // It's Legacy octal, and we should reinterpret value.
-                            let val = BigIntValue::from_str_radix(val_str, 8).unwrap_or_else(|err| {
-                                panic!("failed to parse {} using `from_str_radix`: {:?}", val_str, err)
-                            }).to_f64().unwrap_or_else(|| panic!("failed to parse {} into float using BigInt", val_str));
+                            let val = BigIntValue::from_str_radix(val_str, 8)
+                                .unwrap_or_else(|err| {
+                                    panic!(
+                                        "failed to parse {} using `from_str_radix`: {:?}",
+                                        val_str, err
+                                    )
+                                })
+                                .to_f64()
+                                .unwrap_or_else(|| {
+                                    panic!("failed to parse {} into float using BigInt", val_str)
+                                });
 
                             return self.make_legacy_octal(start, val).map(|value| {
                                 Either::Left((value, self.atoms.borrow_mut().intern(&*raw)))
@@ -345,14 +350,12 @@ impl<'a> Lexer<'a> {
         let raw_str = raw.0.take().unwrap();
         // Remove number separator from number
         let raw_number_str = raw_str.replace('_', "");
-        let parsed_float = BigIntValue::from_str_radix(
-            &raw_number_str,
-            RADIX as u32,
-        )
+        let parsed_float = BigIntValue::from_str_radix(&raw_number_str, RADIX as u32)
             .expect("failed to parse float using BigInt")
             .to_f64()
             .expect("failed to parse float using BigInt");
-        Ok((parsed_float,
+        Ok((
+            parsed_float,
             LazyBigInt::new(raw_number_str),
             raw_str,
             non_octal,
