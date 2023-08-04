@@ -6,6 +6,10 @@ use std::{borrow::Cow, fmt::Write};
 
 use either::Either;
 use num_bigint::BigInt as BigIntValue;
+#[cfg(not(feature = "lexical"))]
+use num_traits::Num as NumTrait;
+#[cfg(not(feature = "lexical"))]
+use num_traits::ToPrimitive;
 use smartstring::{LazyCompact, SmartString};
 use swc_common::SyntaxContext;
 use tracing::trace;
@@ -56,9 +60,11 @@ impl<'a> Lexer<'a> {
             let starts_with_zero = self.cur().unwrap() == '0';
 
             // Use read_number_no_dot to support long numbers.
-            let (val, s, mut raw, not_octal) = self
-                .read_number_no_dot_as_str::<10, { lexical::NumberFormatBuilder::from_radix(10) }>(
-                )?;
+            #[cfg(feature = "lexical")]
+            const FORMAT: u128 = lexical::NumberFormatBuilder::from_radix(10);
+            #[cfg(not(feature = "lexical"))]
+            const FORMAT: u128 = 0;
+            let (val, s, mut raw, not_octal) = self.read_number_no_dot_as_str::<10, FORMAT>()?;
 
             if self.eat(b'n') {
                 raw.push('n');
@@ -102,6 +108,7 @@ impl<'a> Lexer<'a> {
                             self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                         } else {
                             // It's Legacy octal, and we should reinterpret value.
+                            #[cfg(feature = "lexical")]
                             let val = lexical::parse_with_options::<
                                 f64,
                                 _,
@@ -113,6 +120,18 @@ impl<'a> Lexer<'a> {
                             .unwrap_or_else(|err| {
                                 panic!("failed to parse {} using `lexical`: {:?}", val_str, err)
                             });
+                            #[cfg(not(feature = "lexical"))]
+                            let val = BigIntValue::from_str_radix(val_str, 8)
+                                .unwrap_or_else(|err| {
+                                    panic!(
+                                        "failed to parse {} using `from_str_radix`: {:?}",
+                                        val_str, err
+                                    )
+                                })
+                                .to_f64()
+                                .unwrap_or_else(|| {
+                                    panic!("failed to parse {} into float using BigInt", val_str)
+                                });
 
                             return self.make_legacy_octal(start, val).map(|value| {
                                 Either::Left((value, self.atoms.borrow_mut().intern(&*raw)))
@@ -352,12 +371,21 @@ impl<'a> Lexer<'a> {
         // Remove number separator from number
         let raw_number_str = raw_str.replace('_', "");
 
+        #[cfg(feature = "lexical")]
+        let parsed_float = lexical::parse_with_options::<f64, _, FORMAT>(
+            raw_number_str.as_bytes(),
+            &lexical::parse_float_options::Options::from_radix(RADIX),
+        )
+        .expect("failed to parse float using lexical");
+
+        #[cfg(not(feature = "lexical"))]
+        let parsed_float = BigIntValue::from_str_radix(&raw_number_str, RADIX as u32)
+            .expect("failed to parse float using BigInt")
+            .to_f64()
+            .expect("failed to parse float using BigInt");
+
         Ok((
-            lexical::parse_with_options::<f64, _, FORMAT>(
-                raw_number_str.as_bytes(),
-                &lexical::parse_float_options::Options::from_radix(RADIX),
-            )
-            .expect("failed to parse float using lexical"),
+            parsed_float,
             LazyBigInt::new(raw_number_str),
             raw_str,
             non_octal,
@@ -693,10 +721,14 @@ mod tests {
 
     #[test]
     fn read_radix_number() {
+        #[cfg(feature = "lexical")]
+        const FORMAT: u128 = lexical::NumberFormatBuilder::octal();
+        #[cfg(not(feature = "lexical"))]
+        const FORMAT: u128 = 0;
         assert_eq!(
             (0o73 as f64, "0o73".into()),
             lex("0o73", |l| l
-                .read_radix_number::<8, { lexical::NumberFormatBuilder::octal() }>()
+                .read_radix_number::<8, FORMAT>()
                 .unwrap()
                 .left()
                 .unwrap())
@@ -750,7 +782,10 @@ mod tests {
              111111111111111111111111111111111111111111111111111111111111111111\
              111111111111111111111111111111111111111111111111111111111111111111\
              0010111110001111111111";
+        #[cfg(feature = "lexical")]
         const FORMAT: u128 = lexical::NumberFormatBuilder::binary();
+        #[cfg(not(feature = "lexical"))]
+        const FORMAT: u128 = 0;
         assert_eq!(
             lex(LONG, |l| l
                 .read_radix_number::<2, FORMAT>()
