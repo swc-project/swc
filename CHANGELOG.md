@@ -16,6 +16,12 @@
 
 - **(es)** Alias `format` as `output` for `minify()` (#7746) ([28dfc51](https://github.com/swc-project/swc/commit/28dfc518879b9125a382b48e8310895e137d4fd4))
 
+### Refactor
+
+
+
+- **(es/parser)** Do not use `lexical` (#7758) ([e50cfde](https://github.com/swc-project/swc/commit/e50cfde938b2504b723a95f034ac4b388d8725c3))
+
 ## [1.3.74] - 2023-08-02
 
 ### Bug Fixes
