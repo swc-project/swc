@@ -294,15 +294,9 @@ impl<'a> Lexer<'a> {
         let next = self.input.peek();
 
         let bigint = match next {
-            Some('x') | Some('X') => {
-                self.read_radix_number::<16, { lexical::NumberFormatBuilder::hexadecimal() }>()
-            }
-            Some('o') | Some('O') => {
-                self.read_radix_number::<8, { lexical::NumberFormatBuilder::octal() }>()
-            }
-            Some('b') | Some('B') => {
-                self.read_radix_number::<2, { lexical::NumberFormatBuilder::binary() }>()
-            }
+            Some('x') | Some('X') => self.read_radix_number::<16>(),
+            Some('o') | Some('O') => self.read_radix_number::<8>(),
+            Some('b') | Some('B') => self.read_radix_number::<2>(),
             _ => {
                 return self.read_number(false).map(|v| match v {
                     Left((value, raw)) => Num { value, raw },
