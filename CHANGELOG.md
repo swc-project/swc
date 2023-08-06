@@ -5,6 +5,9 @@
 
 
 
+- **(es/compat)** Fix loose mode of the `spread` pass (#7760) ([b69ae8f](https://github.com/swc-project/swc/commit/b69ae8f433a1702e09a24c1c47b2fc312e8fb801))
+
+
 - **(es/module)** Fix handling of continuous assignments in `systemjs` (#7741) ([f713f6a](https://github.com/swc-project/swc/commit/f713f6aba84ffe84bed9dff80a772b0cd78135b8))
 
 
@@ -15,6 +18,12 @@
 
 
 - **(es)** Alias `format` as `output` for `minify()` (#7746) ([28dfc51](https://github.com/swc-project/swc/commit/28dfc518879b9125a382b48e8310895e137d4fd4))
+
+### Refactor
+
+
+
+- **(es/parser)** Do not use `lexical` (#7758) ([e50cfde](https://github.com/swc-project/swc/commit/e50cfde938b2504b723a95f034ac4b388d8725c3))
 
 ## [1.3.74] - 2023-08-02
 
