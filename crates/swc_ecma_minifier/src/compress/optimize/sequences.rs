@@ -1078,7 +1078,15 @@ impl Optimizer<'_> {
         Ok(false)
     }
 
-    fn is_pat_in_left_unalyzable_for_seq_inliner(&mut self, a: &Pat) -> bool {
+    fn is_prop_name_unanalyzable_for_seq_inliner(&mut self, a: &PropName) -> bool {
+        if let PropName::Computed(e) = a {
+            self.is_expr_in_left_unalyzable_for_seq_inliner(&e.expr)
+        } else {
+            false
+        }
+    }
+
+    fn is_pat_in_left_unanalyzable_for_seq_inliner(&mut self, a: &Pat) -> bool {
         match a {}
     }
 
@@ -1113,7 +1121,7 @@ impl Optimizer<'_> {
                 .function
                 .params
                 .iter()
-                .any(|p| self.is_pat_in_left_unalyzable_for_seq_inliner(&p.pat)),
+                .any(|p| self.is_pat_in_left_unanalyzable_for_seq_inliner(&p.pat)),
             Expr::Unary(UnaryExpr {
                 op: op!("typeof"),
                 arg,
@@ -1133,7 +1141,7 @@ impl Optimizer<'_> {
             Expr::Assign(e) => {
                 (match &e.left {
                     PatOrExpr::Expr(l) => self.is_expr_in_left_unalyzable_for_seq_inliner(&l),
-                    PatOrExpr::Pat(l) => self.is_pat_in_left_unalyzable_for_seq_inliner(l),
+                    PatOrExpr::Pat(l) => self.is_pat_in_left_unanalyzable_for_seq_inliner(l),
                 }) || self.is_expr_in_left_unalyzable_for_seq_inliner(&e.right)
             }
             Expr::Member(e) => {
@@ -1212,8 +1220,32 @@ impl Optimizer<'_> {
             Expr::Arrow(e) => e
                 .params
                 .iter()
-                .any(|p| self.is_pat_in_left_unalyzable_for_seq_inliner(p)),
-            Expr::Class(e) => {}
+                .any(|p| self.is_pat_in_left_unanalyzable_for_seq_inliner(p)),
+            Expr::Class(e) => e.class.body.iter().any(|m| match m {
+                ClassMember::Constructor(m) => m.params.iter().any(|p| {
+                    self.is_pat_in_left_unanalyzable_for_seq_inliner(&p.as_param().unwrap().pat)
+                }),
+                ClassMember::Method(m) => {
+                    self.is_prop_name_unanalyzable_for_seq_inliner(Ym.key)
+                        || m.function
+                            .params
+                            .iter()
+                            .any(|p| self.is_pat_in_left_unanalyzable_for_seq_inliner(&p.pat))
+                }
+                ClassMember::PrivateMethod(m) => {
+                    self.is_prop_name_unanalyzable_for_seq_inliner(&m.key)
+                        || m.function
+                            .params
+                            .iter()
+                            .any(|p| self.is_pat_in_left_unanalyzable_for_seq_inliner(&p.pat))
+                }
+                ClassMember::ClassProp(m) => {}
+                ClassMember::PrivateProp(m) => {}
+                ClassMember::TsIndexSignature(m) => {}
+                ClassMember::StaticBlock(m) => {}
+                ClassMember::AutoAccessor(m) => {}
+                ClassMember::Empty(..) => false,
+            }),
             Expr::Yield(e) => {
                 if let Some(arg) = &e.arg {
                     self.is_expr_in_left_unalyzable_for_seq_inliner(arg)
