@@ -1078,7 +1078,57 @@ impl Optimizer<'_> {
         Ok(false)
     }
 
-    fn should_abort_seq_inliner_because_of_a(&mut self, a: &Mergable) -> bool {}
+    fn should_abort_seq_inliner_because_of_expr_in_a(&mut self, a: &Expr) -> bool {}
+
+    fn should_abort_seq_inliner_because_of_a(&mut self, a: &Mergable) -> bool {
+        match a {
+            Mergable::Var(a) => {
+                // We only inline identifiers
+                if !a.name.is_ident() {
+                    return true;
+                }
+
+                match &a.init {
+                    Some(init) => self.should_abort_seq_inliner_because_of_expr_in_a(init),
+                    None => false,
+                }
+            }
+            Mergable::Expr(a) => match a {
+                Expr::Assign(a @ AssignExpr { op: op!("="), .. }) => {
+                    // We only inline identifiers
+                    if a.left.as_ident().is_none() {
+                        return true;
+                    }
+
+                    self.should_abort_seq_inliner_because_of_expr_in_a(&a.right)
+                }
+
+                // We don't handle this currently, but we will.
+                Expr::Update(a) => {
+                    if !a.arg.is_ident() {
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                _ => {
+                    // if a is not a modification, we can skip it
+                    return true;
+                }
+            },
+
+            Mergable::FnDecl(..) => {
+                // A function declaration is always inlinable as it can be
+                // viewed as a variable with an identifier name and a
+                // function expression as a initialized.
+
+                return false;
+            }
+
+            Mergable::Drop => return true,
+        }
+    }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn is_skippable_for_seq(&self, a: Option<&Mergable>, e: &Expr) -> bool {
@@ -1614,49 +1664,10 @@ impl Optimizer<'_> {
             Mergable::Drop => return Ok(false),
         }
 
-        {
-            // Fast path, before digging into `b`
+        // Fast path, before digging into `b`
 
-            if self.should_abort_seq_inliner_because_of_a(a) {
-                return Ok(false);
-            }
-
-            match a {
-                Mergable::Var(a) => {
-                    // We only inline identifiers
-                    if !a.name.is_ident() {
-                        return Ok(false);
-                    }
-                }
-                Mergable::Expr(a) => match a {
-                    Expr::Assign(a) => {
-                        // We only inline identifiers
-                        if a.left.as_ident().is_none() {
-                            return Ok(false);
-                        }
-                    }
-
-                    // We don't handle this currently, but we will.
-                    Expr::Update(a) => {
-                        if !a.arg.is_ident() {
-                            return Ok(false);
-                        }
-                    }
-
-                    _ => {
-                        // if a is not a modification, we can skip it
-                        return Ok(false);
-                    }
-                },
-
-                Mergable::FnDecl(..) => {
-                    // A function declaration is always inlinable as it can be
-                    // viewed as a variable with an identifier name and a
-                    // function expression as a initialized.
-                }
-
-                Mergable::Drop => return Ok(false),
-            }
+        if self.should_abort_seq_inliner_because_of_a(a) {
+            return Ok(false);
         }
 
         match b {
