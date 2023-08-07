@@ -1110,8 +1110,28 @@ impl Optimizer<'_> {
                     || self.is_a_expr_unalyzable_for_seq_inliner(&e.right)
             }
             Expr::Assign(e) => {}
-            Expr::Member(e) => {}
-            Expr::SuperProp(e) => {}
+            Expr::Member(e) => {
+                if self.is_a_expr_unalyzable_for_seq_inliner(&e.obj) {
+                    return true;
+                }
+
+                if let MemberProp::Computed(prop) = &e.prop {
+                    if self.is_a_expr_unalyzable_for_seq_inliner(&prop.expr) {
+                        return true;
+                    }
+                }
+
+                false
+            }
+            Expr::SuperProp(e) => {
+                if let SuperProp::Computed(prop) = &e.prop {
+                    if self.is_a_expr_unalyzable_for_seq_inliner(&prop.expr) {
+                        return true;
+                    }
+                }
+
+                false
+            }
             Expr::Cond(e) => {
                 self.is_a_expr_unalyzable_for_seq_inliner(&e.test)
                     || self.is_a_expr_unalyzable_for_seq_inliner(&e.cons)
@@ -1172,11 +1192,37 @@ impl Optimizer<'_> {
                     false
                 }
             }
-            Expr::MetaProp(e) => {}
             Expr::Await(e) => self.is_a_expr_unalyzable_for_seq_inliner(&e.arg),
             Expr::Paren(e) => self.is_a_expr_unalyzable_for_seq_inliner(&e.expr),
             Expr::PrivateName(e) => {}
-            Expr::OptChain(e) => {}
+            Expr::OptChain(e) => match &*e.base {
+                OptChainBase::Member(e) => {
+                    if self.is_a_expr_unalyzable_for_seq_inliner(&e.obj) {
+                        return true;
+                    }
+
+                    if let MemberProp::Computed(prop) = &e.prop {
+                        if self.is_a_expr_unalyzable_for_seq_inliner(&prop.expr) {
+                            return true;
+                        }
+                    }
+
+                    false
+                }
+                OptChainBase::Call(e) => {
+                    if self.is_a_expr_unalyzable_for_seq_inliner(&e.callee) {
+                        return true;
+                    }
+
+                    for arg in e.args.iter() {
+                        if self.is_a_expr_unalyzable_for_seq_inliner(&arg.expr) {
+                            return true;
+                        }
+                    }
+
+                    false
+                }
+            },
 
             _ => false,
         }
