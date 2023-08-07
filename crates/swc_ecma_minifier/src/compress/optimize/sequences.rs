@@ -1112,7 +1112,11 @@ impl Optimizer<'_> {
             Expr::Assign(e) => {}
             Expr::Member(e) => {}
             Expr::SuperProp(e) => {}
-            Expr::Cond(e) => {}
+            Expr::Cond(e) => {
+                self.is_a_expr_unalyzable_for_seq_inliner(&e.test)
+                    || self.is_a_expr_unalyzable_for_seq_inliner(&e.cons)
+                    || self.is_a_expr_unalyzable_for_seq_inliner(&e.alt)
+            }
             Expr::Call(e) => {
                 if let Callee::Expr(callee) = &e.callee {
                     if self.is_a_expr_unalyzable_for_seq_inliner(callee) {
@@ -1148,14 +1152,23 @@ impl Optimizer<'_> {
                 .iter()
                 .any(|e| self.is_a_expr_unalyzable_for_seq_inliner(e)),
 
-            Expr::Tpl(e) => {}
-            Expr::TaggedTpl(e) => {}
+            Expr::Tpl(e) => e
+                .exprs
+                .iter()
+                .any(|e| self.is_a_expr_unalyzable_for_seq_inliner(e)),
+            Expr::TaggedTpl(e) => {
+                self.is_a_expr_unalyzable_for_seq_inliner(&e.tag)
+                    || e.tpl
+                        .exprs
+                        .iter()
+                        .any(|e| self.is_a_expr_unalyzable_for_seq_inliner(e))
+            }
             Expr::Arrow(e) => {}
             Expr::Class(e) => {}
             Expr::Yield(e) => {}
             Expr::MetaProp(e) => {}
             Expr::Await(e) => {}
-            Expr::Paren(e) => {}
+            Expr::Paren(e) => self.is_a_expr_unalyzable_for_seq_inliner(&e.expr),
             Expr::PrivateName(e) => {}
             Expr::OptChain(e) => {}
 
