@@ -10,7 +10,7 @@ env:
   DISABLE_PLUGIN_E2E_TESTS: true
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 on:
