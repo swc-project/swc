@@ -1101,10 +1101,23 @@ impl Optimizer<'_> {
                 .flatten()
                 .any(|e| self.is_a_expr_unalyzable_for_seq_inliner(&e.expr)),
 
-            Expr::Object(e) => {}
+            Expr::Object(e) => e.props.iter().any(|p| match p {
+                PropOrSpread::Spread(_) => false,
+                PropOrSpread::Prop(p) => match &**p {},
+            }),
             Expr::Fn(e) => {}
-            Expr::Unary(e) => {}
-            Expr::Update(e) => {}
+            Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg,
+                ..
+            }) => {
+                if arg.is_ident() {
+                    return false;
+                }
+                self.is_a_expr_unalyzable_for_seq_inliner(&arg)
+            }
+            Expr::Unary(e) => self.is_a_expr_unalyzable_for_seq_inliner(&e.arg),
+            Expr::Update(e) => self.is_a_expr_unalyzable_for_seq_inliner(&e.arg),
             Expr::Bin(e) => {
                 self.is_a_expr_unalyzable_for_seq_inliner(&e.left)
                     || self.is_a_expr_unalyzable_for_seq_inliner(&e.right)
