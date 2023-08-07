@@ -1078,7 +1078,11 @@ impl Optimizer<'_> {
         Ok(false)
     }
 
-    fn is_a_expr_unalyzable_for_seq_inliner(&mut self, a: &Expr) -> bool {
+    fn is_pat_in_left_unalyzable_for_seq_inliner(&mut self, a: &Pat) -> bool {
+        match a {}
+    }
+
+    fn is_expr_in_left_unalyzable_for_seq_inliner(&mut self, a: &Expr) -> bool {
         match a {
             Expr::Ident(e) => {
                 if e.span.ctxt == self.expr_ctx.unresolved_ctxt {
@@ -1099,13 +1103,17 @@ impl Optimizer<'_> {
                 .elems
                 .iter()
                 .flatten()
-                .any(|e| self.is_a_expr_unalyzable_for_seq_inliner(&e.expr)),
+                .any(|e| self.is_expr_in_left_unalyzable_for_seq_inliner(&e.expr)),
 
             Expr::Object(e) => e.props.iter().any(|p| match p {
                 PropOrSpread::Spread(_) => false,
                 PropOrSpread::Prop(p) => match &**p {},
             }),
-            Expr::Fn(e) => {}
+            Expr::Fn(e) => e
+                .function
+                .params
+                .iter()
+                .any(|p| self.is_pat_in_left_unalyzable_for_seq_inliner(&p.pat)),
             Expr::Unary(UnaryExpr {
                 op: op!("typeof"),
                 arg,
@@ -1114,22 +1122,27 @@ impl Optimizer<'_> {
                 if arg.is_ident() {
                     return false;
                 }
-                self.is_a_expr_unalyzable_for_seq_inliner(&arg)
+                self.is_expr_in_left_unalyzable_for_seq_inliner(&arg)
             }
-            Expr::Unary(e) => self.is_a_expr_unalyzable_for_seq_inliner(&e.arg),
-            Expr::Update(e) => self.is_a_expr_unalyzable_for_seq_inliner(&e.arg),
+            Expr::Unary(e) => self.is_expr_in_left_unalyzable_for_seq_inliner(&e.arg),
+            Expr::Update(e) => self.is_expr_in_left_unalyzable_for_seq_inliner(&e.arg),
             Expr::Bin(e) => {
-                self.is_a_expr_unalyzable_for_seq_inliner(&e.left)
-                    || self.is_a_expr_unalyzable_for_seq_inliner(&e.right)
+                self.is_expr_in_left_unalyzable_for_seq_inliner(&e.left)
+                    || self.is_expr_in_left_unalyzable_for_seq_inliner(&e.right)
             }
-            Expr::Assign(e) => {}
+            Expr::Assign(e) => {
+                (match &e.left {
+                    PatOrExpr::Expr(l) => self.is_expr_in_left_unalyzable_for_seq_inliner(&l),
+                    PatOrExpr::Pat(l) => self.is_pat_in_left_unalyzable_for_seq_inliner(l),
+                }) || self.is_expr_in_left_unalyzable_for_seq_inliner(&e.right)
+            }
             Expr::Member(e) => {
-                if self.is_a_expr_unalyzable_for_seq_inliner(&e.obj) {
+                if self.is_expr_in_left_unalyzable_for_seq_inliner(&e.obj) {
                     return true;
                 }
 
                 if let MemberProp::Computed(prop) = &e.prop {
-                    if self.is_a_expr_unalyzable_for_seq_inliner(&prop.expr) {
+                    if self.is_expr_in_left_unalyzable_for_seq_inliner(&prop.expr) {
                         return true;
                     }
                 }
@@ -1138,7 +1151,7 @@ impl Optimizer<'_> {
             }
             Expr::SuperProp(e) => {
                 if let SuperProp::Computed(prop) = &e.prop {
-                    if self.is_a_expr_unalyzable_for_seq_inliner(&prop.expr) {
+                    if self.is_expr_in_left_unalyzable_for_seq_inliner(&prop.expr) {
                         return true;
                     }
                 }
@@ -1146,19 +1159,19 @@ impl Optimizer<'_> {
                 false
             }
             Expr::Cond(e) => {
-                self.is_a_expr_unalyzable_for_seq_inliner(&e.test)
-                    || self.is_a_expr_unalyzable_for_seq_inliner(&e.cons)
-                    || self.is_a_expr_unalyzable_for_seq_inliner(&e.alt)
+                self.is_expr_in_left_unalyzable_for_seq_inliner(&e.test)
+                    || self.is_expr_in_left_unalyzable_for_seq_inliner(&e.cons)
+                    || self.is_expr_in_left_unalyzable_for_seq_inliner(&e.alt)
             }
             Expr::Call(e) => {
                 if let Callee::Expr(callee) = &e.callee {
-                    if self.is_a_expr_unalyzable_for_seq_inliner(callee) {
+                    if self.is_expr_in_left_unalyzable_for_seq_inliner(callee) {
                         return true;
                     }
                 }
 
                 for arg in e.args.iter() {
-                    if self.is_a_expr_unalyzable_for_seq_inliner(&arg.expr) {
+                    if self.is_expr_in_left_unalyzable_for_seq_inliner(&arg.expr) {
                         return true;
                     }
                 }
@@ -1166,13 +1179,13 @@ impl Optimizer<'_> {
                 false
             }
             Expr::New(e) => {
-                if self.is_a_expr_unalyzable_for_seq_inliner(&e.callee) {
+                if self.is_expr_in_left_unalyzable_for_seq_inliner(&e.callee) {
                     return true;
                 }
 
                 if let Some(args) = &e.args {
                     for arg in args {
-                        if self.is_a_expr_unalyzable_for_seq_inliner(&arg.expr) {
+                        if self.is_expr_in_left_unalyzable_for_seq_inliner(&arg.expr) {
                             return true;
                         }
                     }
@@ -1183,39 +1196,41 @@ impl Optimizer<'_> {
             Expr::Seq(e) => e
                 .exprs
                 .iter()
-                .any(|e| self.is_a_expr_unalyzable_for_seq_inliner(e)),
+                .any(|e| self.is_expr_in_left_unalyzable_for_seq_inliner(e)),
 
             Expr::Tpl(e) => e
                 .exprs
                 .iter()
-                .any(|e| self.is_a_expr_unalyzable_for_seq_inliner(e)),
+                .any(|e| self.is_expr_in_left_unalyzable_for_seq_inliner(e)),
             Expr::TaggedTpl(e) => {
-                self.is_a_expr_unalyzable_for_seq_inliner(&e.tag)
+                self.is_expr_in_left_unalyzable_for_seq_inliner(&e.tag)
                     || e.tpl
                         .exprs
                         .iter()
-                        .any(|e| self.is_a_expr_unalyzable_for_seq_inliner(e))
+                        .any(|e| self.is_expr_in_left_unalyzable_for_seq_inliner(e))
             }
-            Expr::Arrow(e) => {}
+            Expr::Arrow(e) => e
+                .params
+                .iter()
+                .any(|p| self.is_pat_in_left_unalyzable_for_seq_inliner(p)),
             Expr::Class(e) => {}
             Expr::Yield(e) => {
                 if let Some(arg) = &e.arg {
-                    self.is_a_expr_unalyzable_for_seq_inliner(arg)
+                    self.is_expr_in_left_unalyzable_for_seq_inliner(arg)
                 } else {
                     false
                 }
             }
-            Expr::Await(e) => self.is_a_expr_unalyzable_for_seq_inliner(&e.arg),
-            Expr::Paren(e) => self.is_a_expr_unalyzable_for_seq_inliner(&e.expr),
-            Expr::PrivateName(e) => {}
+            Expr::Await(e) => self.is_expr_in_left_unalyzable_for_seq_inliner(&e.arg),
+            Expr::Paren(e) => self.is_expr_in_left_unalyzable_for_seq_inliner(&e.expr),
             Expr::OptChain(e) => match &*e.base {
                 OptChainBase::Member(e) => {
-                    if self.is_a_expr_unalyzable_for_seq_inliner(&e.obj) {
+                    if self.is_expr_in_left_unalyzable_for_seq_inliner(&e.obj) {
                         return true;
                     }
 
                     if let MemberProp::Computed(prop) = &e.prop {
-                        if self.is_a_expr_unalyzable_for_seq_inliner(&prop.expr) {
+                        if self.is_expr_in_left_unalyzable_for_seq_inliner(&prop.expr) {
                             return true;
                         }
                     }
@@ -1223,12 +1238,12 @@ impl Optimizer<'_> {
                     false
                 }
                 OptChainBase::Call(e) => {
-                    if self.is_a_expr_unalyzable_for_seq_inliner(&e.callee) {
+                    if self.is_expr_in_left_unalyzable_for_seq_inliner(&e.callee) {
                         return true;
                     }
 
                     for arg in e.args.iter() {
-                        if self.is_a_expr_unalyzable_for_seq_inliner(&arg.expr) {
+                        if self.is_expr_in_left_unalyzable_for_seq_inliner(&arg.expr) {
                             return true;
                         }
                     }
@@ -1250,7 +1265,7 @@ impl Optimizer<'_> {
                 }
 
                 match &a.init {
-                    Some(init) => self.is_a_expr_unalyzable_for_seq_inliner(init),
+                    Some(init) => self.is_expr_in_left_unalyzable_for_seq_inliner(init),
                     None => false,
                 }
             }
@@ -1261,7 +1276,7 @@ impl Optimizer<'_> {
                         return true;
                     }
 
-                    self.is_a_expr_unalyzable_for_seq_inliner(&a.right)
+                    self.is_expr_in_left_unalyzable_for_seq_inliner(&a.right)
                 }
 
                 // We don't handle this currently, but we will.
