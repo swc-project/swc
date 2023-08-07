@@ -2484,6 +2484,22 @@ impl ExprCtx {
             //TODO: Drop values if it does not have side effects.
             Expr::Cond(_) => to.push(Box::new(expr)),
 
+            Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg,
+                ..
+            }) => {
+                // We should ignore side effect of `__dirname` in
+                //
+                // typeof __dirname != void 0
+                //
+                // https://github.com/swc-project/swc/pull/7763
+                if arg.is_ident() {
+                    return;
+                }
+                self.extract_side_effects_to(to, *arg)
+            }
+
             Expr::Unary(UnaryExpr { arg, .. }) => self.extract_side_effects_to(to, *arg),
 
             Expr::Bin(BinExpr { op, .. }) if op.may_short_circuit() => {
