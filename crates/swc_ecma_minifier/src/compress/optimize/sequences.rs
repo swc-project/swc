@@ -1080,6 +1080,21 @@ impl Optimizer<'_> {
 
     fn is_a_expr_unalyzable_for_seq_inliner(&mut self, a: &Expr) -> bool {
         match a {
+            Expr::Ident(e) => {
+                if e.span.ctxt == self.expr_ctx.unresolved_ctxt {
+                    return if self.options.pristine_globals
+                        && is_global_var_with_pure_property_access(&e.sym)
+                    {
+                        log_abort!("Undeclared");
+                        false
+                    } else {
+                        return true;
+                    };
+                }
+
+                false
+            }
+
             Expr::Array(e) => {
                 for elem in e.elems.iter().flatten() {
                     if self.is_a_expr_unalyzable_for_seq_inliner(&elem.expr) {
@@ -1089,6 +1104,7 @@ impl Optimizer<'_> {
 
                 false
             }
+
             Expr::Object(e) => {}
             Expr::Fn(e) => {}
             Expr::Unary(e) => {}
@@ -1101,10 +1117,38 @@ impl Optimizer<'_> {
             Expr::Member(e) => {}
             Expr::SuperProp(e) => {}
             Expr::Cond(e) => {}
-            Expr::Call(e) => {}
-            Expr::New(e) => {}
+            Expr::Call(e) => {
+                if let Callee::Expr(callee) = &e.callee {
+                    if self.is_a_expr_unalyzable_for_seq_inliner(callee) {
+                        return true;
+                    }
+                }
+
+                for arg in e.args.iter() {
+                    if self.is_a_expr_unalyzable_for_seq_inliner(&arg.expr) {
+                        return true;
+                    }
+                }
+
+                false
+            }
+            Expr::New(e) => {
+                if self.is_a_expr_unalyzable_for_seq_inliner(&e.callee) {
+                    return true;
+                }
+
+                if let Some(args) = &e.args {
+                    for arg in args {
+                        if self.is_a_expr_unalyzable_for_seq_inliner(&arg.expr) {
+                            return true;
+                        }
+                    }
+                }
+
+                false
+            }
             Expr::Seq(e) => {}
-            Expr::Ident(e) => {}
+
             Expr::Tpl(e) => {}
             Expr::TaggedTpl(e) => {}
             Expr::Arrow(e) => {}
