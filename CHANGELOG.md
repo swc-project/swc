@@ -22,6 +22,12 @@
 
 - **(es)** Alias `format` as `output` for `minify()` (#7746) ([28dfc51](https://github.com/swc-project/swc/commit/28dfc518879b9125a382b48e8310895e137d4fd4))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix permissions of publish action (#7768) ([fa7e428](https://github.com/swc-project/swc/commit/fa7e4289bd04320b9a88bda81538fc394bda23f9))
+
 ### Refactor
 
 
