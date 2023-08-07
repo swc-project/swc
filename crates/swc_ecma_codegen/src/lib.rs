@@ -3770,7 +3770,7 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
 
                             inner_iter.next();
                             next = inner_iter.peek();
-                        } else {
+                        } else if next != Some(&'D') && next != Some(&'d') {
                             buf.push('\\');
                         }
 
@@ -3819,6 +3819,8 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                                 }
                             }
                         } else {
+                            dbg!(next);
+
                             if is_curly {
                                 buf.push_str("\\\\");
                             } else {
