@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Don't strip necessary escape characters (#7687) ([b45649b](https://github.com/swc-project/swc/commit/b45649b8d6484bd872f6443fc729f6b1998ff44d))
+
+
 - **(es/compat)** Fix loose mode of the `spread` pass (#7760) ([b69ae8f](https://github.com/swc-project/swc/commit/b69ae8f433a1702e09a24c1c47b2fc312e8fb801))
 
 
