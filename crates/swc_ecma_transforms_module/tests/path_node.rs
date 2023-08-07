@@ -97,7 +97,11 @@ fn paths_resolver(
     base_url: impl AsRef<Path>,
     rules: Vec<(String, Vec<String>)>,
 ) -> JscPathsProvider {
-    let base_url = base_url.as_ref().to_path_buf();
+    let base_url = base_url
+        .as_ref()
+        .to_path_buf()
+        .canonicalize()
+        .expect("failed to canonicalize");
     dbg!(&base_url);
 
     NodeImportResolver::with_base_dir(
