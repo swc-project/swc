@@ -1082,6 +1082,7 @@ impl Optimizer<'_> {
         let mut visitor = UnanalyzableFinder {
             o: self,
             should_abort: false,
+            is_complex: false,
         };
         a.visit_with(&mut visitor);
 
@@ -2723,6 +2724,7 @@ struct UnanalyzableFinder<'a, 'b> {
     o: &'a mut Optimizer<'b>,
 
     should_abort: bool,
+    is_complex: bool,
 }
 
 impl Visit for UnanalyzableFinder<'_, '_> {
@@ -2735,7 +2737,7 @@ impl Visit for UnanalyzableFinder<'_, '_> {
 
         match e {
             Expr::Ident(e) => {
-                if e.span.ctxt == self.o.expr_ctx.unresolved_ctxt {
+                if self.is_complex && e.span.ctxt == self.o.expr_ctx.unresolved_ctxt {
                     if self.o.options.pristine_globals
                         && is_global_var_with_pure_property_access(&e.sym)
                     {
@@ -2756,6 +2758,14 @@ impl Visit for UnanalyzableFinder<'_, '_> {
                 if arg.is_ident() {
                     return;
                 }
+            }
+
+            Expr::Call(..) | Expr::New(..) => {
+                let old = self.is_complex;
+                self.is_complex = true;
+                e.visit_children_with(self);
+                self.is_complex = old;
+                return;
             }
 
             _ => {}
