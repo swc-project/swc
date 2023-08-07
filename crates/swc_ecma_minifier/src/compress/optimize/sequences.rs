@@ -1078,6 +1078,8 @@ impl Optimizer<'_> {
         Ok(false)
     }
 
+    fn should_abort_seq_inliner_because_of_a(&mut self, a: &Mergable) -> bool {}
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn is_skippable_for_seq(&self, a: Option<&Mergable>, e: &Expr) -> bool {
         if self.ctx.in_try_block {
@@ -1614,6 +1616,10 @@ impl Optimizer<'_> {
 
         {
             // Fast path, before digging into `b`
+
+            if self.should_abort_seq_inliner_because_of_a(a) {
+                return Ok(false);
+            }
 
             match a {
                 Mergable::Var(a) => {
