@@ -1078,24 +1078,24 @@ impl Optimizer<'_> {
         Ok(false)
     }
 
-    fn is_left_expr_unalyzable_for_seq_inliner(&mut self, a: &Expr) -> bool {
+    fn is_a_expr_unalyzable_for_seq_inliner(&mut self, a: &Expr) -> bool {
         match a {
             Expr::Array(e) => {
                 for elem in e.elems.iter().flatten() {
-                    if !self.is_left_expr_unalyzable_for_seq_inliner(&elem.expr) {
-                        return false;
+                    if self.is_a_expr_unalyzable_for_seq_inliner(&elem.expr) {
+                        return true;
                     }
                 }
 
-                true
+                false
             }
             Expr::Object(e) => {}
             Expr::Fn(e) => {}
             Expr::Unary(e) => {}
             Expr::Update(e) => {}
             Expr::Bin(e) => {
-                self.is_left_expr_unalyzable_for_seq_inliner(&e.left)
-                    && self.is_left_expr_unalyzable_for_seq_inliner(&e.right)
+                self.is_a_expr_unalyzable_for_seq_inliner(&e.left)
+                    || self.is_a_expr_unalyzable_for_seq_inliner(&e.right)
             }
             Expr::Assign(e) => {}
             Expr::Member(e) => {}
@@ -1129,7 +1129,7 @@ impl Optimizer<'_> {
                 }
 
                 match &a.init {
-                    Some(init) => self.is_left_expr_unalyzable_for_seq_inliner(init),
+                    Some(init) => self.is_a_expr_unalyzable_for_seq_inliner(init),
                     None => false,
                 }
             }
@@ -1140,7 +1140,7 @@ impl Optimizer<'_> {
                         return true;
                     }
 
-                    self.is_left_expr_unalyzable_for_seq_inliner(&a.right)
+                    self.is_a_expr_unalyzable_for_seq_inliner(&a.right)
                 }
 
                 // We don't handle this currently, but we will.
