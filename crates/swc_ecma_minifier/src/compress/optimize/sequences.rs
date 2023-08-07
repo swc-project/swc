@@ -1043,7 +1043,7 @@ impl Optimizer<'_> {
                     match prop {
                         ObjectPatProp::KeyValue(KeyValuePatProp { value, key, .. }) => {
                             if let PropName::Computed(key) = key {
-                                if !self.is_skippable_for_seq(a, &key.expr) {
+                                if !self.is_skippable_for_seq_inner(a, &key.expr) {
                                     return false;
                                 }
                             }
@@ -1064,7 +1064,7 @@ impl Optimizer<'_> {
                 true
             }
             Pat::Assign(..) => false,
-            Pat::Expr(e) => self.is_skippable_for_seq(a, e),
+            Pat::Expr(e) => self.is_skippable_for_seq_inner(a, e),
         }
     }
 
@@ -1139,8 +1139,18 @@ impl Optimizer<'_> {
         }
     }
 
+    fn is_skippable_for_seq(&mut self, a: Option<&Mergable>, e: &Expr) -> bool {
+        if let Some(a) = a {
+            if self.should_abort_seq_inliner_because_of_a(a) {
+                return false;
+            }
+        }
+
+        self.is_skippable_for_seq_inner(a, e)
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn is_skippable_for_seq(&self, a: Option<&Mergable>, e: &Expr) -> bool {
+    fn is_skippable_for_seq_inner(&self, a: Option<&Mergable>, e: &Expr) -> bool {
         if self.ctx.in_try_block {
             log_abort!("try block");
             return false;
@@ -1275,7 +1285,7 @@ impl Optimizer<'_> {
             }
 
             Expr::Member(MemberExpr { obj, prop, .. }) => {
-                if !self.is_skippable_for_seq(a, obj) {
+                if !self.is_skippable_for_seq_inner(a, obj) {
                     return false;
                 }
 
@@ -1287,7 +1297,7 @@ impl Optimizer<'_> {
                     },
                 ) {
                     if let MemberProp::Computed(prop) = prop {
-                        if !self.is_skippable_for_seq(a, &prop.expr) {
+                        if !self.is_skippable_for_seq_inner(a, &prop.expr) {
                             return false;
                         }
                     }
@@ -1306,18 +1316,19 @@ impl Optimizer<'_> {
                 op: op!("!") | op!("void") | op!("typeof") | op!(unary, "-") | op!(unary, "+"),
                 arg,
                 ..
-            }) => self.is_skippable_for_seq(a, arg),
+            }) => self.is_skippable_for_seq_inner(a, arg),
 
             Expr::Bin(BinExpr { left, right, .. }) => {
-                self.is_skippable_for_seq(a, left) && self.is_skippable_for_seq(a, right)
+                self.is_skippable_for_seq_inner(a, left)
+                    && self.is_skippable_for_seq_inner(a, right)
             }
 
             Expr::Cond(CondExpr {
                 test, cons, alt, ..
             }) => {
-                self.is_skippable_for_seq(a, test)
-                    && self.is_skippable_for_seq(a, cons)
-                    && self.is_skippable_for_seq(a, alt)
+                self.is_skippable_for_seq_inner(a, test)
+                    && self.is_skippable_for_seq_inner(a, cons)
+                    && self.is_skippable_for_seq_inner(a, alt)
             }
 
             Expr::Assign(e) => {
@@ -1355,7 +1366,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if !self.is_skippable_for_seq(a, &Expr::Ident(left_id.clone())) {
+                if !self.is_skippable_for_seq_inner(a, &Expr::Ident(left_id.clone())) {
                     return false;
                 }
 
@@ -1378,7 +1389,7 @@ impl Optimizer<'_> {
                     return false;
                 }
 
-                self.is_skippable_for_seq(a, &e.right)
+                self.is_skippable_for_seq_inner(a, &e.right)
             }
 
             Expr::Object(e) => {
@@ -1391,18 +1402,18 @@ impl Optimizer<'_> {
                         PropOrSpread::Spread(_) => return false,
                         PropOrSpread::Prop(p) => match &**p {
                             Prop::Shorthand(i) => {
-                                if !self.is_skippable_for_seq(a, &Expr::Ident(i.clone())) {
+                                if !self.is_skippable_for_seq_inner(a, &Expr::Ident(i.clone())) {
                                     return false;
                                 }
                             }
                             Prop::KeyValue(kv) => {
                                 if let PropName::Computed(key) = &kv.key {
-                                    if !self.is_skippable_for_seq(a, &key.expr) {
+                                    if !self.is_skippable_for_seq_inner(a, &key.expr) {
                                         return false;
                                     }
                                 }
 
-                                if !self.is_skippable_for_seq(a, &kv.value) {
+                                if !self.is_skippable_for_seq_inner(a, &kv.value) {
                                     return false;
                                 }
                             }
@@ -1425,7 +1436,7 @@ impl Optimizer<'_> {
 
             Expr::Array(e) => {
                 for elem in e.elems.iter().flatten() {
-                    if !self.is_skippable_for_seq(a, &elem.expr) {
+                    if !self.is_skippable_for_seq_inner(a, &elem.expr) {
                         log_abort!("array element");
                         return false;
                     }
@@ -1452,12 +1463,12 @@ impl Optimizer<'_> {
 
                 if let Callee::Expr(callee) = &e.callee {
                     if callee.is_pure_callee(&self.expr_ctx) {
-                        if !self.is_skippable_for_seq(a, callee) {
+                        if !self.is_skippable_for_seq_inner(a, callee) {
                             return false;
                         }
 
                         for arg in &e.args {
-                            if !self.is_skippable_for_seq(a, &arg.expr) {
+                            if !self.is_skippable_for_seq_inner(a, &arg.expr) {
                                 return false;
                             }
                         }
@@ -1470,7 +1481,7 @@ impl Optimizer<'_> {
             }
 
             Expr::Seq(SeqExpr { exprs, .. }) => {
-                exprs.iter().all(|e| self.is_skippable_for_seq(a, e))
+                exprs.iter().all(|e| self.is_skippable_for_seq_inner(a, e))
             }
 
             Expr::TaggedTpl(..) | Expr::New(..) => {
@@ -1479,7 +1490,9 @@ impl Optimizer<'_> {
                 false
             }
 
-            Expr::Tpl(Tpl { exprs, .. }) => exprs.iter().all(|e| self.is_skippable_for_seq(a, e)),
+            Expr::Tpl(Tpl { exprs, .. }) => {
+                exprs.iter().all(|e| self.is_skippable_for_seq_inner(a, e))
+            }
 
             // Expressions without any effects
             Expr::This(_)
@@ -1492,8 +1505,8 @@ impl Optimizer<'_> {
             Expr::SuperProp(..) => false,
             Expr::Class(_) => e.may_have_side_effects(&self.expr_ctx),
 
-            Expr::Paren(e) => self.is_skippable_for_seq(a, &e.expr),
-            Expr::Unary(e) => self.is_skippable_for_seq(a, &e.arg),
+            Expr::Paren(e) => self.is_skippable_for_seq_inner(a, &e.expr),
+            Expr::Unary(e) => self.is_skippable_for_seq_inner(a, &e.arg),
 
             Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
                 OptChainBase::Member(e) => {
@@ -1505,7 +1518,7 @@ impl Optimizer<'_> {
                         },
                     ) {
                         if let MemberProp::Computed(prop) = &e.prop {
-                            if !self.is_skippable_for_seq(a, &prop.expr) {
+                            if !self.is_skippable_for_seq_inner(a, &prop.expr) {
                                 return false;
                             }
                         }
@@ -1517,12 +1530,12 @@ impl Optimizer<'_> {
                 }
                 OptChainBase::Call(e) => {
                     if e.callee.is_pure_callee(&self.expr_ctx) {
-                        if !self.is_skippable_for_seq(a, &e.callee) {
+                        if !self.is_skippable_for_seq_inner(a, &e.callee) {
                             return false;
                         }
 
                         for arg in &e.args {
-                            if !self.is_skippable_for_seq(a, &arg.expr) {
+                            if !self.is_skippable_for_seq_inner(a, &arg.expr) {
                                 return false;
                             }
                         }
