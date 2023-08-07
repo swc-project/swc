@@ -2701,7 +2701,7 @@ impl Visit for UnanalyzableFinder<'_, '_> {
                 }
             }
 
-            Expr::Call(..) | Expr::New(..) => {
+            Expr::Call(..) | Expr::New(..) | Expr::Member(..) => {
                 let old = self.is_complex;
                 self.is_complex = true;
                 e.visit_children_with(self);
