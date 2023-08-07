@@ -374,7 +374,7 @@ impl Options {
         let top_level_mark = self.top_level_mark.unwrap_or_else(Mark::new);
 
         if target.is_some() && cfg.env.is_some() {
-            bail!("`jsc.env` and `jsc.target` cannot be used together");
+            bail!("`env` and `jsc.target` cannot be used together");
         }
 
         let es_version = target.unwrap_or_default();
@@ -696,17 +696,17 @@ impl Options {
                     // target.
                     init_plugin_module_cache_once(true, &experimental.cache_root);
 
+                    let mut inner_cache = PLUGIN_MODULE_CACHE
+                        .inner
+                        .get()
+                        .expect("Cache should be available")
+                        .lock();
+
                     // Populate cache to the plugin modules if not loaded
                     for plugin_config in plugins.iter() {
                         let plugin_name = &plugin_config.0;
 
-                        if !PLUGIN_MODULE_CACHE
-                            .inner
-                            .get()
-                            .unwrap()
-                            .lock()
-                            .contains(&plugin_name)
-                        {
+                        if !inner_cache.contains(&plugin_name) {
                             let resolved_path = plugin_resolver.resolve(
                                 &FileName::Real(PathBuf::from(&plugin_name)),
                                 &plugin_name,
@@ -718,12 +718,8 @@ impl Options {
                                 anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
                             };
 
-                            let mut inner_cache = PLUGIN_MODULE_CACHE
-                                .inner
-                                .get()
-                                .expect("Cache should be available")
-                                .lock();
                             inner_cache.store_bytes_from_path(&path, &plugin_name)?;
+                            tracing::debug!("Initialized WASM plugin {plugin_name}");
                         }
                     }
                 }
@@ -1071,7 +1067,7 @@ pub struct JsMinifyOptions {
     #[serde(default)]
     pub mangle: BoolOrDataConfig<MangleOptions>,
 
-    #[serde(default)]
+    #[serde(default, alias = "output")]
     pub format: JsMinifyFormatOptions,
 
     #[serde(default)]
