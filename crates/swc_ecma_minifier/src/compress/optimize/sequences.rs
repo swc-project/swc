@@ -1117,12 +1117,12 @@ impl Optimizer<'_> {
                         return true;
                     }
 
-                    return false;
+                    false
                 }
 
                 _ => {
                     // if a is not a modification, we can skip it
-                    return true;
+                    true
                 }
             },
 
@@ -1131,10 +1131,10 @@ impl Optimizer<'_> {
                 // viewed as a variable with an identifier name and a
                 // function expression as a initialized.
 
-                return false;
+                false
             }
 
-            Mergable::Drop => return true,
+            Mergable::Drop => true,
         }
     }
 
