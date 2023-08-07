@@ -3819,8 +3819,6 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                                 }
                             }
                         } else {
-                            dbg!(next);
-
                             if is_curly {
                                 buf.push_str("\\\\");
                             } else {
