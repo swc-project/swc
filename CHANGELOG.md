@@ -41,6 +41,9 @@
 - **(es/ast)** Avoid `transmute` in impl of `Hash` for `Number` (#7771) ([2258274](https://github.com/swc-project/swc/commit/225827423355cab8cd3c0ae80f335cd2873e6cd4))
 
 
+- **(es/minifier)** Support stable rustc (#7734) ([f7afe7e](https://github.com/swc-project/swc/commit/f7afe7edecc65f41845721c75b77d2f6dba04a6a))
+
+
 - **(es/parser)** Do not use `lexical` (#7758) ([e50cfde](https://github.com/swc-project/swc/commit/e50cfde938b2504b723a95f034ac4b388d8725c3))
 
 
