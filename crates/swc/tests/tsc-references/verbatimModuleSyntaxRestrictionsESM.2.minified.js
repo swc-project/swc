@@ -22,7 +22,7 @@ export { };
 //!  4 | import * as types from "./types"; // ok
 //!    `----
 //// [/ns.ts]
-export var ns;
-!function(ns) {
-    ns.A || (ns.A = {});
-}(ns || (ns = {}));
+var ns;
+var ns1;
+export { ns1 as ns };
+(ns = ns1 || (ns1 = {})).A || (ns.A = {});

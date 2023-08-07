@@ -1,7 +1,7 @@
 //// [typeofOperatorWithStringType.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
-var STRING, M, STRING1 = [
+var n, STRING, M, STRING1 = [
     "",
     "abc"
 ];
@@ -9,7 +9,6 @@ function foo() {
     return "abc";
 }
 var A = function() {
-    "use strict";
     function A() {
         _class_call_check(this, A);
     }
@@ -17,10 +16,7 @@ var A = function() {
         return "";
     }, A;
 }();
-!function(M) {
-    var n;
-    M.n = n;
-}(M || (M = {}));
+(M || (M = {})).n = n;
 var objA = new A();
 void 0 === STRING || _type_of(STRING), _type_of(STRING1), _type_of(""), _type_of({
     x: "",

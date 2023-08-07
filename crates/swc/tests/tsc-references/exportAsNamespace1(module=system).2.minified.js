@@ -24,7 +24,6 @@ System.register([
 System.register([
     "./1"
 ], function(_export, _context) {
-    "use strict";
     var foo;
     return {
         setters: [

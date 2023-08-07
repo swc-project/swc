@@ -13,7 +13,6 @@ define([
     "react",
     "react-router"
 ], function(require, exports, _react, _reactrouter) {
-    "use strict";
     var M, X1;
     Object.defineProperty(exports, "__esModule", {
         value: !0

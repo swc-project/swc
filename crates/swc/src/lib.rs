@@ -120,7 +120,11 @@ use std::{
 
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
-use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER};
+use common::{
+    collections::AHashMap,
+    comments::{CommentKind, SingleThreadedComments},
+    errors::HANDLER,
+};
 use config::{IsModule, JsMinifyCommentOption, JsMinifyOptions, OutputCharset};
 use jsonc_parser::{parse_to_serde_value, ParseOptions};
 use once_cell::sync::Lazy;
@@ -696,7 +700,15 @@ pub(crate) fn minify_file_comments(
         BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments) => {
             let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
                 // Preserve license comments.
-                vc.retain(|c: &Comment| c.text.contains("@license") || c.text.starts_with('!'));
+                //
+                // See https://github.com/terser/terser/blob/798135e04baddd94fea403cfaab4ba8b22b1b524/lib/output.js#L175-L181
+                vc.retain(|c: &Comment| {
+                    c.text.contains("@lic")
+                        || c.text.contains("@preserve")
+                        || c.text.contains("@copyright")
+                        || c.text.contains("@cc_on")
+                        || (c.kind == CommentKind::Block && c.text.starts_with('!'))
+                });
                 !vc.is_empty()
             };
             let (mut l, mut t) = comments.borrow_all_mut();

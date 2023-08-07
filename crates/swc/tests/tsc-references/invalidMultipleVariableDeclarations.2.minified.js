@@ -2,11 +2,9 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var M, C = function C() {
-    "use strict";
+var M, M1, C = function C() {
     _class_call_check(this, C);
 }, C2 = function(C) {
-    "use strict";
     _inherits(C2, C);
     var _super = _create_super(C2);
     function C2() {
@@ -14,14 +12,10 @@ var M, C = function C() {
     }
     return C2;
 }(C), D = function D() {
-    "use strict";
     _class_call_check(this, D);
 };
-!function(M) {
-    M.A = function A() {
-        "use strict";
-        _class_call_check(this, A);
-    }, M.F2 = function(x) {
-        return x.toString();
-    };
-}(M || (M = {})), new C(), new D(), new C(), new C2(), new C(), new C2(), new D(), new D(), M.A;
+(M = M1 || (M1 = {})).A = function A() {
+    _class_call_check(this, A);
+}, M.F2 = function(x) {
+    return x.toString();
+}, new C(), new D(), new C(), new C2(), new C(), new C2(), new D(), new D(), M1.A;

@@ -4,8 +4,7 @@ import { _ as _type_of } from "@swc/helpers/_/_type_of";
 function foo() {
     return !0;
 }
-var BOOLEAN, M, A = function() {
-    "use strict";
+var n, BOOLEAN, M, A = function() {
     function A() {
         _class_call_check(this, A);
     }
@@ -13,10 +12,7 @@ var BOOLEAN, M, A = function() {
         return !1;
     }, A;
 }();
-!function(M) {
-    var n;
-    M.n = n;
-}(M || (M = {}));
+(M || (M = {})).n = n;
 var objA = new A();
 void 0 === BOOLEAN || _type_of(BOOLEAN), _type_of(!0), _type_of({
     x: !0,

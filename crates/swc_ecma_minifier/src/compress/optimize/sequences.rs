@@ -2031,9 +2031,11 @@ impl Optimizer<'_> {
                             pat_usage: Default::default(),
                             target: a_id,
                             in_lhs: false,
+                            abort: false,
+                            in_abort: false,
                         };
                         b.visit_with(&mut v);
-                        if v.expr_usage != 1 || v.pat_usage != 0 {
+                        if v.expr_usage != 1 || v.pat_usage != 0 || v.abort {
                             log_abort!(
                                 "sequences: Aborting merging of an update expression because of \
                                  usage counts ({}, ref = {}, pat = {})",
@@ -2103,9 +2105,11 @@ impl Optimizer<'_> {
                             pat_usage: Default::default(),
                             target: a_id,
                             in_lhs: false,
+                            abort: false,
+                            in_abort: false,
                         };
                         b.visit_with(&mut v);
-                        if v.expr_usage != 1 || v.pat_usage != 0 {
+                        if v.expr_usage != 1 || v.pat_usage != 0 || v.abort {
                             log_abort!(
                                 "sequences: Aborting merging of an update expression because of \
                                  usage counts ({}, ref = {}, pat = {})",
@@ -2426,9 +2430,11 @@ impl Optimizer<'_> {
                 pat_usage: Default::default(),
                 target: &left_id,
                 in_lhs: false,
+                abort: false,
+                in_abort: false,
             };
             b.visit_with(&mut v);
-            if v.expr_usage != 1 || v.pat_usage != 0 {
+            if v.expr_usage != 1 || v.pat_usage != 0 || v.abort {
                 log_abort!(
                     "sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = {})",
                     left_id.sym,
@@ -2493,8 +2499,11 @@ struct UsageCounter<'a> {
     expr_usage: usize,
     pat_usage: usize,
 
+    abort: bool,
+
     target: &'a Ident,
     in_lhs: bool,
+    in_abort: bool,
 }
 
 impl Visit for UsageCounter<'_> {
@@ -2502,6 +2511,11 @@ impl Visit for UsageCounter<'_> {
 
     fn visit_ident(&mut self, i: &Ident) {
         if self.target.sym == i.sym && self.target.span.ctxt == i.span.ctxt {
+            if self.in_abort {
+                self.abort = true;
+                return;
+            }
+
             if self.in_lhs {
                 self.pat_usage += 1;
             } else {
@@ -2519,6 +2533,27 @@ impl Visit for UsageCounter<'_> {
             c.expr.visit_with(self);
             self.in_lhs = old;
         }
+    }
+
+    fn visit_update_expr(&mut self, e: &UpdateExpr) {
+        let old_in_abort = self.in_abort;
+        self.in_abort = true;
+        e.visit_children_with(self);
+        self.in_abort = old_in_abort;
+    }
+
+    fn visit_await_expr(&mut self, e: &AwaitExpr) {
+        let old_in_abort = self.in_abort;
+        self.in_abort = true;
+        e.visit_children_with(self);
+        self.in_abort = old_in_abort;
+    }
+
+    fn visit_yield_expr(&mut self, e: &YieldExpr) {
+        let old_in_abort = self.in_abort;
+        self.in_abort = true;
+        e.visit_children_with(self);
+        self.in_abort = old_in_abort;
     }
 
     fn visit_pat(&mut self, p: &Pat) {

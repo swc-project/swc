@@ -5,6 +5,180 @@
 
 
 
+- **(es/compat)** Fix loose mode of the `spread` pass (#7760) ([b69ae8f](https://github.com/swc-project/swc/commit/b69ae8f433a1702e09a24c1c47b2fc312e8fb801))
+
+
+- **(es/module)** Fix handling of continuous assignments in `systemjs` (#7741) ([f713f6a](https://github.com/swc-project/swc/commit/f713f6aba84ffe84bed9dff80a772b0cd78135b8))
+
+
+- **(es/utils)** Ignore `typeof Id` while preserving side effects (#7763) ([d57ac0d](https://github.com/swc-project/swc/commit/d57ac0dd28cdefef63a18d53565154e65ee8b838))
+
+
+- **(plugin/runner)** Use fs cache properly (#7748) ([1122de7](https://github.com/swc-project/swc/commit/1122de7d8b3c178b4e315bb50a6e214669c37a4f))
+
+### Features
+
+
+
+- **(es)** Alias `format` as `output` for `minify()` (#7746) ([28dfc51](https://github.com/swc-project/swc/commit/28dfc518879b9125a382b48e8310895e137d4fd4))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix permissions of publish action (#7768) ([fa7e428](https://github.com/swc-project/swc/commit/fa7e4289bd04320b9a88bda81538fc394bda23f9))
+
+### Refactor
+
+
+
+- **(es/parser)** Do not use `lexical` (#7758) ([e50cfde](https://github.com/swc-project/swc/commit/e50cfde938b2504b723a95f034ac4b388d8725c3))
+
+## [1.3.74] - 2023-08-02
+
+### Bug Fixes
+
+
+
+- **(es)** Fix typo in a warning (#7740) ([22e06cc](https://github.com/swc-project/swc/commit/22e06cce630b365b17f390559e065ee48cb3d2b9))
+
+
+- **(es/minifier)** Mark args of `new`s as references (#7743) ([3873f58](https://github.com/swc-project/swc/commit/3873f5849999e49b732fef9959cb12ce6159c078))
+
+## [1.3.73] - 2023-08-01
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Handle synthesized export default expression (#7707) ([5ea6f27](https://github.com/swc-project/swc/commit/5ea6f27eb07df768c6fab2bdff744e402480c53f))
+
+
+- **(es/utils)** Fix string evaluation of array literals (#7731) ([e8c58cf](https://github.com/swc-project/swc/commit/e8c58cfd779f7c9dcfae06200ec2f726fbc74758))
+
+### Features
+
+
+
+- **(es/preset-env)** Update builtin definitions for `core-js` imports (#7715) ([b4f3332](https://github.com/swc-project/swc/commit/b4f3332b21fc2b04e9824469568401725d1dfca5))
+
+### Testing
+
+
+
+- **(es/compat)** Add a test for optional chaining with loose mode (#7726) ([216c4f1](https://github.com/swc-project/swc/commit/216c4f17df449847c3cc3a62b9f5694d2416eca1))
+
+## [1.3.72] - 2023-07-28
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Fix handling of private members in optional chaining pass (#7610) ([7ba7b6e](https://github.com/swc-project/swc/commit/7ba7b6ec1fd7170ef7a321a6bd4931984e1a08d4))
+
+
+- **(es/minifier)** Do not drop used properties (#7702) ([f901b41](https://github.com/swc-project/swc/commit/f901b417d1a37f679ff4c5a54e81671684d9f485))
+
+
+- **(es/module)** Do not determine module name for modules without exports in UMD (#7718) ([40136f7](https://github.com/swc-project/swc/commit/40136f7c54bdc347d5f725549a27e1104433ff36))
+
+### Features
+
+
+
+- **(es)** Add a validation for a wrong config (#7704) ([900701f](https://github.com/swc-project/swc/commit/900701fbf24912dce219f97baa8c11c533966896))
+
+
+- **(swc_core)** Expose `visit/serde` as serde feature (#7722) ([2bc9637](https://github.com/swc-project/swc/commit/2bc96373b736ce4d81336c1c0340a1d4f7d7f4b0))
+
+### Refactor
+
+
+
+- **(es/parser)** Make `stacker` an optional dependency (#7720) ([864bdef](https://github.com/swc-project/swc/commit/864bdefbe0012ddbe93075c70f0b2b44577a5424))
+
+## [1.3.71] - 2023-07-25
+
+### Bug Fixes
+
+
+
+- **(css/modules)** Preserve attr selectors used with `:global` (#7670) ([11b4679](https://github.com/swc-project/swc/commit/11b4679231bdfa8662fdcb1dade4dc1146f8e11d))
+
+
+- **(es/minifier)** Only cast global `Infinity`/`undefined`/`NaN` (#7684) ([241c04a](https://github.com/swc-project/swc/commit/241c04ab4a2e7e7f34563fdc8a355f82c6ba03e8))
+
+
+- **(es/minifier)** Drop line comments starting with `!` (#7689) ([951138c](https://github.com/swc-project/swc/commit/951138cd13339ca7b5cb5305203e466fcd4a0b0e))
+
+
+- **(es/minifier)** Abort seq inliner using visitor (#7699) ([a26dbce](https://github.com/swc-project/swc/commit/a26dbce9817c8f39c7d5857bb258298da274c6f3))
+
+
+- **(es/typescript)** Fix handling of optional chaining (#7660) ([c017874](https://github.com/swc-project/swc/commit/c01787408522202f3c717c0ecfa8e00aedef9142))
+
+### Features
+
+
+
+- **(css/parser)** Support `@starting-style` (#7677) ([cfb7b51](https://github.com/swc-project/swc/commit/cfb7b511eebe068b3c57f4540b90cb59c922d7e9))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI (#7679) ([57398af](https://github.com/swc-project/swc/commit/57398af2708ebd72c489fa81b9573259b0a71d15))
+
+### Refactor
+
+
+
+- **(es/minifier)** Respect `toplevel` and `module` options (#7671) ([9893bd2](https://github.com/swc-project/swc/commit/9893bd2d43de60978dd28c44c8e4032170b11987))
+
+
+- **(es/minifier)** Respect top-level when invoking IIFE  (#7690) ([bf72362](https://github.com/swc-project/swc/commit/bf723625b02204c4d2e9228d53ac53c9d41221a1))
+
+## [1.3.70] - 2023-07-18
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix a bug about `eval` of name mangler (#7615) ([6be1f70](https://github.com/swc-project/swc/commit/6be1f7075d8d14cc56b05079ee134153ab65c6fc))
+
+
+- **(es/minifier)** Do not reuse identifier used for import bindings (#7639) ([a65be14](https://github.com/swc-project/swc/commit/a65be14a00f41e9b0b4439c31b49febeefd1f845))
+
+
+- **(es/module)** Skip CJS and AMD transformations for `Script` (#7661) ([a2d0408](https://github.com/swc-project/swc/commit/a2d040859790d10d445ba6b06e9fe88635d84c1b))
+
+### Features
+
+
+
+- **(es/minifier)** Drop recursively used var declaration (#7649) ([04b0f6d](https://github.com/swc-project/swc/commit/04b0f6d8234bdcc34815a558c4c9eecf24c8e4e7))
+
+### Testing
+
+
+
+- **(es)** Add a test for a unreproducible issue (#7656) ([c0e4805](https://github.com/swc-project/swc/commit/c0e480593f7af001eb329f088dc29ea3f0f8df58))
+
+
+- **(es/modules)** Add a test for unreproducible issue (#7655) ([7528de1](https://github.com/swc-project/swc/commit/7528de189780cc6850fad2f744004353c8892a70))
+
+### Buiild
+
+
+
+- **(bindings/wasm)** Fix Wasm build (#7666) ([dc5135f](https://github.com/swc-project/swc/commit/dc5135f43f5fe01ed36c1b40a5647b2f1c3277b4))
+
+## [1.3.69] - 2023-07-13
+
+### Bug Fixes
+
+
+
 - **(es/compat)** Visit children of `while` statement in the `generator` pass (#7624) ([d2ac2c1](https://github.com/swc-project/swc/commit/d2ac2c16a3d9067b3afa14ba6ae8745b553c6642))
 
 
@@ -18,6 +192,12 @@
 
 
 - **(es/preset-env)** Update compat data (#7630) ([7e9e84e](https://github.com/swc-project/swc/commit/7e9e84e2306941de591700d3c5f15da2d43236bb))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/parser)** Scope use of `lexical` to certain features (#7644) ([a961090](https://github.com/swc-project/swc/commit/a961090c9da5994ec83ad6ffca1074277d61431d))
 
 ### Refactor
 

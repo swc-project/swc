@@ -4,7 +4,6 @@ define([
     "exports",
     "react"
 ], function(require, exports, _react) {
-    "use strict";
     function MainButton(props) {
         return props.goTo ? this._buildMainLink(props) : this._buildMainButton(props);
     }

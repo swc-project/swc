@@ -1,5 +1,4 @@
 //// [0.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), function(target, all) {
@@ -17,7 +16,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 var a = 1, b = 2;
 //// [1.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "ns", {
@@ -34,7 +32,6 @@ var ns = {
 };
 ns.a, ns.b;
 //// [2.ts]
-"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });

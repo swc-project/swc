@@ -1,8 +1,3 @@
 //// [nestedModules.ts]
-var A, M2;
-!function(A) {
-    A.B || (A.B = {});
-}(A || (A = {})), function(M2) {
-    var Point;
-    (M2.X || (M2.X = {})).Point = Point;
-}(M2 || (M2 = {})), M2.X.Point;
+var A, M2, Point, A1, M21;
+(A = A1 || (A1 = {})).B || (A.B = {}), ((M2 = M21 || (M21 = {})).X || (M2.X = {})).Point = Point, M21.X.Point;

@@ -15,7 +15,6 @@ Wagon.circle = function(wagons) {
     return this.numberOxen / this.weight();
 };
 var db = new (function(Wagon) {
-    "use strict";
     _inherits(Sql, Wagon);
     var _super = _create_super(Sql);
     function Sql() {
@@ -33,7 +32,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var c = new (function(Wagon1) {
-    "use strict";
     _inherits(Conestoga, Wagon1);
     var _super = _create_super(Conestoga);
     function Conestoga(drunkOO) {
@@ -53,7 +51,6 @@ function Soup(flavour) {
     this.flavour = flavour;
 }
 var Chowder = function(Soup) {
-    "use strict";
     _inherits(Chowder, Soup);
     var _super = _create_super(Chowder);
     function Chowder() {

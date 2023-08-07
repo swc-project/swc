@@ -11,7 +11,6 @@ define([
     "require",
     "exports"
 ], function(require, exports) {
-    "use strict";
     var React;
     Object.defineProperty(exports, "__esModule", {
         value: !0
@@ -28,7 +27,6 @@ define([
     "exports",
     "./test"
 ], function(require, exports, _test) {
-    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });

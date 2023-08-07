@@ -7,7 +7,6 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var i1_i, i2_i, i3_i, c1 = function() {
-    "use strict";
     function c1() {
         _class_call_check(this, c1);
     }
@@ -18,7 +17,6 @@ i1_i.i1_f1(), i1_i.i1_nc_f1(), i1_i.f1(), i1_i.nc_f1(), i1_i.i1_l1(), i1_i.i1_nc
 var c1_i = new c1();
 c1_i.i1_f1(), c1_i.i1_nc_f1(), c1_i.f1(), c1_i.nc_f1(), c1_i.i1_l1(), c1_i.i1_nc_l1(), c1_i.l1(), c1_i.nc_l1(), (i1_i = c1_i).i1_f1(), i1_i.i1_nc_f1(), i1_i.f1(), i1_i.nc_f1(), i1_i.i1_l1(), i1_i.i1_nc_l1(), i1_i.l1(), i1_i.nc_l1();
 var c2 = function() {
-    "use strict";
     function c2(a) {
         _class_call_check(this, c2), this.c2_p1 = a;
     }
@@ -50,7 +48,6 @@ var c2 = function() {
         }
     ]), c2;
 }(), c3 = function(c2) {
-    "use strict";
     _inherits(c3, c2);
     var _super = _create_super(c3);
     function c3() {
@@ -74,7 +71,6 @@ var c2 = function() {
     ]), c3;
 }(c2), c2_i = new c2(10), c3_i = new c3();
 c2_i.c2_f1(), c2_i.c2_nc_f1(), c2_i.f1(), c2_i.nc_f1(), c3_i.c2_f1(), c3_i.c2_nc_f1(), c3_i.f1(), c3_i.nc_f1(), (c2_i = c3_i).c2_f1(), c2_i.c2_nc_f1(), c2_i.f1(), c2_i.nc_f1(), new (function(c2) {
-    "use strict";
     _inherits(c4, c2);
     var _super = _create_super(c4);
     function c4() {

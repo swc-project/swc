@@ -1,10 +1,8 @@
 //// [emptyVariableDeclarationBindingPatterns01_ES5iterable.ts]
+var a;
 import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
-!function() {
-    var a;
-    _object_destructuring_empty(a), _object_destructuring_empty(a), _object_destructuring_empty(a), _sliced_to_array(a, 0), _sliced_to_array(a, 0), _sliced_to_array(a, 0), _object_destructuring_empty(a), _sliced_to_array(a, 0), _object_destructuring_empty(a), _sliced_to_array(a, 0), _object_destructuring_empty(a), _sliced_to_array(a, 0), _object_destructuring_empty(a.p1), _sliced_to_array(a.p2, 0), _object_destructuring_empty(a.p1), _sliced_to_array(a.p2, 0), _object_destructuring_empty(a.p1), _sliced_to_array(a.p2, 0), _object_destructuring_empty({}), _object_destructuring_empty({});
-}(), function() {
+_object_destructuring_empty(a), _object_destructuring_empty(a), _object_destructuring_empty(a), _sliced_to_array(a, 0), _sliced_to_array(a, 0), _sliced_to_array(a, 0), _object_destructuring_empty(a), _sliced_to_array(a, 0), _object_destructuring_empty(a), _sliced_to_array(a, 0), _object_destructuring_empty(a), _sliced_to_array(a, 0), _object_destructuring_empty(a.p1), _sliced_to_array(a.p2, 0), _object_destructuring_empty(a.p1), _sliced_to_array(a.p2, 0), _object_destructuring_empty(a.p1), _sliced_to_array(a.p2, 0), _object_destructuring_empty({}), _object_destructuring_empty({}), function() {
     var ns = [], _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
     try {
         for(var _step, _iterator = ns[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)_object_destructuring_empty(_step.value);

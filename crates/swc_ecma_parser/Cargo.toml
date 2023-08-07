@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_parser"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.137.2"
+version       = "0.137.6"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -19,27 +19,27 @@ bench = false
 [features]
 # Used for debugging
 debug      = []
-default    = ["typescript"]
+default    = ["typescript", "stacker"]
 typescript = []
 verify     = ["swc_ecma_visit"]
 
 [dependencies]
 either      = { version = "1.4" }
-lexical     = { version = "6.1.0", features = ["power-of-two"] }
 num-bigint  = "0.4"
+num-traits  = "0.2.15"
 serde       = { version = "1", features = ["derive"] }
 smallvec    = "1.8.0"
 smartstring = "1"
 tracing     = "0.1.37"
 typed-arena = "2.0.1"
 
-swc_atoms      = { version = "0.5.7", path = "../swc_atoms" }
-swc_common     = { version = "0.31.17", path = "../swc_common" }
-swc_ecma_ast   = { version = "0.107.1", path = "../swc_ecma_ast" }
-swc_ecma_visit = { version = "0.93.1", path = "../swc_ecma_visit", optional = true }
+swc_atoms      = { version = "0.5.8", path = "../swc_atoms" }
+swc_common     = { version = "0.31.18", path = "../swc_common" }
+swc_ecma_ast   = { version = "0.107.2", path = "../swc_ecma_ast" }
+swc_ecma_visit = { version = "0.93.2", path = "../swc_ecma_visit", optional = true }
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
-stacker = "0.1.15"
+stacker = { version = "0.1.15", optional = true }
 
 [dev-dependencies]
 criterion         = "0.5"
@@ -47,12 +47,12 @@ pretty_assertions = "1.3"
 serde_json        = "1"
 walkdir           = "2"
 
-swc_ecma_ast = { version = "0.107.1", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "0.107.2", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
-swc_ecma_visit = { version = "0.93.1", path = "../swc_ecma_visit" }
+swc_ecma_visit = { version = "0.93.2", path = "../swc_ecma_visit" }
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
-testing = { version = "0.33.20", path = "../testing" }
+testing = { version = "0.33.21", path = "../testing" }
 
 [[example]]
 name = "lexer"

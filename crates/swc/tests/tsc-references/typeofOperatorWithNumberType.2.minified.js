@@ -1,7 +1,7 @@
 //// [typeofOperatorWithNumberType.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
-var NUMBER, M, NUMBER1 = [
+var n, NUMBER, M, NUMBER1 = [
     1,
     2
 ];
@@ -9,7 +9,6 @@ function foo() {
     return 1;
 }
 var A = function() {
-    "use strict";
     function A() {
         _class_call_check(this, A);
     }
@@ -17,10 +16,7 @@ var A = function() {
         return 1;
     }, A;
 }();
-!function(M) {
-    var n;
-    M.n = n;
-}(M || (M = {}));
+(M || (M = {})).n = n;
 var objA = new A();
 void 0 === NUMBER || _type_of(NUMBER), _type_of(NUMBER1), _type_of(1), _type_of({
     x: 1,

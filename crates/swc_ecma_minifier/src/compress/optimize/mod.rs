@@ -69,6 +69,12 @@ pub(super) fn optimizer<'a>(
         "top_retain should not contain empty string"
     );
 
+    let mut ctx = Ctx::default();
+
+    if options.module {
+        ctx.in_strict = true
+    }
+
     Optimizer {
         marks,
         expr_ctx: ExprCtx {
@@ -85,7 +91,7 @@ pub(super) fn optimizer<'a>(
         simple_props: Default::default(),
         typeofs: Default::default(),
         data,
-        ctx: Default::default(),
+        ctx,
         mode,
         debug_infinite_loop,
         functions: Default::default(),
@@ -112,7 +118,6 @@ struct Ctx {
 
     /// `true` only for [Callee::Expr].
     is_callee: bool,
-    in_call_arg: bool,
 
     var_kind: Option<VarDeclKind>,
 
@@ -316,6 +321,26 @@ impl From<&Function> for FnMetadata {
 }
 
 impl Optimizer<'_> {
+    fn may_remove_ident(&self, id: &Ident) -> bool {
+        if id.span.ctxt != self.marks.top_level_ctxt {
+            return true;
+        }
+
+        if self.options.top_level() {
+            return !self.options.top_retain.contains(&id.sym);
+        }
+
+        false
+    }
+
+    fn may_add_ident(&self) -> bool {
+        if !self.ctx.in_top_level() {
+            return true;
+        }
+
+        self.options.top_level()
+    }
+
     fn handle_stmts(&mut self, stmts: &mut Vec<Stmt>, will_terminate: bool) {
         // Skip if `use asm` exists.
         if maybe_par!(
@@ -618,17 +643,17 @@ impl Optimizer<'_> {
         }
     }
 
-    fn remove_invalid(&mut self, e: &mut Expr) {
+    fn remove_invalid_bin(&mut self, e: &mut Expr) {
         if let Expr::Bin(BinExpr { left, right, .. }) = e {
-            self.remove_invalid(left);
-            self.remove_invalid(right);
+            self.remove_invalid_bin(left);
+            self.remove_invalid_bin(right);
 
             if left.is_invalid() {
                 *e = *right.take();
-                self.remove_invalid(e);
+                self.remove_invalid_bin(e);
             } else if right.is_invalid() {
                 *e = *left.take();
-                self.remove_invalid(e);
+                self.remove_invalid_bin(e);
             }
         }
     }
@@ -913,7 +938,7 @@ impl Optimizer<'_> {
             }) => {
                 if let Pat::Ident(i) = &mut **pat {
                     let old = i.id.to_id();
-                    self.store_var_for_inlining(&mut i.id, right, false, true);
+                    self.store_var_for_inlining(&mut i.id, right, true);
 
                     if i.is_dummy() && self.options.unused {
                         report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
@@ -1589,7 +1614,6 @@ impl VisitMut for Optimizer<'_> {
 
         {
             let ctx = Ctx {
-                in_call_arg: true,
                 is_this_aware_callee: false,
                 is_lhs_of_assign: false,
                 is_exact_lhs_of_assign: false,
@@ -1741,7 +1765,7 @@ impl VisitMut for Optimizer<'_> {
                 if let Some(i) = left.as_ident_mut() {
                     let old = i.to_id();
 
-                    self.store_var_for_inlining(i, right, false, false);
+                    self.store_var_for_inlining(i, right, false);
 
                     if i.is_dummy() && self.options.unused {
                         report_change!("inline: Removed variable ({}, {:?})", old.0, old.1);
@@ -1770,7 +1794,7 @@ impl VisitMut for Optimizer<'_> {
             debug_assert_valid(e);
         }
 
-        self.remove_invalid(e);
+        self.remove_invalid_bin(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -2272,7 +2296,6 @@ impl VisitMut for Optimizer<'_> {
 
         {
             let ctx = Ctx {
-                in_call_arg: true,
                 is_exact_lhs_of_assign: false,
                 is_lhs_of_assign: false,
                 ..self.ctx
@@ -2865,10 +2888,7 @@ impl VisitMut for Optimizer<'_> {
             ..
         } = var
         {
-            let should_preserve = !var.span.has_mark(self.marks.non_top_level)
-                && (!self.options.top_level() && self.options.top_retain.is_empty())
-                && self.ctx.in_top_level();
-            self.store_var_for_inlining(&mut id.id, init, should_preserve, false);
+            self.store_var_for_inlining(&mut id.id, init, false);
 
             if init.is_invalid() {
                 var.init = None

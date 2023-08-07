@@ -20,7 +20,6 @@ setState(foo, {
     c: !0
 });
 var c = new (function() {
-    "use strict";
     function C() {
         _class_call_check(this, C);
     }

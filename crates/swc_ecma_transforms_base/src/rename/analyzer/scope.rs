@@ -71,6 +71,8 @@ pub(crate) type RenameMap = AHashMap<FastId, JsWord>;
 
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
+    /// All identifiers used by this scope or children.
+    ///
     /// This is add-only.
     ///
     /// If the add-only contraint is violated, it is very likely to be a bug,
@@ -86,7 +88,10 @@ impl Scope {
             return;
         }
 
-        self.data.all.insert(fast_id(id.clone()));
+        let fid = fast_id(id.clone());
+
+        self.data.all.insert(fid);
+
         if !self.data.queue.contains(id) {
             if has_eval && id.1.outer().is_descendant_of(top_level_mark) {
                 return;

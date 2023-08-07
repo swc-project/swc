@@ -902,9 +902,9 @@ pub trait ExprExt {
                 Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
                 _ => return (Pure, Unknown),
             },
-            Expr::Ident(Ident { sym, .. }) => match *sym {
-                js_word!("undefined") | js_word!("NaN") => NAN,
-                js_word!("Infinity") => INFINITY,
+            Expr::Ident(Ident { sym, span, .. }) => match *sym {
+                js_word!("undefined") | js_word!("NaN") if span.ctxt == ctx.unresolved_ctxt => NAN,
+                js_word!("Infinity") if span.ctxt == ctx.unresolved_ctxt => INFINITY,
                 _ => return (Pure, Unknown),
             },
             Expr::Unary(UnaryExpr {
@@ -915,8 +915,9 @@ pub trait ExprExt {
                 &**arg,
                 Expr::Ident(Ident {
                     sym: js_word!("Infinity"),
+                    span,
                     ..
-                })
+                }) if span.ctxt == ctx.unresolved_ctxt
             ) =>
             {
                 -INFINITY
@@ -1005,8 +1006,10 @@ pub trait ExprExt {
                 // converted. unimplemented!("TplLit.
                 // as_string()")
             }
-            Expr::Ident(Ident { ref sym, .. }) => match *sym {
-                js_word!("undefined") | js_word!("Infinity") | js_word!("NaN") => {
+            Expr::Ident(Ident { ref sym, span, .. }) => match *sym {
+                js_word!("undefined") | js_word!("Infinity") | js_word!("NaN")
+                    if span.ctxt == ctx.unresolved_ctxt =>
+                {
                     Known(Cow::Borrowed(&**sym))
                 }
                 _ => Unknown,
@@ -1029,10 +1032,11 @@ pub trait ExprExt {
                 Unknown => return Value::Unknown,
             })),
             Expr::Array(ArrayLit { ref elems, .. }) => {
-                let mut first = true;
                 let mut buf = String::new();
+                let len = elems.len();
                 // null, undefined is "" in array literal.
-                for elem in elems {
+                for (idx, elem) in elems.iter().enumerate() {
+                    let last = idx == len - 1;
                     let e = match *elem {
                         Some(ref elem) => {
                             let ExprOrSpread { ref expr, .. } = *elem;
@@ -1052,9 +1056,7 @@ pub trait ExprExt {
                     };
                     buf.push_str(&e);
 
-                    if first {
-                        first = false;
-                    } else {
+                    if !last {
                         buf.push(',');
                     }
                 }
@@ -2481,6 +2483,22 @@ impl ExprCtx {
             // We are at here because we could not determine value of test.
             //TODO: Drop values if it does not have side effects.
             Expr::Cond(_) => to.push(Box::new(expr)),
+
+            Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg,
+                ..
+            }) => {
+                // We should ignore side effect of `__dirname` in
+                //
+                // typeof __dirname != void 0
+                //
+                // https://github.com/swc-project/swc/pull/7763
+                if arg.is_ident() {
+                    return;
+                }
+                self.extract_side_effects_to(to, *arg)
+            }
 
             Expr::Unary(UnaryExpr { arg, .. }) => self.extract_side_effects_to(to, *arg),
 

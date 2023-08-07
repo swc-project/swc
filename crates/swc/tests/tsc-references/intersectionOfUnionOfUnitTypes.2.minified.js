@@ -1,5 +1,3 @@
 //// [intersectionOfUnionOfUnitTypes.ts]
-var E;
-!function(E) {
-    E[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", E[E.D = 3] = "D", E[E.E = 4] = "E", E[E.F = 5] = "F";
-}(E || (E = {}));
+var E, E1;
+(E1 = E || (E = {}))[E1.A = 0] = "A", E1[E1.B = 1] = "B", E1[E1.C = 2] = "C", E1[E1.D = 3] = "D", E1[E1.E = 4] = "E", E1[E1.F = 5] = "F";

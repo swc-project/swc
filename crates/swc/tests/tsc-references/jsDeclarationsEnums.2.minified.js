@@ -1,38 +1,31 @@
 //// [index.js]
-var C, DD;
+var C, DD, B, G, H, I, J, K, L;
 export var A;
 A || (A = {});
-export var B;
-!function(B) {
-    B[B.Member = 0] = "Member";
-}(B || (B = {})), C || (C = {});
+var B1;
+export { B1 as B };
+(B = B1 || (B1 = {}))[B.Member = 0] = "Member", C || (C = {});
 DD || (DD = {});
 export var E;
 E || (E = {});
 export var F;
 F || (F = {});
-export var G;
-!function(G) {
-    G[G.A = 1] = "A", G[G.B = 2] = "B", G[G.C = 3] = "C";
-}(G || (G = {}));
-export var H;
-!function(H) {
-    H.A = "a", H.B = "b";
-}(H || (H = {}));
-export var I;
-!function(I) {
-    I.A = "a", I[I.B = 0] = "B", I[I.C = 1] = "C";
-}(I || (I = {}));
-export var J;
-!function(J) {
-    J[J.A = 1] = "A", J[J.B = 2] = "B", J[J.C = 3] = "C";
-}(J || (J = {}));
-export var K;
-!function(K) {
-    K[K.None = 0] = "None", K[K.A = 1] = "A", K[K.B = 2] = "B", K[K.C = 4] = "C", K[K.Mask = 7] = "Mask";
-}(K || (K = {}));
-export var L;
-!function(L) {
-    L[L.None = 0] = "None", L[L.A = 1] = "A", L[L.B = 2] = "B", L[L.C = 4] = "C", L[L.Mask = 7] = "Mask";
-}(L || (L = {}));
+var G1;
+export { G1 as G };
+(G = G1 || (G1 = {}))[G.A = 1] = "A", G[G.B = 2] = "B", G[G.C = 3] = "C";
+var H1;
+export { H1 as H };
+(H = H1 || (H1 = {})).A = "a", H.B = "b";
+var I1;
+export { I1 as I };
+(I = I1 || (I1 = {})).A = "a", I[I.B = 0] = "B", I[I.C = 1] = "C";
+var J1;
+export { J1 as J };
+(J = J1 || (J1 = {}))[J.A = 1] = "A", J[J.B = 2] = "B", J[J.C = 3] = "C";
+var K1;
+export { K1 as K };
+(K = K1 || (K1 = {}))[K.None = 0] = "None", K[K.A = 1] = "A", K[K.B = 2] = "B", K[K.C = 4] = "C", K[K.Mask = 7] = "Mask";
+var L1;
+export { L1 as L };
+(L = L1 || (L1 = {}))[L.None = 0] = "None", L[L.A = 1] = "A", L[L.B = 2] = "B", L[L.C = 4] = "C", L[L.Mask = 7] = "Mask";
 export { C, DD as D, E as EE, F as FF };

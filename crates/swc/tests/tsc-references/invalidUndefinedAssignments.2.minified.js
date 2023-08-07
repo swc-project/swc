@@ -1,6 +1,4 @@
 //// [invalidUndefinedAssignments.ts]
-var x, E, M;
+var x, E, M, E1;
 import "@swc/helpers/_/_class_call_check";
-!function(E) {
-    E[E.A = 0] = "A";
-}(E || (E = {})), (E = x).A = x, I = x, (M || (M = {})).x = 1;
+(E1 = E || (E = {}))[E1.A = 0] = "A", (E = x).A = x, I = x, (M || (M = {})).x = 1;
