@@ -1,5 +1,6 @@
 {
     "jsc": {
+        "baseUrl": ".",
         "paths": {
             "server/*": [
                 "./*"
