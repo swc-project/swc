@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Don't strip necessary escape characters (#7687) ([b45649b](https://github.com/swc-project/swc/commit/b45649b8d6484bd872f6443fc729f6b1998ff44d))
+
+
 - **(es/compat)** Fix loose mode of the `spread` pass (#7760) ([b69ae8f](https://github.com/swc-project/swc/commit/b69ae8f433a1702e09a24c1c47b2fc312e8fb801))
 
 
@@ -36,6 +39,9 @@
 
 
 - **(es/ast)** Avoid `transmute` in impl of `Hash` for `Number` (#7771) ([2258274](https://github.com/swc-project/swc/commit/225827423355cab8cd3c0ae80f335cd2873e6cd4))
+
+
+- **(es/minifier)** Support stable rustc (#7734) ([f7afe7e](https://github.com/swc-project/swc/commit/f7afe7edecc65f41845721c75b77d2f6dba04a6a))
 
 
 - **(es/parser)** Do not use `lexical` (#7758) ([e50cfde](https://github.com/swc-project/swc/commit/e50cfde938b2504b723a95f034ac4b388d8725c3))
