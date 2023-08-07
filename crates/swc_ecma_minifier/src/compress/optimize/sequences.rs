@@ -1148,65 +1148,6 @@ impl Optimizer<'_> {
 
         trace_op!("is_skippable_for_seq");
 
-        if let Some(a) = a {
-            // We should abort if `a` contains an unresolved reference.
-            //
-            // https://github.com/swc-project/swc/issues/7749
-
-            let ids_used_by_a_init = match a {
-                Mergable::Var(a) => a.init.as_ref().map(|init| {
-                    collect_infects_from(
-                        init,
-                        AliasConfig {
-                            marks: Some(self.marks),
-                            ignore_nested: true,
-                            need_all: true,
-                        },
-                    )
-                }),
-                Mergable::Expr(a) => match a {
-                    Expr::Assign(AssignExpr {
-                        left,
-                        right,
-                        op: op!("="),
-                        ..
-                    }) => {
-                        if left.as_ident().is_some() {
-                            Some(collect_infects_from(
-                                right,
-                                AliasConfig {
-                                    marks: Some(self.marks),
-                                    ignore_nested: true,
-                                    need_all: true,
-                                },
-                            ))
-                        } else {
-                            None
-                        }
-                    }
-
-                    _ => None,
-                },
-
-                Mergable::FnDecl(..) | Mergable::Drop => return false,
-            };
-
-            if let Some(ids_used_by_a_init) = ids_used_by_a_init {
-                for id in ids_used_by_a_init {
-                    if (id.0).1 == self.expr_ctx.unresolved_ctxt {
-                        return if self.options.pristine_globals
-                            && is_global_var_with_pure_property_access(&(id.0).0)
-                        {
-                            true
-                        } else {
-                            log_abort!("Undeclared");
-                            return false;
-                        };
-                    }
-                }
-            }
-        }
-
         match e {
             Expr::Ident(e) => {
                 if e.span.ctxt == self.expr_ctx.unresolved_ctxt {
