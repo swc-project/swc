@@ -1078,7 +1078,37 @@ impl Optimizer<'_> {
         Ok(false)
     }
 
-    fn should_abort_seq_inliner_because_of_expr_in_a(&mut self, a: &Expr) -> bool {}
+    fn should_abort_seq_inliner_because_of_expr_in_a(&mut self, a: &Expr) -> bool {
+        match a {
+            Expr::Array(e) => {}
+            Expr::Object(e) => {}
+            Expr::Fn(e) => {}
+            Expr::Unary(e) => {}
+            Expr::Update(e) => {}
+            Expr::Bin(e) => {}
+            Expr::Assign(e) => {}
+            Expr::Member(e) => {}
+            Expr::SuperProp(e) => {}
+            Expr::Cond(e) => {}
+            Expr::Call(e) => {}
+            Expr::New(e) => {}
+            Expr::Seq(e) => {}
+            Expr::Ident(e) => {}
+            Expr::Lit(e) => {}
+            Expr::Tpl(e) => {}
+            Expr::TaggedTpl(e) => {}
+            Expr::Arrow(e) => {}
+            Expr::Class(e) => {}
+            Expr::Yield(e) => {}
+            Expr::MetaProp(e) => {}
+            Expr::Await(e) => {}
+            Expr::Paren(e) => {}
+            Expr::PrivateName(e) => {}
+            Expr::OptChain(e) => {}
+
+            _ => false,
+        }
+    }
 
     fn should_abort_seq_inliner_because_of_a(&mut self, a: &Mergable) -> bool {
         match a {
