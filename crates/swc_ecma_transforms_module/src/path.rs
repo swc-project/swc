@@ -270,7 +270,15 @@ fn absolute_path(base_dir: Option<&Path>, path: &Path) -> io::Result<PathBuf> {
         path.to_path_buf()
     } else {
         match base_dir {
-            Some(base_dir) => base_dir.join(path),
+            Some(base_dir) => {
+                debug_assert!(
+                    base_dir.is_absolute(),
+                    "base_dir({}) must be absolute",
+                    base_dir.display()
+                );
+
+                base_dir.join(path)
+            }
             None => current_dir()?.join(path),
         }
     }
