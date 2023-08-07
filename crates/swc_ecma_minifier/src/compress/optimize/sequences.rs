@@ -1226,25 +1226,36 @@ impl Optimizer<'_> {
                     self.is_pat_in_left_unanalyzable_for_seq_inliner(&p.as_param().unwrap().pat)
                 }),
                 ClassMember::Method(m) => {
-                    self.is_prop_name_unanalyzable_for_seq_inliner(Ym.key)
-                        || m.function
-                            .params
-                            .iter()
-                            .any(|p| self.is_pat_in_left_unanalyzable_for_seq_inliner(&p.pat))
-                }
-                ClassMember::PrivateMethod(m) => {
                     self.is_prop_name_unanalyzable_for_seq_inliner(&m.key)
                         || m.function
                             .params
                             .iter()
                             .any(|p| self.is_pat_in_left_unanalyzable_for_seq_inliner(&p.pat))
                 }
-                ClassMember::ClassProp(m) => {}
-                ClassMember::PrivateProp(m) => {}
-                ClassMember::TsIndexSignature(m) => {}
+                ClassMember::PrivateMethod(m) => m
+                    .function
+                    .params
+                    .iter()
+                    .any(|p| self.is_pat_in_left_unanalyzable_for_seq_inliner(&p.pat)),
+                ClassMember::ClassProp(m) => {
+                    self.is_prop_name_unanalyzable_for_seq_inliner(&m.key)
+                        || m.value.as_deref().map_or(false, |e| {
+                            self.is_expr_in_left_unalyzable_for_seq_inliner(e)
+                        })
+                }
+                ClassMember::PrivateProp(m) => m.value.as_deref().map_or(false, |e| {
+                    self.is_expr_in_left_unalyzable_for_seq_inliner(e)
+                }),
                 ClassMember::StaticBlock(m) => {}
-                ClassMember::AutoAccessor(m) => {}
-                ClassMember::Empty(..) => false,
+                ClassMember::AutoAccessor(m) => {
+                    (match &m.key {
+                        Key::Private(_) => false,
+                        Key::Public(key) => self.is_prop_name_unanalyzable_for_seq_inliner(key),
+                    }) || m.value.as_deref().map_or(false, |e| {
+                        self.is_expr_in_left_unalyzable_for_seq_inliner(e)
+                    })
+                }
+                ClassMember::Empty(..) | ClassMember::TsIndexSignature(..) => false,
             }),
             Expr::Yield(e) => {
                 if let Some(arg) = &e.arg {
