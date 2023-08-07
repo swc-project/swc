@@ -50,7 +50,9 @@ class D {
         Promise.resolve().then(()=>_interop_require_wildcard._(require("./0"))), this.myModule.then((Zero)=>{
             console.log(Zero.foo());
         }, async (err)=>{
-            console.log(err), console.log((await Promise.resolve().then(()=>_interop_require_wildcard._(require("./1")))).backup());
+            console.log(err);
+            let one = await Promise.resolve().then(()=>_interop_require_wildcard._(require("./1")));
+            console.log(one.backup());
         });
     }
     constructor(){

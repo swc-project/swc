@@ -7580,7 +7580,7 @@
                 return "var browserWorkerPolyFill = " + browserWorkerPolyFill.toString() + ";\nbrowserWorkerPolyFill(self);\n" + code;
             }, getWorkerString = function(fn) {
                 return fn.toString().replace(/^function.+?{/, "").slice(0, -1);
-            }, TransmuxWorker = factory(transform(getWorkerString(function() {
+            }, workerCode$1 = transform(getWorkerString(function() {
                 var _TransportPacketStream, _TransportParseStream, _ElementaryStream, _AdtsStream, _H264Stream, _NalByteStream, PROFILES_WITH_OPTIONAL_SPS_DATA, _AacStream, _VideoSegmentStream, _AudioSegmentStream, _Transmuxer, _CoalesceStream, getTimescaleFromMediaHeader, Stream = function() {
                     this.init = function() {
                         var listeners = {};
@@ -10474,8 +10474,8 @@
                                 "tkhd"
                             ]);
                             hdlrs.forEach(function(hdlr, index) {
-                                var view, trackId, handlerType = parseType_1(hdlr.subarray(8, 12)), tkhd = tkhds[index];
-                                "vide" === handlerType && (trackId = 0 === (view = new DataView(tkhd.buffer, tkhd.byteOffset, tkhd.byteLength)).getUint8(0) ? view.getUint32(12) : view.getUint32(20), videoTrackIds.push(trackId));
+                                var view, version, trackId, handlerType = parseType_1(hdlr.subarray(8, 12)), tkhd = tkhds[index];
+                                "vide" === handlerType && (version = (view = new DataView(tkhd.buffer, tkhd.byteOffset, tkhd.byteLength)).getUint8(0), trackId = 0 === version ? view.getUint32(12) : view.getUint32(20), videoTrackIds.push(trackId));
                             });
                         }), videoTrackIds;
                     },
@@ -10938,7 +10938,7 @@
                     }
                     this.messageHandlers || (this.messageHandlers = new MessageHandlers(self)), event.data && event.data.action && "init" !== event.data.action && this.messageHandlers[event.data.action] && this.messageHandlers[event.data.action](event.data);
                 };
-            }))), handleData_ = function(event, transmuxedData, callback) {
+            })), TransmuxWorker = factory(workerCode$1), handleData_ = function(event, transmuxedData, callback) {
                 var _event$data$segment = event.data.segment, type = _event$data$segment.type, initSegment = _event$data$segment.initSegment, captions = _event$data$segment.captions, captionStreams = _event$data$segment.captionStreams, metadata = _event$data$segment.metadata, videoFrameDtsTime = _event$data$segment.videoFrameDtsTime, videoFramePtsTime = _event$data$segment.videoFramePtsTime;
                 transmuxedData.buffer.push({
                     captions: captions,
@@ -13257,7 +13257,7 @@
                 }, _proto.dispose = function() {
                     this.trigger("dispose"), this.pendingTimelineChanges_ = {}, this.lastTimelineChanges_ = {}, this.off();
                 }, TimelineChangeController;
-            }(videojs.EventTarget), Decrypter = factory(transform(getWorkerString(function() {
+            }(videojs.EventTarget), workerCode = transform(getWorkerString(function() {
                 function createCommonjsModule(fn, basedir, module) {
                     return fn(module = {
                         path: basedir,
@@ -13433,7 +13433,7 @@
                         ]);
                     });
                 };
-            }))), audioTrackKind_ = function(properties) {
+            })), Decrypter = factory(workerCode), audioTrackKind_ = function(properties) {
                 var kind = properties.default ? "main" : "alternative";
                 return properties.characteristics && properties.characteristics.indexOf("public.accessibility.describes-video") >= 0 && (kind = "main-desc"), kind;
             }, stopLoaders = function(segmentLoader, mediaType) {

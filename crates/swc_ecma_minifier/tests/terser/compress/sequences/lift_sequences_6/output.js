@@ -1,2 +1,2 @@
 var a = 2;
-console.log(a &&= (leak(), a = 4, 3));
+a &&= (leak(), a = 4, 3), console.log(a);

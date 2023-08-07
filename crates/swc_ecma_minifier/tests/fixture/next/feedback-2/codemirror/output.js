@@ -4578,7 +4578,7 @@
     function findPosV(cm, pos, dir, unit) {
         var target, y, doc = cm.doc, x = pos.left;
         if ("page" == unit) {
-            var moveAmount = Math.max(Math.min(cm.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight) - 0.5 * textHeight(cm.display), 3);
+            var pageSize = Math.min(cm.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight), moveAmount = Math.max(pageSize - 0.5 * textHeight(cm.display), 3);
             y = (dir > 0 ? pos.bottom : pos.top) + dir * moveAmount;
         } else "line" == unit && (y = dir > 0 ? pos.bottom + 3 : pos.top - 3);
         for(; (target = coordsChar(cm, x, y)).outside;){

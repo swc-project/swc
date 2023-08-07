@@ -4538,8 +4538,8 @@
                 -normal[0],
                 0
             ], normal);
-            cartesianNormalizeInPlace(inflection);
-            var phii, delta = lambda - lambda2, sign = delta > 0 ? 1 : -1, lambdai = (inflection = spherical(inflection))[0] * degrees$2 * sign, antimeridian = abs$2(delta) > 180;
+            cartesianNormalizeInPlace(inflection), inflection = spherical(inflection);
+            var phii, delta = lambda - lambda2, sign = delta > 0 ? 1 : -1, lambdai = inflection[0] * degrees$2 * sign, antimeridian = abs$2(delta) > 180;
             antimeridian ^ (sign * lambda2 < lambdai && lambdai < sign * lambda) ? (phii = inflection[1] * degrees$2) > phi1 && (phi1 = phii) : antimeridian ^ (sign * lambda2 < (lambdai = (lambdai + 360) % 360 - 180) && lambdai < sign * lambda) ? (phii = -inflection[1] * degrees$2) < phi0 && (phi0 = phii) : (phi < phi0 && (phi0 = phi), phi > phi1 && (phi1 = phi)), antimeridian ? lambda < lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda) : lambda1 >= lambda0$1 ? (lambda < lambda0$1 && (lambda0$1 = lambda), lambda > lambda1 && (lambda1 = lambda)) : lambda > lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda);
         } else ranges.push(range$1 = [
             lambda0$1 = lambda,

@@ -1104,11 +1104,11 @@
                 animationName: 0,
                 elapsedTime: 0,
                 pseudoElement: 0
-            })), Id = qd(A({}, rd, {
+            })), Hd = A({}, rd, {
                 clipboardData: function(a) {
                     return "clipboardData" in a ? a.clipboardData : window.clipboardData;
                 }
-            })), Kd = qd(A({}, rd, {
+            }), Id = qd(Hd), Kd = qd(A({}, rd, {
                 data: 0
             })), Ld = {
                 Esc: "Escape",
@@ -1652,7 +1652,7 @@
                             null !== k && vf(g, h, k, w, !1), null !== m && null !== J && vf(g, J, m, w, !0);
                         }
                         a: {
-                            if ("select" === (k = (h = d ? te(d) : window).nodeName && h.nodeName.toLowerCase()) || "input" === k && "file" === h.type) var ab, Z = ue;
+                            if (k = (h = d ? te(d) : window).nodeName && h.nodeName.toLowerCase(), "select" === k || "input" === k && "file" === h.type) var ab, Z = ue;
                             else if (le(h)) {
                                 if (ve) Z = Ee;
                                 else {
@@ -4054,7 +4054,7 @@
                 return 0 != (6 & W) ? B() : -1 !== yk ? yk : yk = B();
             }
             function Kg(a) {
-                return 0 == (1 & a.mode) ? 1 : 0 != (2 & W) && 0 !== Y ? Y & -Y : null !== jg.transition ? (0 === zk && (zk = xc()), zk) : 0 !== (a = C) ? a : a = void 0 === (a = window.event) ? 16 : id(a.type);
+                return 0 == (1 & a.mode) ? 1 : 0 != (2 & W) && 0 !== Y ? Y & -Y : null !== jg.transition ? (0 === zk && (zk = xc()), zk) : 0 !== (a = C) ? a : (a = window.event, a = void 0 === a ? 16 : id(a.type));
             }
             function Lg(a, b, c) {
                 if (50 < wk) throw wk = 0, xk = null, Error(p(185));

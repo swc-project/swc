@@ -34,19 +34,19 @@ var A = function A() {
         }
         return _class;
     }(A);
-}().anon), S = function(b3Number) {
-    _inherits(S, b3Number);
-    var _super = _create_super(S);
-    function S() {
-        return _class_call_check(this, S), _super.apply(this, arguments);
-    }
-    return S;
-}(function(A) {
+}().anon), b3Number = function(A) {
     _inherits(Inner, A);
     var _super = _create_super(Inner);
     function Inner() {
         return _class_call_check(this, Inner), _super.apply(this, arguments);
     }
     return Inner;
-}(A)), c = new C(), k = new K(), s = new S();
+}(A), S = function(b3Number) {
+    _inherits(S, b3Number);
+    var _super = _create_super(S);
+    function S() {
+        return _class_call_check(this, S), _super.apply(this, arguments);
+    }
+    return S;
+}(b3Number), c = new C(), k = new K(), s = new S();
 c.genericVar = 12, k.genericVar = 12, s.genericVar = 12;

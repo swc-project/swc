@@ -851,9 +851,9 @@
                 }
                 function loadFunc() {
                     if (!aborted) {
-                        clearTimeout(timeoutTimer);
+                        clearTimeout(timeoutTimer), status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status;
                         var status, response = failureResponse, err = null;
-                        return 0 !== (status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status) ? (response = {
+                        return 0 !== status ? (response = {
                             body: function() {
                                 var body = void 0;
                                 if (body = xhr.response ? xhr.response : xhr.responseText || function(xhr) {

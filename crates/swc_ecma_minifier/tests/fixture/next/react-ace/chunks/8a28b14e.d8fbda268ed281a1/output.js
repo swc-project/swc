@@ -8676,7 +8676,7 @@
                             }), onAfterRender = this.renderer.on("afterRender", function() {
                                 if (shouldScroll && rect && (self1.isFocused() || self1.searchBox && self1.searchBox.isFocused())) {
                                     var renderer = self1.renderer, pos = renderer.$cursorLayer.$pixelPos, config = renderer.layerConfig, top = pos.top - config.offset;
-                                    null != (shouldScroll = pos.top >= 0 && top + rect.top < 0 || (!(pos.top < config.height) || !(pos.top + rect.top + config.lineHeight > window.innerHeight)) && null) && (scrollAnchor.style.top = top + "px", scrollAnchor.style.left = pos.left + "px", scrollAnchor.style.height = config.lineHeight + "px", scrollAnchor.scrollIntoView(shouldScroll)), shouldScroll = rect = null;
+                                    shouldScroll = pos.top >= 0 && top + rect.top < 0 || (!(pos.top < config.height) || !(pos.top + rect.top + config.lineHeight > window.innerHeight)) && null, null != shouldScroll && (scrollAnchor.style.top = top + "px", scrollAnchor.style.left = pos.left + "px", scrollAnchor.style.height = config.lineHeight + "px", scrollAnchor.scrollIntoView(shouldScroll)), shouldScroll = rect = null;
                                 }
                             });
                             this.setAutoScrollEditorIntoView = function(enable) {

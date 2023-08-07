@@ -6,4 +6,5 @@ module.exports = {
     }
 };
 //// [requireTwoPropertyAccesses.js]
-console.log(require("./mod").x.y);
+var value = require("./mod").x.y;
+console.log(value);

@@ -1254,8 +1254,8 @@ var YUI = function() {
 }), YUI.add("yui-later", function(Y, NAME) {
     var NO_ARGS = [];
     Y.later = function(when, o, fn, data, periodic) {
-        when = when || 0, data = Y.Lang.isUndefined(data) ? NO_ARGS : Y.Array(data);
-        var cancelled = !1, method = (o = o || Y.config.win || Y) && Y.Lang.isString(fn) ? o[fn] : fn, wrapper = function() {
+        when = when || 0, data = Y.Lang.isUndefined(data) ? NO_ARGS : Y.Array(data), o = o || Y.config.win || Y;
+        var cancelled = !1, method = o && Y.Lang.isString(fn) ? o[fn] : fn, wrapper = function() {
             cancelled || (method.apply ? method.apply(o, data || NO_ARGS) : method(data[0], data[1], data[2], data[3]));
         }, id = periodic ? setInterval(wrapper, when) : setTimeout(wrapper, when);
         return {

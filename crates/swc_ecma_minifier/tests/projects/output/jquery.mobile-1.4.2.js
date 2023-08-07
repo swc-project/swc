@@ -527,7 +527,7 @@
     }(jQuery, this), function($, window, undefined) {
         var fake_onhashchange, str_hashchange = "hashchange", special = $.event.special, doc_mode = document1.documentMode, supports_onhashchange = "on" + str_hashchange in window && (undefined === doc_mode || doc_mode > 7);
         function get_fragment(url) {
-            return "#" + (url = url || location.href).replace(/^[^#]*#?(.*)$/, "$1");
+            return url = url || location.href, "#" + url.replace(/^[^#]*#?(.*)$/, "$1");
         }
         $.fn[str_hashchange] = function(fn) {
             return fn ? this.bind(str_hashchange, fn) : this.trigger(str_hashchange);

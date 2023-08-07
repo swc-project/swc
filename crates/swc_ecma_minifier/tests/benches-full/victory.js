@@ -10232,7 +10232,7 @@
             }, transformAngle = function(angle) {
                 return -1 * angle + Math.PI / 2;
             }, getCustomBarPath = function(props, width) {
-                return (0, props.getPath)(function(target) {
+                var getPath = props.getPath, propsWithCalculatedValues = function(target) {
                     for(var i = 1; i < arguments.length; i++){
                         var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -10248,7 +10248,8 @@
                         });
                     }
                     return target;
-                }({}, props, getPosition(props, width)));
+                }({}, props, getPosition(props, width));
+                return getPath(propsWithCalculatedValues);
             }, getStartAngle = function(props, index) {
                 var data = props.data, scale = props.scale, alignment = props.alignment, currentAngle = getAngle(props, index), angularRange = Math.abs(scale.x.range()[1] - scale.x.range()[0]), previousAngle = 0 === index ? getAngle(props, data.length - 1) - 2 * Math.PI : getAngle(props, index - 1);
                 return 0 === index && angularRange < 2 * Math.PI ? scale.x.range()[0] : "start" === alignment || "end" === alignment ? "start" === alignment ? previousAngle : currentAngle : (currentAngle + previousAngle) / 2;

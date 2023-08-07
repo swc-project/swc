@@ -161,9 +161,9 @@
                 }, BN1.prototype._init = function(number1, base1, endian1) {
                     if ('number' == typeof number1) return this._initNumber(number1, base1, endian1);
                     if ('object' == typeof number1) return this._initArray(number1, base1, endian1);
-                    'hex' === base1 && (base1 = 16), assert1(base1 === (0 | base1) && base1 >= 2 && base1 <= 36);
+                    'hex' === base1 && (base1 = 16), assert1(base1 === (0 | base1) && base1 >= 2 && base1 <= 36), number1 = number1.toString().replace(/\s+/g, '');
                     var start1 = 0;
-                    '-' === (number1 = number1.toString().replace(/\s+/g, ''))[0] && (start1++, this.negative = 1), start1 < number1.length && (16 === base1 ? this._parseHex(number1, start1, endian1) : (this._parseBase(number1, base1, start1), 'le' === endian1 && this._initArray(this.toArray(), base1, endian1)));
+                    '-' === number1[0] && (start1++, this.negative = 1), start1 < number1.length && (16 === base1 ? this._parseHex(number1, start1, endian1) : (this._parseBase(number1, base1, start1), 'le' === endian1 && this._initArray(this.toArray(), base1, endian1)));
                 }, BN1.prototype._initNumber = function(number1, base1, endian1) {
                     number1 < 0 && (this.negative = 1, number1 = -number1), number1 < 0x4000000 ? (this.words = [
                         0x3ffffff & number1
@@ -7472,9 +7472,9 @@
                 }, BN1.prototype._init = function(number1, base1, endian1) {
                     if ('number' == typeof number1) return this._initNumber(number1, base1, endian1);
                     if ('object' == typeof number1) return this._initArray(number1, base1, endian1);
-                    'hex' === base1 && (base1 = 16), assert1(base1 === (0 | base1) && base1 >= 2 && base1 <= 36);
+                    'hex' === base1 && (base1 = 16), assert1(base1 === (0 | base1) && base1 >= 2 && base1 <= 36), number1 = number1.toString().replace(/\s+/g, '');
                     var start1 = 0;
-                    '-' === (number1 = number1.toString().replace(/\s+/g, ''))[0] && (start1++, this.negative = 1), start1 < number1.length && (16 === base1 ? this._parseHex(number1, start1, endian1) : (this._parseBase(number1, base1, start1), 'le' === endian1 && this._initArray(this.toArray(), base1, endian1)));
+                    '-' === number1[0] && (start1++, this.negative = 1), start1 < number1.length && (16 === base1 ? this._parseHex(number1, start1, endian1) : (this._parseBase(number1, base1, start1), 'le' === endian1 && this._initArray(this.toArray(), base1, endian1)));
                 }, BN1.prototype._initNumber = function(number1, base1, endian1) {
                     number1 < 0 && (this.negative = 1, number1 = -number1), number1 < 0x4000000 ? (this.words = [
                         0x3ffffff & number1
@@ -23056,8 +23056,8 @@
                                 storeValue1(ret_ptr1, s3);
                             },
                             'syscall/js.valueGet': (retval1, v_addr1, p_ptr1, p_len1)=>{
-                                let prop1 = loadString1(p_ptr1, p_len1), value1 = loadValue1(v_addr1);
-                                storeValue1(retval1, Reflect.get(value1, prop1));
+                                let prop1 = loadString1(p_ptr1, p_len1), value1 = loadValue1(v_addr1), result1 = Reflect.get(value1, prop1);
+                                storeValue1(retval1, result1);
                             },
                             'syscall/js.valueSet': (v_addr1, p_ptr1, p_len1, x_addr1)=>{
                                 const v3 = loadValue1(v_addr1), p3 = loadString1(p_ptr1, p_len1), x3 = loadValue1(x_addr1);

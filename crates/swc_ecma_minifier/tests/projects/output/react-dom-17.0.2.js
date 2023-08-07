@@ -2552,11 +2552,11 @@
         animationName: 0,
         elapsedTime: 0,
         pseudoElement: 0
-    })), SyntheticClipboardEvent = createSyntheticEvent(_assign({}, EventInterface, {
+    })), ClipboardEventInterface = _assign({}, EventInterface, {
         clipboardData: function(event) {
             return "clipboardData" in event ? event.clipboardData : window.clipboardData;
         }
-    })), SyntheticCompositionEvent = createSyntheticEvent(_assign({}, EventInterface, {
+    }), SyntheticClipboardEvent = createSyntheticEvent(ClipboardEventInterface), SyntheticCompositionEvent = createSyntheticEvent(_assign({}, EventInterface, {
         data: 0
     })), normalizeKey = {
         Esc: "Escape",

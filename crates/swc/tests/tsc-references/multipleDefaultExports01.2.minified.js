@@ -42,4 +42,6 @@
 //// [m2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), (0, require("@swc/helpers/_/_interop_require_default")._(require("./m1")).default)();
+});
+var _m1 = require("@swc/helpers/_/_interop_require_default")._(require("./m1"));
+(0, _m1.default)();

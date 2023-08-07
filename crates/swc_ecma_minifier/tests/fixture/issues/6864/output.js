@@ -4,7 +4,7 @@ export function removeFromMatrix(matrix, id) {
     });
     if (!row) return matrix;
     if (1 === row.length) {
-        if (2 === (newMatrix = _.without(matrix, row))[0].length) {
+        if (newMatrix = _.without(matrix, row), 2 === newMatrix[0].length) {
             const remainingEntry = newMatrix[0];
             newMatrix = [
                 [

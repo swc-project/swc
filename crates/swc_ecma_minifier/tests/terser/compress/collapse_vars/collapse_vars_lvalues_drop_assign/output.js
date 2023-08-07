@@ -1,22 +1,21 @@
 function f0(x) {
     var i = ++x;
-    return (x += i);
+    return x += i;
 }
 function f1(x) {
-    var a = (x -= 3);
-    return (x += a);
+    var a = x -= 3;
+    return x += a;
 }
 function f2(x) {
-    var z = x,
-        a = ++z;
-    return (z += a);
+    var z = x, a = ++z;
+    return z += a;
 }
 function f3(x) {
-    var a = (x -= 3);
+    var a = x -= 3;
     return x + a;
 }
 function f4(x) {
-    var a = (x -= 3);
+    var a = x -= 3;
     return x + a;
 }
 function f5(x) {
@@ -28,10 +27,14 @@ function f6(x) {
     return e1(), e2(), --x - x;
 }
 function f7(x) {
-    return e1(), x - (e2() - x);
+    e1();
+    var v = e2();
+    return x - (v - x);
 }
 function f8(x) {
-    return e1(), x - (e2() - x);
+    e1();
+    var v = e2();
+    return x - (v - x);
 }
 function f9(x) {
     return e1(), e2() - x - x;

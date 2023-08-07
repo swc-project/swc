@@ -12,7 +12,7 @@ function utcStartOfDate(y, m, d) {
 }
 function startOf(units) {
     var time, startOfDate;
-    if (void 0 === (units = normalizeUnits(units)) || 'millisecond' === units || !this.isValid()) return this;
+    if (units = normalizeUnits(units), void 0 === units || 'millisecond' === units || !this.isValid()) return this;
     switch(startOfDate = this._isUTC ? utcStartOfDate : localStartOfDate, units){
         case 'year':
             time = startOfDate(this.year(), 0, 1);
@@ -47,7 +47,7 @@ function startOf(units) {
 }
 function endOf(units) {
     var time, startOfDate;
-    if (void 0 === (units = normalizeUnits(units)) || 'millisecond' === units || !this.isValid()) return this;
+    if (units = normalizeUnits(units), void 0 === units || 'millisecond' === units || !this.isValid()) return this;
     switch(startOfDate = this._isUTC ? utcStartOfDate : localStartOfDate, units){
         case 'year':
             time = startOfDate(this.year() + 1, 0, 1) - 1;

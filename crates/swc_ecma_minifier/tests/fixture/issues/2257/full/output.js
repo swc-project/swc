@@ -541,15 +541,15 @@
                         var ref = _react.useState(window.__ICE_PAGE_PROPS__), data = ref[0], setData = ref[1];
                         return _react.useEffect(function() {
                             title && (document.title = title), scrollToTop && window.scrollTo(0, 0), window.__ICE_PAGE_PROPS__ ? window.__ICE_PAGE_PROPS__ = null : PageComponent.getInitialProps && swcHelpers.asyncToGenerator(_regeneratorRuntime.default.mark(function _callee() {
-                                var _location, href, origin, pathname, search, initialContext;
+                                var _location, href, origin, pathname, search, curPath, query, ssrError, initialContext;
                                 return _regeneratorRuntime.default.wrap(function(_ctx) {
                                     for(;;)switch(_ctx.prev = _ctx.next){
                                         case 0:
-                                            return href = (_location = window.location).href, origin = _location.origin, pathname = _location.pathname, search = _location.search, initialContext = {
+                                            return href = (_location = window.location).href, origin = _location.origin, pathname = _location.pathname, search = _location.search, curPath = href.replace(origin, ""), query = queryString.parse(search), ssrError = window.__ICE_SSR_ERROR__, initialContext = {
                                                 pathname: pathname,
-                                                path: href.replace(origin, ""),
-                                                query: queryString.parse(search),
-                                                ssrError: window.__ICE_SSR_ERROR__
+                                                path: curPath,
+                                                query: query,
+                                                ssrError: ssrError
                                             }, _ctx.next = 7, PageComponent.getInitialProps(initialContext);
                                         case 7:
                                             setData(_ctx.sent);
@@ -6729,17 +6729,17 @@
             });
         },
         60211: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
-            var $ = __webpack_require__(35437), DESCRIPTORS = __webpack_require__(87122), anObject = __webpack_require__(83941), toPropertyKey = __webpack_require__(10482), definePropertyModule = __webpack_require__(94770);
+            var $ = __webpack_require__(35437), DESCRIPTORS = __webpack_require__(87122), anObject = __webpack_require__(83941), toPropertyKey = __webpack_require__(10482), definePropertyModule = __webpack_require__(94770), ERROR_INSTEAD_OF_FALSE = __webpack_require__(60232)(function() {
+                Reflect.defineProperty(definePropertyModule.f({}, 1, {
+                    value: 1
+                }), 1, {
+                    value: 2
+                });
+            });
             $({
                 target: "Reflect",
                 stat: !0,
-                forced: __webpack_require__(60232)(function() {
-                    Reflect.defineProperty(definePropertyModule.f({}, 1, {
-                        value: 1
-                    }), 1, {
-                        value: 2
-                    });
-                }),
+                forced: ERROR_INSTEAD_OF_FALSE,
                 sham: !DESCRIPTORS
             }, {
                 defineProperty: function(target, propertyKey, attributes) {
@@ -6866,16 +6866,16 @@
             });
         },
         84450: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
-            var $ = __webpack_require__(35437), anObject = __webpack_require__(83941), isObject = __webpack_require__(39817), isDataDescriptor = __webpack_require__(69518), fails = __webpack_require__(60232), definePropertyModule = __webpack_require__(94770), getOwnPropertyDescriptorModule = __webpack_require__(24722), getPrototypeOf = __webpack_require__(39311), createPropertyDescriptor = __webpack_require__(93608);
+            var $ = __webpack_require__(35437), anObject = __webpack_require__(83941), isObject = __webpack_require__(39817), isDataDescriptor = __webpack_require__(69518), fails = __webpack_require__(60232), definePropertyModule = __webpack_require__(94770), getOwnPropertyDescriptorModule = __webpack_require__(24722), getPrototypeOf = __webpack_require__(39311), createPropertyDescriptor = __webpack_require__(93608), MS_EDGE_BUG = fails(function() {
+                var Constructor = function() {}, object = definePropertyModule.f(new Constructor(), "a", {
+                    configurable: !0
+                });
+                return !1 !== Reflect.set(Constructor.prototype, "a", 1, object);
+            });
             $({
                 target: "Reflect",
                 stat: !0,
-                forced: fails(function() {
-                    var Constructor = function() {}, object = definePropertyModule.f(new Constructor(), "a", {
-                        configurable: !0
-                    });
-                    return !1 !== Reflect.set(Constructor.prototype, "a", 1, object);
-                })
+                forced: MS_EDGE_BUG
             }, {
                 set: function set(target, propertyKey, V) {
                     var existingDescriptor, prototype, setter, receiver = arguments.length < 4 ? target : arguments[3], ownDescriptor = getOwnPropertyDescriptorModule.f(anObject(target), propertyKey);
@@ -7493,7 +7493,14 @@
         },
         1752: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var fixRegExpWellKnownSymbolLogic = __webpack_require__(29045), isRegExp = __webpack_require__(78202), anObject = __webpack_require__(83941), requireObjectCoercible = __webpack_require__(79602), speciesConstructor = __webpack_require__(94850), advanceStringIndex = __webpack_require__(88770), toLength = __webpack_require__(31998), toString1 = __webpack_require__(72729), getMethod = __webpack_require__(84316), callRegExpExec = __webpack_require__(21135), regexpExec = __webpack_require__(72384), stickyHelpers = __webpack_require__(44725), fails = __webpack_require__(60232), UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y, arrayPush = [].push, min = Math.min;
+            var fixRegExpWellKnownSymbolLogic = __webpack_require__(29045), isRegExp = __webpack_require__(78202), anObject = __webpack_require__(83941), requireObjectCoercible = __webpack_require__(79602), speciesConstructor = __webpack_require__(94850), advanceStringIndex = __webpack_require__(88770), toLength = __webpack_require__(31998), toString1 = __webpack_require__(72729), getMethod = __webpack_require__(84316), callRegExpExec = __webpack_require__(21135), regexpExec = __webpack_require__(72384), stickyHelpers = __webpack_require__(44725), fails = __webpack_require__(60232), UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y, arrayPush = [].push, min = Math.min, SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails(function() {
+                var re = /(?:)/, originalExec = re.exec;
+                re.exec = function() {
+                    return originalExec.apply(this, arguments);
+                };
+                var result = "ab".split(re);
+                return 2 !== result.length || "a" !== result[0] || "b" !== result[1];
+            });
             fixRegExpWellKnownSymbolLogic("split", function(SPLIT, nativeSplit, maybeCallNative) {
                 var internalSplit;
                 return internalSplit = "c" == "abbc".split(/(b)*/)[1] || 4 != "test".split(/(?:)/, -1).length || 2 != "ab".split(/(?:ab)*/).length || 4 != ".".split(/(.?)(.?)/).length || ".".split(/()()/).length > 1 || "".split(/.?/).length ? function(separator, limit) {
@@ -7533,14 +7540,7 @@
                         return A.push(S.slice(p)), A;
                     }
                 ];
-            }, !!fails(function() {
-                var re = /(?:)/, originalExec = re.exec;
-                re.exec = function() {
-                    return originalExec.apply(this, arguments);
-                };
-                var result = "ab".split(re);
-                return 2 !== result.length || "a" !== result[0] || "b" !== result[1];
-            }), UNSUPPORTED_Y);
+            }, !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC, UNSUPPORTED_Y);
         },
         24467: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
@@ -7745,7 +7745,7 @@
                     has(AllSymbols, key) && (!IS_OBJECT_PROTOTYPE || has(ObjectPrototype, key)) && result.push(AllSymbols[key]);
                 }), result;
             };
-            if (NATIVE_SYMBOL || (redefine(($Symbol = function() {
+            if (NATIVE_SYMBOL || ($Symbol = function() {
                 if (this instanceof $Symbol) throw TypeError("Symbol is not a constructor");
                 var description = arguments.length && void 0 !== arguments[0] ? $toString(arguments[0]) : void 0, tag = uid(description), setter = function(value) {
                     this === ObjectPrototype && setter.call(ObjectPrototypeSymbols, value), has(this, HIDDEN) && has(this[HIDDEN], tag) && (this[HIDDEN][tag] = !1), setSymbolDescriptor(this, tag, createPropertyDescriptor(1, value));
@@ -7754,7 +7754,7 @@
                     configurable: !0,
                     set: setter
                 }), wrap(tag, description);
-            })[PROTOTYPE], "toString", function() {
+            }, redefine($Symbol[PROTOTYPE], "toString", function() {
                 return getInternalState(this).tag;
             }), redefine($Symbol, "withoutSetter", function(description) {
                 return wrap(uid(description), description);
@@ -9552,7 +9552,7 @@
             }
             function createBrowserHistory(props) {
                 void 0 === props && (props = {}), canUseDOM || (0, tiny_invariant_esm.default)(!1);
-                var ua, globalHistory = window.history, canUseHistory = (-1 === (ua = window.navigator.userAgent).indexOf("Android 2.") && -1 === ua.indexOf("Android 4.0") || -1 === ua.indexOf("Mobile Safari") || -1 !== ua.indexOf("Chrome") || -1 !== ua.indexOf("Windows Phone")) && window.history && "pushState" in window.history, needsHashChangeListener = -1 !== window.navigator.userAgent.indexOf("Trident"), _props = props, _props$forceRefresh = _props.forceRefresh, forceRefresh = void 0 !== _props$forceRefresh && _props$forceRefresh, _props$getUserConfirm = _props.getUserConfirmation, getUserConfirmation = void 0 === _props$getUserConfirm ? getConfirmation : _props$getUserConfirm, _props$keyLength = _props.keyLength, keyLength = void 0 === _props$keyLength ? 6 : _props$keyLength, basename = props.basename ? stripTrailingSlash(addLeadingSlash(props.basename)) : "";
+                var ua, globalHistory = window.history, canUseHistory = (ua = window.navigator.userAgent, (-1 === ua.indexOf("Android 2.") && -1 === ua.indexOf("Android 4.0") || -1 === ua.indexOf("Mobile Safari") || -1 !== ua.indexOf("Chrome") || -1 !== ua.indexOf("Windows Phone")) && window.history && "pushState" in window.history), needsHashChangeListener = -1 !== window.navigator.userAgent.indexOf("Trident"), _props = props, _props$forceRefresh = _props.forceRefresh, forceRefresh = void 0 !== _props$forceRefresh && _props$forceRefresh, _props$getUserConfirm = _props.getUserConfirmation, getUserConfirmation = void 0 === _props$getUserConfirm ? getConfirmation : _props$getUserConfirm, _props$keyLength = _props.keyLength, keyLength = void 0 === _props$keyLength ? 6 : _props$keyLength, basename = props.basename ? stripTrailingSlash(addLeadingSlash(props.basename)) : "";
                 function getDOMLocation(historyState) {
                     var _ref = historyState || {}, key = _ref.key, state = _ref.state, _window$location = window.location, path = _window$location.pathname + _window$location.search + _window$location.hash;
                     return basename && (path = stripBasename(path, basename)), createLocation(path, state, key);
@@ -10592,7 +10592,7 @@
             }, exports.getRenderApp = getRenderApp, exports.reactAppRenderer = function(options) {
                 var _a;
                 return __awaiter(this, void 0, void 0, function() {
-                    var appConfig, _b, buildConfig, appLifecycle, createBaseApp, emitLifeCycles, initAppLifeCycles, context, _c, href, origin_1, pathname, search, initialContext, _d, _e, runtime, modifiedAppConfig;
+                    var appConfig, _b, buildConfig, appLifecycle, createBaseApp, emitLifeCycles, initAppLifeCycles, context, _c, href, origin_1, pathname, search, path, query, ssrError, initialContext, _d, _e, runtime, modifiedAppConfig;
                     return __generator(this, function(_f) {
                         switch(_f.label){
                             case 0:
@@ -10609,11 +10609,11 @@
                                     3,
                                     3
                                 ];
-                                return href = (_c = window.location).href, origin_1 = _c.origin, pathname = _c.pathname, search = _c.search, initialContext = {
+                                return href = (_c = window.location).href, origin_1 = _c.origin, pathname = _c.pathname, search = _c.search, path = href.replace(origin_1, ""), query = queryString.parse(search), ssrError = window.__ICE_SSR_ERROR__, initialContext = {
                                     pathname: pathname,
-                                    path: href.replace(origin_1, ""),
-                                    query: queryString.parse(search),
-                                    ssrError: window.__ICE_SSR_ERROR__
+                                    path: path,
+                                    query: query,
+                                    ssrError: ssrError
                                 }, _d = context, [
                                     4,
                                     appConfig.app.getInitialData(initialContext)
@@ -11774,11 +11774,11 @@
                 animationName: 0,
                 elapsedTime: 0,
                 pseudoElement: 0
-            })), Jd = rd(m({}, sd, {
+            })), Id = m({}, sd, {
                 clipboardData: function(a) {
                     return "clipboardData" in a ? a.clipboardData : window.clipboardData;
                 }
-            })), Ld = rd(m({}, sd, {
+            }), Jd = rd(Id), Ld = rd(m({}, sd, {
                 data: 0
             })), Md = {
                 Esc: "Escape",
@@ -12309,7 +12309,7 @@
                             null !== k && hf(g, h, k, w, !1), null !== x && null !== z && hf(g, z, x, w, !0);
                         }
                         a: {
-                            if ("select" === (k = (h = d ? ue(d) : window).nodeName && h.nodeName.toLowerCase()) || "input" === k && "file" === h.type) var Q, J = ve;
+                            if (k = (h = d ? ue(d) : window).nodeName && h.nodeName.toLowerCase(), "select" === k || "input" === k && "file" === h.type) var Q, J = ve;
                             else if (me(h)) {
                                 if (we) J = Fe;
                                 else {

@@ -4693,7 +4693,7 @@
                     prop.length && (this[prop[0]] = args[prop[0]]);
                 }, Component.prototype.mergePersistData = function() {
                     var data;
-                    util_isNullOrUndefined(data = window.localStorage.getItem(this.getModuleName() + this.element.id)) || '' === data || this.setProperties(JSON.parse(data), !0);
+                    data = window.localStorage.getItem(this.getModuleName() + this.element.id), util_isNullOrUndefined(data) || '' === data || this.setProperties(JSON.parse(data), !0);
                 }, Component.prototype.setPersistData = function() {
                     this.isDestroyed || window.localStorage.setItem(this.getModuleName() + this.element.id, this.getPersistData());
                 }, Component.prototype.renderReactTemplates = function() {}, Component.prototype.clearTemplate = function(templateName, index) {}, Component.prototype.getUniqueID = function(definedName) {
@@ -4965,13 +4965,13 @@
                         if (this.enableAutoScroll && this.helperElement.classList.contains('e-treeview')) {
                             0 === elements.length && (elements = this.getPathElements(evt));
                             var scrollParent = this.getScrollParent(elements, !1);
-                            this.elementInViewport(this.helperElement) ? this.getScrollPosition(scrollParent, draEleTop) : this.elementInViewport(this.helperElement) || (0 === (elements = [].slice.call(document.querySelectorAll(':hover'))).length && (elements = this.getPathElements(evt)), scrollParent = this.getScrollParent(elements, !0), this.getScrollPosition(scrollParent, draEleTop));
+                            this.elementInViewport(this.helperElement) ? this.getScrollPosition(scrollParent, draEleTop) : this.elementInViewport(this.helperElement) || (elements = [].slice.call(document.querySelectorAll(':hover')), 0 === elements.length && (elements = this.getPathElements(evt)), scrollParent = this.getScrollParent(elements, !0), this.getScrollPosition(scrollParent, draEleTop));
                         }
                         this.dragProcessStarted = !0, this.prevLeft = left, this.prevTop = top1, this.position.left = left, this.position.top = top1, this.pageX = pagex, this.pageY = pagey;
                     }
                 }, Draggable.prototype.getScrollParent = function(node, reverse) {
-                    for(var hasScroll, nodeEl = reverse ? node.reverse() : node, i = nodeEl.length - 1; i >= 0; i--)if (('auto' === (hasScroll = window.getComputedStyle(nodeEl[i])['overflow-y']) || 'scroll' === hasScroll) && nodeEl[i].scrollHeight > nodeEl[i].clientHeight) return nodeEl[i];
-                    if ('visible' === (hasScroll = window.getComputedStyle(document.scrollingElement)['overflow-y'])) return document.scrollingElement.style.overflow = 'auto', document.scrollingElement;
+                    for(var hasScroll, nodeEl = reverse ? node.reverse() : node, i = nodeEl.length - 1; i >= 0; i--)if (hasScroll = window.getComputedStyle(nodeEl[i])['overflow-y'], ('auto' === hasScroll || 'scroll' === hasScroll) && nodeEl[i].scrollHeight > nodeEl[i].clientHeight) return nodeEl[i];
+                    if (hasScroll = window.getComputedStyle(document.scrollingElement)['overflow-y'], 'visible' === hasScroll) return document.scrollingElement.style.overflow = 'auto', document.scrollingElement;
                 }, Draggable.prototype.getScrollPosition = function(nodeEle, draEleTop) {
                     nodeEle && nodeEle === document.scrollingElement ? nodeEle.clientHeight - nodeEle.getBoundingClientRect().top - this.helperElement.clientHeight < draEleTop && nodeEle.getBoundingClientRect().height > draEleTop ? nodeEle.scrollTop += this.helperElement.clientHeight : nodeEle.scrollHeight - nodeEle.clientHeight > draEleTop && (nodeEle.scrollTop -= this.helperElement.clientHeight) : nodeEle && nodeEle !== document.scrollingElement && (nodeEle.clientHeight + nodeEle.getBoundingClientRect().top - this.helperElement.clientHeight < draEleTop ? nodeEle.scrollTop += this.helperElement.clientHeight : nodeEle.getBoundingClientRect().top > draEleTop - this.helperElement.clientHeight && (nodeEle.scrollTop -= this.helperElement.clientHeight));
                 }, Draggable.prototype.getPathElements = function(evt) {
@@ -7179,8 +7179,8 @@
                 return window.innerHeight;
             }
             function getViewPortWidth() {
-                var windowWidth = window.innerWidth, documentReact = document.documentElement.getBoundingClientRect();
-                return windowWidth - (windowWidth - ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(document.documentElement) ? 0 : documentReact.width));
+                var windowWidth = window.innerWidth, documentReact = document.documentElement.getBoundingClientRect(), offsetWidth = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(document.documentElement) ? 0 : documentReact.width;
+                return windowWidth - (windowWidth - offsetWidth);
             }
         },
         6216: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {

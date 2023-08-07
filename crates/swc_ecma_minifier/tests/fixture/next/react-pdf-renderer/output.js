@@ -2736,7 +2736,7 @@
                     var o = rJ(e.children[i], n, t);
                     o = rX(o), n += o.length, r = r.concat(o);
                 }
-                return rI(r = r.map(function() {
+                return r = r.map(function() {
                     for(var e, r = arguments.length, n = Array(r), i = 0; i < r; i++)n[i] = arguments[i];
                     return e = rZ.apply(void 0, [
                         t
@@ -2744,7 +2744,7 @@
                         "subPageNumber",
                         "subPageTotalPages"
                     ], e);
-                }), e);
+                }), rI(r, e);
             }, tO, function e(t) {
                 var r = a.evolve({
                     borderTopLeftRadius: r$(t.box),
@@ -4179,78 +4179,78 @@
                     return t.apply(this, arguments);
                 }), c = function(e) {
                     void 0 === e && (e = {}), o.document.props.onRender && o.document.props.onRender(e);
-                };
+                }, f = (r = p(y().mark(function e() {
+                    var t;
+                    return y().wrap(function(e) {
+                        for(;;)switch(e.prev = e.next){
+                            case 0:
+                                return e.next = 2, s();
+                            case 2:
+                                return t = e.sent.pipe(v()()), e.abrupt("return", new Promise(function(e, r) {
+                                    t.on("finish", function() {
+                                        try {
+                                            var n = t.toBlob("application/pdf");
+                                            c({
+                                                blob: n
+                                            }), e(n);
+                                        } catch (e) {
+                                            r(e);
+                                        }
+                                    }), t.on("error", r);
+                                }));
+                            case 5:
+                            case "end":
+                                return e.stop();
+                        }
+                    }, e);
+                })), function() {
+                    return r.apply(this, arguments);
+                }), d = (n = p(y().mark(function e() {
+                    return y().wrap(function(e) {
+                        for(;;)switch(e.prev = e.next){
+                            case 0:
+                                return c(), e.abrupt("return", s());
+                            case 2:
+                            case "end":
+                                return e.stop();
+                        }
+                    }, e);
+                })), function() {
+                    return n.apply(this, arguments);
+                }), h = (i = p(y().mark(function e() {
+                    var t, r;
+                    return y().wrap(function(e) {
+                        for(;;)switch(e.prev = e.next){
+                            case 0:
+                                return t = "", e.next = 3, s(!1);
+                            case 3:
+                                return r = e.sent, e.abrupt("return", new Promise(function(e, n) {
+                                    try {
+                                        r.on("data", function(e) {
+                                            t += e;
+                                        }), r.on("end", function() {
+                                            c(), e(t);
+                                        });
+                                    } catch (e) {
+                                        n(e);
+                                    }
+                                }));
+                            case 5:
+                            case "end":
+                                return e.stop();
+                        }
+                    }, e);
+                })), function() {
+                    return i.apply(this, arguments);
+                });
                 return {
                     on: function(e, t) {
                         tw[e] || (tw[e] = []), tw[e].push(t);
                     },
                     container: o,
-                    toBlob: (r = p(y().mark(function e() {
-                        var t;
-                        return y().wrap(function(e) {
-                            for(;;)switch(e.prev = e.next){
-                                case 0:
-                                    return e.next = 2, s();
-                                case 2:
-                                    return t = e.sent.pipe(v()()), e.abrupt("return", new Promise(function(e, r) {
-                                        t.on("finish", function() {
-                                            try {
-                                                var n = t.toBlob("application/pdf");
-                                                c({
-                                                    blob: n
-                                                }), e(n);
-                                            } catch (e) {
-                                                r(e);
-                                            }
-                                        }), t.on("error", r);
-                                    }));
-                                case 5:
-                                case "end":
-                                    return e.stop();
-                            }
-                        }, e);
-                    })), function() {
-                        return r.apply(this, arguments);
-                    }),
-                    toBuffer: (n = p(y().mark(function e() {
-                        return y().wrap(function(e) {
-                            for(;;)switch(e.prev = e.next){
-                                case 0:
-                                    return c(), e.abrupt("return", s());
-                                case 2:
-                                case "end":
-                                    return e.stop();
-                            }
-                        }, e);
-                    })), function() {
-                        return n.apply(this, arguments);
-                    }),
-                    toString: (i = p(y().mark(function e() {
-                        var t, r;
-                        return y().wrap(function(e) {
-                            for(;;)switch(e.prev = e.next){
-                                case 0:
-                                    return t = "", e.next = 3, s(!1);
-                                case 3:
-                                    return r = e.sent, e.abrupt("return", new Promise(function(e, n) {
-                                        try {
-                                            r.on("data", function(e) {
-                                                t += e;
-                                            }), r.on("end", function() {
-                                                c(), e(t);
-                                            });
-                                        } catch (e) {
-                                            n(e);
-                                        }
-                                    }));
-                                case 5:
-                                case "end":
-                                    return e.stop();
-                            }
-                        }, e);
-                    })), function() {
-                        return i.apply(this, arguments);
-                    }),
+                    toBlob: f,
+                    toBuffer: d,
+                    toString: h,
                     removeListener: function(e, t) {
                         if (tw[e]) {
                             var r = tw[e].indexOf(t);
@@ -8378,7 +8378,7 @@
                     }), this.text = function() {
                         var e, t, r, n = s(this);
                         if (n) return n;
-                        if (this._bodyBlob) return e = this._bodyBlob, r = c(t = new FileReader()), t.readAsText(e), r;
+                        if (this._bodyBlob) return e = this._bodyBlob, t = new FileReader(), r = c(t), t.readAsText(e), r;
                         if (this._bodyArrayBuffer) return Promise.resolve(function(e) {
                             for(var t = new Uint8Array(e), r = Array(t.length), n = 0; n < t.length; n++)r[n] = String.fromCharCode(t[n]);
                             return r.join("");

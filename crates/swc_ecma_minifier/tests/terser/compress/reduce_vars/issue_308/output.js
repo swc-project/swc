@@ -3,6 +3,7 @@ function _inherits(superClass) {
     Object.create(superClass);
 }
 function withStyles() {
-    _inherits(EXTERNAL());
+    var a = EXTERNAL();
+    _inherits(a);
 }
 exports.withStyles = withStyles;

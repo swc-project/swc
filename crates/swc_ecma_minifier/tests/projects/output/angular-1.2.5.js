@@ -116,7 +116,7 @@
     function isScope(obj) {
         return obj && obj.$evalAsync && obj.$watch;
     }
-    isNaN(msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], identity.$inject = [];
+    msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1]), isNaN(msie) && (msie = int((/trident\/.*; rv:(\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])), noop.$inject = [], identity.$inject = [];
     var trim = String.prototype.trim ? function(value) {
         return isString(value) ? value.trim() : value;
     } : function(value) {
