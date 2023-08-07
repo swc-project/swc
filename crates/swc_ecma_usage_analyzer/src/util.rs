@@ -48,6 +48,17 @@ pub fn is_global_var_with_pure_property_access(s: &JsWord) -> bool {
             | "NaN"
             | "Symbol"
             | "Promise"
+            | "Int8Array"
+            | "Uint8Array"
+            | "Uint8ClampedArray"
+            | "Int16Array"
+            | "Uint16Array"
+            | "Int32Array"
+            | "Uint32Array"
+            | "Float32Array"
+            | "Float64Array"
+            | "BigInt64Array"
+            | "BigUint64Array"
     )
 }
 
