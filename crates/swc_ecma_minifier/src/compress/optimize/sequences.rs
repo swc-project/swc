@@ -1095,15 +1095,11 @@ impl Optimizer<'_> {
                 false
             }
 
-            Expr::Array(e) => {
-                for elem in e.elems.iter().flatten() {
-                    if self.is_a_expr_unalyzable_for_seq_inliner(&elem.expr) {
-                        return true;
-                    }
-                }
-
-                false
-            }
+            Expr::Array(e) => e
+                .elems
+                .iter()
+                .flatten()
+                .any(|e| self.is_a_expr_unalyzable_for_seq_inliner(&e.expr)),
 
             Expr::Object(e) => {}
             Expr::Fn(e) => {}
@@ -1147,7 +1143,10 @@ impl Optimizer<'_> {
 
                 false
             }
-            Expr::Seq(e) => {}
+            Expr::Seq(e) => e
+                .exprs
+                .iter()
+                .any(|e| self.is_a_expr_unalyzable_for_seq_inliner(e)),
 
             Expr::Tpl(e) => {}
             Expr::TaggedTpl(e) => {}
