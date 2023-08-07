@@ -1103,7 +1103,7 @@ impl Optimizer<'_> {
                 }
             }
             Mergable::Expr(a) => match a {
-                Expr::Assign(a @ AssignExpr { op: op!("="), .. }) => {
+                Expr::Assign(a) => {
                     // We only inline identifiers
                     if a.left.as_ident().is_none() {
                         return true;
