@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = "Apache-2.0"
 name        = "swc_ecma_lints"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.85.12"
+version     = "0.85.13"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
@@ -29,13 +29,13 @@ swc_config = { version = "0.1.7", path = "../swc_config" }
 swc_ecma_ast = { version = "0.107.3", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_utils = { version = "0.120.10", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "0.120.11", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.93.3", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_ecma_codegen         = { version = "0.142.7", path = "../swc_ecma_codegen" }
-swc_ecma_parser          = { version = "0.137.7", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.130.12", path = "../swc_ecma_transforms_base" }
+swc_ecma_codegen         = { version = "0.142.8", path = "../swc_ecma_codegen" }
+swc_ecma_parser          = { version = "0.137.8", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "0.130.13", path = "../swc_ecma_transforms_base" }
 testing                  = { version = "0.33.21", path = "../testing" }
 
 [features]
