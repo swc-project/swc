@@ -1165,9 +1165,15 @@ impl Optimizer<'_> {
             }
             Expr::Arrow(e) => {}
             Expr::Class(e) => {}
-            Expr::Yield(e) => {}
+            Expr::Yield(e) => {
+                if let Some(arg) = &e.arg {
+                    self.is_a_expr_unalyzable_for_seq_inliner(arg)
+                } else {
+                    false
+                }
+            }
             Expr::MetaProp(e) => {}
-            Expr::Await(e) => {}
+            Expr::Await(e) => self.is_a_expr_unalyzable_for_seq_inliner(&e.arg),
             Expr::Paren(e) => self.is_a_expr_unalyzable_for_seq_inliner(&e.expr),
             Expr::PrivateName(e) => {}
             Expr::OptChain(e) => {}
