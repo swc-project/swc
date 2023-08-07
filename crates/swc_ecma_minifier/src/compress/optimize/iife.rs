@@ -635,7 +635,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                trace_op!("iife: Empry function");
+                trace_op!("iife: Empty function");
 
                 let body = f.function.body.as_mut().unwrap();
                 if body.stmts.is_empty() && call.args.is_empty() {
@@ -724,7 +724,7 @@ impl Optimizer<'_> {
         // Abort on eval.
         // See https://github.com/swc-project/swc/pull/6478
         //
-        // We completetly abort on eval, because we cannot know whether a variable in
+        // We completely abort on eval, because we cannot know whether a variable in
         // upper scope will be afftected by eval.
         // https://github.com/swc-project/swc/issues/6628
         if self.data.top.has_eval_call {
@@ -1077,11 +1077,14 @@ impl Optimizer<'_> {
 
             Expr::Arrow(ArrowExpr {
                 params,
-                body: box BlockStmtOrExpr::Expr(body),
+                body,
                 is_async: false,
                 is_generator: false,
                 ..
-            }) => params.iter().all(|p| p.is_ident()) && self.can_be_inlined_for_iife(body),
+            }) if body.is_expr() => {
+                params.iter().all(|p| p.is_ident())
+                    && self.can_be_inlined_for_iife(body.as_expr().unwrap())
+            }
 
             _ => false,
         }

@@ -131,35 +131,32 @@ impl Pure<'_> {
                 return;
             }
 
-            if let Expr::Arrow(
-                m @ ArrowExpr {
-                    body: box BlockStmtOrExpr::BlockStmt(..),
-                    ..
-                },
-            ) = &mut *kv.value
-            {
-                *p = Prop::Method(MethodProp {
-                    key: kv.key.take(),
-                    function: Box::new(Function {
-                        params: m
-                            .params
-                            .take()
-                            .into_iter()
-                            .map(|pat| Param {
-                                span: DUMMY_SP,
-                                decorators: Default::default(),
-                                pat,
-                            })
-                            .collect(),
-                        decorators: Default::default(),
-                        span: m.span,
-                        body: m.body.take().block_stmt(),
-                        is_generator: m.is_generator,
-                        is_async: m.is_async,
-                        type_params: Default::default(),
-                        return_type: Default::default(),
-                    }),
-                });
+            match &mut *kv.value {
+                Expr::Arrow(m) if m.body.is_block_stmt() => {
+                    *p = Prop::Method(MethodProp {
+                        key: kv.key.take(),
+                        function: Box::new(Function {
+                            params: m
+                                .params
+                                .take()
+                                .into_iter()
+                                .map(|pat| Param {
+                                    span: DUMMY_SP,
+                                    decorators: Default::default(),
+                                    pat,
+                                })
+                                .collect(),
+                            decorators: Default::default(),
+                            span: m.span,
+                            body: m.body.take().block_stmt(),
+                            is_generator: m.is_generator,
+                            is_async: m.is_async,
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        }),
+                    });
+                }
+                _ => (),
             }
         }
     }
