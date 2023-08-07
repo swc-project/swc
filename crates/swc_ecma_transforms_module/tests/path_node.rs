@@ -100,11 +100,14 @@ fn paths_resolver(
     let base_url = base_url.as_ref().to_path_buf();
     dbg!(&base_url);
 
-    NodeImportResolver::new(TsConfigResolver::new(
-        NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
-        base_url,
-        rules,
-    ))
+    NodeImportResolver::with_base_dir(
+        TsConfigResolver::new(
+            NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
+            base_url.clone(),
+            rules,
+        ),
+        Some(base_url),
+    )
 }
 
 #[derive(Deserialize)]
