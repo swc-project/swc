@@ -1,7 +1,4 @@
-use std::{
-    env::current_dir,
-    path::{Path, PathBuf},
-};
+use std::path::{Path, PathBuf};
 
 use indexmap::IndexMap;
 use serde::Deserialize;
