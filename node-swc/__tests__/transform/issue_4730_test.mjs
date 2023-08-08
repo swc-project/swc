@@ -21,6 +21,7 @@ it("should work", async () => {
                 dynamicImport: true,
             },
             target: "es2020",
+            baseUrl: '.',
             paths: {
                 "@print/a": [join(dir, "./packages/a/src/index.ts")],
                 "@print/b": [join(dir, "./packages/b/src/index.ts")],
