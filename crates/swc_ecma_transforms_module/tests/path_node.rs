@@ -37,7 +37,9 @@ fn node_modules() {
 
 #[test]
 fn issue_4730() {
-    let dir = Path::new("tests/fixture-manual/issue-4730");
+    let dir = Path::new("tests/fixture-manual/issue-4730")
+        .canonicalize()
+        .unwrap();
     let input_dir = dir.join("input");
     let output_dir = dir.join("output");
 
@@ -47,11 +49,7 @@ fn issue_4730() {
             let mut paths = IndexMap::new();
             paths.insert(
                 "@print/a".into(),
-                vec![current_dir()
-                    .unwrap()
-                    .join("tests")
-                    .join("fixture-manual")
-                    .join("issue-4730")
+                vec![dir
                     .join("input")
                     .join("packages")
                     .join("a")
@@ -62,11 +60,7 @@ fn issue_4730() {
             );
             paths.insert(
                 "@print/b".into(),
-                vec![current_dir()
-                    .unwrap()
-                    .join("tests")
-                    .join("fixture-manual")
-                    .join("issue-4730")
+                vec![dir
                     .join("input")
                     .join("packages")
                     .join("b")
