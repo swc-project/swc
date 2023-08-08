@@ -99,6 +99,7 @@ where
     }
 
     pub fn with_base_dir(resolver: R, base_dir: Option<PathBuf>) -> Self {
+        #[cfg(not(target_arch = "wasm32"))]
         if let Some(base_dir) = &base_dir {
             assert!(
                 base_dir.is_absolute(),
