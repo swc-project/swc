@@ -100,9 +100,10 @@ where
 
     pub fn with_base_dir(resolver: R, base_dir: Option<PathBuf>) -> Self {
         if let Some(base_dir) = &base_dir {
-            debug_assert!(
+            assert!(
                 base_dir.is_absolute(),
-                "base_dir({}) must be absolute",
+                "base_dir({}) must be absolute. Please ensure that `jsc.baseUrl` is specified \
+                 correctly.",
                 base_dir.display()
             );
         }
