@@ -24,11 +24,11 @@ fn tr(
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    let avalible_set = FeatureFlag::all();
+    let available_set = FeatureFlag::all();
 
     chain!(
         resolver(unresolved_mark, top_level_mark, typescript),
-        common_js(unresolved_mark, config, avalible_set, Some(comments)),
+        common_js(unresolved_mark, config, available_set, Some(comments)),
     )
 }
 
