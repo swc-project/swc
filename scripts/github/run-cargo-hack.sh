@@ -16,6 +16,6 @@ if echo $json_str | jq -e ".check.\"$crate\"" > /dev/null; then
 
     while IFS= read -r line; do
         echo "    Running '$line'"
-        $line
+        (cd "crates/$crate" && $line)
     done <<< "$check_commands"
 fi
