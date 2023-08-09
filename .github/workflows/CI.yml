@@ -677,7 +677,7 @@ jobs:
         env:
           SWC_FORCE_CONCURRENT: "1"
         run: |
-          ./scripts/ci/test-concurrent.sh ${{ matrix.settings.crate }}
+          ./scripts/github/test-concurrent.sh ${{ matrix.settings.crate }}
 
       - name: Run cargo test (swc, concurrent)
         shell: bash
