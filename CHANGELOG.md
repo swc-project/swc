@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/module)** Use `jsc.baseUrl` while resolving absolute paths (#7775) ([5c4bfa6](https://github.com/swc-project/swc/commit/5c4bfa61f9e4f7732bc1a9da6cd25f52e593a374))
+
 ## [1.3.75] - 2023-08-08
 
 ### Bug Fixes
