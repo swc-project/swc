@@ -853,7 +853,7 @@ impl Visit for ThisPropertyVisitor {
         if let Expr::This(..) = &*e.obj {
             match &e.prop {
                 MemberProp::Ident(p) => {
-                    self.properties.insert(p.sym);
+                    self.properties.insert(p.sym.clone());
                 }
                 MemberProp::Computed(_) => {
                     self.should_abort = true;
