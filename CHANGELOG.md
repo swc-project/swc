@@ -1,4 +1,33 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Abort seq inliner if a same var is defined in outer scope (#7772) ([ef8d121](https://github.com/swc-project/swc/commit/ef8d12154ddaad47eddb41298bae14460834be0c))
+
+
+- **(es/module)** Use `jsc.baseUrl` while resolving absolute paths (#7775) ([5c4bfa6](https://github.com/swc-project/swc/commit/5c4bfa61f9e4f7732bc1a9da6cd25f52e593a374))
+
+### Features
+
+
+
+- **(es/minifier)** Support `mangle.eval` (#7777) ([eff0cac](https://github.com/swc-project/swc/commit/eff0caca2b6bfd383c8369cf0f4cdad86bb9e575))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Cleanup CI (#7787) ([ab39f1c](https://github.com/swc-project/swc/commit/ab39f1c3c83c7156e6e9979773bf542a59d9b4f4))
+
+### Performance
+
+
+
+- **(es/compat)** Improve time complexity of `class_properties` (#7786) ([76c6258](https://github.com/swc-project/swc/commit/76c6258d1544ede09cb4f281c42e1fc80ad4145b))
+
 ## [1.3.75] - 2023-08-08
 
 ### Bug Fixes

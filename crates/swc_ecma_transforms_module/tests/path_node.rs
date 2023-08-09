@@ -1,7 +1,4 @@
-use std::{
-    env::current_dir,
-    path::{Path, PathBuf},
-};
+use std::path::{Path, PathBuf};
 
 use indexmap::IndexMap;
 use serde::Deserialize;
@@ -37,7 +34,9 @@ fn node_modules() {
 
 #[test]
 fn issue_4730() {
-    let dir = Path::new("tests/fixture-manual/issue-4730");
+    let dir = Path::new("tests/fixture-manual/issue-4730")
+        .canonicalize()
+        .unwrap();
     let input_dir = dir.join("input");
     let output_dir = dir.join("output");
 
@@ -47,11 +46,7 @@ fn issue_4730() {
             let mut paths = IndexMap::new();
             paths.insert(
                 "@print/a".into(),
-                vec![current_dir()
-                    .unwrap()
-                    .join("tests")
-                    .join("fixture-manual")
-                    .join("issue-4730")
+                vec![dir
                     .join("input")
                     .join("packages")
                     .join("a")
@@ -62,11 +57,7 @@ fn issue_4730() {
             );
             paths.insert(
                 "@print/b".into(),
-                vec![current_dir()
-                    .unwrap()
-                    .join("tests")
-                    .join("fixture-manual")
-                    .join("issue-4730")
+                vec![dir
                     .join("input")
                     .join("packages")
                     .join("b")
@@ -97,14 +88,21 @@ fn paths_resolver(
     base_url: impl AsRef<Path>,
     rules: Vec<(String, Vec<String>)>,
 ) -> JscPathsProvider {
-    let base_url = base_url.as_ref().to_path_buf();
+    let base_url = base_url
+        .as_ref()
+        .to_path_buf()
+        .canonicalize()
+        .expect("failed to canonicalize");
     dbg!(&base_url);
 
-    NodeImportResolver::new(TsConfigResolver::new(
-        NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
-        base_url,
-        rules,
-    ))
+    NodeImportResolver::with_base_dir(
+        TsConfigResolver::new(
+            NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
+            base_url.clone(),
+            rules,
+        ),
+        Some(base_url),
+    )
 }
 
 #[derive(Deserialize)]
