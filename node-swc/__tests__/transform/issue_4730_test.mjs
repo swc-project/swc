@@ -1,5 +1,5 @@
 import swc from "../../..";
-import { dirname, join } from "path";
+import { dirname, join, resolve } from "path";
 import { platform } from "os";
 import { fileURLToPath } from "url";
 
@@ -21,7 +21,7 @@ it("should work", async () => {
                 dynamicImport: true,
             },
             target: "es2020",
-            baseUrl: '.',
+            baseUrl: resolve('.'),
             paths: {
                 "@print/a": [join(dir, "./packages/a/src/index.ts")],
                 "@print/b": [join(dir, "./packages/b/src/index.ts")],
