@@ -689,16 +689,16 @@ jobs:
 
       - name: Install cargo-hack
         uses: baptiste0928/cargo-install@v2
-        if: matrix.settings.os == 'ubuntu-latest' && matrix.settings.check
+        if: matrix.settings.os == 'ubuntu-latest'
         with:
           crate: cargo-hack
           version: "0.5.7"
           locked: true
 
       - name: Check compilation
-        if: matrix.settings.check
         working-directory: "crates/${{ matrix.settings.crate }}"
-        run: "${{ matrix.settings.check }}"
+        run: |
+          ./scripts/github/run-cargo-hack.sh ${{ matrix.settings.crate }}
 
   node-test:
     name: Test node bindings - ${{ matrix.os }}
