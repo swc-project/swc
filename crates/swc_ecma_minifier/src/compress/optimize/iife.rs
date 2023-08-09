@@ -869,9 +869,21 @@ impl Optimizer<'_> {
                         let ids: Vec<Id> = find_pat_ids(&decl.name);
 
                         for id in ids {
-                            remap
-                                .entry(id)
+                            let ctx = remap
+                                .entry(id.clone())
                                 .or_insert_with(|| SyntaxContext::empty().apply_mark(Mark::new()));
+
+                            // [is_skippable_for_seq] would check fn scope
+                            if let Some(usage) = self.data.vars.get(&id) {
+                                let mut usage = usage.clone();
+                                usage.in_fn_scope_of = self.ctx.fn_scope;
+                                // as we turn var declaration into assignment
+                                // we need to maintain correct var usage
+                                if decl.init.is_some() {
+                                    usage.ref_count += 1;
+                                }
+                                self.data.vars.insert((id.0, *ctx), usage);
+                            }
                         }
                     }
                 }
