@@ -670,7 +670,7 @@ jobs:
         if: matrix.settings.os == 'ubuntu-latest'
         with:
           crate: cargo-hack
-          version: "0.5.7"
+          version: "0.5.29"
           locked: true
 
       - name: Check compilation
