@@ -4,7 +4,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
 use swc_ecma_utils::{contains_ident_ref, ExprExt};
-use swc_ecma_visit::noop_visit_type;
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
 #[cfg(feature = "debug")]
@@ -836,8 +836,30 @@ impl Optimizer<'_> {
 #[derive(Default)]
 struct ThisPropertyVisitor {
     properties: FxHashSet<JsWord>,
+
+    should_abort: bool,
 }
 
 impl Visit for ThisPropertyVisitor {
     noop_visit_type!();
+
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
+        if self.should_abort {
+            return;
+        }
+
+        e.visit_children_with(self);
+
+        if let Expr::This(..) = &*e.obj {
+            match &e.prop {
+                MemberProp::Ident(p) => {
+                    self.properties.insert(p.sym);
+                }
+                MemberProp::Computed(_) => {
+                    self.should_abort = true;
+                }
+                _ => {}
+            }
+        }
+    }
 }
