@@ -1158,25 +1158,14 @@ impl Optimizer<'_> {
                             )
                         }),
                         Mergable::Expr(a) => match a {
-                            Expr::Assign(AssignExpr {
-                                left,
-                                right,
-                                op: op!("="),
-                                ..
-                            }) => {
-                                if left.as_ident().is_some() {
-                                    Some(collect_infects_from(
-                                        right,
-                                        AliasConfig {
-                                            marks: Some(self.marks),
-                                            ignore_nested: true,
-                                            need_all: true,
-                                        },
-                                    ))
-                                } else {
-                                    None
-                                }
-                            }
+                            Expr::Assign(a) if a.is_simple_assign() => Some(collect_infects_from(
+                                &a.right,
+                                AliasConfig {
+                                    marks: Some(self.marks),
+                                    ignore_nested: true,
+                                    need_all: true,
+                                },
+                            )),
 
                             _ => None,
                         },
@@ -1270,16 +1259,41 @@ impl Optimizer<'_> {
                 };
 
                 if let Some(a) = a {
+                    let left_fn_scope = self
+                        .data
+                        .vars
+                        .get(&left_id.to_id())
+                        .map(|u| u.in_fn_scope_of)
+                        .unwrap_or(self.expr_ctx.unresolved_ctxt);
                     match a {
                         Mergable::Var(a) => {
                             if is_ident_used_by(left_id.to_id(), &**a) {
                                 log_abort!("e.left is used by a (var)");
                                 return false;
                             }
+
+                            if let Some(init) = &a.init {
+                                if init.may_have_side_effects(&self.expr_ctx)
+                                    && self.ctx.fn_scope != left_fn_scope
+                                {
+                                    log_abort!("a (var) init has side effect");
+                                    return false;
+                                }
+                            }
                         }
                         Mergable::Expr(a) => {
                             if is_ident_used_by(left_id.to_id(), &**a) {
                                 log_abort!("e.left is used by a (expr)");
+                                return false;
+                            }
+                            let has_side_effect = match a {
+                                Expr::Assign(a) if a.is_simple_assign() => {
+                                    a.right.may_have_side_effects(&self.expr_ctx)
+                                }
+                                _ => a.may_have_side_effects(&self.expr_ctx),
+                            };
+                            if has_side_effect && self.ctx.fn_scope != left_fn_scope {
+                                log_abort!("a (expr) has side effect");
                                 return false;
                             }
                         }
@@ -1725,9 +1739,10 @@ impl Optimizer<'_> {
                 }
 
                 let b_left = b_assign.left.as_ident();
-                let b_left = match b_left {
-                    Some(v) => v.clone(),
-                    None => return Ok(false),
+                let b_left = if let Some(v) = b_left {
+                    v.clone()
+                } else {
+                    return Ok(false);
                 };
 
                 if !self.is_skippable_for_seq(Some(a), &Expr::Ident(b_left.clone())) {
@@ -2213,7 +2228,11 @@ impl Optimizer<'_> {
                             }
 
                             // We can remove this variable same as unused pass
-                            if !usage.reassigned() && usage.usage_count == 1 && usage.declared {
+                            if !usage.reassigned()
+                                && usage.usage_count == 1
+                                && usage.declared
+                                && !usage.used_recursively
+                            {
                                 can_remove = true;
                             }
                         } else {

@@ -1344,19 +1344,17 @@ pub trait ExprExt {
             Expr::Fn(..) | Expr::Arrow(..) => false,
 
             Expr::Class(c) => class_has_side_effect(ctx, &c.class),
-            Expr::Array(ArrayLit { ref elems, .. }) => elems
+            Expr::Array(ArrayLit { elems, .. }) => elems
                 .iter()
                 .filter_map(|e| e.as_ref())
                 .any(|e| e.spread.is_some() || e.expr.may_have_side_effects(ctx)),
             Expr::Unary(UnaryExpr {
                 op: op!("delete"), ..
             }) => true,
-            Expr::Unary(UnaryExpr { ref arg, .. }) => arg.may_have_side_effects(ctx),
-            Expr::Bin(BinExpr {
-                ref left,
-                ref right,
-                ..
-            }) => left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx),
+            Expr::Unary(UnaryExpr { arg, .. }) => arg.may_have_side_effects(ctx),
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
+            }
 
             Expr::Member(MemberExpr { obj, prop, .. })
                 if obj.is_object() || obj.is_fn_expr() || obj.is_arrow() || obj.is_class() =>
@@ -1444,7 +1442,7 @@ pub trait ExprExt {
             Expr::New(_) => true,
 
             Expr::Call(CallExpr {
-                callee: Callee::Expr(ref callee),
+                callee: Callee::Expr(callee),
                 ref args,
                 ..
             }) if callee.is_pure_callee(ctx) => {
@@ -1466,15 +1464,10 @@ pub trait ExprExt {
 
             Expr::Call(_) | Expr::OptChain(..) => true,
 
-            Expr::Seq(SeqExpr { ref exprs, .. }) => {
-                exprs.iter().any(|e| e.may_have_side_effects(ctx))
-            }
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs.iter().any(|e| e.may_have_side_effects(ctx)),
 
             Expr::Cond(CondExpr {
-                ref test,
-                ref cons,
-                ref alt,
-                ..
+                test, cons, alt, ..
             }) => {
                 test.may_have_side_effects(ctx)
                     || cons.may_have_side_effects(ctx)
