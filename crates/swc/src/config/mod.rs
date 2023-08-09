@@ -1958,7 +1958,7 @@ fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResol
         );
         let r = CachingResolver::new(40, r);
 
-        let r = NodeImportResolver::new(r);
+        let r = NodeImportResolver::with_base_dir(r, Some(base_url.clone()));
         Arc::new(r)
     };
 

@@ -86,14 +86,30 @@ where
     R: Resolve,
 {
     resolver: R,
+    base_dir: Option<PathBuf>,
 }
 
 impl<R> NodeImportResolver<R>
 where
     R: Resolve,
 {
+    #[deprecated(note = "Use `with_base_dir`")]
     pub fn new(resolver: R) -> Self {
-        Self { resolver }
+        Self::with_base_dir(resolver, None)
+    }
+
+    pub fn with_base_dir(resolver: R, base_dir: Option<PathBuf>) -> Self {
+        #[cfg(not(target_arch = "wasm32"))]
+        if let Some(base_dir) = &base_dir {
+            assert!(
+                base_dir.is_absolute(),
+                "base_dir({}) must be absolute. Please ensure that `jsc.baseUrl` is specified \
+                 correctly.",
+                base_dir.display()
+            );
+        }
+
+        Self { resolver, base_dir }
     }
 }
 
@@ -193,8 +209,8 @@ where
         };
 
         if base.is_absolute() != target.is_absolute() {
-            base = Cow::Owned(absolute_path(&base)?);
-            target = absolute_path(&target)?;
+            base = Cow::Owned(absolute_path(self.base_dir.as_deref(), &base)?);
+            target = absolute_path(self.base_dir.as_deref(), &target)?;
         }
 
         let rel_path = diff_paths(
@@ -259,11 +275,14 @@ impl_ref!(P, &'_ P);
 impl_ref!(P, Box<P>);
 impl_ref!(P, Arc<P>);
 
-fn absolute_path(path: &Path) -> io::Result<PathBuf> {
+fn absolute_path(base_dir: Option<&Path>, path: &Path) -> io::Result<PathBuf> {
     let absolute_path = if path.is_absolute() {
         path.to_path_buf()
     } else {
-        std::env::current_dir()?.join(path)
+        match base_dir {
+            Some(base_dir) => base_dir.join(path),
+            None => current_dir()?.join(path),
+        }
     }
     .clean();
 

@@ -266,7 +266,6 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                             right: right.take(),
                         });
 
-                        e.visit_mut_children_with(self);
                         return;
                     }
                 };

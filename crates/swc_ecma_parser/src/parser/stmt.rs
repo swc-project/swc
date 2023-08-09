@@ -122,12 +122,6 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, parse_stmt_internal);
 
         if top_level && is!(self, "await") {
-            let valid = self.target() >= EsVersion::Es2017;
-
-            if !valid {
-                self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwait);
-            }
-
             self.state.found_module_item = true;
             if !self.ctx().can_be_module {
                 self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwaitInScript);
