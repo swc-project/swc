@@ -693,6 +693,7 @@ jobs:
         with:
           crate: cargo-hack
           version: "0.5.7"
+          locked: true
 
       - name: Check compilation
         if: matrix.settings.check
