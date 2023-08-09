@@ -79,7 +79,7 @@ jobs:
         uses: baptiste0928/cargo-install@v2
         with:
           crate: cargo-crev
-          version: "=0.23.5"
+          version: "=0.24.3"
           locked: true
 
       - name: Configure cargo-crev
