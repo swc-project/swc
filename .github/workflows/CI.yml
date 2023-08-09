@@ -674,7 +674,6 @@ jobs:
           locked: true
 
       - name: Check compilation
-        working-directory: "crates/${{ matrix.settings.crate }}"
         run: |
           ./scripts/github/run-cargo-hack.sh ${{ matrix.settings.crate }}
 
