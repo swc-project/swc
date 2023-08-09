@@ -785,11 +785,13 @@ impl Optimizer<'_> {
             return None;
         }
 
+        let properties_used_via_this = {};
+
         let should_preserve_property = |sym: &JsWord| {
             if let "toString" = &**sym {
                 return true;
             }
-            !usage.accessed_props.contains_key(sym)
+            !usage.accessed_props.contains_key(sym) && !properties_used_via_this.contains(sym)
         };
         let should_preserve = |key: &PropName| match key {
             PropName::Ident(k) => should_preserve_property(&k.sym),
