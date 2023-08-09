@@ -13,6 +13,12 @@
 
 - **(ci)** Cleanup CI (#7787) ([ab39f1c](https://github.com/swc-project/swc/commit/ab39f1c3c83c7156e6e9979773bf542a59d9b4f4))
 
+### Performance
+
+
+
+- **(es/compat)** Improve time complexity of `class_properties` (#7786) ([76c6258](https://github.com/swc-project/swc/commit/76c6258d1544ede09cb4f281c42e1fc80ad4145b))
+
 ## [1.3.75] - 2023-08-08
 
 ### Bug Fixes
