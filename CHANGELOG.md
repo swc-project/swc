@@ -1,8 +1,11 @@
 # Changelog
-## [1.3.76] - 2023-08-10
+## [unreleased]
 
 ### Bug Fixes
 
+
+
+- **(es/ast)** Bump version (#7793) ([13bedc0](https://github.com/swc-project/swc/commit/13bedc084e46db193b3fd0b7930046b2f013742b))
 
 
 - **(es/minifier)** Abort seq inliner if a same var is defined in outer scope (#7772) ([ef8d121](https://github.com/swc-project/swc/commit/ef8d12154ddaad47eddb41298bae14460834be0c))
