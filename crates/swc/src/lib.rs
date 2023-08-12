@@ -755,63 +755,57 @@ impl Compiler {
 
             let root = root.as_ref().unwrap_or(&CUR_DIR);
 
-            let config_file = match config_file {
-                Some(ConfigFile::Str(ref s)) => Some(load_swcrc(Path::new(&s))?),
-                _ => None,
+            let swcrc_path = match config_file {
+                Some(ConfigFile::Str(s)) => Some(PathBuf::from(s.clone())),
+                _ => {
+                    if *swcrc {
+                        find_swcrc(root, *root_mode)
+                    } else {
+                        None
+                    }
+                }
             };
 
             if let FileName::Real(ref path) = name {
-                if *swcrc {
-                    let mut parent = path.parent();
-                    while let Some(dir) = parent {
-                        let swcrc = dir.join(".swcrc");
+                if let Some(swcrc) = swcrc_path {
+                    let config = load_swcrc(&swcrc)?;
 
-                        if swcrc.exists() {
-                            let config = load_swcrc(&swcrc)?;
+                    let mut config = config
+                        .into_config(Some(path))
+                        .context("failed to process config file")?;
 
-                            let mut config = config
-                                .into_config(Some(path))
-                                .context("failed to process config file")?;
-
-                            if let Some(config_file) = config_file {
-                                config.merge(config_file.into_config(Some(path))?)
-                            }
-
-                            if let Some(c) = &mut config {
-                                if c.jsc.base_url != PathBuf::new() {
-                                    let joined = dir.join(&c.jsc.base_url);
-                                    c.jsc.base_url = if cfg!(target_os = "windows")
-                                        && c.jsc.base_url.as_os_str() == "."
-                                    {
-                                        dir.canonicalize().with_context(|| {
-                                            format!(
-                                                "failed to canonicalize base url using the path \
-                                                 of .swcrc\nDir: {}\n(Used logic for windows)",
-                                                dir.display(),
-                                            )
-                                        })?
-                                    } else {
-                                        joined.canonicalize().with_context(|| {
-                                            format!(
-                                                "failed to canonicalize base url using the path \
-                                                 of .swcrc\nPath: {}\nDir: {}\nbaseUrl: {}",
-                                                joined.display(),
-                                                dir.display(),
-                                                c.jsc.base_url.display()
-                                            )
-                                        })?
-                                    };
-                                }
-                            }
-
-                            return Ok(config);
-                        }
-
-                        if dir == root && *root_mode == RootMode::Root {
-                            break;
-                        }
-                        parent = dir.parent();
+                    if let Some(config_file) = config_file {
+                        config.merge(config_file.into_config(Some(path))?)
                     }
+
+                    if let Some(c) = &mut config {
+                        if c.jsc.base_url != PathBuf::new() {
+                            let joined = dir.join(&c.jsc.base_url);
+                            c.jsc.base_url = if cfg!(target_os = "windows")
+                                && c.jsc.base_url.as_os_str() == "."
+                            {
+                                dir.canonicalize().with_context(|| {
+                                    format!(
+                                        "failed to canonicalize base url using the path of \
+                                         .swcrc\nDir: {}\n(Used logic for windows)",
+                                        dir.display(),
+                                    )
+                                })?
+                            } else {
+                                joined.canonicalize().with_context(|| {
+                                    format!(
+                                        "failed to canonicalize base url using the path of \
+                                         .swcrc\nPath: {}\nDir: {}\nbaseUrl: {}",
+                                        joined.display(),
+                                        dir.display(),
+                                        c.jsc.base_url.display()
+                                    )
+                                })?
+                            };
+                        }
+                    }
+
+                    return Ok(config);
                 }
 
                 let config_file = config_file.unwrap_or_default();
@@ -1256,6 +1250,24 @@ impl Compiler {
             )
         })
     }
+}
+
+fn find_swcrc(path: &Path, root_mode: RootMode) -> Option<PathBuf> {
+    let mut parent = path.parent();
+    while let Some(dir) = parent {
+        let swcrc = dir.join(".swcrc");
+
+        if swcrc.exists() {
+            return swcrc;
+        }
+
+        if dir == root && *root_mode == RootMode::Root {
+            break;
+        }
+        parent = dir.parent();
+    }
+
+    None
 }
 
 #[tracing::instrument(level = "info", skip_all)]
