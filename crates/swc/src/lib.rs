@@ -778,14 +778,15 @@ impl Compiler {
                 _ => None,
             };
 
-            if let Some(swcrc_path) = swcrc_path {
+            if let Some(filename_path) = filename_path {
                 if let Some(config) = config_file {
                     let dir = swcrc_path
-                        .parent()
+                        .as_deref()
+                        .and_then(|p| p.parent())
                         .expect(".swcrc path should have parent dir");
 
                     let mut config = config
-                        .into_config(filename_path)
+                        .into_config(Some(filename_path))
                         .context("failed to process config file")?;
 
                     if let Some(c) = &mut config {
@@ -819,7 +820,7 @@ impl Compiler {
                 }
 
                 let config_file = config_file.unwrap_or_default();
-                let config = config_file.into_config(filename_path)?;
+                let config = config_file.into_config(Some(filename_path))?;
 
                 return Ok(config);
             }
