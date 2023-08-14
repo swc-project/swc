@@ -836,7 +836,7 @@ impl Compiler {
                 }
             }
         })
-        .with_context(|| format!("failed to read swcrc file ({})", name))
+        .with_context(|| format!("failed to read swcrc file for input file at `{}`", name))
     }
 
     /// This method returns [None] if a file should be skipped.
