@@ -140,7 +140,6 @@ use swc_common::{
     BytePos, FileName, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
 };
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
-use swc_config::merge::Merge;
 use swc_ecma_ast::{EsVersion, Ident, Program};
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
 use swc_ecma_loader::resolvers::{
@@ -776,17 +775,12 @@ impl Compiler {
             };
 
             if let FileName::Real(ref path) = name {
-                if let Some(swcrc) = swcrc_path {
-                    let config = load_swcrc(&swcrc)?;
+                if let Some(config) = config_file {
                     let dir = path.parent().expect(".swcrc path should have parent dir");
 
                     let mut config = config
                         .into_config(Some(path))
                         .context("failed to process config file")?;
-
-                    if let Some(config_file) = config_file {
-                        config.merge(config_file.into_config(Some(path))?)
-                    }
 
                     if let Some(c) = &mut config {
                         if c.jsc.base_url != PathBuf::new() {
