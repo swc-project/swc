@@ -863,7 +863,7 @@ impl Options {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 pub enum RootMode {
     #[serde(rename = "root")]
     Root,

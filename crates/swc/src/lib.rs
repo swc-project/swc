@@ -759,16 +759,26 @@ impl Compiler {
                 Some(ConfigFile::Str(s)) => Some(PathBuf::from(s.clone())),
                 _ => {
                     if *swcrc {
-                        find_swcrc(root, *root_mode)
+                        if let FileName::Real(ref path) = name {
+                            find_swcrc(path, root, *root_mode)
+                        } else {
+                            None
+                        }
                     } else {
                         None
                     }
                 }
             };
 
+            let config_file = match swcrc_path.as_deref() {
+                Some(s) => Some(load_swcrc(s)?),
+                _ => None,
+            };
+
             if let FileName::Real(ref path) = name {
                 if let Some(swcrc) = swcrc_path {
                     let config = load_swcrc(&swcrc)?;
+                    let dir = path.parent().expect(".swcrc path should have parent dir");
 
                     let mut config = config
                         .into_config(Some(path))
@@ -1252,16 +1262,16 @@ impl Compiler {
     }
 }
 
-fn find_swcrc(path: &Path, root_mode: RootMode) -> Option<PathBuf> {
+fn find_swcrc(path: &Path, root: &Path, root_mode: RootMode) -> Option<PathBuf> {
     let mut parent = path.parent();
     while let Some(dir) = parent {
         let swcrc = dir.join(".swcrc");
 
         if swcrc.exists() {
-            return swcrc;
+            return Some(swcrc);
         }
 
-        if dir == root && *root_mode == RootMode::Root {
+        if dir == root && root_mode == RootMode::Root {
             break;
         }
         parent = dir.parent();
