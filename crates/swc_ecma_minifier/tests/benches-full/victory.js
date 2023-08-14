@@ -4675,7 +4675,7 @@
                         return sortValues(arcs[i], arcs[j]);
                     }) : null != sort && index.sort(function(i, j) {
                         return sort(data[i], data[j]);
-                    }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)v = arcs[j = index[i]], a1 = a0 + (v > 0 ? v * k : 0) + pa, arcs[j] = {
+                    }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)a1 = a0 + ((v = arcs[j = index[i]]) > 0 ? v * k : 0) + pa, arcs[j] = {
                         data: data[j],
                         index: i,
                         value: v,
@@ -12503,10 +12503,10 @@
                                             SMALL_NUMBER
                                         ], _range = toRange(targetProps, _currentDomain), oppositeHandle = "min" === targetProps.activeHandle ? "max" : "min", handle = targetProps.activeHandle && "both" === getActiveHandle(targetProps, position, _range) ? oppositeHandle : targetProps.activeHandle;
                                         if (handle) {
-                                            var rangeMax = "x" === dimension ? Math.max.apply(Math, _toConsumableArray(_range)) : Math.min.apply(Math, _toConsumableArray(_range)), rangeMin = "x" === dimension ? Math.min.apply(Math, _toConsumableArray(_range)) : Math.max.apply(Math, _toConsumableArray(_range)), min = "max" === handle ? rangeMin : position, max = "min" === handle ? rangeMax : position;
+                                            var rangeMax = "x" === dimension ? Math.max.apply(Math, _toConsumableArray(_range)) : Math.min.apply(Math, _toConsumableArray(_range)), rangeMin = "x" === dimension ? Math.min.apply(Math, _toConsumableArray(_range)) : Math.max.apply(Math, _toConsumableArray(_range));
                                             _currentDomain = toDomain(targetProps, [
-                                                min,
-                                                max
+                                                "max" === handle ? rangeMin : position,
+                                                "min" === handle ? rangeMax : position
                                             ]);
                                         } else _currentDomain = toDomain(targetProps, [
                                             targetProps.startPosition,
@@ -12837,12 +12837,12 @@
                     computedType: type || "labels",
                     candleWidth: candleWidth,
                     orientation: orientation
-                }), yValue = _calculatePlotValues.yValue, xValue = _calculatePlotValues.xValue, dx = _calculatePlotValues.dx, dy = _calculatePlotValues.dy, labelProps = {
+                }), labelProps = {
                     style: labelStyle,
-                    y: yValue,
-                    x: xValue,
-                    dx: dx,
-                    dy: dy,
+                    y: _calculatePlotValues.yValue,
+                    x: _calculatePlotValues.xValue,
+                    dx: _calculatePlotValues.dx,
+                    dy: _calculatePlotValues.dy,
                     text: text,
                     index: index,
                     scale: scale,
@@ -18379,8 +18379,8 @@
                                     return react__WEBPACK_IMPORTED_MODULE_6___default.a.cloneElement(c, nestedChildProps);
                                 }), _childNames = nestedChildren.map(function(c, i) {
                                     return "".concat(childName, "-").concat(i);
-                                }), nestedResults = traverseChildren(nestedChildren, _childNames, child);
-                                memo = combine(memo, nestedResults);
+                                });
+                                memo = combine(memo, traverseChildren(nestedChildren, _childNames, child));
                             } else {
                                 var result = iteratee(child, childName, parent);
                                 result && (memo = combine(memo, result));
@@ -18485,7 +18485,7 @@
                             dx: padding.x,
                             dy: padding.y
                         };
-                    }(props, datum3), dx = _getOffset.dx, dy = _getOffset.dy, labelProps = {
+                    }(props, datum3), labelProps = {
                         angle: angle,
                         data: data,
                         datum: datum3,
@@ -18499,8 +18499,8 @@
                         verticalAnchor: verticalAnchor,
                         x: x,
                         y: y,
-                        dx: dx,
-                        dy: dy,
+                        dx: _getOffset.dx,
+                        dy: _getOffset.dy,
                         width: width,
                         height: height,
                         style: style1.labels
@@ -23707,7 +23707,9 @@
                 return data.reduce(function(childProps, datum, index) {
                     var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.scalePoint(lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, props, {
                         scale: scale
-                    }), datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y, errorX = getErrors(props, datum = formatDataFromDomain(datum, domain), "x"), errorY = getErrors(props, datum, "y"), dataProps = {
+                    }), datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y;
+                    datum = formatDataFromDomain(datum, domain);
+                    var errorX = getErrors(props, datum, "x"), errorY = getErrors(props, datum, "y"), dataProps = {
                         borderWidth: borderWidth,
                         data: data,
                         datum: datum,
@@ -25623,7 +25625,7 @@
                 }, gutterOffset = {
                     x: gutter && "object" == typeof gutter && gutter.left || 0,
                     y: rowGutter && "object" == typeof rowGutter && rowGutter.top || 0
-                }, _getDimensions = getDimensions(props, fallbackProps), height = _getDimensions.height, width = _getDimensions.width, borderProps = getBorderProps(props, height, width), titleProps = getTitleProps(props, borderProps), initialProps = {
+                }, _getDimensions = getDimensions(props, fallbackProps), borderProps = getBorderProps(props, _getDimensions.height, _getDimensions.width), titleProps = getTitleProps(props, borderProps), initialProps = {
                     parent: {
                         data: data,
                         standalone: standalone,
@@ -28248,9 +28250,9 @@
                     {
                         key: "getCachedSharedEvents",
                         value: function(name, cacheValues) {
-                            var _ref = this.sharedEventsCache[name] || [], _ref2 = function(arr) {
+                            var arr, _ref2 = function(arr) {
                                 if (Array.isArray(arr)) return arr;
-                            }(_ref) || function(arr, i) {
+                            }(arr = this.sharedEventsCache[name] || []) || function(arr, i) {
                                 var _arr = [], _n = !0, _d = !1, _e = void 0;
                                 try {
                                     for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
@@ -28264,7 +28266,7 @@
                                     }
                                 }
                                 return _arr;
-                            }(_ref, 2) || function() {
+                            }(arr, 2) || function() {
                                 throw TypeError("Invalid attempt to destructure non-iterable instance");
                             }(), sharedEvents = _ref2[0], prevCacheValues = _ref2[1];
                             if (sharedEvents && react_fast_compare__WEBPACK_IMPORTED_MODULE_10___default()(cacheValues, prevCacheValues)) return sharedEvents;

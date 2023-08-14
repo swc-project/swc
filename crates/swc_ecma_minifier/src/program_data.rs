@@ -1,10 +1,7 @@
-use std::{
-    collections::{hash_map::Entry, HashSet},
-    hash::BuildHasherDefault,
-};
+use std::collections::hash_map::Entry;
 
 use indexmap::IndexSet;
-use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet, ARandomState},
@@ -22,7 +19,7 @@ use swc_ecma_usage_analyzer::{
 };
 use swc_ecma_visit::VisitWith;
 
-pub(crate) fn analyze<N>(n: &N, _module_info: &ModuleInfo, marks: Option<Marks>) -> ProgramData
+pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer<ProgramData>>,
 {
@@ -46,15 +43,6 @@ pub(crate) struct ScopeData {
     pub(crate) has_with_stmt: bool,
     pub(crate) has_eval_call: bool,
     pub(crate) used_arguments: bool,
-}
-
-#[derive(Debug, Default)]
-pub(crate) struct ModuleInfo {
-    /// Imported identifiers which should be treated as a black box.
-    ///
-    /// Imports from `@swc/helpers` are excluded as helpers are not modified by
-    /// accessing/calling other modules.
-    pub(crate) blackbox_imports: AHashSet<Id>,
 }
 
 #[derive(Debug, Clone)]
@@ -137,8 +125,6 @@ pub(crate) struct VarUsageInfo {
     pub(crate) accessed_props: Box<AHashMap<JsWord, u32>>,
 
     pub(crate) used_recursively: bool,
-
-    pub(crate) in_fn_scope_of: SyntaxContext,
 }
 
 impl Default for VarUsageInfo {
@@ -179,7 +165,6 @@ impl Default for VarUsageInfo {
             is_top_level: Default::default(),
             assigned_fn_local: true,
             used_as_ref: false,
-            in_fn_scope_of: Default::default(),
         }
     }
 }
@@ -367,7 +352,6 @@ impl Storage for ProgramData {
         // }
 
         let v = self.vars.entry(i.to_id()).or_default();
-        v.in_fn_scope_of = ctx.fn_scope;
         v.is_top_level |= ctx.is_top_level;
 
         if has_init && (v.declared || v.var_initialized) {
@@ -540,70 +524,6 @@ impl VarDataLike for VarUsageInfo {
 }
 
 impl ProgramData {
-    #[allow(clippy::single_range_in_vec_init)]
-    pub(crate) fn expand_infected(
-        &self,
-        module_info: &ModuleInfo,
-        ids: FxHashSet<Access>,
-        max_num: usize,
-    ) -> Option<FxHashSet<Access>> {
-        let init =
-            HashSet::with_capacity_and_hasher(max_num, BuildHasherDefault::<FxHasher>::default());
-        ids.into_iter()
-            .try_fold(init, |mut res, id| {
-                let mut ids = Vec::with_capacity(max_num);
-                ids.push(id);
-                let mut ranges = vec![0..1usize];
-                loop {
-                    let range = ranges.remove(0);
-                    for index in range {
-                        let iid = ids.get(index).unwrap();
-
-                        // Abort on imported variables, because we can't analyze them
-                        if module_info.blackbox_imports.contains(&iid.0) {
-                            return Err(());
-                        }
-                        if !res.insert(iid.clone()) {
-                            continue;
-                        }
-                        if res.len() >= max_num {
-                            return Err(());
-                        }
-                        if let Some(info) = self.vars.get(&iid.0) {
-                            let infects = &info.infects_to;
-                            if !infects.is_empty() {
-                                let old_len = ids.len();
-
-                                // This is not a call, so effects from call can be skipped
-                                let can_skip_non_call = matches!(iid.1, AccessKind::Reference)
-                                    || (info.declared_count == 1
-                                        && info.declared_as_fn_decl
-                                        && !info.reassigned());
-
-                                if can_skip_non_call {
-                                    ids.extend(
-                                        infects
-                                            .iter()
-                                            .filter(|(_, kind)| *kind != AccessKind::Call)
-                                            .cloned(),
-                                    );
-                                } else {
-                                    ids.extend_from_slice(infects.as_slice());
-                                }
-                                let new_len = ids.len();
-                                ranges.push(old_len..new_len);
-                            }
-                        }
-                    }
-                    if ranges.is_empty() {
-                        break;
-                    }
-                }
-                Ok(res)
-            })
-            .ok()
-    }
-
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
             Expr::Ident(i) => {

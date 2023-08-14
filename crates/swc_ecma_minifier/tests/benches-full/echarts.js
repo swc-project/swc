@@ -3741,7 +3741,7 @@
                     env.pointerEventsSupported ? each(globalNativeListenerNames.pointer, mount) : env.touchEventsSupported || each(globalNativeListenerNames.mouse, mount);
                     function mount(nativeEventName) {
                         mountSingleDOMEventListener(scope, nativeEventName, function(event) {
-                            if (event = getNativeEvent(event), !isLocalEl(instance, event.target)) {
+                            if (!isLocalEl(instance, (event = getNativeEvent(event)).target)) {
                                 var event1;
                                 event1 = event, event = normalizeEvent(instance.dom, new FakeGlobalEvent(instance, event1), !0), scope.domHandlers[nativeEventName].call(instance, event);
                             }
@@ -7066,7 +7066,8 @@
                 }
             }
             textContent.silent = !!normalModel.getShallow('silent'), null != textContent.style.x && (normalStyle.x = textContent.style.x), null != textContent.style.y && (normalStyle.y = textContent.style.y), textContent.ignore = !showNormal, textContent.useStyle(normalStyle), textContent.dirty(), opt.enableTextSetter && (labelInner(textContent).setLabelText = function(interpolatedValue) {
-                setLabelText(textContent, getLabelText(opt, labelStatesModels, interpolatedValue));
+                var labelStatesTexts = getLabelText(opt, labelStatesModels, interpolatedValue);
+                setLabelText(textContent, labelStatesTexts);
             });
         } else textContent && (textContent.ignore = !0);
         targetEl.dirty();
@@ -7203,13 +7204,11 @@
             var defaultInterpolatedText = labelInnerStore.defaultInterpolatedText, currValue = retrieve2(labelInnerStore.interpolatedValue, labelInnerStore.prevValue), targetValue = labelInnerStore.value;
             (null == currValue ? initProps : updateProps)(textEl, {}, animatableModel, dataIndex, null, function(percent) {
                 var interpolated = interpolateRawValues(data, labelInnerStore.precision, currValue, targetValue, percent);
-                labelInnerStore.interpolatedValue = 1 === percent ? null : interpolated;
-                var labelText = getLabelText({
+                labelInnerStore.interpolatedValue = 1 === percent ? null : interpolated, setLabelText(textEl, getLabelText({
                     labelDataIndex: dataIndex,
                     labelFetcher: labelFetcher,
                     defaultText: defaultInterpolatedText ? defaultInterpolatedText(interpolated) : interpolated + ''
-                }, labelInnerStore.statesModels, interpolated);
-                setLabelText(textEl, labelText);
+                }, labelInnerStore.statesModels, interpolated));
             });
         }
     }
@@ -13038,8 +13037,8 @@
                             top: boundingRect.top
                         });
                     }
-                }), left_1 *= dpr_1, top_1 *= dpr_1;
-                var width = (right_1 *= dpr_1) - left_1, height = (bottom_1 *= dpr_1) - top_1, targetCanvas = createCanvas(), zr_1 = init(targetCanvas, {
+                }), left_1 *= dpr_1, top_1 *= dpr_1, right_1 *= dpr_1, bottom_1 *= dpr_1;
+                var width = right_1 - left_1, height = bottom_1 - top_1, targetCanvas = createCanvas(), zr_1 = init(targetCanvas, {
                     renderer: isSvg ? 'svg' : 'canvas'
                 });
                 if (zr_1.resize({
@@ -13067,7 +13066,8 @@
                 }), zr_1.refreshImmediately(), targetCanvas.toDataURL('image/' + (opts && opts.type || 'png'));
                 var content_1 = '';
                 return each(canvasList_1, function(item) {
-                    content_1 += '<g transform="translate(' + (item.left - left_1) + ',' + (item.top - top_1) + ')">' + item.dom + '</g>';
+                    var x = item.left - left_1, y = item.top - top_1;
+                    content_1 += '<g transform="translate(' + x + ',' + y + ')">' + item.dom + '</g>';
                 }), zr_1.painter.getSvgRoot().innerHTML = content_1, opts.connectedBackgroundColor && zr_1.painter.setBackgroundColor(opts.connectedBackgroundColor), zr_1.refreshImmediately(), zr_1.painter.toDataURL();
             }
         }, ECharts.prototype.convertToPixel = function(finder, value) {
@@ -18427,8 +18427,10 @@
                 var itemModel = data.getItemModel(newIndex), layout = getLayout[coord.type](data, newIndex, itemModel);
                 if (drawBackground) {
                     var bgEl = void 0;
-                    0 === oldBgEls.length ? bgEl = createBackground(oldIndex) : ((bgEl = oldBgEls[oldIndex]).useStyle(backgroundModel.getItemStyle()), 'cartesian2d' === coord.type && bgEl.setShape('r', barBorderRadius), bgEls[newIndex] = bgEl), updateProps(bgEl, {
-                        shape: createBackgroundShape(isHorizontalOrRadial, getLayout[coord.type](data, newIndex), coord)
+                    0 === oldBgEls.length ? bgEl = createBackground(oldIndex) : ((bgEl = oldBgEls[oldIndex]).useStyle(backgroundModel.getItemStyle()), 'cartesian2d' === coord.type && bgEl.setShape('r', barBorderRadius), bgEls[newIndex] = bgEl);
+                    var bgLayout = getLayout[coord.type](data, newIndex);
+                    updateProps(bgEl, {
+                        shape: createBackgroundShape(isHorizontalOrRadial, bgLayout, coord)
                     }, animationModel, newIndex);
                 }
                 var el = oldData.getItemGraphicEl(oldIndex);
@@ -22636,7 +22638,8 @@
                     });
                     var delta = left_1 === right_1 ? 1 : separation$1(left_1, right_1) / 2, tx_1 = delta - left_1.getLayout().x, kx_1 = 0, ky_1 = 0, coorX_1 = 0, coorY_1 = 0;
                     if ('radial' === layout) kx_1 = width / (right_1.getLayout().x + delta + tx_1), ky_1 = height / (bottom_1.depth - 1 || 1), eachBefore(realRoot, function(node) {
-                        var finalCoor = radialCoordinate(coorX_1 = (node.getLayout().x + tx_1) * kx_1, coorY_1 = (node.depth - 1) * ky_1);
+                        coorX_1 = (node.getLayout().x + tx_1) * kx_1, coorY_1 = (node.depth - 1) * ky_1;
+                        var finalCoor = radialCoordinate(coorX_1, coorY_1);
                         node.setLayout({
                             x: finalCoor.x,
                             y: finalCoor.y,
@@ -39664,8 +39667,8 @@
             function setter(key, value) {
                 visualObj[key] = value;
             }
-            var mappings = visualMapModel.controllerVisuals[forceState || visualMapModel.getValueState(targetValue)], visualTypes = VisualMapping.prepareVisualTypes(mappings);
-            return each(visualTypes, function(type) {
+            var mappings = visualMapModel.controllerVisuals[forceState || visualMapModel.getValueState(targetValue)];
+            return each(VisualMapping.prepareVisualTypes(mappings), function(type) {
                 var visualMapping = mappings[type];
                 opts.convertOpacityToAlpha && 'opacity' === type && (type = 'colorAlpha', visualMapping = mappings.__alphaForOpacity), VisualMapping.dependsOn(type, visualCluster) && visualMapping && visualMapping.applyVisual(targetValue, getter, setter);
             }), visualObj[visualCluster];

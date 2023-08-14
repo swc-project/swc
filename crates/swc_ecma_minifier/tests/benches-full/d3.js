@@ -4538,8 +4538,8 @@
                 -normal[0],
                 0
             ], normal);
-            cartesianNormalizeInPlace(inflection);
-            var phii, delta = lambda - lambda2, sign = delta > 0 ? 1 : -1, lambdai = (inflection = spherical(inflection))[0] * degrees$2 * sign, antimeridian = abs$2(delta) > 180;
+            cartesianNormalizeInPlace(inflection), inflection = spherical(inflection);
+            var phii, delta = lambda - lambda2, sign = delta > 0 ? 1 : -1, lambdai = inflection[0] * degrees$2 * sign, antimeridian = abs$2(delta) > 180;
             antimeridian ^ (sign * lambda2 < lambdai && lambdai < sign * lambda) ? (phii = inflection[1] * degrees$2) > phi1 && (phi1 = phii) : antimeridian ^ (sign * lambda2 < (lambdai = (lambdai + 360) % 360 - 180) && lambdai < sign * lambda) ? (phii = -inflection[1] * degrees$2) < phi0 && (phi0 = phii) : (phi < phi0 && (phi0 = phi), phi > phi1 && (phi1 = phi)), antimeridian ? lambda < lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda) : lambda1 >= lambda0$1 ? (lambda < lambda0$1 && (lambda0$1 = lambda), lambda > lambda1 && (lambda1 = lambda)) : lambda > lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda);
         } else ranges.push(range$1 = [
             lambda0$1 = lambda,
@@ -4620,7 +4620,7 @@
     function centroidRingPointFirst(lambda, phi) {
         lambda00$2 = lambda, phi00$2 = phi, lambda *= radians$1, phi *= radians$1, centroidStream.point = centroidRingPoint;
         var cosPhi = cos$1(phi);
-        centroidPointCartesian(x0 = cosPhi * cos$1(lambda), y0 = cosPhi * sin$1(lambda), z0 = sin$1(phi));
+        x0 = cosPhi * cos$1(lambda), y0 = cosPhi * sin$1(lambda), z0 = sin$1(phi), centroidPointCartesian(x0, y0, z0);
     }
     function centroidRingPoint(lambda, phi) {
         lambda *= radians$1;
@@ -5788,9 +5788,9 @@
     }
     function azimuthalInvert(angle) {
         return function(x, y) {
-            var z = sqrt(x * x + y * y), c = angle(z), sc = sin$1(c), cc = cos$1(c);
+            var z = sqrt(x * x + y * y), c = angle(z), sc = sin$1(c);
             return [
-                atan2(x * sc, z * cc),
+                atan2(x * sc, z * cos$1(c)),
                 asin(z && y * sc / z)
             ];
         };
@@ -6364,7 +6364,7 @@
             return mu = null == mu ? 0 : +mu, sigma = null == sigma ? 1 : +sigma, function() {
                 var y;
                 if (null != x) y = x, x = null;
-                else do r = (x = 2 * source() - 1) * x + (y = 2 * source() - 1) * y;
+                else do x = 2 * source() - 1, y = 2 * source() - 1, r = x * x + y * y;
                 while (!r || r > 1)
                 return mu + sigma * y * Math.sqrt(-2 * Math.log(r) / r);
             };
@@ -6637,7 +6637,7 @@
         var transform, untransform, unknown, piecewise, output, input, domain = unit, range = unit, interpolate$1 = interpolate, clamp = identity$6;
         function rescale() {
             var a, b, t, n = Math.min(domain.length, range.length);
-            return clamp !== identity$6 && ((a = domain[0]) > (b = domain[n - 1]) && (t = a, a = b, b = t), clamp = function(x) {
+            return clamp !== identity$6 && (a = domain[0], b = domain[n - 1], a > b && (t = a, a = b, b = t), clamp = function(x) {
                 return Math.max(a, Math.min(b, x));
             }), piecewise = n > 2 ? polymap : bimap, output = input = null, scale;
         }
@@ -7662,7 +7662,7 @@
             };
         }
         return scale.domain = function(_) {
-            return arguments.length ? ([x0, x1] = _, k10 = (t0 = transform(x0 = +x0)) === (t1 = transform(x1 = +x1)) ? 0 : 1 / (t1 - t0), scale) : [
+            return arguments.length ? ([x0, x1] = _, t0 = transform(x0 = +x0), t1 = transform(x1 = +x1), k10 = t0 === t1 ? 0 : 1 / (t1 - t0), scale) : [
                 x0,
                 x1
             ];
@@ -7673,7 +7673,7 @@
         }, scale.range = range(interpolate), scale.rangeRound = range(interpolateRound), scale.unknown = function(_) {
             return arguments.length ? (unknown = _, scale) : unknown;
         }, function(t) {
-            return transform = t, k10 = (t0 = t(x0)) === (t1 = t(x1)) ? 0 : 1 / (t1 - t0), scale;
+            return transform = t, t0 = t(x0), t1 = t(x1), k10 = t0 === t1 ? 0 : 1 / (t1 - t0), scale;
         };
     }
     function copy$1(source, target) {
@@ -10121,7 +10121,7 @@
                 return sortValues(arcs[i], arcs[j]);
             }) : null != sort && index.sort(function(i, j) {
                 return sort(data[i], data[j]);
-            }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)v = arcs[j = index[i]], a1 = a0 + (v > 0 ? v * k : 0) + pa, arcs[j] = {
+            }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)a1 = a0 + ((v = arcs[j = index[i]]) > 0 ? v * k : 0) + pa, arcs[j] = {
                 data: data[j],
                 index: i,
                 value: v,

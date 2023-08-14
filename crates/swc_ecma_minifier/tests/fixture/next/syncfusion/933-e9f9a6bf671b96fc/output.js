@@ -5370,23 +5370,19 @@
                         var point = _this.updateChangeTouches(evt);
                         _this.movedPoint = point, _this.isTouchMoved = !(point.clientX === _this.startPoint.clientX && point.clientY === _this.startPoint.clientY);
                         var eScrollArgs = {};
-                        if (_this.isTouchMoved) {
-                            clearTimeout(_this.timeOutTapHold), _this.calcScrollPoints(evt);
-                            var scrollArg = {
-                                startEvents: _this.startEventData,
-                                originalEvent: evt,
-                                startX: _this.startPoint.clientX,
-                                startY: _this.startPoint.clientY,
-                                distanceX: _this.distanceX,
-                                distanceY: _this.distanceY,
-                                scrollDirection: _this.scrollDirection,
-                                velocity: _this.getVelocity(point)
-                            };
-                            eScrollArgs = util_extend(eScrollArgs, {}, scrollArg), _this.trigger('scroll', eScrollArgs), _this.lastMovedPoint = {
-                                clientX: point.clientX,
-                                clientY: point.clientY
-                            };
-                        }
+                        _this.isTouchMoved && (clearTimeout(_this.timeOutTapHold), _this.calcScrollPoints(evt), eScrollArgs = util_extend(eScrollArgs, {}, {
+                            startEvents: _this.startEventData,
+                            originalEvent: evt,
+                            startX: _this.startPoint.clientX,
+                            startY: _this.startPoint.clientY,
+                            distanceX: _this.distanceX,
+                            distanceY: _this.distanceY,
+                            scrollDirection: _this.scrollDirection,
+                            velocity: _this.getVelocity(point)
+                        }), _this.trigger('scroll', eScrollArgs), _this.lastMovedPoint = {
+                            clientX: point.clientX,
+                            clientY: point.clientY
+                        });
                     }, _this.cancelEvent = function(evt) {
                         clearTimeout(_this.timeOutTapHold), clearTimeout(_this.timeOutTap), _this.tapCount = 0, _this.swipeFn(evt), EventHandler.remove(_this.element, Browser.touchCancelEvent, _this.cancelEvent);
                     }, _this.endEvent = function(evt) {

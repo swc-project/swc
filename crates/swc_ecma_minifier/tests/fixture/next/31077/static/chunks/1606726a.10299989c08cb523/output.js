@@ -2650,7 +2650,7 @@
                 return pos;
             }, EditorView.prototype.endOfTextblock = function(dir, state) {
                 var view, state1, sel, $pos;
-                return view = this, cachedState == (state1 = state || this.state) && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
+                return view = this, state1 = state || this.state, cachedState == state1 && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
                     for(var dom = view.docView.domFromPos($pos.pos, "up" == dir ? -1 : 1).node;;){
                         var nearest = view.docView.nearestDesc(dom, !0);
                         if (!nearest) break;

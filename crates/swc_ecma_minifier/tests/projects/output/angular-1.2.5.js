@@ -817,7 +817,7 @@
                 invoke: invoke,
                 instantiate: function(Type, locals) {
                     var instance, returnedValue, Constructor = function() {};
-                    return Constructor.prototype = (isArray(Type) ? Type[Type.length - 1] : Type).prototype, instance = new Constructor(), isObject(returnedValue = invoke(Type, instance, locals)) || isFunction(returnedValue) ? returnedValue : instance;
+                    return Constructor.prototype = (isArray(Type) ? Type[Type.length - 1] : Type).prototype, isObject(returnedValue = invoke(Type, instance = new Constructor(), locals)) || isFunction(returnedValue) ? returnedValue : instance;
                 },
                 get: getService,
                 annotate: annotate,
@@ -2749,7 +2749,7 @@
                         return this.$watch(function() {
                             if (isObject(newValue = objGetter(self))) {
                                 if (isArrayLike(newValue)) {
-                                    oldValue !== internalArray && (oldLength = (oldValue = internalArray).length = 0, changeDetected++), oldLength !== (newLength = newValue.length) && (changeDetected++, oldValue.length = oldLength = newLength);
+                                    oldValue !== internalArray && (oldLength = (oldValue = internalArray).length = 0, changeDetected++), newLength = newValue.length, oldLength !== newLength && (changeDetected++, oldValue.length = oldLength = newLength);
                                     for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
                                 } else {
                                     for(key in oldValue !== internalObject && (oldValue = internalObject = {}, oldLength = 0, changeDetected++), newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
@@ -3311,7 +3311,7 @@
             }(date)), isNumber(date) && (date = new Date(date)), !isDate(date)) return date;
             for(; format;)(match = DATE_FORMATS_SPLIT.exec(format)) ? format = (parts = concat(parts, match, 1)).pop() : (parts.push(format), format = null);
             return forEach(parts, function(value) {
-                text += (fn = DATE_FORMATS[value]) ? fn(date, $locale.DATETIME_FORMATS) : value.replace(/(^'|'$)/g, "").replace(/''/g, "'");
+                fn = DATE_FORMATS[value], text += fn ? fn(date, $locale.DATETIME_FORMATS) : value.replace(/(^'|'$)/g, "").replace(/''/g, "'");
             }), text;
         };
     }
