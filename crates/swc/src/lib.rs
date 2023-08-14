@@ -140,7 +140,6 @@ use swc_common::{
     BytePos, FileName, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
 };
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
-use swc_config::merge::Merge;
 use swc_ecma_ast::{EsVersion, Ident, Program};
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
 use swc_ecma_loader::resolvers::{
@@ -755,67 +754,73 @@ impl Compiler {
 
             let root = root.as_ref().unwrap_or(&CUR_DIR);
 
-            let config_file = match config_file {
-                Some(ConfigFile::Str(ref s)) => Some(load_swcrc(Path::new(&s))?),
+            let swcrc_path = match config_file {
+                Some(ConfigFile::Str(s)) => Some(PathBuf::from(s.clone())),
+                _ => {
+                    if *swcrc {
+                        if let FileName::Real(ref path) = name {
+                            find_swcrc(path, root, *root_mode)
+                        } else {
+                            None
+                        }
+                    } else {
+                        None
+                    }
+                }
+            };
+
+            let config_file = match swcrc_path.as_deref() {
+                Some(s) => Some(load_swcrc(s)?),
+                _ => None,
+            };
+            let filename_path = match name {
+                FileName::Real(p) => Some(&**p),
                 _ => None,
             };
 
-            if let FileName::Real(ref path) = name {
-                if *swcrc {
-                    let mut parent = path.parent();
-                    while let Some(dir) = parent {
-                        let swcrc = dir.join(".swcrc");
+            if let Some(filename_path) = filename_path {
+                if let Some(config) = config_file {
+                    let dir = swcrc_path
+                        .as_deref()
+                        .and_then(|p| p.parent())
+                        .expect(".swcrc path should have parent dir");
 
-                        if swcrc.exists() {
-                            let config = load_swcrc(&swcrc)?;
+                    let mut config = config
+                        .into_config(Some(filename_path))
+                        .context("failed to process config file")?;
 
-                            let mut config = config
-                                .into_config(Some(path))
-                                .context("failed to process config file")?;
-
-                            if let Some(config_file) = config_file {
-                                config.merge(config_file.into_config(Some(path))?)
-                            }
-
-                            if let Some(c) = &mut config {
-                                if c.jsc.base_url != PathBuf::new() {
-                                    let joined = dir.join(&c.jsc.base_url);
-                                    c.jsc.base_url = if cfg!(target_os = "windows")
-                                        && c.jsc.base_url.as_os_str() == "."
-                                    {
-                                        dir.canonicalize().with_context(|| {
-                                            format!(
-                                                "failed to canonicalize base url using the path \
-                                                 of .swcrc\nDir: {}\n(Used logic for windows)",
-                                                dir.display(),
-                                            )
-                                        })?
-                                    } else {
-                                        joined.canonicalize().with_context(|| {
-                                            format!(
-                                                "failed to canonicalize base url using the path \
-                                                 of .swcrc\nPath: {}\nDir: {}\nbaseUrl: {}",
-                                                joined.display(),
-                                                dir.display(),
-                                                c.jsc.base_url.display()
-                                            )
-                                        })?
-                                    };
-                                }
-                            }
-
-                            return Ok(config);
+                    if let Some(c) = &mut config {
+                        if c.jsc.base_url != PathBuf::new() {
+                            let joined = dir.join(&c.jsc.base_url);
+                            c.jsc.base_url = if cfg!(target_os = "windows")
+                                && c.jsc.base_url.as_os_str() == "."
+                            {
+                                dir.canonicalize().with_context(|| {
+                                    format!(
+                                        "failed to canonicalize base url using the path of \
+                                         .swcrc\nDir: {}\n(Used logic for windows)",
+                                        dir.display(),
+                                    )
+                                })?
+                            } else {
+                                joined.canonicalize().with_context(|| {
+                                    format!(
+                                        "failed to canonicalize base url using the path of \
+                                         .swcrc\nPath: {}\nDir: {}\nbaseUrl: {}",
+                                        joined.display(),
+                                        dir.display(),
+                                        c.jsc.base_url.display()
+                                    )
+                                })?
+                            };
                         }
-
-                        if dir == root && *root_mode == RootMode::Root {
-                            break;
-                        }
-                        parent = dir.parent();
                     }
+
+                    return Ok(config);
                 }
 
                 let config_file = config_file.unwrap_or_default();
-                let config = config_file.into_config(Some(path))?;
+                let config = config_file.into_config(Some(filename_path))?;
 
                 return Ok(config);
             }
@@ -832,7 +837,7 @@ impl Compiler {
                 }
             }
         })
-        .with_context(|| format!("failed to read swcrc file ({})", name))
+        .with_context(|| format!("failed to read .swcrc file for input file at `{}`", name))
     }
 
     /// This method returns [None] if a file should be skipped.
@@ -1256,6 +1261,24 @@ impl Compiler {
             )
         })
     }
+}
+
+fn find_swcrc(path: &Path, root: &Path, root_mode: RootMode) -> Option<PathBuf> {
+    let mut parent = path.parent();
+    while let Some(dir) = parent {
+        let swcrc = dir.join(".swcrc");
+
+        if swcrc.exists() {
+            return Some(swcrc);
+        }
+
+        if dir == root && root_mode == RootMode::Root {
+            break;
+        }
+        parent = dir.parent();
+    }
+
+    None
 }
 
 #[tracing::instrument(level = "info", skip_all)]

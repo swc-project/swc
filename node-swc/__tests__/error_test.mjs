@@ -13,7 +13,7 @@ it("should work", () => {
 it("should report good error", () => {
   expect(() => {
     swc.transformFileSync(__dirname + "/../tests/error/simple.js");
-  }).toThrow("failed to read swcrc file");
+  }).toThrow("failed to deserialize .swcrc (json) file");
 });
 
 it("should report good error (handler)", () => {
