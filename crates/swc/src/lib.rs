@@ -773,13 +773,19 @@ impl Compiler {
                 Some(s) => Some(load_swcrc(s)?),
                 _ => None,
             };
+            let filename_path = match name {
+                FileName::Real(p) => Some(&**p),
+                _ => None,
+            };
 
-            if let FileName::Real(ref path) = name {
+            if let Some(swcrc_path) = swcrc_path {
                 if let Some(config) = config_file {
-                    let dir = path.parent().expect(".swcrc path should have parent dir");
+                    let dir = swcrc_path
+                        .parent()
+                        .expect(".swcrc path should have parent dir");
 
                     let mut config = config
-                        .into_config(Some(path))
+                        .into_config(filename_path)
                         .context("failed to process config file")?;
 
                     if let Some(c) = &mut config {
@@ -813,7 +819,7 @@ impl Compiler {
                 }
 
                 let config_file = config_file.unwrap_or_default();
-                let config = config_file.into_config(Some(path))?;
+                let config = config_file.into_config(filename_path)?;
 
                 return Ok(config);
             }
