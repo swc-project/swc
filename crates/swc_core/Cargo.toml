@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.79.57"
+version       = "0.79.58"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -325,8 +325,8 @@ __visit = ["__ecma", "swc_ecma_visit"]
 once_cell = { optional = true, version = "1.18.0" }
 
 # swc_* dependencies
-binding_macros                   = { optional = true, version = "0.53.54", path = "../binding_macros" }
-swc                              = { optional = true, version = "0.264.54", path = "../swc" }
+binding_macros                   = { optional = true, version = "0.53.55", path = "../binding_macros" }
+swc                              = { optional = true, version = "0.264.55", path = "../swc" }
 swc_atoms                        = { optional = true, version = "0.5.8", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "0.217.46", path = "../swc_bundler" }
 swc_cached                       = { optional = true, version = "0.3.17", path = "../swc_cached" }
@@ -359,7 +359,7 @@ swc_ecma_usage_analyzer          = { optional = true, version = "0.16.19", path 
 swc_ecma_utils                   = { optional = true, version = "0.120.15", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { optional = true, version = "0.93.4", path = "../swc_ecma_visit" }
 swc_node_base                    = { optional = true, version = "0.5.8", path = "../swc_node_base" }
-swc_node_bundler                 = { optional = true, version = "0.51.54", path = "../swc_node_bundler" }
+swc_node_bundler                 = { optional = true, version = "0.51.55", path = "../swc_node_bundler" }
 swc_nodejs_common                = { optional = true, version = "0.0.8", path = "../swc_nodejs_common" }
 swc_plugin                       = { optional = true, version = "0.90.0", path = "../swc_plugin" }
 swc_plugin_macro                 = { optional = true, version = "0.9.15", path = "../swc_plugin_macro" }
