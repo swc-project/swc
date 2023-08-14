@@ -46,8 +46,6 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn add_module_mode_error(&self, error: Error);
 
     fn take_errors(&mut self) -> Vec<Error>;
-
-    fn reset_to(&mut self, to: BytePos);
 }
 
 #[derive(Clone)]
@@ -143,8 +141,6 @@ impl Tokens for TokensInput {
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
-
-    fn reset_to(&mut self, _: BytePos) {}
 }
 
 /// Note: Lexer need access to parser's context to lex correctly.
@@ -257,10 +253,6 @@ impl<I: Tokens> Tokens for Capturing<I> {
     fn take_errors(&mut self) -> Vec<Error> {
         self.inner.take_errors()
     }
-
-    fn reset_to(&mut self, to: BytePos) {
-        self.inner.reset_to(to);
-    }
 }
 
 /// This struct is responsible for managing current token and peeked token.
@@ -326,9 +318,9 @@ impl<I: Tokens> Buffer<I> {
 
     #[cold]
     #[inline(never)]
-    pub fn dump_cur(&self) -> String {
-        match &self.cur {
-            Some(v) => format!("{:?}", v.token),
+    pub fn dump_cur(&mut self) -> String {
+        match self.cur() {
+            Some(v) => format!("{:?}", v),
             None => "<eof>".to_string(),
         }
     }
@@ -501,11 +493,5 @@ impl<I: Tokens> Buffer<I> {
     #[inline]
     pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {
         self.iter.set_token_context(c)
-    }
-
-    #[inline]
-    pub(crate) fn reset_to(&mut self, to: BytePos) {
-        self.cur = None;
-        self.iter.reset_to(to)
     }
 }
