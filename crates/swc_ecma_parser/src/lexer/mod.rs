@@ -192,35 +192,15 @@ impl<'a> Lexer<'a> {
     fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.cur().is_some());
 
-        if self.input.is_at_start() && self.read_token_interpreter()? {
-            return Ok(None);
-        }
-
         self.input.bump(); // '#'
+
+        // `#` can also be a part of shebangs, however they should have been
+        // handled by `read_shebang()`
+        debug_assert!(
+            !self.input.is_at_start() || self.cur() != Some('!'),
+            "#! should have already been handled by read_shebang()"
+        );
         Ok(Some(Token::Hash))
-    }
-
-    #[inline(never)]
-    fn read_token_interpreter(&mut self) -> LexResult<bool> {
-        if !self.input.is_at_start() {
-            return Ok(false);
-        }
-
-        let start = self.input.cur_pos();
-        self.input.bump();
-        let c = self.input.cur();
-        if c == Some('!') {
-            while let Some(c) = self.input.cur() {
-                self.input.bump();
-                if c == '\n' || c == '\r' || c == '\u{8232}' || c == '\u{8233}' {
-                    return Ok(true);
-                }
-            }
-            Ok(false)
-        } else {
-            self.input.reset_to(start);
-            Ok(false)
-        }
     }
 
     /// Read a token given `.`.
