@@ -3,5 +3,4 @@ yarn.lock
 node_modules
 _/
 cjs/
-src/
 *.tgz
