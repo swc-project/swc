@@ -145,3 +145,99 @@ impl Default for EsVersion {
         EsVersion::Es5
     }
 }
+
+/// Warning: The particular implementation of serialization and deserialization
+/// of the ast nodes may change in the future, and so these types would be
+/// removed. It's safe to say they will be serializable in some form or another,
+/// but not necessarily with these specific types underlying the implementation.
+/// As such, *use these types at your own risk*.
+#[cfg(feature = "rkyv-impl")]
+pub use self::{
+    class::{
+        ArchivedAutoAccessor, ArchivedClass, ArchivedClassMember, ArchivedClassMethod,
+        ArchivedClassProp, ArchivedConstructor, ArchivedDecorator, ArchivedKey, ArchivedMethodKind,
+        ArchivedPrivateMethod, ArchivedPrivateProp, ArchivedStaticBlock,
+    },
+    decl::{
+        ArchivedClassDecl, ArchivedDecl, ArchivedFnDecl, ArchivedUsingDecl, ArchivedVarDecl,
+        ArchivedVarDeclKind, ArchivedVarDeclarator,
+    },
+    expr::{
+        ArchivedArrayLit, ArchivedArrowExpr, ArchivedAssignExpr, ArchivedAwaitExpr,
+        ArchivedBinExpr, ArchivedBlockStmtOrExpr, ArchivedCallExpr, ArchivedCallee,
+        ArchivedClassExpr, ArchivedCondExpr, ArchivedExpr, ArchivedExprOrSpread, ArchivedFnExpr,
+        ArchivedImport, ArchivedMemberExpr, ArchivedMemberProp, ArchivedMetaPropExpr,
+        ArchivedMetaPropKind, ArchivedNewExpr, ArchivedObjectLit, ArchivedOptCall,
+        ArchivedOptChainBase, ArchivedOptChainExpr, ArchivedParenExpr, ArchivedPatOrExpr,
+        ArchivedPropOrSpread, ArchivedSeqExpr, ArchivedSpreadElement, ArchivedSuper,
+        ArchivedSuperProp, ArchivedSuperPropExpr, ArchivedTaggedTpl, ArchivedThisExpr, ArchivedTpl,
+        ArchivedTplElement, ArchivedUnaryExpr, ArchivedUpdateExpr, ArchivedYieldExpr,
+    },
+    function::{ArchivedFunction, ArchivedParam, ArchivedParamOrTsParamProp},
+    ident::{ArchivedBindingIdent, ArchivedIdent, ArchivedPrivateName},
+    jsx::{
+        ArchivedJSXAttr, ArchivedJSXAttrName, ArchivedJSXAttrOrSpread, ArchivedJSXAttrValue,
+        ArchivedJSXClosingElement, ArchivedJSXClosingFragment, ArchivedJSXElement,
+        ArchivedJSXElementChild, ArchivedJSXElementName, ArchivedJSXEmptyExpr, ArchivedJSXExpr,
+        ArchivedJSXExprContainer, ArchivedJSXFragment, ArchivedJSXMemberExpr,
+        ArchivedJSXNamespacedName, ArchivedJSXObject, ArchivedJSXOpeningElement,
+        ArchivedJSXOpeningFragment, ArchivedJSXSpreadChild, ArchivedJSXText,
+    },
+    lit::{
+        ArchivedBigInt, ArchivedBool, ArchivedLit, ArchivedNull, ArchivedNumber, ArchivedRegex,
+        ArchivedStr,
+    },
+    module::{
+        ArchivedModule, ArchivedModuleItem, ArchivedProgram, ArchivedReservedUnused, ArchivedScript,
+    },
+    module_decl::{
+        ArchivedDefaultDecl, ArchivedExportAll, ArchivedExportDecl, ArchivedExportDefaultDecl,
+        ArchivedExportDefaultExpr, ArchivedExportDefaultSpecifier, ArchivedExportNamedSpecifier,
+        ArchivedExportNamespaceSpecifier, ArchivedExportSpecifier, ArchivedImportDecl,
+        ArchivedImportDefaultSpecifier, ArchivedImportNamedSpecifier, ArchivedImportSpecifier,
+        ArchivedImportStarAsSpecifier, ArchivedModuleDecl, ArchivedModuleExportName,
+        ArchivedNamedExport,
+    },
+    operators::{ArchivedAssignOp, ArchivedBinaryOp, ArchivedUnaryOp, ArchivedUpdateOp},
+    pat::{
+        ArchivedArrayPat, ArchivedAssignPat, ArchivedAssignPatProp, ArchivedKeyValuePatProp,
+        ArchivedObjectPat, ArchivedObjectPatProp, ArchivedPat, ArchivedRestPat,
+    },
+    prop::{
+        ArchivedAssignProp, ArchivedComputedPropName, ArchivedGetterProp, ArchivedKeyValueProp,
+        ArchivedMethodProp, ArchivedProp, ArchivedPropName, ArchivedSetterProp,
+    },
+    stmt::{
+        ArchivedBlockStmt, ArchivedBreakStmt, ArchivedCatchClause, ArchivedContinueStmt,
+        ArchivedDebuggerStmt, ArchivedDoWhileStmt, ArchivedEmptyStmt, ArchivedExprStmt,
+        ArchivedForHead, ArchivedForInStmt, ArchivedForOfStmt, ArchivedForStmt, ArchivedIfStmt,
+        ArchivedLabeledStmt, ArchivedReturnStmt, ArchivedStmt, ArchivedSwitchCase,
+        ArchivedSwitchStmt, ArchivedThrowStmt, ArchivedTryStmt, ArchivedVarDeclOrExpr,
+        ArchivedWhileStmt, ArchivedWithStmt,
+    },
+    typescript::{
+        ArchivedAccessibility, ArchivedTruePlusMinus, ArchivedTsArrayType, ArchivedTsAsExpr,
+        ArchivedTsCallSignatureDecl, ArchivedTsConditionalType, ArchivedTsConstAssertion,
+        ArchivedTsConstructSignatureDecl, ArchivedTsConstructorType, ArchivedTsEntityName,
+        ArchivedTsEnumDecl, ArchivedTsEnumMember, ArchivedTsEnumMemberId,
+        ArchivedTsExportAssignment, ArchivedTsExprWithTypeArgs, ArchivedTsExternalModuleRef,
+        ArchivedTsFnOrConstructorType, ArchivedTsFnParam, ArchivedTsFnType,
+        ArchivedTsGetterSignature, ArchivedTsImportEqualsDecl, ArchivedTsImportType,
+        ArchivedTsIndexSignature, ArchivedTsIndexedAccessType, ArchivedTsInferType,
+        ArchivedTsInstantiation, ArchivedTsInterfaceBody, ArchivedTsInterfaceDecl,
+        ArchivedTsIntersectionType, ArchivedTsKeywordType, ArchivedTsKeywordTypeKind,
+        ArchivedTsLit, ArchivedTsLitType, ArchivedTsMappedType, ArchivedTsMethodSignature,
+        ArchivedTsModuleBlock, ArchivedTsModuleDecl, ArchivedTsModuleName, ArchivedTsModuleRef,
+        ArchivedTsNamespaceBody, ArchivedTsNamespaceDecl, ArchivedTsNamespaceExportDecl,
+        ArchivedTsNonNullExpr, ArchivedTsOptionalType, ArchivedTsParamProp,
+        ArchivedTsParamPropParam, ArchivedTsParenthesizedType, ArchivedTsPropertySignature,
+        ArchivedTsQualifiedName, ArchivedTsRestType, ArchivedTsSatisfiesExpr,
+        ArchivedTsSetterSignature, ArchivedTsThisType, ArchivedTsThisTypeOrIdent,
+        ArchivedTsTplLitType, ArchivedTsTupleElement, ArchivedTsTupleType, ArchivedTsType,
+        ArchivedTsTypeAliasDecl, ArchivedTsTypeAnn, ArchivedTsTypeAssertion, ArchivedTsTypeElement,
+        ArchivedTsTypeLit, ArchivedTsTypeOperator, ArchivedTsTypeOperatorOp, ArchivedTsTypeParam,
+        ArchivedTsTypeParamDecl, ArchivedTsTypeParamInstantiation, ArchivedTsTypePredicate,
+        ArchivedTsTypeQuery, ArchivedTsTypeQueryExpr, ArchivedTsTypeRef,
+        ArchivedTsUnionOrIntersectionType, ArchivedTsUnionType,
+    },
+};
