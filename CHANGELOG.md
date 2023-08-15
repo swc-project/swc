@@ -8,6 +8,9 @@
 - **(es)** Resolve `jsc.baseUrl` for `.swcrc` specified by `--config-file` (#7801) ([fe1ca26](https://github.com/swc-project/swc/commit/fe1ca26218493d2e7d4121433c365a37e13285e6))
 
 
+- **(es/compat)** Revert #7610  (#7813) ([42dec55](https://github.com/swc-project/swc/commit/42dec557ed2e8fd829aba7847b354003cfea1b18))
+
+
 - **(es/parser)** Revert lexer fix for `<<` (#7807) ([e527c12](https://github.com/swc-project/swc/commit/e527c12a82740397ed4e909f242326f8e92624a8))
 
 ### Refactor
