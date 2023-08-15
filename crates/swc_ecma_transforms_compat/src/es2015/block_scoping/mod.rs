@@ -162,7 +162,7 @@ impl BlockScoping {
                 has_return: false,
                 has_yield: false,
                 label: IndexMap::new(),
-                inner_label: AHashSet::new(),
+                inner_label: AHashSet::default(),
                 mutated,
                 in_switch_case: false,
                 in_nested_loop: false,
