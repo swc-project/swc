@@ -152,6 +152,7 @@ impl Default for EsVersion {
 /// but not necessarily with these specific types underlying the implementation.
 /// As such, *use these types at your own risk*.
 #[cfg(feature = "rkyv-impl")]
+#[doc(hidden)]
 pub use self::{
     class::{
         ArchivedAutoAccessor, ArchivedClass, ArchivedClassMember, ArchivedClassMethod,
