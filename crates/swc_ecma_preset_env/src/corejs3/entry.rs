@@ -5,7 +5,10 @@ use preset_env_base::{
     Versions,
 };
 use swc_atoms::js_word;
-use swc_common::{collections::AHashMap, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, ARandomState},
+    DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMut;
 
@@ -33,7 +36,7 @@ pub struct Entry {
     is_any_target: bool,
     target: Versions,
     corejs_version: Version,
-    pub imports: IndexSet<&'static str, ahash::RandomState>,
+    pub imports: IndexSet<&'static str, ARandomState>,
     remove_regenerator: bool,
 }
 

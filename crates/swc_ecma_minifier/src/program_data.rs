@@ -7,7 +7,7 @@ use indexmap::IndexSet;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::{AHashMap, AHashSet},
+    collections::{AHashMap, AHashSet, ARandomState},
     SyntaxContext,
 };
 use swc_ecma_ast::*;
@@ -38,7 +38,7 @@ pub(crate) struct ProgramData {
 
     pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
 
-    initialized_vars: IndexSet<Id, ahash::RandomState>,
+    initialized_vars: IndexSet<Id, ARandomState>,
 }
 
 #[derive(Debug, Default, Clone)]

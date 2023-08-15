@@ -16,7 +16,6 @@ default    = ["serde-impl"]
 serde-impl = ["serde"]
 
 [dependencies]
-ahash      = "0.8.3"
 anyhow     = "1"
 dashmap    = "5.4.0"
 indexmap   = "1.9.3"

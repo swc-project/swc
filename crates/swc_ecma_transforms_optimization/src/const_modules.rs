@@ -8,6 +8,7 @@ use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
+    collections::ARandomState,
     errors::HANDLER,
     sync::Lrc,
     util::{move_map::MoveMap, take::Take},
@@ -43,8 +44,7 @@ pub fn const_modules(
 }
 
 fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
-    static CACHE: Lazy<DashMap<String, Arc<Expr>, ahash::RandomState>> =
-        Lazy::new(DashMap::default);
+    static CACHE: Lazy<DashMap<String, Arc<Expr>, ARandomState>> = Lazy::new(DashMap::default);
 
     let fm = cm.new_source_file(FileName::Custom(format!("<const-module-{}.js>", name)), src);
     if let Some(expr) = CACHE.get(&**fm.src) {

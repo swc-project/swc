@@ -22,7 +22,6 @@ concurrent = ["swc_common/concurrent", "indexmap/rayon"]
 trace-ast  = []
 
 [dependencies]
-ahash      = "0.8.3"
 indexmap   = "1.9.3"
 rustc-hash = "1.1.0"
 tracing    = "0.1.37"

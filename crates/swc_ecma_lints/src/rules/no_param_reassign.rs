@@ -2,7 +2,7 @@ use dashmap::DashMap;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use swc_common::{
-    collections::{AHashMap, AHashSet},
+    collections::{AHashMap, AHashSet, ARandomState},
     errors::HANDLER,
     sync::Lazy,
     Span,
@@ -121,7 +121,7 @@ impl NoParamReassign {
         }
 
         if let Some(ignore_names_patterns) = &self.ignore_names_patterns {
-            static REGEX_CACHE: Lazy<DashMap<String, Regex, ahash::RandomState>> =
+            static REGEX_CACHE: Lazy<DashMap<String, Regex, ARandomState>> =
                 Lazy::new(Default::default);
 
             let sym = &*ident.sym;

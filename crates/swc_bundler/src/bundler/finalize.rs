@@ -1,10 +1,9 @@
 use std::path::{Path, PathBuf};
 
-use ahash::AHashMap;
 use anyhow::Error;
 use relative_path::RelativePath;
 use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, FileName, Mark, DUMMY_SP};
+use swc_common::{collections::AHashMap, util::move_map::MoveMap, FileName, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     fixer::fixer,

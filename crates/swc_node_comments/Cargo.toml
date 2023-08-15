@@ -15,7 +15,6 @@ version = "0.18.18"
 bench = false
 
 [dependencies]
-ahash   = "0.8.3"
 dashmap = "5.4.0"
 
 swc_atoms  = { version = "0.5.8", path = "../swc_atoms" }

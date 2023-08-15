@@ -18,7 +18,7 @@ use path_clean::PathClean;
 use pathdiff::diff_paths;
 use serde::Deserialize;
 use swc_common::{
-    collections::{AHashMap, AHashSet},
+    collections::{AHashMap, AHashSet, ARandomState},
     FileName,
 };
 use tracing::{debug, trace, Level};
@@ -33,7 +33,7 @@ static PACKAGE: &str = "package.json";
 /// directory containing the package.json file which is important
 /// to ensure we only apply these `browser` rules to modules in
 /// the owning package.
-static BROWSER_CACHE: Lazy<DashMap<PathBuf, BrowserCache, ahash::RandomState>> =
+static BROWSER_CACHE: Lazy<DashMap<PathBuf, BrowserCache, ARandomState>> =
     Lazy::new(Default::default);
 
 #[derive(Debug, Default)]
