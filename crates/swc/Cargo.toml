@@ -70,6 +70,7 @@ url          = "2.4.0"
 swc_atoms = { version = "0.5.8", path = "../swc_atoms" }
 swc_cached = { version = "0.3.17", path = "../swc_cached" }
 swc_common = { version = "0.31.18", path = "../swc_common", features = [
+  "ahash",
   "sourcemap",
   "parking_lot",
 ] }
