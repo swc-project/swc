@@ -1,7 +1,6 @@
 use std::mem;
 
 use serde::Deserialize;
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -182,13 +181,7 @@ impl OptChaining {
                     next = m.obj.take();
                     m.prop.visit_mut_with(self);
                     chain.push(if optional {
-                        match *next {
-                            Expr::This(_) => Gathering::OptMember(
-                                m.take(),
-                                Ident::new(js_word!("this"), DUMMY_SP),
-                            ),
-                            _ => Gathering::OptMember(m.take(), self.memoize(&next)),
-                        }
+                        Gathering::OptMember(m.take(), self.memoize(&next))
                     } else {
                         Gathering::Member(m.take())
                     });
@@ -306,11 +299,7 @@ impl OptChaining {
                 Gathering::OptMember(mut m, memo) => {
                     committed_cond.push(CondExpr {
                         span: DUMMY_SP,
-                        test: if memo.sym == js_word!("this") {
-                            eq_null_or_undefined(&memo, no_document_all)
-                        } else {
-                            init_and_eq_null_or_undefined(&memo, current, no_document_all)
-                        },
+                        test: init_and_eq_null_or_undefined(&memo, current, no_document_all),
                         cons: if is_delete {
                             true.into()
                         } else {
@@ -389,40 +378,6 @@ fn init_and_eq_null_or_undefined(i: &Ident, init: Expr, no_document_all: bool) -
         left: PatOrExpr::Pat(i.clone().into()),
         right: Box::new(init),
     }));
-
-    if no_document_all {
-        return Box::new(Expr::Bin(BinExpr {
-            span: DUMMY_SP,
-            left: lhs,
-            op: op!("=="),
-            right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-        }));
-    }
-
-    let null_cmp = Box::new(Expr::Bin(BinExpr {
-        span: DUMMY_SP,
-        left: lhs,
-        op: op!("==="),
-        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-    }));
-
-    let void_cmp = Box::new(Expr::Bin(BinExpr {
-        span: DUMMY_SP,
-        left: Box::new(Expr::Ident(i.clone())),
-        op: op!("==="),
-        right: undefined(DUMMY_SP),
-    }));
-
-    Box::new(Expr::Bin(BinExpr {
-        span: DUMMY_SP,
-        left: null_cmp,
-        op: op!("||"),
-        right: void_cmp,
-    }))
-}
-
-fn eq_null_or_undefined(i: &Ident, no_document_all: bool) -> Box<Expr> {
-    let lhs = Box::new(Expr::Ident(i.clone()));
 
     if no_document_all {
         return Box::new(Expr::Bin(BinExpr {
