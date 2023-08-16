@@ -1,9 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{
-    helper, helper_expr,
-    perf::{Check, Parallel},
-};
+use swc_ecma_transforms_base::{helper, perf::Parallel};
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
