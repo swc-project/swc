@@ -9,7 +9,6 @@ repository    = "https://github.com/swc-project/swc.git"
 version       = "0.79.62"
   [package.metadata.docs.rs]
   features = [
-    "common_perf",
     "allocator_node",
     "base",
     "base_node",
@@ -38,8 +37,8 @@ doctest = false
 ## but changes internal logics to perform differently. These flag should be turned on in combination with
 ## actual features. Refer build.rs for more details.
 
-# swc_common/perf
-common_perf = ["swc_common/perf"]
+# swc_common/ahash
+common_ahash = ["swc_common/ahash"]
 
 # swc_ecma_loader/cache*
 ecma_loader_lru         = ["swc_ecma_loader/lru"]
