@@ -9,7 +9,7 @@ use super::object_rest_spread::Config;
 
 #[derive(Clone, Copy)]
 pub(super) struct ObjectSpread {
-    config: Config,
+    pub config: Config,
 }
 
 impl Parallel for ObjectSpread {

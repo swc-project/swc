@@ -21,12 +21,12 @@ use super::object_rest_spread::Config;
 #[derive(Default)]
 pub(super) struct ObjectRest {
     /// Injected before the original statement.
-    vars: Vec<VarDeclarator>,
+    pub vars: Vec<VarDeclarator>,
     /// Variables which should be declared using `var`
-    mutable_vars: Vec<VarDeclarator>,
+    pub mutable_vars: Vec<VarDeclarator>,
     /// Assignment expressions.
-    exprs: Vec<Box<Expr>>,
-    config: Config,
+    pub exprs: Vec<Box<Expr>>,
+    pub config: Config,
 }
 
 macro_rules! impl_for_for_stmt {
