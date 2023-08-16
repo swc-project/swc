@@ -1,10 +1,10 @@
-#[cfg(not(feature = "perf"))]
+#[cfg(feature = "ahash")]
 pub use self::ahash::*;
-#[cfg(feature = "perf")]
-pub use self::fxhash::*;
+#[cfg(not(feature = "ahash"))]
+pub use self::rustchash::*;
 
-#[cfg(feature = "perf")]
-mod fxhash {
+#[cfg(not(feature = "ahash"))]
+mod rustchash {
     use std::{
         collections::{HashMap, HashSet},
         hash::BuildHasherDefault,
@@ -19,7 +19,7 @@ mod fxhash {
     pub type AHashSet<V> = HashSet<V, ARandomState>;
 }
 
-#[cfg(not(feature = "perf"))]
+#[cfg(feature = "ahash")]
 mod ahash {
     use std::collections::{HashMap, HashSet};
 
