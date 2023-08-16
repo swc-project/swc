@@ -570,6 +570,7 @@ impl ObjectRest {
                     false,
                     false,
                 );
+                dbg!(&param.pat);
                 match param.pat {
                     Pat::Rest(..) | Pat::Ident(..) => param,
                     Pat::Assign(AssignPat { ref left, .. })
@@ -695,6 +696,10 @@ impl ObjectRest {
         // const bar = _extends({}, obj.a), baz = _extends({}, obj.b), foo =
         // _extends({}, obj);
 
+        if pat.is_ident() {
+            // panic!()
+        }
+
         let ObjectPat {
             span,
             props,
@@ -722,6 +727,8 @@ impl ObjectRest {
                     .enumerate()
                     .map(|(i, elem)| {
                         elem.map(|elem| {
+                            dbg!(&elem);
+
                             self.fold_rest(
                                 index,
                                 elem,
