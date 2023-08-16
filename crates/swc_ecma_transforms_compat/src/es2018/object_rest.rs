@@ -568,7 +568,7 @@ impl ObjectRest {
                     param.pat,
                     Box::new(Expr::Ident(var_ident.clone())),
                     false,
-                    false,
+                    true,
                 );
                 dbg!(&param.pat);
                 match param.pat {
