@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
@@ -10,7 +12,7 @@ use swc_ecma_transforms_compat::{
     },
     es2018::object_rest_spread,
 };
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -2299,3 +2301,25 @@ test_exec!(
     x()();
     "#
 );
+
+#[testing::fixture("tests/destructuring/**/input.js")]
+fn fixture(input: PathBuf) {
+    let parent = input.parent().unwrap();
+
+    let output = parent.join("output.js");
+    test_fixture(
+        Syntax::Es(Default::default()),
+        &|t| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            chain!(
+                resolver(unresolved_mark, top_level_mark, false),
+                destructuring(Default::default())
+            )
+        },
+        &input,
+        &output,
+        Default::default(),
+    )
+}
