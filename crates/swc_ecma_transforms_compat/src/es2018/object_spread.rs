@@ -1,6 +1,7 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::parallel::Parallel;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 use swc_trace_macro::swc_trace;
 
 use super::Config;

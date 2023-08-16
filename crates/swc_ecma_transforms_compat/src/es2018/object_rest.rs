@@ -1,6 +1,12 @@
+use std::iter;
+
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::private_ident;
+use swc_ecma_visit::{noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitWith};
+use swc_trace_macro::swc_trace;
 
 use super::Config;
 
