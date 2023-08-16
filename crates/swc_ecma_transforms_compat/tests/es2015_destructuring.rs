@@ -2315,6 +2315,7 @@ fn fixture(input: PathBuf) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
+                object_rest_spread(Default::default()),
                 destructuring(Default::default())
             )
         },
