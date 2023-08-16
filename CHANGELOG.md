@@ -5,6 +5,9 @@
 
 
 
+- **(common)** Make `ahash` optional (#7816) ([981d7b1](https://github.com/swc-project/swc/commit/981d7b152b2f488a67d42052152db22225f1d094))
+
+
 - **(es/parser)** Remove needless `unsafe` (#7818) ([8b809db](https://github.com/swc-project/swc/commit/8b809dbe23cab3db2159979cf1852a69c109f1e0))- **general**: Use `ahash` from `swc_common` in more places (#7815) ([b43e38d](https://github.com/swc-project/swc/commit/b43e38d3f92bc889e263b741dbe173a6f2206d88))
 
 ## [1.3.77] - 2023-08-16
