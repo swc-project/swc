@@ -252,6 +252,10 @@ impl Pure<'_> {
                     if let Some(cur_cooked) = &mut cur_cooked {
                         cur_cooked.push_str(&cooked);
                     }
+                } else {
+                    // If cooked is None, it means that the template literal contains invalid escape
+                    // sequences.
+                    cur_cooked = None;
                 }
             } else {
                 let i = i / 2;
