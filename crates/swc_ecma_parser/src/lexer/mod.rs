@@ -69,6 +69,34 @@ impl IntoIterator for Char {
         CharIter(match char::from_u32(self.0) {
             Some(c) => smallvec![c],
             None => {
+                {
+                    let high = self.hex_4_digits()?;
+                    // The first code unit of a surrogate pair is always in the range from 0xD800 to
+                    // 0xDBFF, and is called a high surrogate or a lead surrogate.
+                    if !((0xd800..=0xdbff).contains(&high)
+                        && self.peek() == '\\'
+                        && self.peek2() == 'u')
+                    {
+                        return Some(SurrogatePair::CodePoint(high));
+                    }
+
+                    self.current.chars.next();
+                    self.current.chars.next();
+
+                    let low = self.hex_4_digits()?;
+
+                    // The second code unit of a surrogate pair is always in the range from 0xDC00
+                    // to 0xDFFF, and is called a low surrogate or a trail surrogate.
+                    if !(0xdc00..=0xdfff).contains(&low) {
+                        return Some(SurrogatePair::HighLow(high, low));
+                    }
+
+                    // `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
+                    let astral_code_point = (high - 0xd800) * 0x400 + low - 0xdc00 + 0x10000;
+
+                    Some(SurrogatePair::Astral(astral_code_point))
+                }
+
                 let c = unsafe { char::from_u32_unchecked(self.0) };
                 let escaped = c.escape_unicode().to_string();
 
