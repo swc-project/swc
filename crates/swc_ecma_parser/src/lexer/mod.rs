@@ -70,48 +70,28 @@ impl IntoIterator for Char {
         CharIter(match char::from_u32(self.0) {
             Some(c) => smallvec![c],
             None => {
-                {
-                    let high = self.hex_4_digits()?;
-                    // The first code unit of a surrogate pair is always in the range from 0xD800 to
-                    // 0xDBFF, and is called a high surrogate or a lead surrogate.
-                    if !((0xd800..=0xdbff).contains(&high)
-                        && self.peek() == '\\'
-                        && self.peek2() == 'u')
-                    {
-                        return Some(SurrogatePair::CodePoint(high));
-                    }
+                let mut buf = smallvec![];
 
-                    self.current.chars.next();
-                    self.current.chars.next();
+                let high = (self.0 & 0xffff0000 >> 16) as u32;
 
-                    let low = self.hex_4_digits()?;
+                let low = (self.0 & 0x0000ffff) as u32;
 
-                    // The second code unit of a surrogate pair is always in the range from 0xDC00
-                    // to 0xDFFF, and is called a low surrogate or a trail surrogate.
-                    if !(0xdc00..=0xdfff).contains(&low) {
-                        return Some(SurrogatePair::HighLow(high, low));
-                    }
-
+                // The second code unit of a surrogate pair is always in the range from 0xDC00
+                // to 0xDFFF, and is called a low surrogate or a trail surrogate.
+                if !(0xdc00..=0xdfff).contains(&low) {
+                    buf.push("\\");
+                    buf.push("u");
+                    buf.extend(format!("{high:x}").chars());
+                    buf.push("\\");
+                    buf.push("u");
+                    buf.extend(format!("{low:x}").chars());
+                } else {
                     // `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
                     let astral_code_point = (high - 0xd800) * 0x400 + low - 0xdc00 + 0x10000;
 
-                    Some(SurrogatePair::Astral(astral_code_point))
-                }
-
-                let c = unsafe { char::from_u32_unchecked(self.0) };
-                let escaped = c.escape_unicode().to_string();
-
-                debug_assert!(escaped.starts_with('\\'));
-
-                let mut buf = smallvec![];
-                buf.push('\\');
-                buf.push('\0');
-                buf.push('u');
-
-                if escaped.len() == 8 {
-                    buf.extend(escaped[3..=6].chars());
-                } else {
-                    buf.extend(escaped[2..].chars());
+                    buf.push("\\");
+                    buf.push("u");
+                    buf.extend(format!("{astral_code_point:x}").chars());
                 }
 
                 buf
