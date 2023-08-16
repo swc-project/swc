@@ -1,10 +1,14 @@
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::parallel::Parallel;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
+use swc_ecma_transforms_base::{
+    helper, helper_expr,
+    perf::{Check, Parallel},
+};
+use swc_ecma_utils::ExprFactory;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
-use super::Config;
+use super::object_rest_spread::Config;
 
 #[derive(Clone, Copy)]
 pub(super) struct ObjectSpread {

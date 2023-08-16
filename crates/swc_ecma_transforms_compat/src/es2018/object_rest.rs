@@ -1,14 +1,22 @@
-use std::iter;
+use std::{
+    iter,
+    mem::{self, replace},
+};
 
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::private_ident;
-use swc_ecma_visit::{noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitWith};
+use swc_ecma_utils::{
+    alias_ident_for, alias_if_required, is_literal, private_ident, quote_ident, var::VarCollector,
+    ExprFactory, StmtLike,
+};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 use swc_trace_macro::swc_trace;
 
-use super::Config;
+use super::object_rest_spread::Config;
 
 #[derive(Default)]
 pub(super) struct ObjectRest {
@@ -208,7 +216,7 @@ impl VisitMut for ObjectRest {
         }) = expr
         {
             let mut var_ident = alias_ident_for(right, "_tmp");
-            var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
+            var_ident.span = var_ident.span.apply_mark(Mark::new());
 
             // println!("Var: var_ident = None");
             self.mutable_vars.push(VarDeclarator {
