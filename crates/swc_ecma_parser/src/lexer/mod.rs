@@ -72,9 +72,9 @@ impl IntoIterator for Char {
             None => {
                 let mut buf = smallvec![];
 
-                let high = (self.0 & 0xffff0000 >> 16) as u32;
+                let high = self.0 & 0xffff0000 >> 16;
 
-                let low = (self.0 & 0x0000ffff) as u32;
+                let low = self.0 & 0x0000ffff;
 
                 // The second code unit of a surrogate pair is always in the range from 0xDC00
                 // to 0xDFFF, and is called a low surrogate or a trail surrogate.
