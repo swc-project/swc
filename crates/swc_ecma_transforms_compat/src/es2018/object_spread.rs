@@ -1,5 +1,7 @@
+use super::Config;
+
 #[derive(Clone, Copy)]
-struct ObjectSpread {
+pub(super) struct ObjectSpread {
     config: Config,
 }
 

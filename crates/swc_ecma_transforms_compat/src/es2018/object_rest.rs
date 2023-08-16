@@ -1,5 +1,9 @@
+use swc_ecma_ast::VarDeclarator;
+
+use super::Config;
+
 #[derive(Default)]
-struct ObjectRest {
+pub(super) struct ObjectRest {
     /// Injected before the original statement.
     vars: Vec<VarDeclarator>,
     /// Variables which should be declared using `var`
@@ -7,17 +11,6 @@ struct ObjectRest {
     /// Assignment expressions.
     exprs: Vec<Box<Expr>>,
     config: Config,
-}
-
-#[derive(Debug, Clone, Copy, Default, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Config {
-    #[serde(default)]
-    pub no_symbol: bool,
-    #[serde(default)]
-    pub set_property: bool,
-    #[serde(default)]
-    pub pure_getters: bool,
 }
 
 macro_rules! impl_for_for_stmt {

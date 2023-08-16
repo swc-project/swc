@@ -33,3 +33,14 @@ pub fn object_rest_spread(config: Config) -> impl Fold + VisitMut {
         as_folder(ObjectSpread { config })
     )
 }
+
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    #[serde(default)]
+    pub no_symbol: bool,
+    #[serde(default)]
+    pub set_property: bool,
+    #[serde(default)]
+    pub pure_getters: bool,
+}
