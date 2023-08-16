@@ -1606,6 +1606,7 @@ where
         match node {
             PropName::Ident(ident) => {
                 if self.cfg.ascii_only && !ident.sym.is_ascii() {
+                    punct!("\"");
                     self.wr.write_symbol(
                         DUMMY_SP,
                         &get_ascii_only_ident(
@@ -1613,6 +1614,8 @@ where
                             self.cfg.target,
                         ),
                     )?;
+                    punct!("\"");
+
                     return Ok(());
                 }
 
