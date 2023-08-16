@@ -1,3 +1,8 @@
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::*;
+use swc_ecma_utils::parallel::Parallel;
+use swc_trace_macro::swc_trace;
+
 use super::Config;
 
 #[derive(Clone, Copy)]

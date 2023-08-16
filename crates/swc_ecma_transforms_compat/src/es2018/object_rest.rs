@@ -1,4 +1,6 @@
-use swc_ecma_ast::VarDeclarator;
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::*;
+use swc_ecma_utils::private_ident;
 
 use super::Config;
 

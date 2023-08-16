@@ -20,6 +20,8 @@ use swc_ecma_visit::{
 };
 use swc_trace_macro::swc_trace;
 
+use super::{object_rest::ObjectRest, object_spread::ObjectSpread};
+
 // TODO: currently swc behaves like babel with
 // `ignoreFunctionLength` on
 
