@@ -3527,7 +3527,6 @@ dependencies = [
 name = "swc"
 version = "0.264.57"
 dependencies = [
- "ahash 0.8.3",
  "ansi_term",
  "anyhow",
  "base64 0.13.1",
@@ -3598,7 +3597,6 @@ dependencies = [
 name = "swc_bundler"
 version = "0.217.48"
 dependencies = [
- "ahash 0.8.3",
  "anyhow",
  "crc",
  "dashmap",
@@ -4026,7 +4024,6 @@ dependencies = [
 name = "swc_ecma_lints"
 version = "0.85.21"
 dependencies = [
- "ahash 0.8.3",
  "auto_impl",
  "dashmap",
  "parking_lot",
@@ -4049,7 +4046,6 @@ dependencies = [
 name = "swc_ecma_loader"
 version = "0.43.21"
 dependencies = [
- "ahash 0.8.3",
  "anyhow",
  "dashmap",
  "lazy_static",
@@ -4070,7 +4066,6 @@ dependencies = [
 name = "swc_ecma_minifier"
 version = "0.184.48"
 dependencies = [
- "ahash 0.8.3",
  "ansi_term",
  "anyhow",
  "arrayvec",
@@ -4138,7 +4133,6 @@ dependencies = [
 name = "swc_ecma_preset_env"
 version = "0.198.37"
 dependencies = [
- "ahash 0.8.3",
  "anyhow",
  "criterion",
  "dashmap",
@@ -4269,7 +4263,6 @@ dependencies = [
 name = "swc_ecma_transforms_compat"
 version = "0.156.28"
 dependencies = [
- "ahash 0.8.3",
  "arrayvec",
  "indexmap",
  "is-macro",
@@ -4310,7 +4303,6 @@ name = "swc_ecma_transforms_module"
 version = "0.173.33"
 dependencies = [
  "Inflector",
- "ahash 0.8.3",
  "anyhow",
  "bitflags 2.3.2",
  "indexmap",
@@ -4339,7 +4331,6 @@ dependencies = [
 name = "swc_ecma_transforms_optimization"
 version = "0.190.35"
 dependencies = [
- "ahash 0.8.3",
  "dashmap",
  "indexmap",
  "once_cell",
@@ -4394,7 +4385,6 @@ dependencies = [
 name = "swc_ecma_transforms_react"
 version = "0.176.33"
 dependencies = [
- "ahash 0.8.3",
  "base64 0.13.1",
  "dashmap",
  "indexmap",
@@ -4468,7 +4458,6 @@ dependencies = [
 name = "swc_ecma_usage_analyzer"
 version = "0.16.20"
 dependencies = [
- "ahash 0.8.3",
  "indexmap",
  "rustc-hash",
  "swc_atoms",
@@ -4600,9 +4589,9 @@ dependencies = [
 name = "swc_graph_analyzer"
 version = "0.20.22"
 dependencies = [
- "ahash 0.8.3",
  "auto_impl",
  "petgraph",
+ "swc_common",
  "swc_fast_graph",
  "testing",
  "tracing",
@@ -4778,7 +4767,6 @@ dependencies = [
 name = "swc_node_comments"
 version = "0.18.19"
 dependencies = [
- "ahash 0.8.3",
  "dashmap",
  "swc_atoms",
  "swc_common",

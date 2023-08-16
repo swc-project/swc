@@ -48,7 +48,6 @@ plugin_transform_host_native = [
 ]
 
 [dependencies]
-ahash        = "0.8.3"
 anyhow       = "1"
 base64       = "0.13.0"
 dashmap      = "5.4.0"

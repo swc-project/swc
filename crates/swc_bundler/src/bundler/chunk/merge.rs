@@ -5,7 +5,7 @@ use indexmap::IndexSet;
 use petgraph::EdgeDirection;
 use swc_atoms::js_word;
 use swc_common::{
-    collections::{AHashMap, AHashSet},
+    collections::{AHashMap, AHashSet, ARandomState},
     sync::Lock,
     FileName, SyntaxContext, DUMMY_SP,
 };
@@ -138,7 +138,7 @@ where
         graph: &ModuleGraph,
         start: ModuleId,
         dejavu: &mut AHashSet<ModuleId>,
-    ) -> IndexSet<ModuleId, ahash::RandomState> {
+    ) -> IndexSet<ModuleId, ARandomState> {
         let mut set = IndexSet::default();
 
         for dep in graph.neighbors_directed(start, Outgoing) {

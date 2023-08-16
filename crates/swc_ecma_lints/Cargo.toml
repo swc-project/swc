@@ -13,7 +13,6 @@ version     = "0.85.21"
 bench = false
 
 [dependencies]
-ahash       = "0.8"
 auto_impl   = "1.1.0"
 dashmap     = "5.4.0"
 parking_lot = "0.12.1"
