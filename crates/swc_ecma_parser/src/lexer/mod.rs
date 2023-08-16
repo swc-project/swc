@@ -55,6 +55,7 @@ impl From<u32> for Char {
 
 pub(crate) struct CharIter(SmallVec<[char; 7]>);
 
+/// Ported from https://github.com/web-infra-dev/oxc/blob/99a4816ce7b6132b2667257984f9d92ae3768f03/crates/oxc_parser/src/lexer/mod.rs#L1349-L1374
 impl IntoIterator for Char {
     type IntoIter = CharIter;
     type Item = char;
