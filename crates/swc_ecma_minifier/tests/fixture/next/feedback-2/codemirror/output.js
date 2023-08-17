@@ -1940,14 +1940,12 @@
                         var rect = function(cm, pos, end, margin) {
                             null == margin && (margin = 0), cm.options.lineWrapping || pos != end || (end = "before" == pos.sticky ? Pos(pos.line, pos.ch + 1, "before") : pos, pos = pos.ch ? Pos(pos.line, "before" == pos.sticky ? pos.ch - 1 : pos.ch, "after") : pos);
                             for(var rect, limit = 0; limit < 5; limit++){
-                                var changed = !1, coords = cursorCoords(cm, pos), endCoords = end && end != pos ? cursorCoords(cm, end) : coords;
-                                rect = {
+                                var changed = !1, coords = cursorCoords(cm, pos), endCoords = end && end != pos ? cursorCoords(cm, end) : coords, scrollPos = calculateScrollPos(cm, rect = {
                                     left: Math.min(coords.left, endCoords.left),
                                     top: Math.min(coords.top, endCoords.top) - margin,
                                     right: Math.max(coords.left, endCoords.left),
                                     bottom: Math.max(coords.bottom, endCoords.bottom) + margin
-                                };
-                                var scrollPos = calculateScrollPos(cm, rect), startTop = cm.doc.scrollTop, startLeft = cm.doc.scrollLeft;
+                                }), startTop = cm.doc.scrollTop, startLeft = cm.doc.scrollLeft;
                                 if (null != scrollPos.scrollTop && (updateScrollTop(cm, scrollPos.scrollTop), Math.abs(cm.doc.scrollTop - startTop) > 1 && (changed = !0)), null != scrollPos.scrollLeft && (setScrollLeft(cm, scrollPos.scrollLeft), Math.abs(cm.doc.scrollLeft - startLeft) > 1 && (changed = !0)), !changed) break;
                             }
                             return rect;

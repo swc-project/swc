@@ -7,6 +7,21 @@
 
 - **(es/codegen)** Add quotes to property names when `ascii_only` is `true` (#7820) ([04921f3](https://github.com/swc-project/swc/commit/04921f301afbc2dc74bed4cb24e7656b60e54327))
 
+
+- **(es/compat)** Remove wrong logic for object patterns in `object_rest` (#7788) ([3766a7c](https://github.com/swc-project/swc/commit/3766a7c776b63e159be3f11f5f931c5e5f968cdb))
+
+
+- **(es/minifier)** Preserve `cooked` while compressing template literals (#7773) ([05990a9](https://github.com/swc-project/swc/commit/05990a98fd3f06a3c03bd1e795800acf22f16035))
+
+
+- **(es/minifier)** Abort seq inliner if var is not fn_local or reassigned (#7804) ([f8ca366](https://github.com/swc-project/swc/commit/f8ca366cc179d2d83d35148c3600b8faa2e7f801))
+
+### Features
+
+
+
+- **(es/module)** Improve error message about relative `jsc.baseUrl` (#7827) ([9099883](https://github.com/swc-project/swc/commit/9099883175c590106109670de01ab32b33303bfd))
+
 ### Refactor
 
 

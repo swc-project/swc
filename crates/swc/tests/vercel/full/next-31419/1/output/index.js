@@ -3,9 +3,9 @@ import { _ as e } from "@swc/helpers/_/_async_to_generator";
 import { _ as t } from "@swc/helpers/_/_ts_generator";
 import { _ as n } from "@swc/helpers/_/_ts_values";
 Promise.all(assignAll).then((r = e(function(r) {
-    var e, s, i, c, o;
-    return t(this, function(a) {
-        switch(a.label){
+    var e, s, i, c, o, a;
+    return t(this, function(u) {
+        switch(u.label){
             case 0:
                 for(c in e = function(e) {
                     var n;
@@ -25,18 +25,18 @@ Promise.all(assignAll).then((r = e(function(r) {
                         }
                     });
                 }, s = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', i = [], r);
-                o = 0, a.label = 1;
+                o = 0, u.label = 1;
             case 1:
                 if (!(o < i.length)) return [
                     3,
                     4
                 ];
-                return [
+                return a = i[o], [
                     5,
-                    n(e(i[o]))
+                    n(e(a))
                 ];
             case 2:
-                a.label = 3;
+                u.label = 3;
             case 3:
                 return o++, [
                     3,

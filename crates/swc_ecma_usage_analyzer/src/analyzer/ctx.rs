@@ -141,8 +141,6 @@ pub struct Ctx {
     pub is_op_assign: bool,
 
     pub is_top_level: bool,
-
-    pub fn_scope: SyntaxContext,
 }
 
 pub(super) struct WithCtx<'a, S>

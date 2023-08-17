@@ -1190,11 +1190,11 @@
         }
         function switch_body_() {
             expect("{");
-            for(var tmp, a = [], cur = null, branch = null; !is("punc", "}");)is("eof") && unexpected(), is("keyword", "case") ? (branch && (branch.end = prev()), cur = [], branch = new AST_Case({
+            for(var tmp, a = [], cur = null, branch = null; !is("punc", "}");)is("eof") && unexpected(), is("keyword", "case") ? (branch && (branch.end = prev()), cur = [], a.push(branch = new AST_Case({
                 start: (tmp = S.token, next(), tmp),
                 expression: expression(!0),
                 body: cur
-            }), a.push(branch), expect(":")) : is("keyword", "default") ? (branch && (branch.end = prev()), cur = [], a.push(branch = new AST_Default({
+            })), expect(":")) : is("keyword", "default") ? (branch && (branch.end = prev()), cur = [], a.push(branch = new AST_Default({
                 start: (tmp = S.token, next(), expect(":"), tmp),
                 body: cur
             }))) : (cur || unexpected(), cur.push(statement()));
@@ -4210,7 +4210,7 @@
                 function quote_double() {
                     return '"' + str.replace(/\x22/g, '\\"') + '"';
                 }
-                if (str = str.replace(/[\\\b\f\n\r\v\t\x22\x27\u2028\u2029\0\ufeff]/g, function(s, i) {
+                if (str = to_utf8(str = str.replace(/[\\\b\f\n\r\v\t\x22\x27\u2028\u2029\0\ufeff]/g, function(s, i) {
                     switch(s){
                         case '"':
                             return ++dq, '"';
@@ -4240,7 +4240,7 @@
                             return /[0-9]/.test(get_full_char(str, i + 1)) ? "\\x00" : "\\0";
                     }
                     return s;
-                }), str = to_utf8(str), "`" === quote) return "`" + str.replace(/`/g, "\\`") + "`";
+                })), "`" === quote) return "`" + str.replace(/`/g, "\\`") + "`";
                 switch(options.quote_style){
                     case 1:
                         return quote_single();
@@ -4377,8 +4377,7 @@
             force_semicolon: force_semicolon,
             to_utf8: to_utf8,
             print_name: function(name) {
-                var name1;
-                print((name1 = (name1 = name).toString(), name1 = to_utf8(name1, !0)));
+                print(to_utf8(name.toString(), !0));
             },
             print_string: function(str, quote, escape_directive) {
                 var encoded = encode_string(str, quote);

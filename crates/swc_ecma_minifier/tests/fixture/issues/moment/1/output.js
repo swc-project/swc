@@ -129,8 +129,8 @@
         null != config && this.set(config);
     }
     function zeroFill(number, targetLength, forceSign) {
-        var absNumber = "" + Math.abs(number), zerosToFill = targetLength - absNumber.length;
-        return (number >= 0 ? forceSign ? "+" : "" : "-") + Math.pow(10, Math.max(0, zerosToFill)).toString().substr(1) + absNumber;
+        var absNumber = "" + Math.abs(number);
+        return (number >= 0 ? forceSign ? "+" : "" : "-") + Math.pow(10, Math.max(0, targetLength - absNumber.length)).toString().substr(1) + absNumber;
     }
     hooks.suppressDeprecationWarnings = !1, hooks.deprecationHandler = null, keys = Object.keys ? Object.keys : function(obj) {
         var i, res = [];
@@ -1755,7 +1755,7 @@
     }, proto$2.months = months, proto$2.years = years, proto$2.humanize = function(argWithSuffix, argThresholds) {
         if (!this.isValid()) return this.localeData().invalidDate();
         var withoutSuffix, thresholds1, duration, seconds, minutes, hours, days, months, weeks, years, a, locale, output, withSuffix = !1, th = thresholds;
-        return "object" == typeof argWithSuffix && (argThresholds = argWithSuffix, argWithSuffix = !1), "boolean" == typeof argWithSuffix && (withSuffix = argWithSuffix), "object" == typeof argThresholds && (th = Object.assign({}, thresholds, argThresholds), null != argThresholds.s && null == argThresholds.ss && (th.ss = argThresholds.s - 1)), locale = this.localeData(), withoutSuffix = !withSuffix, thresholds1 = th, seconds = round((duration = createDuration(this).abs()).as("s")), minutes = round(duration.as("m")), hours = round(duration.as("h")), days = round(duration.as("d")), months = round(duration.as("M")), weeks = round(duration.as("w")), years = round(duration.as("y")), a = seconds <= thresholds1.ss && [
+        return "object" == typeof argWithSuffix && (argThresholds = argWithSuffix, argWithSuffix = !1), "boolean" == typeof argWithSuffix && (withSuffix = argWithSuffix), "object" == typeof argThresholds && (th = Object.assign({}, thresholds, argThresholds), null != argThresholds.s && null == argThresholds.ss && (th.ss = argThresholds.s - 1)), locale = this.localeData(), withoutSuffix = !withSuffix, thresholds1 = th, duration = createDuration(this).abs(), seconds = round(duration.as("s")), minutes = round(duration.as("m")), hours = round(duration.as("h")), days = round(duration.as("d")), months = round(duration.as("M")), weeks = round(duration.as("w")), years = round(duration.as("y")), a = seconds <= thresholds1.ss && [
             "s",
             seconds
         ] || seconds < thresholds1.s && [
