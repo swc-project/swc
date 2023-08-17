@@ -275,6 +275,7 @@ impl Pure<'_> {
                             cooked: cur_cooked.take().map(From::from),
                             raw: take(&mut cur_raw).into(),
                         });
+                        cur_cooked = Some(String::new());
 
                         exprs.push(e);
                     }
