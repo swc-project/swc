@@ -4492,6 +4492,7 @@ dependencies = [
 name = "swc_ecma_visit"
 version = "0.95.1"
 dependencies = [
+ "new_debug_unreachable",
  "num-bigint",
  "serde",
  "swc_atoms",
