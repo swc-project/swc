@@ -56,17 +56,17 @@ export default function S(u) {
         }).sort(h).reduce(function(a, n) {
             var s = f(n) ? n.props.indexContextValue.targetedIndex : n.props.indexId, i = a[s] || [];
             return r(t({}, a), e({}, s, i.concat(n)));
-        }, {}), i = Object.keys(s).map(function(e) {
-            return {
-                parameters: s[e].reduce(function(e, t) {
-                    return t.getSearchParameters(e);
-                }, a),
-                indexId: e
-            };
-        });
+        }, {});
         return {
             mainParameters: n,
-            derivedParameters: i
+            derivedParameters: Object.keys(s).map(function(e) {
+                return {
+                    parameters: s[e].reduce(function(e, t) {
+                        return t.getSearchParameters(e);
+                    }, a),
+                    indexId: e
+                };
+            })
         };
     }, V = function() {
         if (!C) {

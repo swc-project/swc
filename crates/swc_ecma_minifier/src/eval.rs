@@ -77,7 +77,6 @@ impl Evaluator {
             let data = self.data.clone();
             //
             self.module.visit_mut_with(&mut compressor(
-                &Default::default(),
                 marks,
                 &CompressOptions {
                     hoist_props: true,

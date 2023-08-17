@@ -1299,8 +1299,8 @@
     function resolveConstructorOptions(Ctor) {
         var options = Ctor.options;
         if (Ctor.super) {
-            var superOptions = resolveConstructorOptions(Ctor.super), cachedSuperOptions = Ctor.superOptions;
-            if (superOptions !== cachedSuperOptions) {
+            var superOptions = resolveConstructorOptions(Ctor.super);
+            if (superOptions !== Ctor.superOptions) {
                 Ctor.superOptions = superOptions;
                 var modifiedOptions = function(Ctor) {
                     var modified, latest = Ctor.options, sealed = Ctor.sealedOptions;
@@ -2658,8 +2658,8 @@
                     if (c.tag) {
                         if (null != c.key && 0 !== String(c.key).indexOf('__vlist')) children.push(c), map[c.key] = c, (c.data || (c.data = {})).transition = transitionData;
                         else {
-                            var opts = c.componentOptions;
-                            warn("<transition-group> children must be keyed: <" + (opts ? opts.Ctor.options.name || opts.tag || '' : c.tag) + ">");
+                            var opts = c.componentOptions, name = opts ? opts.Ctor.options.name || opts.tag || '' : c.tag;
+                            warn("<transition-group> children must be keyed: <" + name + ">");
                         }
                     }
                 }
@@ -2923,7 +2923,7 @@
                 if ('input' === tag && 'file' === type && warn$1("<" + el.tag + " v-model=\"" + value + '" type="file">:\nFile inputs are read only. Use a v-on:change listener instead.', el.rawAttrsMap['v-model']), el.component) return genComponentModel(el, value, modifiers), !1;
                 if ('select' === tag) addHandler(el, 'change', 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + (modifiers && modifiers.number ? '_n(val)' : 'val') + "}); " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), null, !0);
                 else if ('input' === tag && 'checkbox' === type) number = modifiers && modifiers.number, valueBinding = getBindingAttr(el, 'value') || 'null', trueValueBinding = getBindingAttr(el, 'true-value') || 'true', falseValueBinding = getBindingAttr(el, 'false-value') || 'false', addProp(el, 'checked', "Array.isArray(" + value + ")?_i(" + value + "," + valueBinding + ")>-1" + ('true' === trueValueBinding ? ":(" + value + ")" : ":_q(" + value + "," + trueValueBinding + ")")), addHandler(el, 'change', "var $$a=" + value + ",$$el=$event.target,$$c=$$el.checked?(" + trueValueBinding + "):(" + falseValueBinding + ");if(Array.isArray($$a)){var $$v=" + (number ? '_n(' + valueBinding + ')' : valueBinding) + ",$$i=_i($$a,$$v);if($$el.checked){$$i<0&&(" + genAssignmentCode(value, '$$a.concat([$$v])') + ")}else{$$i>-1&&(" + genAssignmentCode(value, '$$a.slice(0,$$i).concat($$a.slice($$i+1))') + ")}}else{" + genAssignmentCode(value, '$$c') + "}", null, !0);
-                else if ('input' === tag && 'radio' === type) number1 = modifiers && modifiers.number, valueBinding1 = getBindingAttr(el, 'value') || 'null', valueBinding1 = number1 ? "_n(" + valueBinding1 + ")" : valueBinding1, addProp(el, 'checked', "_q(" + value + "," + valueBinding1 + ")"), addHandler(el, 'change', genAssignmentCode(value, valueBinding1), null, !0);
+                else if ('input' === tag && 'radio' === type) number1 = modifiers && modifiers.number, valueBinding1 = getBindingAttr(el, 'value') || 'null', addProp(el, 'checked', "_q(" + value + "," + (valueBinding1 = number1 ? "_n(" + valueBinding1 + ")" : valueBinding1) + ")"), addHandler(el, 'change', genAssignmentCode(value, valueBinding1), null, !0);
                 else if ('input' === tag || 'textarea' === tag) !function(el, value, modifiers) {
                     var type = el.attrsMap.type, value$1 = el.attrsMap['v-bind:value'] || el.attrsMap[':value'], typeBinding = el.attrsMap['v-bind:type'] || el.attrsMap[':type'];
                     if (value$1 && !typeBinding) {

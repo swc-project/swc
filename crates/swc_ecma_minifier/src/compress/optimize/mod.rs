@@ -31,7 +31,7 @@ use crate::{
     maybe_par,
     mode::Mode,
     option::CompressOptions,
-    program_data::{ModuleInfo, ProgramData},
+    program_data::ProgramData,
     util::{
         contains_eval, contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt,
     },
@@ -59,7 +59,6 @@ mod util;
 pub(super) fn optimizer<'a>(
     marks: Marks,
     options: &'a CompressOptions,
-    module_info: &'a ModuleInfo,
     data: &'a mut ProgramData,
     mode: &'a dyn Mode,
     debug_infinite_loop: bool,
@@ -83,7 +82,6 @@ pub(super) fn optimizer<'a>(
         },
         changed: false,
         options,
-        module_info,
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         vars: Default::default(),
@@ -174,9 +172,6 @@ struct Ctx {
 
     /// Current scope.
     scope: SyntaxContext,
-
-    /// Current function scope
-    fn_scope: SyntaxContext,
 }
 
 impl Ctx {
@@ -202,8 +197,6 @@ struct Optimizer<'a> {
 
     changed: bool,
     options: &'a CompressOptions,
-    module_info: &'a ModuleInfo,
-
     /// Statements prepended to the current statement.
     prepend_stmts: SynthesizedStmts,
     /// Statements appended to the current statement.
@@ -2137,7 +2130,6 @@ impl VisitMut for Optimizer<'_> {
                 skip_standalone: self.ctx.skip_standalone || is_standalone,
                 in_fn_like: true,
                 scope: n.span.ctxt,
-                fn_scope: n.span.ctxt,
                 top_level: false,
 
                 ..self.ctx

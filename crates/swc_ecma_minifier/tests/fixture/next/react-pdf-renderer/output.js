@@ -1224,17 +1224,17 @@
             }, eo = function(e, t) {
                 if (!t.children) return t;
                 var r = t.children.map(function(t) {
-                    var r, n, i = er(B.default(en(e, t)), {
-                        x: (null === (r = t.props) || void 0 === r ? void 0 : r.x) || 0,
-                        y: (null === (n = t.props) || void 0 === n ? void 0 : n.y) || 0,
-                        width: 999999999999,
-                        height: 999999999999
-                    }, {
-                        hyphenationCallback: t.props.hyphenationCallback || (null == e ? void 0 : e.getHyphenationCallback()) || null,
-                        shrinkWhitespaceFactor: ei
-                    }).flat();
+                    var r, n, i = B.default(en(e, t)), o = (null === (r = t.props) || void 0 === r ? void 0 : r.x) || 0, a = (null === (n = t.props) || void 0 === n ? void 0 : n.y) || 0, u = t.props.hyphenationCallback || (null == e ? void 0 : e.getHyphenationCallback()) || null;
                     return Object.assign({}, t, {
-                        lines: i
+                        lines: er(i, {
+                            x: o,
+                            y: a,
+                            width: 999999999999,
+                            height: 999999999999
+                        }, {
+                            hyphenationCallback: u,
+                            shrinkWhitespaceFactor: ei
+                        }).flat()
                     });
                 });
                 return Object.assign({}, t, {
@@ -2734,7 +2734,7 @@
             }, function(e, t) {
                 for(var r = [], n = 1, i = 0; i < e.children.length; i += 1){
                     var o = rJ(e.children[i], n, t);
-                    o = rX(o), n += o.length, r = r.concat(o);
+                    n += (o = rX(o)).length, r = r.concat(o);
                 }
                 return rI(r = r.map(function() {
                     for(var e, r = arguments.length, n = Array(r), i = 0; i < r; i++)n[i] = arguments[i];
@@ -24671,7 +24671,7 @@
                 }
                 var tL = p.ReactCurrentBatchConfig, tU = new c.Component().refs;
                 function tz(e, t, r, n) {
-                    t = e.memoizedState, r = null == (r = r(n, t)) ? t : s({}, t, r), e.memoizedState = r, null !== (n = e.updateQueue) && 0 === e.expirationTime && (n.baseState = r);
+                    r = null == (r = r(n, t = e.memoizedState)) ? t : s({}, t, r), e.memoizedState = r, null !== (n = e.updateQueue) && 0 === e.expirationTime && (n.baseState = r);
                 }
                 var tW = {
                     isMounted: function(e) {
@@ -26060,7 +26060,7 @@
                                     i_(e, 2 < r ? 2 : r);
                                     break;
                                 case 3:
-                                    if (iw(e, r), n = e.lastSuspendedTime, r === n && (e.nextKnownPendingLevel = n7(i)), 1073741823 === nO && 10 < (i = nI + 500 - ti())) {
+                                    if (iw(e, r), r === (n = e.lastSuspendedTime) && (e.nextKnownPendingLevel = n7(i)), 1073741823 === nO && 10 < (i = nI + 500 - ti())) {
                                         if (nR) {
                                             var o = e.lastPingedTime;
                                             if (0 === o || o >= r) {
@@ -26079,7 +26079,7 @@
                                     n9(e);
                                     break;
                                 case 4:
-                                    if (iw(e, r), n = e.lastSuspendedTime, r === n && (e.nextKnownPendingLevel = n7(i)), nR && (0 === (i = e.lastPingedTime) || i >= r)) {
+                                    if (iw(e, r), r === (n = e.lastSuspendedTime) && (e.nextKnownPendingLevel = n7(i)), nR && (0 === (i = e.lastPingedTime) || i >= r)) {
                                         e.lastPingedTime = r, n1(e, r);
                                         break;
                                     }
@@ -26616,7 +26616,7 @@
                     return n_ = t, ts(), !0;
                 }
                 function ii(e, t, r) {
-                    t = ni(r, t), t = nb(e, t, 1073741823), tF(e, t), null !== (e = nJ(e, 1073741823)) && nK(e);
+                    t = nb(e, t = ni(r, t), 1073741823), tF(e, t), null !== (e = nJ(e, 1073741823)) && nK(e);
                 }
                 function io(e, t) {
                     if (3 === e.tag) ii(e, e, t);
@@ -26628,7 +26628,7 @@
                         if (1 === r.tag) {
                             var n = r.stateNode;
                             if ("function" == typeof r.type.getDerivedStateFromError || "function" == typeof n.componentDidCatch && (null === nN || !nN.has(n))) {
-                                e = ni(t, e), e = nm(r, e, 1073741823), tF(r, e), null !== (r = nJ(r, 1073741823)) && nK(r);
+                                e = nm(r, e = ni(t, e), 1073741823), tF(r, e), null !== (r = nJ(r, 1073741823)) && nK(r);
                                 break;
                             }
                         }
@@ -26763,7 +26763,7 @@
                             return rY(e, t, t.pendingProps.children, r), t.child;
                         case 10:
                             r: {
-                                if (n = t.type._context, i = t.pendingProps, a = t.memoizedProps, o = i.value, tE(t, o), null !== a) {
+                                if (n = t.type._context, i = t.pendingProps, a = t.memoizedProps, tE(t, o = i.value), null !== a) {
                                     var u = a.value;
                                     if (0 == (o = tp(u, o) ? 0 : ("function" == typeof n._calculateChangedBits ? n._calculateChangedBits(u, o) : 1073741823) | 0)) {
                                         if (a.children === i.children && !eU.current) {
@@ -26801,7 +26801,7 @@
                             }
                             return t;
                         case 9:
-                            return i = t.type, n = (o = t.pendingProps).children, tS(t, r), i = tA(i, o.unstable_observedBits), n = n(i), t.effectTag |= 1, rY(e, t, n, r), t.child;
+                            return i = t.type, n = (o = t.pendingProps).children, tS(t, r), n = n(i = tA(i, o.unstable_observedBits)), t.effectTag |= 1, rY(e, t, n, r), t.child;
                         case 14:
                             return o = tg(i = t.type, t.pendingProps), o = tg(i.type, o), rQ(e, t, i, o, n, r);
                         case 15:

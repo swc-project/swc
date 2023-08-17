@@ -7289,7 +7289,7 @@
                         ], y3.e = 0) : y3.c = y3.e = null) : y3.c = y3.e = y3.s = null, y3;
                         for(e1 = bitFloor1(x3.e / LOG_BASE1) + bitFloor1(y3.e / LOG_BASE1), y3.s *= x3.s, (xcL1 = xc1.length) < (ycL1 = yc1.length) && (zc1 = xc1, xc1 = yc1, yc1 = zc1, i2 = xcL1, xcL1 = ycL1, ycL1 = i2), i2 = xcL1 + ycL1, zc1 = []; i2--; zc1.push(0));
                         for(base1 = BASE1, sqrtBase1 = SQRT_BASE1, i2 = ycL1; --i2 >= 0;){
-                            for(c5 = 0, ylo1 = yc1[i2] % sqrtBase1, yhi1 = yc1[i2] / sqrtBase1 | 0, k3 = xcL1, j1 = i2 + k3; j1 > i2;)m1 = yhi1 * (xlo1 = xc1[--k3] % sqrtBase1) + (xhi1 = xc1[k3] / sqrtBase1 | 0) * ylo1, c5 = ((xlo1 = ylo1 * xlo1 + m1 % sqrtBase1 * sqrtBase1 + zc1[j1] + c5) / base1 | 0) + (m1 / sqrtBase1 | 0) + yhi1 * xhi1, zc1[j1--] = xlo1 % base1;
+                            for(c5 = 0, ylo1 = yc1[i2] % sqrtBase1, yhi1 = yc1[i2] / sqrtBase1 | 0, j1 = i2 + (k3 = xcL1); j1 > i2;)m1 = yhi1 * (xlo1 = xc1[--k3] % sqrtBase1) + (xhi1 = xc1[k3] / sqrtBase1 | 0) * ylo1, c5 = ((xlo1 = ylo1 * xlo1 + m1 % sqrtBase1 * sqrtBase1 + zc1[j1] + c5) / base1 | 0) + (m1 / sqrtBase1 | 0) + yhi1 * xhi1, zc1[j1--] = xlo1 % base1;
                             zc1[j1] = c5;
                         }
                         return c5 ? ++e1 : zc1.splice(0, 1), normalise1(y3, zc1, e1);
@@ -13504,9 +13504,7 @@
                 var W1 = this.W, ah10 = this.h[0], al10 = this.h[1], bh10 = this.h[2], bl10 = this.h[3], ch1 = this.h[4], cl1 = this.h[5], dh1 = this.h[6], dl1 = this.h[7], eh1 = this.h[8], el1 = this.h[9], fh1 = this.h[10], fl1 = this.h[11], gh1 = this.h[12], gl1 = this.h[13], hh1 = this.h[14], hl1 = this.h[15];
                 assert1(this.k.length === W1.length);
                 for(var i2 = 0; i2 < W1.length; i2 += 2){
-                    var c0_hi1 = hh1, c0_lo1 = hl1, c1_hi1 = s1_512_hi1(eh1, el1), c1_lo1 = s1_512_lo1(eh1, el1), c2_hi1 = ch64_hi1(eh1, el1, fh1, fl1, gh1, gl1), c2_lo1 = ch64_lo1(eh1, el1, fh1, fl1, gh1, gl1), c3_hi1 = this.k[i2], c3_lo1 = this.k[i2 + 1], c4_hi1 = W1[i2], c4_lo1 = W1[i2 + 1], T1_hi1 = sum64_5_hi1(c0_hi1, c0_lo1, c1_hi1, c1_lo1, c2_hi1, c2_lo1, c3_hi1, c3_lo1, c4_hi1, c4_lo1), T1_lo1 = sum64_5_lo1(c0_hi1, c0_lo1, c1_hi1, c1_lo1, c2_hi1, c2_lo1, c3_hi1, c3_lo1, c4_hi1, c4_lo1);
-                    c0_hi1 = s0_512_hi1(ah10, al10), c0_lo1 = s0_512_lo1(ah10, al10), c1_hi1 = maj64_hi1(ah10, al10, bh10, bl10, ch1, cl1), c1_lo1 = maj64_lo1(ah10, al10, bh10, bl10, ch1, cl1);
-                    var T2_hi1 = sum64_hi1(c0_hi1, c0_lo1, c1_hi1, c1_lo1), T2_lo1 = sum64_lo1(c0_hi1, c0_lo1, c1_hi1, c1_lo1);
+                    var c0_hi1 = hh1, c0_lo1 = hl1, c1_hi1 = s1_512_hi1(eh1, el1), c1_lo1 = s1_512_lo1(eh1, el1), c2_hi1 = ch64_hi1(eh1, el1, fh1, fl1, gh1, gl1), c2_lo1 = ch64_lo1(eh1, el1, fh1, fl1, gh1, gl1), c3_hi1 = this.k[i2], c3_lo1 = this.k[i2 + 1], c4_hi1 = W1[i2], c4_lo1 = W1[i2 + 1], T1_hi1 = sum64_5_hi1(c0_hi1, c0_lo1, c1_hi1, c1_lo1, c2_hi1, c2_lo1, c3_hi1, c3_lo1, c4_hi1, c4_lo1), T1_lo1 = sum64_5_lo1(c0_hi1, c0_lo1, c1_hi1, c1_lo1, c2_hi1, c2_lo1, c3_hi1, c3_lo1, c4_hi1, c4_lo1), T2_hi1 = sum64_hi1(c0_hi1 = s0_512_hi1(ah10, al10), c0_lo1 = s0_512_lo1(ah10, al10), c1_hi1 = maj64_hi1(ah10, al10, bh10, bl10, ch1, cl1), c1_lo1 = maj64_lo1(ah10, al10, bh10, bl10, ch1, cl1)), T2_lo1 = sum64_lo1(c0_hi1, c0_lo1, c1_hi1, c1_lo1);
                     hh1 = gh1, hl1 = gl1, gh1 = fh1, gl1 = fl1, fh1 = eh1, fl1 = el1, eh1 = sum64_hi1(dh1, dl1, T1_hi1, T1_lo1), el1 = sum64_lo1(dl1, dl1, T1_hi1, T1_lo1), dh1 = ch1, dl1 = cl1, ch1 = bh10, cl1 = bl10, bh10 = ah10, bl10 = al10, ah10 = sum64_hi1(T1_hi1, T1_lo1, T2_hi1, T2_lo1), al10 = sum64_lo1(T1_hi1, T1_lo1, T2_hi1, T2_lo1);
                 }
                 sum641(this.h, 0, ah10, al10), sum641(this.h, 2, bh10, bl10), sum641(this.h, 4, ch1, cl1), sum641(this.h, 6, dh1, dl1), sum641(this.h, 8, eh1, el1), sum641(this.h, 10, fh1, fl1), sum641(this.h, 12, gh1, gl1), sum641(this.h, 14, hh1, hl1);
@@ -15483,8 +15481,8 @@
         5726: function(module1) {
             var objectProto1 = Object.prototype;
             function isPrototype1(value1) {
-                var Ctor1 = value1 && value1.constructor, proto1 = 'function' == typeof Ctor1 && Ctor1.prototype || objectProto1;
-                return value1 === proto1;
+                var Ctor1 = value1 && value1.constructor;
+                return value1 === ('function' == typeof Ctor1 && Ctor1.prototype || objectProto1);
             }
             module1.exports = isPrototype1;
         },

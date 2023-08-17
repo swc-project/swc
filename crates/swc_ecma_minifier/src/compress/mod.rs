@@ -29,7 +29,7 @@ use crate::{
     debug::{dump, AssertValid},
     mode::Mode,
     option::CompressOptions,
-    program_data::{analyze, ModuleInfo, ProgramData},
+    program_data::{analyze, ProgramData},
     util::{now, unit::CompileUnit},
 };
 
@@ -39,7 +39,6 @@ mod pure;
 mod util;
 
 pub(crate) fn compressor<'a, M>(
-    module_info: &'a ModuleInfo,
     marks: Marks,
     options: &'a CompressOptions,
     mode: &'a M,
@@ -50,7 +49,6 @@ where
     let compressor = Compressor {
         marks,
         options,
-        module_info,
         changed: false,
         pass: 1,
         dump_for_infinite_loop: Default::default(),
@@ -72,7 +70,6 @@ where
 struct Compressor<'a> {
     marks: Marks,
     options: &'a CompressOptions,
-    module_info: &'a ModuleInfo,
     changed: bool,
     pass: usize,
 
@@ -101,7 +98,7 @@ impl Compressor<'_> {
         );
 
         if self.options.hoist_vars || self.options.hoist_fns {
-            let data = analyze(&*n, self.module_info, Some(self.marks));
+            let data = analyze(&*n, Some(self.marks));
 
             let mut v = decl_hoister(
                 DeclHoisterConfig {
@@ -263,7 +260,7 @@ impl Compressor<'_> {
         {
             let _timer = timer!("apply full optimizer");
 
-            let mut data = analyze(&*n, self.module_info, Some(self.marks));
+            let mut data = analyze(&*n, Some(self.marks));
 
             // TODO: reset_opt_flags
             //
@@ -272,7 +269,6 @@ impl Compressor<'_> {
             let mut visitor = optimizer(
                 self.marks,
                 self.options,
-                self.module_info,
                 &mut data,
                 self.mode,
                 !self.dump_for_infinite_loop.is_empty(),

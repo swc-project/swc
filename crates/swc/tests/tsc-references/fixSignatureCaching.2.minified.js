@@ -308,7 +308,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
     } : Array.isArray, !function() {
         var key, values, value, i, len, verPos, mobileDetectRules = impl.mobileDetectRules;
         for(key in mobileDetectRules.props)if (hasOwnProp.call(mobileDetectRules.props, key)) {
-            for(isArray(values = mobileDetectRules.props[key]) || (values = [
+            for(values = mobileDetectRules.props[key], isArray(values) || (values = [
                 values
             ]), len = values.length, i = 0; i < len; ++i)(verPos = (value = values[i]).indexOf("[VER]")) >= 0 && (value = value.substring(0, verPos) + "([\\w._\\+]+)" + value.substring(verPos + 5)), values[i] = RegExp(value, "i");
             mobileDetectRules.props[key] = values;
@@ -351,7 +351,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
                 cache.mobile = cache.phone = phone, cache.tablet = null;
                 return;
             }
-            impl.isMobileFallback(userAgent) ? (phoneSized = MobileDetect.isPhoneSized(maxPhoneWidth), undefined === phoneSized ? (cache.mobile = impl.FALLBACK_MOBILE, cache.tablet = cache.phone = null) : phoneSized ? (cache.mobile = cache.phone = impl.FALLBACK_PHONE, cache.tablet = null) : (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null)) : impl.isTabletFallback(userAgent) ? (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : cache.mobile = cache.tablet = cache.phone = null;
+            impl.isMobileFallback(userAgent) ? undefined === (phoneSized = MobileDetect.isPhoneSized(maxPhoneWidth)) ? (cache.mobile = impl.FALLBACK_MOBILE, cache.tablet = cache.phone = null) : phoneSized ? (cache.mobile = cache.phone = impl.FALLBACK_PHONE, cache.tablet = null) : (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : impl.isTabletFallback(userAgent) ? (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : cache.mobile = cache.tablet = cache.phone = null;
         }
     }, impl.mobileGrade = function(t) {
         var $isMobile = null !== t.mobile();

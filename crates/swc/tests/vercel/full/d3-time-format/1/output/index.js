@@ -385,7 +385,7 @@ function ni(n, t) {
 }
 function no(n, t) {
     var e = n.getDay();
-    return n = e >= 4 || 0 === e ? u(n) : u.ceil(n), D(n.getFullYear() % 10000, t, 4);
+    return D((n = e >= 4 || 0 === e ? u(n) : u.ceil(n)).getFullYear() % 10000, t, 4);
 }
 function nf(n) {
     var t = n.getTimezoneOffset();
@@ -449,7 +449,7 @@ function nH(n, t) {
 }
 function nL(n, t) {
     var e = n.getUTCDay();
-    return n = e >= 4 || 0 === e ? a(n) : a.ceil(n), D(n.getUTCFullYear() % 10000, t, 4);
+    return D((n = e >= 4 || 0 === e ? a(n) : a.ceil(n)).getUTCFullYear() % 10000, t, 4);
 }
 function nS() {
     return "+0000";
