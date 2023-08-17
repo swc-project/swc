@@ -245,10 +245,35 @@ impl Optimizer<'_> {
             {
                 self.mode.store(id.clone(), &*init);
 
-                let usage_count = usage.usage_count;
+                let VarUsageInfo {
+                    used_as_arg,
+                    used_as_ref,
+                    indexed_with_dynamic_key,
+                    usage_count,
+                    has_property_access,
+                    has_property_mutation,
+                    used_above_decl,
+                    executed_multiple_time,
+                    used_in_cond,
+                    used_recursively,
+                    no_side_effect_for_member_access,
+                    ..
+                } = *usage;
                 let mut inc_usage = || {
                     if let Expr::Ident(i) = &*init {
                         if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
+                            u.used_as_arg |= used_as_arg;
+                            u.used_as_ref |= used_as_ref;
+                            u.indexed_with_dynamic_key |= indexed_with_dynamic_key;
+                            u.has_property_access |= has_property_access;
+                            u.has_property_mutation |= has_property_mutation;
+                            u.used_above_decl |= used_above_decl;
+                            u.executed_multiple_time |= executed_multiple_time;
+                            u.used_in_cond |= used_in_cond;
+                            u.used_recursively |= used_recursively;
+
+                            u.no_side_effect_for_member_access &= no_side_effect_for_member_access;
+
                             u.ref_count += ref_count;
                             u.usage_count += usage_count;
                         }
