@@ -16,6 +16,12 @@
 
 - **(es/minifier)** Abort seq inliner if var is not fn_local or reassigned (#7804) ([f8ca366](https://github.com/swc-project/swc/commit/f8ca366cc179d2d83d35148c3600b8faa2e7f801))
 
+### Features
+
+
+
+- **(es/module)** Improve error message about relative `jsc.baseUrl` (#7827) ([9099883](https://github.com/swc-project/swc/commit/9099883175c590106109670de01ab32b33303bfd))
+
 ### Refactor
 
 
