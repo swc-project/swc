@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
@@ -5,7 +7,7 @@ use swc_ecma_transforms_compat::{
     es2015::{self, spread},
     es2018::{object_rest_spread, object_rest_spread::Config},
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -100,8 +102,8 @@ function foo([{...bar}]) {
 }
 "#,
     r#"
-function foo([_param]) {
-  var bar = _extends({}, _object_destructuring_empty(_param));
+function foo(_param) {
+  var bar = _extends({}, _object_destructuring_empty(_param[0]));
 }
 
 "#
@@ -805,101 +807,6 @@ const {
 } = d;
 expect(dx).toBe("sx");
 expect(dy).toBe("sy");"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_parameters,
-    r#"
-function a({ ...a34 }) {}
-function a2({a1, ...b1}) {}
-function a3({a2, b2, ...c2}) {}
-function a4({a3, ...c3}, {a5, ...c5}) {}
-function a5({a3, b2: { ba1, ...ba2 }, ...c3}) {}
-function a6({a3, b2: { ba1, ...ba2 } }) {}
-function a7({a1 = 1, ...b1} = {}) {}
-function a8([{...a1}]) {}
-function a9([{a1, ...a2}]) {}
-function a10([a1, {...a2}]) {}
-// Unchanged
-function b(a) {}
-function b2(a, ...b) {}
-function b3({ b }) {}
-"#,
-    r#"
-function a(_param) {
-  var a34 = _extends({}, _object_destructuring_empty(_param));
-}
-
-function a2(_param) {
-  var {
-    a1
-  } = _param,
-      b1 = _object_without_properties(_param, ["a1"]);
-}
-
-function a3(_param) {
-  var {
-    a2,
-    b2
-  } = _param,
-      c2 = _object_without_properties(_param, ["a2", "b2"]);
-}
-
-function a4(_param, _param1) {
-  var { a3 } = _param, c3 = _object_without_properties(_param, ["a3"]),
-    { a5  } = _param1, c5 = _object_without_properties(_param1, ["a5"]);
-
-}
-
-function a5(_param) {
-  var {
-    a3,
-    b2: {
-      ba1
-    }
-  } = _param,
-      ba2 = _object_without_properties(_param.b2, ["ba1"]),
-      c3 = _object_without_properties(_param, ["a3", "b2"]);
-}
-
-function a6(_param) {
-  var {
-    a3,
-    b2: {
-      ba1
-    }
-  } = _param,
-      ba2 = _object_without_properties(_param.b2, ["ba1"]);
-}
-
-function a7(_param = {
-}) {
-    var { a1 =1  } = _param, b1 = _object_without_properties(_param, ["a1"]);
-}
-
-function a8([_param]) {
-    var a1 = _extends({
-    }, _object_destructuring_empty(_param));
-}
-
-function a9([_param]) {
-  var { a1 } = _param, a2 = _object_without_properties(_param, ["a1"]);
-}
-
-function a10([a1, _param]) {
-  var a2 = _extends({}, _object_destructuring_empty(_param));
-}
-
-// Unchanged
-function b(a) {}
-
-function b2(a, ...b) {}
-
-function b3({
-  b
-}) {}"#
 );
 
 test_exec!(
@@ -3154,3 +3061,25 @@ compare_stdout!(
     }
     "###
 );
+
+#[testing::fixture("tests/object-rest-spread/**/input.js")]
+fn fixture(input: PathBuf) {
+    let parent = input.parent().unwrap();
+
+    let output = parent.join("output.js");
+    test_fixture(
+        Syntax::Es(Default::default()),
+        &|_| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            chain!(
+                resolver(unresolved_mark, top_level_mark, false),
+                object_rest_spread(Default::default()),
+            )
+        },
+        &input,
+        &output,
+        Default::default(),
+    )
+}
