@@ -21,9 +21,10 @@ default = []
 path    = []
 
 [dependencies]
-num-bigint = { version = "0.4", features = ["serde"] }
-serde      = { version = "1", optional = true }
-tracing    = "0.1.37"
+new_debug_unreachable = "1"
+num-bigint            = { version = "0.4", features = ["serde"] }
+serde                 = { version = "1", optional = true }
+tracing               = "0.1.37"
 
 swc_atoms    = { version = "0.5.9", path = "../swc_atoms" }
 swc_common   = { version = "0.32.1", path = "../swc_common" }
