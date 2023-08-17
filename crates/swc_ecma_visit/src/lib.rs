@@ -4,6 +4,8 @@
 #![allow(clippy::ptr_arg)]
 
 #[doc(hidden)]
+pub extern crate debug_unreachable;
+#[doc(hidden)]
 pub extern crate swc_ecma_ast;
 
 use std::{borrow::Cow, fmt::Debug};
@@ -335,7 +337,7 @@ where
 macro_rules! noop_fold_type {
     ($name:ident, $N:tt) => {
         fn $name(&mut self, _: $crate::swc_ecma_ast::$N) -> $crate::swc_ecma_ast::$N {
-            unsafe { new_debug_unreachable::debug_unreachable!("noop_fold_type") }
+            unsafe { $crate::debug_unreachable::debug_unreachable!("noop_fold_type") }
         }
     };
     () => {
@@ -411,7 +413,7 @@ macro_rules! noop_fold_type {
 macro_rules! noop_visit_type {
     ($name:ident, $N:tt) => {
         fn $name(&mut self, _: &$crate::swc_ecma_ast::$N) {
-            unsafe { new_debug_unreachable::debug_unreachable!("noop_visit_type") }
+            unsafe { $crate::debug_unreachable::debug_unreachable!("noop_visit_type") }
         }
     };
     () => {
@@ -474,7 +476,7 @@ macro_rules! noop_visit_type {
 macro_rules! noop_visit_mut_type {
     ($name:ident, $N:ident) => {
         fn $name(&mut self, _: &mut $crate::swc_ecma_ast::$N) {
-            unsafe { new_debug_unreachable::debug_unreachable!("noop_visit_mut_type") }
+            unsafe { $crate::debug_unreachable::debug_unreachable!("noop_visit_mut_type") }
         }
     };
     () => {
