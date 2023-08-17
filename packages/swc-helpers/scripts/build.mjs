@@ -47,6 +47,10 @@ modules.forEach((p) => {
         import: `./esm/${importBinding}.js`,
         default: `./cjs/${importBinding}.cjs`,
     };
+    main_package_json.exports[`./lib/${importBinding}.js`] = {
+        import: `./esm/${importBinding}.js`,
+        default: `./cjs/${importBinding}.cjs`,
+    };
 
     const alias_package = {
         main: `../../cjs/${importBinding}.cjs`,
