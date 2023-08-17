@@ -1,3 +1,1 @@
-export default function _isNativeFunction(fn) {
-  return Function.toString.call(fn).indexOf("[native code]") !== -1;
-}
+export { _ as default } from "../esm/_is_native_function.js";

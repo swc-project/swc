@@ -1,5 +1,1 @@
-export default function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
+export { _ as default } from "../esm/_class_call_check.js";

@@ -1,3 +1,1 @@
-export default function _classNameTDZError(name) {
-  throw new Error("Class \"" + name + "\" cannot be referenced in computed property keys.");
-}
+export { _ as default } from "../esm/_class_name_tdz_error.js";

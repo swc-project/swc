@@ -1,5 +1,1 @@
-export default function _newArrowCheck(innerThis, boundThis) {
-  if (innerThis !== boundThis) {
-    throw new TypeError("Cannot instantiate an arrow function");
-  }
-}
+export { _ as default } from "../esm/_new_arrow_check.js";

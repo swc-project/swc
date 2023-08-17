@@ -1,5 +1,1 @@
-export default function _classCheckPrivateStaticAccess(receiver, classConstructor) { 
-  if (receiver !== classConstructor) {
-    throw new TypeError("Private static access of wrong provenance");
-  } 
-}
+export { _ as default } from "../esm/_class_check_private_static_access.js";

@@ -1,3 +1,1 @@
-export default function _readOnlyError(name) {
-  throw new TypeError("\"" + name + "\" is read-only");
-}
+export { _ as default } from "../esm/_read_only_error.js";

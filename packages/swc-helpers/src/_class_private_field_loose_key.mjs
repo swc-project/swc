@@ -1,5 +1,1 @@
-var id = 0;
-
-export default function _classPrivateFieldLooseKey(name) {
-    return "__private_" + id++ + "_" + name;
-}
+export { _ as default } from "../esm/_class_private_field_loose_key.js";

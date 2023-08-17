@@ -1,3 +1,1 @@
-export default function _AwaitValue(value) {
-  this.wrapped = value;
-}
+export { _ as default } from "../esm/_await_value.js";

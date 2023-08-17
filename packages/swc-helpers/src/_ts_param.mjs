@@ -1,1 +1,1 @@
-export { __param as default } from 'tslib'
+export { _ as default } from "../esm/_ts_param.js";

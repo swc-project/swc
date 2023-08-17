@@ -1,5 +1,1 @@
-export default function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    default: obj
-  };
-}
+export { _ as default } from "../esm/_interop_require_default.js";

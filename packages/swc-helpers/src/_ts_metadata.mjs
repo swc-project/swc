@@ -1,1 +1,1 @@
-export { __metadata as default } from 'tslib'
+export { _ as default } from "../esm/_ts_metadata.js";

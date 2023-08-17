@@ -1,3 +1,1 @@
-export default function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
+export { _ as default } from "../esm/_iterable_to_array.js";

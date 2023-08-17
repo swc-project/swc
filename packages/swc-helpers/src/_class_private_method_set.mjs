@@ -1,3 +1,1 @@
-export default function _classPrivateMethodSet() {
-  throw new TypeError("attempted to reassign private method");
-}
+export { _ as default } from "../esm/_class_private_method_set.js";

@@ -1,3 +1,1 @@
-export default function _throw(e) {
-    throw e;
-}
+export { _ as default } from "../esm/_throw.js";
