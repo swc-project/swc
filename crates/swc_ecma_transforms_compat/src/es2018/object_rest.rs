@@ -568,7 +568,7 @@ impl ObjectRest {
                     param.pat,
                     Box::new(Expr::Ident(var_ident.clone())),
                     false,
-                    true,
+                    false,
                 );
                 dbg!(&param.pat);
                 match param.pat {
@@ -577,35 +577,6 @@ impl ObjectRest {
                         if left.is_ident() || left.is_rest() || left.is_array() =>
                     {
                         param
-                    }
-                    Pat::Array(n) => {
-                        let ArrayPat { span, elems, .. } = n;
-                        let elems = elems
-                            .into_iter()
-                            .map(|elem| match elem {
-                                Some(param @ Pat::Object(..)) => {
-                                    // println!("Var(i): param = var_ident");
-                                    self.insert_var_if_not_empty(
-                                        index,
-                                        VarDeclarator {
-                                            span: DUMMY_SP,
-                                            name: param,
-                                            init: Some(Box::new(Expr::Ident(var_ident.clone()))),
-                                            definite: false,
-                                        },
-                                    );
-                                    index += 1;
-                                    Some(var_ident.clone().into())
-                                }
-                                _ => elem,
-                            })
-                            .collect();
-
-                        Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: Pat::Array(ArrayPat { span, elems, ..n }),
-                        }
                     }
                     Pat::Assign(n) => {
                         let AssignPat {
