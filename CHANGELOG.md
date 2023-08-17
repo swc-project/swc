@@ -13,6 +13,9 @@
 
 - **(es/minifier)** Preserve `cooked` while compressing template literals (#7773) ([05990a9](https://github.com/swc-project/swc/commit/05990a98fd3f06a3c03bd1e795800acf22f16035))
 
+
+- **(es/minifier)** Abort seq inliner if var is not fn_local or reassigned (#7804) ([f8ca366](https://github.com/swc-project/swc/commit/f8ca366cc179d2d83d35148c3600b8faa2e7f801))
+
 ### Refactor
 
 
