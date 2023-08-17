@@ -37,7 +37,7 @@ export function ast_grep() {
                 source.update(
                     range.start.index,
                     range.end.index,
-                    `exports._ = exports.${alias} = require("tslib").${name};`,
+                    `exports._ = exports.default = exports.${alias} = require("tslib").${name};`,
                 );
                 task_queue.push(
                     fs.writeFile(root("cjs", `${filename}.cjs`), source.toString(), {
@@ -70,7 +70,7 @@ export function ast_grep() {
             source.update(
                 export_start,
                 export_end,
-                `exports._ = exports.${func_name} = ${func_name};`,
+                `exports._ = exports.default = exports.${func_name} = ${func_name};`,
             );
 
             match
@@ -84,7 +84,7 @@ export function ast_grep() {
                 .forEach((match) => {
                     const range = match.range();
 
-                    source.prependLeft(range.start.index, `exports._ = exports.${func_name} = `);
+                    source.prependLeft(range.start.index, `exports._ = exports.default = exports.${func_name} = `);
                 });
 
             const export_shortname = `export { ${func_name} as _}`;
@@ -183,10 +183,9 @@ function report_ts_mismatch(filename, match) {
                 ]
                     .join(""),
             ),
-            `${
-                chalk.bold(
-                    "note:",
-                )
+            `${chalk.bold(
+                "note:",
+            )
             } The exported name should be the same as the filename.`,
             "",
         ]
@@ -225,10 +224,9 @@ function report_export_mismatch(filename, match) {
             "",
             ...text,
             "",
-            `${
-                chalk.bold(
-                    "note:",
-                )
+            `${chalk.bold(
+                "note:",
+            )
             } The exported name should be the same as the filename.`,
             "",
         ]
@@ -258,10 +256,9 @@ function report_import_mismatch(filename, match) {
                 chalk.blue("-".repeat(source_range.end.column - source_range.start.column)),
             ]
                 .join(""),
-            `${
-                chalk.bold(
-                    "note:",
-                )
+            `${chalk.bold(
+                "note:",
+            )
             } The imported binding name should be the same as the import source basename.`,
             "",
         ]
