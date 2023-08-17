@@ -1,22 +1,21 @@
-const Blocks = {
-    Block1: () => {
-        return <>'Block1xx'</>;
+var Blocks = {
+    Block1: function () {
+        return React.createElement(React.Fragment, null, "'Block1xx'");
     },
-    Block2: () => {
-        return <>'Block2xx'</>;
+    Block2: function () {
+        return React.createElement(React.Fragment, null, "'Block2xx'");
     },
-    Layout1: () => {
-        // In the final code, Blocks does not have a 'Block1' key
-        return RenderLayout(Blocks, ['Block1'])
+    Layout1: function () {
+        return RenderLayout(Blocks, [
+            "Block1"
+        ]);
     }
 };
-
 function RenderLayout(Comps, items) {
-    return items.map((item) => {
-        return Comps[item]
-    })
+    return items.map(function (item) {
+        return Comps[item];
+    });
 }
-
 export function render() {
-    return <Blocks.Layout1 />
+    return React.createElement(Blocks.Layout1, null);
 }
