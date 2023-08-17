@@ -1,6 +1,6 @@
 {
     "name": "@swc/helpers",
-    "version": "0.4.31",
+    "version": "0.4.32",
     "description": "External helpers for the swc project.",
     "module": "esm/index.js",
     "main": "cjs/index.cjs",
@@ -56,7 +56,8 @@
         },
         "./lib/_apply_decorated_descriptor.js": {
             "import": "./esm/_apply_decorated_descriptor.js",
-            "require": "./cjs/_apply_decorated_descriptor.cjs"
+            "require": "./cjs/_apply_decorated_descriptor.cjs",
+            "tye": "commonjs"
         },
         "./_/_apply_decs_2203_r": {
             "import": "./esm/_apply_decs_2203_r.js",
@@ -64,7 +65,8 @@
         },
         "./lib/_apply_decs_2203_r.js": {
             "import": "./esm/_apply_decs_2203_r.js",
-            "require": "./cjs/_apply_decs_2203_r.cjs"
+            "require": "./cjs/_apply_decs_2203_r.cjs",
+            "tye": "commonjs"
         },
         "./_/_array_like_to_array": {
             "import": "./esm/_array_like_to_array.js",
@@ -72,7 +74,8 @@
         },
         "./lib/_array_like_to_array.js": {
             "import": "./esm/_array_like_to_array.js",
-            "require": "./cjs/_array_like_to_array.cjs"
+            "require": "./cjs/_array_like_to_array.cjs",
+            "tye": "commonjs"
         },
         "./_/_array_with_holes": {
             "import": "./esm/_array_with_holes.js",
@@ -80,7 +83,8 @@
         },
         "./lib/_array_with_holes.js": {
             "import": "./esm/_array_with_holes.js",
-            "require": "./cjs/_array_with_holes.cjs"
+            "require": "./cjs/_array_with_holes.cjs",
+            "tye": "commonjs"
         },
         "./_/_array_without_holes": {
             "import": "./esm/_array_without_holes.js",
@@ -88,7 +92,8 @@
         },
         "./lib/_array_without_holes.js": {
             "import": "./esm/_array_without_holes.js",
-            "require": "./cjs/_array_without_holes.cjs"
+            "require": "./cjs/_array_without_holes.cjs",
+            "tye": "commonjs"
         },
         "./_/_assert_this_initialized": {
             "import": "./esm/_assert_this_initialized.js",
@@ -96,7 +101,8 @@
         },
         "./lib/_assert_this_initialized.js": {
             "import": "./esm/_assert_this_initialized.js",
-            "require": "./cjs/_assert_this_initialized.cjs"
+            "require": "./cjs/_assert_this_initialized.cjs",
+            "tye": "commonjs"
         },
         "./_/_async_generator": {
             "import": "./esm/_async_generator.js",
@@ -104,7 +110,8 @@
         },
         "./lib/_async_generator.js": {
             "import": "./esm/_async_generator.js",
-            "require": "./cjs/_async_generator.cjs"
+            "require": "./cjs/_async_generator.cjs",
+            "tye": "commonjs"
         },
         "./_/_async_generator_delegate": {
             "import": "./esm/_async_generator_delegate.js",
@@ -112,7 +119,8 @@
         },
         "./lib/_async_generator_delegate.js": {
             "import": "./esm/_async_generator_delegate.js",
-            "require": "./cjs/_async_generator_delegate.cjs"
+            "require": "./cjs/_async_generator_delegate.cjs",
+            "tye": "commonjs"
         },
         "./_/_async_iterator": {
             "import": "./esm/_async_iterator.js",
@@ -120,7 +128,8 @@
         },
         "./lib/_async_iterator.js": {
             "import": "./esm/_async_iterator.js",
-            "require": "./cjs/_async_iterator.cjs"
+            "require": "./cjs/_async_iterator.cjs",
+            "tye": "commonjs"
         },
         "./_/_async_to_generator": {
             "import": "./esm/_async_to_generator.js",
@@ -128,7 +137,8 @@
         },
         "./lib/_async_to_generator.js": {
             "import": "./esm/_async_to_generator.js",
-            "require": "./cjs/_async_to_generator.cjs"
+            "require": "./cjs/_async_to_generator.cjs",
+            "tye": "commonjs"
         },
         "./_/_await_async_generator": {
             "import": "./esm/_await_async_generator.js",
@@ -136,7 +146,8 @@
         },
         "./lib/_await_async_generator.js": {
             "import": "./esm/_await_async_generator.js",
-            "require": "./cjs/_await_async_generator.cjs"
+            "require": "./cjs/_await_async_generator.cjs",
+            "tye": "commonjs"
         },
         "./_/_await_value": {
             "import": "./esm/_await_value.js",
@@ -144,7 +155,8 @@
         },
         "./lib/_await_value.js": {
             "import": "./esm/_await_value.js",
-            "require": "./cjs/_await_value.cjs"
+            "require": "./cjs/_await_value.cjs",
+            "tye": "commonjs"
         },
         "./_/_check_private_redeclaration": {
             "import": "./esm/_check_private_redeclaration.js",
@@ -152,7 +164,8 @@
         },
         "./lib/_check_private_redeclaration.js": {
             "import": "./esm/_check_private_redeclaration.js",
-            "require": "./cjs/_check_private_redeclaration.cjs"
+            "require": "./cjs/_check_private_redeclaration.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_apply_descriptor_destructure": {
             "import": "./esm/_class_apply_descriptor_destructure.js",
@@ -160,7 +173,8 @@
         },
         "./lib/_class_apply_descriptor_destructure.js": {
             "import": "./esm/_class_apply_descriptor_destructure.js",
-            "require": "./cjs/_class_apply_descriptor_destructure.cjs"
+            "require": "./cjs/_class_apply_descriptor_destructure.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_apply_descriptor_get": {
             "import": "./esm/_class_apply_descriptor_get.js",
@@ -168,7 +182,8 @@
         },
         "./lib/_class_apply_descriptor_get.js": {
             "import": "./esm/_class_apply_descriptor_get.js",
-            "require": "./cjs/_class_apply_descriptor_get.cjs"
+            "require": "./cjs/_class_apply_descriptor_get.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_apply_descriptor_set": {
             "import": "./esm/_class_apply_descriptor_set.js",
@@ -176,7 +191,8 @@
         },
         "./lib/_class_apply_descriptor_set.js": {
             "import": "./esm/_class_apply_descriptor_set.js",
-            "require": "./cjs/_class_apply_descriptor_set.cjs"
+            "require": "./cjs/_class_apply_descriptor_set.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_apply_descriptor_update": {
             "import": "./esm/_class_apply_descriptor_update.js",
@@ -184,7 +200,8 @@
         },
         "./lib/_class_apply_descriptor_update.js": {
             "import": "./esm/_class_apply_descriptor_update.js",
-            "require": "./cjs/_class_apply_descriptor_update.cjs"
+            "require": "./cjs/_class_apply_descriptor_update.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_call_check": {
             "import": "./esm/_class_call_check.js",
@@ -192,7 +209,8 @@
         },
         "./lib/_class_call_check.js": {
             "import": "./esm/_class_call_check.js",
-            "require": "./cjs/_class_call_check.cjs"
+            "require": "./cjs/_class_call_check.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_check_private_static_access": {
             "import": "./esm/_class_check_private_static_access.js",
@@ -200,7 +218,8 @@
         },
         "./lib/_class_check_private_static_access.js": {
             "import": "./esm/_class_check_private_static_access.js",
-            "require": "./cjs/_class_check_private_static_access.cjs"
+            "require": "./cjs/_class_check_private_static_access.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_check_private_static_field_descriptor": {
             "import": "./esm/_class_check_private_static_field_descriptor.js",
@@ -208,7 +227,8 @@
         },
         "./lib/_class_check_private_static_field_descriptor.js": {
             "import": "./esm/_class_check_private_static_field_descriptor.js",
-            "require": "./cjs/_class_check_private_static_field_descriptor.cjs"
+            "require": "./cjs/_class_check_private_static_field_descriptor.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_extract_field_descriptor": {
             "import": "./esm/_class_extract_field_descriptor.js",
@@ -216,7 +236,8 @@
         },
         "./lib/_class_extract_field_descriptor.js": {
             "import": "./esm/_class_extract_field_descriptor.js",
-            "require": "./cjs/_class_extract_field_descriptor.cjs"
+            "require": "./cjs/_class_extract_field_descriptor.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_name_tdz_error": {
             "import": "./esm/_class_name_tdz_error.js",
@@ -224,7 +245,8 @@
         },
         "./lib/_class_name_tdz_error.js": {
             "import": "./esm/_class_name_tdz_error.js",
-            "require": "./cjs/_class_name_tdz_error.cjs"
+            "require": "./cjs/_class_name_tdz_error.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_private_field_destructure": {
             "import": "./esm/_class_private_field_destructure.js",
@@ -232,7 +254,8 @@
         },
         "./lib/_class_private_field_destructure.js": {
             "import": "./esm/_class_private_field_destructure.js",
-            "require": "./cjs/_class_private_field_destructure.cjs"
+            "require": "./cjs/_class_private_field_destructure.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_private_field_get": {
             "import": "./esm/_class_private_field_get.js",
@@ -240,7 +263,8 @@
         },
         "./lib/_class_private_field_get.js": {
             "import": "./esm/_class_private_field_get.js",
-            "require": "./cjs/_class_private_field_get.cjs"
+            "require": "./cjs/_class_private_field_get.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_private_field_init": {
             "import": "./esm/_class_private_field_init.js",
@@ -248,7 +272,8 @@
         },
         "./lib/_class_private_field_init.js": {
             "import": "./esm/_class_private_field_init.js",
-            "require": "./cjs/_class_private_field_init.cjs"
+            "require": "./cjs/_class_private_field_init.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_private_field_loose_base": {
             "import": "./esm/_class_private_field_loose_base.js",
@@ -256,7 +281,8 @@
         },
         "./lib/_class_private_field_loose_base.js": {
             "import": "./esm/_class_private_field_loose_base.js",
-            "require": "./cjs/_class_private_field_loose_base.cjs"
+            "require": "./cjs/_class_private_field_loose_base.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_private_field_loose_key": {
             "import": "./esm/_class_private_field_loose_key.js",
@@ -264,7 +290,8 @@
         },
         "./lib/_class_private_field_loose_key.js": {
             "import": "./esm/_class_private_field_loose_key.js",
-            "require": "./cjs/_class_private_field_loose_key.cjs"
+            "require": "./cjs/_class_private_field_loose_key.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_private_field_set": {
             "import": "./esm/_class_private_field_set.js",
@@ -272,7 +299,8 @@
         },
         "./lib/_class_private_field_set.js": {
             "import": "./esm/_class_private_field_set.js",
-            "require": "./cjs/_class_private_field_set.cjs"
+            "require": "./cjs/_class_private_field_set.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_private_field_update": {
             "import": "./esm/_class_private_field_update.js",
@@ -280,7 +308,8 @@
         },
         "./lib/_class_private_field_update.js": {
             "import": "./esm/_class_private_field_update.js",
-            "require": "./cjs/_class_private_field_update.cjs"
+            "require": "./cjs/_class_private_field_update.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_private_method_get": {
             "import": "./esm/_class_private_method_get.js",
@@ -288,7 +317,8 @@
         },
         "./lib/_class_private_method_get.js": {
             "import": "./esm/_class_private_method_get.js",
-            "require": "./cjs/_class_private_method_get.cjs"
+            "require": "./cjs/_class_private_method_get.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_private_method_init": {
             "import": "./esm/_class_private_method_init.js",
@@ -296,7 +326,8 @@
         },
         "./lib/_class_private_method_init.js": {
             "import": "./esm/_class_private_method_init.js",
-            "require": "./cjs/_class_private_method_init.cjs"
+            "require": "./cjs/_class_private_method_init.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_private_method_set": {
             "import": "./esm/_class_private_method_set.js",
@@ -304,7 +335,8 @@
         },
         "./lib/_class_private_method_set.js": {
             "import": "./esm/_class_private_method_set.js",
-            "require": "./cjs/_class_private_method_set.cjs"
+            "require": "./cjs/_class_private_method_set.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_static_private_field_destructure": {
             "import": "./esm/_class_static_private_field_destructure.js",
@@ -312,7 +344,8 @@
         },
         "./lib/_class_static_private_field_destructure.js": {
             "import": "./esm/_class_static_private_field_destructure.js",
-            "require": "./cjs/_class_static_private_field_destructure.cjs"
+            "require": "./cjs/_class_static_private_field_destructure.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_static_private_field_spec_get": {
             "import": "./esm/_class_static_private_field_spec_get.js",
@@ -320,7 +353,8 @@
         },
         "./lib/_class_static_private_field_spec_get.js": {
             "import": "./esm/_class_static_private_field_spec_get.js",
-            "require": "./cjs/_class_static_private_field_spec_get.cjs"
+            "require": "./cjs/_class_static_private_field_spec_get.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_static_private_field_spec_set": {
             "import": "./esm/_class_static_private_field_spec_set.js",
@@ -328,7 +362,8 @@
         },
         "./lib/_class_static_private_field_spec_set.js": {
             "import": "./esm/_class_static_private_field_spec_set.js",
-            "require": "./cjs/_class_static_private_field_spec_set.cjs"
+            "require": "./cjs/_class_static_private_field_spec_set.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_static_private_field_update": {
             "import": "./esm/_class_static_private_field_update.js",
@@ -336,7 +371,8 @@
         },
         "./lib/_class_static_private_field_update.js": {
             "import": "./esm/_class_static_private_field_update.js",
-            "require": "./cjs/_class_static_private_field_update.cjs"
+            "require": "./cjs/_class_static_private_field_update.cjs",
+            "tye": "commonjs"
         },
         "./_/_class_static_private_method_get": {
             "import": "./esm/_class_static_private_method_get.js",
@@ -344,7 +380,8 @@
         },
         "./lib/_class_static_private_method_get.js": {
             "import": "./esm/_class_static_private_method_get.js",
-            "require": "./cjs/_class_static_private_method_get.cjs"
+            "require": "./cjs/_class_static_private_method_get.cjs",
+            "tye": "commonjs"
         },
         "./_/_construct": {
             "import": "./esm/_construct.js",
@@ -352,7 +389,8 @@
         },
         "./lib/_construct.js": {
             "import": "./esm/_construct.js",
-            "require": "./cjs/_construct.cjs"
+            "require": "./cjs/_construct.cjs",
+            "tye": "commonjs"
         },
         "./_/_create_class": {
             "import": "./esm/_create_class.js",
@@ -360,7 +398,8 @@
         },
         "./lib/_create_class.js": {
             "import": "./esm/_create_class.js",
-            "require": "./cjs/_create_class.cjs"
+            "require": "./cjs/_create_class.cjs",
+            "tye": "commonjs"
         },
         "./_/_create_for_of_iterator_helper_loose": {
             "import": "./esm/_create_for_of_iterator_helper_loose.js",
@@ -368,7 +407,8 @@
         },
         "./lib/_create_for_of_iterator_helper_loose.js": {
             "import": "./esm/_create_for_of_iterator_helper_loose.js",
-            "require": "./cjs/_create_for_of_iterator_helper_loose.cjs"
+            "require": "./cjs/_create_for_of_iterator_helper_loose.cjs",
+            "tye": "commonjs"
         },
         "./_/_create_super": {
             "import": "./esm/_create_super.js",
@@ -376,7 +416,8 @@
         },
         "./lib/_create_super.js": {
             "import": "./esm/_create_super.js",
-            "require": "./cjs/_create_super.cjs"
+            "require": "./cjs/_create_super.cjs",
+            "tye": "commonjs"
         },
         "./_/_decorate": {
             "import": "./esm/_decorate.js",
@@ -384,7 +425,8 @@
         },
         "./lib/_decorate.js": {
             "import": "./esm/_decorate.js",
-            "require": "./cjs/_decorate.cjs"
+            "require": "./cjs/_decorate.cjs",
+            "tye": "commonjs"
         },
         "./_/_defaults": {
             "import": "./esm/_defaults.js",
@@ -392,7 +434,8 @@
         },
         "./lib/_defaults.js": {
             "import": "./esm/_defaults.js",
-            "require": "./cjs/_defaults.cjs"
+            "require": "./cjs/_defaults.cjs",
+            "tye": "commonjs"
         },
         "./_/_define_enumerable_properties": {
             "import": "./esm/_define_enumerable_properties.js",
@@ -400,7 +443,8 @@
         },
         "./lib/_define_enumerable_properties.js": {
             "import": "./esm/_define_enumerable_properties.js",
-            "require": "./cjs/_define_enumerable_properties.cjs"
+            "require": "./cjs/_define_enumerable_properties.cjs",
+            "tye": "commonjs"
         },
         "./_/_define_property": {
             "import": "./esm/_define_property.js",
@@ -408,7 +452,8 @@
         },
         "./lib/_define_property.js": {
             "import": "./esm/_define_property.js",
-            "require": "./cjs/_define_property.cjs"
+            "require": "./cjs/_define_property.cjs",
+            "tye": "commonjs"
         },
         "./_/_dispose": {
             "import": "./esm/_dispose.js",
@@ -416,7 +461,8 @@
         },
         "./lib/_dispose.js": {
             "import": "./esm/_dispose.js",
-            "require": "./cjs/_dispose.cjs"
+            "require": "./cjs/_dispose.cjs",
+            "tye": "commonjs"
         },
         "./_/_export_star": {
             "import": "./esm/_export_star.js",
@@ -424,7 +470,8 @@
         },
         "./lib/_export_star.js": {
             "import": "./esm/_export_star.js",
-            "require": "./cjs/_export_star.cjs"
+            "require": "./cjs/_export_star.cjs",
+            "tye": "commonjs"
         },
         "./_/_extends": {
             "import": "./esm/_extends.js",
@@ -432,7 +479,8 @@
         },
         "./lib/_extends.js": {
             "import": "./esm/_extends.js",
-            "require": "./cjs/_extends.cjs"
+            "require": "./cjs/_extends.cjs",
+            "tye": "commonjs"
         },
         "./_/_get": {
             "import": "./esm/_get.js",
@@ -440,7 +488,8 @@
         },
         "./lib/_get.js": {
             "import": "./esm/_get.js",
-            "require": "./cjs/_get.cjs"
+            "require": "./cjs/_get.cjs",
+            "tye": "commonjs"
         },
         "./_/_get_prototype_of": {
             "import": "./esm/_get_prototype_of.js",
@@ -448,7 +497,8 @@
         },
         "./lib/_get_prototype_of.js": {
             "import": "./esm/_get_prototype_of.js",
-            "require": "./cjs/_get_prototype_of.cjs"
+            "require": "./cjs/_get_prototype_of.cjs",
+            "tye": "commonjs"
         },
         "./_/_inherits": {
             "import": "./esm/_inherits.js",
@@ -456,7 +506,8 @@
         },
         "./lib/_inherits.js": {
             "import": "./esm/_inherits.js",
-            "require": "./cjs/_inherits.cjs"
+            "require": "./cjs/_inherits.cjs",
+            "tye": "commonjs"
         },
         "./_/_inherits_loose": {
             "import": "./esm/_inherits_loose.js",
@@ -464,7 +515,8 @@
         },
         "./lib/_inherits_loose.js": {
             "import": "./esm/_inherits_loose.js",
-            "require": "./cjs/_inherits_loose.cjs"
+            "require": "./cjs/_inherits_loose.cjs",
+            "tye": "commonjs"
         },
         "./_/_initializer_define_property": {
             "import": "./esm/_initializer_define_property.js",
@@ -472,7 +524,8 @@
         },
         "./lib/_initializer_define_property.js": {
             "import": "./esm/_initializer_define_property.js",
-            "require": "./cjs/_initializer_define_property.cjs"
+            "require": "./cjs/_initializer_define_property.cjs",
+            "tye": "commonjs"
         },
         "./_/_initializer_warning_helper": {
             "import": "./esm/_initializer_warning_helper.js",
@@ -480,7 +533,8 @@
         },
         "./lib/_initializer_warning_helper.js": {
             "import": "./esm/_initializer_warning_helper.js",
-            "require": "./cjs/_initializer_warning_helper.cjs"
+            "require": "./cjs/_initializer_warning_helper.cjs",
+            "tye": "commonjs"
         },
         "./_/_instanceof": {
             "import": "./esm/_instanceof.js",
@@ -488,7 +542,8 @@
         },
         "./lib/_instanceof.js": {
             "import": "./esm/_instanceof.js",
-            "require": "./cjs/_instanceof.cjs"
+            "require": "./cjs/_instanceof.cjs",
+            "tye": "commonjs"
         },
         "./_/_interop_require_default": {
             "import": "./esm/_interop_require_default.js",
@@ -496,7 +551,8 @@
         },
         "./lib/_interop_require_default.js": {
             "import": "./esm/_interop_require_default.js",
-            "require": "./cjs/_interop_require_default.cjs"
+            "require": "./cjs/_interop_require_default.cjs",
+            "tye": "commonjs"
         },
         "./_/_interop_require_wildcard": {
             "import": "./esm/_interop_require_wildcard.js",
@@ -504,7 +560,8 @@
         },
         "./lib/_interop_require_wildcard.js": {
             "import": "./esm/_interop_require_wildcard.js",
-            "require": "./cjs/_interop_require_wildcard.cjs"
+            "require": "./cjs/_interop_require_wildcard.cjs",
+            "tye": "commonjs"
         },
         "./_/_is_native_function": {
             "import": "./esm/_is_native_function.js",
@@ -512,7 +569,8 @@
         },
         "./lib/_is_native_function.js": {
             "import": "./esm/_is_native_function.js",
-            "require": "./cjs/_is_native_function.cjs"
+            "require": "./cjs/_is_native_function.cjs",
+            "tye": "commonjs"
         },
         "./_/_is_native_reflect_construct": {
             "import": "./esm/_is_native_reflect_construct.js",
@@ -520,7 +578,8 @@
         },
         "./lib/_is_native_reflect_construct.js": {
             "import": "./esm/_is_native_reflect_construct.js",
-            "require": "./cjs/_is_native_reflect_construct.cjs"
+            "require": "./cjs/_is_native_reflect_construct.cjs",
+            "tye": "commonjs"
         },
         "./_/_iterable_to_array": {
             "import": "./esm/_iterable_to_array.js",
@@ -528,7 +587,8 @@
         },
         "./lib/_iterable_to_array.js": {
             "import": "./esm/_iterable_to_array.js",
-            "require": "./cjs/_iterable_to_array.cjs"
+            "require": "./cjs/_iterable_to_array.cjs",
+            "tye": "commonjs"
         },
         "./_/_iterable_to_array_limit": {
             "import": "./esm/_iterable_to_array_limit.js",
@@ -536,7 +596,8 @@
         },
         "./lib/_iterable_to_array_limit.js": {
             "import": "./esm/_iterable_to_array_limit.js",
-            "require": "./cjs/_iterable_to_array_limit.cjs"
+            "require": "./cjs/_iterable_to_array_limit.cjs",
+            "tye": "commonjs"
         },
         "./_/_iterable_to_array_limit_loose": {
             "import": "./esm/_iterable_to_array_limit_loose.js",
@@ -544,7 +605,8 @@
         },
         "./lib/_iterable_to_array_limit_loose.js": {
             "import": "./esm/_iterable_to_array_limit_loose.js",
-            "require": "./cjs/_iterable_to_array_limit_loose.cjs"
+            "require": "./cjs/_iterable_to_array_limit_loose.cjs",
+            "tye": "commonjs"
         },
         "./_/_jsx": {
             "import": "./esm/_jsx.js",
@@ -552,7 +614,8 @@
         },
         "./lib/_jsx.js": {
             "import": "./esm/_jsx.js",
-            "require": "./cjs/_jsx.cjs"
+            "require": "./cjs/_jsx.cjs",
+            "tye": "commonjs"
         },
         "./_/_new_arrow_check": {
             "import": "./esm/_new_arrow_check.js",
@@ -560,7 +623,8 @@
         },
         "./lib/_new_arrow_check.js": {
             "import": "./esm/_new_arrow_check.js",
-            "require": "./cjs/_new_arrow_check.cjs"
+            "require": "./cjs/_new_arrow_check.cjs",
+            "tye": "commonjs"
         },
         "./_/_non_iterable_rest": {
             "import": "./esm/_non_iterable_rest.js",
@@ -568,7 +632,8 @@
         },
         "./lib/_non_iterable_rest.js": {
             "import": "./esm/_non_iterable_rest.js",
-            "require": "./cjs/_non_iterable_rest.cjs"
+            "require": "./cjs/_non_iterable_rest.cjs",
+            "tye": "commonjs"
         },
         "./_/_non_iterable_spread": {
             "import": "./esm/_non_iterable_spread.js",
@@ -576,7 +641,8 @@
         },
         "./lib/_non_iterable_spread.js": {
             "import": "./esm/_non_iterable_spread.js",
-            "require": "./cjs/_non_iterable_spread.cjs"
+            "require": "./cjs/_non_iterable_spread.cjs",
+            "tye": "commonjs"
         },
         "./_/_object_destructuring_empty": {
             "import": "./esm/_object_destructuring_empty.js",
@@ -584,7 +650,8 @@
         },
         "./lib/_object_destructuring_empty.js": {
             "import": "./esm/_object_destructuring_empty.js",
-            "require": "./cjs/_object_destructuring_empty.cjs"
+            "require": "./cjs/_object_destructuring_empty.cjs",
+            "tye": "commonjs"
         },
         "./_/_object_spread": {
             "import": "./esm/_object_spread.js",
@@ -592,7 +659,8 @@
         },
         "./lib/_object_spread.js": {
             "import": "./esm/_object_spread.js",
-            "require": "./cjs/_object_spread.cjs"
+            "require": "./cjs/_object_spread.cjs",
+            "tye": "commonjs"
         },
         "./_/_object_spread_props": {
             "import": "./esm/_object_spread_props.js",
@@ -600,7 +668,8 @@
         },
         "./lib/_object_spread_props.js": {
             "import": "./esm/_object_spread_props.js",
-            "require": "./cjs/_object_spread_props.cjs"
+            "require": "./cjs/_object_spread_props.cjs",
+            "tye": "commonjs"
         },
         "./_/_object_without_properties": {
             "import": "./esm/_object_without_properties.js",
@@ -608,7 +677,8 @@
         },
         "./lib/_object_without_properties.js": {
             "import": "./esm/_object_without_properties.js",
-            "require": "./cjs/_object_without_properties.cjs"
+            "require": "./cjs/_object_without_properties.cjs",
+            "tye": "commonjs"
         },
         "./_/_object_without_properties_loose": {
             "import": "./esm/_object_without_properties_loose.js",
@@ -616,7 +686,8 @@
         },
         "./lib/_object_without_properties_loose.js": {
             "import": "./esm/_object_without_properties_loose.js",
-            "require": "./cjs/_object_without_properties_loose.cjs"
+            "require": "./cjs/_object_without_properties_loose.cjs",
+            "tye": "commonjs"
         },
         "./_/_possible_constructor_return": {
             "import": "./esm/_possible_constructor_return.js",
@@ -624,7 +695,8 @@
         },
         "./lib/_possible_constructor_return.js": {
             "import": "./esm/_possible_constructor_return.js",
-            "require": "./cjs/_possible_constructor_return.cjs"
+            "require": "./cjs/_possible_constructor_return.cjs",
+            "tye": "commonjs"
         },
         "./_/_read_only_error": {
             "import": "./esm/_read_only_error.js",
@@ -632,7 +704,8 @@
         },
         "./lib/_read_only_error.js": {
             "import": "./esm/_read_only_error.js",
-            "require": "./cjs/_read_only_error.cjs"
+            "require": "./cjs/_read_only_error.cjs",
+            "tye": "commonjs"
         },
         "./_/_set": {
             "import": "./esm/_set.js",
@@ -640,7 +713,8 @@
         },
         "./lib/_set.js": {
             "import": "./esm/_set.js",
-            "require": "./cjs/_set.cjs"
+            "require": "./cjs/_set.cjs",
+            "tye": "commonjs"
         },
         "./_/_set_prototype_of": {
             "import": "./esm/_set_prototype_of.js",
@@ -648,7 +722,8 @@
         },
         "./lib/_set_prototype_of.js": {
             "import": "./esm/_set_prototype_of.js",
-            "require": "./cjs/_set_prototype_of.cjs"
+            "require": "./cjs/_set_prototype_of.cjs",
+            "tye": "commonjs"
         },
         "./_/_skip_first_generator_next": {
             "import": "./esm/_skip_first_generator_next.js",
@@ -656,7 +731,8 @@
         },
         "./lib/_skip_first_generator_next.js": {
             "import": "./esm/_skip_first_generator_next.js",
-            "require": "./cjs/_skip_first_generator_next.cjs"
+            "require": "./cjs/_skip_first_generator_next.cjs",
+            "tye": "commonjs"
         },
         "./_/_sliced_to_array": {
             "import": "./esm/_sliced_to_array.js",
@@ -664,7 +740,8 @@
         },
         "./lib/_sliced_to_array.js": {
             "import": "./esm/_sliced_to_array.js",
-            "require": "./cjs/_sliced_to_array.cjs"
+            "require": "./cjs/_sliced_to_array.cjs",
+            "tye": "commonjs"
         },
         "./_/_sliced_to_array_loose": {
             "import": "./esm/_sliced_to_array_loose.js",
@@ -672,7 +749,8 @@
         },
         "./lib/_sliced_to_array_loose.js": {
             "import": "./esm/_sliced_to_array_loose.js",
-            "require": "./cjs/_sliced_to_array_loose.cjs"
+            "require": "./cjs/_sliced_to_array_loose.cjs",
+            "tye": "commonjs"
         },
         "./_/_super_prop_base": {
             "import": "./esm/_super_prop_base.js",
@@ -680,7 +758,8 @@
         },
         "./lib/_super_prop_base.js": {
             "import": "./esm/_super_prop_base.js",
-            "require": "./cjs/_super_prop_base.cjs"
+            "require": "./cjs/_super_prop_base.cjs",
+            "tye": "commonjs"
         },
         "./_/_tagged_template_literal": {
             "import": "./esm/_tagged_template_literal.js",
@@ -688,7 +767,8 @@
         },
         "./lib/_tagged_template_literal.js": {
             "import": "./esm/_tagged_template_literal.js",
-            "require": "./cjs/_tagged_template_literal.cjs"
+            "require": "./cjs/_tagged_template_literal.cjs",
+            "tye": "commonjs"
         },
         "./_/_tagged_template_literal_loose": {
             "import": "./esm/_tagged_template_literal_loose.js",
@@ -696,7 +776,8 @@
         },
         "./lib/_tagged_template_literal_loose.js": {
             "import": "./esm/_tagged_template_literal_loose.js",
-            "require": "./cjs/_tagged_template_literal_loose.cjs"
+            "require": "./cjs/_tagged_template_literal_loose.cjs",
+            "tye": "commonjs"
         },
         "./_/_throw": {
             "import": "./esm/_throw.js",
@@ -704,7 +785,8 @@
         },
         "./lib/_throw.js": {
             "import": "./esm/_throw.js",
-            "require": "./cjs/_throw.cjs"
+            "require": "./cjs/_throw.cjs",
+            "tye": "commonjs"
         },
         "./_/_to_array": {
             "import": "./esm/_to_array.js",
@@ -712,7 +794,8 @@
         },
         "./lib/_to_array.js": {
             "import": "./esm/_to_array.js",
-            "require": "./cjs/_to_array.cjs"
+            "require": "./cjs/_to_array.cjs",
+            "tye": "commonjs"
         },
         "./_/_to_consumable_array": {
             "import": "./esm/_to_consumable_array.js",
@@ -720,7 +803,8 @@
         },
         "./lib/_to_consumable_array.js": {
             "import": "./esm/_to_consumable_array.js",
-            "require": "./cjs/_to_consumable_array.cjs"
+            "require": "./cjs/_to_consumable_array.cjs",
+            "tye": "commonjs"
         },
         "./_/_to_primitive": {
             "import": "./esm/_to_primitive.js",
@@ -728,7 +812,8 @@
         },
         "./lib/_to_primitive.js": {
             "import": "./esm/_to_primitive.js",
-            "require": "./cjs/_to_primitive.cjs"
+            "require": "./cjs/_to_primitive.cjs",
+            "tye": "commonjs"
         },
         "./_/_to_property_key": {
             "import": "./esm/_to_property_key.js",
@@ -736,7 +821,8 @@
         },
         "./lib/_to_property_key.js": {
             "import": "./esm/_to_property_key.js",
-            "require": "./cjs/_to_property_key.cjs"
+            "require": "./cjs/_to_property_key.cjs",
+            "tye": "commonjs"
         },
         "./_/_ts_decorate": {
             "import": "./esm/_ts_decorate.js",
@@ -744,7 +830,8 @@
         },
         "./lib/_ts_decorate.js": {
             "import": "./esm/_ts_decorate.js",
-            "require": "./cjs/_ts_decorate.cjs"
+            "require": "./cjs/_ts_decorate.cjs",
+            "tye": "commonjs"
         },
         "./_/_ts_generator": {
             "import": "./esm/_ts_generator.js",
@@ -752,7 +839,8 @@
         },
         "./lib/_ts_generator.js": {
             "import": "./esm/_ts_generator.js",
-            "require": "./cjs/_ts_generator.cjs"
+            "require": "./cjs/_ts_generator.cjs",
+            "tye": "commonjs"
         },
         "./_/_ts_metadata": {
             "import": "./esm/_ts_metadata.js",
@@ -760,7 +848,8 @@
         },
         "./lib/_ts_metadata.js": {
             "import": "./esm/_ts_metadata.js",
-            "require": "./cjs/_ts_metadata.cjs"
+            "require": "./cjs/_ts_metadata.cjs",
+            "tye": "commonjs"
         },
         "./_/_ts_param": {
             "import": "./esm/_ts_param.js",
@@ -768,7 +857,8 @@
         },
         "./lib/_ts_param.js": {
             "import": "./esm/_ts_param.js",
-            "require": "./cjs/_ts_param.cjs"
+            "require": "./cjs/_ts_param.cjs",
+            "tye": "commonjs"
         },
         "./_/_ts_values": {
             "import": "./esm/_ts_values.js",
@@ -776,7 +866,8 @@
         },
         "./lib/_ts_values.js": {
             "import": "./esm/_ts_values.js",
-            "require": "./cjs/_ts_values.cjs"
+            "require": "./cjs/_ts_values.cjs",
+            "tye": "commonjs"
         },
         "./_/_type_of": {
             "import": "./esm/_type_of.js",
@@ -784,7 +875,8 @@
         },
         "./lib/_type_of.js": {
             "import": "./esm/_type_of.js",
-            "require": "./cjs/_type_of.cjs"
+            "require": "./cjs/_type_of.cjs",
+            "tye": "commonjs"
         },
         "./_/_unsupported_iterable_to_array": {
             "import": "./esm/_unsupported_iterable_to_array.js",
@@ -792,7 +884,8 @@
         },
         "./lib/_unsupported_iterable_to_array.js": {
             "import": "./esm/_unsupported_iterable_to_array.js",
-            "require": "./cjs/_unsupported_iterable_to_array.cjs"
+            "require": "./cjs/_unsupported_iterable_to_array.cjs",
+            "tye": "commonjs"
         },
         "./_/_update": {
             "import": "./esm/_update.js",
@@ -800,7 +893,8 @@
         },
         "./lib/_update.js": {
             "import": "./esm/_update.js",
-            "require": "./cjs/_update.cjs"
+            "require": "./cjs/_update.cjs",
+            "tye": "commonjs"
         },
         "./_/_using": {
             "import": "./esm/_using.js",
@@ -808,7 +902,8 @@
         },
         "./lib/_using.js": {
             "import": "./esm/_using.js",
-            "require": "./cjs/_using.cjs"
+            "require": "./cjs/_using.cjs",
+            "tye": "commonjs"
         },
         "./_/_wrap_async_generator": {
             "import": "./esm/_wrap_async_generator.js",
@@ -816,7 +911,8 @@
         },
         "./lib/_wrap_async_generator.js": {
             "import": "./esm/_wrap_async_generator.js",
-            "require": "./cjs/_wrap_async_generator.cjs"
+            "require": "./cjs/_wrap_async_generator.cjs",
+            "tye": "commonjs"
         },
         "./_/_wrap_native_super": {
             "import": "./esm/_wrap_native_super.js",
@@ -824,7 +920,8 @@
         },
         "./lib/_wrap_native_super.js": {
             "import": "./esm/_wrap_native_super.js",
-            "require": "./cjs/_wrap_native_super.cjs"
+            "require": "./cjs/_wrap_native_super.cjs",
+            "tye": "commonjs"
         },
         "./_/_write_only_error": {
             "import": "./esm/_write_only_error.js",
@@ -832,7 +929,8 @@
         },
         "./lib/_write_only_error.js": {
             "import": "./esm/_write_only_error.js",
-            "require": "./cjs/_write_only_error.cjs"
+            "require": "./cjs/_write_only_error.cjs",
+            "tye": "commonjs"
         },
         "./_/index": {
             "import": "./esm/index.js",
@@ -840,7 +938,8 @@
         },
         "./lib/index.js": {
             "import": "./esm/index.js",
-            "require": "./cjs/index.cjs"
+            "require": "./cjs/index.cjs",
+            "tye": "commonjs"
         }
     }
 }
