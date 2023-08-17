@@ -27,6 +27,7 @@
         "url": "https://github.com/swc-project/swc/issues"
     },
     "homepage": "https://swc.rs",
+    "type": "module",
     "devDependencies": {
         "@ast-grep/napi": "^0.3.1",
         "dprint": "^0.35.3",

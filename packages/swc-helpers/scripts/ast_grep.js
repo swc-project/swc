@@ -1,8 +1,8 @@
 import { parseFiles } from "@ast-grep/napi";
 import MagicString from "magic-string";
 import { chalk, fs, path } from "zx";
-import { errors } from "./errors.mjs";
-import { root } from "./utils.mjs";
+import { errors } from "./errors.js";
+import { root } from "./utils.js";
 
 /**
  * @typedef {import("@ast-grep/napi").SgNode} SgNode

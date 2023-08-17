@@ -1,9 +1,9 @@
 #!/usr/bin/env zx
 
 import { $, fs, glob } from "zx";
-import { ast_grep } from "./ast_grep.mjs";
-import { errors } from "./errors.mjs";
-import { root } from "./utils.mjs";
+import { ast_grep } from "./ast_grep.js";
+import { errors } from "./errors.js";
+import { root } from "./utils.js";
 
 // clear generated content
 await Promise.all([
@@ -117,7 +117,7 @@ if (errors.length > 0) {
 } else {
     $.cwd = root(".");
     await $`dprint fmt`;
-    await $`dprint fmt "scripts/*.mjs" -c scripts/.dprint.json`;
+    await $`dprint fmt "scripts/*.js" -c scripts/.dprint.json`;
 }
 
 function re_export_esm(importBinding) {
