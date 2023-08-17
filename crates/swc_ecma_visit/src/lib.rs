@@ -336,6 +336,7 @@ where
 #[macro_export]
 macro_rules! noop_fold_type {
     ($name:ident, $N:tt) => {
+        #[cfg_attr(not(debug_assertions), inline(always))]
         fn $name(&mut self, _: $crate::swc_ecma_ast::$N) -> $crate::swc_ecma_ast::$N {
             unsafe { $crate::debug_unreachable::debug_unreachable!("noop_fold_type") }
         }
@@ -412,6 +413,7 @@ macro_rules! noop_fold_type {
 #[macro_export]
 macro_rules! noop_visit_type {
     ($name:ident, $N:tt) => {
+        #[cfg_attr(not(debug_assertions), inline(always))]
         fn $name(&mut self, _: &$crate::swc_ecma_ast::$N) {
             unsafe { $crate::debug_unreachable::debug_unreachable!("noop_visit_type") }
         }
@@ -475,6 +477,7 @@ macro_rules! noop_visit_type {
 #[macro_export]
 macro_rules! noop_visit_mut_type {
     ($name:ident, $N:ident) => {
+        #[cfg_attr(not(debug_assertions), inline(always))]
         fn $name(&mut self, _: &mut $crate::swc_ecma_ast::$N) {
             unsafe { $crate::debug_unreachable::debug_unreachable!("noop_visit_mut_type") }
         }
