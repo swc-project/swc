@@ -571,7 +571,7 @@ impl ObjectRest {
                     false,
                     true,
                 );
-                dbg!(&param.pat);
+
                 match param.pat {
                     Pat::Rest(..) | Pat::Ident(..) => param,
                     Pat::Assign(AssignPat { ref left, .. })
@@ -699,8 +699,6 @@ impl ObjectRest {
                     .enumerate()
                     .map(|(i, elem)| {
                         elem.map(|elem| {
-                            dbg!(&elem);
-
                             self.fold_rest(
                                 index,
                                 elem,
