@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_common"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.31.18"
+version       = "0.31.21"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -19,11 +19,11 @@ bench = false
 __plugin         = []
 __plugin_mode    = []
 __plugin_rt      = []
+ahash            = ["dep:ahash"]
 concurrent       = ["parking_lot"]
 debug            = []
 default          = []
 diagnostic-serde = []
-perf             = ["parking_lot"]
 plugin-base      = ["__plugin", "anyhow", "rkyv-impl", "diagnostic-serde"]
 plugin-mode      = ["__plugin_mode", "plugin-base"]
 plugin-rt        = ["__plugin_rt", "plugin-base"]
@@ -37,7 +37,7 @@ __rkyv    = []
 rkyv-impl = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "bytecheck"]
 
 [dependencies]
-ahash     = "0.8.3"
+ahash     = { version = "0.8.3", optional = true }
 anyhow    = { version = "1.0.71", optional = true }
 arbitrary = { version = "1", optional = true, features = ["derive"] }
 atty      = { version = "0.2", optional = true }

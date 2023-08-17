@@ -55,6 +55,7 @@ impl From<u32> for Char {
 
 pub(crate) struct CharIter(SmallVec<[char; 7]>);
 
+/// Ported from https://github.com/web-infra-dev/oxc/blob/99a4816ce7b6132b2667257984f9d92ae3768f03/crates/oxc_parser/src/lexer/mod.rs#L1349-L1374
 impl IntoIterator for Char {
     type IntoIter = CharIter;
     type Item = char;
@@ -69,20 +70,28 @@ impl IntoIterator for Char {
         CharIter(match char::from_u32(self.0) {
             Some(c) => smallvec![c],
             None => {
-                let c = unsafe { char::from_u32_unchecked(self.0) };
-                let escaped = c.escape_unicode().to_string();
-
-                debug_assert!(escaped.starts_with('\\'));
-
                 let mut buf = smallvec![];
-                buf.push('\\');
-                buf.push('\0');
-                buf.push('u');
 
-                if escaped.len() == 8 {
-                    buf.extend(escaped[3..=6].chars());
+                let high = self.0 & 0xffff0000 >> 16;
+
+                let low = self.0 & 0x0000ffff;
+
+                // The second code unit of a surrogate pair is always in the range from 0xDC00
+                // to 0xDFFF, and is called a low surrogate or a trail surrogate.
+                if !(0xdc00..=0xdfff).contains(&low) {
+                    buf.push('\\');
+                    buf.push('u');
+                    buf.extend(format!("{high:x}").chars());
+                    buf.push('\\');
+                    buf.push('u');
+                    buf.extend(format!("{low:x}").chars());
                 } else {
-                    buf.extend(escaped[2..].chars());
+                    // `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
+                    let astral_code_point = (high - 0xd800) * 0x400 + low - 0xdc00 + 0x10000;
+
+                    buf.push('\\');
+                    buf.push('u');
+                    buf.extend(format!("{astral_code_point:x}").chars());
                 }
 
                 buf
@@ -192,35 +201,15 @@ impl<'a> Lexer<'a> {
     fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.cur().is_some());
 
-        if self.input.is_at_start() && self.read_token_interpreter()? {
-            return Ok(None);
-        }
-
         self.input.bump(); // '#'
+
+        // `#` can also be a part of shebangs, however they should have been
+        // handled by `read_shebang()`
+        debug_assert!(
+            !self.input.is_at_start() || self.cur() != Some('!'),
+            "#! should have already been handled by read_shebang()"
+        );
         Ok(Some(Token::Hash))
-    }
-
-    #[inline(never)]
-    fn read_token_interpreter(&mut self) -> LexResult<bool> {
-        if !self.input.is_at_start() {
-            return Ok(false);
-        }
-
-        let start = self.input.cur_pos();
-        self.input.bump();
-        let c = self.input.cur();
-        if c == Some('!') {
-            while let Some(c) = self.input.cur() {
-                self.input.bump();
-                if c == '\n' || c == '\r' || c == '\u{8232}' || c == '\u{8233}' {
-                    return Ok(true);
-                }
-            }
-            Ok(false)
-        } else {
-            self.input.reset_to(start);
-            Ok(false)
-        }
     }
 
     /// Read a token given `.`.

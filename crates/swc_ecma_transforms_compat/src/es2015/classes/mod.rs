@@ -1,7 +1,10 @@
 use std::iter;
 
 use serde::Deserialize;
-use swc_common::{comments::Comments, util::take::Take, BytePos, Mark, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    collections::ARandomState, comments::Comments, util::take::Take, BytePos, Mark, Span, Spanned,
+    DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
@@ -42,7 +45,7 @@ where
     })
 }
 
-type IndexMap<K, V> = indexmap::IndexMap<K, V, ahash::RandomState>;
+type IndexMap<K, V> = indexmap::IndexMap<K, V, ARandomState>;
 
 /// `@babel/plugin-transform-classes`
 ///

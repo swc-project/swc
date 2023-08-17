@@ -24,7 +24,7 @@ use swc_atoms::JsWord;
 use swc_cached::regex::CachedRegex;
 use swc_common::{
     chain,
-    collections::{AHashMap, AHashSet},
+    collections::{AHashMap, AHashSet, ARandomState},
     comments::{Comments, SingleThreadedComments},
     errors::Handler,
     plugin::metadata::TransformPluginMetadataContext,
@@ -863,7 +863,7 @@ impl Options {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 pub enum RootMode {
     #[serde(rename = "root")]
     Root,
@@ -1497,7 +1497,7 @@ impl Default for ErrorFormat {
 }
 
 /// `paths` section of `tsconfig.json`.
-pub type Paths = IndexMap<String, Vec<String>, ahash::RandomState>;
+pub type Paths = IndexMap<String, Vec<String>, ARandomState>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1746,7 +1746,7 @@ pub struct ErrorConfig {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct GlobalPassOption {
     #[serde(default)]
-    pub vars: IndexMap<JsWord, JsWord, ahash::RandomState>,
+    pub vars: IndexMap<JsWord, JsWord, ARandomState>,
     #[serde(default)]
     pub envs: GlobalInliningPassEnvs,
 
@@ -1826,7 +1826,7 @@ impl GlobalPassOption {
         } else {
             match &self.envs {
                 GlobalInliningPassEnvs::List(env_list) => {
-                    static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ahash::RandomState>> =
+                    static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ARandomState>> =
                         Lazy::new(Default::default);
 
                     let cache_key = env_list.iter().cloned().collect::<Vec<_>>();
@@ -1847,9 +1847,8 @@ impl GlobalPassOption {
                 }
 
                 GlobalInliningPassEnvs::Map(map) => {
-                    static CACHE: Lazy<
-                        DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>,
-                    > = Lazy::new(Default::default);
+                    static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ARandomState>> =
+                        Lazy::new(Default::default);
 
                     let cache_key = self
                         .vars
@@ -1873,7 +1872,7 @@ impl GlobalPassOption {
         };
 
         let global_exprs = {
-            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, GlobalExprMap, ahash::RandomState>> =
+            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, GlobalExprMap, ARandomState>> =
                 Lazy::new(Default::default);
 
             let cache_key = self
@@ -1904,7 +1903,7 @@ impl GlobalPassOption {
         };
 
         let global_map = {
-            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>> =
+            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ARandomState>> =
                 Lazy::new(Default::default);
 
             let cache_key = self
@@ -1943,7 +1942,7 @@ fn default_env_name() -> String {
 }
 
 fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResolver> {
-    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ahash::RandomState>> =
+    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ARandomState>> =
         Lazy::new(Default::default);
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {

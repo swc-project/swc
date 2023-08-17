@@ -7,7 +7,7 @@ use indexmap::IndexSet;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::{AHashMap, AHashSet},
+    collections::{AHashMap, AHashSet, ARandomState},
     SyntaxContext,
 };
 use swc_ecma_ast::*;
@@ -38,7 +38,7 @@ pub(crate) struct ProgramData {
 
     pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
 
-    initialized_vars: IndexSet<Id, ahash::RandomState>,
+    initialized_vars: IndexSet<Id, ARandomState>,
 }
 
 #[derive(Debug, Default, Clone)]
@@ -137,6 +137,8 @@ pub(crate) struct VarUsageInfo {
     pub(crate) accessed_props: Box<AHashMap<JsWord, u32>>,
 
     pub(crate) used_recursively: bool,
+
+    pub(crate) in_fn_scope_of: SyntaxContext,
 }
 
 impl Default for VarUsageInfo {
@@ -177,6 +179,7 @@ impl Default for VarUsageInfo {
             is_top_level: Default::default(),
             assigned_fn_local: true,
             used_as_ref: false,
+            in_fn_scope_of: Default::default(),
         }
     }
 }
@@ -364,6 +367,7 @@ impl Storage for ProgramData {
         // }
 
         let v = self.vars.entry(i.to_id()).or_default();
+        v.in_fn_scope_of = ctx.fn_scope;
         v.is_top_level |= ctx.is_top_level;
 
         if has_init && (v.declared || v.var_initialized) {

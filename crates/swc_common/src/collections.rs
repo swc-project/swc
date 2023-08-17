@@ -1,10 +1,10 @@
-#[cfg(not(feature = "perf"))]
+#[cfg(feature = "ahash")]
 pub use self::ahash::*;
-#[cfg(feature = "perf")]
-pub use self::fxhash::*;
+#[cfg(not(feature = "ahash"))]
+pub use self::rustchash::*;
 
-#[cfg(feature = "perf")]
-mod fxhash {
+#[cfg(not(feature = "ahash"))]
+mod rustchash {
     use std::{
         collections::{HashMap, HashSet},
         hash::BuildHasherDefault,
@@ -12,16 +12,20 @@ mod fxhash {
 
     use rustc_hash::FxHasher;
 
-    pub type AHashMap<K, V> = HashMap<K, V, BuildHasherDefault<FxHasher>>;
+    pub type ARandomState = BuildHasherDefault<FxHasher>;
 
-    pub type AHashSet<V> = HashSet<V, BuildHasherDefault<FxHasher>>;
+    pub type AHashMap<K, V> = HashMap<K, V, ARandomState>;
+
+    pub type AHashSet<V> = HashSet<V, ARandomState>;
 }
 
-#[cfg(not(feature = "perf"))]
+#[cfg(feature = "ahash")]
 mod ahash {
     use std::collections::{HashMap, HashSet};
 
-    pub type AHashMap<K, V> = HashMap<K, V, ahash::RandomState>;
+    pub type ARandomState = ahash::RandomState;
 
-    pub type AHashSet<V> = HashSet<V, ahash::RandomState>;
+    pub type AHashMap<K, V> = HashMap<K, V, ARandomState>;
+
+    pub type AHashSet<V> = HashSet<V, ARandomState>;
 }

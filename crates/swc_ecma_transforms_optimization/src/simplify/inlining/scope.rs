@@ -8,7 +8,7 @@ use std::{
 
 use indexmap::map::{Entry, IndexMap};
 use swc_atoms::js_word;
-use swc_common::collections::{AHashMap, AHashSet};
+use swc_common::collections::{AHashMap, AHashSet, ARandomState};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use tracing::{span, Level};
@@ -243,7 +243,7 @@ pub(super) struct Scope<'a> {
     pub kind: ScopeKind,
 
     inline_barriers: RefCell<VecDeque<usize>>,
-    bindings: IndexMap<Id, VarInfo, ahash::RandomState>,
+    bindings: IndexMap<Id, VarInfo, ARandomState>,
     unresolved_usages: AHashSet<Id>,
 
     /// Simple optimization. We don't need complex scope analysis.

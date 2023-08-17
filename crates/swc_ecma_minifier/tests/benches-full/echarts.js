@@ -26730,21 +26730,21 @@
     }
     function updateRectShape(controller, cover, name, x, y, w, h) {
         var points, xmin, ymin, el = cover.childOfName(name);
-        el && el.setShape((xmin = mathMin$9((points = clipByPanel(controller, cover, [
-            [
-                x,
-                y
-            ],
-            [
-                x + w,
-                y + h
-            ]
-        ]))[0][0], points[1][0]), {
-            x: xmin,
+        el && el.setShape({
+            x: xmin = mathMin$9((points = clipByPanel(controller, cover, [
+                [
+                    x,
+                    y
+                ],
+                [
+                    x + w,
+                    y + h
+                ]
+            ]))[0][0], points[1][0]),
             y: ymin = mathMin$9(points[0][1], points[1][1]),
             width: mathMax$9(points[0][0], points[1][0]) - xmin,
             height: mathMax$9(points[0][1], points[1][1]) - ymin
-        }));
+        });
     }
     function makeStyle(brushOption) {
         return defaults({
@@ -34700,25 +34700,25 @@
             header.innerHTML = lang[0] || model.get('title'), header.style.cssText = 'margin: 10px 20px;', header.style.color = model.get('textColor');
             var viewMain = document.createElement('div'), textarea = document.createElement('textarea');
             viewMain.style.cssText = 'display:block;width:100%;overflow:auto;';
-            var optionToContent = model.get('optionToContent'), contentToOption = model.get('contentToOption'), result1 = (seriesGroupByCategoryAxis = {}, otherSeries = [], meta = [], ecModel.eachRawSeries(function(seriesModel) {
-                var coordSys = seriesModel.coordinateSystem;
-                if (coordSys && ('cartesian2d' === coordSys.type || 'polar' === coordSys.type)) {
-                    var baseAxis = coordSys.getBaseAxis();
-                    if ('category' === baseAxis.type) {
-                        var key = baseAxis.dim + '_' + baseAxis.index;
-                        seriesGroupByCategoryAxis[key] || (seriesGroupByCategoryAxis[key] = {
-                            categoryAxis: baseAxis,
-                            valueAxis: coordSys.getOtherAxis(baseAxis),
-                            series: []
-                        }, meta.push({
-                            axisDim: baseAxis.dim,
-                            axisIndex: baseAxis.index
-                        })), seriesGroupByCategoryAxis[key].series.push(seriesModel);
-                    } else otherSeries.push(seriesModel);
-                } else otherSeries.push(seriesModel);
-            }), {
+            var optionToContent = model.get('optionToContent'), contentToOption = model.get('contentToOption'), result1 = {
                 value: filter([
-                    (groups = (result = {
+                    (groups = (seriesGroupByCategoryAxis = {}, otherSeries = [], meta = [], ecModel.eachRawSeries(function(seriesModel) {
+                        var coordSys = seriesModel.coordinateSystem;
+                        if (coordSys && ('cartesian2d' === coordSys.type || 'polar' === coordSys.type)) {
+                            var baseAxis = coordSys.getBaseAxis();
+                            if ('category' === baseAxis.type) {
+                                var key = baseAxis.dim + '_' + baseAxis.index;
+                                seriesGroupByCategoryAxis[key] || (seriesGroupByCategoryAxis[key] = {
+                                    categoryAxis: baseAxis,
+                                    valueAxis: coordSys.getOtherAxis(baseAxis),
+                                    series: []
+                                }, meta.push({
+                                    axisDim: baseAxis.dim,
+                                    axisIndex: baseAxis.index
+                                })), seriesGroupByCategoryAxis[key].series.push(seriesModel);
+                            } else otherSeries.push(seriesModel);
+                        } else otherSeries.push(seriesModel);
+                    }), result = {
                         seriesGroupByCategoryAxis: seriesGroupByCategoryAxis,
                         other: otherSeries,
                         meta: meta
@@ -34757,7 +34757,7 @@
                     return !!str.replace(/[\n\t\s]/g, '');
                 }).join('\n\n' + BLOCK_SPLITER + '\n\n'),
                 meta: result.meta
-            });
+            };
             if ('function' == typeof optionToContent) {
                 var htmlOrDom = optionToContent(api.getOption());
                 'string' == typeof htmlOrDom ? viewMain.innerHTML = htmlOrDom : isDom(htmlOrDom) && viewMain.appendChild(htmlOrDom);
