@@ -183,9 +183,10 @@ function report_ts_mismatch(filename, match) {
                 ]
                     .join(""),
             ),
-            `${chalk.bold(
-                "note:",
-            )
+            `${
+                chalk.bold(
+                    "note:",
+                )
             } The exported name should be the same as the filename.`,
             "",
         ]
@@ -224,9 +225,10 @@ function report_export_mismatch(filename, match) {
             "",
             ...text,
             "",
-            `${chalk.bold(
-                "note:",
-            )
+            `${
+                chalk.bold(
+                    "note:",
+                )
             } The exported name should be the same as the filename.`,
             "",
         ]
@@ -256,9 +258,10 @@ function report_import_mismatch(filename, match) {
                 chalk.blue("-".repeat(source_range.end.column - source_range.start.column)),
             ]
                 .join(""),
-            `${chalk.bold(
-                "note:",
-            )
+            `${
+                chalk.bold(
+                    "note:",
+                )
             } The imported binding name should be the same as the import source basename.`,
             "",
         ]
