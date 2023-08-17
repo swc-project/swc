@@ -830,78 +830,60 @@ function b2(a, ...b) {}
 function b3({ b }) {}
 "#,
     r#"
-function a(_param) {
-  var a34 = _extends({}, _object_destructuring_empty(_param));
-}
-
-function a2(_param) {
-  var {
-    a1
-  } = _param,
-      b1 = _object_without_properties(_param, ["a1"]);
-}
-
-function a3(_param) {
-  var {
-    a2,
-    b2
-  } = _param,
-      c2 = _object_without_properties(_param, ["a2", "b2"]);
-}
-
-function a4(_param, _param1) {
-  var { a3 } = _param, c3 = _object_without_properties(_param, ["a3"]),
-    { a5  } = _param1, c5 = _object_without_properties(_param1, ["a5"]);
-
-}
-
-function a5(_param) {
-  var {
-    a3,
-    b2: {
-      ba1
-    }
-  } = _param,
-      ba2 = _object_without_properties(_param.b2, ["ba1"]),
-      c3 = _object_without_properties(_param, ["a3", "b2"]);
-}
-
-function a6(_param) {
-  var {
-    a3,
-    b2: {
-      ba1
-    }
-  } = _param,
-      ba2 = _object_without_properties(_param.b2, ["ba1"]);
-}
-
-function a7(_param = {
-}) {
-    var { a1 =1  } = _param, b1 = _object_without_properties(_param, ["a1"]);
-}
-
-function a8([_param]) {
-    var a1 = _extends({
-    }, _object_destructuring_empty(_param));
-}
-
-function a9([_param]) {
-  var { a1 } = _param, a2 = _object_without_properties(_param, ["a1"]);
-}
-
-function a10([a1, _param]) {
-  var a2 = _extends({}, _object_destructuring_empty(_param));
-}
-
-// Unchanged
-function b(a) {}
-
-function b2(a, ...b) {}
-
-function b3({
-  b
-}) {}"#
+    function a(_param) {
+      var a34 = _extends({}, _object_destructuring_empty(_param));
+  }
+  function a2(_param) {
+      var { a1 } = _param, b1 = _object_without_properties(_param, [
+          "a1"
+      ]);
+  }
+  function a3(_param) {
+      var { a2, b2 } = _param, c2 = _object_without_properties(_param, [
+          "a2",
+          "b2"
+      ]);
+  }
+  function a4(_param, _param1) {
+      var { a3 } = _param, c3 = _object_without_properties(_param, [
+          "a3"
+      ]), { a5 } = _param1, c5 = _object_without_properties(_param1, [
+          "a5"
+      ]);
+  }
+  function a5(_param) {
+      var { a3, b2: { ba1 } } = _param, ba2 = _object_without_properties(_param.b2, [
+          "ba1"
+      ]), c3 = _object_without_properties(_param, [
+          "a3",
+          "b2"
+      ]);
+  }
+  function a6(_param) {
+      var { a3, b2: { ba1 } } = _param, ba2 = _object_without_properties(_param.b2, [
+          "ba1"
+      ]);
+  }
+  function a7(_param = {}) {
+      var { a1 = 1 } = _param, b1 = _object_without_properties(_param, [
+          "a1"
+      ]);
+  }
+  function a8(_param) {
+      var a1 = _extends({}, _object_destructuring_empty(_param[0]));
+  }
+  function a9(_param) {
+      var [{ a1 }] = _param, a2 = _object_without_properties(_param[0], [
+          "a1"
+      ]);
+  }
+  function a10(_param) {
+      var [a1, {}] = _param, a2 = _extends({}, _object_destructuring_empty(_param[1]));
+  }
+  function b(a) {}
+  function b2(a, ...b) {}
+  function b3({ b }) {}
+    "#
 );
 
 test_exec!(
