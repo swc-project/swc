@@ -81,6 +81,10 @@ pub struct MangleOptions {
 
     #[serde(default, alias = "reserved")]
     pub reserved: Vec<JsWord>,
+
+    /// mangle names visible in scopes where eval or with are used
+    #[serde(default)]
+    pub eval: bool,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize, Merge)]

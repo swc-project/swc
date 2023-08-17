@@ -1,11 +1,13 @@
 use std::mem::take;
 
-use ahash::AHashSet;
 use indexmap::IndexMap;
 use smallvec::SmallVec;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    chain, collections::AHashMap, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP,
+    chain,
+    collections::{AHashMap, AHashSet},
+    util::take::Take,
+    Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -160,7 +162,7 @@ impl BlockScoping {
                 has_return: false,
                 has_yield: false,
                 label: IndexMap::new(),
-                inner_label: AHashSet::new(),
+                inner_label: AHashSet::default(),
                 mutated,
                 in_switch_case: false,
                 in_nested_loop: false,

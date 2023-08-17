@@ -635,7 +635,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                trace_op!("iife: Empry function");
+                trace_op!("iife: Empty function");
 
                 let body = f.function.body.as_mut().unwrap();
                 if body.stmts.is_empty() && call.args.is_empty() {
@@ -724,7 +724,7 @@ impl Optimizer<'_> {
         // Abort on eval.
         // See https://github.com/swc-project/swc/pull/6478
         //
-        // We completetly abort on eval, because we cannot know whether a variable in
+        // We completely abort on eval, because we cannot know whether a variable in
         // upper scope will be afftected by eval.
         // https://github.com/swc-project/swc/issues/6628
         if self.data.top.has_eval_call {
@@ -869,9 +869,21 @@ impl Optimizer<'_> {
                         let ids: Vec<Id> = find_pat_ids(&decl.name);
 
                         for id in ids {
-                            remap
-                                .entry(id)
+                            let ctx = remap
+                                .entry(id.clone())
                                 .or_insert_with(|| SyntaxContext::empty().apply_mark(Mark::new()));
+
+                            // [is_skippable_for_seq] would check fn scope
+                            if let Some(usage) = self.data.vars.get(&id) {
+                                let mut usage = usage.clone();
+                                usage.in_fn_scope_of = self.ctx.fn_scope;
+                                // as we turn var declaration into assignment
+                                // we need to maintain correct var usage
+                                if decl.init.is_some() {
+                                    usage.ref_count += 1;
+                                }
+                                self.data.vars.insert((id.0, *ctx), usage);
+                            }
                         }
                     }
                 }
@@ -1077,11 +1089,14 @@ impl Optimizer<'_> {
 
             Expr::Arrow(ArrowExpr {
                 params,
-                body: box BlockStmtOrExpr::Expr(body),
+                body,
                 is_async: false,
                 is_generator: false,
                 ..
-            }) => params.iter().all(|p| p.is_ident()) && self.can_be_inlined_for_iife(body),
+            }) if body.is_expr() => {
+                params.iter().all(|p| p.is_ident())
+                    && self.can_be_inlined_for_iife(body.as_expr().unwrap())
+            }
 
             _ => false,
         }

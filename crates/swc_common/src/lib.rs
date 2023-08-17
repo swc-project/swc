@@ -28,9 +28,9 @@
 //! Allows replacing operations related to thread-local variables with a trait.
 //!
 //!
-//! ## `perf`
+//! ## `ahash`
 //!
-//! Use `fxhash` instead of `ahash` for `AHashMap` and `AHashSet`.
+//! Use `ahash` instead of `rustc_hash` for `AHashMap` and `AHashSet`.
 #![deny(clippy::all)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
@@ -78,3 +78,15 @@ pub mod util;
 
 #[cfg(all(not(debug_assertions), feature = "plugin-rt", feature = "plugin-mode"))]
 compile_error!("You can't enable `plugin-rt` and `plugin-mode` at the same time");
+
+/// Warning: The particular implementation of serialization and deserialization
+/// of the ast nodes may change in the future, and so these types would be
+/// removed. It's safe to say they will be serializable in some form or another,
+/// but not necessarily with these specific types underlying the implementation.
+/// As such, *use these types at your own risk*.
+#[cfg(feature = "rkyv-impl")]
+#[doc(hidden)]
+pub use self::syntax_pos::{
+    ArchivedBytePos, ArchivedCharPos, ArchivedFileName, ArchivedMultiSpan, ArchivedSourceFile,
+    ArchivedSourceFileAndBytePos, ArchivedSpan, ArchivedSpanLinesError, ArchivedSpanSnippetError,
+};

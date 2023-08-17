@@ -174,6 +174,9 @@ struct Ctx {
 
     /// Current scope.
     scope: SyntaxContext,
+
+    /// Current function scope
+    fn_scope: SyntaxContext,
 }
 
 impl Ctx {
@@ -2134,6 +2137,7 @@ impl VisitMut for Optimizer<'_> {
                 skip_standalone: self.ctx.skip_standalone || is_standalone,
                 in_fn_like: true,
                 scope: n.span.ctxt,
+                fn_scope: n.span.ctxt,
                 top_level: false,
 
                 ..self.ctx

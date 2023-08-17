@@ -1532,7 +1532,7 @@
             }
         }
     };
-    Vue = Vue1, configDef = {}, configDef.get = function() {
+    Vue = Vue1, (configDef = {}).get = function() {
         return config;
     }, configDef.set = function() {
         warn('Do not replace the Vue.config object, set individual fields instead.');
@@ -2921,7 +2921,7 @@
                 warn$1 = _warn;
                 var code, number, valueBinding, trueValueBinding, falseValueBinding, number1, valueBinding1, value = dir.value, modifiers = dir.modifiers, tag = el.tag, type = el.attrsMap.type;
                 if ('input' === tag && 'file' === type && warn$1("<" + el.tag + " v-model=\"" + value + '" type="file">:\nFile inputs are read only. Use a v-on:change listener instead.', el.rawAttrsMap['v-model']), el.component) return genComponentModel(el, value, modifiers), !1;
-                if ('select' === tag) addHandler(el, 'change', code = (code = 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + (modifiers && modifiers.number ? '_n(val)' : 'val') + "});") + " " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), null, !0);
+                if ('select' === tag) addHandler(el, 'change', 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + (modifiers && modifiers.number ? '_n(val)' : 'val') + "}); " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), null, !0);
                 else if ('input' === tag && 'checkbox' === type) number = modifiers && modifiers.number, valueBinding = getBindingAttr(el, 'value') || 'null', trueValueBinding = getBindingAttr(el, 'true-value') || 'true', falseValueBinding = getBindingAttr(el, 'false-value') || 'false', addProp(el, 'checked', "Array.isArray(" + value + ")?_i(" + value + "," + valueBinding + ")>-1" + ('true' === trueValueBinding ? ":(" + value + ")" : ":_q(" + value + "," + trueValueBinding + ")")), addHandler(el, 'change', "var $$a=" + value + ",$$el=$event.target,$$c=$$el.checked?(" + trueValueBinding + "):(" + falseValueBinding + ");if(Array.isArray($$a)){var $$v=" + (number ? '_n(' + valueBinding + ')' : valueBinding) + ",$$i=_i($$a,$$v);if($$el.checked){$$i<0&&(" + genAssignmentCode(value, '$$a.concat([$$v])') + ")}else{$$i>-1&&(" + genAssignmentCode(value, '$$a.slice(0,$$i).concat($$a.slice($$i+1))') + ")}}else{" + genAssignmentCode(value, '$$c') + "}", null, !0);
                 else if ('input' === tag && 'radio' === type) number1 = modifiers && modifiers.number, valueBinding1 = getBindingAttr(el, 'value') || 'null', valueBinding1 = number1 ? "_n(" + valueBinding1 + ")" : valueBinding1, addProp(el, 'checked', "_q(" + value + "," + valueBinding1 + ")"), addHandler(el, 'change', genAssignmentCode(value, valueBinding1), null, !0);
                 else if ('input' === tag || 'textarea' === tag) !function(el, value, modifiers) {
@@ -3091,7 +3091,7 @@
         if (el.for && !el.forProcessed) return genFor(el, state);
         if (el.if && !el.ifProcessed) return genIf(el, state);
         if ('template' === el.tag && !el.slotTarget && !state.pre) return genChildren(el, state) || 'void 0';
-        if ('slot' === el.tag) return slotName = el.slotName || '"default"', res = "_t(" + slotName + ((children = genChildren(el, state)) ? "," + children : ''), attrs = el.attrs || el.dynamicAttrs ? genProps((el.attrs || []).concat(el.dynamicAttrs || []).map(function(attr) {
+        if ('slot' === el.tag) return res = "_t(" + (el.slotName || '"default"') + ((children = genChildren(el, state)) ? "," + children : ''), attrs = el.attrs || el.dynamicAttrs ? genProps((el.attrs || []).concat(el.dynamicAttrs || []).map(function(attr) {
             return {
                 name: camelize(attr.name),
                 value: attr.value,
@@ -3101,7 +3101,7 @@
         if (el.component) componentName = el.component, children1 = el.inlineTemplate ? null : genChildren(el, state, !0), code = "_c(" + componentName + "," + genData$2(el, state) + (children1 ? "," + children1 : '') + ")";
         else {
             (!el.plain || el.pre && state.maybeComponent(el)) && (data = genData$2(el, state));
-            var slotName, children, res, attrs, bind$$1, code, componentName, children1, data, children2 = el.inlineTemplate ? null : genChildren(el, state, !0);
+            var children, res, attrs, bind$$1, code, componentName, children1, data, children2 = el.inlineTemplate ? null : genChildren(el, state, !0);
             code = "_c('" + el.tag + "'" + (data ? "," + data : '') + (children2 ? "," + children2 : '') + ")";
         }
         for(var i = 0; i < state.transforms.length; i++)code = state.transforms[i](el, code);

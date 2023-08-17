@@ -828,6 +828,7 @@ where
         let ctx = Ctx {
             skip_standalone: self.ctx.skip_standalone || is_standalone,
             in_update_arg: false,
+            fn_scope: n.span.ctxt,
             ..self.ctx
         };
 

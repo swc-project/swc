@@ -5,7 +5,94 @@
 
 
 
+- **(es/codegen)** Add quotes to property names when `ascii_only` is `true` (#7820) ([04921f3](https://github.com/swc-project/swc/commit/04921f301afbc2dc74bed4cb24e7656b60e54327))
+
+
+- **(es/compat)** Remove wrong logic for object patterns in `object_rest` (#7788) ([3766a7c](https://github.com/swc-project/swc/commit/3766a7c776b63e159be3f11f5f931c5e5f968cdb))
+
+### Refactor
+
+
+
+- **(common)** Make `ahash` optional (#7816) ([981d7b1](https://github.com/swc-project/swc/commit/981d7b152b2f488a67d42052152db22225f1d094))
+
+
+- **(es/parser)** Remove needless `unsafe` (#7818) ([8b809db](https://github.com/swc-project/swc/commit/8b809dbe23cab3db2159979cf1852a69c109f1e0))- **general**: Use `ahash` from `swc_common` in more places (#7815) ([b43e38d](https://github.com/swc-project/swc/commit/b43e38d3f92bc889e263b741dbe173a6f2206d88))
+
+## [1.3.77] - 2023-08-16
+
+### Bug Fixes
+
+
+
+- **(es)** Resolve `jsc.baseUrl` for `.swcrc` specified by `--config-file` (#7801) ([fe1ca26](https://github.com/swc-project/swc/commit/fe1ca26218493d2e7d4121433c365a37e13285e6))
+
+
+- **(es/compat)** Revert #7610  (#7813) ([42dec55](https://github.com/swc-project/swc/commit/42dec557ed2e8fd829aba7847b354003cfea1b18))
+
+
+- **(es/parser)** Revert lexer fix for `<<` (#7807) ([e527c12](https://github.com/swc-project/swc/commit/e527c12a82740397ed4e909f242326f8e92624a8))
+
+### Features
+
+
+
+- **(es/ast)** Expose `Archived` types (#7811) ([478fa47](https://github.com/swc-project/swc/commit/478fa4736f355555c7a19e7b674db5d7bd81c0e2))
+
+### Refactor
+
+
+
+- **(es/parser)** Don't attempt to handle shebangs in `read_token_number_sign` (#7803) ([5e7834a](https://github.com/swc-project/swc/commit/5e7834aa2ecb0cd01b72979f393a517f1c1e5add))
+
+## [1.3.76] - 2023-08-10
+
+### Bug Fixes
+
+
+
+- **(es/ast)** Bump version (#7793) ([13bedc0](https://github.com/swc-project/swc/commit/13bedc084e46db193b3fd0b7930046b2f013742b))
+
+
+- **(es/minifier)** Abort seq inliner if a same var is defined in outer scope (#7772) ([ef8d121](https://github.com/swc-project/swc/commit/ef8d12154ddaad47eddb41298bae14460834be0c))
+
+
+- **(es/minifier)** Do not drop properties used via `this` (#7785) ([552d9aa](https://github.com/swc-project/swc/commit/552d9aa344cb6db2dff1e20011411a56f92d4f06))
+
+
+- **(es/module)** Use `jsc.baseUrl` while resolving absolute paths (#7775) ([5c4bfa6](https://github.com/swc-project/swc/commit/5c4bfa61f9e4f7732bc1a9da6cd25f52e593a374))
+
+### Features
+
+
+
+- **(es/minifier)** Support `mangle.eval` (#7777) ([eff0cac](https://github.com/swc-project/swc/commit/eff0caca2b6bfd383c8369cf0f4cdad86bb9e575))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Cleanup CI (#7787) ([ab39f1c](https://github.com/swc-project/swc/commit/ab39f1c3c83c7156e6e9979773bf542a59d9b4f4))
+
+### Performance
+
+
+
+- **(es/compat)** Improve time complexity of `class_properties` (#7786) ([76c6258](https://github.com/swc-project/swc/commit/76c6258d1544ede09cb4f281c42e1fc80ad4145b))
+
+## [1.3.75] - 2023-08-08
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Don't strip necessary escape characters (#7687) ([b45649b](https://github.com/swc-project/swc/commit/b45649b8d6484bd872f6443fc729f6b1998ff44d))
+
+
 - **(es/compat)** Fix loose mode of the `spread` pass (#7760) ([b69ae8f](https://github.com/swc-project/swc/commit/b69ae8f433a1702e09a24c1c47b2fc312e8fb801))
+
+
+- **(es/minifier)** Abort on `Array.slice` with `start >= end` (#7745) ([36ccbec](https://github.com/swc-project/swc/commit/36ccbec06130a55bc0707a0096a56558a77a1ceb))
 
 
 - **(es/module)** Fix handling of continuous assignments in `systemjs` (#7741) ([f713f6a](https://github.com/swc-project/swc/commit/f713f6aba84ffe84bed9dff80a772b0cd78135b8))
@@ -35,7 +122,13 @@
 - **(es/ast)** Avoid `transmute` in impl of `Hash` for `Number` (#7771) ([2258274](https://github.com/swc-project/swc/commit/225827423355cab8cd3c0ae80f335cd2873e6cd4))
 
 
+- **(es/minifier)** Support stable rustc (#7734) ([f7afe7e](https://github.com/swc-project/swc/commit/f7afe7edecc65f41845721c75b77d2f6dba04a6a))
+
+
 - **(es/parser)** Do not use `lexical` (#7758) ([e50cfde](https://github.com/swc-project/swc/commit/e50cfde938b2504b723a95f034ac4b388d8725c3))
+
+
+- **(es/parser)** Do not validate top-level await with target  (#7774) ([5f97f86](https://github.com/swc-project/swc/commit/5f97f8656f9ff7c42bbf1db95fd9d964c5cc6c7c))
 
 ## [1.3.74] - 2023-08-02
 

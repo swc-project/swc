@@ -13437,9 +13437,9 @@
                 return childComponents.map(function(child, index) {
                     var child1, props1, calculatedProps1, domain, scale, stringMap, categories, axisChild, role = child.type && child.type.role, style = Array.isArray(child.props.style) ? child.props.style : lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, child.props.style, {
                         parent: baseStyle
-                    }), childProps = (child1 = child, props1 = props, calculatedProps1 = calculatedProps, axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
+                    }), childProps = (child1 = child, props1 = props, calculatedProps1 = calculatedProps, (axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
                         child1
-                    ]), axisChild.length > 0 ? (axisChild[0], domain = calculatedProps1.domain, scale = calculatedProps1.scale, stringMap = calculatedProps1.stringMap, categories = calculatedProps1.categories, {
+                    ])).length > 0 ? (axisChild[0], domain = calculatedProps1.domain, scale = calculatedProps1.scale, stringMap = calculatedProps1.stringMap, categories = calculatedProps1.categories, {
                         stringMap: stringMap,
                         horizontal: calculatedProps1.horizontal,
                         categories: categories,
@@ -18467,8 +18467,8 @@
                             x: x,
                             y: y
                         };
-                        var polarPadding = (style = props.style, degrees = getDegrees(props, datum), labelStyle = style.labels || {}, padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props) || 0, {
-                            x: padding * Math.cos(angle = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.degreesToRadians(degrees)),
+                        var polarPadding = (style = props.style, degrees = getDegrees(props, datum), labelStyle = style.labels || {}, {
+                            x: (padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props) || 0) * Math.cos(angle = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.degreesToRadians(degrees)),
                             y: -padding * Math.sin(angle)
                         });
                         return {
@@ -28248,9 +28248,9 @@
                     {
                         key: "getCachedSharedEvents",
                         value: function(name, cacheValues) {
-                            var arr, _ref2 = function(arr) {
+                            var _ref = this.sharedEventsCache[name] || [], _ref2 = function(arr) {
                                 if (Array.isArray(arr)) return arr;
-                            }(arr = this.sharedEventsCache[name] || []) || function(arr, i) {
+                            }(_ref) || function(arr, i) {
                                 var _arr = [], _n = !0, _d = !1, _e = void 0;
                                 try {
                                     for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
@@ -28264,7 +28264,7 @@
                                     }
                                 }
                                 return _arr;
-                            }(arr, 2) || function() {
+                            }(_ref, 2) || function() {
                                 throw TypeError("Invalid attempt to destructure non-iterable instance");
                             }(), sharedEvents = _ref2[0], prevCacheValues = _ref2[1];
                             if (sharedEvents && react_fast_compare__WEBPACK_IMPORTED_MODULE_10___default()(cacheValues, prevCacheValues)) return sharedEvents;
@@ -28468,13 +28468,13 @@
                     return dataset.filter(function(datum) {
                         return null !== datum._x && null !== datum._y;
                     });
-                }), fillInMissingData = props1.fillInMissingData, xMap = filterNullChildData.reduce(function(prev, dataset) {
+                }), (fillInMissingData = props1.fillInMissingData, xMap = filterNullChildData.reduce(function(prev, dataset) {
                     return dataset.forEach(function(datum) {
                         prev[datum._x instanceof Date ? datum._x.getTime() : datum._x] = !0;
                     }), prev;
                 }, {}), xKeys = lodash_keys__WEBPACK_IMPORTED_MODULE_1___default()(xMap).map(function(k) {
                     return +k;
-                }), xArr = lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default()(xKeys), (datasets = filterNullChildData.map(function(dataset) {
+                }), xArr = lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default()(xKeys), datasets = filterNullChildData.map(function(dataset) {
                     var indexOffset = 0, isDate = dataset[0] && dataset[0]._x instanceof Date;
                     return xArr.map(function(x, index) {
                         x = +x;

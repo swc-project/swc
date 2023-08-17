@@ -1,7 +1,7 @@
 use indexmap::IndexSet;
 use preset_env_base::version::{should_enable, Version};
 use swc_atoms::{js_word, JsWord};
-use swc_common::DUMMY_SP;
+use swc_common::{collections::ARandomState, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -20,7 +20,7 @@ pub(crate) struct UsageVisitor {
     is_any_target: bool,
     target: Versions,
     corejs_version: Version,
-    pub required: IndexSet<&'static str, ahash::RandomState>,
+    pub required: IndexSet<&'static str, ARandomState>,
 }
 
 impl UsageVisitor {
