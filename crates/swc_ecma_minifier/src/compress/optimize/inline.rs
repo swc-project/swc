@@ -246,9 +246,16 @@ impl Optimizer<'_> {
                 self.mode.store(id.clone(), &*init);
 
                 let usage_count = usage.usage_count;
+                let used_as_arg = usage.used_as_arg;
+                let used_as_ref = usage.used_as_ref;
+                let indexed_with_dynamic_key = usage.indexed_with_dynamic_key;
                 let mut inc_usage = || {
+                    dbg!(&*init);
                     if let Expr::Ident(i) = &*init {
                         if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
+                            u.used_as_arg |= used_as_arg;
+                            u.used_as_ref |= used_as_ref;
+                            u.indexed_with_dynamic_key |= indexed_with_dynamic_key;
                             u.ref_count += ref_count;
                             u.usage_count += usage_count;
                         }
