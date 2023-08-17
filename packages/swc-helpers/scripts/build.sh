@@ -1,7 +1,7 @@
 #/usr/bin/env bash
 set -eux
 
-npx swc src -d lib
+node ./node_modules/.bin/swc src -d lib
 ls -alR ./lib
 
 # fsync

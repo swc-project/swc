@@ -113,7 +113,7 @@ if (errors.length > 0) {
 } else {
     $.cwd = root(".");
     await $`dprint fmt`;
-    await $`dprint fmt "scripts/*.js" -c scripts/.dprint.json`;
+    await $`dprint fmt "scripts/*.mjs" -c scripts/.dprint.json`;
 }
 
 function re_export_esm(importBinding) {
