@@ -16,6 +16,9 @@
 
 - **(es/minifier)** Abort seq inliner if var is not fn_local or reassigned (#7804) ([f8ca366](https://github.com/swc-project/swc/commit/f8ca366cc179d2d83d35148c3600b8faa2e7f801))
 
+
+- **(es/minifier)** Preserve more analysis data upon inlining (#7823) ([31de19e](https://github.com/swc-project/swc/commit/31de19ece22663623b1fc1fe48c90b7aa41e41e0))
+
 ### Features
 
 
