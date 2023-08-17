@@ -1,9 +1,9 @@
 #!/usr/bin/env zx
 
 import { $, fs, glob } from "zx";
-import { ast_grep } from "./ast_grep.js";
-import { errors } from "./errors.js";
-import { root } from "./utils.js";
+import { ast_grep } from "./ast_grep.mjs";
+import { errors } from "./errors.mjs";
+import { root } from "./utils.mjs";
 
 // clear generated content
 await Promise.all([

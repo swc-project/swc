@@ -1,8 +1,8 @@
 import { parseFiles } from "@ast-grep/napi";
 import MagicString from "magic-string";
 import { chalk, fs, path } from "zx";
-import { errors } from "./errors.js";
-import { root } from "./utils.js";
+import { errors } from "./errors.mjs";
+import { root } from "./utils.mjs";
 
 /**
  * @typedef {import("@ast-grep/napi").SgNode} SgNode
@@ -183,10 +183,9 @@ function report_ts_mismatch(filename, match) {
                 ]
                     .join(""),
             ),
-            `${
-                chalk.bold(
-                    "note:",
-                )
+            `${chalk.bold(
+                "note:",
+            )
             } The exported name should be the same as the filename.`,
             "",
         ]
@@ -225,10 +224,9 @@ function report_export_mismatch(filename, match) {
             "",
             ...text,
             "",
-            `${
-                chalk.bold(
-                    "note:",
-                )
+            `${chalk.bold(
+                "note:",
+            )
             } The exported name should be the same as the filename.`,
             "",
         ]
@@ -258,10 +256,9 @@ function report_import_mismatch(filename, match) {
                 chalk.blue("-".repeat(source_range.end.column - source_range.start.column)),
             ]
                 .join(""),
-            `${
-                chalk.bold(
-                    "note:",
-                )
+            `${chalk.bold(
+                "note:",
+            )
             } The imported binding name should be the same as the import source basename.`,
             "",
         ]
