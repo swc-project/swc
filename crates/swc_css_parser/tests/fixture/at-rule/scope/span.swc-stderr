@@ -8,7 +8,7 @@
   5 | |           color: darkmagenta;
   6 | |       }
   7 | |   }
-  8 | |   @scope ( . .light-scheme ) {
+  8 | |   @scope (.light-scheme) {
   9 | |   
  10 | |       /* Only match links inside a light-scheme */
  11 | |       a {
@@ -16,7 +16,7 @@
  13 | |       }
  14 | |   }
  15 | |   
- 16 | |   @scope to (   .content > * . ) {
+ 16 | |   @scope to (.content > *) {
  17 | |       img {
  18 | |           border-radius: 50%;
  19 | |       }
@@ -26,7 +26,7 @@
  23 | |       }
  24 | |   }
  25 | |   
- 26 | |   @scope (   .media-object) to (  .content > *  ) {
+ 26 | |   @scope (.media-object) to (.content > *) {
  27 | |       img {
  28 | |           border-radius: 50%;
  29 | |       }
@@ -46,7 +46,7 @@
  5 | |           color: darkmagenta;
  6 | |       }
  7 | `-> }
- 8 |     @scope ( . .light-scheme ) {
+ 8 |     @scope (.light-scheme) {
    `----
 
   x AtRule
@@ -58,7 +58,7 @@
  5 | |           color: darkmagenta;
  6 | |       }
  7 | `-> }
- 8 |     @scope ( . .light-scheme ) {
+ 8 |     @scope (.light-scheme) {
    `----
 
   x AtRuleName
@@ -82,7 +82,7 @@
  5 | |           color: darkmagenta;
  6 | |       }
  7 | `-> }
- 8 |     @scope ( . .light-scheme ) {
+ 8 |     @scope (.light-scheme) {
    `----
 
   x LBrace
@@ -233,7 +233,7 @@
   x Rule
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
   7 |     }
-  8 | ,-> @scope ( . .light-scheme ) {
+  8 | ,-> @scope (.light-scheme) {
   9 | |   
  10 | |       /* Only match links inside a light-scheme */
  11 | |       a {
@@ -245,7 +245,7 @@
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
   7 |     }
-  8 | ,-> @scope ( . .light-scheme ) {
+  8 | ,-> @scope (.light-scheme) {
   9 | |   
  10 | |       /* Only match links inside a light-scheme */
  11 | |       a {
@@ -257,112 +257,63 @@
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
  7 | }
- 8 | @scope ( . .light-scheme ) {
+ 8 | @scope (.light-scheme) {
    :  ^^^^^
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
  7 | }
- 8 | @scope ( . .light-scheme ) {
+ 8 | @scope (.light-scheme) {
    :  ^^^^^
    `----
 
   x ForgivingSelectorList
    ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
  7 | }
- 8 | @scope ( . .light-scheme ) {
-   :         ^^^^^^^^^^^^^^^^^
+ 8 | @scope (.light-scheme) {
+   :         ^^^^^^^^^^^^^
    `----
 
-  x ComponentValue
+  x ComplexSelector
    ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
  7 | }
- 8 | @scope ( . .light-scheme ) {
-   :         ^
+ 8 | @scope (.light-scheme) {
+   :         ^^^^^^^^^^^^^
    `----
 
-  x WhiteSpace { value: " " }
+  x CompoundSelector
    ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
  7 | }
- 8 | @scope ( . .light-scheme ) {
-   :         ^
+ 8 | @scope (.light-scheme) {
+   :         ^^^^^^^^^^^^^
    `----
 
-  x ComponentValue
+  x SubclassSelector
    ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
  7 | }
- 8 | @scope ( . .light-scheme ) {
-   :          ^
+ 8 | @scope (.light-scheme) {
+   :         ^^^^^^^^^^^^^
    `----
 
-  x Delim { value: '.' }
+  x ClassSelector
    ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
  7 | }
- 8 | @scope ( . .light-scheme ) {
-   :          ^
+ 8 | @scope (.light-scheme) {
+   :         ^^^^^^^^^^^^^
    `----
 
-  x ComponentValue
+  x Ident
    ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
  7 | }
- 8 | @scope ( . .light-scheme ) {
-   :           ^
-   `----
-
-  x WhiteSpace { value: " " }
-   ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
- 7 | }
- 8 | @scope ( . .light-scheme ) {
-   :           ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
- 7 | }
- 8 | @scope ( . .light-scheme ) {
-   :            ^
-   `----
-
-  x Delim { value: '.' }
-   ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
- 7 | }
- 8 | @scope ( . .light-scheme ) {
-   :            ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
- 7 | }
- 8 | @scope ( . .light-scheme ) {
-   :             ^^^^^^^^^^^^
-   `----
-
-  x Ident { value: Atom('light-scheme' type=dynamic), raw: "light-scheme" }
-   ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
- 7 | }
- 8 | @scope ( . .light-scheme ) {
-   :             ^^^^^^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
- 7 | }
- 8 | @scope ( . .light-scheme ) {
-   :                         ^
-   `----
-
-  x WhiteSpace { value: " " }
-   ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
- 7 | }
- 8 | @scope ( . .light-scheme ) {
-   :                         ^
+ 8 | @scope (.light-scheme) {
+   :          ^^^^^^^^^^^^
    `----
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
   7 |     }
-  8 | ,-> @scope ( . .light-scheme ) {
+  8 | ,-> @scope (.light-scheme) {
   9 | |   
  10 | |       /* Only match links inside a light-scheme */
  11 | |       a {
@@ -374,8 +325,8 @@
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/scope/input.css:7:1]
  7 | }
- 8 | @scope ( . .light-scheme ) {
-   :                            ^
+ 8 | @scope (.light-scheme) {
+   :                        ^
    `----
 
   x ComponentValue
@@ -520,7 +471,7 @@
   x Rule
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 |     
- 16 | ,-> @scope to (   .content > * . ) {
+ 16 | ,-> @scope to (.content > *) {
  17 | |       img {
  18 | |           border-radius: 50%;
  19 | |       }
@@ -534,7 +485,7 @@
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 |     
- 16 | ,-> @scope to (   .content > * . ) {
+ 16 | ,-> @scope to (.content > *) {
  17 | |       img {
  18 | |           border-radius: 50%;
  19 | |       }
@@ -548,7 +499,7 @@
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 | 
- 16 | @scope to (   .content > * . ) {
+ 16 | @scope to (.content > *) {
     :  ^^^^^
  17 |     img {
     `----
@@ -556,7 +507,7 @@
   x Ident
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 | 
- 16 | @scope to (   .content > * . ) {
+ 16 | @scope to (.content > *) {
     :  ^^^^^
  17 |     img {
     `----
@@ -564,175 +515,87 @@
   x ForgivingSelectorList
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 | 
- 16 | @scope to (   .content > * . ) {
-    :            ^^^^^^^^^^^^^^^^^^
+ 16 | @scope to (.content > *) {
+    :            ^^^^^^^^^^^^
  17 |     img {
     `----
 
-  x ComponentValue
+  x ComplexSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 | 
- 16 | @scope to (   .content > * . ) {
-    :            ^^^
+ 16 | @scope to (.content > *) {
+    :            ^^^^^^^^^^^^
  17 |     img {
     `----
 
-  x WhiteSpace { value: "   " }
+  x CompoundSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 | 
- 16 | @scope to (   .content > * . ) {
-    :            ^^^
+ 16 | @scope to (.content > *) {
+    :            ^^^^^^^^
  17 |     img {
     `----
 
-  x ComponentValue
+  x SubclassSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 | 
- 16 | @scope to (   .content > * . ) {
-    :               ^
+ 16 | @scope to (.content > *) {
+    :            ^^^^^^^^
  17 |     img {
     `----
 
-  x Delim { value: '.' }
+  x ClassSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 | 
- 16 | @scope to (   .content > * . ) {
-    :               ^
+ 16 | @scope to (.content > *) {
+    :            ^^^^^^^^
  17 |     img {
     `----
 
-  x ComponentValue
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 | 
- 16 | @scope to (   .content > * . ) {
-    :                ^^^^^^^
+ 16 | @scope to (.content > *) {
+    :             ^^^^^^^
  17 |     img {
     `----
 
-  x Ident { value: Atom('content' type=static), raw: "content" }
+  x Combinator
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 | 
- 16 | @scope to (   .content > * . ) {
-    :                ^^^^^^^
+ 16 | @scope to (.content > *) {
+    :                     ^
  17 |     img {
     `----
 
-  x ComponentValue
+  x CompoundSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 | 
- 16 | @scope to (   .content > * . ) {
+ 16 | @scope to (.content > *) {
     :                       ^
  17 |     img {
     `----
 
-  x WhiteSpace { value: " " }
+  x TypeSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 | 
- 16 | @scope to (   .content > * . ) {
+ 16 | @scope to (.content > *) {
     :                       ^
  17 |     img {
     `----
 
-  x ComponentValue
+  x UniversalSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 | 
- 16 | @scope to (   .content > * . ) {
-    :                        ^
- 17 |     img {
-    `----
-
-  x Delim { value: '>' }
-    ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
- 15 | 
- 16 | @scope to (   .content > * . ) {
-    :                        ^
- 17 |     img {
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
- 15 | 
- 16 | @scope to (   .content > * . ) {
-    :                         ^
- 17 |     img {
-    `----
-
-  x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
- 15 | 
- 16 | @scope to (   .content > * . ) {
-    :                         ^
- 17 |     img {
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
- 15 | 
- 16 | @scope to (   .content > * . ) {
-    :                          ^
- 17 |     img {
-    `----
-
-  x Delim { value: '*' }
-    ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
- 15 | 
- 16 | @scope to (   .content > * . ) {
-    :                          ^
- 17 |     img {
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
- 15 | 
- 16 | @scope to (   .content > * . ) {
-    :                           ^
- 17 |     img {
-    `----
-
-  x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
- 15 | 
- 16 | @scope to (   .content > * . ) {
-    :                           ^
- 17 |     img {
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
- 15 | 
- 16 | @scope to (   .content > * . ) {
-    :                            ^
- 17 |     img {
-    `----
-
-  x Delim { value: '.' }
-    ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
- 15 | 
- 16 | @scope to (   .content > * . ) {
-    :                            ^
- 17 |     img {
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
- 15 | 
- 16 | @scope to (   .content > * . ) {
-    :                             ^
- 17 |     img {
-    `----
-
-  x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
- 15 | 
- 16 | @scope to (   .content > * . ) {
-    :                             ^
+ 16 | @scope to (.content > *) {
+    :                       ^
  17 |     img {
     `----
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 |     
- 16 | ,-> @scope to (   .content > * . ) {
+ 16 | ,-> @scope to (.content > *) {
  17 | |       img {
  18 | |           border-radius: 50%;
  19 | |       }
@@ -746,14 +609,14 @@
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:15:1]
  15 | 
- 16 | @scope to (   .content > * . ) {
-    :                                ^
+ 16 | @scope to (.content > *) {
+    :                          ^
  17 |     img {
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:16:1]
- 16 |     @scope to (   .content > * . ) {
+ 16 |     @scope to (.content > *) {
  17 | ,->     img {
  18 | |           border-radius: 50%;
  19 | `->     }
@@ -761,7 +624,7 @@
 
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:16:1]
- 16 |     @scope to (   .content > * . ) {
+ 16 |     @scope to (.content > *) {
  17 | ,->     img {
  18 | |           border-radius: 50%;
  19 | `->     }
@@ -769,7 +632,7 @@
 
   x SelectorList
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:16:1]
- 16 | @scope to (   .content > * . ) {
+ 16 | @scope to (.content > *) {
  17 |     img {
     :     ^^^
  18 |         border-radius: 50%;
@@ -777,7 +640,7 @@
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:16:1]
- 16 | @scope to (   .content > * . ) {
+ 16 | @scope to (.content > *) {
  17 |     img {
     :     ^^^
  18 |         border-radius: 50%;
@@ -785,7 +648,7 @@
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:16:1]
- 16 | @scope to (   .content > * . ) {
+ 16 | @scope to (.content > *) {
  17 |     img {
     :     ^^^
  18 |         border-radius: 50%;
@@ -793,7 +656,7 @@
 
   x TypeSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:16:1]
- 16 | @scope to (   .content > * . ) {
+ 16 | @scope to (.content > *) {
  17 |     img {
     :     ^^^
  18 |         border-radius: 50%;
@@ -801,7 +664,7 @@
 
   x TagNameSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:16:1]
- 16 | @scope to (   .content > * . ) {
+ 16 | @scope to (.content > *) {
  17 |     img {
     :     ^^^
  18 |         border-radius: 50%;
@@ -809,7 +672,7 @@
 
   x WqName
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:16:1]
- 16 | @scope to (   .content > * . ) {
+ 16 | @scope to (.content > *) {
  17 |     img {
     :     ^^^
  18 |         border-radius: 50%;
@@ -817,7 +680,7 @@
 
   x Ident
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:16:1]
- 16 | @scope to (   .content > * . ) {
+ 16 | @scope to (.content > *) {
  17 |     img {
     :     ^^^
  18 |         border-radius: 50%;
@@ -825,7 +688,7 @@
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:16:1]
- 16 |     @scope to (   .content > * . ) {
+ 16 |     @scope to (.content > *) {
  17 | ,->     img {
  18 | |           border-radius: 50%;
  19 | `->     }
@@ -833,7 +696,7 @@
 
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:16:1]
- 16 | @scope to (   .content > * . ) {
+ 16 | @scope to (.content > *) {
  17 |     img {
     :         ^
  18 |         border-radius: 50%;
@@ -1053,7 +916,7 @@
   x Rule
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 |     
- 26 | ,-> @scope (   .media-object) to (  .content > *  ) {
+ 26 | ,-> @scope (.media-object) to (.content > *) {
  27 | |       img {
  28 | |           border-radius: 50%;
  29 | |       }
@@ -1067,7 +930,7 @@
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 |     
- 26 | ,-> @scope (   .media-object) to (  .content > *  ) {
+ 26 | ,-> @scope (.media-object) to (.content > *) {
  27 | |       img {
  28 | |           border-radius: 50%;
  29 | |       }
@@ -1081,7 +944,7 @@
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
+ 26 | @scope (.media-object) to (.content > *) {
     :  ^^^^^
  27 |     img {
     `----
@@ -1089,7 +952,7 @@
   x Ident
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
+ 26 | @scope (.media-object) to (.content > *) {
     :  ^^^^^
  27 |     img {
     `----
@@ -1097,135 +960,135 @@
   x ForgivingSelectorList
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :            ^^^^^^^^^^^^^
+ 26 | @scope (.media-object) to (.content > *) {
+    :         ^^^^^^^^^^^^^
  27 |     img {
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :            ^^^^^^^^^^^^^
+ 26 | @scope (.media-object) to (.content > *) {
+    :         ^^^^^^^^^^^^^
  27 |     img {
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :            ^^^^^^^^^^^^^
+ 26 | @scope (.media-object) to (.content > *) {
+    :         ^^^^^^^^^^^^^
  27 |     img {
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :            ^^^^^^^^^^^^^
+ 26 | @scope (.media-object) to (.content > *) {
+    :         ^^^^^^^^^^^^^
  27 |     img {
     `----
 
   x ClassSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :            ^^^^^^^^^^^^^
+ 26 | @scope (.media-object) to (.content > *) {
+    :         ^^^^^^^^^^^^^
  27 |     img {
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :             ^^^^^^^^^^^^
+ 26 | @scope (.media-object) to (.content > *) {
+    :          ^^^^^^^^^^^^
  27 |     img {
     `----
 
   x ForgivingSelectorList
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :                                 ^^^^^^^^^^^^
+ 26 | @scope (.media-object) to (.content > *) {
+    :                            ^^^^^^^^^^^^
  27 |     img {
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :                                 ^^^^^^^^^^^^
+ 26 | @scope (.media-object) to (.content > *) {
+    :                            ^^^^^^^^^^^^
  27 |     img {
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :                                 ^^^^^^^^
+ 26 | @scope (.media-object) to (.content > *) {
+    :                            ^^^^^^^^
  27 |     img {
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :                                 ^^^^^^^^
+ 26 | @scope (.media-object) to (.content > *) {
+    :                            ^^^^^^^^
  27 |     img {
     `----
 
   x ClassSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :                                 ^^^^^^^^
+ 26 | @scope (.media-object) to (.content > *) {
+    :                            ^^^^^^^^
  27 |     img {
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :                                  ^^^^^^^
+ 26 | @scope (.media-object) to (.content > *) {
+    :                             ^^^^^^^
  27 |     img {
     `----
 
   x Combinator
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :                                          ^
+ 26 | @scope (.media-object) to (.content > *) {
+    :                                     ^
  27 |     img {
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :                                            ^
+ 26 | @scope (.media-object) to (.content > *) {
+    :                                       ^
  27 |     img {
     `----
 
   x TypeSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :                                            ^
+ 26 | @scope (.media-object) to (.content > *) {
+    :                                       ^
  27 |     img {
     `----
 
   x UniversalSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :                                            ^
+ 26 | @scope (.media-object) to (.content > *) {
+    :                                       ^
  27 |     img {
     `----
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 |     
- 26 | ,-> @scope (   .media-object) to (  .content > *  ) {
+ 26 | ,-> @scope (.media-object) to (.content > *) {
  27 | |       img {
  28 | |           border-radius: 50%;
  29 | |       }
@@ -1239,14 +1102,14 @@
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:25:1]
  25 | 
- 26 | @scope (   .media-object) to (  .content > *  ) {
-    :                                                 ^
+ 26 | @scope (.media-object) to (.content > *) {
+    :                                          ^
  27 |     img {
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:26:1]
- 26 |     @scope (   .media-object) to (  .content > *  ) {
+ 26 |     @scope (.media-object) to (.content > *) {
  27 | ,->     img {
  28 | |           border-radius: 50%;
  29 | `->     }
@@ -1254,7 +1117,7 @@
 
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:26:1]
- 26 |     @scope (   .media-object) to (  .content > *  ) {
+ 26 |     @scope (.media-object) to (.content > *) {
  27 | ,->     img {
  28 | |           border-radius: 50%;
  29 | `->     }
@@ -1262,7 +1125,7 @@
 
   x SelectorList
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:26:1]
- 26 | @scope (   .media-object) to (  .content > *  ) {
+ 26 | @scope (.media-object) to (.content > *) {
  27 |     img {
     :     ^^^
  28 |         border-radius: 50%;
@@ -1270,7 +1133,7 @@
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:26:1]
- 26 | @scope (   .media-object) to (  .content > *  ) {
+ 26 | @scope (.media-object) to (.content > *) {
  27 |     img {
     :     ^^^
  28 |         border-radius: 50%;
@@ -1278,7 +1141,7 @@
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:26:1]
- 26 | @scope (   .media-object) to (  .content > *  ) {
+ 26 | @scope (.media-object) to (.content > *) {
  27 |     img {
     :     ^^^
  28 |         border-radius: 50%;
@@ -1286,7 +1149,7 @@
 
   x TypeSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:26:1]
- 26 | @scope (   .media-object) to (  .content > *  ) {
+ 26 | @scope (.media-object) to (.content > *) {
  27 |     img {
     :     ^^^
  28 |         border-radius: 50%;
@@ -1294,7 +1157,7 @@
 
   x TagNameSelector
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:26:1]
- 26 | @scope (   .media-object) to (  .content > *  ) {
+ 26 | @scope (.media-object) to (.content > *) {
  27 |     img {
     :     ^^^
  28 |         border-radius: 50%;
@@ -1302,7 +1165,7 @@
 
   x WqName
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:26:1]
- 26 | @scope (   .media-object) to (  .content > *  ) {
+ 26 | @scope (.media-object) to (.content > *) {
  27 |     img {
     :     ^^^
  28 |         border-radius: 50%;
@@ -1310,7 +1173,7 @@
 
   x Ident
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:26:1]
- 26 | @scope (   .media-object) to (  .content > *  ) {
+ 26 | @scope (.media-object) to (.content > *) {
  27 |     img {
     :     ^^^
  28 |         border-radius: 50%;
@@ -1318,7 +1181,7 @@
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:26:1]
- 26 |     @scope (   .media-object) to (  .content > *  ) {
+ 26 |     @scope (.media-object) to (.content > *) {
  27 | ,->     img {
  28 | |           border-radius: 50%;
  29 | `->     }
@@ -1326,7 +1189,7 @@
 
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/scope/input.css:26:1]
- 26 | @scope (   .media-object) to (  .content > *  ) {
+ 26 | @scope (.media-object) to (.content > *) {
  27 |     img {
     :         ^
  28 |         border-radius: 50%;
