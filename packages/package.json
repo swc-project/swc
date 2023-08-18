@@ -1,0 +1,8 @@
+{
+    "name": "@swc/workspace",
+    "private": true,
+    "workspaces": [
+        "./*"
+    ],
+    "packageManager": "yarn@3.2.3"
+}

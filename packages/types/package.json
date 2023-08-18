@@ -3,6 +3,11 @@
     "version": "0.5.1",
     "description": "Typings for the swc project.",
     "sideEffects": false,
+    "scripts": {
+        "build": "tsc",
+        "prepublishOnly": "yarn build",
+        "prepack": "yarn build"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/swc-project/swc.git"
@@ -22,5 +27,8 @@
     },
     "homepage": "https://swc.rs",
     "type": "module",
-    "packageManager": "yarn@3.2.3"
+    "packageManager": "yarn@3.2.3",
+    "devDependencies": {
+        "typescript": "^5.1.6"
+    }
 }
