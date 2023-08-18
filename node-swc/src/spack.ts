@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { Options } from "./types";
+import { Options } from "@swc/types";
 
 export type BundleInput = BundleOptions | BundleOptions[];
 
