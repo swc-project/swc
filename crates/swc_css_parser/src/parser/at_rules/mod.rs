@@ -432,7 +432,7 @@ where
                 self.input.skip_ws();
 
                 Some(prelude)
-            }       
+            }
             _ => {
                 return Err(Error::new(Default::default(), ErrorKind::Ignore));
             }
@@ -759,6 +759,13 @@ where
                 declaration_list
             }
             js_word!("starting-style") => {
+                let rule_list = self.parse_as::<Vec<Rule>>()?;
+                let rule_list: Vec<ComponentValue> =
+                    rule_list.into_iter().map(ComponentValue::from).collect();
+
+                rule_list
+            }
+            js_word!("scope") => {
                 let rule_list = self.parse_as::<Vec<Rule>>()?;
                 let rule_list: Vec<ComponentValue> =
                     rule_list.into_iter().map(ComponentValue::from).collect();
@@ -2642,27 +2649,37 @@ where
     fn parse(&mut self) -> PResult<ScopeRange> {
         let span = self.input.cur_span();
 
+        if is!(self, EOF) {
+            return Ok(ScopeRange {
+                span: span!(self, span.lo),
+                scope_start: None,
+                scope_end: None,
+            });
+        }
+
         match cur!(self) {
             tok!("(") => {
-
+                bump!(self);
                 let start = self.parse()?;
-
-                self.input.skip_ws();
-
-                expect!(self, "to");
-
-                self.input.skip_ws();
-
-                let end = self.parse()?;
-
-                self.input.skip_ws();
-
                 expect!(self, ")");
+                self.input.skip_ws();
+
+                let end = if is!(self, EOF) {
+                    None
+                } else if is!(self, "to") {
+                    bump!(self);
+                    self.input.skip_ws();
+                    let result = self.parse()?;
+                    expect!(self, ")");
+                    Some(result)
+                } else {
+                    None
+                };
 
                 Ok(ScopeRange {
                     span: span!(self, span.lo),
                     scope_start: Some(start),
-                    scope_end: Some(end),
+                    scope_end: end,
                 })
             }
             tok!("to") => {
@@ -2670,7 +2687,9 @@ where
 
                 self.input.skip_ws();
 
+                expect!(self, "(");
                 let end = self.parse()?;
+                expect!(self, ")");
 
                 Ok(ScopeRange {
                     span: span!(self, span.lo),

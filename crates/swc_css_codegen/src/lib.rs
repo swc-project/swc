@@ -327,7 +327,7 @@ where
             AtRulePrelude::ScopePrelude(n) => {
                 if n.scope_start.is_some() {
                     space!(self);
-                } 
+                }
                 emit!(self, n);
             }
         }

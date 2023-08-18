@@ -1,3 +1,10 @@
+@scope {
+
+    /* Only match links inside a light-scheme */
+    a {
+        color: darkmagenta;
+    }
+}
 @scope (.light-scheme) {
 
     /* Only match links inside a light-scheme */
