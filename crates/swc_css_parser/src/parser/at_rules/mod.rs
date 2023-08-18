@@ -2666,7 +2666,7 @@ where
 
                 let end = if is!(self, EOF) {
                     None
-                } else if is!(self, "to") {
+                } else if is_case_insensitive_ident!(self, "to") {
                     bump!(self);
                     self.input.skip_ws();
                     expect!(self, "(");
@@ -2683,22 +2683,23 @@ where
                     scope_end: end,
                 })
             }
-            tok!("to") => {
-                bump!(self);
-
-                self.input.skip_ws();
-
-                expect!(self, "(");
-                let end = self.parse()?;
-                expect!(self, ")");
-
-                Ok(ScopeRange {
-                    span: span!(self, span.lo),
-                    scope_start: None,
-                    scope_end: Some(end),
-                })
-            }
             _ => {
+                if is_case_insensitive_ident!(self, "to") {
+                    bump!(self);
+    
+                    self.input.skip_ws();
+    
+                    expect!(self, "(");
+                    let end = self.parse()?;
+                    expect!(self, ")");
+    
+                    return Ok(ScopeRange {
+                        span: span!(self, span.lo),
+                        scope_start: None,
+                        scope_end: Some(end),
+                    })
+                }
+
                 return Err(Error::new(span, ErrorKind::InvalidScopeAtRule));
             }
         }

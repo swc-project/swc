@@ -5,6 +5,7 @@
         color: darkmagenta;
     }
 }
+
 @scope (.light-scheme) {
 
     /* Only match links inside a light-scheme */
@@ -24,6 +25,16 @@
 }
 
 @scope (.media-object) to (.content > *) {
+    img {
+        border-radius: 50%;
+    }
+
+    .content {
+        padding: 1em;
+    }
+}
+
+@scope TO (.content > *) {
     img {
         border-radius: 50%;
     }

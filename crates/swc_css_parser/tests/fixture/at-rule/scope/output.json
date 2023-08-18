@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 474,
+    "end": 593,
     "ctxt": 0
   },
   "rules": [
@@ -171,15 +171,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 104,
-        "end": 222,
+        "start": 105,
+        "end": 223,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 105,
-          "end": 110,
+          "start": 106,
+          "end": 111,
           "ctxt": 0
         },
         "value": "scope",
@@ -188,31 +188,31 @@
       "prelude": {
         "type": "ScopeRange",
         "span": {
-          "start": 111,
-          "end": 127,
+          "start": 112,
+          "end": 128,
           "ctxt": 0
         },
         "scopeStart": {
           "type": "SelectorList",
           "span": {
-            "start": 112,
-            "end": 125,
+            "start": 113,
+            "end": 126,
             "ctxt": 0
           },
           "children": [
             {
               "type": "ComplexSelector",
               "span": {
-                "start": 112,
-                "end": 125,
+                "start": 113,
+                "end": 126,
                 "ctxt": 0
               },
               "children": [
                 {
                   "type": "CompoundSelector",
                   "span": {
-                    "start": 112,
-                    "end": 125,
+                    "start": 113,
+                    "end": 126,
                     "ctxt": 0
                   },
                   "nestingSelector": null,
@@ -221,15 +221,15 @@
                     {
                       "type": "ClassSelector",
                       "span": {
-                        "start": 112,
-                        "end": 125,
+                        "start": 113,
+                        "end": 126,
                         "ctxt": 0
                       },
                       "text": {
                         "type": "Ident",
                         "span": {
-                          "start": 113,
-                          "end": 125,
+                          "start": 114,
+                          "end": 126,
                           "ctxt": 0
                         },
                         "value": "light-scheme",
@@ -247,15 +247,15 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 127,
-          "end": 222,
+          "start": 128,
+          "end": 223,
           "ctxt": 0
         },
         "name": {
           "type": "PreservedToken",
           "span": {
-            "start": 127,
-            "end": 128,
+            "start": 128,
+            "end": 129,
             "ctxt": 0
           },
           "token": "LBrace"
@@ -264,54 +264,54 @@
           {
             "type": "QualifiedRule",
             "span": {
-              "start": 183,
-              "end": 220,
+              "start": 184,
+              "end": 221,
               "ctxt": 0
             },
             "prelude": {
               "type": "SelectorList",
               "span": {
-                "start": 183,
-                "end": 184,
+                "start": 184,
+                "end": 185,
                 "ctxt": 0
               },
               "children": [
                 {
                   "type": "ComplexSelector",
                   "span": {
-                    "start": 183,
-                    "end": 184,
+                    "start": 184,
+                    "end": 185,
                     "ctxt": 0
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
-                        "start": 183,
-                        "end": 184,
+                        "start": 184,
+                        "end": 185,
                         "ctxt": 0
                       },
                       "nestingSelector": null,
                       "typeSelector": {
                         "type": "TagNameSelector",
                         "span": {
-                          "start": 183,
-                          "end": 184,
+                          "start": 184,
+                          "end": 185,
                           "ctxt": 0
                         },
                         "name": {
                           "type": "WqName",
                           "span": {
-                            "start": 183,
-                            "end": 184,
+                            "start": 184,
+                            "end": 185,
                             "ctxt": 0
                           },
                           "prefix": null,
                           "value": {
                             "type": "Ident",
                             "span": {
-                              "start": 183,
-                              "end": 184,
+                              "start": 184,
+                              "end": 185,
                               "ctxt": 0
                             },
                             "value": "a",
@@ -328,15 +328,15 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 185,
-                "end": 220,
+                "start": 186,
+                "end": 221,
                 "ctxt": 0
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 185,
-                  "end": 186,
+                  "start": 186,
+                  "end": 187,
                   "ctxt": 0
                 },
                 "token": "LBrace"
@@ -345,15 +345,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 195,
-                    "end": 213,
+                    "start": 196,
+                    "end": 214,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 195,
-                      "end": 200,
+                      "start": 196,
+                      "end": 201,
                       "ctxt": 0
                     },
                     "value": "color",
@@ -363,8 +363,8 @@
                     {
                       "type": "Ident",
                       "span": {
-                        "start": 202,
-                        "end": 213,
+                        "start": 203,
+                        "end": 214,
                         "ctxt": 0
                       },
                       "value": "darkmagenta",
@@ -382,15 +382,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 224,
-        "end": 340,
+        "start": 225,
+        "end": 341,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 225,
-          "end": 230,
+          "start": 226,
+          "end": 231,
           "ctxt": 0
         },
         "value": "scope",
@@ -399,32 +399,32 @@
       "prelude": {
         "type": "ScopeRange",
         "span": {
-          "start": 231,
-          "end": 248,
+          "start": 232,
+          "end": 249,
           "ctxt": 0
         },
         "scopeStart": null,
         "scopeEnd": {
           "type": "SelectorList",
           "span": {
-            "start": 235,
-            "end": 247,
+            "start": 236,
+            "end": 248,
             "ctxt": 0
           },
           "children": [
             {
               "type": "ComplexSelector",
               "span": {
-                "start": 235,
-                "end": 247,
+                "start": 236,
+                "end": 248,
                 "ctxt": 0
               },
               "children": [
                 {
                   "type": "CompoundSelector",
                   "span": {
-                    "start": 235,
-                    "end": 243,
+                    "start": 236,
+                    "end": 244,
                     "ctxt": 0
                   },
                   "nestingSelector": null,
@@ -433,15 +433,15 @@
                     {
                       "type": "ClassSelector",
                       "span": {
-                        "start": 235,
-                        "end": 243,
+                        "start": 236,
+                        "end": 244,
                         "ctxt": 0
                       },
                       "text": {
                         "type": "Ident",
                         "span": {
-                          "start": 236,
-                          "end": 243,
+                          "start": 237,
+                          "end": 244,
                           "ctxt": 0
                         },
                         "value": "content",
@@ -453,8 +453,8 @@
                 {
                   "type": "Combinator",
                   "span": {
-                    "start": 244,
-                    "end": 245,
+                    "start": 245,
+                    "end": 246,
                     "ctxt": 0
                   },
                   "value": ">"
@@ -462,16 +462,16 @@
                 {
                   "type": "CompoundSelector",
                   "span": {
-                    "start": 246,
-                    "end": 247,
+                    "start": 247,
+                    "end": 248,
                     "ctxt": 0
                   },
                   "nestingSelector": null,
                   "typeSelector": {
                     "type": "UniversalSelector",
                     "span": {
-                      "start": 246,
-                      "end": 247,
+                      "start": 247,
+                      "end": 248,
                       "ctxt": 0
                     },
                     "prefix": null
@@ -486,15 +486,15 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 249,
-          "end": 340,
+          "start": 250,
+          "end": 341,
           "ctxt": 0
         },
         "name": {
           "type": "PreservedToken",
           "span": {
-            "start": 249,
-            "end": 250,
+            "start": 250,
+            "end": 251,
             "ctxt": 0
           },
           "token": "LBrace"
@@ -503,54 +503,54 @@
           {
             "type": "QualifiedRule",
             "span": {
-              "start": 255,
-              "end": 294,
+              "start": 256,
+              "end": 295,
               "ctxt": 0
             },
             "prelude": {
               "type": "SelectorList",
               "span": {
-                "start": 255,
-                "end": 258,
+                "start": 256,
+                "end": 259,
                 "ctxt": 0
               },
               "children": [
                 {
                   "type": "ComplexSelector",
                   "span": {
-                    "start": 255,
-                    "end": 258,
+                    "start": 256,
+                    "end": 259,
                     "ctxt": 0
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
-                        "start": 255,
-                        "end": 258,
+                        "start": 256,
+                        "end": 259,
                         "ctxt": 0
                       },
                       "nestingSelector": null,
                       "typeSelector": {
                         "type": "TagNameSelector",
                         "span": {
-                          "start": 255,
-                          "end": 258,
+                          "start": 256,
+                          "end": 259,
                           "ctxt": 0
                         },
                         "name": {
                           "type": "WqName",
                           "span": {
-                            "start": 255,
-                            "end": 258,
+                            "start": 256,
+                            "end": 259,
                             "ctxt": 0
                           },
                           "prefix": null,
                           "value": {
                             "type": "Ident",
                             "span": {
-                              "start": 255,
-                              "end": 258,
+                              "start": 256,
+                              "end": 259,
                               "ctxt": 0
                             },
                             "value": "img",
@@ -567,15 +567,15 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 259,
-                "end": 294,
+                "start": 260,
+                "end": 295,
                 "ctxt": 0
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 259,
-                  "end": 260,
+                  "start": 260,
+                  "end": 261,
                   "ctxt": 0
                 },
                 "token": "LBrace"
@@ -584,15 +584,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 269,
-                    "end": 287,
+                    "start": 270,
+                    "end": 288,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 269,
-                      "end": 282,
+                      "start": 270,
+                      "end": 283,
                       "ctxt": 0
                     },
                     "value": "border-radius",
@@ -602,15 +602,15 @@
                     {
                       "type": "Percentage",
                       "span": {
-                        "start": 284,
-                        "end": 287,
+                        "start": 285,
+                        "end": 288,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 284,
-                          "end": 286,
+                          "start": 285,
+                          "end": 287,
                           "ctxt": 0
                         },
                         "value": 50.0,
@@ -626,31 +626,31 @@
           {
             "type": "QualifiedRule",
             "span": {
-              "start": 300,
-              "end": 338,
+              "start": 301,
+              "end": 339,
               "ctxt": 0
             },
             "prelude": {
               "type": "SelectorList",
               "span": {
-                "start": 300,
-                "end": 308,
+                "start": 301,
+                "end": 309,
                 "ctxt": 0
               },
               "children": [
                 {
                   "type": "ComplexSelector",
                   "span": {
-                    "start": 300,
-                    "end": 308,
+                    "start": 301,
+                    "end": 309,
                     "ctxt": 0
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
-                        "start": 300,
-                        "end": 308,
+                        "start": 301,
+                        "end": 309,
                         "ctxt": 0
                       },
                       "nestingSelector": null,
@@ -659,15 +659,15 @@
                         {
                           "type": "ClassSelector",
                           "span": {
-                            "start": 300,
-                            "end": 308,
+                            "start": 301,
+                            "end": 309,
                             "ctxt": 0
                           },
                           "text": {
                             "type": "Ident",
                             "span": {
-                              "start": 301,
-                              "end": 308,
+                              "start": 302,
+                              "end": 309,
                               "ctxt": 0
                             },
                             "value": "content",
@@ -683,15 +683,15 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 309,
-                "end": 338,
+                "start": 310,
+                "end": 339,
                 "ctxt": 0
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 309,
-                  "end": 310,
+                  "start": 310,
+                  "end": 311,
                   "ctxt": 0
                 },
                 "token": "LBrace"
@@ -700,15 +700,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 319,
-                    "end": 331,
+                    "start": 320,
+                    "end": 332,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 319,
-                      "end": 326,
+                      "start": 320,
+                      "end": 327,
                       "ctxt": 0
                     },
                     "value": "padding",
@@ -718,15 +718,15 @@
                     {
                       "type": "Length",
                       "span": {
-                        "start": 328,
-                        "end": 331,
+                        "start": 329,
+                        "end": 332,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 328,
-                          "end": 329,
+                          "start": 329,
+                          "end": 330,
                           "ctxt": 0
                         },
                         "value": 1.0,
@@ -735,8 +735,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 329,
-                          "end": 331,
+                          "start": 330,
+                          "end": 332,
                           "ctxt": 0
                         },
                         "value": "em",
@@ -755,15 +755,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 342,
-        "end": 474,
+        "start": 343,
+        "end": 475,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 343,
-          "end": 348,
+          "start": 344,
+          "end": 349,
           "ctxt": 0
         },
         "value": "scope",
@@ -772,31 +772,31 @@
       "prelude": {
         "type": "ScopeRange",
         "span": {
-          "start": 349,
-          "end": 382,
+          "start": 350,
+          "end": 383,
           "ctxt": 0
         },
         "scopeStart": {
           "type": "SelectorList",
           "span": {
-            "start": 350,
-            "end": 363,
+            "start": 351,
+            "end": 364,
             "ctxt": 0
           },
           "children": [
             {
               "type": "ComplexSelector",
               "span": {
-                "start": 350,
-                "end": 363,
+                "start": 351,
+                "end": 364,
                 "ctxt": 0
               },
               "children": [
                 {
                   "type": "CompoundSelector",
                   "span": {
-                    "start": 350,
-                    "end": 363,
+                    "start": 351,
+                    "end": 364,
                     "ctxt": 0
                   },
                   "nestingSelector": null,
@@ -805,15 +805,15 @@
                     {
                       "type": "ClassSelector",
                       "span": {
-                        "start": 350,
-                        "end": 363,
+                        "start": 351,
+                        "end": 364,
                         "ctxt": 0
                       },
                       "text": {
                         "type": "Ident",
                         "span": {
-                          "start": 351,
-                          "end": 363,
+                          "start": 352,
+                          "end": 364,
                           "ctxt": 0
                         },
                         "value": "media-object",
@@ -829,24 +829,24 @@
         "scopeEnd": {
           "type": "SelectorList",
           "span": {
-            "start": 369,
-            "end": 381,
+            "start": 370,
+            "end": 382,
             "ctxt": 0
           },
           "children": [
             {
               "type": "ComplexSelector",
               "span": {
-                "start": 369,
-                "end": 381,
+                "start": 370,
+                "end": 382,
                 "ctxt": 0
               },
               "children": [
                 {
                   "type": "CompoundSelector",
                   "span": {
-                    "start": 369,
-                    "end": 377,
+                    "start": 370,
+                    "end": 378,
                     "ctxt": 0
                   },
                   "nestingSelector": null,
@@ -855,15 +855,15 @@
                     {
                       "type": "ClassSelector",
                       "span": {
-                        "start": 369,
-                        "end": 377,
+                        "start": 370,
+                        "end": 378,
                         "ctxt": 0
                       },
                       "text": {
                         "type": "Ident",
                         "span": {
-                          "start": 370,
-                          "end": 377,
+                          "start": 371,
+                          "end": 378,
                           "ctxt": 0
                         },
                         "value": "content",
@@ -875,8 +875,8 @@
                 {
                   "type": "Combinator",
                   "span": {
-                    "start": 378,
-                    "end": 379,
+                    "start": 379,
+                    "end": 380,
                     "ctxt": 0
                   },
                   "value": ">"
@@ -884,16 +884,16 @@
                 {
                   "type": "CompoundSelector",
                   "span": {
-                    "start": 380,
-                    "end": 381,
+                    "start": 381,
+                    "end": 382,
                     "ctxt": 0
                   },
                   "nestingSelector": null,
                   "typeSelector": {
                     "type": "UniversalSelector",
                     "span": {
-                      "start": 380,
-                      "end": 381,
+                      "start": 381,
+                      "end": 382,
                       "ctxt": 0
                     },
                     "prefix": null
@@ -908,15 +908,15 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 383,
-          "end": 474,
+          "start": 384,
+          "end": 475,
           "ctxt": 0
         },
         "name": {
           "type": "PreservedToken",
           "span": {
-            "start": 383,
-            "end": 384,
+            "start": 384,
+            "end": 385,
             "ctxt": 0
           },
           "token": "LBrace"
@@ -925,54 +925,54 @@
           {
             "type": "QualifiedRule",
             "span": {
-              "start": 389,
-              "end": 428,
+              "start": 390,
+              "end": 429,
               "ctxt": 0
             },
             "prelude": {
               "type": "SelectorList",
               "span": {
-                "start": 389,
-                "end": 392,
+                "start": 390,
+                "end": 393,
                 "ctxt": 0
               },
               "children": [
                 {
                   "type": "ComplexSelector",
                   "span": {
-                    "start": 389,
-                    "end": 392,
+                    "start": 390,
+                    "end": 393,
                     "ctxt": 0
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
-                        "start": 389,
-                        "end": 392,
+                        "start": 390,
+                        "end": 393,
                         "ctxt": 0
                       },
                       "nestingSelector": null,
                       "typeSelector": {
                         "type": "TagNameSelector",
                         "span": {
-                          "start": 389,
-                          "end": 392,
+                          "start": 390,
+                          "end": 393,
                           "ctxt": 0
                         },
                         "name": {
                           "type": "WqName",
                           "span": {
-                            "start": 389,
-                            "end": 392,
+                            "start": 390,
+                            "end": 393,
                             "ctxt": 0
                           },
                           "prefix": null,
                           "value": {
                             "type": "Ident",
                             "span": {
-                              "start": 389,
-                              "end": 392,
+                              "start": 390,
+                              "end": 393,
                               "ctxt": 0
                             },
                             "value": "img",
@@ -989,15 +989,15 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 393,
-                "end": 428,
+                "start": 394,
+                "end": 429,
                 "ctxt": 0
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 393,
-                  "end": 394,
+                  "start": 394,
+                  "end": 395,
                   "ctxt": 0
                 },
                 "token": "LBrace"
@@ -1006,15 +1006,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 403,
-                    "end": 421,
+                    "start": 404,
+                    "end": 422,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 403,
-                      "end": 416,
+                      "start": 404,
+                      "end": 417,
                       "ctxt": 0
                     },
                     "value": "border-radius",
@@ -1024,15 +1024,15 @@
                     {
                       "type": "Percentage",
                       "span": {
-                        "start": 418,
-                        "end": 421,
+                        "start": 419,
+                        "end": 422,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 418,
-                          "end": 420,
+                          "start": 419,
+                          "end": 421,
                           "ctxt": 0
                         },
                         "value": 50.0,
@@ -1048,31 +1048,31 @@
           {
             "type": "QualifiedRule",
             "span": {
-              "start": 434,
-              "end": 472,
+              "start": 435,
+              "end": 473,
               "ctxt": 0
             },
             "prelude": {
               "type": "SelectorList",
               "span": {
-                "start": 434,
-                "end": 442,
+                "start": 435,
+                "end": 443,
                 "ctxt": 0
               },
               "children": [
                 {
                   "type": "ComplexSelector",
                   "span": {
-                    "start": 434,
-                    "end": 442,
+                    "start": 435,
+                    "end": 443,
                     "ctxt": 0
                   },
                   "children": [
                     {
                       "type": "CompoundSelector",
                       "span": {
-                        "start": 434,
-                        "end": 442,
+                        "start": 435,
+                        "end": 443,
                         "ctxt": 0
                       },
                       "nestingSelector": null,
@@ -1081,15 +1081,15 @@
                         {
                           "type": "ClassSelector",
                           "span": {
-                            "start": 434,
-                            "end": 442,
+                            "start": 435,
+                            "end": 443,
                             "ctxt": 0
                           },
                           "text": {
                             "type": "Ident",
                             "span": {
-                              "start": 435,
-                              "end": 442,
+                              "start": 436,
+                              "end": 443,
                               "ctxt": 0
                             },
                             "value": "content",
@@ -1105,15 +1105,15 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 443,
-                "end": 472,
+                "start": 444,
+                "end": 473,
                 "ctxt": 0
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 443,
-                  "end": 444,
+                  "start": 444,
+                  "end": 445,
                   "ctxt": 0
                 },
                 "token": "LBrace"
@@ -1122,15 +1122,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 453,
-                    "end": 465,
+                    "start": 454,
+                    "end": 466,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 453,
-                      "end": 460,
+                      "start": 454,
+                      "end": 461,
                       "ctxt": 0
                     },
                     "value": "padding",
@@ -1140,15 +1140,15 @@
                     {
                       "type": "Length",
                       "span": {
-                        "start": 462,
-                        "end": 465,
+                        "start": 463,
+                        "end": 466,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 462,
-                          "end": 463,
+                          "start": 463,
+                          "end": 464,
                           "ctxt": 0
                         },
                         "value": 1.0,
@@ -1157,8 +1157,381 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 463,
-                          "end": 465,
+                          "start": 464,
+                          "end": 466,
+                          "ctxt": 0
+                        },
+                        "value": "em",
+                        "raw": "em"
+                      }
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 477,
+        "end": 593,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 478,
+          "end": 483,
+          "ctxt": 0
+        },
+        "value": "scope",
+        "raw": "scope"
+      },
+      "prelude": {
+        "type": "ScopeRange",
+        "span": {
+          "start": 484,
+          "end": 501,
+          "ctxt": 0
+        },
+        "scopeStart": null,
+        "scopeEnd": {
+          "type": "SelectorList",
+          "span": {
+            "start": 488,
+            "end": 500,
+            "ctxt": 0
+          },
+          "children": [
+            {
+              "type": "ComplexSelector",
+              "span": {
+                "start": 488,
+                "end": 500,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "CompoundSelector",
+                  "span": {
+                    "start": 488,
+                    "end": 496,
+                    "ctxt": 0
+                  },
+                  "nestingSelector": null,
+                  "typeSelector": null,
+                  "subclassSelectors": [
+                    {
+                      "type": "ClassSelector",
+                      "span": {
+                        "start": 488,
+                        "end": 496,
+                        "ctxt": 0
+                      },
+                      "text": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 489,
+                          "end": 496,
+                          "ctxt": 0
+                        },
+                        "value": "content",
+                        "raw": "content"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "Combinator",
+                  "span": {
+                    "start": 497,
+                    "end": 498,
+                    "ctxt": 0
+                  },
+                  "value": ">"
+                },
+                {
+                  "type": "CompoundSelector",
+                  "span": {
+                    "start": 499,
+                    "end": 500,
+                    "ctxt": 0
+                  },
+                  "nestingSelector": null,
+                  "typeSelector": {
+                    "type": "UniversalSelector",
+                    "span": {
+                      "start": 499,
+                      "end": 500,
+                      "ctxt": 0
+                    },
+                    "prefix": null
+                  },
+                  "subclassSelectors": []
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 502,
+          "end": 593,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 502,
+            "end": 503,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
+        "value": [
+          {
+            "type": "QualifiedRule",
+            "span": {
+              "start": 508,
+              "end": 547,
+              "ctxt": 0
+            },
+            "prelude": {
+              "type": "SelectorList",
+              "span": {
+                "start": 508,
+                "end": 511,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "ComplexSelector",
+                  "span": {
+                    "start": 508,
+                    "end": 511,
+                    "ctxt": 0
+                  },
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 508,
+                        "end": 511,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": {
+                        "type": "TagNameSelector",
+                        "span": {
+                          "start": 508,
+                          "end": 511,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "WqName",
+                          "span": {
+                            "start": 508,
+                            "end": 511,
+                            "ctxt": 0
+                          },
+                          "prefix": null,
+                          "value": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 508,
+                              "end": 511,
+                              "ctxt": 0
+                            },
+                            "value": "img",
+                            "raw": "img"
+                          }
+                        }
+                      },
+                      "subclassSelectors": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 512,
+                "end": 547,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 512,
+                  "end": 513,
+                  "ctxt": 0
+                },
+                "token": "LBrace"
+              },
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 522,
+                    "end": 540,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 522,
+                      "end": 535,
+                      "ctxt": 0
+                    },
+                    "value": "border-radius",
+                    "raw": "border-radius"
+                  },
+                  "value": [
+                    {
+                      "type": "Percentage",
+                      "span": {
+                        "start": 537,
+                        "end": 540,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 537,
+                          "end": 539,
+                          "ctxt": 0
+                        },
+                        "value": 50.0,
+                        "raw": "50"
+                      }
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
+          },
+          {
+            "type": "QualifiedRule",
+            "span": {
+              "start": 553,
+              "end": 591,
+              "ctxt": 0
+            },
+            "prelude": {
+              "type": "SelectorList",
+              "span": {
+                "start": 553,
+                "end": 561,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "ComplexSelector",
+                  "span": {
+                    "start": 553,
+                    "end": 561,
+                    "ctxt": 0
+                  },
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 553,
+                        "end": 561,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": null,
+                      "subclassSelectors": [
+                        {
+                          "type": "ClassSelector",
+                          "span": {
+                            "start": 553,
+                            "end": 561,
+                            "ctxt": 0
+                          },
+                          "text": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 554,
+                              "end": 561,
+                              "ctxt": 0
+                            },
+                            "value": "content",
+                            "raw": "content"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 562,
+                "end": 591,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 562,
+                  "end": 563,
+                  "ctxt": 0
+                },
+                "token": "LBrace"
+              },
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 572,
+                    "end": 584,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 572,
+                      "end": 579,
+                      "ctxt": 0
+                    },
+                    "value": "padding",
+                    "raw": "padding"
+                  },
+                  "value": [
+                    {
+                      "type": "Length",
+                      "span": {
+                        "start": 581,
+                        "end": 584,
+                        "ctxt": 0
+                      },
+                      "value": {
+                        "type": "Number",
+                        "span": {
+                          "start": 581,
+                          "end": 582,
+                          "ctxt": 0
+                        },
+                        "value": 1.0,
+                        "raw": "1"
+                      },
+                      "unit": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 582,
+                          "end": 584,
                           "ctxt": 0
                         },
                         "value": "em",
