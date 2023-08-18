@@ -325,9 +325,6 @@ where
                 )
             }
             AtRulePrelude::ScopePrelude(n) => {
-                if n.scope_start.is_some() {
-                    space!(self);
-                }
                 emit!(self, n);
             }
         }
@@ -2468,10 +2465,22 @@ where
     #[emitter]
     fn emit_scope_range(&mut self, n: &ScopeRange) -> Result {
         if let Some(start) = &n.scope_start {
+            formatting_space!(self);
+            write_raw!(self, "(");
             emit!(self, start);
+            write_raw!(self, ")");
         }
         if let Some(end) = &n.scope_end {
+            if n.scope_start.is_some() {
+                formatting_space!(self);
+            } else {
+                space!(self);
+            }
+            write_raw!(self, "to");
+            formatting_space!(self);
+            write_raw!(self, "(");
             emit!(self, end);
+            write_raw!(self, ")");
         }
     }
 

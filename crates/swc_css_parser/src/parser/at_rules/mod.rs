@@ -2669,6 +2669,7 @@ where
                 } else if is!(self, "to") {
                     bump!(self);
                     self.input.skip_ws();
+                    expect!(self, "(");
                     let result = self.parse()?;
                     expect!(self, ")");
                     Some(result)

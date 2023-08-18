@@ -1,0 +1,26 @@
+@scope {
+  a {
+    color: darkmagenta;
+  }
+}
+@scope (.light-scheme) {
+  a {
+    color: darkmagenta;
+  }
+}
+@scope to (.content > *) {
+  img {
+    border-radius: 50%;
+  }
+  .content {
+    padding: 1em;
+  }
+}
+@scope (.media-object) to (.content > *) {
+  img {
+    border-radius: 50%;
+  }
+  .content {
+    padding: 1em;
+  }
+}
