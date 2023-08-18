@@ -2564,7 +2564,7 @@ __metadata:
     "@swc/core-win32-x64-msvc": 1.2.146
     "@swc/helpers": ^0.5.0
     "@swc/plugin-jest": latest
-    "@swc/types": ^0.1.2
+    "@swc/types": ^0.1.3
     "@taplo/cli": ^0.3.2
     "@types/jest": ^28.1.4
     "@types/node": ^20.5.0
@@ -2647,10 +2647,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/types@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "@swc/types@npm:0.1.2"
-  checksum: 5514bef2b0c91f76f20c2b80037a6de83e86b71ffc044a0c92c384829f11e90af0120d85bad775f5484dc8d7fb81624806a3abcd59bee5b1b8e869bd7adce281
+"@swc/types@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "@swc/types@npm:0.1.3"
+  checksum: 89b86ac338076a4c7ad3b8b016bb7d9ea6357517716d46232c372dc21f93166e08ed334da0a157e02cd5a1b1ff651542ddcd6f43988ee74b16f837a840681143
   languageName: node
   linkType: hard
 
