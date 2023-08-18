@@ -1,0 +1,17 @@
+/*https: //github.com/web-platform-tests/wpt/blob/04ab260e0d49869aa16c178d20e5222f2fbe8cd5/css/css-cascade/at-scope-parsing.html#L32C15-L32C21*/
+
+@scope (#inner) {
+    @keyframes --my-anim {
+        to {
+            background-color: rgb(0, 0, 255);
+        }
+    }
+}
+
+@scope (#inner) {
+    @property --my-prop {
+        syntax: "<length>";
+        initial-value: 1px;
+        inherits: false;
+    }
+}

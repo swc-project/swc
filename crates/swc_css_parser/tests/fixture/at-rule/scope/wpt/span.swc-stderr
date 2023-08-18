@@ -1,0 +1,705 @@
+
+  x Stylesheet
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
+  1 | ,-> /*https: //github.com/web-platform-tests/wpt/blob/04ab260e0d49869aa16c178d20e5222f2fbe8cd5/css/css-cascade/at-scope-parsing.html#L32C15-L32C21*/
+  2 | |   
+  3 | |   @scope (#inner) {
+  4 | |       @keyframes --my-anim {
+  5 | |           to {
+  6 | |               background-color: rgb(0, 0, 255);
+  7 | |           }
+  8 | |       }
+  9 | |   }
+ 10 | |   
+ 11 | |   @scope (#inner) {
+ 12 | |       @property --my-prop {
+ 13 | |           syntax: "<length>";
+ 14 | |           initial-value: 1px;
+ 15 | |           inherits: false;
+ 16 | |       }
+ 17 | `-> }
+    `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+ 2 |     
+ 3 | ,-> @scope (#inner) {
+ 4 | |       @keyframes --my-anim {
+ 5 | |           to {
+ 6 | |               background-color: rgb(0, 0, 255);
+ 7 | |           }
+ 8 | |       }
+ 9 | `-> }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+ 2 |     
+ 3 | ,-> @scope (#inner) {
+ 4 | |       @keyframes --my-anim {
+ 5 | |           to {
+ 6 | |               background-color: rgb(0, 0, 255);
+ 7 | |           }
+ 8 | |       }
+ 9 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+ 2 | 
+ 3 | @scope (#inner) {
+   :  ^^^^^
+ 4 |     @keyframes --my-anim {
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+ 2 | 
+ 3 | @scope (#inner) {
+   :  ^^^^^
+ 4 |     @keyframes --my-anim {
+   `----
+
+  x ForgivingSelectorList
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+ 2 | 
+ 3 | @scope (#inner) {
+   :         ^^^^^^
+ 4 |     @keyframes --my-anim {
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+ 2 | 
+ 3 | @scope (#inner) {
+   :         ^^^^^^
+ 4 |     @keyframes --my-anim {
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+ 2 | 
+ 3 | @scope (#inner) {
+   :         ^^^^^^
+ 4 |     @keyframes --my-anim {
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+ 2 | 
+ 3 | @scope (#inner) {
+   :         ^^^^^^
+ 4 |     @keyframes --my-anim {
+   `----
+
+  x IdSelector
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+ 2 | 
+ 3 | @scope (#inner) {
+   :         ^^^^^^
+ 4 |     @keyframes --my-anim {
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+ 2 | 
+ 3 | @scope (#inner) {
+   :         ^^^^^^
+ 4 |     @keyframes --my-anim {
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+ 2 |     
+ 3 | ,-> @scope (#inner) {
+ 4 | |       @keyframes --my-anim {
+ 5 | |           to {
+ 6 | |               background-color: rgb(0, 0, 255);
+ 7 | |           }
+ 8 | |       }
+ 9 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+ 2 | 
+ 3 | @scope (#inner) {
+   :                 ^
+ 4 |     @keyframes --my-anim {
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+ 3 |     @scope (#inner) {
+ 4 | ,->     @keyframes --my-anim {
+ 5 | |           to {
+ 6 | |               background-color: rgb(0, 0, 255);
+ 7 | |           }
+ 8 | `->     }
+ 9 |     }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+ 3 |     @scope (#inner) {
+ 4 | ,->     @keyframes --my-anim {
+ 5 | |           to {
+ 6 | |               background-color: rgb(0, 0, 255);
+ 7 | |           }
+ 8 | `->     }
+ 9 |     }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+ 3 | @scope (#inner) {
+ 4 |     @keyframes --my-anim {
+   :      ^^^^^^^^^
+ 5 |         to {
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+ 3 | @scope (#inner) {
+ 4 |     @keyframes --my-anim {
+   :      ^^^^^^^^^
+ 5 |         to {
+   `----
+
+  x CustomIdent
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+ 3 | @scope (#inner) {
+ 4 |     @keyframes --my-anim {
+   :                ^^^^^^^^^
+ 5 |         to {
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+ 3 |     @scope (#inner) {
+ 4 | ,->     @keyframes --my-anim {
+ 5 | |           to {
+ 6 | |               background-color: rgb(0, 0, 255);
+ 7 | |           }
+ 8 | `->     }
+ 9 |     }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+ 3 | @scope (#inner) {
+ 4 |     @keyframes --my-anim {
+   :                          ^
+ 5 |         to {
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
+ 4 |         @keyframes --my-anim {
+ 5 | ,->         to {
+ 6 | |               background-color: rgb(0, 0, 255);
+ 7 | `->         }
+ 8 |         }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
+ 4 |     @keyframes --my-anim {
+ 5 |         to {
+   :         ^^
+ 6 |             background-color: rgb(0, 0, 255);
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
+ 4 |         @keyframes --my-anim {
+ 5 | ,->         to {
+ 6 | |               background-color: rgb(0, 0, 255);
+ 7 | `->         }
+ 8 |         }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
+ 4 |     @keyframes --my-anim {
+ 5 |         to {
+   :            ^
+ 6 |             background-color: rgb(0, 0, 255);
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |         }
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |         }
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :             ^^^^^^^^^^^^^^^^
+ 7 |         }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :             ^^^^^^^^^^^^^^^^
+ 7 |         }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                               ^^^^^^^^^^^^^^
+ 7 |         }
+   `----
+
+  x Color
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                               ^^^^^^^^^^^^^^
+ 7 |         }
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                               ^^^^^^^^^^^^^^
+ 7 |         }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                               ^^^
+ 7 |         }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                                   ^
+ 7 |         }
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                                   ^
+ 7 |         }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                                    ^
+ 7 |         }
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                                    ^
+ 7 |         }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                                      ^
+ 7 |         }
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                                      ^
+ 7 |         }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                                       ^
+ 7 |         }
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                                       ^
+ 7 |         }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                                         ^^^
+ 7 |         }
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
+ 5 |         to {
+ 6 |             background-color: rgb(0, 0, 255);
+   :                                         ^^^
+ 7 |         }
+   `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:10:1]
+ 10 |     
+ 11 | ,-> @scope (#inner) {
+ 12 | |       @property --my-prop {
+ 13 | |           syntax: "<length>";
+ 14 | |           initial-value: 1px;
+ 15 | |           inherits: false;
+ 16 | |       }
+ 17 | `-> }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:10:1]
+ 10 |     
+ 11 | ,-> @scope (#inner) {
+ 12 | |       @property --my-prop {
+ 13 | |           syntax: "<length>";
+ 14 | |           initial-value: 1px;
+ 15 | |           inherits: false;
+ 16 | |       }
+ 17 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:10:1]
+ 10 | 
+ 11 | @scope (#inner) {
+    :  ^^^^^
+ 12 |     @property --my-prop {
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:10:1]
+ 10 | 
+ 11 | @scope (#inner) {
+    :  ^^^^^
+ 12 |     @property --my-prop {
+    `----
+
+  x ForgivingSelectorList
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:10:1]
+ 10 | 
+ 11 | @scope (#inner) {
+    :         ^^^^^^
+ 12 |     @property --my-prop {
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:10:1]
+ 10 | 
+ 11 | @scope (#inner) {
+    :         ^^^^^^
+ 12 |     @property --my-prop {
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:10:1]
+ 10 | 
+ 11 | @scope (#inner) {
+    :         ^^^^^^
+ 12 |     @property --my-prop {
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:10:1]
+ 10 | 
+ 11 | @scope (#inner) {
+    :         ^^^^^^
+ 12 |     @property --my-prop {
+    `----
+
+  x IdSelector
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:10:1]
+ 10 | 
+ 11 | @scope (#inner) {
+    :         ^^^^^^
+ 12 |     @property --my-prop {
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:10:1]
+ 10 | 
+ 11 | @scope (#inner) {
+    :         ^^^^^^
+ 12 |     @property --my-prop {
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:10:1]
+ 10 |     
+ 11 | ,-> @scope (#inner) {
+ 12 | |       @property --my-prop {
+ 13 | |           syntax: "<length>";
+ 14 | |           initial-value: 1px;
+ 15 | |           inherits: false;
+ 16 | |       }
+ 17 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:10:1]
+ 10 | 
+ 11 | @scope (#inner) {
+    :                 ^
+ 12 |     @property --my-prop {
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:11:1]
+ 11 |     @scope (#inner) {
+ 12 | ,->     @property --my-prop {
+ 13 | |           syntax: "<length>";
+ 14 | |           initial-value: 1px;
+ 15 | |           inherits: false;
+ 16 | `->     }
+ 17 |     }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:11:1]
+ 11 |     @scope (#inner) {
+ 12 | ,->     @property --my-prop {
+ 13 | |           syntax: "<length>";
+ 14 | |           initial-value: 1px;
+ 15 | |           inherits: false;
+ 16 | `->     }
+ 17 |     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:11:1]
+ 11 | @scope (#inner) {
+ 12 |     @property --my-prop {
+    :      ^^^^^^^^
+ 13 |         syntax: "<length>";
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:11:1]
+ 11 | @scope (#inner) {
+ 12 |     @property --my-prop {
+    :      ^^^^^^^^
+ 13 |         syntax: "<length>";
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:11:1]
+ 11 |     @scope (#inner) {
+ 12 | ,->     @property --my-prop {
+ 13 | |           syntax: "<length>";
+ 14 | |           initial-value: 1px;
+ 15 | |           inherits: false;
+ 16 | `->     }
+ 17 |     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:11:1]
+ 11 | @scope (#inner) {
+ 12 |     @property --my-prop {
+    :                         ^
+ 13 |         syntax: "<length>";
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:12:1]
+ 12 |     @property --my-prop {
+ 13 |         syntax: "<length>";
+    :         ^^^^^^^^^^^^^^^^^^
+ 14 |         initial-value: 1px;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:12:1]
+ 12 |     @property --my-prop {
+ 13 |         syntax: "<length>";
+    :         ^^^^^^^^^^^^^^^^^^
+ 14 |         initial-value: 1px;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:12:1]
+ 12 |     @property --my-prop {
+ 13 |         syntax: "<length>";
+    :         ^^^^^^
+ 14 |         initial-value: 1px;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:12:1]
+ 12 |     @property --my-prop {
+ 13 |         syntax: "<length>";
+    :         ^^^^^^
+ 14 |         initial-value: 1px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:12:1]
+ 12 |     @property --my-prop {
+ 13 |         syntax: "<length>";
+    :                 ^^^^^^^^^^
+ 14 |         initial-value: 1px;
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:12:1]
+ 12 |     @property --my-prop {
+ 13 |         syntax: "<length>";
+    :                 ^^^^^^^^^^
+ 14 |         initial-value: 1px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+ 13 |         syntax: "<length>";
+ 14 |         initial-value: 1px;
+    :         ^^^^^^^^^^^^^^^^^^
+ 15 |         inherits: false;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+ 13 |         syntax: "<length>";
+ 14 |         initial-value: 1px;
+    :         ^^^^^^^^^^^^^^^^^^
+ 15 |         inherits: false;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+ 13 |         syntax: "<length>";
+ 14 |         initial-value: 1px;
+    :         ^^^^^^^^^^^^^
+ 15 |         inherits: false;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+ 13 |         syntax: "<length>";
+ 14 |         initial-value: 1px;
+    :         ^^^^^^^^^^^^^
+ 15 |         inherits: false;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+ 13 |         syntax: "<length>";
+ 14 |         initial-value: 1px;
+    :                        ^^^
+ 15 |         inherits: false;
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+ 13 |         syntax: "<length>";
+ 14 |         initial-value: 1px;
+    :                        ^^^
+ 15 |         inherits: false;
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+ 13 |         syntax: "<length>";
+ 14 |         initial-value: 1px;
+    :                        ^^^
+ 15 |         inherits: false;
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+ 13 |         syntax: "<length>";
+ 14 |         initial-value: 1px;
+    :                        ^
+ 15 |         inherits: false;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+ 13 |         syntax: "<length>";
+ 14 |         initial-value: 1px;
+    :                         ^^
+ 15 |         inherits: false;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
+ 14 |         initial-value: 1px;
+ 15 |         inherits: false;
+    :         ^^^^^^^^^^^^^^^
+ 16 |     }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
+ 14 |         initial-value: 1px;
+ 15 |         inherits: false;
+    :         ^^^^^^^^^^^^^^^
+ 16 |     }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
+ 14 |         initial-value: 1px;
+ 15 |         inherits: false;
+    :         ^^^^^^^^
+ 16 |     }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
+ 14 |         initial-value: 1px;
+ 15 |         inherits: false;
+    :         ^^^^^^^^
+ 16 |     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
+ 14 |         initial-value: 1px;
+ 15 |         inherits: false;
+    :                   ^^^^^
+ 16 |     }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
+ 14 |         initial-value: 1px;
+ 15 |         inherits: false;
+    :                   ^^^^^
+ 16 |     }
+    `----
