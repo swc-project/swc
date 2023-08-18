@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 145,
-    "end": 402,
+    "start": 1,
+    "end": 124,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 147,
-        "end": 268,
+        "start": 1,
+        "end": 122,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 148,
-          "end": 153,
+          "start": 2,
+          "end": 7,
           "ctxt": 0
         },
         "value": "scope",
@@ -26,31 +26,31 @@
       "prelude": {
         "type": "ScopeRange",
         "span": {
-          "start": 154,
-          "end": 163,
+          "start": 8,
+          "end": 17,
           "ctxt": 0
         },
         "scopeStart": {
           "type": "SelectorList",
           "span": {
-            "start": 155,
-            "end": 161,
+            "start": 9,
+            "end": 15,
             "ctxt": 0
           },
           "children": [
             {
               "type": "ComplexSelector",
               "span": {
-                "start": 155,
-                "end": 161,
+                "start": 9,
+                "end": 15,
                 "ctxt": 0
               },
               "children": [
                 {
                   "type": "CompoundSelector",
                   "span": {
-                    "start": 155,
-                    "end": 161,
+                    "start": 9,
+                    "end": 15,
                     "ctxt": 0
                   },
                   "nestingSelector": null,
@@ -59,15 +59,15 @@
                     {
                       "type": "IdSelector",
                       "span": {
-                        "start": 155,
-                        "end": 161,
+                        "start": 9,
+                        "end": 15,
                         "ctxt": 0
                       },
                       "text": {
                         "type": "Ident",
                         "span": {
-                          "start": 155,
-                          "end": 161,
+                          "start": 9,
+                          "end": 15,
                           "ctxt": 0
                         },
                         "value": "inner",
@@ -85,15 +85,15 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 163,
-          "end": 268,
+          "start": 17,
+          "end": 122,
           "ctxt": 0
         },
         "name": {
           "type": "PreservedToken",
           "span": {
-            "start": 163,
-            "end": 164,
+            "start": 17,
+            "end": 18,
             "ctxt": 0
           },
           "token": "LBrace"
@@ -102,15 +102,15 @@
           {
             "type": "AtRule",
             "span": {
-              "start": 169,
-              "end": 266,
+              "start": 23,
+              "end": 120,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 170,
-                "end": 179,
+                "start": 24,
+                "end": 33,
                 "ctxt": 0
               },
               "value": "keyframes",
@@ -119,8 +119,8 @@
             "prelude": {
               "type": "CustomIdent",
               "span": {
-                "start": 180,
-                "end": 189,
+                "start": 34,
+                "end": 43,
                 "ctxt": 0
               },
               "value": "--my-anim",
@@ -129,15 +129,15 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 190,
-                "end": 266,
+                "start": 44,
+                "end": 120,
                 "ctxt": 0
               },
               "name": {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 190,
-                  "end": 191,
+                  "start": 44,
+                  "end": 45,
                   "ctxt": 0
                 },
                 "token": "LBrace"
@@ -146,16 +146,16 @@
                 {
                   "type": "KeyframeBlock",
                   "span": {
-                    "start": 200,
-                    "end": 260,
+                    "start": 54,
+                    "end": 114,
                     "ctxt": 0
                   },
                   "prelude": [
                     {
                       "type": "Ident",
                       "span": {
-                        "start": 200,
-                        "end": 202,
+                        "start": 54,
+                        "end": 56,
                         "ctxt": 0
                       },
                       "value": "to",
@@ -165,15 +165,15 @@
                   "block": {
                     "type": "SimpleBlock",
                     "span": {
-                      "start": 203,
-                      "end": 260,
+                      "start": 57,
+                      "end": 114,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "PreservedToken",
                       "span": {
-                        "start": 203,
-                        "end": 204,
+                        "start": 57,
+                        "end": 58,
                         "ctxt": 0
                       },
                       "token": "LBrace"
@@ -182,15 +182,15 @@
                       {
                         "type": "Declaration",
                         "span": {
-                          "start": 217,
-                          "end": 249,
+                          "start": 71,
+                          "end": 103,
                           "ctxt": 0
                         },
                         "name": {
                           "type": "Ident",
                           "span": {
-                            "start": 217,
-                            "end": 233,
+                            "start": 71,
+                            "end": 87,
                             "ctxt": 0
                           },
                           "value": "background-color",
@@ -200,15 +200,15 @@
                           {
                             "type": "Function",
                             "span": {
-                              "start": 235,
-                              "end": 249,
+                              "start": 89,
+                              "end": 103,
                               "ctxt": 0
                             },
                             "name": {
                               "type": "Ident",
                               "span": {
-                                "start": 235,
-                                "end": 238,
+                                "start": 89,
+                                "end": 92,
                                 "ctxt": 0
                               },
                               "value": "rgb",
@@ -218,8 +218,8 @@
                               {
                                 "type": "Number",
                                 "span": {
-                                  "start": 239,
-                                  "end": 240,
+                                  "start": 93,
+                                  "end": 94,
                                   "ctxt": 0
                                 },
                                 "value": 0.0,
@@ -228,8 +228,8 @@
                               {
                                 "type": "Delimiter",
                                 "span": {
-                                  "start": 240,
-                                  "end": 241,
+                                  "start": 94,
+                                  "end": 95,
                                   "ctxt": 0
                                 },
                                 "value": ","
@@ -237,8 +237,8 @@
                               {
                                 "type": "Number",
                                 "span": {
-                                  "start": 242,
-                                  "end": 243,
+                                  "start": 96,
+                                  "end": 97,
                                   "ctxt": 0
                                 },
                                 "value": 0.0,
@@ -247,8 +247,8 @@
                               {
                                 "type": "Delimiter",
                                 "span": {
-                                  "start": 243,
-                                  "end": 244,
+                                  "start": 97,
+                                  "end": 98,
                                   "ctxt": 0
                                 },
                                 "value": ","
@@ -256,8 +256,8 @@
                               {
                                 "type": "Number",
                                 "span": {
-                                  "start": 245,
-                                  "end": 248,
+                                  "start": 99,
+                                  "end": 102,
                                   "ctxt": 0
                                 },
                                 "value": 255.0,
@@ -270,260 +270,6 @@
                       }
                     ]
                   }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      "type": "AtRule",
-      "span": {
-        "start": 270,
-        "end": 402,
-        "ctxt": 0
-      },
-      "name": {
-        "type": "Ident",
-        "span": {
-          "start": 271,
-          "end": 276,
-          "ctxt": 0
-        },
-        "value": "scope",
-        "raw": "scope"
-      },
-      "prelude": {
-        "type": "ScopeRange",
-        "span": {
-          "start": 277,
-          "end": 286,
-          "ctxt": 0
-        },
-        "scopeStart": {
-          "type": "SelectorList",
-          "span": {
-            "start": 278,
-            "end": 284,
-            "ctxt": 0
-          },
-          "children": [
-            {
-              "type": "ComplexSelector",
-              "span": {
-                "start": 278,
-                "end": 284,
-                "ctxt": 0
-              },
-              "children": [
-                {
-                  "type": "CompoundSelector",
-                  "span": {
-                    "start": 278,
-                    "end": 284,
-                    "ctxt": 0
-                  },
-                  "nestingSelector": null,
-                  "typeSelector": null,
-                  "subclassSelectors": [
-                    {
-                      "type": "IdSelector",
-                      "span": {
-                        "start": 278,
-                        "end": 284,
-                        "ctxt": 0
-                      },
-                      "text": {
-                        "type": "Ident",
-                        "span": {
-                          "start": 278,
-                          "end": 284,
-                          "ctxt": 0
-                        },
-                        "value": "inner",
-                        "raw": "inner"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "scopeEnd": null
-      },
-      "block": {
-        "type": "SimpleBlock",
-        "span": {
-          "start": 286,
-          "end": 402,
-          "ctxt": 0
-        },
-        "name": {
-          "type": "PreservedToken",
-          "span": {
-            "start": 286,
-            "end": 287,
-            "ctxt": 0
-          },
-          "token": "LBrace"
-        },
-        "value": [
-          {
-            "type": "AtRule",
-            "span": {
-              "start": 292,
-              "end": 400,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "Ident",
-              "span": {
-                "start": 293,
-                "end": 301,
-                "ctxt": 0
-              },
-              "value": "property",
-              "raw": "property"
-            },
-            "prelude": {
-              "type": "CustomPropertyName",
-              "span": {
-                "start": 302,
-                "end": 311,
-                "ctxt": 0
-              },
-              "value": "--my-prop",
-              "raw": "--my-prop"
-            },
-            "block": {
-              "type": "SimpleBlock",
-              "span": {
-                "start": 312,
-                "end": 400,
-                "ctxt": 0
-              },
-              "name": {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 312,
-                  "end": 313,
-                  "ctxt": 0
-                },
-                "token": "LBrace"
-              },
-              "value": [
-                {
-                  "type": "Declaration",
-                  "span": {
-                    "start": 322,
-                    "end": 340,
-                    "ctxt": 0
-                  },
-                  "name": {
-                    "type": "Ident",
-                    "span": {
-                      "start": 322,
-                      "end": 328,
-                      "ctxt": 0
-                    },
-                    "value": "syntax",
-                    "raw": "syntax"
-                  },
-                  "value": [
-                    {
-                      "type": "String",
-                      "span": {
-                        "start": 330,
-                        "end": 340,
-                        "ctxt": 0
-                      },
-                      "value": "<length>",
-                      "raw": "\"<length>\""
-                    }
-                  ],
-                  "important": null
-                },
-                {
-                  "type": "Declaration",
-                  "span": {
-                    "start": 350,
-                    "end": 368,
-                    "ctxt": 0
-                  },
-                  "name": {
-                    "type": "Ident",
-                    "span": {
-                      "start": 350,
-                      "end": 363,
-                      "ctxt": 0
-                    },
-                    "value": "initial-value",
-                    "raw": "initial-value"
-                  },
-                  "value": [
-                    {
-                      "type": "Length",
-                      "span": {
-                        "start": 365,
-                        "end": 368,
-                        "ctxt": 0
-                      },
-                      "value": {
-                        "type": "Number",
-                        "span": {
-                          "start": 365,
-                          "end": 366,
-                          "ctxt": 0
-                        },
-                        "value": 1.0,
-                        "raw": "1"
-                      },
-                      "unit": {
-                        "type": "Ident",
-                        "span": {
-                          "start": 366,
-                          "end": 368,
-                          "ctxt": 0
-                        },
-                        "value": "px",
-                        "raw": "px"
-                      }
-                    }
-                  ],
-                  "important": null
-                },
-                {
-                  "type": "Declaration",
-                  "span": {
-                    "start": 378,
-                    "end": 393,
-                    "ctxt": 0
-                  },
-                  "name": {
-                    "type": "Ident",
-                    "span": {
-                      "start": 378,
-                      "end": 386,
-                      "ctxt": 0
-                    },
-                    "value": "inherits",
-                    "raw": "inherits"
-                  },
-                  "value": [
-                    {
-                      "type": "Ident",
-                      "span": {
-                        "start": 388,
-                        "end": 393,
-                        "ctxt": 0
-                      },
-                      "value": "false",
-                      "raw": "false"
-                    }
-                  ],
-                  "important": null
                 }
               ]
             }
