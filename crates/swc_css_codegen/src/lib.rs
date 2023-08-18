@@ -2471,13 +2471,8 @@ where
             write_raw!(self, ")");
         }
         if let Some(end) = &n.scope_end {
-            if n.scope_start.is_some() {
-                formatting_space!(self);
-            } else {
-                space!(self);
-            }
-            write_raw!(self, "to");
-            formatting_space!(self);
+            write_raw!(self, " to");
+            space!(self);
             write_raw!(self, "(");
             emit!(self, end);
             write_raw!(self, ")");
