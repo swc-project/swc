@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import {
+import type {
   Plugin,
   ParseOptions,
   Module,
@@ -9,7 +9,7 @@ import {
   Program,
   JsMinifyOptions,
 } from "@swc/types";
-export type * from "@swc/types";
+export * from "@swc/types";
 import { BundleInput, compileBundleOptions } from "./spack";
 import * as assert from "assert";
 
