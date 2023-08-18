@@ -34,9 +34,7 @@ fn node_modules() {
 
 #[test]
 fn issue_4730() {
-    let dir = Path::new("tests/fixture-manual/issue-4730")
-        .canonicalize()
-        .unwrap();
+    let dir = Path::new("tests/fixture-manual/issue-4730");
     let input_dir = dir.join("input");
     let output_dir = dir.join("output");
 
