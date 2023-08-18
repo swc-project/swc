@@ -9,7 +9,7 @@ import {
   Program,
   JsMinifyOptions,
 } from "@swc/types";
-export * from "@swc/types";
+export type * from "@swc/types";
 import { BundleInput, compileBundleOptions } from "./spack";
 import * as assert from "assert";
 
