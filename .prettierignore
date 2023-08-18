@@ -52,7 +52,7 @@ benches/
 
 # TODO: Enable formatting
 helpers/
-packages/swc-helpers
+packages/helpers
 node-swc/__tests__
 node-swc/src
 node-swc/tests
