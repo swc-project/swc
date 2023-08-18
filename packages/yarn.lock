@@ -108,9 +108,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/helpers@workspace:swc-helpers":
+"@swc/helpers@workspace:helpers":
   version: 0.0.0-use.local
-  resolution: "@swc/helpers@workspace:swc-helpers"
+  resolution: "@swc/helpers@workspace:helpers"
   dependencies:
     "@ast-grep/napi": ^0.3.1
     dprint: ^0.35.3
