@@ -324,6 +324,12 @@ where
                     n
                 )
             }
+            AtRulePrelude::ScopePrelude(n) => {
+                if n.scope_start.is_some() {
+                    space!(self);
+                } 
+                emit!(self, n);
+            }
         }
     }
 
@@ -2456,6 +2462,16 @@ where
             PseudoElementSelectorChildren::Ident(n) => emit!(self, n),
             PseudoElementSelectorChildren::CompoundSelector(n) => emit!(self, n),
             PseudoElementSelectorChildren::CustomHighlightName(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_scope_range(&mut self, n: &ScopeRange) -> Result {
+        if let Some(start) = &n.scope_start {
+            emit!(self, start);
+        }
+        if let Some(end) = &n.scope_end {
+            emit!(self, end);
         }
     }
 

@@ -6,6 +6,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 use crate::{
     CustomIdent, CustomPropertyName, DashedIdent, Declaration, Dimension, FamilyName, Function,
     Ident, ListOfComponentValues, Number, Percentage, Ratio, SelectorList, SimpleBlock, Str, Url,
+    ForgivingSelectorList,
 };
 
 #[ast_node("AtRule")]
@@ -84,6 +85,18 @@ pub enum AtRulePrelude {
     ContainerPrelude(ContainerCondition),
     #[tag("CustomMedia")]
     CustomMediaPrelude(CustomMediaQuery),
+    #[tag("ScopeRange")]
+    ScopePrelude(ScopeRange),
+}
+
+#[ast_node("ScopeRange")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct ScopeRange {
+    pub span: Span,
+    /// https://drafts.csswg.org/css-cascade-6/#typedef-scope-start
+    pub scope_start: Option<ForgivingSelectorList>,
+    /// https://drafts.csswg.org/css-cascade-6/#typedef-scope-end
+    pub scope_end: Option<ForgivingSelectorList>,
 }
 
 #[ast_node]

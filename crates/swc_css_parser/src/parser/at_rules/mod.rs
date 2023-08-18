@@ -424,6 +424,15 @@ where
 
                 None
             }
+            js_word!("scope") => {
+                self.input.skip_ws();
+
+                let prelude = AtRulePrelude::ScopePrelude(self.parse()?);
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }       
             _ => {
                 return Err(Error::new(Default::default(), ErrorKind::Ignore));
             }
@@ -2623,5 +2632,55 @@ where
             name,
             media,
         })
+    }
+}
+
+impl<I> Parse<ScopeRange> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ScopeRange> {
+        let span = self.input.cur_span();
+
+        match cur!(self) {
+            tok!("(") => {
+
+                let start = self.parse()?;
+
+                self.input.skip_ws();
+
+                expect!(self, "to");
+
+                self.input.skip_ws();
+
+                let end = self.parse()?;
+
+                self.input.skip_ws();
+
+                expect!(self, ")");
+
+                Ok(ScopeRange {
+                    span: span!(self, span.lo),
+                    scope_start: Some(start),
+                    scope_end: Some(end),
+                })
+            }
+            tok!("to") => {
+                bump!(self);
+
+                self.input.skip_ws();
+
+                let end = self.parse()?;
+
+                Ok(ScopeRange {
+                    span: span!(self, span.lo),
+                    scope_start: None,
+                    scope_end: Some(end),
+                })
+            }
+            _ => {
+                return Err(Error::new(span, ErrorKind::InvalidScopeAtRule));
+            }
+        }
     }
 }

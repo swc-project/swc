@@ -71,6 +71,7 @@ impl Error {
             ErrorKind::InvalidKeyframesName(s) => {
                 format!("{} is not valid name for keyframes", s).into()
             }
+            ErrorKind::InvalidScopeAtRule => "Invalid @scope at-rule".into(),
         }
     }
 
@@ -115,6 +116,7 @@ pub enum ErrorKind {
     InvalidAnPlusBMicrosyntax,
     InvalidCustomIdent(JsWord),
     InvalidKeyframesName(&'static str),
+    InvalidScopeAtRule,
 
     UnknownAtRuleNotTerminated,
 }
