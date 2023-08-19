@@ -85,6 +85,8 @@ impl Optimizer<'_> {
                         }
                     }
                 }
+            } else {
+                return;
             }
 
             if !unknown_used_props.iter().all(|(_, v)| *v == 0) {
