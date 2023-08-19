@@ -34,6 +34,7 @@ impl Optimizer<'_> {
                         && !v.used_as_ref
                         && !v.used_as_arg
                         && !v.used_in_cond
+                        && !v.is_fn_local
                         && !v.reassigned()
                         && !v.is_infected()
                 })
