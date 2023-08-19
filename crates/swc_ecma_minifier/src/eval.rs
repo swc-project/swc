@@ -66,6 +66,10 @@ impl Mode for Eval {
     fn force_str_for_tpl(&self) -> bool {
         true
     }
+
+    fn should_be_very_correct(&self) -> bool {
+        false
+    }
 }
 
 impl Evaluator {
