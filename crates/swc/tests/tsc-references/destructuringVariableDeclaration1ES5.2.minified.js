@@ -1,6 +1,11 @@
 //// [destructuringVariableDeclaration1ES5.ts]
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
+var _ref = {
+    a1: 10,
+    a2: "world"
+};
+_ref.a1, _ref.a2;
 var tmp = {
     b11: "world"
 };
