@@ -5266,7 +5266,8 @@
             t.__esModule = !0, t.default = void 0;
             var i = n(r(7925));
             t.default = function(e) {
-                return (0, i.default)((e.runs || [])[0]);
+                var t = e.runs || [];
+                return (0, i.default)(t[0]);
             };
         },
         7698: function(e, t, r) {

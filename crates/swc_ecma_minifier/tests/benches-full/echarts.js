@@ -7773,8 +7773,8 @@
         }
     }
     function format(time, template, isUTC, lang) {
-        var date = parseDate(time), y = date[fullYearGetterName(isUTC)](), M = date[monthGetterName(isUTC)]() + 1, q = Math.floor((M - 1) / 4) + 1, d = date[dateGetterName(isUTC)](), e = date['get' + (isUTC ? 'UTC' : '') + 'Day'](), H = date[hoursGetterName(isUTC)](), h = (H - 1) % 12 + 1, m = date[minutesGetterName(isUTC)](), s = date[secondsGetterName(isUTC)](), S = date[millisecondsGetterName(isUTC)](), timeModel = (lang instanceof Model ? lang : localeModels[lang || SYSTEM_LANG] || localeModels.EN).getModel('time');
-        return (template || '').replace(/{yyyy}/g, y + '').replace(/{yy}/g, y % 100 + '').replace(/{Q}/g, q + '').replace(/{MMMM}/g, timeModel.get('month')[M - 1]).replace(/{MMM}/g, timeModel.get('monthAbbr')[M - 1]).replace(/{MM}/g, pad(M, 2)).replace(/{M}/g, M + '').replace(/{dd}/g, pad(d, 2)).replace(/{d}/g, d + '').replace(/{eeee}/g, timeModel.get('dayOfWeek')[e]).replace(/{ee}/g, timeModel.get('dayOfWeekAbbr')[e]).replace(/{e}/g, e + '').replace(/{HH}/g, pad(H, 2)).replace(/{H}/g, H + '').replace(/{hh}/g, pad(h + '', 2)).replace(/{h}/g, h + '').replace(/{mm}/g, pad(m, 2)).replace(/{m}/g, m + '').replace(/{ss}/g, pad(s, 2)).replace(/{s}/g, s + '').replace(/{SSS}/g, pad(S, 3)).replace(/{S}/g, S + '');
+        var date = parseDate(time), y = date[fullYearGetterName(isUTC)](), M = date[monthGetterName(isUTC)]() + 1, q = Math.floor((M - 1) / 4) + 1, d = date[dateGetterName(isUTC)](), e = date['get' + (isUTC ? 'UTC' : '') + 'Day'](), H = date[hoursGetterName(isUTC)](), h = (H - 1) % 12 + 1, m = date[minutesGetterName(isUTC)](), s = date[secondsGetterName(isUTC)](), S = date[millisecondsGetterName(isUTC)](), timeModel = (lang instanceof Model ? lang : localeModels[lang || SYSTEM_LANG] || localeModels.EN).getModel('time'), month = timeModel.get('month'), monthAbbr = timeModel.get('monthAbbr'), dayOfWeek = timeModel.get('dayOfWeek'), dayOfWeekAbbr = timeModel.get('dayOfWeekAbbr');
+        return (template || '').replace(/{yyyy}/g, y + '').replace(/{yy}/g, y % 100 + '').replace(/{Q}/g, q + '').replace(/{MMMM}/g, month[M - 1]).replace(/{MMM}/g, monthAbbr[M - 1]).replace(/{MM}/g, pad(M, 2)).replace(/{M}/g, M + '').replace(/{dd}/g, pad(d, 2)).replace(/{d}/g, d + '').replace(/{eeee}/g, dayOfWeek[e]).replace(/{ee}/g, dayOfWeekAbbr[e]).replace(/{e}/g, e + '').replace(/{HH}/g, pad(H, 2)).replace(/{H}/g, H + '').replace(/{hh}/g, pad(h + '', 2)).replace(/{h}/g, h + '').replace(/{mm}/g, pad(m, 2)).replace(/{m}/g, m + '').replace(/{ss}/g, pad(s, 2)).replace(/{s}/g, s + '').replace(/{SSS}/g, pad(S, 3)).replace(/{S}/g, S + '');
     }
     function getUnitFromValue(value, isUTC) {
         var date = parseDate(value), M = date[monthGetterName(isUTC)]() + 1, d = date[dateGetterName(isUTC)](), h = date[hoursGetterName(isUTC)](), m = date[minutesGetterName(isUTC)](), s = date[secondsGetterName(isUTC)](), isSecond = 0 === date[millisecondsGetterName(isUTC)](), isMinute = isSecond && 0 === s, isHour = isMinute && 0 === m, isDay = isHour && 0 === h, isMonth = isDay && 1 === d;
@@ -14490,7 +14490,7 @@
         }, List.prototype.downSample = function(dimension, rate, sampleValue, sampleIndex) {
             for(var list = cloneListForMapAndSample(this, [
                 dimension
-            ]), frameValues = [], frameSize = mathFloor(1 / rate), dimStore = list._storage[dimension], len = this.count(), rawExtentOnDim = list._rawExtent[dimension], newIndices = new (getIndicesCtor(this))(len), offset = 0, i = 0; i < len; i += frameSize){
+            ]), targetStorage = list._storage, frameValues = [], frameSize = mathFloor(1 / rate), dimStore = targetStorage[dimension], len = this.count(), rawExtentOnDim = list._rawExtent[dimension], newIndices = new (getIndicesCtor(this))(len), offset = 0, i = 0; i < len; i += frameSize){
                 frameSize > len - i && (frameSize = len - i, frameValues.length = frameSize);
                 for(var k = 0; k < frameSize; k++){
                     var dataIdx = this.getRawIndex(i + k);
@@ -25061,7 +25061,7 @@
                 getAutoCurvenessParams(this) && (this.__curvenessList = [], this.__edgeMap = {}, createCurveness(this));
                 var graph = createGraphFromNodeEdge(nodes, edges, this, !0, function(nodeData, edgeData) {
                     nodeData.wrapMethod('getItemModel', function(model) {
-                        var categoryIdx = model.getShallow('category'), categoryModel = self1._categoriesModels[categoryIdx];
+                        var categoryModel = self1._categoriesModels[model.getShallow('category')];
                         return categoryModel && (categoryModel.parentModel = model.parentModel, model.parentModel = categoryModel), model;
                     });
                     var oldGetModel = Model.prototype.getModel;
@@ -29234,7 +29234,7 @@
         }), path;
     }
     function createOrUpdateRepeatSymbols(bar, opt, symbolMeta, isUpdate) {
-        var bundle = bar.__pictorialBundle, valueLineWidth = symbolMeta.valueLineWidth, pathPosition = symbolMeta.pathPosition, valueDim = opt.valueDim, repeatTimes = symbolMeta.repeatTimes || 0, index = 0, unit = symbolMeta.symbolSize[opt.valueDim.index] + valueLineWidth + 2 * symbolMeta.symbolMargin;
+        var bundle = bar.__pictorialBundle, symbolSize = symbolMeta.symbolSize, valueLineWidth = symbolMeta.valueLineWidth, pathPosition = symbolMeta.pathPosition, valueDim = opt.valueDim, repeatTimes = symbolMeta.repeatTimes || 0, index = 0, unit = symbolSize[opt.valueDim.index] + valueLineWidth + 2 * symbolMeta.symbolMargin;
         for(eachPath(bar, function(path) {
             path.__pictorialAnimationIndex = index, path.__pictorialRepeatTimes = repeatTimes, index < repeatTimes ? updateAttr(path, null, makeTarget(index), symbolMeta, isUpdate) : updateAttr(path, null, {
                 scaleX: 0,
@@ -29440,11 +29440,11 @@
             return _this.type = ThemeRiverView.type, _this._layers = [], _this;
         }
         return __extends(ThemeRiverView, _super), ThemeRiverView.prototype.render = function(seriesModel, ecModel, api) {
-            var data = seriesModel.getData(), self1 = this, group = this.group, layersSeries = seriesModel.getLayerSeries(), layoutInfo = data.getLayout('layoutInfo'), rect = layoutInfo.rect;
+            var data = seriesModel.getData(), self1 = this, group = this.group, layersSeries = seriesModel.getLayerSeries(), layoutInfo = data.getLayout('layoutInfo'), rect = layoutInfo.rect, boundaryGap = layoutInfo.boundaryGap;
             function keyGetter(item) {
                 return item.name;
             }
-            group.x = 0, group.y = rect.y + layoutInfo.boundaryGap[0];
+            group.x = 0, group.y = rect.y + boundaryGap[0];
             var dataDiffer = new DataDiffer(this._layersSeries || [], layersSeries, keyGetter, keyGetter), newLayersGroups = [];
             function process(status, idx, oldIdx) {
                 var style, polygon, oldLayersGroups = self1._layers;
@@ -38876,6 +38876,9 @@
                     var otherShadowExtent = [
                         0,
                         size[1]
+                    ], thisShadowExtent = [
+                        0,
+                        size[0]
                     ], areaPoints = [
                         [
                             size[0],
@@ -38885,7 +38888,7 @@
                             0,
                             0
                         ]
-                    ], linePoints = [], step = size[0] / (data.count() - 1), thisCoord = 0, stride = Math.round(data.count() / size[0]);
+                    ], linePoints = [], step = thisShadowExtent[1] / (data.count() - 1), thisCoord = 0, stride = Math.round(data.count() / size[0]);
                     data.each([
                         otherDim
                     ], function(value, index) {
@@ -40049,11 +40052,11 @@
             var zr = this.api.getZr();
             this.visualMapModel.option.hoverLink ? (zr.on('mouseover', this._hoverLinkFromSeriesMouseOver, this), zr.on('mouseout', this._hideIndicator, this)) : this._clearHoverLinkFromSeries();
         }, ContinuousView.prototype._doHoverLinkToSeries = function(cursorPos, hoverOnBar) {
-            var visualMapModel = this.visualMapModel;
+            var visualMapModel = this.visualMapModel, itemSize = visualMapModel.itemSize;
             if (visualMapModel.option.hoverLink) {
                 var halfHoverLinkSize, hoverLinkDataSize, sizeExtent = [
                     0,
-                    visualMapModel.itemSize[1]
+                    itemSize[1]
                 ], dataExtent = visualMapModel.getExtent();
                 cursorPos = mathMin$a(mathMax$a(sizeExtent[0], cursorPos), sizeExtent[1]);
                 var halfHoverLinkSize1 = (halfHoverLinkSize = 6, (hoverLinkDataSize = visualMapModel.get('hoverLinkDataSize')) && (halfHoverLinkSize = linearMap(hoverLinkDataSize, dataExtent, sizeExtent, !0) / 2), halfHoverLinkSize), hoverRange = [

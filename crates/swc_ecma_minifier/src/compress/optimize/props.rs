@@ -34,6 +34,7 @@ impl Optimizer<'_> {
                         && !v.used_as_ref
                         && !v.used_as_arg
                         && !v.used_in_cond
+                        && (!v.is_fn_local || !self.mode.should_be_very_correct())
                         && !v.reassigned()
                         && !v.is_infected()
                 })
@@ -83,6 +84,10 @@ impl Optimizer<'_> {
                             _ => {}
                         }
                     }
+                }
+            } else {
+                if self.mode.should_be_very_correct() {
+                    return;
                 }
             }
 

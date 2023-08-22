@@ -1329,8 +1329,8 @@
         }
         function createCaseFirst(methodName) {
             return function(string) {
-                var strSymbols = hasUnicode(string = toString(string)) ? stringToArray(string) : undefined, trailing = strSymbols ? castSlice(strSymbols, 1).join('') : string.slice(1);
-                return (strSymbols ? strSymbols[0] : string.charAt(0))[methodName]() + trailing;
+                var strSymbols = hasUnicode(string = toString(string)) ? stringToArray(string) : undefined, chr = strSymbols ? strSymbols[0] : string.charAt(0), trailing = strSymbols ? castSlice(strSymbols, 1).join('') : string.slice(1);
+                return chr[methodName]() + trailing;
             };
         }
         function createCompounder(callback) {
