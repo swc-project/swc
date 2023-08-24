@@ -15,7 +15,7 @@ use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolve;
 use swc_ecma_utils::{quote_ident, ExprFactory};
-use tracing::{debug, info, trace, warn, Level};
+use tracing::{debug, info, warn, Level};
 
 pub(crate) enum Resolver {
     Real {
@@ -125,7 +125,7 @@ where
     R: Resolve,
 {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
-        fn to_specifier(target_path: PathBuf, orig_filename: Option<&OsStr>) -> JsWord {
+        fn to_specifier(target_path: PathBuf, orig_filename: Option<&str>) -> JsWord {
             debug!(
                 "Creating a specifier for {} with original filename {:?}",
                 target_path.display(),
@@ -134,7 +134,7 @@ where
 
             let mut p = target_path;
 
-            if let Some(orig_ext) = orig_ext {
+            if let Some(orig_filename) = orig_filename {
                 let use_orig = if let Some(ext) = p.extension() {
                     ext == "ts" || ext == "tsx"
                 } else {
@@ -169,13 +169,7 @@ where
             None
         };
 
-        let orig_ext = module_specifier.split('/').last().and_then(|s| {
-            if s.contains('.') {
-                s.split('.').last()
-            } else {
-                None
-            }
-        });
+        let orig_filename = module_specifier.split('/').last();
 
         let target = self.resolver.resolve(base, module_specifier);
         let target = match target {
@@ -266,9 +260,9 @@ where
             Cow::Owned(format!("./{}", s))
         };
         if cfg!(target_os = "windows") {
-            Ok(to_specifier(&s.replace('\\', "/"), orig_ext))
+            Ok(to_specifier(s.replace('\\', "/").into(), orig_filename))
         } else {
-            Ok(to_specifier(&s, orig_ext))
+            Ok(to_specifier(s.into(), orig_filename))
         }
     }
 }
