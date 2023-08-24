@@ -184,7 +184,7 @@ where
                             .with_context(|| {
                                 format!(
                                     "failed to resolve `{}` from \
-                                     `{}`\nreplaced={replaced}\nbase_url={}",
+                                     `{}`\nbase_url={}\nreplaced={replaced}",
                                     module_specifier, base, self.base_url_filename
                                 )
                             });
