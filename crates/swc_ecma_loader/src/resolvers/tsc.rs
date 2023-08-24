@@ -139,7 +139,7 @@ where
             Some(
                 tracing::span!(
                     Level::ERROR,
-                    "tsc.resolve",
+                    "TsConfigResolver::resolve",
                     base_url = tracing::field::display(self.base_url.display()),
                     base = tracing::field::display(base),
                     src = tracing::field::display(module_specifier),
