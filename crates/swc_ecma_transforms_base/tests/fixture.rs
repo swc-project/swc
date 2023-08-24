@@ -58,7 +58,7 @@ where
         let actual = print(cm, &module);
         let actual = NormalizedOutput::from(actual);
 
-        actual.compare_to_file(&output).unwrap();
+        actual.compare_to_file(&output);
 
         Ok(())
     })

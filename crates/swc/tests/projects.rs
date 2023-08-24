@@ -837,11 +837,9 @@ fn tests(input_dir: PathBuf) {
                             serde_json::to_string_pretty(&json).unwrap()
                         });
 
-                        NormalizedOutput::from(map.unwrap_or_default())
-                            .compare_to_file(
-                                output.join(rel_path.with_extension("map").file_name().unwrap()),
-                            )
-                            .unwrap();
+                        NormalizedOutput::from(map.unwrap_or_default()).compare_to_file(
+                            output.join(rel_path.with_extension("map").file_name().unwrap()),
+                        );
                     }
                     Err(ref err) if format!("{:?}", err).contains("not matched") => {}
                     Err(ref err) if format!("{:?}", err).contains("Syntax Error") => return Err(()),
@@ -1148,18 +1146,14 @@ fn minify(input_js: PathBuf) {
         config.source_map = BoolOrDataConfig::from_bool(true);
         let output = c.minify(fm, &handler, &config).unwrap();
 
-        NormalizedOutput::from(output.code)
-            .compare_to_file(input_dir.join("output.js"))
-            .unwrap();
+        NormalizedOutput::from(output.code).compare_to_file(input_dir.join("output.js"));
 
         let map = output.map.map(|json| {
             let json: serde_json::Value = serde_json::from_str(&json).unwrap();
             serde_json::to_string_pretty(&json).unwrap()
         });
 
-        NormalizedOutput::from(map.unwrap())
-            .compare_to_file(input_dir.join("output.map"))
-            .unwrap();
+        NormalizedOutput::from(map.unwrap()).compare_to_file(input_dir.join("output.map"));
 
         Ok(())
     })

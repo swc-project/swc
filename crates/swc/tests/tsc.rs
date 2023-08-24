@@ -452,7 +452,5 @@ fn compile(output: &Path, test_unit_data: TestUnitData) {
         })
     }
 
-    NormalizedOutput::from(result)
-        .compare_to_file(output)
-        .unwrap();
+    NormalizedOutput::from(result).compare_to_file(output);
 }

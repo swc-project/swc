@@ -278,10 +278,5 @@ fn errors(file: PathBuf) {
     });
 
     let err = module.expect_err("should fail, but parsed as");
-    if err
-        .compare_to_file(format!("{}.swc-stderr", file.display()))
-        .is_err()
-    {
-        panic!()
-    }
+    err.compare_to_file(format!("{}.swc-stderr", file.display()));
 }
