@@ -174,7 +174,7 @@ where
                         let res = self.inner.resolve(base, &rel).with_context(|| {
                             format!(
                                 "failed to resolve `{}`, which is expanded from `{}`",
-                                replaced, module_specifier
+                                rel, module_specifier
                             )
                         });
 
