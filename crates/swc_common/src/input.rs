@@ -46,7 +46,10 @@ impl<'a> StringInput<'a> {
 
     #[inline]
     pub fn bump_bytes(&mut self, n: usize) {
-        self.reset_to(self.last_pos + BytePos(n as u32));
+        unsafe {
+            // Safety: We only proceed, not go back.
+            self.reset_to(self.last_pos + BytePos(n as u32));
+        }
     }
 }
 
