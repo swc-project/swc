@@ -99,6 +99,19 @@ where
             paths,
         }
     }
+
+    fn invoke_inner_resolver(
+        &self,
+        base: &FileName,
+        module_specifier: &str,
+    ) -> Result<FileName, Error> {
+        self.inner.resolve(base, module_specifier).with_context(|| {
+            format!(
+                "failed to resolve `{module_specifier}` from `{base}`\nbase_url={}",
+                self.base_url_filename
+            )
+        })
+    }
 }
 
 impl<R> Resolve for TsConfigResolver<R>
@@ -127,8 +140,7 @@ where
                 || module_specifier.starts_with("../"))
         {
             return self
-                .inner
-                .resolve(base, module_specifier)
+                .invoke_inner_resolver(base, module_specifier)
                 .context("not processed by tsc resolver because it's relative import");
         }
 
@@ -137,7 +149,7 @@ where
                 Component::Normal(v) => v == "node_modules",
                 _ => false,
             }) {
-                return self.inner.resolve(base, module_specifier).context(
+                return self.invoke_inner_resolver(base, module_specifier).context(
                     "not processed by tsc resolver because base module is in node_modules",
                 );
             }
@@ -172,24 +184,14 @@ where
                         let relative = format!("./{}", replaced);
 
                         let res = self
-                            .inner
-                            .resolve(base, module_specifier)
-                            .or_else(|prev| {
-                                self.inner
-                                    .resolve(&self.base_url_filename, &relative)
+                            .invoke_inner_resolver(base, module_specifier)
+                            .or_else(|prev: Error| {
+                                self.invoke_inner_resolver(&self.base_url_filename, &relative)
                                     .with_context(|| format!("\nPrev:\n{prev:?}"))
                             })
                             .or_else(|prev| {
-                                self.inner
-                                    .resolve(&self.base_url_filename, &replaced)
+                                self.invoke_inner_resolver(&self.base_url_filename, &replaced)
                                     .with_context(|| format!("\nPrev:\n{prev:?}"))
-                            })
-                            .with_context(|| {
-                                format!(
-                                    "failed to resolve `{}` from \
-                                     `{}`\nbase_url={}\nreplaced={replaced}",
-                                    module_specifier, base, self.base_url_filename
-                                )
                             });
 
                         errors.push(match res {
@@ -238,8 +240,7 @@ where
                         }
 
                         return self
-                            .inner
-                            .resolve(base, &format!("./{}", &to[0]))
+                            .invoke_inner_resolver(base, &format!("./{}", &to[0]))
                             .with_context(|| {
                                 format!(
                                     "tried to resolve `{}` because `{}` was exactly matched",
@@ -253,13 +254,10 @@ where
             }
         }
 
-        if let Ok(v) = self
-            .inner
-            .resolve(&self.base_url_filename, module_specifier)
-        {
+        if let Ok(v) = self.invoke_inner_resolver(&self.base_url_filename, module_specifier) {
             return Ok(v);
         }
 
-        self.inner.resolve(base, module_specifier)
+        self.invoke_inner_resolver(base, module_specifier)
     }
 }
