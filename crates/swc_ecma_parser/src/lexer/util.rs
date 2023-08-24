@@ -250,7 +250,7 @@ impl<'a> Lexer<'a> {
 
         if let Some(comments) = self.comments_buffer.as_mut() {
             let s = unsafe {
-                // Safety: We know that the range is valid
+                // Safety: We know that the start and the end are valid
                 self.input.slice(slice_start, end)
             };
             let cmt = Comment {
