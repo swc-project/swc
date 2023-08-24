@@ -171,12 +171,15 @@ where
                         let mut replaced = target.replace('*', extra);
                         let rel = format!("./{}", replaced);
 
-                        let res = self.inner.resolve(base, &rel).with_context(|| {
-                            format!(
-                                "failed to resolve `{}`, which is expanded from `{}`",
-                                rel, module_specifier
-                            )
-                        });
+                        let res = self
+                            .inner
+                            .resolve(&self.base_url_filename, &rel)
+                            .with_context(|| {
+                                format!(
+                                    "failed to resolve `{}`, which is expanded from `{}`",
+                                    rel, module_specifier
+                                )
+                            });
 
                         errors.push(match res {
                             Ok(resolved) => {
