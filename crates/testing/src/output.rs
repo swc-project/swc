@@ -142,9 +142,11 @@ impl NormalizedOutput {
 
         let update = std::env::var("UPDATE").unwrap_or_default() == "1";
         if update {
+            debug!("Updating file {}", path.display());
+
             crate::write_to_file(&path, &self.0);
 
-            debug!("Updating file {}", path.display());
+            enqueue_panic(format!("Updated test snapshot at {}", path.display()));
             return;
         }
 
@@ -155,7 +157,13 @@ impl NormalizedOutput {
         );
 
         if !update && self.0.lines().count() <= 5 {
-            assert_eq!(expected, self, "{msg}");
+            enqueue_panic(format!(
+                "assertion failed: `(left == right)`
+    expected: `{:?}`,
+      actual: `{:?}`: {}",
+                expected, self, msg
+            ));
+            return;
         }
 
         let diff = Diff {
@@ -164,7 +172,13 @@ impl NormalizedOutput {
         };
 
         if env::var("DIFF").unwrap_or_default() == "0" {
-            assert_eq!(diff.expected, diff.actual, "{msg}");
+            enqueue_panic(format!(
+                "assertion failed: `(left == right)`
+    expected: `{:?}`,
+      actual: `{:?}`: {}",
+                diff.expected, diff.actual, msg
+            ));
+            return;
         } else {
             pretty_assertions::assert_eq!(diff.expected, diff.actual, "{msg}");
         }
