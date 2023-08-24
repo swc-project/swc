@@ -171,7 +171,10 @@ where
         // A leading Byte Order Mark (BOM) causes the character encoding argument to be
         // ignored and will itself be skipped.
         if lexer.input.is_at_start() && lexer.input.cur() == Some('\u{feff}') {
-            lexer.input.bump();
+            unsafe {
+                // Safety: cur() is Some('\u{feff}')
+                lexer.input.bump();
+            }
         }
 
         lexer
@@ -247,7 +250,10 @@ where
         self.cur_pos = self.input.cur_pos();
 
         if self.cur.is_some() {
-            self.input.bump();
+            unsafe {
+                // Safety: cur() is Some(c)
+                self.input.bump();
+            }
         }
     }
 
@@ -318,7 +324,10 @@ where
             Some(c) if self.additional_allowed_character == Some(c) => {
                 self.emit_error(ErrorKind::InvalidEntityCharacter);
                 self.cur_pos = cur_pos;
-                self.input.reset_to(cur_pos);
+                unsafe {
+                    // Safety: We got cur_post from self.input
+                    self.input.reset_to(cur_pos);
+                }
             }
             Some('l') => match self.consume_next_char() {
                 Some('t') => {
@@ -467,7 +476,10 @@ where
                 if characters.is_empty() {
                     // TODO
                     self.cur_pos = cur_pos;
-                    self.input.reset_to(cur_pos);
+                    unsafe {
+                        // Safety: We got cur_post from self.input
+                        self.input.reset_to(cur_pos);
+                    }
 
                     return None;
                 }
