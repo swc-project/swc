@@ -559,11 +559,17 @@ impl<'a> Lexer<'a> {
     fn read_token_plus_minus(&mut self, c: u8) -> LexResult<Option<Token>> {
         let start = self.cur_pos();
 
-        self.input.bump();
+        unsafe {
+            // Safety: cur() is Some(c), if this method is called.
+            self.input.bump();
+        }
 
         // '++', '--'
         Ok(Some(if self.input.cur() == Some(c as char) {
-            self.input.bump();
+            unsafe {
+                // Safety: cur() is Some(c)
+                self.input.bump();
+            }
 
             // Handle -->
             if self.state.had_line_break && c == b'-' && self.eat(b'>') {
