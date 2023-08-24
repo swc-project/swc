@@ -202,7 +202,7 @@ where
                             Some(
                                 tracing::span!(
                                     Level::ERROR,
-                                    "TsConfigResolver::resolve jsc.paths",
+                                    "TsConfigResolver::resolve::jsc.paths",
                                     replaced = tracing::field::display(&replaced),
                                 )
                                 .entered(),
