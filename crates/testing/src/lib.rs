@@ -11,6 +11,7 @@ use std::{
 
 use difference::Changeset;
 use once_cell::sync::Lazy;
+use panics::PanicStorageLayer;
 pub use pretty_assertions::{assert_eq, assert_ne};
 use regex::Regex;
 use swc_common::{
@@ -48,7 +49,8 @@ pub fn init() -> tracing::subscriber::DefaultGuard {
 
     let subscriber = Registry::default()
         .with(fmt_layer)
-        .with(EnvFilter::from_str(&log_env).unwrap());
+        .with(EnvFilter::from_str(&log_env).unwrap())
+        .with(PanicStorageLayer);
 
     tracing::subscriber::set_default(subscriber)
 }
