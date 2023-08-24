@@ -1,6 +1,7 @@
 use std::{
     borrow::Cow,
     env::current_dir,
+    ffi::OsStr,
     io,
     path::{Component, Path, PathBuf},
     sync::Arc,
@@ -124,17 +125,14 @@ where
     R: Resolve,
 {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
-        fn to_specifier(target_path: &str, orig_ext: Option<&str>) -> JsWord {
+        fn to_specifier(target_path: PathBuf, orig_filename: Option<&OsStr>) -> JsWord {
             debug!(
-                "Creating a specifier for {} with original extension {:?}",
-                target_path, orig_ext
+                "Creating a specifier for {} with original filename {:?}",
+                target_path.display(),
+                orig_filename
             );
 
-            let mut p = PathBuf::from(target_path);
-
-            if cfg!(debug_assertions) {
-                trace!("to_specifier({target_path}): orig_ext={:?}", orig_ext);
-            }
+            let mut p = target_path;
 
             if let Some(orig_ext) = orig_ext {
                 let use_orig = if let Some(ext) = p.extension() {
