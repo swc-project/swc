@@ -105,13 +105,28 @@ where
         base: &FileName,
         module_specifier: &str,
     ) -> Result<FileName, Error> {
-        self.inner.resolve(base, module_specifier).with_context(|| {
+        let res = self.inner.resolve(base, module_specifier).with_context(|| {
             format!(
                 "failed to resolve `{module_specifier}` from `{base}` using inner \
                  resolver\nbase_url={}",
                 self.base_url_filename
             )
-        })
+        });
+
+        match res {
+            Ok(resolved) => {
+                info!(
+                    "Resolved `{}` as `{}` from `{}`",
+                    module_specifier, resolved, base
+                );
+                Ok(resolved)
+            }
+
+            Err(err) => {
+                warn!("{:?}", err);
+                Err(err)
+            }
+        }
     }
 }
 
@@ -186,27 +201,16 @@ where
 
                         let res = self
                             .invoke_inner_resolver(base, module_specifier)
-                            .or_else(|prev: Error| {
+                            .or_else(|_| {
                                 self.invoke_inner_resolver(&self.base_url_filename, &relative)
-                                    .with_context(|| format!("\nPrev:\n{prev:?}"))
                             })
-                            .or_else(|prev| {
+                            .or_else(|_| {
                                 self.invoke_inner_resolver(&self.base_url_filename, &replaced)
-                                    .with_context(|| format!("\nPrev:\n{prev:?}"))
                             });
 
                         errors.push(match res {
-                            Ok(resolved) => {
-                                info!(
-                                    "Resolved `{}` as `{}` from `{}`",
-                                    module_specifier, resolved, base
-                                );
-                                return Ok(resolved);
-                            }
-                            Err(err) => {
-                                warn!("{:?}", err);
-                                err
-                            }
+                            Ok(resolved) => return Ok(resolved),
+                            Err(err) => err,
                         });
 
                         if to.len() == 1 {
