@@ -105,7 +105,7 @@ impl NormalizedOutput {
     /// If output differs, prints actual stdout/stderr to
     /// `CARGO_MANIFEST_DIR/target/swc-test-results/ui/$rel_path` where
     /// `$rel_path`: `path.strip_prefix(CARGO_MANIFEST_DIR)`
-    pub fn compare_to_file<P>(self, path: P) -> Result<(), Diff>
+    pub fn compare_to_file<P>(self, path: P)
     where
         P: AsRef<Path>,
     {
@@ -134,7 +134,7 @@ impl NormalizedOutput {
         );
 
         if expected == self {
-            return Ok(());
+            return;
         }
 
         debug!("Comparing output to {}", path.display());
@@ -145,11 +145,17 @@ impl NormalizedOutput {
             crate::write_to_file(&path, &self.0);
 
             debug!("Updating file {}", path.display());
-            return Ok(());
+            return;
         }
 
+        let msg = format!(
+            "Actual:\n{}\n\n\nIf you want to update test snapshots, run again with the \
+             environment variable `UPDATE=1`. i.e. `UPDATE=1 cargo test`",
+            self
+        );
+
         if !update && self.0.lines().count() <= 5 {
-            assert_eq!(expected, self, "Actual:\n{}", self);
+            assert_eq!(expected, self, "{msg}");
         }
 
         let diff = Diff {
@@ -158,13 +164,10 @@ impl NormalizedOutput {
         };
 
         if env::var("DIFF").unwrap_or_default() == "0" {
-            assert_eq!(diff.expected, diff.actual, "Actual:\n{}", diff.actual);
+            assert_eq!(diff.expected, diff.actual, "{msg}");
         } else {
-            pretty_assertions::assert_eq!(diff.expected, diff.actual, "Actual:\n{}", diff.actual);
+            pretty_assertions::assert_eq!(diff.expected, diff.actual, "{msg}");
         }
-
-        // Actually unreachable.
-        Err(diff)
     }
 }
 
