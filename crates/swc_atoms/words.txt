@@ -2117,6 +2117,7 @@ scaleZ
 scalex
 scaley
 scalez
+scope
 script
 scroll
 scroll-behavior
