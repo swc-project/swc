@@ -81,7 +81,7 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
-    fn bump(&mut self) {
+    unsafe fn bump(&mut self) {
         if let Some((i, c)) = self.iter.next() {
             self.last_pos = self.start_pos_of_iter + BytePos((i + c.len_utf8()) as u32);
         } else {
@@ -187,7 +187,7 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
-    fn reset_to(&mut self, to: BytePos) {
+    unsafe fn reset_to(&mut self, to: BytePos) {
         let orig = self.orig;
         let idx = (to - self.orig_start).0 as usize;
 
@@ -236,6 +236,11 @@ pub trait Input: Clone {
     fn cur(&mut self) -> Option<char>;
     fn peek(&mut self) -> Option<char>;
     fn peek_ahead(&mut self) -> Option<char>;
+
+    /// # Safety
+    ///
+    /// This should be called only when `cur()` returns `Some`. i.e.
+    /// when the Input is not empty.
     unsafe fn bump(&mut self);
 
     /// Returns [None] if it's end of input **or** current character is not an
@@ -256,7 +261,7 @@ pub trait Input: Clone {
 
     fn last_pos(&self) -> BytePos;
 
-    fn slice(&mut self, start: BytePos, end: BytePos) -> &str;
+    unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &str;
 
     /// Takes items from stream, testing each one with predicate. returns the
     /// range of items which passed predicate.
@@ -294,7 +299,10 @@ pub trait Input: Clone {
     #[inline]
     fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {
-            self.bump();
+            unsafe {
+                // Safety: We are sure that the input is not empty
+                self.bump();
+            }
             true
         } else {
             false
