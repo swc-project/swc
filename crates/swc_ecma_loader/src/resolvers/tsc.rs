@@ -2,7 +2,7 @@ use std::path::{Component, PathBuf};
 
 use anyhow::{bail, Context, Error};
 use swc_common::FileName;
-use tracing::{debug, info, trace, Level};
+use tracing::{debug, info, trace, warn, Level};
 
 use crate::resolve::Resolve;
 
@@ -192,10 +192,7 @@ where
                                 return Ok(resolved);
                             }
                             Err(err) => {
-                                info!(
-                                    "Failed to resolve `{}` from `{}`: {:?}",
-                                    module_specifier, base, err
-                                );
+                                warn!("{:?}", err);
                                 err
                             }
                         });
