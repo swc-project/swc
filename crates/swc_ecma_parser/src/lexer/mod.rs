@@ -335,7 +335,10 @@ impl<'a> Lexer<'a> {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
-        self.input.bump();
+        unsafe {
+            // Safety: cur() is Some(c as char)
+            self.input.bump();
+        }
         let token = if c == b'&' { BitAnd } else { BitOr };
 
         // '|=', '&='
@@ -557,7 +560,10 @@ impl<'a> Lexer<'a> {
             }
         };
 
-        self.input.bump();
+        unsafe {
+            // Safety: cur() is Some(c) if this method is called.
+            self.input.bump();
+        }
 
         Ok(Some(vec![c.into()]))
     }
@@ -956,7 +962,10 @@ impl<'a> Lexer<'a> {
                 chars.push(c.into());
             }
             _ => {
-                self.input.reset_to(state);
+                unsafe {
+                    // Safety: state is valid position because we got it from cur_pos()
+                    self.input.reset_to(state);
+                }
 
                 chars.push(Char::from('\\'));
                 chars.push(Char::from('u'));

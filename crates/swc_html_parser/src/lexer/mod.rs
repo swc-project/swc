@@ -243,13 +243,19 @@ where
         self.cur_pos = self.input.cur_pos();
 
         if self.cur.is_some() {
-            self.input.bump();
+            unsafe {
+                // Safety: self.cur is Some()
+                self.input.bump();
+            }
         }
     }
 
     #[inline(always)]
     fn reconsume(&mut self) {
-        self.input.reset_to(self.cur_pos);
+        unsafe {
+            // Safety: self.cur_pos is valid position because we got it from self.input
+            self.input.reset_to(self.cur_pos);
+        }
     }
 
     #[inline(always)]
