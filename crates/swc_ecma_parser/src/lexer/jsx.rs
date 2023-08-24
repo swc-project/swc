@@ -235,7 +235,10 @@ impl<'a> Lexer<'a> {
             let cur_pos = self.input.cur_pos();
 
             if ch == '\\' {
-                let value = self.input.slice(chunk_start, cur_pos);
+                let value = unsafe {
+                    // Safety: We already checked for the range
+                    self.input.slice(chunk_start, cur_pos)
+                };
 
                 out.push_str(value);
                 out.push('\\');
@@ -254,7 +257,10 @@ impl<'a> Lexer<'a> {
             }
 
             if ch == '&' {
-                let value = self.input.slice(chunk_start, cur_pos);
+                let value = unsafe {
+                    // Safety: We already checked for the range
+                    self.input.slice(chunk_start, cur_pos)
+                };
 
                 out.push_str(value);
                 raw.push_str(value);
@@ -266,7 +272,10 @@ impl<'a> Lexer<'a> {
 
                 chunk_start = self.input.cur_pos();
             } else if ch.is_line_terminator() {
-                let value = self.input.slice(chunk_start, cur_pos);
+                let value = unsafe {
+                    // Safety: We already checked for the range
+                    self.input.slice(chunk_start, cur_pos)
+                };
 
                 out.push_str(value);
                 raw.push_str(value);
@@ -284,12 +293,18 @@ impl<'a> Lexer<'a> {
 
                 chunk_start = cur_pos + BytePos(ch.len_utf8() as _);
             } else {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() was Some(ch)
+                    self.input.bump();
+                }
             }
         }
 
         let cur_pos = self.input.cur_pos();
-        let value = self.input.slice(chunk_start, cur_pos);
+        let value = unsafe {
+            // Safety: We already checked for the range
+            self.input.slice(chunk_start, cur_pos)
+        };
 
         out.push_str(value);
         raw.push_str(value);
@@ -297,7 +312,10 @@ impl<'a> Lexer<'a> {
         // it might be at the end of the file when
         // the string literal is unterminated
         if self.input.peek_ahead().is_some() {
-            self.input.bump();
+            unsafe {
+                // Safety: We called peek_ahead() which means cur() was Some
+                self.input.bump();
+            }
         }
 
         raw.push(quote);
