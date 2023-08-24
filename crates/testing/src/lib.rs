@@ -34,14 +34,9 @@ mod output;
 mod paths;
 mod string_errors;
 
-pub struct TestGuard {
-    #[allow(unused)]
-    logger: tracing::subscriber::DefaultGuard,
-}
-
 /// Configures logger
 #[must_use]
-pub fn init() -> TestGuard {
+pub fn init() -> tracing::subscriber::DefaultGuard {
     let log_env = env::var("RUST_LOG").unwrap_or_else(|_| "debug".to_string());
 
     let logger = tracing_subscriber::FmtSubscriber::builder()
@@ -53,8 +48,7 @@ pub fn init() -> TestGuard {
         .pretty()
         .finish();
 
-    let logger = tracing::subscriber::set_default(logger);
-    TestGuard { logger }
+    tracing::subscriber::set_default(logger)
 }
 
 pub fn find_executable(name: &str) -> Option<PathBuf> {
