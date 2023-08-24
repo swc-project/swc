@@ -349,7 +349,10 @@ impl<'a> Lexer<'a> {
 
         // '||', '&&'
         if self.input.cur() == Some(c as char) {
-            self.input.bump();
+            unsafe {
+                // Safety: cur() is Some(c)
+                self.input.bump();
+            }
 
             if self.input.cur() == Some('=') {
                 self.input.bump();
