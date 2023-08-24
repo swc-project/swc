@@ -125,6 +125,11 @@ where
 {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
         fn to_specifier(target_path: &str, orig_ext: Option<&str>) -> JsWord {
+            debug!(
+                "Creating a specifier for {} with original extension {:?}",
+                target_path, orig_ext
+            );
+
             let mut p = PathBuf::from(target_path);
 
             if cfg!(debug_assertions) {
