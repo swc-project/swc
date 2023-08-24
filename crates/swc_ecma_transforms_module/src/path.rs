@@ -1,7 +1,6 @@
 use std::{
     borrow::Cow,
     env::current_dir,
-    ffi::OsStr,
     io,
     path::{Component, Path, PathBuf},
     sync::Arc,
@@ -184,7 +183,7 @@ where
 
         let mut target = match target {
             FileName::Real(v) => v,
-            FileName::Custom(s) => return Ok(to_specifier(&s, orig_ext)),
+            FileName::Custom(s) => return Ok(to_specifier(s.into(), orig_filename)),
             _ => {
                 unreachable!(
                     "Node path provider does not support using `{:?}` as a target file name",
@@ -230,7 +229,7 @@ where
 
         let rel_path = match rel_path {
             Some(v) => v,
-            None => return Ok(to_specifier(&target.display().to_string(), orig_ext)),
+            None => return Ok(to_specifier(target, orig_filename)),
         };
 
         debug!("Relative path: {}", rel_path.display());
@@ -262,7 +261,7 @@ where
         if cfg!(target_os = "windows") {
             Ok(to_specifier(s.replace('\\', "/").into(), orig_filename))
         } else {
-            Ok(to_specifier(s.into(), orig_filename))
+            Ok(to_specifier(s.into_owned().into(), orig_filename))
         }
     }
 }
