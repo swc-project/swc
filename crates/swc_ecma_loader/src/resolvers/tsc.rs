@@ -179,7 +179,10 @@ where
                         });
 
                         errors.push(match res {
-                            Ok(v) => return Ok(v),
+                            Ok(resolved) => {
+                                info!("Resolved `{}` as `{}` from `{}`", target, resolved, base);
+                                return Ok(resolved);
+                            }
                             Err(err) => err,
                         });
 
@@ -191,6 +194,11 @@ where
                         }
 
                         if to.len() == 1 {
+                            info!(
+                                "Using `{}` for `{}` because the length of the jsc.paths entry is \
+                                 1",
+                                replaced, target
+                            );
                             return Ok(FileName::Real(self.base_url.join(replaced)));
                         }
                     }
