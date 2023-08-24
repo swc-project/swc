@@ -1236,7 +1236,10 @@ where
                     lexer.state = State::BogusComment;
                     lexer.cur_pos = cur_pos;
                     // We don't validate input here because we reset position
-                    lexer.input.reset_to(cur_pos);
+                    unsafe {
+                        // Safety: cur_pos is in the range of input
+                        lexer.input.reset_to(cur_pos);
+                    }
                 };
 
                 // If the next few characters are:
