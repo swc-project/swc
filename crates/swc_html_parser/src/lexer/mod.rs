@@ -152,7 +152,10 @@ where
         // A leading Byte Order Mark (BOM) causes the character encoding argument to be
         // ignored and will itself be skipped.
         if lexer.input.is_at_start() && lexer.input.cur() == Some('\u{feff}') {
-            lexer.input.bump();
+            unsafe {
+                // Safety: We know that the current character is '\u{feff}'.
+                lexer.input.bump();
+            }
         }
 
         lexer
