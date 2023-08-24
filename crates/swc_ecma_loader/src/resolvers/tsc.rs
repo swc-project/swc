@@ -107,7 +107,8 @@ where
     ) -> Result<FileName, Error> {
         self.inner.resolve(base, module_specifier).with_context(|| {
             format!(
-                "failed to resolve `{module_specifier}` from `{base}`\nbase_url={}",
+                "failed to resolve `{module_specifier}` from `{base}` using inner \
+                 resolver\nbase_url={}",
                 self.base_url_filename
             )
         })
