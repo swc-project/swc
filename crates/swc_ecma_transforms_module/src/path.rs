@@ -152,7 +152,14 @@ where
         info!("Resolved to {}", target);
 
         let mut target = match target {
-            FileName::Real(v) => v,
+            FileName::Real(v) => {
+                // @nestjs/common should be preserved as a whole
+                if v.starts_with(".") || v.starts_with("..") || v.is_absolute() {
+                    v
+                } else {
+                    return Ok(to_specifier(v, orig_filename));
+                }
+            }
             FileName::Custom(s) => return Ok(to_specifier(s.into(), orig_filename)),
             _ => {
                 unreachable!(
