@@ -132,19 +132,19 @@ where
             );
 
             if let Some(orig_filename) = orig_filename {
-                if let Some(filename) = target_path.file_name() {
-                    if filename == orig_filename {
-                    } else {
-                    }
-                }
-
-                let use_orig = if let Some(ext) = target_path.extension() {
-                    ext == "ts" || ext == "tsx"
+                let is_resolved_as_index = if let Some(stem) = target_path.file_stem() {
+                    stem == "index"
                 } else {
                     false
                 };
 
-                if use_orig {
+                let is_exact = if let Some(filename) = target_path.file_name() {
+                    filename == orig_filename
+                } else {
+                    false
+                };
+
+                if !is_resolved_as_index && !is_exact {
                     target_path.set_file_name(orig_filename);
                 }
             } else {
