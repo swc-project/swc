@@ -139,7 +139,10 @@ where
     }
 
     fn reset(&mut self, state: &Self::State) {
-        self.input.reset_to(state.pos);
+        unsafe {
+            // Safety: state.pos is created from a valid position.
+            self.input.reset_to(state.pos);
+        }
     }
 
     fn take_errors(&mut self) -> Vec<Error> {
