@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Don't inline properties if the var is not `fn-local` (#7839) ([7fe01e6](https://github.com/swc-project/swc/commit/7fe01e64dd9917d375a4f1cf9661ffaca822c5b3))
 
+### Features
+
+
+
+- **(css/ast)** Support `@scope` at-rule (#7837) ([a34f359](https://github.com/swc-project/swc/commit/a34f3592b3fd2731b63a5c58c5022e12a403850b))
+
 ### Refactor
 
 
