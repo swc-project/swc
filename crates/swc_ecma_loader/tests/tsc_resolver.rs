@@ -44,7 +44,7 @@ fn exact() {
 
         assert!(
             err.source().is_none(),
-            "should not touch error if src is not related"
+            "should not touch error if src is not related: {err:?}",
         );
     }
 }
