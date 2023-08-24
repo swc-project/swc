@@ -241,6 +241,8 @@ where
             None => return Ok(to_specifier(&target.display().to_string(), orig_ext)),
         };
 
+        debug!("Relative path: {}", rel_path.display());
+
         {
             // Check for `node_modules`.
 
