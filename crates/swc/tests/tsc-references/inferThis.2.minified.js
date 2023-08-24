@@ -4,10 +4,19 @@ export var C = function() {
     function C() {
         _class_call_check(this, C);
     }
-    return C.prototype.b = function() {
+    return(/**
+     * @template T
+     * @this {T}
+     * @return {T}
+     */ C.prototype.b = function() {
         return this;
-    }, C.a = function() {
+    }, /**
+     * @template T
+     * @this {T}
+     * @return {T}
+     */ C.a = function() {
         return this;
-    }, C;
+    }, C);
 }();
 C.a(), new C().b();
+ // C

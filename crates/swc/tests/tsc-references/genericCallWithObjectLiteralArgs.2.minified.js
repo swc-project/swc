@@ -15,3 +15,4 @@ foo({
     bar: 1,
     baz: ""
 });
+ // T = Object

@@ -5,7 +5,7 @@ import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _write_only_error } from "@swc/helpers/_/_write_only_error";
 import { _ as _class_private_field_destructure } from "@swc/helpers/_/_class_private_field_destructure";
-var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(), _valueCompound = new WeakMap();
+var _value = /*#__PURE__*/ new WeakMap(), _valueRest = /*#__PURE__*/ new WeakMap(), _valueOne = /*#__PURE__*/ new WeakMap(), _valueCompound = /*#__PURE__*/ new WeakMap();
 function set_value(v) {}
 function set_valueRest(v) {}
 function set_valueOne(v) {}

@@ -1,5 +1,6 @@
 //// [exportNestedNamespaces2.ts]
 //// [mod.js]
+// Based on a pattern from adonis
 exports.formatters = {};
 //// [first.js]
 (exports = require("./mod")).formatters.j = function(v) {

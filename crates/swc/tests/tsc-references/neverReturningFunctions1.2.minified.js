@@ -28,6 +28,7 @@ registerComponent("test-component", {
     pause: function() {},
     play: function() {},
     multiply: function(f) {
+        // Reference to system because both were registered with the same name.
         return f * this.data.num * this.system.data.counter;
     }
 });

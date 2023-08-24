@@ -8,6 +8,7 @@ var _this = this, B = function() {
     }
     return B.prototype.foo = function() {}, B;
 }();
+// this override should be fine (even if it's a little odd)
 (function(B) {
     _inherits(C, B);
     var _super = _create_super(C);
@@ -25,6 +26,7 @@ var _this = this, B = function() {
 }(B).prototype.foo = function() {
     _this.n = "not checked, so no error";
 };
+// post-class prototype assignments are trying to show that these properties are abstract
 var Module = function Module() {
     _class_call_check(this, Module);
 };

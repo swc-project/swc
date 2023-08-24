@@ -28,7 +28,7 @@ define([
     }), async function() {
         class C extends (await new Promise((resolve, reject)=>require([
                 "./0"
-            ], (m)=>resolve(_interop_require_wildcard._(m)), reject))).B {
+            ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject))).B {
         }
         new C().print();
     }();

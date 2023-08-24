@@ -1,4 +1,5 @@
 //// [arrayTypeOfFunctionTypes2.ts]
+// valid uses of arrays of function types
 var x, x2, r = x[1];
 new r(), r();
 var r3 = x[1];

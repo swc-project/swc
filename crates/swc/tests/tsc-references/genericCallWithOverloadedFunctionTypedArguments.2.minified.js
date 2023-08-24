@@ -1,4 +1,6 @@
 //// [genericCallWithOverloadedFunctionTypedArguments.ts]
+// Function typed arguments with multiple signatures must be passed an implementation that matches all of them
+// Inferences are made quadratic-pairwise to and from these overload sets
 var NonGenericParameter, GenericParameter, foo4, a, foo5, foo6, foo7;
 NonGenericParameter || (NonGenericParameter = {}), (foo4 = function(cb) {
     return cb;

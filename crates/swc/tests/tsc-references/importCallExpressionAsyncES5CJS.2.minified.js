@@ -8,8 +8,8 @@ _async_to_generator._(function() {
                 return [
                     4,
                     Promise.resolve().then(function() {
-                        return _interop_require_wildcard._(require("./test"));
-                    })
+                        return /*#__PURE__*/ _interop_require_wildcard._(require("./test"));
+                    }) // FIVE
                 ];
             case 1:
                 return _state.sent(), [

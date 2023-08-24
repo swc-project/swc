@@ -14,6 +14,7 @@ var A, A1;
 };
 //// [test.ts]
 A.Point, A.Point(), A.Point.Origin;
+ // not expected to be an error.
 //// [simple.ts]
 var B, B1, Point;
 Point = function() {

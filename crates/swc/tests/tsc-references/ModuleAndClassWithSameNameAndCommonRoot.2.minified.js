@@ -10,6 +10,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 //// [simple.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (A || (A = {})).Instance = new A();
+// duplicate identifier
 var A = function A() {
     _class_call_check(this, A);
 };

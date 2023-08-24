@@ -24,3 +24,4 @@ Object.defineProperty(exports, "__esModule", {
 });
 var foo = require("./foo_0");
 foo.x, foo.y;
+ // Should resolve

@@ -1,2 +1,2 @@
 //// [file.tsx]
-A.B.C.D;
+/*#__PURE__*/ A.B.C.D;

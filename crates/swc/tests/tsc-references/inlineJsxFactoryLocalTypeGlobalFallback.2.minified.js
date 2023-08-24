@@ -3,8 +3,9 @@ export { };
 //// [renderer2.d.ts]
 export { };
 //// [component.tsx]
-import { predom } from "./renderer2";
-export default predom("h", null);
+/** @jsx predom */ import { predom } from "./renderer2";
+export default /*#__PURE__*/ predom("h", null);
 //// [index.tsx]
-import { dom } from "./renderer";
+/** @jsx dom */ import { dom } from "./renderer";
 import prerendered from "./component";
+ // Expect assignability error here

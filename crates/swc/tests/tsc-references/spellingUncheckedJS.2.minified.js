@@ -7,8 +7,15 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
 export var inModule = 1;
 inmodule.toFixed();
 var object = {};
-object.spaaaace, object.spaace = 12, object.fresh = 12, other.puuuce, new Date().getGMTDate(), setIntegral(function() {
+object.spaaaace // error on read
+, object.spaace = 12 // error on write
+, object.fresh = 12 // OK
+, other.puuuce // OK, from another file
+, new Date().getGMTDate() // OK, from another file
+, setIntegral(function() {
     return console.log("ok");
-}, 500), AudioBuffin, Jimmy, Jon;
+}, 500), AudioBuffin // etc
+, Jimmy, Jon;
 //// [other.js]
-Jon;
+Jon // error, it's from the same file
+;

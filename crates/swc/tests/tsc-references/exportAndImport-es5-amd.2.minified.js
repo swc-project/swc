@@ -34,5 +34,5 @@ define([
         get: function() {
             return f2;
         }
-    }), _m1 = _interop_require_default._(_m1);
+    }), _m1 = /*#__PURE__*/ _interop_require_default._(_m1);
 });
