@@ -512,7 +512,10 @@ where
             sub_buf.push(c);
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
 
                 sub_buf.push('\n');
             }
@@ -810,7 +813,10 @@ where
             sub_buf.push('\r');
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
 
                 sub_buf.push('\n');
             }
@@ -841,7 +847,10 @@ where
             sub_buf.push(c);
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
 
                 sub_buf.push('\n');
             }
@@ -970,7 +979,10 @@ where
             sub_buf.push(c);
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
 
                 sub_buf.push('\n');
             }
@@ -1037,8 +1049,10 @@ where
             buf.push(c);
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
-
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
                 buf.push('\n');
             }
 
@@ -3551,7 +3565,11 @@ where
                             _ => {
                                 buf.clear();
                                 self.cur_pos = cur_pos;
-                                self.input.reset_to(cur_pos);
+                                unsafe {
+                                    // Safety: We got cur_pos from self.input.cur_pos() above, so
+                                    // it's a valid position.
+                                    self.input.reset_to(cur_pos);
+                                }
                                 self.emit_error(
                                     ErrorKind::InvalidCharacterSequenceAfterDoctypeName,
                                 );
