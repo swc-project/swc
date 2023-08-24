@@ -235,11 +235,8 @@ where
         } else {
             Cow::Owned(format!("./{}", s))
         };
-        if cfg!(target_os = "windows") {
-            Ok(to_specifier(s.replace('\\', "/").into(), orig_filename))
-        } else {
-            Ok(to_specifier(s.into_owned().into(), orig_filename))
-        }
+
+        Ok(to_specifier(s.into_owned().into(), orig_filename))
     }
 }
 
@@ -319,5 +316,9 @@ fn to_specifier(mut target_path: PathBuf, orig_filename: Option<&str>) -> JsWord
         target_path.set_extension("");
     }
 
-    target_path.display().to_string().into()
+    if cfg!(target_os = "windows") {
+        target_path.display().to_string().replace('\\', "/").into()
+    } else {
+        target_path.display().to_string().into()
+    }
 }
