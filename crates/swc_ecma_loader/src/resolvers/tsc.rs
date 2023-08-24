@@ -180,11 +180,17 @@ where
 
                         errors.push(match res {
                             Ok(resolved) => {
-                                info!("Resolved `{}` as `{}` from `{}`", target, resolved, base);
+                                info!(
+                                    "Resolved `{}` as `{}` from `{}`",
+                                    module_specifier, resolved, base
+                                );
                                 return Ok(resolved);
                             }
                             Err(err) => {
-                                info!("Failed to resolve `{}` from `{}`: {:?}", target, base, err);
+                                info!(
+                                    "Failed to resolve `{}` from `{}`: {:?}",
+                                    module_specifier, base, err
+                                );
                                 err
                             }
                         });
@@ -200,7 +206,7 @@ where
                             info!(
                                 "Using `{}` for `{}` because the length of the jsc.paths entry is \
                                  1",
-                                replaced, target
+                                replaced, module_specifier
                             );
                             return Ok(FileName::Real(self.base_url.join(replaced)));
                         }
