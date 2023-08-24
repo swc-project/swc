@@ -21,6 +21,7 @@ use swc_common::{
     FilePathMapping, SourceMap,
 };
 pub use testing_macros::fixture;
+use tracing_error::{ErrorLayer, TracedError};
 use tracing_subscriber::{prelude::*, EnvFilter, Registry};
 
 pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
@@ -50,6 +51,7 @@ pub fn init() -> tracing::subscriber::DefaultGuard {
     let subscriber = Registry::default()
         .with(fmt_layer)
         .with(EnvFilter::from_str(&log_env).unwrap())
+        .with(ErrorLayer::default())
         .with(PanicStorageLayer);
 
     tracing::subscriber::set_default(subscriber)
