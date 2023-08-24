@@ -124,34 +124,34 @@ where
     R: Resolve,
 {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
-        fn to_specifier(target_path: PathBuf, orig_filename: Option<&str>) -> JsWord {
+        fn to_specifier(mut target_path: PathBuf, orig_filename: Option<&str>) -> JsWord {
             debug!(
                 "Creating a specifier for {} with original filename {:?}",
                 target_path.display(),
                 orig_filename
             );
 
-            let mut p = target_path;
-
             if let Some(orig_filename) = orig_filename {
-                let use_orig = if let Some(ext) = p.extension() {
+                if let Some(filename) = target_path.file_name() {
+                    if filename == orig_filename {
+                    } else {
+                    }
+                }
+
+                let use_orig = if let Some(ext) = target_path.extension() {
                     ext == "ts" || ext == "tsx"
                 } else {
                     false
                 };
 
                 if use_orig {
-                    if matches!(orig_ext, "js" | "mjs" | "cjs" | "jsx") {
-                        p.set_extension(orig_ext);
-                    } else {
-                        p.set_extension("");
-                    }
+                    target_path.set_file_name(orig_filename);
                 }
             } else {
-                p.set_extension("");
+                target_path.set_extension("");
             }
 
-            p.display().to_string().into()
+            target_path.display().to_string().into()
         }
 
         let _tracing = if cfg!(debug_assertions) {
