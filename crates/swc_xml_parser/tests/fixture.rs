@@ -146,7 +146,7 @@ fn document_span_visualizer(input: PathBuf, config: ParserConfig) {
     })
     .unwrap_err();
 
-    output.compare_to_file(dir.join("span.swc-stderr")).unwrap();
+    output.compare_to_file(dir.join("span.swc-stderr"));
 }
 
 fn document_dom_visualizer(input: PathBuf, config: ParserConfig) {
@@ -173,9 +173,7 @@ fn document_dom_visualizer(input: PathBuf, config: ParserConfig) {
                     indent: 0,
                 });
 
-                NormalizedOutput::from(dom_buf)
-                    .compare_to_file(dir.join("dom.txt"))
-                    .unwrap();
+                NormalizedOutput::from(dom_buf).compare_to_file(dir.join("dom.txt"));
 
                 Ok(())
             }

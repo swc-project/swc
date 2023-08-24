@@ -828,9 +828,7 @@ fn tests(input_dir: PathBuf) {
                     },
                 ) {
                     Ok(v) => {
-                        NormalizedOutput::from(v.code)
-                            .compare_to_file(output.join(rel_path))
-                            .unwrap();
+                        NormalizedOutput::from(v.code).compare_to_file(output.join(rel_path));
 
                         let _ = create_dir_all(output.join(rel_path).parent().unwrap());
 

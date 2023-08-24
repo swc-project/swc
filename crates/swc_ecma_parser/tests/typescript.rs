@@ -47,18 +47,9 @@ fn shifted(file: PathBuf) {
         let json =
             serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
 
-        if StdErr::from(json)
-            .compare_to_file(format!("{}.json", file.display()))
-            .is_err()
-        {
-            panic!()
-        }
-        if StdErr::from(format!("{:#?}", comments))
-            .compare_to_file(format!("{}.comments", file.display()))
-            .is_err()
-        {
-            panic!()
-        }
+        StdErr::from(json).compare_to_file(format!("{}.json", file.display()));
+        StdErr::from(format!("{:#?}", comments))
+            .compare_to_file(format!("{}.comments", file.display()));
 
         Ok(())
     })
@@ -172,12 +163,7 @@ fn run_spec(file: &Path, output_json: &Path) {
         let json =
             serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
 
-        if StdErr::from(json.clone())
-            .compare_to_file(output_json)
-            .is_err()
-        {
-            panic!()
-        }
+        StdErr::from(json.clone()).compare_to_file(output_json);
 
         let program = program.fold_with(&mut Normalizer {
             drop_span: true,

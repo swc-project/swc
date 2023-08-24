@@ -59,12 +59,7 @@ fn references(entry: PathBuf) {
         let module = parse_module(cm, handler, &entry)?.fold_with(&mut Normalizer);
         let json =
             serde_json::to_string_pretty(&module).expect("failed to serialize module as json");
-        if StdErr::from(json.clone())
-            .compare_to_file(format!("{}.json", entry.display()))
-            .is_err()
-        {
-            panic!()
-        }
+        StdErr::from(json.clone()).compare_to_file(format!("{}.json", entry.display()));
 
         let deser = serde_json::from_str::<Module>(&json)
             .unwrap_or_else(|err| {

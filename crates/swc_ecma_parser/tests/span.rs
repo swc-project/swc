@@ -55,7 +55,7 @@ fn span(entry: PathBuf) {
 
     let ref_file = format!("{}.swc-stderr", dir.join(&file_name).display());
 
-    content.compare_to_file(ref_file).unwrap();
+    content.compare_to_file(ref_file);
 }
 
 struct Shower<'a> {
