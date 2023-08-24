@@ -35,7 +35,7 @@ impl Optimizer<'_> {
                         && !v.used_as_arg
                         && !v.used_in_cond
                         && (!v.is_fn_local || !self.mode.should_be_very_correct())
-                        && !v.reassigned()
+                        && !v.reassigned
                         && !v.is_infected()
                 })
                 .unwrap_or(false)

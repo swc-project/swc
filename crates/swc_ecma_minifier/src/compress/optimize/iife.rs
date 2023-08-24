@@ -181,7 +181,7 @@ impl Optimizer<'_> {
                 match &mut **param {
                     Pat::Ident(param) => {
                         if let Some(usage) = self.data.vars.get(&param.to_id()) {
-                            if usage.reassigned() {
+                            if usage.reassigned {
                                 continue;
                             }
                             if usage.ref_count != 1 {
@@ -222,7 +222,7 @@ impl Optimizer<'_> {
                     Pat::Rest(rest_pat) => {
                         if let Pat::Ident(param_id) = &*rest_pat.arg {
                             if let Some(usage) = self.data.vars.get(&param_id.to_id()) {
-                                if usage.reassigned()
+                                if usage.reassigned
                                     || usage.ref_count != 1
                                     || !usage.has_property_access
                                 {
@@ -906,7 +906,7 @@ impl Optimizer<'_> {
             if let Some(arg) = arg {
                 if let Some(usage) = self.data.vars.get(&orig_params[idx].to_id()) {
                     if usage.ref_count == 1
-                        && !usage.reassigned()
+                        && !usage.reassigned
                         && !usage.has_property_mutation
                         && matches!(
                             &*arg,

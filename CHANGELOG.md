@@ -7,11 +7,20 @@
 
 - **(es/minifier)** Don't inline properties if the var is not `fn-local` (#7839) ([7fe01e6](https://github.com/swc-project/swc/commit/7fe01e64dd9917d375a4f1cf9661ffaca822c5b3))
 
+### Features
+
+
+
+- **(css/ast)** Support `@scope` at-rule (#7837) ([a34f359](https://github.com/swc-project/swc/commit/a34f3592b3fd2731b63a5c58c5022e12a403850b))
+
 ### Refactor
 
 
 
 - **(es/helpers)** Move packages for monorepo (#7833) ([1ab406c](https://github.com/swc-project/swc/commit/1ab406cd7aa19ea333a8462b0cd496ceb3e39ac1))
+
+
+- **(es/minifier)** Pre-calculate `reassigned` (#7832) ([65db1ba](https://github.com/swc-project/swc/commit/65db1badff3108983fcd59f933e9f87c55d62916))
 
 
 - **(es/types)** Extract `@swc/types` as a small, reusable package (#7834) ([f713f1b](https://github.com/swc-project/swc/commit/f713f1b2f6783ed6d85edd6decd87daa473acea0))
