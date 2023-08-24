@@ -253,7 +253,7 @@ where
                                 )
                             });
                     } else {
-                        return self.resolve(&self.base_url_filename, &to[0]);
+                        return self.resolve(&self.base_url_filename, &format!("./{}", &to[0]));
                     }
                 }
             }
