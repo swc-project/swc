@@ -126,7 +126,7 @@ where
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
         fn to_specifier(mut target_path: PathBuf, orig_filename: Option<&str>) -> JsWord {
             debug!(
-                "Creating a specifier for {} with original filename {:?}",
+                "Creating a specifier for `{}` with original filename `{:?}`",
                 target_path.display(),
                 orig_filename
             );
