@@ -14,7 +14,7 @@ use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolve;
 use swc_ecma_utils::{quote_ident, ExprFactory};
-use tracing::{debug, trace, warn, Level};
+use tracing::{debug, info, trace, warn, Level};
 
 pub(crate) enum Resolver {
     Real {
@@ -186,6 +186,10 @@ where
                 return Ok(module_specifier.into());
             }
         };
+
+        if cfg!(debug_assertions) {
+            info!("Resolved to {}", target);
+        }
 
         let mut target = match target {
             FileName::Real(v) => v,
