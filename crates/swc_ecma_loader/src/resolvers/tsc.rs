@@ -206,7 +206,7 @@ where
                                  1",
                                 replaced, module_specifier
                             );
-                            return Ok(FileName::Real(self.base_url.join(replaced)));
+                            return Ok(FileName::Real(replaced.into()));
                         }
                     }
 
