@@ -31,10 +31,10 @@ Promise.all(assignAll).then((r = e(function(r) {
                     3,
                     4
                 ];
-                return a = i[o], [
+                return(a = i[o], [
                     5,
                     n(e(a))
-                ];
+                ]);
             case 2:
                 u.label = 3;
             case 3:
