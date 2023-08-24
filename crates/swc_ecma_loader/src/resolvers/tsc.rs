@@ -180,17 +180,11 @@ where
 
                         errors.push(match res {
                             Ok(resolved) => {
-                                info!(
-                                    "Resolved `{}` as `{}` from `{}`",
-                                    module_specifier, resolved, base
-                                );
+                                info!("Resolved `{}` as `{}` from `{}`", rel, resolved, base);
                                 return Ok(resolved);
                             }
                             Err(err) => {
-                                info!(
-                                    "Failed to resolve `{}` from `{}`: {:?}",
-                                    module_specifier, base, err
-                                );
+                                info!("Failed to resolve `{}` from `{}`: {:?}", rel, base, err);
                                 err
                             }
                         });
