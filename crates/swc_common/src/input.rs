@@ -261,6 +261,10 @@ pub trait Input: Clone {
 
     fn last_pos(&self) -> BytePos;
 
+    /// # Safety
+    ///
+    /// - start should be less than or equal to end.
+    /// - start and end should be in the valid range of input.
     unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &str;
 
     /// Takes items from stream, testing each one with predicate. returns the
@@ -274,6 +278,9 @@ pub trait Input: Clone {
     where
         F: FnMut(char) -> bool;
 
+    /// # Safety
+    ///
+    /// - `to` be in the valid range of input.
     unsafe fn reset_to(&mut self, to: BytePos);
 
     /// Implementors can override the method to make it faster.
