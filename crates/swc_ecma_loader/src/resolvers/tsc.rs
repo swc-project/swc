@@ -218,7 +218,13 @@ where
                 }
                 Pattern::Exact(from) => {
                     // Should be exactly matched
-                    if module_specifier == from {
+                    if module_specifier != from {
+                        continue;
+                    }
+
+                    if self.base_url_filename == *base {
+                        // Prevent infinite loop
+
                         let replaced = self.base_url.join(&to[0]);
                         if replaced.exists() {
                             return Ok(FileName::Real(replaced));
@@ -233,6 +239,8 @@ where
                                     to[0], from
                                 )
                             });
+                    } else {
+                        return self.resolve(&self.base_url_filename, &to[0]);
                     }
                 }
             }
