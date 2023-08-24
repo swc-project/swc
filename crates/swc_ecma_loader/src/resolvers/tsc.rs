@@ -174,12 +174,11 @@ where
                         let res = self
                             .inner
                             .resolve(&self.base_url_filename, &rel)
-                            .with_context(|| {
-                                format!(
-                                    "failed to resolve `{}`, which is expanded from `{}`",
-                                    rel, module_specifier
-                                )
-                            });
+                            .or_else(|_| {
+                                self.inner
+                                    .resolve(&self.base_url_filename, module_specifier)
+                            })
+                            .with_context(|| format!("failed to resolve `{}`", module_specifier));
 
                         errors.push(match res {
                             Ok(resolved) => {
