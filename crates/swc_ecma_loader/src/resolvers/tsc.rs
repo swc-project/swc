@@ -267,7 +267,9 @@ where
                                 )
                             });
                     } else {
-                        return self.resolve(&self.base_url_filename, &format!("./{}", &to[0]));
+                        return self
+                            .resolve(&self.base_url_filename, &format!("./{}", &to[0]))
+                            .context("failed to resolve using jsc.baseUrl as base");
                     }
                 }
             }
