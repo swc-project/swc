@@ -267,7 +267,10 @@ impl<'a> Lexer<'a> {
                 Ok(tok!("??"))
             }
             _ => {
-                self.input.bump();
+                unsafe {
+                    // Safety: peek() is callable only if cur() is Some
+                    self.input.bump();
+                }
                 Ok(tok!('?'))
             }
         }
