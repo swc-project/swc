@@ -59,9 +59,7 @@ fn run_spec(file: &Path, output_json: &Path) {
         let json =
             serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
 
-        if StdErr::from(json).compare_to_file(output_json).is_err() {
-            panic!()
-        }
+        StdErr::from(json).compare_to_file(output_json);
 
         Ok(())
     })

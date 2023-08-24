@@ -53,7 +53,7 @@ fn prefix(input: PathBuf, options: Options, suffix: Option<&str>) {
             gen.emit(&ss).unwrap();
         }
 
-        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
+        NormalizedOutput::from(s).compare_to_file(&output);
 
         Ok(())
     })

@@ -32,12 +32,10 @@ fn imports(input: PathBuf) {
         }
 
         let s = serde_json::to_string_pretty(&result).unwrap();
-        NormalizedOutput::from(s)
-            .compare_to_file(input.with_file_name(format!(
-                "{}.imports.json",
-                input.file_stem().unwrap().to_string_lossy()
-            )))
-            .unwrap();
+        NormalizedOutput::from(s).compare_to_file(input.with_file_name(format!(
+            "{}.imports.json",
+            input.file_stem().unwrap().to_string_lossy()
+        )));
 
         Ok(())
     })
@@ -79,12 +77,10 @@ fn compile(input: PathBuf) {
             g.emit(&ss).unwrap();
         }
 
-        NormalizedOutput::from(buf)
-            .compare_to_file(input.with_file_name(format!(
-                "{}.compiled.css",
-                input.file_stem().unwrap().to_string_lossy()
-            )))
-            .unwrap();
+        NormalizedOutput::from(buf).compare_to_file(input.with_file_name(format!(
+            "{}.compiled.css",
+            input.file_stem().unwrap().to_string_lossy()
+        )));
 
         if !transform_result.renamed.is_empty() {
             let transformed_classes = serde_json::to_string_pretty(
@@ -116,12 +112,12 @@ fn compile(input: PathBuf) {
             )
             .unwrap();
 
-            NormalizedOutput::from(transformed_classes)
-                .compare_to_file(input.with_file_name(format!(
+            NormalizedOutput::from(transformed_classes).compare_to_file(input.with_file_name(
+                format!(
                     "{}.transform.json",
                     input.file_stem().unwrap().to_string_lossy()
-                )))
-                .unwrap();
+                ),
+            ));
         }
         Ok(())
     })

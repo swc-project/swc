@@ -127,9 +127,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
             assert_eq!(DebugUsingDisplay(&actual), DebugUsingDisplay(&expected));
         }
 
-        NormalizedOutput::from(actual_str)
-            .compare_to_file(output_json_path)
-            .unwrap();
+        NormalizedOutput::from(actual_str).compare_to_file(output_json_path);
 
         Ok(())
     })

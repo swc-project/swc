@@ -61,9 +61,7 @@ fn run(input: &Path, minify: bool) {
             emitter.emit_module(&m).unwrap();
         }
 
-        NormalizedOutput::from(String::from_utf8(buf).unwrap())
-            .compare_to_file(&output)
-            .unwrap();
+        NormalizedOutput::from(String::from_utf8(buf).unwrap()).compare_to_file(&output);
 
         Ok(())
     })

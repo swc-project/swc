@@ -40,7 +40,7 @@ fn stylesheet_test(input: PathBuf, config: ParserConfig) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize stylesheet");
 
-                actual_json.compare_to_file(&ref_json_path).unwrap();
+                actual_json.compare_to_file(&ref_json_path);
 
                 Ok(())
             }
@@ -96,7 +96,7 @@ fn stylesheet_test_tokens(input: PathBuf, config: ParserConfig) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize stylesheet");
 
-                actual_json.compare_to_file(&ref_json_path).unwrap();
+                actual_json.compare_to_file(&ref_json_path);
 
                 Ok(())
             }
@@ -146,7 +146,7 @@ fn stylesheet_recovery_test(input: PathBuf, config: ParserConfig) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize stylesheet");
 
-                actual_json.compare_to_file(&ref_json_path).unwrap();
+                actual_json.compare_to_file(&ref_json_path);
 
                 Err(())
             }
@@ -170,7 +170,7 @@ fn stylesheet_recovery_test(input: PathBuf, config: ParserConfig) {
         );
     }
 
-    stderr.compare_to_file(stderr_path).unwrap();
+    stderr.compare_to_file(stderr_path);
 }
 
 fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
@@ -225,7 +225,7 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize stylesheet");
 
-                actual_json.compare_to_file(&ref_json_path).unwrap();
+                actual_json.compare_to_file(&ref_json_path);
 
                 Err(())
             }
@@ -248,7 +248,7 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
         );
     }
 
-    stderr.compare_to_file(stderr_path).unwrap();
+    stderr.compare_to_file(stderr_path);
 }
 
 struct SpanVisualizer<'a> {
@@ -547,7 +547,7 @@ fn stylesheet_span_visualizer(input: PathBuf, config: Option<ParserConfig>) {
     })
     .unwrap_err();
 
-    output.compare_to_file(dir.join("span.swc-stderr")).unwrap();
+    output.compare_to_file(dir.join("span.swc-stderr"));
 }
 
 #[testing::fixture("tests/fixture/**/input.css")]

@@ -323,9 +323,7 @@ fn custom_fixture(input: PathBuf) {
 
         println!("{}", input.display());
 
-        NormalizedOutput::from(output)
-            .compare_to_file(dir.join("output.js"))
-            .unwrap();
+        NormalizedOutput::from(output).compare_to_file(dir.join("output.js"));
 
         Ok(())
     })
@@ -378,14 +376,12 @@ fn projects(input: PathBuf) {
             minified.len()
         );
 
-        NormalizedOutput::from(output)
-            .compare_to_file(
-                dir.parent()
-                    .unwrap()
-                    .join("output")
-                    .join(input.file_name().unwrap()),
-            )
-            .unwrap();
+        NormalizedOutput::from(output).compare_to_file(
+            dir.parent()
+                .unwrap()
+                .join("output")
+                .join(input.file_name().unwrap()),
+        );
 
         Ok(())
     })
@@ -425,9 +421,7 @@ fn projects_bench(input: PathBuf) {
 
         println!("{}", input.display());
 
-        NormalizedOutput::from(output)
-            .compare_to_file(dir.join(input.file_name().unwrap()))
-            .unwrap();
+        NormalizedOutput::from(output).compare_to_file(dir.join(input.file_name().unwrap()));
 
         Ok(())
     })
@@ -602,9 +596,7 @@ fn fixture(input: PathBuf) {
 
         if env::var("UPDATE").map(|s| s == "1").unwrap_or(false) {
             let _ = catch_unwind(|| {
-                NormalizedOutput::from(output_str.clone())
-                    .compare_to_file(dir.join("output.js"))
-                    .unwrap();
+                NormalizedOutput::from(output_str.clone()).compare_to_file(dir.join("output.js"));
             });
         }
 
@@ -1706,9 +1698,7 @@ fn full(input: PathBuf) {
 
         println!("{}", input.display());
 
-        NormalizedOutput::from(output)
-            .compare_to_file(dir.join("output.js"))
-            .unwrap();
+        NormalizedOutput::from(output).compare_to_file(dir.join("output.js"));
 
         Ok(())
     })

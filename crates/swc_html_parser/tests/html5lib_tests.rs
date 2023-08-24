@@ -814,7 +814,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize document");
 
-                actual_json.compare_to_file(&json_path).unwrap();
+                actual_json.compare_to_file(&json_path);
 
                 if file_name.contains("scripted") || file_name.contains("search") {
                     return Ok(());
@@ -828,8 +828,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 });
 
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(input.with_extension("dom.rust-debug"))
-                    .unwrap();
+                    .compare_to_file(input.with_extension("dom.rust-debug"));
 
                 Ok(())
             }
@@ -838,7 +837,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize document");
 
-                actual_json.compare_to_file(&json_path).unwrap();
+                actual_json.compare_to_file(&json_path);
 
                 if need_skip_tests {
                     return Ok(());
@@ -852,8 +851,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 });
 
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(input.with_extension("dom.rust-debug"))
-                    .unwrap();
+                    .compare_to_file(input.with_extension("dom.rust-debug"));
 
                 Ok(())
             }

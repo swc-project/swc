@@ -170,7 +170,7 @@ fn do_test(entry: &Path, minify: bool) {
         let code_output = wr.0.read().unwrap();
         let with_srcmap =
             NormalizedOutput::from(String::from_utf8_lossy(&code_output).into_owned());
-        with_srcmap.compare_to_file(ref_file).unwrap();
+        with_srcmap.compare_to_file(ref_file);
         Ok(())
     })
     .expect("failed to run test");

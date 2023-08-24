@@ -1519,7 +1519,7 @@ fn test_script(src: &str, output: &Path, options: Options) {
         emitter.emit_script(&script).unwrap();
 
         let s = String::from_utf8_lossy(&buf).to_string();
-        assert!(NormalizedOutput::new_raw(s).compare_to_file(output).is_ok());
+        NormalizedOutput::new_raw(s).compare_to_file(output);
 
         Ok(())
     })

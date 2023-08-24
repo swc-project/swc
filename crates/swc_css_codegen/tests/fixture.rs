@@ -73,9 +73,7 @@ fn run(input: &Path, minify: bool) {
 
         let fm_output = cm.load_file(&output).unwrap();
 
-        NormalizedOutput::from(css_str)
-            .compare_to_file(output)
-            .unwrap();
+        NormalizedOutput::from(css_str).compare_to_file(output);
 
         let mut errors = vec![];
         let mut stylesheet_output: Stylesheet =
@@ -369,9 +367,7 @@ fn indent_type(input: PathBuf) {
 
         let fm_output = cm.load_file(&output).unwrap();
 
-        NormalizedOutput::from(css_str)
-            .compare_to_file(output)
-            .unwrap();
+        NormalizedOutput::from(css_str).compare_to_file(output);
 
         let mut errors = vec![];
         let mut stylesheet_output: Stylesheet =
@@ -433,9 +429,7 @@ fn indent_width(input: PathBuf) {
 
         let fm_output = cm.load_file(&output).unwrap();
 
-        NormalizedOutput::from(css_str)
-            .compare_to_file(output)
-            .unwrap();
+        NormalizedOutput::from(css_str).compare_to_file(output);
 
         let mut errors = vec![];
         let mut stylesheet_output: Stylesheet =
@@ -499,9 +493,7 @@ fn linefeed_lf(input: PathBuf) {
 
         assert!(!css_str.contains("\r\n"));
 
-        NormalizedOutput::from(css_str)
-            .compare_to_file(output)
-            .unwrap();
+        NormalizedOutput::from(css_str).compare_to_file(output);
 
         let mut errors = vec![];
         let mut stylesheet_output: Stylesheet =
@@ -565,9 +557,7 @@ fn linefeed_crlf(input: PathBuf) {
 
         assert!(css_str.contains("\r\n"));
 
-        NormalizedOutput::from(css_str)
-            .compare_to_file(output)
-            .unwrap();
+        NormalizedOutput::from(css_str).compare_to_file(output);
 
         let mut errors = vec![];
         let mut stylesheet_output: Stylesheet =

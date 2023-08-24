@@ -73,9 +73,7 @@ fn test_minify_document(input: PathBuf) {
             gen.emit(&document).unwrap();
         }
 
-        NormalizedOutput::new_raw(html_str)
-            .compare_to_file(&output)
-            .unwrap();
+        NormalizedOutput::new_raw(html_str).compare_to_file(&output);
 
         Ok(())
     })
@@ -179,9 +177,7 @@ fn test_minify_document_fragment(input: PathBuf) {
             gen.emit(&document_fragment).unwrap();
         }
 
-        NormalizedOutput::new_raw(html_str)
-            .compare_to_file(&output)
-            .unwrap();
+        NormalizedOutput::new_raw(html_str).compare_to_file(&output);
 
         Ok(())
     })
@@ -237,9 +233,7 @@ fn test_minify_recovery(input: PathBuf) {
             gen.emit(&document).unwrap();
         }
 
-        NormalizedOutput::new_raw(html_str)
-            .compare_to_file(&output)
-            .unwrap();
+        NormalizedOutput::new_raw(html_str).compare_to_file(&output);
 
         Ok(())
     })

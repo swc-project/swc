@@ -43,7 +43,7 @@ fn document_recovery_test(input: PathBuf, config: ParserConfig) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize document");
 
-                actual_json.compare_to_file(json_path).unwrap();
+                actual_json.compare_to_file(json_path);
 
                 Err(())
             }
@@ -67,7 +67,7 @@ fn document_recovery_test(input: PathBuf, config: ParserConfig) {
         );
     }
 
-    stderr.compare_to_file(stderr_path).unwrap();
+    stderr.compare_to_file(stderr_path);
 }
 
 #[testing::fixture("tests/recovery/**/*.html")]

@@ -213,9 +213,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
 
             let actual_src = print(&actual);
             if env::var("UPDATE").is_ok() {
-                NormalizedOutput::from(actual_src.clone())
-                    .compare_to_file(dir.join("output.mjs"))
-                    .unwrap();
+                NormalizedOutput::from(actual_src.clone()).compare_to_file(dir.join("output.mjs"));
             }
 
             // It's normal transform test.

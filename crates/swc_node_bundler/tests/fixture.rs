@@ -130,13 +130,7 @@ fn pass(input_dir: PathBuf) {
 
                     let s = NormalizedOutput::from(code);
 
-                    match s.compare_to_file(&output_path) {
-                        Ok(_) => {}
-                        Err(err) => {
-                            println!("Diff: {:?}", err);
-                            error = true;
-                        }
-                    }
+                    s.compare_to_file(&output_path);
                 }
 
                 if error {

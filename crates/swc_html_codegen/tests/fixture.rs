@@ -66,9 +66,7 @@ fn print_document(
 
         let fm_output = cm.load_file(&output).unwrap();
 
-        NormalizedOutput::new_raw(html_str)
-            .compare_to_file(output)
-            .unwrap();
+        NormalizedOutput::new_raw(html_str).compare_to_file(output);
 
         let mut errors = vec![];
         let mut document_parsed_again =
@@ -147,9 +145,7 @@ fn print_document_fragment(
 
         let fm_output = cm.load_file(&output).unwrap();
 
-        NormalizedOutput::new_raw(html_str)
-            .compare_to_file(output)
-            .unwrap();
+        NormalizedOutput::new_raw(html_str).compare_to_file(output);
 
         let mut errors = vec![];
         let mut document_fragment_parsed_again = parse_file_as_document_fragment(

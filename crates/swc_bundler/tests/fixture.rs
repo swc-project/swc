@@ -94,13 +94,7 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
 
                 let s = NormalizedOutput::from(code.to_string());
 
-                match s.compare_to_file(&output_path) {
-                    Ok(_) => {}
-                    Err(err) => {
-                        println!("Diff: {:?}", err);
-                        error = true;
-                    }
-                }
+                s.compare_to_file(&output_path);
             }
 
             if error {

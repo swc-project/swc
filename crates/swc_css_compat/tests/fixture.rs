@@ -67,7 +67,7 @@ fn test_nesting(input: PathBuf) {
 
         let s = print_stylesheet(&ss);
 
-        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
+        NormalizedOutput::from(s).compare_to_file(&output);
 
         Ok(())
     })
@@ -88,7 +88,7 @@ fn test_custom_media_query(input: PathBuf) {
 
         let s = print_stylesheet(&ss);
 
-        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
+        NormalizedOutput::from(s).compare_to_file(&output);
 
         Ok(())
     })
@@ -109,7 +109,7 @@ fn test_media_query_ranges(input: PathBuf) {
 
         let s = print_stylesheet(&ss);
 
-        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
+        NormalizedOutput::from(s).compare_to_file(&output);
 
         Ok(())
     })
@@ -130,7 +130,7 @@ fn test_color_hex_alpha(input: PathBuf) {
 
         let s = print_stylesheet(&ss);
 
-        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
+        NormalizedOutput::from(s).compare_to_file(&output);
 
         Ok(())
     })
@@ -153,7 +153,7 @@ fn test_color_space_separated_function_notation(input: PathBuf) {
 
         let s = print_stylesheet(&ss);
 
-        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
+        NormalizedOutput::from(s).compare_to_file(&output);
 
         Ok(())
     })
@@ -174,7 +174,7 @@ fn test_selector_not(input: PathBuf) {
 
         let s = print_stylesheet(&ss);
 
-        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
+        NormalizedOutput::from(s).compare_to_file(&output);
 
         Ok(())
     })
@@ -195,7 +195,7 @@ fn test_color_hwb(input: PathBuf) {
 
         let s = print_stylesheet(&ss);
 
-        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
+        NormalizedOutput::from(s).compare_to_file(&output);
 
         Ok(())
     })

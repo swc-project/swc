@@ -64,9 +64,7 @@ fn print_document(
 
         let fm_output = cm.load_file(&output).unwrap();
 
-        NormalizedOutput::new_raw(xml_str)
-            .compare_to_file(output)
-            .unwrap();
+        NormalizedOutput::new_raw(xml_str).compare_to_file(output);
 
         let mut errors = vec![];
         let mut document_parsed_again =

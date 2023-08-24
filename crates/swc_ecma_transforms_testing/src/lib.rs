@@ -784,9 +784,7 @@ pub fn test_fixture<P>(
     });
 
     if config.allow_error {
-        stderr
-            .compare_to_file(output.with_extension("stderr"))
-            .unwrap();
+        stderr.compare_to_file(output.with_extension("stderr"));
     } else if !stderr.is_empty() {
         panic!("stderr: {}", stderr);
     }
@@ -800,9 +798,7 @@ pub fn test_fixture<P>(
         }
 
         if actual_src != expected_src {
-            NormalizedOutput::from(actual_src)
-                .compare_to_file(output)
-                .unwrap();
+            NormalizedOutput::from(actual_src).compare_to_file(output);
         }
     }
 
@@ -812,9 +808,7 @@ pub fn test_fixture<P>(
             sourcemap.to_writer(&mut buf).unwrap();
             String::from_utf8(buf).unwrap()
         };
-        NormalizedOutput::from(map)
-            .compare_to_file(output.with_extension("map"))
-            .unwrap();
+        NormalizedOutput::from(map).compare_to_file(output.with_extension("map"));
     }
 }
 

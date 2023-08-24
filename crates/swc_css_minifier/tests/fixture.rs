@@ -44,9 +44,7 @@ fn minify_fixtures(input: PathBuf) {
             gen.emit(&ss).unwrap();
         }
 
-        NormalizedOutput::from(css_str)
-            .compare_to_file(&output)
-            .unwrap();
+        NormalizedOutput::from(css_str).compare_to_file(&output);
 
         Ok(())
     })

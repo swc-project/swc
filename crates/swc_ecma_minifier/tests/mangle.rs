@@ -136,9 +136,7 @@ fn snapshot_compress_fixture(input: PathBuf) {
 
         let mangled = print(cm, &m, false);
 
-        NormalizedOutput::from(mangled)
-            .compare_to_file(output_path)
-            .unwrap();
+        NormalizedOutput::from(mangled).compare_to_file(output_path);
 
         Ok(())
     });
@@ -176,9 +174,7 @@ fn fixture(input: PathBuf) {
 
         let mangled = print(cm, &m, false);
 
-        NormalizedOutput::from(mangled)
-            .compare_to_file(input.parent().unwrap().join("output.js"))
-            .unwrap();
+        NormalizedOutput::from(mangled).compare_to_file(input.parent().unwrap().join("output.js"));
 
         Ok(())
     })
