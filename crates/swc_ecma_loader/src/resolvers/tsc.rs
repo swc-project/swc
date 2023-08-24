@@ -183,7 +183,10 @@ where
                                 info!("Resolved `{}` as `{}` from `{}`", target, resolved, base);
                                 return Ok(resolved);
                             }
-                            Err(err) => err,
+                            Err(err) => {
+                                info!("Failed to resolve `{}` from `{}`: {:?}", target, base, err);
+                                err
+                            }
                         });
 
                         if cfg!(target_os = "windows") {
