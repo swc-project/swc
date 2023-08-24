@@ -308,6 +308,12 @@ fn to_specifier(mut target_path: PathBuf, orig_filename: Option<&str>) -> JsWord
             } else {
                 target_path.set_extension("js");
             }
+        } else if is_resolved_as_ts && is_resolved_as_index {
+            if orig_filename == "index" {
+                target_path.set_extension("");
+            } else {
+                target_path.pop();
+            }
         }
     } else {
         target_path.set_extension("");
