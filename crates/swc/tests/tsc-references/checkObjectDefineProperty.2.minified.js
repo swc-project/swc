@@ -18,7 +18,7 @@ Object.defineProperty(x, "name", {
         return 21.75;
     }
 }), Object.defineProperty(x, "zipStr", {
-    set: function(str) {
+    /** @param {string} str */ set: function(str) {
         this.zip = Number(str);
     }
 }), x.name, x.zip, x.houseNumber, module.exports = x;

@@ -15,5 +15,6 @@ var C = function() {
 C.g = function() {
     return "";
 };
+// all of these are valid
 var c = new C();
 c.x, c.a, c.b, c.c(), c.d(), C.e, C.f(), C.g();

@@ -1,4 +1,5 @@
 //// [arrayLiteralInference.ts]
+// Repro from #31204
 var AppType, AppStyle;
 var AppType1;
 export { AppType1 as AppType };

@@ -1,1 +1,2 @@
 //// [asOperatorContextualType.ts]
+// should error

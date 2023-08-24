@@ -7,7 +7,11 @@ Baz || (Baz = {});
 export default class {
 }
 //// [locals.ts]
-let Reflect, Reflect1, Reflect2, Reflect3;
+let Reflect// collision (es2015-es2021 only)
+, Reflect1// collision (es2015-es2021 only)
+, Reflect2// collision (es2015-es2021 only)
+, Reflect3// collision (es2015-es2021 only)
+;
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
@@ -17,13 +21,13 @@ C._ = [
     (()=>{
         var { Reflect } = {
             Reflect: null
-        };
+        }; // collision (es2015-es2021 only)
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
         var [Reflect] = [
             null
-        ];
+        ]; // collision (es2015-es2021 only)
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     void _get(_get_prototype_of(C), "w", C).call(C),
@@ -37,12 +41,12 @@ C._ = [
 ], (()=>{
     var { Reflect } = {
         Reflect: null
-    };
+    }; // collision (es2015-es2021 only)
     _get(_get_prototype_of(C), "w", C).call(C);
 })(), (()=>{
     var [Reflect] = [
         null
-    ];
+    ]; // collision (es2015-es2021 only)
     _get(_get_prototype_of(C), "w", C).call(C);
 })(), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), Reflect2 || (Reflect2 = {}), _get(_get_prototype_of(C), "w", C).call(C), Reflect3 || (Reflect3 = {}), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C);
 //// [varInContainingScopeStaticField1.ts]
@@ -56,7 +60,7 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var { Reflect } = {
     Reflect: null
-};
+}; // collision (es2015-es2021 only)
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
@@ -65,7 +69,7 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var [Reflect] = [
     null
-];
+]; // collision (es2015-es2021 only)
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
@@ -80,7 +84,7 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var { Reflect } = {
     Reflect: null
-};
+}; // collision (es2015-es2021 only)
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
@@ -89,7 +93,7 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var [Reflect] = [
     null
-];
+]; // collision (es2015-es2021 only)
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
@@ -130,7 +134,8 @@ class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
 //// [enumInContainingScopeStaticField.ts]
-var Reflect;
+var Reflect// collision (es2015-es2021 only)
+;
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 Reflect || (Reflect = {});
@@ -138,7 +143,8 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [enumInContainingScopeStaticBlock.ts]
-var Reflect;
+var Reflect// collision (es2015-es2021 only)
+;
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 Reflect || (Reflect = {});
@@ -146,7 +152,8 @@ class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
 //// [constEnumInContainingScopeStaticField.ts]
-var Reflect;
+var Reflect// collision (es2015-es2021 only)
+;
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 Reflect || (Reflect = {});
@@ -154,7 +161,8 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [constEnumInContainingScopeStaticBlock.ts]
-var Reflect;
+var Reflect// collision (es2015-es2021 only)
+;
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 Reflect || (Reflect = {});

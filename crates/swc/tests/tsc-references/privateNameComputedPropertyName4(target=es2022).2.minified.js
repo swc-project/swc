@@ -1,4 +1,5 @@
 //// [privateNameComputedPropertyName4.ts]
+// https://github.com/microsoft/TypeScript/issues/44113
 class C1 {
     static #qux = 42;
     bar() {}

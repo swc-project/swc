@@ -7,4 +7,4 @@ export var A = function A() {
 export { };
 //// [/c.ts]
 import { ns } from "./b";
-new ns.A();
+new ns.A(); // Error

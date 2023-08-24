@@ -1,2 +1,2 @@
 //// [bug27327.js]
-module.exports = 0;
+/** @type {string} */ module.exports = 0;

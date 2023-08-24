@@ -20,7 +20,7 @@ var global, factory;
 global = this, factory = function(exports1, _async_to_generator, _interop_require_default, _a) {
     Object.defineProperty(exports1, "__esModule", {
         value: !0
-    }), _a = _interop_require_default._(_a), _async_to_generator._(function*() {
+    }), _a = /*#__PURE__*/ _interop_require_default._(_a), _async_to_generator._(function*() {
         yield _a.default;
     })();
 }, "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_async_to_generator"), require("@swc/helpers/_/_interop_require_default"), require("./a")) : "function" == typeof define && define.amd ? define([

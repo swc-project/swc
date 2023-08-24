@@ -1,5 +1,9 @@
 //// [callbackTagVariadicType.js]
-export var x = function() {
+/**
+ * @callback Foo
+ * @param {...string} args
+ * @returns {number}
+ */ /** @type {Foo} */ export var x = function() {
     return 1;
 };
 x("a", "b");

@@ -1,4 +1,5 @@
 //// [exportImportAlias.ts]
+// expect no errors here
 var A, C, X, Z, K, M, A1, C1, a, X1, Y, Z1, y, K1, L, M1, D;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (A1 = A || (A = {})).x = "hello world", A1.Point = function Point(x, y) {
