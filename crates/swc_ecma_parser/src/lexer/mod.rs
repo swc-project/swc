@@ -224,7 +224,10 @@ impl<'a> Lexer<'a> {
         let next = match self.input.peek() {
             Some(next) => next,
             None => {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some(',')
+                    self.input.bump();
+                }
                 return Ok(tok!('.'));
             }
         };
@@ -292,7 +295,10 @@ impl<'a> Lexer<'a> {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_colon(&mut self) -> LexResult<Token> {
-        self.input.bump();
+        unsafe {
+            // Safety: cur() is Some(':')
+            self.input.bump();
+        }
         Ok(tok!(':'))
     }
 
