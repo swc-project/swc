@@ -197,6 +197,20 @@ where
                     let mut errors = vec![];
                     for target in to {
                         let replaced = target.replace('*', extra);
+
+                        let _tracing = if cfg!(debug_assertions) {
+                            Some(
+                                tracing::span!(
+                                    Level::ERROR,
+                                    "TsConfigResolver::resolve jsc.paths",
+                                    replaced = tracing::field::display(&replaced),
+                                )
+                                .entered(),
+                            )
+                        } else {
+                            None
+                        };
+
                         let relative = format!("./{}", replaced);
 
                         let res = self
