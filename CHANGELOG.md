@@ -5,6 +5,9 @@
 
 
 
+- **(es)** Fix default value of `jsc.minify.format.comments` (#7853) ([64e51d3](https://github.com/swc-project/swc/commit/64e51d3a28052734d2eaf9992bc8ba578dd5630b))
+
+
 - **(es/minifier)** Don't inline properties if the var is not `fn-local` (#7839) ([7fe01e6](https://github.com/swc-project/swc/commit/7fe01e64dd9917d375a4f1cf9661ffaca822c5b3))
 
 ### Features
