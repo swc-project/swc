@@ -17,6 +17,9 @@
 
 
 
+- **(common)** Mark some methods of `Input` unsafe (#7848) ([c657324](https://github.com/swc-project/swc/commit/c65732496e4e2aab664b7443a29f5180cba6e965))
+
+
 - **(es/helpers)** Move packages for monorepo (#7833) ([1ab406c](https://github.com/swc-project/swc/commit/1ab406cd7aa19ea333a8462b0cd496ceb3e39ac1))
 
 
