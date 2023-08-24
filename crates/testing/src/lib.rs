@@ -26,6 +26,7 @@ pub use self::output::{NormalizedOutput, StdErr, StdOut, TestOutput};
 
 mod errors;
 pub mod json;
+mod panics;
 #[macro_use]
 mod macros;
 mod diag_errors;
