@@ -14,6 +14,9 @@
 - **(es/helpers)** Move packages for monorepo (#7833) ([1ab406c](https://github.com/swc-project/swc/commit/1ab406cd7aa19ea333a8462b0cd496ceb3e39ac1))
 
 
+- **(es/minifier)** Pre-calculate `reassigned` (#7832) ([65db1ba](https://github.com/swc-project/swc/commit/65db1badff3108983fcd59f933e9f87c55d62916))
+
+
 - **(es/types)** Extract `@swc/types` as a small, reusable package (#7834) ([f713f1b](https://github.com/swc-project/swc/commit/f713f1b2f6783ed6d85edd6decd87daa473acea0))
 
 ## [1.3.78] - 2023-08-17
