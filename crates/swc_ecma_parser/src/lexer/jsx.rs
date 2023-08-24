@@ -33,7 +33,10 @@ impl<'a> Lexer<'a> {
                     //
                     if cur_pos == self.state.start {
                         if cur == '<' && self.state.is_expr_allowed {
-                            self.input.bump();
+                            unsafe {
+                                // Safety: cur() was Some('<')
+                                self.input.bump();
+                            }
                             return Ok(Token::JSXTagStart).map(Some);
                         }
                         return self.read_token();
@@ -52,7 +55,10 @@ impl<'a> Lexer<'a> {
                             candidate_list: vec!["`{'>'}`", "`&gt;`"],
                         },
                     );
-                    self.input.bump()
+                    unsafe {
+                        // Safety: cur() was Some('>')
+                        self.input.bump()
+                    }
                 }
                 '}' => {
                     self.emit_error(
@@ -61,7 +67,10 @@ impl<'a> Lexer<'a> {
                             candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
                         },
                     );
-                    self.input.bump()
+                    unsafe {
+                        // Safety: cur() was Some('}')
+                        self.input.bump()
+                    }
                 }
                 '&' => {
                     out.push_str(self.input.slice(chunk_start, cur_pos));
