@@ -281,6 +281,12 @@ fn to_specifier(mut target_path: PathBuf, orig_filename: Option<&str>) -> JsWord
             false
         };
 
+        let is_resolved_as_ts = if let Some(ext) = target_path.extension() {
+            ext == "ts" || ext == "tsx"
+        } else {
+            false
+        };
+
         let is_exact = if let Some(filename) = target_path.file_name() {
             filename == orig_filename
         } else {
@@ -289,6 +295,8 @@ fn to_specifier(mut target_path: PathBuf, orig_filename: Option<&str>) -> JsWord
 
         if !is_resolved_as_index && !is_exact {
             target_path.set_file_name(orig_filename);
+        } else if is_resolved_as_ts {
+            target_path.set_extension("js");
         }
     } else {
         target_path.set_extension("");
