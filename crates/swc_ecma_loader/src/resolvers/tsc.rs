@@ -132,10 +132,6 @@ where
                 .context("not processed by tsc resolver because it's relative import");
         }
 
-        if cfg!(debug_assertions) {
-            debug!("non-relative import");
-        }
-
         if let FileName::Real(v) = base {
             if v.components().any(|c| match c {
                 Component::Normal(v) => v == "node_modules",
@@ -147,10 +143,14 @@ where
             }
         }
 
+        info!("Checking `jsc.paths`");
+
         // https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping
         for (from, to) in &self.paths {
             match from {
                 Pattern::Wildcard { prefix } => {
+                    debug!("Checking `{}` in `jsc.paths`", prefix);
+
                     let extra = module_specifier.strip_prefix(prefix);
                     let extra = match extra {
                         Some(v) => v,
@@ -163,7 +163,7 @@ where
                     };
 
                     if cfg!(debug_assertions) {
-                        trace!("extra = {}", extra);
+                        debug!("Extra: `{}`", extra);
                     }
 
                     let mut errors = vec![];
