@@ -196,7 +196,7 @@ where
 
                     let mut errors = vec![];
                     for target in to {
-                        let replaced = target.replace('*', extra);
+                        let mut replaced = target.replace('*', extra);
 
                         let _tracing = if cfg!(debug_assertions) {
                             Some(
@@ -226,6 +226,13 @@ where
                             Ok(resolved) => return Ok(resolved),
                             Err(err) => err,
                         });
+
+                        if cfg!(target_os = "windows") {
+                            if replaced.starts_with("./") {
+                                replaced = replaced[2..].to_string();
+                            }
+                            replaced = replaced.replace('/', "\\");
+                        }
 
                         if to.len() == 1 {
                             info!(
