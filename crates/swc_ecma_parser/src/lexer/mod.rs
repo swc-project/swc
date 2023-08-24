@@ -355,7 +355,10 @@ impl<'a> Lexer<'a> {
             }
 
             if self.input.cur() == Some('=') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('=')
+                    self.input.bump();
+                }
                 return Ok(AssignOp(match token {
                     BitAnd => op!("&&="),
                     BitOr => op!("||="),
@@ -389,7 +392,10 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     fn read_token_mul_mod(&mut self, c: u8) -> LexResult<Token> {
         let is_mul = c == b'*';
-        self.input.bump();
+        unsafe {
+            // Safety: cur() is Some(c)
+            self.input.bump();
+        }
         let mut token = if is_mul { BinOp(Mul) } else { BinOp(Mod) };
 
         // check for **
@@ -595,7 +601,10 @@ impl<'a> Lexer<'a> {
         let start = self.cur_pos();
         let had_line_break_before_last = self.had_line_break_before_last();
 
-        self.input.bump();
+        unsafe {
+            // Safety: cur() is Some(c) if this method is called.
+            self.input.bump();
+        }
 
         Ok(Some(if self.input.eat_byte(b'=') {
             // "=="
@@ -1065,7 +1074,10 @@ impl<'a> Lexer<'a> {
 
     /// Expects current char to be '/'
     fn read_regexp(&mut self, start: BytePos) -> LexResult<Token> {
-        self.input.reset_to(start);
+        unsafe {
+            // Safety: start is valid position, and cur() is Some('/')
+            self.input.reset_to(start);
+        }
 
         debug_assert_eq!(self.cur(), Some('/'));
 
@@ -1140,8 +1152,12 @@ impl<'a> Lexer<'a> {
         if self.input.cur() != Some('#') || self.input.peek() != Some('!') {
             return Ok(None);
         }
-        self.input.bump();
-        self.input.bump();
+        unsafe {
+            // Safety: cur() is Some('#')
+            self.input.bump();
+            // Safety: cur() is Some('!')
+            self.input.bump();
+        }
         let s = self.input.uncons_while(|c| !c.is_line_terminator());
         Ok(Some(Atom::new(s)))
     }
