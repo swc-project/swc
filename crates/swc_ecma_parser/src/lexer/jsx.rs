@@ -174,7 +174,10 @@ impl<'a> Lexer<'a> {
             s.push(c)
         }
 
-        self.input.reset_to(start_pos);
+        unsafe {
+            // Safety: start_pos is a valid position because we got it from self.input
+            self.input.reset_to(start_pos);
+        }
 
         Ok(('&', "&".to_string()))
     }

@@ -201,7 +201,10 @@ impl<'a> Lexer<'a> {
     fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.cur().is_some());
 
-        self.input.bump(); // '#'
+        unsafe {
+            // Safety: cur() is Some('#')
+            self.input.bump(); // '#'
+        }
 
         // `#` can also be a part of shebangs, however they should have been
         // handled by `read_shebang()`
