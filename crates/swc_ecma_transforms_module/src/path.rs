@@ -212,16 +212,16 @@ where
             }
         };
 
-        debug!(
-            "Comparing values\nbase={}\ntarget={}",
-            base.display(),
-            target.display()
-        );
-
         if base.is_absolute() != target.is_absolute() {
             base = Cow::Owned(absolute_path(self.base_dir.as_deref(), &base)?);
             target = absolute_path(self.base_dir.as_deref(), &target)?;
         }
+
+        debug!(
+            "Comparing values (after normalizing absoluteness)\nbase={}\ntarget={}",
+            base.display(),
+            target.display()
+        );
 
         let rel_path = diff_paths(
             &target,
