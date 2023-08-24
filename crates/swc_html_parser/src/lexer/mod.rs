@@ -4814,7 +4814,10 @@ where
     #[inline(always)]
     fn skip_whitespaces(&mut self, c: char) {
         if c == '\r' && self.input.cur() == Some('\n') {
-            self.input.bump();
+            unsafe {
+                // Safety: cur() is Some
+                self.input.bump();
+            }
         }
     }
 }

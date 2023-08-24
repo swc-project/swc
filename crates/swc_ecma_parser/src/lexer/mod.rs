@@ -232,11 +232,19 @@ impl<'a> Lexer<'a> {
             });
         }
 
-        self.input.bump(); // 1st `.`
+        unsafe {
+            // Safety: cur() is Some
+            // 1st `.`
+            self.input.bump();
+        }
 
         if next == '.' && self.input.peek() == Some('.') {
-            self.input.bump(); // 2nd `.`
-            self.input.bump(); // 3rd `.`
+            unsafe {
+                // Safety: peek() was Some
+
+                self.input.bump(); // 2nd `.`
+                self.input.bump(); // 3rd `.`
+            }
 
             return Ok(tok!("..."));
         }
