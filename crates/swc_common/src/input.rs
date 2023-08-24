@@ -46,7 +46,10 @@ impl<'a> StringInput<'a> {
 
     #[inline]
     pub fn bump_bytes(&mut self, n: usize) {
-        self.reset_to(self.last_pos + BytePos(n as u32));
+        unsafe {
+            // Safety: We only proceed, not go back.
+            self.reset_to(self.last_pos + BytePos(n as u32));
+        }
     }
 }
 
@@ -78,7 +81,7 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
-    fn bump(&mut self) {
+    unsafe fn bump(&mut self) {
         if let Some((i, c)) = self.iter.next() {
             self.last_pos = self.start_pos_of_iter + BytePos((i + c.len_utf8()) as u32);
         } else {
@@ -115,7 +118,7 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
-    fn slice(&mut self, start: BytePos, end: BytePos) -> &str {
+    unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &str {
         debug_assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
         let s = self.orig;
 
@@ -184,7 +187,7 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
-    fn reset_to(&mut self, to: BytePos) {
+    unsafe fn reset_to(&mut self, to: BytePos) {
         let orig = self.orig;
         let idx = (to - self.orig_start).0 as usize;
 
@@ -197,12 +200,12 @@ impl<'a> Input for StringInput<'a> {
 
     #[inline]
     fn is_byte(&mut self, c: u8) -> bool {
-        if self.iter.as_str().is_empty() {
-            false
-        } else {
-            // Safety: We checked that `self.iter.as_str().len() > 0`
-            unsafe { *self.iter.as_str().as_bytes().get_unchecked(0) == c }
-        }
+        self.iter
+            .as_str()
+            .as_bytes()
+            .first()
+            .map(|b| *b == c)
+            .unwrap_or(false)
     }
 
     #[inline]
@@ -233,7 +236,12 @@ pub trait Input: Clone {
     fn cur(&mut self) -> Option<char>;
     fn peek(&mut self) -> Option<char>;
     fn peek_ahead(&mut self) -> Option<char>;
-    fn bump(&mut self);
+
+    /// # Safety
+    ///
+    /// This should be called only when `cur()` returns `Some`. i.e.
+    /// when the Input is not empty.
+    unsafe fn bump(&mut self);
 
     /// Returns [None] if it's end of input **or** current character is not an
     /// ascii character.
@@ -253,7 +261,11 @@ pub trait Input: Clone {
 
     fn last_pos(&self) -> BytePos;
 
-    fn slice(&mut self, start: BytePos, end: BytePos) -> &str;
+    /// # Safety
+    ///
+    /// - start should be less than or equal to end.
+    /// - start and end should be in the valid range of input.
+    unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &str;
 
     /// Takes items from stream, testing each one with predicate. returns the
     /// range of items which passed predicate.
@@ -266,7 +278,10 @@ pub trait Input: Clone {
     where
         F: FnMut(char) -> bool;
 
-    fn reset_to(&mut self, to: BytePos);
+    /// # Safety
+    ///
+    /// - `to` be in the valid range of input.
+    unsafe fn reset_to(&mut self, to: BytePos);
 
     /// Implementors can override the method to make it faster.
     ///
@@ -291,7 +306,10 @@ pub trait Input: Clone {
     #[inline]
     fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {
-            self.bump();
+            unsafe {
+                // Safety: We are sure that the input is not empty
+                self.bump();
+            }
             true
         } else {
             false
@@ -319,13 +337,13 @@ mod tests {
     #[test]
     fn src_input_slice_1() {
         with_test_sess("foo/d", |mut i| {
-            assert_eq!(i.slice(BytePos(1), BytePos(2)), "f");
+            assert_eq!(unsafe { i.slice(BytePos(1), BytePos(2)) }, "f");
             assert_eq!(i.last_pos, BytePos(2));
             assert_eq!(i.start_pos_of_iter, BytePos(2));
             assert_eq!(i.cur(), Some('o'));
 
-            assert_eq!(i.slice(BytePos(2), BytePos(4)), "oo");
-            assert_eq!(i.slice(BytePos(1), BytePos(4)), "foo");
+            assert_eq!(unsafe { i.slice(BytePos(2), BytePos(4)) }, "oo");
+            assert_eq!(unsafe { i.slice(BytePos(1), BytePos(4)) }, "foo");
             assert_eq!(i.last_pos, BytePos(4));
             assert_eq!(i.start_pos_of_iter, BytePos(4));
             assert_eq!(i.cur(), Some('/'));
@@ -335,11 +353,11 @@ mod tests {
     #[test]
     fn src_input_reset_to_1() {
         with_test_sess("load", |mut i| {
-            assert_eq!(i.slice(BytePos(1), BytePos(3)), "lo");
+            assert_eq!(unsafe { i.slice(BytePos(1), BytePos(3)) }, "lo");
             assert_eq!(i.last_pos, BytePos(3));
             assert_eq!(i.start_pos_of_iter, BytePos(3));
             assert_eq!(i.cur(), Some('a'));
-            i.reset_to(BytePos(1));
+            unsafe { i.reset_to(BytePos(1)) };
 
             assert_eq!(i.cur(), Some('l'));
             assert_eq!(i.last_pos, BytePos(1));
@@ -360,11 +378,15 @@ mod tests {
             assert_eq!(i.start_pos_of_iter, BytePos(4));
             assert_eq!(i.cur(), Some('/'));
 
-            i.bump();
+            unsafe {
+                i.bump();
+            }
             assert_eq!(i.last_pos, BytePos(5));
             assert_eq!(i.cur(), Some('d'));
 
-            i.bump();
+            unsafe {
+                i.bump();
+            }
             assert_eq!(i.last_pos, BytePos(6));
             assert_eq!(i.cur(), None);
         });

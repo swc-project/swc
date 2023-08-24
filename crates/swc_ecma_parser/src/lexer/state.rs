@@ -286,7 +286,10 @@ impl<'a> Iterator for Lexer<'a> {
                         }
 
                         if c == '>' {
-                            self.input.bump();
+                            unsafe {
+                                // Safety: cur() is Some('>')
+                                self.input.bump();
+                            }
                             return Ok(Some(Token::JSXTagEnd));
                         }
 
@@ -301,7 +304,10 @@ impl<'a> Iterator for Lexer<'a> {
                         let had_line_break_before_last = self.had_line_break_before_last();
                         let cur_pos = self.input.cur_pos();
 
-                        self.input.bump();
+                        unsafe {
+                            // Safety: cur() is Some('<')
+                            self.input.bump();
+                        }
 
                         if had_line_break_before_last && self.is_str("<<<<<< ") {
                             let span = Span::new(cur_pos, cur_pos + BytePos(7), Default::default());

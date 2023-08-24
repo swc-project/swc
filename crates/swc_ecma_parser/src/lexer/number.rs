@@ -491,7 +491,10 @@ impl<'a> Lexer<'a> {
                 }
 
                 // Ignore this _ character
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() returns Some(c) where c is a valid char
+                    self.input.bump();
+                }
                 raw.push(c);
 
                 continue;
