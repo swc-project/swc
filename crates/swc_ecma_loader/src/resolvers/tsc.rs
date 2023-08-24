@@ -181,7 +181,9 @@ where
                                 self.inner
                                     .resolve(&self.base_url_filename, module_specifier)
                             })
-                            .with_context(|| format!("failed to resolve `{}`", module_specifier));
+                            .with_context(|| {
+                                format!("failed to resolve `{}` from `{}`", module_specifier, base)
+                            });
 
                         errors.push(match res {
                             Ok(resolved) => {
