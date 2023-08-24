@@ -169,11 +169,14 @@ where
                     let mut errors = vec![];
                     for target in to {
                         let replaced = target.replace('*', extra);
-                        let rel = format!("./{}", replaced);
 
                         let res = self
                             .inner
-                            .resolve(&self.base_url_filename, &rel)
+                            .resolve(base, module_specifier)
+                            .or_else(|_| {
+                                self.inner
+                                    .resolve(&self.base_url_filename, &format!("./{}", replaced))
+                            })
                             .or_else(|_| {
                                 self.inner
                                     .resolve(&self.base_url_filename, module_specifier)
@@ -182,11 +185,17 @@ where
 
                         errors.push(match res {
                             Ok(resolved) => {
-                                info!("Resolved `{}` as `{}` from `{}`", rel, resolved, base);
+                                info!(
+                                    "Resolved `{}` as `{}` from `{}`",
+                                    module_specifier, resolved, base
+                                );
                                 return Ok(resolved);
                             }
                             Err(err) => {
-                                info!("Failed to resolve `{}` from `{}`: {:?}", rel, base, err);
+                                info!(
+                                    "Failed to resolve `{}` from `{}`: {:?}",
+                                    module_specifier, base, err
+                                );
                                 err
                             }
                         });
