@@ -67,8 +67,6 @@ pub trait VarDataLike: Sized {
 
     fn mark_mutated(&mut self);
 
-    fn mark_reassigned(&mut self);
-
     fn mark_used_as_ref(&mut self);
 
     fn add_infects_to(&mut self, other: Access);
