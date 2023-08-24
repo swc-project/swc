@@ -259,7 +259,10 @@ where
 
     #[inline(always)]
     fn reconsume(&mut self) {
-        self.input.reset_to(self.cur_pos);
+        unsafe {
+            // Safety: We got cur_pos from self.input
+            self.input.reset_to(self.cur_pos);
+        }
     }
 
     #[inline(always)]
@@ -305,7 +308,10 @@ where
         let anything_else = |lexer: &mut Lexer<I>| {
             lexer.emit_error(ErrorKind::InvalidEntityCharacter);
             lexer.cur_pos = cur_pos;
-            lexer.input.reset_to(cur_pos);
+            unsafe {
+                // Safety: We got cur_post from self.input
+                lexer.input.reset_to(cur_pos);
+            }
         };
 
         // This section defines how to consume a character reference, optionally with an
@@ -565,7 +571,10 @@ where
                 raw.push(c);
 
                 if self.input.cur() == Some('\n') {
-                    self.input.bump();
+                    unsafe {
+                        // Safety: cur() is Some('\n')
+                        self.input.bump();
+                    }
 
                     raw.push('\n');
                 }
@@ -885,7 +894,10 @@ where
                 raw_c.push(c);
 
                 if self.input.cur() == Some('\n') {
-                    self.input.bump();
+                    unsafe {
+                        // Safety: cur() is Some('\n')
+                        self.input.bump();
+                    }
 
                     raw_c.push('\n');
                 }
@@ -949,7 +961,10 @@ where
             raw.push(c);
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
 
                 raw.push('\n');
             }
@@ -2479,7 +2494,10 @@ where
                             }
                             _ => {
                                 self.cur_pos = cur_pos;
-                                self.input.reset_to(cur_pos);
+                                unsafe {
+                                    // Safety: We got cur_pos from self.input.cur_pos()
+                                    self.input.reset_to(cur_pos);
+                                }
                                 self.emit_error(
                                     ErrorKind::InvalidCharacterSequenceAfterDoctypeName,
                                 );
@@ -3089,7 +3107,10 @@ where
     #[inline(always)]
     fn skip_next_lf(&mut self, c: char) {
         if c == '\r' && self.input.cur() == Some('\n') {
-            self.input.bump();
+            unsafe {
+                // Safety: cur() is Some('\n')
+                self.input.bump();
+            }
         }
     }
 }
