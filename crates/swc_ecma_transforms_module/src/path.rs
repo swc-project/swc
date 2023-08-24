@@ -124,36 +124,6 @@ where
     R: Resolve,
 {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
-        fn to_specifier(mut target_path: PathBuf, orig_filename: Option<&str>) -> JsWord {
-            debug!(
-                "Creating a specifier for `{}` with original filename `{:?}`",
-                target_path.display(),
-                orig_filename
-            );
-
-            if let Some(orig_filename) = orig_filename {
-                let is_resolved_as_index = if let Some(stem) = target_path.file_stem() {
-                    stem == "index"
-                } else {
-                    false
-                };
-
-                let is_exact = if let Some(filename) = target_path.file_name() {
-                    filename == orig_filename
-                } else {
-                    false
-                };
-
-                if !is_resolved_as_index && !is_exact {
-                    target_path.set_file_name(orig_filename);
-                }
-            } else {
-                target_path.set_extension("");
-            }
-
-            target_path.display().to_string().into()
-        }
-
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
@@ -295,4 +265,34 @@ fn absolute_path(base_dir: Option<&Path>, path: &Path) -> io::Result<PathBuf> {
     .clean();
 
     Ok(absolute_path)
+}
+
+fn to_specifier(mut target_path: PathBuf, orig_filename: Option<&str>) -> JsWord {
+    debug!(
+        "Creating a specifier for `{}` with original filename `{:?}`",
+        target_path.display(),
+        orig_filename
+    );
+
+    if let Some(orig_filename) = orig_filename {
+        let is_resolved_as_index = if let Some(stem) = target_path.file_stem() {
+            stem == "index"
+        } else {
+            false
+        };
+
+        let is_exact = if let Some(filename) = target_path.file_name() {
+            filename == orig_filename
+        } else {
+            false
+        };
+
+        if !is_resolved_as_index && !is_exact {
+            target_path.set_file_name(orig_filename);
+        }
+    } else {
+        target_path.set_extension("");
+    }
+
+    target_path.display().to_string().into()
 }
