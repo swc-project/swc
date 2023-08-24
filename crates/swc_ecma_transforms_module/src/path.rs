@@ -166,10 +166,6 @@ where
             None
         };
 
-        if cfg!(debug_assertions) {
-            debug!("invoking resolver");
-        }
-
         let orig_ext = module_specifier.split('/').last().and_then(|s| {
             if s.contains('.') {
                 s.split('.').last()
