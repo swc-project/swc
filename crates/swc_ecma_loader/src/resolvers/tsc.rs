@@ -1,4 +1,4 @@
-use std::path::{Component, PathBuf};
+use std::path::{Component, Path, PathBuf};
 
 use anyhow::{bail, Context, Error};
 use swc_common::FileName;
@@ -248,6 +248,11 @@ where
                     // Should be exactly matched
                     if module_specifier != from {
                         continue;
+                    }
+
+                    let tp = Path::new(&to[0]);
+                    if tp.is_absolute() {
+                        return Ok(FileName::Real(tp.into()));
                     }
 
                     if self.base_url_filename == *base {
