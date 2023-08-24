@@ -456,7 +456,6 @@ impl Resolve for NodeModulesResolver {
             } else {
                 let mut components = target_path.components();
 
-                dbg!(components.clone().next());
                 if let Some(Component::CurDir | Component::ParentDir) = components.next() {
                     #[cfg(windows)]
                     let path = {
