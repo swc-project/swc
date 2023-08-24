@@ -1,3 +1,4 @@
 export function f() {
-    return something.getFoos()?.[0];
+    const foos = something.getFoos();
+    return foos?.[0];
 }

@@ -1469,7 +1469,7 @@ impl Optimizer<'_> {
                     }
                     _ => a.may_have_side_effects(&self.expr_ctx),
                 };
-                if has_side_effect && !usgae.is_fn_local && (usgae.exported || usgae.reassigned()) {
+                if has_side_effect && !usgae.is_fn_local && (usgae.exported || usgae.reassigned) {
                     log_abort!("a (expr) has side effect");
                     return false;
                 }
@@ -1478,7 +1478,7 @@ impl Optimizer<'_> {
                 if let Some(init) = &a.init {
                     if init.may_have_side_effects(&self.expr_ctx)
                         && !usgae.is_fn_local
-                        && (usgae.exported || usgae.reassigned())
+                        && (usgae.exported || usgae.reassigned)
                     {
                         log_abort!("a (var) init has side effect");
                         return false;
@@ -2210,7 +2210,7 @@ impl Optimizer<'_> {
                             }
 
                             // We can remove this variable same as unused pass
-                            if !usage.reassigned()
+                            if !usage.reassigned
                                 && usage.usage_count == 1
                                 && usage.declared
                                 && !usage.used_recursively
@@ -2239,7 +2239,7 @@ impl Optimizer<'_> {
                         _ => false,
                     };
 
-                    if usage.ref_count != 1 || usage.reassigned() || !usage.is_fn_local {
+                    if usage.ref_count != 1 || usage.reassigned || !usage.is_fn_local {
                         if is_lit {
                             can_take_init = false
                         } else {
@@ -2271,7 +2271,7 @@ impl Optimizer<'_> {
 
             Mergable::FnDecl(a) => {
                 if let Some(usage) = self.data.vars.get(&a.ident.to_id()) {
-                    if usage.ref_count != 1 || usage.reassigned() || !usage.is_fn_local {
+                    if usage.ref_count != 1 || usage.reassigned || !usage.is_fn_local {
                         return Ok(false);
                     }
 

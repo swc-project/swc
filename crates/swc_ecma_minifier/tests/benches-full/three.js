@@ -13073,8 +13073,8 @@
             lastInactiveAction._cacheIndex = cacheIndex, actions[cacheIndex] = lastInactiveAction, actions.pop(), action._cacheIndex = null;
             var clipUuid = action._clip.uuid, actionsByClip = this._actionsByClip, actionsForClip = actionsByClip[clipUuid], knownActionsForClip = actionsForClip.knownActions, lastKnownAction = knownActionsForClip[knownActionsForClip.length - 1], byClipCacheIndex = action._byClipCacheIndex;
             lastKnownAction._byClipCacheIndex = byClipCacheIndex, knownActionsForClip[byClipCacheIndex] = lastKnownAction, knownActionsForClip.pop(), action._byClipCacheIndex = null;
-            var rootUuid = (action._localRoot || this._root).uuid;
-            delete actionsForClip.actionByRoot[rootUuid], 0 === knownActionsForClip.length && delete actionsByClip[clipUuid], this._removeInactiveBindingsForAction(action);
+            var actionByRoot = actionsForClip.actionByRoot, rootUuid = (action._localRoot || this._root).uuid;
+            delete actionByRoot[rootUuid], 0 === knownActionsForClip.length && delete actionsByClip[clipUuid], this._removeInactiveBindingsForAction(action);
         },
         _removeInactiveBindingsForAction: function(action) {
             for(var bindings = action._propertyBindings, i = 0, n = bindings.length; i !== n; ++i){

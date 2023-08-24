@@ -842,7 +842,7 @@ impl Optimizer<'_> {
                 if let Expr::Ident(callee) = &**callee {
                     if self.options.reduce_vars && self.options.side_effects {
                         if let Some(usage) = self.data.vars.get(&callee.to_id()) {
-                            if !usage.reassigned() && usage.pure_fn {
+                            if !usage.reassigned && usage.pure_fn {
                                 self.changed = true;
                                 report_change!("Reducing function call to a variable");
 

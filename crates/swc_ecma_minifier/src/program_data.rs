@@ -74,7 +74,7 @@ pub(crate) struct VarUsageInfo {
     pub(crate) usage_count: u32,
 
     /// The variable itself is assigned after reference.
-    reassigned: bool,
+    pub(crate) reassigned: bool,
     /// The variable itself or a property of it is modified.
     pub(crate) mutated: bool,
 
@@ -178,22 +178,17 @@ impl VarUsageInfo {
         !self.infects_to.is_empty()
     }
 
-    pub(crate) fn reassigned(&self) -> bool {
-        self.reassigned
-            || (u32::from(self.var_initialized)
-                + u32::from(self.declared_as_catch_param)
-                + u32::from(self.declared_as_fn_param)
-                + self.assign_count)
-                > 1
-    }
-
     pub(crate) fn can_inline_var(&self) -> bool {
-        !self.mutated || (self.assign_count == 0 && !self.reassigned())
+        !self.mutated || (self.assign_count == 0 && !self.reassigned)
     }
 
     pub(crate) fn can_inline_fn_once(&self) -> bool {
         self.callee_count > 0
             || !self.executed_multiple_time && (self.is_fn_local || !self.used_in_non_child_fn)
+    }
+
+    fn initialized(&self) -> bool {
+        self.var_initialized || self.declared_as_fn_param || self.declared_as_catch_param
     }
 }
 
@@ -254,6 +249,12 @@ impl Storage for ProgramData {
                     e.get_mut().ref_count += var_info.ref_count;
 
                     e.get_mut().reassigned |= var_info.reassigned;
+
+                    if var_info.assign_count > 0 {
+                        if e.get().initialized() {
+                            e.get_mut().reassigned = true
+                        }
+                    }
 
                     e.get_mut().mutated |= var_info.mutated;
 
@@ -354,7 +355,8 @@ impl Storage for ProgramData {
         let v = self.vars.entry(i.to_id()).or_default();
         v.is_top_level |= ctx.is_top_level;
 
-        if has_init && (v.declared || v.var_initialized) {
+        // assigned or declared before this declaration
+        if has_init && (v.declared || v.var_initialized || v.assign_count > 0) {
             #[cfg(feature = "debug")]
             {
                 tracing::trace!("declare_decl(`{}`): Already declared", i);
@@ -484,10 +486,6 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_mutated(&mut self) {
         self.mutated = true;
-    }
-
-    fn mark_reassigned(&mut self) {
-        self.reassigned = true;
     }
 
     fn mark_used_as_ref(&mut self) {
@@ -620,23 +618,29 @@ impl ProgramData {
 
         if is_modify && ctx.is_exact_reassignment {
             if is_first {
+                if e.assign_count > 0 || e.initialized() {
+                    e.reassigned = true
+                }
+
                 e.assign_count += 1;
+
+                if !ctx.is_op_assign {
+                    if e.ref_count == 1
+                        && ctx.in_assign_lhs
+                        && e.var_kind != Some(VarDeclKind::Const)
+                        && !inited
+                    {
+                        self.initialized_vars.insert(i.clone());
+                        e.assign_count -= 1;
+                        e.var_initialized = true;
+                    } else {
+                        e.reassigned = true
+                    }
+                }
             }
 
             if ctx.is_op_assign {
                 e.usage_count += 1;
-            } else if is_first {
-                if e.ref_count == 1
-                    && ctx.in_assign_lhs
-                    && e.var_kind != Some(VarDeclKind::Const)
-                    && !inited
-                {
-                    self.initialized_vars.insert(i.clone());
-                    e.assign_count -= 1;
-                    e.var_initialized = true;
-                } else {
-                    e.reassigned = true
-                }
             }
 
             for other in e.infects_to.clone() {
