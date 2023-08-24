@@ -410,7 +410,10 @@ where
             sub_buf.push(c);
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
 
                 sub_buf.push('\n');
             }
@@ -4405,10 +4408,16 @@ where
 
                 if entity.is_some() {
                     self.cur_pos = entity_cur_pos.unwrap();
-                    self.input.reset_to(entity_cur_pos.unwrap());
+                    unsafe {
+                        // Safety: We got entity_cur_pos from the input, so it's valid
+                        self.input.reset_to(entity_cur_pos.unwrap());
+                    }
                 } else {
                     self.cur_pos = initial_cur_pos;
-                    self.input.reset_to(initial_cur_pos);
+                    unsafe {
+                        // Safety: We got initial_cur_pos from the input, so it's valid
+                        self.input.reset_to(initial_cur_pos);
+                    }
                 }
 
                 let is_last_semicolon = self.temporary_buffer.ends_with(';');
