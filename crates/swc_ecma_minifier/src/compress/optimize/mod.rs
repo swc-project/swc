@@ -318,6 +318,10 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
+        if self.ctx.is_exported {
+            return false;
+        }
+
         if id.span.ctxt != self.marks.top_level_ctxt {
             return true;
         }
