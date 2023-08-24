@@ -173,13 +173,15 @@ where
                         let res = self
                             .inner
                             .resolve(base, module_specifier)
-                            .or_else(|_| {
+                            .or_else(|prev| {
                                 self.inner
                                     .resolve(&self.base_url_filename, &format!("./{}", replaced))
+                                    .with_context(|| format!("\nPrev:\n{prev:?}"))
                             })
-                            .or_else(|_| {
+                            .or_else(|prev| {
                                 self.inner
                                     .resolve(&self.base_url_filename, module_specifier)
+                                    .with_context(|| format!("\nPrev:\n{prev:?}"))
                             })
                             .with_context(|| {
                                 format!(
