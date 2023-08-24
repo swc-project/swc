@@ -169,18 +169,19 @@ where
                     let mut errors = vec![];
                     for target in to {
                         let replaced = target.replace('*', extra);
+                        let relative = format!("./{}", replaced);
 
                         let res = self
                             .inner
                             .resolve(base, module_specifier)
                             .or_else(|prev| {
                                 self.inner
-                                    .resolve(&self.base_url_filename, &format!("./{}", replaced))
+                                    .resolve(&self.base_url_filename, &relative)
                                     .with_context(|| format!("\nPrev:\n{prev:?}"))
                             })
                             .or_else(|prev| {
                                 self.inner
-                                    .resolve(&self.base_url_filename, module_specifier)
+                                    .resolve(&self.base_url_filename, &replaced)
                                     .with_context(|| format!("\nPrev:\n{prev:?}"))
                             })
                             .with_context(|| {
