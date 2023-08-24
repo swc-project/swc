@@ -41,7 +41,10 @@ impl<'a> Lexer<'a> {
                         }
                         return self.read_token();
                     }
-                    out.push_str(self.input.slice(chunk_start, cur_pos));
+                    out.push_str(unsafe {
+                        // Safety: We already checked for the range
+                        self.input.slice(chunk_start, cur_pos)
+                    });
 
                     return Ok(Token::JSXText {
                         raw: Atom::new(out),
@@ -73,7 +76,10 @@ impl<'a> Lexer<'a> {
                     }
                 }
                 '&' => {
-                    out.push_str(self.input.slice(chunk_start, cur_pos));
+                    out.push_str(unsafe {
+                        // Safety: We already checked for the range
+                        self.input.slice(chunk_start, cur_pos)
+                    });
 
                     let jsx_entity = self.read_jsx_entity()?;
 
@@ -83,14 +89,20 @@ impl<'a> Lexer<'a> {
 
                 _ => {
                     if cur.is_line_terminator() {
-                        out.push_str(self.input.slice(chunk_start, cur_pos));
+                        out.push_str(unsafe {
+                            // Safety: We already checked for the range
+                            self.input.slice(chunk_start, cur_pos)
+                        });
                         match self.read_jsx_new_line(true)? {
                             Either::Left(s) => out.push_str(s),
                             Either::Right(c) => out.push(c),
                         }
                         chunk_start = cur_pos;
                     } else {
-                        self.input.bump()
+                        unsafe {
+                            // Safety: cur() was Some(c)
+                            self.input.bump()
+                        }
                     }
                 }
             }
@@ -122,7 +134,10 @@ impl<'a> Lexer<'a> {
 
         let c = self.input.cur();
         debug_assert_eq!(c, Some('&'));
-        self.input.bump();
+        unsafe {
+            // Safety: cur() was Some('&')
+            self.input.bump();
+        }
 
         let start_pos = self.input.cur_pos();
 
