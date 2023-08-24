@@ -202,10 +202,11 @@ where
 
                         if to.len() == 1 {
                             info!(
-                                "Ignoring `{}` because the length of the jsc.paths entry is 1",
-                                module_specifier
+                                "Using `{}` for `{}` because the length of the jsc.paths entry is \
+                                 1",
+                                replaced, module_specifier
                             );
-                            return Ok(FileName::Real(module_specifier.into()));
+                            return Ok(FileName::Real(replaced.into()));
                         }
                     }
 
