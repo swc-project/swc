@@ -270,7 +270,10 @@ impl<'a> Lexer<'a> {
             }
         }
 
-        self.input.reset_to(end);
+        unsafe {
+            // Safety: We got end from self.input
+            self.input.reset_to(end);
+        }
     }
 
     /// Expects current char to be '/' and next char to be '*'.
@@ -308,7 +311,10 @@ impl<'a> Lexer<'a> {
                 }
 
                 if let Some(comments) = self.comments_buffer.as_mut() {
-                    let src = self.input.slice(slice_start, end);
+                    let src = unsafe {
+                        // Safety: We got slice_start and end from self.input so those are valid.
+                        self.input.slice(slice_start, end)
+                    };
                     let s = &src[..src.len() - 2];
                     let cmt = Comment {
                         kind: CommentKind::Block,

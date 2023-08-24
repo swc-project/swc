@@ -475,7 +475,10 @@ where
             sub_buf.push(c);
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
 
                 sub_buf.push('\n');
             }
