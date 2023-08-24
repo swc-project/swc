@@ -180,7 +180,9 @@ impl NormalizedOutput {
             ));
             return;
         } else {
-            pretty_assertions::assert_eq!(diff.expected, diff.actual, "{msg}");
+            capture_panic(|| {
+                pretty_assertions::assert_eq!(diff.expected, diff.actual, "{msg}");
+            })
         }
     }
 }
