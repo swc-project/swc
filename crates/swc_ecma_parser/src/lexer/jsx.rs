@@ -146,7 +146,10 @@ impl<'a> Lexer<'a> {
                 Some(c) => c,
                 None => break,
             };
-            self.input.bump();
+            unsafe {
+                // Safety: cur() was Some(c)
+                self.input.bump();
+            }
 
             if c == ';' {
                 if let Some(stripped) = s.strip_prefix('#') {
@@ -183,10 +186,16 @@ impl<'a> Lexer<'a> {
         debug_assert!(self.syntax.jsx());
 
         let ch = self.input.cur().unwrap();
-        self.input.bump();
+        unsafe {
+            // Safety: cur() was Some(ch)
+            self.input.bump();
+        }
 
         let out = if ch == '\r' && self.input.cur() == Some('\n') {
-            self.input.bump();
+            unsafe {
+                // Safety: cur() was Some('\n')
+                self.input.bump();
+            }
             Either::Left(if normalize_crlf { "\n" } else { "\r\n" })
         } else {
             Either::Right(ch)
@@ -205,7 +214,10 @@ impl<'a> Lexer<'a> {
 
         raw.push(quote);
 
-        self.input.bump(); // `quote`
+        unsafe {
+            // Safety: cur() was Some(quote)
+            self.input.bump(); // `quote`
+        }
 
         let mut out = String::new();
         let mut chunk_start = self.input.cur_pos();
