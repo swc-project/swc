@@ -115,7 +115,7 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
-    fn slice(&mut self, start: BytePos, end: BytePos) -> &str {
+    unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &str {
         debug_assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
         let s = self.orig;
 
@@ -233,7 +233,7 @@ pub trait Input: Clone {
     fn cur(&mut self) -> Option<char>;
     fn peek(&mut self) -> Option<char>;
     fn peek_ahead(&mut self) -> Option<char>;
-    fn bump(&mut self);
+    unsafe fn bump(&mut self);
 
     /// Returns [None] if it's end of input **or** current character is not an
     /// ascii character.
@@ -266,7 +266,7 @@ pub trait Input: Clone {
     where
         F: FnMut(char) -> bool;
 
-    fn reset_to(&mut self, to: BytePos);
+    unsafe fn reset_to(&mut self, to: BytePos);
 
     /// Implementors can override the method to make it faster.
     ///
