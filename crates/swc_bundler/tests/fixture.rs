@@ -49,8 +49,6 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
                 .map_err(|err| println!("{:?}", err))?;
             println!("Bundled as {} modules", modules.len());
 
-            let mut error = false;
-
             for bundled in modules {
                 let code = {
                     let mut buf = vec![];
@@ -95,10 +93,6 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
                 let s = NormalizedOutput::from(code.to_string());
 
                 s.compare_to_file(&output_path);
-            }
-
-            if error {
-                return Err(());
             }
 
             Ok(())
