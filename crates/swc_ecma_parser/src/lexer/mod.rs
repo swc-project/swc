@@ -251,10 +251,17 @@ impl<'a> Lexer<'a> {
     fn read_token_question_mark(&mut self) -> LexResult<Token> {
         match self.input.peek() {
             Some('?') => {
-                self.input.bump();
-                self.input.bump();
-                if self.input.cur() == Some('=') {
+                unsafe {
+                    // Safety: peek() was some
                     self.input.bump();
+                    self.input.bump();
+                }
+                if self.input.cur() == Some('=') {
+                    unsafe {
+                        // Safety: cur() was some
+                        self.input.bump();
+                    }
+
                     return Ok(tok!("??="));
                 }
                 Ok(tok!("??"))
