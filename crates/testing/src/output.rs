@@ -8,7 +8,10 @@ use std::{
 
 use tracing::debug;
 
-use crate::paths;
+use crate::{
+    panics::{capture_panic, enqueue_panic},
+    paths,
+};
 
 #[must_use]
 pub struct TestOutput<R> {
@@ -182,7 +185,7 @@ impl NormalizedOutput {
         } else {
             capture_panic(|| {
                 pretty_assertions::assert_eq!(diff.expected, diff.actual, "{msg}");
-            })
+            });
         }
     }
 }
