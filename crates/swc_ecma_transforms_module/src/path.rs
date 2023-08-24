@@ -183,9 +183,7 @@ where
             }
         };
 
-        if cfg!(debug_assertions) {
-            info!("Resolved to {}", target);
-        }
+        info!("Resolved to {}", target);
 
         let mut target = match target {
             FileName::Real(v) => v,
@@ -213,6 +211,12 @@ where
                 )
             }
         };
+
+        debug!(
+            "Comparing values\nbase={}\ntarget={}",
+            base.display(),
+            target.display()
+        );
 
         if base.is_absolute() != target.is_absolute() {
             base = Cow::Owned(absolute_path(self.base_dir.as_deref(), &base)?);
