@@ -63,7 +63,7 @@ impl<I: Tokens> Parser<I> {
                 _ => unreachable!(),
             };
             let _ = cur!(self, false);
-            let asserts = if self.input.syntax().import_assertions()
+            let asserts = if self.input.syntax().import_attributes()
                 && !self.input.had_line_break_before_cur()
                 && eat!(self, "assert")
             {
@@ -157,7 +157,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         let _ = cur!(self, false);
-        let asserts = if self.input.syntax().import_assertions()
+        let asserts = if self.input.syntax().import_attributes()
             && !self.input.had_line_break_before_cur()
             && eat!(self, "assert")
         {
@@ -810,7 +810,7 @@ impl<I: Tokens> Parser<I> {
             _ => unexpected!(self, "a string literal"),
         };
         let _ = cur!(self, false);
-        let asserts = if self.input.syntax().import_assertions()
+        let asserts = if self.input.syntax().import_attributes()
             && !self.input.had_line_break_before_cur()
             && eat!(self, "assert")
         {
