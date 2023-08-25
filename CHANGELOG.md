@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(swc-info)** Add a CLI to help issue reporting (#7871) ([d6952ea](https://github.com/swc-project/swc/commit/d6952ea687beb5b9aff1eae26076fa98ac94818b))
+
 ## [1.3.80] - 2023-08-25
 
 ### Bug Fixes
