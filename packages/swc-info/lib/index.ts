@@ -11,7 +11,7 @@ function getUniqueCpuNames(): string {
 
 console.log(`
     Operating System:
-        Platform: ${os.platform()}} 
+        Platform: ${os.platform()}
         Arch: ${os.arch()}
         Machine Type: ${os.machine()}
         Version: ${os.release()}
