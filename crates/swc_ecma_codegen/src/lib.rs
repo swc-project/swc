@@ -477,11 +477,11 @@ where
         formatting_space!();
         emit!(node.src);
 
-        if let Some(asserts) = &node.asserts {
+        if let Some(with) = &node.with {
             formatting_space!();
-            keyword!("assert");
+            keyword!("with");
             formatting_space!();
-            emit!(asserts);
+            emit!(with);
         }
 
         semi!();

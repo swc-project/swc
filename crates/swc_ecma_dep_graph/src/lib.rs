@@ -152,7 +152,7 @@ impl<'a> Visit for DependencyCollector<'a> {
         } else {
             DependencyKind::Export
         };
-        let import_assertions = parse_import_attributes(node.asserts.as_deref());
+        let import_attributes = parse_import_attributes(node.with.as_deref());
         self.items.push(DependencyDescriptor {
             kind,
             is_dynamic: false,
@@ -160,7 +160,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             span: node.span,
             specifier,
             specifier_span: node.src.span,
-            import_attributes: import_assertions,
+            import_attributes,
         });
     }
 
