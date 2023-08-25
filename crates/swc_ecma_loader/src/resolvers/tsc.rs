@@ -119,6 +119,20 @@ where
                     "Resolved `{}` as `{}` from `{}`",
                     module_specifier, resolved, base
                 );
+
+                if let FileName::Real(target) = &resolved {
+                    // If node_modules is in path, we should return module specifier.
+                    if target.components().any(|c| {
+                        if let Component::Normal(v) = c {
+                            v == "node_modules"
+                        } else {
+                            false
+                        }
+                    }) {
+                        return Ok(FileName::Real(module_specifier.into()));
+                    }
+                }
+
                 Ok(resolved)
             }
 
