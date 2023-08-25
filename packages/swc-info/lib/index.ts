@@ -23,7 +23,7 @@ function getBinaryVersion(binaryName: string): string {
 
 function getPackageVersion(packageName: string) {
     try {
-        return module.require(`${packageName}/package.json`).version;
+        return require(`${packageName}/package.json`).version;
     } catch {
         return null;
     }
@@ -40,9 +40,6 @@ function interestingPackage(name: string): string | null {
 function interestingPackages(names: string[]): string {
     return names.map(interestingPackage).filter(Boolean).join("\n        ");
 }
-
-process.env.NODE_PATH = process.cwd();
-console.log(process.cwd());
 
 console.log(`
     Operating System:
