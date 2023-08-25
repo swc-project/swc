@@ -228,9 +228,6 @@ where
                         });
 
                         if cfg!(target_os = "windows") {
-                            if replaced.starts_with("./") {
-                                replaced = replaced[2..].to_string();
-                            }
                             replaced = replaced.replace('/', "\\");
                         }
 
