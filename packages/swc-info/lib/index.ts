@@ -1,11 +1,23 @@
 import os from "node:os";
 import process from "node:process";
 
+function getUniqueCpuNames(): string {
+    return os
+        .cpus()
+        .map((cpu) => cpu.model)
+        .filter((model, index, models) => models.indexOf(model) === index)
+        .join(", ");
+}
+
 console.log(`
     Operating System:
         Platform: ${os.platform()}} 
         Arch: ${os.arch()}
-        Version: Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023; root:xnu-8796.121.3~7/RELEASE_ARM64_T6000
+        Machine Type: ${os.machine()}
+        Version: ${os.release()}
+        CPU: (${os.cpus().length} cores)
+            Models: ${getUniqueCpuNames()}
+
     Binaries:
         Node: ${process.version}
         npm: 9.5.1
