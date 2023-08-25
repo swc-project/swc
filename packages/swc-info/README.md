@@ -3,7 +3,7 @@
 ## Usage
 
 ```sh
-npx swc-info@latest
+npx -y swc-info@latest
 ```
 
 then copy the output to the issue;.

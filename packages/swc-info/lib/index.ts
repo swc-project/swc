@@ -14,7 +14,7 @@ console.log(`
         Platform: ${os.platform()}
         Arch: ${os.arch()}
         Machine Type: ${os.machine()}
-        Version: ${os.release()}
+        Version: ${os.version()}
         CPU: (${os.cpus().length} cores)
             Models: ${getUniqueCpuNames()}
 
