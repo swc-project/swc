@@ -79,7 +79,7 @@ impl VisitMut for ExportDefaultFrom {
                             specifiers: export_specifiers,
                             src: Some(src.clone()),
                             type_only: false,
-                            asserts: None,
+                            with: None,
                         },
                     )));
 

@@ -625,7 +625,7 @@ impl Swcify for ImportDeclaration {
             specifiers: self.specifiers.swcify(ctx),
             src: self.source.swcify(ctx).into(),
             type_only: false,
-            asserts: self
+            with: self
                 .with
                 .swcify(ctx)
                 .map(|props| {
@@ -779,7 +779,7 @@ impl Swcify for DeclareExportAllDeclaration {
             span: ctx.span(&self.base),
             src: self.source.swcify(ctx).into(),
             type_only: self.export_kind == Some(ExportKind::Type),
-            asserts: Default::default(),
+            with: Default::default(),
         }
     }
 }

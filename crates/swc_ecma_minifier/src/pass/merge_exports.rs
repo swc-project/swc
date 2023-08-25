@@ -48,7 +48,7 @@ impl VisitMut for Merger {
                     specifiers: self.specifiers.take(),
                     span: DUMMY_SP,
                     type_only: Default::default(),
-                    asserts: Default::default(),
+                    with: Default::default(),
                 },
             )));
         }
@@ -61,7 +61,7 @@ impl VisitMut for Merger {
                     specifiers: Default::default(),
                     span: DUMMY_SP,
                     type_only: Default::default(),
-                    asserts: Default::default(),
+                    with: Default::default(),
                 },
             )));
         }

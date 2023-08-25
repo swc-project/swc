@@ -1505,7 +1505,7 @@ impl VisitMut for Decorator202203 {
                     specifiers: self.extra_exports.take(),
                     src: None,
                     type_only: false,
-                    asserts: None,
+                    with: None,
                 },
             )));
         }

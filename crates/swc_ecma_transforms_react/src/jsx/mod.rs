@@ -1059,7 +1059,7 @@ where
                         }
                         .into(),
                         type_only: Default::default(),
-                        asserts: Default::default(),
+                        with: Default::default(),
                     })),
                 )
             });

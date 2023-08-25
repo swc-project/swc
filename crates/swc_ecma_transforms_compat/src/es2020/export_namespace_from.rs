@@ -88,7 +88,7 @@ impl VisitMut for ExportNamespaceFrom {
                             specifiers: export_specifiers,
                             src: None,
                             type_only: false,
-                            asserts: None,
+                            with: None,
                         },
                     )));
 

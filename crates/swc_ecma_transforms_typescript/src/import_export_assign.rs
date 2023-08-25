@@ -56,7 +56,7 @@ impl VisitMut for ImportExportAssign {
                     .into()],
                     src: Box::new(quote_str!("module")),
                     type_only: false,
-                    asserts: None,
+                    with: None,
                 })
                 .into(),
             );
@@ -160,7 +160,7 @@ impl VisitMut for ImportExportAssign {
                                         .into()],
                                         src: None,
                                         type_only: false,
-                                        asserts: None,
+                                        with: None,
                                     }
                                     .into(),
                                 ))

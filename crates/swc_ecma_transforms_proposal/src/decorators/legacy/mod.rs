@@ -526,7 +526,7 @@ impl VisitMut for TscDecorator {
                     specifiers: self.exports.take(),
                     src: None,
                     type_only: Default::default(),
-                    asserts: Default::default(),
+                    with: Default::default(),
                 },
             )));
         }

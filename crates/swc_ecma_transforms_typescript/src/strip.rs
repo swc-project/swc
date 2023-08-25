@@ -2205,7 +2205,7 @@ where
                         specifiers: vec![],
                         src: None,
                         type_only: false,
-                        asserts: None,
+                        with: None,
                     },
                 )))
         }
