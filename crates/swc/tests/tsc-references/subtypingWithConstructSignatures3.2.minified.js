@@ -1,4 +1,6 @@
 //// [subtypingWithConstructSignatures3.ts]
+// checking subtype relations for function types as it relates to contextual signature instantiation
+// error cases, so function calls will all result in 'any'
 var Errors, WithGenericSignaturesInBaseType, r1arg1, r2arg1, r3arg1, r4arg1, r5arg1, r6arg1, r7arg1, r7arg3, r8arg, r9arg, r2arg2, r3arg2;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";

@@ -1,5 +1,9 @@
 //// [folder/mod1.js]
-define([
+/**
+ * @typedef {{x: number}} Item
+ */ /**
+ * @type {Item};
+ */ define([
     "require"
 ], function(require) {
     module.exports = {
@@ -7,7 +11,7 @@ define([
     };
 });
 //// [index.js]
-define([
+/** @type {(typeof import("./folder/mod1"))[]} */ define([
     "require"
 ], function(require) {
     module.exports = [

@@ -1,4 +1,7 @@
 //// [parserRealSource14.ts]
+// Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
+// See LICENSE.txt in the project root for complete license information.
+///<reference path='typescript.ts' />
 var TypeScript, TypeScript1, GetAstPathOptions, lastOf, max, isValidAstNode, AstPath, AstPathContext, GetAstPathOptions1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 TypeScript1 = TypeScript || (TypeScript = {}), lastOf = function(items) {
@@ -127,6 +130,7 @@ TypeScript1 = TypeScript || (TypeScript = {}), lastOf = function(items) {
         return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.Member && this.asts[this.top - 1].operand2 === this.asts[this.top - 0];
     }, _proto.isItemOfList = function() {
         return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.List;
+    //(<Tools.ASTList>this.asts[this.top - 1]).operand2 === this.asts[this.top - 0];
     }, _proto.isThenOfIf = function() {
         return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.If && this.asts[this.top - 1].thenBod == this.asts[this.top - 0];
     }, _proto.isElseOfIf = function() {
@@ -150,7 +154,14 @@ TypeScript1 = TypeScript || (TypeScript = {}), lastOf = function(items) {
     }, AstPath;
 }(), TypeScript1.AstPath = AstPath, TypeScript1.isValidAstNode = isValidAstNode, AstPathContext = function AstPathContext() {
     _class_call_check(this, AstPathContext), this.path = new TypeScript.AstPath();
-}, TypeScript1.AstPathContext = AstPathContext, (GetAstPathOptions1 = GetAstPathOptions = TypeScript1.GetAstPathOptions || (TypeScript1.GetAstPathOptions = {}))[GetAstPathOptions1.Default = 0] = "Default", GetAstPathOptions1[GetAstPathOptions1.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions1[GetAstPathOptions1.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript1.getAstPathToPosition = function(script, pos) {
+}, TypeScript1.AstPathContext = AstPathContext, (GetAstPathOptions1 = GetAstPathOptions = TypeScript1.GetAstPathOptions || (TypeScript1.GetAstPathOptions = {}))[GetAstPathOptions1.Default = 0] = "Default", GetAstPathOptions1[GetAstPathOptions1.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions1[GetAstPathOptions1.//We need this options dealing with an AST coming from an incomplete AST. For example:
+//     class foo { // r
+// If we ask for the AST at the position after the "r" character, we won't see we are 
+// inside a comment, because the "class" AST node has a limChar corresponding to the position of 
+// the "{" character, meaning we don't traverse the tree down to the stmt list of the class, meaning
+// we don't find the "precomment" attached to the errorneous empty stmt.
+//TODO: It would be nice to be able to get rid of this.
+DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript1.getAstPathToPosition = function(script, pos) {
     var options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : GetAstPathOptions.Default, lookInComments = function(comments) {
         if (comments && comments.length > 0) for(var i = 0; i < comments.length; i++){
             var minChar = comments[i].minChar, limChar = comments[i].limChar;
@@ -159,12 +170,22 @@ TypeScript1 = TypeScript || (TypeScript = {}), lastOf = function(items) {
     }, ctx = new AstPathContext();
     return TypeScript.getAstWalkerFactory().walk(script, function(cur, parent, walker) {
         if (isValidAstNode(cur)) {
-            var inclusive = hasFlag(options, GetAstPathOptions.EdgeInclusive) || cur.nodeType === TypeScript.NodeType.Name || pos === script.limChar, minChar = cur.minChar, limChar = cur.limChar + (inclusive ? 1 : 0);
+            // Add "cur" to the stack if it contains our position
+            // For "identifier" nodes, we need a special case: A position equal to "limChar" is
+            // valid, since the position corresponds to a caret position (in between characters)
+            // For example:
+            //  bar
+            //  0123
+            // If "position == 3", the caret is at the "right" of the "r" character, which should be considered valid
+            var inclusive = hasFlag(options, GetAstPathOptions.EdgeInclusive) || cur.nodeType === TypeScript.NodeType.Name || pos === script.limChar, minChar = cur.minChar, limChar = cur.limChar + (inclusive ? 1 : 0); // Special "EOF" case
             if (pos >= minChar && pos < limChar) {
+                // TODO: Since AST is sometimes not correct wrt to position, only add "cur" if it's better
+                //       than top of the stack.
                 var previous = ctx.path.ast();
                 (null == previous || cur.minChar >= previous.minChar && cur.limChar <= previous.limChar) && ctx.path.push(cur);
             }
-            pos < limChar && lookInComments(cur.preComments), pos >= minChar && lookInComments(cur.postComments), hasFlag(options, GetAstPathOptions.DontPruneSearchBasedOnPosition) || (walker.options.goChildren = minChar <= pos && pos <= limChar);
+            pos < limChar && lookInComments(cur.preComments), pos >= minChar && lookInComments(cur.postComments), hasFlag(options, GetAstPathOptions.DontPruneSearchBasedOnPosition) || // Don't go further down the tree if pos is outside of [minChar, limChar]
+            (walker.options.goChildren = minChar <= pos && pos <= limChar);
         }
         return cur;
     }, null, null, ctx), ctx.path;

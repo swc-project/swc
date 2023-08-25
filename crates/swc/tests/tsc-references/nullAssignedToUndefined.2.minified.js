@@ -1,2 +1,3 @@
 //// [nullAssignedToUndefined.ts]
-undefined = null;
+undefined = null; // error
+ // ok, widened

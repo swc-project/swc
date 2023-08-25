@@ -24,3 +24,4 @@ var D = function(Base2) {
     _class_call_check(this, Base2);
 });
 new D(), new D(1), new D(), new D(1), new D(), new D(1);
+ // ok

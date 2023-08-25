@@ -28,3 +28,4 @@ define([
         }
     });
 });
+ // goTo has type "home" | "contact"

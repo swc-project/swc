@@ -2,6 +2,7 @@
 class StringIterator {
     next() {
         return {
+            // no done property
             value: ""
         };
     }

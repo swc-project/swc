@@ -1,1 +1,2 @@
 //// [controlFlowBinaryAndExpression.ts]
+ // string | number

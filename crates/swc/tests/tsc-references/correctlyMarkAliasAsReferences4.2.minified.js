@@ -1,6 +1,7 @@
 //// [correctlyMarkAliasAsReferences4.tsx]
 //// [declaration.d.ts]
 //// [0.tsx]
+///<reference path="declaration.d.ts" />
 let buttonProps;
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";

@@ -34,7 +34,7 @@ define([
         get: function() {
             return _0;
         }
-    }), _0 = _interop_require_wildcard._(_0), ns.a, ns.b;
+    }), _0 = /*#__PURE__*/ _interop_require_wildcard._(_0), ns.a, ns.b;
     var ns = {
         a: 1,
         b: 2
@@ -50,5 +50,5 @@ define([
 ], function(require, exports, _interop_require_wildcard, _1) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), (_1 = _interop_require_wildcard._(_1)).ns.a, _1.ns.b;
+    }), (_1 = /*#__PURE__*/ _interop_require_wildcard._(_1)).ns.a, _1.ns.b;
 });

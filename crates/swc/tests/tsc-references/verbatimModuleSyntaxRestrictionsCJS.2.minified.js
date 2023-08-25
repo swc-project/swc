@@ -28,9 +28,10 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
-Promise.resolve().then(()=>_interop_require_wildcard._(require("./decl")));
-const x = 1;
+Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./decl")));
+const x = 1; // error
 (Values || (Values = {})).x = 1;
+ // sketchy, but ok
 //// [/main2.ts]
 module.exports = {
     x: 1
@@ -41,7 +42,8 @@ var ns;
 //// [/main4.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "default", {
+}), Object.defineProperty(exports, "default" // error
+, {
     enumerable: !0,
     get: function() {
         return _default;
@@ -51,7 +53,8 @@ const _default = 1;
 //// [/main5.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "default", {
+}), Object.defineProperty(exports, "default" // error
+, {
     enumerable: !0,
     get: function() {
         return C;
@@ -63,7 +66,9 @@ class C {
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
+ // error
 //// [/main7.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
+ // error

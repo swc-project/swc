@@ -1,6 +1,6 @@
 //// [example.js]
 new ({
-    Foo: function() {
+    /** @constructor */ Foo: function() {
         this.bar = "bar";
     }
 }).Foo().bar;

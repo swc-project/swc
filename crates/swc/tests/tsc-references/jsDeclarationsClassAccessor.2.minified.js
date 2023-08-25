@@ -14,9 +14,13 @@ export class Base {
 //// [argument.js]
 import { Base } from "./base.js";
 export class Argument extends Base {
-    static parse(tokeniser) {}
+    /**
+     * @param {*} tokeniser
+     */ static parse(tokeniser) {}
     get type() {
         return "argument";
     }
-    *validate(defs) {}
+    /**
+     * @param {*} defs
+     */ *validate(defs) {}
 }

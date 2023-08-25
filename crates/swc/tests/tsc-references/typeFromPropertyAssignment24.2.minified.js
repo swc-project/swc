@@ -1,4 +1,5 @@
 //// [usage.js]
+// note that usage is first in the compilation
 var x;
 Outer.Inner.Message = function() {}, new Outer.Inner().name, x.name;
 //// [def.js]

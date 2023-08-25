@@ -1,2 +1,3 @@
 //// [index.js]
-Promise.resolve(0);
+// these are recognized as TS concepts by the checker
+/** @type {String} */ /** @type {promise} */ Promise.resolve(0);
