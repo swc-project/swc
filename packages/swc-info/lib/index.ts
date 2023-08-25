@@ -42,6 +42,7 @@ function interestingPackages(names: string[]): string {
 }
 
 process.env.NODE_PATH = process.cwd();
+console.log(process.cwd());
 
 console.log(`
     Operating System:
