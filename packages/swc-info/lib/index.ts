@@ -1,7 +1,9 @@
+import os from "os";
+
 console.log(`
     Operating System:
-        Platform: darwin
-        Arch: arm64
+        Platform: ${os.platform()}} 
+        Arch: ${os.arch()}
         Version: Darwin Kernel Version 22.5.0: Thu Jun  8 22:22:20 PDT 2023; root:xnu-8796.121.3~7/RELEASE_ARM64_T6000
     Binaries:
         Node: 18.16.0
