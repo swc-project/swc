@@ -23,7 +23,7 @@ function getBinaryVersion(binaryName: string): string {
 
 function getPackageVersion(packageName: string) {
     try {
-        return require(`${packageName}/package.json`).version;
+        return module.require(`${packageName}/package.json`).version;
     } catch {
         return null;
     }
