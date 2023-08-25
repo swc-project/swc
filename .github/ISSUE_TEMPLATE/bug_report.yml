@@ -30,7 +30,7 @@ body:
     attributes:
       label: Playground link
       description: You can use [swc playground](https://play.swc.rs/) to create a reproduction link, then paste the link here.
-  - type: input
+  - type: textarea
     id: swc-info
     attributes:
       label: SWC Info output
