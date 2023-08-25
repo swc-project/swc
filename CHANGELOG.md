@@ -16,6 +16,12 @@
 
 - **(css/ast)** Support `@scope` at-rule (#7837) ([a34f359](https://github.com/swc-project/swc/commit/a34f3592b3fd2731b63a5c58c5022e12a403850b))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI (#7857) ([854e2e7](https://github.com/swc-project/swc/commit/854e2e78b38699fd09c65074a38a21d1d9836002))
+
 ### Refactor
 
 
