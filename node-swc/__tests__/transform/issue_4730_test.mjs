@@ -37,7 +37,7 @@ it("should work", async () => {
         Object.defineProperty(exports, \\"__esModule\\", {
             value: true
         });
-        const _interop_require_wildcard = require(\\"node_modules/@swc/helpers/esm/_interop_require_wildcard\\");
+        const _interop_require_wildcard = require(\\"@swc/helpers/_/_interop_require_wildcard\\");
         const _b = require(\\"../packages/b/src\\");
         async function display() {
             const displayA = await Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require(\\"../packages/a/src\\"))).then((c)=>c.displayA);
