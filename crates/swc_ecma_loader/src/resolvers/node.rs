@@ -394,7 +394,7 @@ impl NodeModulesResolver {
 impl Resolve for NodeModulesResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
         debug!(
-            "Resolve {} from {:#?} for {:#?}",
+            "Resolving {} from {:#?} for {:#?}",
             target, base, self.target_env
         );
 

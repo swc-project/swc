@@ -1,8 +1,8 @@
-use std::path::{Component, PathBuf};
+use std::path::{Component, Path, PathBuf};
 
 use anyhow::{bail, Context, Error};
 use swc_common::FileName;
-use tracing::{debug, info, trace, Level};
+use tracing::{debug, info, trace, warn, Level};
 
 use crate::resolve::Resolve;
 
@@ -99,6 +99,35 @@ where
             paths,
         }
     }
+
+    fn invoke_inner_resolver(
+        &self,
+        base: &FileName,
+        module_specifier: &str,
+    ) -> Result<FileName, Error> {
+        let res = self.inner.resolve(base, module_specifier).with_context(|| {
+            format!(
+                "failed to resolve `{module_specifier}` from `{base}` using inner \
+                 resolver\nbase_url={}",
+                self.base_url_filename
+            )
+        });
+
+        match res {
+            Ok(resolved) => {
+                info!(
+                    "Resolved `{}` as `{}` from `{}`",
+                    module_specifier, resolved, base
+                );
+                Ok(resolved)
+            }
+
+            Err(err) => {
+                warn!("{:?}", err);
+                Err(err)
+            }
+        }
+    }
 }
 
 impl<R> Resolve for TsConfigResolver<R>
@@ -110,7 +139,7 @@ where
             Some(
                 tracing::span!(
                     Level::ERROR,
-                    "tsc.resolve",
+                    "TsConfigResolver::resolve",
                     base_url = tracing::field::display(self.base_url.display()),
                     base = tracing::field::display(base),
                     src = tracing::field::display(module_specifier),
@@ -127,13 +156,8 @@ where
                 || module_specifier.starts_with("../"))
         {
             return self
-                .inner
-                .resolve(base, module_specifier)
+                .invoke_inner_resolver(base, module_specifier)
                 .context("not processed by tsc resolver because it's relative import");
-        }
-
-        if cfg!(debug_assertions) {
-            debug!("non-relative import");
         }
 
         if let FileName::Real(v) = base {
@@ -141,16 +165,20 @@ where
                 Component::Normal(v) => v == "node_modules",
                 _ => false,
             }) {
-                return self.inner.resolve(base, module_specifier).context(
+                return self.invoke_inner_resolver(base, module_specifier).context(
                     "not processed by tsc resolver because base module is in node_modules",
                 );
             }
         }
 
+        info!("Checking `jsc.paths`");
+
         // https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping
         for (from, to) in &self.paths {
             match from {
                 Pattern::Wildcard { prefix } => {
+                    debug!("Checking `{}` in `jsc.paths`", prefix);
+
                     let extra = module_specifier.strip_prefix(prefix);
                     let extra = match extra {
                         Some(v) => v,
@@ -163,35 +191,53 @@ where
                     };
 
                     if cfg!(debug_assertions) {
-                        trace!("extra = {}", extra);
+                        debug!("Extra: `{}`", extra);
                     }
 
                     let mut errors = vec![];
                     for target in to {
                         let mut replaced = target.replace('*', extra);
-                        let rel = format!("./{}", replaced);
 
-                        let res = self.inner.resolve(base, &rel).with_context(|| {
-                            format!(
-                                "failed to resolve `{}`, which is expanded from `{}`",
-                                replaced, module_specifier
+                        let _tracing = if cfg!(debug_assertions) {
+                            Some(
+                                tracing::span!(
+                                    Level::ERROR,
+                                    "TsConfigResolver::resolve::jsc.paths",
+                                    replaced = tracing::field::display(&replaced),
+                                )
+                                .entered(),
                             )
-                        });
+                        } else {
+                            None
+                        };
+
+                        let relative = format!("./{}", replaced);
+
+                        let res = self
+                            .invoke_inner_resolver(base, module_specifier)
+                            .or_else(|_| {
+                                self.invoke_inner_resolver(&self.base_url_filename, &relative)
+                            })
+                            .or_else(|_| {
+                                self.invoke_inner_resolver(&self.base_url_filename, &replaced)
+                            });
 
                         errors.push(match res {
-                            Ok(v) => return Ok(v),
+                            Ok(resolved) => return Ok(resolved),
                             Err(err) => err,
                         });
 
                         if cfg!(target_os = "windows") {
-                            if replaced.starts_with("./") {
-                                replaced = replaced[2..].to_string();
-                            }
                             replaced = replaced.replace('/', "\\");
                         }
 
                         if to.len() == 1 {
-                            return Ok(FileName::Real(self.base_url.join(replaced)));
+                            info!(
+                                "Using `{}` for `{}` because the length of the jsc.paths entry is \
+                                 1",
+                                replaced, module_specifier
+                            );
+                            return Ok(FileName::Real(replaced.into()));
                         }
                     }
 
@@ -204,33 +250,44 @@ where
                 }
                 Pattern::Exact(from) => {
                     // Should be exactly matched
-                    if module_specifier == from {
+                    if module_specifier != from {
+                        continue;
+                    }
+
+                    let tp = Path::new(&to[0]);
+                    if tp.is_absolute() {
+                        return Ok(FileName::Real(tp.into()));
+                    }
+
+                    if self.base_url_filename == *base {
+                        // Prevent infinite loop
+
                         let replaced = self.base_url.join(&to[0]);
                         if replaced.exists() {
                             return Ok(FileName::Real(replaced));
                         }
 
                         return self
-                            .inner
-                            .resolve(base, &format!("./{}", &to[0]))
+                            .invoke_inner_resolver(base, &format!("./{}", &to[0]))
                             .with_context(|| {
                                 format!(
                                     "tried to resolve `{}` because `{}` was exactly matched",
                                     to[0], from
                                 )
                             });
+                    } else {
+                        return self
+                            .resolve(&self.base_url_filename, &format!("./{}", &to[0]))
+                            .context("failed to resolve using jsc.baseUrl as base");
                     }
                 }
             }
         }
 
-        if let Ok(v) = self
-            .inner
-            .resolve(&self.base_url_filename, module_specifier)
-        {
+        if let Ok(v) = self.invoke_inner_resolver(&self.base_url_filename, module_specifier) {
             return Ok(v);
         }
 
-        self.inner.resolve(base, module_specifier)
+        self.invoke_inner_resolver(base, module_specifier)
     }
 }

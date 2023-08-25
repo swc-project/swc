@@ -14,7 +14,7 @@ use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolve;
 use swc_ecma_utils::{quote_ident, ExprFactory};
-use tracing::{debug, trace, warn, Level};
+use tracing::{debug, info, warn, Level};
 
 pub(crate) enum Resolver {
     Real {
@@ -124,34 +124,6 @@ where
     R: Resolve,
 {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
-        fn to_specifier(target_path: &str, orig_ext: Option<&str>) -> JsWord {
-            let mut p = PathBuf::from(target_path);
-
-            if cfg!(debug_assertions) {
-                trace!("to_specifier({target_path}): orig_ext={:?}", orig_ext);
-            }
-
-            if let Some(orig_ext) = orig_ext {
-                let use_orig = if let Some(ext) = p.extension() {
-                    ext == "ts" || ext == "tsx"
-                } else {
-                    false
-                };
-
-                if use_orig {
-                    if matches!(orig_ext, "js" | "mjs" | "cjs" | "jsx") {
-                        p.set_extension(orig_ext);
-                    } else {
-                        p.set_extension("");
-                    }
-                }
-            } else {
-                p.set_extension("");
-            }
-
-            p.display().to_string().into()
-        }
-
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
@@ -166,17 +138,7 @@ where
             None
         };
 
-        if cfg!(debug_assertions) {
-            debug!("invoking resolver");
-        }
-
-        let orig_ext = module_specifier.split('/').last().and_then(|s| {
-            if s.contains('.') {
-                s.split('.').last()
-            } else {
-                None
-            }
-        });
+        let orig_filename = module_specifier.split('/').last();
 
         let target = self.resolver.resolve(base, module_specifier);
         let target = match target {
@@ -187,9 +149,18 @@ where
             }
         };
 
+        info!("Resolved to {}", target);
+
         let mut target = match target {
-            FileName::Real(v) => v,
-            FileName::Custom(s) => return Ok(to_specifier(&s, orig_ext)),
+            FileName::Real(v) => {
+                // @nestjs/common should be preserved as a whole
+                if v.starts_with(".") || v.starts_with("..") || v.is_absolute() {
+                    v
+                } else {
+                    return Ok(to_specifier(v, orig_filename));
+                }
+            }
+            FileName::Custom(s) => return Ok(to_specifier(s.into(), orig_filename)),
             _ => {
                 unreachable!(
                     "Node path provider does not support using `{:?}` as a target file name",
@@ -219,6 +190,12 @@ where
             target = absolute_path(self.base_dir.as_deref(), &target)?;
         }
 
+        debug!(
+            "Comparing values (after normalizing absoluteness)\nbase={}\ntarget={}",
+            base.display(),
+            target.display()
+        );
+
         let rel_path = diff_paths(
             &target,
             match base.parent() {
@@ -229,8 +206,10 @@ where
 
         let rel_path = match rel_path {
             Some(v) => v,
-            None => return Ok(to_specifier(&target.display().to_string(), orig_ext)),
+            None => return Ok(to_specifier(target, orig_filename)),
         };
+
+        debug!("Relative path: {}", rel_path.display());
 
         {
             // Check for `node_modules`.
@@ -256,11 +235,8 @@ where
         } else {
             Cow::Owned(format!("./{}", s))
         };
-        if cfg!(target_os = "windows") {
-            Ok(to_specifier(&s.replace('\\', "/"), orig_ext))
-        } else {
-            Ok(to_specifier(&s, orig_ext))
-        }
+
+        Ok(to_specifier(s.into_owned().into(), orig_filename))
     }
 }
 
@@ -293,4 +269,56 @@ fn absolute_path(base_dir: Option<&Path>, path: &Path) -> io::Result<PathBuf> {
     .clean();
 
     Ok(absolute_path)
+}
+
+fn to_specifier(mut target_path: PathBuf, orig_filename: Option<&str>) -> JsWord {
+    debug!(
+        "Creating a specifier for `{}` with original filename `{:?}`",
+        target_path.display(),
+        orig_filename
+    );
+
+    if let Some(orig_filename) = orig_filename {
+        let is_resolved_as_index = if let Some(stem) = target_path.file_stem() {
+            stem == "index"
+        } else {
+            false
+        };
+
+        let is_resolved_as_ts = if let Some(ext) = target_path.extension() {
+            ext == "ts" || ext == "tsx"
+        } else {
+            false
+        };
+
+        let is_exact = if let Some(filename) = target_path.file_name() {
+            filename == orig_filename
+        } else {
+            false
+        };
+
+        if !is_resolved_as_index && !is_exact {
+            target_path.set_file_name(orig_filename);
+        } else if is_resolved_as_ts && is_exact {
+            if let Some(ext) = Path::new(orig_filename).extension() {
+                target_path.set_extension(ext);
+            } else {
+                target_path.set_extension("js");
+            }
+        } else if is_resolved_as_ts && is_resolved_as_index {
+            if orig_filename == "index" {
+                target_path.set_extension("");
+            } else {
+                target_path.pop();
+            }
+        }
+    } else {
+        target_path.set_extension("");
+    }
+
+    if cfg!(target_os = "windows") {
+        target_path.display().to_string().replace('\\', "/").into()
+    } else {
+        target_path.display().to_string().into()
+    }
 }
