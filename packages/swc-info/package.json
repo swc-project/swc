@@ -27,5 +27,8 @@
     "bugs": {
         "url": "https://github.com/swc-project/swc/issues"
     },
-    "homepage": "https://swc.rs"
+    "homepage": "https://swc.rs",
+    "devDependencies": {
+        "typescript": "^5.2.2"
+    }
 }
