@@ -7,6 +7,9 @@
 
 - **(es/module)** Fix logic for exact matches in `jsc.paths` (#7860) ([52a1ee7](https://github.com/swc-project/swc/commit/52a1ee78da87da760f9923cd8cdb420da855417f))
 
+
+- **(es/module)** Don't resolve as `node_modules` from `TscResolver` (#7866) ([11ebae1](https://github.com/swc-project/swc/commit/11ebae1bdd2fbd05d908fa560b81b830dddb3c56))
+
 ### Miscellaneous Tasks
 - **general**: Remove unused files ([e47f1c2](https://github.com/swc-project/swc/commit/e47f1c2bf7e1dc9fedf5a364884a40a5e7735973))
 
