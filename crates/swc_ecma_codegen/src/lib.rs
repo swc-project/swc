@@ -455,7 +455,7 @@ where
                 formatting_space!();
                 keyword!("with");
                 formatting_space!();
-                emit!(asserts);
+                emit!(with);
             }
         }
         semi!();

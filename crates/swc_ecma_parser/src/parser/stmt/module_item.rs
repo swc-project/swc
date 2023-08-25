@@ -157,7 +157,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         let _ = cur!(self, false);
-        let asserts = if self.input.syntax().import_attributes()
+        let with = if self.input.syntax().import_attributes()
             && !self.input.had_line_break_before_cur()
             && eat!(self, "assert")
         {
@@ -176,7 +176,7 @@ impl<I: Tokens> Parser<I> {
             specifiers,
             src,
             type_only,
-            asserts,
+            with,
         }))
         .map(ModuleItem::from)
     }
@@ -617,13 +617,13 @@ impl<I: Tokens> Parser<I> {
 
             if has_default || has_ns {
                 if is!(self, "from") {
-                    let (src, asserts) = self.parse_from_clause_and_semi()?;
+                    let (src, with) = self.parse_from_clause_and_semi()?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
                         span: span!(self, start),
                         specifiers,
                         src: Some(src),
                         type_only,
-                        asserts,
+                        with,
                     }));
                 } else if !self.input.syntax().export_default_from() {
                     // emit error
@@ -667,7 +667,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 None
             };
-            let (src, asserts) = match opt {
+            let (src, with) = match opt {
                 Some(v) => (Some(v.0), v.1),
                 None => (None, None),
             };
@@ -676,7 +676,7 @@ impl<I: Tokens> Parser<I> {
                 specifiers,
                 src,
                 type_only,
-                asserts,
+                with,
             }));
         };
 
