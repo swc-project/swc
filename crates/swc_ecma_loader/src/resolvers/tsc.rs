@@ -259,27 +259,12 @@ where
                         return Ok(FileName::Real(tp.into()));
                     }
 
-                    if self.base_url_filename == *base {
-                        // Prevent infinite loop
-
-                        let replaced = self.base_url.join(&to[0]);
-                        if replaced.exists() {
-                            return Ok(FileName::Real(replaced));
-                        }
-
-                        return self
-                            .invoke_inner_resolver(base, &format!("./{}", &to[0]))
-                            .with_context(|| {
-                                format!(
-                                    "tried to resolve `{}` because `{}` was exactly matched",
-                                    to[0], from
-                                )
-                            });
-                    } else {
-                        return self
-                            .resolve(&self.base_url_filename, &format!("./{}", &to[0]))
-                            .context("failed to resolve using jsc.baseUrl as base");
+                    if let Ok(res) = self.resolve(&self.base_url_filename, &format!("./{}", &to[0]))
+                    {
+                        return Ok(res);
                     }
+
+                    return Ok(FileName::Real(self.base_url.join(&to[0])));
                 }
             }
         }
