@@ -63,7 +63,7 @@ impl<I: Tokens> Parser<I> {
                 _ => unreachable!(),
             };
             let _ = cur!(self, false);
-            let asserts = if self.input.syntax().import_attributes()
+            let with = if self.input.syntax().import_attributes()
                 && !self.input.had_line_break_before_cur()
                 && eat!(self, "assert")
             {
@@ -80,7 +80,7 @@ impl<I: Tokens> Parser<I> {
                 src,
                 specifiers: vec![],
                 type_only: false,
-                asserts,
+                with,
             }))
             .map(ModuleItem::from);
         }
@@ -570,12 +570,12 @@ impl<I: Tokens> Parser<I> {
                 assert_and_bump!(self, '*');
 
                 // improve error message for `export * from foo`
-                let (src, asserts) = self.parse_from_clause_and_semi()?;
+                let (src, with) = self.parse_from_clause_and_semi()?;
                 return Ok(ModuleDecl::ExportAll(ExportAll {
                     span: span!(self, start),
                     src,
                     type_only,
-                    asserts,
+                    with,
                 }));
             }
 
@@ -810,7 +810,7 @@ impl<I: Tokens> Parser<I> {
             _ => unexpected!(self, "a string literal"),
         };
         let _ = cur!(self, false);
-        let asserts = if self.input.syntax().import_attributes()
+        let with = if self.input.syntax().import_attributes()
             && !self.input.had_line_break_before_cur()
             && eat!(self, "assert")
         {
@@ -822,7 +822,7 @@ impl<I: Tokens> Parser<I> {
             None
         };
         expect!(self, ';');
-        Ok((src, asserts))
+        Ok((src, with))
     }
 }
 
