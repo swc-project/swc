@@ -30,6 +30,11 @@ body:
     attributes:
       label: Playground link
       description: You can use [swc playground](https://play.swc.rs/) to create a reproduction link, then paste the link here.
+  - type: input
+    id: swc-info
+    attributes:
+      label: SWC Info output
+      description: Please run `npx -y swc-info@latest` and paste the output here.
   - type: textarea
     id: expected-behavior
     attributes:
