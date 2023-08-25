@@ -41,6 +41,8 @@ function interestingPackages(names: string[]): string {
     return names.map(interestingPackage).filter(Boolean).join("\n        ");
 }
 
+process.env.NODE_PATH = process.cwd();
+
 console.log(`
     Operating System:
         Platform: ${os.platform()}
