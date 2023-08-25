@@ -269,12 +269,12 @@ impl<'a> Visit for DependencyCollector<'a> {
 /// can only be strings (https://github.com/tc39/proposal-import-assertions#should-more-than-just-strings-be-supported-as-attribute-values)
 /// and thus non-string values are skipped.
 fn parse_import_attributes(attrs: Option<&ast::ObjectLit>) -> ImportAttributes {
-    let asserts = match attrs {
-        Some(asserts) => asserts,
+    let attrs = match attrs {
+        Some(with) => with,
         None => return ImportAttributes::None,
     };
     let mut import_assertions = HashMap::new();
-    for prop in asserts.props.iter() {
+    for prop in attrs.props.iter() {
         if let ast::PropOrSpread::Prop(prop) = prop {
             if let ast::Prop::KeyValue(key_value) = &**prop {
                 let maybe_key = match &key_value.key {

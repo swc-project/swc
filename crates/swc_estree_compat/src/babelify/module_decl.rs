@@ -178,7 +178,7 @@ impl Babelify for ExportAll {
         ExportAllDeclaration {
             base: ctx.base(self.span),
             source: self.src.babelify(ctx),
-            with: convert_import_attrs(self.asserts, ctx),
+            with: convert_import_attrs(self.with, ctx),
             export_kind: if self.type_only {
                 Some(ExportKind::Type)
             } else {
@@ -197,7 +197,7 @@ impl Babelify for NamedExport {
             declaration: Default::default(),
             specifiers: self.specifiers.babelify(ctx),
             source: self.src.map(|s| s.babelify(ctx)),
-            with: convert_import_attrs(self.asserts, ctx),
+            with: convert_import_attrs(self.with, ctx),
             export_kind: if self.type_only {
                 Some(ExportKind::Type)
             } else {
