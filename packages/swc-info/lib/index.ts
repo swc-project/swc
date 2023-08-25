@@ -23,6 +23,7 @@ console.log(`
         npm: 9.5.1
         Yarn: N/A
         pnpm: 8.6.3
+        
     Relevant Packages:
         next: 13.4.12
         eslint-config-next: 13.0.5
