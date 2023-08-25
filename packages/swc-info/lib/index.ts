@@ -1,6 +1,9 @@
 import os from "node:os";
 import process from "node:process";
 import childProcess from "child_process";
+import { createRequire } from "node:module";
+
+const localRequire = createRequire(`${process.cwd()}/[eval]`);
 
 function getUniqueCpuNames(): string {
     return os
@@ -23,7 +26,7 @@ function getBinaryVersion(binaryName: string): string {
 
 function getPackageVersion(packageName: string) {
     try {
-        return require(`${packageName}/package.json`).version;
+        return localRequire(`${packageName}/package.json`).version;
     } catch {
         return null;
     }
