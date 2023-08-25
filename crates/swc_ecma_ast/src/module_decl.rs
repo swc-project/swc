@@ -94,7 +94,7 @@ impl Take for ImportDecl {
             specifiers: Take::dummy(),
             src: Take::dummy(),
             type_only: Default::default(),
-            asserts: Take::dummy(),
+            with: Take::dummy(),
         }
     }
 }
