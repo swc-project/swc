@@ -2,5 +2,30 @@
     "name": "swc-info",
     "packageManager": "yarn@3.2.3",
     "version": "0.1.0",
-    "description": "CLI tool to help issue reporting for swc"
+    "description": "CLI tool to help issue reporting for swc",
+    "sideEffects": false,
+    "scripts": {
+        "build": "tsc",
+        "prepublishOnly": "yarn build",
+        "prepack": "yarn build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/swc-project/swc.git"
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
+        "access": "public"
+    },
+    "keywords": [
+        "swc",
+        "info",
+        "cli"
+    ],
+    "author": "강동윤 <kdy1997.dev@gmail.com>",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/swc-project/swc/issues"
+    },
+    "homepage": "https://swc.rs"
 }
