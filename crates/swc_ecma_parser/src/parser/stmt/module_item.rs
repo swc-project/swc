@@ -65,7 +65,7 @@ impl<I: Tokens> Parser<I> {
             let _ = cur!(self, false);
             let with = if self.input.syntax().import_attributes()
                 && !self.input.had_line_break_before_cur()
-                && eat!(self, "assert")
+                && (eat!(self, "assert") || eat!(self, "with"))
             {
                 match *self.parse_object::<Box<Expr>>()? {
                     Expr::Object(v) => Some(Box::new(v)),
@@ -159,7 +159,7 @@ impl<I: Tokens> Parser<I> {
         let _ = cur!(self, false);
         let with = if self.input.syntax().import_attributes()
             && !self.input.had_line_break_before_cur()
-            && eat!(self, "assert")
+            && (eat!(self, "assert") || eat!(self, "with"))
         {
             match *self.parse_object::<Box<Expr>>()? {
                 Expr::Object(v) => Some(Box::new(v)),
@@ -812,7 +812,7 @@ impl<I: Tokens> Parser<I> {
         let _ = cur!(self, false);
         let with = if self.input.syntax().import_attributes()
             && !self.input.had_line_break_before_cur()
-            && eat!(self, "assert")
+            && (eat!(self, "assert") || eat!(self, "with"))
         {
             match *self.parse_object::<Box<Expr>>()? {
                 Expr::Object(v) => Some(Box::new(v)),

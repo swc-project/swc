@@ -328,7 +328,7 @@ fn parse_dynamic_import_assertions(arg: Option<&ast::ExprOrSpread>) -> ImportAtt
             ast::PropName::Ident(ident) => ident.sym.to_string(),
             _ => return ImportAttributes::Unknown,
         };
-        if key == "assert" {
+        if key == "assert" || key == "with" {
             had_assert_key = true;
             let assertions_lit = match &*key_value.value {
                 ast::Expr::Object(assertions_lit) => assertions_lit,
