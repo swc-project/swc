@@ -84,7 +84,7 @@ pub struct DependencyDescriptor {
     /// The span of the specifier.
     pub specifier_span: Span,
     /// Import assertions for this dependency.
-    pub import_assertions: ImportAttributes,
+    pub import_attributes: ImportAttributes,
 }
 
 struct DependencyCollector<'a> {
@@ -118,7 +118,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             span: node.span,
             specifier,
             specifier_span: node.src.span,
-            import_assertions,
+            import_attributes: import_assertions,
         });
     }
 
@@ -139,7 +139,7 @@ impl<'a> Visit for DependencyCollector<'a> {
                 span: node.span,
                 specifier,
                 specifier_span: src.span,
-                import_assertions,
+                import_attributes: import_assertions,
             });
         }
     }
@@ -160,7 +160,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             span: node.span,
             specifier,
             specifier_span: node.src.span,
-            import_assertions,
+            import_attributes: import_assertions,
         });
     }
 
@@ -175,7 +175,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             span: node.span,
             specifier,
             specifier_span: node.arg.span,
-            import_assertions: Default::default(),
+            import_attributes: Default::default(),
         });
     }
 
@@ -230,7 +230,7 @@ impl<'a> Visit for DependencyCollector<'a> {
                     span: node.span,
                     specifier,
                     specifier_span: str_.span,
-                    import_assertions: dynamic_import_assertions,
+                    import_attributes: dynamic_import_assertions,
                 });
             }
         }
@@ -259,7 +259,7 @@ impl<'a> Visit for DependencyCollector<'a> {
                 span: node.span,
                 specifier,
                 specifier_span: expr.span,
-                import_assertions: Default::default(),
+                import_attributes: Default::default(),
             });
         }
     }
@@ -477,7 +477,7 @@ try {
                     span: Span::new(BytePos(1), BytePos(34), Default::default()),
                     specifier: JsWord::from("./test.ts"),
                     specifier_span: Span::new(BytePos(22), BytePos(33), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ImportType,
@@ -490,7 +490,7 @@ try {
                     span: Span::new(BytePos(48), BytePos(86), Default::default()),
                     specifier: JsWord::from("./foo.d.ts"),
                     specifier_span: Span::new(BytePos(73), BytePos(85), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Export,
@@ -503,7 +503,7 @@ try {
                     span: Span::new(BytePos(115), BytePos(149), Default::default()),
                     specifier: JsWord::from("./buzz.ts"),
                     specifier_span: Span::new(BytePos(137), BytePos(148), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ExportType,
@@ -523,7 +523,7 @@ try {
                     span: Span::new(BytePos(181), BytePos(221), Default::default()),
                     specifier: JsWord::from("./fizz.d.ts"),
                     specifier_span: Span::new(BytePos(207), BytePos(220), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -532,7 +532,7 @@ try {
                     span: Span::new(BytePos(239), BytePos(254), Default::default()),
                     specifier: JsWord::from("path"),
                     specifier_span: Span::new(BytePos(247), BytePos(253), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -541,7 +541,7 @@ try {
                     span: Span::new(BytePos(274), BytePos(293), Default::default()),
                     specifier: JsWord::from("./foo1.ts"),
                     specifier_span: Span::new(BytePos(281), BytePos(292), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -550,7 +550,7 @@ try {
                     span: Span::new(BytePos(324), BytePos(342), Default::default()),
                     specifier: JsWord::from("./foo.ts"),
                     specifier_span: Span::new(BytePos(331), BytePos(341), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -559,7 +559,7 @@ try {
                     span: Span::new(BytePos(395), BytePos(418), Default::default()),
                     specifier: JsWord::from("some_package"),
                     specifier_span: Span::new(BytePos(403), BytePos(417), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ImportEquals,
@@ -568,7 +568,7 @@ try {
                     span: Span::new(BytePos(449), BytePos(491), Default::default()),
                     specifier: JsWord::from("some_package_foo"),
                     specifier_span: Span::new(BytePos(471), BytePos(489), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ImportType,
@@ -577,7 +577,7 @@ try {
                     span: Span::new(BytePos(492), BytePos(547), Default::default()),
                     specifier: JsWord::from("some_package_foo_type"),
                     specifier_span: Span::new(BytePos(522), BytePos(545), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ExportEquals,
@@ -586,7 +586,7 @@ try {
                     span: Span::new(BytePos(548), BytePos(597), Default::default()),
                     specifier: JsWord::from("some_package_bar"),
                     specifier_span: Span::new(BytePos(577), BytePos(595), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -595,7 +595,7 @@ try {
                     span: Span::new(BytePos(612), BytePos(651), Default::default()),
                     specifier: JsWord::from("some_package_resolve"),
                     specifier_span: Span::new(BytePos(628), BytePos(650), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -604,7 +604,7 @@ try {
                     span: Span::new(BytePos(676), BytePos(719), Default::default()),
                     specifier: JsWord::from("some_package_resolve_foo"),
                     specifier_span: Span::new(BytePos(692), BytePos(718), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
             ]
         );
@@ -666,7 +666,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(1), BytePos(66), Default::default()),
                     specifier: JsWord::from("./test.ts"),
                     specifier_span: Span::new(BytePos(22), BytePos(33), Default::default()),
-                    import_assertions: expected_assertions1.clone(),
+                    import_attributes: expected_assertions1.clone(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Export,
@@ -675,7 +675,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(67), BytePos(125), Default::default()),
                     specifier: JsWord::from("./test.ts"),
                     specifier_span: Span::new(BytePos(81), BytePos(92), Default::default()),
-                    import_assertions: expected_assertions1,
+                    import_attributes: expected_assertions1,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Export,
@@ -684,7 +684,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(126), BytePos(186), Default::default()),
                     specifier: JsWord::from("./test.json"),
                     specifier_span: Span::new(BytePos(146), BytePos(159), Default::default()),
-                    import_assertions: expected_assertions2.clone(),
+                    import_attributes: expected_assertions2.clone(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -693,7 +693,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(187), BytePos(240), Default::default()),
                     specifier: JsWord::from("./foo.json"),
                     specifier_span: Span::new(BytePos(203), BytePos(215), Default::default()),
-                    import_assertions: expected_assertions2,
+                    import_attributes: expected_assertions2,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -702,7 +702,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(260), BytePos(313), Default::default()),
                     specifier: JsWord::from("./fizz.json"),
                     specifier_span: Span::new(BytePos(267), BytePos(280), Default::default()),
-                    import_assertions: dynamic_expected_assertions2.clone(),
+                    import_attributes: dynamic_expected_assertions2.clone(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -711,7 +711,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(334), BytePos(387), Default::default()),
                     specifier: JsWord::from("./buzz.json"),
                     specifier_span: Span::new(BytePos(341), BytePos(354), Default::default()),
-                    import_assertions: dynamic_expected_assertions2,
+                    import_attributes: dynamic_expected_assertions2,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -720,7 +720,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(406), BytePos(425), Default::default()),
                     specifier: JsWord::from("./d1.json"),
                     specifier_span: Span::new(BytePos(413), BytePos(424), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -729,7 +729,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(444), BytePos(467), Default::default()),
                     specifier: JsWord::from("./d2.json"),
                     specifier_span: Span::new(BytePos(451), BytePos(462), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -738,7 +738,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(486), BytePos(510), Default::default()),
                     specifier: JsWord::from("./d3.json"),
                     specifier_span: Span::new(BytePos(493), BytePos(504), Default::default()),
-                    import_assertions: ImportAttributes::Unknown,
+                    import_attributes: ImportAttributes::Unknown,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -747,7 +747,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(529), BytePos(564), Default::default()),
                     specifier: JsWord::from("./d4.json"),
                     specifier_span: Span::new(BytePos(536), BytePos(547), Default::default()),
-                    import_assertions: ImportAttributes::Known(HashMap::new()),
+                    import_attributes: ImportAttributes::Known(HashMap::new()),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -756,7 +756,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(583), BytePos(619), Default::default()),
                     specifier: JsWord::from("./d5.json"),
                     specifier_span: Span::new(BytePos(590), BytePos(601), Default::default()),
-                    import_assertions: ImportAttributes::Unknown,
+                    import_attributes: ImportAttributes::Unknown,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -765,7 +765,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(638), BytePos(681), Default::default()),
                     specifier: JsWord::from("./d6.json"),
                     specifier_span: Span::new(BytePos(645), BytePos(656), Default::default()),
-                    import_assertions: ImportAttributes::Unknown,
+                    import_attributes: ImportAttributes::Unknown,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -774,7 +774,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(700), BytePos(754), Default::default()),
                     specifier: JsWord::from("./d7.json"),
                     specifier_span: Span::new(BytePos(707), BytePos(718), Default::default()),
-                    import_assertions: ImportAttributes::Unknown,
+                    import_attributes: ImportAttributes::Unknown,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -783,7 +783,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(773), BytePos(819), Default::default()),
                     specifier: JsWord::from("./d8.json"),
                     specifier_span: Span::new(BytePos(780), BytePos(791), Default::default()),
-                    import_assertions: ImportAttributes::Known({
+                    import_attributes: ImportAttributes::Known({
                         let mut map = HashMap::new();
                         map.insert("type".to_string(), ImportAssertion::Unknown);
                         map
@@ -796,7 +796,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(838), BytePos(895), Default::default()),
                     specifier: JsWord::from("./d9.json"),
                     specifier_span: Span::new(BytePos(845), BytePos(856), Default::default()),
-                    import_assertions: ImportAttributes::Unknown,
+                    import_attributes: ImportAttributes::Unknown,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -805,7 +805,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(915), BytePos(982), Default::default()),
                     specifier: JsWord::from("./d10.json"),
                     specifier_span: Span::new(BytePos(922), BytePos(934), Default::default()),
-                    import_assertions: ImportAttributes::Unknown,
+                    import_attributes: ImportAttributes::Unknown,
                 },
             ]
         );
