@@ -36,13 +36,17 @@ export default function v(e) {
         return function(u) {
             var c, a, l = h(1900, void 0, 1);
             if (o(l, n, u += "", 0) != u.length) return null;
+            // If a UNIX timestamp is specified, return it.
             if ("Q" in l) return new Date(l.Q);
             if ("s" in l) return new Date(1000 * l.s + ("L" in l ? l.L : 0));
+            // Convert day-of-week and week-of-year to day-of-year.
             if (!e || "Z" in l || (l.Z = 0), "p" in l && (l.H = l.H % 12 + 12 * l.p), void 0 === l.m && (l.m = "q" in l ? l.q : 0), "V" in l) {
                 if (l.V < 1 || l.V > 53) return null;
                 "w" in l || (l.w = 1), "Z" in l ? (c = (a = (c = s(h(l.y, 0, 1))).getUTCDay()) > 4 || 0 === a ? f.ceil(c) : f(c), c = i.offset(c, (l.V - 1) * 7), l.y = c.getUTCFullYear(), l.m = c.getUTCMonth(), l.d = c.getUTCDate() + (l.w + 6) % 7) : (c = (a = (c = g(h(l.y, 0, 1))).getDay()) > 4 || 0 === a ? r.ceil(c) : r(c), c = t.offset(c, (l.V - 1) * 7), l.y = c.getFullYear(), l.m = c.getMonth(), l.d = c.getDate() + (l.w + 6) % 7);
             } else ("W" in l || "U" in l) && ("w" in l || (l.w = "u" in l ? l.u % 7 : "W" in l ? 1 : 0), a = "Z" in l ? s(h(l.y, 0, 1)).getUTCDay() : g(h(l.y, 0, 1)).getDay(), l.m = 0, l.d = "W" in l ? (l.w + 6) % 7 + 7 * l.W - (a + 5) % 7 : l.w + 7 * l.U - (a + 6) % 7);
-            return "Z" in l ? (l.H += l.Z / 100 | 0, l.M += l.Z % 100, s(l)) : g(l);
+            return(// If a time zone is specified, all fields are interpreted as UTC and then
+            // offset according to the specified time zone.
+            "Z" in l ? (l.H += l.Z / 100 | 0, l.M += l.Z % 100, s(l)) : g(l));
         };
     }, o = function(n, t, e, r) {
         for(var u, c, i = 0, o = t.length, f = e.length; i < o;){
@@ -197,7 +201,8 @@ export default function v(e) {
         Z: F,
         "%": b
     };
-    return nb.x = u(l, nb), nb.X = u(v, nb), nb.c = u(a, nb), nB.x = u(l, nB), nB.X = u(v, nB), nB.c = u(a, nB), {
+    return(// These recursive directive definitions must be deferred.
+    nb.x = u(l, nb), nb.X = u(v, nb), nb.c = u(a, nb), nB.x = u(l, nB), nB.X = u(v, nB), nB.c = u(a, nB), {
         format: function(n) {
             var t = u(n += "", nb);
             return t.toString = function() {
@@ -222,7 +227,7 @@ export default function v(e) {
                 return n;
             }, t;
         }
-    };
+    });
 }
 var y = {
     "-": "",

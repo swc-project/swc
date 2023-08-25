@@ -36,6 +36,7 @@ class C extends B {
     static z16 = ++super.a;
     static z17 = super.a++;
     static z18 = super.a``;
+    // these should be unaffected
     x = 1;
     y = this.x;
     z = super.f();

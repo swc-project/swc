@@ -4,3 +4,4 @@ var X = function X() {
     _class_call_check(this, X);
 };
 new X(), new X();
+ // ok

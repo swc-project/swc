@@ -1,8 +1,11 @@
 //// [a.ts]
 export var texts = [];
-texts.push(100), texts.push(100), texts.push("100");
+/**
+ @ts-ignore */ texts.push(100), /**
+ @ts-expect-error */ texts.push(100), /**
+ @ts-expect-error */ texts.push("100");
 //// [b.tsx]
 import * as React from "react";
 export function MyComponent(props) {
-    return React.createElement("div", null);
+    return /*#__PURE__*/ React.createElement("div", null);
 }

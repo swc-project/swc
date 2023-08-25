@@ -1,6 +1,13 @@
 //// [assertionTypePredicates2.js]
-var foo = function(a) {
-    if (0 !== a.y) throw TypeError();
+/**
+ * @typedef {{ x: number }} A
+ */ /**
+ * @typedef { A & { y: number } } B
+ */ /**
+ * @param {A} a
+ * @returns { asserts a is B }
+ */ var foo = function(a) {
+    if (0 !== /** @type { B } */ a.y) throw TypeError();
 };
 export var main = function() {
     foo({

@@ -29,6 +29,7 @@ System.register([
             }
         ],
         execute: function() {
+            // https://github.com/microsoft/TypeScript/issues/37429
             _context.import("./a");
         }
     };

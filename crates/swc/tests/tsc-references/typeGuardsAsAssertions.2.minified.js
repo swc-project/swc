@@ -1,4 +1,5 @@
 //// [typeGuardsAsAssertions.ts]
+// Repro from #8513
 var cond;
 export var none = {
     none: ""

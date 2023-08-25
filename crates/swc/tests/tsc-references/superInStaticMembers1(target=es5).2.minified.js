@@ -16,7 +16,11 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var Reflect, Reflect1, Reflect2, Reflect3, C = function(B1) {
+var Reflect// collision (es2015-es2021 only)
+, Reflect1// collision (es2015-es2021 only)
+, Reflect2// collision (es2015-es2021 only)
+, Reflect3// collision (es2015-es2021 only)
+, C = function(B1) {
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -224,7 +228,8 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 Reflect || (Reflect = {});
-var Reflect, C = function(B1) {
+var Reflect// collision (es2015-es2021 only)
+, C = function(B1) {
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -240,7 +245,8 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 Reflect || (Reflect = {});
-var Reflect, C = function(B1) {
+var Reflect// collision (es2015-es2021 only)
+, C = function(B1) {
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -256,7 +262,8 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 Reflect || (Reflect = {});
-var Reflect, C = function(B1) {
+var Reflect// collision (es2015-es2021 only)
+, C = function(B1) {
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
@@ -272,7 +279,8 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 Reflect || (Reflect = {});
-var Reflect, C = function(B1) {
+var Reflect// collision (es2015-es2021 only)
+, C = function(B1) {
     _inherits(C, B1);
     var _super = _create_super(C);
     function C() {

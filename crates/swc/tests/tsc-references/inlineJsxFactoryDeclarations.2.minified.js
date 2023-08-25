@@ -1,16 +1,16 @@
 //// [renderer.d.ts]
 export { dom as default };
 //// [otherreacty.tsx]
-import * as React from "./renderer";
+/** @jsx React.createElement */ import * as React from "./renderer";
 //// [other.tsx]
-import { dom as h } from "./renderer";
-export var prerendered = h("h", null);
+/** @jsx h */ import { dom as h } from "./renderer";
+export var prerendered = /*#__PURE__*/ h("h", null);
 //// [othernoalias.tsx]
-import { otherdom } from "./renderer";
-export var prerendered2 = otherdom("h", null);
+/** @jsx otherdom */ import { otherdom } from "./renderer";
+export var prerendered2 = /*#__PURE__*/ otherdom("h", null);
 //// [reacty.tsx]
 import React from "./renderer";
-export var prerendered3 = React.createElement("h", null);
+export var prerendered3 = /*#__PURE__*/ React.createElement("h", null);
 //// [index.tsx]
 //! 
 //!   x Expression expected

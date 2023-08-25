@@ -1,5 +1,8 @@
 //// [mod1.js]
-function Person(name) {
+/**
+ * @constructor
+ * @param {string} name
+ */ function Person(name) {
     this.name = name;
 }
 Person.prototype.describe = function() {
@@ -20,7 +23,7 @@ Person.prototype.describe = function() {
         return 21.75;
     }
 }), Object.defineProperty(Person.prototype, "setonlyAccessor", {
-    set: function(str) {
+    /** @param {string} str */ set: function(str) {
         this.rwAccessors = Number(str);
     }
 }), module.exports = Person;

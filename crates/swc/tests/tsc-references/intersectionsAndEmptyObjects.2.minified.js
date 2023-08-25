@@ -1,4 +1,6 @@
 //// [intersectionsAndEmptyObjects.ts]
+// Empty object type literals are removed from intersections types
+// that contain other object types
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -15,7 +17,7 @@ testDictionary(d4);
 const d5 = intersectDictionaries(d3, d1);
 testDictionary(d5);
 const d6 = intersectDictionaries(d3, d3);
-testDictionary(d6), mock(Promise.resolve().then(()=>_interop_require_wildcard._(require("./ex"))));
+testDictionary(d6), mock(Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./ex"))));
 //// [ex.d.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

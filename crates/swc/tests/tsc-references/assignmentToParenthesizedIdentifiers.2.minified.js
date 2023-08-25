@@ -18,3 +18,4 @@ import "@swc/helpers/_/_class_call_check";
 }, M2.M3 = {
     x: ""
 }, (E1 = E || (E = {}))[E1.A = 0] = "A";
+ // Error

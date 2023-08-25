@@ -1,4 +1,8 @@
 //// [destructuringParameterDeclaration3ES5iterable.ts]
+// If the parameter is a rest parameter, the parameter type is any[]
+// A type annotation for a rest parameter must denote an array type.
+// RestParameter:
+//     ...   Identifier   TypeAnnotation(opt)
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 import { _ as _to_array } from "@swc/helpers/_/_to_array";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
@@ -11,6 +15,7 @@ var _param, _param_, _param1, E, E1, E2, E11, array = [
     2,
     3
 ];
+// Rest parameter with generic
 function foo() {
     for(var _len = arguments.length, a = Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
 }

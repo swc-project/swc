@@ -1,4 +1,5 @@
 //// [inferTypes2.ts]
+// Repros from #22755
 export function bar(obj) {
     return foo(obj);
 }

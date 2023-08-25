@@ -1,6 +1,6 @@
 //// [mod.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-module.exports = {
+/** @typedef {() => number} buz */ module.exports = {
     Thing: function Thing() {
         _class_call_check(this, Thing), this.x = 1;
     },
@@ -19,4 +19,12 @@ module.exports = {
     literal: ""
 };
 //// [main.js]
-//// [index.ts]
+/**
+ * @param {import("./mod").Thing} a
+ * @param {import("./mod").AnotherThing} b
+ * @param {import("./mod").foo} c
+ * @param {import("./mod").qux} d
+ * @param {import("./mod").baz} e
+ * @param {import("./mod").buz} f
+ * @param {import("./mod").literal} g
+ */ //// [index.ts]

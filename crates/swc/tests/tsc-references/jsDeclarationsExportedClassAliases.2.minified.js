@@ -15,6 +15,7 @@ module.exports = {
     FancyError: FancyError
 };
 //// [utils/index.js]
+// issue arises here on compilation
 var errors = require("./errors");
 module.exports = {
     errors: errors

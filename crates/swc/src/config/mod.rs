@@ -527,7 +527,7 @@ impl Options {
                 .as_ref()
                 .map(|v| match v.format.comments.clone().into_inner() {
                     Some(v) => v,
-                    None => BoolOr::Bool(false),
+                    None => BoolOr::Bool(true),
                 })
                 .unwrap_or_else(|| {
                     BoolOr::Data(if cfg.minify.into_bool() {

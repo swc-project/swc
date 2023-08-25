@@ -1,4 +1,5 @@
 //// [intraExpressionInferences.ts]
+// Repros from #47599
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 callIt({
     produce: function() {
@@ -51,6 +52,7 @@ callIt({
     },
     b: function(a) {}
 });
+// Repro from #41712
 var Wrapper = function Wrapper() {
     _class_call_check(this, Wrapper);
 };
