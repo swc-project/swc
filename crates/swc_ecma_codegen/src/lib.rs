@@ -308,11 +308,11 @@ where
 
         emit!(n.src);
 
-        if let Some(asserts) = &n.asserts {
+        if let Some(with) = &n.with {
             formatting_space!();
-            keyword!("assert");
+            keyword!("with");
             formatting_space!();
-            emit!(asserts);
+            emit!(with);
         }
 
         semi!();
