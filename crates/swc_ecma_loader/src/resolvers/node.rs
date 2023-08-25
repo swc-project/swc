@@ -103,6 +103,7 @@ pub struct NodeModulesResolver {
     alias: AHashMap<String, String>,
     // if true do not resolve symlink
     preserve_symlinks: bool,
+    ignore_node_modules: bool,
 }
 
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
@@ -118,6 +119,21 @@ impl NodeModulesResolver {
             target_env,
             alias,
             preserve_symlinks,
+            ignore_node_modules: false,
+        }
+    }
+
+    /// Create a node modules resolver which does not care about `node_modules`
+    pub fn without_node_modules(
+        target_env: TargetEnv,
+        alias: AHashMap<String, String>,
+        preserve_symlinks: bool,
+    ) -> Self {
+        Self {
+            target_env,
+            alias,
+            preserve_symlinks,
+            ignore_node_modules: true,
         }
     }
 
@@ -369,6 +385,10 @@ impl NodeModulesResolver {
         base_dir: &Path,
         target: &str,
     ) -> Result<Option<PathBuf>, Error> {
+        if self.ignore_node_modules {
+            return Ok(None);
+        }
+
         let absolute_path = to_absolute_path(base_dir)?;
         let mut path = Some(&*absolute_path);
         while let Some(dir) = path {

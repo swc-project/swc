@@ -193,7 +193,7 @@ pub mod resolver {
         preserve_symlinks: bool,
     ) -> CachingResolver<TsConfigResolver<NodeModulesResolver>> {
         let r = TsConfigResolver::new(
-            NodeModulesResolver::new(target_env, alias, preserve_symlinks),
+            NodeModulesResolver::without_node_modules(target_env, alias, preserve_symlinks),
             base_url,
             paths,
         );
