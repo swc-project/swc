@@ -1951,7 +1951,7 @@ fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResol
 
     let r = {
         let r = TsConfigResolver::new(
-            NodeModulesResolver::new(Default::default(), Default::default(), true),
+            NodeModulesResolver::without_node_modules(Default::default(), Default::default(), true),
             base_url.clone(),
             paths.clone(),
         );
