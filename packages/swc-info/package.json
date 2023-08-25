@@ -30,5 +30,8 @@
     "homepage": "https://swc.rs",
     "devDependencies": {
         "typescript": "^5.2.2"
+    },
+    "bin": {
+        "swc-info": "bin/swc-info.js"
     }
 }
