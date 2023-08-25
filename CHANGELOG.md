@@ -13,6 +13,9 @@
 
 - **(es/minifier)** Don't remove exports (#7856) ([ae8cd94](https://github.com/swc-project/swc/commit/ae8cd9430dd1ec0d857ac7f87ffa4b76258be92c))
 
+
+- **(es/module)** Make `jsc.paths` work for a nest.js app (#7852) ([d33a973](https://github.com/swc-project/swc/commit/d33a97303ceeee4069321ef21027ff99fe973a79))
+
 ### Features
 
 
