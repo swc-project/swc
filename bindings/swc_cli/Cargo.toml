@@ -30,7 +30,7 @@ relative-path = "1.6.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
 sourcemap = "6.2.2"
-swc_core = { version = "0.81.1", features = [
+swc_core = { version = "0.81.3", features = [
   "trace_macro",
   "common_concurrent",
   "base_concurrent",
