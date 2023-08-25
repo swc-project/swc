@@ -1,5 +1,6 @@
 import os from "node:os";
 import process from "node:process";
+import childProcess from "child_process";
 
 function getUniqueCpuNames(): string {
     return os
@@ -7,6 +8,37 @@ function getUniqueCpuNames(): string {
         .map((cpu) => cpu.model)
         .filter((model, index, models) => models.indexOf(model) === index)
         .join(", ");
+}
+
+function getBinaryVersion(binaryName: string): string {
+    try {
+        return childProcess
+            .execFileSync(binaryName, ["--version"])
+            .toString()
+            .trim();
+    } catch {
+        return "N/A";
+    }
+}
+
+function getPackageVersion(packageName: string) {
+    try {
+        return require(`${packageName}/package.json`).version;
+    } catch {
+        return null;
+    }
+}
+
+function interestingPackage(name: string): string | null {
+    const version = getPackageVersion(name);
+    if (version) {
+        return `${name}: ${version}`;
+    } else {
+        return null;
+    }
+}
+function interestingPackages(names: string[]): string {
+    return names.map(interestingPackage).filter(Boolean).join("\n        ");
 }
 
 console.log(`
@@ -19,17 +51,16 @@ console.log(`
             Models: ${getUniqueCpuNames()}
 
     Binaries:
-        Node: ${process.version}
-        npm: 9.5.1
-        Yarn: N/A
-        pnpm: 8.6.3
-        
+        Node: ${process.versions.node}
+        npm: ${getBinaryVersion("npm")}
+        Yarn: ${getBinaryVersion("yarn")}
+        pnpm: ${getBinaryVersion("pnpm")}
+
     Relevant Packages:
-        next: 13.4.12
-        eslint-config-next: 13.0.5
-        react: 18.2.0
-        react-dom: 18.2.0
-        typescript: 5.1.6
+        @swc/core: ${getPackageVersion("@swc/core") ?? "N/A"}
+        @swc/helpers: ${getPackageVersion("@swc/helpers") ?? "N/A"}
+        @swc/types: ${getPackageVersion("@swc/types") ?? "N/A"}
+        ${interestingPackages(["typescript", "next"])}
 
     SWC Config:
         output: N/A
