@@ -223,7 +223,7 @@ impl<'a> VisitMut for Operator<'a> {
                             })],
                             src: None,
                             type_only: false,
-                            asserts: None,
+                            with: None,
                         },
                     )));
             };
@@ -343,7 +343,7 @@ impl<'a> VisitMut for Operator<'a> {
                             specifiers: renamed,
                             src: None,
                             type_only: false,
-                            asserts: None,
+                            with: None,
                         },
                     )));
             }

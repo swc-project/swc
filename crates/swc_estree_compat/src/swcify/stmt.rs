@@ -436,8 +436,8 @@ impl Swcify for ExportAllDeclaration {
             span: ctx.span(&self.base),
             src: self.source.swcify(ctx).into(),
             type_only: self.export_kind == Some(ExportKind::Type),
-            asserts: self
-                .assertions
+            with: self
+                .with
                 .swcify(ctx)
                 .map(|props| {
                     props
@@ -528,8 +528,8 @@ impl Swcify for ExportNamedDeclaration {
             specifiers: self.specifiers.swcify(ctx),
             src: self.source.swcify(ctx).map(Box::new),
             type_only: false,
-            asserts: self
-                .assertions
+            with: self
+                .with
                 .swcify(ctx)
                 .map(|props| {
                     props
@@ -626,7 +626,7 @@ impl Swcify for ImportDeclaration {
             src: self.source.swcify(ctx).into(),
             type_only: false,
             asserts: self
-                .assertions
+                .with
                 .swcify(ctx)
                 .map(|props| {
                     props
