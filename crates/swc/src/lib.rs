@@ -997,7 +997,7 @@ impl Compiler {
                 None
             };
 
-            self.process_js_inner(handler, orig.as_ref(), config)
+            self.apply_transforms(handler, orig.as_ref(), config)
         })
     }
 
@@ -1208,7 +1208,7 @@ impl Compiler {
     }
 
     #[tracing::instrument(level = "info", skip_all)]
-    fn process_js_inner(
+    fn apply_transforms(
         &self,
         handler: &Handler,
         orig: Option<&sourcemap::SourceMap>,
