@@ -1207,7 +1207,7 @@ impl Compiler {
         )
     }
 
-    #[tracing::instrument(level = "info", skip_all)]
+    #[tracing::instrument(name = "Swc::apply_transforms", level = "info", skip_all)]
     fn apply_transforms(
         &self,
         handler: &Handler,
