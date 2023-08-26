@@ -355,7 +355,6 @@ impl Options {
             experimental,
             lints,
             preserve_all_comments,
-            experimental_disable_builtin_transforms,
             ..
         } = cfg.jsc;
         let loose = loose.into_bool();
@@ -760,7 +759,7 @@ impl Options {
             noop()
         };
 
-        let pass: Box<dyn Fold> = if experimental_disable_builtin_transforms.into_bool() {
+        let pass: Box<dyn Fold> = if experimental.disable_builtin_transforms.into_bool() {
             Box::new(plugin_transforms)
         } else {
             Box::new(chain!(
@@ -1415,9 +1414,6 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub output: JscOutputConfig,
-
-    #[serde(default)]
-    pub experimental_disable_builtin_transforms: BoolConfig<false>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
@@ -1462,6 +1458,9 @@ pub struct JscExperimental {
     /// and will not be considered as breaking changes.
     #[serde(default)]
     pub cache_root: Option<String>,
+
+    #[serde(default)]
+    pub disable_builtin_transforms: BoolConfig<false>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
