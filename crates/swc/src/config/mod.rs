@@ -324,7 +324,7 @@ impl Options {
         config: Option<Config>,
         comments: Option<&'a SingleThreadedComments>,
         custom_before_pass: impl FnOnce(&Program) -> P,
-    ) -> Result<BuiltInput<impl 'a + swc_ecma_visit::Fold>, Error>
+    ) -> Result<BuiltInput<Box<dyn 'a + Fold>>, Error>
     where
         P: 'a + swc_ecma_visit::Fold,
     {
@@ -759,88 +759,95 @@ impl Options {
             noop()
         };
 
-        let pass = chain!(
-            lint_to_fold(swc_ecma_lints::rules::all(LintParams {
-                program: &program,
-                lint_config: &lints,
-                top_level_ctxt,
-                unresolved_ctxt,
-                es_version,
-                source_map: cm.clone(),
-            })),
-            // Decorators may use type information
-            Optional::new(
-                match transform.decorator_version.unwrap_or_default() {
-                    DecoratorVersion::V202112 => {
-                        Either::Left(decorators(decorators::Config {
-                            legacy: transform.legacy_decorator.into_bool(),
-                            emit_metadata: transform.decorator_metadata.into_bool(),
-                            use_define_for_class_fields: !assumptions.set_public_class_fields,
-                        }))
-                    }
-                    DecoratorVersion::V202203 => {
-                        Either::Right(
+        let pass: Box<dyn Fold> = if experimental
+            .disable_builtin_transforms_for_internal_testing
+            .into_bool()
+        {
+            Box::new(plugin_transforms)
+        } else {
+            Box::new(chain!(
+                lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                    program: &program,
+                    lint_config: &lints,
+                    top_level_ctxt,
+                    unresolved_ctxt,
+                    es_version,
+                    source_map: cm.clone(),
+                })),
+                // Decorators may use type information
+                Optional::new(
+                    match transform.decorator_version.unwrap_or_default() {
+                        DecoratorVersion::V202112 => {
+                            Either::Left(decorators(decorators::Config {
+                                legacy: transform.legacy_decorator.into_bool(),
+                                emit_metadata: transform.decorator_metadata.into_bool(),
+                                use_define_for_class_fields: !assumptions.set_public_class_fields,
+                            }))
+                        }
+                        DecoratorVersion::V202203 => {
+                            Either::Right(
                             swc_ecma_transforms::proposals::decorator_2022_03::decorator_2022_03(),
                         )
-                    }
-                },
-                syntax.decorators()
-            ),
-            // The transform strips import assertions, so it's only enabled if
-            // keep_import_assertions is false.
-            Optional::new(import_assertions(), !keep_import_assertions),
-            Optional::new(
-                typescript::strip_with_jsx::<Option<&dyn Comments>>(
-                    cm.clone(),
-                    typescript::Config {
-                        pragma: Some(
-                            transform
-                                .react
-                                .pragma
-                                .clone()
-                                .unwrap_or_else(default_pragma)
-                        ),
-                        pragma_frag: Some(
-                            transform
-                                .react
-                                .pragma_frag
-                                .clone()
-                                .unwrap_or_else(default_pragma_frag)
-                        ),
-                        ts_enum_config: TsEnumConfig {
-                            treat_const_enum_as_enum: transform
-                                .treat_const_enum_as_enum
-                                .into_bool(),
-                            ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
-                        },
-                        import_export_assign_config,
-                        ..Default::default()
+                        }
                     },
-                    comments.map(|v| v as _),
-                    top_level_mark
+                    syntax.decorators()
                 ),
-                syntax.typescript()
-            ),
-            plugin_transforms,
-            custom_before_pass(&program),
-            // handle jsx
-            Optional::new(
-                react::react::<&dyn Comments>(
-                    cm.clone(),
-                    comments.map(|v| v as _),
-                    transform.react,
-                    top_level_mark,
-                    unresolved_mark
+                // The transform strips import assertions, so it's only enabled if
+                // keep_import_assertions is false.
+                Optional::new(import_assertions(), !keep_import_assertions),
+                Optional::new(
+                    typescript::strip_with_jsx::<Option<&dyn Comments>>(
+                        cm.clone(),
+                        typescript::Config {
+                            pragma: Some(
+                                transform
+                                    .react
+                                    .pragma
+                                    .clone()
+                                    .unwrap_or_else(default_pragma)
+                            ),
+                            pragma_frag: Some(
+                                transform
+                                    .react
+                                    .pragma_frag
+                                    .clone()
+                                    .unwrap_or_else(default_pragma_frag)
+                            ),
+                            ts_enum_config: TsEnumConfig {
+                                treat_const_enum_as_enum: transform
+                                    .treat_const_enum_as_enum
+                                    .into_bool(),
+                                ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
+                            },
+                            import_export_assign_config,
+                            ..Default::default()
+                        },
+                        comments.map(|v| v as _),
+                        top_level_mark
+                    ),
+                    syntax.typescript()
                 ),
-                syntax.jsx()
-            ),
-            pass,
-            Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
-            Optional::new(
-                dropped_comments_preserver(comments.cloned()),
-                preserve_all_comments
-            ),
-        );
+                plugin_transforms,
+                custom_before_pass(&program),
+                // handle jsx
+                Optional::new(
+                    react::react::<&dyn Comments>(
+                        cm.clone(),
+                        comments.map(|v| v as _),
+                        transform.react,
+                        top_level_mark,
+                        unresolved_mark
+                    ),
+                    syntax.jsx()
+                ),
+                pass,
+                Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
+                Optional::new(
+                    dropped_comments_preserver(comments.cloned()),
+                    preserve_all_comments
+                ),
+            ))
+        };
 
         Ok(BuiltInput {
             program,
@@ -1454,6 +1461,9 @@ pub struct JscExperimental {
     /// and will not be considered as breaking changes.
     #[serde(default)]
     pub cache_root: Option<String>,
+
+    #[serde(default)]
+    pub disable_builtin_transforms_for_internal_testing: BoolConfig<false>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
