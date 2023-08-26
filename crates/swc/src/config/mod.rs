@@ -759,7 +759,10 @@ impl Options {
             noop()
         };
 
-        let pass: Box<dyn Fold> = if experimental.disable_builtin_transforms.into_bool() {
+        let pass: Box<dyn Fold> = if experimental
+            .disable_builtin_transforms_for_internal_testing
+            .into_bool()
+        {
             Box::new(plugin_transforms)
         } else {
             Box::new(chain!(
@@ -1460,7 +1463,7 @@ pub struct JscExperimental {
     pub cache_root: Option<String>,
 
     #[serde(default)]
-    pub disable_builtin_transforms: BoolConfig<false>,
+    pub disable_builtin_transforms_for_internal_testing: BoolConfig<false>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]

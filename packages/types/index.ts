@@ -615,7 +615,7 @@ export interface JscConfig {
         /**
          * Disable builtin transforms. If enabled, only Wasm plugins are used.
          */
-        disableBuiltinTransforms?: boolean;
+        disableBuiltinTransformsForInternalTesting?: boolean;
     };
 
     baseUrl?: string;

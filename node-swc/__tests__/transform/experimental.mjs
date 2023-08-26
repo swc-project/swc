@@ -14,7 +14,7 @@ describe("when jsc.experimentalDisableBuiltinTransforms is true", () => {
                         syntax: "typescript",
                     },
                     experimental: {
-                        disableBuiltinTransforms: true,
+                        disableBuiltinTransformsForInternalTesting: true,
                     },
                 },
                 minify: false,
