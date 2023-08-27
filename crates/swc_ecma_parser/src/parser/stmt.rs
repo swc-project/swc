@@ -816,7 +816,7 @@ impl<'a, I: Tokens> Parser<I> {
             decls.push(self.parse_var_declarator(false, VarDeclKind::Var)?);
         }
 
-        if !self.syntax().using_decl() {
+        if !self.syntax().explicit_resource_management() {
             self.emit_err(span!(self, start), SyntaxError::UsingDeclNotEnabled);
         }
 
@@ -1272,7 +1272,7 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let init = self.include_in_expr(false).parse_for_head_prefix()?;
 
-        let is_using_decl = self.input.syntax().using_decl()
+        let is_using_decl = self.input.syntax().explicit_resource_management()
             && match *init {
                 Expr::Ident(Ident {
                     sym: js_word!("using"),

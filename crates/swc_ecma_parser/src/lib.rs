@@ -282,7 +282,7 @@ impl Syntax {
         }
     }
 
-    fn using_decl(&self) -> bool {
+    pub fn explicit_resource_management(&self) -> bool {
         match self {
             Syntax::Es(EsConfig { using_decl, .. }) => *using_decl,
             Syntax::Typescript(_) => true,

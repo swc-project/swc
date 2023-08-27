@@ -57,7 +57,10 @@ use swc_ecma_transforms::{
     modules::{path::NodeImportResolver, rewriter::import_rewriter},
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
-    proposals::{decorators, export_default_from, import_assertions},
+    proposals::{
+        decorators, explicit_resource_management::explicit_resource_management,
+        export_default_from, import_assertions,
+    },
     react::{self, default_pragma, default_pragma_frag},
     resolver,
     typescript::{self, TsEnumConfig, TsImportExportAssignConfig},
@@ -791,6 +794,10 @@ impl Options {
                         }
                     },
                     syntax.decorators()
+                ),
+                Optional::new(
+                    explicit_resource_management(),
+                    syntax.explicit_resource_management()
                 ),
                 // The transform strips import assertions, so it's only enabled if
                 // keep_import_assertions is false.
