@@ -129,7 +129,7 @@
       ],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -191,7 +191,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -231,7 +231,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "TsImportEqualsDeclaration",

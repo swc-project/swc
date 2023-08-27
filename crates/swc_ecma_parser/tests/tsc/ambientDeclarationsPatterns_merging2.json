@@ -165,7 +165,7 @@
         "raw": "\"a.foo\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "TsModuleDeclaration",
@@ -326,7 +326,7 @@
         "raw": "\"b.foo\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "TsModuleDeclaration",

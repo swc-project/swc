@@ -55,7 +55,7 @@
         "raw": "'foo'"
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

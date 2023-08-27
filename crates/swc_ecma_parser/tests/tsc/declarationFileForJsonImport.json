@@ -44,7 +44,7 @@
         "raw": "\"./data.json\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "VariableDeclaration",

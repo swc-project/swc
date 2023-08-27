@@ -233,7 +233,7 @@
         "raw": "'./bug24934'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

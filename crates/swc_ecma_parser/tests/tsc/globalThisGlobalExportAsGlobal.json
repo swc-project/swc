@@ -73,7 +73,7 @@
             ],
             "source": null,
             "typeOnly": false,
-            "asserts": null
+            "with": null
           }
         ]
       }

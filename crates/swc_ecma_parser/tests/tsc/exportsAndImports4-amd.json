@@ -136,7 +136,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -194,7 +194,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -281,7 +281,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -357,7 +357,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -480,7 +480,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -537,7 +537,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "TsImportEqualsDeclaration",
@@ -651,7 +651,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -709,7 +709,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -796,7 +796,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -872,7 +872,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -995,7 +995,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -1204,7 +1204,7 @@
       ],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

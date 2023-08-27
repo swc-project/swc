@@ -116,7 +116,7 @@
         "raw": "'./a'"
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "TsInterfaceDeclaration",

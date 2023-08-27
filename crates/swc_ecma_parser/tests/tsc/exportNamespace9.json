@@ -61,7 +61,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -103,7 +103,7 @@
         "raw": "\"./b\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "VariableDeclaration",
@@ -178,7 +178,7 @@
       ],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -220,7 +220,7 @@
         "raw": "\"./c\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -347,7 +347,7 @@
         "raw": "\"./e\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportAllDeclaration",
@@ -367,7 +367,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -409,7 +409,7 @@
         "raw": "\"./f\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

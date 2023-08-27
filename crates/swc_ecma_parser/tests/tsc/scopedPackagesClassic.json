@@ -96,7 +96,7 @@
         "raw": "\"@see/saw\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

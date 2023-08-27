@@ -80,7 +80,7 @@
         "raw": "'./a'"
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -122,7 +122,7 @@
         "raw": "'./b'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "VariableDeclaration",

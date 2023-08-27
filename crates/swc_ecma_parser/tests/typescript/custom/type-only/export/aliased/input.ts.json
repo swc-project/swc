@@ -46,7 +46,7 @@
       ],
       "source": null,
       "typeOnly": true,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

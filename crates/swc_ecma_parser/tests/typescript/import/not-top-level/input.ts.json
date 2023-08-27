@@ -71,7 +71,7 @@
               "raw": "\"a\""
             },
             "typeOnly": false,
-            "asserts": null
+            "with": null
           }
         ]
       }

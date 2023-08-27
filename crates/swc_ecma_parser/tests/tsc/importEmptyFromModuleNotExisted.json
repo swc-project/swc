@@ -25,7 +25,7 @@
         "raw": "'module-not-existed'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

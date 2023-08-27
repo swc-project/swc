@@ -122,7 +122,7 @@
         "raw": "\"../lib/constants\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -155,7 +155,7 @@
       ],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null
