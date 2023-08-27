@@ -168,6 +168,7 @@
     "es.string.ends-with",
     "es.string.from-code-point",
     "es.string.includes",
+    "es.string.is-well-formed",
     "es.string.iterator",
     "es.string.match",
     "es.string.match-all",
@@ -181,6 +182,7 @@
     "es.string.split",
     "es.string.starts-with",
     "es.string.substr",
+    "es.string.to-well-formed",
     "es.string.trim",
     "es.string.trim-end",
     "es.string.trim-start",
@@ -287,6 +289,7 @@
     "esnext.function.demethodize",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
+    "esnext.function.metadata",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
@@ -349,10 +352,12 @@
     "esnext.object.iterate-entries",
     "esnext.object.iterate-keys",
     "esnext.object.iterate-values",
+    "esnext.object.group-by",
     "esnext.observable",
     "esnext.promise.all-settled",
     "esnext.promise.any",
     "esnext.promise.try",
+    "esnext.promise.with-resolvers",
     "esnext.reflect.define-metadata",
     "esnext.reflect.delete-metadata",
     "esnext.reflect.get-metadata",
@@ -397,7 +402,9 @@
     "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
+    "esnext.symbol.is-registered-symbol",
     "esnext.symbol.is-registered",
+    "esnext.symbol.is-well-known-symbol",
     "esnext.symbol.is-well-known",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
@@ -442,6 +449,8 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/actual": [
@@ -613,6 +622,7 @@
     "es.string.ends-with",
     "es.string.from-code-point",
     "es.string.includes",
+    "es.string.is-well-formed",
     "es.string.iterator",
     "es.string.match",
     "es.string.match-all",
@@ -626,6 +636,7 @@
     "es.string.split",
     "es.string.starts-with",
     "es.string.substr",
+    "es.string.to-well-formed",
     "es.string.trim",
     "es.string.trim-end",
     "es.string.trim-start",
@@ -716,6 +727,7 @@
     "esnext.async-iterator.take",
     "esnext.async-iterator.to-array",
     "esnext.disposable-stack.constructor",
+    "esnext.function.metadata",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.dispose",
@@ -750,6 +762,7 @@
     "esnext.string.replace-all",
     "esnext.string.to-well-formed",
     "esnext.symbol.dispose",
+    "esnext.symbol.metadata",
     "esnext.typed-array.at",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
@@ -773,6 +786,8 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/actual/aggregate-error": [
@@ -1441,13 +1456,17 @@
   "core-js/actual/function": [
     "es.function.bind",
     "es.function.has-instance",
-    "es.function.name"
+    "es.function.name",
+    "esnext.function.metadata"
   ],
   "core-js/actual/function/bind": [
     "es.function.bind"
   ],
   "core-js/actual/function/has-instance": [
     "es.function.has-instance"
+  ],
+  "core-js/actual/function/metadata": [
+    "esnext.function.metadata"
   ],
   "core-js/actual/function/name": [
     "es.function.name"
@@ -1557,7 +1576,7 @@
     "es.array.index-of"
   ],
   "core-js/actual/instance/is-well-formed": [
-    "esnext.string.is-well-formed"
+    "es.string.is-well-formed"
   ],
   "core-js/actual/instance/keys": [
     "es.array.iterator",
@@ -1630,7 +1649,7 @@
     "esnext.array.to-spliced"
   ],
   "core-js/actual/instance/to-well-formed": [
-    "esnext.string.to-well-formed"
+    "es.string.to-well-formed"
   ],
   "core-js/actual/instance/trim": [
     "es.string.trim"
@@ -2290,6 +2309,7 @@
     "es.string.ends-with",
     "es.string.from-code-point",
     "es.string.includes",
+    "es.string.is-well-formed",
     "es.string.iterator",
     "es.string.match",
     "es.string.match-all",
@@ -2303,6 +2323,7 @@
     "es.string.split",
     "es.string.starts-with",
     "es.string.substr",
+    "es.string.to-well-formed",
     "es.string.trim",
     "es.string.trim-end",
     "es.string.trim-start",
@@ -2359,6 +2380,7 @@
     "es.string.includes"
   ],
   "core-js/actual/string/is-well-formed": [
+    "es.string.is-well-formed",
     "esnext.string.is-well-formed"
   ],
   "core-js/actual/string/italics": [
@@ -2428,6 +2450,7 @@
     "es.string.sup"
   ],
   "core-js/actual/string/to-well-formed": [
+    "es.string.to-well-formed",
     "esnext.string.to-well-formed"
   ],
   "core-js/actual/string/trim": [
@@ -2517,6 +2540,7 @@
     "es.string.includes"
   ],
   "core-js/actual/string/virtual/is-well-formed": [
+    "es.string.is-well-formed",
     "esnext.string.is-well-formed"
   ],
   "core-js/actual/string/virtual/italics": [
@@ -2567,6 +2591,7 @@
     "es.string.sup"
   ],
   "core-js/actual/string/virtual/to-well-formed": [
+    "es.string.to-well-formed",
     "esnext.string.to-well-formed"
   ],
   "core-js/actual/string/virtual/trim": [
@@ -2622,7 +2647,9 @@
     "es.math.to-string-tag",
     "es.object.to-string",
     "es.reflect.to-string-tag",
+    "esnext.function.metadata",
     "esnext.symbol.dispose",
+    "esnext.symbol.metadata",
     "web.dom-collections.iterator"
   ],
   "core-js/actual/symbol/async-iterator": [
@@ -2665,6 +2692,10 @@
     "es.object.to-string",
     "es.regexp.exec",
     "es.string.match-all"
+  ],
+  "core-js/actual/symbol/metadata": [
+    "esnext.function.metadata",
+    "esnext.symbol.metadata"
   ],
   "core-js/actual/symbol/replace": [
     "es.symbol.replace",
@@ -3308,11 +3339,15 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/actual/url-search-params": [
     "web.dom-collections.iterator",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/actual/url/can-parse": [
@@ -3503,6 +3538,7 @@
     "es.string.ends-with",
     "es.string.from-code-point",
     "es.string.includes",
+    "es.string.is-well-formed",
     "es.string.iterator",
     "es.string.match",
     "es.string.match-all",
@@ -3516,6 +3552,7 @@
     "es.string.split",
     "es.string.starts-with",
     "es.string.substr",
+    "es.string.to-well-formed",
     "es.string.trim",
     "es.string.trim-end",
     "es.string.trim-start",
@@ -4064,6 +4101,9 @@
   "core-js/es/instance/index-of": [
     "es.array.index-of"
   ],
+  "core-js/es/instance/is-well-formed": [
+    "es.string.is-well-formed"
+  ],
   "core-js/es/instance/keys": [
     "es.array.iterator",
     "es.object.to-string"
@@ -4129,6 +4169,9 @@
   ],
   "core-js/es/instance/to-spliced": [
     "es.array.to-spliced"
+  ],
+  "core-js/es/instance/to-well-formed": [
+    "es.string.to-well-formed"
   ],
   "core-js/es/instance/trim": [
     "es.string.trim"
@@ -4603,6 +4646,7 @@
     "es.string.ends-with",
     "es.string.from-code-point",
     "es.string.includes",
+    "es.string.is-well-formed",
     "es.string.iterator",
     "es.string.match",
     "es.string.match-all",
@@ -4616,6 +4660,7 @@
     "es.string.split",
     "es.string.starts-with",
     "es.string.substr",
+    "es.string.to-well-formed",
     "es.string.trim",
     "es.string.trim-end",
     "es.string.trim-start",
@@ -4668,6 +4713,9 @@
   ],
   "core-js/es/string/includes": [
     "es.string.includes"
+  ],
+  "core-js/es/string/is-well-formed": [
+    "es.string.is-well-formed"
   ],
   "core-js/es/string/italics": [
     "es.string.italics"
@@ -4734,6 +4782,9 @@
   ],
   "core-js/es/string/sup": [
     "es.string.sup"
+  ],
+  "core-js/es/string/to-well-formed": [
+    "es.string.to-well-formed"
   ],
   "core-js/es/string/trim": [
     "es.string.trim"
@@ -4819,6 +4870,9 @@
   "core-js/es/string/virtual/includes": [
     "es.string.includes"
   ],
+  "core-js/es/string/virtual/is-well-formed": [
+    "es.string.is-well-formed"
+  ],
   "core-js/es/string/virtual/italics": [
     "es.string.italics"
   ],
@@ -4865,6 +4919,9 @@
   ],
   "core-js/es/string/virtual/sup": [
     "es.string.sup"
+  ],
+  "core-js/es/string/virtual/to-well-formed": [
+    "es.string.to-well-formed"
   ],
   "core-js/es/string/virtual/trim": [
     "es.string.trim"
@@ -5682,6 +5739,7 @@
     "es.string.ends-with",
     "es.string.from-code-point",
     "es.string.includes",
+    "es.string.is-well-formed",
     "es.string.iterator",
     "es.string.match",
     "es.string.match-all",
@@ -5695,6 +5753,7 @@
     "es.string.split",
     "es.string.starts-with",
     "es.string.substr",
+    "es.string.to-well-formed",
     "es.string.trim",
     "es.string.trim-end",
     "es.string.trim-start",
@@ -5801,6 +5860,7 @@
     "esnext.function.demethodize",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
+    "esnext.function.metadata",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
@@ -5863,10 +5923,12 @@
     "esnext.object.iterate-entries",
     "esnext.object.iterate-keys",
     "esnext.object.iterate-values",
+    "esnext.object.group-by",
     "esnext.observable",
     "esnext.promise.all-settled",
     "esnext.promise.any",
     "esnext.promise.try",
+    "esnext.promise.with-resolvers",
     "esnext.reflect.define-metadata",
     "esnext.reflect.delete-metadata",
     "esnext.reflect.get-metadata",
@@ -5911,7 +5973,9 @@
     "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
+    "esnext.symbol.is-registered-symbol",
     "esnext.symbol.is-registered",
+    "esnext.symbol.is-well-known-symbol",
     "esnext.symbol.is-well-known",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
@@ -5956,6 +6020,8 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/features/aggregate-error": [
@@ -6726,6 +6792,7 @@
     "esnext.function.demethodize",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
+    "esnext.function.metadata",
     "esnext.function.un-this"
   ],
   "core-js/features/function/bind": [
@@ -6742,6 +6809,9 @@
   ],
   "core-js/features/function/is-constructor": [
     "esnext.function.is-constructor"
+  ],
+  "core-js/features/function/metadata": [
+    "esnext.function.metadata"
   ],
   "core-js/features/function/name": [
     "es.function.name"
@@ -6878,7 +6948,7 @@
     "es.array.index-of"
   ],
   "core-js/features/instance/is-well-formed": [
-    "esnext.string.is-well-formed"
+    "es.string.is-well-formed"
   ],
   "core-js/features/instance/keys": [
     "es.array.iterator",
@@ -6953,7 +7023,7 @@
     "esnext.array.to-spliced"
   ],
   "core-js/features/instance/to-well-formed": [
-    "esnext.string.to-well-formed"
+    "es.string.to-well-formed"
   ],
   "core-js/features/instance/trim": [
     "es.string.trim"
@@ -7499,6 +7569,7 @@
     "esnext.object.iterate-entries",
     "esnext.object.iterate-keys",
     "esnext.object.iterate-values",
+    "esnext.object.group-by",
     "web.dom-collections.iterator"
   ],
   "core-js/features/object/assign": [
@@ -7544,6 +7615,10 @@
   ],
   "core-js/features/object/get-prototype-of": [
     "es.object.get-prototype-of"
+  ],
+  "core-js/features/object/group-by": [
+    "es.object.create",
+    "esnext.object.group-by"
   ],
   "core-js/features/object/has-own": [
     "es.object.has-own",
@@ -7626,6 +7701,7 @@
     "esnext.promise.all-settled",
     "esnext.promise.any",
     "esnext.promise.try",
+    "esnext.promise.with-resolvers",
     "web.dom-collections.iterator"
   ],
   "core-js/features/promise/all-settled": [
@@ -7656,6 +7732,10 @@
   "core-js/features/promise/try": [
     "es.promise",
     "esnext.promise.try"
+  ],
+  "core-js/features/promise/with-resolvers": [
+    "es.promise",
+    "esnext.promise.with-resolvers"
   ],
   "core-js/features/queue-microtask": [
     "web.queue-microtask"
@@ -7966,6 +8046,7 @@
     "es.string.ends-with",
     "es.string.from-code-point",
     "es.string.includes",
+    "es.string.is-well-formed",
     "es.string.iterator",
     "es.string.match",
     "es.string.match-all",
@@ -7979,6 +8060,7 @@
     "es.string.split",
     "es.string.starts-with",
     "es.string.substr",
+    "es.string.to-well-formed",
     "es.string.trim",
     "es.string.trim-end",
     "es.string.trim-start",
@@ -8055,6 +8137,7 @@
     "es.string.includes"
   ],
   "core-js/features/string/is-well-formed": [
+    "es.string.is-well-formed",
     "esnext.string.is-well-formed"
   ],
   "core-js/features/string/italics": [
@@ -8126,6 +8209,7 @@
     "es.string.sup"
   ],
   "core-js/features/string/to-well-formed": [
+    "es.string.to-well-formed",
     "esnext.string.to-well-formed"
   ],
   "core-js/features/string/trim": [
@@ -8224,6 +8308,7 @@
     "es.string.includes"
   ],
   "core-js/features/string/virtual/is-well-formed": [
+    "es.string.is-well-formed",
     "esnext.string.is-well-formed"
   ],
   "core-js/features/string/virtual/italics": [
@@ -8276,6 +8361,7 @@
     "es.string.sup"
   ],
   "core-js/features/string/virtual/to-well-formed": [
+    "es.string.to-well-formed",
     "esnext.string.to-well-formed"
   ],
   "core-js/features/string/virtual/trim": [
@@ -8331,9 +8417,12 @@
     "es.math.to-string-tag",
     "es.object.to-string",
     "es.reflect.to-string-tag",
+    "esnext.function.metadata",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
+    "esnext.symbol.is-registered-symbol",
     "esnext.symbol.is-registered",
+    "esnext.symbol.is-well-known-symbol",
     "esnext.symbol.is-well-known",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
@@ -8370,9 +8459,17 @@
     "es.symbol",
     "esnext.symbol.is-registered"
   ],
+  "core-js/features/symbol/is-registered-symbol": [
+    "es.symbol",
+    "esnext.symbol.is-registered-symbol"
+  ],
   "core-js/features/symbol/is-well-known": [
     "es.symbol",
     "esnext.symbol.is-well-known"
+  ],
+  "core-js/features/symbol/is-well-known-symbol": [
+    "es.symbol",
+    "esnext.symbol.is-well-known-symbol"
   ],
   "core-js/features/symbol/iterator": [
     "es.symbol.iterator",
@@ -8399,6 +8496,7 @@
     "esnext.symbol.matcher"
   ],
   "core-js/features/symbol/metadata": [
+    "esnext.function.metadata",
     "esnext.symbol.metadata"
   ],
   "core-js/features/symbol/metadata-key": [
@@ -9160,11 +9258,15 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/features/url-search-params": [
     "web.dom-collections.iterator",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/features/url/can-parse": [
@@ -9410,6 +9512,7 @@
     "es.string.ends-with",
     "es.string.from-code-point",
     "es.string.includes",
+    "es.string.is-well-formed",
     "es.string.iterator",
     "es.string.match",
     "es.string.match-all",
@@ -9423,6 +9526,7 @@
     "es.string.split",
     "es.string.starts-with",
     "es.string.substr",
+    "es.string.to-well-formed",
     "es.string.trim",
     "es.string.trim-end",
     "es.string.trim-start",
@@ -9529,6 +9633,7 @@
     "esnext.function.demethodize",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
+    "esnext.function.metadata",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
@@ -9591,10 +9696,12 @@
     "esnext.object.iterate-entries",
     "esnext.object.iterate-keys",
     "esnext.object.iterate-values",
+    "esnext.object.group-by",
     "esnext.observable",
     "esnext.promise.all-settled",
     "esnext.promise.any",
     "esnext.promise.try",
+    "esnext.promise.with-resolvers",
     "esnext.reflect.define-metadata",
     "esnext.reflect.delete-metadata",
     "esnext.reflect.get-metadata",
@@ -9639,7 +9746,9 @@
     "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
+    "esnext.symbol.is-registered-symbol",
     "esnext.symbol.is-registered",
+    "esnext.symbol.is-well-known-symbol",
     "esnext.symbol.is-well-known",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
@@ -9684,6 +9793,8 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/full/aggregate-error": [
@@ -10454,6 +10565,7 @@
     "esnext.function.demethodize",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
+    "esnext.function.metadata",
     "esnext.function.un-this"
   ],
   "core-js/full/function/bind": [
@@ -10470,6 +10582,9 @@
   ],
   "core-js/full/function/is-constructor": [
     "esnext.function.is-constructor"
+  ],
+  "core-js/full/function/metadata": [
+    "esnext.function.metadata"
   ],
   "core-js/full/function/name": [
     "es.function.name"
@@ -10606,7 +10721,7 @@
     "es.array.index-of"
   ],
   "core-js/full/instance/is-well-formed": [
-    "esnext.string.is-well-formed"
+    "es.string.is-well-formed"
   ],
   "core-js/full/instance/keys": [
     "es.array.iterator",
@@ -10681,7 +10796,7 @@
     "esnext.array.to-spliced"
   ],
   "core-js/full/instance/to-well-formed": [
-    "esnext.string.to-well-formed"
+    "es.string.to-well-formed"
   ],
   "core-js/full/instance/trim": [
     "es.string.trim"
@@ -11227,6 +11342,7 @@
     "esnext.object.iterate-entries",
     "esnext.object.iterate-keys",
     "esnext.object.iterate-values",
+    "esnext.object.group-by",
     "web.dom-collections.iterator"
   ],
   "core-js/full/object/assign": [
@@ -11272,6 +11388,10 @@
   ],
   "core-js/full/object/get-prototype-of": [
     "es.object.get-prototype-of"
+  ],
+  "core-js/full/object/group-by": [
+    "es.object.create",
+    "esnext.object.group-by"
   ],
   "core-js/full/object/has-own": [
     "es.object.has-own",
@@ -11354,6 +11474,7 @@
     "esnext.promise.all-settled",
     "esnext.promise.any",
     "esnext.promise.try",
+    "esnext.promise.with-resolvers",
     "web.dom-collections.iterator"
   ],
   "core-js/full/promise/all-settled": [
@@ -11384,6 +11505,10 @@
   "core-js/full/promise/try": [
     "es.promise",
     "esnext.promise.try"
+  ],
+  "core-js/full/promise/with-resolvers": [
+    "es.promise",
+    "esnext.promise.with-resolvers"
   ],
   "core-js/full/queue-microtask": [
     "web.queue-microtask"
@@ -11694,6 +11819,7 @@
     "es.string.ends-with",
     "es.string.from-code-point",
     "es.string.includes",
+    "es.string.is-well-formed",
     "es.string.iterator",
     "es.string.match",
     "es.string.match-all",
@@ -11707,6 +11833,7 @@
     "es.string.split",
     "es.string.starts-with",
     "es.string.substr",
+    "es.string.to-well-formed",
     "es.string.trim",
     "es.string.trim-end",
     "es.string.trim-start",
@@ -11783,6 +11910,7 @@
     "es.string.includes"
   ],
   "core-js/full/string/is-well-formed": [
+    "es.string.is-well-formed",
     "esnext.string.is-well-formed"
   ],
   "core-js/full/string/italics": [
@@ -11854,6 +11982,7 @@
     "es.string.sup"
   ],
   "core-js/full/string/to-well-formed": [
+    "es.string.to-well-formed",
     "esnext.string.to-well-formed"
   ],
   "core-js/full/string/trim": [
@@ -11952,6 +12081,7 @@
     "es.string.includes"
   ],
   "core-js/full/string/virtual/is-well-formed": [
+    "es.string.is-well-formed",
     "esnext.string.is-well-formed"
   ],
   "core-js/full/string/virtual/italics": [
@@ -12004,6 +12134,7 @@
     "es.string.sup"
   ],
   "core-js/full/string/virtual/to-well-formed": [
+    "es.string.to-well-formed",
     "esnext.string.to-well-formed"
   ],
   "core-js/full/string/virtual/trim": [
@@ -12059,9 +12190,12 @@
     "es.math.to-string-tag",
     "es.object.to-string",
     "es.reflect.to-string-tag",
+    "esnext.function.metadata",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
+    "esnext.symbol.is-registered-symbol",
     "esnext.symbol.is-registered",
+    "esnext.symbol.is-well-known-symbol",
     "esnext.symbol.is-well-known",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
@@ -12098,9 +12232,17 @@
     "es.symbol",
     "esnext.symbol.is-registered"
   ],
+  "core-js/full/symbol/is-registered-symbol": [
+    "es.symbol",
+    "esnext.symbol.is-registered-symbol"
+  ],
   "core-js/full/symbol/is-well-known": [
     "es.symbol",
     "esnext.symbol.is-well-known"
+  ],
+  "core-js/full/symbol/is-well-known-symbol": [
+    "es.symbol",
+    "esnext.symbol.is-well-known-symbol"
   ],
   "core-js/full/symbol/iterator": [
     "es.symbol.iterator",
@@ -12127,6 +12269,7 @@
     "esnext.symbol.matcher"
   ],
   "core-js/full/symbol/metadata": [
+    "esnext.function.metadata",
     "esnext.symbol.metadata"
   ],
   "core-js/full/symbol/metadata-key": [
@@ -12888,11 +13031,15 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/full/url-search-params": [
     "web.dom-collections.iterator",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/full/url/can-parse": [
@@ -13482,6 +13629,9 @@
   "core-js/modules/es.string.includes": [
     "es.string.includes"
   ],
+  "core-js/modules/es.string.is-well-formed": [
+    "es.string.is-well-formed"
+  ],
   "core-js/modules/es.string.italics": [
     "es.string.italics"
   ],
@@ -13538,6 +13688,9 @@
   ],
   "core-js/modules/es.string.sup": [
     "es.string.sup"
+  ],
+  "core-js/modules/es.string.to-well-formed": [
+    "es.string.to-well-formed"
   ],
   "core-js/modules/es.string.trim": [
     "es.string.trim"
@@ -13881,6 +14034,9 @@
   "core-js/modules/esnext.function.is-constructor": [
     "esnext.function.is-constructor"
   ],
+  "core-js/modules/esnext.function.metadata": [
+    "esnext.function.metadata"
+  ],
   "core-js/modules/esnext.function.un-this": [
     "esnext.function.un-this"
   ],
@@ -14055,6 +14211,9 @@
   "core-js/modules/esnext.number.range": [
     "esnext.number.range"
   ],
+  "core-js/modules/esnext.object.group-by": [
+    "esnext.object.group-by"
+  ],
   "core-js/modules/esnext.object.has-own": [
     "esnext.object.has-own"
   ],
@@ -14087,6 +14246,9 @@
   ],
   "core-js/modules/esnext.promise.try": [
     "esnext.promise.try"
+  ],
+  "core-js/modules/esnext.promise.with-resolvers": [
+    "esnext.promise.with-resolvers"
   ],
   "core-js/modules/esnext.reflect.define-metadata": [
     "esnext.reflect.define-metadata"
@@ -14229,8 +14391,14 @@
   "core-js/modules/esnext.symbol.is-registered": [
     "esnext.symbol.is-registered"
   ],
+  "core-js/modules/esnext.symbol.is-registered-symbol": [
+    "esnext.symbol.is-registered-symbol"
+  ],
   "core-js/modules/esnext.symbol.is-well-known": [
     "esnext.symbol.is-well-known"
+  ],
+  "core-js/modules/esnext.symbol.is-well-known-symbol": [
+    "esnext.symbol.is-well-known-symbol"
   ],
   "core-js/modules/esnext.symbol.matcher": [
     "esnext.symbol.matcher"
@@ -14370,6 +14538,12 @@
   "core-js/modules/web.url-search-params.constructor": [
     "web.url-search-params.constructor"
   ],
+  "core-js/modules/web.url-search-params.delete": [
+    "web.url-search-params.delete"
+  ],
+  "core-js/modules/web.url-search-params.has": [
+    "web.url-search-params.has"
+  ],
   "core-js/modules/web.url-search-params.size": [
     "web.url-search-params.size"
   ],
@@ -14432,6 +14606,7 @@
     "esnext.function.demethodize",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
+    "esnext.function.metadata",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
@@ -14494,10 +14669,12 @@
     "esnext.object.iterate-entries",
     "esnext.object.iterate-keys",
     "esnext.object.iterate-values",
+    "esnext.object.group-by",
     "esnext.observable",
     "esnext.promise.all-settled",
     "esnext.promise.any",
     "esnext.promise.try",
+    "esnext.promise.with-resolvers",
     "esnext.reflect.define-metadata",
     "esnext.reflect.delete-metadata",
     "esnext.reflect.get-metadata",
@@ -14542,7 +14719,9 @@
     "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
+    "esnext.symbol.is-registered-symbol",
     "esnext.symbol.is-registered",
+    "esnext.symbol.is-well-known-symbol",
     "esnext.symbol.is-well-known",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
@@ -14575,6 +14754,8 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/proposals/accessible-object-hasownproperty": [
@@ -14626,6 +14807,10 @@
   "core-js/proposals/array-grouping-stage-3-2": [
     "esnext.array.group",
     "esnext.array.group-to-map"
+  ],
+  "core-js/proposals/array-grouping-v2": [
+    "esnext.map.group-by",
+    "esnext.object.group-by"
   ],
   "core-js/proposals/array-includes": [
     "es.array.includes",
@@ -14730,6 +14915,7 @@
     "esnext.symbol.metadata-key"
   ],
   "core-js/proposals/decorator-metadata-v2": [
+    "esnext.function.metadata",
     "esnext.symbol.metadata"
   ],
   "core-js/proposals/decorators": [
@@ -14927,6 +15113,9 @@
   "core-js/proposals/promise-try": [
     "esnext.promise.try"
   ],
+  "core-js/proposals/promise-with-resolvers": [
+    "esnext.promise.with-resolvers"
+  ],
   "core-js/proposals/reflect-metadata": [
     "esnext.reflect.define-metadata",
     "esnext.reflect.delete-metadata",
@@ -15019,11 +15208,17 @@
     "esnext.symbol.is-registered",
     "esnext.symbol.is-well-known"
   ],
+  "core-js/proposals/symbol-predicates-v2": [
+    "esnext.symbol.is-registered-symbol",
+    "esnext.symbol.is-well-known-symbol"
+  ],
   "core-js/proposals/url": [
     "web.url",
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/proposals/using-statement": [
@@ -15206,6 +15401,7 @@
     "es.string.ends-with",
     "es.string.from-code-point",
     "es.string.includes",
+    "es.string.is-well-formed",
     "es.string.iterator",
     "es.string.match",
     "es.string.match-all",
@@ -15219,6 +15415,7 @@
     "es.string.split",
     "es.string.starts-with",
     "es.string.substr",
+    "es.string.to-well-formed",
     "es.string.trim",
     "es.string.trim-end",
     "es.string.trim-start",
@@ -15294,6 +15491,8 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/stable/aggregate-error": [
@@ -15836,6 +16035,9 @@
   "core-js/stable/instance/index-of": [
     "es.array.index-of"
   ],
+  "core-js/stable/instance/is-well-formed": [
+    "es.string.is-well-formed"
+  ],
   "core-js/stable/instance/keys": [
     "es.array.iterator",
     "es.object.to-string",
@@ -15902,6 +16104,9 @@
   ],
   "core-js/stable/instance/to-spliced": [
     "es.array.to-spliced"
+  ],
+  "core-js/stable/instance/to-well-formed": [
+    "es.string.to-well-formed"
   ],
   "core-js/stable/instance/trim": [
     "es.string.trim"
@@ -16399,6 +16604,7 @@
     "es.string.ends-with",
     "es.string.from-code-point",
     "es.string.includes",
+    "es.string.is-well-formed",
     "es.string.iterator",
     "es.string.match",
     "es.string.match-all",
@@ -16412,6 +16618,7 @@
     "es.string.split",
     "es.string.starts-with",
     "es.string.substr",
+    "es.string.to-well-formed",
     "es.string.trim",
     "es.string.trim-end",
     "es.string.trim-start",
@@ -16464,6 +16671,9 @@
   ],
   "core-js/stable/string/includes": [
     "es.string.includes"
+  ],
+  "core-js/stable/string/is-well-formed": [
+    "es.string.is-well-formed"
   ],
   "core-js/stable/string/italics": [
     "es.string.italics"
@@ -16530,6 +16740,9 @@
   ],
   "core-js/stable/string/sup": [
     "es.string.sup"
+  ],
+  "core-js/stable/string/to-well-formed": [
+    "es.string.to-well-formed"
   ],
   "core-js/stable/string/trim": [
     "es.string.trim"
@@ -16615,6 +16828,9 @@
   "core-js/stable/string/virtual/includes": [
     "es.string.includes"
   ],
+  "core-js/stable/string/virtual/is-well-formed": [
+    "es.string.is-well-formed"
+  ],
   "core-js/stable/string/virtual/italics": [
     "es.string.italics"
   ],
@@ -16661,6 +16877,9 @@
   ],
   "core-js/stable/string/virtual/sup": [
     "es.string.sup"
+  ],
+  "core-js/stable/string/virtual/to-well-formed": [
+    "es.string.to-well-formed"
   ],
   "core-js/stable/string/virtual/trim": [
     "es.string.trim"
@@ -17318,11 +17537,15 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/stable/url-search-params": [
     "web.dom-collections.iterator",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/stable/url/can-parse": [
@@ -17394,6 +17617,7 @@
     "esnext.function.demethodize",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
+    "esnext.function.metadata",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
@@ -17456,10 +17680,12 @@
     "esnext.object.iterate-entries",
     "esnext.object.iterate-keys",
     "esnext.object.iterate-values",
+    "esnext.object.group-by",
     "esnext.observable",
     "esnext.promise.all-settled",
     "esnext.promise.any",
     "esnext.promise.try",
+    "esnext.promise.with-resolvers",
     "esnext.reflect.define-metadata",
     "esnext.reflect.delete-metadata",
     "esnext.reflect.get-metadata",
@@ -17504,7 +17730,9 @@
     "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
+    "esnext.symbol.is-registered-symbol",
     "esnext.symbol.is-registered",
+    "esnext.symbol.is-well-known-symbol",
     "esnext.symbol.is-well-known",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
@@ -17537,6 +17765,8 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/stage/0": [
@@ -17589,6 +17819,7 @@
     "esnext.function.demethodize",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
+    "esnext.function.metadata",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
@@ -17651,10 +17882,12 @@
     "esnext.object.iterate-entries",
     "esnext.object.iterate-keys",
     "esnext.object.iterate-values",
+    "esnext.object.group-by",
     "esnext.observable",
     "esnext.promise.all-settled",
     "esnext.promise.any",
     "esnext.promise.try",
+    "esnext.promise.with-resolvers",
     "esnext.set.add-all",
     "esnext.set.delete-all",
     "esnext.set.difference.v2",
@@ -17690,7 +17923,9 @@
     "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
+    "esnext.symbol.is-registered-symbol",
     "esnext.symbol.is-registered",
+    "esnext.symbol.is-well-known-symbol",
     "esnext.symbol.is-well-known",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
@@ -17723,6 +17958,8 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/stage/1": [
@@ -17771,6 +18008,7 @@
     "esnext.composite-key",
     "esnext.composite-symbol",
     "esnext.disposable-stack.constructor",
+    "esnext.function.metadata",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
@@ -17828,10 +18066,12 @@
     "esnext.object.iterate-entries",
     "esnext.object.iterate-keys",
     "esnext.object.iterate-values",
+    "esnext.object.group-by",
     "esnext.observable",
     "esnext.promise.all-settled",
     "esnext.promise.any",
     "esnext.promise.try",
+    "esnext.promise.with-resolvers",
     "esnext.set.add-all",
     "esnext.set.delete-all",
     "esnext.set.difference.v2",
@@ -17866,7 +18106,9 @@
     "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
+    "esnext.symbol.is-registered-symbol",
     "esnext.symbol.is-registered",
+    "esnext.symbol.is-well-known-symbol",
     "esnext.symbol.is-well-known",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
@@ -17933,6 +18175,7 @@
     "esnext.async-iterator.take",
     "esnext.async-iterator.to-array",
     "esnext.disposable-stack.constructor",
+    "esnext.function.metadata",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
@@ -17956,9 +18199,12 @@
     "esnext.json.parse",
     "esnext.json.raw-json",
     "esnext.map.emplace",
+    "esnext.map.group-by",
     "esnext.object.has-own",
+    "esnext.object.group-by",
     "esnext.promise.all-settled",
     "esnext.promise.any",
+    "esnext.promise.with-resolvers",
     "esnext.set.difference.v2",
     "esnext.set.difference",
     "esnext.set.intersection.v2",
@@ -17980,7 +18226,9 @@
     "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
+    "esnext.symbol.is-registered-symbol",
     "esnext.symbol.is-registered",
+    "esnext.symbol.is-well-known-symbol",
     "esnext.symbol.is-well-known",
     "esnext.symbol.metadata",
     "esnext.symbol.metadata-key",
@@ -18027,6 +18275,7 @@
     "esnext.async-iterator.take",
     "esnext.async-iterator.to-array",
     "esnext.disposable-stack.constructor",
+    "esnext.function.metadata",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.dispose",
@@ -18061,6 +18310,7 @@
     "esnext.string.replace-all",
     "esnext.string.to-well-formed",
     "esnext.symbol.dispose",
+    "esnext.symbol.metadata",
     "esnext.typed-array.at",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
@@ -18083,8 +18333,10 @@
     "esnext.object.has-own",
     "esnext.promise.all-settled",
     "esnext.promise.any",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
+    "esnext.string.to-well-formed",
     "esnext.typed-array.at",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
@@ -18142,6 +18394,7 @@
     "esnext.function.demethodize",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
+    "esnext.function.metadata",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
@@ -18204,10 +18457,12 @@
     "esnext.object.iterate-entries",
     "esnext.object.iterate-keys",
     "esnext.object.iterate-values",
+    "esnext.object.group-by",
     "esnext.observable",
     "esnext.promise.all-settled",
     "esnext.promise.any",
     "esnext.promise.try",
+    "esnext.promise.with-resolvers",
     "esnext.reflect.define-metadata",
     "esnext.reflect.delete-metadata",
     "esnext.reflect.get-metadata",
@@ -18252,7 +18507,9 @@
     "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
+    "esnext.symbol.is-registered-symbol",
     "esnext.symbol.is-registered",
+    "esnext.symbol.is-well-known-symbol",
     "esnext.symbol.is-well-known",
     "esnext.symbol.matcher",
     "esnext.symbol.metadata",
@@ -18285,6 +18542,8 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/web": [
@@ -18304,6 +18563,8 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/web/dom-collections": [
@@ -18337,10 +18598,14 @@
     "web.url.can-parse",
     "web.url.to-json",
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ],
   "core-js/web/url-search-params": [
     "web.url-search-params",
+    "web.url-search-params.delete",
+    "web.url-search-params.has",
     "web.url-search-params.size"
   ]
 }
