@@ -1,0 +1,130 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 86,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 1,
+        "end": 86,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 10,
+            "end": 17,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 10,
+              "end": 17,
+              "ctxt": 0
+            },
+            "value": "default",
+            "optional": false
+          },
+          "exported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 25,
+          "end": 35,
+          "ctxt": 0
+        },
+        "value": "foo.json",
+        "raw": "\"foo.json\""
+      },
+      "typeOnly": false,
+      "with": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 41,
+          "end": 85,
+          "ctxt": 0
+        },
+        "properties": [
+          {
+            "type": "KeyValueProperty",
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 43,
+                "end": 47,
+                "ctxt": 0
+              },
+              "value": "type",
+              "optional": false
+            },
+            "value": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 49,
+                "end": 55,
+                "ctxt": 0
+              },
+              "value": "json",
+              "raw": "\"json\""
+            }
+          },
+          {
+            "type": "KeyValueProperty",
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 57,
+                "end": 61,
+                "ctxt": 0
+              },
+              "value": "lazy",
+              "optional": false
+            },
+            "value": {
+              "type": "BooleanLiteral",
+              "span": {
+                "start": 63,
+                "end": 67,
+                "ctxt": 0
+              },
+              "value": true
+            }
+          },
+          {
+            "type": "KeyValueProperty",
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 69,
+                "end": 80,
+                "ctxt": 0
+              },
+              "value": "startAtLine",
+              "optional": false
+            },
+            "value": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 82,
+                "end": 83,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

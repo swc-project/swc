@@ -1,0 +1,125 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 65,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 1,
+        "end": 61,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 10,
+            "end": 24,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 10,
+              "end": 19,
+              "ctxt": 0
+            },
+            "value": "default",
+            "raw": "\"default\""
+          },
+          "exported": {
+            "type": "Identifier",
+            "span": {
+              "start": 23,
+              "end": 24,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 32,
+          "end": 37,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "raw": "\"foo\""
+      },
+      "typeOnly": false,
+      "with": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 45,
+          "end": 61,
+          "ctxt": 0
+        },
+        "properties": [
+          {
+            "type": "KeyValueProperty",
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 47,
+                "end": 51,
+                "ctxt": 0
+              },
+              "value": "type",
+              "optional": false
+            },
+            "value": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 53,
+                "end": 59,
+                "ctxt": 0
+              },
+              "value": "json",
+              "raw": "\"json\""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 62,
+        "end": 65,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ArrayExpression",
+        "span": {
+          "start": 62,
+          "end": 65,
+          "ctxt": 0
+        },
+        "elements": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 63,
+                "end": 64,
+                "ctxt": 0
+              },
+              "value": 0.0,
+              "raw": "0"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,94 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 65,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 1,
+        "end": 65,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 10,
+            "end": 24,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 10,
+              "end": 17,
+              "ctxt": 0
+            },
+            "value": "default",
+            "optional": false
+          },
+          "exported": {
+            "type": "Identifier",
+            "span": {
+              "start": 21,
+              "end": 24,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 32,
+          "end": 42,
+          "ctxt": 0
+        },
+        "value": "foo.json",
+        "raw": "\"foo.json\""
+      },
+      "typeOnly": false,
+      "with": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 48,
+          "end": 64,
+          "ctxt": 0
+        },
+        "properties": [
+          {
+            "type": "KeyValueProperty",
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 50,
+                "end": 54,
+                "ctxt": 0
+              },
+              "value": "type",
+              "optional": false
+            },
+            "value": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 56,
+                "end": 62,
+                "ctxt": 0
+              },
+              "value": "json",
+              "raw": "\"json\""
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}
