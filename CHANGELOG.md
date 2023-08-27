@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Fix placing of comments of yield arguments (#7858) ([122d14c](https://github.com/swc-project/swc/commit/122d14c0d306d7c437f1ef0f6f375634ff5d7d1a))
+
+
 - **(es/compat)** Apply transforms for explicit resource management (#7881) ([3180e68](https://github.com/swc-project/swc/commit/3180e68bf27fb95ff00bd24677ae7e96b3aa6c62))
 
 
