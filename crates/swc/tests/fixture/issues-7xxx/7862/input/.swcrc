@@ -17,7 +17,7 @@
     "isModule": true,
     "env": {
         "targets": "ios_saf 10",
-        "coreJs": 3,
+        "coreJs": "3.21",
         "mode": "usage"
     }
 }
