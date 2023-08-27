@@ -1,0 +1,149 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 76,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 10,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1,
+          "end": 9,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Import",
+          "span": {
+            "start": 1,
+            "end": 7,
+            "ctxt": 0
+          }
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 11,
+        "end": 76,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 11,
+          "end": 75,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Import",
+          "span": {
+            "start": 11,
+            "end": 17,
+            "ctxt": 0
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 18,
+                "end": 30,
+                "ctxt": 0
+              },
+              "value": "./foo.json",
+              "raw": "\"./foo.json\""
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 32,
+                "end": 59,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 34,
+                      "end": 40,
+                      "ctxt": 0
+                    },
+                    "value": "assert",
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "ObjectExpression",
+                    "span": {
+                      "start": 42,
+                      "end": 57,
+                      "ctxt": 0
+                    },
+                    "properties": [
+                      {
+                        "type": "KeyValueProperty",
+                        "key": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 44,
+                            "end": 48,
+                            "ctxt": 0
+                          },
+                          "value": "type",
+                          "optional": false
+                        },
+                        "value": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 50,
+                            "end": 56,
+                            "ctxt": 0
+                          },
+                          "value": "json",
+                          "raw": "\"json\""
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 61,
+                "end": 74,
+                "ctxt": 0
+              },
+              "value": "unsupported",
+              "raw": "\"unsupported\""
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}
