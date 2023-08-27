@@ -1,13 +1,13 @@
-import data from "./data.json" assert {
+import data from "./data.json" with {
     type: "json"
 };
-import "./data2.json" assert {
+import "./data2.json" with {
     type: "json"
 };
-export { default as data3 } from "./data3.json" assert {
+export { default as data3 } from "./data3.json" with {
     type: "json"
 };
-export * as data4 from "./data4.json" assert {
+export * as data4 from "./data4.json" with {
     type: "json"
 };
 console.log(data);
