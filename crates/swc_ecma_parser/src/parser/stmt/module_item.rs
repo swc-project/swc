@@ -793,7 +793,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    /// Parses `from 'foo.js' assert {};`
+    /// Parses `from 'foo.js' with {};` or `from 'foo.js' assert {};`
     fn parse_from_clause_and_semi(&mut self) -> PResult<(Box<Str>, Option<Box<ObjectLit>>)> {
         expect!(self, "from");
 
