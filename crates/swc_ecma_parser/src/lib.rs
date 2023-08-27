@@ -284,7 +284,10 @@ impl Syntax {
 
     pub fn explicit_resource_management(&self) -> bool {
         match self {
-            Syntax::Es(EsConfig { using_decl, .. }) => *using_decl,
+            Syntax::Es(EsConfig {
+                explicit_resource_management: using_decl,
+                ..
+            }) => *using_decl,
             Syntax::Typescript(_) => true,
         }
     }
@@ -354,7 +357,7 @@ pub struct EsConfig {
     pub auto_accessors: bool,
 
     #[serde(default)]
-    pub using_decl: bool,
+    pub explicit_resource_management: bool,
 }
 
 /// Syntactic context.
