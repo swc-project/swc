@@ -30,8 +30,7 @@ plugin_transform_host_native = [
   "wasmer-compiler-cranelift/default",
 ]
 plugin_transform_host_native_shared_runtime = [
-  "tokio",
-  "wasmer-wasix/webc_runner",
+  "tokio"
 ]
 
 # Supports a cache allow to store compiled bytecode into filesystem location.
@@ -58,8 +57,13 @@ serde        = { version = "1.0.126", features = ["derive"] }
 serde_json   = "1.0.64"
 tokio        = { version = "1", default-features = false, optional = true }
 tracing      = "0.1.37"
-wasmer       = { version = "4.0.0", default-features = false }
-wasmer-wasix = { version = "0.9.0", default-features = false }
+wasmer       = { version = "4.1.2", default-features = false, features = [
+  "sys-default"
+] }
+wasmer-wasix = { version = "0.12.0", default-features = false, features = [
+  "sys",
+  "sys-thread"
+] }
 
 swc_common = { version = "0.32.0", path = "../swc_common", features = [
   "concurrent",
@@ -69,8 +73,10 @@ swc_ecma_ast = { version = "0.108.0", path = "../swc_ecma_ast", optional = true 
 swc_plugin_proxy = { version = "0.37.0", path = "../swc_plugin_proxy" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-wasmer-cache              = { version = "4.0.0", optional = true }
-wasmer-compiler-cranelift = { version = "4.0.0", default-features = false }
+wasmer-cache              = { version = "4.1.2", optional = true }
+wasmer-compiler-cranelift = { version = "4.1.2", default-features = false, features = [
+  "std"
+] }
 
 [dev-dependencies]
 criterion = "0.5"

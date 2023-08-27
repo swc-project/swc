@@ -68,7 +68,7 @@ pub fn build_wasi_runtime(
 
     let dummy_loader = BuiltinPackageLoader::new_with_client(".", Arc::new(StubHttpClient));
     let rt = PluggableRuntime {
-        rt: Arc::new(TokioTaskManager::shared()),
+        rt: Arc::new(TokioTaskManager::default()),
         networking: Arc::new(virtual_net::UnsupportedVirtualNetworking::default()),
         engine: Some(ENGINE.lock().clone()),
         tty: None,
