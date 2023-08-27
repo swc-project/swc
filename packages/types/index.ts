@@ -591,6 +591,9 @@ export interface JscConfig {
      */
     keepClassNames?: boolean;
 
+    /**
+     * This is experimental, and can be removed without a major version bump.
+     */
     experimental?: {
         optimizeHygiene?: boolean;
         keepImportAssertions?: boolean;
@@ -608,6 +611,11 @@ export interface JscConfig {
          * Second parameter of tuple is JSON based configuration for the plugin.
          */
         plugins?: Array<[string, Record<string, any>]>;
+
+        /**
+         * Disable builtin transforms. If enabled, only Wasm plugins are used.
+         */
+        disableBuiltinTransformsForInternalTesting?: boolean;
     };
 
     baseUrl?: string;
