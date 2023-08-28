@@ -2434,7 +2434,7 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                import_assertions: true,
+                import_attributes: true,
                 ..Default::default()
             }),
             |p| p.parse_expr(),

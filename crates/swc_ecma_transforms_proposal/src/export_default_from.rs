@@ -39,7 +39,7 @@ impl VisitMut for ExportDefaultFrom {
                     specifiers,
                     src: Some(src),
                     type_only: false,
-                    asserts,
+                    with,
                 })) if specifiers.iter().any(|s| s.is_default()) => {
                     let mut origin_specifiers = vec![];
 
@@ -79,7 +79,7 @@ impl VisitMut for ExportDefaultFrom {
                             specifiers: export_specifiers,
                             src: Some(src.clone()),
                             type_only: false,
-                            asserts: None,
+                            with: None,
                         },
                     )));
 
@@ -90,7 +90,7 @@ impl VisitMut for ExportDefaultFrom {
                                 specifiers: origin_specifiers,
                                 src: Some(src),
                                 type_only: false,
-                                asserts,
+                                with,
                             },
                         )));
                     }

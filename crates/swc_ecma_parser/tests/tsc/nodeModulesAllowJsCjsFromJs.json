@@ -99,7 +99,7 @@
         "raw": "\"./foo.cjs\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

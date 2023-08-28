@@ -149,7 +149,7 @@
         "raw": "\"./task\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ClassDeclaration",

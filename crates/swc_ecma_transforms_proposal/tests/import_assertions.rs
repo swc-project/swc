@@ -9,7 +9,7 @@ fn tr() -> impl Fold {
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
-        import_assertions: true,
+        import_attributes: true,
         ..Default::default()
     })
 }

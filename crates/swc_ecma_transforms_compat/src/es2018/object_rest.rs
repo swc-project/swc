@@ -291,7 +291,7 @@ impl VisitMut for ObjectRest {
                     specifiers,
                     src: None,
                     type_only: false,
-                    asserts: None,
+                    with: None,
                 };
 
                 var_decl.visit_mut_with(self);

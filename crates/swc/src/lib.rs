@@ -1110,7 +1110,7 @@ impl Compiler {
                         jsx: true,
                         decorators: true,
                         decorators_before_export: true,
-                        import_assertions: true,
+                        import_attributes: true,
                         ..Default::default()
                     }),
                     IsModule::Bool(true),

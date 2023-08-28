@@ -1903,7 +1903,7 @@
         "raw": "\"./\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "TsImportEqualsDeclaration",

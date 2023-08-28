@@ -44,7 +44,7 @@
         "raw": "'./index'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

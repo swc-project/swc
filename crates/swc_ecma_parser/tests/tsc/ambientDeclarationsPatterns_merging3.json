@@ -266,7 +266,7 @@
         "raw": "\"b.foo\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "VariableDeclaration",

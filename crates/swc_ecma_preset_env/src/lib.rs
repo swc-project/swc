@@ -452,7 +452,7 @@ impl VisitMut for Polyfills {
                         }
                         .into(),
                         type_only: false,
-                        asserts: None,
+                        with: None,
                     }))
                 }),
             );
@@ -470,7 +470,7 @@ impl VisitMut for Polyfills {
                         }
                         .into(),
                         type_only: false,
-                        asserts: None,
+                        with: None,
                     }))
                 }),
             );

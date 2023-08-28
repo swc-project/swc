@@ -106,7 +106,7 @@
         "raw": "\"jquery\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -146,7 +146,7 @@
         "raw": "\"fs\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "TsImportEqualsDeclaration",

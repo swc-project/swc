@@ -239,7 +239,7 @@ fn identity(entry: PathBuf) {
                 decorators: true,
                 decorators_before_export: true,
                 export_default_from: true,
-                import_assertions: true,
+                import_attributes: true,
                 allow_super_outside_method: true,
                 ..Default::default()
             }),

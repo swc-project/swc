@@ -44,7 +44,7 @@
         "raw": "'mongoose'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -126,7 +126,7 @@
         "raw": "'@typegoose/typegoose'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -168,7 +168,7 @@
         "raw": "'@typegoose/typegoose/lib/defaultClasses'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDeclaration",

@@ -63,7 +63,7 @@
         "raw": "'./0'"
       },
       "typeOnly": true,
-      "asserts": {
+      "with": {
         "type": "ObjectExpression",
         "span": {
           "start": 165,
@@ -137,7 +137,7 @@
         "raw": "'./0'"
       },
       "typeOnly": true,
-      "asserts": {
+      "with": {
         "type": "ObjectExpression",
         "span": {
           "start": 218,
@@ -211,7 +211,7 @@
         "raw": "'./0'"
       },
       "typeOnly": true,
-      "asserts": {
+      "with": {
         "type": "ObjectExpression",
         "span": {
           "start": 292,
@@ -283,7 +283,7 @@
         "raw": "'./0'"
       },
       "typeOnly": true,
-      "asserts": {
+      "with": {
         "type": "ObjectExpression",
         "span": {
           "start": 348,

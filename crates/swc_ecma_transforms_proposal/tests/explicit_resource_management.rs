@@ -12,7 +12,7 @@ fn exec(input: PathBuf) {
     exec_tr(
         "explicit-resource-management",
         Syntax::Es(EsConfig {
-            using_decl: true,
+            explicit_resource_management: true,
             ..Default::default()
         }),
         |_| {
@@ -42,7 +42,7 @@ fn run_fixture(input: PathBuf) {
 
     test_fixture(
         Syntax::Es(EsConfig {
-            using_decl: true,
+            explicit_resource_management: true,
             ..Default::default()
         }),
         &|_t| {

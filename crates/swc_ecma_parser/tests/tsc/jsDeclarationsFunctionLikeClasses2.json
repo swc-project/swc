@@ -2080,7 +2080,7 @@
         "raw": "\"./source\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDeclaration",

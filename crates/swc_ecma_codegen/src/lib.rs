@@ -308,11 +308,11 @@ where
 
         emit!(n.src);
 
-        if let Some(asserts) = &n.asserts {
+        if let Some(with) = &n.with {
             formatting_space!();
-            keyword!("assert");
+            keyword!("with");
             formatting_space!();
-            emit!(asserts);
+            emit!(with);
         }
 
         semi!();
@@ -451,11 +451,11 @@ where
             formatting_space!();
             emit!(src);
 
-            if let Some(asserts) = &node.asserts {
+            if let Some(with) = &node.with {
                 formatting_space!();
-                keyword!("assert");
+                keyword!("with");
                 formatting_space!();
-                emit!(asserts);
+                emit!(with);
             }
         }
         semi!();
@@ -477,11 +477,11 @@ where
         formatting_space!();
         emit!(node.src);
 
-        if let Some(asserts) = &node.asserts {
+        if let Some(with) = &node.with {
             formatting_space!();
-            keyword!("assert");
+            keyword!("with");
             formatting_space!();
-            emit!(asserts);
+            emit!(with);
         }
 
         semi!();
@@ -1879,12 +1879,23 @@ where
         }
 
         if let Some(ref arg) = node.arg {
-            if !node.delegate && arg.starts_with_alpha_num() {
+            let need_paren = node
+                .arg
+                .as_deref()
+                .map(|expr| self.has_leading_comment(expr))
+                .unwrap_or(false);
+            if need_paren {
+                punct!("(")
+            } else if !node.delegate && arg.starts_with_alpha_num() {
                 space!()
             } else {
                 formatting_space!()
             }
+
             emit!(node.arg);
+            if need_paren {
+                punct!(")")
+            }
         }
     }
 

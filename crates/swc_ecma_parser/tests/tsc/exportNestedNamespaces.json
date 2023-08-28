@@ -385,7 +385,7 @@
         "raw": "'./mod'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "VariableDeclaration",

@@ -175,11 +175,11 @@ impl Syntax {
         }
     }
 
-    pub fn import_assertions(self) -> bool {
+    pub fn import_attributes(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
-                import_assertions, ..
-            }) => import_assertions,
+                import_attributes, ..
+            }) => import_attributes,
             Syntax::Typescript(_) => true,
         }
     }
@@ -284,7 +284,10 @@ impl Syntax {
 
     pub fn explicit_resource_management(&self) -> bool {
         match self {
-            Syntax::Es(EsConfig { using_decl, .. }) => *using_decl,
+            Syntax::Es(EsConfig {
+                explicit_resource_management: using_decl,
+                ..
+            }) => *using_decl,
             Syntax::Typescript(_) => true,
         }
     }
@@ -341,8 +344,8 @@ pub struct EsConfig {
     pub export_default_from: bool,
 
     /// Stage 3.
-    #[serde(default)]
-    pub import_assertions: bool,
+    #[serde(default, alias = "importAssertions")]
+    pub import_attributes: bool,
 
     #[serde(default, rename = "allowSuperOutsideMethod")]
     pub allow_super_outside_method: bool,
@@ -354,7 +357,7 @@ pub struct EsConfig {
     pub auto_accessors: bool,
 
     #[serde(default)]
-    pub using_decl: bool,
+    pub explicit_resource_management: bool,
 }
 
 /// Syntactic context.

@@ -1,0 +1,19 @@
+{
+    "isModule": true,
+    "jsc": {
+        "target": "es2022",
+        "transform": {
+            "optimizer": {
+                "simplify": true,
+            }
+        },
+        "minify": {
+            "format": {
+                "comments": true
+            },
+            "compress": true,
+            "mangle": false
+        },
+    },
+    "minify": false,
+}
