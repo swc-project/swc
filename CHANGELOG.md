@@ -23,6 +23,9 @@
 - **(es/ast)** Support import attributes proposal (#7868) ([4d3fcb8](https://github.com/swc-project/swc/commit/4d3fcb86e4843cf323a471537cc1ab3a26d054b1))
 
 
+- **(es/preset-env)** Update data (#7882) ([a97d8b4](https://github.com/swc-project/swc/commit/a97d8b42b1f85c1f76ffadcabf6e9c85f0458d8d))
+
+
 - **(swc-info)** Add a CLI to help issue reporting (#7871) ([d6952ea](https://github.com/swc-project/swc/commit/d6952ea687beb5b9aff1eae26076fa98ac94818b))
 
 ### Miscellaneous Tasks
