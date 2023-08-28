@@ -81,6 +81,7 @@ mod macros;
 mod class;
 mod decl;
 mod expr;
+pub mod ext;
 mod function;
 mod ident;
 mod jsx;
