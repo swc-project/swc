@@ -146,7 +146,7 @@
         "raw": "\"./exports.js\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -208,7 +208,7 @@
         "raw": "\"./exports.js\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

@@ -46,7 +46,7 @@
         "raw": "\"./prelude\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDeclaration",
@@ -709,7 +709,7 @@
         "raw": "\"./Something\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -749,7 +749,7 @@
         "raw": "\"./Something\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDeclaration",

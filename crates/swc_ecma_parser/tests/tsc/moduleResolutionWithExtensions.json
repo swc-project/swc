@@ -62,7 +62,7 @@
         "raw": "'./a'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -102,7 +102,7 @@
         "raw": "'./a.js'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "VariableDeclaration",
@@ -209,7 +209,7 @@
         "raw": "\"./jquery\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -249,7 +249,7 @@
         "raw": "\"./jquery.js\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

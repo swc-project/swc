@@ -80,7 +80,7 @@
         "raw": "'./super'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ClassDeclaration",

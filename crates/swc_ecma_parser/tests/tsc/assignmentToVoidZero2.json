@@ -693,7 +693,7 @@
         "raw": "'./assignmentToVoidZero2'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

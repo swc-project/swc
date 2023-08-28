@@ -144,7 +144,7 @@
         "raw": "'./0'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -184,7 +184,7 @@
         "raw": "'./0'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDefaultExpression",
@@ -242,7 +242,7 @@
         "raw": "'./1'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -282,7 +282,7 @@
         "raw": "'./11'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

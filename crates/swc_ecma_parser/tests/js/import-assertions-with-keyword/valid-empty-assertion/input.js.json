@@ -1,0 +1,225 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 147,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 1,
+        "end": 40,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "span": {
+            "start": 8,
+            "end": 11,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 8,
+              "end": 11,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          }
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 15,
+            "end": 18,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 15,
+              "end": 18,
+              "ctxt": 0
+            },
+            "value": "bar",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 26,
+          "end": 31,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "raw": "\"foo\""
+      },
+      "typeOnly": false,
+      "with": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 37,
+          "end": 39,
+          "ctxt": 0
+        },
+        "properties": []
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 41,
+        "end": 75,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportNamespaceSpecifier",
+          "span": {
+            "start": 48,
+            "end": 55,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 53,
+              "end": 55,
+              "ctxt": 0
+            },
+            "value": "ns",
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 61,
+          "end": 66,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "raw": "\"foo\""
+      },
+      "typeOnly": false,
+      "with": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 72,
+          "end": 74,
+          "ctxt": 0
+        },
+        "properties": []
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 76,
+        "end": 111,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 85,
+            "end": 89,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 85,
+              "end": 89,
+              "ctxt": 0
+            },
+            "value": "quux",
+            "optional": false
+          },
+          "exported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 97,
+          "end": 102,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "raw": "\"foo\""
+      },
+      "typeOnly": false,
+      "with": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 108,
+          "end": 110,
+          "ctxt": 0
+        },
+        "properties": []
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 112,
+        "end": 147,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportNamespaceSpecifier",
+          "span": {
+            "start": 119,
+            "end": 127,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 124,
+              "end": 127,
+              "ctxt": 0
+            },
+            "value": "ns2",
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 133,
+          "end": 138,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "raw": "\"foo\""
+      },
+      "typeOnly": false,
+      "with": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 144,
+          "end": 146,
+          "ctxt": 0
+        },
+        "properties": []
+      }
+    }
+  ],
+  "interpreter": null
+}

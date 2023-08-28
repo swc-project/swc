@@ -304,7 +304,7 @@ where
                             specifiers: vec![],
                             src: Box::new(src),
                             type_only: false,
-                            asserts: None,
+                            with: None,
                         },
                         true,
                         false,

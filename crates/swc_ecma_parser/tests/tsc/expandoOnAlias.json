@@ -173,7 +173,7 @@
         "raw": "\"./vue\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

@@ -454,7 +454,7 @@
         "raw": "\"foobarbaz\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -538,7 +538,7 @@
         "raw": "\"foosball\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -620,7 +620,7 @@
         "raw": "\"./file!text\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

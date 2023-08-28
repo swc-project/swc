@@ -16,7 +16,7 @@
       "specifiers": [],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -28,7 +28,7 @@
       "specifiers": [],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -40,7 +40,7 @@
       "specifiers": [],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -61,7 +61,7 @@
         "raw": "\"./ts.js\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -82,7 +82,7 @@
         "raw": "\"./ts.ts\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -103,7 +103,7 @@
         "raw": "\"./ts.d.ts\""
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -124,7 +124,7 @@
         "raw": "\"./tsx.js\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -145,7 +145,7 @@
         "raw": "\"./tsx.jsx\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -166,7 +166,7 @@
         "raw": "\"./tsx.ts\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -187,7 +187,7 @@
         "raw": "\"./tsx.tsx\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -208,7 +208,7 @@
         "raw": "\"./tsx.d.ts\""
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -229,7 +229,7 @@
         "raw": "\"./dts.js\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -250,7 +250,7 @@
         "raw": "\"./dts.ts\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -271,7 +271,7 @@
         "raw": "\"./dts.d.ts\""
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -292,7 +292,7 @@
         "raw": "\"./thisfiledoesnotexist.ts\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

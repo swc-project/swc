@@ -113,7 +113,7 @@ impl ExplicitResourceManagement {
                                 })],
                                 src: None,
                                 type_only: Default::default(),
-                                asserts: None,
+                                with: None,
                             }))
                             .unwrap(),
                         );
@@ -152,7 +152,7 @@ impl ExplicitResourceManagement {
                                 })],
                                 src: None,
                                 type_only: Default::default(),
-                                asserts: None,
+                                with: None,
                             }))
                             .unwrap(),
                         );

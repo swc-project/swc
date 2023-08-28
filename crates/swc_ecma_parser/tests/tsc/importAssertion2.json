@@ -125,7 +125,7 @@
         "raw": "'./0'"
       },
       "typeOnly": false,
-      "asserts": {
+      "with": {
         "type": "ObjectExpression",
         "span": {
           "start": 187,
@@ -219,7 +219,7 @@
         "raw": "'./0'"
       },
       "typeOnly": false,
-      "asserts": {
+      "with": {
         "type": "ObjectExpression",
         "span": {
           "start": 238,
@@ -271,7 +271,7 @@
         "raw": "'./0'"
       },
       "typeOnly": false,
-      "asserts": {
+      "with": {
         "type": "ObjectExpression",
         "span": {
           "start": 282,
@@ -343,7 +343,7 @@
         "raw": "'./0'"
       },
       "typeOnly": false,
-      "asserts": {
+      "with": {
         "type": "ObjectExpression",
         "span": {
           "start": 332,
@@ -437,7 +437,7 @@
         "raw": "'./0'"
       },
       "typeOnly": false,
-      "asserts": {
+      "with": {
         "type": "ObjectExpression",
         "span": {
           "start": 403,
@@ -525,7 +525,7 @@
         "raw": "'./0'"
       },
       "typeOnly": false,
-      "asserts": {
+      "with": {
         "type": "ObjectExpression",
         "span": {
           "start": 450,

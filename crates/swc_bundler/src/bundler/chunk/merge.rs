@@ -768,7 +768,7 @@ where
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
-                                asserts: None,
+                                with: None,
                             },
                         )));
                     }
@@ -816,7 +816,7 @@ where
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
-                                asserts: None,
+                                with: None,
                             },
                         )));
                     }
@@ -883,7 +883,7 @@ where
                                             .collect(),
                                         src: None,
                                         type_only: false,
-                                        asserts: None,
+                                        with: None,
                                     }));
                                 extra.push(export);
                                 continue;
@@ -925,7 +925,7 @@ where
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
-                                asserts: None,
+                                with: None,
                             },
                         )));
                     }
@@ -1140,7 +1140,7 @@ where
                                                                 span: ns.span,
                                                                 specifiers: vec![specifier],
                                                                 src: None,
-                                                                asserts: None,
+                                                                with: None,
                                                                 type_only: false,
                                                             }),
                                                         ));

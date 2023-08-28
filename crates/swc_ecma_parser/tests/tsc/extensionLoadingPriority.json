@@ -116,7 +116,7 @@
         "raw": "\"./a.js\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -156,7 +156,7 @@
         "raw": "\"./dir\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

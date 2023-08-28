@@ -25,7 +25,7 @@
         "raw": "\"./foo.json\""
       },
       "typeOnly": false,
-      "asserts": {
+      "with": {
         "type": "ObjectExpression",
         "span": {
           "start": 28,

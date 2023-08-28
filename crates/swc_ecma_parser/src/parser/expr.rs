@@ -740,7 +740,7 @@ impl<I: Tokens> Parser<I> {
                     expect!(p, ',');
                     // Handle trailing comma.
                     if is!(p, ')') {
-                        if is_dynamic_import && !p.input.syntax().import_assertions() {
+                        if is_dynamic_import && !p.input.syntax().import_attributes() {
                             syntax_error!(
                                 p,
                                 span!(p, start),

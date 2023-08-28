@@ -363,7 +363,7 @@
       ],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportAllDeclaration",
@@ -383,7 +383,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportAllDeclaration",
@@ -403,7 +403,7 @@
         "raw": "\"./t2\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportAllDeclaration",
@@ -423,7 +423,7 @@
         "raw": "\"./t3\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -543,7 +543,7 @@
         "raw": "\"./t4\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

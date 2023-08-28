@@ -147,7 +147,7 @@
         "raw": "\"./0\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

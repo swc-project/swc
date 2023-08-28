@@ -72,7 +72,7 @@ impl VisitMut for ReservedWord {
                     specifiers: extra_exports,
                     src: None,
                     type_only: false,
-                    asserts: None,
+                    with: None,
                 }
                 .into(),
             );

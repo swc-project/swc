@@ -67,7 +67,7 @@
         "raw": "\"jquery\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportAllDeclaration",
@@ -87,7 +87,7 @@
         "raw": "\"jquery\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -129,7 +129,7 @@
         "raw": "\"./reExportX\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -169,7 +169,7 @@
         "raw": "\"./reExportAll\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

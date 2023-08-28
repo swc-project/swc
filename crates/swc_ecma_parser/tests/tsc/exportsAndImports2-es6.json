@@ -184,7 +184,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -246,7 +246,7 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -317,7 +317,7 @@
       ],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

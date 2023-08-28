@@ -46,7 +46,7 @@
         "raw": "\"../../deps.ts\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -86,7 +86,7 @@
         "raw": "\"../../members.ts\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -128,7 +128,7 @@
         "raw": "\"../../../mod.ts\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

@@ -78,7 +78,7 @@
       ],
       "source": null,
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDeclaration",
@@ -169,7 +169,7 @@
         "raw": "'./a'"
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

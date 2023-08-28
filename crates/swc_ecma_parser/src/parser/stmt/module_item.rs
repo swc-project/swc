@@ -63,9 +63,9 @@ impl<I: Tokens> Parser<I> {
                 _ => unreachable!(),
             };
             let _ = cur!(self, false);
-            let asserts = if self.input.syntax().import_assertions()
+            let with = if self.input.syntax().import_attributes()
                 && !self.input.had_line_break_before_cur()
-                && eat!(self, "assert")
+                && (eat!(self, "assert") || eat!(self, "with"))
             {
                 match *self.parse_object::<Box<Expr>>()? {
                     Expr::Object(v) => Some(Box::new(v)),
@@ -80,7 +80,7 @@ impl<I: Tokens> Parser<I> {
                 src,
                 specifiers: vec![],
                 type_only: false,
-                asserts,
+                with,
             }))
             .map(ModuleItem::from);
         }
@@ -157,9 +157,9 @@ impl<I: Tokens> Parser<I> {
         };
 
         let _ = cur!(self, false);
-        let asserts = if self.input.syntax().import_assertions()
+        let with = if self.input.syntax().import_attributes()
             && !self.input.had_line_break_before_cur()
-            && eat!(self, "assert")
+            && (eat!(self, "assert") || eat!(self, "with"))
         {
             match *self.parse_object::<Box<Expr>>()? {
                 Expr::Object(v) => Some(Box::new(v)),
@@ -176,7 +176,7 @@ impl<I: Tokens> Parser<I> {
             specifiers,
             src,
             type_only,
-            asserts,
+            with,
         }))
         .map(ModuleItem::from)
     }
@@ -570,12 +570,12 @@ impl<I: Tokens> Parser<I> {
                 assert_and_bump!(self, '*');
 
                 // improve error message for `export * from foo`
-                let (src, asserts) = self.parse_from_clause_and_semi()?;
+                let (src, with) = self.parse_from_clause_and_semi()?;
                 return Ok(ModuleDecl::ExportAll(ExportAll {
                     span: span!(self, start),
                     src,
                     type_only,
-                    asserts,
+                    with,
                 }));
             }
 
@@ -617,13 +617,13 @@ impl<I: Tokens> Parser<I> {
 
             if has_default || has_ns {
                 if is!(self, "from") {
-                    let (src, asserts) = self.parse_from_clause_and_semi()?;
+                    let (src, with) = self.parse_from_clause_and_semi()?;
                     return Ok(ModuleDecl::ExportNamed(NamedExport {
                         span: span!(self, start),
                         specifiers,
                         src: Some(src),
                         type_only,
-                        asserts,
+                        with,
                     }));
                 } else if !self.input.syntax().export_default_from() {
                     // emit error
@@ -667,7 +667,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 None
             };
-            let (src, asserts) = match opt {
+            let (src, with) = match opt {
                 Some(v) => (Some(v.0), v.1),
                 None => (None, None),
             };
@@ -676,7 +676,7 @@ impl<I: Tokens> Parser<I> {
                 specifiers,
                 src,
                 type_only,
-                asserts,
+                with,
             }));
         };
 
@@ -793,7 +793,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    /// Parses `from 'foo.js' assert {};`
+    /// Parses `from 'foo.js' with {};` or `from 'foo.js' assert {};`
     fn parse_from_clause_and_semi(&mut self) -> PResult<(Box<Str>, Option<Box<ObjectLit>>)> {
         expect!(self, "from");
 
@@ -810,9 +810,9 @@ impl<I: Tokens> Parser<I> {
             _ => unexpected!(self, "a string literal"),
         };
         let _ = cur!(self, false);
-        let asserts = if self.input.syntax().import_assertions()
+        let with = if self.input.syntax().import_attributes()
             && !self.input.had_line_break_before_cur()
-            && eat!(self, "assert")
+            && (eat!(self, "assert") || eat!(self, "with"))
         {
             match *self.parse_object::<Box<Expr>>()? {
                 Expr::Object(v) => Some(Box::new(v)),
@@ -822,7 +822,7 @@ impl<I: Tokens> Parser<I> {
             None
         };
         expect!(self, ';');
-        Ok((src, asserts))
+        Ok((src, with))
     }
 }
 

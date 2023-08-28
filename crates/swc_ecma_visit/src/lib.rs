@@ -1095,20 +1095,20 @@ define!({
         pub specifiers: Vec<ImportSpecifier>,
         pub src: Box<Str>,
         pub type_only: bool,
-        pub asserts: Option<Box<ObjectLit>>,
+        pub with: Option<Box<ObjectLit>>,
     }
     pub struct ExportAll {
         pub span: Span,
         pub src: Box<Str>,
         pub type_only: bool,
-        pub asserts: Option<Box<ObjectLit>>,
+        pub with: Option<Box<ObjectLit>>,
     }
     pub struct NamedExport {
         pub span: Span,
         pub specifiers: Vec<ExportSpecifier>,
         pub src: Option<Box<Str>>,
         pub type_only: bool,
-        pub asserts: Option<Box<ObjectLit>>,
+        pub with: Option<Box<ObjectLit>>,
     }
     pub struct ExportDefaultDecl {
         pub span: Span,

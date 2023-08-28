@@ -331,7 +331,7 @@
         "raw": "'./ns'"
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

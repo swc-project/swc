@@ -88,7 +88,7 @@
         "raw": "\"./cls\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDeclaration",
@@ -199,7 +199,7 @@
         "raw": "\"./cls\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null
