@@ -1,3 +1,5 @@
+#![allow(non_snake_case)]
+
 use pmutil::q;
 use proc_macro2::{Span, TokenStream};
 use syn::{Expr, Ident, ImplItem, ImplItemFn, ItemImpl, Meta, Type};
@@ -98,7 +100,6 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool, threshold: usi
         (Mode::Fold, Some(explode_method_name)) => q!(
             Vars {
                 NodeType: node_type(suffix),
-                threshold,
                 method_name,
                 hook,
                 explode_method_name,
@@ -108,63 +109,6 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool, threshold: usi
                     use swc_common::errors::HANDLER;
                     use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
                     use swc_ecma_visit::FoldWith;
-
-                    #[cfg(feature = "rayon")]
-                    if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1")
-                    {
-                        use rayon::prelude::*;
-
-                        let (visitor, mut nodes) = ::swc_common::GLOBALS.with(|globals| {
-                            swc_ecma_transforms_base::helpers::HELPERS.with(|helpers| {
-                                HANDLER.with(|handler| {
-                                    nodes
-                                        .into_par_iter()
-                                        .map(|node| {
-                                            ::swc_common::GLOBALS.set(&globals, || {
-                                                swc_ecma_transforms_base::helpers::HELPERS.set(
-                                                    helpers,
-                                                    || {
-                                                        HANDLER.set(handler, || {
-                                                            let mut visitor =
-                                                                Parallel::create(&*self);
-                                                            let node = node.fold_with(&mut visitor);
-                                                            let mut nodes = Vec::with_capacity(4);
-
-                                                            ParExplode::explode_method_name(
-                                                                &mut visitor,
-                                                                &mut nodes,
-                                                            );
-
-                                                            nodes.push(node);
-
-                                                            (visitor, nodes)
-                                                        })
-                                                    },
-                                                )
-                                            })
-                                        })
-                                        .reduce(
-                                            || (Parallel::create(&*self), vec![]),
-                                            |mut a, b| {
-                                                Parallel::merge(&mut a.0, b.0);
-
-                                                a.1.extend(b.1);
-
-                                                a
-                                            },
-                                        )
-                                })
-                            })
-                        });
-
-                        Parallel::merge(self, visitor);
-
-                        {
-                            hook;
-                        }
-
-                        return nodes;
-                    }
 
                     let mut buf = Vec::with_capacity(nodes.len());
 
@@ -189,7 +133,6 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool, threshold: usi
         (Mode::Fold, None) => q!(
             Vars {
                 NodeType: node_type(suffix),
-                threshold,
                 method_name,
                 hook,
             },
@@ -198,65 +141,6 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool, threshold: usi
                     use swc_common::errors::HANDLER;
                     use swc_ecma_transforms_base::perf::Parallel;
                     use swc_ecma_visit::FoldWith;
-
-                    #[cfg(feature = "rayon")]
-                    if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1")
-                    {
-                        use rayon::prelude::*;
-
-                        let (visitor, mut nodes) = ::swc_common::GLOBALS.with(|globals| {
-                            swc_ecma_transforms_base::helpers::HELPERS.with(|helpers| {
-                                HANDLER.with(|handler| {
-                                    nodes
-                                        .into_par_iter()
-                                        .map(|node| {
-                                            ::swc_common::GLOBALS.set(&globals, || {
-                                                swc_ecma_transforms_base::helpers::HELPERS.set(
-                                                    helpers,
-                                                    || {
-                                                        HANDLER.set(handler, || {
-                                                            let mut visitor =
-                                                                Parallel::create(&*self);
-                                                            let node = node.fold_with(&mut visitor);
-
-                                                            (visitor, node)
-                                                        })
-                                                    },
-                                                )
-                                            })
-                                        })
-                                        .fold(
-                                            || (Parallel::create(&*self), vec![]),
-                                            |mut a, b| {
-                                                Parallel::merge(&mut a.0, b.0);
-
-                                                a.1.push(b.1);
-
-                                                a
-                                            },
-                                        )
-                                        .reduce(
-                                            || (Parallel::create(&*self), vec![]),
-                                            |mut a, b| {
-                                                Parallel::merge(&mut a.0, b.0);
-
-                                                a.1.extend(b.1);
-
-                                                a
-                                            },
-                                        )
-                                })
-                            })
-                        });
-
-                        Parallel::merge(self, visitor);
-
-                        {
-                            hook;
-                        }
-
-                        return nodes;
-                    }
 
                     let mut nodes = nodes.fold_children_with(self);
                     {
@@ -272,7 +156,6 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool, threshold: usi
         (Mode::VisitMut, Some(explode_method_name)) => q!(
             Vars {
                 NodeType: node_type(suffix),
-                threshold,
                 method_name,
                 hook,
                 explode_method_name
@@ -284,66 +167,6 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool, threshold: usi
                     use swc_common::errors::HANDLER;
                     use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
                     use swc_ecma_visit::VisitMutWith;
-
-                    #[cfg(feature = "rayon")]
-                    if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1")
-                    {
-                        ::swc_common::GLOBALS.with(|globals| {
-                            swc_ecma_transforms_base::helpers::HELPERS.with(|helpers| {
-                                HANDLER.with(|handler| {
-                                    use rayon::prelude::*;
-
-                                    let (visitor, new_nodes) = take(nodes)
-                                        .into_par_iter()
-                                        .map(|mut node| {
-                                            ::swc_common::GLOBALS.set(&globals, || {
-                                                swc_ecma_transforms_base::helpers::HELPERS.set(
-                                                    helpers,
-                                                    || {
-                                                        HANDLER.set(handler, || {
-                                                            let mut visitor =
-                                                                Parallel::create(&*self);
-                                                            node.visit_mut_with(&mut visitor);
-
-                                                            let mut nodes = Vec::with_capacity(4);
-
-                                                            ParExplode::explode_method_name(
-                                                                &mut visitor,
-                                                                &mut nodes,
-                                                            );
-
-                                                            nodes.push(node);
-
-                                                            (visitor, nodes)
-                                                        })
-                                                    },
-                                                )
-                                            })
-                                        })
-                                        .reduce(
-                                            || (Parallel::create(&*self), vec![]),
-                                            |mut a, b| {
-                                                Parallel::merge(&mut a.0, b.0);
-
-                                                a.1.extend(b.1);
-
-                                                a
-                                            },
-                                        );
-
-                                    Parallel::merge(self, visitor);
-
-                                    {
-                                        hook;
-                                    }
-
-                                    *nodes = new_nodes;
-                                })
-                            })
-                        });
-
-                        return;
-                    }
 
                     let mut buf = Vec::with_capacity(nodes.len());
 
@@ -367,7 +190,6 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool, threshold: usi
         (Mode::VisitMut, None) => q!(
             Vars {
                 NodeType: node_type(suffix),
-                threshold,
                 method_name,
                 hook,
             },
@@ -376,53 +198,6 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool, threshold: usi
                     use swc_common::errors::HANDLER;
                     use swc_ecma_transforms_base::perf::Parallel;
                     use swc_ecma_visit::VisitMutWith;
-
-                    #[cfg(feature = "rayon")]
-                    if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1")
-                    {
-                        ::swc_common::GLOBALS.with(|globals| {
-                            swc_ecma_transforms_base::helpers::HELPERS.with(|helpers| {
-                                HANDLER.with(|handler| {
-                                    use rayon::prelude::*;
-
-                                    let visitor = nodes
-                                        .into_par_iter()
-                                        .map(|node| {
-                                            ::swc_common::GLOBALS.set(&globals, || {
-                                                swc_ecma_transforms_base::helpers::HELPERS.set(
-                                                    helpers,
-                                                    || {
-                                                        HANDLER.set(handler, || {
-                                                            let mut visitor =
-                                                                Parallel::create(&*self);
-                                                            node.visit_mut_with(&mut visitor);
-
-                                                            visitor
-                                                        })
-                                                    },
-                                                )
-                                            })
-                                        })
-                                        .reduce(
-                                            || Parallel::create(&*self),
-                                            |mut a, b| {
-                                                Parallel::merge(&mut a, b);
-
-                                                a
-                                            },
-                                        );
-
-                                    Parallel::merge(self, visitor);
-
-                                    {
-                                        hook;
-                                    }
-                                })
-                            })
-                        });
-
-                        return;
-                    }
 
                     nodes.visit_mut_children_with(self);
                     {
