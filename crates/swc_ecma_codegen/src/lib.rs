@@ -14,7 +14,10 @@ use swc_common::{
     sync::Lrc,
     BytePos, SourceMapper, Span, Spanned, DUMMY_SP,
 };
-use swc_ecma_ast::*;
+use swc_ecma_ast::{
+    ext::{AstNodeExt, ExtNode},
+    *,
+};
 use swc_ecma_codegen_macros::emitter;
 
 pub use self::config::Config;
@@ -160,6 +163,7 @@ where
             ModuleDecl::TsExportAssignment(ref n) => emit!(n),
             ModuleDecl::TsImportEquals(ref n) => emit!(n),
             ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
+            ModuleDecl::Ext(ref n) => emit!(n),
         }
 
         self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
@@ -798,6 +802,7 @@ where
             Expr::TsSatisfies(n) => {
                 emit!(n)
             }
+            Expr::Ext(ref n) => emit!(n),
         }
 
         if self.comments.is_some() {
@@ -2741,6 +2746,7 @@ where
                 semi!();
             }
             Stmt::Decl(ref e) => emit!(e),
+            Stmt::Ext(n) => emit!(n),
         }
         if self.comments.is_some() {
             self.emit_trailing_comments_of_pos(node.span().hi(), true, true)?;
@@ -4032,4 +4038,14 @@ fn minify_number(num: f64) -> String {
     }
 
     printed
+}
+
+impl<T: ?Sized + AstNodeExt> Node for ExtNode<T> {
+    fn emit_with<W, S: SourceMapper>(&self, _: &mut Emitter<'_, W, S>) -> Result
+    where
+        W: WriteJs,
+        S: SourceMapperExt,
+    {
+        unreachable!("ExtNode is not used yet")
+    }
 }

@@ -162,6 +162,8 @@ impl StartsWithAlphaNum for Expr {
                 OptChainBase::Call(base) => base.callee.starts_with_alpha_num(),
             },
 
+            Expr::Ext(..) => unreachable!("Ext() is not used yet"),
+
             Expr::Invalid(..) => true,
         }
     }
@@ -230,6 +232,7 @@ impl StartsWithAlphaNum for Stmt {
             | Stmt::ForOf(..)
             | Stmt::If(..) => true,
             Stmt::Block(..) | Stmt::Empty(..) => false,
+            Stmt::Ext(..) => unreachable!("Ext() is not used yet"),
         }
     }
 }
@@ -245,6 +248,7 @@ impl StartsWithAlphaNum for Decl {
             | Decl::TsModule(..)
             | Decl::TsTypeAlias(..)
             | Decl::Using(..) => true,
+            Decl::Ext(..) => unreachable!("Ext() is not used yet"),
         }
     }
 }
