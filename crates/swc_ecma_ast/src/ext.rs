@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use swc_common::{Span, Spanned};
+use swc_common::{EqIgnoreSpan, Span, Spanned};
 
 pub struct ExtNode<T: ?Sized + AstNodeExt>(pub Box<T>);
 
@@ -36,6 +36,19 @@ where
         todo!()
     }
 }
+
+impl<T> PartialEq for ExtNode<T>
+where
+    T: ?Sized + AstNodeExt,
+{
+    fn eq(&self, other: &Self) -> bool {
+        todo!()
+    }
+}
+
+impl<T> Eq for ExtNode<T> where T: ?Sized + AstNodeExt {}
+
+impl<T> EqIgnoreSpan for ExtNode<T> where T: ?Sized + AstNodeExt {}
 
 pub trait AstNodeExt: 'static + Send + Sync + Debug + Spanned {}
 
