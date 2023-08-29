@@ -13,6 +13,30 @@ where
     }
 }
 
+impl<'de, T> serde::Deserialize<'de> for ExtNode<T>
+where
+    T: ?Sized + AstNodeExt,
+{
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        todo!()
+    }
+}
+
+impl<T> serde::Serialize for ExtNode<T>
+where
+    T: ?Sized + AstNodeExt,
+{
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        todo!()
+    }
+}
+
 pub trait AstNodeExt: 'static + Send + Sync + Debug + Spanned {}
 
 pub trait DeclExt: AstNodeExt {}
