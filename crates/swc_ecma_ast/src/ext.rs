@@ -101,6 +101,17 @@ where
 }
 
 #[cfg(feature = "rkyv-impl")]
+impl<D, T> rkyv::Deserialize for ExtNode<T>
+where
+    T: ?Sized + AstNodeExt,
+    D: ?Sized + rkyv::de::SharedDeserializeRegistry,
+{
+    fn deserialize(&self, deserializer: &mut D) -> Result<T, D::Error> {
+        todo!()
+    }
+}
+
+#[cfg(feature = "rkyv-impl")]
 struct ArchivedExtNode<T: ?Sized> {
     marker: PhantomData<T>,
 }
