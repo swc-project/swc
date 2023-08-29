@@ -1,4 +1,4 @@
-use std::{fmt::Debug, hash::Hash};
+use std::{fmt::Debug, hash::Hash, marker::PhantomData};
 
 use swc_common::{EqIgnoreSpan, Span, Spanned};
 
@@ -77,7 +77,25 @@ where
 }
 
 #[cfg(feature = "rkyv-impl")]
-impl<T> rkyv::Archive for ExtNode<T> where T: ?Sized + AstNodeExt {}
+impl<T> rkyv::Archive for ExtNode<T>
+where
+    T: ?Sized + AstNodeExt,
+{
+    type Archived = ArchivedExtNode<T>;
+    type Resolver = ExtNodeResolver<T>;
+
+    unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
+        todo!()
+    }
+}
+
+struct ArchivedExtNode<T: ?Sized> {
+    marker: PhantomData<T>,
+}
+
+struct ExtNodeResolver<T: ?Sized> {
+    marker: PhantomData<T>,
+}
 
 pub trait AstNodeExt: 'static + Send + Sync + Debug + Spanned {}
 
