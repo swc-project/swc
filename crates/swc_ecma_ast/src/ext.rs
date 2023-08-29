@@ -112,12 +112,12 @@ where
 }
 
 #[cfg(feature = "rkyv-impl")]
-struct ArchivedExtNode<T: ?Sized> {
+pub struct ArchivedExtNode<T: ?Sized> {
     marker: PhantomData<T>,
 }
 
 #[cfg(feature = "rkyv-impl")]
-struct ExtNodeResolver<T: ?Sized> {
+pub struct ExtNodeResolver<T: ?Sized> {
     marker: PhantomData<T>,
 }
 
