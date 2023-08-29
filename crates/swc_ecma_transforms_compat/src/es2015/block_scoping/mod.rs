@@ -431,13 +431,6 @@ impl VisitMut for BlockScoping {
         self.handle_capture_of_vars(&mut node.body);
     }
 
-    fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
-        self.visit_mut_with_scope(ScopeKind::new_loop(), &mut node.body);
-
-        node.test.visit_mut_with(self);
-        self.handle_capture_of_vars(&mut node.body);
-    }
-
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
         let blockifyed = self.blockify_for_stmt_body(&mut node.body);
         let lexical_var = if let ForHead::VarDecl(decl) = &node.left {
@@ -544,6 +537,14 @@ impl VisitMut for BlockScoping {
         self.visit_mut_stmt_like(n);
     }
 
+    fn visit_mut_switch_case(&mut self, n: &mut SwitchCase) {
+        let old_vars = self.vars.take();
+
+        n.visit_mut_children_with(self);
+
+        self.vars = old_vars;
+    }
+
     fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
         let old = self.var_decl_kind;
         self.var_decl_kind = var.kind;
@@ -568,6 +569,13 @@ impl VisitMut for BlockScoping {
                 var.init = Some(undefined(var.span()))
             }
         }
+    }
+
+    fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
+        self.visit_mut_with_scope(ScopeKind::new_loop(), &mut node.body);
+
+        node.test.visit_mut_with(self);
+        self.handle_capture_of_vars(&mut node.body);
     }
 }
 
