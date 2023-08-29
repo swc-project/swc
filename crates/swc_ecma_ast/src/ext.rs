@@ -34,6 +34,7 @@ where
     }
 }
 
+#[cfg(feature = "serde-impl")]
 impl<'de, T> serde::Deserialize<'de> for ExtNode<T>
 where
     T: ?Sized + AstNodeExt,
@@ -46,6 +47,7 @@ where
     }
 }
 
+#[cfg(feature = "serde-impl")]
 impl<T> serde::Serialize for ExtNode<T>
 where
     T: ?Sized + AstNodeExt,
