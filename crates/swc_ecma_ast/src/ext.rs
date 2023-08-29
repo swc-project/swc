@@ -2,6 +2,7 @@ use std::fmt::Debug;
 
 use swc_common::{EqIgnoreSpan, Span, Spanned};
 
+#[derive(Debug)]
 pub struct ExtNode<T: ?Sized + AstNodeExt>(pub Box<T>);
 
 impl<T> Spanned for ExtNode<T>
