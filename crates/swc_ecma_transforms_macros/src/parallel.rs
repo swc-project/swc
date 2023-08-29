@@ -31,11 +31,9 @@ pub fn expand(attr: TokenStream, mut item: ItemImpl) -> ItemImpl {
         mode,
         "module_items",
         explode,
-        100,
     )));
-    item.items.push(ImplItem::Fn(make_par_visit_method(
-        mode, "stmts", explode, 100,
-    )));
+    item.items
+        .push(ImplItem::Fn(make_par_visit_method(mode, "stmts", explode)));
 
     item
 }
@@ -87,14 +85,10 @@ fn explode_hook_method_name(explode: bool, suffix: &str) -> Option<Ident> {
     }
 }
 
-fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool, threshold: usize) -> ImplItemFn {
+fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool) -> ImplItemFn {
     let method_name = Ident::new(&format!("{}_{}", mode.prefix(), suffix), Span::call_site());
     let hook = post_visit_hook(mode, suffix);
     let explode_method_name = explode_hook_method_name(explode, suffix);
-
-    let threshold = q!(Vars { threshold }, {
-        (swc_ecma_transforms_base::perf::cpu_count() * threshold)
-    });
 
     match (mode, explode_method_name) {
         (Mode::Fold, Some(explode_method_name)) => q!(
