@@ -640,6 +640,7 @@ define!({
         TsTypeAlias(Box<TsTypeAliasDecl>),
         TsEnum(Box<TsEnumDecl>),
         TsModule(Box<TsModuleDecl>),
+        Ext(ExtNode<dyn DeclExt>),
     }
     pub struct FnDecl {
         pub ident: Ident,
@@ -707,6 +708,7 @@ define!({
         PrivateName(PrivateName),
         OptChain(OptChainExpr),
         Invalid(Invalid),
+        Ext(ExtNode<dyn ExprExt>),
     }
     pub struct ThisExpr {
         pub span: Span,
@@ -1081,6 +1083,7 @@ define!({
         TsImportEquals(Box<TsImportEqualsDecl>),
         TsExportAssignment(TsExportAssignment),
         TsNamespaceExport(TsNamespaceExportDecl),
+        Ext(ExtNode<dyn ModuleDeclExt>),
     }
     pub struct ExportDefaultExpr {
         pub span: Span,
@@ -1332,6 +1335,7 @@ define!({
         ForOf(ForOfStmt),
         Decl(Decl),
         Expr(ExprStmt),
+        Ext(ExtNode<dyn StmtExt>),
     }
     pub struct ExprStmt {
         pub span: Span,
