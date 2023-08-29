@@ -101,7 +101,7 @@ where
 }
 
 #[cfg(feature = "rkyv-impl")]
-impl<D, T> rkyv::Deserialize for ExtNode<T>
+impl<D, T> rkyv::Deserialize<D> for ExtNode<T>
 where
     T: ?Sized + AstNodeExt,
     D: ?Sized + rkyv::de::SharedDeserializeRegistry,
