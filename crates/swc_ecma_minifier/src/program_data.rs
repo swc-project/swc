@@ -315,7 +315,7 @@ impl Storage for ProgramData {
                             }
                         }
                         ScopeKind::Block => {
-                            if var_info.used_in_non_child_fn {
+                            if e.get().used_in_non_child_fn {
                                 e.get_mut().is_fn_local = false;
                                 e.get_mut().used_in_non_child_fn = true;
                             }
