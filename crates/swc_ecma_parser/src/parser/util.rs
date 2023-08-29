@@ -321,6 +321,8 @@ pub(super) trait ExprExt {
 
             Expr::TsConstAssertion(..) => false,
 
+            Expr::Ext(..) => unreachable!("Ext() is not used yet"),
+
             Expr::Invalid(..) => false,
         }
     }
