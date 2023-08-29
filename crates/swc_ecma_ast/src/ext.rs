@@ -89,6 +89,17 @@ where
     }
 }
 
+#[cfg(feature = "rkyv-impl")]
+impl<S, T> rkyv::Serialize<S> for ExtNode<T>
+where
+    T: ?Sized + AstNodeExt,
+    S: rkyv::ser::Serializer,
+{
+    fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+        todo!()
+    }
+}
+
 struct ArchivedExtNode<T: ?Sized> {
     marker: PhantomData<T>,
 }
