@@ -1,6 +1,9 @@
 use pmutil::q;
 use swc_common::Span;
-use swc_ecma_ast::*;
+use swc_ecma_ast::{
+    ext::{AstNodeExt, ExtNode},
+    *,
+};
 use syn::ExprBlock;
 
 use crate::ctxt::Ctx;
@@ -127,6 +130,15 @@ where
             .parse(),
             None => q!({ None }).parse(),
         }
+    }
+}
+
+impl<T> ToCode for ExtNode<T>
+where
+    T: ?Sized + AstNodeExt,
+{
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
+        unreachable!("swc_ecmq_quote_macros does not support AST extensions")
     }
 }
 

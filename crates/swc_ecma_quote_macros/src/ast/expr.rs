@@ -41,7 +41,8 @@ impl_enum!(
         TsSatisfies,
         PrivateName,
         OptChain,
-        Invalid
+        Invalid,
+        Ext
     ],
     true
 );

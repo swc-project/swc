@@ -4,7 +4,7 @@ impl_enum!(
     Stmt,
     [
         Block, Empty, Debugger, With, Return, Labeled, Break, Continue, If, Switch, Throw, Try,
-        While, DoWhile, For, ForIn, ForOf, Decl, Expr
+        While, DoWhile, For, ForIn, ForOf, Decl, Expr, Ext
     ]
 );
 

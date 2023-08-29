@@ -11,7 +11,8 @@ impl_enum!(
         ExportAll,
         TsImportEquals,
         TsExportAssignment,
-        TsNamespaceExport
+        TsNamespaceExport,
+        Ext
     ]
 );
 
