@@ -93,7 +93,7 @@ where
 impl<S, T> rkyv::Serialize<S> for ExtNode<T>
 where
     T: ?Sized + AstNodeExt,
-    S: rkyv::ser::Serializer,
+    S: ?Sized + rkyv::ser::Serializer,
 {
     fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
         todo!()
