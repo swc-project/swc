@@ -101,12 +101,12 @@ where
 }
 
 #[cfg(feature = "rkyv-impl")]
-impl<D, T> rkyv::Deserialize<D> for ExtNode<T>
+impl<D, T> rkyv::Deserialize<ExtNode<T>, D> for ArchivedExtNode<T>
 where
     T: ?Sized + AstNodeExt,
     D: ?Sized + rkyv::de::SharedDeserializeRegistry,
 {
-    fn deserialize(&self, deserializer: &mut D) -> Result<T, D::Error> {
+    fn deserialize(&self, deserializer: &mut D) -> Result<ExtNode<T>, D::Error> {
         todo!()
     }
 }
