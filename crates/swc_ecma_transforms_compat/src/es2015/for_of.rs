@@ -670,7 +670,7 @@ impl VisitMut for ForOf {
                         *s = self.fold_for_stmt(Some(label.clone()), stmt.take());
                     }
                     _ => {
-                        body.visit_mut_children_with(self);
+                        body.visit_mut_with(self);
                     }
                 }
             }
