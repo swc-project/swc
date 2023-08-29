@@ -1,9 +1,27 @@
-use std::fmt::Debug;
+use std::{fmt::Debug, hash::Hash};
 
 use swc_common::{EqIgnoreSpan, Span, Spanned};
 
 #[derive(Debug)]
 pub struct ExtNode<T: ?Sized + AstNodeExt>(pub Box<T>);
+
+impl<T> Clone for ExtNode<T>
+where
+    T: ?Sized + AstNodeExt,
+{
+    fn clone(&self) -> Self {
+        todo!()
+    }
+}
+
+impl<T> Hash for ExtNode<T>
+where
+    T: ?Sized + AstNodeExt,
+{
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        todo!()
+    }
+}
 
 impl<T> Spanned for ExtNode<T>
 where
@@ -49,7 +67,17 @@ where
 
 impl<T> Eq for ExtNode<T> where T: ?Sized + AstNodeExt {}
 
-impl<T> EqIgnoreSpan for ExtNode<T> where T: ?Sized + AstNodeExt {}
+impl<T> EqIgnoreSpan for ExtNode<T>
+where
+    T: ?Sized + AstNodeExt,
+{
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        todo!()
+    }
+}
+
+#[cfg(feature = "rkyv-impl")]
+impl<T> rkyv::Archive for ExtNode<T> where T: ?Sized + AstNodeExt {}
 
 pub trait AstNodeExt: 'static + Send + Sync + Debug + Spanned {}
 
