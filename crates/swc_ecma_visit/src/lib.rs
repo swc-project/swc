@@ -11,8 +11,16 @@ use std::{borrow::Cow, fmt::Debug};
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{Atom, JsWord};
 use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
-use swc_ecma_ast::*;
+use swc_ecma_ast::{ext::*, *};
 use swc_visit::{define, AndThen, Repeat, Repeated};
+
+pub type DynExpr = ExtNode<dyn ExprExt>;
+
+pub type DynStmt = ExtNode<dyn StmtExt>;
+
+pub type DynDecl = ExtNode<dyn DeclExt>;
+
+pub type DynModuleDecl = ExtNode<dyn ModuleDeclExt>;
 
 impl<A, B> Fold for AndThen<A, B>
 where
@@ -640,7 +648,7 @@ define!({
         TsTypeAlias(Box<TsTypeAliasDecl>),
         TsEnum(Box<TsEnumDecl>),
         TsModule(Box<TsModuleDecl>),
-        Ext(ExtNode<dyn DeclExt>),
+        Ext(DynDecl),
     }
     pub struct FnDecl {
         pub ident: Ident,
@@ -708,7 +716,7 @@ define!({
         PrivateName(PrivateName),
         OptChain(OptChainExpr),
         Invalid(Invalid),
-        Ext(ExtNode<dyn ExprExt>),
+        Ext(DynExpr),
     }
     pub struct ThisExpr {
         pub span: Span,
@@ -1083,7 +1091,7 @@ define!({
         TsImportEquals(Box<TsImportEqualsDecl>),
         TsExportAssignment(TsExportAssignment),
         TsNamespaceExport(TsNamespaceExportDecl),
-        Ext(ExtNode<dyn ModuleDeclExt>),
+        Ext(DynModuleDecl),
     }
     pub struct ExportDefaultExpr {
         pub span: Span,
@@ -1335,7 +1343,7 @@ define!({
         ForOf(ForOfStmt),
         Decl(Decl),
         Expr(ExprStmt),
-        Ext(ExtNode<dyn StmtExt>),
+        Ext(DynStmt),
     }
     pub struct ExprStmt {
         pub span: Span,
