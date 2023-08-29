@@ -3997,7 +3997,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_dep_graph"
-version = "0.111.0"
+version = "0.111.1"
 dependencies = [
  "pretty_assertions",
  "swc_atoms",
@@ -4503,7 +4503,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.233.1"
+version = "0.233.2"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
