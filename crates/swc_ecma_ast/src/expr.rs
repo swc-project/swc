@@ -8,7 +8,9 @@ use serde::{
 };
 use string_enum::StringEnum;
 use swc_atoms::{js_word, Atom};
-use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 
 use crate::{
     class::Class,
@@ -171,6 +173,20 @@ pub enum Expr {
 
     #[tag("*")]
     Ext(ExtNode<dyn ExprExt>),
+}
+
+#[derive(Debug, Clone, Copy)]
+
+pub struct ExprCtx {
+    /// This [SyntaxContext] should be applied only to unresolved references.
+    ///
+    /// In other words, this should be applied to identifier references to
+    /// global objects like `Object` or `Math`, and when those are not shadowed
+    /// by a local declaration.
+    pub unresolved_ctxt: SyntaxContext,
+
+    /// True for argument of `typeof`.
+    pub is_unresolved_ref_safe: bool,
 }
 
 // Memory layout depends on the version of rustc.

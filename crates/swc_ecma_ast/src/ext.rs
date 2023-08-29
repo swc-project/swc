@@ -2,6 +2,8 @@ use std::{fmt::Debug, hash::Hash, marker::PhantomData};
 
 use swc_common::{EqIgnoreSpan, Span, Spanned};
 
+use crate::expr::ExprCtx;
+
 #[derive(Debug)]
 pub struct ExtNode<T: ?Sized + AstNodeExt>(pub Box<T>);
 
@@ -125,7 +127,9 @@ pub trait AstNodeExt: 'static + Send + Sync + Debug + Spanned {}
 
 pub trait DeclExt: AstNodeExt {}
 
-pub trait ExprExt: AstNodeExt {}
+pub trait ExprExt: AstNodeExt {
+    fn may_have_side_effects(&self, _ctx: ExprCtx) -> bool;
+}
 
 pub trait StmtExt: AstNodeExt {}
 

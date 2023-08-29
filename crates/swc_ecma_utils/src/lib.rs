@@ -518,20 +518,6 @@ impl Visit for Hoister {
     fn visit_fn_expr(&mut self, _n: &FnExpr) {}
 }
 
-#[derive(Debug, Clone)]
-
-pub struct ExprCtx {
-    /// This [SyntaxContext] should be applied only to unresolved references.
-    ///
-    /// In other words, this should be applied to identifier references to
-    /// global objects like `Object` or `Math`, and when those are not shadowed
-    /// by a local declaration.
-    pub unresolved_ctxt: SyntaxContext,
-
-    /// True for argument of `typeof`.
-    pub is_unresolved_ref_safe: bool,
-}
-
 /// Extension methods for [Expr].
 pub trait ExprExt {
     fn as_expr(&self) -> &Expr;
@@ -1512,6 +1498,7 @@ pub trait ExprExt {
             }
 
             Expr::Invalid(..) => true,
+            Expr::Ext(e) => e.0.may_have_side_effects(ctx),
         }
     }
 }
@@ -2616,6 +2603,7 @@ impl ExprCtx {
             }
 
             Expr::Invalid(..) => unreachable!(),
+            Expr::Ext(_) => unreachable!("extract_side_effects_to does not support AST extensions"),
         }
     }
 }
