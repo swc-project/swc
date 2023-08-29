@@ -138,6 +138,7 @@ impl Clone for Stmt {
             ForOf(s) => ForOf(s.clone()),
             Decl(s) => Decl(s.clone()),
             Expr(s) => Expr(s.clone()),
+            Ext(s) => Ext(s.clone()),
         }
     }
 }

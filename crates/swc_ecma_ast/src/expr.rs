@@ -279,6 +279,7 @@ impl Clone for Expr {
             OptChain(e) => OptChain(e.clone()),
             Invalid(e) => Invalid(e.clone()),
             TsSatisfies(e) => TsSatisfies(e.clone()),
+            Ext(e) => Ext(e.clone()),
         }
     }
 }
