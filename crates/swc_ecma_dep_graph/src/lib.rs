@@ -177,6 +177,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             specifier_span: node.arg.span,
             import_attributes: Default::default(),
         });
+        node.visit_children_with(self);
     }
 
     fn visit_module_items(&mut self, items: &[ast::ModuleItem]) {
@@ -807,6 +808,49 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     specifier_span: Span::new(BytePos(922), BytePos(934), Default::default()),
                     import_attributes: ImportAttributes::Unknown,
                 },
+            ]
+        );
+    }
+
+    #[test]
+    fn ts_import_object_lit_property() {
+        let source = r#"
+export declare const SomeValue: typeof Core & import("./a.d.ts").Constructor<{
+    paginate: import("./b.d.ts").PaginateInterface;
+} & import("./c.d.ts").RestEndpointMethods>;
+"#;
+        let (module, comments) = helper("test.ts", source).unwrap();
+        let dependencies = analyze_dependencies(&module, &comments);
+        assert_eq!(
+            dependencies,
+            vec![
+                DependencyDescriptor {
+                    kind: DependencyKind::ImportType,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(48), BytePos(176), Default::default()),
+                    specifier: JsWord::from("./a.d.ts"),
+                    specifier_span: Span::new(BytePos(55), BytePos(65), Default::default()),
+                    import_attributes: ImportAttributes::None,
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::ImportType,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(95), BytePos(131), Default::default()),
+                    specifier: JsWord::from("./b.d.ts"),
+                    specifier_span: Span::new(BytePos(102), BytePos(112), Default::default()),
+                    import_attributes: ImportAttributes::None,
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::ImportType,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(137), BytePos(175), Default::default()),
+                    specifier: JsWord::from("./c.d.ts"),
+                    specifier_span: Span::new(BytePos(144), BytePos(154), Default::default()),
+                    import_attributes: ImportAttributes::None,
+                }
             ]
         );
     }
