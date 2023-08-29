@@ -1,5 +1,7 @@
 use std::fmt::Debug;
 
+pub struct ExtNode<T: ?Sized>(pub Box<T>);
+
 pub trait AstNodeExt: 'static + Send + Sync + Debug {}
 
 pub trait DeclExt: AstNodeExt {}

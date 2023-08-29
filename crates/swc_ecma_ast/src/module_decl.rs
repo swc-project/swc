@@ -4,6 +4,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 use crate::{
     decl::Decl,
     expr::{ClassExpr, Expr, FnExpr},
+    ext::{ExtNode, ModuleDeclExt},
     ident::Ident,
     lit::Str,
     typescript::{TsExportAssignment, TsImportEqualsDecl, TsInterfaceDecl, TsNamespaceExportDecl},
@@ -40,6 +41,9 @@ pub enum ModuleDecl {
 
     #[tag("TsNamespaceExportDeclaration")]
     TsNamespaceExport(TsNamespaceExportDecl),
+
+    #[tag("*")]
+    Ext(ExtNode<dyn ModuleDeclExt>),
 }
 
 impl Take for ModuleDecl {
