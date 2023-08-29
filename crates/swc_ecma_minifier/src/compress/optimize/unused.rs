@@ -215,8 +215,7 @@ impl Optimizer<'_> {
                         return true;
                     }
 
-                    if !usage.mutated && !usage.reassigned && usage.no_side_effect_for_member_access
-                    {
+                    if !usage.mutated() && usage.no_side_effect_for_member_access {
                         return false;
                     }
                 }

@@ -30,7 +30,7 @@ pub trait Storage: Sized + Default {
     fn get_initialized_cnt(&self) -> usize;
     fn truncate_initialized_cnt(&mut self, len: usize);
 
-    fn mark_property_mutattion(&mut self, id: Id, ctx: Ctx);
+    fn mark_property_mutation(&mut self, id: Id, ctx: Ctx);
 }
 
 pub trait ScopeDataLike: Sized + Default + Clone {
@@ -64,8 +64,6 @@ pub trait VarDataLike: Sized {
     fn mark_indexed_with_dynamic_key(&mut self);
 
     fn add_accessed_property(&mut self, name: JsWord);
-
-    fn mark_mutated(&mut self);
 
     fn mark_used_as_ref(&mut self);
 
