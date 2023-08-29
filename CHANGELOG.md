@@ -34,6 +34,12 @@
 ### Miscellaneous Tasks
 - **general**: Use `textarea` for `swc-info` ([eed2903](https://github.com/swc-project/swc/commit/eed290319e4a8128948ce07e76d11a01d2096a8b))
 
+### Performance
+
+
+
+- **(es/transforms)** Remove wrong parallelism (#7889) ([a505012](https://github.com/swc-project/swc/commit/a50501255d2a91f2bbc1ce9767689dc4fad540cc))
+
 ## [1.3.80] - 2023-08-25
 
 ### Bug Fixes
