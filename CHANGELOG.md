@@ -17,6 +17,9 @@
 - **(es/dep-graph)** Analyze import type children (#7883) ([057bd5f](https://github.com/swc-project/swc/commit/057bd5f3efe55077a5a8e7f627e80175c8af2bd0))
 
 
+- **(es/minifier)** Report `is_fn_local` even if var is hoisted (#7876) ([87a47bf](https://github.com/swc-project/swc/commit/87a47bfb2c602f2ce7eb33f78612197e290518b8))
+
+
 - **(swc-info)** Use correct path while getting local package versions (#7872) ([67afaf1](https://github.com/swc-project/swc/commit/67afaf1f2db087518ac990c71de896c8e5e2a051))
 
 ### Features
