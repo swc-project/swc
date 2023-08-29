@@ -1,8 +1,19 @@
 use std::fmt::Debug;
 
-pub struct ExtNode<T: ?Sized>(pub Box<T>);
+use swc_common::{Span, Spanned};
 
-pub trait AstNodeExt: 'static + Send + Sync + Debug {}
+pub struct ExtNode<T: ?Sized + AstNodeExt>(pub Box<T>);
+
+impl<T> Spanned for ExtNode<T>
+where
+    T: ?Sized + AstNodeExt,
+{
+    fn span(&self) -> Span {
+        self.0.span()
+    }
+}
+
+pub trait AstNodeExt: 'static + Send + Sync + Debug + Spanned {}
 
 pub trait DeclExt: AstNodeExt {}
 
