@@ -5,6 +5,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 use crate::{
     class::Class,
     expr::Expr,
+    ext::{DeclExt, ExtNode},
     function::Function,
     ident::Ident,
     pat::Pat,
@@ -33,6 +34,9 @@ pub enum Decl {
     TsEnum(Box<TsEnumDecl>),
     #[tag("TsModuleDeclaration")]
     TsModule(Box<TsModuleDecl>),
+
+    #[tag("*")]
+    Ext(ExtNode<dyn DeclExt>),
 }
 
 bridge_decl_from!(Box<VarDecl>, VarDecl);

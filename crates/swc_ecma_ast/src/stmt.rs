@@ -4,6 +4,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 use crate::{
     decl::{Decl, VarDecl},
     expr::Expr,
+    ext::{ExtNode, StmtExt},
     ident::Ident,
     pat::Pat,
     UsingDecl,
@@ -103,6 +104,9 @@ pub enum Stmt {
 
     #[tag("ExpressionStatement")]
     Expr(ExprStmt),
+
+    #[tag("*")]
+    Ext(ExtNode<dyn StmtExt>),
 }
 
 // Memory layout depedns on the version of rustc.

@@ -12,6 +12,7 @@ use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanne
 
 use crate::{
     class::Class,
+    ext::{ExprExt, ExtNode},
     function::Function,
     ident::{Ident, PrivateName},
     jsx::{JSXElement, JSXEmptyExpr, JSXFragment, JSXMemberExpr, JSXNamespacedName},
@@ -167,6 +168,9 @@ pub enum Expr {
 
     #[tag("Invalid")]
     Invalid(Invalid),
+
+    #[tag("*")]
+    Ext(ExtNode<dyn ExprExt>),
 }
 
 // Memory layout depends on the version of rustc.
