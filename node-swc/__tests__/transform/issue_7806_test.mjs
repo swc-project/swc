@@ -4,18 +4,18 @@ import swc from "../../..";
 describe('jsc.paths', () => {
 
     it("should work with process.cwd()", async () => {
-        expect(swc.transformFile(path.join(
+        expect((await swc.transformFile(path.join(
 
 
             "tests", "swc-path-bug-1", "src", "index.ts"
-        )), {
+        ), {
             jsc: {
                 parser: {
                     syntax: 'typescript',
                 },
                 baseUrl: process.cwd(),
             }
-        }).toMatchInlineSnapshot(`
+        })).code).toMatchInlineSnapshot(`
             "\\"\\".concat(100, \\"testing\\");
             "
         `);
