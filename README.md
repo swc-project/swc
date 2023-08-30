@@ -44,7 +44,7 @@ Also, SWC tries to ensure that
 
 > If you select the latest version of each crates, it will work
 
-for rust users.
+for Rust users.
 
 MSRV of crates is currently nightly, but we will support stable rustc again in the future.
 
