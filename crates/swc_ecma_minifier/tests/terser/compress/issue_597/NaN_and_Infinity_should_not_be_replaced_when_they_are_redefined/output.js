@@ -1,3 +1,3 @@
 var Infinity, NaN1;
-Infinity.toString();
+(1 / 0).toString();
 NaN.toString();

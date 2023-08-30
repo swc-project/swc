@@ -4569,8 +4569,7 @@ var load228 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $DataView = global[DATA_VIEW];
     var Math1 = global.Math;
     var RangeError1 = global.RangeError;
-    // eslint-disable-next-line no-shadow-restricted-names
-    var Infinity1 = global.Infinity;
+    global.Infinity;
     var BaseBuffer = $ArrayBuffer;
     var abs = Math1.abs;
     var pow = Math1.pow;
@@ -4595,7 +4594,7 @@ var load228 = __swcpack_require__.bind(void 0, function(module, exports) {
         var e, m, c;
         value = abs(value);
         // eslint-disable-next-line no-self-compare
-        if (value != value || value === Infinity1) {
+        if (value != value || value === Infinity) {
             // eslint-disable-next-line no-self-compare
             m = value != value ? 1 : 0;
             e = eMax;
@@ -4645,7 +4644,7 @@ var load228 = __swcpack_require__.bind(void 0, function(module, exports) {
         nBits += mLen;
         for(; nBits > 0; m = m * 256 + buffer[i], i--, nBits -= 8);
         if (e === 0) e = 1 - eBias;
-        else if (e === eMax) return m ? NaN : s ? -Infinity1 : Infinity1;
+        else if (e === eMax) return m ? NaN : s ? -Infinity : Infinity;
         else {
             m = m + pow(2, mLen);
             e = e - eBias;
