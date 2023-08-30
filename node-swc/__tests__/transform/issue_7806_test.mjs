@@ -33,8 +33,12 @@ describe("jsc.paths", () => {
                 })
             ).code
         ).toMatchInlineSnapshot(`
-            "import { helloWorld } from \\"src/utils/hello-world.utils.js\\";
-            console.log(helloWorld());
+            "\\"use strict\\";
+            Object.defineProperty(exports, \\"__esModule\\", {
+                value: true
+            });
+            const _helloworldutils = require(\\"src/utils/hello-world.utils.js\\");
+            console.log((0, _helloworldutils.helloWorld)());
             "
         `);
     });
@@ -64,8 +68,12 @@ describe("jsc.paths", () => {
                 })
             ).code
         ).toMatchInlineSnapshot(`
-            "import { helloWorld } from \\"src/utils/hello-world.utils.js\\";
-            console.log(helloWorld());
+            "\\"use strict\\";
+            Object.defineProperty(exports, \\"__esModule\\", {
+                value: true
+            });
+            const _helloworldutils = require(\\"src/utils/hello-world.utils.js\\");
+            console.log((0, _helloworldutils.helloWorld)());
             "
         `);
     });
