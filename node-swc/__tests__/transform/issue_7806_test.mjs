@@ -6,11 +6,43 @@ const __filename = fileURLToPath(import.meta.url);
 
 describe("jsc.paths", () => {
     it("should work with process.cwd()", async () => {
+        console.log(process.cwd());
         const f = path.join(
             __filename,
             "..",
             "..",
             "..",
+            "tests",
+            "swc-path-bug-1",
+            "src",
+            "index.ts"
+        );
+        console.log(f);
+        expect(
+            (
+                await swc.transformFile(f, {
+                    jsc: {
+                        parser: {
+                            syntax: "typescript",
+                        },
+                        baseUrl: process.cwd(),
+                        paths: {
+                            "@utils/*": ["src/utils/*"],
+                        },
+                    },
+                })
+            ).code
+        ).toMatchInlineSnapshot(`
+            "import { helloWorld } from \\"src/utils/hello-world.utils.js\\";
+            console.log(helloWorld());
+            "
+        `);
+    });
+
+    it("should work with process.cwd() and relative url", async () => {
+        console.log(process.cwd());
+        const f = path.join(
+            "node-swc",
             "tests",
             "swc-path-bug-1",
             "src",
