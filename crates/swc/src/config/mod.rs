@@ -10,7 +10,7 @@ use std::{
     usize,
 };
 
-use anyhow::{bail, Error};
+use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use either::Either;
 use indexmap::IndexMap;
@@ -1958,22 +1958,22 @@ fn default_env_name() -> String {
     }
 }
 
-fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResolver> {
+fn build_resolver(mut base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResolver> {
     static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ARandomState>> =
         Lazy::new(Default::default);
 
     // On Windows, we need to normalize path as UNC path.
     if cfg!(target_os = "windows") {
-        // base_url = base_url
-        //     .canonicalize()
-        //     .with_context(|| {
-        //         format!(
-        //             "failed to canonicalize jsc.baseUrl(`{}`)\nThis is
-        // required on Windows \              because of UNC path.",
-        //             base_url.display()
-        //         )
-        //     })
-        //     .unwrap();
+        base_url = base_url
+            .canonicalize()
+            .with_context(|| {
+                format!(
+                    "failed to canonicalize jsc.baseUrl(`{}`)\nThis is required on Windows \
+                     because of UNC path.",
+                    base_url.display()
+                )
+            })
+            .unwrap();
     }
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
