@@ -49,6 +49,12 @@
 
 - **(es/transforms)** Remove wrong parallelism (#7889) ([a505012](https://github.com/swc-project/swc/commit/a50501255d2a91f2bbc1ce9767689dc4fad540cc))
 
+### Refactor
+
+
+
+- **(es/minifier)** Remove `mutated` and `mutation_by_call_count` (#7890) ([8db968a](https://github.com/swc-project/swc/commit/8db968a25d508a0d28d15d556ad121951f39ae0d))
+
 ## [1.3.80] - 2023-08-25
 
 ### Bug Fixes

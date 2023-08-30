@@ -235,7 +235,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.56.5"
+version = "0.56.6"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -964,7 +964,7 @@ checksum = "23d8666cb01533c39dde32bcbab8e227b4ed6679b2c925eba05feabea39508fb"
 
 [[package]]
 name = "dbg-swc"
-version = "0.86.4"
+version = "0.86.5"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -3525,7 +3525,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.265.5"
+version = "0.265.6"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3595,7 +3595,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.219.4"
+version = "0.219.5"
 dependencies = [
  "anyhow",
  "crc",
@@ -3707,7 +3707,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.82.5"
+version = "0.82.6"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4064,7 +4064,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.186.4"
+version = "0.186.5"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4456,7 +4456,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.18.0"
+version = "0.18.1"
 dependencies = [
  "indexmap",
  "rustc-hash",
@@ -4503,7 +4503,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.233.6"
+version = "0.233.7"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -4551,7 +4551,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.190.5"
+version = "0.190.6"
 dependencies = [
  "ahash 0.8.3",
  "anyhow",
@@ -4599,7 +4599,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.130.4"
+version = "0.130.5"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4650,7 +4650,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.127.4"
+version = "0.127.5"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4736,7 +4736,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.54.5"
+version = "0.54.6"
 dependencies = [
  "anyhow",
  "dashmap",
