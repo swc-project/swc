@@ -1964,16 +1964,16 @@ fn build_resolver(mut base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportR
 
     // On Windows, we need to normalize path as UNC path.
     if cfg!(target_os = "windows") {
-        base_url = base_url
-            .canonicalize()
-            .with_context(|| {
-                format!(
-                    "failed to canonicalize jsc.baseUrl(`{}`)\nThis is required on Windows \
-                     because of UNC path.",
-                    base_url.display()
-                )
-            })
-            .unwrap();
+        // base_url = base_url
+        //     .canonicalize()
+        //     .with_context(|| {
+        //         format!(
+        //             "failed to canonicalize jsc.baseUrl(`{}`)\nThis is
+        // required on Windows \              because of UNC path.",
+        //             base_url.display()
+        //         )
+        //     })
+        //     .unwrap();
     }
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
