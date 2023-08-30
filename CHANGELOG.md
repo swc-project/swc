@@ -38,7 +38,10 @@
 - **(swc-info)** Add a CLI to help issue reporting (#7871) ([d6952ea](https://github.com/swc-project/swc/commit/d6952ea687beb5b9aff1eae26076fa98ac94818b))
 
 ### Miscellaneous Tasks
-- **general**: Use `textarea` for `swc-info` ([eed2903](https://github.com/swc-project/swc/commit/eed290319e4a8128948ce07e76d11a01d2096a8b))
+
+
+
+- **(deps)** Update `memchr` (#7891) ([01cbd6e](https://github.com/swc-project/swc/commit/01cbd6edbd37c95ece7ca20ad2f6c85d6c1b6e35))- **general**: Use `textarea` for `swc-info` ([eed2903](https://github.com/swc-project/swc/commit/eed290319e4a8128948ce07e76d11a01d2096a8b))
 
 ### Performance
 
