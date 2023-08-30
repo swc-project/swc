@@ -65,7 +65,6 @@ pub(crate) struct VarUsageInfo {
     pub(crate) declared_as_for_init: bool,
 
     pub(crate) assign_count: u32,
-    pub(crate) mutation_by_call_count: u32,
 
     /// The number of direct and indirect reference to this identifier.
     /// ## Things to note
@@ -75,8 +74,6 @@ pub(crate) struct VarUsageInfo {
 
     /// The variable itself is assigned after reference.
     pub(crate) reassigned: bool,
-    /// The variable itself or a property of it is modified.
-    pub(crate) mutated: bool,
 
     pub(crate) has_property_access: bool,
     pub(crate) has_property_mutation: bool,
@@ -139,10 +136,8 @@ impl Default for VarUsageInfo {
             declared_as_fn_expr: Default::default(),
             declared_as_for_init: Default::default(),
             assign_count: Default::default(),
-            mutation_by_call_count: Default::default(),
             usage_count: Default::default(),
             reassigned: Default::default(),
-            mutated: Default::default(),
             has_property_access: Default::default(),
             has_property_mutation: Default::default(),
             exported: Default::default(),
@@ -170,16 +165,13 @@ impl Default for VarUsageInfo {
 }
 
 impl VarUsageInfo {
-    pub(crate) fn is_mutated_only_by_one_call(&self) -> bool {
-        self.assign_count == 0 && self.mutation_by_call_count == 1
-    }
-
     pub(crate) fn is_infected(&self) -> bool {
         !self.infects_to.is_empty()
     }
 
-    pub(crate) fn can_inline_var(&self) -> bool {
-        !self.mutated || (self.assign_count == 0 && !self.reassigned)
+    /// The variable itself or a property of it is modified.
+    pub(crate) fn mutated(&self) -> bool {
+        self.assign_count > 0 || self.has_property_mutation
     }
 
     pub(crate) fn can_inline_fn_once(&self) -> bool {
@@ -230,6 +222,8 @@ impl Storage for ProgramData {
                         || (var_info.var_initialized && !e.get().var_initialized);
 
                     if var_info.var_initialized {
+                        // If it is inited in some other child scope and also inited in current
+                        // scope
                         if e.get().var_initialized || e.get().ref_count > 0 {
                             e.get_mut().assign_count += 1;
                             e.get_mut().reassigned = true;
@@ -242,6 +236,8 @@ impl Storage for ProgramData {
                         // If it is inited in some other child scope, but referenced in
                         // current child scope
                         if !inited && e.get().var_initialized && var_info.ref_count > 0 {
+                            e.get_mut().var_initialized = false;
+                            e.get_mut().assign_count += 1;
                             e.get_mut().reassigned = true
                         }
                     }
@@ -255,8 +251,6 @@ impl Storage for ProgramData {
                             e.get_mut().reassigned = true
                         }
                     }
-
-                    e.get_mut().mutated |= var_info.mutated;
 
                     e.get_mut().has_property_access |= var_info.has_property_access;
                     e.get_mut().has_property_mutation |= var_info.has_property_mutation;
@@ -276,7 +270,6 @@ impl Storage for ProgramData {
                     e.get_mut().executed_multiple_time |= var_info.executed_multiple_time;
                     e.get_mut().used_in_cond |= var_info.used_in_cond;
                     e.get_mut().assign_count += var_info.assign_count;
-                    e.get_mut().mutation_by_call_count += var_info.mutation_by_call_count;
                     e.get_mut().usage_count += var_info.usage_count;
 
                     e.get_mut().infects_to.extend(var_info.infects_to);
@@ -362,7 +355,6 @@ impl Storage for ProgramData {
                 tracing::trace!("declare_decl(`{}`): Already declared", i);
             }
 
-            v.mutated = true;
             v.reassigned = true;
             v.assign_count += 1;
         }
@@ -398,7 +390,7 @@ impl Storage for ProgramData {
         self.initialized_vars.truncate(len)
     }
 
-    fn mark_property_mutattion(&mut self, id: Id, ctx: Ctx) {
+    fn mark_property_mutation(&mut self, id: Id, ctx: Ctx) {
         let e = self.vars.entry(id).or_default();
         e.has_property_mutation = true;
 
@@ -482,10 +474,6 @@ impl VarDataLike for VarUsageInfo {
 
     fn add_accessed_property(&mut self, name: swc_atoms::JsWord) {
         *self.accessed_props.entry(name).or_default() += 1;
-    }
-
-    fn mark_mutated(&mut self) {
-        self.mutated = true;
     }
 
     fn mark_used_as_ref(&mut self) {
@@ -610,9 +598,6 @@ impl ProgramData {
 
         let call_may_mutate = ctx.in_call_arg_of == Some(CalleeKind::Unknown);
 
-        // Passing object as a argument is possibly modification.
-        e.mutated |= is_modify || (call_may_mutate && ctx.is_exact_arg);
-
         e.executed_multiple_time |= ctx.executed_multiple_time;
         e.used_in_cond |= ctx.in_cond;
 
@@ -647,15 +632,11 @@ impl ProgramData {
                 self.report(other.0, ctx, true, dejavu)
             }
         } else {
-            if call_may_mutate && ctx.is_exact_arg {
-                e.mutation_by_call_count += 1;
-            }
-
             e.usage_count += 1;
         }
 
         if call_may_mutate && ctx.is_exact_arg {
-            self.mark_property_mutattion(i, ctx)
+            self.mark_property_mutation(i, ctx)
         }
     }
 }

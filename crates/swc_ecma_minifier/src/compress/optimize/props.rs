@@ -29,13 +29,11 @@ impl Optimizer<'_> {
                 .vars
                 .get(&name.to_id())
                 .map(|v| {
-                    !v.mutated
-                        && v.mutation_by_call_count == 0
+                    !v.mutated()
                         && !v.used_as_ref
                         && !v.used_as_arg
                         && !v.used_in_cond
                         && (!v.is_fn_local || !self.mode.should_be_very_correct())
-                        && !v.reassigned
                         && !v.is_infected()
                 })
                 .unwrap_or(false)
@@ -153,8 +151,7 @@ impl Optimizer<'_> {
                 .map(|v| {
                     v.ref_count == 1
                         && v.has_property_access
-                        && !v.mutated
-                        && v.mutation_by_call_count == 0
+                        && !v.mutated()
                         && v.is_fn_local
                         && !v.executed_multiple_time
                         && !v.used_as_arg

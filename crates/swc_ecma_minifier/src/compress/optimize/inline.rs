@@ -98,9 +98,7 @@ impl Optimizer<'_> {
             //
             // TODO: Allow `length` in usage.accessed_props
             if usage.declared
-                && !usage.reassigned
-                && !usage.mutated
-                && !usage.has_property_mutation
+                && !usage.mutated()
                 && usage.accessed_props.is_empty()
                 && !usage.is_infected()
                 && is_inline_enabled
@@ -165,7 +163,7 @@ impl Optimizer<'_> {
                 }
             }
 
-            if !usage.mutated {
+            if !usage.mutated() {
                 self.mode.store(ident.to_id(), &*init);
             }
 
@@ -177,7 +175,8 @@ impl Optimizer<'_> {
             // new variant is added for multi inline, think carefully
             if is_inline_enabled
                 && usage.declared_count == 1
-                && usage.can_inline_var()
+                && usage.assign_count == 0
+                && (!usage.has_property_mutation || !usage.reassigned)
                 && match init {
                     Expr::Ident(Ident {
                         sym: js_word!("eval"),
@@ -323,7 +322,7 @@ impl Optimizer<'_> {
                 && usage.declared
                 && may_remove
                 && !usage.reassigned
-                && (usage.can_inline_var() || usage.is_mutated_only_by_one_call())
+                && usage.assign_count == 0
                 && ref_count == 1
             {
                 match init {
