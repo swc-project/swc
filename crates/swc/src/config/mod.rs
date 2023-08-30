@@ -10,7 +10,7 @@ use std::{
     usize,
 };
 
-use anyhow::{bail, Context, Error};
+use anyhow::{bail, Error};
 use dashmap::DashMap;
 use either::Either;
 use indexmap::IndexMap;
@@ -1958,7 +1958,7 @@ fn default_env_name() -> String {
     }
 }
 
-fn build_resolver(mut base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResolver> {
+fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResolver> {
     static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ARandomState>> =
         Lazy::new(Default::default);
 
