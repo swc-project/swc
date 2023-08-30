@@ -20,6 +20,9 @@
 - **(es/minifier)** Report `is_fn_local` even if var is hoisted (#7876) ([87a47bf](https://github.com/swc-project/swc/commit/87a47bfb2c602f2ce7eb33f78612197e290518b8))
 
 
+- **(es/module)** Don't create absolute paths for `jsc.paths` on Windows (#7892) ([5fbc251](https://github.com/swc-project/swc/commit/5fbc251db1cc1f7973ba780a6c4fc1cdce5ef40d))
+
+
 - **(swc-info)** Use correct path while getting local package versions (#7872) ([67afaf1](https://github.com/swc-project/swc/commit/67afaf1f2db087518ac990c71de896c8e5e2a051))
 
 ### Features
