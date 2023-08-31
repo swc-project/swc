@@ -1,5 +1,5 @@
 {
-    "sourceMaps": "inline",
+    "sourceMaps": true,
     "module": {
         "type": "commonjs",
         "strict": false,
