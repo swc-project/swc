@@ -5,6 +5,9 @@
 
 
 
+- **(common)** Fix logic for excluding `FileName` from source maps (#7900) ([aa64955](https://github.com/swc-project/swc/commit/aa6495519b9271cb21d380c0c5a35fe79d31ee14))
+
+
 - **(es/module)** Make `jsc.paths` fully resolve TypeScript files (#7901) ([c714dd2](https://github.com/swc-project/swc/commit/c714dd20dedfab60ac75de613d13c0f3af60a6c7))
 
 
