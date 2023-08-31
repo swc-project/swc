@@ -5,6 +5,9 @@
 
 
 
+- **(es/module)** Make `jsc.paths` fully resolve TypeScript files (#7901) ([c714dd2](https://github.com/swc-project/swc/commit/c714dd20dedfab60ac75de613d13c0f3af60a6c7))
+
+
 - **(es/resolver)** Correctly resolve global value (#7893) ([2db10e9](https://github.com/swc-project/swc/commit/2db10e9fd1913b69cb088aaded2d587872e9f2bb))
 
 ## [1.3.81] - 2023-08-30
