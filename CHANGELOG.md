@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/resolver)** Correctly resolve global value (#7893) ([2db10e9](https://github.com/swc-project/swc/commit/2db10e9fd1913b69cb088aaded2d587872e9f2bb))
+
 ## [1.3.81] - 2023-08-30
 
 ### Bug Fixes
