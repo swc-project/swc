@@ -1,3 +1,3 @@
-var t, r;
-t.toString();
+var t, i;
+Infinity.toString();
 NaN.toString();
