@@ -1,5 +1,5 @@
 use rustc_hash::FxHashSet;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     Mark, Span, SyntaxContext,
@@ -269,11 +269,6 @@ impl<'a> Resolver<'a> {
     }
 
     fn mark_for_ref_inner(&self, sym: &JsWord, stop_an_fn_scope: bool) -> Option<Mark> {
-        // NaN always points the globals
-        if *sym == js_word!("NaN") {
-            return Some(self.config.unresolved_mark);
-        }
-
         if self.config.handle_types && self.in_type {
             let mut mark = self.current.mark;
             let mut scope = Some(&self.current);
@@ -307,7 +302,16 @@ impl<'a> Resolver<'a> {
                 if mark == Mark::root() {
                     return None;
                 }
-                return Some(mark);
+
+                return match &**sym {
+                    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects#value_properties
+                    "undefined" | "NaN" | "Infinity" | "globalThis"
+                        if mark == self.config.top_level_mark =>
+                    {
+                        Some(self.config.unresolved_mark)
+                    }
+                    _ => Some(mark),
+                };
             }
 
             if cur.kind == ScopeKind::Fn && stop_an_fn_scope {
