@@ -1,1 +1,15 @@
-{}
+{
+    "sourceMaps": "inline",
+    "module": {
+        "type": "commonjs",
+        "strict": false,
+        "strictMode": false
+    },
+    "jsc": {
+        "target": "es5",
+        "parser": {
+            "syntax": "typescript",
+            "dynamicImport": true
+        }
+    }
+}
