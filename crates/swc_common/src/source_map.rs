@@ -1447,8 +1447,9 @@ pub trait SourceMapGenConfig {
         true
     }
 
-    fn skip(&self, _f: &FileName) -> bool {
-        false
+    /// By default, we skip internal files.
+    fn skip(&self, f: &FileName) -> bool {
+        matches!(f, FileName::Internal(..))
     }
 }
 

@@ -681,10 +681,10 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
     }
 
     fn skip(&self, f: &FileName) -> bool {
-        if let FileName::Custom(s) = f {
-            s.starts_with('<')
-        } else {
-            false
+        match f {
+            FileName::Internal(..) => true,
+            FileName::Custom(s) => s.starts_with('<'),
+            _ => false,
         }
     }
 }
