@@ -14,7 +14,7 @@
     "../../input/source/a/a.spec.ts"
   ],
   "sourcesContent": [
-    "import { Foo } from \"./a\";\r\n\r\ndescribe(\"a\", () => {\r\n    it(\"does its thing\", () => {\r\n        const a = new Foo();\r\n        expect(a.bar()).toBe(3);\r\n        expect(a.foo()).toBe(2);\r\n    });\r\n});"
+    "import { Foo } from \"./a\";\n\ndescribe(\"a\", () => {\n    it(\"does its thing\", () => {\n        const a = new Foo();\n        expect(a.bar()).toBe(3);\n        expect(a.foo()).toBe(2);\n    });\n});"
   ],
   "version": 3
 }

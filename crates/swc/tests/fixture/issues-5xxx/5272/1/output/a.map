@@ -10,7 +10,7 @@
     "../../input/source/a/a.ts"
   ],
   "sourcesContent": [
-    "import { Base } from \"../b/base\";\r\nexport class Foo extends Base {\r\n    bar() {\r\n        return 1 + this.foo();\r\n    }\r\n}"
+    "import { Base } from \"../b/base\";\nexport class Foo extends Base {\n    bar() {\n        return 1 + this.foo();\n    }\n}"
   ],
   "version": 3
 }
